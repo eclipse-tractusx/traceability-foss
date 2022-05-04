@@ -25,11 +25,11 @@
       </div>
       <div class="navbar-header__container">
         <div class="navbar-menu-container">
-          <p class="small-text bold">{{ this.user.name }}</p>
+          <p class="small-text bold">{{ this.userDetails.name }}</p>
 
           <!-- Profile dropdown -->
           <div class="navbar-menu-content">
-            <ng-container *ngIf="this.iconLoading">
+            <ng-container *ngIf="this.isIconLoading">
               <app-avatar [name]="''" [color]="'#dedfe1'" [size]="'2rem'"></app-avatar>
             </ng-container>
             <div (click)="this.expand($event)" *ngIf="this.realm">
@@ -64,9 +64,9 @@
                   ></app-avatar>
                 </span>
                 <section class="flex flex-col p-1">
-                  <p class="component-headline text-primary break-words">{{ this.user.role }}</p>
-                  <p class="regular-text">{{ this.user.name }}</p>
-                  <p class="small-text break-words">{{ this.user.email }}</p>
+                  <p class="component-headline text-primary break-words">{{ this.userDetails.role }}</p>
+                  <p class="regular-text">{{ this.userDetails.name }}</p>
+                  <p class="small-text break-words">{{ this.userDetails.email }}</p>
                 </section>
               </section>
               <mat-divider></mat-divider>

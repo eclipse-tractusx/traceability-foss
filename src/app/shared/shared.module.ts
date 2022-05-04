@@ -128,6 +128,5 @@ import { TableState } from './components/table/table.state';
     TableFacade,
     TableState,
   ],
-  entryComponents: [ConfirmDialogComponent],
 })
 export class SharedModule {}

@@ -20,7 +20,8 @@ export interface UserData {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private keycloakService: KeycloakService) {}
+  constructor(private keycloakService: KeycloakService) {
+  }
 
   public getBearerToken(): string {
     return 'Bearer ' + this.keycloakService.getKeycloakInstance().token;
@@ -33,9 +34,11 @@ export class AuthService {
       family_name: surname = '',
       email = '',
       mspid = '',
-      auth_time = '',
       realm_access = { roles: [] },
-    } = this.keycloakService.getKeycloakInstance().tokenParsed as Token;
+    } = this.keycloakService.getKeycloakInstance().tokenParsed;
+
+    const { auth_time: key_auth_time } = this.keycloakService.getKeycloakInstance().tokenParsed;
+    const auth_time = key_auth_time.toString();
 
     return { username, firstname, surname, email, mspid, auth_time, realm_access };
   }

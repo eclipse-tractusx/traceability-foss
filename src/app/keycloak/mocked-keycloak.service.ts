@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
-import { Keycloak } from 'keycloak-angular/lib/core/services/keycloak.service';
+import Keycloak, { KeycloakLoginOptions } from 'keycloak-js';
 
 @Injectable()
 export class MockedKeycloakService extends KeycloakService {
-  private _instance = {};
+
+  constructor() {
+    super();
+    this['_instance'] = {};
+  }
 
   public init(): Promise<boolean> {
     return Promise.resolve(true);
   }
 
-  public login(options?: Keycloak.KeycloakLoginOptions): Promise<void> {
+  public login(options?: KeycloakLoginOptions): Promise<void> {
     return Promise.resolve();
   }
 
@@ -18,7 +22,7 @@ export class MockedKeycloakService extends KeycloakService {
     return Promise.resolve();
   }
 
-  public getKeycloakInstance(): Keycloak.KeycloakInstance {
+  public getKeycloakInstance(): Keycloak {
     return {
       token: 'MOCK',
       tokenParsed: {

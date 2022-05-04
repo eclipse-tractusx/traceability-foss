@@ -42,15 +42,13 @@
           },
           "configurations": {
             "dev": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
               "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -88,22 +86,21 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "customWebpackConfig": {
-              "path": "./webpack.config.js",
-              "replaceDuplicatePlugins": true
-            },
-            "browserTarget": "webapp:build"
+            "browserTarget": "webapp:build:dev"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "webapp:build:production"
+            "dev": {
+              "browserTarget": "webapp:build:dev"
+            },
+            "stage": {
+              "browserTarget": "webapp:build:stage"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "webapp:build"
+            "browserTarget": "webapp:build:dev"
           }
         },
         "test": {
