@@ -1,0 +1,10 @@
+{
+  "name": "Part Traceability UI",
+  "short_name": "Part Traceability",
+  "description": "Part Traceability",
+  "start_url": "/",
+  "background_color": "#5b86cc",
+  "theme_color": "#5b86cc",
+  "display": "fullscreen",
+  "orientation": "portrait"
+}

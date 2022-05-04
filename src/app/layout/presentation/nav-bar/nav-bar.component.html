@@ -1,0 +1,84 @@
+<!--
+  ~ Copyright 2021 The PartChain Authors. All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div class="layout-header">
+  <nav class="navbar">
+    <section class="navbar-header">
+      <div class="navbar-header__container">
+        <div class="navbar-logo-content cursor-pointer" (click)="this.navigateToHome()">
+          <img src="/assets/images/partchain.svg" alt="PartChain" />
+          <h3 class="uppercase">PartChain</h3>
+        </div>
+      </div>
+      <div class="navbar-header__container">
+        <div class="navbar-menu-container">
+          <p class="small-text bold">{{ this.user.name }}</p>
+
+          <!-- Profile dropdown -->
+          <div class="navbar-menu-content">
+            <ng-container *ngIf="this.iconLoading">
+              <app-avatar [name]="''" [color]="'#dedfe1'" [size]="'2rem'"></app-avatar>
+            </ng-container>
+            <div (click)="this.expand($event)" *ngIf="this.realm">
+              <button class="navbar-menu-btn" id="user-menu" aria-haspopup="true">
+                <span class="sr-only">Open user menu</span>
+                <app-avatar
+                  [color]="'#fff'"
+                  [size]="'2rem'"
+                  [initialsTopSize]="'0.5rem'"
+                  [imageUrl]="this.getCompanyLogo()"
+                ></app-avatar>
+              </button>
+            </div>
+            <div
+              [ngClass]="{
+                'fade-in': this.isExpanded,
+                'fade-out': !this.isExpanded
+              }"
+              class="navbar-menu-items-container"
+              role="menu"
+              aria-orientation="vertical"
+              aria-labelledby="user-menu"
+              *ngIf="this.isExpanded"
+            >
+              <section class="flex flex-row p-2">
+                <span class="navbar-menu-items__icon">
+                  <app-avatar
+                    [imageUrl]="this.getCompanyLogo()"
+                    [color]="'#fff'"
+                    [size]="'2.5rem'"
+                    [initialsTopSize]="'0.6rem'"
+                  ></app-avatar>
+                </span>
+                <section class="flex flex-col p-1">
+                  <p class="component-headline text-primary break-words">{{ this.user.role }}</p>
+                  <p class="regular-text">{{ this.user.name }}</p>
+                  <p class="small-text break-words">{{ this.user.email }}</p>
+                </section>
+              </section>
+              <mat-divider></mat-divider>
+
+              <div class="navbar-menu-items" (click)="this.logOut()">
+                <svg-icon class="ml-2 text-tundora" key="logout-circle-line" size="xs"></svg-icon>
+                <p class="regular-text navbar-menu-items__label" role="menuitem">Sign Out</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </nav>
+</div>

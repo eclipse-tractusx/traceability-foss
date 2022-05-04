@@ -1,0 +1,49 @@
+<!--
+  ~ Copyright 2021 The PartChain Authors. All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<div class="w-full">
+  <div class="header">
+    <h4 class="align-middle">
+      {{ title }}
+    </h4>
+    <svg-icon key="close-fill" size="sm" class="text-tundora cursor-pointer mt-1" (click)="onDismiss()"> </svg-icon>
+  </div>
+  <mat-divider
+    class="border-solid border-t-2"
+    [ngClass]="{
+      success: this.type === 'success',
+      warning: this.type === 'warning',
+      error: this.type === 'error',
+      info: this.type === 'info'
+    }"
+  ></mat-divider>
+  <div class="confirm-dialog">
+    <p class="mb-2 large-text flex flex-wrap">{{ message }}</p>
+    <textarea *ngIf="this.hasComment" rows="0" value="comment" #comment placeholder="Write your comment"></textarea>
+    <section class="button-grid">
+      <app-button class="w-full col-start-4" [type]="'submit'" [button]="'secondary'" (clickEvent)="this.onDismiss()">{{
+        this.secondaryBtnLabel
+      }}</app-button>
+      <app-button
+        class="w-full col-start-5 col-span-2"
+        [type]="'submit'"
+        [button]="'primary'"
+        (clickEvent)="this.onConfirm()"
+        >{{ this.primaryBtnLabel }}</app-button
+      >
+    </section>
+  </div>
+</div>

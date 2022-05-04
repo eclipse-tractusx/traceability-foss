@@ -1,0 +1,73 @@
+/*!
+ * Copyright 2021 The PartChain Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.sidebar {
+  will-change: width;
+  transition: width 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
+  @apply flex flex-col overflow-hidden z-auto;
+  order: 0;
+}
+
+.sidebar-content {
+  height: calc(100vh - 4.75rem);
+  @apply flex flex-col fixed;
+}
+
+.scrollable {
+  will-change: width;
+  @apply pt-0 pb-4 pl-4 overflow-y-hidden overflow-x-hidden relative;
+  -webkit-transform: translateZ(0);
+}
+
+.sidebar-menu-container {
+  @apply p-0 list-none overflow-hidden;
+  margin: 0 -1.25rem -1.25rem;
+
+  &__item {
+    @apply flex p-4 cursor-pointer hover:bg-dustyGrayShadeGallery items-center relative;
+
+    &__badge {
+      @apply bg-darkBurgundyShadeTabasco inline-block absolute text-center p-1 w-6 h-6;
+      border-radius: 50%;
+      top: 5px;
+      left: 27px;
+    }
+  }
+}
+
+.active {
+  @apply text-white bg-primary hover:bg-blueBayouxShadeWaikawaGray;
+}
+
+.item-active {
+  @apply text-white;
+}
+
+.divider {
+  @apply mt-4 pt-4 border-t border-dodgerBlueShadeMalibuLighter;
+}
+
+.disable {
+  display: none;
+}
+
+.padding-right {
+  @apply pr-4;
+}
+
+.margin-right {
+  @apply mr-4;
+}

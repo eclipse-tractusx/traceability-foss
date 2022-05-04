@@ -1,0 +1,65 @@
+<aside [style.width.px]="sidebarWidth" class="sidebar">
+  <div class="sidebar-content">
+    <div
+      [style.width.px]="sidebarWidth"
+      class="scrollable"
+      [ngClass]="{
+        'padding-right': this.sidebarWidth === 240
+      }"
+    >
+      <ul class="sidebar-menu-container">
+        <li>
+          <section
+            class="sidebar-menu-container__item"
+            (click)="this.navigate('dashboard')"
+            [ngClass]="{
+              active: this.activeMenu === 'dashboard'
+            }"
+          >
+            <svg-icon class="mr-4" appTooltip [tooltip]="'Dashboard'" key="layout-masonry-line"></svg-icon>
+            <p
+              class="regular-text"
+              [ngClass]="{
+                'item-active': this.activeMenu === 'dashboard',
+                disable: !this.expanded
+              }"
+            >
+              Dashboard
+            </p>
+          </section>
+        </li>
+      </ul>
+    </div>
+    <div class="flex-auto"></div>
+    <div
+      [style.width.px]="sidebarWidth"
+      class="scrollable"
+      [ngClass]="{
+        'padding-right': this.sidebarWidth === 240
+      }"
+    >
+      <ul class="sidebar-menu-container">
+        <li>
+          <section
+            class="sidebar-menu-container__item"
+            (click)="this.navigate('about')"
+            [ngClass]="{
+              active: this.activeMenu === 'about'
+            }"
+          >
+            <svg-icon
+              [tooltip]="'About'"
+              [ngClass]="{ 'item-active': this.activeMenu === 'about' }"
+              appTooltip
+              class="mr-4"
+              key="information-line"
+            ></svg-icon>
+            <p class="regular-text" [ngClass]="{ active: this.activeMenu === 'about', disable: !this.expanded }">
+              About
+            </p>
+          </section>
+        </li>
+      </ul>
+    </div>
+  </div>
+</aside>

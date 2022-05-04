@@ -1,0 +1,113 @@
+/*!
+ * Copyright 2021 The PartChain Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@font-face {
+  font-family: 'PartChain Bold';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-Bold.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-Bold.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-Bold.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Bold Condensed';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-BoldCondensed.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-BoldCondensed.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-BoldCondensed.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Bold Italic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-BoldItalic.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-BoldItalic.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-BoldItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Bold Italic Condensed';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-BoldItalicCondensed.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-BoldItalicCondensed.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-BoldItalicCondensed.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Italic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-Italic.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-Italic.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-Italic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Italic Condensed';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-ItalicCondensed.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-ItalicCondensed.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-ItalicCondensed.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Light';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-Light.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-Light.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-Light.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Light Condensed';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-LightCondensed.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-LightCondensed.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-LightCondensed.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Light Italic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-LightItalic.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-LightItalic.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-LightItalic.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Light Italic Condensed';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-LightItalicCondensed.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-LightItalicCondensed.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-LightItalicCondensed.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Regular';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-Regular.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-Regular.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'PartChain Regular Condensed';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/Roboto-RegularCondensed.woff') format('woff'),
+  url('/../../assets/fonts/Roboto-RegularCondensed.woff2') format('woff2'),
+  url('/../../assets/fonts/Roboto-RegularCondensed.ttf') format('truetype');
+}
+

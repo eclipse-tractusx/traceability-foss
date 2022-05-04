@@ -1,0 +1,26 @@
+<app-header title="{{ this.title }}"></app-header>
+<div class="dashboard-grid">
+  <section class="parts-section">
+    <ng-container
+      *viewContainer="
+        this.numberOfParts$ | async;
+        main: numberOfPartsMainTmp;
+        error: numberOfPartsErrorTmp;
+        loading: numberOfPartsLoaderTmp
+      "
+    >
+    </ng-container>
+
+    <ng-template #numberOfPartsMainTmp let-numberOfParts="view">
+      <app-card [id]="1" [label]="'Total of parts'" [icon]="'ic-car-v-2'" [stats]="numberOfParts?.data"></app-card>
+    </ng-template>
+
+    <ng-template #numberOfPartsErrorTmp let-numberOfParts="view">
+      <app-card [id]="1" [label]="'Total of parts'" [icon]="'ic-car-v-2'" [stats]="0"></app-card>
+    </ng-template>
+
+    <ng-template #numberOfPartsLoaderTmp let-numberOfParts="view">
+      <app-card [id]="1" [label]="'Total of parts'" [icon]="'ic-car-v-2'" [stats]="''"></app-card>
+    </ng-template>
+  </section>
+</div>

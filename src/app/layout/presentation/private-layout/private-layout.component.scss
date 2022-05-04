@@ -1,0 +1,47 @@
+/*!
+ * Copyright 2021 The PartChain Authors. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.layout-container {
+  @apply min-h-screen pt-16 flex flex-row justify-start;
+  flex: 1;
+}
+
+.layout-sidebar {
+  @apply bg-white flex;
+}
+
+.layout-resizer {
+  @apply sm:hidden lg:flex relative;
+}
+
+.layout-content {
+  @apply flex flex-1 flex-col min-w-0 relative;
+  will-change: padding-left;
+  transition: padding-left 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
+
+  &__box-modal {
+    @apply pt-6 px-8 pb-12 min-w-0;
+    order: 1;
+    flex: 1 0;
+  }
+}
+
+.layout-notification-component {
+  position: fixed;
+  top: 8%;
+  right: 0;
+  z-index: 120;
+}
