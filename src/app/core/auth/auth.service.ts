@@ -20,8 +20,7 @@ export interface UserData {
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private keycloakService: KeycloakService) {
-  }
+  constructor(private keycloakService: KeycloakService) {}
 
   public getBearerToken(): string {
     return 'Bearer ' + this.keycloakService.getKeycloakInstance().token;

@@ -102,6 +102,7 @@
     "karma-jasmine": "5.0.0",
     "karma-jasmine-html-reporter": "1.7.0",
     "karma-sonarqube-unit-reporter": "0.0.23",
+    "msw": "^0.39.2",
     "postcss-import": "14.1.0",
     "postcss-loader": "6.2.1",
     "postcss-scss": "4.0.4",
@@ -130,5 +131,8 @@
         }
       ]
     }
+  },
+  "msw": {
+    "workerDirectory": "src"
   }
 }

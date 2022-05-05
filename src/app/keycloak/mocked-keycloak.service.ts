@@ -4,7 +4,6 @@ import Keycloak, { KeycloakLoginOptions } from 'keycloak-js';
 
 @Injectable()
 export class MockedKeycloakService extends KeycloakService {
-
   constructor() {
     super();
     this['_instance'] = {};

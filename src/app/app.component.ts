@@ -15,6 +15,8 @@
  */
 
 import { Component } from '@angular/core';
+import { environment } from '../environments/environment';
+import * as mockService from '../mocks/browser';
 
 /**
  *
@@ -27,4 +29,11 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {}
+export class AppComponent {
+  constructor() {
+    if (!environment.production) {
+      const { worker } = mockService;
+      worker.start();
+    }
+  }
+}
