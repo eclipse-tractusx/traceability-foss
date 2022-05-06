@@ -21,44 +21,14 @@ import { Component, Input } from '@angular/core';
   templateUrl: './avatar.component.html',
 })
 export class AvatarComponent {
-  /**
-   * Avatar size
-   *
-   * @type {string}
-   * @memberof AvatarComponent
-   */
   @Input() size: string;
 
-  /**
-   * Initials size
-   *
-   * @type {string}
-   * @memberof AvatarComponent
-   */
   @Input() initialsTopSize: string;
 
-  /**
-   * Avatar name
-   *
-   * @type {string}
-   * @memberof AvatarComponent
-   */
-  @Input() name: string;
+  @Input() name = '';
 
-  /**
-   * Avatar color
-   *
-   * @type {string}
-   * @memberof AvatarComponent
-   */
   @Input() color: string;
 
-  /**
-   * Avatar image
-   *
-   * @type {string}
-   * @memberof AvatarComponent
-   */
   @Input() imageUrl: string;
 
   /**

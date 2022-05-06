@@ -8,7 +8,7 @@ import { AuthGuard } from './core/auth/auth.guard';
 export /** @type {*} */
 const routes: Routes = [
   {
-    path: realm !== null ? realm[1] : '',
+    path: realm !== null ? realm : '',
     component: PrivateLayoutComponent,
     canActivate: [AuthGuard],
     data: { breadcrumb: 'Home' },

@@ -56,7 +56,7 @@ export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<u
     const roles: string[] = this.userService.getRoles();
     const hasSomeRole: boolean = route.data.role.some((role: string) => roles.includes(role));
     if (route.data.role && !hasSomeRole) {
-      void this.router.navigate([realm[1]]);
+      void this.router.navigate([realm]);
       return false;
     }
     return true;

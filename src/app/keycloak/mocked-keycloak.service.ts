@@ -25,13 +25,13 @@ export class MockedKeycloakService extends KeycloakService {
     return {
       token: 'MOCK',
       tokenParsed: {
-        preferred_username: '',
-        given_name: '',
-        family_name: '',
-        email: '',
-        mspid: '',
-        auth_time: '',
-        realm_access: { roles: [] },
+        preferred_username: 'Mock-User',
+        given_name: 'Mock',
+        family_name: 'User',
+        email: 'mock.user@foss.de',
+        mspid: 'MOCK',
+        auth_time: '99999999',
+        realm_access: { roles: ['admin'] },
       },
     } as any;
   }

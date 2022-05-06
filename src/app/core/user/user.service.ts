@@ -38,7 +38,7 @@ export class UserService {
     this.firstVisit = !this.hasBeenHere();
     this.dashboardLoaded = false;
 
-    const defaultRoles = ['offline_access', 'uma_authorization', 'user', `${realm[1]}_user`, 'view_only'];
+    const defaultRoles = ['offline_access', 'uma_authorization', 'user', `${realm}_user`, 'view_only'];
     const { roles } = userData.realm_access;
     this.roles = roles.filter(role => !defaultRoles.includes(role));
     if (userData.auth_time) {

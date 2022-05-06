@@ -39,7 +39,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { TableActions } from './table.actions';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { AssetFacade } from '../../abstraction/asset-facade';
 import { TableFacade } from './table.facade';
 
 /**
@@ -413,14 +412,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
    * @constructor TableComponent
    * @param {ChangeDetectorRef} changeDetector
    * @param {TableComponent} tableFacade
-   * @param {AssetFacade} assetFacade
    * @memberof TableComponent
    */
-  constructor(
-    public changeDetector: ChangeDetectorRef,
-    private tableFacade: TableFacade,
-    private assetFacade: AssetFacade,
-  ) {
+  constructor(public changeDetector: ChangeDetectorRef, private tableFacade: TableFacade) {
     this.selectedAsset = undefined;
     this.selectedRowState$ = this.tableFacade.selectedAsset$;
     this.selection = new SelectionModel<unknown>(true, []);
@@ -833,7 +827,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
    * @memberof TableComponent
    */
   public copyToClipboard(serialNumber: string): void {
-    this.assetFacade.copyToClipboard(serialNumber);
+    alert('Not Implemented.');
   }
 
   /**

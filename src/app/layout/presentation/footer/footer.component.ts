@@ -111,7 +111,7 @@ export class FooterComponent {
    * @memberof FooterComponent
    */
   public navigateToQueuedQualityAlerts(): void {
-    this.router.navigate([`${realm[1]}/quality-alert`]);
+    this.router.navigate([`${realm}/quality-alert`]);
     this.layoutFacade.setTabIndex(1);
   }
 
@@ -122,7 +122,7 @@ export class FooterComponent {
    * @memberof FooterComponent
    */
   public navigateToQueuedQualityInvestigations(): void {
-    this.router.navigate([`${realm[1]}/investigations`]);
+    this.router.navigate([`${realm}/investigations`]);
     this.layoutFacade.setTabIndex(1);
   }
 }

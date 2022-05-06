@@ -25,7 +25,7 @@ export class NavBarComponent {
   constructor(private layoutFacade: LayoutFacade, private router: Router) {
     this.userInitials = this.layoutFacade.realmName;
     this.userDetails = this.layoutFacade.getUserInformation;
-    this.layoutFacade.mspids.subscribe((realms: Mspid[]) => {
+    this.layoutFacade.mspids$.subscribe((realms: Mspid[]) => {
       this.realm = realms.find(mspid => mspid.name === this.layoutFacade.mspid);
       if (this.realm) {
         this.realm.name =
@@ -55,7 +55,7 @@ export class NavBarComponent {
   }
 
   public navigateToHome(): void {
-    this.router.navigate([`/${realm[1]}`]).then();
+    this.router.navigate([`/${realm}`]).then();
   }
 
   public getCompanyLogo(): string {
@@ -66,7 +66,8 @@ export class NavBarComponent {
       'taas-henkel': '/assets/images/henkel-logo-0.png',
       'taas-basf': '/assets/images/basf.png',
     };
-    return logo[realm[1]];
+
+    return logo[realm] || '/assets/images/basf.png';
   }
 
   @HostListener('window:click', [])

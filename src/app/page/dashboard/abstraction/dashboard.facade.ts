@@ -19,7 +19,7 @@ export class DashboardFacade {
     this.dashboardState.setNumberOfParts({ loader: true });
     this.dashboardService.getStats().subscribe(
       (kpiStats: Dashboard) => {
-        const mspid = realm[1].toLocaleUpperCase();
+        const mspid = realm.toLocaleUpperCase();
         const assetsCount =
           kpiStats.qualityAlertCount[mspid] && kpiStats.qualityAlertCount[mspid].length
             ? +kpiStats.qualityAlertCount[mspid][0].totalAssetsCount

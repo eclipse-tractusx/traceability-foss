@@ -132,7 +132,7 @@ export class SidebarComponent {
    * @memberof SidebarComponent
    */
   constructor(private router: Router, private layoutFacade: LayoutFacade) {
-    this.realm = realm[1];
+    this.realm = realm;
     this.menu = {
       dashboard: `/${this.realm}`,
       'my-parts': `/${this.realm}/my-parts`,

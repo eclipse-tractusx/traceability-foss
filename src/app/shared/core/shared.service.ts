@@ -64,7 +64,7 @@ export class SharedService {
   }
 
   public getAllOrganizations(): Observable<string[]> {
-    return this.apiService.get('/all').pipe(map((orgs: { data: string[] }) => orgs.data));
+    return this.apiService.get('/organisations').pipe(map((orgs: { data: string[] }) => orgs.data));
   }
 
   public isEmpty<T>(object: T): boolean {
