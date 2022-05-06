@@ -1,9 +1,9 @@
-<div [ngStyle]="this.circleStyle()">
+<div [ngStyle]="this.circleStyle()" [className]="'foss-avatar--container'">
   <ng-container *ngIf="this.imageUrl; else nameTmp">
     <img src="{{ this.imageUrl }}" alt="Logo" />
   </ng-container>
 </div>
 
 <ng-template #nameTmp>
-  <span [ngStyle]="this.spanStyle()">{{ this.name[0] }}</span>
+  <span [ngStyle]="this.spanStyle()" [className]="'foss-avatar--name'">{{ this.name[0] }}</span>
 </ng-template>

@@ -1,0 +1,12 @@
+.foss-avatar {
+  &--container {
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  &--name {
+    position: relative;
+    color: #fff;
+  }
+}

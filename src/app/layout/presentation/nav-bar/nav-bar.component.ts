@@ -67,6 +67,7 @@ export class NavBarComponent {
       'taas-basf': '/assets/images/basf.png',
     };
 
+    // ToDo: Needs changes
     return logo[realm] || '/assets/images/basf.png';
   }
 
