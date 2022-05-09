@@ -1,20 +1,5 @@
-/*
- * Copyright 2021 The PartChain Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 // TODO ADJUST THE TYPES FOR THOSE D3 VARIABLES
+// ToDo: Complexity of this component is high
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, HostListener, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
@@ -23,283 +8,43 @@ import * as d3 from 'd3';
 import { keys, flatten, omitBy, uniq, ceil } from 'lodash-es';
 import { QualityTypes } from '../../model/quality-alert.model';
 
-/**
- *
- *
- * @export
- * @class HistogramChartComponent
- * @implements {OnChanges}
- */
 @Component({
   selector: 'app-histogram-chart',
   templateUrl: './histogram-chart.component.html',
   styleUrls: ['./histogram-chart.component.scss'],
 })
 export class HistogramChartComponent implements OnChanges {
-  /**
-   * Chart template
-   *
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   @ViewChild('histogramContainer', { static: true }) chart: any;
-
-  /**
-   * Histogram data
-   *
-   * @type {HistogramType[]}
-   * @memberof HistogramChartComponent
-   */
   @Input() histogramData: HistogramType[];
-
-  /**
-   * Chart grouping filter
-   *
-   * @type {string}
-   * @memberof HistogramChartComponent
-   */
   @Input() groupingFilter: string;
 
-  /**
-   * Element offset width
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private offsetWidth: any;
-
-  /**
-   * Chart fixed height
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private fixedHeight: any;
-
-  /**
-   * Chart margin
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private margin: any;
-
-  /**
-   * Chart Width
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private width: any;
-
-  /**
-   * Chart height
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private height: any;
-
-  /**
-   * Chart x value
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private x: any;
-
-  /**
-   * Chart y value
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private y: any;
-
-  /**
-   * Chart svg
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private svg: any;
-
-  /**
-   * Chart stack
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private chartStack: any;
-
-  /**
-   * Bar area
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private layersBarArea: any;
-
-  /**
-   * Layer bar
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private layersBar: any;
-
-  /**
-   * Chart Y axis
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private yAxis: any;
-
-  /**
-   * Chart stacked series
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private stackedSeries: any;
-
-  /**
-   * Chart line
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private chartLine: any;
-
-  /**
-   * Chart legend container
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private legendContainer: any;
-
-  /**
-   * Chart legend
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private legend: any;
-
-  /**
-   * Stacked chart tooltip
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private tooltip: any;
-
-  /**
-   * Mouse leave function
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private mouseLeave: any;
-
-  /**
-   * Mouse over function
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private mouseOver: any;
-
-  /**
-   * Mouse move function
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private mouseMove: any;
-
-  /**
-   * Container for the scrolling x axis
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private xAxisContainer: any;
-
-  /**
-   * Svg container for the x axis
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private xSvgContainer: any;
-
-  /**
-   * Minimum data position for the x axis
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private minX: any;
-
-  /**
-   * Maximum data position for the x axis
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private maxX: any;
-
-  /**
-   * Overlapping width for the x axis
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private overWidth: any;
-
-  /**
-   * Allowed width for the x axis scroll
-   *
-   * @private
-   * @type {*}
-   * @memberof HistogramChartComponent
-   */
   private xAxisWidth: any;
 
-  /**
-   * Angular lifecycle method - On Changes
-   *
-   * @param {SimpleChanges} changes
-   * @memberof HistogramChartComponent
-   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.histogramData && changes.histogramData.currentValue) {
       this.setChartContainerSize();
@@ -307,26 +52,12 @@ export class HistogramChartComponent implements OnChanges {
     }
   }
 
-  /**
-   * Listens to window resizes
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   @HostListener('window:resize', [])
   private onResize(): void {
     this.setChartContainerSize();
     this.updateChart(this.histogramData);
   }
 
-  /**
-   * Sets the element size where the char is build
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private setChartContainerSize(): void {
     this.offsetWidth = this.chart.nativeElement.offsetWidth;
     this.fixedHeight = 420;
@@ -340,14 +71,6 @@ export class HistogramChartComponent implements OnChanges {
     }
   }
 
-  /**
-   * Updates and builds the chart whenever new data is available
-   *
-   * @private
-   * @param {HistogramType[]} data
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private updateChart(data: HistogramType[]): void {
     this.removeExistingChartFromParent();
     this.defineStack();
@@ -362,13 +85,6 @@ export class HistogramChartComponent implements OnChanges {
     this.drawAxis();
   }
 
-  /**
-   * Removes all the svg's before building the chart
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private removeExistingChartFromParent(): void {
     // !!!!Caution!!!
     // Make sure not to do;
@@ -379,24 +95,10 @@ export class HistogramChartComponent implements OnChanges {
       .remove();
   }
 
-  /**
-   * Define the stacked chart keys
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private defineStack(): void {
     this.chartStack = d3.stack().keys(keys(QualityTypes));
   }
 
-  /**
-   * Builds the x and y scales
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private initScales(): void {
     this.x = d3
       .scaleBand()
@@ -406,13 +108,6 @@ export class HistogramChartComponent implements OnChanges {
     this.y = d3.scaleLinear().range([this.height - this.margin.bottom, this.margin.top]);
   }
 
-  /**
-   * Builds the chart svg's
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private initSvg(): void {
     this.legendContainer = d3
       .select(this.chart.nativeElement)
@@ -443,13 +138,6 @@ export class HistogramChartComponent implements OnChanges {
       .style('margin-top', '30px');
   }
 
-  /**
-   * Tooltip builder
-   *
-   * @private
-   * @return {void}
-   * @memberof AlertDonutChartComponent
-   */
   private createTooltip(): void {
     this.tooltip = d3
       .select(this.chart.nativeElement)
@@ -466,13 +154,6 @@ export class HistogramChartComponent implements OnChanges {
       .style('opacity', 0);
   }
 
-  /**
-   * Creates the line chart
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private createLine(): void {
     this.chartLine = d3
       .line()
@@ -480,15 +161,8 @@ export class HistogramChartComponent implements OnChanges {
       .y(d => this.y(d[1]));
   }
 
-  /**
-   * Appends the x and y axis of the chart
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private drawAxis(): void {
-    // The x axis variable was deleted. No x axis attributes were changed
+    // The x-axis variable was deleted. No x-axis attributes were changed
     this.xSvgContainer
       .append('g')
       .classed('x-axis', true)
@@ -550,14 +224,6 @@ export class HistogramChartComponent implements OnChanges {
     this.drawChart(this.stackedSeries);
   }
 
-  /**
-   * Builds the chart layers
-   *
-   * @private
-   * @param {HistogramType[]} data
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private drawChart(data: HistogramType[]): void {
     const filter = {
       Daily: 'date',
@@ -588,15 +254,6 @@ export class HistogramChartComponent implements OnChanges {
     this.drawLegend();
   }
 
-  /**
-   * Draws the stacked rectangles
-   *
-   * @private
-   * @param {HistogramType[]} data
-   * @param {*} key
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private drawStackedRectangles(data: HistogramType[], key: string): void {
     this.layersBarArea = this.xSvgContainer.append('g').classed('layers', true);
 
@@ -622,14 +279,6 @@ export class HistogramChartComponent implements OnChanges {
       .on('mouseleave', this.mouseLeave);
   }
 
-  /**
-   * Draws line path
-   *
-   * @private
-   * @param {any[][]} lineData
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private drawLinePath(lineData: any[][]): void {
     this.xSvgContainer
       .append('g')
@@ -654,13 +303,6 @@ export class HistogramChartComponent implements OnChanges {
       .attr('d', this.chartLine(lineData));
   }
 
-  /**
-   * Draws char legend
-   *
-   * @private
-   * @return {void}
-   * @memberof HistogramChartComponent
-   */
   private drawLegend(): void {
     const omittedValues = this.histogramData.map(histogram => omitBy(histogram, value => value === 0));
     const mappedKeys = uniq(
@@ -675,7 +317,7 @@ export class HistogramChartComponent implements OnChanges {
       .data(sortedQualityTypes)
       .enter()
       .append('g')
-      .attr('transform', (d, i) => 'translate(' + (i * 90 + 0) + ',' + 5 + ')')
+      .attr('transform', (d, i) => 'translate(' + i * 90 + ',' + 5 + ')')
       .attr('class', 'legend');
 
     this.legend
@@ -695,35 +337,14 @@ export class HistogramChartComponent implements OnChanges {
       .attr('alignment-baseline', 'hanging');
   }
 
-  /**
-   * Mouse over setter
-   *
-   * @private
-   * @return {void}
-   * @memberof AlertDonutChartComponent
-   */
   private setMouseOver(): void {
     this.mouseOver = () => this.tooltip.style('opacity', 1);
   }
 
-  /**
-   * Mouse leave setter
-   *
-   * @private
-   * @return {void}
-   * @memberof AlertDonutChartComponent
-   */
   private setMouseLeave(): void {
     this.mouseLeave = () => this.tooltip.style('opacity', 0);
   }
 
-  /**
-   * Mouse move setter
-   *
-   * @private
-   * @return {void}
-   * @memberof AlertDonutChartComponent
-   */
   private setMouseMove(): void {
     this.mouseMove = (event, data) => {
       this.tooltip

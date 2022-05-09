@@ -13,16 +13,6 @@ import { Observable } from 'rxjs';
 import { realm } from '../api/api.service.properties';
 import { UserService } from './user.service';
 
-/**
- *
- *
- * @export
- * @class RoleGuard
- * @implements {CanActivate}
- * @implements {CanActivateChild}
- * @implements {CanDeactivate<unknown>}
- * @implements {CanLoad}
- */
 @Injectable({
   providedIn: 'root',
 })

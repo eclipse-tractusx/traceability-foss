@@ -4,14 +4,7 @@ import { AuthService } from '../auth/auth.service';
 import { Realm } from '../model/realm.model';
 import { realm } from '../api/api.service.properties';
 import { LastLogin } from 'src/app/shared/model/last-login.model';
-import { SharedService } from 'src/app/shared/core/shared.service';
 
-/**
- *
- *
- * @export
- * @class UserService
- */
 @Injectable({
   providedIn: 'root',
 })

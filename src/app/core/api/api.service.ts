@@ -3,12 +3,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
-/**
- *
- *
- * @export
- * @class ApiService
- */
 @Injectable({
   providedIn: 'root',
 })

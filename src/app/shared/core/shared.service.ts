@@ -6,12 +6,6 @@ import { map } from 'rxjs/operators';
 import { ApiService } from '../../core/api/api.service';
 import { Tiles } from '../model/tiles.model';
 
-/**
- *
- *
- * @export
- * @class SharedService
- */
 @Injectable({
   providedIn: 'root',
 })

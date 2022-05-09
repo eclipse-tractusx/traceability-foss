@@ -7,13 +7,9 @@ import { Component, Input } from '@angular/core';
 })
 export class AvatarComponent {
   @Input() size: string;
-
   @Input() initialsTopSize: string;
-
   @Input() name = '';
-
   @Input() color: string;
-
   @Input() imageUrl: string;
 
   public circleStyle(): {

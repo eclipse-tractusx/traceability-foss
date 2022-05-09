@@ -19,6 +19,7 @@ export class LayoutFacade {
     private sharedService: SharedService,
   ) {}
 
+  // ToDo: Improve getter and setter (remove get/ set from name)
   get getUserInformation(): { name: string; email: string; role: string } {
     return {
       name: `${this.userService.getFirstname()} ${this.userService.getSurname()}`,

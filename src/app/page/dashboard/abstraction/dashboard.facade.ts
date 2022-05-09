@@ -18,16 +18,18 @@ export class DashboardFacade {
   public setNumberOfParts(): void {
     this.dashboardState.setNumberOfParts({ loader: true });
     this.dashboardService.getStats().subscribe(
-      (kpiStats: Dashboard) => {
-        const mspid = realm.toLocaleUpperCase();
-        const assetsCount =
-          kpiStats.qualityAlertCount[mspid] && kpiStats.qualityAlertCount[mspid].length
-            ? +kpiStats.qualityAlertCount[mspid][0].totalAssetsCount
-            : 0;
+      {
+        next: (kpiStats: Dashboard) => {
+          const mspid = realm.toLocaleUpperCase();
+          const assetsCount =
+            kpiStats.qualityAlertCount[mspid] && kpiStats.qualityAlertCount[mspid].length
+              ? +kpiStats.qualityAlertCount[mspid][0].totalAssetsCount
+              : 0;
 
-        this.dashboardState.setNumberOfParts({ data: assetsCount });
+          this.dashboardState.setNumberOfParts({ data: assetsCount });
+        },
+        error: error => this.dashboardState.setNumberOfParts({ error }),
       },
-      error => this.dashboardState.setNumberOfParts({ error }),
     );
   }
 }

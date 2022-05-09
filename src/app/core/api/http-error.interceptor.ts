@@ -3,13 +3,6 @@ import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 import { NotificationService } from 'src/app/shared/components/notifications/notification.service';
 
-/**
- *
- *
- * @export
- * @class HttpErrorInterceptor
- * @implements {HttpInterceptor}
- */
 export class HttpErrorInterceptor implements HttpInterceptor {
   constructor(private notificationService: NotificationService) {}
 

@@ -50,3 +50,6 @@ ds-one-mock
 
 #sonar
 tslint-report.json
+
+#error
+yarn-error.log

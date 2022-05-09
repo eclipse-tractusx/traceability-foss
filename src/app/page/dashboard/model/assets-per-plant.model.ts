@@ -17,6 +17,7 @@ export interface MapChart {
   coordinates: PartsCoordinates[];
 }
 
+// ToDo: What is this??
 export /** @type {*} */
 const MAPPING = {
   'marker-1': {

@@ -4,12 +4,6 @@ import { Router } from '@angular/router';
 import { LayoutFacade } from 'src/app/shared/abstraction/layout-facade';
 import { Mspid } from 'src/app/shared/model/mspid.model';
 
-/**
- *
- *
- * @export
- * @class NavBarComponent
- */
 @Component({
   selector: 'app-nav-bar',
   templateUrl: './nav-bar.component.html',
@@ -59,6 +53,7 @@ export class NavBarComponent {
   }
 
   public getCompanyLogo(): string {
+    // ToDo: Change Logos (move to environment file?)
     const logo = {
       bmw: '/assets/images/BMW_2.png',
       'taas-zf': '/assets/images/zf.png',

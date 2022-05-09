@@ -8,26 +8,17 @@ import { State } from '../model/state';
 })
 export class LayoutState {
   private readonly qualityInvestigationBadge$: State<number> = new State<number>(0);
-
   private readonly mspidState$: State<Mspid[]> = new State<Mspid[]>([]);
-
   private readonly canDeactivate$: Subject<boolean> = new Subject<boolean>();
+  private readonly tabIndex$: State<number> = new State<number>(-1);
+  private readonly queuedQualityAlerts$: State<number> = new State<number>(0);
+  private readonly receivedQualityAlertsCounter$: State<number> = new State<number>(0);
+  private readonly queuedQualityInvestigationsCounter$: State<number> = new State<number>(0);
+  private readonly isSideBarExpanded$: State<boolean> = new State<boolean>(false);
+  private readonly isFooterDisplayed$: State<boolean> = new State<boolean>(false);
+  private readonly organizations$: State<string[]> = new State<string[]>([]);
 
   private breadcrumbLabel: string;
-
-  private readonly tabIndex$: State<number> = new State<number>(-1);
-
-  private readonly queuedQualityAlerts$: State<number> = new State<number>(0);
-
-  private readonly receivedQualityAlertsCounter$: State<number> = new State<number>(0);
-
-  private readonly queuedQualityInvestigationsCounter$: State<number> = new State<number>(0);
-
-  private readonly isSideBarExpanded$: State<boolean> = new State<boolean>(false);
-
-  private readonly isFooterDisplayed$: State<boolean> = new State<boolean>(false);
-
-  private readonly organizations$: State<string[]> = new State<string[]>([]);
 
   get getQualityInvestigationBadge$(): Observable<number> {
     return this.qualityInvestigationBadge$.observable;

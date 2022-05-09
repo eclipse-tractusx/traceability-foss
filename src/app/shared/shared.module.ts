@@ -34,12 +34,6 @@ import { OrganizationsResolver } from './resolver/organizations.resolver';
 import { icons } from './shared-icons.module';
 import { TemplateModule } from './template.module';
 
-/**
- *
- *
- * @export
- * @class SharedModule
- */
 @NgModule({
   declarations: [
     ConfirmDialogComponent,

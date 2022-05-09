@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
-import { environment } from '../../../environments/environment';
-import { realm } from '../api/api.service.properties';
-import { Token } from '../model/token.model';
 
 export interface UserData {
   username: string;

@@ -1,4 +1,5 @@
 // TODO ADJUST THE TYPES FOR THOSE D3 VARIABLES
+// ToDo: Complexity of this component is high
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
@@ -15,148 +16,31 @@ export class AlertDonutChartComponent implements OnChanges {
   @Input() chartData: ReceivedAlertType[];
   @ViewChild('donutContainer', { static: true }) chart: ElementRef;
 
-  /**
-   * Svg container
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private svg: any;
-
-  /**
-   * Chart color scale
-   *
-   * @private
-   * @type {*}
-   * @memberof AlertDonutChartComponent
-   */
   private colorScale: any;
-
-  /**
-   * Chart arc
-   *
-   * @private
-   * @type {*}
-   * @memberof AlertDonutChartComponent
-   */
   private arc: any;
-
-  /**
-   * Svg width
-   *
-   * @private
-   * @type {number}
-   * @memberof AlertDonutChartComponent
-   */
   private width = 400;
-
-  /**
-   * Svg height
-   *
-   * @private
-   * @type {number}
-   * @memberof AlertDonutChartComponent
-   */
   private height = 300;
-
-  /**
-   * Donut chart
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private pie: any;
-
-  /**
-   * Chart legend
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private legend: any;
-
-  /**
-   * legend container
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private legendHolder: any;
-
-  /**
-   * Chart tooltip
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private tooltip: any;
-
-  /**
-   * Mouse leave function
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private mouseLeave: any;
-
-  /**
-   * Mouse over function
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private mouseOver: any;
-
-  /**
-   * Mouse move function
-   *
-   * @private
-   * @type {any}
-   * @memberof AlertDonutChartComponent
-   */
   private mouseMove: any;
 
-  /**
-   * Angular lifecycle - Ng on changes
-   *
-   * @param {SimpleChanges} changes
-   * @memberof AlertDonutChartComponent
-   */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.chartData.currentValue) {
       this.updateChart(changes.chartData.currentValue);
     }
   }
 
-  /**
-   * Updates chart
-   *
-   * @private
-   * @param {ReceivedAlertType[]} data
-   * @returns {void}
-   * @memberof AlertDonutChartComponent
-   */
   private updateChart(data: ReceivedAlertType[]): void {
     if (!this.svg) {
       this.createChart(data);
     }
   }
 
-  /**
-   * Chart builder
-   *
-   * @private
-   * @param {ReceivedAlertType[]} data
-   * @return {void}
-   * @memberof AlertDonutChartComponent
-   */
   private createChart(data: ReceivedAlertType[]): void {
     this.removeExistingChartFromParent();
     this.setChartDimensions();
@@ -173,13 +57,6 @@ export class AlertDonutChartComponent implements OnChanges {
     this.appendLegends(arcs);
   }
 
-  /**
-   * Tooltip builder
-   *
-   * @private
-   * @return {void}
-   * @memberof AlertDonutChartComponent
-   */
   private createTooltip(): void {
     this.tooltip = d3
       .select(this.chart.nativeElement)
@@ -213,7 +90,7 @@ export class AlertDonutChartComponent implements OnChanges {
   private appendLabels(arcs: any): void {
     this.svg
       .append('g')
-      .attr('transform', 'translate(' + 0 + ',' + 30 + ')')
+      .attr('transform', 'translate(0, 30)')
       .attr('font-family', 'sans-serif')
       .attr('font-size', 16)
       .attr('text-anchor', 'middle')
@@ -239,7 +116,7 @@ export class AlertDonutChartComponent implements OnChanges {
       .data(arcs)
       .enter()
       .append('g')
-      .attr('transform', (d, i) => 'translate(' + (i * 80 + 0) + ',' + 5 + ')')
+      .attr('transform', (d, i) => 'translate(' + i * 80 + ', 5)')
       .attr('class', 'legend');
 
     this.legend
@@ -264,7 +141,7 @@ export class AlertDonutChartComponent implements OnChanges {
       .append('svg')
       .attr('width', '100%')
       .attr('height', '30px')
-      .attr('transform', 'translate(' + 0 + ',' + 5 + ')');
+      .attr('transform', 'translate(0, 5)');
 
     this.svg = d3
       .select(this.chart.nativeElement)
