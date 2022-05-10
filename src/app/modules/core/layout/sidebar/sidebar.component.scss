@@ -19,33 +19,10 @@
 .sidebar-menu-container {
   @apply p-0 list-none overflow-hidden;
   margin: 0 -1.25rem -1.25rem;
-
-  &__item {
-    @apply flex p-4 cursor-pointer hover:bg-dustyGrayShadeGallery items-center relative;
-
-    &__badge {
-      @apply bg-darkBurgundyShadeTabasco inline-block absolute text-center p-1 w-6 h-6;
-      border-radius: 50%;
-      top: 5px;
-      left: 27px;
-    }
-  }
-}
-
-.active {
-  @apply text-white bg-primary hover:bg-blueBayouxShadeWaikawaGray;
-}
-
-.item-active {
-  @apply text-white;
 }
 
 .divider {
-  @apply mt-4 pt-4 border-t border-dodgerBlueShadeMalibuLighter;
-}
-
-.disable {
-  display: none;
+  @apply mt-4 pt-4 border-t border-primaryLight;
 }
 
 .padding-right {

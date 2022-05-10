@@ -4,14 +4,14 @@
 
 .button__container--root {
   display: inline-block;
-  @apply bg-white border-dustyGrayShadeAlto hover:bg-dustyGrayShadeGallery text-left p-1.5 w-full lg:text-sm sm:text-xs text-tundora font-condensedRegular;
+  @apply bg-white border-dustyGrayShadeAlto hover:bg-dustyGrayShadeGallery text-left p-1.5 w-full lg:text-sm sm:text-xs text-tundora font-light;
   border: solid 1px #d9d9d9;
 }
 
 .button__container--leaf {
   margin-left: 1px;
   display: block;
-  @apply bg-white border-dustyGrayShadeAlto border-2 hover:bg-dustyGrayShadeGallery uppercase font-boldCondensed lg:text-sm sm:text-xs;
+  @apply bg-white border-dustyGrayShadeAlto border-2 hover:bg-dustyGrayShadeGallery uppercase font-extraBold lg:text-sm sm:text-xs;
 }
 
 .btn-primary {

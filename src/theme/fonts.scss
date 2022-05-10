@@ -1,97 +1,125 @@
 @font-face {
-  font-family: 'PartChain Bold';
+  font-family: 'Catena-X Black';
   font-weight: normal;
   font-style: normal;
-  src: url('/../../assets/fonts/Roboto-Bold.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-Bold.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-Bold.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Bold Condensed';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-BoldCondensed.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-BoldCondensed.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-BoldCondensed.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Bold Italic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-BoldItalic.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-BoldItalic.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-BoldItalic.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Bold Italic Condensed';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-BoldItalicCondensed.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-BoldItalicCondensed.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-BoldItalicCondensed.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Italic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-Italic.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-Italic.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-Italic.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Italic Condensed';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-ItalicCondensed.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-ItalicCondensed.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-ItalicCondensed.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Light';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-Light.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-Light.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-Light.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Light Condensed';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-LightCondensed.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-LightCondensed.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-LightCondensed.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Light Italic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-LightItalic.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-LightItalic.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-LightItalic.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Light Italic Condensed';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-LightItalicCondensed.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-LightItalicCondensed.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-LightItalicCondensed.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Regular';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-Regular.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-Regular.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-Regular.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'PartChain Regular Condensed';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/Roboto-RegularCondensed.woff') format('woff'),
-  url('/../../assets/fonts/Roboto-RegularCondensed.woff2') format('woff2'),
-  url('/../../assets/fonts/Roboto-RegularCondensed.ttf') format('truetype');
+  src: url('/../../assets/fonts/LibreFranklin-Black.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Catena-X BlackItalic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-BlackItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X Bold';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X BoldItalic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-BoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X ExtraBold';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X ExtraBoldItalic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-ExtraBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X ExtraLight';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X ExtraLightItalic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-ExtraLightItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X Italic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X Light';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X LightItalic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-LightItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X Medium';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X MediumItalic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-MediumItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X Regular';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X SemiBold';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X SemiBoldItalic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-SemiBoldItalic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X Thin';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-Thin.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Catena-X ThinItalic';
+  font-weight: normal;
+  font-style: normal;
+  src: url('/../../assets/fonts/LibreFranklin-ThinItalic.ttf') format('truetype');
+}

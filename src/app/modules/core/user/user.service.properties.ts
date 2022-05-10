@@ -1,4 +1,4 @@
 export /** @type {*} */
 const UserServiceProperties = {
-  localStorageKey: 'partChainHasBeenHere',
+  localStorageKey: 'catenaXHasBeenHere',
 };

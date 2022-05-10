@@ -9,18 +9,24 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        bold: ['PartChain Bold', 'sans-serif'],
-        boldItalic: ['PartChain Bold Italic', 'sans-serif'],
-        boldCondensed: ['PartChain Bold Condensed', 'sans-serif'],
-        boldCondensedItalic: ['PartChain Bold Italic Condensed', 'sans-serif'],
-        condensedRegular: ['PartChain Regular Condensed', 'sans-serif'],
-        condensedItalic: ['PartChain Italic Condensed', 'sans-serif'],
-        lightCondensedRegular: ['PartChain Light Condensed', 'sans-serif'],
-        lightCondensedItalic: ['PartChain Light Italic Condensed', 'sans-serif'],
-        italic: ['PartChain Italic', 'sans-serif'],
-        regular: ['PartChain Regular', 'sans-serif'],
-        light: ['PartChain Light', 'sans-serif'],
-        lightItalic: ['PartChain LightItalic', 'sans-serif'],
+        black: ['Catena-X Black', 'sans-serif'],
+        blackItalic: ['Catena-X BlackItalic', 'sans-serif'],
+        bold: ['Catena-X Bold', 'sans-serif'],
+        boldItalic: ['Catena-X BoldItalic', 'sans-serif'],
+        extraBold: ['Catena-X ExtraBold', 'sans-serif'],
+        extraBoldItalic: ['Catena-X ExtraBoldItalic', 'sans-serif'],
+        extraLight: ['Catena-X ExtraLight', 'sans-serif'],
+        extraLightItalic: ['Catena-X ExtraLightItalic', 'sans-serif'],
+        italic: ['Catena-X Italic', 'sans-serif'],
+        light: ['Catena-X Light', 'sans-serif'],
+        lightItalic: ['Catena-X LightItalic', 'sans-serif'],
+        medium: ['Catena-X Medium', 'sans-serif'],
+        mediumItalic: ['Catena-X MediumItalic', 'sans-serif'],
+        regular: ['Catena-X Regular', 'sans-serif'],
+        semiBold: ['Catena-X SemiBold', 'sans-serif'],
+        semiBoldItalic: ['Catena-X SemiBoldItalic', 'sans-serif'],
+        thin: ['Catena-X Thin', 'sans-serif'],
+        thinItalic: ['Catena-X ThinItalic', 'sans-serif'],
       },
       minHeight: {
         '0': '0',
@@ -56,63 +62,41 @@ module.exports = {
     },
     colors: {
       // Theme colors
-      primary: '#5b708f',
-      secondary: '#fff',
+      primary: '#ffa600',
+      secondary: '#b3cb2d',
+
+      primaryLight: '#ffd74a',
+      primaryDark: '#c67700',
+
+      secondaryLight: '#e8fe63',
+      secondaryDark: '#809a00',
+
+      danger: '#D91E18',
+      dangerLight: '#E5231D',
+
+      interactive: '#046B99',
+      interactiveLight: '#017AB0',
 
       // Basic colors
       cararra: '#eeefea',
       doveGray: '#666666',
       tundora: '#444444',
       white: '#fff',
-      dark: '#000',
+      dark: '#191715',
 
       // Alert colors
-      error: '#d20000',
+      error: '#D91E18',
       success: '#3db014',
       warning: '#ffad1f',
       alert: '#fe6702',
       info: '#5b708f',
       inactive: '#D8D8D8',
-      danger: '#610e4a',
-
-      // Highlight colors
-      nepal: '#92a2bd',
-      nepalShadeHeather: '#bdc6d6',
-      nepalShadeGeyser: '#d2dae3',
-      nepalShadeGeyserLighter: '#e9ebf1',
-
-      // Yellow accent colors
-      supernova: '#fecb00',
-      supernovaShadeGoldenrod: '#fddf66',
-      supernovaShadeCreamBrulee: '#ffea99',
-      supernovaShadeBarleyWhite: '#fff5cc',
 
       // Basic gray accent color
       tundoraShadeGray: '#8f8f8f',
       tundoraShadeNobel: '#b4b4b4',
       tundoraShadeAlto: '#dadada',
       accordionGray: '#fafafa',
-
-      // Blue accent color
-      dodgerBlue: '#3f7bfe',
-      dodgerBlueShadeMalibu: '#6595fd',
-      dodgerBlueShadeMalibuLighter: '#8cb0fe',
-      dodgerBlueShadeMeirose: '#b3caff',
-      dodgerBlueShadePattensBlue: '#d9e5ff',
-
-      // Green accent color
-      killarney: '#3e6a3d',
-      killarneyShadeGladeGreen: '#658763',
-      killarneyShadeEnvy: '#8ba68a',
-      killarneyShadeGreenSpring: '#b0c3b0',
-      killarneyShadeTasman: '#d8e1d8',
-
-      // Red accent color
-      darkBurgundy: '#7c0b0e',
-      darkBurgundyShadeTabasco: '#b21014',
-      darkBurgundyShadeNewYorkPink: '#d16f71',
-      darkBurgundyShadePetiteOrchid: '#de9a9b',
-      darkBurgundyShadeRoseFog: '#eabebf',
 
       // Gray accent color
       dustyGray: '#999999',

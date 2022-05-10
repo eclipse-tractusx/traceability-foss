@@ -4,63 +4,63 @@
 
 @layer base {
   body {
-    @apply font-condensedRegular bg-white m-0 p-0 overflow-hidden;
+    @apply font-light bg-white m-0 p-0 overflow-hidden;
   }
 
   h1 {
-    @apply font-boldCondensed lg:text-4xl sm:text-3xl uppercase text-primary;
+    @apply font-extraBold lg:text-4xl sm:text-3xl uppercase text-primary;
   }
 
   h2 {
-    @apply font-boldCondensed lg:text-3xl sm:text-2xl uppercase text-tundora;
+    @apply font-extraBold lg:text-3xl sm:text-2xl uppercase text-tundora;
   }
 
   h3 {
-    @apply font-boldCondensed lg:text-2xl sm:text-xl text-tundora;
+    @apply font-extraBold lg:text-2xl sm:text-xl text-tundora;
   }
 
   h4 {
-    @apply font-boldCondensed lg:text-xl sm:text-lg text-tundora;
+    @apply font-extraBold lg:text-xl sm:text-lg text-tundora;
   }
 
   h5 {
-    @apply font-boldCondensed lg:text-lg sm:text-base text-tundora;
+    @apply font-extraBold lg:text-lg sm:text-base text-tundora;
   }
 
   .regular-text {
-    @apply font-condensedRegular lg:text-sm sm:text-xs text-tundora;
+    @apply font-light lg:text-sm sm:text-xs text-tundora;
   }
 
   .large-text {
-    @apply font-condensedRegular lg:text-base sm:text-sm text-tundora;
+    @apply font-light lg:text-base sm:text-sm text-tundora;
   }
 
   .small-text {
-    @apply font-condensedRegular lg:text-xs sm:text-tiny text-tundora;
+    @apply font-light lg:text-xs sm:text-tiny text-tundora;
   }
 
   .component-text {
-    @apply lg:text-xs sm:text-tiny text-tundora font-condensedRegular;
+    @apply lg:text-xs sm:text-tiny text-tundora font-light;
   }
 
   .sub-headline {
-    @apply font-condensedRegular lg:text-xs sm:text-tiny text-tundora;
+    @apply font-light lg:text-xs sm:text-tiny text-tundora;
   }
 
   .table-headline {
-    @apply font-boldCondensed lg:text-xs sm:text-tiny text-tundora;
+    @apply font-extraBold lg:text-xs sm:text-tiny text-tundora;
   }
 
   .component-headline {
-    @apply font-boldCondensed lg:text-sm sm:text-xs text-tundora;
+    @apply font-extraBold lg:text-sm sm:text-xs text-tundora;
   }
 
   .component-headline-small {
-    @apply font-boldCondensed lg:text-xs sm:text-tiny text-tundora;
+    @apply font-extraBold lg:text-xs sm:text-tiny text-tundora;
   }
 
   .caption {
-    @apply font-condensedRegular text-tiny text-tundora;
+    @apply font-light text-tiny text-tundora;
   }
 
   .overlay-container {
@@ -68,7 +68,7 @@
   }
 
   a {
-    @apply font-condensedRegular text-sm text-blueBayouxShadeLynch cursor-pointer hover:text-blueBayouxShadePigeonPost;
+    @apply font-light text-sm text-blueBayouxShadeLynch cursor-pointer hover:text-blueBayouxShadePigeonPost;
     text-decoration: none;
     white-space: pre-wrap;
     -webkit-font-smoothing: antialiased;
@@ -109,7 +109,7 @@
   }
 
   .mat-radio-label-content {
-    @apply font-condensedRegular lg:text-sm sm:text-xs text-tundora;
+    @apply font-light lg:text-sm sm:text-xs text-tundora;
   }
 
   .mat-focused .mat-form-field-label {
@@ -121,7 +121,7 @@
   }
 
   .mat-calendar-body-cell-content {
-    @apply font-condensedRegular lg:text-xs sm:text-xs text-tundora;
+    @apply font-light lg:text-xs sm:text-xs text-tundora;
   }
 
   .mat-calendar-body-selected {
@@ -129,7 +129,7 @@
   }
 
   .mat-calendar-body-label {
-    @apply font-boldCondensed lg:text-sm sm:text-xs text-tundora;
+    @apply font-extraBold lg:text-sm sm:text-xs text-tundora;
   }
 
   .mat-datepicker-toggle-active {
@@ -145,7 +145,7 @@
   }
 
   .mat-form-field {
-    @apply font-condensedRegular lg:text-base sm:text-sm text-tundora ml-0 !important;
+    @apply font-light lg:text-base sm:text-sm text-tundora ml-0 !important;
   }
 
   .mat-button {
@@ -157,11 +157,11 @@
   }
 
   .mat-menu-item {
-    @apply font-condensedRegular lg:text-sm sm:text-xs text-tundora !important;
+    @apply font-light lg:text-sm sm:text-xs text-tundora !important;
   }
 
   .mat-input-element {
-    @apply font-condensedRegular lg:text-base sm:text-xs text-tundora !important;
+    @apply font-light lg:text-base sm:text-xs text-tundora !important;
   }
 
   .mat-form-field.mat-warn .mat-input-element,
@@ -184,11 +184,11 @@
   }
 
   .mat-chip {
-    @apply font-condensedRegular lg:text-xs sm:text-tiny text-tundora;
+    @apply font-light lg:text-xs sm:text-tiny text-tundora;
   }
 
   .mat-select {
-    @apply font-condensedRegular lg:text-base sm:text-xs text-primary !important;
+    @apply font-light lg:text-base sm:text-xs text-primary !important;
   }
 
   .mat-progress-spinner circle,
@@ -197,7 +197,7 @@
   }
 
   .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-    @apply font-condensedRegular lg:text-base sm:text-xs text-tundora p-2 !important;
+    @apply font-light lg:text-base sm:text-xs text-tundora p-2 !important;
   }
 
   .mat-paginator {
@@ -238,7 +238,7 @@
     border-radius: 2px !important;
     border: 1px solid rgb(91, 112, 143) !important;
     color: rgb(91, 112, 143);
-    @apply font-boldCondensed;
+    @apply font-extraBold;
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
@@ -282,7 +282,7 @@
   }
 
   .md-drppicker .btn {
-    @apply font-boldCondensed;
+    @apply font-extraBold;
     text-transform: uppercase;
   }
 

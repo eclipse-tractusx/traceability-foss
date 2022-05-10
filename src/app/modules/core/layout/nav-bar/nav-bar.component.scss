@@ -71,11 +71,11 @@
 }
 
 .navbar-menu-items__badge {
-  @apply ml-4 text-darkBurgundyShadeTabasco font-bold;
+  @apply ml-4 text-dangerLight font-bold;
 }
 
 .tag {
-  @apply bg-darkBurgundyShadeTabasco px-3 py-0 inline-block;
+  @apply bg-dangerLight px-3 py-0 inline-block;
   border-radius: 32px;
 }
 

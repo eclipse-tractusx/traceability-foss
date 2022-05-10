@@ -9,24 +9,13 @@
     >
       <ul class="sidebar-menu-container">
         <li>
-          <section
-            class="sidebar-menu-container__item"
+          <app-sidebar-section
             (click)="this.navigate('dashboard')"
-            [ngClass]="{
-              active: this.activeMenu === 'dashboard'
-            }"
-          >
-            <svg-icon class="mr-4" appTooltip [tooltip]="'Dashboard'" key="layout-masonry-line"></svg-icon>
-            <p
-              class="regular-text"
-              [ngClass]="{
-                'item-active': this.activeMenu === 'dashboard',
-                disable: !this.expanded
-              }"
-            >
-              Dashboard
-            </p>
-          </section>
+            [name]="'dashboard'"
+            [isActive]="this.activeMenu === 'dashboard'"
+            [isExpanded]="this.expanded"
+            [iconName]="'layout-masonry-line'"
+          ></app-sidebar-section>
         </li>
       </ul>
     </div>
@@ -40,24 +29,13 @@
     >
       <ul class="sidebar-menu-container">
         <li>
-          <section
-            class="sidebar-menu-container__item"
+          <app-sidebar-section
             (click)="this.navigate('about')"
-            [ngClass]="{
-              active: this.activeMenu === 'about'
-            }"
-          >
-            <svg-icon
-              [tooltip]="'About'"
-              [ngClass]="{ 'item-active': this.activeMenu === 'about' }"
-              appTooltip
-              class="mr-4"
-              key="information-line"
-            ></svg-icon>
-            <p class="regular-text" [ngClass]="{ active: this.activeMenu === 'about', disable: !this.expanded }">
-              About
-            </p>
-          </section>
+            [name]="'about'"
+            [isActive]="this.activeMenu === 'about'"
+            [isExpanded]="this.expanded"
+            [iconName]="'information-line'"
+          ></app-sidebar-section>
         </li>
       </ul>
     </div>

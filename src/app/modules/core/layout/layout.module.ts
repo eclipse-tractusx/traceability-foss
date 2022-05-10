@@ -11,6 +11,7 @@ import { PrivateLayoutComponent } from './private-layout/private-layout.componen
 import { ResizerComponent } from './resizer/resizer.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
+import { SidebarSectionComponent } from './sidebar/sidebar-section/sidebar-section.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.compo
     SidebarComponent,
     FooterComponent,
     SpinnerOverlayComponent,
+    SidebarSectionComponent,
   ],
   imports: [CommonModule, LayoutRoutingModule, TemplateModule, SharedModule, SvgIconsModule.forChild(icons)],
 })

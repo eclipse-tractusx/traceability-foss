@@ -1,6 +1,6 @@
 <ol class="breadcrumb">
   <li *ngFor="let breadcrumb of breadcrumbs; let i = index">
-    <span routerLink="breadcrumb.url" routerLinkActive="router-link-active" (click)="this.navigate(breadcrumb.url, i)">
+    <span routerLink="{{breadcrumb.url}}" routerLinkActive="router-link-active" (click)="this.navigate(breadcrumb.url, i)">
       {{ breadcrumb.label }}
     </span>
   </li>

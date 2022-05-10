@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { SvgIconsModule } from '@ngneat/svg-icon';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -62,7 +63,7 @@ import { TemplateModule } from './template.module';
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
   ],
-  imports: [TemplateModule, TabsModule, SvgIconsModule.forChild(icons)],
+  imports: [TemplateModule, TabsModule, SvgIconsModule.forChild(icons), RouterModule],
   exports: [
     ConfirmDialogComponent,
     NotificationContainerComponent,
