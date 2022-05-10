@@ -1,0 +1,98 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "traceability.fullname" . }}
+  labels:
+    {{- include "traceability.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "traceability.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        rollme: {{ randAlphaNum 5 | quote }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "traceability.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- if .Values.imagePullSecret.dockerconfigjson }}
+      imagePullSecrets:
+        - name: {{ include "traceability.fullname" . }}-imagepullsecret
+      {{- else }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      serviceAccountName: {{ include "traceability.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: EDC_FS_CONFIG
+              value: /app/dataspaceconnector-configuration.properties
+          ports:
+            - name: default
+              containerPort: {{ .Values.traceability.endpoints.default.port }}
+              protocol: TCP
+            - name: callback
+              containerPort: {{ .Values.traceability.endpoints.callback.port }}
+              protocol: TCP
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.traceability.endpoints.default.path }}/check/liveness
+              port: default
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.traceability.endpoints.default.path }}/check/readiness
+              port: default
+          {{- end }}
+          {{- if .Values.startupProbe.enabled }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.traceability.endpoints.default.path }}/check/startup
+              port: default
+            failureThreshold: 12
+            initialDelaySeconds: 10
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: configuration
+              mountPath: /app/dataspaceconnector-configuration.properties
+              subPath: dataspaceconnector-configuration.properties
+      volumes:
+        - name: configuration
+          configMap:
+            name: {{ include "traceability.fullname" . }}-configmap
+            items:
+              - key: dataspaceconnector-configuration.properties
+                path: dataspaceconnector-configuration.properties
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
