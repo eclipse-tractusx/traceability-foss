@@ -15,8 +15,8 @@
     "ng-material": "ng update --force @angular/material",
     "start": "ng serve",
     "sonar": "sonar-scanner",
-    "test": "ng test --code-coverage --watch=true --browsers=Chrome",
-    "test:ci": "ng test --code-coverage --watch=false --browsers=ChromeHeadless"
+    "test": "jest --watch --maxWorkers=1",
+    "test:ci": "jest --runInBand"
   },
   "private": true,
   "husky": {
@@ -80,9 +80,12 @@
     "@angular/compiler-cli": "13.3.6",
     "@angular/language-service": "13.3.6",
     "@ngneat/svg-icon": "4.1.2",
+    "@testing-library/angular": "^11.0.4",
+    "@testing-library/jest-dom": "^5.16.4",
     "@types/d3": "7.1.0",
     "@types/jasmine": "4.0.3",
     "@types/jasminewd2": "2.0.10",
+    "@types/jest": "^27.5.0",
     "@types/luxon": "2.3.2",
     "@types/mapbox-gl": "2.7.1",
     "@types/node": "17.0.31",
@@ -96,6 +99,10 @@
     "husky": "7.0.4",
     "jasmine-core": "4.1.0",
     "jasmine-spec-reporter": "7.0.0",
+    "jest": "^28.1.0",
+    "jest-environment-jsdom": "^28.1.0",
+    "jest-extended": "^2.0.0",
+    "jest-preset-angular": "^12.0.0",
     "karma": "6.3.19",
     "karma-chrome-launcher": "3.1.1",
     "karma-coverage-istanbul-reporter": "3.0.3",
@@ -134,5 +141,29 @@
   },
   "msw": {
     "workerDirectory": "src"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "<rootDir>/src/tsconfig.spec.json"
+      }
+    },
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/tests/setupJest.ts"
+    ],
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!internmap|delaunator|robust-predicates|d3|ngx-window-token|ngx-clipboard|@ngneat/svg-icon|keycloak-angular|@testing-library|@angular|lodash-es)"
+    ],
+    "testEnvironment": "jest-environment-jsdom",
+    "moduleNameMapper": {
+      "@core/(.+)": "<rootDir>src/app/modules/core/$1",
+      "@shared/(.+)": "<rootDir>src/app/modules/shared/$1",
+      "@layout/(.+)": "<rootDir>src/app/modules/core/layout/$1",
+      "@page/(.+)": "<rootDir>src/app/modules/page//$1",
+      "@env/(.+)": "<rootDir>src/environments/environment/$1",
+      "@tests/(.+)": "<rootDir>/src/tests/$1",
+      "src/(.+)": "<rootDir>src/$1"
+    }
   }
 }

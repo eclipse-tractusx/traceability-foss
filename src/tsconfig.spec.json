@@ -1,9 +1,30 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/spec",
-    "types": ["jasmine", "node"]
-  },
-  "files": ["test.ts", "polyfills.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"]
+    "esModuleInterop": true,
+    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "paths": {
+      "@core/*": [
+        "src/app/modules/core/*"
+      ],
+      "@layout/*": [
+        "src/app/modules/core/layout/*"
+      ],
+      "@page/*": [
+        "src/app/modules/page/*"
+      ],
+      "@shared/*": [
+        "src/app/modules/shared/*"
+      ],
+      "@shared": [
+        "src/app/modules/shared/index"
+      ],
+      "@env": [
+          "src/environments/environment"
+      ],
+      "@tests/*": [
+        "src/tests/*"
+      ]
+    }
+  }
 }

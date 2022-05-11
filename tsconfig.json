@@ -32,7 +32,7 @@
         "src/app/modules/shared/index"
       ],
       "@env": [
-          "src/environments/environment"
+        "src/environments/environment"
       ]
     }
   },

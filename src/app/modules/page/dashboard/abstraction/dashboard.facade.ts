@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { realm } from 'src/app/modules/core/api/api.service.properties';
-import { View } from 'src/app/modules/shared/model/view.model';
+import { realm } from '@core/api/api.service.properties';
+import { View } from '@shared/model/view.model';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
 import { Dashboard } from '../model/dashboard.model';

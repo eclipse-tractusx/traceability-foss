@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthService } from 'src/app/modules/core/auth/auth.service';
-import { Realm } from 'src/app/modules/core/model/realm.model';
-import { UserService } from 'src/app/modules/core/user/user.service';
+import { AuthService } from '@core/auth/auth.service';
+import { Realm } from '@core/model/realm.model';
+import { UserService } from '@core/user/user.service';
 import { LayoutState } from '../service/layout.state';
 import { SharedService } from '../service/shared.service';
 import { Mspid } from '../model/mspid.model';
