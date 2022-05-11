@@ -1,9 +1,0 @@
----
-apiVersion: v2
-name: traceability-foss-backend
-description: Catena-X Traceability
-home: https://github.com/catenax-ng/product-traceability-foss-backend
-type: application
-appVersion: "0.0.1"
-version: 0.0.1
-maintainers: []
