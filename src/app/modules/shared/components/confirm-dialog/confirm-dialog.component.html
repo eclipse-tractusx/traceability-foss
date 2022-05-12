@@ -37,16 +37,12 @@ under the License.
     <p class="mb-2 large-text flex flex-wrap">{{ message }}</p>
     <textarea *ngIf="this.hasComment" rows="0" value="comment" #comment placeholder="Write your comment"></textarea>
     <section class="button-grid">
-      <app-button class="w-full col-start-4" [type]="'submit'" [button]="'secondary'" (clickEvent)="this.onDismiss()">{{
+      <app-button class="w-full col-start-4" [color]="'accent'" (click)="this.onDismiss()">{{
         this.secondaryBtnLabel
       }}</app-button>
-      <app-button
-        class="w-full col-start-5 col-span-2"
-        [type]="'submit'"
-        [button]="'primary'"
-        (clickEvent)="this.onConfirm()"
-        >{{ this.primaryBtnLabel }}</app-button
-      >
+      <app-button class="w-full col-start-5 col-span-2" [color]="'primary'" (click)="this.onConfirm()">{{
+        this.primaryBtnLabel
+      }}</app-button>
     </section>
   </div>
 </div>

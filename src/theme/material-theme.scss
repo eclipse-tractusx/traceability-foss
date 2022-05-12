@@ -1,0 +1,98 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$primary-palette: (
+  50: #fff3de,
+  100: #ffe0ae,
+  200: #ffcb78,
+  300: #ffb640,
+  400: #ffa600,
+  500: #ff9600,
+  600: #fc8a00,
+  700: #f77900,
+  800: #f26800,
+  900: #e94b00,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$accent-palette: (
+  50: #f7fbe7,
+  100: #ebf4c2,
+  200: #deef9b,
+  300: #d2e873,
+  400: #c8e254,
+  500: #bfdd34,
+  600: #b3cb2d,
+  700: #a4b524,
+  800: #949e1b,
+  900: #7a7709,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$warn-palette: (
+  50: #ffeaec,
+  100: #ffcbcd,
+  200: #f59691,
+  300: #ec6d66,
+  400: #f54a3e,
+  500: #f9381b,
+  600: #eb2c1d,
+  700: #d91e18,
+  800: #cc130f,
+  900: #be0000,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+  ),
+);
+
+$my-primary: mat.define-palette($primary-palette, 400);
+$my-accent: mat.define-palette($accent-palette, 600);
+$my-warn: mat.define-palette($warn-palette, 700);
+
+$tracefoss-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+      warn: $my-warn,
+    ),
+  )
+);
+
+@include mat.core-theme($tracefoss-theme);
+@include mat.all-component-themes($tracefoss-theme);
+
+@include mat.all-component-colors($tracefoss-theme);
+@include mat.all-component-typographies($tracefoss-theme);

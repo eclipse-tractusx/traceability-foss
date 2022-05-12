@@ -1,54 +1,53 @@
-<!--
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
+<ng-container [ngTemplateOutlet]="{button, raised, flat, stroked, icon, fab, miniFab}[this.variant]"></ng-container>
 
-  http://www.apache.org/licenses/LICENSE-2.0
+<ng-template #button>
+  <button (click)="this.click.emit($event)" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-button>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+</ng-template>
 
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.    
--->
+<ng-template #raised>
+  <button (click)="this.click.emit($event)" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-raised-button>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+</ng-template>
 
-<button
-  (click)="clickEvent.emit($event)"
-  [ngClass]="{
-    'icon-left': this.icon,
-    'btn-primary': this.button === 'primary',
-    'btn-secondary': this.button === 'secondary',
-    'btn-tertiary': this.button === 'tertiary',
-    'btn-primary-disabled': this.disable && this.button === 'primary',
-    'btn-secondary-disabled': this.disable && this.button === 'secondary'
-  }"
-  type="{{ this.type }}"
-  [disabled]="this.disable"
->
-  <ng-container *ngIf="this.icon">
-    <svg-icon
-      key="{{ this.icon }}"
-      class="svg-icon"
-      [ngClass]="{
-        'text-white': this.button === 'primary' || this.disable,
-        'text-tundora': this.button === 'secondary',
-        'text-blueBayouxShadeWaikawaGray': this.button === 'tertiary'
-      }"
-    ></svg-icon>
+<ng-template #flat>
+  <button (click)="this.click.emit($event)" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-flat-button>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+</ng-template>
+
+<ng-template #stroked>
+  <button (click)="this.click.emit($event)" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-stroked-button>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+</ng-template>
+
+<ng-template #icon>
+  <button (click)="this.click.emit($event)" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-icon-button>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+</ng-template>
+
+<ng-template #fab>
+  <button (click)="this.click.emit($event)" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-fab>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+</ng-template>
+
+<ng-template #miniFab>
+  <button (click)="this.click.emit($event)" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-mini-fab>
+    <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+  </button>
+</ng-template>
+
+<ng-template #iconElement>
+  <mat-icon>{{ this.iconName }}</mat-icon> {{ this.label }}
+</ng-template>
+
+<ng-template #buttonContent>
+  <ng-container *ngIf="!this.iconName; else iconElement">
+    {{ this.label }}
   </ng-container>
-  <div
-    class="component-headline uppercase px-2"
-    [ngClass]="{
-      'text-white': this.button === 'primary' || this.disable,
-      'text-tundora': this.button === 'secondary',
-      'text-blueBayouxShadeWaikawaGray': this.button === 'tertiary'
-    }"
-  >
-    <ng-content></ng-content>
-  </div>
-</button>
+</ng-template>
