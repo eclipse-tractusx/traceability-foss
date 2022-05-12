@@ -3,6 +3,7 @@ export const environment = {
   keycloakUrl: 'https://auth.dev.catenax.tracefoss.com/auth/',
   multiTenant: true,
   defaultRealm: 'mock',
+  realmLogo: '/assets/images/logo.png',
   baseUrl: '/',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   laapi: 'https://api.taas.dev.catenax.tracefoss.com/v1/',

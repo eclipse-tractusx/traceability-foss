@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { realm } from 'src/app/modules/core/api/api.service.properties';
+import { realm, realmLogo } from 'src/app/modules/core/api/api.service.properties';
 import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 import { Mspid } from 'src/app/modules/shared/model/mspid.model';
 
@@ -53,17 +53,7 @@ export class NavBarComponent {
   }
 
   public getCompanyLogo(): string {
-    // ToDo: Change Logos (move to environment file?)
-    const logo = {
-      bmw: '/assets/images/BMW_2.png',
-      'taas-zf': '/assets/images/zf.png',
-      'taas-gris': '/assets/images/zf.png',
-      'taas-henkel': '/assets/images/henkel-logo-0.png',
-      'taas-basf': '/assets/images/basf.png',
-    };
-
-    // ToDo: Needs changes
-    return logo[realm] || '/assets/images/basf.png';
+    return realmLogo;
   }
 
   @HostListener('window:click', [])
