@@ -34,11 +34,7 @@ There are several Angular artifacts which you can generate:
 
 ### Running unit tests
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-### Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Run `ng test` to execute the unit tests via [jest](https://github.com/facebook/jest).
 
 ### Running updates
 Run `ng update` to update your application and its dependencies. 
@@ -59,7 +55,7 @@ A file named angular.json at the root level of an Angular workspace provides wor
 
 You can find more information about the content in the official documentation [here](https://angular.io/guide/workspace-config).
 
-In PartChain we build apps with different configurations depending on the stage (dev, stage).
+In Trace-FOSS we build apps with different configurations depending on the stage (dev, stage).
 
 These configurations must be declared in the angular json file, and you can define them in the `/environments` directory.
 
@@ -67,50 +63,50 @@ Then, on the file replacements array, you can replace the url with the correspon
 
 ### angular.json
 ```json
-"configurations": {
-            "dev": {
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "10mb"
-                }
-              ]
-            },
-            "stage": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.stage.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "10mb"
-                }
-              ]
-            }
-          }
+{
+  "configurations": {
+    "dev": {
+      "buildOptimizer": false,
+      "optimization": false,
+      "vendorChunk": true,
+      "extractLicenses": false,
+      "sourceMap": true,
+      "namedChunks": true,
+      "aot": true,
+      "budgets": [
+        {
+          "type": "initial",
+          "maximumWarning": "5mb",
+          "maximumError": "10mb"
+        }
+      ]
+    },
+    "stage": {
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.stage.ts"
+        }
+      ],
+      "optimization": true,
+      "outputHashing": "all",
+      "sourceMap": false,
+      "extractCss": true,
+      "namedChunks": false,
+      "aot": true,
+      "extractLicenses": true,
+      "vendorChunk": false,
+      "buildOptimizer": true,
+      "budgets": [
+        {
+          "type": "initial",
+          "maximumWarning": "5mb",
+          "maximumError": "10mb"
+        }
+      ]
+    }
+  }
+}
 ```
 
 ### Environment variables
@@ -120,6 +116,7 @@ export const environment = {
   keycloakUrl: 'https://auth.domain.tld/auth',
   multiTenant: true,
   defaultRealm: 'XYZRealm',
+  realmLogo: '/assets/images/logo.png',
   baseUrl: '/',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   laapi: 'https://api.domain.tld/v1/',
@@ -143,21 +140,22 @@ The default builder for an application is `@angular-devkit/build-angular:browser
 
 ### Angular json builder
 ```json
-    "serve": {
-      "builder": "@angular-builders/custom-webpack:dev-server",
-      "options": {
-        "customWebpackConfig": {
-          "path": "./webpack.config.js",
-          "replaceDuplicatePlugins": true
-        },
-        "browserTarget": "webapp:build"
-      },
-      "configurations": {
-        "production": {
-          "browserTarget": "webapp:build:production"
-        }
-      }
+{
+  "serve": {
+    "builder": "@angular-builders/custom-webpack:dev-server",
+    "options": {
+      "browserTarget": "webapp:build:dev"
     },
+    "configurations": {
+      "dev": {
+        "browserTarget": "webapp:build:dev"
+      },
+      "stage": {
+        "browserTarget": "webapp:build:stage"
+      }
+    }
+  }
+}
 ```
 
 ### Webpack configuration
@@ -174,6 +172,7 @@ module.exports = {
             syntax: "postcss-scss",
             plugins: [
               require("postcss-import"),
+              require("tailwindcss/nesting"),
               require("tailwindcss"),
               require("autoprefixer"),
             ],

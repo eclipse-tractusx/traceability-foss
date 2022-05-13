@@ -106,7 +106,6 @@ export * from './svg/app-mail-fill.icon';
 export * from './svg/app-mail-line.icon';
 export * from './svg/app-more-line.icon';
 export * from './svg/app-no data illustration.icon';
-export * from './svg/app-partchain.icon';
 export * from './svg/app-pencil-line.icon';
 export * from './svg/app-question-fill.icon';
 export * from './svg/app-question-line.icon';

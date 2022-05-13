@@ -75,9 +75,5 @@ It’s best practice to upgrade your application with the latest version.
 
 #### Source [SyncFusion](https://www.syncfusion.com/blogs/post/top-5-best-practices-angular-app-security.aspx).
 
-## Docker scan
-
-We scan the images for any potential vulnerabilities.
-If you wish to change the criticality level please refer to the file `/helpers/convert4report.py`
-
-You may find all the logic there. The build fails if those measures aren't met.
+## Veracode scan
+....TBD

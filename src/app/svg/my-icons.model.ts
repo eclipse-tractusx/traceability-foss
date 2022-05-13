@@ -103,7 +103,6 @@ export type myIcons =
   | 'mail-line'
   | 'more-line'
   | 'no-data-illustration'
-  | 'partchain'
   | 'pencil-line'
   | 'question-fill'
   | 'question-line'

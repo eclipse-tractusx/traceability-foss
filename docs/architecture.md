@@ -8,11 +8,10 @@ This is the basic idea on how our modules are separated.
 
 <img alt="Modular design" src="images/modular_design.png">
 
-The `Core Module` is designed for the singleton services. 
+The `Core Module` is designed for the all basic and core functionalities of the application.
 The singleton services, the universal components and other features where there’s only one instance per application must be stored in the
-`Core Folder`.
-
-Within the `App Module` you should have the `Feature Modules`, the `Core Module` and any necessary providers.
+`Core Folder`.\
+Within the `Core Module` you should have the `Feature Modules`, the `Core Module` and any necessary providers.
 Only import components if strictly necessary.
 
 The `Template Module` is used to store library imports, such as material modules.

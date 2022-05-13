@@ -97,7 +97,6 @@ import { appLineChartFill } from '../../svg/app-line-chart-fill.icon';
 import { appLogoutCircleLine } from '../../svg/app-logout-circle-line.icon';
 import { appMoreLine } from '../../svg/app-more-line.icon';
 import { appNoDataIllustration } from '../../svg/app-no data illustration.icon';
-import { appPartchain } from '../../svg/app-partchain.icon';
 import { appPencilLine } from '../../svg/app-pencil-line.icon';
 import { appQuestionFill } from '../../svg/app-question-fill.icon';
 import { appQuestionLine } from '../../svg/app-question-line.icon';
@@ -194,7 +193,6 @@ const icons = [
   appLogoutCircleLine,
   appMoreLine,
   appNoDataIllustration,
-  appPartchain,
   appPencilLine,
   appQuestionFill,
   appQuestionLine,

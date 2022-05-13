@@ -1,8 +1,8 @@
-# <img src="images/partchain-logo.svg" alt="PartChain Logo"/> PartChain - User Guide
+# <img src="images/catena-x.svg" alt="Catena-X Logo"/> Trance-FOSS - User Guide
 
 <br>
 
-## Table of contents
+Table of contents
 ---
 
 - [Introduction](#introduction)
@@ -39,9 +39,9 @@
 <br>
 
 ## **Scope and purpose**
-PartChain is a traceability supply chain app built for existing supply chain ecosystems to transform into the digitally connected world. PartChain spans across companies and creates a collaborative network that is both fast and secure in its processes. It is based on Blockchain technology and has a state-of-the-art user interface that is easy to understand and ready for use.
+Trace-FOSS is a traceability supply chain app built for existing supply chain ecosystems to transform into the digitally connected world. Trace-FOSS spans across companies and creates a collaborative network that is both fast and secure in its processes. It has a state-of-the-art user interface that is easy to understand and ready for use.
 
-As a PartChain user, you can access all information concerning parts and components on an individual level. You can track the record of individual parts, raise quality alerts on your parts and distribute them to your customers, and receive quality alerts from supplier parts that may affect your parts. It is also possible to request investigations to suppliers parts and receive investigations requests from customers, thus creating a connected supply chain, providing transparency within your network.
+As a Trace-FOSS user, you can access all information concerning parts and components on an individual level. You can track the record of individual parts, raise quality alerts on your parts and distribute them to your customers, and receive quality alerts from supplier parts that may affect your parts. It is also possible to request investigations to suppliers parts and receive investigations requests from customers, thus creating a connected supply chain, providing transparency within your network.
 
 <br>
 <br>
@@ -59,7 +59,7 @@ As a PartChain user, you can access all information concerning parts and compone
 
 ## **Accessing the app**
 
-[PartChain](#) can be accessed via the internet. The recommended browser is Google Chrome. You can login with PartChain credentials or Catena-X (MFA) account.
+[Trace-FOSS](#) can be accessed via the internet. The recommended browser is Google Chrome. You can log in with your Catena-X (MFA) account.
 
 <br>
 
@@ -67,19 +67,19 @@ As a PartChain user, you can access all information concerning parts and compone
 
 <img src="images/PC_Login.png" height="60%" width="60%">
 
-1. Open PartChain via the URL: # (recommended browser Google Chrome).
-1. Enter the user name and password. If the login data is correct, the dashboard of the PartChain UI opens. If the information are incorrect, as error message will be displayed.
-1. After your first log-in you are shown a Welcome message and a short introduction to the PartChain system and you will be able to start using the application.
+1. Open Trace-FOSS via the URL: # (recommended browser Google Chrome).
+1. Enter the username and password. If the login data is correct, the dashboard of the Trace-FOSS UI opens. If the information are incorrect, as error message will be displayed.
+1. After your first log-in you are shown a Welcome message and a short introduction to the Trace-FOSS system and you will be able to start using the application.
 
 <br>
 
 ### **Sign out**
 
-<img src="images/PC_SignOut.png" alt="PartChain Logo" width="320"/>
+<img src="images/PC_SignOut.png" alt="Trace-FOSS Logo" width="320"/>
 
 1. On the header, click on the user avatar
 1. On the menu click on "Sign-out"
-1. You have signed-out of PartChain
+1. You have signed-out of Trace-FOSS
 
 <br>
 <br>
@@ -93,15 +93,15 @@ As a PartChain user, you can access all information concerning parts and compone
 
 # Navigation
 
-PartChain navigation is based on a header and a left-side menu.
+Trace-FOSS navigation is based on a header and a left-side menu.
 
 <br>
 
 ## **Header**
 
-<img src="images/PC_Header.png" alt="PartChain header"/>
+<img src="images/PC_Header.png" alt="Trace-FOSS header"/>
 
-1 - On the left side on the header, there is the PartChain logo which redirects the user to the Dashboard (Home) area. 
+1 - On the left side on the header, there is the Trace-FOSS logo which redirects the user to the Dashboard (Home) area. 
 
 2 - On the right side of the header, there is the name and avatar of the logged-in user. When clicked, it is possible to see the avatar, the role of the user, the name of the user, and the option to Sign-out.
 
@@ -109,11 +109,11 @@ PartChain navigation is based on a header and a left-side menu.
 
 ## **Left-side menu**
 
-<img src="images/PC_Navigation.png" alt="PartChain navigation" height="350"/>
-<img src="images/PC_Navigation-open.png" alt="PartChain open navigation" height="350"/>
+<img src="images/PC_Navigation.png" alt="Trace-FOSS navigation" height="350"/>
+<img src="images/PC_Navigation-open.png" alt="Trace-FOSS open navigation" height="350"/>
 
 
-On the left side menu, it is possible to navigate the PartChain application by choosing each of the following options / features:
+On the left side menu, it is possible to navigate the Trace-FOSS application by choosing each of the following options / features:
 
 - Dashboard
 - Find parts
@@ -138,13 +138,13 @@ On the left side menu, it is possible to navigate the PartChain application by c
 
 ## Dashboard
 
-The PartChain dashboard is the main entrance of the application. It provides an overview of the company's parts: 
+The Trace-FOSS dashboard is the main entrance of the application. It provides an overview of the company's parts: 
 1. Total of company's parts; 
 1. Total of parts with quality alerts / investigations;
 1. Latest received quality alerts / investigations; 
 1. Percentage of each quality alert type;  
 1. Evolution of quality alerts over time; 
-1. Number of parts per country registered in PartChain (withing network)
+1. Number of parts per country registered in Trace-FOSS (withing network)
 
 <img src="images/PC_Dashboard.png" height="60%" width="60%"/>
 
@@ -164,7 +164,7 @@ Manually enter or paste a part serial number in the search area.
 
 <br>
 
-PartChain will automatically search the part and present the results found
+Trace-FOSS will automatically search the part and present the results found
 
 <br>
 

@@ -2,6 +2,18 @@
 
 We follow the recommended guidelines from the [angular framework](https://angular.io/guide/styleguide).
 
+## Commit Convention
+The project uses a slightly modified version of the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) with some minor changes regarding the name of the types. Furthermore, each commit should contain the Jira issue ID within the body. The following types are used to categorize commits:
+
+- `chr:` Chore
+- `doc:` Documentation
+- `fix:` Fixes
+- `ftr:` Features
+- `rfr:` Refactoring
+- `rev:` Revert
+- `tst:` Testing Code
+- `wip:` Work In Progress (should be used sparsely)
+
 ## Code Conventions
 
 ### Coding Style
