@@ -5,7 +5,7 @@
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer dist/webapp/stats.json",
     "build": "ng build",
     "build:prod": "NODE_ENV=production ng build --configuration production",
-    "format": "prettier --config .prettierrc --write \"src/**/*.{js,ts,json,md,css,html}\"",
+    "format": "prettier --config .prettierrc --write \"src/**/*.{js,ts,json,md,css,scss,html}\"",
     "generate-icons": "svg-to-ts",
     "lint": "eslint --color --fix -c .eslintrc.js --ext .ts ./src/app",
     "ng": "ng",
@@ -16,14 +16,10 @@
     "start": "ng serve",
     "sonar": "sonar-scanner",
     "test": "jest --watch --maxWorkers=1",
-    "test:ci": "jest --runInBand"
+    "test:ci": "jest --runInBand",
+    "add-license-header": "node ./scripts/add-license-header.js --src=src"
   },
   "private": true,
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format && npm run lint"
-    }
-  },
   "dependencies": {
     "@angular-material-components/datetime-picker": "7.0.1",
     "@angular/animations": "13.3.6",
@@ -78,6 +74,8 @@
     "@angular/cli": "13.3.5",
     "@angular/compiler-cli": "13.3.6",
     "@angular/language-service": "13.3.6",
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
     "@ngneat/svg-icon": "4.1.2",
     "@testing-library/angular": "^11.0.4",
     "@testing-library/jest-dom": "^5.16.4",
@@ -98,6 +96,7 @@
     "jest-environment-jsdom": "^28.1.0",
     "jest-extended": "^2.0.0",
     "jest-preset-angular": "^12.0.0",
+    "lint-staged": "^12.4.1",
     "msw": "^0.39.2",
     "postcss-import": "14.1.0",
     "postcss-loader": "6.2.1",
