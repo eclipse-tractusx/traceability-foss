@@ -17,10 +17,6 @@ export class ButtonComponent {
 
   @Output() click: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  public isAttributeEnabled(variantName: ButtonVariant) {
-    return variantName === this.variant ? '' : null;
-  }
-
   public getClasses(): Record<string, boolean> {
     return { ['mat-' + this.color]: true };
   }
