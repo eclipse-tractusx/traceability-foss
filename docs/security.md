@@ -6,7 +6,7 @@ When a value is inserted into the DOM from a template, via property, attribute, 
 
 Sanitization is the inspection of an untrusted value, turning it into a value that’s safe to insert into the DOM.
 In many cases, sanitization doesn't change a value at all.
-Sanitization actually depends on context: a value that’s harmless in CSS can be potentially dangerous in a URL.
+Sanitization depends on context: a value that’s harmless in CSS can be potentially dangerous in a URL.
 
 Angular defines the following security contexts:
 
@@ -54,8 +54,8 @@ export class HeroComponent {
 
 ## Block HTTP-related vulnerabilities
 
-There are two HTTP vulnerabilities that affect any Angular application: cross-site request forgery (CSRF or XSRF) and cross-site script inclusion (XSSI).
-But Angular has built-in helpers to prevent them at client-side itself.
+Two HTTP vulnerabilities affect any Angular application: cross-site request forgery (CSRF or XSRF) and cross-site script inclusion (XSSI).
+But Angular has built-in helpers to prevent them at the client-side itself.
 
 ### Cross-site request forgery
 
@@ -67,10 +67,10 @@ The most common and effective technique is sending an authentication token in a 
 <strong>Best practice #8: </strong>Use Angular's HttpClient library to prevent the inclusion of vulnerable scripts in your application.
 The library recognizes this convention and automatically removes the string “)]}’,\n” from all responses before further parsing to make it non-executable.
 
-## Stay updated with latest Angular library
+## Stay updated with the latest Angular library
 
 Angular regularly updates its libraries, and this may fix security defects discovered in previous versions.
-Check the Angular change log for security-related updates.
+Check the Angular changelog for security-related updates.
 It’s best practice to upgrade your application with the latest version.
 
 #### Source [SyncFusion](https://www.syncfusion.com/blogs/post/top-5-best-practices-angular-app-security.aspx).

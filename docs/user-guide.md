@@ -39,9 +39,9 @@ Table of contents
 <br>
 
 ## **Scope and purpose**
-Trace-FOSS is a traceability supply chain app built for existing supply chain ecosystems to transform into the digitally connected world. Trace-FOSS spans across companies and creates a collaborative network that is both fast and secure in its processes. It has a state-of-the-art user interface that is easy to understand and ready for use.
+Trace-FOSS is a traceability supply chain app built for existing supply chain ecosystems to transform into a digitally connected world. Trace-FOSS spans across companies and creates a collaborative network that is both fast and secure in its processes. It has a state-of-the-art user interface that is easy to understand and ready for use.
 
-As a Trace-FOSS user, you can access all information concerning parts and components on an individual level. You can track the record of individual parts, raise quality alerts on your parts and distribute them to your customers, and receive quality alerts from supplier parts that may affect your parts. It is also possible to request investigations to suppliers parts and receive investigations requests from customers, thus creating a connected supply chain, providing transparency within your network.
+As a Trace-FOSS user, you can access all information concerning parts and components on an individual level. You can track the record of individual parts, raise quality alerts on your parts and distribute them to your customers, and receive quality alerts from supplier parts that may affect your parts. It is also possible to request investigations of suppliers' parts and receive investigations requests from customers, thus creating a connected supply chain, and providing transparency within your network.
 
 <br>
 <br>
@@ -68,7 +68,7 @@ As a Trace-FOSS user, you can access all information concerning parts and compon
 <img src="images/PC_Login.png" height="60%" width="60%">
 
 1. Open Trace-FOSS via the URL: # (recommended browser Google Chrome).
-1. Enter the username and password. If the login data is correct, the dashboard of the Trace-FOSS UI opens. If the information are incorrect, as error message will be displayed.
+1. Enter the username and password. If the login data is correct, the dashboard of the Trace-FOSS UI opens. If the information is incorrect, an error message will be displayed.
 1. After your first log-in you are shown a Welcome message and a short introduction to the Trace-FOSS system and you will be able to start using the application.
 
 <br>
@@ -79,7 +79,7 @@ As a Trace-FOSS user, you can access all information concerning parts and compon
 
 1. On the header, click on the user avatar
 1. On the menu click on "Sign-out"
-1. You have signed-out of Trace-FOSS
+1. You have signed out of Trace-FOSS
 
 <br>
 <br>
@@ -101,7 +101,7 @@ Trace-FOSS navigation is based on a header and a left-side menu.
 
 <img src="images/PC_Header.png" alt="Trace-FOSS header"/>
 
-1 - On the left side on the header, there is the Trace-FOSS logo which redirects the user to the Dashboard (Home) area. 
+1 - On the left side of the header, there is the Trace-FOSS logo which redirects the user to the Dashboard (Home) area. 
 
 2 - On the right side of the header, there is the name and avatar of the logged-in user. When clicked, it is possible to see the avatar, the role of the user, the name of the user, and the option to Sign-out.
 
@@ -113,7 +113,7 @@ Trace-FOSS navigation is based on a header and a left-side menu.
 <img src="images/PC_Navigation-open.png" alt="Trace-FOSS open navigation" height="350"/>
 
 
-On the left side menu, it is possible to navigate the Trace-FOSS application by choosing each of the following options / features:
+On the left side menu, it is possible to navigate the Trace-FOSS application by choosing each of the following options/features:
 
 - Dashboard
 - Find parts
@@ -140,8 +140,8 @@ On the left side menu, it is possible to navigate the Trace-FOSS application by 
 
 The Trace-FOSS dashboard is the main entrance of the application. It provides an overview of the company's parts: 
 1. Total of company's parts; 
-1. Total of parts with quality alerts / investigations;
-1. Latest received quality alerts / investigations; 
+1. Total of parts with quality alerts/investigations;
+1. Latest received quality alerts/investigations; 
 1. Percentage of each quality alert type;  
 1. Evolution of quality alerts over time; 
 1. Number of parts per country registered in Trace-FOSS (withing network)
@@ -186,7 +186,7 @@ To view a part's details, click on the part which details you want to view.
 
 <br>
 
-Doing so, will open a sidebar with a summary of the details.
+Doing so will open a sidebar with a summary of the details.
 
 <img src="images/PC_MyParts-open.png" height="60%" width="60%"/>
 
@@ -206,25 +206,25 @@ Clicking on "See full details" on the sidebar, will link to the parts full detai
 
 ## Raise Quality Alert
 
-On My Parts page, select the part(s) and click on "Change quality type" button
+On the My Parts page, select the part(s) and click on the "Change quality type" button
 
 <img src="images/PC_MyParts-QA01.png" height="60%" width="60%"/>
 
 <br>
 
-Choose the quality type for the part (Minor Issue, Major issue, Critical issue or Life-Threatning issue) and enter a discription
+Choose the quality type for the part (Minor Issue, Major issue, Critical issue or Life-Threatening issue) and enter a description
 
 <img src="images/PC_MyParts-QA04.png" height="60%" width="60%"/>
 
 <br>
 
-By clicking on "Add to Queue" the quality type change will be added to the list of Queued Quality Alerts that pending distribuition to customers. Only after being distributed to customers will the Quality type of the part effectively change.
+By clicking on "Add to Queue" the quality type change will be added to the list of Queued Quality Alerts that are pending distribution to customers. Only after being distributed to customers will the Quality type of the part effectively change.
 
 <img src="images/PC_MyParts-QA05.png" height="60%" width="60%"/>
 
 <br>
 
-To go to the Queued Quality Alerts list, click on the link in the yellow banner on the botton of the screen or navigate through the left-side navigation.
+To go to the Queued Quality Alerts list, click on the link in the yellow banner at the bottom of the screen or navigate through the left-side navigation.
 
 <img src="images/PC_MyParts-QA06.png" height="60%" width="60%"/>
 
@@ -238,7 +238,7 @@ To go to the Queued Quality Alerts list, click on the link in the yellow banner 
 
 ## Add parts to a Queued Quality Alert
 
-After raising a Quality Alert, it is still possible to edit it, **before** distributing to customers, on the Queued Quality Alert list
+After raising a Quality Alert, it is still possible to edit it, **before** distributing it to customers, on the Queued Quality Alert list
 
 <img src="images/PC_QA-Open.png" height="60%" width="60%"/>
 
@@ -250,7 +250,7 @@ On the options of the Quality Alert, click on "view details"
 
 <br>
 
-To **add parts** to the queued Quality Alert, click "+ Add Parts" button 
+To **add parts** to the queued Quality Alert, click the "+ Add Parts" button 
 
 <img src="images/PC_QA-Details.png" height="60%" width="60%"/>
 
@@ -272,32 +272,32 @@ Enter or paste the serial number of the part to add to the Quality alert, click 
 
 There are multiple ways of distributing Quality alerts, depending on the quantity, and which page the user is in. 
 
-On the Queued Quality Alerts list, it is possible to distribute all the Quality Alerts at once, using the "Distribute all" button on the top right of the list.
+On the Queued Quality Alerts list, it is possible to distribute all the Quality Alerts at once, using the "Distribute All" button on the top right of the list.
 
 <img src="images/PC_QA2.png" height="60%" width="60%"/>
 
 <br>
 
-To distribute the Quality Alerts individually, there are 2 ways of doing so. On the Queued Quality Alerts list, it is possible to distribute a Quality Alert by opening its options menu and clicking on "Distribute to customers"
+Distribute the Quality Alerts individually, there are 2 ways of doing so. On the Queued Quality Alerts list, it is possible to distribute a Quality Alert by opening its options menu and clicking on "Distribute to customers"
 
 <img src="images/PC_QA-Options2.png" height="60%" width="60%"/>
 
 <br>
 
-On the Quality Alert details page, it is possible to distribute a Quality Alert by clicking on "Distribute to customers" button on the top right corner of the page.
+On the Quality Alert details page, it is possible to distribute a Quality Alert by clicking on the "Distribute to customers" button on the top right corner of the page.
 
 <img src="images/PC_QA-Details.png" height="60%" width="60%"/>
 
 <br>
 
-Once the Quality Alert is distributed, all the customers (within the network) which parts will might be affected, will receive a Quality Alert. On the customer side, it will be shown in the Dashboard, on the Left-side navigation and on the Quality Alerts page on the "Received" list
+Once the Quality Alert is distributed, all the customers (within the network) whose parts will be affected, will receive a Quality Alert. On the customer side, it will be shown in the Dashboard, on the Left-side navigation and the Quality Alerts page on the "Received" list
 
 <img src="images/PC_Dashboard-QA2.png" height="60%" width="60%"/>
 <img src="images/PC_QA-Receive.png" height="60%" width="60%"/>
 
 <br>
 
-On the owner side, it will be shown in the on the Quality Alerts page on the "Distributed" list and no more changes are allowed.
+On the owner side, it will be shown on the Quality Alerts page on the "Distributed" list and no more changes are allowed.
 <img src="images/PC_QA-Distributed.png" height="60%" width="60%"/>
 
 <br>
@@ -310,7 +310,7 @@ On the owner side, it will be shown in the on the Quality Alerts page on the "Di
 
 ## Request Quality Investigation
 
-On Other Parts page, on the Supplier parts tab, select the part(s) and click on "Request Quality investigation" button
+On the Other Parts page, on the Supplier parts tab, select the part(s) and click on the "Request Quality investigation" button
 
 <img src="images/PC_OtherParts-QI.png" height="60%" width="60%"/>
 
@@ -322,13 +322,13 @@ Enter a description and click "Add to Queue"
 
 <br>
 
-By clicking on "Add to Queue" the quality type change will be added to the list of Queued Quality Investigation that pending distribuition to suppliers. Only after being distributed to suppliers will the Quality investigation request be effectively sent.
+By clicking on "Add to Queue" the quality type change will be added to the list of Queued Quality Investigation that pending distribution to suppliers. Only after being distributed to suppliers will the Quality investigation request be effectively sent.
 
 <img src="images/PC_OtherParts-QI03.png" height="60%" width="60%"/>
 
 <br>
 
-To go to the Queued Quality Alerts list, click on the link in the yellow banner on the botton of the screen or navigate through the left-side navigation.
+To go to the Queued Quality Alerts list, click on the link in the yellow banner at the bottom of the screen or navigate through the left-side navigation.
 
 <img src="images/PC_OtherParts-QI04.png" height="60%" width="60%"/>
 
@@ -342,19 +342,19 @@ To go to the Queued Quality Alerts list, click on the link in the yellow banner 
 
 ## Send Quality Investigation to supplier
 
-To send the Quality Investigation to the suppliers, there are 2 ways of doing so. On the Queued Quality Investigation list, it is possible to distribute a Quality Investigation by opening its options menu and clicking on "Distribute to customers"
+Send the Quality Investigation to the suppliers, there are 2 ways of doing so. On the Queued Quality Investigation list, it is possible to distribute a Quality Investigation by opening its options menu and clicking on "Distribute to customers"
 
 <img src="images/PC_OtherParts-QI-Options.png" height="60%" width="60%"/>
 
 <br>
 
-On the Quality Investigation details page, it is possible to send the Quality Investigation by clicking on "Send request to supplier" button on the top right corner of the page.
+On the Quality Investigation details page, it is possible to send the Quality Investigation by clicking on the "Send a request to supplier" button on the top right corner of the page.
 
 <img src="images/PC_OtherParts-QI-Details.png" height="60%" width="60%"/>
 
 <br>
 
-Once the Quality Investigation request is sent, the suppliers (within the network) which parts are in the investigation, will receive a Quality Investigation request. On the supplier side, it will be shown in the Dashboard, on the Left-side navigation and on the Quality Investigation page on the "Received" list.
+Once the Quality Investigation request is sent, the suppliers (within the network) whose parts are in the investigation, will receive a Quality Investigation request. On the supplier side, it will be shown in the Dashboard, on the Left-side navigation and the Quality Investigation page on the "Received" list.
 
 <img src="images/PC_Dashboard-QI2.png" height="60%" width="60%"/>
 <img src="images/PC_QI_Received.png" height="60%" width="60%"/>
@@ -362,7 +362,7 @@ Once the Quality Investigation request is sent, the suppliers (within the networ
 
 <br>
 
-On the requester side, it will be shown in the on the Quality Investigations page on the "Requested" list and no more changes are allowed.
+On the requester side, it will be shown on the Quality Investigations page on the "Requested" list and no more changes are allowed.
 
 <img src="images/PC_QI-Requested.png" height="60%" width="60%"/>
 
@@ -375,23 +375,23 @@ On the requester side, it will be shown in the on the Quality Investigations pag
 <br>
 <br>
 
-## Raise quality alert from quality investigation
+## Raise quality alert from the quality investigation
 
-To raise a Quality Alert from a Quality Investigation, on the Investigation details page, select the part(s) and click on "Change quality type" button
+To raise a Quality Alert from a Quality Investigation, on the Investigation details page, select the part(s) and click on the "Change quality type" button
 
 <img src="images/PC_QI_QAfromQI.png" height="60%" width="60%"/>
 
 <br>
 
-Choose the quality type for the part (Minor Issue, Major issue, Critical issue or Life-Threatning issue) and enter a discription
+Choose the quality type for the part (Minor Issue, Major issue, Critical issue or Life-Threatening issue) and enter a description
 
 <img src="images/PC_QI_QAfromQI02.png" height="60%" width="60%"/>
 
 <br>
 
-By clicking on "Add to Queue" the quality type change will be added to the list of Queued Quality Alerts that pending distribuition to customers. Only after being distributed to customers will the Quality type of the part effectively change.
+By clicking on "Add to Queue" the quality type change will be added to the list of Queued Quality Alerts that are pending distribution to customers. Only after being distributed to customers will the Quality type of the part effectively change.
 
-To distribute it, follow the steps on the section [Distribute quality alerts to customers](#distribute-quality-alerts-to-customers)
+To distribute it, follow the steps in the section [Distribute quality alerts to customers](#distribute-quality-alerts-to-customers)
 
 
 <br>
@@ -403,9 +403,9 @@ To distribute it, follow the steps on the section [Distribute quality alerts to 
 <br>
 
 
-## Raise quality investigation from quality investigation
+## Raise quality investigation from the quality investigation
 
-To raise a Quality Investigation from a Quality Investigation, on the Investigation details page, view your part's child parts by clicking on the arrow next to thePart Name,  select the child part(s) and click on "Request Quality Investigation" button.
+To raise a Quality Investigation from a Quality Investigation, on the Investigation details page, view your part's child parts by clicking on the arrow next to thePart Name,  select the child part(s) and click on the "Request Quality Investigation" button.
 
 <img src="images/PC_QI-QIfromQI.png" height="60%" width="60%"/> 
 
@@ -417,12 +417,12 @@ Enter a description and click "Add to Queue"
 
 <br>
 
-By clicking on "Add to Queue" the quality type change will be added to the list of Queued Quality Investigation that pending distribuition to suppliers. Only after being distributed to suppliers will the Quality investigation request be effectively sent.
+By clicking on "Add to Queue" the quality type change will be added to the list of Queued Quality Investigation that pending distribution to suppliers. Only after being distributed to suppliers will the Quality investigation request be effectively sent.
 
 
 <br>
 
-To sent it to the suppliers, follow the steps on the section [Send Quality Investigation to supplier](#send-quality-investigation-to-supplier)
+To send it to the suppliers, follow the steps in the section [Send Quality Investigation to supplier](#send-quality-investigation-to-supplier)
 
 
 <br>
@@ -435,7 +435,7 @@ To sent it to the suppliers, follow the steps on the section [Send Quality Inves
 
 ## Access control
 
-In the Access Control page, it is possible to manage your network,regarding which companies you'll be sharing your information. You can request access to a company, manage pending requests from companies, see the active connections and remove the access to those companies.
+On the Access Control page, it is possible to manage your network, regarding which companies you'll be sharing your information with. You can request access to a company, manage pending requests from companies, see the active connections and remove the access to those companies.
 
 <img src="images/PC_AccessControl.png" height="60%" width="60%"/>
 
