@@ -4,7 +4,7 @@ plugins {
     java
 }
 
-group = "com.daimler.traceability"
+group = "net.catenax.traceability"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -28,7 +28,7 @@ val mapstructVersion = "1.4.2.Final"
 val lombokMapstructBindingVersion = "0.2.0"
 
 dependencies {
-//    development/test dependencies
+    // development dependecies
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -37,20 +37,8 @@ dependencies {
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
+    // test dependencies
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-
-// discuss if we want remove some of the dependencies below
-    implementation("io.swagger:swagger-annotations:$swaggerAnnotationsVersion")
-    implementation("com.google.code.findbugs:jsr305:$jsr305Version")
-
-    implementation("org.mapstruct:mapstruct:$mapstructVersion")
-    annotationProcessor("org.mapstruct:mapstruct-processor:$mapstructVersion")
-    annotationProcessor("org.projectlombok:lombok-mapstruct-binding:$lombokMapstructBindingVersion")
-
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
-
-
 }
 
 tasks {
