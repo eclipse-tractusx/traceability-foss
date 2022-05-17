@@ -22,14 +22,14 @@ Try your best to apply the single responsibility principle (SRP) to all componen
 
 This helps make the app cleaner, easier to read, maintainable and more testable.
 
-Classes should be named upper camel case follow by the specific suffix.
+Classes should be named upper camel case followed by the specific suffix.
 Depending on the usage of components, services and so on.
 
 For example: `AssetListComponent` or `AssetService`.
 
-Properties and methods should be lower camel case.
+Properties and methods should be lower camel cases.
 
-The properties must be at the top of your component, and the public properties should come first followed by the private ones. This rule is also applicable for methods.
+The properties must be at the top of your component, and the public properties should come first followed by the private ones. This rule is also applicable to methods.
 
 Common component structure:
 
@@ -61,7 +61,7 @@ RxJS is a library for composing asynchronous and event-based programs by using o
 
 > Think of RxJS as Lodash for events - this is the statement you find on the rxjs website.
 
-A great use case is when you have to manage api requests, since it could return an observable.
+A great use case is when you have to manage API requests since it could return an observable.
 
 RXJS has a great arsenal of operators which might be handy.
 
@@ -88,7 +88,7 @@ Whenever possible, we want to use a functional programming approach using pre-de
 
 All developers should familiarize themselves with the methods offered by [Lodash](https://www.lodash.com).
 
-Here the minimal Lodash arsenal to be aware of:
+Here is the minimal Lodash arsenal to be aware of:
 
 - `intersection` & `intersectionWith`
 - `union` & `unionWith`
@@ -107,9 +107,9 @@ Here the minimal Lodash arsenal to be aware of:
 
 Learn about the difference between Vanilla JS `filter`/`map`/`reduce`/etc. and Lodash `filter`/`map`/`reduce`/etc.
 
-For example: You can use Lodash's versions not just on arrays but also on objects. This makes the use of combinations of `.map` and `.filter` with `Object.entries`, `Object.values`, and `Object.keys` obsolete and makes code shorter and more readable.
+For example, you can use Lodash's versions not just on arrays but also on objects. This makes the use of combinations of `.map` and `.filter` with `Object.entries`, `Object.values`, and `Object.keys` obsolete and makes code shorter and more readable.
 
-> **Note:** Keep in mind, if you need to use this types of utility methods with observables, rxjs is there for you.
+> **Note:** Keep in mind, that if you need to use this type of utility method with observables, rxjs is there for you.
 
 ### Interface and Type Names
 
@@ -151,13 +151,13 @@ Things like:
 - [Never and Unknown Types](https://blog.logrocket.com/when-to-use-never-and-unknown-in-typescript-5e4d6c5799ad/)
 - ...
 
-> **Note:** Avoid the any type.
+> **Note:** Avoid the "any" type.
 
 ## Styling
 
 ### Naming HTML Classes
 
-To ensure a homogeneous nomenclature of the html classes we adopted the BEM methodology;
+To ensure a homogeneous nomenclature of the HTML classes we adopted the BEM methodology;
 
 Some old code might not be compliant with this practice, but try to follow this pattern in future developments.
 
@@ -166,17 +166,17 @@ Please read the [docs](http://getbem.com/naming/);
 ### CSS Framework
 
 We use [tailwind css](https://tailwindcss.com/docs) to style our app.
-Tailwind is a utility-first css framework which comes with a lot of built-in css classes.
+Tailwind is a utility-first CSS framework which comes with a lot of built-in CSS classes.
 
 Tailwind is well documented, but you could also check this cheat sheet [here](https://github.com/LeCoupa/awesome-cheatsheets/blob/master/frontend/tailwind.css), if you prefer.
 
 Tailwind is highly customizable so, if you intend to add any specific configurations, you should do it on the `tailwind config` file.
 
-Any global css must be added to the layer base on the `base.scss` file.
+Any global CSS must be added to the layer base on the `base.scss` file.
 
-Tailwind makes the process of styling easy by providing classes ready to be integrated on the html.
+Tailwind makes the process of styling easy by providing classes ready to be integrated into the HTML.
 
-To avoid any unnecessary "noise" on the html pages, we suggest applying those styles on the scss files.
+To avoid any unnecessary "noise" on the HTML pages, we suggest applying those styles to the SCSS files.
 
 E.g:
 
@@ -208,7 +208,7 @@ We are using [stylelint](https://stylelint.io/) for css validation.
 }
 ```
 
-You might find some css warnings on vscode. To disable those, you must configure vscode settings.json with the following:
+You might find some CSS warnings on vscode. To disable those, you must configure vscode settings.json with the following:
 
 ```json
 {
@@ -222,16 +222,16 @@ This prevents the default linter from validating the css.
 
 ### Icons
 
-We are using [remixicon](https://remixicon.com/), an open source library with a set of neutral-style symbols.
+We are using [remixicon](https://remixicon.com/), an open-source library with a set of neutral-style symbols.
 
 With the help of [ngneat](https://github.com/ngneat/svg-icon) all of those icons are converted to typescript.
 
-If you intend to add more icons, please make sure you add them on the svg folder @`src/assets/svg`.
+If you intend to add more icons, please make sure you add them to the svg folder @`src/assets/svg`.
 This enables us to convert all svg icons into typescript types by running the command:
 
 - `npm run generate-icons`
 
-The configuration for this script is available on the package json.
+The configuration for this script is available on the package JSON.
 
 ##### package.json
 
@@ -259,7 +259,7 @@ The configuration for this script is available on the package json.
 
 All the icons must be imported to the shared-icons-module icons array, available on the app shared folder.
 
-Keep in mind that to use the icons, you must import the icons array as a child of `SvgIconsModule` and attach it to the desirable module.
+Keep in mind that to use the icons, you must import the icons array as a child of `SvgIconsModule` and attach it to the desired module.
 
 E.g:
 
@@ -303,7 +303,7 @@ To verify and adjust the format of each document, run the command:
 
 ### Git hooks
 
-In order to ensure that all code is in sync with the rules mentioned above, we've implemented some git hooks using the husky library.
+To ensure that all code is in sync with the rules mentioned above, we've implemented some git hooks using the husky library.
 
 ```json
   "husky": {

@@ -1,15 +1,15 @@
 ## Authentication
 
-The user authentication is manage by keycloak and each organization has its own realm.
+The user authentication is managed by keycloak and each organization has its own realm.
 
-The app supports multi tenancy authentication, so a realm must be specified on the url.
+The app supports multi tenancy-authentication, so a realm must be specified on the URL.
 
 ```bash
 http://localhost:4200/${REALM}
 ```
 
-In the app module there is a function which is executed during the app bootstrap. 
-That function retrieves the realm provided on the url, which is used to set up the Keycloak configurations.
+In the app module, there is a function which is executed during the app bootstrap. 
+That function retrieves the realm provided on the URL, which is used to set up the Keycloak configurations.
 
 ### App module provider
 
@@ -38,7 +38,7 @@ That function retrieves the realm provided on the url, which is used to set up t
     });
 ````
 
-If multi tenancy is disabled, the default realm is considered. 
+If multi-tenancy is disabled, the default realm is considered. 
 Those configurations are retrieved from the environment variables.
 
 ````typescript
@@ -61,4 +61,4 @@ ui:
     agentpool: application
 ````
 
-When a user navigates to that url, the realm is mapped with the urls company name.
+When a user navigates to that URL, the realm is mapped with the URL's company name.

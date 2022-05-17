@@ -4,7 +4,7 @@ Modular design in Angular is the act of installing a particular separation of co
 
 Modular code is essentially the ability to arrange information in a categorical way that makes sense for the size of your application.
 
-This is the basic idea on how our modules are separated.
+This is the basic idea of how our modules are separated.
 
 <img alt="Modular design" src="images/modular_design.png">
 
@@ -27,11 +27,11 @@ Don't forget to import the `Shared Module` to enable the use of any reusable con
 
 ## Lazy loading
 
-Components routing and rendering should not be controlled through ngIf and flags, only when really necessary. Angular routing should be used.
+Components routing and rendering should not be controlled through ngIf and flags, only when necessary. Angular routing should be used.
 
 The routes are defined in `routing-modules` and should be distributed into feature modules to enable lazy loading.
 
-The `Layout Module` has all the ui pages which were imported from its routing file.
+The `Layout Module` has all the UI pages which were imported from its routing file.
 
 ```typescript
 const routes: Routes = [
@@ -46,7 +46,7 @@ const routes: Routes = [
 
 ## High-level abstraction layers
 
-The system is decomposed in three different layers. The idea is to place proper responsibility into the proper layer of the system:
+The system is decomposed into three different layers. The idea is to place proper responsibility into the proper layer of the system:
 
 - Core layer
 - Abstraction layer
@@ -58,21 +58,21 @@ This division of the system also dictates communication rules. For example, the 
 
 ### Presentation layer
 
-The only responsibilities of this layer is to present and delegate.
+The only responsibilities of this layer are to present and delegate.
 
-It knows what to display and what to do, but it does not know how user’s interactions should be handled.
+It knows what to display and what to do, but it does not know how user interactions should be handled.
 
 That logic is dispatched to the core layer.
 
 ### Abstraction layer
 
-This layer exposes the streams of state and interface for the components in the presentation layer.
+This layer exposes the streams of state and interfaces for the components in the presentation layer.
 
 The abstraction layer is not a place to implement business logic.
 
 This is a bridge of connection between the presentation, and the core layer.
 
-This way we're abstraction all the api requests and eventual state requests from the components.
+This way we're abstraction all the API requests and eventual state requests from the components.
 
 This facade should be responsible for receiving data from services, and for storing those newly values in our state.
 
@@ -91,7 +91,7 @@ public setAcls(): void {
 }
 ```
 
-The facade should also notify the presentation layer with any state updates.
+The facade should also notify the presentation layer of any state updates.
 
 ```typescript
 get acls$(): Observable<View<Acl[]>> {
@@ -105,7 +105,7 @@ Components are given observables with data to display on the template and don’
 
 All data manipulation and outside world communication happen here.
 
-You should consider having this three files:
+You should consider having these three files:
 
 - \*.assembler.ts
 - \*.service.ts
@@ -113,13 +113,13 @@ You should consider having this three files:
 
 The `services` should be responsible for any outside world communication.
 
-Typically, they have all the api requests. You could also use services to store any helper method which you might need.
+Typically, they have all the API requests. You could also use services to store any helper method which you might need.
 
 This is the layer where we manage our data `states`.
 
 > **Note:** `RXJS` is the solution used for state management on this application.
 
-Make sure you create any state by using the generic class located on the shared folder (/model/state.ts).
+Make sure you create any state by using the generic class located in the shared folder (/model/state.ts).
 Feel free to update that class if new methods are needed
 
 Example of a state:
@@ -130,7 +130,7 @@ private readonly acls$: State<View<Acl[]>> = new State<View<Acl[]>>({ loader: tr
 
 If your states require some extended data manipulation, you should decouple the code on the `assembler` static class.
 
-In this example, we had to "transform" the data received from the api, so we extracted that logic.
+In this example, we had to "transform" the data received from the API, so we extracted that logic.
 
 #### State
 
@@ -168,7 +168,7 @@ To ease up some common application states, we've implemented the view selector p
 
 The view state selector pattern binds the component state with the corresponding template.
 
-In our case every component state depends on data received by our state management solution.
+In our case, every component state depends on data received by our state management solution.
 It will start with a loading state that results in injecting the loader,
 then depending on the resolved state (error or success) it will switch to the main or error view.
 
@@ -217,8 +217,8 @@ For managing the logic we choose a directive approach, where we inject the templ
 
 ## Smart and dumb components pattern
 
-Within the presentation layer we break the page into chunks, which helps us manage your page in a very flexible way by encapsulating
-all the styles, markups, and business logic into each individual Component, and then you merge them to build your app.
+Within the presentation layer, we break the page into chunks, which helps us manage your page in a very flexible way by encapsulating
+all the styles, markups, and business logic into each Component, and then you merge them to build your app.
 
 There are two types or rather concepts of components.
 
@@ -232,15 +232,15 @@ There are two types or rather concepts of components.
 
 ### Dumb components
 
-- Present ui elements
+- Present UI elements
 - Delegate interaction up to the smart components via events
 
-With this approach we can take advantage of angular change detection. In dumb components instead of using a default detection strategy, we could use an on push strategy
+With this approach, we can take advantage of angular change detection. In dumb components instead of using a default detection strategy, we could use an on push strategy
 
-The default strategy assume anything about the app, which means every time something changes, as a result of various user events, times, promises, etc.., a change detection will run on all components.
+The default strategy assumes anything about the app, which means every time something changes, as a result of various user events, times, promises, etc.., a change detection will run on all components.
 This means anything from a click event to data received from an ajax call causes the change detection to be triggered.
 
-On the other hand, the on push strategy, only depends on "@inputs()" and needs to be checked by the following cases:
+On the other hand, the on push strategy only depends on "@inputs()" and needs to be checked by the following cases:
 
 - Input reference changes
 - Events originated from the component or one of its children
@@ -251,12 +251,12 @@ On the other hand, the on push strategy, only depends on "@inputs()" and needs t
 <img alt="Unidirectional Data Flow" src="images/data_flow.png">
 
 We intend to impose a similar restriction on the application layer as angular uses on the presentation layer (via input binding).
-Whenever there's a change on the model, angular will detect it and propagated it.
+Whenever there's a change in the model, angular will detect it and propagated it.
 Child components can only depend on its parent and never the other way around.
 This allows Angular to traverse the components tree only once (as there are no cycles in the tree structure) to achieve a stable table,
 which means that every value in the bindings is propagated.
 
 The state can be propagated to multiple components and displayed in multiple places, but never modified locally.
 The change may come only "from above" and the components below only reflect the current state of the system.
-This gives us the important system's property mentioned before - data consistency - and the state object becomes the single source of truth.
+This gives us the important system property mentioned before - data consistency - and the state object becomes the single source of truth.
 We can display the same data in multiple places and not be afraid that the values would differ.

@@ -6,7 +6,7 @@
 
 </div>
 
-<h2>Trace-FOSS is system for tracking parts along the supply chain.</h2>
+<h2>Trace-FOSS is a system for tracking parts along the supply chain.</h2>
 <h4>A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain.
 This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.</h4>
 
@@ -16,7 +16,7 @@ This application serves as a user entry point to the Catena-X network.
 
 It's written in Typescript based on Angular framework.
 
-Source files are expose statically through the NGINX web server.
+Source files are exposed statically through the NGINX web server.
 
 ## Getting started
 
@@ -29,12 +29,12 @@ $ cd product-traceability-foss-frontend
 
 ## Configurations
 
-If you're using angular for the first time, run `npm install -g @angular/cli` to install the angular command line interface.
+If you're using angular for the first time, run `npm install -g @angular/cli` to install the angular command-line interface.
 
-This project was generate with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6.
 
 Angular CLI is the official tool for initializing and working with Angular projects. 
-It saves you from the hassle of complex configurations and build tools like TypeScript, Webpack, and so on.
+It saves you from the hassle of complex configurations and building tools like TypeScript, Webpack, and so on.
 
 After installing Angular CLI, you'll need to run one command to generate a project and another to serve it using a local development server to play with your application.
 
@@ -46,7 +46,7 @@ Please find [here](docs/authentication.md) some important information about the 
 
 ## Application architecture & patterns
 
-This [architecture](docs/architecture.md) gives you a roadmap and best practices to follow when building an application, 
+This [architecture](docs/architecture.md) gives you a roadmap and best practices to follow when building an application 
 so that you end up with a well-structured app.
 
 ## Angular security best practices
@@ -61,7 +61,7 @@ New and old developers should regularly review this [guide](docs/guidelines.md) 
 
 ## User guide
 
-A detailed [explanation](docs/user-guide.md) about how to use the application.
+A detailed [explanation](docs/user-guide.md) of how to use the application.
 
 ## Bonus: VSCode extensions
 

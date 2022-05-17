@@ -17,7 +17,7 @@ Command reference [here](https://angular.io/cli/serve).
 ### Code scaffolding
 
 Run `ng generate [artifact] [artifact-name]` to generate and/or modify files based on a schematic.
-There are several Angular artifacts which you can generate:
+There are several Angular artefacts which you can generate:
 
 
  - component
@@ -57,9 +57,9 @@ You can find more information about the content in the official documentation [h
 
 In Trace-FOSS we build apps with different configurations depending on the stage (dev, stage).
 
-These configurations must be declared in the angular json file, and you can define them in the `/environments` directory.
+These configurations must be declared in the angular JSON file, and you can define them in the `/environments` directory.
 
-Then, on the file replacements array, you can replace the url with the corresponding environment file.
+Then, on the file replacements array, you can replace the URL with the corresponding environment file.
 
 ### angular.json
 ```json
@@ -127,7 +127,7 @@ export const environment = {
 ## Builder
 The architect section of angular.json contains a set of Architect targets. 
 Many of the targets correspond to the CLI commands that run them. 
-Some additional predefined targets can be run using the ng run command, and you can define your own targets.
+Some additional predefined targets can be run using the ng run command, and you can define your targets.
 
 Each target object specifies the builder for that target, which is the npm package for the tool that Architect runs. 
 
@@ -136,9 +136,9 @@ and a configuration section that names and specifies alternative configurations 
 
 You can find more information [here](https://angular.io/guide/cli-builder).
 
-The default builder for an application is `@angular-devkit/build-angular:browser` which uses webpack package bundler but since the current angular version doesn't support the css library Tailwind, a custom builder was necessary.
+The default builder for an application is `@angular-devkit/build-angular:browser` which uses a webpack package bundler but since the current angular version doesn't support the CSS library Tailwind, a custom builder was necessary.
 
-### Angular json builder
+### Angular JSON builder
 ```json
 {
   "serve": {
@@ -184,13 +184,13 @@ module.exports = {
 };
 ```
 
-From the version 11.2 onwards Tailwind is already supported.
+From version 11.2 onwards Tailwind is already supported.
 
 ## Build
 
 The angular app is built into Docker containers and exposed through NGINX
 
-It is important to specify the type of configuration profile, previous defined in the angular json file, so it can pull the correct environment variables.
+It is important to specify the type of configuration profile, previously defined in the angular JSON file, so it can pull the correct environment variables.
 
 #### Build config
 
@@ -215,7 +215,7 @@ It is important to specify the type of configuration profile, previous defined i
 
 The app is deployed on an AWS EKS instance.
 
-For each stage there are different account configurations available on the `/config` directory.
+For each stage, there are different account configurations available on the `/config` directory.
 
 ### Account configuration
 
@@ -237,7 +237,7 @@ if [[ "${ENVIRONMENT}" ]]; then
     export PROFILE
     echo 'ANGULAR PROFILE:' $PROFILE
 
-    # In case of critical security issue on the docker image delete it
+    # In case of a critical security issue on the docker image delete it
     readonly DELETE_ON_FAILURE="No"
     export DELETE_ON_FAILURE
 
