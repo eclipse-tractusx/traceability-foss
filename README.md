@@ -1,3 +1,5 @@
+![Veracode Workflow](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/veracode.yml/badge.svg)
+![Tests Workflow](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/test.yml/badge.svg)
 <div style="display: flex; justify-items: center;">
 
 ![Alt text](src/assets/images/catena-x.svg?raw=true 'Catena-x')
