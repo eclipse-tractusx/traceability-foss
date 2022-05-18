@@ -1,6 +1,6 @@
    
 apiVersion: v2
-name: product-traceability-foss-backend
+name: product-traceability-foss-frontend
 description: A Helm chart for Traceability backend application
 
 # A chart can be either an 'application' or a 'library' chart.
@@ -23,5 +23,3 @@ version: 0.1.0
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 appVersion: "0.1.0"
-
-
