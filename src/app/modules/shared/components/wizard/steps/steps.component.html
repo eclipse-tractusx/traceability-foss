@@ -14,7 +14,7 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
 <div class="form-steps-container">
@@ -33,7 +33,7 @@ under the License.
         {{ step.stepIndex }}
       </div>
       <ng-template #complete>
-        <svg-icon class="mt-0.5" key="checkbox-circle-fill" color="#3db014" size="md"></svg-icon>
+        <mat-icon class="mt-0.5 step--icon">check_circle</mat-icon>
       </ng-template>
       <div class="flex flex-col ml-2" [ngClass]="{ 'mt-2': !step.isOptional }">
         <p class="regular-text">{{ step.label }}</p>

@@ -14,7 +14,7 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
 <app-header title="{{ this.title }}"></app-header>
@@ -31,15 +31,15 @@ under the License.
     </ng-container>
 
     <ng-template #numberOfPartsMainTmp let-numberOfParts="view">
-      <app-card [id]="1" [label]="'Total of parts'" [icon]="'ic-car-v-2'" [stats]="numberOfParts?.data"></app-card>
+      <app-card [id]="1" [label]="'Total of parts'" [icon]="'directions_car'" [stats]="numberOfParts?.data"></app-card>
     </ng-template>
 
     <ng-template #numberOfPartsErrorTmp let-numberOfParts="view">
-      <app-card [id]="1" [label]="'Total of parts'" [icon]="'ic-car-v-2'" [stats]="0"></app-card>
+      <app-card [id]="1" [label]="'Total of parts'" [icon]="'directions_car'" [stats]="0"></app-card>
     </ng-template>
 
     <ng-template #numberOfPartsLoaderTmp let-numberOfParts="view">
-      <app-card [id]="1" [label]="'Total of parts'" [icon]="'ic-car-v-2'" [stats]="''"></app-card>
+      <app-card [id]="1" [label]="'Total of parts'" [icon]="'directions_car'" [stats]="''"></app-card>
     </ng-template>
   </section>
 </div>

@@ -28,6 +28,6 @@ export class ResizerComponent {
   @Input() expanded: boolean;
 
   get icon(): string {
-    return this.expanded ? 'arrow-left-s-fill' : 'arrow-right-s-fill';
+    return this.expanded ? 'keyboard_arrow_left' : 'keyboard_arrow_right';
   }
 }

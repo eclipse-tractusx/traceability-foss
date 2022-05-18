@@ -19,8 +19,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SvgIconsModule } from '@ngneat/svg-icon';
-import { icons, SharedModule, TemplateModule } from '@shared';
+import { SharedModule, TemplateModule } from '@shared';
 import { DashboardFacade } from './abstraction/dashboard.facade';
 import { DashboardService } from './core/dashboard.service';
 import { DashboardState } from './core/dashboard.state';
@@ -39,7 +38,7 @@ import { ReceivedAlertEmptyStateComponent } from './presentation/received-alert-
     AlertDonutChartComponent,
     HistogramChartComponent,
   ],
-  imports: [CommonModule, TemplateModule, SharedModule, SvgIconsModule.forChild(icons), DashboardRoutingModule],
+  imports: [CommonModule, TemplateModule, SharedModule, DashboardRoutingModule],
   providers: [DashboardService, DashboardFacade, DashboardState],
 })
 export class DashboardModule {}

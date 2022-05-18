@@ -14,7 +14,7 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
 <button
@@ -29,23 +29,15 @@ under the License.
   }"
   class="button__container"
 >
-  <div
-    class="w-full relative"
-    [ngClass]="{
-      'icon-right': !this.isRoot()
-    }"
-  >
+  <div class="w-full relative" [class.icon-right]="!this.isRoot()">
     <ng-content></ng-content>
     <ng-container *ngIf="!this.isRoot()">
-      <svg-icon
+      <mat-icon
         class="arrow-icon"
-        key="{{ this.getExpandedIcon() }}"
-        size="sm"
-        [ngClass]="{
-          'text-white': this.button === 'primary',
-          'text-tundora': this.button === 'secondary'
-        }"
-      ></svg-icon>
+        [class.text-white]="this.button === 'primary'"
+        [class.text-tundora]="this.button === 'secondary'"
+        >{{ this.getExpandedIcon() }}</mat-icon
+      >
     </ng-container>
   </div>
 </button>

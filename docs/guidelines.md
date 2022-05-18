@@ -3,6 +3,7 @@
 We follow the recommended guidelines from the [angular framework](https://angular.io/guide/styleguide).
 
 ## Commit Convention
+
 The project uses a slightly modified version of the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) with some minor changes regarding the name of the types. Furthermore, each commit should contain the Jira issue ID within the body. The following types are used to categorize commits:
 
 - `chr:` Chore
@@ -222,55 +223,9 @@ This prevents the default linter from validating the css.
 
 ### Icons
 
-We are using [remixicon](https://remixicon.com/), an open-source library with a set of neutral-style symbols.
+We use the open source icons from [Material Icons](https://fonts.google.com/icons?query=Material+Icon).
 
-With the help of [ngneat](https://github.com/ngneat/svg-icon) all of those icons are converted to typescript.
-
-If you intend to add more icons, please make sure you add them to the svg folder @`src/assets/svg`.
-This enables us to convert all svg icons into typescript types by running the command:
-
-- `npm run generate-icons`
-
-The configuration for this script is available on the package JSON.
-
-##### package.json
-
-```json
-{
-  "svg-to-ts": {
-    "generateType": "false",
-    "delimiter": "KEBAB",
-    "conversionType": "files",
-    "iconsFolderName": "svg",
-    "prefix": "app",
-    "srcFiles": ["./src/assets/svg/*.svg"],
-    "outputDirectory": "./src/app",
-    "svgoConfig": {
-      "plugins": [
-        {
-          "removeDimensions": true,
-          "cleanupAttrs": true
-        }
-      ]
-    }
-  }
-}
-```
-
-All the icons must be imported to the shared-icons-module icons array, available on the app shared folder.
-
-Keep in mind that to use the icons, you must import the icons array as a child of `SvgIconsModule` and attach it to the desired module.
-
-E.g:
-
-```typescript
-import { icons } from './shared/shared-icons.module';
-@NgModule({
-imports: [
-  SvgIconsModule.forChild(icons),
-]
-})
-```
+With the help of [Icon | Angular material](https://material.angular.io/components/icon/overview) we display these icons in the application.
 
 ### EsLint
 

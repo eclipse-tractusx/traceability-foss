@@ -23,7 +23,11 @@
               "chart.js",
               "probe.gl/env",
               "@babel/runtime/regenerator",
-              "hammerjs"
+              "hammerjs",
+              "@mswjs/cookies",
+              "@mswjs/interceptors",
+              "@mswjs/interceptors/lib/interceptors/XMLHttpRequest",
+              "@mswjs/interceptors/lib/interceptors/fetch"
             ],
             "customWebpackConfig": {
               "path": "./webpack.config.js",

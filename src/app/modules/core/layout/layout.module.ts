@@ -19,18 +19,15 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SvgIconsModule } from '@ngneat/svg-icon';
-import { icons } from '../../shared/shared-icons.module';
-import { SharedModule } from '../../shared/shared.module';
-import { TemplateModule } from '../../shared/template.module';
+import { SharedModule, TemplateModule } from '@shared';
 import { FooterComponent } from './footer/footer.component';
 import { LayoutRoutingModule } from './layout.routing';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { PrivateLayoutComponent } from './private-layout/private-layout.component';
 import { ResizerComponent } from './resizer/resizer.component';
+import { SidebarSectionComponent } from './sidebar/sidebar-section/sidebar-section.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
-import { SidebarSectionComponent } from './sidebar/sidebar-section/sidebar-section.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +39,6 @@ import { SidebarSectionComponent } from './sidebar/sidebar-section/sidebar-secti
     SpinnerOverlayComponent,
     SidebarSectionComponent,
   ],
-  imports: [CommonModule, LayoutRoutingModule, TemplateModule, SharedModule, SvgIconsModule.forChild(icons)],
+  imports: [CommonModule, LayoutRoutingModule, TemplateModule, SharedModule],
 })
 export class LayoutModule {}

@@ -14,43 +14,7 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
-<footer
-  class="footer notExpanded"
-  [ngClass]="{
-    expanded: this.isExpanded$ | async
-  }"
-  *ngIf="
-    (this.isOpen$ | async) &&
-    ((this.queuedQualityAlerts$ | async) !== 0 || (this.queuedQualityInvestigations$ | async) !== 0)
-  "
->
-  <section class="footer__content">
-    <p class="regular-text mt-2">
-      <strong class="font-bold">Pending distribution: </strong>
-      <ng-container *ngIf="(this.queuedQualityAlerts$ | async) !== 0">
-        <svg-icon class="icon" size="xs" key="alarm-warning-line"> </svg-icon>
-        <a (click)="this.navigateToQueuedQualityAlerts()">Quality alerts</a> on
-        {{ this.queuedQualityAlerts$ | async }} part<ng-container *ngIf="(this.queuedQualityAlerts$ | async) !== 1"
-          >s</ng-container
-        >
-      </ng-container>
-      <ng-container
-        *ngIf="(this.queuedQualityAlerts$ | async) !== 0 && (this.queuedQualityInvestigations$ | async) !== 0"
-        >;
-      </ng-container>
-      <ng-container *ngIf="(this.queuedQualityInvestigations$ | async) !== 0">
-        <svg-icon class="icon" size="xs" key="file-search-line"> </svg-icon>
-        <a (click)="this.navigateToQueuedQualityInvestigations()">Quality investigations</a> with
-        {{ this.queuedQualityInvestigations$ | async }} supplier part<ng-container
-          *ngIf="(this.queuedQualityInvestigations$ | async) !== 1"
-          >s</ng-container
-        >
-      </ng-container>
-    </p>
-    <svg-icon key="close-fill" size="xs" class="text-tundora cursor-pointer mt-1" (click)="this.closeNotification()">
-    </svg-icon>
-  </section>
-</footer>
+<footer></footer>

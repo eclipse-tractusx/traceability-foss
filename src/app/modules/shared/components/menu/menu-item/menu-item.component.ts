@@ -88,7 +88,7 @@ export class MenuItemComponent implements OnDestroy {
   }
 
   public getExpandedIcon(): string {
-    return this.isExpanded ? 'arrow-up-s-fill' : 'arrow-down-s-fill';
+    return this.isExpanded ? 'keyboard_arrow_up' : 'keyboard_arrow_down';
   }
 
   private isLeaf(): boolean {

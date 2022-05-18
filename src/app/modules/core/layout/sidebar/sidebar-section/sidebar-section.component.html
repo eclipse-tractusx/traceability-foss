@@ -14,17 +14,13 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
 <section class="sidebar-menu-container__item" (click)="this.click.emit()" [class.active]="this.isActive">
-  <svg-icon
-    [tooltip]="this.name"
-    [class.item-active]="this.isActive"
-    appTooltip
-    class="mr-4"
-    [key]="this.iconName"
-  ></svg-icon>
+  <mat-icon [tooltip]="this.name" [class.item-active]="this.isActive" appTooltip class="item text-tundora">{{
+    this.iconName
+  }}</mat-icon>
   <p class="regular-text" [class.item-active]="this.isActive" [class.disable]="!this.isExpanded">
     <!-- ToDo: Use translation for correct display (this.name + 'title', 'tooltip', ...)-->
     {{ this.name }}
