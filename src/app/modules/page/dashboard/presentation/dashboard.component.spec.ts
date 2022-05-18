@@ -18,17 +18,35 @@
  */
 
 import { screen } from '@testing-library/angular';
+import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardModule } from '../dashboard.module';
 
-describe('Dashboard', () => {
-  it('dummy test', async () => {
+describe.only('Dashboard', () => {
+  beforeAll(() => server.listen());
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.close());
+
+  it('should render header', async () => {
     await renderComponent(DashboardComponent, {
       imports: [DashboardModule],
     });
 
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
+  });
+
+  it('should render total of parts', async () => {
+    await renderComponent(DashboardComponent, {
+      imports: [DashboardModule],
+    });
+
+    expect(await screen.findByText('10')).toBeInTheDocument();
+
+    expect(screen.getByText('Total of parts')).toHaveAttribute(
+      'id',
+      screen.getByText('10').getAttribute('aria-describedby'),
+    );
   });
 });

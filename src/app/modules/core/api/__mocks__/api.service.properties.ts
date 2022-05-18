@@ -17,25 +17,6 @@
  * under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+export const realmLogo = './logo.png';
 
-@Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CardComponent {
-  private static nextId = 0;
-
-  static generateId() {
-    return CardComponent.nextId++;
-  }
-
-  @Input() id: number;
-  @Input() label: string;
-  @Input() stats: number | string;
-  @Input() icon: string;
-
-  readonly htmlId = 'app-card-' + CardComponent.generateId();
-}
+export const realm = 'mock';

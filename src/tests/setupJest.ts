@@ -24,6 +24,9 @@ import '@testing-library/jest-dom/extend-expect';
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
 
+// globally defined manual mocks
+jest.mock('../app/modules/core/api/api.service.properties');
+
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
   teardown: {
     destroyAfterEach: true,

@@ -17,25 +17,8 @@
  * under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { setupServer } from 'msw/node';
+import { assetHandlers, coreHandlers } from '../app/mocks/services';
 
-@Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CardComponent {
-  private static nextId = 0;
-
-  static generateId() {
-    return CardComponent.nextId++;
-  }
-
-  @Input() id: number;
-  @Input() label: string;
-  @Input() stats: number | string;
-  @Input() icon: string;
-
-  readonly htmlId = 'app-card-' + CardComponent.generateId();
-}
+const handlers = [...coreHandlers, ...assetHandlers];
+export const server = setupServer(...handlers);
