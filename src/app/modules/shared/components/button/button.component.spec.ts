@@ -28,10 +28,12 @@ describe('Button', () => {
       declarations: [ButtonComponent],
     });
 
-    expect(screen.getByText('Test')).toBeInTheDocument();
-    expect(screen.getByText('Test')).toHaveClass('mat-primary');
-    expect(screen.getByText('Test')).toHaveAttribute('mat-button');
-    expect(screen.getByText('Test')).toBeEnabled();
+    const buttonEl = screen.getByText('Test');
+
+    expect(buttonEl).toBeInTheDocument();
+    expect(buttonEl).toHaveClass('mat-primary');
+    expect(buttonEl).toHaveAttribute('mat-button');
+    expect(buttonEl).toBeEnabled();
   });
 
   it('should click regular button', async () => {
@@ -43,7 +45,9 @@ describe('Button', () => {
       },
     });
 
-    fireEvent.click(screen.getByText('Test'));
+    const buttonEl = screen.getByText('Test');
+
+    fireEvent.click(buttonEl);
 
     expect(clickHandler).toHaveBeenCalledWith(expect.objectContaining({ type: 'click' }));
   });
@@ -64,12 +68,25 @@ describe('Button', () => {
     expect(screen.getByText('Test')).toHaveClass('mat-warn');
   });
 
+  it('should render enabled button', async () => {
+    await renderComponent(`<app-button [isDisabled]="false" label="Test"></app-button>`, {
+      declarations: [ButtonComponent],
+    });
+
+    const buttonEl = screen.getByText('Test');
+
+    expect(buttonEl).toBeEnabled();
+    expect(buttonEl).not.toHaveAttribute('disabled');
+  });
+
   it('should render disabled button', async () => {
     await renderComponent(`<app-button [isDisabled]="true" label="Test"></app-button>`, {
       declarations: [ButtonComponent],
     });
 
-    expect(screen.getByText('Test')).toBeDisabled();
+    const buttonEl = screen.getByText('Test');
+
+    expect(buttonEl).toBeDisabled();
   });
 
   it('should render raised button', async () => {
@@ -77,7 +94,9 @@ describe('Button', () => {
       declarations: [ButtonComponent],
     });
 
-    expect(screen.getByText('Test')).toHaveAttribute('mat-raised-button');
+    const buttonEl = screen.getByText('Test');
+
+    expect(buttonEl).toHaveAttribute('mat-raised-button');
   });
 
   it('should render flat button', async () => {
@@ -85,7 +104,9 @@ describe('Button', () => {
       declarations: [ButtonComponent],
     });
 
-    expect(screen.getByText('Test')).toHaveAttribute('mat-flat-button');
+    const buttonEl = screen.getByText('Test');
+
+    expect(buttonEl).toHaveAttribute('mat-flat-button');
   });
 
   it('should render stroked button', async () => {
@@ -93,7 +114,9 @@ describe('Button', () => {
       declarations: [ButtonComponent],
     });
 
-    expect(screen.getByText('Test')).toHaveAttribute('mat-stroked-button');
+    const buttonEl = screen.getByText('Test');
+
+    expect(buttonEl).toHaveAttribute('mat-stroked-button');
   });
 
   it('should render stroked button', async () => {
@@ -101,7 +124,9 @@ describe('Button', () => {
       declarations: [ButtonComponent],
     });
 
-    expect(screen.getByText('Test')).toHaveAttribute('mat-stroked-button');
+    const buttonEl = screen.getByText('Test');
+
+    expect(buttonEl).toHaveAttribute('mat-stroked-button');
   });
 
   it('should render icon button', async () => {
@@ -110,8 +135,11 @@ describe('Button', () => {
       imports: [MatIconModule],
     });
 
-    expect(screen.getByText('home')).toHaveClass('mat-icon');
-    expect(screen.getByText('Test')).toHaveAttribute('mat-icon-button');
+    const buttonEl = screen.getByText('Test');
+    const iconEl = screen.getByText('home');
+
+    expect(iconEl).toHaveClass('mat-icon');
+    expect(buttonEl).toHaveAttribute('mat-icon-button');
   });
 
   it('should render fab button', async () => {
@@ -120,8 +148,11 @@ describe('Button', () => {
       imports: [MatIconModule],
     });
 
-    expect(screen.getByText('home')).toHaveClass('mat-icon');
-    expect(screen.getByText('Test')).toHaveAttribute('mat-fab');
+    const buttonEl = screen.getByText('Test');
+    const iconEl = screen.getByText('home');
+
+    expect(iconEl).toHaveClass('mat-icon');
+    expect(buttonEl).toHaveAttribute('mat-fab');
   });
 
   it('should render mini fab button', async () => {
@@ -130,7 +161,10 @@ describe('Button', () => {
       imports: [MatIconModule],
     });
 
-    expect(screen.getByText('home')).toHaveClass('mat-icon');
-    expect(screen.getByText('Test')).toHaveAttribute('mat-mini-fab');
+    const buttonEl = screen.getByText('Test');
+    const iconEl = screen.getByText('home');
+
+    expect(iconEl).toHaveClass('mat-icon');
+    expect(buttonEl).toHaveAttribute('mat-mini-fab');
   });
 });
