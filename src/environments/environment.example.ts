@@ -27,5 +27,4 @@ export const environment = {
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   laapi: 'https://api.domain.tld/v1/',
   aems: 'https://api.aems.domain.tld/v1/',
-  mapBoxAccessToken: 'Enter mapBox access token here',
 };
