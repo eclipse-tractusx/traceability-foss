@@ -1,7 +1,7 @@
    
 apiVersion: v2
 name: product-traceability-foss-frontend
-description: A Helm chart for Traceability backend application
+description: A Helm chart for Traceability frontend application
 
 # A chart can be either an 'application' or a 'library' chart.
 #

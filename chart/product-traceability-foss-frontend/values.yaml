@@ -20,7 +20,8 @@ imagePullSecret:
 ##
 ## Existing image pull secret to use to obtain the container image
 ##
-imagePullSecrets: []
+imagePullSecrets:
+  - name: machineuser-pull-secret-ro
 
 nameOverride: "product-traceability-foss-frontend"
 fullnameOverride: "product-traceability-foss-frontend"
@@ -68,10 +69,10 @@ ingress:
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
-    - host: "traceability.int.demo.catena-x.net"
+    - host: "traceability-portal.int.demo.catena-x.net"
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls: [ ]
   #  - secretName: www-tls
   #    hosts:
