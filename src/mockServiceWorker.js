@@ -31,15 +31,15 @@ const INTEGRITY_CHECKSUM = '02f4ad4a2797f85668baf196e553d929';
 const bypassHeaderName = 'x-msw-bypass';
 const activeClientIds = new Set();
 
-self.addEventListener('install', function() {
+self.addEventListener('install', function () {
   return self.skipWaiting();
 });
 
-self.addEventListener('activate', async function(event) {
+self.addEventListener('activate', async function (event) {
   return self.clients.claim();
 });
 
-self.addEventListener('message', async function(event) {
+self.addEventListener('message', async function (event) {
   const clientId = event.source.id;
 
   if (!clientId || !self.clients) {
@@ -135,7 +135,7 @@ async function handleRequest(event, requestId) {
   // Ensure MSW is active and ready to handle the message, otherwise
   // this message will pend indefinitely.
   if (client && activeClientIds.has(client.id)) {
-    (async function() {
+    (async function () {
       const clonedResponse = response.clone();
       sendToClient(client, {
         type: 'RESPONSE',
@@ -253,7 +253,7 @@ This exception has been gracefully handled as a 500 response, however, it's stro
   return getOriginalResponse();
 }
 
-self.addEventListener('fetch', function(event) {
+self.addEventListener('fetch', function (event) {
   const { request } = event;
   const accept = request.headers.get('accept') || '';
 
@@ -343,7 +343,7 @@ function respondWithMock(clientMessage) {
 }
 
 function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0;
     const v = c == 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);

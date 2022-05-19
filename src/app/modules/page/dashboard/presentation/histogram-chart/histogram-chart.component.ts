@@ -109,9 +109,7 @@ export class HistogramChartComponent implements OnChanges {
     // Make sure not to do;
     //     d3.select('svg').remove();
     // That will clear all other SVG elements in the DOM
-    d3.select(this.chart.nativeElement)
-      .selectAll('svg')
-      .remove();
+    d3.select(this.chart.nativeElement).selectAll('svg').remove();
   }
 
   private defineStack(): void {
@@ -200,18 +198,9 @@ export class HistogramChartComponent implements OnChanges {
       .attr('transform', `translate(${this.margin.left},15)`)
       .classed('y axis', true)
       .attr('class', 'grid')
-      .call(
-        d3
-          .axisLeft(this.y)
-          .ticks(6)
-          .tickSize(-this.width),
-      );
+      .call(d3.axisLeft(this.y).ticks(6).tickSize(-this.width));
 
-    this.yAxis
-      .selectAll('.tick line')
-      .attr('stroke-dasharray', '7')
-      .attr('stroke', '#444')
-      .attr('opacity', '.2');
+    this.yAxis.selectAll('.tick line').attr('stroke-dasharray', '7').attr('stroke', '#444').attr('opacity', '.2');
 
     this.yAxis
       .selectAll('.tick text')
@@ -219,15 +208,9 @@ export class HistogramChartComponent implements OnChanges {
       .attr('font-size', '12')
       .attr('font-family', 'Roboto');
 
-    this.svg
-      .selectAll('.grid')
-      .selectAll('.domain')
-      .remove();
+    this.svg.selectAll('.grid').selectAll('.domain').remove();
 
-    this.xSvgContainer
-      .selectAll('.grid')
-      .selectAll('.domain')
-      .remove();
+    this.xSvgContainer.selectAll('.grid').selectAll('.domain').remove();
   }
 
   /**

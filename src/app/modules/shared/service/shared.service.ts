@@ -36,9 +36,7 @@ export class SharedService {
   }
 
   public getPastDays(amountOfDays: number): string {
-    return DateTime.local()
-      .minus({ days: amountOfDays })
-      .toISODate();
+    return DateTime.local().minus({ days: amountOfDays }).toISODate();
   }
 
   public formatDate(date: Date | string): string {

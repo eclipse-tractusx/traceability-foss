@@ -18,7 +18,7 @@
  */
 
 import { KeycloakService } from 'keycloak-angular';
-import { environment } from '../../../../environments/environment';
+import { environment } from '@env';
 
 export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean | void> {
   // Set default realm
@@ -31,16 +31,12 @@ export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean
       realm = matches[1];
 
       // Update the <base> href attribute
-      document
-        .getElementsByTagName('base')
-        .item(0)
-        .attributes.getNamedItem('href').value = environment.baseUrl + realm + '/';
+      document.getElementsByTagName('base').item(0).attributes.getNamedItem('href').value =
+        environment.baseUrl + realm + '/';
     } else {
       // Redirect user to the default realm page.
-      window.location.href = document
-        .getElementsByTagName('base')
-        .item(0)
-        .attributes.getNamedItem('href').value = environment.baseUrl + environment.defaultRealm + '/';
+      window.location.href = document.getElementsByTagName('base').item(0).attributes.getNamedItem('href').value =
+        environment.baseUrl + environment.defaultRealm + '/';
 
       return (): Promise<void> => Promise.resolve();
     }

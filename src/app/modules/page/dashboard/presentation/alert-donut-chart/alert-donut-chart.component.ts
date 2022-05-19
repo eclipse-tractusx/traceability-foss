@@ -221,9 +221,7 @@ export class AlertDonutChartComponent implements OnChanges {
     // Make sure not to do;
     //     d3.select('svg').remove();
     // That will clear all other SVG elements in the DOM
-    d3.select(this.chart.nativeElement)
-      .select('svg')
-      .remove();
+    d3.select(this.chart.nativeElement).select('svg').remove();
   }
 
   private calculatePercentage(total: number): string {
