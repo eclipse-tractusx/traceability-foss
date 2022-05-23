@@ -17,8 +17,21 @@
  * under the License.
  */
 
-import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { AuthService } from '@core/auth/auth.service';
+import { Part, PartsResponse } from '@page/parts/model/parts.model';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '@env';
 
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const worker = setupWorker(...handlers);
+@Injectable()
+export class PartsService {
+  private url = environment.apiUrl;
+
+  constructor(private apiService: ApiService) {}
+
+  public getParts(): Observable<Part[]> {
+    return this.apiService.get<PartsResponse>(`${this.url}/parts`).pipe(map(supplier => supplier.data));
+  }
+}

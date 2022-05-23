@@ -17,8 +17,11 @@
  * under the License.
  */
 
-import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
+import { rest } from 'msw';
+import { mockAssets } from './parts.model';
 
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const worker = setupWorker(...handlers);
+export const partsHandlers = [
+  rest.get('/api/v1/parts', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(mockAssets));
+  }),
+];

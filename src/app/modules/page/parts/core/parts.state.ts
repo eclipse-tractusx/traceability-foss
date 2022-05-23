@@ -17,8 +17,26 @@
  * under the License.
  */
 
-import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
+import { Injectable } from '@angular/core';
+import { Part } from '@page/parts/model/parts.model';
+import { State, View } from '@shared';
+import { Observable } from 'rxjs';
+import { PartsAssembler } from './parts.assembler';
 
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const worker = setupWorker(...handlers);
+@Injectable()
+export class PartsState {
+  private readonly _parts$: State<View<Part[]>> = new State<View<Part[]>>({ loader: true });
+
+  get parts$(): Observable<View<Part[]>> {
+    return this._parts$.observable;
+  }
+
+  set parts(parts: View<Part[]>) {
+    const partsView: View<Part[]> = {
+      data: parts.data && PartsAssembler.assembleParts(parts.data),
+      loader: parts.loader,
+      error: parts.error,
+    };
+    this._parts$.update(partsView);
+  }
+}

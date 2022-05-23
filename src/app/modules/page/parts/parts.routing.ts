@@ -17,24 +17,15 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { PartsComponent } from './presentation/parts.component';
 
-// https://indepth.dev/posts/1297/building-a-reusable-menu-component
-@Injectable({
-  providedIn: 'root',
+export /** @type {*} */
+const ABOUT_ROUTING: Routes = [{ path: '', pathMatch: 'full', component: PartsComponent }];
+
+@NgModule({
+  imports: [RouterModule.forChild(ABOUT_ROUTING)],
+  exports: [RouterModule],
 })
-export class MenuStateService {
-  public state$: Observable<void>;
-  public menuId = new BehaviorSubject<string>(null);
-
-  private state = new Subject<void>();
-
-  constructor() {
-    this.state$ = this.state.asObservable();
-  }
-
-  public clearMenu(): void {
-    this.state.next();
-  }
-}
+export class PartsRoutingModule {}

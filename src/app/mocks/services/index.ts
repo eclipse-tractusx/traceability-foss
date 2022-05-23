@@ -19,3 +19,4 @@
 
 export { assetHandlers } from './asset-mock/asset.handler';
 export { coreHandlers } from './core-mock/core.handler';
+export { partsHandlers } from './parts-mock/parts.handler';

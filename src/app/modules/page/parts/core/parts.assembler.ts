@@ -17,8 +17,12 @@
  * under the License.
  */
 
-import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
+import { Part } from '@page/parts/model/parts.model';
 
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const worker = setupWorker(...handlers);
+export class PartsAssembler {
+  public static assembleParts(parts: Part[]): Part[] {
+    const transformedAcls: Part[] = [];
+    transformedAcls.push(...parts);
+    return transformedAcls;
+  }
+}

@@ -24,6 +24,7 @@ export const environment = {
   defaultRealm: 'mock',
   realmLogo: '/assets/images/logo.png',
   baseUrl: '/',
+  apiUrl: '/api/v1',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   laapi: 'https://api.taas.dev.catenax.tracefoss.com/v1/',
   aems: 'https://api.aems.taas.dev.catenax.tracefoss.com/v1/',

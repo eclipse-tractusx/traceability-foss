@@ -16,9 +16,33 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+import { PartsResponse } from '@page/parts/model/parts.model';
 
-import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
-
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const worker = setupWorker(...handlers);
+export const mockAssets: PartsResponse = {
+  data: [
+    {
+      id: '1',
+      name: 'Audi A1 Sportback',
+      manufacturer: 'Audi',
+      serialNumber: '5XXGM4A77CG032209',
+      qualityType: 'high',
+      productionDate: '1997-05-30',
+    },
+    {
+      id: '2',
+      name: 'BMW 520d Touring',
+      manufacturer: 'BMW',
+      serialNumber: '3N1CE2CPXFL392065',
+      qualityType: 'high',
+      productionDate: '2020-10-23',
+    },
+    {
+      id: '3',
+      name: 'A 180 Limousine',
+      manufacturer: 'Mercedes-Benz',
+      serialNumber: 'JF1ZNAA12E8706066',
+      qualityType: 'high',
+      productionDate: '1990-01-13',
+    },
+  ],
+};
