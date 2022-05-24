@@ -46,7 +46,9 @@ export class ViewContainerDirective<T> implements AfterViewInit {
 
     if (view.error && !view.loader) this.viewContainerRef.createEmbeddedView(this.errorTemplateRef, this.context);
 
-    if (view.data && !view.error) this.viewContainerRef.createEmbeddedView(this.mainTemplateRef, this.context);
+    if (view.data !== undefined && view.data !== null && !view.error) {
+      this.viewContainerRef.createEmbeddedView(this.mainTemplateRef, this.context);
+    }
   }
 
   private context: ViewContext<T> = new ViewContext<T>();
