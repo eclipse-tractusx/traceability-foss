@@ -19,15 +19,20 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from '../page/page-not-found/presentation/page-not-found.component';
-import { realm } from './api/api.service.properties';
+import { PrivateLayoutComponent } from '@layout/private-layout/private-layout.component';
+import { PageNotFoundComponent } from '@page/page-not-found/presentation/page-not-found.component';
+import { realm, defaultRealm } from './api/api.service.properties';
 import { AuthGuard } from './auth/auth.guard';
-import { PrivateLayoutComponent } from './layout/private-layout/private-layout.component';
 
 export /** @type {*} */
 const routes: Routes = [
   {
-    path: realm !== null ? realm : '',
+    path: '',
+    redirectTo: defaultRealm,
+    pathMatch: 'full',
+  },
+  {
+    path: realm || defaultRealm,
     component: PrivateLayoutComponent,
     canActivate: [AuthGuard],
     data: { breadcrumb: 'Home' },

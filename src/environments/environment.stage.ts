@@ -19,14 +19,11 @@
 
 export const environment = {
   production: true,
-  keycloakUrl: 'https://auth.dev.catenax.tracefoss.com/auth/',
+  keycloakUrl: 'https://catenaxdev003akssrv.germanywestcentral.cloudapp.azure.com/iamcentralidp/auth',
+  authDisabled: false,
   multiTenant: true,
-  defaultRealm: 'catena-x',
+  defaultRealm: 'mock',
   realmLogo: '/assets/images/logo.png',
   baseUrl: '/',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
-  laapi: 'https://api.taas.dev.catenax.tracefoss.com/v1/',
-  aems: 'https://api.aems.taas.dev.catenax.tracefoss.com/v1/',
-  taasLaapi: 'https://api.taas.dev.catenax.tracefoss.com/v1/',
-  taasAems: 'https://api.aems.taas.dev.catenax.tracefoss.com/v1/',
 };

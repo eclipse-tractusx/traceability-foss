@@ -41,16 +41,19 @@ export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean
       return (): Promise<void> => Promise.resolve();
     }
   }
+
   return (): Promise<boolean> =>
     keycloak.init({
       config: {
         url: environment.keycloakUrl,
         realm,
-        clientId: 'ui',
+        clientId: 'catenax-portal',
       },
       initOptions: {
         onLoad: 'login-required',
         checkLoginIframe: false,
+        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html',
+        pkceMethod: 'S256',
       },
     });
 }
