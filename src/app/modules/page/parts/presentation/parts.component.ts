@@ -37,18 +37,22 @@ export class PartsComponent implements OnInit {
     'id',
     'name',
     'manufacturer',
+    'partNumber',
     'serialNumber',
     'qualityType',
     'productionDate',
+    'productionCountry',
   ];
 
   public readonly sortableColumns: Record<string, boolean> = {
     id: true,
     name: true,
     manufacturer: true,
+    partNumber: true,
     serialNumber: true,
-    qualityType: false,
+    qualityType: true,
     productionDate: true,
+    productionCountry: true,
   };
 
   public tableConfig: TableConfig;

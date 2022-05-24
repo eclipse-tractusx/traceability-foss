@@ -24,6 +24,8 @@ export interface Part {
   name: string;
   manufacturer: string;
   serialNumber: string;
+  partNumber: string;
+  productionCountry: string;
   qualityType: QualityType;
   productionDate: string;
 }
