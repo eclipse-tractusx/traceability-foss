@@ -1,6 +1,8 @@
 plugins {
     id("org.springframework.boot") version "2.6.6"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("com.autonomousapps.dependency-analysis") version "1.2.0"
+    id("com.google.cloud.tools.jib") version "3.2.1"
     java
 }
 
@@ -45,4 +47,11 @@ tasks {
     test {
         useJUnitPlatform()
     }
+}
+
+// Add line numbers and local variables for Veracode
+// https://docs.veracode.com/r/compilation_java
+tasks.withType<JavaCompile> {
+    options.isDebug = true
+    options.debugOptions.debugLevel = "source,lines,vars"
 }
