@@ -28,8 +28,22 @@ export interface Part {
   productionCountry: string;
   qualityType: QualityType;
   productionDate: string;
+  children: string[];
 }
 
-export interface PartsResponse {
-  data: Part[];
+export interface PartResponse {
+  id: string;
+  idShort: string;
+  nameAtManufacturer: string;
+  manufacturerPartId: string;
+  manufacturerId: string;
+  manufacturerName: string;
+  nameAtCustomer: string;
+  customerPartId: string;
+  manufacturingDate: string;
+  manufacturingCountry: string;
+  specificAssetIds: Record<string, string>;
+  childDescriptions: Array<{ id: string; idShort: string }>;
 }
+
+export interface PartsResponse extends Array<PartResponse> {}

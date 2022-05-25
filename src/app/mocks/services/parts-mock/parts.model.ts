@@ -18,37 +18,56 @@
  */
 import { PartsResponse } from '@page/parts/model/parts.model';
 
-export const mockAssets: PartsResponse = {
-  data: [
-    {
-      id: '1',
-      name: 'Audi A1 Sportback',
-      manufacturer: 'Audi',
-      partNumber: '11111',
-      serialNumber: '5XXGM4A77CG032209',
-      qualityType: 'high',
-      productionDate: '1997-05-30',
-      productionCountry: 'DE',
-    },
-    {
-      id: '2',
-      name: 'BMW 520d Touring',
-      manufacturer: 'BMW',
-      partNumber: '22222',
-      serialNumber: '3N1CE2CPXFL392065',
-      qualityType: 'high',
-      productionDate: '2020-10-23',
-      productionCountry: 'AT',
-    },
-    {
-      id: '3',
-      name: 'A 180 Limousine',
-      manufacturer: 'Mercedes-Benz',
-      partNumber: '33333',
-      serialNumber: 'JF1ZNAA12E8706066',
-      qualityType: 'high',
-      productionDate: '1990-01-13',
-      productionCountry: 'DE',
-    },
-  ],
-};
+export const mockAssets: PartsResponse = [
+  {
+    id: '1',
+    idShort: '1',
+    nameAtManufacturer: 'Audi A1 Sportback',
+    nameAtCustomer: 'Audi A1 Sportback',
+    manufacturerId: '1',
+    manufacturerName: 'Audi',
+    customerPartId: '11111',
+    manufacturerPartId: '5XXGM4A77CG032209',
+    manufacturingDate: '1997-05-30T12:34:12',
+    manufacturingCountry: 'DE',
+    specificAssetIds: { key: 'value' },
+    childDescriptions: [
+      { id: '2', idShort: '2' },
+      { id: '3', idShort: '3' },
+    ],
+  },
+  {
+    id: '2',
+    idShort: '2',
+    nameAtManufacturer: 'BMW 520d Touring',
+    nameAtCustomer: 'BMW 520d Touring',
+    manufacturerId: '2',
+    manufacturerName: 'BMW',
+    customerPartId: '22222',
+    manufacturerPartId: '3N1CE2CPXFL392065',
+    manufacturingDate: '2020-10-23T12:34:12',
+    manufacturingCountry: 'AT',
+    specificAssetIds: { key: 'value' },
+    childDescriptions: [
+      { id: '1', idShort: '1' },
+      { id: '3', idShort: '3' },
+    ],
+  },
+  {
+    id: '3',
+    idShort: '3',
+    nameAtManufacturer: 'A 180 Limousine',
+    nameAtCustomer: 'A 180 Limousine',
+    manufacturerId: '3',
+    manufacturerName: 'Mercedes-Benz',
+    customerPartId: '33333',
+    manufacturerPartId: 'JF1ZNAA12E8706066',
+    manufacturingDate: '1990-01-13T12:34:12',
+    manufacturingCountry: 'DE',
+    specificAssetIds: { key: 'value' },
+    childDescriptions: [
+      { id: '1', idShort: '1' },
+      { id: '2', idShort: '2' },
+    ],
+  },
+];

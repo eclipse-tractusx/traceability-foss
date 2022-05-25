@@ -17,12 +17,25 @@
  * under the License.
  */
 
-import { Part } from '@page/parts/model/parts.model';
+import { Part, PartResponse } from '@page/parts/model/parts.model';
 
 export class PartsAssembler {
-  public static assembleParts(parts: Part[]): Part[] {
-    const transformedAcls: Part[] = [];
-    transformedAcls.push(...parts);
-    return transformedAcls;
+  public static assembleParts(parts: PartResponse[]): Part[] {
+    const transformedParts: Part[] = [];
+    parts.forEach(part => {
+      const transformedPart = {} as Part;
+      transformedPart.id = part.id;
+      transformedPart.name = part.nameAtManufacturer;
+      transformedPart.manufacturer = part.manufacturerName;
+      transformedPart.serialNumber = part.manufacturerPartId;
+      transformedPart.partNumber = part.customerPartId;
+      transformedPart.productionCountry = part.manufacturingCountry;
+      transformedPart.qualityType = 'high';
+      transformedPart.productionDate = part.manufacturingDate;
+      transformedPart.children = part.childDescriptions.map(child => child.id);
+
+      transformedParts.push(transformedPart);
+    });
+    return transformedParts;
   }
 }

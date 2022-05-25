@@ -21,7 +21,6 @@ import { Injectable } from '@angular/core';
 import { Part } from '@page/parts/model/parts.model';
 import { State, View } from '@shared';
 import { Observable } from 'rxjs';
-import { PartsAssembler } from './parts.assembler';
 
 @Injectable()
 export class PartsState {
@@ -31,12 +30,8 @@ export class PartsState {
     return this._parts$.observable;
   }
 
-  set parts(parts: View<Part[]>) {
-    const partsView: View<Part[]> = {
-      data: parts.data && PartsAssembler.assembleParts(parts.data),
-      loader: parts.loader,
-      error: parts.error,
-    };
+  set parts({ data, loader, error }: View<Part[]>) {
+    const partsView: View<Part[]> = { data, loader, error };
     this._parts$.update(partsView);
   }
 }
