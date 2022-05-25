@@ -20,8 +20,8 @@ imagePullSecret:
 ##
 ## Existing image pull secret to use to obtain the container image
 ##
-imagePullSecrets:
-  - name: machineuser-pull-secret-ro
+# imagePullSecrets:
+#   - name: machineuser-pull-secret-ro
 
 nameOverride: "product-traceability-foss-frontend"
 fullnameOverride: "product-traceability-foss-frontend"
@@ -50,10 +50,10 @@ podSecurityContext: { }
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
 securityContext:
-  allowPrivilegeEscalation: false
-  runAsNonRoot: true
-  runAsUser: 1000
-  runAsGroup: 3000
+  # allowPrivilegeEscalation: false
+  # runAsNonRoot: true
+  # runAsUser: 1000
+  # runAsGroup: 3000
 
 service:
   type: ClusterIP
