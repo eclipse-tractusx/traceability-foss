@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class TraceabilityController {
 
-    /**
-     * To be removed. It's here just to preserve the project package structure.
-     */
-    @GetMapping("/hello")
-    public String helloWorld() {
-        return "Hello World!";
-    }
+	/**
+	 * To be removed. It's here just to preserve the project package structure.
+	 */
+	@GetMapping("/hello")
+	public String helloWorld() {
+		return "Hello World!";
+	}
 
 }
