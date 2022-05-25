@@ -16,7 +16,7 @@
 
 ## Coding styles
 
-To maintain coding styles we utilize [EditorConfig](https://editorconfig.org/) tool, see [configuration](.asdasdaeditorconfig)
+To maintain coding styles we utilize [EditorConfig](https://editorconfig.org/) tool, see [configuration](.editorconfig)
 file for the details.
 
 ### IDE plugins
