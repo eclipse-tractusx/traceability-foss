@@ -1,9 +1,11 @@
 plugins {
+    id("java")
+    id("groovy")
     id("org.springframework.boot") version "2.6.6"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     id("com.autonomousapps.dependency-analysis") version "1.2.0"
     id("com.google.cloud.tools.jib") version "3.2.1"
-    java
+    id("com.coditory.integration-test") version "1.4.0"
 }
 
 group = "net.catenax.traceability"
@@ -24,10 +26,9 @@ repositories {
     mavenCentral()
 }
 
-val swaggerAnnotationsVersion = "1.6.6"
-val jsr305Version = "3.0.2"
-val mapstructVersion = "1.4.2.Final"
-val lombokMapstructBindingVersion = "0.2.0"
+val commonsCodecVersion = "1.15"
+val groovyVersion = "3.0.10"
+val spockBomVersion = "2.0-groovy-3.0"
 
 dependencies {
     // development dependecies
@@ -35,23 +36,19 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    implementation("commons-codec:commons-codec:1.15")
+    implementation("commons-codec:commons-codec:$commonsCodecVersion")
 
     developmentOnly("org.springframework.boot:spring-boot-devtools")
 
-    // test dependencies
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
+    testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))
+    testImplementation("org.spockframework:spock-core")
+    testImplementation("org.spockframework:spock-spring")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-tasks {
-    test {
-        useJUnitPlatform()
-    }
-}
-
-// Add line numbers and local variables for Veracode
-// https://docs.veracode.com/r/compilation_java
-tasks.withType<JavaCompile> {
-    options.isDebug = true
-    options.debugOptions.debugLevel = "source,lines,vars"
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
