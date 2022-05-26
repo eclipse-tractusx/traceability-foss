@@ -6,11 +6,12 @@ end_of_line = lf
 indent_size = 4
 indent_style = tab
 insert_final_newline = true
-max_line_length = off
+max_line_length = 120
 trim_trailing_whitespace = true
 
 [{*.yaml,*.yml}]
 indent_size = 2
+indent_style = space
 ij_yaml_keep_indents_on_empty_lines = false
 ij_yaml_keep_line_breaks = true
 
@@ -21,7 +22,7 @@ ij_formatter_enabled = false
 
 [{*.kt, *.kts}]
 ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
-ij_continuation_indent_size = 4
+ij_continuation_indent_size = 6
 
 [*.md]
 max_line_length = 999
