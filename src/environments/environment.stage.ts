@@ -25,5 +25,6 @@ export const environment = {
   defaultRealm: 'mock',
   realmLogo: '/assets/images/logo.png',
   baseUrl: '/',
+  apiUrl: '/api/v1',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
 };

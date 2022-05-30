@@ -23,6 +23,7 @@ export const environment = {
   multiTenant: true,
   defaultRealm: 'lion',
   baseUrl: '/',
+  apiUrl: '/api/v1',
   realmLogo: '/assets/images/logo.png',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   laapi: 'https://api.domain.tld/v1/',

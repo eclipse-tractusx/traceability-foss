@@ -26,4 +26,5 @@ export const environment = {
   realmLogo: '/assets/images/logo.png',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   baseUrl: '/',
+  apiUrl: '/api/v1',
 };
