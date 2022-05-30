@@ -4,3 +4,13 @@ management:
       base-path: /
       exposure:
         include: health
+
+spring:
+  mail:
+    host: smtp.office365.com
+    port: 587
+    username: notifications@catena-x.net
+    password: password
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enable: true

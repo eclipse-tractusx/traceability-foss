@@ -28,13 +28,16 @@ repositories {
 
 val commonsCodecVersion = "1.15"
 val groovyVersion = "3.0.10"
-val spockBomVersion = "2.0-groovy-3.0"
+val spockBomVersion = "2.1-groovy-3.0"
+val greenmailVersion = "1.6.9"
 
 dependencies {
-	// development dependecies
-	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    // development dependecies
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 	implementation("commons-codec:commons-codec:$commonsCodecVersion")
 
@@ -42,11 +45,13 @@ dependencies {
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 
-	testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
-	testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))
-	testImplementation("org.spockframework:spock-core")
-	testImplementation("org.spockframework:spock-spring")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
+    testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))
+    testImplementation("org.spockframework:spock-core")
+    testImplementation("org.spockframework:spock-spring")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    integrationImplementation("com.icegreen:greenmail-spring:$greenmailVersion")
 }
 
 tasks.withType<Test> {
