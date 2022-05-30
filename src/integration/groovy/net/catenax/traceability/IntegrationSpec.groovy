@@ -12,6 +12,6 @@ import spock.lang.Specification
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 abstract class IntegrationSpec extends Specification {
 
-    @Autowired
-    protected MockMvc mvc
+	@Autowired
+	protected MockMvc mvc
 }

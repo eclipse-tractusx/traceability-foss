@@ -10,10 +10,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class TraceabilityControllerIT extends IntegrationSpec {
 
-    def "should return hello world"() {
-        expect:
-            mvc.perform(get("/api/hello").contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk())
-                    .andExpect(content().string(MatchesPattern.matchesPattern("Hello World!")));
-    }
+	def "should return hello world"() {
+		expect:
+			mvc.perform(get("/api/hello").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().string(MatchesPattern.matchesPattern("Hello World!")));
+	}
 }
