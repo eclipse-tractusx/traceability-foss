@@ -17,35 +17,15 @@
  * under the License.
  */
 
-export type QualityType = 'high' | 'medium' | 'low';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-export interface Part {
-  id: string;
-  name: string;
-  manufacturer: string;
-  serialNumber: string;
-  partNumber: string;
-  productionCountry: string;
-  qualityType: QualityType;
-  productionDate: Date;
-  children: string[];
-  nameAtCustomer?: string;
-  customerPartId?: string;
+@Component({
+  selector: 'app-card-list',
+  templateUrl: './card-list.component.html',
+  styleUrls: ['./card-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CardListComponent {
+  @Input() list: Record<string, string>;
+  @Input() title: string;
 }
-
-export interface PartResponse {
-  id: string;
-  idShort: string;
-  nameAtManufacturer: string;
-  manufacturerPartId: string;
-  manufacturerId: string;
-  manufacturerName: string;
-  nameAtCustomer: string;
-  customerPartId: string;
-  manufacturingDate: string;
-  manufacturingCountry: string;
-  specificAssetIds: Record<string, string>;
-  childDescriptions: Array<{ id: string; idShort: string }>;
-}
-
-export type PartsResponse = PartResponse[];

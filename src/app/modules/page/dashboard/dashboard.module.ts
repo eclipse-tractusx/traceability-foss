@@ -25,7 +25,6 @@ import { DashboardService } from './core/dashboard.service';
 import { DashboardState } from './core/dashboard.state';
 import { DashboardRoutingModule } from './dashboard.routing';
 import { AlertDonutChartComponent } from './presentation/alert-donut-chart/alert-donut-chart.component';
-import { CardComponent } from './presentation/card/card.component';
 import { DashboardComponent } from './presentation/dashboard.component';
 import { HistogramChartComponent } from './presentation/histogram-chart/histogram-chart.component';
 import { ReceivedAlertEmptyStateComponent } from './presentation/received-alert-empty-state/received-alert-empty-state.component';
@@ -33,7 +32,6 @@ import { ReceivedAlertEmptyStateComponent } from './presentation/received-alert-
 @NgModule({
   declarations: [
     DashboardComponent,
-    CardComponent,
     ReceivedAlertEmptyStateComponent,
     AlertDonutChartComponent,
     HistogramChartComponent,

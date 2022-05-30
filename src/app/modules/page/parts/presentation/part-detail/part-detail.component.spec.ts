@@ -17,35 +17,27 @@
  * under the License.
  */
 
-export type QualityType = 'high' | 'medium' | 'low';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-export interface Part {
-  id: string;
-  name: string;
-  manufacturer: string;
-  serialNumber: string;
-  partNumber: string;
-  productionCountry: string;
-  qualityType: QualityType;
-  productionDate: Date;
-  children: string[];
-  nameAtCustomer?: string;
-  customerPartId?: string;
-}
+import { PartDetailComponent } from './part-detail.component';
 
-export interface PartResponse {
-  id: string;
-  idShort: string;
-  nameAtManufacturer: string;
-  manufacturerPartId: string;
-  manufacturerId: string;
-  manufacturerName: string;
-  nameAtCustomer: string;
-  customerPartId: string;
-  manufacturingDate: string;
-  manufacturingCountry: string;
-  specificAssetIds: Record<string, string>;
-  childDescriptions: Array<{ id: string; idShort: string }>;
-}
+describe('PartDetailComponent', () => {
+  let component: PartDetailComponent;
+  let fixture: ComponentFixture<PartDetailComponent>;
 
-export type PartsResponse = PartResponse[];
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [PartDetailComponent],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PartDetailComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

@@ -18,6 +18,9 @@
  */
 
 import { Part, PartResponse } from '@page/parts/model/parts.model';
+import { View } from '@shared';
+import { OperatorFunction } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export class PartsAssembler {
   public static assembleParts(parts: PartResponse[]): Part[] {
@@ -29,11 +32,47 @@ export class PartsAssembler {
       transformedPart.serialNumber = part.manufacturerPartId;
       transformedPart.partNumber = part.customerPartId;
       transformedPart.productionCountry = part.manufacturingCountry;
+      transformedPart.nameAtCustomer = part.nameAtCustomer;
+      transformedPart.customerPartId = part.customerPartId;
       transformedPart.qualityType = 'high';
       transformedPart.productionDate = new Date(part.manufacturingDate);
       transformedPart.children = part.childDescriptions.map(child => child.id);
 
       return transformedPart;
+    });
+  }
+
+  public static filterPartForView(viewData: View<Part>): View<Part> {
+    if (!viewData.data) {
+      return viewData;
+    }
+    const { productionDate, qualityType, serialNumber } = viewData.data;
+    return { data: { productionDate, qualityType, serialNumber } as Part };
+  }
+
+  public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {
+    return map(PartsAssembler.filterPartForView);
+  }
+
+  public static mapPartForManufacturerView(): OperatorFunction<View<Part>, View<Part>> {
+    return map(viewData => {
+      if (!viewData.data) {
+        return viewData;
+      }
+
+      const { manufacturer, partNumber, name, serialNumber } = viewData.data;
+      return { data: { manufacturer, partNumber, name, serialNumber } as Part };
+    });
+  }
+
+  public static mapPartForCustomerView(): OperatorFunction<View<Part>, View<Part>> {
+    return map(viewData => {
+      if (!viewData.data) {
+        return viewData;
+      }
+
+      const { customerPartId, nameAtCustomer } = viewData.data;
+      return { data: { customerPartId, nameAtCustomer } as Part };
     });
   }
 }

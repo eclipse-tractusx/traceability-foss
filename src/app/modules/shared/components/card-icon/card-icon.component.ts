@@ -20,22 +20,21 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss'],
+  selector: 'app-card-icon',
+  templateUrl: './card-icon.component.html',
+  styleUrls: ['./card-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardComponent {
+export class CardIconComponent {
   private static nextId = 0;
 
   static generateId() {
-    return CardComponent.nextId++;
+    return CardIconComponent.nextId++;
   }
 
-  @Input() id: number;
   @Input() label: string;
   @Input() stats: number | string;
   @Input() icon: string;
 
-  readonly htmlId = 'app-card-' + CardComponent.generateId();
+  readonly htmlId = 'app-card-icon-' + CardIconComponent.generateId();
 }
