@@ -46,7 +46,7 @@ describe.only('Dashboard', () => {
 
     expect(screen.getByText('Total of parts')).toHaveAttribute(
       'id',
-      screen.getByText('10').getAttribute('aria-describedby'),
+      screen.getByText('3').getAttribute('aria-describedby'),
     );
   });
 });

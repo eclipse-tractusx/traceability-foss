@@ -62,7 +62,7 @@ import { UserService } from './user/user.service';
     CanDeactivateGuard,
     {
       provide: KeycloakService,
-      useClass: environment.production ? KeycloakService : MockedKeycloakService,
+      useClass: environment.authDisabled ? MockedKeycloakService : KeycloakService,
     },
     {
       provide: APP_INITIALIZER,
