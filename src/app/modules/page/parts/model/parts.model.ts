@@ -27,7 +27,7 @@ export interface Part {
   partNumber: string;
   productionCountry: string;
   qualityType: QualityType;
-  productionDate: string;
+  productionDate: Date;
   children: string[];
 }
 
@@ -46,4 +46,4 @@ export interface PartResponse {
   childDescriptions: Array<{ id: string; idShort: string }>;
 }
 
-export interface PartsResponse extends Array<PartResponse> {}
+export type PartsResponse = PartResponse[];

@@ -42,7 +42,7 @@ describe.only('Dashboard', () => {
       imports: [DashboardModule],
     });
 
-    expect(await screen.findByText('10')).toBeInTheDocument();
+    expect(await screen.findByText('3')).toBeInTheDocument();
 
     expect(screen.getByText('Total of parts')).toHaveAttribute(
       'id',

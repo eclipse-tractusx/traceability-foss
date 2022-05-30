@@ -21,8 +21,7 @@ import { Part, PartResponse } from '@page/parts/model/parts.model';
 
 export class PartsAssembler {
   public static assembleParts(parts: PartResponse[]): Part[] {
-    const transformedParts: Part[] = [];
-    parts.forEach(part => {
+    return parts.map(part => {
       const transformedPart = {} as Part;
       transformedPart.id = part.id;
       transformedPart.name = part.nameAtManufacturer;
@@ -31,11 +30,10 @@ export class PartsAssembler {
       transformedPart.partNumber = part.customerPartId;
       transformedPart.productionCountry = part.manufacturingCountry;
       transformedPart.qualityType = 'high';
-      transformedPart.productionDate = part.manufacturingDate;
+      transformedPart.productionDate = new Date(part.manufacturingDate);
       transformedPart.children = part.childDescriptions.map(child => child.id);
 
-      transformedParts.push(transformedPart);
+      return transformedPart;
     });
-    return transformedParts;
   }
 }
