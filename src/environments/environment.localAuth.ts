@@ -17,10 +17,13 @@
  * under the License.
  */
 
-import { environment } from '@env';
-
-export const realmLogo = environment.realmLogo;
-export const defaultRealm = environment.defaultRealm;
-
-export /** @type {*} */
-const realm: string = new RegExp(environment.realmRegExp).exec(window.location.href)?.[1];
+export const environment = {
+  production: false,
+  keycloakUrl: 'https://catenaxdev003akssrv.germanywestcentral.cloudapp.azure.com/iamcentralidp/auth',
+  authDisabled: false,
+  multiTenant: true,
+  defaultRealm: 'CX-Central',
+  realmLogo: '/assets/images/logo.png',
+  realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
+  baseUrl: '/',
+};

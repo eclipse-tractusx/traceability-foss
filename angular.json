@@ -66,6 +66,28 @@
                 }
               ]
             },
+            "localAuth": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.localAuth.ts"
+                }
+              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "5mb",
+                  "maximumError": "10mb"
+                }
+              ]
+            },
             "stage": {
               "fileReplacements": [
                 {
@@ -100,6 +122,9 @@
           "configurations": {
             "dev": {
               "browserTarget": "webapp:build:dev"
+            },
+            "localAuth": {
+              "browserTarget": "webapp:build:localAuth"
             },
             "stage": {
               "browserTarget": "webapp:build:stage"

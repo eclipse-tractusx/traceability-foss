@@ -4,6 +4,7 @@
   "scripts": {
     "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer dist/webapp/stats.json",
     "build": "ng build",
+    "build:auth": "ng build --configuration=localAuth",
     "build:prod": "NODE_ENV=production ng build --configuration production",
     "format": "prettier --write \"src/**/*.{js,ts,json,md,css,scss,html}\"",
     "lint": "eslint --color --fix -c .eslintrc.js --ext .ts ./src/app",
@@ -14,6 +15,7 @@
     "ng-material": "ng update --force @angular/material",
     "prepare": "husky install",
     "start": "ng serve",
+    "start:auth": "ng serve --port=3000 --configuration=localAuth",
     "test": "jest --watch --maxWorkers=1",
     "test:ci": "jest --runInBand",
     "add-license-header": "node ./scripts/add-license-header.js --src=src"
@@ -111,8 +113,8 @@
       "@shared": "<rootDir>src/app/modules/shared/index",
       "@shared/(.+)": "<rootDir>src/app/modules/shared/$1",
       "@layout/(.+)": "<rootDir>src/app/modules/core/layout/$1",
-      "@page/(.+)": "<rootDir>src/app/modules/page//$1",
-      "@env/(.+)": "<rootDir>src/environments/environment/$1",
+      "@page/(.+)": "<rootDir>src/app/modules/page/$1",
+      "@env": "<rootDir>src/environments/environment",
       "@tests/(.+)": "<rootDir>/src/tests/$1",
       "src/(.+)": "<rootDir>src/$1"
     }
