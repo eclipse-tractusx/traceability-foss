@@ -36,6 +36,15 @@ under the License.
             [iconName]="'dashboard'"
           ></app-sidebar-section>
         </li>
+        <li>
+          <app-sidebar-section
+            (click)="this.navigate('parts')"
+            [name]="'parts'"
+            [isActive]="this.activeMenu === 'parts'"
+            [isExpanded]="this.expanded"
+            [iconName]="'build'"
+          ></app-sidebar-section>
+        </li>
       </ul>
     </div>
     <div class="flex-auto"></div>

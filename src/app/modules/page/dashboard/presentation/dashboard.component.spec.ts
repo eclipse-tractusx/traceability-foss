@@ -42,11 +42,11 @@ describe.only('Dashboard', () => {
       imports: [DashboardModule],
     });
 
-    expect(await screen.findByText('10')).toBeInTheDocument();
+    expect(await screen.findByText('3')).toBeInTheDocument();
 
     expect(screen.getByText('Total of parts')).toHaveAttribute(
       'id',
-      screen.getByText('10').getAttribute('aria-describedby'),
+      screen.getByText('3').getAttribute('aria-describedby'),
     );
   });
 });

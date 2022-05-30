@@ -17,8 +17,18 @@
  * under the License.
  */
 
-import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { PartsFacade } from '@page/parts/core/parts.facade';
+import { PartsService } from '@page/parts/core/parts.service';
+import { PartsState } from '@page/parts/core/parts.state';
+import { SharedModule, TemplateModule } from '@shared';
+import { PartsRoutingModule } from './parts.routing';
+import { PartsComponent } from './presentation/parts.component';
 
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const worker = setupWorker(...handlers);
+@NgModule({
+  declarations: [PartsComponent],
+  imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule],
+  providers: [PartsState, PartsFacade, PartsService],
+})
+export class PartsModule {}

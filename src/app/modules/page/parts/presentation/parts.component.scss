@@ -17,10 +17,6 @@
 * under the License.    
 */
 
-.menu {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  min-width: 100%;
-  z-index: 120;
+.about-container {
+  @apply flex flex-col;
 }

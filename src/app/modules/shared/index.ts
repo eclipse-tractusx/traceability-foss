@@ -22,9 +22,6 @@ export { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.compo
 export { ButtonComponent } from './components/button/button.component';
 export { ConfirmDialogComponent, ConfirmDialogModel } from './components/confirm-dialog/confirm-dialog.component';
 export { HeaderComponent } from './components/header/header.component';
-export { MenuItemComponent } from './components/menu/menu-item/menu-item.component';
-export { MenuStateService } from './components/menu/menu-state.service';
-export { MenuComponent } from './components/menu/menu.component';
 export { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 export { NotificationMessage } from './components/notifications/notification-message/notification-message';
 export { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
@@ -41,6 +38,7 @@ export { StepState } from './components/wizard/step.state';
 export { StepsComponent } from './components/wizard/steps/steps.component';
 export { WizardComponent } from './components/wizard/wizard.component';
 export { WizardFacade } from './components/wizard/wizard.facade';
+export { TableComponent } from './components/table/table.component';
 export { LayoutState } from './service/layout.state';
 export { SharedService } from './service/shared.service';
 export { ClickOutsideDirective } from './directives/click-outside.directive';

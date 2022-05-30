@@ -18,23 +18,20 @@
  */
 
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Part } from '@page/parts/model/parts.model';
+import { State, View } from '@shared';
+import { Observable } from 'rxjs';
 
-// https://indepth.dev/posts/1297/building-a-reusable-menu-component
-@Injectable({
-  providedIn: 'root',
-})
-export class MenuStateService {
-  public state$: Observable<void>;
-  public menuId = new BehaviorSubject<string>(null);
+@Injectable()
+export class PartsState {
+  private readonly _parts$: State<View<Part[]>> = new State<View<Part[]>>({ loader: true });
 
-  private state = new Subject<void>();
-
-  constructor() {
-    this.state$ = this.state.asObservable();
+  get parts$(): Observable<View<Part[]>> {
+    return this._parts$.observable;
   }
 
-  public clearMenu(): void {
-    this.state.next();
+  set parts({ data, loader, error }: View<Part[]>) {
+    const partsView: View<Part[]> = { data, loader, error };
+    this._parts$.update(partsView);
   }
 }

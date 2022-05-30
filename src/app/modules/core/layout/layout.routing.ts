@@ -33,6 +33,11 @@ const routes: Routes = [
     loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
     data: { breadcrumb: 'Home' },
   },
+  {
+    path: 'parts',
+    loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
+    data: { breadcrumb: 'Parts' },
+  },
 
   {
     path: 'about',

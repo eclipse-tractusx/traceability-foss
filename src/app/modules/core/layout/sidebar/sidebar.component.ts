@@ -47,6 +47,7 @@ export class SidebarComponent {
   private readonly menu = {
     dashboard: '',
     about: '',
+    parts: '',
   };
 
   get sidebarWidth(): number {
@@ -58,6 +59,7 @@ export class SidebarComponent {
     this.menu = {
       dashboard: `/${this.realm}`,
       about: `/${this.realm}/about`,
+      parts: `/${this.realm}/parts`,
     };
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((r: NavigationEnd) => {

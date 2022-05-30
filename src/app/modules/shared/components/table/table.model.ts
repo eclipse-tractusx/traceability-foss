@@ -17,8 +17,9 @@
  * under the License.
  */
 
-import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
-
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const worker = setupWorker(...handlers);
+export interface TableConfig {
+  displayedColumns: string[];
+  sortableColumns: Record<string, boolean>;
+  header?: string[];
+  isPagination?: boolean;
+}

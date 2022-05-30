@@ -17,21 +17,23 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
-import { environment } from '@env';
-import * as mockService from '../../../mocks/mock';
+import { Part, PartResponse } from '@page/parts/model/parts.model';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-})
-export class AppComponent {
-  constructor() {
-    // Todo: Check if code is production
-    if (!environment.production) {
-      const { worker } = mockService;
-      void worker.start({ onUnhandledRequest: 'bypass' });
-    }
+export class PartsAssembler {
+  public static assembleParts(parts: PartResponse[]): Part[] {
+    return parts.map(part => {
+      const transformedPart = {} as Part;
+      transformedPart.id = part.id;
+      transformedPart.name = part.nameAtManufacturer;
+      transformedPart.manufacturer = part.manufacturerName;
+      transformedPart.serialNumber = part.manufacturerPartId;
+      transformedPart.partNumber = part.customerPartId;
+      transformedPart.productionCountry = part.manufacturingCountry;
+      transformedPart.qualityType = 'high';
+      transformedPart.productionDate = new Date(part.manufacturingDate);
+      transformedPart.children = part.childDescriptions.map(child => child.id);
+
+      return transformedPart;
+    });
   }
 }

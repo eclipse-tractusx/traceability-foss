@@ -17,8 +17,33 @@
  * under the License.
  */
 
-import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
+export type QualityType = 'high' | 'medium' | 'low';
 
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const worker = setupWorker(...handlers);
+export interface Part {
+  id: string;
+  name: string;
+  manufacturer: string;
+  serialNumber: string;
+  partNumber: string;
+  productionCountry: string;
+  qualityType: QualityType;
+  productionDate: Date;
+  children: string[];
+}
+
+export interface PartResponse {
+  id: string;
+  idShort: string;
+  nameAtManufacturer: string;
+  manufacturerPartId: string;
+  manufacturerId: string;
+  manufacturerName: string;
+  nameAtCustomer: string;
+  customerPartId: string;
+  manufacturingDate: string;
+  manufacturingCountry: string;
+  specificAssetIds: Record<string, string>;
+  childDescriptions: Array<{ id: string; idShort: string }>;
+}
+
+export type PartsResponse = PartResponse[];

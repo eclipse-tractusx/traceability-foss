@@ -19,13 +19,12 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TableComponent } from '@shared/components/table/table.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { HeaderComponent } from './components/header/header.component';
-import { MenuItemComponent } from './components/menu/menu-item/menu-item.component';
-import { MenuComponent } from './components/menu/menu.component';
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
 import { QualityAlertEmptyStateComponent } from './components/quality-alert-empty-state/quality-alert-empty-state.component';
@@ -55,8 +54,7 @@ import { TemplateModule } from './template.module';
     BreadcrumbsComponent,
     HeaderComponent,
     ButtonComponent,
-    MenuComponent,
-    MenuItemComponent,
+    TableComponent,
     TooltipDirective,
     RoleDirective,
     ShortenPipe,
@@ -80,8 +78,7 @@ import { TemplateModule } from './template.module';
     BreadcrumbsComponent,
     HeaderComponent,
     ButtonComponent,
-    MenuComponent,
-    MenuItemComponent,
+    TableComponent,
     TooltipDirective,
     RoleDirective,
     TabsModule,
