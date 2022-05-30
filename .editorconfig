@@ -22,7 +22,7 @@ ij_formatter_enabled = false
 
 [{*.kt, *.kts}]
 ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
-ij_continuation_indent_size = 6
+ij_continuation_indent_size = 8
 
 [*.md]
 max_line_length = 999
