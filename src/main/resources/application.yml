@@ -19,7 +19,7 @@ spring:
     host: smtp.office365.com
     port: 587
     username: notifications@catena-x.net
-    password: password
+    password: ${MAILSERVER_PASSWORD}
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true

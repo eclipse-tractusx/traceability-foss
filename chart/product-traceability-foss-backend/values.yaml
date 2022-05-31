@@ -130,3 +130,6 @@ readinessProbe:
 
 healthCheck:
   enabled: true
+
+mailserver:
+  password: <path:traceability-foss-backend/data/int#mailserverPassword>
