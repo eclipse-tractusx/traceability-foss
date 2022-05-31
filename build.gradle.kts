@@ -1,7 +1,7 @@
 plugins {
 	id("java")
 	id("groovy")
-	id("org.springframework.boot") version "2.6.6"
+	id("org.springframework.boot") version "2.7.0"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("com.autonomousapps.dependency-analysis") version "1.2.0"
 	id("com.google.cloud.tools.jib") version "3.2.1"
