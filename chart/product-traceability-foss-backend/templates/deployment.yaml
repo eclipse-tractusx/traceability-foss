@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
   name: {{ include "product-traceability-foss-backend.fullname" . }}
   labels:
     {{- include "product-traceability-foss-backend.labels" . | nindent 4 }}
@@ -13,6 +14,7 @@ spec:
       {{- include "product-traceability-foss-backend.selectorLabels" . | nindent 6 }}
   template:
     metadata:
+      namespace: {{ .Values.namespace | default .Release.Namespace }}
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
@@ -20,6 +22,7 @@ spec:
       labels:
         {{- include "product-traceability-foss-backend.selectorLabels" . | nindent 8 }}
     spec:
+      automountServiceAccountToken: false
       {{- if .Values.imagePullSecret.dockerconfigjson }}
       imagePullSecrets:
         - name: {{ include "product-traceability-foss-backend.fullname" . }}-imagepullsecret
@@ -46,8 +49,8 @@ spec:
         {{- if .Values.healthCheck.enabled }}
           livenessProbe:
             httpGet:
-              path: "/actuator/health/readiness"
-              port: 8080
+              path: "/actuator/health/liveness"
+              port: 8081
               scheme: HTTP
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -58,7 +61,7 @@ spec:
           readinessProbe:
             httpGet:
               path: "/actuator/health/readiness"
-              port: 8080
+              port: 8081
               scheme: HTTP
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
