@@ -19,10 +19,10 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
-import { CardListComponent } from '@shared/components/card-list/card-list.component';
-import { ToKeyValuePipe } from '@shared/components/card-list/card-list.pipe';
-import { TableComponent } from '@shared/components/table/table.component';
+import { CardIconComponent } from './components/card-icon/card-icon.component';
+import { CardListComponent } from './components/card-list/card-list.component';
+import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
+import { TableComponent } from './components/table/table.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';

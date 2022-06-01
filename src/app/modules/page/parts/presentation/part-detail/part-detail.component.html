@@ -17,7 +17,12 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<mat-sidenav-container class="part-detail--container" [hasBackdrop]="true" [class.part-detail--open]="isOpen$ | async">
+<mat-sidenav-container
+  [hasBackdrop]="true"
+  [class.part-detail--open]="isOpen$ | async"
+  class="part-detail--container"
+  data-testid="part-detail--sidenav"
+>
   <mat-sidenav
     #sidenav
     mode="over"
@@ -72,10 +77,10 @@ under the License.
   <app-card-list [list]="customerDetails.data" [title]="'Customer data'"></app-card-list>
 </ng-template>
 
-<ng-template #errorTmp>
+<ng-template #errorTmp let-customerDetails="view">
   <mat-card>
     <mat-card-title>Error while loading data</mat-card-title>
-    <mat-card-content></mat-card-content>
+    <mat-card-content>{{ customerDetails.error.message }}</mat-card-content>
   </mat-card>
 </ng-template>
 

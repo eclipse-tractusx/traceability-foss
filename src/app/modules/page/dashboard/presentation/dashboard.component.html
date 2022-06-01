@@ -31,12 +31,7 @@ under the License.
     </ng-container>
 
     <ng-template #numberOfPartsMainTmp let-numberOfParts="view">
-      <app-card-icon
-        [id]="1"
-        [label]="'Total of parts'"
-        [icon]="'directions_car'"
-        [stats]="numberOfParts?.data"
-      ></app-card-icon>
+      <app-card-icon [label]="'Total of parts'" [icon]="'directions_car'" [stats]="numberOfParts?.data"></app-card-icon>
     </ng-template>
 
     <ng-template #numberOfPartsErrorTmp let-numberOfParts="view">

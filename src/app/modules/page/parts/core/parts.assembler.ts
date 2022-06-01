@@ -24,6 +24,10 @@ import { map } from 'rxjs/operators';
 
 export class PartsAssembler {
   public static assembleParts(parts: PartResponse[]): Part[] {
+    if (!parts || !parts.length) {
+      return null;
+    }
+
     return parts.map(part => {
       const transformedPart = {} as Part;
       transformedPart.id = part.id;
@@ -43,7 +47,7 @@ export class PartsAssembler {
   }
 
   public static filterPartForView(viewData: View<Part>): View<Part> {
-    if (!viewData.data) {
+    if (!viewData || !viewData.data) {
       return viewData;
     }
     const { productionDate, qualityType, serialNumber } = viewData.data;
