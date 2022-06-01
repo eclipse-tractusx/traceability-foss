@@ -45,6 +45,7 @@ import { ShortenPipe } from './pipes/shorten.pipe';
 import { MspidsResolver } from './resolver/mspids.resolver';
 import { OrganizationsResolver } from './resolver/organizations.resolver';
 import { TemplateModule } from './template.module';
+import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { TemplateModule } from './template.module';
     StepBodyComponent,
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
+    LanguageSelectorComponent,
   ],
   imports: [TemplateModule, TabsModule, RouterModule, I18NextModule],
   exports: [
@@ -93,6 +95,7 @@ import { TemplateModule } from './template.module';
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
     I18NextModule,
+    LanguageSelectorComponent,
   ],
   providers: [SharedService, MspidsResolver, OrganizationsResolver],
 })

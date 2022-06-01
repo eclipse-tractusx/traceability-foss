@@ -19,17 +19,32 @@
 
 import { APP_INITIALIZER, LOCALE_ID } from '@angular/core';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpApi from 'i18next-http-backend';
 
 export function appInit(i18next: ITranslationService) {
   return () =>
-    i18next.use(HttpApi).init({
-      fallbackLng: 'en',
-      backend: {
-        loadPath: '/assets/locales/{{lng}}/{{ns}}.json',
-      },
-      ns: ['common'],
-    });
+    i18next
+      .use(LanguageDetector)
+      .use(HttpApi)
+      .init({
+        supportedLngs: ['en', 'pl'],
+        fallbackLng: 'en',
+        backend: {
+          loadPath: '/assets/locales/{{lng}}/{{ns}}.json',
+        },
+        detection: {
+          // order and from where user language should be detected
+          order: ['querystring', 'localStorage', 'navigator', 'htmlTag'],
+
+          // keys or params to lookup language from
+          lookupQuerystring: 'lng',
+          lookupLocalStorage: 'i18nextLng',
+
+          caches: ['localStorage'],
+        },
+        ns: ['common'],
+      });
 }
 
 export function localeIdFactory(i18next: ITranslationService) {

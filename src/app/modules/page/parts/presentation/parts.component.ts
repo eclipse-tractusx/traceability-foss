@@ -60,16 +60,11 @@ export class PartsComponent implements OnInit {
 
   public parts$: Observable<View<Parts[]>>;
 
-  constructor(
-    private readonly partsFacade: PartsFacade,
-    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
-  ) {
+  constructor(private readonly partsFacade: PartsFacade) {
     this.parts$ = this.partsFacade.parts$;
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
-      header: this.displayedColumns.map(column =>
-        this.i18NextService.t(`pageParts.column.${column}`, { ns: 'page.parts' }),
-      ),
+      header: this.displayedColumns.map(column => `pageParts.column.${column}`),
       sortableColumns: this.sortableColumns,
       customCellType: {
         productionDate: 'date',

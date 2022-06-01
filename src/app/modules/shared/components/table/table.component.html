@@ -20,7 +20,12 @@ under the License.
 <table *ngIf="dataSource" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index" matColumnDef="{{ column }}">
     <th mat-header-cell *matHeaderCellDef mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}">
-      {{ (tableConfig?.header && tableConfig.header[i]) || column }}
+      <ng-container *ngIf="tableConfig?.header && tableConfig.header[i]; else pureColumn">
+        {{ tableConfig?.header && tableConfig.header[i] | i18nextEager }}
+      </ng-container>
+      <ng-template #pureColumn>
+        {{ pureColumn }}
+      </ng-template>
     </th>
     <td mat-cell *matCellDef="let element" [ngSwitch]="tableConfig?.customCellType?.[column]">
       <ng-container *ngSwitchCase="'date'">{{ element[column] | appDate }}</ng-container>
@@ -35,8 +40,8 @@ under the License.
       <div class="table--no-data">
         <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
         <br />
-        <h3>{{ 'table.noResultFound' | i18next }}</h3>
-        <p>{{ 'table.tryAgain' | i18next }}</p>
+        <h3>{{ 'table.noResultFound' | i18nextEager }}</h3>
+        <p>{{ 'table.tryAgain' | i18nextEager }}</p>
       </div>
     </td>
   </tr>
@@ -46,6 +51,6 @@ under the License.
   *ngIf="tableConfig.isPagination"
   [pageSizeOptions]="[5, 10, 20]"
   showFirstLastButtons
-  [attr.aria-label]="'table.selectPageSize' | i18next"
+  [attr.aria-label]="'table.selectPageSize' | i18nextEager"
 >
 </mat-paginator>
