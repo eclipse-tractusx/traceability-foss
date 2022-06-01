@@ -1,0 +1,15 @@
+{
+  "pageParts": {
+    "title": "{{projectName}} Części",
+    "column": {
+      "id": "ID",
+      "name": "Nazwa",
+      "manufacturer": "Producent",
+      "partNumber": "Part Number",
+      "serialNumber": "Numer Seryjny",
+      "qualityType": "Typ Jakości",
+      "productionDate": "Data Produkcji",
+      "productionCountry": "Kraj Produkcji"
+    }
+  }
+}

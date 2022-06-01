@@ -17,8 +17,9 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { PartsFacade } from '@page/parts/core/parts.facade';
+import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import { View } from '@shared';
 import { TableConfig } from '@shared/components/table/table.model';
 import { Observable } from 'rxjs';
@@ -31,7 +32,7 @@ interface Parts {}
   styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit {
-  public readonly title = 'Catena-X Parts';
+  public readonly projectName = 'Catena-X';
 
   public readonly displayedColumns: string[] = [
     'id',
@@ -59,9 +60,21 @@ export class PartsComponent implements OnInit {
 
   public parts$: Observable<View<Parts[]>>;
 
-  constructor(private readonly partsFacade: PartsFacade) {
+  constructor(
+    private readonly partsFacade: PartsFacade,
+    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
+  ) {
     this.parts$ = this.partsFacade.parts$;
-    this.tableConfig = { displayedColumns: this.displayedColumns, sortableColumns: this.sortableColumns };
+    this.tableConfig = {
+      displayedColumns: this.displayedColumns,
+      header: this.displayedColumns.map(column =>
+        this.i18NextService.t(`pageParts.column.${column}`, { ns: 'page.parts' }),
+      ),
+      sortableColumns: this.sortableColumns,
+      customCellType: {
+        productionDate: 'date',
+      },
+    };
   }
 
   ngOnInit(): void {

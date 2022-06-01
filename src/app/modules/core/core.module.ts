@@ -22,6 +22,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { I18NextModule } from 'angular-i18next';
 import { environment } from '@env';
 import { LayoutModule } from '@layout/layout.module';
 import { AboutModule } from '@page/about/about.module';
@@ -40,6 +41,7 @@ import { MockedKeycloakService } from './auth/mocked-keycloak.service';
 import { CoreRoutingModule } from './core.routing';
 import { CanDeactivateGuard } from './user/can-deactivate.guard';
 import { UserService } from './user/user.service';
+import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
 
 @NgModule({
   declarations: [AppComponent],
@@ -54,6 +56,7 @@ import { UserService } from './user/user.service';
     AboutModule,
     DashboardModule,
     PartsModule,
+    I18NextModule.forRoot(),
   ],
   providers: [
     ApiService,
@@ -85,6 +88,7 @@ import { UserService } from './user/user.service';
       useClass: ApiInterceptor,
       multi: true,
     },
+    ...I18N_PROVIDERS,
   ],
   bootstrap: [AppComponent],
 })

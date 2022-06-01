@@ -17,7 +17,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<app-header title="{{ this.title }}"></app-header>
+<app-header title="{{ 'pageDashboard.title' | i18next }}"></app-header>
 <div class="dashboard-grid">
   <section class="parts-section">
     <ng-container
@@ -31,15 +31,30 @@ under the License.
     </ng-container>
 
     <ng-template #numberOfPartsMainTmp let-numberOfParts="view">
-      <app-card [id]="1" [label]="'Total of parts'" [icon]="'directions_car'" [stats]="numberOfParts?.data"></app-card>
+      <app-card
+        [id]="1"
+        [label]="'pageDashboard.totalOfParts.label' | i18next"
+        [icon]="'directions_car'"
+        [stats]="numberOfParts?.data"
+      ></app-card>
     </ng-template>
 
     <ng-template #numberOfPartsErrorTmp let-numberOfParts="view">
-      <app-card [id]="1" [label]="'Total of parts'" [icon]="'directions_car'" [stats]="0"></app-card>
+      <app-card
+        [id]="1"
+        [label]="'pageDashboard.totalOfParts.label' | i18next"
+        [icon]="'directions_car'"
+        [stats]="0"
+      ></app-card>
     </ng-template>
 
     <ng-template #numberOfPartsLoaderTmp let-numberOfParts="view">
-      <app-card [id]="1" [label]="'Total of parts'" [icon]="'directions_car'" [stats]="''"></app-card>
+      <app-card
+        [id]="1"
+        [label]="'pageDashboard.totalOfParts.label' | i18next"
+        [icon]="'directions_car'"
+        [stats]="''"
+      ></app-card>
     </ng-template>
   </section>
 </div>

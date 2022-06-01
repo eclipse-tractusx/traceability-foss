@@ -29,18 +29,20 @@ describe.only('Dashboard', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  it('should render header', async () => {
-    await renderComponent(DashboardComponent, {
+  const renderDashboard = () =>
+    renderComponent(DashboardComponent, {
       imports: [DashboardModule],
+      translations: ['page.dashboard'],
     });
+
+  it('should render header', async () => {
+    await renderDashboard();
 
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
   });
 
   it('should render total of parts', async () => {
-    await renderComponent(DashboardComponent, {
-      imports: [DashboardModule],
-    });
+    await renderDashboard();
 
     expect(await screen.findByText('3')).toBeInTheDocument();
 

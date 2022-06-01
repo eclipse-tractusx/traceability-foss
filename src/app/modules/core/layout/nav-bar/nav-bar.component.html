@@ -37,7 +37,7 @@ under the License.
             </ng-container>
             <div (click)="this.expand($event)" *ngIf="this.realm">
               <button class="navbar-menu-btn" id="user-menu" aria-haspopup="true">
-                <span class="sr-only">Open user menu</span>
+                <span class="sr-only">{{ 'layout.nav.openUserMenu' | i18next }}</span>
                 <app-avatar
                   [color]="'#fff'"
                   [size]="'2rem'"
@@ -76,7 +76,9 @@ under the License.
 
               <div class="navbar-menu-items" (click)="this.logOut()">
                 <mat-icon class="ml-2 text-tundora">power_settings_new</mat-icon>
-                <p class="regular-text navbar-menu-items__label" role="menuitem">Sign Out</p>
+                <p class="regular-text navbar-menu-items__label" role="menuitem">
+                  {{ 'layout.nav.signOut' | i18next }}
+                </p>
               </div>
             </div>
           </div>

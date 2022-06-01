@@ -31,18 +31,18 @@ const routes: Routes = [
   {
     path: 'dashboard',
     loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
-    data: { breadcrumb: 'Home' },
+    data: { breadcrumb: 'home' },
   },
   {
     path: 'parts',
     loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
-    data: { breadcrumb: 'Parts' },
+    data: { breadcrumb: 'parts' },
   },
 
   {
     path: 'about',
     loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
-    data: { breadcrumb: 'About' },
+    data: { breadcrumb: 'about' },
   },
 ];
 

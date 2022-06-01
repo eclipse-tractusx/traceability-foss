@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { I18NextModule } from 'angular-i18next';
 import { TableComponent } from '@shared/components/table/table.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -38,8 +39,7 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { RoleDirective } from './directives/role.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { ViewContainerDirective } from './directives/view-container.directive';
-import { AssetDatePipe } from './pipes/asset-date.pipe';
-import { DateSplitPipe } from './pipes/date-split.pipe';
+import { DatePipe } from './pipes/date.pipe';
 import { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
 import { ShortenPipe } from './pipes/shorten.pipe';
 import { MspidsResolver } from './resolver/mspids.resolver';
@@ -58,8 +58,7 @@ import { TemplateModule } from './template.module';
     TooltipDirective,
     RoleDirective,
     ShortenPipe,
-    DateSplitPipe,
-    AssetDatePipe,
+    DatePipe,
     FirstLetterUpperPipe,
     ViewContainerDirective,
     ClickOutsideDirective,
@@ -70,7 +69,7 @@ import { TemplateModule } from './template.module';
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
   ],
-  imports: [TemplateModule, TabsModule, RouterModule],
+  imports: [TemplateModule, TabsModule, RouterModule, I18NextModule],
   exports: [
     ConfirmDialogComponent,
     NotificationContainerComponent,
@@ -83,8 +82,7 @@ import { TemplateModule } from './template.module';
     RoleDirective,
     TabsModule,
     ShortenPipe,
-    DateSplitPipe,
-    AssetDatePipe,
+    DatePipe,
     FirstLetterUpperPipe,
     ViewContainerDirective,
     ClickOutsideDirective,
@@ -94,6 +92,7 @@ import { TemplateModule } from './template.module';
     StepBodyComponent,
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
+    I18NextModule,
   ],
   providers: [SharedService, MspidsResolver, OrganizationsResolver],
 })

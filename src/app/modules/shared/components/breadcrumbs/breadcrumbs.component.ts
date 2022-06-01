@@ -19,8 +19,9 @@
 
 // ToDo: May need to rework this component
 
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { LayoutFacade } from '../../abstraction/layout-facade';
 import { BreadCrumbModel } from './breadcrumb.model';
@@ -33,7 +34,12 @@ import { BreadCrumbModel } from './breadcrumb.model';
 export class BreadcrumbsComponent {
   public breadcrumbs: BreadCrumbModel[] = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private layoutFacade: LayoutFacade) {
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private layoutFacade: LayoutFacade,
+    @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService,
+  ) {
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
@@ -77,6 +83,12 @@ export class BreadcrumbsComponent {
     // We must set the breadcrumb label on the component and if we leave the route, we must put it back to empty
     if (breadcrumb.url && breadcrumb.label === '' && this.layoutFacade.breadcrumbLabel) {
       breadcrumb.label = this.layoutFacade.breadcrumbLabel;
+    }
+
+    // translate breadcrumb
+    if (breadcrumb.label) {
+      // each breadcrumb label should be registered in common translation under "routing" key
+      breadcrumb.label = this.i18NextService.t(`routing.${breadcrumb.label}`);
     }
 
     // Only adding route with non-empty label

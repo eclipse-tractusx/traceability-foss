@@ -1,0 +1,27 @@
+{
+  "routing": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "parts": "Parts",
+    "about": "About"
+  },
+  "layout": {
+    "nav": {
+      "openUserMenu": "Open user menu",
+      "signOut": "Sign out"
+    }
+  },
+  "errorPage": {
+    "pageNotFound": {
+      "message": "The page you requested could not be found"
+    }
+  },
+  "actions": {
+    "back": "Back"
+  },
+  "table": {
+    "noResultFound": "NO RESULTS FOUND.",
+    "tryAgain": "Please try again later.",
+    "selectPageSize": "Select page of periodic elements"
+  }
+}

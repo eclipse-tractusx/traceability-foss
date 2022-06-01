@@ -43,6 +43,7 @@
               "src/manifest.json",
               "src/assets/fonts",
               "src/assets/images",
+              "src/assets/locales",
               "src/mockServiceWorker.js",
               "src/favicon"
             ],
@@ -149,6 +150,7 @@
               "src/manifest.json",
               "src/assets/fonts",
               "src/assets/images",
+              "src/assets/locales",
               "src/mockServiceWorker.js",
               "src/favicon"
             ],

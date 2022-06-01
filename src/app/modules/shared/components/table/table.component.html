@@ -22,7 +22,10 @@ under the License.
     <th mat-header-cell *matHeaderCellDef mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}">
       {{ (tableConfig?.header && tableConfig.header[i]) || column }}
     </th>
-    <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
+    <td mat-cell *matCellDef="let element" [ngSwitch]="tableConfig?.customCellType?.[column]">
+      <ng-container *ngSwitchCase="'date'">{{ element[column] | appDate }}</ng-container>
+      <ng-container *ngSwitchDefault>{{ element[column] }}</ng-container>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="tableConfig.displayedColumns"></tr>
@@ -32,8 +35,8 @@ under the License.
       <div class="table--no-data">
         <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
         <br />
-        <h3>NO RESULTS FOUND.</h3>
-        <p>Please try again later.</p>
+        <h3>{{ 'table.noResultFound' | i18next }}</h3>
+        <p>{{ 'table.tryAgain' | i18next }}</p>
       </div>
     </td>
   </tr>
@@ -43,6 +46,6 @@ under the License.
   *ngIf="tableConfig.isPagination"
   [pageSizeOptions]="[5, 10, 20]"
   showFirstLastButtons
-  aria-label="Select page of periodic elements"
+  [attr.aria-label]="'table.selectPageSize' | i18next"
 >
 </mat-paginator>

@@ -17,17 +17,35 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID } from '@angular/core';
+import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
+import HttpApi from 'i18next-http-backend';
 
-@Pipe({ name: 'appAssetDate' })
-export class AssetDatePipe implements PipeTransform {
-  transform(timestamp: string): string {
-    if (!timestamp) {
-      return '';
-    }
-    const date: string = timestamp.split('T')[0];
-    const time: string = timestamp.split('T')[1].split('.')[0];
-    const splitDate = date.split('-');
-    return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}, ${time}`;
-  }
+export function appInit(i18next: ITranslationService) {
+  return () =>
+    i18next.use(HttpApi).init({
+      fallbackLng: 'en',
+      backend: {
+        loadPath: '/assets/locales/{{lng}}/{{ns}}.json',
+      },
+      ns: ['common'],
+    });
 }
+
+export function localeIdFactory(i18next: ITranslationService) {
+  return i18next.language;
+}
+
+export const I18N_PROVIDERS = [
+  {
+    provide: APP_INITIALIZER,
+    useFactory: appInit,
+    deps: [I18NEXT_SERVICE],
+    multi: true,
+  },
+  {
+    provide: LOCALE_ID,
+    deps: [I18NEXT_SERVICE],
+    useFactory: localeIdFactory,
+  },
+];

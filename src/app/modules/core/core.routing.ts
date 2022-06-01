@@ -35,7 +35,7 @@ const routes: Routes = [
     path: realm || defaultRealm,
     component: PrivateLayoutComponent,
     canActivate: [AuthGuard],
-    data: { breadcrumb: 'Home' },
+    data: { breadcrumb: 'home' },
     loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule),
   },
   {

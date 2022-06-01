@@ -19,10 +19,19 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 import { DashboardComponent } from './presentation/dashboard.component';
 
 export /** @type {*} */
-const DASHBOARD_ROUTING: Routes = [{ path: '', pathMatch: 'full', component: DashboardComponent }];
+const DASHBOARD_ROUTING: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: DashboardComponent,
+    data: { i18nextNamespaces: ['page.dashboard'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(DASHBOARD_ROUTING)],

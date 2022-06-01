@@ -17,19 +17,62 @@
  * under the License.
  */
 
-import { render } from '@testing-library/angular';
+import { Type, ɵɵFactoryDeclaration, ɵɵComponentDeclaration } from '@angular/core';
+import { render, RenderComponentOptions, RenderTemplateOptions, RenderResult } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
+import { I18NextModule } from 'angular-i18next';
 import { KeycloakService } from 'keycloak-angular';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 
-export const renderComponent: typeof render = (cmp, { imports = [], providers = [], ...restConfig }) =>
+import { APP_INITIALIZER } from '@angular/core';
+import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
+
+// we have to complete redefine render function from testing-library in order to add custom option
+declare function ExtendedRenderFn<ComponentType>(
+  component: Type<ComponentType>,
+  renderOptions?: RenderComponentOptions<ComponentType> & { translations?: string[] },
+): Promise<RenderResult<ComponentType, ComponentType>>;
+declare function ExtendedRenderFn<WrapperType = WrapperComponent>(
+  template: string,
+  renderOptions?: RenderTemplateOptions<WrapperType> & { translations?: string[] },
+): Promise<RenderResult<WrapperType>>;
+declare class WrapperComponent {
+  static ɵfac: ɵɵFactoryDeclaration<WrapperComponent, never>;
+  static ɵcmp: ɵɵComponentDeclaration<WrapperComponent, 'atl-wrapper-component', never, {}, {}, never, never>;
+}
+
+export const renderComponent: typeof ExtendedRenderFn = (
+  cmp,
+  { imports = [], providers = [], translations = [], ...restConfig },
+) =>
   render(cmp, {
-    imports: [...imports, HttpClientModule],
+    imports: [...imports, I18NextModule.forRoot(), HttpClientModule],
     providers: [
       ...providers,
       {
         provide: KeycloakService,
         useClass: MockedKeycloakService,
+      },
+      {
+        provide: APP_INITIALIZER,
+        useFactory: (i18next: ITranslationService) => {
+          return () =>
+            i18next.init({
+              fallbackLng: 'en',
+              resources: {
+                en: {
+                  translation: translations.reduce(
+                    (acc, translationFile) => ({ ...acc, ...require(`../assets/locales/en/${translationFile}.json`) }),
+                    {
+                      ...require('../assets/locales/en/common.json'),
+                    },
+                  ),
+                },
+              },
+            });
+        },
+        deps: [I18NEXT_SERVICE],
+        multi: true,
       },
     ],
     ...restConfig,

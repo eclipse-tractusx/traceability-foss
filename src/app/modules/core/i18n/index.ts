@@ -17,19 +17,4 @@
  * under the License.
  */
 
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { getI18nPageProvider } from '@core/i18n';
-import { PartsFacade } from '@page/parts/core/parts.facade';
-import { PartsService } from '@page/parts/core/parts.service';
-import { PartsState } from '@page/parts/core/parts.state';
-import { SharedModule, TemplateModule } from '@shared';
-import { PartsRoutingModule } from './parts.routing';
-import { PartsComponent } from './presentation/parts.component';
-
-@NgModule({
-  declarations: [PartsComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule],
-  providers: [PartsState, PartsFacade, PartsService, ...getI18nPageProvider('page.parts')],
-})
-export class PartsModule {}
+export { getI18nPageProvider } from './local-i18n.provider';

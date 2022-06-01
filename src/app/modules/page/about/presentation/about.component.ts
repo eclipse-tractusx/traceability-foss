@@ -25,5 +25,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent {
-  public title = 'About Catena-X';
+  public projectName = 'Catena-X';
 }
