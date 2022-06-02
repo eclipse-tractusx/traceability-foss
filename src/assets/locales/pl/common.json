@@ -1,0 +1,34 @@
+{
+  "routing": {
+    "home": "Strona główna",
+    "dashboard": "Półpit",
+    "parts": "Części",
+    "about": "O nas"
+  },
+  "layout": {
+    "nav": {
+      "openUserMenu": "Otwórz menu użytkownika",
+      "signOut": "Wyloguj się"
+    }
+  },
+  "errorPage": {
+    "pageNotFound": {
+      "message": "Strona, której szukasz, nie istnieje"
+    }
+  },
+  "actions": {
+    "back": "Powróć"
+  },
+  "error": {
+    "genericTitle": "Error"
+  },
+  "table": {
+    "noResultFound": "BRAK WYNIKÓW.",
+    "tryAgain": "Spróbuj ponownie później.",
+    "selectPageSize": "Wybierz ilość elementów na stronie"
+  },
+  "dataLoading": {
+    "inProgress": "Ładowanie danych...",
+    "error": "Błąd podczas ładowania danych"
+  }
+}

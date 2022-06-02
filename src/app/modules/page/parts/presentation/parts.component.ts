@@ -32,8 +32,6 @@ interface Parts {}
   styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit {
-  public readonly title = 'Catena-X Parts';
-
   public readonly displayedColumns: string[] = [
     'id',
     'name',
@@ -62,7 +60,14 @@ export class PartsComponent implements OnInit {
 
   constructor(private readonly partsFacade: PartsFacade) {
     this.parts$ = this.partsFacade.parts$;
-    this.tableConfig = { displayedColumns: this.displayedColumns, sortableColumns: this.sortableColumns };
+    this.tableConfig = {
+      displayedColumns: this.displayedColumns,
+      header: this.displayedColumns.map(column => `pageParts.column.${column}`),
+      sortableColumns: this.sortableColumns,
+      customCellType: {
+        productionDate: 'date',
+      },
+    };
   }
 
   ngOnInit(): void {

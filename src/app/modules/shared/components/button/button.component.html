@@ -80,11 +80,16 @@ under the License.
 </ng-template>
 
 <ng-template #iconElement>
-  <mat-icon>{{ this.iconName }}</mat-icon> {{ this.label }}
+  <mat-icon>{{ this.iconName }}</mat-icon>
+  <ng-container [ngTemplateOutlet]="content"></ng-container>
 </ng-template>
 
 <ng-template #buttonContent>
   <ng-container *ngIf="!this.iconName; else iconElement">
-    {{ this.label }}
+    <ng-container [ngTemplateOutlet]="content"></ng-container>
   </ng-container>
+</ng-template>
+
+<ng-template #content>
+  <ng-content></ng-content>
 </ng-template>

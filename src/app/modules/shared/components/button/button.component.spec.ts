@@ -24,21 +24,20 @@ import { ButtonComponent } from '@shared';
 
 describe('Button', () => {
   it('should render regular button', async () => {
-    await renderComponent(`<app-button label="Test" (click)="clickHandler"></app-button>`, {
+    await renderComponent(`<app-button (click)="clickHandler">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
     const buttonEl = screen.getByText('Test');
 
     expect(buttonEl).toBeInTheDocument();
-    expect(buttonEl).toHaveClass('mat-primary');
     expect(buttonEl).toHaveAttribute('mat-button');
     expect(buttonEl).toBeEnabled();
   });
 
   it('should click regular button', async () => {
     const clickHandler = jest.fn();
-    await renderComponent(`<app-button label="Test" (click)="clickHandler($event)"></app-button>`, {
+    await renderComponent(`<app-button (click)="clickHandler($event)">Test</app-button>`, {
       declarations: [ButtonComponent],
       componentProperties: {
         clickHandler,
@@ -53,7 +52,7 @@ describe('Button', () => {
   });
 
   it('should render accent button', async () => {
-    await renderComponent(`<app-button label="Test" color="accent"></app-button>`, {
+    await renderComponent(`<app-button color="accent">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
@@ -61,7 +60,7 @@ describe('Button', () => {
   });
 
   it('should render warn button', async () => {
-    await renderComponent(`<app-button label="Test" color="warn"></app-button>`, {
+    await renderComponent(`<app-button color="warn">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
@@ -69,7 +68,7 @@ describe('Button', () => {
   });
 
   it('should render enabled button', async () => {
-    await renderComponent(`<app-button [isDisabled]="false" label="Test"></app-button>`, {
+    await renderComponent(`<app-button [isDisabled]="false">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
@@ -80,7 +79,7 @@ describe('Button', () => {
   });
 
   it('should render disabled button', async () => {
-    await renderComponent(`<app-button [isDisabled]="true" label="Test"></app-button>`, {
+    await renderComponent(`<app-button [isDisabled]="true">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
@@ -90,7 +89,7 @@ describe('Button', () => {
   });
 
   it('should render raised button', async () => {
-    await renderComponent(`<app-button variant="raised" label="Test"></app-button>`, {
+    await renderComponent(`<app-button variant="raised">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
@@ -100,7 +99,7 @@ describe('Button', () => {
   });
 
   it('should render flat button', async () => {
-    await renderComponent(`<app-button variant="flat" label="Test"></app-button>`, {
+    await renderComponent(`<app-button variant="flat">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
@@ -110,7 +109,7 @@ describe('Button', () => {
   });
 
   it('should render stroked button', async () => {
-    await renderComponent(`<app-button variant="stroked" label="Test"></app-button>`, {
+    await renderComponent(`<app-button variant="stroked">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
@@ -120,7 +119,7 @@ describe('Button', () => {
   });
 
   it('should render stroked button', async () => {
-    await renderComponent(`<app-button variant="stroked" label="Test"></app-button>`, {
+    await renderComponent(`<app-button variant="stroked">Test</app-button>`, {
       declarations: [ButtonComponent],
     });
 
@@ -130,7 +129,7 @@ describe('Button', () => {
   });
 
   it('should render icon button', async () => {
-    await renderComponent(`<app-button variant="icon" iconName="home" label="Test"></app-button>`, {
+    await renderComponent(`<app-button variant="icon" iconName="home">Test</app-button>`, {
       declarations: [ButtonComponent],
       imports: [MatIconModule],
     });
@@ -143,7 +142,7 @@ describe('Button', () => {
   });
 
   it('should render fab button', async () => {
-    await renderComponent(`<app-button variant="fab" iconName="home" label="Test"></app-button>`, {
+    await renderComponent(`<app-button variant="fab" iconName="home">Test</app-button>`, {
       declarations: [ButtonComponent],
       imports: [MatIconModule],
     });
@@ -156,7 +155,7 @@ describe('Button', () => {
   });
 
   it('should render mini fab button', async () => {
-    await renderComponent(`<app-button variant="miniFab" iconName="home" label="Test"></app-button>`, {
+    await renderComponent(`<app-button variant="miniFab" iconName="home">Test</app-button>`, {
       declarations: [ButtonComponent],
       imports: [MatIconModule],
     });

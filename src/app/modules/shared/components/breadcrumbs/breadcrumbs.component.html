@@ -24,7 +24,7 @@ under the License.
       routerLinkActive="router-link-active"
       (click)="this.navigate(breadcrumb.url, i)"
     >
-      {{ breadcrumb.label }}
+      {{ breadcrumb.label | i18n }}
     </span>
   </li>
 </ol>

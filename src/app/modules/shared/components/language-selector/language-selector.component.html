@@ -14,15 +14,13 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
-
-<div class="page-not-found-container">
-  <section class="page-not-found-content">
-    <h1 class="text-9xl mb-4">404</h1>
-    <h3 class="mb-8">{{ 'errorPage.pageNotFound.message' | i18n }}</h3>
-    <a href="#">
-      <app-button [variant]="'raised'" [color]="'primary'">{{ 'actions.back' | i18n }}</app-button>
-    </a>
-  </section>
-</div>
+<app-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" iconName="language">
+  <span class="selectedText">{{ currentLocale }}</span>
+</app-button>
+<mat-menu #menu="matMenu">
+  <button *ngFor="let localEntry of locales" (click)="handleClick(localEntry.locale)" mat-menu-item>
+    {{ localEntry.label }}
+  </button>
+</mat-menu>

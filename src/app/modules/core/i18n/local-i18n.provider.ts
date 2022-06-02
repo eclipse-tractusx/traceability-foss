@@ -17,16 +17,11 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { I18NEXT_NAMESPACE } from 'angular-i18next';
 
-@Pipe({ name: 'appDateSplit' })
-export class DateSplitPipe implements PipeTransform {
-  transform(date: string): string {
-    if (!date) {
-      return '';
-    }
-    const dateWithoutTime = date.split('T')[0];
-    const splitDate = dateWithoutTime.split('-');
-    return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`;
-  }
-}
+export const getI18nPageProvider = (pageNs: string) => [
+  {
+    provide: I18NEXT_NAMESPACE,
+    useValue: ['common', pageNs],
+  },
+];

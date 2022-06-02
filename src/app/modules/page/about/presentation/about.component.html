@@ -18,15 +18,9 @@ under the License.
 -->
 
 <div class="about-container">
-  <app-header [title]="this.title"></app-header>
-  <section class="mt-4">
-    <p class="regular-text">
-      A high level of transparency across the supplier network enables faster intervention based on recorded event in
-      the supply chain.
-    </p>
-    <p class="regular-text">
-      This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by
-      the companies and persons involved in the process.
-    </p>
-  </section>
+  <app-header [title]="'pageAbout.title' | i18n"></app-header>
+  <section
+    class="mt-4 regular-text"
+    [innerHTML]="'pageAbout.content' | i18n: { interpolation: { escapeValue: false } }"
+  ></section>
 </div>

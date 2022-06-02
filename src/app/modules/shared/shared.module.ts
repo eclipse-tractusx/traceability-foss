@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { I18NextModule } from 'angular-i18next';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
@@ -41,13 +42,14 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { RoleDirective } from './directives/role.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { ViewContainerDirective } from './directives/view-container.directive';
-import { AssetDatePipe } from './pipes/asset-date.pipe';
-import { DateSplitPipe } from './pipes/date-split.pipe';
+import { FormatDatePipe } from './pipes/format-date.pipe';
 import { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
 import { ShortenPipe } from './pipes/shorten.pipe';
 import { MspidsResolver } from './resolver/mspids.resolver';
 import { OrganizationsResolver } from './resolver/organizations.resolver';
 import { TemplateModule } from './template.module';
+import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
+import { I18nPipe } from './pipes/i18n.pipe';
 
 @NgModule({
   declarations: [
@@ -61,9 +63,9 @@ import { TemplateModule } from './template.module';
     TooltipDirective,
     RoleDirective,
     ShortenPipe,
-    DateSplitPipe,
-    AssetDatePipe,
+    I18nPipe,
     FirstLetterUpperPipe,
+    FormatDatePipe,
     ViewContainerDirective,
     ClickOutsideDirective,
     AvatarComponent,
@@ -72,11 +74,12 @@ import { TemplateModule } from './template.module';
     StepBodyComponent,
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
+    LanguageSelectorComponent,
     CardIconComponent,
     CardListComponent,
     ToKeyValuePipe,
   ],
-  imports: [TemplateModule, TabsModule, RouterModule],
+  imports: [TemplateModule, TabsModule, RouterModule, I18NextModule],
   exports: [
     ConfirmDialogComponent,
     NotificationContainerComponent,
@@ -89,8 +92,8 @@ import { TemplateModule } from './template.module';
     RoleDirective,
     TabsModule,
     ShortenPipe,
-    DateSplitPipe,
-    AssetDatePipe,
+    I18nPipe,
+    FormatDatePipe,
     FirstLetterUpperPipe,
     ViewContainerDirective,
     ClickOutsideDirective,
@@ -100,6 +103,8 @@ import { TemplateModule } from './template.module';
     StepBodyComponent,
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
+    I18NextModule,
+    LanguageSelectorComponent,
     CardIconComponent,
     CardListComponent,
   ],

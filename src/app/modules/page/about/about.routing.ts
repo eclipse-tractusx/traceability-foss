@@ -19,10 +19,19 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 import { AboutComponent } from './presentation/about.component';
 
 export /** @type {*} */
-const ABOUT_ROUTING: Routes = [{ path: '', pathMatch: 'full', component: AboutComponent }];
+const ABOUT_ROUTING: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: AboutComponent,
+    data: { i18nextNamespaces: ['page.about'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forChild(ABOUT_ROUTING)],

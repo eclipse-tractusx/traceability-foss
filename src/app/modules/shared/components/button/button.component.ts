@@ -27,7 +27,7 @@ type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' |
 })
 export class ButtonComponent {
   @ViewChild('ButtonElement') buttonElement: ElementRef;
-  @Input() color: 'primary' | 'accent' | 'warn' = 'primary';
+  @Input() color: 'primary' | 'accent' | 'warn';
   @Input() variant: ButtonVariant = 'button';
 
   @Input() label: string;
@@ -36,7 +36,7 @@ export class ButtonComponent {
 
   @Output() click: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
-  public getClasses(): Record<string, boolean> {
-    return { ['mat-' + this.color]: true };
+  public getClasses(): string {
+    return 'mat-' + this.color;
   }
 }

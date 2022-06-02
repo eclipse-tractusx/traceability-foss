@@ -17,7 +17,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<app-header title="{{ this.title }}"></app-header>
+<app-header title="{{ 'pageDashboard.title' | i18n }}"></app-header>
 <div class="dashboard-grid">
   <section class="parts-section">
     <ng-container
@@ -31,15 +31,27 @@ under the License.
     </ng-container>
 
     <ng-template #numberOfPartsMainTmp let-numberOfParts="view">
-      <app-card-icon [label]="'Total of parts'" [icon]="'directions_car'" [stats]="numberOfParts?.data"></app-card-icon>
+      <app-card-icon
+        [label]="'pageDashboard.totalOfParts.label' | i18n"
+        [icon]="'directions_car'"
+        [stats]="numberOfParts?.data"
+      ></app-card-icon>
     </ng-template>
 
     <ng-template #numberOfPartsErrorTmp let-numberOfParts="view">
-      <app-card-icon [label]="'Total of parts'" [icon]="'directions_car'" [stats]="0"></app-card-icon>
+      <app-card-icon
+        [label]="'pageDashboard.totalOfParts.label' | i18n"
+        [icon]="'directions_car'"
+        [stats]="0"
+      ></app-card-icon>
     </ng-template>
 
     <ng-template #numberOfPartsLoaderTmp let-numberOfParts="view">
-      <app-card-icon [label]="'Total of parts'" [icon]="'directions_car'" [stats]="''"></app-card-icon>
+      <app-card-icon
+        [label]="'pageDashboard.totalOfParts.label' | i18n"
+        [icon]="'directions_car'"
+        [stats]="''"
+      ></app-card-icon>
     </ng-template>
   </section>
 </div>

@@ -38,7 +38,7 @@ under the License.
       >
       </ng-container>
       <mat-card>
-        <mat-card-title>Relations</mat-card-title>
+        <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
         <mat-card-content> </mat-card-content>
       </mat-card>
     </div>
@@ -66,27 +66,27 @@ under the License.
 </mat-sidenav-container>
 
 <ng-template #partDetailsMainTmp let-partDetails="view">
-  <app-card-list [list]="partDetails.data" [title]="'Overview'"></app-card-list>
+  <app-card-list [list]="partDetails.data" [title]="'partDetail.overview' | i18n"></app-card-list>
 </ng-template>
 
 <ng-template #manufacturerDetailsMainTmp let-manufacturerDetails="view">
-  <app-card-list [list]="manufacturerDetails.data" [title]="'Manufacturer data'"></app-card-list>
+  <app-card-list [list]="manufacturerDetails.data" [title]="'partDetail.manufacturerData' | i18n"></app-card-list>
 </ng-template>
 
 <ng-template #customerDetailsMainTmp let-customerDetails="view">
-  <app-card-list [list]="customerDetails.data" [title]="'Customer data'"></app-card-list>
+  <app-card-list [list]="customerDetails.data" [title]="'partDetail.customerData' | i18n"></app-card-list>
 </ng-template>
 
 <ng-template #errorTmp let-customerDetails="view">
   <mat-card>
-    <mat-card-title>Error while loading data</mat-card-title>
+    <mat-card-title>{{ 'dataLoading.error' | i18n }}</mat-card-title>
     <mat-card-content>{{ customerDetails.error.message }}</mat-card-content>
   </mat-card>
 </ng-template>
 
 <ng-template #loaderTmp>
   <mat-card>
-    <mat-card-title>Loading data...</mat-card-title>
+    <mat-card-title>{{ 'dataLoading.inProgress' | i18n }}</mat-card-title>
     <mat-card-content><mat-spinner></mat-spinner></mat-card-content>
   </mat-card>
 </ng-template>

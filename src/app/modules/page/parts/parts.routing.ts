@@ -19,13 +19,22 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 import { PartsComponent } from './presentation/parts.component';
 
 export /** @type {*} */
-const ABOUT_ROUTING: Routes = [{ path: '', pathMatch: 'full', component: PartsComponent }];
+const PARTS_ROUTING: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: PartsComponent,
+    data: { i18nextNamespaces: ['page.parts'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+];
 
 @NgModule({
-  imports: [RouterModule.forChild(ABOUT_ROUTING)],
+  imports: [RouterModule.forChild(PARTS_ROUTING)],
   exports: [RouterModule],
 })
 export class PartsRoutingModule {}

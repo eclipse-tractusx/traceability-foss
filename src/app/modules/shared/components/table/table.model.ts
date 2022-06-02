@@ -17,9 +17,12 @@
  * under the License.
  */
 
+type CustomCellType = 'string' | 'number' | 'date';
+
 export interface TableConfig {
   displayedColumns: string[];
   sortableColumns: Record<string, boolean>;
   header?: string[];
   isPagination?: boolean;
+  customCellType?: Record<string, CustomCellType>;
 }

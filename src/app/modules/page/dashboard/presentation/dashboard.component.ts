@@ -29,7 +29,6 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
-  public title = 'Dashboard';
   public numberOfParts$: Observable<View<number>>;
 
   constructor(private dashboardFacade: DashboardFacade) {

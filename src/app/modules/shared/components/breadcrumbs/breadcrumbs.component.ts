@@ -79,6 +79,12 @@ export class BreadcrumbsComponent {
       breadcrumb.label = this.layoutFacade.breadcrumbLabel;
     }
 
+    // translate breadcrumb
+    if (breadcrumb.label) {
+      // each breadcrumb label should be registered in common translation under "routing" key
+      breadcrumb.label = `routing.${breadcrumb.label}`;
+    }
+
     // Only adding route with non-empty label
     const newBreadcrumbs = breadcrumb.label ? [...breadcrumbs, breadcrumb] : [...breadcrumbs];
     if (route.firstChild) {

@@ -1,0 +1,21 @@
+{
+  "pageParts": {
+    "title": "Catena-X Części",
+    "column": {
+      "id": "ID",
+      "name": "Nazwa",
+      "manufacturer": "Producent",
+      "partNumber": "Part Number",
+      "serialNumber": "Numer Seryjny",
+      "qualityType": "Typ Jakości",
+      "productionDate": "Data Produkcji",
+      "productionCountry": "Kraj Produkcji"
+    }
+  },
+  "partDetail": {
+    "relations": "Relacje",
+    "overview": "Informacje ogólne",
+    "manufacturerData": "Dane producenta",
+    "customerData": "Dane klienta"
+  }
+}
