@@ -17,18 +17,14 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<div class="card-container">
-  <div class="avatar-container">
-    <div class="avatar">
-      <span class="avatar__label">
-        <mat-icon aria-hidden="false" class="card--icon">{{ this.icon }}</mat-icon>
-      </span>
+<mat-card>
+  <mat-card-title>{{ title }}</mat-card-title>
+  <mat-card-content class="card-container">
+    <div class="card-list--container">
+      <div *ngFor="let item of list | ToKeyValue" class="card-list--row">
+        <p class="card-list--cell card-list--key">{{ item.key }}</p>
+        <p class="card-list--cell card-list--value">{{ item.value }}</p>
+      </div>
     </div>
-  </div>
-  <div class="label-container">
-    <p class="small-text text-dustyGray uppercase" [id]="htmlId + '-label'">
-      {{ this.label }}
-    </p>
-    <p class="text-2xl" [attr.aria-describedby]="htmlId + '-label'">{{ this.stats }}</p>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>

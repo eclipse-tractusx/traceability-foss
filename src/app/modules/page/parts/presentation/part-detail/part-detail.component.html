@@ -1,0 +1,92 @@
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<mat-sidenav-container
+  [hasBackdrop]="true"
+  [class.part-detail--open]="isOpen$ | async"
+  class="part-detail--container"
+  data-testid="part-detail--sidenav"
+>
+  <mat-sidenav
+    #sidenav
+    mode="over"
+    class="part-detail--sidenav"
+    position="end"
+    [fixedInViewport]="true"
+    [fixedTopGap]="64"
+    (openedChange)="isOpen = $event"
+  >
+    <div class="part-detail--part-info">
+      <ng-container
+        *viewContainer="this.partDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+      >
+      </ng-container>
+      <mat-card>
+        <mat-card-title>Relations</mat-card-title>
+        <mat-card-content> </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="part-detail--manufacturer-info">
+      <ng-container
+        *viewContainer="
+          this.manufacturerDetails$ | async;
+          main: manufacturerDetailsMainTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      ></ng-container>
+
+      <ng-container
+        *viewContainer="
+          this.customerDetails$ | async;
+          main: customerDetailsMainTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      ></ng-container>
+    </div>
+  </mat-sidenav>
+</mat-sidenav-container>
+
+<ng-template #partDetailsMainTmp let-partDetails="view">
+  <app-card-list [list]="partDetails.data" [title]="'Overview'"></app-card-list>
+</ng-template>
+
+<ng-template #manufacturerDetailsMainTmp let-manufacturerDetails="view">
+  <app-card-list [list]="manufacturerDetails.data" [title]="'Manufacturer data'"></app-card-list>
+</ng-template>
+
+<ng-template #customerDetailsMainTmp let-customerDetails="view">
+  <app-card-list [list]="customerDetails.data" [title]="'Customer data'"></app-card-list>
+</ng-template>
+
+<ng-template #errorTmp let-customerDetails="view">
+  <mat-card>
+    <mat-card-title>Error while loading data</mat-card-title>
+    <mat-card-content>{{ customerDetails.error.message }}</mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #loaderTmp>
+  <mat-card>
+    <mat-card-title>Loading data...</mat-card-title>
+    <mat-card-content><mat-spinner></mat-spinner></mat-card-content>
+  </mat-card>
+</ng-template>

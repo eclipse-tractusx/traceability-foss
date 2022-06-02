@@ -19,6 +19,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { PartsFacade } from '@page/parts/core/parts.facade';
+import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { TableConfig } from '@shared/components/table/table.model';
 import { Observable } from 'rxjs';
@@ -69,6 +70,6 @@ export class PartsComponent implements OnInit {
   }
 
   public onSelectItem($event: Record<string, unknown>) {
-    console.log($event);
+    this.partsFacade.selectedPart = $event as unknown as Part;
   }
 }

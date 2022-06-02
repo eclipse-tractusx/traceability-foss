@@ -29,6 +29,8 @@ export interface Part {
   qualityType: QualityType;
   productionDate: Date;
   children: string[];
+  nameAtCustomer?: string;
+  customerPartId?: string;
 }
 
 export interface PartResponse {

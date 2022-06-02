@@ -19,7 +19,10 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { TableComponent } from '@shared/components/table/table.component';
+import { CardIconComponent } from './components/card-icon/card-icon.component';
+import { CardListComponent } from './components/card-list/card-list.component';
+import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
+import { TableComponent } from './components/table/table.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
@@ -69,6 +72,9 @@ import { TemplateModule } from './template.module';
     StepBodyComponent,
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
+    CardIconComponent,
+    CardListComponent,
+    ToKeyValuePipe,
   ],
   imports: [TemplateModule, TabsModule, RouterModule],
   exports: [
@@ -94,6 +100,8 @@ import { TemplateModule } from './template.module';
     StepBodyComponent,
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
+    CardIconComponent,
+    CardListComponent,
   ],
   providers: [SharedService, MspidsResolver, OrganizationsResolver],
 })

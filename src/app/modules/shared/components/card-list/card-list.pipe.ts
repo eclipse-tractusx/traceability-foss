@@ -17,25 +17,15 @@
  * under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-@Component({
-  selector: 'app-card',
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CardComponent {
-  private static nextId = 0;
+@Pipe({ name: 'ToKeyValue', pure: true })
+export class ToKeyValuePipe implements PipeTransform {
+  transform(value: Record<string, unknown>): { key: string; value: unknown }[] {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      return [];
+    }
 
-  static generateId() {
-    return CardComponent.nextId++;
+    return Object.keys(value).map(key => ({ key, value: value[key] }));
   }
-
-  @Input() id: number;
-  @Input() label: string;
-  @Input() stats: number | string;
-  @Input() icon: string;
-
-  readonly htmlId = 'app-card-' + CardComponent.generateId();
 }
