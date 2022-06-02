@@ -27,7 +27,7 @@ describe('LanguageSelector', () => {
     renderComponent(
       `
     <app-language-selector></app-language-selector>
-    <div>{{'actions.back' | appTranslate}}</div>
+    <div>{{'actions.back' | i18n}}</div>
   `,
       {
         imports: [SharedModule],

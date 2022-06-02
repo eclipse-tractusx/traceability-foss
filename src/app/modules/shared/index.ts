@@ -51,7 +51,7 @@ export { View } from './model/view.model';
 export { FormatDatePipe } from './pipes/format-date.pipe';
 export { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
 export { ShortenPipe } from './pipes/shorten.pipe';
-export { TranslatePipe } from './pipes/translate.pipe';
+export { I18nPipe } from './pipes/i18n.pipe';
 export { MspidsResolver } from './resolver/mspids.resolver';
 export { OrganizationsResolver } from './resolver/organizations.resolver';
 export { SharedModule } from './shared.module';

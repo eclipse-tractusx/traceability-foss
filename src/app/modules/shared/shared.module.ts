@@ -46,7 +46,7 @@ import { MspidsResolver } from './resolver/mspids.resolver';
 import { OrganizationsResolver } from './resolver/organizations.resolver';
 import { TemplateModule } from './template.module';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
-import { TranslatePipe } from './pipes/translate.pipe';
+import { I18nPipe } from './pipes/i18n.pipe';
 
 @NgModule({
   declarations: [
@@ -60,7 +60,7 @@ import { TranslatePipe } from './pipes/translate.pipe';
     TooltipDirective,
     RoleDirective,
     ShortenPipe,
-    TranslatePipe,
+    I18nPipe,
     FirstLetterUpperPipe,
     FormatDatePipe,
     ViewContainerDirective,
@@ -86,7 +86,7 @@ import { TranslatePipe } from './pipes/translate.pipe';
     RoleDirective,
     TabsModule,
     ShortenPipe,
-    TranslatePipe,
+    I18nPipe,
     FormatDatePipe,
     FirstLetterUpperPipe,
     ViewContainerDirective,

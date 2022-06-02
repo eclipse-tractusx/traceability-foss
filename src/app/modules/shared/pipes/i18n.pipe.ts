@@ -20,8 +20,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { I18NextPipe, PipeOptions } from 'angular-i18next';
 
-@Pipe({ name: 'appTranslate', pure: false })
-export class TranslatePipe implements PipeTransform {
+@Pipe({ name: 'i18n', pure: false })
+export class I18nPipe implements PipeTransform {
   constructor(private i18NextPipe: I18NextPipe) {}
 
   transform(key: string | string[], options?: PipeOptions): string {

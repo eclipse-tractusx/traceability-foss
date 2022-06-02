@@ -30,7 +30,7 @@ under the License.
         <li>
           <app-sidebar-section
             (click)="this.navigate('dashboard')"
-            [name]="'routing.dashboard' | appTranslate"
+            [name]="'routing.dashboard' | i18n"
             [isActive]="this.activeMenu === 'dashboard'"
             [isExpanded]="this.expanded"
             [iconName]="'dashboard'"
@@ -39,7 +39,7 @@ under the License.
         <li>
           <app-sidebar-section
             (click)="this.navigate('parts')"
-            [name]="'routing.parts' | appTranslate"
+            [name]="'routing.parts' | i18n"
             [isActive]="this.activeMenu === 'parts'"
             [isExpanded]="this.expanded"
             [iconName]="'build'"
@@ -59,7 +59,7 @@ under the License.
         <li>
           <app-sidebar-section
             (click)="this.navigate('about')"
-            [name]="'routing.about' | appTranslate"
+            [name]="'routing.about' | i18n"
             [isActive]="this.activeMenu === 'about'"
             [isExpanded]="this.expanded"
             [iconName]="'info'"
