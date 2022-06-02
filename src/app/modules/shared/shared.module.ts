@@ -39,13 +39,14 @@ import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { RoleDirective } from './directives/role.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { ViewContainerDirective } from './directives/view-container.directive';
-import { DatePipe } from './pipes/date.pipe';
+import { FormatDatePipe } from './pipes/format-date.pipe';
 import { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
 import { ShortenPipe } from './pipes/shorten.pipe';
 import { MspidsResolver } from './resolver/mspids.resolver';
 import { OrganizationsResolver } from './resolver/organizations.resolver';
 import { TemplateModule } from './template.module';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
+import { TranslatePipe } from './pipes/translate.pipe';
 
 @NgModule({
   declarations: [
@@ -59,8 +60,9 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
     TooltipDirective,
     RoleDirective,
     ShortenPipe,
-    DatePipe,
+    TranslatePipe,
     FirstLetterUpperPipe,
+    FormatDatePipe,
     ViewContainerDirective,
     ClickOutsideDirective,
     AvatarComponent,
@@ -84,7 +86,8 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
     RoleDirective,
     TabsModule,
     ShortenPipe,
-    DatePipe,
+    TranslatePipe,
+    FormatDatePipe,
     FirstLetterUpperPipe,
     ViewContainerDirective,
     ClickOutsideDirective,

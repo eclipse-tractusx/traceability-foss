@@ -17,26 +17,14 @@
  * under the License.
  */
 
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { I18NextPipe, PipeOptions } from 'angular-i18next';
 
-type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'mini-fab';
+@Pipe({ name: 'appTranslate', pure: false })
+export class TranslatePipe implements PipeTransform {
+  constructor(private i18NextPipe: I18NextPipe) {}
 
-@Component({
-  selector: 'app-button',
-  templateUrl: './button.component.html',
-})
-export class ButtonComponent {
-  @ViewChild('ButtonElement') buttonElement: ElementRef;
-  @Input() color: 'primary' | 'accent' | 'warn';
-  @Input() variant: ButtonVariant = 'button';
-
-  @Input() label: string;
-  @Input() iconName: string;
-  @Input() isDisabled: boolean = false;
-
-  @Output() click: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
-
-  public getClasses(): string {
-    return 'mat-' + this.color;
+  transform(key: string | string[], options?: PipeOptions): string {
+    return this.i18NextPipe.transform(key, options);
   }
 }

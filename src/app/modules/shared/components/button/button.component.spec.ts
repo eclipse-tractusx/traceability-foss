@@ -31,7 +31,6 @@ describe('Button', () => {
     const buttonEl = screen.getByText('Test');
 
     expect(buttonEl).toBeInTheDocument();
-    expect(buttonEl).toHaveClass('mat-primary');
     expect(buttonEl).toHaveAttribute('mat-button');
     expect(buttonEl).toBeEnabled();
   });

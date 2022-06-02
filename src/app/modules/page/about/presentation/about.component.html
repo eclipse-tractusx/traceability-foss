@@ -18,9 +18,9 @@ under the License.
 -->
 
 <div class="about-container">
-  <app-header [title]="'pageAbout.title' | i18nextEager: { projectName: projectName }"></app-header>
+  <app-header [title]="'pageAbout.title' | appTranslate"></app-header>
   <section
     class="mt-4 regular-text"
-    [innerHTML]="'pageAbout.content' | i18nextEager: { interpolation: { escapeValue: false } }"
+    [innerHTML]="'pageAbout.content' | appTranslate: { interpolation: { escapeValue: false } }"
   ></section>
 </div>

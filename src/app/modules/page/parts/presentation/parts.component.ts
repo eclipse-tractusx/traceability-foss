@@ -32,8 +32,6 @@ interface Parts {}
   styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit {
-  public readonly projectName = 'Catena-X';
-
   public readonly displayedColumns: string[] = [
     'id',
     'name',

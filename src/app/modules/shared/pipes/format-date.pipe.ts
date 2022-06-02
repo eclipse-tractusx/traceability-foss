@@ -21,8 +21,8 @@ import { Pipe, PipeTransform, Inject, OnDestroy } from '@angular/core';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import type { Subscription } from 'rxjs';
 
-@Pipe({ name: 'appDate', pure: false })
-export class DatePipe implements PipeTransform, OnDestroy {
+@Pipe({ name: 'appFormatDate', pure: false })
+export class FormatDatePipe implements PipeTransform, OnDestroy {
   private dateFormat: Omit<Intl.DateTimeFormat, 'format'> & {
     format: (date: Date, options?: { dateStyle: string }) => string;
   };
@@ -51,10 +51,13 @@ export class DatePipe implements PipeTransform, OnDestroy {
       return '';
     }
 
-    return this.dateFormat.format(typeof date === 'string' ? this.transformStrDate(date) : date, this.formatOptions);
+    return this.dateFormat.format(
+      typeof date === 'string' ? this.transformStringToDate(date) : date,
+      this.formatOptions,
+    );
   }
 
-  transformStrDate(strDate: string) {
+  transformStringToDate(strDate: string) {
     return new Date(strDate + 'Z');
   }
 }

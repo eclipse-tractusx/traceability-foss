@@ -27,14 +27,20 @@ import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 import { APP_INITIALIZER } from '@angular/core';
 import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 
-// we have to complete redefine render function from testing-library in order to add custom option
+type RenderFnOptionsExtension = {
+  translations?: string[];
+};
+
+// As we extending render function from the testing-library with more options
+// this force us to redefine type completly. Following declaration is taken from
+// tesgting-library source + usage of local RenderFnOptionsExtension
 declare function ExtendedRenderFn<ComponentType>(
   component: Type<ComponentType>,
-  renderOptions?: RenderComponentOptions<ComponentType> & { translations?: string[] },
+  renderOptions?: RenderComponentOptions<ComponentType> & RenderFnOptionsExtension,
 ): Promise<RenderResult<ComponentType, ComponentType>>;
 declare function ExtendedRenderFn<WrapperType = WrapperComponent>(
   template: string,
-  renderOptions?: RenderTemplateOptions<WrapperType> & { translations?: string[] },
+  renderOptions?: RenderTemplateOptions<WrapperType> & RenderFnOptionsExtension,
 ): Promise<RenderResult<WrapperType>>;
 declare class WrapperComponent {
   static ɵfac: ɵɵFactoryDeclaration<WrapperComponent, never>;
@@ -58,7 +64,8 @@ export const renderComponent: typeof ExtendedRenderFn = (
         useFactory: (i18next: ITranslationService) => {
           return () =>
             i18next.init({
-              fallbackLng: 'en',
+              lng: 'en',
+              supportedLngs: ['en', 'pl'],
               resources: {
                 en: {
                   translation: translations.reduce(

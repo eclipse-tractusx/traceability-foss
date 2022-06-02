@@ -17,15 +17,14 @@ specific language governing permissions and limitations
 under the License.
 -->
 <app-button
-  iconName="language"
-  color="default"
-  class="selectedText"
+  [label]="currentLocale"
   [matMenuTriggerFor]="menu"
   (click)="$event.stopPropagation()"
-  [label]="currentLocale"
+  class="selectedText"
+  iconName="language"
 ></app-button>
 <mat-menu #menu="matMenu">
-  <button *ngFor="let localEntry of locales" mat-menu-item (click)="handleClick(localEntry.locale)">
+  <button *ngFor="let localEntry of locales" (click)="handleClick(localEntry.locale)" mat-menu-item>
     {{ localEntry.label }}
   </button>
 </mat-menu>
