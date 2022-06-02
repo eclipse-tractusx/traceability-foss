@@ -11,5 +11,11 @@
       "productionDate": "Production Date",
       "productionCountry": "Production Country"
     }
+  },
+  "partDetail": {
+    "relations": "Relations",
+    "overview": "Overview",
+    "manufacturerData": "Manufacturer data",
+    "customerData": "Customer data"
   }
 }

@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PartsFacade } from '@page/parts/core/parts.facade';
-import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
+import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { TableConfig } from '@shared/components/table/table.model';
 import { Observable } from 'rxjs';
@@ -75,6 +75,6 @@ export class PartsComponent implements OnInit {
   }
 
   public onSelectItem($event: Record<string, unknown>) {
-    console.log($event);
+    this.partsFacade.selectedPart = $event as unknown as Part;
   }
 }

@@ -20,7 +20,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { I18NextModule } from 'angular-i18next';
-import { TableComponent } from '@shared/components/table/table.component';
+import { CardIconComponent } from './components/card-icon/card-icon.component';
+import { CardListComponent } from './components/card-list/card-list.component';
+import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
+import { TableComponent } from './components/table/table.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
@@ -72,6 +75,9 @@ import { I18nPipe } from './pipes/i18n.pipe';
     StepActionsComponent,
     QualityAlertEmptyStateComponent,
     LanguageSelectorComponent,
+    CardIconComponent,
+    CardListComponent,
+    ToKeyValuePipe,
   ],
   imports: [TemplateModule, TabsModule, RouterModule, I18NextModule],
   exports: [
@@ -99,6 +105,8 @@ import { I18nPipe } from './pipes/i18n.pipe';
     QualityAlertEmptyStateComponent,
     I18NextModule,
     LanguageSelectorComponent,
+    CardIconComponent,
+    CardListComponent,
   ],
   providers: [SharedService, MspidsResolver, OrganizationsResolver],
 })

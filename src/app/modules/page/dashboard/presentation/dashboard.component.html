@@ -31,30 +31,27 @@ under the License.
     </ng-container>
 
     <ng-template #numberOfPartsMainTmp let-numberOfParts="view">
-      <app-card
-        [id]="1"
+      <app-card-icon
         [label]="'pageDashboard.totalOfParts.label' | i18n"
         [icon]="'directions_car'"
         [stats]="numberOfParts?.data"
-      ></app-card>
+      ></app-card-icon>
     </ng-template>
 
     <ng-template #numberOfPartsErrorTmp let-numberOfParts="view">
-      <app-card
-        [id]="1"
+      <app-card-icon
         [label]="'pageDashboard.totalOfParts.label' | i18n"
         [icon]="'directions_car'"
         [stats]="0"
-      ></app-card>
+      ></app-card-icon>
     </ng-template>
 
     <ng-template #numberOfPartsLoaderTmp let-numberOfParts="view">
-      <app-card
-        [id]="1"
+      <app-card-icon
         [label]="'pageDashboard.totalOfParts.label' | i18n"
         [icon]="'directions_car'"
         [stats]="''"
-      ></app-card>
+      ></app-card-icon>
     </ng-template>
   </section>
 </div>

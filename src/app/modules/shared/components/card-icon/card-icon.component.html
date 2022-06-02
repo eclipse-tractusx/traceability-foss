@@ -17,21 +17,20 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<div class="about-container">
-  <app-header [title]="'pageParts.title' | i18n"></app-header>
-  <br />
-  <ng-container *viewContainer="parts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"> </ng-container>
-  <ng-template #mainTmp let-parts="view">
-    <app-table [data]="parts.data" [tableConfig]="tableConfig" (selected)="onSelectItem($event)"></app-table>
-    <app-part-detail></app-part-detail>
-  </ng-template>
-
-  <ng-template #errorTmp let-parts="view">
-    <h1>{{ 'error.genericTitle' | i18n }}</h1>
-    <p>{{ parts.error }}</p>
-  </ng-template>
-
-  <ng-template #loaderTmp let-parts="view">
-    <mat-spinner></mat-spinner>
-  </ng-template>
-</div>
+<mat-card>
+  <mat-card-content class="card-container">
+    <div class="avatar-container">
+      <div class="avatar">
+        <span class="avatar__label">
+          <mat-icon aria-hidden="false" class="card--icon">{{ this.icon }}</mat-icon>
+        </span>
+      </div>
+    </div>
+    <div class="label-container">
+      <p class="small-text text-dustyGray uppercase" [id]="htmlId + '-label'">
+        {{ this.label }}
+      </p>
+      <p class="text-2xl" [attr.aria-describedby]="htmlId + '-label'">{{ this.stats }}</p>
+    </div>
+  </mat-card-content>
+</mat-card>

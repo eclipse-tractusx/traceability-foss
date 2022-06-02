@@ -17,8 +17,15 @@
  * under the License.
  */
 
-import { setupServer } from 'msw/node';
-import { assetHandlers, coreHandlers, partsHandlers } from '../app/mocks/services';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
-export const server = setupServer(...handlers);
+@Component({
+  selector: 'app-card-list',
+  templateUrl: './card-list.component.html',
+  styleUrls: ['./card-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CardListComponent {
+  @Input() list: Record<string, string>;
+  @Input() title: string;
+}

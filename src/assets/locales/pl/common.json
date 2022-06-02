@@ -26,5 +26,9 @@
     "noResultFound": "BRAK WYNIKÓW.",
     "tryAgain": "Spróbuj ponownie później.",
     "selectPageSize": "Wybierz ilość elementów na stronie"
+  },
+  "dataLoading": {
+    "inProgress": "Ładowanie danych...",
+    "error": "Błąd podczas ładowania danych"
   }
 }

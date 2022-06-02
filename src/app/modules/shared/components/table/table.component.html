@@ -17,7 +17,14 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<table *ngIf="dataSource" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+<table
+  *ngIf="dataSource"
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  class="mat-elevation-z8"
+  data-testid="table-component--test-id"
+>
   <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index" matColumnDef="{{ column }}">
     <th mat-header-cell *matHeaderCellDef mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}">
       <ng-container *ngIf="tableConfig?.header && tableConfig.header[i]; else pureColumn">
@@ -35,6 +42,7 @@ under the License.
 
   <tr mat-header-row *matHeaderRowDef="tableConfig.displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: tableConfig.displayedColumns" (click)="this.selected.emit(row)"></tr>
+
   <tr class="mat-row no-hover" *matNoDataRow>
     <td class="mat-cell" [attr.colspan]="tableConfig.displayedColumns.length">
       <div class="table--no-data">

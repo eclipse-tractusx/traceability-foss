@@ -29,7 +29,17 @@ import { delay } from 'rxjs/operators';
 export class PartsFacade {
   constructor(private partsService: PartsService, private partsState: PartsState) {}
 
+  get selectedPart$(): Observable<View<Part>> {
+    // IMPORTANT: this delay is needed for view-container directive
+    return this.partsState.selectedPart$.pipe(delay(0));
+  }
+
+  set selectedPart(part: Part) {
+    this.partsState.selectedPart = { data: part };
+  }
+
   get parts$(): Observable<View<Part[]>> {
+    // IMPORTANT: this delay is needed for view-container directive
     return this.partsState.parts$.pipe(delay(0));
   }
 

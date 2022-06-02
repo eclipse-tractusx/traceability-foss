@@ -23,5 +23,9 @@
     "noResultFound": "NO RESULTS FOUND.",
     "tryAgain": "Please try again later.",
     "selectPageSize": "Select page of periodic elements"
+  },
+  "dataLoading": {
+    "inProgress": "Loading data...",
+    "error": "Error while loading data"
   }
 }
