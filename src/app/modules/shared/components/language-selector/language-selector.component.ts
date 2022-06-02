@@ -21,8 +21,10 @@ import { Component, Inject, OnDestroy } from '@angular/core';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import { Subscription } from 'rxjs';
 
+type KnownLocale = keyof typeof LanguageSelectorComponent.ALL_KNOWN_LOCALES;
+
 interface LocaleEntry {
-  locale: keyof typeof LanguageSelectorComponent.ALL_KNOWN_LOCALES;
+  locale: KnownLocale;
   label: string;
 }
 
@@ -41,40 +43,32 @@ export class LanguageSelectorComponent implements OnDestroy {
 
   readonly locales: LocaleEntry[];
 
-  currentLocale: keyof typeof LanguageSelectorComponent.ALL_KNOWN_LOCALES;
+  currentLocale: KnownLocale;
 
   languageChangedSubscription: Subscription;
 
   constructor(@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService) {
     const supportedLngs = this.i18NextService.options.supportedLngs || [];
-    this.locales = (
-      Object.entries(LanguageSelectorComponent.ALL_KNOWN_LOCALES) as [
-        keyof typeof LanguageSelectorComponent.ALL_KNOWN_LOCALES,
-        string,
-      ][]
-    )
+    this.locales = (Object.entries(LanguageSelectorComponent.ALL_KNOWN_LOCALES) as [KnownLocale, string][])
       .filter(([locale]) => supportedLngs.includes(locale))
       .map(([locale, label]) => ({
         locale,
         label,
       }));
 
-    this.currentLocale = this.i18NextService
-      .resolvedLanguage as keyof typeof LanguageSelectorComponent.ALL_KNOWN_LOCALES;
-    this.languageChangedSubscription = this.i18NextService.events.languageChanged.subscribe(
-      (language: keyof typeof LanguageSelectorComponent.ALL_KNOWN_LOCALES) => {
-        if (language) {
-          this.currentLocale = language;
-        }
-      },
-    );
+    this.currentLocale = this.i18NextService.resolvedLanguage as KnownLocale;
+    this.languageChangedSubscription = this.i18NextService.events.languageChanged.subscribe((language: KnownLocale) => {
+      if (language) {
+        this.currentLocale = language;
+      }
+    });
   }
 
   ngOnDestroy() {
     this.languageChangedSubscription.unsubscribe();
   }
 
-  handleClick(localeId: keyof typeof LanguageSelectorComponent.ALL_KNOWN_LOCALES) {
+  handleClick(localeId: KnownLocale) {
     this.i18NextService.changeLanguage(localeId);
   }
 }

@@ -17,6 +17,6 @@
 * under the License.
 */
 
-.selectedText ::ng-deep button {
-  text-transform: uppercase;
+.selectedText {
+  text-transform: uppercase !important;
 }

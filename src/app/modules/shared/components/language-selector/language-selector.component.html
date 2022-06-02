@@ -16,13 +16,9 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<app-button
-  [label]="currentLocale"
-  [matMenuTriggerFor]="menu"
-  (click)="$event.stopPropagation()"
-  class="selectedText"
-  iconName="language"
-></app-button>
+<app-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" iconName="language">
+  <span class="selectedText">{{ currentLocale }}</span>
+</app-button>
 <mat-menu #menu="matMenu">
   <button *ngFor="let localEntry of locales" (click)="handleClick(localEntry.locale)" mat-menu-item>
     {{ localEntry.label }}
