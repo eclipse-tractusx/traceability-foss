@@ -28,26 +28,26 @@ describe('Parts', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  it('should render header', async () => {
-    await renderComponent(PartsComponent, {
+  const renderParts = () =>
+    renderComponent(PartsComponent, {
       imports: [PartsModule],
+      translations: ['page.parts'],
     });
+
+  it('should render header', async () => {
+    await renderParts();
 
     expect(screen.getByText('Catena-X Parts')).toBeInTheDocument();
   });
 
   it('should render table', async () => {
-    await renderComponent(PartsComponent, {
-      imports: [PartsModule],
-    });
+    await renderParts();
 
     expect(await screen.findByTestId('table-component--test-id')).toBeInTheDocument();
   });
 
   it('should render table and display correct amount of rows', async () => {
-    await renderComponent(PartsComponent, {
-      imports: [PartsModule],
-    });
+    await renderParts();
 
     const tableElement = await screen.findByTestId('table-component--test-id');
     expect(tableElement).toBeInTheDocument();
@@ -55,9 +55,7 @@ describe('Parts', () => {
   });
 
   it('should render parts with closed sidenav', async () => {
-    await renderComponent(PartsComponent, {
-      imports: [PartsModule],
-    });
+    await renderParts();
 
     const sideNavElement = await screen.findByTestId('part-detail--sidenav');
     expect(sideNavElement).toBeInTheDocument();
@@ -65,9 +63,7 @@ describe('Parts', () => {
   });
 
   it('should render parts with closed sidenav', async () => {
-    await renderComponent(PartsComponent, {
-      imports: [PartsModule],
-    });
+    await renderParts();
 
     const sideNavElement = await screen.findByTestId('part-detail--sidenav');
     expect(sideNavElement).toBeInTheDocument();
