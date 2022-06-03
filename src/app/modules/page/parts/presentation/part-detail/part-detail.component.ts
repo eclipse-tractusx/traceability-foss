@@ -22,8 +22,9 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
-import { State, View } from '@shared';
+import { FormatDatePipe, State, View } from '@shared';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-part-detail',
@@ -38,8 +39,19 @@ export class PartDetailComponent implements AfterViewInit {
 
   private readonly _isOpen: State<boolean> = new State<boolean>(false);
 
-  constructor(private readonly partsFacade: PartsFacade) {
-    this.partDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForView());
+  constructor(private readonly partsFacade: PartsFacade, formatDate: FormatDatePipe) {
+    this.partDetails$ = this.partsFacade.selectedPart$.pipe(
+      PartsAssembler.mapPartForView(),
+      map(partView => {
+        if (!partView.data) {
+          return partView;
+        }
+
+        partView.data.productionDate = formatDate.transform(partView.data.productionDate) as any;
+        return partView;
+      }),
+    );
+
     this.manufacturerDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
     this.customerDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerView());
   }

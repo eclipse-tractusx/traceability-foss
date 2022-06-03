@@ -1,0 +1,31 @@
+{
+  "routing": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "parts": "Produkte",
+    "about": "Über uns"
+  },
+  "layout": {
+    "nav": {
+      "openUserMenu": "Benutzermenü öffnen",
+      "signOut": "Abmelden"
+    }
+  },
+  "errorPage": {
+    "pageNotFound": {
+      "message": "Die von Ihnen angeforderte Seite konnte nicht gefunden werden."
+    }
+  },
+  "actions": {
+    "back": "Zurück"
+  },
+  "table": {
+    "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
+    "tryAgain": "Bitte versuchen Sie es später noch einmal.",
+    "selectPageSize": "Seite für segmentierte Elemente auswählen"
+  },
+  "dataLoading": {
+    "inProgress": "Daten werden geladen...",
+    "error": "Fehler beim Laden der Daten."
+  }
+}

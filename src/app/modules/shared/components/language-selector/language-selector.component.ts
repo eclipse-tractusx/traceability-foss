@@ -18,10 +18,9 @@
  */
 
 import { Component, Inject, OnDestroy } from '@angular/core';
+import { ALL_KNOWN_LOCALES, KnownLocale } from '@core/i18n/global-i18n.providers';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import { Subscription } from 'rxjs';
-
-type KnownLocale = keyof typeof LanguageSelectorComponent.ALL_KNOWN_LOCALES;
 
 interface LocaleEntry {
   locale: KnownLocale;
@@ -34,22 +33,13 @@ interface LocaleEntry {
   styleUrls: ['./language-selector.component.scss'],
 })
 export class LanguageSelectorComponent implements OnDestroy {
-  // language labels shouldn't be translated, because when user want to switch the languge
-  // user may not know selected languages
-  static readonly ALL_KNOWN_LOCALES = {
-    en: 'English',
-    pl: 'Polski',
-  };
-
   readonly locales: LocaleEntry[];
-
   currentLocale: KnownLocale;
-
   languageChangedSubscription: Subscription;
 
   constructor(@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService) {
     const supportedLngs = this.i18NextService.options.supportedLngs || [];
-    this.locales = (Object.entries(LanguageSelectorComponent.ALL_KNOWN_LOCALES) as [KnownLocale, string][])
+    this.locales = (Object.entries(ALL_KNOWN_LOCALES) as [KnownLocale, string][])
       .filter(([locale]) => supportedLngs.includes(locale))
       .map(([locale, label]) => ({
         locale,
@@ -69,6 +59,6 @@ export class LanguageSelectorComponent implements OnDestroy {
   }
 
   handleClick(localeId: KnownLocale) {
-    this.i18NextService.changeLanguage(localeId);
+    void this.i18NextService.changeLanguage(localeId);
   }
 }

@@ -50,8 +50,8 @@ export class PartsAssembler {
     if (!viewData || !viewData.data) {
       return viewData;
     }
-    const { productionDate, qualityType, serialNumber } = viewData.data;
-    return { data: { productionDate, qualityType, serialNumber } as Part };
+    const { name, productionDate, qualityType, serialNumber } = viewData.data;
+    return { data: { name, productionDate, qualityType, serialNumber } as Part };
   }
 
   public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {
@@ -64,8 +64,8 @@ export class PartsAssembler {
         return viewData;
       }
 
-      const { manufacturer, partNumber, name, serialNumber } = viewData.data;
-      return { data: { manufacturer, partNumber, name, serialNumber } as Part };
+      const { manufacturer, partNumber, serialNumber } = viewData.data;
+      return { data: { manufacturer, partNumber, serialNumber } as Part };
     });
   }
 
@@ -75,8 +75,8 @@ export class PartsAssembler {
         return viewData;
       }
 
-      const { customerPartId, nameAtCustomer } = viewData.data;
-      return { data: { customerPartId, nameAtCustomer } as Part };
+      const { nameAtCustomer, customerPartId } = viewData.data;
+      return { data: { nameAtCustomer, customerPartId } as Part };
     });
   }
 }
