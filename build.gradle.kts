@@ -37,6 +37,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-mail")
 
+	// for demo purposes, to be removed once EDC works
+	implementation("com.github.javafaker:javafaker:1.0.2") {
+		exclude("org.yaml")
+	}
+
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 	implementation("commons-codec:commons-codec:$commonsCodecVersion")

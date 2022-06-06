@@ -8,6 +8,8 @@ management:
       enabled: true
     livenessState:
       enabled: true
+    mail:
+      enabled: false
   endpoints:
     web:
       base-path: /actuator
