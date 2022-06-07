@@ -22,13 +22,22 @@ import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import HttpApi from 'i18next-http-backend';
 
+// language labels shouldn't be translated, because when user want to switch the languge
+// user may not know selected languages
+export const ALL_KNOWN_LOCALES = {
+  en: 'English',
+  de: 'Deutsch',
+  pl: 'Polski',
+};
+export type KnownLocale = keyof typeof ALL_KNOWN_LOCALES;
+
 export function appInit(i18next: ITranslationService) {
   return () =>
     i18next
       .use(LanguageDetector)
       .use(HttpApi)
       .init({
-        supportedLngs: ['en', 'pl'],
+        supportedLngs: Object.keys(ALL_KNOWN_LOCALES),
         fallbackLng: 'en',
         backend: {
           loadPath: '/assets/locales/{{lng}}/{{ns}}.json',

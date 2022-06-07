@@ -54,7 +54,11 @@ describe('PartDetailComponent', () => {
   });
 
   it('should render an open sidenav with part details', fakeAsync(async () => {
-    const testPart = { name: 'Test_01', productionDate: new Date(), customerPartId: '333' } as Part;
+    const testPart = {
+      name: 'Test_01',
+      productionDate: new Date('1997-05-30T12:34:12Z'),
+      customerPartId: '333',
+    } as Part;
     const { detectChanges } = await renderComponent(PartDetailComponent, {
       imports: [PartsModule],
       providers: [
@@ -70,9 +74,8 @@ describe('PartDetailComponent', () => {
     detectChanges();
 
     const sideNavElement = await screen.findByTestId('part-detail--sidenav');
-
     const nameElement = await screen.findByText(testPart.name);
-    const productionDateElement = await screen.findByText(testPart.productionDate.toString());
+    const productionDateElement = await screen.findByText('5/30/1997');
     const partNumberElement = await screen.findByText(testPart.customerPartId);
 
     expect(sideNavElement).toBeInTheDocument();

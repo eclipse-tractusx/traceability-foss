@@ -1,6 +1,6 @@
 {
   "pageParts": {
-    "title": "Catena-X Parts",
+    "title": "My Parts",
     "column": {
       "id": "ID",
       "name": "Name",
@@ -16,6 +16,14 @@
     "relations": "Relations",
     "overview": "Overview",
     "manufacturerData": "Manufacturer data",
-    "customerData": "Customer data"
+    "customerData": "Customer data",
+    "name": "Name",
+    "partNumber": "Part Number",
+    "serialNumber": "Serial Number",
+    "qualityType": "Quality Type",
+    "productionDate": "Production Date",
+    "manufacturer": "Manufacturer",
+    "nameAtCustomer": "Name At Customer",
+    "customerPartId": "Customer Part ID"
   }
 }

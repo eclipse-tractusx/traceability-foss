@@ -1,0 +1,29 @@
+{
+  "pageParts": {
+    "title": "Meine Produkte",
+    "column": {
+      "id": "ID",
+      "name": "Name",
+      "manufacturer": "Hersteller",
+      "partNumber": "Produktnummer",
+      "serialNumber": "Seriennummer",
+      "qualityType": "Qualitätsstufe",
+      "productionDate": "Produktionsdatum",
+      "productionCountry": "Produktionsland"
+    }
+  },
+  "partDetail": {
+    "relations": "Beziehungen",
+    "overview": "Übersicht",
+    "manufacturerData": "Herstellerdaten",
+    "customerData": "Kundendaten",
+    "name": "Name",
+    "partNumber": "Produktnummer",
+    "serialNumber": "Seriennummer",
+    "qualityType": "Qualitätsstufe",
+    "productionDate": "Produktionsdatum",
+    "manufacturer": "Hersteller",
+    "nameAtCustomer": "Name beim Kunden",
+    "customerPartId": "Kunden Produktnummer"
+  }
+}

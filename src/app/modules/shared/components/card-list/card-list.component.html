@@ -22,7 +22,7 @@ under the License.
   <mat-card-content class="card-container">
     <div class="card-list--container">
       <div *ngFor="let item of list | ToKeyValue" class="card-list--row">
-        <p class="card-list--cell card-list--key">{{ item.key }}</p>
+        <p class="card-list--cell card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
         <p class="card-list--cell card-list--value">{{ item.value }}</p>
       </div>
     </div>
