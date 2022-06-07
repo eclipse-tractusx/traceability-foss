@@ -32,7 +32,7 @@ describe('CardList', () => {
     const cardTitleElement = screen.getByText('Test title');
     expect(cardTitleElement).toBeInTheDocument();
 
-    const cardKeyElement = screen.getByText('test_key');
+    const cardKeyElement = screen.getByText('partDetail.test_key');
     expect(cardKeyElement).toBeInTheDocument();
     expect(cardKeyElement).toHaveClass('card-list--key');
 

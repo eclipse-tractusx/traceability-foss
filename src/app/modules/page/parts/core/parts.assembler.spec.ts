@@ -109,7 +109,7 @@ describe('PartsAssembler', () => {
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
-          expect(result).toEqual({ data: { manufacturer, partNumber, name, serialNumber } });
+          expect(result).toEqual({ data: { manufacturer, partNumber, serialNumber } });
           done();
         });
     });
