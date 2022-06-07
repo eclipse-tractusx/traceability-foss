@@ -19,6 +19,8 @@
 
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { Router } from '@angular/router';
+import { realm } from '@core/api/api.service.properties';
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
@@ -34,12 +36,14 @@ import { map } from 'rxjs/operators';
 export class PartDetailComponent implements AfterViewInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
   public partDetails$: Observable<View<Part>>;
+  public relationPartDetails$: Observable<View<Part>>;
   public manufacturerDetails$: Observable<View<Part>>;
   public customerDetails$: Observable<View<Part>>;
 
-  private readonly _isOpen: State<boolean> = new State<boolean>(false);
+  private readonly _isOpen$: State<boolean> = new State<boolean>(false);
 
-  constructor(private readonly partsFacade: PartsFacade, formatDate: FormatDatePipe) {
+  constructor(private readonly partsFacade: PartsFacade, formatDate: FormatDatePipe, private readonly router: Router) {
+    this.relationPartDetails$ = this.partsFacade.selectedPart$;
     this.partDetails$ = this.partsFacade.selectedPart$.pipe(
       PartsAssembler.mapPartForView(),
       map(partView => {
@@ -67,14 +71,18 @@ export class PartDetailComponent implements AfterViewInit {
   }
 
   get isOpen$(): Observable<boolean> {
-    return this._isOpen.observable;
+    return this._isOpen$.observable;
   }
 
   set isOpen(openState: boolean) {
-    this._isOpen.update(openState);
+    this._isOpen$.update(openState);
 
     if (!openState) {
       this.partsFacade.selectedPart = null;
     }
+  }
+
+  public openRelationPage(part: Part): void {
+    void this.router.navigate([`${realm}/parts/relations/${part.id}`]);
   }
 }

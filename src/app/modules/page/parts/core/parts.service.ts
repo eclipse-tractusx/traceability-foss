@@ -21,7 +21,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
-import { Part, PartsResponse } from '@page/parts/model/parts.model';
+import { Part, PartResponse, PartsResponse } from '@page/parts/model/parts.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -35,5 +35,17 @@ export class PartsService {
     return this.apiService
       .get<PartsResponse>(`${this.url}/parts`)
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));
+  }
+
+  public getPart(id: string): Observable<Part> {
+    return this.apiService
+      .get<PartResponse>(`${this.url}/assets/${id}`)
+      .pipe(map(part => PartsAssembler.assembleParts([part])[0]));
+  }
+
+  public getRelation(partId: string, childId: string): Observable<Part> {
+    return this.apiService
+      .get<PartResponse>(`${this.url}/assets/${partId}/children/${childId}`)
+      .pipe(map(part => PartsAssembler.assembleParts([part])[0]));
   }
 }

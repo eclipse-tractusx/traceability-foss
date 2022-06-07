@@ -49,6 +49,11 @@
     @apply flex flex-row;
     justify-content: space-between;
   }
+  &--relation__icon {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 app-card-list {
   width: 400px;
