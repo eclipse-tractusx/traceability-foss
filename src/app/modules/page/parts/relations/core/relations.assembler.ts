@@ -19,9 +19,6 @@
 
 import { Part } from '@page/parts/model/parts.model';
 import { TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
-import { View } from '@shared';
-import { OperatorFunction } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 export class RelationsAssembler {
   public static assemblePartForRelation({ id, name, children }: Part): TreeElement {

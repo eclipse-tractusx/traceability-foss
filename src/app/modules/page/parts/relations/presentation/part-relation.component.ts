@@ -23,7 +23,7 @@ import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
-import { OpenElements, TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
+import { OpenElements, TreeElement } from '@page/parts/relations/model/relations.model';
 import { View } from '@shared';
 import * as d3 from 'd3';
 import { Observable, Subscription } from 'rxjs';
@@ -53,10 +53,8 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(
         first(),
         filter(({ data }) => !data),
-        switchMap(_ => {
-          const partId = this.route.snapshot.paramMap.get('partId');
-          return this.partsFacade.setPart(partId);
-        }),
+        switchMap(_ => this.route.paramMap),
+        switchMap(params => this.partsFacade.setPart(params.get('partId'))),
       )
       .subscribe();
   }
@@ -116,7 +114,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     RelationTree(treeData, {
       label: ({ id }) => id,
       title: ({ id, name }) => name || id,
-      mainElement: d3.select('#treeBase'),
+      mainElement: d3.select('figure'),
       onClick: this.onUpdateData.bind(this),
     });
   }

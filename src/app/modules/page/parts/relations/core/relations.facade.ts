@@ -23,9 +23,9 @@ import { Part } from '@page/parts/model/parts.model';
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { RelationsState } from '@page/parts/relations/core/relations.state';
 import { LoadedElements, OpenElements, TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
+import _deepClone from 'lodash-es/cloneDeep';
 import { merge, Observable, of } from 'rxjs';
 import { debounceTime, delay, filter, first, map, switchMap, tap, toArray } from 'rxjs/operators';
-import _deepClone from 'lodash-es/cloneDeep';
 
 @Injectable()
 export class RelationsFacade {

@@ -23,9 +23,9 @@ under the License.
 </ng-container>
 
 <ng-template #partRelationMainTmp let-partDetails="view">
-  <figure id="treeBase" #treeBase></figure>
+  <figure #treeBase></figure>
 </ng-template>
 
-<ng-template #errorTmp let-customerDetails="view">ERROR</ng-template>
+<ng-template #errorTmp let-customerDetails="view">{{ 'dataLoading.error' | i18n }}</ng-template>
 
 <ng-template #loaderTmp><mat-spinner></mat-spinner></ng-template>
