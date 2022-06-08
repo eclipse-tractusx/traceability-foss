@@ -33,7 +33,7 @@ export class PartsService {
 
   public getParts(): Observable<Part[]> {
     return this.apiService
-      .get<PartsResponse>(`${this.url}/parts`)
+      .get<PartsResponse>(`${this.url}/assets`)
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));
   }
 

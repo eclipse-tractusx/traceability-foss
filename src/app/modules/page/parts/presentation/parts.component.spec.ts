@@ -34,13 +34,13 @@ describe('Parts', () => {
       translations: ['page.parts'],
     });
 
-  it('should render header', async () => {
+  it('should render part header', async () => {
     await renderParts();
 
-    expect(screen.getByText('Catena-X Parts')).toBeInTheDocument();
+    expect(screen.getByText('My Parts')).toBeInTheDocument();
   });
 
-  it('should render table', async () => {
+  it('should render part table', async () => {
     await renderParts();
 
     expect(await screen.findByTestId('table-component--test-id')).toBeInTheDocument();

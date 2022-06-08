@@ -21,7 +21,7 @@ import { rest } from 'msw';
 import { mockAssetList, mockAssets } from './parts.model';
 
 export const partsHandlers = [
-  rest.get('/api/v1/parts', (req, res, ctx) => {
+  rest.get('/api/v1/assets', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockAssets));
   }),
 
