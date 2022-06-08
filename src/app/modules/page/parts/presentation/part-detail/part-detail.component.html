@@ -37,10 +37,15 @@ under the License.
         *viewContainer="this.partDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
       >
       </ng-container>
-      <mat-card>
-        <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
-        <mat-card-content> </mat-card-content>
-      </mat-card>
+      <ng-container
+        *viewContainer="
+          this.relationPartDetails$ | async;
+          main: partRelationMainTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      >
+      </ng-container>
     </div>
 
     <div class="part-detail--manufacturer-info">
@@ -75,6 +80,16 @@ under the License.
 
 <ng-template #customerDetailsMainTmp let-customerDetails="view">
   <app-card-list [list]="customerDetails.data" [title]="'partDetail.customerData' | i18n"></app-card-list>
+</ng-template>
+
+<ng-template #partRelationMainTmp let-partDetails="view">
+  <mat-card>
+    <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
+    <mat-card-content>
+      <app-part-relation></app-part-relation>
+      <mat-icon (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon">open_in_new</mat-icon>
+    </mat-card-content>
+  </mat-card>
 </ng-template>
 
 <ng-template #errorTmp let-customerDetails="view">

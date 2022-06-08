@@ -22,8 +22,8 @@ import { PartsService } from '@page/parts/core/parts.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared';
-import { Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, delay, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
@@ -52,5 +52,17 @@ export class PartsFacade {
       },
       error: error => (this.partsState.parts = { error }),
     });
+  }
+
+  public setPart(id: string): Observable<View<Part>> {
+    return this.partsService.getPart(id).pipe(
+      tap((part: Part) => {
+        this.partsState.selectedPart = { data: part };
+      }),
+      catchError(error => {
+        this.partsState.selectedPart = { error };
+        return of(error);
+      }),
+    );
   }
 }

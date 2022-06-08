@@ -17,21 +17,27 @@
  * under the License.
  */
 
-import { rest } from 'msw';
-import { mockAssetList, mockAssets } from './parts.model';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-export const partsHandlers = [
-  rest.get('/api/v1/assets', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockAssets));
-  }),
+import { PartRelationComponent } from './part-relation.component';
 
-  rest.get('/api/v1/assets/:partId', (req, res, ctx) => {
-    const { partId } = req.params;
-    return res(ctx.status(200), ctx.json(mockAssetList[partId as string]));
-  }),
+describe('RelationComponent', () => {
+  let component: PartRelationComponent;
+  let fixture: ComponentFixture<PartRelationComponent>;
 
-  rest.get('/api/v1/assets/:assetId/children/:childId', (req, res, ctx) => {
-    const { childId } = req.params;
-    return res(ctx.status(200), ctx.json(mockAssetList[childId as string]));
-  }),
-];
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [PartRelationComponent],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(PartRelationComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

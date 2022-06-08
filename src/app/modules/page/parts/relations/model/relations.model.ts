@@ -17,21 +17,30 @@
  * under the License.
  */
 
-import { rest } from 'msw';
-import { mockAssetList, mockAssets } from './parts.model';
+import { Selection } from 'd3-selection';
 
-export const partsHandlers = [
-  rest.get('/api/v1/assets', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockAssets));
-  }),
+export type LoadedElements = Record<string, TreeElement>;
+export type OpenElements = Record<string, string[]>;
 
-  rest.get('/api/v1/assets/:partId', (req, res, ctx) => {
-    const { partId } = req.params;
-    return res(ctx.status(200), ctx.json(mockAssetList[partId as string]));
-  }),
+export interface TreeElement {
+  id: string;
+  state?: 'done' | 'loading' | 'risk';
+  name?: string;
+  children?: string[];
+}
 
-  rest.get('/api/v1/assets/:assetId/children/:childId', (req, res, ctx) => {
-    const { childId } = req.params;
-    return res(ctx.status(200), ctx.json(mockAssetList[childId as string]));
-  }),
-];
+export interface TreeStructure {
+  id: string;
+  state: 'done' | 'loading' | 'risk';
+  name?: string;
+  children?: TreeStructure[];
+}
+
+export interface TreeData {
+  label: (data?: TreeStructure) => string;
+  title: (data?: TreeStructure) => string;
+  width?: number;
+  r?: number;
+  mainElement?: Selection<Element, TreeStructure, HTMLElement, any>;
+  onClick?: (data: TreeStructure) => void;
+}

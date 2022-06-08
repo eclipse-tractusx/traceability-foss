@@ -20,19 +20,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
-import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsService } from '@page/parts/core/parts.service';
-import { PartsState } from '@page/parts/core/parts.state';
+import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
+import { RelationsState } from '@page/parts/relations/core/relations.state';
 import { PartRelationComponent } from '@page/parts/relations/presentation/part-relation.component';
-import { RelationsModule } from '@page/parts/relations/relations.module';
 import { FormatDatePipe, SharedModule, TemplateModule } from '@shared';
-import { PartsRoutingModule } from './parts.routing';
-import { PartsComponent } from './presentation/parts.component';
-import { PartDetailComponent } from './presentation/part-detail/part-detail.component';
+import { PartsRoutingModule } from './relations.routing';
 
 @NgModule({
-  declarations: [PartsComponent, PartDetailComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule],
-  providers: [PartsState, PartsFacade, PartsService, ...getI18nPageProvider('page.parts'), FormatDatePipe],
+  declarations: [PartRelationComponent],
+  imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule],
+  providers: [RelationsFacade, PartsService, RelationsState, ...getI18nPageProvider('page.parts'), FormatDatePipe],
+  exports: [PartRelationComponent],
 })
-export class PartsModule {}
+export class RelationsModule {}
