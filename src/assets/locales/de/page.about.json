@@ -1,6 +1,6 @@
 {
   "pageAbout": {
-    "title": "Über Catena-X",
-    "content": "<p>A high level of transparency across the supplier network enables faster intervention based on recorded event in the supply chain.</p><p>This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.</p>"
+    "title": "Über Catena-X Open-Source Rückverfolgbarkeit",
+    "content": "<p>Die Open-Source Rückverfolgbarkeitsanwendung wird innerhalb des <a href=\"https://catena-x.net/\" target=\"_blank\">Catena-X Projektes</a> entwickelt und befähigt alle Unternehmen an der Teilerückverfolgbarkeit teilzunehmen.</p><p>Die Anwendung erlaubt einen Überblick über die Lieferkette. Dieses hohe Level an Transparent über die gesamte Lieferkette hinweg erlaubt schnellere Eingriffe auf Basis von Events. Zusätzlich dazu helfen automatisierte Nachrichten in Hinblick auf Qualitätsrelevante Meldungen und ein Tool zur Analyse der Lieferkette allen Unternehmen in diesen Zeiten. </p><p>Insgesamt werden dadurch Kosten eingespart, indem die Teile einfach rückverfolgt werden können. Darüber hinaus baut die Anwendung Vertrauen auf mithilfe von klar definierten und sicheren Datenzugriffen für ausschließlich die berechtigten Personen und Unternehmen.</p>"
   }
 }
