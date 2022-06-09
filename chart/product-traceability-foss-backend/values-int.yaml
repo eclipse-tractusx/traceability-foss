@@ -1,3 +1,6 @@
+image:
+  tag: $ARGOCD_APP_REVISION
+
 springprofile: int
 
 ingress:
