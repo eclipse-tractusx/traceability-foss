@@ -1,0 +1,20 @@
+springprofile: dev
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  hosts:
+    - host: "traceability.dev.demo.catena-x.net"
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: [ ]
+  #  - secretName: www-tls
+  #    hosts:
+  #      - home.int.demo.catena-x.net
+
+mailserver:
+  password: <path:traceability-foss-backend/data/dev#mailserverPassword>

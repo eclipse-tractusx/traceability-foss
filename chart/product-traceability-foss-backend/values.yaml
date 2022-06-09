@@ -69,23 +69,6 @@ service:
 autoscaling:
   enabled: false
 
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-  hosts:
-    - host: "traceability.int.demo.catena-x.net"
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: [ ]
-  #  - secretName: www-tls
-  #    hosts:
-  #      - home.int.demo.catena-x.net
-
-
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
 resources:
@@ -130,6 +113,3 @@ readinessProbe:
 
 healthCheck:
   enabled: true
-
-mailserver:
-  password: <path:traceability-foss-backend/data/int#mailserverPassword>
