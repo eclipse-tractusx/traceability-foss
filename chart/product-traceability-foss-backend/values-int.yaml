@@ -14,10 +14,11 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
-  tls: [ ]
-  #  - secretName: www-tls
-  #    hosts:
-  #      - home.int.demo.catena-x.net
+  tls:
+    - hosts:
+      - "traceability.int.demo.catena-x.net"
+      # Default secret for certificate creation already provided to your namespace
+      secretName: tls-secret
 
 mailserver:
   password: <path:traceability-foss-backend/data/int#mailserverPassword>
