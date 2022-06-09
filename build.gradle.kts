@@ -37,6 +37,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-mail")
 
+	implementation("org.springframework.data:spring-data-commons")
+
+	implementation("io.springfox:springfox-boot-starter:3.0.0")
+
 	// for demo purposes, to be removed once EDC works
 	implementation("com.github.javafaker:javafaker:1.0.2") {
 		exclude("org.yaml")

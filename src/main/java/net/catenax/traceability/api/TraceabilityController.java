@@ -2,12 +2,12 @@ package net.catenax.traceability.api;
 
 import net.catenax.traceability.assets.Asset;
 import net.catenax.traceability.assets.AssetRepository;
+import net.catenax.traceability.assets.PageResult;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -20,8 +20,8 @@ public class TraceabilityController {
 	}
 
 	@GetMapping("/assets")
-	public List<Asset> assets() {
-		return assetRepository.getAssets();
+	public PageResult<Asset> assets(Pageable pageable) {
+		return assetRepository.getAssets(pageable);
 	}
 
 	@GetMapping("/assets/{assetId}")
@@ -33,4 +33,5 @@ public class TraceabilityController {
 	public Asset asset(@PathVariable String assetId, @PathVariable String childId) {
 		return assetRepository.getAssetByChildId(assetId, childId);
 	}
+
 }

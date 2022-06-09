@@ -1,5 +1,9 @@
 package net.catenax.traceability.assets;
 
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -37,4 +41,18 @@ public class InMemoryAssetsRepository implements AssetRepository {
 		return new ArrayList<>(assets.values());
 	}
 
+	@Override
+	public PageResult<Asset> getAssets(Pageable pageable) {
+		PagedListHolder<Asset> pageListHolder = new PagedListHolder<>(new ArrayList<>(assets.values()));
+		Sort sort = pageable.getSortOr(Sort.unsorted());
+
+		if (sort.isSorted()) {
+			sort.stream().findFirst().ifPresent(order -> {
+				pageListHolder.setSort(new MutableSortDefinition(order.getProperty(), true, order.isAscending()));
+				pageListHolder.resort();
+			});
+		}
+
+		return new PageResult<>(pageListHolder);
+	}
 }

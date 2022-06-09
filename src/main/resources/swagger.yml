@@ -1,0 +1,14 @@
+swagger:
+  operations:
+    api.assets:
+      summary: "Returns all assets"
+      notes: "TODO: Implement pagination of the results"
+    api.assets.assetId:
+      summary: "Returns single asset by given assetId"
+      params:
+        assetId: "Unique ID of an asset"
+    api.assets.assetId.children.childId:
+      summary: "Returns a single child of an asset by given assetId and childId"
+      params:
+        assetId: "Unique ID of an asset"
+        childId: "Unique ID of a child asset"

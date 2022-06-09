@@ -17,6 +17,8 @@ management:
     port: 8081
 
 spring:
+  config:
+    import: swagger.yml
   mail:
     host: smtp.office365.com
     port: 587
