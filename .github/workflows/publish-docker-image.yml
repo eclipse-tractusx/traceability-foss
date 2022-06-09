@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   JAVA_VERSION: 17
-  COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+  COMMIT_SHA: ${{ github.sha }}
 
 jobs:
   Publish-docker-image:
