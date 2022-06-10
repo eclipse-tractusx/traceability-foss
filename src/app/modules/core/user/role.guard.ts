@@ -63,7 +63,7 @@ export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   }
 
   validateUserRole(route: ActivatedRouteSnapshot, url: string): boolean {
-    const requiredRoles = route.data.roles as Role[];
+    const requiredRoles = route.data.roles as Role[] | Role;
 
     if (!requiredRoles) {
       return true;

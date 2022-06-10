@@ -111,7 +111,13 @@ Some VSCode extensions that might improve your coding experience :)
 
 ## Local Keycloack
 
-Keycloack can be started though:
+### Prerequisites
+
+- Docker with docker-compose
+
+### How to run local keycloack?
+
+Keycloack can be started through:
 
 ```
 yarn env:mock
@@ -121,15 +127,15 @@ yarn env:mock
 
 On the first Keycloack start it should be properly configured.
 
-By default it would be available at http://localhost:8080
+By default, it would be available at http://localhost:8080
 
-In order to get to the configuration section please click into `Administration Console`.
+To get to the configuration section please click on Administration Console.
 
 Default user/password is `admin`/`admin`.
 
-Now you can start configuration.
+Now you can start the configuration.
 
-Create new Realm `mock` and select one.
+Create a new Realm `mock` and select one.
 
 In `Realm Settings` (from sidebar) -> `Security Defenses`:
 Clear `X-Frame-Options`
@@ -137,7 +143,7 @@ Set `Content-Security-Policy` to `frame-src 'self'; object-src 'none’;`
 
 In `Clients` (from sidebar)
 
-1. Create new client `catenax-portal`
+1. Create a new client `catenax-portal`
 2. Edit `catenax-portal`
    1. Set `Valid Redirect URIs` to `*`
    2. `Web Origins` to `*`
@@ -152,9 +158,9 @@ In `Roles` (from sidebar):
 
 In Users (from sidebar):
 
-1. Create user `default-user` with email, first name and last name; assign to it `user` role and set password (disable temp password option)
-2. Create user `default-admin` with email, first name and last name;, assign to it `admin` role and set password (disable temp password option)
-3. Create user `default-supervisor` with email, first name and last name;, assign to it `supervisor` role and set password (disable temp password option)
+1. Create user `default-user` with email, first name and last name, then assign to it `user` role and set a password (disable temp password option)
+2. Create user `default-admin` with email, first name and last name, then assign to it `admin` role and set a password (disable temp password option)
+3. Create user `default-supervisor` with email, first name and last name, then assign to it `supervisor` role and set a password (disable temp password option)
 
 All done!
 

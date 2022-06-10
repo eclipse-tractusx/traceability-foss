@@ -42,16 +42,18 @@ const ROLES_RELATIONS: RoleRelation[] = [
   providedIn: 'root',
 })
 export class RoleService {
-  constructor(private userService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
-  hasAccess(requiredRoles: Role[]) {
+  hasAccess(requiredRoles: Role | Role[]): boolean {
+    const requiredRolesList = typeof requiredRoles === 'string' ? [requiredRoles] : requiredRoles;
+
     const roles = this.userService.getRoles();
-    const allPossibleRoles = [...requiredRoles, ...this.getParentsRolesFor(requiredRoles)];
+    const allPossibleRoles = [...requiredRolesList, ...this.getParentsRolesFor(requiredRolesList)];
 
     return allPossibleRoles.some(possibleRole => roles.includes(possibleRole));
   }
 
-  getParentsRolesFor(lookupRoles: Role[]): Role[] {
+  private getParentsRolesFor(lookupRoles: Role[]): Role[] {
     const parentRoles = ROLES_RELATIONS.filter(({ child }) => lookupRoles.includes(child));
 
     if (parentRoles.length) {

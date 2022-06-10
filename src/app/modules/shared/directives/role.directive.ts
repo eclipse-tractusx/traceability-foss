@@ -25,7 +25,7 @@ import { RoleService } from '@core/user/role.service';
   selector: '[appHasRole]',
 })
 export class RoleDirective implements OnInit {
-  @Input() appHasRole: Role[];
+  @Input() appHasRole: Role[] | Role;
 
   private isVisible = false;
 
