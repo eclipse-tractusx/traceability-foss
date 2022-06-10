@@ -21,7 +21,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { PartsService } from '@page/parts/core/parts.service';
-import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
 import { RelationsState } from '@page/parts/relations/core/relations.state';
 import { PartRelationComponent } from '@page/parts/relations/presentation/part-relation.component';
 import { FormatDatePipe, SharedModule, TemplateModule } from '@shared';
@@ -30,7 +29,7 @@ import { PartsRoutingModule } from './relations.routing';
 @NgModule({
   declarations: [PartRelationComponent],
   imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule],
-  providers: [RelationsFacade, PartsService, RelationsState, ...getI18nPageProvider('page.parts'), FormatDatePipe],
+  providers: [PartsService, RelationsState, ...getI18nPageProvider('page.parts'), FormatDatePipe],
   exports: [PartRelationComponent],
 })
 export class RelationsModule {}

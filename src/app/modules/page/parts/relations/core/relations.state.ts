@@ -18,30 +18,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { LoadedElements, OpenElements } from '@page/parts/relations/model/relations.model';
+import { LoadedElements } from '@page/parts/relations/model/relations.model';
 import { State } from '@shared';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class RelationsState {
-  private readonly _openElements$: State<OpenElements> = new State<OpenElements>({});
   private readonly _loadedElements$: State<LoadedElements> = new State<LoadedElements>({});
-
-  get openElements$(): Observable<OpenElements> {
-    return this._openElements$.observable;
-  }
-
-  get openElements() {
-    return this._openElements$.snapshot;
-  }
-
-  set openElements(data: OpenElements) {
-    this._openElements$.update(data);
-  }
-
-  public resetOpenElements(): void {
-    this._openElements$.reset();
-  }
 
   get loadedElements(): LoadedElements {
     return this._loadedElements$.snapshot;

@@ -17,26 +17,32 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { PartsService } from '@page/parts/core/parts.service';
 import { Part } from '@page/parts/model/parts.model';
+import { RelationComponentState } from '@page/parts/relations/core/component.state';
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { RelationsState } from '@page/parts/relations/core/relations.state';
 import { LoadedElements, OpenElements, TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
+import { View } from '@shared';
 import _deepClone from 'lodash-es/cloneDeep';
 import { merge, Observable, of } from 'rxjs';
-import { debounceTime, delay, filter, first, map, switchMap, tap, toArray } from 'rxjs/operators';
+import { catchError, debounceTime, delay, filter, first, map, switchMap, tap, toArray } from 'rxjs/operators';
 
 @Injectable()
 export class RelationsFacade {
-  constructor(private partsService: PartsService, private relationsState: RelationsState) {}
+  constructor(
+    private partsService: PartsService,
+    private relationsState: RelationsState,
+    private relationComponentState: RelationComponentState,
+  ) {}
 
   get openElements$(): Observable<OpenElements> {
-    return this.relationsState.openElements$.pipe(delay(0), debounceTime(100));
+    return this.relationComponentState.openElements$.pipe(delay(0), debounceTime(100));
   }
 
   get openElements(): OpenElements {
-    return this.relationsState.openElements;
+    return this.relationComponentState.openElements;
   }
 
   // This is used to add an element with its children to the opened list
@@ -45,7 +51,11 @@ export class RelationsFacade {
     const childElements =
       children?.reduce((p: OpenElements, c: string) => ({ ...p, [c]: null }), emptyChildren) || emptyChildren;
 
-    this.relationsState.openElements = { ...this.relationsState.openElements, [id]: children, ...childElements };
+    this.relationComponentState.openElements = {
+      ...this.relationComponentState.openElements,
+      [id]: children,
+      ...childElements,
+    };
     this.loadChildrenInformation(id, children).subscribe();
   }
 
@@ -55,12 +65,12 @@ export class RelationsFacade {
       return;
     }
 
-    this.relationsState.openElements = { ...this.relationsState.openElements, [id]: children };
+    this.relationComponentState.openElements = { ...this.relationComponentState.openElements, [id]: children };
     this.loadChildrenInformation(id, children).subscribe();
   }
 
   public deleteOpenElement(id: string): void {
-    this.relationsState.openElements = this._deleteOpenElement(id, this.relationsState.openElements);
+    this.relationComponentState.openElements = this._deleteOpenElement(id, this.relationComponentState.openElements);
   }
 
   /*
@@ -94,8 +104,9 @@ export class RelationsFacade {
     keyList.reverse().forEach(key => {
       mappedData[key] = RelationsAssembler.elementToTreeStructure(loadedData[key]);
 
+      mappedData[key].relations = mappedData[key].children?.length > 0 ? mappedData[key].children : null;
       mappedData[key].children =
-        openElements[key]?.map(childId => mappedData[childId] || null).filter(element => !!element) || [];
+        openElements[key]?.map(childId => mappedData[childId] || null).filter(element => !!element) || null;
       treeStructure = mappedData[key];
     });
 
@@ -113,7 +124,7 @@ export class RelationsFacade {
   }
 
   public resetRelationState(): void {
-    this.relationsState.resetOpenElements();
+    this.relationComponentState.resetOpenElements();
 
     // Not resetting already loaded data keep the requests to a minimum.
     // this.relationsState.resetLoadedElements();
@@ -127,6 +138,13 @@ export class RelationsFacade {
   public closeElementById(elementId: string): void {
     const elementToClose = this.loadedElements[elementId];
     elementToClose.children.forEach(childId => this.deleteOpenElement(childId));
+  }
+
+  public getRootPart(id: string): Observable<View<Part>> {
+    return this.partsService.getPart(id).pipe(
+      map((part: Part) => ({ data: part })),
+      catchError((error: Error) => of({ error })),
+    );
   }
 
   private _deleteOpenElement(id: string, openElements: OpenElements): OpenElements {

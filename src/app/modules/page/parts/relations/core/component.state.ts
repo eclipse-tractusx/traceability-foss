@@ -18,34 +18,26 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Part } from '@page/parts/model/parts.model';
-import { State, View } from '@shared';
+import { OpenElements } from '@page/parts/relations/model/relations.model';
+import { State } from '@shared';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class PartsState {
-  private readonly _parts$: State<View<Part[]>> = new State<View<Part[]>>({ loader: true });
-  private readonly _selectedPart: State<View<Part>> = new State<View<Part>>({ loader: true });
-
-  get selectedPart$(): Observable<View<Part>> {
-    return this._selectedPart.observable;
+export class RelationComponentState {
+  private readonly _openElements$: State<OpenElements> = new State<OpenElements>({});
+  get openElements$(): Observable<OpenElements> {
+    return this._openElements$.observable;
   }
 
-  set selectedPart({ data, loader, error }: View<Part>) {
-    const partDetailView: View<Part> = { data, loader, error };
-    this._selectedPart.update(partDetailView);
+  get openElements() {
+    return this._openElements$.snapshot;
   }
 
-  get selectedPart(): View<Part> {
-    return this._selectedPart.snapshot;
+  set openElements(data: OpenElements) {
+    this._openElements$.update(data);
   }
 
-  get parts$(): Observable<View<Part[]>> {
-    return this._parts$.observable;
-  }
-
-  set parts({ data, loader, error }: View<Part[]>) {
-    const partsView: View<Part[]> = { data, loader, error };
-    this._parts$.update(partsView);
+  public resetOpenElements(): void {
+    this._openElements$.reset();
   }
 }

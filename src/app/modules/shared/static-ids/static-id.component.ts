@@ -17,36 +17,17 @@
  * under the License.
  */
 
-import { Selection } from 'd3-selection';
+export abstract class StaticIdComponent {
+  private static nextId = 0;
 
-export type LoadedElements = Record<string, TreeElement>;
-export type OpenElements = Record<string, string[]>;
+  abstract htmlIdBase: string;
+  private currentID = StaticIdComponent.generateId();
 
-export interface TreeElement {
-  id: string;
-  title: string;
-  text?: string;
+  static generateId() {
+    return StaticIdComponent.nextId++;
+  }
 
-  state?: 'done' | 'loading' | 'risk';
-  children?: string[];
-}
-
-export interface TreeStructure {
-  id: string;
-  title: string;
-  text?: string;
-
-  state: 'done' | 'loading' | 'risk';
-  children?: TreeStructure[];
-  relations?: TreeStructure[];
-}
-
-export interface TreeData {
-  id: string;
-  width?: number;
-  height?: number;
-  r?: number;
-  mainElement?: Selection<Element, TreeStructure, HTMLElement, TreeStructure>;
-  openDetails?: (data: TreeStructure) => void;
-  updateChildren?: (data: TreeStructure) => void;
+  public get htmlId(): string {
+    return this.htmlIdBase + this.currentID;
+  }
 }

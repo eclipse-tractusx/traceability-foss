@@ -59,3 +59,4 @@ export { OrganizationsResolver } from './resolver/organizations.resolver';
 export { SharedModule } from './shared.module';
 export { TemplateModule } from './template.module';
 export { LayoutFacade } from './abstraction/layout-facade';
+export { StaticIdComponent } from './static-ids/static-id.component';

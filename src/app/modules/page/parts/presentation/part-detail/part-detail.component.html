@@ -86,7 +86,7 @@ under the License.
   <mat-card>
     <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
     <mat-card-content>
-      <app-part-relation></app-part-relation>
+      <app-part-relation [treeHeight]="500" [treeWidth]="550"></app-part-relation>
       <mat-icon (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon">open_in_new</mat-icon>
     </mat-card-content>
   </mat-card>

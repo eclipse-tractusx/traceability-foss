@@ -18,6 +18,7 @@
  */
 
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { StaticIdComponent } from '@shared/static-ids/static-id.component';
 
 @Component({
   selector: 'app-card-icon',
@@ -25,16 +26,10 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   styleUrls: ['./card-icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CardIconComponent {
-  private static nextId = 0;
-
-  static generateId() {
-    return CardIconComponent.nextId++;
-  }
+export class CardIconComponent extends StaticIdComponent {
+  public readonly htmlIdBase = 'app-card-icon-';
 
   @Input() label: string;
   @Input() stats: number | string;
   @Input() icon: string;
-
-  readonly htmlId = 'app-card-icon-' + CardIconComponent.generateId();
 }

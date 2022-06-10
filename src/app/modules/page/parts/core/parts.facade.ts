@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { PartsService } from '@page/parts/core/parts.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
@@ -36,6 +36,10 @@ export class PartsFacade {
 
   set selectedPart(part: Part) {
     this.partsState.selectedPart = { data: part };
+  }
+
+  get selectedPart(): Part {
+    return this.partsState.selectedPart?.data;
   }
 
   get parts$(): Observable<View<Part[]>> {

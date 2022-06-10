@@ -17,36 +17,10 @@
  * under the License.
  */
 
-import { Selection } from 'd3-selection';
+import { Component } from '@angular/core';
 
-export type LoadedElements = Record<string, TreeElement>;
-export type OpenElements = Record<string, string[]>;
-
-export interface TreeElement {
-  id: string;
-  title: string;
-  text?: string;
-
-  state?: 'done' | 'loading' | 'risk';
-  children?: string[];
-}
-
-export interface TreeStructure {
-  id: string;
-  title: string;
-  text?: string;
-
-  state: 'done' | 'loading' | 'risk';
-  children?: TreeStructure[];
-  relations?: TreeStructure[];
-}
-
-export interface TreeData {
-  id: string;
-  width?: number;
-  height?: number;
-  r?: number;
-  mainElement?: Selection<Element, TreeStructure, HTMLElement, TreeStructure>;
-  openDetails?: (data: TreeStructure) => void;
-  updateChildren?: (data: TreeStructure) => void;
-}
+@Component({
+  selector: 'app-relation',
+  templateUrl: './relation.component.html',
+})
+export class RelationComponent {}

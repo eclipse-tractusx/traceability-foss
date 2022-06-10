@@ -22,6 +22,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PartRelationComponent } from '@page/parts/relations/presentation/part-relation.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
+// TODO: Remove File!
 export /** @type {*} */
 const PARTS_ROUTING: Routes = [
   {

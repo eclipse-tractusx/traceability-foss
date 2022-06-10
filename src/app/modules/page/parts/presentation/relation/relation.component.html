@@ -17,16 +17,5 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<ng-container *viewContainer="this.rootPart$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp">
-</ng-container>
-
-<ng-template #partRelationMainTmp let-partDetails="view">
-  <figure [id]="htmlId"></figure>
-</ng-template>
-
-<ng-template #errorTmp let-partDetails="view">
-  <h1>{{ 'dataLoading.error' | i18n }}</h1>
-  <p>{{ partDetails.error.message }}</p>
-</ng-template>
-
-<ng-template #loaderTmp><mat-spinner></mat-spinner></ng-template>
+<app-part-relation></app-part-relation>
+<app-part-detail></app-part-detail>
