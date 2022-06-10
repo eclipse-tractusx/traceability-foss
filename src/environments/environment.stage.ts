@@ -20,6 +20,7 @@
 export const environment = {
   production: true,
   keycloakUrl: 'https://catenaxdev003akssrv.germanywestcentral.cloudapp.azure.com/iamcentralidp/auth',
+  clientId: 'catenax-portal',
   authDisabled: false,
   multiTenant: true,
   defaultRealm: 'mock',

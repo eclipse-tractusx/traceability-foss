@@ -58,6 +58,16 @@ under the License.
       <ul class="sidebar-menu-container">
         <li>
           <app-sidebar-section
+            *appHasRole="['admin']"
+            [name]="'routing.admin' | i18n"
+            [isActive]="this.activeMenu === 'admin'"
+            [isExpanded]="this.expanded"
+            [iconName]="'apps'"
+            (click)="this.navigate('admin')"
+          ></app-sidebar-section>
+        </li>
+        <li>
+          <app-sidebar-section
             (click)="this.navigate('about')"
             [name]="'routing.about' | i18n"
             [isActive]="this.activeMenu === 'about'"

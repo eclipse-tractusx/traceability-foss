@@ -48,6 +48,7 @@ export class SidebarComponent {
     dashboard: '',
     about: '',
     parts: '',
+    admin: '',
   };
 
   get sidebarWidth(): number {
@@ -60,6 +61,7 @@ export class SidebarComponent {
       dashboard: `/${this.realm}`,
       about: `/${this.realm}/about`,
       parts: `/${this.realm}/parts`,
+      admin: `/${this.realm}/admin`,
     };
 
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((r: NavigationEnd) => {

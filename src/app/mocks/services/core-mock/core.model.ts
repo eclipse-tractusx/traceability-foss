@@ -32,7 +32,6 @@ const AssetsCountPerCountryAndSupplier: AssetsPerPlant = {
 const qualityAlertCount: Record<string, QualityAlertCount[]> = {
   [environment.defaultRealm.toUpperCase()]: [
     {
-      mspid: environment.defaultRealm,
       qualityType: 'Good',
       alertCount: '0',
       totalAssetsCount: '3',

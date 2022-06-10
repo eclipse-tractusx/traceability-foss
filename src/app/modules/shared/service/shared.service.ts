@@ -70,10 +70,6 @@ export class SharedService {
       .pipe(map((tiles: { data: Tiles; status: number }) => tiles.data));
   }
 
-  public getMspids(): Observable<string[]> {
-    return this.apiService.get<{ data: string[] }>('/get-mspids').pipe(map((mspid: { data: string[] }) => mspid.data));
-  }
-
   public getAllOrganizations(): Observable<string[]> {
     return this.apiService.get('/organisations').pipe(map((orgs: { data: string[] }) => orgs.data));
   }

@@ -41,7 +41,6 @@ export interface Asset {
   partsAvailable?: string;
   parents?: Asset[];
   isParentKnown?: boolean;
-  mspid: string;
   manufacturerLine?: string;
   manufacturerPlant?: string;
   serialNumberType: string;

@@ -18,13 +18,14 @@
  */
 
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { UserService } from 'src/app/modules/core/user/user.service';
+import { Role } from '@core/user/role';
+import { RoleService } from '@core/user/role.service';
 
 @Directive({
   selector: '[appHasRole]',
 })
 export class RoleDirective implements OnInit {
-  @Input() appHasRole: string[];
+  @Input() appHasRole: Role[] | Role;
 
   private isVisible = false;
 
@@ -34,27 +35,17 @@ export class RoleDirective implements OnInit {
    * 	-- the location where we need to render the templateRef
    * @param {TemplateRef<unknown>} templateRef
    *   -- the templateRef to be potentially rendered
-   * @param {UserService} userService
-   *   -- will give us access to the roles a user has
+   * @param {RoleService} roleService
+   *   -- will check access
    */
   constructor(
     private viewContainerRef: ViewContainerRef,
     private templateRef: TemplateRef<unknown>,
-    private userService: UserService,
+    private roleService: RoleService,
   ) {}
 
   ngOnInit(): void {
-    const roles = this.userService.getRoles();
-    // If the user doesn't have any roles, we clear the viewContainerRef
-    if (!roles) {
-      this.viewContainerRef.clear();
-    }
-    // If the user has the role needed to
-    // render this component we can add it
-    // If it is already visible (which can happen if
-    // his roles changed we do not need to add it a second time
-    const hasSomeRole = this.appHasRole.some(role => roles.includes(role));
-    if (hasSomeRole && !this.isVisible) {
+    if (this.roleService.hasAccess(this.appHasRole)) {
       // We update the `isVisible` property and add the
       // templateRef to the view using the
       // 'createEmbeddedView' method of the viewContainerRef

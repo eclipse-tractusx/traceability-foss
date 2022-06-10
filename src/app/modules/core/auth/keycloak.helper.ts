@@ -47,7 +47,7 @@ export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean
       config: {
         url: environment.keycloakUrl,
         realm,
-        clientId: 'catenax-portal',
+        clientId: environment.clientId,
       },
       initOptions: {
         onLoad: 'login-required',

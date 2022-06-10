@@ -17,13 +17,14 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Optional } from '@angular/core';
+import { Role } from '@core/user/role';
 import { KeycloakService } from 'keycloak-angular';
 import Keycloak, { KeycloakLoginOptions } from 'keycloak-js';
 
 @Injectable()
 export class MockedKeycloakService extends KeycloakService {
-  constructor() {
+  constructor(@Optional() @Inject('mockedRoles') private mockedRoles: Role[]) {
     super();
     this['_instance'] = {};
   }
@@ -48,9 +49,8 @@ export class MockedKeycloakService extends KeycloakService {
         given_name: 'Mock',
         family_name: 'User',
         email: 'mock.user@foss.de',
-        mspid: 'MOCK',
         auth_time: '99999999',
-        realm_access: { roles: ['admin'] },
+        realm_access: { roles: this.mockedRoles ?? ['admin'] },
       },
     } as any;
   }

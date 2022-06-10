@@ -3,7 +3,8 @@
     "home": "Home",
     "dashboard": "Dashboard",
     "parts": "Parts",
-    "about": "About"
+    "about": "About",
+    "admin": "Administation"
   },
   "layout": {
     "nav": {

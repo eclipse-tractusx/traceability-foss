@@ -17,18 +17,16 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { Resolve } from '@angular/router';
-import { Observable } from 'rxjs';
-import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
-import { Mspid } from 'src/app/modules/shared/model/mspid.model';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { getI18nPageProvider } from '@core/i18n';
+import { SharedModule, TemplateModule } from '@shared';
+import { AdminRoutingModule } from './admin.routing';
+import { AdminComponent } from './presentation/admin.component';
 
-@Injectable()
-export class MspidsResolver implements Resolve<Mspid[]> {
-  constructor(private layoutFacade: LayoutFacade) {}
-
-  resolve(): Mspid[] | Observable<Mspid[]> | Promise<Mspid[]> {
-    const mspids = this.layoutFacade.mspidsSnapshot;
-    return !mspids.length ? this.layoutFacade.getMspidRequest() : mspids;
-  }
-}
+@NgModule({
+  declarations: [AdminComponent],
+  imports: [CommonModule, TemplateModule, SharedModule, AdminRoutingModule],
+  providers: [...getI18nPageProvider('page.admin')],
+})
+export class AdminModule {}

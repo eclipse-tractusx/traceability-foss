@@ -109,6 +109,61 @@ Some VSCode extensions that might improve your coding experience :)
 - Visual Studio IntelliCode
 - Yaml
 
+## Local Keycloack
+
+### Prerequisites
+
+- Docker with docker-compose
+
+### How to run local keycloack?
+
+Keycloack can be started through:
+
+```
+yarn env:mock
+```
+
+### Keycloack First Configuration
+
+On the first Keycloack start it should be properly configured.
+
+By default, it would be available at http://localhost:8080
+
+To get to the configuration section please click on Administration Console.
+
+Default user/password is `admin`/`admin`.
+
+Now you can start the configuration.
+
+Create a new Realm `mock` and select one.
+
+In `Realm Settings` (from sidebar) -> `Security Defenses`:
+Clear `X-Frame-Options`
+Set `Content-Security-Policy` to `frame-src 'self'; object-src 'none’;`
+
+In `Clients` (from sidebar)
+
+1. Create a new client `catenax-portal`
+2. Edit `catenax-portal`
+   1. Set `Valid Redirect URIs` to `*`
+   2. `Web Origins` to `*`
+
+In `Roles` (from sidebar):
+
+1. Add next roles:
+
+- `user`
+- `admin`
+- `supervisor`
+
+In Users (from sidebar):
+
+1. Create user `default-user` with email, first name and last name, then assign to it `user` role and set a password (disable temp password option)
+2. Create user `default-admin` with email, first name and last name, then assign to it `admin` role and set a password (disable temp password option)
+3. Create user `default-supervisor` with email, first name and last name, then assign to it `supervisor` role and set a password (disable temp password option)
+
+All done!
+
 ## License
 
 [Apache License 2.0](./LICENSE)

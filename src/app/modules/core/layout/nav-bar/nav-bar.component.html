@@ -34,10 +34,7 @@ under the License.
 
           <!-- Profile dropdown -->
           <div class="navbar-menu-content">
-            <ng-container *ngIf="this.isIconLoading">
-              <app-avatar [name]="''" [color]="'#dedfe1'" [size]="'2rem'"></app-avatar>
-            </ng-container>
-            <div (click)="this.expand($event)" *ngIf="this.realm">
+            <div (click)="this.expand($event)">
               <button class="navbar-menu-btn" id="user-menu" aria-haspopup="true">
                 <span class="sr-only">{{ 'layout.nav.openUserMenu' | i18n }}</span>
                 <app-avatar

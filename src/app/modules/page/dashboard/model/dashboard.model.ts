@@ -38,7 +38,6 @@ export interface ReceivedAlertType {
 }
 
 export interface QualityAlertCount {
-  mspid: string;
   qualityType: string;
   alertCount: string;
   totalAssetsCount: string;

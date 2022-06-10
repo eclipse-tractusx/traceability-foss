@@ -17,27 +17,24 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
+import { AdminComponent } from './presentation/admin.component';
 
-import { PartRelationComponent } from './part-relation.component';
+export /** @type {*} */
+const ABOUT_ROUTING: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: AdminComponent,
+    data: { i18nextNamespaces: ['page.admin'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+];
 
-describe('RelationComponent', () => {
-  let component: PartRelationComponent;
-  let fixture: ComponentFixture<PartRelationComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [PartRelationComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PartRelationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  xit('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+@NgModule({
+  imports: [RouterModule.forChild(ABOUT_ROUTING)],
+  exports: [RouterModule],
+})
+export class AdminRoutingModule {}

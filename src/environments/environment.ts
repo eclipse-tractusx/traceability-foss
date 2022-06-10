@@ -19,8 +19,9 @@
 
 export const environment = {
   production: false,
-  authDisabled: true,
+  authDisabled: false,
   keycloakUrl: 'https://catenaxdev003akssrv.germanywestcentral.cloudapp.azure.com/iamcentralidp/auth',
+  clientId: 'catenax-portal',
   multiTenant: false,
   defaultRealm: 'mock',
   realmLogo: '/assets/images/logo.png',

@@ -17,15 +17,10 @@
  * under the License.
  */
 
-import { environment } from '@env';
 import { rest } from 'msw';
 import { mockDashboard } from './core.model';
 
 export const coreHandlers = [
-  rest.get('/get-mspids', (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({ data: [environment.defaultRealm.toUpperCase()] }));
-  }),
-
   rest.get('/organisations', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json({ data: [''] }));
   }),

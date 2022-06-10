@@ -30,13 +30,14 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { realm } from '../api/api.service.properties';
-import { UserService } from './user.service';
+import { Role } from './role';
+import { RoleService } from './role.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
-  constructor(private userService: UserService, private router: Router) {}
+  constructor(private roleService: RoleService, private router: Router) {}
 
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -62,9 +63,13 @@ export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<u
   }
 
   validateUserRole(route: ActivatedRouteSnapshot, url: string): boolean {
-    const roles: string[] = this.userService.getRoles();
-    const hasSomeRole: boolean = route.data.role.some((role: string) => roles.includes(role));
-    if (route.data.role && !hasSomeRole) {
+    const requiredRoles = route.data.roles as Role[] | Role;
+
+    if (!requiredRoles) {
+      return true;
+    }
+
+    if (!this.roleService.hasAccess(requiredRoles)) {
       void this.router.navigate([realm]);
       return false;
     }

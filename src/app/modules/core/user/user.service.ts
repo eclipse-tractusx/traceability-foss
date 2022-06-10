@@ -19,10 +19,10 @@
 
 import { Injectable } from '@angular/core';
 import { LastLogin } from 'src/app/modules/shared/model/last-login.model';
-import { realm } from '../api/api.service.properties';
 import { AuthService } from '../auth/auth.service';
 import { Realm } from '../model/realm.model';
 import { UserServiceProperties } from './user.service.properties';
+import { Role } from './role';
 
 @Injectable({
   providedIn: 'root',
@@ -33,9 +33,10 @@ export class UserService {
   private surname: string;
   private email: string;
   private firstVisit: boolean;
-  private mspid: string;
-  private roles: string[] = [];
+
+  private roles: Role[] = [];
   private dashboardLoaded: boolean;
+
   constructor(private authService: AuthService) {
     this.setUserDetails();
   }
@@ -46,13 +47,10 @@ export class UserService {
     this.firstname = userData.firstname;
     this.surname = userData.surname;
     this.email = userData.email;
-    this.mspid = userData.mspid;
     this.firstVisit = !this.hasBeenHere();
     this.dashboardLoaded = false;
 
-    const defaultRoles = ['offline_access', 'uma_authorization', 'user', `${realm}_user`, 'view_only'];
-    const { roles } = userData.realm_access;
-    this.roles = roles.filter(role => !defaultRoles.includes(role));
+    this.roles = userData.realm_access.roles as Role[];
     if (userData.auth_time) {
       this.setLastLogin(userData.auth_time);
     }
@@ -70,11 +68,7 @@ export class UserService {
     return this.email;
   }
 
-  public getMspid(): string {
-    return this.mspid;
-  }
-
-  public getRoles(): string[] {
+  public getRoles(): Role[] {
     return this.roles;
   }
 
