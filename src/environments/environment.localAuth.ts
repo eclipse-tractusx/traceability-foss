@@ -19,7 +19,8 @@
 
 export const environment = {
   production: false,
-  keycloakUrl: 'https://catenaxdev003akssrv.germanywestcentral.cloudapp.azure.com/iamcentralidp/auth',
+  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
+  clientId: 'Cl10-CX-Part',
   authDisabled: false,
   multiTenant: true,
   defaultRealm: 'CX-Central',

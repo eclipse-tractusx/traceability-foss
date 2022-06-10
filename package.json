@@ -16,7 +16,7 @@
     "prepare": "husky install",
     "start": "ng serve",
     "env:mock": "docker-compose up",
-    "start:auth": "ng serve --port=3000 --configuration=localAuth",
+    "start:auth": "ng serve --configuration=localAuth",
     "test": "jest --watch --maxWorkers=1",
     "test:ci": "jest --runInBand",
     "add-license-header": "node ./scripts/add-license-header.js --src=src"
