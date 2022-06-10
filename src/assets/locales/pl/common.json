@@ -3,7 +3,8 @@
     "home": "Strona główna",
     "dashboard": "Półpit",
     "parts": "Części",
-    "about": "O nas"
+    "about": "O nas",
+    "admin": "Administracja"
   },
   "layout": {
     "nav": {

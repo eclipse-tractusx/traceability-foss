@@ -3,6 +3,9 @@
     "title": "Półpit",
     "totalOfParts": {
       "label": "Ilość części"
+    },
+    "managedTotalOfParts": {
+      "label": "Ilość części w oddziale"
     }
   }
 }

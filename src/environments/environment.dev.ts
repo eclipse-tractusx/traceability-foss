@@ -17,27 +17,15 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PartRelationComponent } from './part-relation.component';
-
-describe('RelationComponent', () => {
-  let component: PartRelationComponent;
-  let fixture: ComponentFixture<PartRelationComponent>;
-
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [PartRelationComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PartRelationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  xit('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+export const environment = {
+  production: false,
+  authDisabled: false,
+  keycloakUrl: 'http://localhost:8080/',
+  clientId: 'catenax-portal',
+  multiTenant: false,
+  defaultRealm: 'mock',
+  realmLogo: '/assets/images/logo.png',
+  apiUrl: '/api/v1',
+  realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
+  baseUrl: '/',
+};

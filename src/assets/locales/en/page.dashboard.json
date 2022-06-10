@@ -3,6 +3,9 @@
     "title": "Dashboard",
     "totalOfParts": {
       "label": "Total of parts"
+    },
+    "managedTotalOfParts": {
+      "label": "Total of parts in department"
     }
   }
 }

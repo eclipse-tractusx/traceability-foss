@@ -22,7 +22,6 @@ export interface Token {
   given_name?: string;
   family_name?: string;
   email?: string;
-  mspid?: string;
   realm_access: {
     roles: [];
   };

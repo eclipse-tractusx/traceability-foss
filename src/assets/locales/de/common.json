@@ -3,7 +3,8 @@
     "home": "Home",
     "dashboard": "Dashboard",
     "parts": "Produkte",
-    "about": "Über uns"
+    "about": "Über uns",
+    "admin": "Verwaltung"
   },
   "layout": {
     "nav": {

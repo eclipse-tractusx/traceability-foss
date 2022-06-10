@@ -54,4 +54,40 @@ under the License.
       ></app-card-icon>
     </ng-template>
   </section>
+
+  <section class="parts-section" *appHasRole="['admin', 'supervisor']">
+    <ng-container
+      *viewContainer="
+        this.numberOfParts$ | async;
+        main: managedNumberOfPartsMainTmp;
+        error: managedNumberOfPartsErrorTmp;
+        loading: managedNumberOfPartsLoaderTmp
+      "
+    >
+    </ng-container>
+
+    <ng-template #managedNumberOfPartsMainTmp let-numberOfParts="view">
+      <app-card-icon
+        [label]="'pageDashboard.managedTotalOfParts.label' | i18n"
+        [icon]="'directions_car'"
+        [stats]="numberOfParts?.data"
+      ></app-card-icon>
+    </ng-template>
+
+    <ng-template #managedNumberOfPartsErrorTmp let-numberOfParts="view">
+      <app-card-icon
+        [label]="'pageDashboard.managedTotalOfParts.label' | i18n"
+        [icon]="'directions_car'"
+        [stats]="0"
+      ></app-card-icon>
+    </ng-template>
+
+    <ng-template #managedNumberOfPartsLoaderTmp let-numberOfParts="view">
+      <app-card-icon
+        [label]="'pageDashboard.managedTotalOfParts.label' | i18n"
+        [icon]="'directions_car'"
+        [stats]="''"
+      ></app-card-icon>
+    </ng-template>
+  </section>
 </div>
