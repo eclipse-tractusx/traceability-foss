@@ -73,10 +73,11 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  tls: [ ]
-  #  - secretName: www-tls
-  #    hosts:
-  #      - home.int.demo.catena-x.net
+  tls:
+    - hosts:
+        - "traceability.int.demo.catena-x.net"
+      # Default secret for certificate creation already provided to your namespace
+      secretName: tls-secret
 
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
