@@ -17,7 +17,10 @@
  * under the License.
  */
 
-export interface Mspid {
-  name: string;
-  color: string;
-}
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-admin',
+  templateUrl: './admin.component.html',
+})
+export class AdminComponent {}

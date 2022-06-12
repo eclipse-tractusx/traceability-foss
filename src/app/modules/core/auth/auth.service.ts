@@ -25,7 +25,6 @@ export interface UserData {
   firstname: string;
   surname: string;
   email: string;
-  mspid: string;
   realm_access: {
     roles: string[];
   };
@@ -48,22 +47,16 @@ export class AuthService {
       given_name: firstname = '',
       family_name: surname = '',
       email = '',
-      mspid = '',
       realm_access = { roles: [] },
     } = this.keycloakService.getKeycloakInstance().tokenParsed;
 
     const { auth_time: key_auth_time } = this.keycloakService.getKeycloakInstance().tokenParsed;
     const auth_time = key_auth_time.toString();
 
-    return { username, firstname, surname, email, mspid, auth_time, realm_access };
+    return { username, firstname, surname, email, auth_time, realm_access };
   }
 
   public logOut(): void {
     this.keycloakService.logout().then();
-  }
-
-  public getMspid(): string {
-    const { mspid } = this.getUserData();
-    return mspid.toLocaleUpperCase();
   }
 }

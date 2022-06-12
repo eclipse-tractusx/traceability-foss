@@ -17,18 +17,18 @@
  * under the License.
  */
 
-import { Type, ɵɵFactoryDeclaration, ɵɵComponentDeclaration } from '@angular/core';
+import { APP_INITIALIZER, Type, ɵɵFactoryDeclaration, ɵɵComponentDeclaration } from '@angular/core';
 import { render, RenderComponentOptions, RenderTemplateOptions, RenderResult } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
-import { I18NextModule } from 'angular-i18next';
+import { I18NextModule, ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
 import { KeycloakService } from 'keycloak-angular';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
-
-import { APP_INITIALIZER } from '@angular/core';
-import { ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
+import { Role } from '@core/user/role';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 type RenderFnOptionsExtension = {
   translations?: string[];
+  roles?: Role[];
 };
 
 // As we extending render function from the testing-library with more options
@@ -49,12 +49,16 @@ declare class WrapperComponent {
 
 export const renderComponent: typeof ExtendedRenderFn = (
   cmp,
-  { imports = [], providers = [], translations = [], ...restConfig },
+  { imports = [], providers = [], translations = [], roles = ['user'], ...restConfig },
 ) =>
   render(cmp, {
-    imports: [...imports, I18NextModule.forRoot(), HttpClientModule],
+    imports: [...imports, I18NextModule.forRoot(), HttpClientModule, NoopAnimationsModule],
     providers: [
       ...providers,
+      {
+        provide: 'mockedRoles',
+        useValue: roles,
+      },
       {
         provide: KeycloakService,
         useClass: MockedKeycloakService,

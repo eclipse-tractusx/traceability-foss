@@ -1,5 +1,6 @@
 ![Veracode Workflow](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/veracode.yml/badge.svg)
 ![Tests Workflow](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/test.yml/badge.svg)
+
 <div style="display: flex; justify-items: center;">
 
 ![Alt text](src/assets/images/catena-x.svg?raw=true 'Catena-x')
@@ -35,7 +36,7 @@ If you're using angular for the first time, run `npm install -g @angular/cli` to
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.6.
 
-Angular CLI is the official tool for initializing and working with Angular projects. 
+Angular CLI is the official tool for initializing and working with Angular projects.
 It saves you from the hassle of complex configurations and building tools like TypeScript, Webpack, and so on.
 
 After installing Angular CLI, you'll need to run one command to generate a project and another to serve it using a local development server to play with your application.
@@ -48,7 +49,7 @@ Please find [here](docs/authentication.md) some important information about the 
 
 ## Application architecture & patterns
 
-This [architecture](docs/architecture.md) gives you a roadmap and best practices to follow when building an application 
+This [architecture](docs/architecture.md) gives you a roadmap and best practices to follow when building an application
 so that you end up with a well-structured app.
 
 ## Angular security best practices
@@ -64,6 +65,17 @@ New and old developers should regularly review this [guide](docs/guidelines.md) 
 ## User guide
 
 A detailed [explanation](docs/user-guide.md) of how to use the application.
+
+## Conventions
+
+### Angular Template Attribute Convention
+
+Attributes in Angular template should be properly ordered by groups:
+
+1. `*` - Structural Directives
+2. `[]` - Attribute Directives or Input parameters
+3. `()` - Event listeners
+4. All other attributes
 
 ## Bonus: VSCode extensions
 
@@ -96,6 +108,61 @@ Some VSCode extensions that might improve your coding experience :)
 - Version lens
 - Visual Studio IntelliCode
 - Yaml
+
+## Local Keycloack
+
+### Prerequisites
+
+- Docker with docker-compose
+
+### How to run local keycloack?
+
+Keycloack can be started through:
+
+```
+yarn env:mock
+```
+
+### Keycloack First Configuration
+
+On the first Keycloack start it should be properly configured.
+
+By default, it would be available at http://localhost:8080
+
+To get to the configuration section please click on Administration Console.
+
+Default user/password is `admin`/`admin`.
+
+Now you can start the configuration.
+
+Create a new Realm `mock` and select one.
+
+In `Realm Settings` (from sidebar) -> `Security Defenses`:
+Clear `X-Frame-Options`
+Set `Content-Security-Policy` to `frame-src 'self'; object-src 'none’;`
+
+In `Clients` (from sidebar)
+
+1. Create a new client `catenax-portal`
+2. Edit `catenax-portal`
+   1. Set `Valid Redirect URIs` to `*`
+   2. `Web Origins` to `*`
+
+In `Roles` (from sidebar):
+
+1. Add next roles:
+
+- `user`
+- `admin`
+- `supervisor`
+
+In Users (from sidebar):
+
+1. Create user `default-user` with email, first name and last name, then assign to it `user` role and set a password (disable temp password option)
+2. Create user `default-admin` with email, first name and last name, then assign to it `admin` role and set a password (disable temp password option)
+3. Create user `default-supervisor` with email, first name and last name, then assign to it `supervisor` role and set a password (disable temp password option)
+
+All done!
 
 ## License
 

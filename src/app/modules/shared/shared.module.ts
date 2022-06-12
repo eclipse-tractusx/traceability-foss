@@ -45,7 +45,6 @@ import { ViewContainerDirective } from './directives/view-container.directive';
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
 import { ShortenPipe } from './pipes/shorten.pipe';
-import { MspidsResolver } from './resolver/mspids.resolver';
 import { OrganizationsResolver } from './resolver/organizations.resolver';
 import { TemplateModule } from './template.module';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
@@ -108,6 +107,6 @@ import { I18nPipe } from './pipes/i18n.pipe';
     CardIconComponent,
     CardListComponent,
   ],
-  providers: [SharedService, MspidsResolver, OrganizationsResolver],
+  providers: [SharedService, OrganizationsResolver],
 })
 export class SharedModule {}

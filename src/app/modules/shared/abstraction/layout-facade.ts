@@ -25,7 +25,6 @@ import { Realm } from '@core/model/realm.model';
 import { UserService } from '@core/user/user.service';
 import { LayoutState } from '../service/layout.state';
 import { SharedService } from '../service/shared.service';
-import { Mspid } from '../model/mspid.model';
 
 @Injectable({
   providedIn: 'root',
@@ -53,18 +52,6 @@ export class LayoutFacade {
 
   get realmName(): string {
     return this.userService.getFirstname();
-  }
-
-  get mspid(): string {
-    return this.userService.getMspid();
-  }
-
-  get mspids$(): Observable<Mspid[]> {
-    return this.layoutState.getMspids$;
-  }
-
-  get mspidsSnapshot(): Mspid[] {
-    return this.layoutState.mspIdsSnapshot;
   }
 
   get breadcrumbLabel(): string {
@@ -117,32 +104,6 @@ export class LayoutFacade {
 
   public isEmpty(object: unknown): boolean {
     return this.sharedService.isEmpty(object);
-  }
-
-  public setMspids(): void {
-    this.sharedService.getMspids().subscribe((mspidsValues: string[]) => {
-      const mspids: Mspid[] = [];
-      const colorPalette = ['#e83e8c', '#03a9f4', '#6610f2', '#fe6702', '#20c997'];
-
-      mspidsValues.forEach((value, index) => mspids.push({ name: value, color: colorPalette[index] }));
-      this.layoutState.setMspids(mspids);
-    });
-  }
-
-  public getMspidRequest(): Observable<Mspid[]> {
-    return this.sharedService.getMspids().pipe(
-      map((mspidsValues: string[]) => {
-        const mspids: Mspid[] = [];
-        const colorPalette = ['#e83e8c', '#03a9f4', '#6610f2', '#fe6702', '#20c997'];
-        let index = 0;
-
-        mspidsValues.forEach(value => {
-          mspids.push({ name: value, color: colorPalette[index] });
-          index++;
-        });
-        return mspids;
-      }),
-    );
   }
 
   public setOrganizations(): void {

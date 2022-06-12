@@ -51,7 +51,7 @@ describe('Parts', () => {
 
     const tableElement = await screen.findByTestId('table-component--test-id');
     expect(tableElement).toBeInTheDocument();
-    expect(tableElement.children[1].childElementCount).toEqual(3);
+    expect(tableElement.children[1].childElementCount).toEqual(5);
   });
 
   it('should render parts with closed sidenav', async () => {

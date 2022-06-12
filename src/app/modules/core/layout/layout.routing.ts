@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { RoleGuard } from '@core/user/role.guard';
 
 export /** @type {*} */
 const routes: Routes = [
@@ -27,22 +28,35 @@ const routes: Routes = [
     pathMatch: 'full',
     loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
   },
-
   {
     path: 'dashboard',
     loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
-    data: { breadcrumb: 'home' },
+    data: {
+      breadcrumb: 'home',
+    },
   },
   {
     path: 'parts',
     loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
-    data: { breadcrumb: 'parts' },
+    data: {
+      breadcrumb: 'parts',
+    },
   },
-
   {
     path: 'about',
     loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
-    data: { breadcrumb: 'about' },
+    data: {
+      breadcrumb: 'about',
+    },
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('../../page/admin/admin.module').then(m => m.AdminModule),
+    data: {
+      breadcrumb: 'admin',
+      roles: ['admin'],
+    },
+    canActivate: [RoleGuard],
   },
 ];
 

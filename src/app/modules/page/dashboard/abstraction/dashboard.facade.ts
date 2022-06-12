@@ -38,10 +38,10 @@ export class DashboardFacade {
     this.dashboardState.setNumberOfParts({ loader: true });
     this.dashboardService.getStats().subscribe({
       next: (kpiStats: Dashboard) => {
-        const mspid = realm?.toLocaleUpperCase();
+        const realmAsAKey = realm?.toLocaleUpperCase();
         const assetsCount =
-          kpiStats.qualityAlertCount[mspid] && kpiStats.qualityAlertCount[mspid].length
-            ? +kpiStats.qualityAlertCount[mspid][0].totalAssetsCount
+          kpiStats.qualityAlertCount[realmAsAKey] && kpiStats.qualityAlertCount[realmAsAKey].length
+            ? +kpiStats.qualityAlertCount[realmAsAKey][0].totalAssetsCount
             : 0;
 
         this.dashboardState.setNumberOfParts({ data: assetsCount });

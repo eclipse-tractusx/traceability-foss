@@ -24,15 +24,16 @@ import { renderComponent } from '@tests/test-render.utils';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardModule } from '../dashboard.module';
 
-describe.only('Dashboard', () => {
+describe('Dashboard', () => {
   beforeAll(() => server.listen());
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  const renderDashboard = () =>
+  const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
       imports: [DashboardModule],
       translations: ['page.dashboard'],
+      roles,
     });
 
   it('should render header', async () => {
@@ -50,5 +51,21 @@ describe.only('Dashboard', () => {
       'id',
       screen.getByText('3').getAttribute('aria-describedby'),
     );
+  });
+
+  it('should render supervisor section when supervisor user', async () => {
+    await renderDashboard({
+      roles: ['supervisor'],
+    });
+
+    expect(await screen.findByText('Total of parts in department')).toBeInTheDocument();
+  });
+
+  it('should render supervisor section when admin user', async () => {
+    await renderDashboard({
+      roles: ['admin'],
+    });
+
+    expect(await screen.findByText('Total of parts in department')).toBeInTheDocument();
   });
 });

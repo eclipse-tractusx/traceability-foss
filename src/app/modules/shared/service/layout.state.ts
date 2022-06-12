@@ -19,7 +19,6 @@
 
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Mspid } from '../model/mspid.model';
 import { State } from '../model/state';
 
 @Injectable({
@@ -27,7 +26,6 @@ import { State } from '../model/state';
 })
 export class LayoutState {
   private readonly qualityInvestigationBadge$: State<number> = new State<number>(0);
-  private readonly mspidState$: State<Mspid[]> = new State<Mspid[]>([]);
   private readonly canDeactivate$: Subject<boolean> = new Subject<boolean>();
   private readonly tabIndex$: State<number> = new State<number>(-1);
   private readonly queuedQualityAlerts$: State<number> = new State<number>(0);
@@ -41,14 +39,6 @@ export class LayoutState {
 
   get getQualityInvestigationBadge$(): Observable<number> {
     return this.qualityInvestigationBadge$.observable;
-  }
-
-  get getMspids$(): Observable<Mspid[]> {
-    return this.mspidState$.observable;
-  }
-
-  get mspIdsSnapshot(): Mspid[] {
-    return this.mspidState$.snapshot;
   }
 
   get getCanDeactivate(): Subject<boolean> {
@@ -98,10 +88,6 @@ export class LayoutState {
   public setQualityInvestigationBadge(transactionsCounter: number): void {
     this.resetQualityInvestigationBadge();
     this.qualityInvestigationBadge$.update(transactionsCounter);
-  }
-
-  public setMspids(mspids: Mspid[]): void {
-    this.mspidState$.update(mspids);
   }
 
   public addQualityInvestigationToBadge(transactionsCounter: number): void {

@@ -23,7 +23,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { PartsModule } from '@page/parts/parts.module';
 import { PartDetailComponent } from '@page/parts/presentation/part-detail/part-detail.component';
 import { State, View } from '@shared';
-import { screen } from '@testing-library/angular';
+import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -53,13 +53,13 @@ describe('PartDetailComponent', () => {
     expect(sideNavElement).toBeInTheDocument();
   });
 
-  it('should render an open sidenav with part details', fakeAsync(async () => {
+  it('should render an open sidenav with part details', async () => {
     const testPart = {
       name: 'Test_01',
       productionDate: new Date('1997-05-30T12:34:12Z'),
       customerPartId: '333',
     } as Part;
-    const { detectChanges } = await renderComponent(PartDetailComponent, {
+    await renderComponent(PartDetailComponent, {
       imports: [PartsModule],
       providers: [
         {
@@ -69,22 +69,18 @@ describe('PartDetailComponent', () => {
       ],
     });
 
-    // wait for animation time
-    tick(500);
-    detectChanges();
-
     const sideNavElement = await screen.findByTestId('part-detail--sidenav');
     const nameElement = await screen.findByText(testPart.name);
     const productionDateElement = await screen.findByText('5/30/1997');
     const partNumberElement = await screen.findByText(testPart.customerPartId);
 
     expect(sideNavElement).toBeInTheDocument();
-    expect(sideNavElement).toHaveClass('part-detail--open');
+    await waitFor(() => expect(sideNavElement).toHaveClass('part-detail--open'));
 
     expect(nameElement).toBeInTheDocument();
     expect(productionDateElement).toBeInTheDocument();
     expect(partNumberElement).toBeInTheDocument();
-  }));
+  });
 
   it('should render error messages if data failed loading', async () => {
     const error = { message: 'Error message' } as Error;
@@ -99,7 +95,7 @@ describe('PartDetailComponent', () => {
     });
 
     const errorElements = await screen.findAllByText(error.message);
-    expect(errorElements.length).toBe(3);
+    expect(errorElements.length).toBe(4);
     errorElements.forEach(errorElement => expect(errorElement).toBeInTheDocument());
   });
 });
