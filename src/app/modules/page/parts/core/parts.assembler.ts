@@ -21,11 +21,15 @@ import { Part, PartResponse } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DataPageAssembler } from '@core/data-page/data-page.assembler';
-import { DataPage, DataPageResponse } from '@core/model/data-page.model';
+import { PaginationAssembler } from '@core/pagination/pagination.assembler';
+import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export class PartsAssembler {
   public static assemblePart(part: PartResponse): Part {
+    if (!part) {
+      return null;
+    }
+
     return {
       id: part.id,
       name: part.nameAtManufacturer,
@@ -41,11 +45,11 @@ export class PartsAssembler {
     };
   }
 
-  public static assembleParts(parts: DataPageResponse<PartResponse>): DataPage<Part> {
+  public static assembleParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
     if (!parts || !parts.content.length) {
       return null;
     }
-    return DataPageAssembler.assembleDataPage(parts, PartsAssembler.assemblePart);
+    return PaginationAssembler.assemblePagination(parts, PartsAssembler.assemblePart);
   }
 
   public static filterPartForView(viewData: View<Part>): View<Part> {

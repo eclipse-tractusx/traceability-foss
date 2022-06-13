@@ -24,7 +24,7 @@ import { PartsAssembler } from '@page/parts/core/parts.assembler';
 import { Part, PartResponse, PartsResponse } from '@page/parts/model/parts.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { DataPage } from '@core/model/data-page.model';
+import { Pagination } from '@core/model/pagination.model';
 
 @Injectable()
 export class PartsService {
@@ -32,7 +32,7 @@ export class PartsService {
 
   constructor(private apiService: ApiService) {}
 
-  public getParts(): Observable<DataPage<Part>> {
+  public getParts(): Observable<Pagination<Part>> {
     return this.apiService
       .get<PartsResponse>(`${this.url}/assets`)
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));

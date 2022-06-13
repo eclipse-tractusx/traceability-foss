@@ -17,13 +17,13 @@
  * under the License.
  */
 
-import { DataPage } from '@core/model/data-page.model';
+import { Pagination } from '@core/model/pagination.model';
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
-import { Part, PartResponse } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { of } from 'rxjs';
 
 describe('PartsAssembler', () => {
-  const dataPage = <T>(content: T[]): DataPage<T> => ({
+  const page = <T>(content: T[]): Pagination<T> => ({
     content,
     pageCount: 1,
     totalItems: content.length,
@@ -34,7 +34,7 @@ describe('PartsAssembler', () => {
   describe('assembleParts', () => {
     it('should return null if array is empty or undefined', () => {
       expect(PartsAssembler.assembleParts(null)).toBe(null);
-      expect(PartsAssembler.assembleParts(dataPage([]))).toBe(null);
+      expect(PartsAssembler.assembleParts(page([]))).toBe(null);
     });
 
     it('should format the object correctly', () => {
@@ -84,7 +84,7 @@ describe('PartsAssembler', () => {
         });
       }
 
-      expect(JSON.stringify(PartsAssembler.assembleParts(dataPage(testData)).content)).toStrictEqual(
+      expect(JSON.stringify(PartsAssembler.assembleParts(page(testData)).content)).toStrictEqual(
         JSON.stringify(expected),
       );
     });

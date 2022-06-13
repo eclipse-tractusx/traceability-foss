@@ -17,7 +17,7 @@
  * under the License.
  */
 
-export interface DataPage<T> {
+export interface Pagination<T> {
   page: number;
   pageCount: number;
   pageSize: number;
@@ -25,7 +25,7 @@ export interface DataPage<T> {
   content: T[];
 }
 
-export interface DataPageResponse<T> {
+export interface PaginationResponse<T> {
   page: number;
   pageCount: number;
   pageSize: number;

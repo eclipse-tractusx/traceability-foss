@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import type { DataPageResponse } from '@core/model/data-page.model';
+import type { PaginationResponse } from '@core/model/pagination.model';
 
 export type QualityType = 'high' | 'medium' | 'low';
 
@@ -50,4 +50,4 @@ export interface PartResponse {
   childDescriptions: Array<{ id: string; idShort: string }>;
 }
 
-export type PartsResponse = DataPageResponse<PartResponse>;
+export type PartsResponse = PaginationResponse<PartResponse>;

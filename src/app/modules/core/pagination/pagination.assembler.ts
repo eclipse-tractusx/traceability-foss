@@ -17,13 +17,13 @@
  * under the License.
  */
 
-import { DataPage, DataPageResponse } from '@core/model/data-page.model';
+import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
-export class DataPageAssembler {
-  public static assembleDataPage<ResponseItem, Item>(
-    response: DataPageResponse<ResponseItem>,
+export class PaginationAssembler {
+  public static assemblePagination<ResponseItem, Item>(
+    response: PaginationResponse<ResponseItem>,
     contentMapper: (item: ResponseItem) => Item,
-  ): DataPage<Item> {
+  ): Pagination<Item> {
     return {
       page: response.page,
       pageCount: response.pageCount,
