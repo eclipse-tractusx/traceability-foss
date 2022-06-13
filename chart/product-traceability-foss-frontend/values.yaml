@@ -75,7 +75,7 @@ ingress:
           pathType: Prefix
   tls:
     - hosts:
-        - "traceability.int.demo.catena-x.net"
+        - "traceability-portal.int.demo.catena-x.net"
       # Default secret for certificate creation already provided to your namespace
       secretName: tls-secret
 
