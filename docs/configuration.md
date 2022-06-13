@@ -12,36 +12,36 @@ Command reference [here](https://angular.io/cli/new).
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-Command reference [here](https://angular.io/cli/serve). 
+Command reference [here](https://angular.io/cli/serve).
 
 ### Code scaffolding
 
 Run `ng generate [artifact] [artifact-name]` to generate and/or modify files based on a schematic.
 There are several Angular artefacts which you can generate:
 
-
- - component
- - directive
- - pipe
- - service
- - class
- - guard
- - interface
- - enum
- - module
- - ...
-
+- component
+- directive
+- pipe
+- service
+- class
+- guard
+- interface
+- enum
+- module
+- ...
 
 ### Running unit tests
 
 Run `ng test` to execute the unit tests via [jest](https://github.com/facebook/jest).
 
 ### Running updates
-Run `ng update` to update your application and its dependencies. 
-Be careful when updating to different versions. 
+
+Run `ng update` to update your application and its dependencies.
+Be careful when updating to different versions.
 You should check the angular update guide for more information [here](https://update.angular.io/).
 
 ### App compiling
+
 Run `ng build [project-name]` to compile an angular app into an output directory named `dist/` at a given output path.
 Must be executed from within a workspace directory.
 
@@ -62,6 +62,7 @@ These configurations must be declared in the angular JSON file, and you can defi
 Then, on the file replacements array, you can replace the URL with the corresponding environment file.
 
 ### angular.json
+
 ```json
 {
   "configurations": {
@@ -110,28 +111,31 @@ Then, on the file replacements array, you can replace the URL with the correspon
 ```
 
 ### Environment variables
+
 ```typescript
 export const environment = {
+  mockService: false, // enbales mocked backend
   production: true,
+  authDisabled: false, // disable keycloack auth
   keycloakUrl: 'https://auth.domain.tld/auth',
   multiTenant: true,
   defaultRealm: 'XYZRealm',
   realmLogo: '/assets/images/logo.png',
   baseUrl: '/',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
-  laapi: 'https://api.domain.tld/v1/',
-  aems: 'https://api.aems.domain.tld/v1/',
+  apiUrl: '/api', // specify where is placed backend API
 };
 ```
 
 ## Builder
-The architect section of angular.json contains a set of Architect targets. 
-Many of the targets correspond to the CLI commands that run them. 
+
+The architect section of angular.json contains a set of Architect targets.
+Many of the targets correspond to the CLI commands that run them.
 Some additional predefined targets can be run using the ng run command, and you can define your targets.
 
-Each target object specifies the builder for that target, which is the npm package for the tool that Architect runs. 
+Each target object specifies the builder for that target, which is the npm package for the tool that Architect runs.
 
-In addition, each target has an option section that configures default options for the target, 
+In addition, each target has an option section that configures default options for the target,
 and a configuration section that names and specifies alternative configurations for the target.
 
 You can find more information [here](https://angular.io/guide/cli-builder).
@@ -139,12 +143,14 @@ You can find more information [here](https://angular.io/guide/cli-builder).
 The default builder for an application is `@angular-devkit/build-angular:browser` which uses a webpack package bundler but since the current angular version doesn't support the CSS library Tailwind, a custom builder was necessary.
 
 ### Angular JSON builder
+
 ```json
 {
   "serve": {
     "builder": "@angular-builders/custom-webpack:dev-server",
     "options": {
-      "browserTarget": "webapp:build:dev"
+      "browserTarget": "webapp:build:dev",
+      "proxyConfig": "./int.proxy.conf.json"
     },
     "configurations": {
       "dev": {
@@ -159,22 +165,23 @@ The default builder for an application is `@angular-devkit/build-angular:browser
 ```
 
 ### Webpack configuration
+
 ```javascript
 module.exports = {
   module: {
     rules: [
       {
         test: /\.scss$/,
-        loader: "postcss-loader",
+        loader: 'postcss-loader',
         options: {
           postcssOptions: {
-            ident: "postcss",
-            syntax: "postcss-scss",
+            ident: 'postcss',
+            syntax: 'postcss-scss',
             plugins: [
-              require("postcss-import"),
-              require("tailwindcss/nesting"),
-              require("tailwindcss"),
-              require("autoprefixer"),
+              require('postcss-import'),
+              require('tailwindcss/nesting'),
+              require('tailwindcss'),
+              require('autoprefixer'),
             ],
           },
         },
@@ -196,7 +203,7 @@ It is important to specify the type of configuration profile, previously defined
 
 ```bash
     echo "Building image for: ${TARGET_IMAGE_NAME}:${ENVIRONMENT}"
- 
+
     docker login --password ${DOCKER_SECRET} --username partchain
     docker build -t ${TARGET_IMAGE_NAME}:${ENVIRONMENT} -t ${TARGET_IMAGE_NAME}:${SHORT_COMMIT_ID} -f ./build/Dockerfile . --build-arg PROFILE=${PROFILE}
 
@@ -259,7 +266,6 @@ if [[ "$ENVIRONMENT" == "dev" ]]; then
     kubectl config use-context ${CONTEXT}
     kubectl set image deployment/ui ui=${TARGET_IMAGE_NAME}:${SHORT_COMMIT_ID} -n ${NAMESPACE} --record
 ```
-
 
 ## Package Manager
 

@@ -17,15 +17,16 @@
  * under the License.
  */
 
-export const environment = {
+export const _environment = {
+  mockService: false,
   production: false,
-  keycloakUrl: 'https://auth.domain.tld/auth',
-  multiTenant: true,
-  defaultRealm: 'lion',
-  baseUrl: '/',
-  apiUrl: '/api/v1',
+  authDisabled: false,
+  keycloakUrl: 'https://catenaxdev003akssrv.germanywestcentral.cloudapp.azure.com/iamcentralidp/auth',
+  clientId: 'catenax-portal',
+  multiTenant: false,
+  defaultRealm: 'mock',
   realmLogo: '/assets/images/logo.png',
+  apiUrl: '/api',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
-  laapi: 'https://api.domain.tld/v1/',
-  aems: 'https://api.aems.domain.tld/v1/',
+  baseUrl: '/',
 };

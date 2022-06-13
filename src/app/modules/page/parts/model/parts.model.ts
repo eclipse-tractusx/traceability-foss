@@ -17,6 +17,8 @@
  * under the License.
  */
 
+import type { DataPageResponse } from '@core/model/data-page.model';
+
 export type QualityType = 'high' | 'medium' | 'low';
 
 export interface Part {
@@ -48,4 +50,4 @@ export interface PartResponse {
   childDescriptions: Array<{ id: string; idShort: string }>;
 }
 
-export type PartsResponse = PartResponse[];
+export type PartsResponse = DataPageResponse<PartResponse>;

@@ -21,29 +21,31 @@ import { Part, PartResponse } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DataPageAssembler } from '@core/data-page/data-page.assembler';
+import { DataPage, DataPageResponse } from '@core/model/data-page.model';
 
 export class PartsAssembler {
-  public static assembleParts(parts: PartResponse[]): Part[] {
-    if (!parts || !parts.length) {
+  public static assemblePart(part: PartResponse): Part {
+    return {
+      id: part.id,
+      name: part.nameAtManufacturer,
+      manufacturer: part.manufacturerName,
+      serialNumber: part.manufacturerPartId,
+      partNumber: part.customerPartId,
+      productionCountry: part.manufacturingCountry,
+      nameAtCustomer: part.nameAtCustomer,
+      customerPartId: part.customerPartId,
+      qualityType: 'high',
+      productionDate: new Date(part.manufacturingDate),
+      children: part.childDescriptions.map(child => child.id),
+    };
+  }
+
+  public static assembleParts(parts: DataPageResponse<PartResponse>): DataPage<Part> {
+    if (!parts || !parts.content.length) {
       return null;
     }
-
-    return parts.map(part => {
-      const transformedPart = {} as Part;
-      transformedPart.id = part.id;
-      transformedPart.name = part.nameAtManufacturer;
-      transformedPart.manufacturer = part.manufacturerName;
-      transformedPart.serialNumber = part.manufacturerPartId;
-      transformedPart.partNumber = part.customerPartId;
-      transformedPart.productionCountry = part.manufacturingCountry;
-      transformedPart.nameAtCustomer = part.nameAtCustomer;
-      transformedPart.customerPartId = part.customerPartId;
-      transformedPart.qualityType = 'high';
-      transformedPart.productionDate = new Date(part.manufacturingDate);
-      transformedPart.children = part.childDescriptions.map(child => child.id);
-
-      return transformedPart;
-    });
+    return DataPageAssembler.assembleDataPage(parts, PartsAssembler.assemblePart);
   }
 
   public static filterPartForView(viewData: View<Part>): View<Part> {

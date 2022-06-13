@@ -28,8 +28,7 @@ import * as mockService from '../../../mocks/mock';
 })
 export class AppComponent {
   constructor() {
-    // Todo: Check if code is production
-    if (!environment.production) {
+    if (environment.mockService) {
       const { worker } = mockService;
       void worker.start({ onUnhandledRequest: 'bypass' });
     }

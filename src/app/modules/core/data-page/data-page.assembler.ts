@@ -17,8 +17,19 @@
  * under the License.
  */
 
-import { _environment } from './_environment.base';
+import { DataPage, DataPageResponse } from '@core/model/data-page.model';
 
-export const environment = {
-  ..._environment,
-};
+export class DataPageAssembler {
+  public static assembleDataPage<ResponseItem, Item>(
+    response: DataPageResponse<ResponseItem>,
+    contentMapper: (item: ResponseItem) => Item,
+  ): DataPage<Item> {
+    return {
+      page: response.page,
+      pageCount: response.pageCount,
+      pageSize: response.pageSize,
+      totalItems: response.totalItems,
+      content: response.content.map(contentMapper),
+    };
+  }
+}

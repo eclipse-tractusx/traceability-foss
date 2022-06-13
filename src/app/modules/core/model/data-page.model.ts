@@ -17,8 +17,18 @@
  * under the License.
  */
 
-import { _environment } from './_environment.base';
+export interface DataPage<T> {
+  page: number;
+  pageCount: number;
+  pageSize: number;
+  totalItems: number;
+  content: T[];
+}
 
-export const environment = {
-  ..._environment,
-};
+export interface DataPageResponse<T> {
+  page: number;
+  pageCount: number;
+  pageSize: number;
+  totalItems: number;
+  content: T[];
+}

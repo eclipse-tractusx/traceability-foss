@@ -59,6 +59,11 @@ service:
   type: ClusterIP
   port: 8080
 
+apiService:
+  path: "/api"
+  extrenalName: "traceability.int.demo.catena-x.net"
+  port: 80
+
 autoscaling:
   enabled: false
 

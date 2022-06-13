@@ -19,18 +19,19 @@
 
 import { rest } from 'msw';
 import { mockAssetList, mockAssets } from './parts.model';
+import { environment } from '@env';
 
 export const partsHandlers = [
-  rest.get('/api/v1/assets', (req, res, ctx) => {
+  rest.get(`${environment.apiUrl}/assets`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockAssets));
   }),
 
-  rest.get('/api/v1/assets/:partId', (req, res, ctx) => {
+  rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     return res(ctx.status(200), ctx.json(mockAssetList[partId as string]));
   }),
 
-  rest.get('/api/v1/assets/:assetId/children/:childId', (req, res, ctx) => {
+  rest.get(`${environment.apiUrl}/assets/:assetId/children/:childId`, (req, res, ctx) => {
     const { childId } = req.params;
     return res(ctx.status(200), ctx.json(mockAssetList[childId as string]));
   }),
