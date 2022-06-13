@@ -21,4 +21,4 @@ ingress:
       secretName: tls-secret
 
 mailserver:
-  password: <path:traceability-foss-backend/data/dev#mailserverPassword>
+  password: <path:traceability-foss/data/dev#mailserverPassword>
