@@ -92,7 +92,13 @@ const part_1 = {
   ],
 };
 
-export const mockAssets: PartsResponse = [part_1, part_2, part_3, part_4, part_5];
+export const mockAssets: PartsResponse = {
+  content: [part_1, part_2, part_3, part_4, part_5],
+  page: 0,
+  pageCount: 1,
+  pageSize: 10,
+  totalItems: 5,
+};
 export const mockAssetList: Record<string, PartResponse> = {
   [part_1.id]: part_1,
   [part_2.id]: part_2,
