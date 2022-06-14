@@ -17,27 +17,15 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+export class StaticId {
+  private static nextId = new Map<string, number>();
 
-import { PartRelationComponent } from './part-relation.component';
+  constructor(private componentName: string) {}
 
-describe('RelationComponent', () => {
-  let component: PartRelationComponent;
-  let fixture: ComponentFixture<PartRelationComponent>;
+  public generateId() {
+    const currentId = StaticId.nextId.get(this.componentName) || 0;
+    StaticId.nextId.set(this.componentName, currentId + 1);
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [PartRelationComponent],
-    }).compileComponents();
-  });
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PartRelationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  xit('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    return this.componentName + currentId;
+  }
+}

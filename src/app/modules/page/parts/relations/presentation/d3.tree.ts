@@ -19,7 +19,7 @@
 
 import { TreeData, TreeStructure } from '@page/parts/relations/model/relations.model';
 import * as d3 from 'd3';
-import { DragBehavior, DraggedElementBaseType, HierarchyNode, PieArcDatum, SubjectPosition } from 'd3';
+import { DragBehavior, DraggedElementBaseType, HierarchyNode, PieArcDatum } from 'd3';
 import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
 import { Selection } from 'd3-selection';
 
@@ -67,7 +67,7 @@ class RelationTree {
   private creatMainSvg(root: HierarchyNode<TreeStructure>): TreeSvg {
     d3.tree().nodeSize([this.r * 3, 250])(root);
 
-    const dy = this.width / (root.height || 1);
+    const dy = this.height / (root.height || 1);
     this.viewY = this.viewY || -dy / 2;
 
     return this.mainElement

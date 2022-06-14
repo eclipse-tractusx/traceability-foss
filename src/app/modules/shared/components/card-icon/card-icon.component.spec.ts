@@ -53,9 +53,9 @@ describe('CardIcon', () => {
     );
 
     const cardLabelElement01 = screen.getByText('Test');
-    expect(cardLabelElement01.id).toEqual('app-card-icon-1-label');
+    expect(cardLabelElement01.id).toEqual('app-card-icon-0-label');
 
     const cardLabelElement02 = screen.getByText('Test01');
-    expect(cardLabelElement02.id).toEqual('app-card-icon-2-label');
+    expect(cardLabelElement02.id).toEqual('app-card-icon-1-label');
   });
 });

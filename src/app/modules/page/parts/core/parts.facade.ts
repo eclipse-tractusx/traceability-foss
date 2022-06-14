@@ -17,14 +17,14 @@
  * under the License.
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
 import { PartsService } from '@page/parts/core/parts.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { Observable, of } from 'rxjs';
 import { catchError, delay, tap } from 'rxjs/operators';
-import { Pagination } from '@core/model/pagination.model';
 
 @Injectable()
 export class PartsFacade {

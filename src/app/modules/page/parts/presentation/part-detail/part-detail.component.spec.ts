@@ -17,7 +17,6 @@
  * under the License.
  */
 
-import { fakeAsync, tick } from '@angular/core/testing';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsModule } from '@page/parts/parts.module';
@@ -28,7 +27,7 @@ import { renderComponent } from '@tests/test-render.utils';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-const PartsFactory = (initialPart: View<Part>) => {
+export const PartsFactory = (initialPart: View<Part>) => {
   return class PartsFacadeMock {
     public readonly _selectedPart: State<View<Part>> = new State<View<Part>>(initialPart);
 

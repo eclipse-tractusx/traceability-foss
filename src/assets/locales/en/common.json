@@ -4,7 +4,8 @@
     "dashboard": "Dashboard",
     "parts": "Parts",
     "about": "About",
-    "admin": "Administation"
+    "relations": "Relations",
+    "admin": "Administration"
   },
   "layout": {
     "nav": {

@@ -17,17 +17,22 @@
  * under the License.
  */
 
-export abstract class StaticIdComponent {
-  private static nextId = 0;
+import { Injectable } from '@angular/core';
+import { State } from '@shared';
 
-  abstract htmlIdBase: string;
-  private currentID = StaticIdComponent.generateId();
+@Injectable({
+  providedIn: 'root',
+})
+export class StaticIdService {
+  private readonly _staticIds$: State<number[]> = new State<number[]>([]);
 
-  static generateId() {
-    return StaticIdComponent.nextId++;
-  }
+  public generateId(componentName: string) {
+    const currentIds = this._staticIds$.snapshot;
+    const currentId = currentIds[componentName] || 0;
 
-  public get htmlId(): string {
-    return this.htmlIdBase + this.currentID;
+    currentIds[componentName] = currentId + 1;
+    this._staticIds$.update(currentIds);
+
+    return componentName + currentId;
   }
 }

@@ -25,7 +25,8 @@ import { RelationComponentState } from '@page/parts/relations/core/component.sta
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
 import { OpenElements, TreeData, TreeElement } from '@page/parts/relations/model/relations.model';
-import { State, StaticIdComponent, View } from '@shared';
+import { State, View } from '@shared';
+import { StaticIdService } from '@shared/service/staticId.service';
 import * as d3 from 'd3';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime, delay, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
@@ -38,7 +39,7 @@ import RelationTree from './d3.tree';
   encapsulation: ViewEncapsulation.None,
   providers: [RelationComponentState, RelationsFacade],
 })
-export class PartRelationComponent extends StaticIdComponent implements OnInit, OnDestroy, AfterViewInit {
+export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() isStandalone = true;
   @Input() treeWidth: number;
   @Input() treeHeight: number;
@@ -46,6 +47,7 @@ export class PartRelationComponent extends StaticIdComponent implements OnInit, 
   public readonly htmlIdBase = 'app-part-relation-';
   public subscriptions = new Subscription();
   public rootPart$: Observable<View<Part>>;
+  public htmlId: string;
 
   private _rootPart$ = new State<View<Part>>({ loader: true });
   private tree: RelationTree;
@@ -54,9 +56,10 @@ export class PartRelationComponent extends StaticIdComponent implements OnInit, 
     private readonly partsFacade: PartsFacade,
     private readonly relationsFacade: RelationsFacade,
     private readonly route: ActivatedRoute,
+    staticIdService: StaticIdService,
   ) {
-    super();
     this.rootPart$ = this._rootPart$.observable.pipe(delay(0), debounceTime(100));
+    this.htmlId = staticIdService.generateId(this.htmlIdBase);
   }
 
   ngOnInit() {

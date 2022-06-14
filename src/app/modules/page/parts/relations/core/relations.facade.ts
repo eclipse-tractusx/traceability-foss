@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { PartsService } from '@page/parts/core/parts.service';
 import { Part } from '@page/parts/model/parts.model';
 import { RelationComponentState } from '@page/parts/relations/core/component.state';
@@ -56,6 +56,7 @@ export class RelationsFacade {
       [id]: children,
       ...childElements,
     };
+
     this.loadChildrenInformation(id, children).subscribe();
   }
 
@@ -94,20 +95,24 @@ export class RelationsFacade {
     return this.partsService.getRelation(partId, childId);
   }
 
-  // ToDO: UGLY!!!
   public formatOpenElementsToTreeData(openElements: OpenElements): TreeStructure {
     const loadedData = this.relationsState.loadedElements;
     const mappedData: Record<string, TreeStructure> = {};
     let treeStructure: TreeStructure;
-    const keyList = Object.keys(openElements);
+    const keyList = Object.keys(openElements).reverse();
 
-    keyList.reverse().forEach(key => {
-      mappedData[key] = RelationsAssembler.elementToTreeStructure(loadedData[key]);
+    keyList.forEach(key => {
+      const structure = RelationsAssembler.elementToTreeStructure(loadedData[key]);
+      if (!structure) {
+        return;
+      }
 
-      mappedData[key].relations = mappedData[key].children?.length > 0 ? mappedData[key].children : null;
-      mappedData[key].children =
-        openElements[key]?.map(childId => mappedData[childId] || null).filter(element => !!element) || null;
-      treeStructure = mappedData[key];
+      structure.relations = structure.children?.length > 0 ? structure.children : null;
+      structure.children = openElements[key]?.map(id => mappedData[id] || null).filter(child => !!child) || null;
+
+      mappedData[key] = structure;
+      // last element to be mapped contains all the necessary data
+      treeStructure = structure;
     });
 
     return treeStructure;
@@ -157,7 +162,6 @@ export class RelationsFacade {
     return clonedElements;
   }
 
-  // TODO: Massiv!!!
   private loadChildrenInformation(
     parentId: string,
     children: string[],
