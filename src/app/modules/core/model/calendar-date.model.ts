@@ -17,9 +17,26 @@
  * under the License.
  */
 
-export interface TableConfig {
-  displayedColumns: string[];
-  sortableColumns: Record<string, boolean>;
-  header?: string[];
-  isPagination?: boolean;
+/**
+ * CalendarDateModel identify date as calendar date,
+ * so time can and should be ignored in it
+ */
+export class CalendarDateModel {
+  private readonly date: Date;
+
+  constructor(responseDate: string) {
+    this.date = new Date(responseDate);
+  }
+
+  toJSON() {
+    return JSON.stringify(this.date);
+  }
+
+  toString() {
+    return this.date.toDateString();
+  }
+
+  valueOf() {
+    return this.date;
+  }
 }

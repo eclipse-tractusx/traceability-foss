@@ -49,6 +49,7 @@ import { OrganizationsResolver } from './resolver/organizations.resolver';
 import { TemplateModule } from './template.module';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { I18nPipe } from './pipes/i18n.pipe';
+import { AutoFormatPipe } from './pipes/auto-format.pipe';
 
 @NgModule({
   declarations: [
@@ -64,6 +65,7 @@ import { I18nPipe } from './pipes/i18n.pipe';
     ShortenPipe,
     I18nPipe,
     FirstLetterUpperPipe,
+    AutoFormatPipe,
     FormatDatePipe,
     ViewContainerDirective,
     ClickOutsideDirective,
@@ -93,6 +95,7 @@ import { I18nPipe } from './pipes/i18n.pipe';
     ShortenPipe,
     I18nPipe,
     FormatDatePipe,
+    AutoFormatPipe,
     FirstLetterUpperPipe,
     ViewContainerDirective,
     ClickOutsideDirective,
@@ -107,6 +110,6 @@ import { I18nPipe } from './pipes/i18n.pipe';
     CardIconComponent,
     CardListComponent,
   ],
-  providers: [SharedService, OrganizationsResolver],
+  providers: [SharedService, OrganizationsResolver, FormatDatePipe],
 })
 export class SharedModule {}

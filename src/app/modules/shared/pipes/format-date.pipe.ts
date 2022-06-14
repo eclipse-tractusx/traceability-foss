@@ -18,6 +18,7 @@
  */
 
 import { Pipe, PipeTransform, Inject, OnDestroy } from '@angular/core';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import type { Subscription } from 'rxjs';
 
@@ -46,13 +47,13 @@ export class FormatDatePipe implements PipeTransform, OnDestroy {
     return new Intl.DateTimeFormat(this.i18NextService.language);
   }
 
-  transform(date: string | Date): string {
+  transform(date: string | CalendarDateModel): string {
     if (!date) {
       return '';
     }
 
     return this.dateFormat.format(
-      typeof date === 'string' ? this.transformStringToDate(date) : date,
+      typeof date === 'string' ? this.transformStringToDate(date) : date.valueOf(),
       this.formatOptions,
     );
   }

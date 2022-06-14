@@ -23,6 +23,7 @@ import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 
 export class PartsAssembler {
   public static assemblePart(part: PartResponse): Part {
@@ -40,7 +41,7 @@ export class PartsAssembler {
       nameAtCustomer: part.nameAtCustomer,
       customerPartId: part.customerPartId,
       qualityType: 'high',
-      productionDate: new Date(part.manufacturingDate),
+      productionDate: new CalendarDateModel(part.manufacturingDate),
       children: part.childDescriptions.map(child => child.id),
     };
   }

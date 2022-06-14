@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { fakeAsync, tick } from '@angular/core/testing';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsModule } from '@page/parts/parts.module';
@@ -56,7 +56,7 @@ describe('PartDetailComponent', () => {
   it('should render an open sidenav with part details', async () => {
     const testPart = {
       name: 'Test_01',
-      productionDate: new Date('1997-05-30T12:34:12Z'),
+      productionDate: new CalendarDateModel('1997-05-30T12:34:12Z'),
       customerPartId: '333',
     } as Part;
     await renderComponent(PartDetailComponent, {
