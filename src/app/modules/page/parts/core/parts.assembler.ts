@@ -21,29 +21,35 @@ import { Part, PartResponse } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PaginationAssembler } from '@core/pagination/pagination.assembler';
+import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export class PartsAssembler {
-  public static assembleParts(parts: PartResponse[]): Part[] {
-    if (!parts || !parts.length) {
+  public static assemblePart(part: PartResponse): Part {
+    if (!part) {
       return null;
     }
 
-    return parts.map(part => {
-      const transformedPart = {} as Part;
-      transformedPart.id = part.id;
-      transformedPart.name = part.nameAtManufacturer;
-      transformedPart.manufacturer = part.manufacturerName;
-      transformedPart.serialNumber = part.manufacturerPartId;
-      transformedPart.partNumber = part.customerPartId;
-      transformedPart.productionCountry = part.manufacturingCountry;
-      transformedPart.nameAtCustomer = part.nameAtCustomer;
-      transformedPart.customerPartId = part.customerPartId;
-      transformedPart.qualityType = 'high';
-      transformedPart.productionDate = new Date(part.manufacturingDate);
-      transformedPart.children = part.childDescriptions.map(child => child.id);
+    return {
+      id: part.id,
+      name: part.nameAtManufacturer,
+      manufacturer: part.manufacturerName,
+      serialNumber: part.manufacturerPartId,
+      partNumber: part.customerPartId,
+      productionCountry: part.manufacturingCountry,
+      nameAtCustomer: part.nameAtCustomer,
+      customerPartId: part.customerPartId,
+      qualityType: 'high',
+      productionDate: new Date(part.manufacturingDate),
+      children: part.childDescriptions.map(child => child.id),
+    };
+  }
 
-      return transformedPart;
-    });
+  public static assembleParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
+    if (!parts || !parts.content.length) {
+      return null;
+    }
+    return PaginationAssembler.assemblePagination(parts, PartsAssembler.assemblePart);
   }
 
   public static filterPartForView(viewData: View<Part>): View<Part> {

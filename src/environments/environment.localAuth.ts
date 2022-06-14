@@ -17,15 +17,12 @@
  * under the License.
  */
 
+import { _environment } from './_environment.base';
+
 export const environment = {
-  production: false,
+  ..._environment,
   keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
   clientId: 'Cl10-CX-Part',
-  authDisabled: false,
   multiTenant: true,
   defaultRealm: 'CX-Central',
-  realmLogo: '/assets/images/logo.png',
-  realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
-  baseUrl: '/',
-  apiUrl: '/api/v1',
 };

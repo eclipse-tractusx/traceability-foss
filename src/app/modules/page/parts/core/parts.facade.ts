@@ -24,6 +24,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { Observable, of } from 'rxjs';
 import { catchError, delay, tap } from 'rxjs/operators';
+import { Pagination } from '@core/model/pagination.model';
 
 @Injectable()
 export class PartsFacade {
@@ -47,8 +48,8 @@ export class PartsFacade {
     this.partsState.parts = { loader: true };
 
     this.partsService.getParts().subscribe({
-      next: (parts: Part[]) => {
-        this.partsState.parts = { data: parts };
+      next: (partsPage: Pagination<Part>) => {
+        this.partsState.parts = { data: partsPage.content };
       },
       error: error => (this.partsState.parts = { error }),
     });

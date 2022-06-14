@@ -17,15 +17,19 @@
  * under the License.
  */
 
-export const environment = {
-  production: false,
-  keycloakUrl: 'https://auth.domain.tld/auth',
-  multiTenant: true,
-  defaultRealm: 'lion',
-  baseUrl: '/',
-  apiUrl: '/api/v1',
-  realmLogo: '/assets/images/logo.png',
-  realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
-  laapi: 'https://api.domain.tld/v1/',
-  aems: 'https://api.aems.domain.tld/v1/',
-};
+import { Pagination, PaginationResponse } from '@core/model/pagination.model';
+
+export class PaginationAssembler {
+  public static assemblePagination<ResponseItem, Item>(
+    response: PaginationResponse<ResponseItem>,
+    contentMapper: (item: ResponseItem) => Item,
+  ): Pagination<Item> {
+    return {
+      page: response.page,
+      pageCount: response.pageCount,
+      pageSize: response.pageSize,
+      totalItems: response.totalItems,
+      content: response.content.map(contentMapper),
+    };
+  }
+}
