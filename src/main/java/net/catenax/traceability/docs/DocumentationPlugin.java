@@ -3,12 +3,17 @@ package net.catenax.traceability.docs;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.OperationBuilderPlugin;
 import springfox.documentation.spi.service.ParameterBuilderPlugin;
 import springfox.documentation.spi.service.contexts.OperationContext;
 import springfox.documentation.spi.service.contexts.ParameterContext;
 import springfox.documentation.swagger.common.SwaggerPluginSupport;
+
+import java.util.Collection;
+import java.util.List;
 
 @Component
 @Order(SwaggerPluginSupport.SWAGGER_PLUGIN_ORDER)
@@ -26,7 +31,8 @@ public class DocumentationPlugin implements OperationBuilderPlugin, ParameterBui
 
 		context.operationBuilder()
 			.notes(getProperty(operationKey + ".notes"))
-			.summary(getProperty(operationKey + ".summary"));
+			.summary(getProperty(operationKey + ".summary"))
+			.authorizations(buildJWTAuthentication(operationKey));
 	}
 
 	@Override
@@ -51,6 +57,14 @@ public class DocumentationPlugin implements OperationBuilderPlugin, ParameterBui
 
 	private String getProperty(String key) {
 		return environment.getProperty("swagger." + key);
+	}
+
+	private Collection<SecurityReference> buildJWTAuthentication(String operationKey) {
+		String authKey = operationKey + ".authorizations";
+
+		String authProperty = getProperty(authKey);
+
+		return List.of(new SecurityReference(authProperty, new AuthorizationScope[]{}));
 	}
 
 	@Override

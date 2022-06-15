@@ -9,3 +9,8 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+  autoconfigure:
+    exclude: org.keycloak.adapters.springboot.KeycloakAutoConfiguration
+
+keycloak:
+  enabled: false

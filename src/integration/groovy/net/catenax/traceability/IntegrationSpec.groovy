@@ -10,8 +10,12 @@ import spock.lang.Specification
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["integration"])
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-abstract class IntegrationSpec extends Specification {
+abstract class IntegrationSpec extends Specification implements KeycloakSupport {
 
 	@Autowired
 	protected MockMvc mvc
+
+	def cleanup() {
+		clearAuthentication()
+	}
 }
