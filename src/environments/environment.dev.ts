@@ -21,7 +21,8 @@ import { _environment } from './_environment.base';
 
 export const environment = {
   ..._environment,
-  mockService: false,
+  mockService: true,
+  authDisabled: true,
   keycloakUrl: 'http://localhost:8080/',
   clientId: 'catenax-portal',
   defaultRealm: 'mock',

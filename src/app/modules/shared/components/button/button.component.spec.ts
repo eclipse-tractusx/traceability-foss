@@ -18,9 +18,9 @@
  */
 
 import { MatIconModule } from '@angular/material/icon';
-import { screen, fireEvent } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
 import { ButtonComponent } from '@shared';
+import { fireEvent, screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 
 describe('Button', () => {
   it('should render regular button', async () => {

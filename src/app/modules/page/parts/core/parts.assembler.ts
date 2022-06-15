@@ -17,12 +17,12 @@
  * under the License.
  */
 
+import { Pagination, PaginationResponse } from '@core/model/pagination.model';
+import { PaginationAssembler } from '@core/pagination/pagination.assembler';
 import { Part, PartResponse } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { PaginationAssembler } from '@core/pagination/pagination.assembler';
-import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export class PartsAssembler {
   public static assemblePart(part: PartResponse): Part {

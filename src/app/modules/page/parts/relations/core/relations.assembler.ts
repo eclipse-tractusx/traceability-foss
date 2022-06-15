@@ -19,14 +19,11 @@
 
 import { Part } from '@page/parts/model/parts.model';
 import { TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
-import { View } from '@shared';
-import { OperatorFunction } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 export class RelationsAssembler {
-  public static assemblePartForRelation({ id, name, children }: Part): TreeElement {
+  public static assemblePartForRelation({ id, name, serialNumber, children }: Part): TreeElement {
     const state = !!children ? 'done' : 'loading';
-    return { id, name, state, children };
+    return { id, text: name, title: `${name} | ${serialNumber}`, state, children };
   }
 
   public static elementToTreeStructure(element: TreeElement): TreeStructure {
@@ -37,6 +34,7 @@ export class RelationsAssembler {
     const children: TreeStructure[] = element.children
       ? element.children.map(childId => ({
           id: childId,
+          title: childId,
           state: 'loading',
           children: null,
         }))
@@ -46,6 +44,6 @@ export class RelationsAssembler {
   }
 
   public static createLoadingElement(id: string): TreeElement {
-    return { id, state: 'loading', children: null };
+    return { id, title: id, state: 'loading', children: null };
   }
 }

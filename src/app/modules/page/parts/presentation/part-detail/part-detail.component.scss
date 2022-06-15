@@ -49,6 +49,20 @@
     @apply flex flex-row;
     justify-content: space-between;
   }
+  &--relation__container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & > app-part-relation {
+      height: 100%;
+    }
+  }
+  &--relation__card {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+  }
   &--relation__icon {
     &:hover {
       cursor: pointer;

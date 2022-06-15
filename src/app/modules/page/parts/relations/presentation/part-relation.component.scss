@@ -16,3 +16,104 @@
 * specific language governing permissions and limitations
 * under the License.
 */
+@keyframes TreeElementLoadingAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.part-relation--container {
+  height: 100%;
+}
+
+.tree--element {
+  min-width: 100%;
+  height: auto;
+  cursor: grab;
+  &__grabbing {
+    cursor: grabbing;
+  }
+
+  &__path {
+    stroke: #555;
+    stroke-opacity: 0.4;
+    stroke-width: 1.5;
+    fill: none;
+  }
+
+  &__circle {
+    @apply fill-white;
+    -webkit-filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
+    filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
+  }
+
+  &__border {
+    &-done {
+      @apply fill-success;
+      animation: TreeElementLoadingAnimation 45s infinite linear;
+    }
+
+    &-loading {
+      @apply stroke-primary;
+      @apply fill-primary;
+
+      animation: TreeElementLoadingAnimation 5s infinite;
+    }
+
+    &-risk {
+      animation: TreeElementLoadingAnimation 45s infinite linear;
+      @apply fill-dangerLight;
+    }
+  }
+
+  &__arrow-container {
+    @apply text-primary;
+    -webkit-filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
+    filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
+
+    &:hover {
+      @apply text-primaryDark;
+    }
+  }
+
+  &__arrow {
+    fill: currentColor;
+  }
+
+  &__text {
+    user-select: none;
+    text-anchor: middle;
+    font-size: 16px;
+    font-weight: bold;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-family: 'Catena-X Regular', monospace;
+  }
+
+  &__closing {
+    &-text {
+      font-size: 25px;
+      @apply fill-white;
+    }
+
+    &-circle {
+      @apply fill-primary;
+    }
+    &-animation {
+      transition: transform 0.5s;
+    }
+
+    &:hover > .tree--element__closing-animation {
+      transform: scale(1.5) translate(5px, 0);
+    }
+
+    &:hover > .tree--element__closing-circle {
+      @apply fill-primaryDark;
+    }
+  }
+}

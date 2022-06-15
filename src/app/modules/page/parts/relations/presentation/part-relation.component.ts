@@ -17,75 +17,93 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
+import { RelationComponentState } from '@page/parts/relations/core/component.state';
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
-import { OpenElements, TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
-import { View } from '@shared';
+import { OpenElements, TreeData, TreeElement } from '@page/parts/relations/model/relations.model';
+import { State, View } from '@shared';
+import { StaticIdService } from '@shared/service/staticId.service';
 import * as d3 from 'd3';
 import { Observable, Subscription } from 'rxjs';
-import { filter, first, map, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, delay, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
 import RelationTree from './d3.tree';
 
 @Component({
   selector: 'app-part-relation',
   templateUrl: './part-relation.component.html',
   styleUrls: ['./part-relation.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+  providers: [RelationComponentState, RelationsFacade],
 })
 export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
+  @Input() isStandalone = true;
+  @Input() scale: number;
+
+  public readonly htmlIdBase = 'app-part-relation-';
+  public subscriptions = new Subscription();
+  public rootPart$: Observable<View<Part>>;
+  public htmlId: string;
+
+  private _rootPart$ = new State<View<Part>>({ loader: true });
+  private tree: RelationTree;
+
   constructor(
     private readonly partsFacade: PartsFacade,
     private readonly relationsFacade: RelationsFacade,
     private readonly route: ActivatedRoute,
+    staticIdService: StaticIdService,
   ) {
-    this.selectedPart$ = this.partsFacade.selectedPart$;
+    this.rootPart$ = this._rootPart$.observable.pipe(delay(0), debounceTime(100));
+    this.htmlId = staticIdService.generateId(this.htmlIdBase);
   }
 
-  @ViewChild('treeBase') testElement: ElementRef<HTMLElement>;
-  public subscriptions = new Subscription();
-  public selectedPart$: Observable<View<Part>>;
-
   ngOnInit() {
-    this.partsFacade.selectedPart$
+    const initSubscription = this.route.paramMap
       .pipe(
-        first(),
-        filter(({ data }) => !data),
-        switchMap(_ => {
-          const partId = this.route.snapshot.paramMap.get('partId');
-          return this.partsFacade.setPart(partId);
+        switchMap(params => {
+          if (this.partsFacade.selectedPart) {
+            return this.partsFacade.selectedPart$;
+          }
+
+          const partId = params.get('partId');
+          return partId ? this.relationsFacade.getRootPart(partId) : this.partsFacade.selectedPart$;
         }),
+        tap(viewData => this._rootPart$.update(viewData)),
+        takeWhile(({ data }) => !data, true),
       )
       .subscribe();
+    this.subscriptions.add(initSubscription);
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+    this.tree = undefined;
   }
 
   ngAfterViewInit() {
-    this.initTree();
+    this.initListeners();
   }
 
-  public initTree(): void {
+  private initListeners(): void {
     // ToDo: Error handling for loading open elements (viewContainer?)
-    const selectSubscription = this.partsFacade.selectedPart$
+    const selectSubscription = this.rootPart$
       .pipe(
         tap(_ => this.relationsFacade.resetRelationState()),
         filter(({ data }) => !!data),
         map(({ data }) => RelationsAssembler.assemblePartForRelation(data)),
       )
       .subscribe({
-        next: selectedPart => {
-          this.relationsFacade.addLoadedElement(selectedPart);
-          this.relationsFacade.openElementWithChildren(selectedPart);
+        next: rootPart => {
+          this.relationsFacade.addLoadedElement(rootPart);
+          this.relationsFacade.openElementWithChildren(rootPart);
         },
       });
 
     const openElementsSubscription = this.relationsFacade.openElements$
-      .pipe(tap(openElements => this.renderTree(openElements)))
       .pipe(tap(openElements => this.renderTree(openElements)))
       .subscribe();
 
@@ -93,31 +111,39 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.add(openElementsSubscription);
   }
 
-  private onUpdateData({ id }: TreeElement): void {
-    const currentElement = this.relationsFacade.loadedElements[id];
+  private initTree(): void {
+    const treeConfig: TreeData = {
+      id: this.htmlId,
+      mainElement: d3.select(`#${this.htmlId}`),
+      openDetails: this.isStandalone ? this.openDetails.bind(this) : _ => null,
+      updateChildren: this.updateChildren.bind(this),
+      scale: this.scale,
+    };
 
-    if (!currentElement.children) {
-      console.warn('clicked element is loading!');
-      return;
-    }
+    this.tree = new RelationTree(treeConfig);
+  }
 
+  private updateChildren({ id }: TreeElement): void {
     !this.relationsFacade.isElementOpen(id)
       ? this.relationsFacade.openElementById(id)
       : this.relationsFacade.closeElementById(id);
   }
 
+  private openDetails({ id }: TreeElement): void {
+    this.subscriptions.add(this.partsFacade.setPart(id).subscribe());
+  }
+
   private renderTree(openElements: OpenElements): void {
     const treeData = this.relationsFacade.formatOpenElementsToTreeData(openElements);
-    if (!treeData) {
+    if (!treeData || !treeData.id) {
       return;
     }
 
-    d3.select('svg').remove();
-    RelationTree(treeData, {
-      label: ({ id }) => id,
-      title: ({ id, name }) => name || id,
-      mainElement: d3.select('#treeBase'),
-      onClick: this.onUpdateData.bind(this),
-    });
+    if (!this.tree) {
+      this.initTree();
+    }
+
+    d3.select(`#${this.htmlId}-svg`).remove();
+    this.tree.renderTree(treeData);
   }
 }

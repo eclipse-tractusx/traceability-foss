@@ -18,9 +18,9 @@
  */
 import { PartResponse, PartsResponse } from '@page/parts/model/parts.model';
 
-const part_5 = {
-  id: 'part_5',
-  idShort: 'part_5',
+export const MOCK_part_5 = {
+  id: 'MOCK_part_5',
+  idShort: 'MOCK_part_5',
   nameAtManufacturer: 'A 180 Limousine',
   nameAtCustomer: 'A 180 Limousine',
   manufacturerId: '3',
@@ -32,9 +32,9 @@ const part_5 = {
   specificAssetIds: { key: 'value' },
   childDescriptions: [],
 };
-const part_4 = {
-  id: 'part_4',
-  idShort: 'part_4',
+export const MOCK_part_4 = {
+  id: 'MOCK_part_4',
+  idShort: 'MOCK_part_4',
   nameAtManufacturer: 'A 180 Limousine',
   nameAtCustomer: 'A 180 Limousine',
   manufacturerId: '3',
@@ -46,9 +46,9 @@ const part_4 = {
   specificAssetIds: { key: 'value' },
   childDescriptions: [],
 };
-const part_3 = {
-  id: 'part_3',
-  idShort: 'part_3',
+export const MOCK_part_3 = {
+  id: 'MOCK_part_3',
+  idShort: 'MOCK_part_3',
   nameAtManufacturer: 'A 180 Limousine',
   nameAtCustomer: 'A 180 Limousine',
   manufacturerId: '3',
@@ -58,11 +58,11 @@ const part_3 = {
   manufacturingDate: '1990-01-13T12:34:12',
   manufacturingCountry: 'DE',
   specificAssetIds: { key: 'value' },
-  childDescriptions: [{ id: part_5.id, idShort: part_5.idShort }],
+  childDescriptions: [{ id: MOCK_part_5.id, idShort: MOCK_part_5.idShort }],
 };
-const part_2 = {
-  id: 'part_2',
-  idShort: 'part_2',
+export const MOCK_part_2 = {
+  id: 'MOCK_part_2',
+  idShort: 'MOCK_part_2',
   nameAtManufacturer: 'BMW 520d Touring',
   nameAtCustomer: 'BMW 520d Touring',
   manufacturerId: '2',
@@ -72,11 +72,11 @@ const part_2 = {
   manufacturingDate: '2020-10-23T12:34:12',
   manufacturingCountry: 'AT',
   specificAssetIds: { key: 'value' },
-  childDescriptions: [{ id: part_4.id, idShort: part_4.idShort }],
+  childDescriptions: [{ id: MOCK_part_4.id, idShort: MOCK_part_4.idShort }],
 };
-const part_1 = {
-  id: 'part_1',
-  idShort: 'part_1',
+export const MOCK_part_1 = {
+  id: 'MOCK_part_1',
+  idShort: 'MOCK_part_1',
   nameAtManufacturer: 'Audi A1 Sportback',
   nameAtCustomer: 'Audi A1 Sportback',
   manufacturerId: '1',
@@ -87,22 +87,22 @@ const part_1 = {
   manufacturingCountry: 'DE',
   specificAssetIds: { key: 'value' },
   childDescriptions: [
-    { id: part_2.id, idShort: part_2.idShort },
-    { id: part_3.id, idShort: part_3.idShort },
+    { id: MOCK_part_2.id, idShort: MOCK_part_2.idShort },
+    { id: MOCK_part_3.id, idShort: MOCK_part_3.idShort },
   ],
 };
 
 export const mockAssets: PartsResponse = {
-  content: [part_1, part_2, part_3, part_4, part_5],
+  content: [MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5],
   page: 0,
   pageCount: 1,
   pageSize: 10,
   totalItems: 5,
 };
 export const mockAssetList: Record<string, PartResponse> = {
-  [part_1.id]: part_1,
-  [part_2.id]: part_2,
-  [part_3.id]: part_3,
-  [part_4.id]: part_4,
-  [part_5.id]: part_5,
+  [MOCK_part_1.id]: MOCK_part_1,
+  [MOCK_part_2.id]: MOCK_part_2,
+  [MOCK_part_3.id]: MOCK_part_3,
+  [MOCK_part_4.id]: MOCK_part_4,
+  [MOCK_part_5.id]: MOCK_part_5,
 };

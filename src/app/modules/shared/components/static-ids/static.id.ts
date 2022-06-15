@@ -17,18 +17,15 @@
  * under the License.
  */
 
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { getI18nPageProvider } from '@core/i18n';
-import { PartsService } from '@page/parts/core/parts.service';
-import { RelationsState } from '@page/parts/relations/core/relations.state';
-import { PartRelationComponent } from '@page/parts/relations/presentation/part-relation.component';
-import { FormatDatePipe, SharedModule, TemplateModule } from '@shared';
+export class StaticId {
+  private static nextId = new Map<string, number>();
 
-@NgModule({
-  declarations: [PartRelationComponent],
-  imports: [CommonModule, TemplateModule, SharedModule],
-  providers: [PartsService, RelationsState, ...getI18nPageProvider('page.parts'), FormatDatePipe],
-  exports: [PartRelationComponent],
-})
-export class RelationsModule {}
+  constructor(private componentName: string) {}
+
+  public generateId() {
+    const currentId = StaticId.nextId.get(this.componentName) || 0;
+    StaticId.nextId.set(this.componentName, currentId + 1);
+
+    return this.componentName + currentId;
+  }
+}

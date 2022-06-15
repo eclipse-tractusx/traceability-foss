@@ -43,6 +43,7 @@ export { WizardFacade } from './components/wizard/wizard.facade';
 export { TableComponent } from './components/table/table.component';
 export { LayoutState } from './service/layout.state';
 export { SharedService } from './service/shared.service';
+export { StaticIdService } from './service/staticId.service';
 export { ClickOutsideDirective } from './directives/click-outside.directive';
 export { RoleDirective } from './directives/role.directive';
 export { TooltipDirective } from './directives/tooltip.directive';

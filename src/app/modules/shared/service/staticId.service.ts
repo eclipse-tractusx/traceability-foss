@@ -17,27 +17,22 @@
  * under the License.
  */
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Injectable } from '@angular/core';
+import { State } from '@shared';
 
-import { PartRelationComponent } from './part-relation.component';
+@Injectable({
+  providedIn: 'root',
+})
+export class StaticIdService {
+  private readonly _staticIds$: State<number[]> = new State<number[]>([]);
 
-describe('RelationComponent', () => {
-  let component: PartRelationComponent;
-  let fixture: ComponentFixture<PartRelationComponent>;
+  public generateId(componentName: string) {
+    const currentIds = this._staticIds$.snapshot;
+    const currentId = currentIds[componentName] || 0;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [PartRelationComponent],
-    }).compileComponents();
-  });
+    currentIds[componentName] = currentId + 1;
+    this._staticIds$.update(currentIds);
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(PartRelationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  xit('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    return componentName + currentId;
+  }
+}
