@@ -83,10 +83,10 @@ under the License.
 </ng-template>
 
 <ng-template #partRelationMainTmp let-partDetails="view">
-  <mat-card>
+  <mat-card class="part-detail--relation__card">
     <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
-    <mat-card-content>
-      <app-part-relation [treeHeight]="500" [treeWidth]="550"></app-part-relation>
+    <mat-card-content class="part-detail--relation__container">
+      <app-part-relation [isStandalone]="false" [scale]="1.5"></app-part-relation>
       <mat-icon (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon">open_in_new</mat-icon>
     </mat-card-content>
   </mat-card>

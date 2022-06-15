@@ -28,24 +28,30 @@ type TreeElement = HierarchyCircularNode<TreeStructure>;
 
 class RelationTree {
   private readonly id: string;
-  private readonly width: number;
-  private readonly height: number;
   private readonly r: number;
+  private readonly scale: number;
   private readonly openDetails: (data: TreeStructure) => void;
   private readonly updateChildren: (data: TreeStructure) => void;
   private readonly mainElement: Selection<Element, TreeStructure, HTMLElement, TreeStructure>;
+
+  private width: number;
+  private height: number;
 
   private viewX: number;
   private viewY: number;
 
   constructor(treeData: TreeData) {
     this.id = treeData.id;
-    this.width = treeData.width || window.innerWidth;
-    this.height = treeData.height || window.innerHeight - 60;
+
+    this.scale = treeData.scale || 1;
+    this.mainElement = treeData.mainElement;
+
+    this.width = this.calculateWidth();
+    this.height = this.calculateHeight();
 
     this.r = 60;
     this.viewX = -this.r;
-    this.mainElement = treeData.mainElement;
+
     this.openDetails = treeData.openDetails;
     this.updateChildren = treeData.updateChildren;
   }
@@ -68,8 +74,9 @@ class RelationTree {
     d3.tree().nodeSize([this.r * 3, 250])(root);
 
     const dy = this.height / (root.height || 1);
-    this.viewY = this.viewY || -dy / 2;
+    this.viewY = this.viewY || -dy / 3;
 
+    this.initResizeListener();
     return this.mainElement
       .append('svg')
       .attr('id', this.id + '-svg')
@@ -280,10 +287,30 @@ class RelationTree {
     };
 
     const draggedEnd = (_): void => {
-      d3.select('svg').classed('tree--element__grabbing', false);
+      d3.select(`#${this.id}-svg`).classed('tree--element__grabbing', false);
     };
 
     return d3.drag().on('start', dragStarted).on('drag', dragged).on('end', draggedEnd);
+  }
+
+  private calculateWidth(): number {
+    return this.mainElement.node().getBoundingClientRect().width * this.scale || window.innerWidth;
+  }
+
+  private calculateHeight(): number {
+    return this.mainElement.node().getBoundingClientRect().height * this.scale || window.innerHeight - 200;
+  }
+
+  private initResizeListener(): void {
+    window.addEventListener('resize', _ => {
+      this.width = this.calculateWidth();
+      this.height = this.calculateHeight();
+
+      d3.select(`#${this.id}-svg`)
+        .attr('viewBox', [this.viewX, this.viewY, this.width, this.height])
+        .attr('width', this.width)
+        .attr('height', this.height);
+    });
   }
 }
 

@@ -43,8 +43,7 @@ export interface TreeStructure {
 
 export interface TreeData {
   id: string;
-  width?: number;
-  height?: number;
+  scale?: number;
   r?: number;
   mainElement?: Selection<Element, TreeStructure, HTMLElement, TreeStructure>;
   openDetails?: (data: TreeStructure) => void;

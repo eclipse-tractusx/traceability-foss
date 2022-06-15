@@ -97,25 +97,21 @@ export class RelationsFacade {
 
   public formatOpenElementsToTreeData(openElements: OpenElements): TreeStructure {
     const loadedData = this.relationsState.loadedElements;
-    const mappedData: Record<string, TreeStructure> = {};
-    let treeStructure: TreeStructure;
     const keyList = Object.keys(openElements).reverse();
+    const mappedData: Record<string, TreeStructure> = {};
 
-    keyList.forEach(key => {
+    return keyList.reduce((p, key) => {
       const structure = RelationsAssembler.elementToTreeStructure(loadedData[key]);
       if (!structure) {
-        return;
+        return p;
       }
 
       structure.relations = structure.children?.length > 0 ? structure.children : null;
       structure.children = openElements[key]?.map(id => mappedData[id] || null).filter(child => !!child) || null;
 
       mappedData[key] = structure;
-      // last element to be mapped contains all the necessary data
-      treeStructure = structure;
-    });
-
-    return treeStructure;
+      return structure;
+    }, {} as TreeStructure);
   }
 
   public isElementOpen(id: string): boolean {

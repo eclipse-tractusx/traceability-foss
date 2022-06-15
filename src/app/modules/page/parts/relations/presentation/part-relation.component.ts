@@ -41,8 +41,7 @@ import RelationTree from './d3.tree';
 })
 export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() isStandalone = true;
-  @Input() treeWidth: number;
-  @Input() treeHeight: number;
+  @Input() scale: number;
 
   public readonly htmlIdBase = 'app-part-relation-';
   public subscriptions = new Subscription();
@@ -118,8 +117,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       mainElement: d3.select(`#${this.htmlId}`),
       openDetails: this.isStandalone ? this.openDetails.bind(this) : _ => null,
       updateChildren: this.updateChildren.bind(this),
-      width: this.treeWidth,
-      height: this.treeHeight,
+      scale: this.scale,
     };
 
     this.tree = new RelationTree(treeConfig);
@@ -137,7 +135,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private renderTree(openElements: OpenElements): void {
     const treeData = this.relationsFacade.formatOpenElementsToTreeData(openElements);
-    if (!treeData) {
+    if (!treeData || !treeData.id) {
       return;
     }
 
