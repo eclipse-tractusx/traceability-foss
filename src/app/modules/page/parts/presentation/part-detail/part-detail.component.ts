@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { realm } from '@core/api/api.service.properties';
@@ -33,7 +33,7 @@ import { map } from 'rxjs/operators';
   templateUrl: './part-detail.component.html',
   styleUrls: ['./part-detail.component.scss'],
 })
-export class PartDetailComponent implements AfterViewInit {
+export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild('sidenav') sidenav: MatSidenav;
   @Output() closeSidebar = new EventEmitter<void>();
 
@@ -60,6 +60,10 @@ export class PartDetailComponent implements AfterViewInit {
 
     this.manufacturerDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
     this.customerDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerView());
+  }
+
+  ngOnDestroy(): void {
+    this.partsFacade.selectedPart = null;
   }
 
   ngAfterViewInit(): void {

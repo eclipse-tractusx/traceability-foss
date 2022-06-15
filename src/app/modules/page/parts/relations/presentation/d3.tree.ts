@@ -80,7 +80,7 @@ class RelationTree {
     return this.mainElement
       .append('svg')
       .attr('id', this.id + '-svg')
-      .attr('viewBox', [this.viewX, this.viewY, this.width, this.height])
+      .attr('viewBox', [this.viewX, this.viewY, this.width / this.scale, this.height])
       .attr('width', this.width)
       .attr('height', this.height)
       .call(this.initDrag())
@@ -282,7 +282,7 @@ class RelationTree {
       start_y = y;
       start_x = x;
       d3.select(`#${this.id}-svg`)
-        .attr('viewBox', [this.viewX, this.viewY, this.width, this.height])
+        .attr('viewBox', [this.viewX, this.viewY, this.width / this.scale, this.height])
         .classed('tree--element__grabbing', true);
     };
 
@@ -294,11 +294,11 @@ class RelationTree {
   }
 
   private calculateWidth(): number {
-    return this.mainElement.node().getBoundingClientRect().width * this.scale || window.innerWidth;
+    return this.mainElement.node().getBoundingClientRect().width || window.innerWidth;
   }
 
   private calculateHeight(): number {
-    return this.mainElement.node().getBoundingClientRect().height * this.scale || window.innerHeight - 200;
+    return this.mainElement.node().getBoundingClientRect().height || window.innerHeight - 200;
   }
 
   private initResizeListener(): void {
@@ -307,7 +307,7 @@ class RelationTree {
       this.height = this.calculateHeight();
 
       d3.select(`#${this.id}-svg`)
-        .attr('viewBox', [this.viewX, this.viewY, this.width, this.height])
+        .attr('viewBox', [this.viewX, this.viewY, this.width / this.scale, this.height])
         .attr('width', this.width)
         .attr('height', this.height);
     });
