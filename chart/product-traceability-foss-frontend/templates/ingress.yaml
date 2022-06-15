@@ -24,13 +24,13 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          - path: {{- include "apiService.path" .}}
+          - path: /api
             pathType: Prefix
             backend:
               service:
-                name: {{- include "apiService.extrenalName" .}}
+                name: api-service
                 port:
-                  number: {{ include "apiService.port" . }}
+                  number: 80
           {{- range .paths }}
           - path: {{ .path }}
             pathType: {{ .pathType }}

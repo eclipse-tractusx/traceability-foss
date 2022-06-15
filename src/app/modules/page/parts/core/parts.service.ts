@@ -19,12 +19,12 @@
 
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
+import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
 import { Part, PartResponse, PartsResponse } from '@page/parts/model/parts.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Pagination } from '@core/model/pagination.model';
 
 @Injectable()
 export class PartsService {

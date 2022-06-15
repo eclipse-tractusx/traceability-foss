@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { realm } from '@core/api/api.service.properties';
@@ -34,6 +34,8 @@ import { Observable } from 'rxjs';
 })
 export class PartDetailComponent implements AfterViewInit {
   @ViewChild('sidenav') sidenav: MatSidenav;
+  @Output() closeSidebar = new EventEmitter<void>();
+
   public partDetails$: Observable<View<Part>>;
   public relationPartDetails$: Observable<View<Part>>;
   public manufacturerDetails$: Observable<View<Part>>;
@@ -72,6 +74,7 @@ export class PartDetailComponent implements AfterViewInit {
   }
 
   public openRelationPage(part: Part): void {
+    this.partsFacade.selectedPart = null;
     void this.router.navigate([`${realm}/parts/relations/${part.id}`]);
   }
 }

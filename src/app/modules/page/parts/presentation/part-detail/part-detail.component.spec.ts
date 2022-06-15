@@ -28,7 +28,7 @@ import { renderComponent } from '@tests/test-render.utils';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
-const PartsFactory = (initialPart: View<Part>) => {
+export const PartsFactory = (initialPart: View<Part>) => {
   return class PartsFacadeMock {
     public readonly _selectedPart: State<View<Part>> = new State<View<Part>>(initialPart);
 

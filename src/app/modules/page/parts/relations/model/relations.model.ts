@@ -24,23 +24,28 @@ export type OpenElements = Record<string, string[]>;
 
 export interface TreeElement {
   id: string;
+  title: string;
+  text?: string;
+
   state?: 'done' | 'loading' | 'risk';
-  name?: string;
   children?: string[];
 }
 
 export interface TreeStructure {
   id: string;
+  title: string;
+  text?: string;
+
   state: 'done' | 'loading' | 'risk';
-  name?: string;
   children?: TreeStructure[];
+  relations?: TreeStructure[];
 }
 
 export interface TreeData {
-  label: (data?: TreeStructure) => string;
-  title: (data?: TreeStructure) => string;
-  width?: number;
+  id: string;
+  scale?: number;
   r?: number;
-  mainElement?: Selection<Element, TreeStructure, HTMLElement, any>;
-  onClick?: (data: TreeStructure) => void;
+  mainElement?: Selection<Element, TreeStructure, HTMLElement, TreeStructure>;
+  openDetails?: (data: TreeStructure) => void;
+  updateChildren?: (data: TreeStructure) => void;
 }

@@ -29,10 +29,12 @@ import { FormatDatePipe, SharedModule, TemplateModule } from '@shared';
 import { PartsRoutingModule } from './parts.routing';
 import { PartsComponent } from './presentation/parts.component';
 import { PartDetailComponent } from './presentation/part-detail/part-detail.component';
+import { RelationComponent } from './presentation/relation/relation.component';
 
 @NgModule({
-  declarations: [PartsComponent, PartDetailComponent],
+  declarations: [PartsComponent, PartDetailComponent, RelationComponent],
   imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule],
   providers: [PartsState, PartsFacade, PartsService, ...getI18nPageProvider('page.parts'), FormatDatePipe],
+  exports: [PartDetailComponent],
 })
 export class PartsModule {}

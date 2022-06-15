@@ -19,9 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { defaultRealm, realm } from '@core/api/api.service.properties';
-import { AuthGuard } from '@core/auth/auth.guard';
-import { PrivateLayoutComponent } from '@layout/private-layout/private-layout.component';
+import { RelationComponent } from '@page/parts/presentation/relation/relation.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 import { PartsComponent } from './presentation/parts.component';
 
@@ -36,8 +34,17 @@ const PARTS_ROUTING: Routes = [
   },
   {
     path: 'relations',
-    loadChildren: () => import('./relations/relations.module').then(m => m.RelationsModule),
-    data: { breadcrumb: 'relations' },
+    pathMatch: 'full',
+    component: RelationComponent,
+    data: { i18nextNamespaces: ['page.parts'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+  {
+    path: 'relations/:partId',
+    pathMatch: 'full',
+    component: RelationComponent,
+    data: { i18nextNamespaces: ['page.parts'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
 

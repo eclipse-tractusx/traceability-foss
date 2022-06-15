@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { I18NextModule } from 'angular-i18next';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
@@ -110,6 +111,6 @@ import { AutoFormatPipe } from './pipes/auto-format.pipe';
     CardIconComponent,
     CardListComponent,
   ],
-  providers: [SharedService, OrganizationsResolver, FormatDatePipe],
+  providers: [SharedService, OrganizationsResolver, FormatDatePipe, StaticIdService],
 })
 export class SharedModule {}
