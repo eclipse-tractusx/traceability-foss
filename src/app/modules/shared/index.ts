@@ -55,6 +55,7 @@ export { FormatDatePipe } from './pipes/format-date.pipe';
 export { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
 export { ShortenPipe } from './pipes/shorten.pipe';
 export { I18nPipe } from './pipes/i18n.pipe';
+export { AutoFormatPipe } from './pipes/auto-format.pipe';
 export { OrganizationsResolver } from './resolver/organizations.resolver';
 export { SharedModule } from './shared.module';
 export { TemplateModule } from './template.module';

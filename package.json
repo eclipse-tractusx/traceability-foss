@@ -17,8 +17,8 @@
     "start": "ng serve",
     "env:mock": "docker-compose up",
     "start:auth": "ng serve --configuration=localAuth",
-    "test": "jest --watch --maxWorkers=1",
-    "test:ci": "jest --runInBand",
+    "test": "TZ=UTC jest --watch --maxWorkers=1",
+    "test:ci": "TZ=UTC jest --runInBand",
     "add-license-header": "node ./scripts/add-license-header.js --src=src"
   },
   "private": true,

@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
 import { Part, PartResponse } from '@page/parts/model/parts.model';
@@ -40,7 +41,7 @@ export class PartsAssembler {
       nameAtCustomer: part.nameAtCustomer,
       customerPartId: part.customerPartId,
       qualityType: 'high',
-      productionDate: new Date(part.manufacturingDate),
+      productionDate: new CalendarDateModel(part.manufacturingDate),
       children: part.childDescriptions.map(child => child.id),
     };
   }

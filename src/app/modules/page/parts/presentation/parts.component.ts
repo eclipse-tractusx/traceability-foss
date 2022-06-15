@@ -64,9 +64,6 @@ export class PartsComponent implements OnInit {
       displayedColumns: this.displayedColumns,
       header: this.displayedColumns.map(column => `pageParts.column.${column}`),
       sortableColumns: this.sortableColumns,
-      customCellType: {
-        productionDate: 'date',
-      },
     };
   }
 

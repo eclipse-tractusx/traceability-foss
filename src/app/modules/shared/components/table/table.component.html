@@ -34,9 +34,8 @@ under the License.
         {{ pureColumn }}
       </ng-template>
     </th>
-    <td mat-cell *matCellDef="let element" [ngSwitch]="tableConfig?.customCellType?.[column]">
-      <ng-container *ngSwitchCase="'date'">{{ element[column] | formatDate }}</ng-container>
-      <ng-container *ngSwitchDefault>{{ element[column] }}</ng-container>
+    <td mat-cell *matCellDef="let element">
+      {{ element[column] | autoFormat }}
     </td>
   </ng-container>
 

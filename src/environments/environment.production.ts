@@ -17,9 +17,13 @@
  * under the License.
  */
 
-export interface TableConfig {
-  displayedColumns: string[];
-  sortableColumns: Record<string, boolean>;
-  header?: string[];
-  isPagination?: boolean;
-}
+import { _environment } from './_environment.base';
+
+export const environment = {
+  ..._environment,
+  production: true,
+  multiTenant: true,
+  defaultRealm: 'mock',
+  // temproray
+  authDisabled: true,
+};

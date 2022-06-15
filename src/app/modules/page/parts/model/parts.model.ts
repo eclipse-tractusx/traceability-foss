@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { PaginationResponse } from '@core/model/pagination.model';
 
 export type QualityType = 'high' | 'medium' | 'low';
@@ -29,7 +30,7 @@ export interface Part {
   partNumber: string;
   productionCountry: string;
   qualityType: QualityType;
-  productionDate: Date;
+  productionDate: CalendarDateModel;
   children: string[];
   nameAtCustomer?: string;
   customerPartId?: string;
