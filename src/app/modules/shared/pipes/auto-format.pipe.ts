@@ -22,9 +22,9 @@ import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { FormatDatePipe } from './format-date.pipe';
 
 /**
- * This pipe allow to format known objects/types properly in the same way
- * Currently it properly supports:
- * - CalendarDateModel - treat it as calendar date object
+ * This pipe allows us to format known objects/types properly in the same way.
+ * Currently, it supports:
+ * - CalendarDateModel - treat it as a calendar date object
  * - string - return as it is
  */
 @Pipe({ name: 'autoFormat', pure: false })

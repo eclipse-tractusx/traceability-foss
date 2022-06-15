@@ -17,8 +17,6 @@
  * under the License.
  */
 
-import { from } from 'rxjs';
-
 export { CardIconComponent } from './components/card-icon/card-icon.component';
 export { CardListComponent } from './components/card-list/card-list.component';
 export { AvatarComponent } from './components/avatar/avatar.component';
