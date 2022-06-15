@@ -4,7 +4,7 @@ metadata:
   name: api-service
 spec:
   type: ExternalName
-  externalName: {{ include "apiService.extrenalName" . }}
+  externalName: traceability.int.demo.catena-x.net
   ports:
-  - port: {{ include "apiService.port" . }}
+  - port: 80
   
