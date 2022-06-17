@@ -14,6 +14,7 @@ import springfox.documentation.builders.OAuth2SchemeBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.HttpAuthenticationScheme;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
@@ -23,7 +24,6 @@ import springfox.documentation.swagger.web.SecurityConfiguration;
 import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Configuration
@@ -31,6 +31,10 @@ import java.util.List;
 @EnableOpenApi
 @EnableWebMvc
 public class ApplicationConfig {
+
+	public static final AuthorizationScope[] DEFAULT_SCOPES = {
+		new AuthorizationScope("uma_authorization", "UMA authorization")
+	};
 
 	@Value("${keycloak.realm:}")
 	private String realm;
@@ -54,7 +58,7 @@ public class ApplicationConfig {
 	@Bean
 	public Docket swaggerSpringMvcPlugin() {
 		return new Docket(DocumentationType.OAS_30)
-			.securitySchemes(List.of(authenticationScheme()))
+			.securitySchemes(List.of(keycloakAuthenticationScheme(), bearerTokenAuthenticationScheme()))
 			.securityContexts(List.of(securityContext()))
 			.select()
 			.apis(RequestHandlerSelectors.basePackage("net.catenax.traceability"))
@@ -73,34 +77,31 @@ public class ApplicationConfig {
 			.build();
 	}
 
-	private SecurityScheme authenticationScheme() {
+	private static SecurityScheme bearerTokenAuthenticationScheme() {
+		return HttpAuthenticationScheme
+			.JWT_BEARER_BUILDER
+			.name("Bearer")
+			.build();
+	}
+
+	private SecurityScheme keycloakAuthenticationScheme() {
 		return new OAuth2SchemeBuilder("authorizationCode")
 			.name("Keycloak")
 			.authorizationUrl(authServerUrl + "/realms/" + realm + "/protocol/openid-connect/auth")
 			.tokenUrl(authServerUrl + "/realms/" + realm + "/protocol/openid-connect/token")
-			.scopes(authorizationScopes())
+			.scopes(Arrays.asList(DEFAULT_SCOPES))
 			.build();
-	}
-
-	private List<AuthorizationScope> authorizationScopes() {
-		return Arrays.asList(
-			new AuthorizationScope("uma_authorization", "UMA authorization")
-		);
 	}
 
 	private SecurityContext securityContext() {
 		return SecurityContext
 			.builder()
-			.securityReferences(readAccessAuth())
+			.securityReferences(List.of(
+				new SecurityReference("Keycloak", DEFAULT_SCOPES),
+				new SecurityReference("Bearer", DEFAULT_SCOPES)
+			))
 			.operationSelector(operationContext -> HttpMethod.GET.equals(operationContext.httpMethod()))
 			.build();
-	}
-
-	private List<SecurityReference> readAccessAuth() {
-		AuthorizationScope[] authorizationScopes = new AuthorizationScope[] { authorizationScopes().get(0) };
-		return Collections.singletonList(
-			new SecurityReference("keycloak", authorizationScopes)
-		);
 	}
 
 }
