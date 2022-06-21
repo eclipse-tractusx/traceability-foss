@@ -18,6 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { environment } from '@env';
 import { KeycloakService } from 'keycloak-angular';
 
 export interface UserData {
@@ -25,9 +26,7 @@ export interface UserData {
   firstname: string;
   surname: string;
   email: string;
-  realm_access: {
-    roles: string[];
-  };
+  roles: string[];
   auth_time: string;
 }
 
@@ -47,13 +46,14 @@ export class AuthService {
       given_name: firstname = '',
       family_name: surname = '',
       email = '',
-      realm_access = { roles: [] },
+      resource_access = {},
     } = this.keycloakService.getKeycloakInstance().tokenParsed;
 
     const { auth_time: key_auth_time } = this.keycloakService.getKeycloakInstance().tokenParsed;
     const auth_time = key_auth_time.toString();
+    const roles = resource_access[environment.clientId]?.roles ?? [];
 
-    return { username, firstname, surname, email, auth_time, realm_access };
+    return { username, firstname, surname, email, auth_time, roles };
   }
 
   public logOut(): void {
