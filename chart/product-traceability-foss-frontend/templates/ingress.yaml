@@ -15,10 +15,8 @@ spec:
   ingressClassName: {{ .Values.ingress.className }}
   tls:
     - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
-      secretName: {{ $fullName }}-tls
+      - {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
+      secretName: tls-secret
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
