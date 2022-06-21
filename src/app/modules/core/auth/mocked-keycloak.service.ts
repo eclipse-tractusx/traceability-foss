@@ -19,6 +19,7 @@
 
 import { Inject, Injectable, Optional } from '@angular/core';
 import { Role } from '@core/user/role';
+import { environment } from '@env';
 import { KeycloakService } from 'keycloak-angular';
 import Keycloak, { KeycloakLoginOptions } from 'keycloak-js';
 
@@ -50,7 +51,9 @@ export class MockedKeycloakService extends KeycloakService {
         family_name: 'User',
         email: 'mock.user@foss.de',
         auth_time: '99999999',
-        realm_access: { roles: this.mockedRoles ?? ['admin'] },
+        resource_access: {
+          [environment.clientId]: { roles: this.mockedRoles ?? ['admin'] },
+        },
       },
     } as any;
   }

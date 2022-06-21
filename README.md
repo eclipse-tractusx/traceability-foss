@@ -158,9 +158,9 @@ In `Roles` (from sidebar):
 
 In Users (from sidebar):
 
-1. Create user `default-user` with email, first name and last name, then assign to it `user` role and set a password (disable temp password option)
-2. Create user `default-admin` with email, first name and last name, then assign to it `admin` role and set a password (disable temp password option)
-3. Create user `default-supervisor` with email, first name and last name, then assign to it `supervisor` role and set a password (disable temp password option)
+1. Create user `default-user` with email, first name and last name, then assign to it `user` role for `catenax-portal` client and set a password (disable temp password option)
+2. Create user `default-admin` with email, first name and last name, then assign to it `admin` role for `catenax-portal` client and set a password (disable temp password option)
+3. Create user `default-supervisor` with email, first name and last name, then assign to it `supervisor` role for `catenax-portal` client and set a password (disable temp password option)
 
 All done!
 

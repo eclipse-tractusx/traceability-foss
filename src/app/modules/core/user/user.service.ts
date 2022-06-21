@@ -50,7 +50,7 @@ export class UserService {
     this.firstVisit = !this.hasBeenHere();
     this.dashboardLoaded = false;
 
-    this.roles = userData.realm_access.roles as Role[];
+    this.roles = userData.roles as Role[];
     if (userData.auth_time) {
       this.setLastLogin(userData.auth_time);
     }
