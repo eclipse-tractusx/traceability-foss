@@ -71,9 +71,9 @@ ingress:
   enabled: true
   className: "nginx"
   annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
   hosts:
     - host: "traceability-portal.int.demo.catena-x.net"
       paths:
