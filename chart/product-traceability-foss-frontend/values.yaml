@@ -2,7 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 appName: "traceability-portal"
-environment: "int"
 
 replicaCount: 1
 
@@ -60,32 +59,6 @@ securityContext:
 service:
   type: ClusterIP
   port: 8080
-
-apiService:
-  path: "/api"
-  extrenalName: "traceability.int.demo.catena-x.net"
-  port: 80
-
-autoscaling:
-  enabled: false
-
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/secure-backends: "true"
-  hosts:
-    - host: "traceability-portal.int.demo.catena-x.net"
-      paths:
-        - path: /
-          pathType: Prefix
-  tls:
-    - hosts:
-        - "traceability-portal.int.demo.catena-x.net"
-      # Default secret for certificate creation already provided to your namespace
-      secretName: tls-secret
 
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
