@@ -18,12 +18,12 @@
  */
 
 export const _environment = {
-  mockService: false,
   production: false,
-  authDisabled: false,
-  keycloakUrl: 'https://catenaxdev003akssrv.germanywestcentral.cloudapp.azure.com/iamcentralidp/auth',
-  clientId: 'catenax-portal',
+  mockService: true,
+  authDisabled: true,
   multiTenant: false,
+  keycloakUrl: 'http://localhost:8080/',
+  clientId: 'catenax-portal',
   defaultRealm: 'mock',
   realmLogo: '/assets/images/logo.png',
   apiUrl: '/api',

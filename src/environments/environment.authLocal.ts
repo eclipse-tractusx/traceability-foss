@@ -17,29 +17,12 @@
  * under the License.
  */
 
-const SCRIPT_EL_ID = 'envConfig';
-const SUPPORTED_ENV_PARAMS = ['keycloakUrl', 'clientId', 'defaultRealm', 'realmLogo', 'apiUrl', 'baseUrl'];
+import { _environment } from './_environment.base';
 
-export const readDynamicEnv = () => {
-  const scriptEl = document.getElementById(SCRIPT_EL_ID) as HTMLScriptElement;
-  if (scriptEl && scriptEl.tagName === 'SCRIPT') {
-    try {
-      const dynamicEnv = JSON.parse(scriptEl.text);
-
-      return SUPPORTED_ENV_PARAMS.reduce(
-        (acc, curr) =>
-          dynamicEnv.hasOwnProperty(curr)
-            ? {
-                ...acc,
-                [curr]: dynamicEnv[curr],
-              }
-            : acc,
-        {},
-      );
-    } catch (err) {
-      console.warn(`Cannot parse JSON from <script id="${SCRIPT_EL_ID}">`, err);
-    }
-  }
-
-  return {};
+export const environment = {
+  ..._environment,
+  multiTenant: true,
+  authDisabled: false,
+  keycloakUrl: 'http://localhost:8080/',
+  clientId: 'catenax-portal',
 };

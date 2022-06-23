@@ -23,7 +23,5 @@ export const environment = {
   ..._environment,
   mockService: true,
   authDisabled: true,
-  keycloakUrl: 'http://localhost:8080/',
-  clientId: 'catenax-portal',
   defaultRealm: 'mock',
 };

@@ -21,8 +21,12 @@ import { _environment } from './_environment.base';
 
 export const environment = {
   ..._environment,
+  multiTenant: true,
+  mockService: false,
+  authDisabled: false,
+  apiUrl: 'https://traceability.int.demo.catena-x.net/api',
   keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
   clientId: 'Cl10-CX-Part',
-  multiTenant: true,
   defaultRealm: 'CX-Central',
+  api: '',
 };

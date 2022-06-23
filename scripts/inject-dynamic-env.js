@@ -37,17 +37,15 @@ const ENV_VARS_ANCHOR = '<!--CUSTOM_CONFIG_PLACEHOLDER-->';
 
 const getEnvVarsJson = () => {
   return JSON.stringify(
-    Object.entries(ENV_VARS_MAPPING).reduce((acc, [envVar, configName]) => {
+    Object.entries(ENV_VARS_MAPPING).reduce((current, [envVar, configName]) => {
       if (typeof process.env[envVar] === 'string') {
-        acc[configName] = process.env[envVar];
+        current[configName] = process.env[envVar];
       }
-      return acc;
+      return current;
     }, {}),
   );
 };
 
 const indexHtmlReference = fs.readFileSync(REFERENCE_HTML_PATH, 'utf8');
-
 const indexHtmlWithInjectedEnvVars = indexHtmlReference.replace(ENV_VARS_ANCHOR, getEnvVarsJson());
-
 fs.writeFileSync(TARGET_HTML_PATH, indexHtmlWithInjectedEnvVars, 'utf8');
