@@ -144,7 +144,7 @@ Then, on the file replacements array, you can replace the URL with the correspon
 export const environment = {
   production: false,
   mockService: false, // enbales mocked backend
-  authDisabled: false, // disable keycloack auth
+  authDisabled: false, // disable keycloak auth
   multiTenant: false,
   keycloakUrl: 'http://localhost:8080/',
   clientId: 'catenax-portal',
@@ -237,7 +237,7 @@ Support environment variables are:
 
 ```javascript
 const ENV_VARS_MAPPING = {
-  CATENAX_PORTAL_KEYCLOACK_URL: 'keycloakUrl',
+  CATENAX_PORTAL_KEYCLOAK_URL: 'keycloakUrl',
   CATENAX_PORTAL_CLIENT_ID: 'clientId',
   CATENAX_PORTAL_DEFAULT_REALM: 'defaultRealm',
   CATENAX_PORTAL_REALM_LOGO: 'realmLogo',
@@ -246,7 +246,7 @@ const ENV_VARS_MAPPING = {
 };
 ```
 
-`CATENAX_PORTAL_KEYCLOACK_URL`
+`CATENAX_PORTAL_KEYCLOAK_URL`
 This variable is used to set up and use keycloak
 
 `CATENAX_PORTAL_CLIENT_ID`

@@ -1,19 +1,17 @@
 # STAGE 1: Build
 FROM node:alpine as builder
-# Configuration profile to use
-ARG PROFILE=prod
 # Copy dependencies info
 COPY /package.json /yarn.lock ./
 
 # Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN yarn install --production=true && mkdir /ng-app && mv ./node_modules ./ng-app
+RUN yarn install && mkdir /ng-app && mv ./node_modules ./ng-app
 
 # Set workdir and copy
 WORKDIR /ng-app
 COPY ./ .
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-RUN yarn build:${PROFILE}
+RUN yarn build:prod
 RUN mv /ng-app/dist/index.html /ng-app/dist/index.html.reference
 
 # STAGE 2: Serve
