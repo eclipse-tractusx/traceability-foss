@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { readDynamicEnv } from './dynamic.env';
 import { _environment } from './_environment.base';
 
 export const environment = {
@@ -24,6 +25,5 @@ export const environment = {
   production: true,
   multiTenant: true,
   defaultRealm: 'mock',
-  // temproray
-  authDisabled: true,
+  ...readDynamicEnv(),
 };

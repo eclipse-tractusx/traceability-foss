@@ -61,11 +61,6 @@ service:
   type: ClusterIP
   port: 8080
 
-apiService:
-  path: "/api"
-  extrenalName: "traceability.int.demo.catena-x.net"
-  port: 80
-
 autoscaling:
   enabled: false
 
@@ -74,8 +69,6 @@ ingress:
   className: "nginx"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/secure-backends: "true"
   hosts:
     - host: "traceability-portal.int.demo.catena-x.net"
       paths:

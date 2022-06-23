@@ -73,7 +73,7 @@
                 }
               ]
             },
-            "localAuth": {
+            "production": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -134,7 +134,7 @@
             "localAuth": {
               "browserTarget": "webapp:build:localAuth"
             },
-            "stage": {
+            "production": {
               "browserTarget": "webapp:build:stage"
             }
           }
