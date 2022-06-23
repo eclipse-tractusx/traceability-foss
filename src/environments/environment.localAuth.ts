@@ -25,4 +25,5 @@ export const environment = {
   clientId: 'Cl10-CX-Part',
   multiTenant: true,
   defaultRealm: 'CX-Central',
+  apiUrl: 'https://traceability.int.demo.catena-x.net/api',
 };
