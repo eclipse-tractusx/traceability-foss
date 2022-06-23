@@ -16,7 +16,7 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<app-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" iconName="language">
+<app-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" iconName="language" class="language-button">
   <span class="selectedText">{{ currentLocale }}</span>
 </app-button>
 <mat-menu #menu="matMenu">

@@ -19,13 +19,7 @@ under the License.
 
 <aside [style.width.px]="sidebarWidth" class="sidebar">
   <div class="sidebar-content">
-    <div
-      [style.width.px]="sidebarWidth"
-      class="scrollable"
-      [ngClass]="{
-        'padding-right': this.sidebarWidth === 240
-      }"
-    >
+    <div [class.openAnimation]="this.expanded" [class.closeAnimation]="!this.expanded" class="scrollable">
       <ul class="sidebar-menu-container">
         <li>
           <app-sidebar-section
@@ -48,13 +42,7 @@ under the License.
       </ul>
     </div>
     <div class="flex-auto"></div>
-    <div
-      [style.width.px]="sidebarWidth"
-      class="scrollable"
-      [ngClass]="{
-        'padding-right': this.sidebarWidth === 240
-      }"
-    >
+    <div [class.openAnimation]="this.expanded" [class.closeAnimation]="!this.expanded" class="scrollable">
       <ul class="sidebar-menu-container">
         <li>
           <app-sidebar-section

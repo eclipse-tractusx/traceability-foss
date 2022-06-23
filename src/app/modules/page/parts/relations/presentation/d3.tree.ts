@@ -125,7 +125,7 @@ class RelationTree {
 
     closeNode
       .append('text')
-      .attr('dy', '0.32em')
+      .attr('dy', '0.26em')
       .classed('tree--element__text tree--element__closing-text tree--element__closing-animation', true)
       .text(' - ');
   }
