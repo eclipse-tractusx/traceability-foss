@@ -22,13 +22,6 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: api-service
-                port:
-                  number: 80
           {{- range .paths }}
           - path: {{ .path }}
             pathType: {{ .pathType }}
