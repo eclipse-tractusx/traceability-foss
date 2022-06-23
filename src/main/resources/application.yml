@@ -27,3 +27,9 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+
+cors:
+  origins: >
+    http://localhost:4200/,
+    https://traceability-portal.dev.demo.catena-x.net/,
+    https://traceability-portal.int.demo.catena-x.net/
