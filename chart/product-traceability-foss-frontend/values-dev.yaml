@@ -1,0 +1,30 @@
+environment: "dev"
+
+image:
+  tag: $ARGOCD_APP_REVISION
+
+apiService:
+  path: "/api"
+  externalName: "traceability.dev.demo.catena-x.net"
+  port: 80
+
+autoscaling:
+  enabled: false
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/secure-backends: "true"
+  hosts:
+    - host: "traceability-portal.dev.demo.catena-x.net"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - "traceability-portal.dev.demo.catena-x.net"
+      # Default secret for certificate creation already provided to your namespace
+      secretName: tls-secret
