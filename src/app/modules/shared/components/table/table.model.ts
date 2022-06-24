@@ -17,9 +17,16 @@
  * under the License.
  */
 
+export type TableHeaderSort = [string, 'asc' | 'desc'];
+
 export interface TableConfig {
   displayedColumns: string[];
   sortableColumns: Record<string, boolean>;
   header?: string[];
-  isPagination?: boolean;
+}
+
+export interface TableEventConfig {
+  page: number;
+  pageSize: number;
+  sorting: TableHeaderSort;
 }

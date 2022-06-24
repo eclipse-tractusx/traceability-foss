@@ -33,7 +33,8 @@ export class ApiService {
   }
 
   public getBy<T>(url: string, params?: HttpParams, withCredentials = false, headers?: HttpHeaders): Observable<T> {
-    return this.httpClient.get<T>(url + params, {
+    return this.httpClient.get<T>(url, {
+      params,
       headers: headers ? headers : this.buildHeaders(),
       withCredentials,
     });

@@ -22,6 +22,7 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminModule } from '@page/admin/admin.module';
 import { I18NextModule } from 'angular-i18next';
 import { environment } from '@env';
 import { LayoutModule } from '@layout/layout.module';
@@ -56,6 +57,7 @@ import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
     AboutModule,
     DashboardModule,
     PartsModule,
+    AdminModule,
     I18NextModule.forRoot(),
   ],
   providers: [

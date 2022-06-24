@@ -16,48 +16,61 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
+<div *ngIf="dataSource" class="mat-elevation-z8">
+  <table
+    [dataSource]="dataSource"
+    (matSortChange)="updateSortingOfData($event)"
+    mat-table
+    matSort
+    data-testid="table-component--test-id"
+  >
+    <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index" matColumnDef="{{ column }}">
+      <th
+        *matHeaderCellDef
+        mat-header-cell
+        mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}"
+        class="table--cell"
+      >
+        <ng-container *ngIf="tableConfig?.header?.[i]; else pureColumn">
+          {{ tableConfig?.header?.[i] | i18n }}
+        </ng-container>
+      </th>
+      <td *matCellDef="let element" mat-cell class="table--cell">
+        {{ element[column] | autoFormat }}
+      </td>
+    </ng-container>
 
-<table
-  *ngIf="dataSource"
-  mat-table
-  [dataSource]="dataSource"
-  matSort
-  class="mat-elevation-z8"
-  data-testid="table-component--test-id"
->
-  <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index" matColumnDef="{{ column }}">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}">
-      <ng-container *ngIf="tableConfig?.header && tableConfig.header[i]; else pureColumn">
-        {{ tableConfig?.header && tableConfig.header[i] | i18n }}
-      </ng-container>
-      <ng-template #pureColumn>
-        {{ pureColumn }}
-      </ng-template>
-    </th>
-    <td mat-cell *matCellDef="let element">
-      {{ element[column] | autoFormat }}
-    </td>
-  </ng-container>
+    <tr mat-header-row *matHeaderRowDef="tableConfig.displayedColumns"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: tableConfig.displayedColumns"
+      [class.loading]="this.isDataLoading"
+      (click)="this.selected.emit(row)"
+    ></tr>
 
-  <tr mat-header-row *matHeaderRowDef="tableConfig.displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: tableConfig.displayedColumns" (click)="this.selected.emit(row)"></tr>
+    <tr class="mat-row no-hover" *matNoDataRow>
+      <td class="mat-cell" [attr.colspan]="tableConfig.displayedColumns.length">
+        <div class="table--no-data">
+          <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
+          <br />
+          <h3>{{ 'table.noResultFound' | i18n }}</h3>
+          <p>{{ 'table.tryAgain' | i18n }}</p>
+        </div>
+      </td>
+    </tr>
+  </table>
 
-  <tr class="mat-row no-hover" *matNoDataRow>
-    <td class="mat-cell" [attr.colspan]="tableConfig.displayedColumns.length">
-      <div class="table--no-data">
-        <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
-        <br />
-        <h3>{{ 'table.noResultFound' | i18n }}</h3>
-        <p>{{ 'table.tryAgain' | i18n }}</p>
-      </div>
-    </td>
-  </tr>
-</table>
+  <mat-paginator
+    [length]="this.totalItems"
+    [pageIndex]="this.pageIndex"
+    [pageSizeOptions]="[5, 10, 20]"
+    [attr.aria-label]="'table.selectPageSize' | i18n"
+    (page)="getPaginatorData($event)"
+    showFirstLastButtons
+  >
+  </mat-paginator>
+</div>
 
-<mat-paginator
-  *ngIf="tableConfig.isPagination"
-  [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons
-  [attr.aria-label]="'table.selectPageSize' | i18n"
->
-</mat-paginator>
+<ng-template #pureColumn>
+  {{ pureColumn }}
+</ng-template>
