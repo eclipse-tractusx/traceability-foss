@@ -34,7 +34,7 @@
               "replaceDuplicatePlugins": true
             },
             "aot": true,
-            "outputPath": "dist/webapp",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -52,12 +52,6 @@
           },
           "configurations": {
             "dev": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.dev.ts"
-                }
-              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -73,39 +67,40 @@
                 }
               ]
             },
-            "localAuth": {
+            "auth": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.localAuth.ts"
-                }
-              ],
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "10mb"
+                  "with": "src/environments/environment.auth.ts"
                 }
               ]
             },
-            "stage": {
+            "authLocal": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.stage.ts"
+                  "with": "src/environments/environment.authMock.ts"
+                }
+              ]
+            },
+            "authMock": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.authMock.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
                 }
               ],
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
               "extractLicenses": true,
@@ -116,6 +111,14 @@
                   "type": "initial",
                   "maximumWarning": "5mb",
                   "maximumError": "10mb"
+                }
+              ]
+            },
+            "debugProd": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.production.ts"
                 }
               ]
             }
@@ -131,11 +134,20 @@
             "dev": {
               "browserTarget": "webapp:build:dev"
             },
-            "localAuth": {
-              "browserTarget": "webapp:build:localAuth"
+            "auth": {
+              "browserTarget": "webapp:build:dev,auth"
             },
-            "stage": {
-              "browserTarget": "webapp:build:stage"
+            "authLocal": {
+              "browserTarget": "webapp:build:dev,authLocal"
+            },
+            "authMock": {
+              "browserTarget": "webapp:build:dev,authMock"
+            },
+            "production": {
+              "browserTarget": "webapp:build:production"
+            },
+            "debugProd": {
+              "browserTarget": "webapp:build:dev,debugProd"
             }
           }
         },
@@ -174,25 +186,6 @@
           "options": {
             "lintFilePatterns": ["src/**/*.ts", "src/**/*.component.html"],
             "exclude": ["**/node_modules/**"]
-          }
-        }
-      }
-    },
-    "webapp-e2e": {
-      "root": "e2e/",
-      "projectType": "application",
-      "prefix": "",
-      "architect": {
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "webapp:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "webapp:serve:production"
-            }
           }
         }
       }

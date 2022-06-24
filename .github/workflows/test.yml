@@ -26,7 +26,4 @@ jobs:
         cmd: install # will run `yarn install` command
     - uses: Borales/actions-yarn@v3.0.0
       with:
-        cmd: build # will run `yarn build` command
-    - uses: Borales/actions-yarn@v3.0.0
-      with:
         cmd: test:ci # will run `yarn test` command

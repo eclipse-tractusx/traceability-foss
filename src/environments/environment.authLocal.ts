@@ -21,9 +21,8 @@ import { _environment } from './_environment.base';
 
 export const environment = {
   ..._environment,
-  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
-  clientId: 'Cl10-CX-Part',
   multiTenant: true,
-  defaultRealm: 'CX-Central',
-  apiUrl: 'https://traceability.int.demo.catena-x.net/api',
+  authDisabled: false,
+  keycloakUrl: 'http://localhost:8080/',
+  clientId: 'catenax-portal',
 };

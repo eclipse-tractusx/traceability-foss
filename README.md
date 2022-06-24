@@ -109,23 +109,23 @@ Some VSCode extensions that might improve your coding experience :)
 - Visual Studio IntelliCode
 - Yaml
 
-## Local Keycloack
+## Local Keycloak
 
 ### Prerequisites
 
 - Docker with docker-compose
 
-### How to run local keycloack?
+### How to run local Keycloak?
 
-Keycloack can be started through:
+Keycloak can be started through:
 
 ```
 yarn env:mock
 ```
 
-### Keycloack First Configuration
+### Keycloak First Configuration
 
-On the first Keycloack start it should be properly configured.
+On the first Keycloak start it should be properly configured.
 
 By default, it would be available at http://localhost:8080
 
