@@ -7,10 +7,6 @@ metadata:
   name: {{ $fullName }}
   labels:
       {{- include "product-traceability-foss-frontend.labels" . | nindent 4 }}
-  {{- with .Values.ingress.annotations }}
-  annotations:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   tls:
