@@ -18,8 +18,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { startsWith } from 'lodash-es';
+import { merge, Observable, of } from 'rxjs';
+import { delay, startWith } from 'rxjs/operators';
 import { realm } from '@core/api/api.service.properties';
 import { View } from '@shared/model/view.model';
 import { DashboardService } from '../core/dashboard.service';
@@ -31,10 +32,13 @@ export class DashboardFacade {
   constructor(private dashboardService: DashboardService, private dashboardState: DashboardState) {}
 
   get numberOfParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfParts$.pipe(delay(0));
+    return merge(of({ loader: true }), of({ data: 1000 }).pipe(delay(3000))).pipe(delay(0));
+    // return this.dashboardState.numberOfParts$.pipe(delay(0));
   }
 
   public setNumberOfParts(): void {
+    // Disabled until dashboard endpoint is available
+    return;
     this.dashboardState.setNumberOfParts({ loader: true });
     this.dashboardService.getStats().subscribe({
       next: (kpiStats: Dashboard) => {
