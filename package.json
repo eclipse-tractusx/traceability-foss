@@ -2,10 +2,9 @@
   "name": "webapp",
   "version": "2.1.1",
   "scripts": {
-    "analyze": "ng build --configuration production --stats-json && webpack-bundle-analyzer dist/webapp/stats.json",
-    "build": "ng build",
-    "build:auth": "ng build --configuration=localAuth",
-    "build:prod": "NODE_ENV=production ng build --configuration production",
+    "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
+    "build:prod": "ng build --configuration=production",
+    "build:prodDebug": "ng build --configuration=debugProd",
     "format": "prettier --write \"src/**/*.{js,ts,json,md,css,scss,html}\"",
     "lint": "eslint --color --fix -c .eslintrc.js --ext .ts ./src/app",
     "ng": "ng",
@@ -15,8 +14,10 @@
     "ng-material": "ng update --force @angular/material",
     "prepare": "husky install",
     "start": "ng serve",
+    "start:auth": "ng serve --configuration=dev,auth",
+    "start:auth:mock": "ng serve --configuration=authMock",
+    "start:auth:local": "ng serve --configuration=authLocal",
     "env:mock": "docker-compose up",
-    "start:auth": "ng serve --configuration=localAuth",
     "test": "TZ=UTC jest --watch --maxWorkers=1",
     "test:ci": "TZ=UTC jest --runInBand",
     "add-license-header": "node ./scripts/add-license-header.js --src=src"
@@ -51,7 +52,6 @@
     "tslib": "2.4.0",
     "uuid": "8.3.2",
     "webpack": "5.72.0",
-    "webpack-bundle-analyzer": "4.5.0",
     "zone.js": "0.11.5"
   },
   "devDependencies": {
@@ -94,7 +94,8 @@
     "stylelint": "14.8.2",
     "stylelint-config-standard-scss": "3.0.0",
     "ts-node": "10.7.0",
-    "typescript": "4.6.4"
+    "typescript": "4.6.4",
+    "webpack-bundle-analyzer": "4.5.0"
   },
   "msw": {
     "workerDirectory": "src"

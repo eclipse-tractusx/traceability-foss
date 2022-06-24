@@ -1,15 +1,15 @@
 version: "3.9"
 services:
-  keycloack:
+  keycloak:
     image: "quay.io/keycloak/keycloak:18.0.0"
-    ports: 
+    ports:
     - "8080:8080"
     command: start-dev
     environment:
     - KEYCLOAK_ADMIN=admin
     - KEYCLOAK_ADMIN_PASSWORD=admin
     volumes:
-      - keycloack-data:/opt/keycloak/data/
+      - keycloak-data:/opt/keycloak/data/
 
 volumes:
-  keycloack-data:
+  keycloak-data:

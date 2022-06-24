@@ -2,11 +2,10 @@ environment: "dev"
 
 image:
   tag: $ARGOCD_APP_REVISION
-
-apiService:
-  path: "/api"
-  externalName: "traceability.dev.demo.catena-x.net"
-  port: 80
+  CATENAX_PORTAL_API_URL: 'https://traceability.dev.demo.catena-x.net/api'
+  CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.dev.demo.catena-x.net/auth'
+  CATENAX_PORTAL_CLIENT_ID: 'Cl10-CX-Part'
+  CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
 
 autoscaling:
   enabled: false

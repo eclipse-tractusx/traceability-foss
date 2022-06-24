@@ -10,7 +10,8 @@ Command reference [here](https://angular.io/cli/new).
 
 ### Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change
+any of the source files.
 
 Command reference [here](https://angular.io/cli/serve).
 
@@ -47,17 +48,21 @@ Must be executed from within a workspace directory.
 
 ### Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+To get more help on the Angular CLI use `ng help` or go check out
+the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Angular CLI configurations
 
-A file named angular.json at the root level of an Angular workspace provides workspace-wide and project-specific configuration defaults for build and development tools provided by the Angular CLI.
+A file named angular.json at the root level of an Angular workspace provides workspace-wide and project-specific
+configuration defaults for build and development tools provided by the Angular CLI.
 
-You can find more information about the content in the official documentation [here](https://angular.io/guide/workspace-config).
+You can find more information about the content in the official
+documentation [here](https://angular.io/guide/workspace-config).
 
 In Trace-FOSS we build apps with different configurations depending on the stage (dev, stage).
 
-These configurations must be declared in the angular JSON file, and you can define them in the `/environments` directory.
+These configurations must be declared in the angular JSON file, and you can define them in the `/environments`
+directory.
 
 Then, on the file replacements array, you can replace the URL with the corresponding environment file.
 
@@ -82,17 +87,40 @@ Then, on the file replacements array, you can replace the URL with the correspon
         }
       ]
     },
-    "stage": {
+    "auth": {
       "fileReplacements": [
         {
           "replace": "src/environments/environment.ts",
-          "with": "src/environments/environment.stage.ts"
+          "with": "src/environments/environment.auth.ts"
+        }
+      ]
+    },
+    "authLocal": {
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.authMock.ts"
+        }
+      ]
+    },
+    "authMock": {
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.authMock.ts"
+        }
+      ]
+    },
+    "production": {
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.production.ts"
         }
       ],
       "optimization": true,
       "outputHashing": "all",
       "sourceMap": false,
-      "extractCss": true,
       "namedChunks": false,
       "aot": true,
       "extractLicenses": true,
@@ -114,16 +142,17 @@ Then, on the file replacements array, you can replace the URL with the correspon
 
 ```typescript
 export const environment = {
+  production: false,
   mockService: false, // enbales mocked backend
-  production: true,
-  authDisabled: false, // disable keycloack auth
-  keycloakUrl: 'https://auth.domain.tld/auth',
-  multiTenant: true,
-  defaultRealm: 'XYZRealm',
+  authDisabled: false, // disable keycloak auth
+  multiTenant: false,
+  keycloakUrl: 'http://localhost:8080/',
+  clientId: 'catenax-portal',
+  defaultRealm: 'mock',
   realmLogo: '/assets/images/logo.png',
-  baseUrl: '/',
-  realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   apiUrl: '/api', // specify where is placed backend API
+  realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
+  baseUrl: '/',
 };
 ```
 
@@ -140,7 +169,8 @@ and a configuration section that names and specifies alternative configurations 
 
 You can find more information [here](https://angular.io/guide/cli-builder).
 
-The default builder for an application is `@angular-devkit/build-angular:browser` which uses a webpack package bundler but since the current angular version doesn't support the CSS library Tailwind, a custom builder was necessary.
+The default builder for an application is `@angular-devkit/build-angular:browser` which uses a webpack package bundler
+but since the current angular version doesn't support the CSS library Tailwind, a custom builder was necessary.
 
 ### Angular JSON builder
 
@@ -197,75 +227,48 @@ From version 11.2 onwards Tailwind is already supported.
 
 The angular app is built into Docker containers and exposed through NGINX
 
-It is important to specify the type of configuration profile, previously defined in the angular JSON file, so it can pull the correct environment variables.
+It is important to specify the type of configuration profile, previously defined in the angular JSON file, so it can
+build the application correctly.
 
-#### Build config
+## Run
 
-```bash
-    echo "Building image for: ${TARGET_IMAGE_NAME}:${ENVIRONMENT}"
+When running the build docker image you are able to pass through multiple environment variables to configure the FE.
+Support environment variables are:
 
-    docker login --password ${DOCKER_SECRET} --username partchain
-    docker build -t ${TARGET_IMAGE_NAME}:${ENVIRONMENT} -t ${TARGET_IMAGE_NAME}:${SHORT_COMMIT_ID} -f ./build/Dockerfile . --build-arg PROFILE=${PROFILE}
-
-    aws --region eu-west-1 ecr get-login-password \
-        | docker login \
-            --password-stdin \
-            --username AWS \
-            "${TARGET_IMAGE_NAME}"
-
-    docker push ${TARGET_IMAGE_NAME}:${ENVIRONMENT}
-
-    docker push ${TARGET_IMAGE_NAME}:${SHORT_COMMIT_ID}
+```javascript
+const ENV_VARS_MAPPING = {
+  CATENAX_PORTAL_KEYCLOAK_URL: 'keycloakUrl',
+  CATENAX_PORTAL_CLIENT_ID: 'clientId',
+  CATENAX_PORTAL_DEFAULT_REALM: 'defaultRealm',
+  CATENAX_PORTAL_REALM_LOGO: 'realmLogo',
+  CATENAX_PORTAL_API_URL: 'apiUrl',
+  CATENAX_PORTAL_BASE_URL: 'baseUrl',
+};
 ```
+
+`CATENAX_PORTAL_KEYCLOAK_URL`
+This variable is used to set up and use keycloak
+
+`CATENAX_PORTAL_CLIENT_ID`
+This variable is used to identify the client on keycloak
+
+`CATENAX_PORTAL_DEFAULT_REALM`
+This variable is used the set de default realm of the application
+
+`CATENAX_PORTAL_REALM_LOGO`
+This variable is used to replace the logo on the application
+
+`CATENAX_PORTAL_API_URL`
+This variable points to the desired api
+
+`CATENAX_PORTAL_BASE_URL`
+This variable is used to set the base path of the application. (Should be set if application runs as a subtopic)
 
 ## Deployment
 
-The app is deployed on an AWS EKS instance.
+The app is deployed on hotel budapest.
 
-For each stage, there are different account configurations available on the `/config` directory.
-
-### Account configuration
-
-```bash
-export ACCOUNT_ID="${ACCOUNT_ID}"
-export ECR_REPO_NAME="${REPO NAME}"
-
-if [[ "${ENVIRONMENT}" ]]; then
-    echo 'Setting variables for stage' $ENVIRONMENT
-    readonly TARGET_IMAGE_NAME="${ACCOUNT_ID}.dkr.ecr.eu-west-1.amazonaws.com/${ECR_REPO_NAME}" #Here use dev registry
-    export TARGET_IMAGE_NAME
-    echo 'TARGET_IMAGE_NAME:' $TARGET_IMAGE_NAME
-
-    readonly KUBERNETES_SECRET="${ENVIRONMENT}/${PROJECT_NAME}/kubernetesconfig"
-    export KUBERNETES_SECRET
-    echo 'KUBERNETES_SECRET:' $KUBERNETES_SECRET
-
-    readonly PROFILE=dev
-    export PROFILE
-    echo 'ANGULAR PROFILE:' $PROFILE
-
-    # In case of a critical security issue on the docker image delete it
-    readonly DELETE_ON_FAILURE="No"
-    export DELETE_ON_FAILURE
-
-
-    readonly CROSS_ACC_ROLE=cx-dev-eks-crossaccount-deployment
-    export CROSS_ACC_ROLE
-
-else
-    echo 'No environment variable found'
-    exit 1
-fi
-```
-
-You can manage the cluster contexts and image settings on the `/deploy` directory.
-
-```bash
-if [[ "$ENVIRONMENT" == "dev" ]]; then
-
-    kubectl config use-context ${CONTEXT}
-    kubectl set image deployment/ui ui=${TARGET_IMAGE_NAME}:${SHORT_COMMIT_ID} -n ${NAMESPACE} --record
-```
+For each stage, there are different pipelines. The configuration for these pipelines can be found here: `/chart`.
 
 ## Package Manager
 

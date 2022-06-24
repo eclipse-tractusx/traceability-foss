@@ -33,6 +33,15 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CATENAX_PORTAL_API_URL
+              value: "{{ .Values.image.CATENAX_PORTAL_API_URL }}"
+            - name: CATENAX_PORTAL_KEYCLOAK_URL
+              value: "{{ .Values.image.CATENAX_PORTAL_KEYCLOAK_URL }}"
+            - name: CATENAX_PORTAL_CLIENT_ID
+              value: "{{ .Values.image.CATENAX_PORTAL_CLIENT_ID }}"
+            - name: CATENAX_PORTAL_DEFAULT_REALM
+              value: "{{ .Values.image.CATENAX_PORTAL_DEFAULT_REALM }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

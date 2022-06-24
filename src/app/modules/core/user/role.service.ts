@@ -47,7 +47,7 @@ export class RoleService {
   hasAccess(requiredRoles: Role | Role[]): boolean {
     const requiredRolesList = typeof requiredRoles === 'string' ? [requiredRoles] : requiredRoles;
 
-    const roles = this.userService.getRoles();
+    const roles = this.userService.getRoles().map(role => role.toLocaleLowerCase());
     const allPossibleRoles = [...requiredRolesList, ...this.getParentsRolesFor(requiredRolesList)];
 
     return allPossibleRoles.some(possibleRole => roles.includes(possibleRole));
