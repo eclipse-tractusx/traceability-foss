@@ -18,13 +18,14 @@
  */
 
 import { Injectable } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
 import { Part } from '@page/parts/model/parts.model';
 import { State, View } from '@shared';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class PartsState {
-  private readonly _parts$: State<View<Part[]>> = new State<View<Part[]>>({ loader: true });
+  private readonly _parts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _selectedPart: State<View<Part>> = new State<View<Part>>({ loader: true });
 
   get selectedPart$(): Observable<View<Part>> {
@@ -40,12 +41,12 @@ export class PartsState {
     return this._selectedPart.snapshot;
   }
 
-  get parts$(): Observable<View<Part[]>> {
+  get parts$(): Observable<View<Pagination<Part>>> {
     return this._parts$.observable;
   }
 
-  set parts({ data, loader, error }: View<Part[]>) {
-    const partsView: View<Part[]> = { data, loader, error };
+  set parts({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
     this._parts$.update(partsView);
   }
 }

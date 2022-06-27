@@ -40,14 +40,18 @@ export class ViewContainerDirective<T> implements AfterViewInit {
     if (!view) return;
 
     this.context.view = view;
-    this.viewContainerRef.clear();
+    let templateRef: TemplateRef<ViewContext<T>>;
 
-    if (view.loader) this.viewContainerRef.createEmbeddedView(this.loaderTemplateRef, this.context);
+    if (view.loader) templateRef = this.loaderTemplateRef;
 
-    if (view.error && !view.loader) this.viewContainerRef.createEmbeddedView(this.errorTemplateRef, this.context);
+    if (view.error && !view.loader) templateRef = this.errorTemplateRef;
 
-    if (view.data !== undefined && view.data !== null && !view.error) {
-      this.viewContainerRef.createEmbeddedView(this.mainTemplateRef, this.context);
+    if (view.data !== undefined && view.data !== null && !view.error) templateRef = this.mainTemplateRef;
+
+    if (this.currentTemplateRef !== templateRef) {
+      this.viewContainerRef.clear();
+      this.viewContainerRef.createEmbeddedView(templateRef, this.context);
+      this.currentTemplateRef = templateRef;
     }
   }
 
@@ -55,6 +59,7 @@ export class ViewContainerDirective<T> implements AfterViewInit {
   private mainTemplateRef: TemplateRef<ViewContext<T>> = null;
   private errorTemplateRef: TemplateRef<ViewContext<T>> = null;
   private loaderTemplateRef: TemplateRef<ViewContext<T>> = null;
+  private currentTemplateRef: TemplateRef<ViewContext<T>> = null;
 
   constructor(private viewContainerRef: ViewContainerRef) {}
 

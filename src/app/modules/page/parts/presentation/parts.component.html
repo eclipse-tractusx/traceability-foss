@@ -22,7 +22,12 @@ under the License.
   <br />
   <ng-container *viewContainer="parts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"> </ng-container>
   <ng-template #mainTmp let-parts="view">
-    <app-table [data]="parts.data" [tableConfig]="tableConfig" (selected)="onSelectItem($event)"></app-table>
+    <app-table
+      [data]="parts.data"
+      [tableConfig]="tableConfig"
+      (selected)="onSelectItem($event)"
+      (configChanged)="onTableConfigChange($event)"
+    ></app-table>
     <app-part-detail></app-part-detail>
   </ng-template>
 

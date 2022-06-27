@@ -18,10 +18,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared';
-import { TableConfig } from '@shared/components/table/table.model';
+import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Observable } from 'rxjs';
 
 interface Parts {}
@@ -55,8 +56,7 @@ export class PartsComponent implements OnInit {
   };
 
   public tableConfig: TableConfig;
-
-  public parts$: Observable<View<Parts[]>>;
+  public parts$: Observable<View<Pagination<Part>>>;
 
   constructor(private readonly partsFacade: PartsFacade) {
     this.parts$ = this.partsFacade.parts$;
@@ -73,5 +73,9 @@ export class PartsComponent implements OnInit {
 
   public onSelectItem($event: Record<string, unknown>) {
     this.partsFacade.selectedPart = $event as unknown as Part;
+  }
+
+  onTableConfigChange({ page, pageSize, sorting }: TableEventConfig) {
+    this.partsFacade.setParts(page, pageSize, sorting);
   }
 }

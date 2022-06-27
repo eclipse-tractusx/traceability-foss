@@ -17,32 +17,56 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { TableConfig } from '@shared/components/table/table.model';
+import { Pagination } from '@core/model/pagination.model';
+import { TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss'],
 })
-export class TableComponent implements AfterViewInit {
+export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @Input() tableConfig: TableConfig;
-  @Input() set data(tableData: Record<string, unknown>[]) {
-    this.dataSource = new MatTableDataSource(tableData);
+
+  @Input() set data({ page, pageSize, totalItems, content }: Pagination<unknown>) {
+    this.totalItems = totalItems;
+    this.pageSize = pageSize;
+    this.dataSource.data = content;
+    this.isDataLoading = false;
+    this.pageIndex = page;
   }
 
   @Output() selected = new EventEmitter<Record<string, unknown>>();
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-  }
+  @Output() configChanged = new EventEmitter<TableEventConfig>();
 
   public dataSource: MatTableDataSource<unknown>;
+  public totalItems: number;
+  public pageIndex: number;
+  public isDataLoading: boolean;
+
+  private pageSize: number;
+  private sorting: TableHeaderSort;
+
+  constructor() {
+    this.dataSource = new MatTableDataSource();
+  }
+
+  getPaginatorData({ pageIndex, pageSize }: PageEvent) {
+    this.pageIndex = pageIndex;
+    this.isDataLoading = true;
+    this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
+  }
+
+  updateSortingOfData({ active, direction }: Sort): void {
+    this.sorting = !direction ? null : [active, direction];
+    this.isDataLoading = true;
+    this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
+  }
 }

@@ -23,7 +23,7 @@ import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 import { AdminComponent } from './presentation/admin.component';
 
 export /** @type {*} */
-const ABOUT_ROUTING: Routes = [
+const ADMIN_ROUTING: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -34,7 +34,7 @@ const ABOUT_ROUTING: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(ABOUT_ROUTING)],
+  imports: [RouterModule.forChild(ADMIN_ROUTING)],
   exports: [RouterModule],
 })
 export class AdminRoutingModule {}

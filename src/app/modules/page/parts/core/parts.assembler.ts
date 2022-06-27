@@ -22,6 +22,7 @@ import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
 import { Part, PartResponse } from '@page/parts/model/parts.model';
 import { View } from '@shared';
+import { TableHeaderSort } from '@shared/components/table/table.model';
 import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -85,5 +86,26 @@ export class PartsAssembler {
       const { nameAtCustomer, customerPartId } = viewData.data;
       return { data: { nameAtCustomer, customerPartId } as Part };
     });
+  }
+
+  public static mapSortToApiSort(sorting: TableHeaderSort) {
+    if (!sorting) {
+      return '';
+    }
+
+    const localToApiMapping = new Map([
+      ['id', 'id'],
+      ['name', 'nameAtManufacturer'],
+      ['manufacturer', 'manufacturerName'],
+      ['serialNumber', 'manufacturerPartId'],
+      ['partNumber', 'customerPartId'],
+      ['productionCountry', 'manufacturingCountry'],
+      ['nameAtCustomer', 'nameAtCustomer'],
+      ['customerPartId', 'customerPartId'],
+      ['qualityType', 'qualityType'],
+      ['productionDate', 'manufacturingDate'],
+    ]);
+
+    return `${localToApiMapping.get(sorting[0])},${sorting[1]}`;
   }
 }

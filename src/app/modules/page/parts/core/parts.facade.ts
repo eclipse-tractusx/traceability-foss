@@ -23,6 +23,7 @@ import { PartsService } from '@page/parts/core/parts.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared';
+import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Observable, of } from 'rxjs';
 import { catchError, delay, tap } from 'rxjs/operators';
 
@@ -43,17 +44,15 @@ export class PartsFacade {
     return this.partsState.selectedPart?.data;
   }
 
-  get parts$(): Observable<View<Part[]>> {
+  get parts$(): Observable<View<Pagination<Part>>> {
     // IMPORTANT: this delay is needed for view-container directive
     return this.partsState.parts$.pipe(delay(0));
   }
 
-  public setParts(): void {
-    this.partsState.parts = { loader: true };
-
-    this.partsService.getParts().subscribe({
+  public setParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
+    this.partsService.getParts(page, pageSize, sorting).subscribe({
       next: (partsPage: Pagination<Part>) => {
-        this.partsState.parts = { data: partsPage.content };
+        this.partsState.parts = { data: partsPage };
       },
       error: error => (this.partsState.parts = { error }),
     });
