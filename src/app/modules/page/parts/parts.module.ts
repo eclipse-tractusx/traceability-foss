@@ -24,6 +24,7 @@ import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsService } from '@page/parts/core/parts.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements.facade';
+import { LoadedElementsState } from '@page/parts/relations/core/loaded-elements.state';
 import { RelationsModule } from '@page/parts/relations/relations.module';
 import { FormatDatePipe, SharedModule, TemplateModule } from '@shared';
 import { PartsRoutingModule } from './parts.routing';
@@ -38,6 +39,7 @@ import { RelationComponent } from './presentation/relation/relation.component';
     PartsState,
     PartsFacade,
     LoadedElementsFacade,
+    LoadedElementsState,
     PartsService,
     ...getI18nPageProvider('page.parts'),
     FormatDatePipe,

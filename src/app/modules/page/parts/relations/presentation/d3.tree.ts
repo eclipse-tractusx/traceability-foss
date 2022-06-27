@@ -196,7 +196,7 @@ class RelationTree {
     };
 
     const data = [
-      { inner: -3, outer: 0, start: -0.3, end: 1.6 },
+      { inner: -3.2, outer: 0, start: -0.3, end: 1.6 },
       { inner: -7, outer: -3, start: 0, end: 0.4 },
       { inner: -7, outer: -3, start: 1.5, end: 1.8 },
       { inner: -7, outer: -3, start: 0.7, end: 0.9 },
@@ -214,8 +214,8 @@ class RelationTree {
       .outerRadius(this.r)
       .innerRadius(this.r - 5);
 
-    const pie = d3.pie().padAngle(0.05);
-    const arcs = pie(new Array(25).fill(1));
+    const pie = d3.pie().padAngle(1);
+    const arcs = pie(new Array(3).fill(1));
     arc.cornerRadius(5);
 
     const border = svg
@@ -226,10 +226,15 @@ class RelationTree {
       .join('a')
       .filter(({ data }: TreeElement) => data.state === 'loading')
       .attr('transform', ({ y, x }: TreeElement) => `translate(${y},${x})`)
-      .append('g')
-      .classed('tree--element__border-loading', true);
+      .append('g');
 
-    arcs.forEach(node => border.append('path').attr('d', arc(node)));
+    arcs.forEach((node, index) =>
+      border
+        .append('path')
+        .attr('d', arc(node))
+        .classed('tree--element__border-loading', true)
+        .classed('tree--element__border-loading-' + index, true),
+    );
   }
 
   private addOpeningArrow(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {

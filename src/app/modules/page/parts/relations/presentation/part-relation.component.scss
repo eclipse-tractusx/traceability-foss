@@ -16,12 +16,46 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-@keyframes TreeElementLoadingAnimation {
-  from {
-    transform: rotate(0deg);
+@keyframes TreeElementLoadingAnimation01 {
+  0% {
+    transform: rotate(300deg);
   }
-  to {
-    transform: rotate(360deg);
+  60% {
+    transform: rotate(660deg);
+  }
+  60%,
+  100% {
+    transform: rotate(660deg);
+  }
+}
+
+@keyframes TreeElementLoadingAnimation02 {
+  0%,
+  35% {
+    transform: rotate(180deg);
+  }
+  35% {
+    transform: rotate(180deg);
+  }
+  80% {
+    transform: rotate(540deg);
+  }
+  80%,
+  100% {
+    transform: rotate(540deg);
+  }
+}
+
+@keyframes TreeElementLoadingAnimation03 {
+  0%,
+  55% {
+    transform: rotate(60deg);
+  }
+  55% {
+    transform: rotate(60deg);
+  }
+  100% {
+    transform: rotate(420deg);
   }
 }
 
@@ -56,7 +90,17 @@
       @apply stroke-primary;
       @apply fill-primary;
 
-      animation: TreeElementLoadingAnimation 5s infinite;
+      &-0 {
+        animation: TreeElementLoadingAnimation01 2.5s ease-in-out infinite;
+      }
+
+      &-1 {
+        animation: TreeElementLoadingAnimation02 2.5s ease-in-out infinite;
+      }
+
+      &-2 {
+        animation: TreeElementLoadingAnimation03 2.5s ease-in-out infinite;
+      }
     }
 
     &-done {
@@ -81,7 +125,7 @@
 
     &-life-threading {
       animation: TreeElementLoadingAnimation 45s infinite linear;
-      @apply fill-error;
+      fill: #981b5e;
     }
   }
 
@@ -133,4 +177,24 @@
       @apply fill-primaryDark;
     }
   }
+}
+
+@keyframes animation {
+  0% {
+    stroke-dasharray: 1 98;
+    stroke-dashoffset: -105;
+  }
+  50% {
+    stroke-dasharray: 80 10;
+    stroke-dashoffset: -160;
+  }
+  100% {
+    stroke-dasharray: 1 98;
+    stroke-dashoffset: -300;
+  }
+}
+
+.loading-stuff {
+  transform-origin: center;
+  animation: animation 1.2 cubic-bezier(0.25, 0.46, 0.45, 0.94), infinite;
 }

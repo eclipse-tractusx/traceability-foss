@@ -88,7 +88,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public openRelationPage(part: Part): void {
     this.partsFacade.selectedPart = null;
-    void this.router.navigate([`${realm}/parts/relations/${part.id}`]);
+    this.router.navigate([`${realm}/parts/relations/${part.id}`]).then(_ => window.location.reload());
   }
 
   public updateQualityType(newQualityType: string) {

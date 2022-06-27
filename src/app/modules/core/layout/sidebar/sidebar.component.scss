@@ -16,30 +16,15 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-@keyframes SidebarOpen {
-  from {
-    width: 56px;
-  }
-  to {
-    width: 240px;
-  }
-}
-
-@keyframes SidebarClose {
-  from {
-    width: 240px;
-  }
-  to {
-    width: 56px;
-  }
-}
 
 .openAnimation {
-  animation: SidebarOpen 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  transition: width 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
+  width: 240px;
 }
 
 .closeAnimation {
-  animation: SidebarClose 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  transition: width 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
+  width: 56px;
 }
 
 .sidebar {

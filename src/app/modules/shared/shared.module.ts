@@ -19,8 +19,8 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SelectComponent } from '@shared/components/select/select.component';
-import { StaticIdService } from '@shared/service/staticId.service';
+import { SelectComponent } from './components/select/select.component';
+import { StaticIdService } from './service/staticId.service';
 import { I18NextModule } from 'angular-i18next';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
