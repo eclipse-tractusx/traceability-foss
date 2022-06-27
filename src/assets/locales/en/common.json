@@ -29,5 +29,12 @@
   "dataLoading": {
     "inProgress": "Loading data...",
     "error": "Error while loading data"
+  },
+  "qualityType": {
+    "ok": "Ok",
+    "minor": "Minor",
+    "major": "Major",
+    "critical": "Critical",
+    "life-threading": "Life-Threading"
   }
 }

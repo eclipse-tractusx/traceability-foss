@@ -17,4 +17,22 @@
  * under the License.
  */
 
-export const mockAssets = {};
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+export interface SelectOption {
+  lable: string;
+  value?: string;
+}
+
+@Component({
+  selector: 'app-select',
+  templateUrl: './select.component.html',
+  styleUrls: ['./select.component.scss'],
+})
+export class SelectComponent {
+  @Input() lable: string;
+  @Input() selectedValue: string;
+  @Input() options: SelectOption[];
+
+  @Output() selected: EventEmitter<string> = new EventEmitter<string>();
+}

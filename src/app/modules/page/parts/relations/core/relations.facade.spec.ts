@@ -20,8 +20,9 @@
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
 import { PartsService } from '@page/parts/core/parts.service';
 import { RelationComponentState } from '@page/parts/relations/core/component.state';
+import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements.facade';
 import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
-import { RelationsState } from '@page/parts/relations/core/relations.state';
+import { LoadedElementsState } from '@page/parts/relations/core/loaded-elements.state';
 import { TreeElement } from '@page/parts/relations/model/relations.model';
 import { of, Subscription } from 'rxjs';
 import { map, skip, tap } from 'rxjs/operators';
@@ -35,16 +36,18 @@ import {
 describe('Relations facade', () => {
   const childDescriptionsToChild = children => children.map(({ id }) => id);
   const subscriptions = new Subscription();
-  let relationsFacade: RelationsFacade, relationStateMock: RelationsState, componentStateMock: RelationComponentState;
+  let relationsFacade: RelationsFacade,
+    loadedElementsFacade: LoadedElementsFacade,
+    componentStateMock: RelationComponentState;
   beforeEach(() => {
     const partsServiceMok = {
       getRelation: (partId, childId) => of(mockAssetList[childId]).pipe(map(part => PartsAssembler.assemblePart(part))),
       getPart: id => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part))),
     } as PartsService;
 
-    relationStateMock = new RelationsState();
+    loadedElementsFacade = new LoadedElementsFacade(new LoadedElementsState());
     componentStateMock = new RelationComponentState();
-    relationsFacade = new RelationsFacade(partsServiceMok, relationStateMock, componentStateMock);
+    relationsFacade = new RelationsFacade(partsServiceMok, loadedElementsFacade, componentStateMock);
   });
   afterEach(() => subscriptions.unsubscribe());
 
@@ -208,7 +211,7 @@ describe('Relations facade', () => {
       const { id, childDescriptions } = MOCK_part_1;
       const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
 
-      relationsFacade.addLoadedElement(mockTreeElement);
+      loadedElementsFacade.addLoadedElement(mockTreeElement);
       relationsFacade.openElementWithChildren(mockTreeElement);
       const sub = componentStateMock.openElements$.subscribe(openElements => {
         expect(relationsFacade.formatOpenElementsToTreeData(openElements)).toEqual(expected);

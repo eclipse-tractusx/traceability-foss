@@ -36,7 +36,7 @@ under the License.
         </ng-container>
       </th>
       <td *matCellDef="let element" mat-cell class="table--cell">
-        {{ element[column] | autoFormat }}
+        {{ element[column] | autoFormat | i18n }}
       </td>
     </ng-container>
 

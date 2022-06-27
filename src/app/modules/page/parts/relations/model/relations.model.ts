@@ -17,17 +17,19 @@
  * under the License.
  */
 
+import { QualityType } from '@page/parts/model/parts.model';
 import { Selection } from 'd3-selection';
 
 export type LoadedElements = Record<string, TreeElement>;
 export type OpenElements = Record<string, string[]>;
+type State = 'done' | 'loading' | QualityType;
 
 export interface TreeElement {
   id: string;
   title: string;
   text?: string;
 
-  state?: 'done' | 'loading' | 'risk';
+  state?: State;
   children?: string[];
 }
 
@@ -36,7 +38,7 @@ export interface TreeStructure {
   title: string;
   text?: string;
 
-  state: 'done' | 'loading' | 'risk';
+  state: State;
   children?: TreeStructure[];
   relations?: TreeStructure[];
 }

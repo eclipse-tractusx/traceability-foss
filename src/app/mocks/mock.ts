@@ -18,7 +18,7 @@
  */
 
 import { setupWorker } from 'msw';
-import { assetHandlers, coreHandlers, partsHandlers } from './services';
+import { coreHandlers, partsHandlers } from './services';
 
-const handlers = [...coreHandlers, ...assetHandlers, ...partsHandlers];
+const handlers = [...coreHandlers, ...partsHandlers];
 export const worker = setupWorker(...handlers);

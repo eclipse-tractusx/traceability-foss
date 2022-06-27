@@ -20,7 +20,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
-import { Part } from '@page/parts/model/parts.model';
+import { Part, QualityType } from '@page/parts/model/parts.model';
 import { of } from 'rxjs';
 
 describe('PartsAssembler', () => {
@@ -79,7 +79,7 @@ describe('PartsAssembler', () => {
           productionCountry: manufacturingCountry,
           nameAtCustomer: nameAtCustomer,
           customerPartId: customerPartId,
-          qualityType: 'high',
+          qualityType: QualityType.Ok,
           productionDate: new CalendarDateModel(manufacturingDate),
           children: childDescriptions.map(child => child.id),
         });

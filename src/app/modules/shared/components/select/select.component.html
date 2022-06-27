@@ -16,15 +16,11 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-
-<mat-card>
-  <mat-card-title>{{ title }}</mat-card-title>
-  <mat-card-content>
-    <div class="card-list--container">
-      <div *ngFor="let item of list | ToKeyValue" class="card-list--row">
-        <p class="card-list--cell card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
-        <p class="card-list--cell card-list--value">{{ item.value | autoFormat }}</p>
-      </div>
-    </div>
-  </mat-card-content>
-</mat-card>
+<mat-form-field appearance="standard" class="select--container">
+  <mat-label>{{ this.lable }}</mat-label>
+  <mat-select (selectionChange)="this.selected.emit($event.value)" [value]="this.selectedValue">
+    <mat-option *ngFor="let option of this.options" [value]="option.value || option.lable">{{
+      option.lable | i18n
+    }}</mat-option>
+  </mat-select>
+</mat-form-field>

@@ -24,6 +24,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface Parts {}
 

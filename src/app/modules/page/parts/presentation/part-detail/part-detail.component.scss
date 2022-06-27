@@ -45,10 +45,12 @@
     justify-content: space-between;
     padding-bottom: 25px;
   }
+
   &--manufacturer-info {
     @apply flex flex-row;
     justify-content: space-between;
   }
+
   &--relation__container {
     height: 100%;
     display: flex;
@@ -58,17 +60,20 @@
       height: 100%;
     }
   }
+
   &--relation__card {
     min-height: 400px;
     display: flex;
     flex-direction: column;
   }
+
   &--relation__icon {
     &:hover {
       cursor: pointer;
     }
   }
 }
+
 app-card-list {
   width: 400px;
   max-width: 400px;
@@ -81,4 +86,50 @@ mat-card {
   max-width: 400px;
   min-width: 400px;
   min-height: 250px;
+}
+
+.card-list {
+  min-height: 100%;
+
+  &--row {
+    display: table-row;
+  }
+
+  &--cell {
+    display: table-cell;
+  }
+
+  &--key {
+    padding-right: 10px;
+    font-weight: bold;
+  }
+
+  &--value {
+    text-overflow: ellipsis;
+  }
+
+  &--icon:hover {
+    @apply text-primary;
+    cursor: pointer;
+  }
+
+  &--qualityType {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    & > app-select {
+      width: 90%;
+    }
+
+    & > mat-icon {
+      width: 10%;
+      text-align: center;
+      cursor: pointer;
+
+      &:hover {
+        @apply text-primary;
+      }
+    }
+  }
 }

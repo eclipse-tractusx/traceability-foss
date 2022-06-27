@@ -70,10 +70,6 @@ under the License.
   </mat-sidenav>
 </mat-sidenav-container>
 
-<ng-template #partDetailsMainTmp let-partDetails="view">
-  <app-card-list [list]="partDetails.data" [title]="'partDetail.overview' | i18n"></app-card-list>
-</ng-template>
-
 <ng-template #manufacturerDetailsMainTmp let-manufacturerDetails="view">
   <app-card-list [list]="manufacturerDetails.data" [title]="'partDetail.manufacturerData' | i18n"></app-card-list>
 </ng-template>
@@ -104,4 +100,49 @@ under the License.
     <mat-card-title>{{ 'dataLoading.inProgress' | i18n }}</mat-card-title>
     <mat-card-content><mat-spinner></mat-spinner></mat-card-content>
   </mat-card>
+</ng-template>
+
+<ng-template #partDetailsMainTmp let-partDetails="view">
+  <mat-card class="card-list">
+    <mat-card-title>{{ 'partDetail.overview' | i18n }}</mat-card-title>
+    <mat-card-content>
+      <div class="card-list--container">
+        <ng-container
+          *ngFor="let item of partDetails.data | ToKeyValue"
+          [ngTemplateOutlet]="item.key !== 'qualityType' ? listElement : qualityTypeElement"
+          [ngTemplateOutletContext]="{ item }"
+        >
+        </ng-container>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-template>
+
+<ng-template #listElement let-item="item">
+  <div class="card-list--row">
+    <p class="card-list--cell card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
+    <p class="card-list--cell card-list--value">{{ item.value | autoFormat }}</p>
+  </div>
+</ng-template>
+
+<ng-template #qualityTypeElement let-item="item">
+  <div [class.card-list--row]="!this.showQualityTypeDropdown" class="card-list--qualityType">
+    <ng-container *ngIf="!this.showQualityTypeDropdown">
+      <p class="card-list--cell card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
+      <p (click)="this.showQualityTypeDropdown = true" class="card-list--cell card-list--value card-list--icon">
+        {{ 'qualityType.' + item.value | i18n }}
+        <mat-icon inline>edit</mat-icon>
+      </p>
+    </ng-container>
+
+    <div *ngIf="showQualityTypeDropdown" class="card-list--qualityType">
+      <app-select
+        [lable]="'partDetail.' + item.key | i18n"
+        [options]="this.qualityTypeOptions"
+        [selectedValue]="item.value"
+        (selected)="this.updateQualityType($event)"
+      ></app-select
+      ><mat-icon (click)="this.showQualityTypeDropdown = false" inline>close</mat-icon>
+    </div>
+  </div>
 </ng-template>

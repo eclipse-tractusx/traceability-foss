@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { QualityType } from '@page/parts/model/parts.model';
 import { TreeData, TreeStructure } from '@page/parts/relations/model/relations.model';
 import * as d3 from 'd3';
 import { DragBehavior, DraggedElementBaseType, HierarchyNode, PieArcDatum } from 'd3';
@@ -185,7 +186,13 @@ class RelationTree {
         .append('path')
         .attr('d', node => arc(node))
         .classed('tree--element__border-done', ({ data }: TreeElement) => data.state === 'done')
-        .classed('tree--element__border-risk', ({ data }: TreeElement) => data.state === 'risk');
+        .classed('tree--element__border-minor', ({ data }: TreeElement) => data.state === QualityType.Minor)
+        .classed('tree--element__border-major', ({ data }: TreeElement) => data.state === QualityType.Major)
+        .classed('tree--element__border-critical', ({ data }: TreeElement) => data.state === QualityType.Critical)
+        .classed(
+          'tree--element__border-life-threading',
+          ({ data }: TreeElement) => data.state === QualityType.LifeThreading,
+        );
     };
 
     const data = [

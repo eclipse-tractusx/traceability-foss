@@ -33,6 +33,7 @@
   min-width: 100%;
   height: auto;
   cursor: grab;
+
   &__grabbing {
     cursor: grabbing;
   }
@@ -51,11 +52,6 @@
   }
 
   &__border {
-    &-done {
-      @apply fill-success;
-      animation: TreeElementLoadingAnimation 45s infinite linear;
-    }
-
     &-loading {
       @apply stroke-primary;
       @apply fill-primary;
@@ -63,9 +59,29 @@
       animation: TreeElementLoadingAnimation 5s infinite;
     }
 
-    &-risk {
+    &-done {
+      @apply fill-success;
+      animation: TreeElementLoadingAnimation 45s infinite linear;
+    }
+
+    &-minor {
+      animation: TreeElementLoadingAnimation 45s infinite linear;
+      @apply fill-primaryLight;
+    }
+
+    &-major {
+      animation: TreeElementLoadingAnimation 45s infinite linear;
+      @apply fill-primaryDark;
+    }
+
+    &-critical {
       animation: TreeElementLoadingAnimation 45s infinite linear;
       @apply fill-dangerLight;
+    }
+
+    &-life-threading {
+      animation: TreeElementLoadingAnimation 45s infinite linear;
+      @apply fill-error;
     }
   }
 
@@ -104,6 +120,7 @@
     &-circle {
       @apply fill-primary;
     }
+
     &-animation {
       transition: transform 0.5s;
     }

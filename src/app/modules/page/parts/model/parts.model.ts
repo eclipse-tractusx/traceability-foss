@@ -20,7 +20,13 @@
 import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { PaginationResponse } from '@core/model/pagination.model';
 
-export type QualityType = 'high' | 'medium' | 'low';
+export enum QualityType {
+  Ok = 'ok',
+  Minor = 'minor',
+  Major = 'major',
+  Critical = 'critical',
+  LifeThreading = 'life-threading',
+}
 
 export interface Part {
   id: string;
