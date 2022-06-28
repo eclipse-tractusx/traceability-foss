@@ -61,43 +61,6 @@ export class DashboardFacade {
   }
 
   get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
-    // Note: This is on purpose. This code is used to pull the coordinates from the mapbox API.
-    // But to reduce the load on the API I keep them static for now.
-
-    /*this.partsService
-      .getParts(0, 1000000000, ['productionCountry', 'asc'])
-      .pipe(delay(0))
-      .pipe(
-        map(({ content }) =>
-          content.reduce((p, { productionCountry }) => {
-            const countryCount = p[productionCountry];
-            p[productionCountry] = countryCount ? countryCount + 1 : 1;
-            return p;
-          }, {}),
-        ),
-        switchMap(countryCount => {
-          const listOfObservables = Object.keys(countryCount).map(key =>
-            this.dashboardService.getGeolocationOfCountry(key).pipe(
-              map(({ features }) => {
-                return features;
-                /!*.filter(place => place.place_type.length === 1)
-                  .reduce((p, c) => c.center.map((coordinate: number) => coordinate.toString(10)), []);*!/
-              }),
-            ),
-          );
-
-          return combineLatest([of(countryCount), ...listOfObservables]);
-        }),
-        /!*map(data => {
-          const countryCount = data.splice(0, 1)[0];
-          const countryKeys = Object.keys(countryCount);
-          return data.map((coordinates, index) => ({ coordinates, numberOfParts: countryCount[countryKeys[index]] }));
-        }),*!/
-        map(data => ({ data })),
-        tap(_ => console.log(_)),
-      )
-      .subscribe();*/
-
     return this.partsService
       .getParts(0, 1000000000, ['productionCountry', 'asc'])
       .pipe(delay(0))
