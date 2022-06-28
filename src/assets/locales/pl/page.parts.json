@@ -5,11 +5,11 @@
       "id": "ID",
       "name": "Nazwa",
       "manufacturer": "Producent",
-      "partNumber": "Numer Części",
-      "serialNumber": "Numer Seryjny",
-      "qualityType": "Typ Jakości",
-      "productionDate": "Data Produkcji",
-      "productionCountry": "Kraj Produkcji"
+      "partNumber": "Numer części",
+      "serialNumber": "Numer seryjny",
+      "qualityType": "Typ jakości",
+      "productionDate": "Data produkcji",
+      "productionCountry": "Kraj produkcji"
     }
   },
   "partDetail": {
@@ -18,12 +18,12 @@
     "manufacturerData": "Dane producenta",
     "customerData": "Dane klienta",
     "name": "Nazwa",
-    "partNumber": "Numer Części",
-    "serialNumber": "Numer Seryjny",
-    "qualityType": "Typ Jakości",
-    "productionDate": "Data Produkcji",
+    "partNumber": "Numer części",
+    "serialNumber": "Numer seryjny",
+    "qualityType": "Typ jakości",
+    "productionDate": "Data produkcji",
     "manufacturer": "Producent",
-    "nameAtCustomer": "Nazwa u Klienta",
-    "customerPartId": "ID Części u Klienta"
+    "nameAtCustomer": "Nazwa u klienta",
+    "customerPartId": "ID części u klienta"
   }
 }

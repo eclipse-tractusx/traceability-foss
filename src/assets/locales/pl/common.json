@@ -1,7 +1,7 @@
 {
   "routing": {
     "home": "Strona główna",
-    "dashboard": "Półpit",
+    "dashboard": "Pulpit",
     "parts": "Części",
     "about": "O nas",
     "relations": "Relacje",
@@ -15,19 +15,19 @@
   },
   "errorPage": {
     "pageNotFound": {
-      "message": "Strona, której szukasz, nie istnieje"
+      "message": "Podana strona nie istnieje"
     }
   },
   "actions": {
-    "back": "Powróć"
+    "back": "Wróć"
   },
   "error": {
-    "genericTitle": "Error"
+    "genericTitle": "Błąd"
   },
   "table": {
     "noResultFound": "BRAK WYNIKÓW.",
     "tryAgain": "Spróbuj ponownie później.",
-    "selectPageSize": "Wybierz ilość elementów na stronie"
+    "selectPageSize": "Ilość elementów na stronie"
   },
   "dataLoading": {
     "inProgress": "Ładowanie danych...",

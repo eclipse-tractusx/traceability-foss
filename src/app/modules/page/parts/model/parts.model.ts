@@ -25,7 +25,7 @@ export enum QualityType {
   Minor = 'minor',
   Major = 'major',
   Critical = 'critical',
-  LifeThreading = 'life-threading',
+  LifeThreatening = 'life-threatening',
 }
 
 export interface Part {
