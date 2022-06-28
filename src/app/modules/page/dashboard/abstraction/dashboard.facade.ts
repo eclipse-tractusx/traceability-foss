@@ -32,7 +32,7 @@ export class DashboardFacade {
   constructor(private dashboardService: DashboardService, private dashboardState: DashboardState) {}
 
   get numberOfParts$(): Observable<View<number>> {
-    return merge(of({ loader: true }), of({ data: 1000 }).pipe(delay(3000))).pipe(delay(0));
+    return merge(of({ loader: true }), of({ data: 1000 }).pipe(delay(1500))).pipe(delay(0));
     // return this.dashboardState.numberOfParts$.pipe(delay(0));
   }
 

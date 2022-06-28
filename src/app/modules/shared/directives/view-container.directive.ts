@@ -48,7 +48,7 @@ export class ViewContainerDirective<T> implements AfterViewInit {
 
     if (view.data !== undefined && view.data !== null && !view.error) templateRef = this.mainTemplateRef;
 
-    if (this.currentTemplateRef !== templateRef) {
+    if (!!templateRef && this.currentTemplateRef !== templateRef) {
       this.viewContainerRef.clear();
       this.viewContainerRef.createEmbeddedView(templateRef, this.context);
       this.currentTemplateRef = templateRef;

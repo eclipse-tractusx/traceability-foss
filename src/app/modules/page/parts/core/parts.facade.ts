@@ -21,7 +21,9 @@ import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsService } from '@page/parts/core/parts.service';
 import { PartsState } from '@page/parts/core/parts.state';
-import { Part } from '@page/parts/model/parts.model';
+import { Part, QualityType } from '@page/parts/model/parts.model';
+import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements.facade';
+import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { View } from '@shared';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Observable, of } from 'rxjs';
@@ -29,7 +31,11 @@ import { catchError, delay, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
-  constructor(private partsService: PartsService, private partsState: PartsState) {}
+  constructor(
+    private readonly partsService: PartsService,
+    private readonly partsState: PartsState,
+    private readonly loadedElementsFacade: LoadedElementsFacade,
+  ) {}
 
   get selectedPart$(): Observable<View<Part>> {
     // IMPORTANT: this delay is needed for view-container directive
@@ -68,5 +74,12 @@ export class PartsFacade {
         return of(error);
       }),
     );
+  }
+
+  public updateQualityType(qualityType: QualityType): Observable<Part> {
+    const part = { ...this.selectedPart, qualityType };
+    this.loadedElementsFacade.addLoadedElement(RelationsAssembler.assemblePartForRelation(part));
+
+    return this.partsService.putPart(part);
   }
 }

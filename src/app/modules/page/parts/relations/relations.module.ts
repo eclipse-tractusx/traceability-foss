@@ -21,14 +21,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { PartsService } from '@page/parts/core/parts.service';
-import { RelationsState } from '@page/parts/relations/core/relations.state';
 import { PartRelationComponent } from '@page/parts/relations/presentation/part-relation.component';
 import { FormatDatePipe, SharedModule, TemplateModule } from '@shared';
 
 @NgModule({
   declarations: [PartRelationComponent],
   imports: [CommonModule, TemplateModule, SharedModule],
-  providers: [PartsService, RelationsState, ...getI18nPageProvider('page.parts'), FormatDatePipe],
+  providers: [PartsService, ...getI18nPageProvider('page.parts'), FormatDatePipe],
   exports: [PartRelationComponent],
 })
 export class RelationsModule {}

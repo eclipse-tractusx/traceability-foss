@@ -19,6 +19,7 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { QualityType } from '@page/parts/model/parts.model';
 import { FormatDatePipe } from './format-date.pipe';
 
 /**
@@ -36,10 +37,14 @@ export class AutoFormatPipe implements PipeTransform {
       return this.formatDatePipe.transform(value);
     }
 
-    if (typeof value === 'string') {
-      return value;
+    if (typeof value !== 'string') {
+      return String(value);
     }
 
-    return String(value);
+    if (Object.values(QualityType).includes(value as QualityType)) {
+      return `qualityType.${value}`;
+    }
+
+    return value;
   }
 }

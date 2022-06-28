@@ -22,13 +22,14 @@ import { ActivatedRoute } from '@angular/router';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { RelationComponentState } from '@page/parts/relations/core/component.state';
+import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements.facade';
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
 import { OpenElements, TreeData, TreeElement } from '@page/parts/relations/model/relations.model';
 import { State, View } from '@shared';
 import { StaticIdService } from '@shared/service/staticId.service';
 import * as d3 from 'd3';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, delay, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
 import RelationTree from './d3.tree';
 
@@ -54,6 +55,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private readonly partsFacade: PartsFacade,
     private readonly relationsFacade: RelationsFacade,
+    private readonly loadedElementsFacade: LoadedElementsFacade,
     private readonly route: ActivatedRoute,
     staticIdService: StaticIdService,
   ) {
@@ -89,7 +91,6 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initListeners(): void {
-    // ToDo: Error handling for loading open elements (viewContainer?)
     const selectSubscription = this.rootPart$
       .pipe(
         tap(_ => this.relationsFacade.resetRelationState()),
@@ -98,13 +99,17 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       )
       .subscribe({
         next: rootPart => {
-          this.relationsFacade.addLoadedElement(rootPart);
+          this.loadedElementsFacade.addLoadedElement(rootPart);
           this.relationsFacade.openElementWithChildren(rootPart);
         },
       });
 
-    const openElementsSubscription = this.relationsFacade.openElements$
-      .pipe(tap(openElements => this.renderTree(openElements)))
+    const combined = combineLatest([this.relationsFacade.openElements$, this.loadedElementsFacade.loadedElements$]);
+    const openElementsSubscription = combined
+      .pipe(
+        debounceTime(100),
+        tap(([openElements]) => this.renderTree(openElements)),
+      )
       .subscribe();
 
     this.subscriptions.add(selectSubscription);

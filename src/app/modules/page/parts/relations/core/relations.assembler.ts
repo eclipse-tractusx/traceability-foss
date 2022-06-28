@@ -17,12 +17,13 @@
  * under the License.
  */
 
-import { Part } from '@page/parts/model/parts.model';
+import { Part, QualityType } from '@page/parts/model/parts.model';
 import { TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
 
 export class RelationsAssembler {
-  public static assemblePartForRelation({ id, name, serialNumber, children }: Part): TreeElement {
-    const state = !!children ? 'done' : 'loading';
+  public static assemblePartForRelation({ id, name, serialNumber, children, qualityType }: Part): TreeElement {
+    const mapQualityTypeToState = (type: QualityType) => (type === QualityType.Ok ? 'done' : type);
+    const state = !!children ? mapQualityTypeToState(qualityType) || 'done' : 'loading';
     return { id, text: name, title: `${name} | ${serialNumber}`, state, children };
   }
 

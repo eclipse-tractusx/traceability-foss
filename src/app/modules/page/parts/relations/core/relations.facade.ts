@@ -21,9 +21,9 @@ import { Injectable } from '@angular/core';
 import { PartsService } from '@page/parts/core/parts.service';
 import { Part } from '@page/parts/model/parts.model';
 import { RelationComponentState } from '@page/parts/relations/core/component.state';
+import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements.facade';
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
-import { RelationsState } from '@page/parts/relations/core/relations.state';
-import { LoadedElements, OpenElements, TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
+import { OpenElements, TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
 import { View } from '@shared';
 import _deepClone from 'lodash-es/cloneDeep';
 import { merge, Observable, of } from 'rxjs';
@@ -32,9 +32,9 @@ import { catchError, debounceTime, delay, filter, first, map, switchMap, tap, to
 @Injectable()
 export class RelationsFacade {
   constructor(
-    private partsService: PartsService,
-    private relationsState: RelationsState,
-    private relationComponentState: RelationComponentState,
+    private readonly partsService: PartsService,
+    private readonly loadedElementsFacade: LoadedElementsFacade,
+    private readonly relationComponentState: RelationComponentState,
   ) {}
 
   get openElements$(): Observable<OpenElements> {
@@ -74,29 +74,12 @@ export class RelationsFacade {
     this.relationComponentState.openElements = this._deleteOpenElement(id, this.relationComponentState.openElements);
   }
 
-  /*
-   * Loaded elements section
-   * */
-
-  get loadedElements(): LoadedElements {
-    return this.relationsState.loadedElements;
-  }
-
-  public addLoadedElement(element: TreeElement) {
-    const { id, children } = element;
-    const loadingChildren = children?.reduce((p: LoadedElements, c: string) => {
-      return { ...p, [c]: this.loadedElements[c] || RelationsAssembler.createLoadingElement(c) };
-    }, {} as LoadedElements);
-
-    this.relationsState.loadedElements = { ...this.relationsState.loadedElements, [id]: element, ...loadingChildren };
-  }
-
   public getRelation(partId: string, childId: string): Observable<Part> {
     return this.partsService.getRelation(partId, childId);
   }
 
   public formatOpenElementsToTreeData(openElements: OpenElements): TreeStructure {
-    const loadedData = this.relationsState.loadedElements;
+    const loadedData = this.loadedElementsFacade.loadedElements;
     const keyList = Object.keys(openElements).reverse();
     const mappedData: Record<string, TreeStructure> = {};
 
@@ -132,12 +115,12 @@ export class RelationsFacade {
   }
 
   public openElementById(elementId: string): void {
-    const elementToOpen = this.loadedElements[elementId];
+    const elementToOpen = this.loadedElementsFacade.loadedElements[elementId];
     this.openElementWithChildren(elementToOpen);
   }
 
   public closeElementById(elementId: string): void {
-    const elementToClose = this.loadedElements[elementId];
+    const elementToClose = this.loadedElementsFacade.loadedElements[elementId];
     elementToClose.children.forEach(childId => this.deleteOpenElement(childId));
   }
 
@@ -167,8 +150,14 @@ export class RelationsFacade {
       return of(null).pipe(first());
     }
 
-    if (children.every(childId => this.loadedElements[childId] && this.loadedElements[childId]?.state != 'loading')) {
-      const mappedChildren = children.map(childId => this.loadedElements[childId]);
+    if (
+      children.every(
+        childId =>
+          this.loadedElementsFacade.loadedElements[childId] &&
+          this.loadedElementsFacade.loadedElements[childId]?.state != 'loading',
+      )
+    ) {
+      const mappedChildren = children.map(childId => this.loadedElementsFacade.loadedElements[childId]);
       this.addLoadedElements(mappedChildren);
       return of(mappedChildren).pipe(first());
     }
@@ -188,7 +177,7 @@ export class RelationsFacade {
 
   private addLoadedElements(elements: TreeElement[]): void {
     elements.forEach(element => {
-      this.addLoadedElement(element);
+      this.loadedElementsFacade.addLoadedElement(element);
       this.updateOpenElement(element);
     });
   }

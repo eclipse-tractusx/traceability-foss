@@ -17,19 +17,28 @@
  * under the License.
  */
 
-import { rest } from 'msw';
-import { mockAssets } from './assets.model';
+import { Injectable } from '@angular/core';
+import { LoadedElements } from '@page/parts/relations/model/relations.model';
+import { State } from '@shared';
+import { Observable } from 'rxjs';
 
-export const assetHandlers = [
-  rest.get('/get-asset-detail', (req, res, ctx) => {
-    const serialNumberCustomer = req.url.searchParams.get('serialNumberCustomer');
+@Injectable()
+export class LoadedElementsState {
+  private readonly _loadedElements$: State<LoadedElements> = new State<LoadedElements>({});
 
-    return res(ctx.status(200), ctx.json(mockAssets[serialNumberCustomer]));
-  }),
+  get loadedElements(): LoadedElements {
+    return this._loadedElements$.snapshot;
+  }
 
-  rest.get('/get-asset-parent', (req, res, ctx) => {
-    const serialNumberCustomer = req.url.searchParams.get('serialNumberCustomer');
+  get loadedElements$(): Observable<LoadedElements> {
+    return this._loadedElements$.observable;
+  }
 
-    return res(ctx.status(200), ctx.json(mockAssets[serialNumberCustomer]));
-  }),
-];
+  set loadedElements(data: LoadedElements) {
+    this._loadedElements$.update(data);
+  }
+
+  public resetLoadedElements(): void {
+    this._loadedElements$.reset();
+  }
+}

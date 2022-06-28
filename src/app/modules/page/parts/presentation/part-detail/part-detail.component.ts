@@ -23,8 +23,9 @@ import { Router } from '@angular/router';
 import { realm } from '@core/api/api.service.properties';
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
 import { PartsFacade } from '@page/parts/core/parts.facade';
-import { Part } from '@page/parts/model/parts.model';
+import { Part, QualityType } from '@page/parts/model/parts.model';
 import { State, View } from '@shared';
+import { SelectOption } from '@shared/components/select/select.component';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -41,6 +42,9 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   public manufacturerDetails$: Observable<View<Part>>;
   public customerDetails$: Observable<View<Part>>;
 
+  public showQualityTypeDropdown = false;
+  public qualityTypeOptions: SelectOption[];
+
   private readonly _isOpen$: State<boolean> = new State<boolean>(false);
 
   constructor(private readonly partsFacade: PartsFacade, private readonly router: Router) {
@@ -49,6 +53,11 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
     this.manufacturerDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
     this.customerDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerView());
+
+    this.qualityTypeOptions = Object.values(QualityType).map(value => ({
+      lable: `qualityType.${value}`,
+      value: value,
+    }));
   }
 
   ngOnDestroy(): void {
@@ -79,6 +88,10 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public openRelationPage(part: Part): void {
     this.partsFacade.selectedPart = null;
-    void this.router.navigate([`${realm}/parts/relations/${part.id}`]);
+    this.router.navigate([`${realm}/parts/relations/${part.id}`]).then(_ => window.location.reload());
+  }
+
+  public updateQualityType(newQualityType: string) {
+    this.partsFacade.updateQualityType(newQualityType as QualityType);
   }
 }
