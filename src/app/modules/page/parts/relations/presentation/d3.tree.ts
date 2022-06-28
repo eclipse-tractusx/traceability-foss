@@ -190,8 +190,8 @@ class RelationTree {
         .classed('tree--element__border-major', ({ data }: TreeElement) => data.state === QualityType.Major)
         .classed('tree--element__border-critical', ({ data }: TreeElement) => data.state === QualityType.Critical)
         .classed(
-          'tree--element__border-life-threading',
-          ({ data }: TreeElement) => data.state === QualityType.LifeThreading,
+          'tree--element__border-life-threatening',
+          ({ data }: TreeElement) => data.state === QualityType.LifeThreatening,
         );
     };
 
