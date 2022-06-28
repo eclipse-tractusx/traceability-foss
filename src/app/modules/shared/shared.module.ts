@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { PartsService } from '../page/parts/core/parts.service';
 import { SelectComponent } from './components/select/select.component';
 import { StaticIdService } from './service/staticId.service';
 import { I18NextModule } from 'angular-i18next';
@@ -115,6 +116,6 @@ import { AutoFormatPipe } from './pipes/auto-format.pipe';
     ToKeyValuePipe,
     SelectComponent,
   ],
-  providers: [SharedService, OrganizationsResolver, FormatDatePipe, StaticIdService],
+  providers: [SharedService, OrganizationsResolver, FormatDatePipe, StaticIdService, PartsService],
 })
 export class SharedModule {}

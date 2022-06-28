@@ -20,6 +20,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
+import { MapComponent } from '@page/dashboard/presentation/map/map.component';
 import { SharedModule, TemplateModule } from '@shared';
 import { DashboardFacade } from './abstraction/dashboard.facade';
 import { DashboardService } from './core/dashboard.service';
@@ -36,6 +37,7 @@ import { ReceivedAlertEmptyStateComponent } from './presentation/received-alert-
     ReceivedAlertEmptyStateComponent,
     AlertDonutChartComponent,
     HistogramChartComponent,
+    MapComponent,
   ],
   imports: [CommonModule, TemplateModule, SharedModule, DashboardRoutingModule],
   providers: [DashboardService, DashboardFacade, DashboardState, ...getI18nPageProvider('page.dashboard')],

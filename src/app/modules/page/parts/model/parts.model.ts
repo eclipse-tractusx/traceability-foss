@@ -20,6 +20,18 @@
 import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { PaginationResponse } from '@core/model/pagination.model';
 
+export type SortableHeaders =
+  | 'id'
+  | 'name'
+  | 'manufacturer'
+  | 'serialNumber'
+  | 'partNumber'
+  | 'productionCountry'
+  | 'nameAtCustomer'
+  | 'customerPartId'
+  | 'qualityType'
+  | 'productionDate';
+
 export enum QualityType {
   Ok = 'ok',
   Minor = 'minor',

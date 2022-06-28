@@ -17,10 +17,12 @@
  * under the License.
  */
 
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { environment } from '@env';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiService } from '../../../core/api/api.service';
 import { Dashboard } from '../model/dashboard.model';
 
 @Injectable()
@@ -29,5 +31,13 @@ export class DashboardService {
 
   public getStats(): Observable<Dashboard> {
     return this.apiService.post(`/kpi-stats`).pipe(map((payload: { data: Dashboard; status: number }) => payload.data));
+  }
+
+  public getGeolocationOfCountry(iso: string): Observable<any> {
+    const httpParams = new HttpParams()
+      .set('access_token', environment.mapBoxAccessToken)
+      .set('language', 'en-EN')
+      .set('types', 'country');
+    return this.apiService.getBy(`https://api.mapbox.com/geocoding/v5/mapbox.places/${iso}.json`, httpParams);
   }
 }

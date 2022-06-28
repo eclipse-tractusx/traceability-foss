@@ -30,9 +30,11 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
 })
 export class DashboardComponent implements OnInit {
   public numberOfParts$: Observable<View<number>>;
+  public assetsPerCountry$: Observable<View<any>>;
 
   constructor(private dashboardFacade: DashboardFacade) {
     this.numberOfParts$ = this.dashboardFacade.numberOfParts$;
+    this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;
   }
 
   ngOnInit(): void {

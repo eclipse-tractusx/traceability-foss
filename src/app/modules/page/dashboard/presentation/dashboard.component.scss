@@ -25,153 +25,13 @@
   @apply sm:col-span-12 lg:col-span-4;
 }
 
-.quality-alerts-section {
-  @apply p-6 bg-white sm:col-span-12 lg:col-span-4;
-}
-
-.investigations-section {
-  @apply p-6 bg-white sm:col-span-12 lg:col-span-4;
-}
-
-.alerts-section {
-  @apply bg-white p-4 col-span-6 relative;
-  min-height: 20rem;
-}
-
-.alerts-section-container {
-  @apply flex flex-col justify-between;
-}
-
-.alerts-title-section {
-  @apply flex justify-between items-center mb-4;
-
-  &__content {
-    @apply flex flex-row items-center space-x-2;
-  }
-}
-
-.donut-chart-section {
-  @apply bg-white p-4 col-span-4 h-full;
-  min-height: 28rem;
-}
-
-.donut-chart-empty-state {
-  @apply flex flex-row items-center justify-center mt-3;
-}
-
-.histogram-chart-section {
-  @apply bg-white p-4 col-span-8 h-full;
-  min-height: 28rem;
-}
-
-.histogram-title-row {
-  @apply flex justify-between;
-
-  &__content {
-    @apply flex flex-row items-center relative;
-  }
-}
-
-.histogram-quick-filter {
-  @apply ml-6 flex items-center relative;
-}
-
-.histogram-chart-empty-state {
-  @apply flex flex-col justify-center items-center mt-8;
-}
-
-.chart-spinner-container {
-  @apply flex flex-col items-center justify-center h-full;
-}
-
 .parts-per-country-section {
   @apply bg-white p-4 col-span-12;
   min-height: 30rem;
 }
 
-.map-grid {
-  @apply grid sm:grid-cols-1 lg:grid-cols-12 gap-4;
-}
-
-.map-chart-section {
-  @apply sm:col-span-12 lg:col-span-9;
-}
-
-.full-space {
-  @apply lg:col-span-12;
-}
-
-.map-list-section {
-  @apply sm:col-span-12 lg:col-span-3 shadow;
-}
-
-.histogram-date-input {
-  border-bottom: #5b708f solid 1px;
-  width: 220px;
-  cursor: pointer;
-  @apply font-regular text-base;
-  font-weight: normal;
-
-  &:focus {
-    outline: none;
-    border-bottom: #5b708f solid 2px;
-  }
-}
-
-.calendar-svg {
-  position: absolute;
-  right: 130px;
-  pointer-events: none;
-}
-
-.chart-group {
-  @apply flex flex-col bg-white absolute shadow;
-  min-width: calc(100% + 15px);
-  top: 30px;
-  z-index: 900;
-
-  &__item {
-    line-height: 3em;
-    height: 3em;
-    cursor: pointer;
-
-    &:hover {
-      @apply hover:bg-dustyGrayShadeGallery;
-    }
-
-    span {
-      line-height: 3em;
-      display: inline-block;
-      flex-grow: 1;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      @apply px-4;
-    }
-  }
-}
-
-.calendar-section {
-  @apply relative;
-  width: 210px;
-
-  &__input {
-    @apply font-regular text-base cursor-pointer font-normal border-b border-primary border-solid w-full;
-
-    &:focus {
-      @apply outline-none border-b-2 border-primary border-solid;
-    }
-  }
-
-  .md-drppicker {
-    left: -425px !important;
-    top: 40px !important;
-  }
-
-  &__icon {
-    @apply pointer-events-none absolute;
-    bottom: 5%;
-    right: 0;
-  }
+.dashboard--map {
+  display: block;
 }
 
 /* ---------------------------------------------------------- */
@@ -179,9 +39,7 @@
 /* ---------------------------------------------------------- */
 .map-skeleton:empty {
   animation: loading 1.7s infinite linear;
-  background: #dedfe1;
-  background-image: linear-gradient(to right, #dedfe1 0%, #f2f3f5 20%, #dedfe1 40%, #dedfe1 100%);
-  background-repeat: no-repeat;
+  background: #dedfe1 linear-gradient(to right, #dedfe1 0%, #f2f3f5 20%, #dedfe1 40%, #dedfe1 100%) no-repeat;
 }
 
 .map-skeleton {
@@ -196,11 +54,6 @@
   100% {
     background-position: 200px;
   }
-}
-
-.mat-progress-spinner circle,
-.mat-spinner circle {
-  stroke: #dedfe1 !important;
 }
 
 .fade-in {

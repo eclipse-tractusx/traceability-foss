@@ -17,6 +17,7 @@
  * under the License.
  */
 
+import { PartsModule } from '@page/parts/parts.module';
 import { screen } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
@@ -31,7 +32,7 @@ describe('Dashboard', () => {
 
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
-      imports: [DashboardModule],
+      imports: [DashboardModule, PartsModule],
       translations: ['page.dashboard'],
       roles,
     });

@@ -7,5 +7,8 @@
     "managedTotalOfParts": {
       "label": "Total of parts in department"
     }
+  },
+  "map": {
+    "headline": "Number of parts per country"
   }
 }
