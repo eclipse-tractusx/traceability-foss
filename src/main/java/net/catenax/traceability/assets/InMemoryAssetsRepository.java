@@ -19,7 +19,7 @@ public class InMemoryAssetsRepository implements AssetRepository {
 
 	@PostConstruct
 	public void initializeRepository() {
-		assets = AssetRandomizer.generateAssets(1000);
+		assets = AssetsReader.readAssets();
 	}
 
 	@Override
