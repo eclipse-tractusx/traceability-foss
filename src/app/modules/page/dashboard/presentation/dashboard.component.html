@@ -90,4 +90,29 @@ under the License.
       ></app-card-icon>
     </ng-template>
   </section>
+
+  <section class="parts-per-country-section">
+    <h3 class="mb-4">{{ 'map.headline' | i18n }}</h3>
+    <ng-container
+      *viewContainer="
+        assetsPerCountry$ | async;
+        main: mainPerCountryTmp;
+        error: errorPerCountryTmp;
+        loading: loaderPerCountryTmp
+      "
+    >
+    </ng-container>
+
+    <ng-template #mainPerCountryTmp let-assets="view">
+      <app-map [mapData]="assets.data" class="dashboard--map"></app-map>
+    </ng-template>
+
+    <ng-template #loaderPerCountryTmp let-v="view">
+      <div class="map-skeleton"></div>
+    </ng-template>
+
+    <ng-template #errorPerCountryTmp let-v="view">
+      <app-map [mapData]="[]"></app-map>
+    </ng-template>
+  </section>
 </div>

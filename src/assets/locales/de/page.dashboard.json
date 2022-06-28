@@ -7,5 +7,8 @@
     "managedTotalOfParts": {
       "label": "Anzahl Produkte in einer Branche"
     }
+  },
+  "map": {
+    "headline": "Anzahl Produkte pro Land"
   }
 }

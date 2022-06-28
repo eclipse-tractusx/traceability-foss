@@ -65,7 +65,7 @@ export class TableComponent {
   }
 
   updateSortingOfData({ active, direction }: Sort): void {
-    this.sorting = !direction ? null : [active, direction];
+    this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
     this.isDataLoading = true;
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
   }

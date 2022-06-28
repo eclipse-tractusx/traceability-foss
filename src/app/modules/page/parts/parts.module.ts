@@ -21,7 +21,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { PartsFacade } from '@page/parts/core/parts.facade';
-import { PartsService } from '@page/parts/core/parts.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements.facade';
 import { LoadedElementsState } from '@page/parts/relations/core/loaded-elements.state';
@@ -40,7 +39,6 @@ import { RelationComponent } from './presentation/relation/relation.component';
     PartsFacade,
     LoadedElementsFacade,
     LoadedElementsState,
-    PartsService,
     ...getI18nPageProvider('page.parts'),
     FormatDatePipe,
   ],

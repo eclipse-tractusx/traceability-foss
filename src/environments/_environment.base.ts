@@ -29,4 +29,5 @@ export const _environment = {
   apiUrl: '/api',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   baseUrl: '/',
+  mapBoxAccessToken: 'pk.eyJ1IjoiZmVsaXhnZXJiaWciLCJhIjoiY2sxNmh4d2dvMTJkdTNpcGZtcWhvaHpuNyJ9.2hJW4R6PoiqIgytqUn1kbg',
 };

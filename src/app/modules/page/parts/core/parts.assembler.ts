@@ -20,7 +20,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
-import { Part, PartResponse, QualityType } from '@page/parts/model/parts.model';
+import { Part, PartResponse, QualityType, SortableHeaders } from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { OperatorFunction } from 'rxjs';
@@ -88,12 +88,12 @@ export class PartsAssembler {
     });
   }
 
-  public static mapSortToApiSort(sorting: TableHeaderSort) {
+  public static mapSortToApiSort(sorting: TableHeaderSort): string {
     if (!sorting) {
       return '';
     }
 
-    const localToApiMapping = new Map([
+    const localToApiMapping = new Map<SortableHeaders, string>([
       ['id', 'id'],
       ['name', 'nameAtManufacturer'],
       ['manufacturer', 'manufacturerName'],

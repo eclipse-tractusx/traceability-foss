@@ -17,7 +17,9 @@
  * under the License.
  */
 
-export type TableHeaderSort = [string, 'asc' | 'desc'];
+import { SortableHeaders } from '@page/parts/model/parts.model';
+
+export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
 
 export interface TableConfig {
   displayedColumns: string[];

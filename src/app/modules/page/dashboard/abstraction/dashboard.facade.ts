@@ -18,9 +18,11 @@
  */
 
 import { Injectable } from '@angular/core';
+import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
+import { PartsService } from '@page/parts/core/parts.service';
 import { startsWith } from 'lodash-es';
-import { merge, Observable, of } from 'rxjs';
-import { delay, startWith } from 'rxjs/operators';
+import { combineLatest, merge, Observable, of } from 'rxjs';
+import { delay, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { realm } from '@core/api/api.service.properties';
 import { View } from '@shared/model/view.model';
 import { DashboardService } from '../core/dashboard.service';
@@ -29,7 +31,11 @@ import { Dashboard } from '../model/dashboard.model';
 
 @Injectable()
 export class DashboardFacade {
-  constructor(private dashboardService: DashboardService, private dashboardState: DashboardState) {}
+  constructor(
+    private readonly dashboardService: DashboardService,
+    private readonly dashboardState: DashboardState,
+    private readonly partsService: PartsService,
+  ) {}
 
   get numberOfParts$(): Observable<View<number>> {
     return merge(of({ loader: true }), of({ data: 1000 }).pipe(delay(1500))).pipe(delay(0));
@@ -52,5 +58,63 @@ export class DashboardFacade {
       },
       error: error => this.dashboardState.setNumberOfParts({ error }),
     });
+  }
+
+  get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
+    // Note: This is on purpose. This code is used to pull the coordinates from the mapbox API.
+    // But to reduce the load on the API I keep them static for now.
+
+    /*this.partsService
+      .getParts(0, 1000000000, ['productionCountry', 'asc'])
+      .pipe(delay(0))
+      .pipe(
+        map(({ content }) =>
+          content.reduce((p, { productionCountry }) => {
+            const countryCount = p[productionCountry];
+            p[productionCountry] = countryCount ? countryCount + 1 : 1;
+            return p;
+          }, {}),
+        ),
+        switchMap(countryCount => {
+          const listOfObservables = Object.keys(countryCount).map(key =>
+            this.dashboardService.getGeolocationOfCountry(key).pipe(
+              map(({ features }) => {
+                return features;
+                /!*.filter(place => place.place_type.length === 1)
+                  .reduce((p, c) => c.center.map((coordinate: number) => coordinate.toString(10)), []);*!/
+              }),
+            ),
+          );
+
+          return combineLatest([of(countryCount), ...listOfObservables]);
+        }),
+        /!*map(data => {
+          const countryCount = data.splice(0, 1)[0];
+          const countryKeys = Object.keys(countryCount);
+          return data.map((coordinates, index) => ({ coordinates, numberOfParts: countryCount[countryKeys[index]] }));
+        }),*!/
+        map(data => ({ data })),
+        tap(_ => console.log(_)),
+      )
+      .subscribe();*/
+
+    return this.partsService
+      .getParts(0, 1000000000, ['productionCountry', 'asc'])
+      .pipe(delay(0))
+      .pipe(
+        map(({ content }) => {
+          const countedCountries = content.reduce((p, { productionCountry }) => {
+            const countryCount = p[productionCountry];
+            p[productionCountry] = countryCount ? countryCount + 1 : 1;
+            return p;
+          }, {});
+
+          return Object.keys(countedCountries).map(key => ({
+            coordinates: CountryLocationMap[key],
+            numberOfParts: countedCountries[key],
+          }));
+        }),
+        map(data => ({ data })),
+      );
   }
 }
