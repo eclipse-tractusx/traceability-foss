@@ -16,11 +16,12 @@ management:
   server:
     port: 8081
 
-
 spring:
   config:
     import: swagger.yml
   mail:
+    templates:
+      path: mail-templates
     host: smtp.office365.com
     port: 587
     username: notifications@catena-x.net

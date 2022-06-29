@@ -25,8 +25,11 @@ class EmailServiceIT extends IntegrationSpec implements MailboxSupport {
             assertMailbox()
                 .hasTotalSize(1)
                 .hasRecipient(recipient)
-                .hasMessage(message)
                 .hasSubject(subject)
+				.hasMessage()
+					.withContentType("multipart/alternative")
+					.withContent("text/plain", message)
+					.withContent("text/html", message)
     }
 
     @TestConfiguration

@@ -10,6 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+import org.thymeleaf.spring5.SpringTemplateEngine;
+import org.thymeleaf.templatemode.TemplateMode;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 import springfox.documentation.builders.OAuth2SchemeBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
@@ -45,6 +49,9 @@ public class ApplicationConfig {
 	@Value("${keycloak.auth-server-url:}")
 	private String authServerUrl;
 
+	@Value("${spring.mail.templates.path}")
+	private String mailTemplatesPath;
+
 	@Bean
 	public InternalResourceViewResolver defaultViewResolver() {
 		return new InternalResourceViewResolver();
@@ -53,6 +60,32 @@ public class ApplicationConfig {
 	@Bean
 	public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
 		return new KeycloakSpringBootConfigResolver();
+	}
+
+	@Bean
+	public SpringTemplateEngine thymeleafTemplateEngine() {
+		SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+		templateEngine.addTemplateResolver(htmlTemplateResolver());
+		templateEngine.addTemplateResolver(textTemplateResolver());
+		return templateEngine;
+	}
+
+	public ITemplateResolver htmlTemplateResolver() {
+		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+		templateResolver.setPrefix(mailTemplatesPath + "/");
+		templateResolver.setSuffix(".html");
+		templateResolver.setTemplateMode(TemplateMode.HTML);
+		templateResolver.setCharacterEncoding("UTF-8");
+		return templateResolver;
+	}
+
+	public ITemplateResolver textTemplateResolver() {
+		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+		templateResolver.setPrefix(mailTemplatesPath + "/");
+		templateResolver.setSuffix(".txt");
+		templateResolver.setTemplateMode(TemplateMode.TEXT);
+		templateResolver.setCharacterEncoding("UTF-8");
+		return templateResolver;
 	}
 
 	@Bean
