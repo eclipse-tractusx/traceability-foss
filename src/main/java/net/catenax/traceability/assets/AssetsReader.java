@@ -16,11 +16,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AssetsReader {
+
+	private static final String EMPTY_TEXT = "--";
 
 	private final Map<String, String> manufacturers = new HashMap<>();
 
@@ -35,14 +38,12 @@ public class AssetsReader {
 		manufacturers.put("BPNL00000003AVTH", "Mercedes-Benz EDC");
 		manufacturers.put("BPNL00000003AZQP", "SAP (VW EDC)");
 		manufacturers.put("BPNL00000003B2OM", "ZF");
-		manufacturers.put("BPNL00000003B0Q0", "ZF");
 		manufacturers.put("BPNL00000003B3NX", "ZF");
 		manufacturers.put("BPNL00000003B5MJ", "Bosch");
 		manufacturers.put("BPNL00000003B0Q0", "BASF");
 		manufacturers.put("BPNL00000003AXS3", "Henkel");
 		manufacturers.put("PNL00000003B6LU", "LRP");
 		manufacturers.put("BPNL00000003AWSS", "IRS-Test");
-		manufacturers.put(null, "");
 	}
 
 	private String manufacturerName(String manufacturerId) {
@@ -68,6 +69,7 @@ public class AssetsReader {
 				.collect(Collectors.toMap(RawAsset::catenaXId, Function.identity()));
 
 			return rawAssets.values().stream()
+				.filter(raw -> Objects.nonNull(raw.serialPartTypization))
 				.map(raw -> new Asset(
 					raw.catenaXId(),
 					raw.shortId(),
@@ -78,7 +80,7 @@ public class AssetsReader {
 					raw.nameAtCustomer(),
 					raw.customerPartId(),
 					raw.manufacturingDate(),
-					raw.manufacturingCountry(),
+					faker.country().countryCode3().toUpperCase(),
 					Collections.emptySortedMap(),
 					raw.childParts().stream()
 						.map(child -> new ChildDescriptions(child.childCatenaXId(), rawAssets.get(child.childCatenaXId).shortId()))
@@ -109,18 +111,18 @@ public class AssetsReader {
 
 		public String manufacturerId() {
 			if (localIdentifiers == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return localIdentifiers.stream()
 				.filter(localId -> localId.type == LocalIdType.ManufacturerID)
 				.findFirst()
 				.map(LocalId::value)
-				.orElse(null);
+				.orElse(EMPTY_TEXT);
 		}
 
 		public String manufacturingCountry() {
 			if (manufacturingInformation == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return manufacturingInformation.country;
 		}
@@ -184,54 +186,51 @@ public class AssetsReader {
 
 		public String nameAtManufacturer() {
 			if (serialPartTypization == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return serialPartTypization.stream().findFirst()
 				.map(SerialPartTypization::partTypeInformation)
 				.map(PartTypeInformation::nameAtManufacturer)
-				.orElse(null);
+				.orElse(EMPTY_TEXT);
 		}
 
 		public String manufacturerPartId() {
 			if (serialPartTypization == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return serialPartTypization.stream().findFirst()
 				.map(SerialPartTypization::partTypeInformation)
 				.map(PartTypeInformation::manufacturerPartID)
-				.orElse(null);
+				.orElse(EMPTY_TEXT);
 		}
 
 		public String manufacturerId() {
 			if (serialPartTypization == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return serialPartTypization.stream().findFirst()
 				.map(SerialPartTypization::manufacturerId)
-				.orElse(null);
+				.orElse(EMPTY_TEXT);
 		}
 
-		public String manufacturerName() {
-			return "TO BE IMPLEMENTED";
-		}
 		public String nameAtCustomer() {
 			if (serialPartTypization == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return serialPartTypization.stream().findFirst()
 				.map(SerialPartTypization::partTypeInformation)
 				.map(PartTypeInformation::nameAtCustomer)
-				.orElse(null);
+				.orElse(EMPTY_TEXT);
 		}
 
 		public String customerPartId() {
 			if (serialPartTypization == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return serialPartTypization.stream().findFirst()
 				.map(SerialPartTypization::partTypeInformation)
 				.map(PartTypeInformation::customerPartId)
-				.orElse(null);
+				.orElse(EMPTY_TEXT);
 		}
 
 		public Instant manufacturingDate() {
@@ -242,22 +241,23 @@ public class AssetsReader {
 				.map(SerialPartTypization::manufacturingDate)
 				.orElse(null);
 		}
+
 		public String manufacturingCountry() {
 			if (serialPartTypization == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return serialPartTypization.stream().findFirst()
 				.map(SerialPartTypization::manufacturingCountry)
-				.orElse(null);
+				.orElse(EMPTY_TEXT);
 		}
 
 		public String shortId() {
 			if (aasData == null) {
-				return null;
+				return EMPTY_TEXT;
 			}
 			return aasData.stream().findFirst()
 				.map(AASData::idShort)
-				.orElse(null);
+				.orElse(EMPTY_TEXT);
 		}
 	}
 
