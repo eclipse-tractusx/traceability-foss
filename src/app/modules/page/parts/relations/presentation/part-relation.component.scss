@@ -16,6 +16,15 @@
 * specific language governing permissions and limitations
 * under the License.
 */
+@keyframes TreeElementLoadingAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 @keyframes TreeElementLoadingAnimation01 {
   0% {
     transform: rotate(300deg);
