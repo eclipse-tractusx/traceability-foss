@@ -18,6 +18,12 @@
 */
 
 .part-detail {
+  &--spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   &--container {
     position: absolute;
     background: none;
