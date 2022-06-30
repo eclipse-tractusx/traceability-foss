@@ -26,7 +26,6 @@ import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
 import { OpenElements, TreeData, TreeElement } from '@page/parts/relations/model/relations.model';
-import { D3TreeDummyData } from '@page/parts/relations/presentation/d3.tree.model.spec';
 import { State, View } from '@shared';
 import { StaticIdService } from '@shared/service/staticId.service';
 import * as d3 from 'd3';
@@ -150,6 +149,6 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     d3.select(`#${this.htmlId}-svg`).remove();
-    this.tree.renderTree(D3TreeDummyData);
+    this.tree.renderTree(treeData);
   }
 }

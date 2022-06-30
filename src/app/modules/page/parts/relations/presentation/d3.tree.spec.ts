@@ -19,7 +19,7 @@
 
 import { TreeData, TreeStructure } from '@page/parts/relations/model/relations.model';
 import RelationTree from '@page/parts/relations/presentation/d3.tree';
-import { D3TreeDummyData } from '@page/parts/relations/presentation/d3.tree.model.spec';
+import { D3TreeDummyData } from '@page/parts/relations/presentation/d3.tree.test.data';
 import { Selection } from 'd3-selection';
 import * as d3 from 'd3';
 
