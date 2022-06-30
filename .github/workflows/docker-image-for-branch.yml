@@ -31,4 +31,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.after }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
