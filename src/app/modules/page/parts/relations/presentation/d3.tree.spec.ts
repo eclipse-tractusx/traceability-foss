@@ -46,6 +46,7 @@ describe('D3 Tree', () => {
       width: 1024,
       r: 60,
       viewX: -60,
+      _zoom: 1,
     });
   });
 

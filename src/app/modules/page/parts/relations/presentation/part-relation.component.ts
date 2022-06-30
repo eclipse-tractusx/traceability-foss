@@ -25,7 +25,7 @@ import { RelationComponentState } from '@page/parts/relations/core/component.sta
 import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements.facade';
 import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
 import { RelationsFacade } from '@page/parts/relations/core/relations.facade';
-import { OpenElements, TreeData, TreeElement } from '@page/parts/relations/model/relations.model';
+import { OpenElements, TreeData, TreeElement, TreeStructure } from '@page/parts/relations/model/relations.model';
 import { State, View } from '@shared';
 import { StaticIdService } from '@shared/service/staticId.service';
 import * as d3 from 'd3';
@@ -51,6 +51,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private _rootPart$ = new State<View<Part>>({ loader: true });
   private tree: RelationTree;
+  private treeData: TreeStructure;
 
   constructor(
     private readonly partsFacade: PartsFacade,
@@ -108,7 +109,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     const openElementsSubscription = combined
       .pipe(
         debounceTime(100),
-        tap(([openElements]) => this.renderTree(openElements)),
+        tap(([openElements]) => this.renderTreeWithOpenElements(openElements)),
       )
       .subscribe();
 
@@ -138,7 +139,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.add(this.partsFacade.setPart(id).subscribe());
   }
 
-  private renderTree(openElements: OpenElements): void {
+  private renderTreeWithOpenElements(openElements: OpenElements): void {
     const treeData = this.relationsFacade.formatOpenElementsToTreeData(openElements);
     if (!treeData || !treeData.id) {
       return;
@@ -148,7 +149,22 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       this.initTree();
     }
 
+    this.treeData = treeData;
+    this.renderTree(treeData);
+  }
+
+  private renderTree(treeData: TreeStructure): void {
+    console.log(d3.select(`#${this.htmlId}-svg`));
     d3.select(`#${this.htmlId}-svg`).remove();
     this.tree.renderTree(treeData);
+  }
+
+  public increaseSize(): void {
+    this.tree.zoom = this.tree.zoom + 0.25;
+    this.renderTree(this.treeData);
+  }
+  public decreaseSize(): void {
+    this.tree.zoom = this.tree.zoom - 0.25;
+    this.renderTree(this.treeData);
   }
 }
