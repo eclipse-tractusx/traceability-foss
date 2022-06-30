@@ -1,6 +1,7 @@
 package net.catenax.traceability.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.catenax.traceability.config.interceptor.KeycloakTechnicalUserAuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,9 +24,17 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	@ExceptionHandler(AccessDeniedException.class)
-	ResponseEntity<ErrorResponse> responseStatusException(AccessDeniedException accessDeniedException) {
+	ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException accessDeniedException) {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
 			.body(new ErrorResponse(accessDeniedException.getMessage()));
+	}
+
+	@ExceptionHandler(KeycloakTechnicalUserAuthorizationException.class)
+	ResponseEntity<ErrorResponse> handleKeycloakTokenRetrieveException(KeycloakTechnicalUserAuthorizationException keycloakTechnicalUserAuthorizationException) {
+		logger.error("Couldn't retrieve keycloak token for technical user", keycloakTechnicalUserAuthorizationException);
+
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(new ErrorResponse("Please try again latter."));
 	}
 
 	@ExceptionHandler(Exception.class)

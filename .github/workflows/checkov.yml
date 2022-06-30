@@ -27,7 +27,7 @@ jobs:
         uses: bridgecrewio/checkov-action@master
         with:
           directory: .
-          skip_check: CKV_K8S_22
+          skip_check: CKV_K8S_22,CKV_SECRET_6,CKV_OPENAPI_5
           quiet: true # optional: display only failed checks
           soft_fail: false # optional: do not return an error code if there are failed checks
           framework: all # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}

@@ -1,5 +1,17 @@
+spring:
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+
 keycloak:
   auth-server-url: https://centralidp.dev.demo.catena-x.net/auth
   realm: CX-Central
   resource: Cl10-CX-Part
   public-client: true
+
+feign:
+  bpnApi:
+    url: "https://catenax-bpdm-int.demo.catena-x.net/"

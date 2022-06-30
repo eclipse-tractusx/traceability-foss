@@ -17,6 +17,15 @@ management:
     port: 8081
 
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: ${KEYCLOAK_OAUTH2_CLIENT_ID}
+            client-secret: ${KEYCLOAK_OAUTH2_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope: openid
   config:
     import: swagger.yml
   mail:
@@ -29,6 +38,23 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+
+feign:
+  okhttp:
+    enabled: true
+  hystrix:
+    enabled: false
+  bpnApi:
+    connectionTimeoutMillis: 200
+    readTimeoutMillis: 500
+    maxIdleConnections: 10
+    keepAliveDurationMinutes: 5
+
+cache:
+  bpn:
+    name: "bpn-mappings"
+    maximumSize: 500
+    expireAfterWrite: 1d
 
 cors:
   origins: >

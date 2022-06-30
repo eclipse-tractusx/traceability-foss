@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
@@ -44,9 +45,17 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 		http
 			.cors()
 			.and()
+			.anonymous().disable()
 			.authorizeRequests()
 			.antMatchers(WHITELIST_URLS).permitAll()
 			.antMatchers("/api/**").authenticated();
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		super.configure(web);
+
+		web.ignoring().antMatchers(WHITELIST_URLS);
 	}
 
 	@Bean

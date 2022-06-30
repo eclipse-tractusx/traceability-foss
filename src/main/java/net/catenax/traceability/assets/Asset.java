@@ -67,6 +67,23 @@ public record Asset(
 		);
 	}
 
+	public Asset withManufacturerName(String manufacturerName) {
+		return new Asset(
+			id,
+			idShort,
+			nameAtManufacturer,
+			manufacturerPartId,
+			manufacturerId,
+			manufacturerName,
+			nameAtCustomer,
+			customerPartId,
+			manufacturingDate,
+			manufacturingCountry,
+			specificAssetIds,
+			childDescriptions
+		);
+	}
+
 	public record ChildDescriptions(String id, String idShort){}
 
 }

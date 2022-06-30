@@ -6,25 +6,28 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Component
 public class InMemoryAssetsRepository implements AssetRepository {
 
-	private Map<String, Asset> assets = new HashMap<>();
+	private final Map<String, Asset> assets;
 
-	@PostConstruct
-	public void initializeRepository() {
+	private final BpnRepository bpnRepository;
+
+	public InMemoryAssetsRepository(BpnRepository bpnRepository) {
+		this.bpnRepository = bpnRepository;
 		assets = AssetsReader.readAssets();
 	}
 
 	@Override
 	public Asset getAssetById(String assetId) {
-		return assets.get(assetId);
+		return Optional.ofNullable(assets.get(assetId))
+			.map(this::addManufacturerName)
+			.orElse(null);
 	}
 
 	@Override
@@ -33,12 +36,8 @@ public class InMemoryAssetsRepository implements AssetRepository {
 			.filter(childDescription -> childDescription.id().equals(childId))
 			.map(childDescription -> assets.get(childDescription.id()))
 			.findFirst()
+			.map(this::addManufacturerName)
 			.orElse(null);
-	}
-
-	@Override
-	public List<Asset> getAssets() {
-		return new ArrayList<>(assets.values());
 	}
 
 	@Override
@@ -56,6 +55,29 @@ public class InMemoryAssetsRepository implements AssetRepository {
 		pageListHolder.setPage(pageable.getPageNumber());
 		pageListHolder.setPageSize(pageable.getPageSize());
 
+		List<Asset> updatedPageListHolder = getAssetsWithUpdatedNamesForPage(pageListHolder);
+		pageListHolder.setSource(updatedPageListHolder);
+
 		return new PageResult<>(pageListHolder);
+	}
+
+	private List<Asset> getAssetsWithUpdatedNamesForPage(PagedListHolder<Asset> originPageListHolder) {
+		List<Asset> updatedAssets = originPageListHolder.getPageList().stream()
+			.map(this::addManufacturerName)
+			.toList();
+
+		List<Asset> sourceAssets = originPageListHolder.getSource();
+
+		for (int i = originPageListHolder.getFirstElementOnPage(), j = 0; i < originPageListHolder.getLastElementOnPage() + 1; i++, j++) {
+			sourceAssets.add(i, updatedAssets.get(j));
+		}
+
+		return sourceAssets;
+	}
+
+	private Asset addManufacturerName(Asset asset) {
+		return bpnRepository.findManufacturerName(asset.manufacturerId())
+			.map(asset::withManufacturerName)
+			.orElse(asset);
 	}
 }

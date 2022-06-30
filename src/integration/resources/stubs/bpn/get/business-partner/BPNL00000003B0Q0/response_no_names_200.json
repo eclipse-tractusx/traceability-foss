@@ -1,0 +1,146 @@
+{
+	"bpn": "BPNL00000003B0Q0",
+	"identifiers": [
+		{
+			"uuid": "2d71843d-fc89-49e3-9fc3-4dd1da92cdc8",
+			"value": "BPNL00000003B0Q0",
+			"type": {
+				"technicalKey": "BPN",
+				"name": "Business Partner Number",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CATENAX",
+				"name": "Catena-X",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "UNKNOWN",
+				"name": "Unknown"
+			}
+		},
+		{
+			"uuid": "24fe7f57-4979-4728-a45d-2af0672b7b4c",
+			"value": "CX.POOL:624ED7C1885D863690CF6E360",
+			"type": {
+				"technicalKey": "CX_POOL_ID",
+				"name": "",
+				"url": null
+			},
+			"issuingBody": null,
+			"status": null
+		},
+		{
+			"uuid": "8949759e-1330-49d0-8280-f8cce54e5731",
+			"value": "ATU19400404",
+			"type": {
+				"technicalKey": "EU_VAT_ID_AT",
+				"name": "Umsatzsteuer-Identifikationsnummer",
+				"url": "https://meta.cdq.com/European_value_added_tax_identifier_(Austria)"
+			},
+			"issuingBody": null,
+			"status": null
+		},
+		{
+			"uuid": "cc5532c9-611c-4a89-8cb5-50c3f6bc113b",
+			"value": "624eda97399ae27f57f27004",
+			"type": {
+				"technicalKey": "CDQID",
+				"name": "CDQ Identifier",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CDQ",
+				"name": "CDQ AG",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "CDQ_IMPORTED",
+				"name": "Imported from CDQ but not synchronized"
+			}
+		}
+	],
+	"names": [],
+	"legalForm": null,
+	"status": null,
+	"addresses": [
+		{
+			"uuid": "d3154963-5018-4d3b-a156-93a2e7cdcd35",
+			"bpn": "BPNA00000003B0Q0",
+			"version": {
+				"characterSet": {
+					"technicalKey": "LATIN",
+					"name": "Latin"
+				},
+				"language": {
+					"technicalKey": "en",
+					"name": "English"
+				}
+			},
+			"careOf": null,
+			"contexts": [],
+			"country": {
+				"technicalKey": "AT",
+				"name": "Austria"
+			},
+			"administrativeAreas": [],
+			"postCodes": [
+				{
+					"uuid": "231d2c8c-8f8e-46ca-a17e-587ab6bc28f0",
+					"value": "8055",
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					}
+				}
+			],
+			"localities": [
+				{
+					"uuid": "66e2d46a-1996-461a-a01c-8faa5dfe90e6",
+					"value": "Wien",
+					"shortName": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"thoroughfares": [
+				{
+					"uuid": "159cb06b-c8db-44dc-a393-46ec2458e7d3",
+					"value": "Eyslergasse",
+					"name": null,
+					"shortName": null,
+					"number": "17",
+					"direction": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"premises": [],
+			"postalDeliveryPoints": [],
+			"geographicCoordinates": null,
+			"types": []
+		}
+	],
+	"sites": [],
+	"profileClassifications": [],
+	"types": [],
+	"bankAccounts": [],
+	"roles": [],
+	"relations": [],
+	"currentness": "2022-06-03T11:47:21.121015Z"
+}

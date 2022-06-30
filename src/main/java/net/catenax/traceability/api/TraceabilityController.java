@@ -33,5 +33,4 @@ public class TraceabilityController {
 	public Asset asset(@PathVariable String assetId, @PathVariable String childId) {
 		return assetRepository.getAssetByChildId(assetId, childId);
 	}
-
 }

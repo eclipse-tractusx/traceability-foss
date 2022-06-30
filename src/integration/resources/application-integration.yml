@@ -1,4 +1,11 @@
 spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: "traceability-foss-integration-tests"
+            client-secret: "integration-tests"
   main:
     allow-bean-definition-overriding: true
   mail:
@@ -10,7 +17,7 @@ spring:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
   autoconfigure:
-    exclude: org.keycloak.adapters.springboot.KeycloakAutoConfiguration
+    exclude: org.keycloak.adapters.springboot.KeycloakAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration
 
 keycloak:
   enabled: false

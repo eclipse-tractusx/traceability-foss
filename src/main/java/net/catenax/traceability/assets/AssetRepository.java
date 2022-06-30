@@ -9,7 +9,5 @@ public interface AssetRepository {
 
 	Asset getAssetByChildId(String assetId, String childId);
 
-	List<Asset> getAssets();
-
 	PageResult<Asset> getAssets(Pageable pageable);
 }

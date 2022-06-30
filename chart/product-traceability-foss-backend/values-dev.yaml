@@ -22,3 +22,8 @@ ingress:
 
 mailserver:
   password: <path:traceability-foss/data/dev#mailserverPassword>
+
+keycloak:
+  oauth2:
+    clientId: <path:traceability-foss/data/dev/keycloak/oauth2#clientId>
+    clientSecret: <path:traceability-foss/data/dev/keycloak/oauth2#clientSecret>

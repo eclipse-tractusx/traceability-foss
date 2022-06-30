@@ -1,0 +1,161 @@
+{
+	"bpn": "BPNL00000003AXS3",
+	"identifiers": [
+		{
+			"uuid": "bb6fa60a-4f17-4f1c-b3ef-41d41334d26d",
+			"value": "624d9a105c16531c2e944f63",
+			"type": {
+				"technicalKey": "CDQID",
+				"name": "CDQ Identifier",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CDQ",
+				"name": "CDQ AG",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "CDQ_IMPORTED",
+				"name": "Imported from CDQ but not synchronized"
+			}
+		},
+		{
+			"uuid": "0e19bc18-5fe5-4b2b-a316-98d4203e85aa",
+			"value": "BPNL00000003AXS3",
+			"type": {
+				"technicalKey": "BPN",
+				"name": "Business Partner Number",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CATENAX",
+				"name": "Catena-X",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "UNKNOWN",
+				"name": "Unknown"
+			}
+		},
+		{
+			"uuid": "60b6ed42-4d56-467a-904f-030b3a2f46bb",
+			"value": "ATU17117509",
+			"type": {
+				"technicalKey": "EU_VAT_ID_AT",
+				"name": "Umsatzsteuer-Identifikationsnummer",
+				"url": "https://meta.cdq.com/European_value_added_tax_identifier_(Austria)"
+			},
+			"issuingBody": null,
+			"status": null
+		},
+		{
+			"uuid": "52ae8919-b3b7-473d-adbd-0ececfce18fd",
+			"value": "CX.POOL:624D97A05C16531C2E944F2B0",
+			"type": {
+				"technicalKey": "CX_POOL_ID",
+				"name": "",
+				"url": null
+			},
+			"issuingBody": null,
+			"status": null
+		}
+	],
+	"names": [
+		{
+			"uuid": "13ca8e46-2cae-4b1f-b069-6c21fcbb0799",
+			"value": "Sub Tier B",
+			"shortName": null,
+			"type": {
+				"technicalKey": "LOCAL",
+				"name": "The business partner name identifies a business partner in a given context, e.g. a country or region.",
+				"url": ""
+			},
+			"language": {
+				"technicalKey": "undefined",
+				"name": "Undefined"
+			}
+		}
+	],
+	"legalForm": null,
+	"status": null,
+	"addresses": [
+		{
+			"uuid": "7cb8a17f-1c53-4eab-99c9-410b5f4f6ef3",
+			"bpn": "BPNA00000003AXS3",
+			"version": {
+				"characterSet": {
+					"technicalKey": "LATIN",
+					"name": "Latin"
+				},
+				"language": {
+					"technicalKey": "en",
+					"name": "English"
+				}
+			},
+			"careOf": null,
+			"contexts": [],
+			"country": {
+				"technicalKey": "AT",
+				"name": "Austria"
+			},
+			"administrativeAreas": [],
+			"postCodes": [
+				{
+					"uuid": "47c1ae86-ac74-408c-956c-0d12a0e24943",
+					"value": "5101",
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					}
+				}
+			],
+			"localities": [
+				{
+					"uuid": "5d19c8eb-ec57-413a-813b-179ad00f3ac0",
+					"value": "Salzburg",
+					"shortName": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"thoroughfares": [
+				{
+					"uuid": "668b4caf-7795-4da2-a844-87efd4321d5f",
+					"value": "Söllheimer Str.",
+					"name": null,
+					"shortName": null,
+					"number": "2B",
+					"direction": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"premises": [],
+			"postalDeliveryPoints": [],
+			"geographicCoordinates": null,
+			"types": []
+		}
+	],
+	"sites": [],
+	"profileClassifications": [],
+	"types": [],
+	"bankAccounts": [],
+	"roles": [],
+	"relations": [],
+	"currentness": "2022-06-03T11:47:21.070488Z"
+}

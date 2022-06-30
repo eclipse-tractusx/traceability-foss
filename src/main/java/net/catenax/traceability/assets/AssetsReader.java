@@ -13,7 +13,6 @@ import java.io.InputStream;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -25,36 +24,10 @@ public class AssetsReader {
 
 	private static final String EMPTY_TEXT = "--";
 
-	private final Map<String, String> manufacturers = new HashMap<>();
-
 	private final Faker faker = new Faker();
 
 	public static Map<String, Asset> readAssets()  {
 		return new AssetsReader().readAndConvertAssets();
-	}
-
-	private AssetsReader() {
-		manufacturers.put("BPNL00000003AYRE", "BMW EDC");
-		manufacturers.put("BPNL00000003AVTH", "Mercedes-Benz EDC");
-		manufacturers.put("BPNL00000003AZQP", "SAP (VW EDC)");
-		manufacturers.put("BPNL00000003B2OM", "ZF");
-		manufacturers.put("BPNL00000003B3NX", "ZF");
-		manufacturers.put("BPNL00000003B5MJ", "Bosch");
-		manufacturers.put("BPNL00000003B0Q0", "BASF");
-		manufacturers.put("BPNL00000003AXS3", "Henkel");
-		manufacturers.put("PNL00000003B6LU", "LRP");
-		manufacturers.put("BPNL00000003AWSS", "IRS-Test");
-	}
-
-	private String manufacturerName(String manufacturerId) {
-		String name = manufacturers.get(manufacturerId);
-
-		if (name == null) {
-			name = faker.company().name();
-			manufacturers.put(manufacturerId, name);
-		}
-
-		return name;
 	}
 
 	private Map<String, Asset> readAndConvertAssets()  {
@@ -76,7 +49,7 @@ public class AssetsReader {
 					raw.nameAtManufacturer(),
 					raw.manufacturerPartId(),
 					raw.manufacturerId(),
-					manufacturerName(raw.manufacturerId()),
+					"--",
 					raw.nameAtCustomer(),
 					raw.customerPartId(),
 					raw.manufacturingDate(),

@@ -1,5 +1,7 @@
 package net.catenax.traceability
 
+import org.keycloak.KeycloakPrincipal
+import org.keycloak.adapters.tomcat.SimplePrincipal
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
@@ -23,7 +25,7 @@ trait KeycloakSupport {
 			.collect { it.raw}
 			.collect { it -> new SimpleGrantedAuthority(it)}
 
-		def token = new PreAuthenticatedAuthenticationToken(null, null, anAuthorities)
+		def token = new PreAuthenticatedAuthenticationToken(new SimplePrincipal(UUID.randomUUID().toString()), null, anAuthorities)
 
 		setAuthentication(token)
 	}
