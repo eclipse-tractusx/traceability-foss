@@ -69,7 +69,7 @@ public class InMemoryAssetsRepository implements AssetRepository {
 		List<Asset> sourceAssets = originPageListHolder.getSource();
 
 		for (int i = originPageListHolder.getFirstElementOnPage(), j = 0; i < originPageListHolder.getLastElementOnPage() + 1; i++, j++) {
-			sourceAssets.add(i, updatedAssets.get(j));
+			sourceAssets.set(i, updatedAssets.get(j));
 		}
 
 		return sourceAssets;
