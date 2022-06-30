@@ -18,6 +18,7 @@
  */
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { SpinnerOverlayService } from '@layout/spinner-overlay/spinner-overlay.service';
 import { Observable } from 'rxjs';
 import { View } from '@shared/model/view.model';
 import { DashboardFacade } from '../abstraction/dashboard.facade';

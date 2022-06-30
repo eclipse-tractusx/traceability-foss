@@ -14,7 +14,7 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
 <app-nav-bar></app-nav-bar>
@@ -23,7 +23,7 @@ under the License.
     <app-sidebar [expanded]="expanded"></app-sidebar>
   </div>
   <div class="layout-resizer">
-    <app-resizer (click)="manualToggle()" [expanded]="expanded"></app-resizer>
+    <app-resizer (click)="manualToggle()" [isExpanded]="expanded"></app-resizer>
   </div>
   <div class="layout-content">
     <div class="layout-content__box-modal">
@@ -35,7 +35,6 @@ under the License.
         </div>
       </div>
     </div>
-    <app-footer></app-footer>
   </div>
   <app-spinner-overlay></app-spinner-overlay>
 </main>

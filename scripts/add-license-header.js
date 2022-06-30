@@ -35,31 +35,34 @@ const getArg = argName => {
 const licenseHeader = fs.readFileSync(path.resolve(__dirname, 'LICENSE_HEADER'), 'utf8').trim();
 const srcPath = getArg('src');
 
-const buildAddComment = ({ openComment, closeComment, trimLicense, printLicense = () => licenseHeader }) => content => {
-  const firstHtmlCommentStarts = content.indexOf(openComment);
-  const firstHtmlCommentsEnd = firstHtmlCommentStarts > -1 ? content.indexOf(closeComment, firstHtmlCommentStarts) : -1;
-  const hasAnyComment =
-    firstHtmlCommentStarts > -1 &&
-    (firstHtmlCommentStarts === 0 || !content.substring(0, firstHtmlCommentStarts).trim());
-  const prependNewLicenseComment = () => openComment + '\n' + printLicense() + '\n' + closeComment + '\n\n' + content;
+const buildAddComment =
+  ({ openComment, closeComment, trimLicense, printLicense = () => licenseHeader }) =>
+  content => {
+    const firstHtmlCommentStarts = content.indexOf(openComment);
+    const firstHtmlCommentsEnd =
+      firstHtmlCommentStarts > -1 ? content.indexOf(closeComment, firstHtmlCommentStarts) : -1;
+    const hasAnyComment =
+      firstHtmlCommentStarts > -1 &&
+      (firstHtmlCommentStarts === 0 || !content.substring(0, firstHtmlCommentStarts).trim());
+    const prependNewLicenseComment = () => openComment + '\n' + printLicense() + '\n' + closeComment + '\n\n' + content;
 
-  if (!hasAnyComment) {
-    return prependNewLicenseComment();
-  } else {
-    if (firstHtmlCommentsEnd === -1) {
-      throw new Error(`Cannot check invalid comment, there is no "${closeComment}" close comment`);
-    }
-    const maybeLicense = trimLicense(
-      content.substring(firstHtmlCommentStarts + openComment.length, firstHtmlCommentsEnd),
-    );
-
-    if (maybeLicense !== licenseHeader) {
+    if (!hasAnyComment) {
       return prependNewLicenseComment();
-    }
-  }
+    } else {
+      if (firstHtmlCommentsEnd === -1) {
+        throw new Error(`Cannot check invalid comment, there is no "${closeComment}" close comment`);
+      }
+      const maybeLicense = trimLicense(
+        content.substring(firstHtmlCommentStarts + openComment.length, firstHtmlCommentsEnd),
+      );
 
-  return content;
-};
+      if (maybeLicense !== licenseHeader) {
+        return prependNewLicenseComment();
+      }
+    }
+
+    return content;
+  };
 
 const addHtmlComment = buildAddComment({
   openComment: '<!--',
@@ -84,7 +87,7 @@ const addJsLikeComment = buildAddComment({
   printLicense: () =>
     licenseHeader
       .split('\n')
-      .map(line => `* ${line}`)
+      .map(line => ` * ${line}`)
       .join('\n'),
 });
 

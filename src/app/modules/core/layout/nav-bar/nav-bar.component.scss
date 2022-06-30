@@ -74,7 +74,9 @@
 
 .navbar-menu-items-container {
   @apply origin-top-right absolute mt-0.5 w-60 py-1 bg-white shadow-lg z-10;
+  opacity: 0;
   right: -5px;
+  transition: opacity;
 }
 
 .navbar-menu-items {
@@ -99,6 +101,9 @@
 }
 
 .fade-in {
+  opacity: 1;
+}
+.fade-inn {
   -webkit-animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
   animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
 }

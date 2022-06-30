@@ -31,23 +31,25 @@ import { MAPPING, PartsCoordinates } from './map.model';
   styleUrls: ['./map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements OnChanges {
-  @Input() mapData: PartsCoordinates[];
-  private map: Map;
-  private currentZoom: number;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (!changes.mapData) {
-      return;
-    }
-
+export class MapComponent {
+  @Input()
+  set mapData(data: PartsCoordinates[]) {
+    this._mapData = data;
     Object.getOwnPropertyDescriptor(mapboxGl, 'accessToken').set(environment.mapBoxAccessToken);
     if (this.map) {
       this.map.remove();
     }
 
-    this.renderMap(this.mapData);
+    this.renderMap(this._mapData);
   }
+
+  get mapData(): PartsCoordinates[] {
+    return this._mapData;
+  }
+
+  private _mapData: PartsCoordinates[];
+  private map: Map;
+  private currentZoom: number;
 
   public renderMap(data: PartsCoordinates[]): void {
     this.map = new Map({

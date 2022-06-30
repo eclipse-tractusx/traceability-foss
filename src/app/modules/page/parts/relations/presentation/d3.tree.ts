@@ -179,6 +179,8 @@ class RelationTree {
       .selectAll('a')
       .data(root.descendants())
       .join('a')
+      .filter(({ data }: TreeElement) => data.state !== 'loading')
+      .attr('class', ({ data }: TreeElement) => `tree--element__border tree--element__border-${data.state}`)
       .attr('transform', ({ y, x }: TreeElement) => `translate(${y},${x})`);
 
     const addBorder = (innerRadius, outerRadius, startAngle, endAngle) => {
@@ -189,18 +191,7 @@ class RelationTree {
         .startAngle(startAngle)
         .endAngle(endAngle);
 
-      return border
-        .filter(({ data }: TreeElement) => data.state !== 'loading')
-        .append('path')
-        .attr('d', node => arc(node))
-        .classed('tree--element__border-done', ({ data }: TreeElement) => data.state === 'done')
-        .classed('tree--element__border-minor', ({ data }: TreeElement) => data.state === QualityType.Minor)
-        .classed('tree--element__border-major', ({ data }: TreeElement) => data.state === QualityType.Major)
-        .classed('tree--element__border-critical', ({ data }: TreeElement) => data.state === QualityType.Critical)
-        .classed(
-          'tree--element__border-life-threatening',
-          ({ data }: TreeElement) => data.state === QualityType.LifeThreatening,
-        );
+      return border.append('path').attr('d', node => arc(node));
     };
 
     const data = [
@@ -233,6 +224,7 @@ class RelationTree {
       .data(root.descendants())
       .join('a')
       .filter(({ data }: TreeElement) => data.state === 'loading')
+      .classed('tree--element__border-loading', true)
       .attr('transform', ({ y, x }: TreeElement) => `translate(${y},${x})`)
       .append('g');
 
@@ -240,7 +232,6 @@ class RelationTree {
       border
         .append('path')
         .attr('d', arc(node))
-        .classed('tree--element__border-loading', true)
         .classed('tree--element__border-loading-' + index, true),
     );
   }
@@ -314,11 +305,11 @@ class RelationTree {
   }
 
   private calculateWidth(): number {
-    return this.mainElement.node().getBoundingClientRect().width || window.innerWidth;
+    return this.mainElement?.node?.()?.getBoundingClientRect?.()?.width || window.innerWidth;
   }
 
   private calculateHeight(): number {
-    return this.mainElement.node().getBoundingClientRect().height || window.innerHeight - 200;
+    return this.mainElement?.node?.()?.getBoundingClientRect?.()?.height || window.innerHeight - 200;
   }
 
   private initResizeListener(): void {

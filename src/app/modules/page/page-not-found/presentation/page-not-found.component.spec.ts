@@ -17,12 +17,21 @@
  * under the License.
  */
 
-/**
- *
- * This kind of class should be used for modifying and transforming data (assembling)
- * Instead of doing it in the service directly
- *
- * @export
- * @class DashboardAssembler
- */
-export class DashboardAssembler {}
+import { PageNotFoundModule } from '@page/page-not-found/page-not-found.module';
+import { PageNotFoundComponent } from '@page/page-not-found/presentation/page-not-found.component';
+import { screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+
+describe('PagNotFound', () => {
+  const renderMap = () =>
+    renderComponent(PageNotFoundComponent, {
+      imports: [PageNotFoundModule],
+    });
+
+  it('should render page not found component', async () => {
+    await renderMap();
+
+    expect(screen.getByText('404')).toBeInTheDocument();
+    expect(screen.getByText('The page you requested could not be found')).toBeInTheDocument();
+  });
+});

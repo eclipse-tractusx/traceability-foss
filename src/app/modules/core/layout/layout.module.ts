@@ -20,7 +20,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SharedModule, TemplateModule } from '@shared';
-import { FooterComponent } from './footer/footer.component';
 import { LayoutRoutingModule } from './layout.routing';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { PrivateLayoutComponent } from './private-layout/private-layout.component';
@@ -35,7 +34,6 @@ import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.compo
     NavBarComponent,
     ResizerComponent,
     SidebarComponent,
-    FooterComponent,
     SpinnerOverlayComponent,
     SidebarSectionComponent,
   ],

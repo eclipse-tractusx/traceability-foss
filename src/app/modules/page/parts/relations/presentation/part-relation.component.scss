@@ -112,28 +112,27 @@
       }
     }
 
-    &-done {
-      @apply fill-success;
+    & > path {
       animation: TreeElementLoadingAnimation 45s infinite linear;
     }
 
+    &-done {
+      @apply fill-success;
+    }
+
     &-minor {
-      animation: TreeElementLoadingAnimation 45s infinite linear;
       @apply fill-primaryLight;
     }
 
     &-major {
-      animation: TreeElementLoadingAnimation 45s infinite linear;
       @apply fill-primaryDark;
     }
 
     &-critical {
-      animation: TreeElementLoadingAnimation 45s infinite linear;
       @apply fill-dangerLight;
     }
 
     &-life-threatening {
-      animation: TreeElementLoadingAnimation 45s infinite linear;
       fill: #981b5e;
     }
   }
