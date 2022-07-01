@@ -32,5 +32,15 @@
   "dataLoading": {
     "inProgress": "Ładowanie danych...",
     "error": "Błąd podczas ładowania danych"
+  },
+  "map": {
+    "LogoControl.Title": "Mapbox logo",
+    "Map.Title": "Karte",
+    "NavigationControl.ResetBearing": "Peilung auf Norden zurücksetzen",
+    "NavigationControl.ZoomIn": "Vergrößern",
+    "NavigationControl.ZoomOut": "Verkleinern",
+    "ScrollZoomBlocker.CtrlMessage": "Verwenden Sie Strg + Scrollen, um die Karte zu vergrößern.",
+    "ScrollZoomBlocker.CmdMessage": "Verwenden Sie ⌘ + Scrollen, um die Karte zu vergrößern.",
+    "TouchPanBlocker.Message": "Verwenden Sie zwei Finger, um die Karte zu bewegen"
   }
 }

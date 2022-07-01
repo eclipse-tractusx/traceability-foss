@@ -36,6 +36,23 @@ export interface MapChart {
   coordinates: PartsCoordinates[];
 }
 
+export const supportedLanguages = [
+  'ar',
+  'zh-Hans',
+  'zh-Hant',
+  'en',
+  'fr',
+  'de',
+  'it',
+  'ja',
+  'ko',
+  'mul',
+  'pt',
+  'ru',
+  'es',
+  'vi',
+];
+
 export /** @type {*} */
 const MAPPING = {
   'marker-1': {
