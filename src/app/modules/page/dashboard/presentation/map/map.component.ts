@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { IconLayer } from '@deck.gl/layers';
 import { MapboxLayer } from '@deck.gl/mapbox';
 import * as mapboxGl from 'mapbox-gl';
@@ -35,7 +35,6 @@ export class MapComponent {
   @Input()
   set mapData(data: PartsCoordinates[]) {
     this._mapData = data;
-    Object.getOwnPropertyDescriptor(mapboxGl, 'accessToken').set(environment.mapBoxAccessToken);
     if (this.map) {
       this.map.remove();
     }
@@ -53,13 +52,12 @@ export class MapComponent {
 
   public renderMap(data: PartsCoordinates[]): void {
     this.map = new Map({
+      accessToken: environment.mapBoxAccessToken,
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v10?optimize=true',
       center: { lng: 14, lat: 52 },
-      zoom: 4,
       maxZoom: 13,
       minZoom: 1,
-      pitch: 20,
       attributionControl: false,
     });
 
@@ -91,7 +89,7 @@ export class MapComponent {
       type: IconLayer,
       iconAtlas: '../assets/images/location-icon.png',
       iconMapping: MAPPING,
-      getPosition: d => [Number.parseInt(d.coordinates[0], 10), Number.parseInt(d.coordinates[1], 10)],
+      getPosition: d => [d.coordinates[0], d.coordinates[1]],
       getIcon: d => this.getIconName(d.numberOfParts),
       getSize: 5,
     });
