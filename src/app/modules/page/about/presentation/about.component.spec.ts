@@ -17,21 +17,21 @@
  * under the License.
  */
 
-import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angular/core';
+import { AboutModule } from '@page/about/about.module';
+import { AboutComponent } from '@page/about/presentation/about.component';
+import { screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 
-@Directive({ selector: '[clickOutside]' })
-export class ClickOutsideDirective {
-  @Output() clickOutside: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+describe('About Page', () => {
+  const renderMap = () =>
+    renderComponent(AboutComponent, {
+      imports: [AboutModule],
+      translations: ['page.about'],
+    });
 
-  @HostListener('document:click', ['$event'])
-  public onDocumentClick(event: MouseEvent): void {
-    const targetElement = event.target as HTMLElement;
+  it('should render about page', async () => {
+    await renderMap();
 
-    // Check if the click was outside the element
-    if (targetElement && !this.elementRef.nativeElement.contains(targetElement)) {
-      this.clickOutside.emit(event);
-    }
-  }
-
-  constructor(private elementRef: ElementRef) {}
-}
+    expect(screen.getByText('About Catena-X Open-Source Traceability')).toBeInTheDocument();
+  });
+});

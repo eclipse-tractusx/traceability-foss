@@ -24,18 +24,12 @@ import { AuthService } from '@core/auth/auth.service';
 import { Realm } from '@core/model/realm.model';
 import { UserService } from '@core/user/user.service';
 import { LayoutState } from '../service/layout.state';
-import { SharedService } from '../service/shared.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayoutFacade {
-  constructor(
-    private layoutState: LayoutState,
-    private userService: UserService,
-    private authService: AuthService,
-    private sharedService: SharedService,
-  ) {}
+  constructor(private layoutState: LayoutState, private userService: UserService, private authService: AuthService) {}
 
   // ToDo: Improve getter and setter (remove get/ set from name)
   get getUserInformation(): { name: string; email: string; role: string } {
@@ -62,18 +56,6 @@ export class LayoutFacade {
     return this.layoutState.getTabIndex$;
   }
 
-  get tabIndexSnapshot(): number {
-    return this.layoutState.getTabIndexSnapshot;
-  }
-
-  get queuedQualityAlerts$(): Observable<number> {
-    return this.layoutState.getQueuedQualityAlerts$;
-  }
-
-  get queuedQualityInvestigations$(): Observable<number> {
-    return this.layoutState.getQueuedQualityInvestigationsCounter$;
-  }
-
   get receivedQualityAlerts$(): Observable<number> {
     return this.layoutState.getReceivedQualityAlertsCounter$;
   }
@@ -82,97 +64,15 @@ export class LayoutFacade {
     return this.layoutState.getQualityInvestigationBadge$;
   }
 
-  get isSideBarExpanded$(): Observable<boolean> {
-    return this.layoutState.getIsSideBarExpanded$;
-  }
-
-  get isFooterDisplayed$(): Observable<boolean> {
-    return this.layoutState.getIsFooterDisplayed$;
-  }
-
-  get organizations$(): Observable<string[]> {
-    return this.layoutState.getOrganizations$;
-  }
-
-  get organizationsSnapshot(): string[] {
-    return this.layoutState.organizationsSnapshot;
-  }
-
   public logOut(): void {
     this.authService.logOut();
-  }
-
-  public isEmpty(object: unknown): boolean {
-    return this.sharedService.isEmpty(object);
-  }
-
-  public setOrganizations(): void {
-    this.sharedService.getAllOrganizations().subscribe((organizations: string[]) => {
-      this.layoutState.setOrganizations(organizations);
-    });
   }
 
   public setTabIndex(index: number): void {
     this.layoutState.setTabIndex(index);
   }
 
-  public addQueuedQualityInvestigations(investigations: number): void {
-    this.layoutState.addQueuedQualityInvestigations(investigations);
-  }
-
-  public setQueuedQualityInvestigations(investigations: number): void {
-    this.layoutState.setQueuedQualityInvestigations(investigations);
-  }
-
-  public resetQueuedQualityInvestigations(): void {
-    this.layoutState.resetQualityInvestigationsCounter();
-  }
-
-  public addQueuedQualityAlerts(alerts: number): void {
-    this.layoutState.addQueuedQualityAlerts(alerts);
-  }
-
-  public setQueuedQualityAlerts(alerts: number): void {
-    this.layoutState.setQueuedQualityAlerts(alerts);
-  }
-
-  public resetQueuedQualityAlerts(): void {
-    this.layoutState.resetQueuedQualityAlerts();
-  }
-
-  public addReceivedQualityAlerts(alerts: number): void {
-    this.layoutState.addReceivedQualityAlerts(alerts);
-  }
-
-  public setReceivedQualityAlerts(alerts: number): void {
-    this.layoutState.setReceivedQualityAlerts(alerts);
-  }
-
-  public resetReceivedQualityAlerts(): void {
-    this.layoutState.resetReceivedQualityAlerts();
-  }
-
-  public addReceivedQualityInvestigations(alerts: number): void {
-    this.layoutState.addQualityInvestigationToBadge(alerts);
-  }
-
-  public setReceivedQualityInvestigationsCounter(alerts: number): void {
-    this.layoutState.setQualityInvestigationBadge(alerts);
-  }
-
-  public resetReceivedQualityInvestigations(): void {
-    this.layoutState.resetQualityInvestigationBadge();
-  }
-
   public setIsSideBarExpanded(isExpanded: boolean): void {
     this.layoutState.setIsSideBarExpanded(isExpanded);
-  }
-
-  public setIsFooterDisplayed(isDisplayed: boolean): void {
-    this.layoutState.setIsFooterDisplayed(isDisplayed);
-  }
-
-  public setCanDeactivate(canDeactivate: boolean): void {
-    this.layoutState.setCanDeactivate(canDeactivate);
   }
 }

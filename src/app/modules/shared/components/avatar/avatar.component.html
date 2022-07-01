@@ -14,15 +14,15 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
-<div [ngStyle]="this.circleStyle()" [className]="'foss-avatar--container'">
+<div class="foss-avatar--container foss-avatar--circle">
   <ng-container *ngIf="this.imageUrl; else nameTmp">
-    <img src="{{ this.imageUrl }}" alt="Logo" />
+    <img src="{{ this.imageUrl }}" alt="{{ this.name || 'Logo' }}" />
   </ng-container>
 </div>
 
 <ng-template #nameTmp>
-  <span [ngStyle]="this.spanStyle()" [className]="'foss-avatar--name'">{{ this.name[0] }}</span>
+  <span class="foss-avatar--name foss-avatar--span">{{ this.name[0] }}</span>
 </ng-template>

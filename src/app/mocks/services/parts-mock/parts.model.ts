@@ -28,7 +28,7 @@ export const MOCK_part_5 = {
   customerPartId: '33333',
   manufacturerPartId: 'JF1ZNAA12E8706066',
   manufacturingDate: '1990-01-13T12:34:12',
-  manufacturingCountry: 'DE',
+  manufacturingCountry: 'DEU',
   specificAssetIds: { key: 'value' },
   childDescriptions: [],
 };
@@ -42,7 +42,7 @@ export const MOCK_part_4 = {
   customerPartId: '33333',
   manufacturerPartId: 'JF1ZNAA12E8706066',
   manufacturingDate: '1990-01-13T12:34:12',
-  manufacturingCountry: 'DE',
+  manufacturingCountry: 'DEU',
   specificAssetIds: { key: 'value' },
   childDescriptions: [],
 };
@@ -56,7 +56,7 @@ export const MOCK_part_3 = {
   customerPartId: '33333',
   manufacturerPartId: 'JF1ZNAA12E8706066',
   manufacturingDate: '1990-01-13T12:34:12',
-  manufacturingCountry: 'DE',
+  manufacturingCountry: 'DEU',
   specificAssetIds: { key: 'value' },
   childDescriptions: [{ id: MOCK_part_5.id, idShort: MOCK_part_5.idShort }],
 };
@@ -70,7 +70,7 @@ export const MOCK_part_2 = {
   customerPartId: '22222',
   manufacturerPartId: '3N1CE2CPXFL392065',
   manufacturingDate: '2020-10-23T12:34:12',
-  manufacturingCountry: 'AT',
+  manufacturingCountry: 'POL',
   specificAssetIds: { key: 'value' },
   childDescriptions: [{ id: MOCK_part_4.id, idShort: MOCK_part_4.idShort }],
 };
@@ -84,7 +84,7 @@ export const MOCK_part_1 = {
   customerPartId: '11111',
   manufacturerPartId: '5XXGM4A77CG032209',
   manufacturingDate: '1997-05-30T12:34:12',
-  manufacturingCountry: 'DE',
+  manufacturingCountry: 'POL',
   specificAssetIds: { key: 'value' },
   childDescriptions: [
     { id: MOCK_part_2.id, idShort: MOCK_part_2.idShort },

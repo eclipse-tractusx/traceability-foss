@@ -17,12 +17,22 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
+import { DashboardModule } from '@page/dashboard/dashboard.module';
+import { MapComponent } from '@page/dashboard/presentation/map/map.component';
+import { screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 
-@Component({
-  selector: 'app-footer',
-  templateUrl: './footer.component.html',
-})
-export class FooterComponent {
-  constructor() {}
-}
+describe('Map', () => {
+  const renderMap = mapData =>
+    renderComponent(`<app-map [mapData]='${mapData}'></app-map>`, {
+      declarations: [MapComponent],
+      imports: [DashboardModule],
+      translations: ['page.dashboard'],
+    });
+
+  it('should render map', async () => {
+    await renderMap([]);
+
+    expect(screen.getByText('aspect_ratio')).toBeInTheDocument();
+  });
+});

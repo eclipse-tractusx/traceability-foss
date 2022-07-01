@@ -25,9 +25,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./resizer.component.scss'],
 })
 export class ResizerComponent {
-  @Input() expanded: boolean;
-
-  get icon(): string {
-    return this.expanded ? 'keyboard_arrow_left' : 'keyboard_arrow_right';
-  }
+  @Input() isExpanded: boolean;
 }

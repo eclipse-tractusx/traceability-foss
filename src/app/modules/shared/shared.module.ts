@@ -40,15 +40,12 @@ import { StepActionsComponent } from './components/wizard/step-actions.component
 import { StepBodyComponent } from './components/wizard/step-body.component';
 import { StepsComponent } from './components/wizard/steps/steps.component';
 import { WizardComponent } from './components/wizard/wizard.component';
-import { SharedService } from './service/shared.service';
-import { ClickOutsideDirective } from './directives/click-outside.directive';
 import { RoleDirective } from './directives/role.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { ViewContainerDirective } from './directives/view-container.directive';
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
 import { ShortenPipe } from './pipes/shorten.pipe';
-import { OrganizationsResolver } from './resolver/organizations.resolver';
 import { TemplateModule } from './template.module';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { I18nPipe } from './pipes/i18n.pipe';
@@ -71,7 +68,6 @@ import { AutoFormatPipe } from './pipes/auto-format.pipe';
     AutoFormatPipe,
     FormatDatePipe,
     ViewContainerDirective,
-    ClickOutsideDirective,
     AvatarComponent,
     WizardComponent,
     StepsComponent,
@@ -102,7 +98,6 @@ import { AutoFormatPipe } from './pipes/auto-format.pipe';
     AutoFormatPipe,
     FirstLetterUpperPipe,
     ViewContainerDirective,
-    ClickOutsideDirective,
     AvatarComponent,
     WizardComponent,
     StepsComponent,
@@ -116,6 +111,6 @@ import { AutoFormatPipe } from './pipes/auto-format.pipe';
     ToKeyValuePipe,
     SelectComponent,
   ],
-  providers: [SharedService, OrganizationsResolver, FormatDatePipe, StaticIdService, PartsService],
+  providers: [FormatDatePipe, StaticIdService, PartsService],
 })
 export class SharedModule {}

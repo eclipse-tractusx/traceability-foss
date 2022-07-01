@@ -21,7 +21,16 @@ under the License.
 </ng-container>
 
 <ng-template #partRelationMainTmp let-partDetails="view">
+  <div class="part-relation--button-container">
+    <app-button (click)="decreaseSize()" color="primary" [label]="'relation.decrease' | i18n">+</app-button>
+    <app-button (click)="increaseSize()" color="primary" [label]="'relation.increase' | i18n">-</app-button>
+  </div>
   <figure class="part-relation--container" data-testId="part-relation--test-id" [id]="htmlId"></figure>
+  <figure
+    class="part-relation--minimap"
+    data-testId="part-relation--minimap--test-id"
+    [id]="htmlId + '-minimap'"
+  ></figure>
 </ng-template>
 
 <ng-template #errorTmp let-partDetails="view">

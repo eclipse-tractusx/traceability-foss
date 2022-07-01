@@ -25,5 +25,9 @@
     "manufacturer": "Manufacturer",
     "nameAtCustomer": "Name At Customer",
     "customerPartId": "Customer Part ID"
+  },
+  "relation": {
+    "increase": "Used to zoom into the tree",
+    "decrease": "Used to zoom out of the tree"
   }
 }

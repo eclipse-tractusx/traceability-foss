@@ -25,7 +25,8 @@ under the License.
   <button class="btn">
     <div class="overlay"></div>
     <span class="cursor-pointer fill-current text-white flex-shrink-0 leading-none">
-      <mat-icon class="resize-icon">{{ this.icon }}</mat-icon>
+      <mat-icon *ngIf="this.isExpanded" class="resize-icon">keyboard_arrow_left</mat-icon>
+      <mat-icon *ngIf="!this.isExpanded" class="resize-icon">keyboard_arrow_right</mat-icon>
     </span>
   </button>
 </div>

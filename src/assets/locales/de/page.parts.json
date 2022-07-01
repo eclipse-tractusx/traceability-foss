@@ -25,5 +25,9 @@
     "manufacturer": "Hersteller",
     "nameAtCustomer": "Name beim Kunden",
     "customerPartId": "Kunden Produktnummer"
+  },
+  "relation": {
+    "increase": "Hiermit vergrößern Sie den Baum",
+    "decrease": "Hiermit verkleinern Sie den Baum"
   }
 }

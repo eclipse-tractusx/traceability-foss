@@ -26,6 +26,7 @@ under the License.
           <h3 class="uppercase">Catena-X</h3>
         </div>
       </div>
+
       <div class="navbar-header__container">
         <div class="navbar-menu-container">
           <app-language-selector></app-language-selector>
@@ -37,33 +38,20 @@ under the License.
             <div (click)="this.expand($event)">
               <button class="navbar-menu-btn" id="user-menu" aria-haspopup="true">
                 <span class="sr-only">{{ 'layout.nav.openUserMenu' | i18n }}</span>
-                <app-avatar
-                  [color]="'#fff'"
-                  [size]="'2rem'"
-                  [initialsTopSize]="'0.5rem'"
-                  [imageUrl]="this.getCompanyLogo()"
-                ></app-avatar>
+                <app-avatar [imageUrl]="this.getCompanyLogo()"></app-avatar>
               </button>
             </div>
             <div
-              [ngClass]="{
-                'fade-in': this.isExpanded,
-                'fade-out': !this.isExpanded
-              }"
+              *ngIf="this.isExpanded"
+              [class.fade-in]="this.isExpanded"
               class="navbar-menu-items-container"
               role="menu"
               aria-orientation="vertical"
               aria-labelledby="user-menu"
-              *ngIf="this.isExpanded"
             >
               <section class="flex flex-row p-2">
                 <span class="navbar-menu-items__icon">
-                  <app-avatar
-                    [imageUrl]="this.getCompanyLogo()"
-                    [color]="'#fff'"
-                    [size]="'2.5rem'"
-                    [initialsTopSize]="'0.6rem'"
-                  ></app-avatar>
+                  <app-avatar [imageUrl]="this.getCompanyLogo()"></app-avatar>
                 </span>
                 <section class="flex flex-col p-1">
                   <p class="component-headline text-primary break-words">{{ this.userDetails.role }}</p>
@@ -71,6 +59,7 @@ under the License.
                   <p class="small-text break-words">{{ this.userDetails.email }}</p>
                 </section>
               </section>
+
               <mat-divider></mat-divider>
 
               <div class="navbar-menu-items" (click)="this.logOut()">

@@ -35,6 +35,8 @@ class RelationTree {
   private readonly updateChildren: (data: TreeStructure) => void;
   private readonly mainElement: Selection<Element, TreeStructure, HTMLElement, TreeStructure>;
 
+  private _zoom: number = 1;
+
   private width: number;
   private height: number;
 
@@ -55,6 +57,14 @@ class RelationTree {
 
     this.openDetails = treeData.openDetails;
     this.updateChildren = treeData.updateChildren;
+  }
+
+  public get zoom(): number {
+    return this._zoom;
+  }
+
+  public set zoom(zoom: number) {
+    this._zoom = zoom >= 1 ? zoom : 1;
   }
 
   public renderTree(data: TreeStructure): TreeSvg {
@@ -81,7 +91,7 @@ class RelationTree {
     return this.mainElement
       .append('svg')
       .attr('id', this.id + '-svg')
-      .attr('viewBox', [this.viewX, this.viewY, this.width / this.scale, this.height])
+      .attr('viewBox', this.calculateViewbox())
       .attr('width', this.width)
       .attr('height', this.height)
       .call(this.initDrag())
@@ -179,6 +189,8 @@ class RelationTree {
       .selectAll('a')
       .data(root.descendants())
       .join('a')
+      .filter(({ data }: TreeElement) => data.state !== 'loading')
+      .attr('class', ({ data }: TreeElement) => `tree--element__border tree--element__border-${data.state}`)
       .attr('transform', ({ y, x }: TreeElement) => `translate(${y},${x})`);
 
     const addBorder = (innerRadius, outerRadius, startAngle, endAngle) => {
@@ -189,18 +201,7 @@ class RelationTree {
         .startAngle(startAngle)
         .endAngle(endAngle);
 
-      return border
-        .filter(({ data }: TreeElement) => data.state !== 'loading')
-        .append('path')
-        .attr('d', node => arc(node))
-        .classed('tree--element__border-done', ({ data }: TreeElement) => data.state === 'done')
-        .classed('tree--element__border-minor', ({ data }: TreeElement) => data.state === QualityType.Minor)
-        .classed('tree--element__border-major', ({ data }: TreeElement) => data.state === QualityType.Major)
-        .classed('tree--element__border-critical', ({ data }: TreeElement) => data.state === QualityType.Critical)
-        .classed(
-          'tree--element__border-life-threatening',
-          ({ data }: TreeElement) => data.state === QualityType.LifeThreatening,
-        );
+      return border.append('path').attr('d', node => arc(node));
     };
 
     const data = [
@@ -233,6 +234,7 @@ class RelationTree {
       .data(root.descendants())
       .join('a')
       .filter(({ data }: TreeElement) => data.state === 'loading')
+      .classed('tree--element__border-loading', true)
       .attr('transform', ({ y, x }: TreeElement) => `translate(${y},${x})`)
       .append('g');
 
@@ -240,7 +242,6 @@ class RelationTree {
       border
         .append('path')
         .attr('d', arc(node))
-        .classed('tree--element__border-loading', true)
         .classed('tree--element__border-loading-' + index, true),
     );
   }
@@ -296,14 +297,12 @@ class RelationTree {
     };
 
     const dragged = ({ x, y }): void => {
-      this.viewY += start_y - y;
-      this.viewX += start_x - x;
+      this.viewY += (start_y - y) * this.zoom;
+      this.viewX += (start_x - x) * this.zoom;
 
       start_y = y;
       start_x = x;
-      d3.select(`#${this.id}-svg`)
-        .attr('viewBox', [this.viewX, this.viewY, this.width / this.scale, this.height])
-        .classed('tree--element__grabbing', true);
+      d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox()).classed('tree--element__grabbing', true);
     };
 
     const draggedEnd = (_): void => {
@@ -314,11 +313,11 @@ class RelationTree {
   }
 
   private calculateWidth(): number {
-    return this.mainElement.node().getBoundingClientRect().width || window.innerWidth;
+    return this.mainElement?.node?.()?.getBoundingClientRect?.()?.width || window.innerWidth;
   }
 
   private calculateHeight(): number {
-    return this.mainElement.node().getBoundingClientRect().height || window.innerHeight - 200;
+    return this.mainElement?.node?.()?.getBoundingClientRect?.()?.height || window.innerHeight - 200;
   }
 
   private initResizeListener(): void {
@@ -327,10 +326,14 @@ class RelationTree {
       this.height = this.calculateHeight();
 
       d3.select(`#${this.id}-svg`)
-        .attr('viewBox', [this.viewX, this.viewY, this.width / this.scale, this.height])
+        .attr('viewBox', this.calculateViewbox())
         .attr('width', this.width)
         .attr('height', this.height);
     });
+  }
+
+  private calculateViewbox(): number[] {
+    return [this.viewX, this.viewY, this.width / this.scale, this.height * this.zoom];
   }
 }
 
