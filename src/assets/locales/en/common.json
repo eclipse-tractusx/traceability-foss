@@ -31,10 +31,10 @@
     "error": "Error while loading data"
   },
   "qualityType": {
-    "ok": "Ok",
-    "minor": "Minor",
-    "major": "Major",
-    "critical": "Critical",
-    "life-threatening": "Life-Threatening"
+    "Ok": "Ok",
+    "Minor": "Minor",
+    "Major": "Major",
+    "Critical": "Critical",
+    "LifeThreatening": "Life-Threatening"
   }
 }

@@ -86,19 +86,19 @@
       @apply fill-success;
     }
 
-    &-minor {
+    &-Minor {
       @apply fill-primaryLight;
     }
 
-    &-major {
+    &-Major {
       @apply fill-primaryDark;
     }
 
-    &-critical {
+    &-Critical {
       @apply fill-dangerLight;
     }
 
-    &-life-threatening {
+    &-LifeThreatening {
       fill: #981b5e;
     }
   }

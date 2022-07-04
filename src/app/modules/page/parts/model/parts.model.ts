@@ -33,11 +33,11 @@ export type SortableHeaders =
   | 'productionDate';
 
 export enum QualityType {
-  Ok = 'ok',
-  Minor = 'minor',
-  Major = 'major',
-  Critical = 'critical',
-  LifeThreatening = 'life-threatening',
+  Ok = 'Ok',
+  Minor = 'Minor',
+  Major = 'Major',
+  Critical = 'Critical',
+  LifeThreatening = 'LifeThreatening',
 }
 
 export interface Part {
@@ -65,6 +65,7 @@ export interface PartResponse {
   customerPartId: string;
   manufacturingDate: string;
   manufacturingCountry: string;
+  qualityType: QualityType;
   specificAssetIds: Record<string, string>;
   childDescriptions: Array<{ id: string; idShort: string }>;
 }
