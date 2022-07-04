@@ -45,7 +45,7 @@ export interface TreeStructure {
 
 export interface TreeData {
   id: string;
-  scale?: number;
+  zoom?: number;
   r?: number;
   mainElement?: Selection<Element, TreeStructure, HTMLElement, TreeStructure>;
   openDetails?: (data: TreeStructure) => void;

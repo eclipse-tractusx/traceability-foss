@@ -42,7 +42,7 @@ import RelationTree from './d3.tree';
 })
 export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() isStandalone = true;
-  @Input() scale: number;
+  @Input() zoom: number;
 
   public readonly htmlIdBase = 'app-part-relation-';
   public subscriptions = new Subscription();
@@ -123,7 +123,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       mainElement: d3.select(`#${this.htmlId}`),
       openDetails: this.isStandalone ? this.openDetails.bind(this) : _ => null,
       updateChildren: this.updateChildren.bind(this),
-      scale: this.scale,
+      zoom: this.zoom,
     };
 
     this.tree = new RelationTree(treeConfig);
@@ -154,7 +154,6 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private renderTree(treeData: TreeStructure): void {
-    console.log(d3.select(`#${this.htmlId}-svg`));
     d3.select(`#${this.htmlId}-svg`).remove();
     this.tree.renderTree(treeData);
   }
@@ -163,6 +162,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tree.zoom = this.tree.zoom + 0.25;
     this.renderTree(this.treeData);
   }
+
   public decreaseSize(): void {
     this.tree.zoom = this.tree.zoom - 0.25;
     this.renderTree(this.treeData);
