@@ -17,7 +17,7 @@
 * under the License.
 */
 
-$blue: #5b708f;
+$blue: #ffa600;
 .form-steps-container {
   display: flex;
   justify-content: space-between;
@@ -48,8 +48,8 @@ $blue: #5b708f;
 
 .step-current,
 .step-active {
-  background: #5b708f;
-  border: 3px solid #5b708f;
+  background: #ffa600;
+  border: 3px solid #ffa600;
 }
 
 .step-inactive {
