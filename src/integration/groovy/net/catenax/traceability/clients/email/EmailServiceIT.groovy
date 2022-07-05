@@ -25,6 +25,7 @@ class EmailServiceIT extends IntegrationSpec implements MailboxSupport {
                 .hasSubject(subject)
 				.hasMessage()
 					.withContentType("multipart/alternative")
+					.withContentType("image/png")
 					.withContent("text/plain", message)
 					.withContent("text/html", message)
     }
