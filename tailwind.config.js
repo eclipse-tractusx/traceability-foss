@@ -42,7 +42,7 @@ module.exports = {
         thinItalic: ['Catena-X ThinItalic', 'sans-serif'],
       },
       minHeight: {
-        '0': '0',
+        0: '0',
         '1/4': '25%',
         '1/2': '50%',
         '3/4': '75%',
@@ -57,7 +57,7 @@ module.exports = {
         xxl: '3rem',
       },
       zIndex: {
-        '120': 120,
+        120: 120,
       },
       fontSize: {
         tiny: '.5rem',
@@ -102,7 +102,7 @@ module.exports = {
       success: '#3db014',
       warning: '#ffad1f',
       alert: '#fe6702',
-      info: '#5b708f',
+      info: '#ffa600',
       inactive: '#D8D8D8',
 
       // Basic gray accent color
@@ -118,10 +118,10 @@ module.exports = {
       dustyGrayShadeWildSand: '#f6f6f6',
 
       // Dark blue primary accent color
-      blueBayoux: '#526482',
-      blueBayouxShadeWaikawaGray: '#5b708f',
-      blueBayouxShadeLynch: '#617899',
-      blueBayouxShadePigeonPost: '#acbcd7',
+      blueBayoux: '#fc8a00',
+      blueBayouxShadeWaikawaGray: '#ff9600',
+      blueBayouxShadeLynch: '#ffa600',
+      blueBayouxShadePigeonPost: '#ffb640',
 
       selectionBlue: '#e9ebf1',
       investigationBlue: '#3f7bfe',
@@ -179,7 +179,7 @@ module.exports = {
       sidebar: '240px',
     },
     flex: {
-      '1': '1 1 0%',
+      1: '1 1 0%',
       auto: '1 1 auto',
       initial: '0 1 auto',
       none: 'none',
