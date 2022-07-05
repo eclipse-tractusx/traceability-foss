@@ -38,7 +38,8 @@ public class AssetRandomizer {
 				faker.commerce().productName(),
 				faker.code().ean13(),
 				faker.date().past(500, TimeUnit.DAYS).toInstant(),
-				faker.country().countryCode3().toUpperCase()
+				faker.country().countryCode3().toUpperCase(),
+				QualityType.OK
 			);
 
 			randomAssets.add(asset);

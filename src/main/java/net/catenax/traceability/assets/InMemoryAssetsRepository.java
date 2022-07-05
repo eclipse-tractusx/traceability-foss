@@ -61,6 +61,13 @@ public class InMemoryAssetsRepository implements AssetRepository {
 		return new PageResult<>(pageListHolder);
 	}
 
+	@Override
+	public Asset save(Asset asset) {
+		assets.put(asset.id(), asset);
+
+		return asset;
+	}
+
 	private List<Asset> getAssetsWithUpdatedNamesForPage(PagedListHolder<Asset> originPageListHolder) {
 		List<Asset> updatedAssets = originPageListHolder.getPageList().stream()
 			.map(this::addManufacturerName)

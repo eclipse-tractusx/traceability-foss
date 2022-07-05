@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItems
 import static org.hamcrest.Matchers.not
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -135,5 +136,82 @@ class TraceabilityControllerIT extends IntegrationSpec {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.page', Matchers.is(2)))
 				.andExpect(jsonPath('$.pageSize', Matchers.is(2)))
+	}
+
+	def "should not update quality type for not existing asset"() {
+		given:
+			authenticatedUser(KeycloakRole.UMA_ROLE)
+
+		expect:
+			mvc.perform(patch("/api/assets/1234")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(
+					asJson(
+						[qualityType: 'Critical']
+					)
+				),
+			)
+				.andExpect(status().isNotFound())
+				.andExpect(jsonPath('$.message', equalTo("Asset with id 1234 was not found.")))
+	}
+
+	def "should not update quality type with invalid request body"() {
+		given:
+			authenticatedUser(KeycloakRole.UMA_ROLE)
+
+		expect:
+			mvc.perform(patch("/api/assets/1234")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(
+					asJson(
+						requestBody
+					)
+				),
+			)
+				.andExpect(status().isBadRequest())
+				.andExpect(jsonPath('$.message', equalTo(errorMessage)))
+
+		where:
+			requestBody                                | errorMessage
+			[qualityType: 'NOT_EXISTING_QUALITY_TYPE'] | "Failed to deserialize request body."
+			[qualityType: 'CRITICAL']                  | "Failed to deserialize request body."
+			[qualityType: '']                          | "Failed to deserialize request body."
+			[qualityType: ' ']                         | "Failed to deserialize request body."
+			[qualityType: null]                        | "qualityType must be present"
+	}
+
+	def "should update quality type for existing asset"() {
+		given:
+			authenticatedUser(KeycloakRole.UMA_ROLE)
+			keycloakApiReturnsToken()
+
+		and:
+			def existingAssetId = "urn:uuid:d3cca507-5515-4595-adb2-4c7706a75488"
+
+		expect:
+			mvc.perform(get("/api/assets/$existingAssetId").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath('$.qualityType', equalTo("Ok")))
+
+		and:
+			authenticatedUser(KeycloakRole.UMA_ROLE)
+
+			mvc.perform(patch("/api/assets/$existingAssetId")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(
+					asJson(
+						[qualityType: 'Critical']
+					)
+				),
+			)
+				.andExpect(status().isOk())
+				.andExpect(jsonPath('$.qualityType', equalTo("Critical")))
+
+		and:
+			authenticatedUser(KeycloakRole.UMA_ROLE)
+
+			mvc.perform(get("/api/assets/$existingAssetId").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath('$.qualityType', equalTo("Critical")))
 	}
 }

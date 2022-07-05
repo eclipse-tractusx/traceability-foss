@@ -57,9 +57,10 @@ public class AssetsReader {
 					Collections.emptySortedMap(),
 					raw.childParts().stream()
 						.map(child -> new ChildDescriptions(child.childCatenaXId(), rawAssets.get(child.childCatenaXId).shortId()))
-						.collect(Collectors.toList())
+						.collect(Collectors.toList()),
+					QualityType.OK
 				))
-				.collect(Collectors.toMap(Asset::id, Function.identity()));
+				.collect(Collectors.toConcurrentMap(Asset::id, Function.identity()));
 		} catch (IOException e) {
 			return Collections.emptyMap();
 		}

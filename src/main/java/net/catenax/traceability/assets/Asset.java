@@ -19,7 +19,8 @@ public record Asset(
 	@JsonFormat(shape = JsonFormat.Shape.STRING) Instant manufacturingDate,
 	String manufacturingCountry,
 	Map<String, String> specificAssetIds,
-	List<ChildDescriptions> childDescriptions
+	List<ChildDescriptions> childDescriptions,
+	QualityType qualityType
 ) {
 
 	public Asset(
@@ -32,7 +33,8 @@ public record Asset(
 		String nameAtCustomer,
 		String customerPartId,
 		Instant manufacturingDate,
-		String manufacturingCountry
+		String manufacturingCountry,
+		QualityType qualityType
 	) {
 		this(
 			id,
@@ -46,7 +48,8 @@ public record Asset(
 			manufacturingDate,
 			manufacturingCountry,
 			Collections.emptySortedMap(),
-			Collections.emptyList()
+			Collections.emptyList(),
+			qualityType
 		);
 	}
 
@@ -63,7 +66,8 @@ public record Asset(
 			manufacturingDate,
 			manufacturingCountry,
 			Collections.emptySortedMap(),
-			childDescriptions
+			childDescriptions,
+			qualityType
 		);
 	}
 
@@ -80,7 +84,26 @@ public record Asset(
 			manufacturingDate,
 			manufacturingCountry,
 			specificAssetIds,
-			childDescriptions
+			childDescriptions,
+			qualityType
+		);
+	}
+
+	public Asset update(QualityType qualityType) {
+		return new Asset(
+			id,
+			idShort,
+			nameAtManufacturer,
+			manufacturerPartId,
+			manufacturerId,
+			manufacturerName,
+			nameAtCustomer,
+			customerPartId,
+			manufacturingDate,
+			manufacturingCountry,
+			specificAssetIds,
+			childDescriptions,
+			qualityType
 		);
 	}
 
