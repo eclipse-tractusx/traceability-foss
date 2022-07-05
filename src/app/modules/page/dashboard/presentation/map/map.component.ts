@@ -72,10 +72,8 @@ export class MapComponent implements OnInit {
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v10',
       center: { lng: 14, lat: 52 },
-      zoom: 4,
       maxZoom: 13,
       minZoom: 1,
-      pitch: 20,
       attributionControl: false,
       locale,
     });
@@ -115,7 +113,7 @@ export class MapComponent implements OnInit {
       type: IconLayer,
       iconAtlas: '../assets/images/location-icon.png',
       iconMapping: MAPPING,
-      getPosition: d => [Number.parseInt(d.coordinates[0], 10), Number.parseInt(d.coordinates[1], 10)],
+      getPosition: d => [d.coordinates[0], d.coordinates[1]],
       getIcon: d => this.getIconName(d.numberOfParts),
       getSize: 5,
     });

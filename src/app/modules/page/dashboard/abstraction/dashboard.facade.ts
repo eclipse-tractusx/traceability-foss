@@ -73,7 +73,7 @@ export class DashboardFacade {
           }, {});
 
           return Object.keys(countedCountries).map(key => ({
-            coordinates: CountryLocationMap[key],
+            coordinates: CountryLocationMap[key].coordinates,
             numberOfParts: countedCountries[key],
           }));
         }),
