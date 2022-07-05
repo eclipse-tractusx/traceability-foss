@@ -20,61 +20,43 @@ under the License.
 <ng-container [ngTemplateOutlet]="{button, raised, flat, stroked, icon, fab, miniFab}[this.variant]"></ng-container>
 
 <ng-template #button>
-  <button (click)="this.click.emit($event)" [disabled]="isDisabled" [ngClass]="getClasses()" mat-button>
+  <button [disabled]="isDisabled" [ngClass]="getClasses()" mat-button>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>
 
 <ng-template #raised>
-  <button (click)="this.click.emit($event)" [disabled]="isDisabled" [ngClass]="getClasses()" mat-raised-button>
+  <button [disabled]="isDisabled" [ngClass]="getClasses()" mat-raised-button>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>
 
 <ng-template #flat>
-  <button (click)="this.click.emit($event)" [disabled]="isDisabled" [ngClass]="getClasses()" mat-flat-button>
+  <button [disabled]="isDisabled" [ngClass]="getClasses()" mat-flat-button>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>
 
 <ng-template #stroked>
-  <button (click)="this.click.emit($event)" [disabled]="isDisabled" [ngClass]="getClasses()" mat-stroked-button>
+  <button [disabled]="isDisabled" [ngClass]="getClasses()" mat-stroked-button>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>
 
 <ng-template #icon>
-  <button
-    (click)="this.click.emit($event)"
-    [disabled]="isDisabled"
-    [ngClass]="getClasses()"
-    [attr.aria-label]="this.label"
-    mat-icon-button
-  >
+  <button [disabled]="isDisabled" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-icon-button>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>
 
 <ng-template #fab>
-  <button
-    (click)="this.click.emit($event)"
-    [disabled]="isDisabled"
-    [ngClass]="getClasses()"
-    [attr.aria-label]="this.label"
-    mat-fab
-  >
+  <button [disabled]="isDisabled" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-fab>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>
 
 <ng-template #miniFab>
-  <button
-    (click)="this.click.emit($event)"
-    [disabled]="isDisabled"
-    [ngClass]="getClasses()"
-    [attr.aria-label]="this.label"
-    mat-mini-fab
-  >
+  <button [disabled]="isDisabled" [ngClass]="getClasses()" [attr.aria-label]="this.label" mat-mini-fab>
     <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
   </button>
 </ng-template>

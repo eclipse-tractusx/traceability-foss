@@ -45,7 +45,7 @@ class RelationTree {
   constructor(treeData: TreeData) {
     this.id = treeData.id;
 
-    this.zoom = treeData.zoom || 1;
+    this._zoom = treeData.zoom >= 1 ? treeData.zoom : 1 || 1;
     this.mainElement = treeData.mainElement;
 
     this.width = this.calculateWidth();
@@ -63,6 +63,13 @@ class RelationTree {
   }
 
   public set zoom(zoom: number) {
+    if (this.zoom < 1.5 || zoom < 1.5) {
+      const difference = Math.abs(this.zoom - zoom);
+      const divergence = Math.min(difference, 0.1);
+
+      zoom = this.zoom + (this.zoom < zoom ? divergence : -divergence);
+    }
+
     this._zoom = zoom >= 1 ? zoom : 1;
   }
 
