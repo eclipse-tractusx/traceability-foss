@@ -77,6 +77,20 @@ export class ApiService {
     });
   }
 
+  public patch<T>(
+    url: string,
+    body?: Record<string, unknown> | unknown,
+    responseType?: 'json',
+    withCredentials = false,
+    headers?: HttpHeaders,
+  ): Observable<T> {
+    return this.httpClient.patch<T>(url, ApiService.stringifyBody(body), {
+      headers: headers ? headers : this.buildHeaders(),
+      responseType,
+      withCredentials,
+    });
+  }
+
   public delete<T>(url: string, withCredentials = false, headers?: HttpHeaders): Observable<T> {
     return this.httpClient.delete<T>(url, {
       headers: headers ? headers : this.buildHeaders(),

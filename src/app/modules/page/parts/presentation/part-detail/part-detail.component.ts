@@ -91,7 +91,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     this.router.navigate([`${realm}/parts/relations/${part.id}`]).then(_ => window.location.reload());
   }
 
-  public updateQualityType(newQualityType: string) {
-    this.partsFacade.updateQualityType(newQualityType as QualityType);
+  public updateQualityType(newQualityType: string): void {
+    this.partsFacade.updateQualityType(newQualityType as QualityType).subscribe();
   }
 }

@@ -80,6 +80,6 @@ export class PartsFacade {
     const part = { ...this.selectedPart, qualityType };
     this.loadedElementsFacade.addLoadedElement(RelationsAssembler.assemblePartForRelation(part));
 
-    return this.partsService.putPart(part);
+    return this.partsService.patchPart(part);
   }
 }

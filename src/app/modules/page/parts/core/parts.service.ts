@@ -54,7 +54,9 @@ export class PartsService {
       .pipe(map(part => PartsAssembler.assemblePart(part)));
   }
 
-  public putPart(part: Part): Observable<Part> {
-    return this.apiService.put<Part>(`${this.url}/assets/${part.id}`, part);
+  public patchPart({ qualityType, id }: Part): Observable<Part> {
+    const patchBody = { qualityType };
+
+    return this.apiService.patch<Part>(`${this.url}/assets/${id}`, patchBody);
   }
 }

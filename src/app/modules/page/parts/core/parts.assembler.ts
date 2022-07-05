@@ -41,7 +41,7 @@ export class PartsAssembler {
       productionCountry: part.manufacturingCountry,
       nameAtCustomer: part.nameAtCustomer,
       customerPartId: part.customerPartId,
-      qualityType: QualityType.Ok,
+      qualityType: part.qualityType || QualityType.Ok,
       productionDate: new CalendarDateModel(part.manufacturingDate),
       children: part.childDescriptions.map(child => child.id),
     };

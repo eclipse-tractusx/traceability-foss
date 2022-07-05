@@ -22,6 +22,16 @@ import { MapComponent } from '@page/dashboard/presentation/map/map.component';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  GeolocateControl: jest.fn(),
+  Map: jest.fn(() => ({
+    addControl: jest.fn(),
+    on: jest.fn(),
+    remove: jest.fn(),
+  })),
+  NavigationControl: jest.fn(),
+}));
+
 describe('Map', () => {
   const renderMap = mapData =>
     renderComponent(`<app-map [mapData]='${mapData}'></app-map>`, {
