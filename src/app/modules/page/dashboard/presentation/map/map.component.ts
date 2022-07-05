@@ -17,13 +17,17 @@
  * under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
+import { KnownLocale } from '@core/i18n/global-i18n.providers';
 import { IconLayer } from '@deck.gl/layers';
 import { MapboxLayer } from '@deck.gl/mapbox';
+import MapboxLanguage from '@mapbox/mapbox-gl-language';
+import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import * as mapboxGl from 'mapbox-gl';
 import { Map, NavigationControl } from 'mapbox-gl';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { MAPPING, PartsCoordinates } from './map.model';
+import { MAPPING, PartsCoordinates, supportedLanguages } from './map.model';
 
 @Component({
   selector: 'app-map',
@@ -31,15 +35,10 @@ import { MAPPING, PartsCoordinates } from './map.model';
   styleUrls: ['./map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
   @Input()
   set mapData(data: PartsCoordinates[]) {
     this._mapData = data;
-    Object.getOwnPropertyDescriptor(mapboxGl, 'accessToken').set(environment.mapBoxAccessToken);
-    if (this.map) {
-      this.map.remove();
-    }
-
     this.renderMap(this._mapData);
   }
 
@@ -51,17 +50,42 @@ export class MapComponent {
   private map: Map;
   private currentZoom: number;
 
+  constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {}
+
+  public ngOnInit() {
+    this.i18NextService.events.languageChanged.pipe(distinctUntilChanged()).subscribe((language: KnownLocale) => {
+      if (language) {
+        this.currentZoom = null;
+        this.renderMap(this.mapData);
+      }
+    });
+  }
+
   public renderMap(data: PartsCoordinates[]): void {
+    if (this.map) {
+      this.map.remove();
+    }
+
+    const locale: Record<string, string> = this.i18NextService.t('map', { returnObjects: true });
     this.map = new Map({
+      accessToken: environment.mapBoxAccessToken,
       container: 'map',
-      style: 'mapbox://styles/mapbox/light-v10?optimize=true',
+      style: 'mapbox://styles/mapbox/light-v10',
       center: { lng: 14, lat: 52 },
       zoom: 4,
       maxZoom: 13,
       minZoom: 1,
       pitch: 20,
       attributionControl: false,
+      locale,
     });
+
+    const defaultLanguage = supportedLanguages.includes(this.i18NextService.language)
+      ? this.i18NextService.language
+      : 'mul';
+
+    const language = new MapboxLanguage({ defaultLanguage });
+    this.map.addControl(language);
 
     this.map.addControl(
       new NavigationControl({
