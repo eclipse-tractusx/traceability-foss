@@ -33,6 +33,7 @@ describe('Map', () => {
   it('should render map', async () => {
     await renderMap([]);
 
+    // ToDo: Will ask anton on how to setup tests for this use case.
     expect(screen.getByText('aspect_ratio')).toBeInTheDocument();
   });
 });
