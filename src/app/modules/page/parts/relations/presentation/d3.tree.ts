@@ -30,7 +30,6 @@ type TreeElement = HierarchyCircularNode<TreeStructure>;
 class RelationTree {
   private readonly id: string;
   private readonly r: number;
-  private readonly scale: number;
   private readonly openDetails: (data: TreeStructure) => void;
   private readonly updateChildren: (data: TreeStructure) => void;
   private readonly mainElement: Selection<Element, TreeStructure, HTMLElement, TreeStructure>;
@@ -46,7 +45,7 @@ class RelationTree {
   constructor(treeData: TreeData) {
     this.id = treeData.id;
 
-    this.scale = treeData.scale || 1;
+    this._zoom = treeData.zoom >= 1 ? treeData.zoom : 1 || 1;
     this.mainElement = treeData.mainElement;
 
     this.width = this.calculateWidth();
@@ -64,6 +63,13 @@ class RelationTree {
   }
 
   public set zoom(zoom: number) {
+    if (this.zoom < 1.5 || zoom < 1.5) {
+      const difference = Math.abs(this.zoom - zoom);
+      const divergence = Math.min(difference, 0.1);
+
+      zoom = this.zoom + (this.zoom < zoom ? divergence : -divergence);
+    }
+
     this._zoom = zoom >= 1 ? zoom : 1;
   }
 
@@ -71,6 +77,7 @@ class RelationTree {
     const root = d3.hierarchy(data);
 
     const svg = this.creatMainSvg(root);
+    this.addZoomListener(svg);
     this.addPaths(svg, root);
     this.addClosingCircle(svg, root);
     this.addCircles(svg, root);
@@ -85,7 +92,7 @@ class RelationTree {
     d3.tree().nodeSize([this.r * 3, 250])(root);
 
     const dy = this.height / (root.height || 1);
-    this.viewY = this.viewY || -dy / 3;
+    this.viewY = this.viewY || (-dy / 3) * this.zoom;
 
     this.initResizeListener();
     return this.mainElement
@@ -97,6 +104,13 @@ class RelationTree {
       .call(this.initDrag())
       .attr('font-size', 10)
       .classed('tree--element', true);
+  }
+
+  private addZoomListener(svg: TreeSvg) {
+    svg.on('wheel', e => {
+      this.zoom = e.deltaY * 0.005 + this.zoom;
+      d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
+    });
   }
 
   private addPaths(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
@@ -297,8 +311,8 @@ class RelationTree {
     };
 
     const dragged = ({ x, y }): void => {
-      this.viewY += (start_y - y) * this.zoom;
-      this.viewX += (start_x - x) * this.zoom;
+      this.viewY += start_y - y;
+      this.viewX += start_x - x;
 
       start_y = y;
       start_x = x;
@@ -333,7 +347,7 @@ class RelationTree {
   }
 
   private calculateViewbox(): number[] {
-    return [this.viewX, this.viewY, this.width / this.scale, this.height * this.zoom];
+    return [this.viewX * this.zoom, this.viewY * this.zoom, this.width * this.zoom, this.height * this.zoom];
   }
 }
 

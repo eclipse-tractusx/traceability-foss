@@ -25,28 +25,27 @@ import * as d3 from 'd3';
 
 describe('D3 Tree', () => {
   const id = 'id';
-  const scale = 10;
+  const zoom = 10;
   const mainElement: Selection<Element, TreeStructure, HTMLElement, TreeStructure> = d3.select(document.body);
   const openDetails = jest.fn();
   const updateChildren = jest.fn();
 
   let treeData: TreeData;
-  beforeEach(() => (treeData = { id, scale, mainElement, openDetails, updateChildren }));
+  beforeEach(() => (treeData = { id, zoom, mainElement, openDetails, updateChildren }));
 
   it('should initialize tree class', () => {
     const tree = new RelationTree(treeData);
 
     expect(tree).toEqual({
       id,
-      scale,
       mainElement,
       openDetails,
       updateChildren,
+      _zoom: zoom,
       height: 568,
       width: 1024,
       r: 60,
       viewX: -60,
-      _zoom: 1,
     });
   });
 
