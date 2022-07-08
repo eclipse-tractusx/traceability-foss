@@ -3,6 +3,9 @@ package net.catenax.traceability.assets;
 import net.catenax.traceability.api.UpdateAsset;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @Component
 public class AssetService {
 
@@ -22,5 +25,10 @@ public class AssetService {
 		Asset updatedAsset = foundAsset.update(updateAsset.qualityType());
 
 		return assetRepository.save(updatedAsset);
+	}
+
+	public Map<String, Long> getAssetsCountryMap() {
+		return assetRepository.getAssets().stream()
+			.collect(Collectors.groupingBy(Asset::manufacturingCountry, Collectors.counting()));
 	}
 }

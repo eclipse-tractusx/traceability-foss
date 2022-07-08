@@ -113,6 +113,24 @@ class TraceabilityControllerIT extends IntegrationSpec {
 				.andExpect(jsonPath('$.content[*].manufacturerName', hasItems(equalTo("--"))))
 	}
 
+	def "should return assets country map"() {
+		given:
+			authenticatedUser()
+
+		expect:
+			mvc.perform(get("/api/assets/countries").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+	}
+
+	def "should not return assets country map when user is not authorized"() {
+		given:
+			unauthenticatedUser()
+
+		expect:
+			mvc.perform(get("/api/assets/countries").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isUnauthorized())
+	}
+
 	def "should not return assets when user is not authenticated"() {
 		given:
 			unauthenticatedUser()

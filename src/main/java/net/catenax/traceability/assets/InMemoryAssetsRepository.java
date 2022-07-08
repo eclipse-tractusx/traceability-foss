@@ -62,6 +62,11 @@ public class InMemoryAssetsRepository implements AssetRepository {
 	}
 
 	@Override
+	public List<Asset> getAssets() {
+		return new ArrayList<>(assets.values());
+	}
+
+	@Override
 	public Asset save(Asset asset) {
 		assets.put(asset.id(), asset);
 

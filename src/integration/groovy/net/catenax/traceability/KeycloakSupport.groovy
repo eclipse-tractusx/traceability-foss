@@ -1,6 +1,6 @@
 package net.catenax.traceability
 
-import org.keycloak.KeycloakPrincipal
+
 import org.keycloak.adapters.tomcat.SimplePrincipal
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -20,7 +20,7 @@ trait KeycloakSupport {
 		}
 	}
 
-	void authenticatedUser(KeycloakRole ... roles) {
+	void authenticatedUser(KeycloakRole ... roles = [KeycloakRole.UMA_ROLE]) {
 		def anAuthorities = roles
 			.collect { it.raw}
 			.collect { it -> new SimpleGrantedAuthority(it)}

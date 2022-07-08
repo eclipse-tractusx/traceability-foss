@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -30,6 +31,11 @@ public class TraceabilityController {
 	@GetMapping("/assets")
 	public PageResult<Asset> assets(Pageable pageable) {
 		return assetRepository.getAssets(pageable);
+	}
+
+	@GetMapping("/assets/countries")
+	public Map<String, Long> assetsCountryMap() {
+		return assetService.getAssetsCountryMap();
 	}
 
 	@GetMapping("/assets/{assetId}")
