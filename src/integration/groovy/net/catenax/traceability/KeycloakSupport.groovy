@@ -1,33 +1,49 @@
 package net.catenax.traceability
 
-
+import net.catenax.traceability.config.security.KeycloakRole
+import org.keycloak.adapters.RefreshableKeycloakSecurityContext
+import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount
 import org.keycloak.adapters.tomcat.SimplePrincipal
+import org.keycloak.representations.AccessToken
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
 
+import static java.util.Collections.emptySet
+
 trait KeycloakSupport {
 
-	enum KeycloakRole {
-		OFFLINE_ACCESS_ROLE("offline_access"),
-		UMA_ROLE("uma_authorization");
+	@Value('${keycloak.resource}')
+	private String resourceRealm
 
-		private final String raw
-
-		private KeycloakRole(String raw) {
-			this.raw = raw
-		}
+	void authenticatedUserWithNoRole() {
+		authenticatedUser()
 	}
 
-	void authenticatedUser(KeycloakRole ... roles = [KeycloakRole.UMA_ROLE]) {
-		def anAuthorities = roles
-			.collect { it.raw}
-			.collect { it -> new SimpleGrantedAuthority(it)}
+	void authenticatedUser(KeycloakRole... keycloakRoles) {
+		def token = createToken(keycloakRoles)
+		def context = new RefreshableKeycloakSecurityContext(token: token)
+		def principal = new SimplePrincipal(UUID.randomUUID().toString())
+		def simpleKeycloakAccount = new SimpleKeycloakAccount(principal, emptySet(), context)
+		def authentication = new PreAuthenticatedAuthenticationToken(principal, null, emptySet())
 
-		def token = new PreAuthenticatedAuthenticationToken(new SimplePrincipal(UUID.randomUUID().toString()), null, anAuthorities)
+		authentication.setDetails(simpleKeycloakAccount)
 
-		setAuthentication(token)
+		setAuthentication(authentication)
+	}
+
+	private AccessToken createToken(KeycloakRole... keycloakRoles) {
+		def mappedRoles = keycloakRoles
+			.collect { it.getDescription() }
+			.toSet()
+
+		def token = new AccessToken()
+		def access = new AccessToken.Access()
+		access.roles(mappedRoles)
+		token.setResourceAccess([(resourceRealm): access])
+
+		return token
 	}
 
 	void unauthenticatedUser() {

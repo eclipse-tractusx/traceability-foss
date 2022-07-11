@@ -1,6 +1,7 @@
 package net.catenax.traceability.api
 
 import net.catenax.traceability.IntegrationSpec
+import net.catenax.traceability.config.security.KeycloakRole
 import org.hamcrest.Matchers
 import org.springframework.http.MediaType
 
@@ -12,20 +13,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class TraceabilityControllerIT extends IntegrationSpec {
+class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets for authenticated user with role"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 
 		expect:
-			mvc.perform(get("/api/assets/1234").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets/1234").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 	}
 
 	def "should return assets with manufacturer name"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
@@ -38,7 +39,7 @@ class TraceabilityControllerIT extends IntegrationSpec {
 			)
 
 		expect:
-			mvc.perform(get("/api/assets").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.content[*].manufacturerName', not(equalTo("--"))))
 
@@ -49,7 +50,7 @@ class TraceabilityControllerIT extends IntegrationSpec {
 
 	def "should return assets with manufacturer name using values from cache"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
@@ -63,7 +64,7 @@ class TraceabilityControllerIT extends IntegrationSpec {
 
 		when:
 			0..3.each {
-				mvc.perform(get("/api/assets").contentType(MediaType.APPLICATION_JSON))
+				mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
 					.andExpect(status().isOk())
 					.andExpect(jsonPath('$.content[*].manufacturerName', not(equalTo("--"))))
 			}
@@ -75,7 +76,7 @@ class TraceabilityControllerIT extends IntegrationSpec {
 
 	def "should return assets without manufacturer name when name was not returned by BPN API"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
@@ -88,14 +89,14 @@ class TraceabilityControllerIT extends IntegrationSpec {
 			)
 
 		expect:
-			mvc.perform(get("/api/assets").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.content[*].manufacturerName', hasItems(equalTo("--"))))
 	}
 
 	def "should return assets without manufacturer name when BPN API has no data"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
@@ -108,7 +109,7 @@ class TraceabilityControllerIT extends IntegrationSpec {
 			)
 
 		expect:
-			mvc.perform(get("/api/assets").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.content[*].manufacturerName', hasItems(equalTo("--"))))
 	}
@@ -118,7 +119,7 @@ class TraceabilityControllerIT extends IntegrationSpec {
 			authenticatedUser()
 
 		expect:
-			mvc.perform(get("/api/assets/countries").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets/countries").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 	}
 
@@ -127,7 +128,7 @@ class TraceabilityControllerIT extends IntegrationSpec {
 			unauthenticatedUser()
 
 		expect:
-			mvc.perform(get("/api/assets/countries").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets/countries").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isUnauthorized())
 	}
 
@@ -136,17 +137,17 @@ class TraceabilityControllerIT extends IntegrationSpec {
 			unauthenticatedUser()
 
 		expect:
-			mvc.perform(get("/api/assets/1234").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets/1234").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isUnauthorized())
 	}
 
 	def "should get a page of assets"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		expect:
-			mvc.perform(get("/api/assets")
+			mvc.perform(get("/assets")
 					.queryParam("page", "2")
 					.queryParam("size", "2")
 					.contentType(MediaType.APPLICATION_JSON)
@@ -158,10 +159,10 @@ class TraceabilityControllerIT extends IntegrationSpec {
 
 	def "should not update quality type for not existing asset"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 
 		expect:
-			mvc.perform(patch("/api/assets/1234")
+			mvc.perform(patch("/assets/1234")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(
 					asJson(
@@ -175,10 +176,10 @@ class TraceabilityControllerIT extends IntegrationSpec {
 
 	def "should not update quality type with invalid request body"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 
 		expect:
-			mvc.perform(patch("/api/assets/1234")
+			mvc.perform(patch("/assets/1234")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(
 					asJson(
@@ -200,21 +201,21 @@ class TraceabilityControllerIT extends IntegrationSpec {
 
 	def "should update quality type for existing asset"() {
 		given:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
 			def existingAssetId = "urn:uuid:d3cca507-5515-4595-adb2-4c7706a75488"
 
 		expect:
-			mvc.perform(get("/api/assets/$existingAssetId").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets/$existingAssetId").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.qualityType', equalTo("Ok")))
 
 		and:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 
-			mvc.perform(patch("/api/assets/$existingAssetId")
+			mvc.perform(patch("/assets/$existingAssetId")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(
 					asJson(
@@ -226,9 +227,9 @@ class TraceabilityControllerIT extends IntegrationSpec {
 				.andExpect(jsonPath('$.qualityType', equalTo("Critical")))
 
 		and:
-			authenticatedUser(KeycloakRole.UMA_ROLE)
+			authenticatedUser(KeycloakRole.ADMIN)
 
-			mvc.perform(get("/api/assets/$existingAssetId").contentType(MediaType.APPLICATION_JSON))
+			mvc.perform(get("/assets/$existingAssetId").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.qualityType', equalTo("Critical")))
 	}

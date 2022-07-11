@@ -21,3 +21,4 @@ spring:
 
 keycloak:
   enabled: false
+  resource: "Integration-Test"

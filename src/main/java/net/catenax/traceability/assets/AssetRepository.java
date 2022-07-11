@@ -14,4 +14,6 @@ public interface AssetRepository {
 	List<Asset> getAssets();
 
 	Asset save(Asset asset);
+
+    long countAssets();
 }

@@ -1,4 +1,4 @@
-package net.catenax.traceability.api;
+package net.catenax.traceability.api.assets;
 
 import net.catenax.traceability.assets.Asset;
 import net.catenax.traceability.assets.AssetRepository;
@@ -16,14 +16,14 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
-public class TraceabilityController {
+@RequestMapping
+public class AssetsController {
 
 	private final AssetRepository assetRepository;
 
 	private final AssetService assetService;
 
-	public TraceabilityController(AssetRepository assetRepository, AssetService assetService) {
+	public AssetsController(AssetRepository assetRepository, AssetService assetService) {
 		this.assetRepository = assetRepository;
 		this.assetService = assetService;
 	}

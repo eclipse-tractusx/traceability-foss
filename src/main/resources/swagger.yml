@@ -12,7 +12,7 @@ swagger:
   operations:
     api.assets:
       summary: "Returns all assets"
-      notes: "TODO: Implement pagination of the results"
+      notes: "The results are paginated"
       authorizations: "#components/securitySchemes/bearerAuth"
     api.assets.assetId:
       summary: "Returns single asset by given assetId"
@@ -24,4 +24,8 @@ swagger:
       params:
         assetId: "Unique ID of an asset"
         childId: "Unique ID of a child asset"
+      authorizations: "#components/securitySchemes/bearerAuth"
+    api.dashboard:
+      summary: "Returns dashboard related data"
+      notes: "The endpoint can return limited data based on the user role"
       authorizations: "#components/securitySchemes/bearerAuth"

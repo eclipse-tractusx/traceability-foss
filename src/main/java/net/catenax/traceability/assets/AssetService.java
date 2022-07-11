@@ -1,6 +1,6 @@
 package net.catenax.traceability.assets;
 
-import net.catenax.traceability.api.UpdateAsset;
+import net.catenax.traceability.api.assets.UpdateAsset;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

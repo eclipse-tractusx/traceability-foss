@@ -54,7 +54,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
 	@ExceptionHandler(AccessDeniedException.class)
 	ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException accessDeniedException) {
-		return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+		return ResponseEntity.status(HttpStatus.FORBIDDEN)
 			.body(new ErrorResponse(accessDeniedException.getMessage()));
 	}
 

@@ -1,4 +1,4 @@
-package net.catenax.traceability.api;
+package net.catenax.traceability.api.assets;
 
 import net.catenax.traceability.assets.QualityType;
 
