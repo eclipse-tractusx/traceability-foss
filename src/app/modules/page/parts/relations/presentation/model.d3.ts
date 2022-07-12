@@ -17,38 +17,14 @@
  * under the License.
  */
 
-import { QualityType } from '@page/parts/model/parts.model';
-import { TreeSvg } from '@page/parts/relations/presentation/model.d3';
+import { TreeStructure } from '@page/parts/relations/model/relations.model';
+import { HierarchyCircularNode } from 'd3-hierarchy';
+import { Selection } from 'd3-selection';
 
-export type LoadedElements = Record<string, TreeElement>;
-export type OpenElements = Record<string, string[]>;
-type State = 'done' | 'loading' | QualityType;
+export type TreeSvg = Selection<SVGElement, TreeStructure, HTMLElement, TreeStructure>;
+export type TreeNode = HierarchyCircularNode<TreeStructure>;
 
-export interface TreeElement {
-  id: string;
-  title: string;
-  text?: string;
-
-  state?: State;
-  children?: string[];
-}
-
-export interface TreeStructure {
-  id: string;
-  title: string;
-  text?: string;
-
-  state: State;
-  children?: TreeStructure[];
-  relations?: TreeStructure[];
-}
-
-export interface TreeData {
-  id: string;
-  treeId?: string;
-  zoom?: number;
-  r?: number;
-  mainElement?: TreeSvg;
-  openDetails?: (data: TreeStructure) => void;
-  updateChildren?: (data: TreeStructure) => void;
+export interface MinimapConnector {
+  onZoom: (zoom: number) => void;
+  onDrag: (x: number, y: number) => void;
 }

@@ -31,7 +31,8 @@ import { StaticIdService } from '@shared/service/staticId.service';
 import * as d3 from 'd3';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, delay, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
-import RelationTree from './d3.tree';
+import RelationTree from './tree/tree.d3';
+import RelationMinimap, { MinimapData } from './minimap/minimap.d3';
 
 @Component({
   selector: 'app-part-relation',
@@ -42,6 +43,7 @@ import RelationTree from './d3.tree';
 })
 export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() isStandalone = true;
+  @Input() showMiniMap = true;
   @Input() zoom: number;
 
   public readonly htmlIdBase = 'app-part-relation-';
@@ -51,6 +53,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private _rootPart$ = new State<View<Part>>({ loader: true });
   private tree: RelationTree;
+  private minimap: RelationMinimap;
   private treeData: TreeStructure;
 
   constructor(
@@ -127,6 +130,19 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     };
 
     this.tree = new RelationTree(treeConfig);
+
+    if (!this.showMiniMap) {
+      return;
+    }
+
+    const minimapId = `${this.htmlId}-minimap`;
+    const minimapConfig: MinimapData = {
+      id: minimapId,
+      mainElement: d3.select(`#${minimapId}`),
+      treeInstance: this.tree,
+    };
+
+    this.minimap = new RelationMinimap(minimapConfig);
   }
 
   private updateChildren({ id }: TreeElement): void {
@@ -154,8 +170,15 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private renderTree(treeData: TreeStructure): void {
-    d3.select(`#${this.htmlId}-svg`).remove();
     this.tree.renderTree(treeData);
+    this.renderMinimap(treeData);
+  }
+
+  private renderMinimap(treeData: TreeStructure): void {
+    if (!this.showMiniMap) {
+      return;
+    }
+    this.minimap.renderMinimap(treeData);
   }
 
   public increaseSize(): void {

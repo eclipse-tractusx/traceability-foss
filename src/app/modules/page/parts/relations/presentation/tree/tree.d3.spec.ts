@@ -17,16 +17,16 @@
  * under the License.
  */
 
-import { TreeData, TreeStructure } from '@page/parts/relations/model/relations.model';
-import RelationTree from '@page/parts/relations/presentation/d3.tree';
-import { D3TreeDummyData } from '@page/parts/relations/presentation/d3.tree.test.data';
-import { Selection } from 'd3-selection';
+import { TreeData } from '@page/parts/relations/model/relations.model';
+import { TreeSvg } from '@page/parts/relations/presentation/model.d3';
 import * as d3 from 'd3';
+import RelationTree from './tree.d3';
+import { D3TreeDummyData } from './tree.d3.test.data';
 
 describe('D3 Tree', () => {
   const id = 'id';
   const zoom = 10;
-  const mainElement: Selection<Element, TreeStructure, HTMLElement, TreeStructure> = d3.select(document.body);
+  const mainElement = d3.select(document.body).append('svg') as TreeSvg;
   const openDetails = jest.fn();
   const updateChildren = jest.fn();
 
@@ -35,18 +35,20 @@ describe('D3 Tree', () => {
 
   it('should initialize tree class', () => {
     const tree = new RelationTree(treeData);
-
-    expect(tree).toEqual({
+    const expected = {
+      _zoom: zoom,
+      _minimapConnector: { onZoom: (zoom: number) => null, onDrag: (x: number, y: number) => null },
       id,
       mainElement,
       openDetails,
       updateChildren,
-      _zoom: zoom,
-      height: 568,
       width: 1024,
+      height: 568,
       r: 60,
-      viewX: -60,
-    });
+      _viewX: -90,
+    };
+
+    expect(JSON.stringify(tree)).toEqual(JSON.stringify(expected));
   });
 
   it('should render tree', () => {
