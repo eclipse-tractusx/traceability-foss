@@ -20,7 +20,7 @@
 import { TreeData } from '@page/parts/relations/model/relations.model';
 import { TreeSvg } from '@page/parts/relations/presentation/model.d3';
 import * as d3 from 'd3';
-import RelationTree from './tree.d3';
+import Tree from './tree.d3';
 import { D3TreeDummyData } from './tree.d3.test.data';
 
 describe('D3 Tree', () => {
@@ -34,10 +34,10 @@ describe('D3 Tree', () => {
   beforeEach(() => (treeData = { id, zoom, mainElement, openDetails, updateChildren }));
 
   it('should initialize tree class', () => {
-    const tree = new RelationTree(treeData);
+    const tree = new Tree(treeData);
     const expected = {
       _zoom: zoom,
-      _minimapConnector: { onZoom: (zoom: number) => null, onDrag: (x: number, y: number) => null },
+      _minimapConnector: { onZoom: (_zoomChange: number) => null, onDrag: (_x: number, _y: number) => null },
       id,
       mainElement,
       openDetails,
@@ -52,7 +52,7 @@ describe('D3 Tree', () => {
   });
 
   it('should render tree', () => {
-    const tree = new RelationTree(treeData);
+    const tree = new Tree(treeData);
 
     const treeSvg = tree.renderTree(D3TreeDummyData).node();
     const treeChildren = treeSvg.children;
@@ -65,7 +65,7 @@ describe('D3 Tree', () => {
   });
 
   it('should render element borders', () => {
-    const tree = new RelationTree(treeData);
+    const tree = new Tree(treeData);
     const treeSvg = tree.renderTree(D3TreeDummyData).node();
 
     expect(treeSvg.getElementsByClassName('tree--element__border-done').length).toBe(2);
@@ -73,7 +73,7 @@ describe('D3 Tree', () => {
   });
 
   it('should render modified text for different sizes', () => {
-    const tree = new RelationTree(treeData);
+    const tree = new Tree(treeData);
 
     const treeSvg = tree.renderTree(D3TreeDummyData).node();
     const treeChildren = treeSvg.children;

@@ -135,6 +135,8 @@
     }
 
     &-loading {
+      @apply fill-primary;
+      animation: MinimapElementLoading 1.5s ease-in-out infinite;
     }
 
     &-Minor {
@@ -316,5 +318,19 @@
   }
   100% {
     transform: rotate(420deg);
+  }
+}
+@keyframes MinimapElementLoading {
+  0% {
+    @apply fill-primary;
+    opacity: 0.5;
+  }
+  50% {
+    @apply fill-primaryDark;
+    opacity: 1;
+  }
+  100% {
+    @apply fill-primary;
+    opacity: 0.5;
   }
 }

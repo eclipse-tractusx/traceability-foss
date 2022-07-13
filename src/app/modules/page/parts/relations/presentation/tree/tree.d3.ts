@@ -20,12 +20,11 @@
 import { TreeData, TreeStructure } from '@page/parts/relations/model/relations.model';
 import { HelperD3 } from '@page/parts/relations/presentation/helper.d3';
 import * as d3 from 'd3';
-import { DragBehavior, DraggedElementBaseType, HierarchyNode, PieArcDatum } from 'd3';
+import { HierarchyNode, PieArcDatum } from 'd3';
 import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
-import { Selection } from 'd3-selection';
 import { MinimapConnector, TreeNode, TreeSvg } from '../model.d3';
 
-class RelationTree {
+class Tree {
   private readonly id: string;
   private readonly r: number;
   private readonly openDetails: (data: TreeStructure) => void;
@@ -41,14 +40,14 @@ class RelationTree {
   private _viewY: number;
 
   private _minimapConnector: MinimapConnector = {
-    onZoom: (zoom: number) => null,
-    onDrag: (x: number, y: number) => null,
+    onZoom: (_zoomChange: number) => null,
+    onDrag: (_x: number, _y: number) => null,
   };
 
   constructor(treeData: TreeData) {
     this.id = treeData.id;
 
-    this._zoom = treeData.zoom >= 1 ? treeData.zoom : 1 || 1;
+    this._zoom = treeData.zoom >= 1 ? treeData.zoom : 1;
     this.mainElement = treeData.mainElement;
 
     this.width = this.getCalculatedWidth();
@@ -79,9 +78,9 @@ class RelationTree {
     this.minimapConnector.onZoom(this.zoom);
   }
 
-  public renderTree(data: TreeStructure): TreeSvg {
+  public renderTree(treeData: TreeStructure): TreeSvg {
     d3.select(`#${this.id}-svg`).remove();
-    const root = d3.hierarchy(data);
+    const root = d3.hierarchy(treeData);
 
     const svg = this.creatMainSvg(root);
     this.addZoomListener(svg);
@@ -185,7 +184,7 @@ class RelationTree {
       .join('a')
       .filter(({ data }) => data.state !== 'loading' && data.children?.length > 0)
       .attr('transform', ({ x, y }: TreeNode) => `translate(${y + this.r + circleRadius + 5},${x})`)
-      .on('click', (event, { data }) => this.updateChildren(data))
+      .on('click', (_, { data }) => this.updateChildren(data))
       .classed('tree--element__closing', true);
 
     closeNode
@@ -209,7 +208,7 @@ class RelationTree {
       .data(descendants)
       .join('a')
       .attr('transform', ({ x, y }: TreeNode) => `translate(${y},${x})`)
-      .on('click', (event, { data }) => this.openDetails(data));
+      .on('click', (_, { data }) => this.openDetails(data));
 
     node.append('circle').attr('r', this.r).classed('tree--element__circle', true);
     node.append('title').text(({ data }: TreeNode) => data.title);
@@ -296,7 +295,7 @@ class RelationTree {
       .join('a')
       .filter(({ data }) => data.state !== 'loading' && data.relations?.length > 0)
       .classed('tree--element__arrow-container', true)
-      .on('click', (event, { data }) => this.updateChildren(data));
+      .on('click', (_, { data }) => this.updateChildren(data));
 
     const arc = d3
       .arc<HierarchyNode<TreeStructure>>()
@@ -352,4 +351,4 @@ class RelationTree {
   }
 }
 
-export default RelationTree;
+export default Tree;

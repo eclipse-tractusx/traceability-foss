@@ -135,7 +135,7 @@ under the License.
     <ng-container *ngIf="!this.showQualityTypeDropdown">
       <p class="card-list--cell card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
       <p (click)="this.showQualityTypeDropdown = true" class="card-list--cell card-list--value card-list--icon">
-        {{ 'qualityType.' + item.value | i18n }}
+        {{ 'qualityType.' + (selectedValue || item.value) | i18n }}
         <mat-icon inline>edit</mat-icon>
       </p>
     </ng-container>
@@ -144,7 +144,7 @@ under the License.
       <app-select
         [lable]="'partDetail.' + item.key | i18n"
         [options]="this.qualityTypeOptions"
-        [selectedValue]="item.value"
+        [selectedValue]="selectedValue || item.value"
         (selected)="this.updateQualityType($event)"
       ></app-select
       ><mat-icon (click)="this.showQualityTypeDropdown = false" inline>close</mat-icon>

@@ -20,17 +20,15 @@
 import { TreeStructure } from '@page/parts/relations/model/relations.model';
 import { HelperD3 } from '@page/parts/relations/presentation/helper.d3';
 import { TreeNode, TreeSvg } from '@page/parts/relations/presentation/model.d3';
-import RelationTree from '@page/parts/relations/presentation/tree/tree.d3';
+import Tree from '@page/parts/relations/presentation/tree/tree.d3';
 import * as d3 from 'd3';
-import { BaseType, HierarchyNode } from 'd3';
+import { HierarchyNode } from 'd3';
 import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
-import { Selection } from 'd3-selection';
-import { forEach } from 'lodash-es';
 
 export interface MinimapData {
   id: string;
   mainElement?: TreeSvg;
-  treeInstance: RelationTree;
+  treeInstance: Tree;
 }
 
 class RelationMinimap {
@@ -38,7 +36,7 @@ class RelationMinimap {
   private readonly scale = 20;
   private readonly r: number;
   private readonly mainElement: TreeSvg;
-  private readonly treeInstance: RelationTree;
+  private readonly treeInstance: Tree;
 
   private readonly xOffset: number;
   private yOffset: number;
@@ -200,10 +198,10 @@ class RelationMinimap {
       i++;
       this.updateTreeFromBorder(x, y);
       this.refreshBorderBasedOnTree();
-      if (i < animationInterval) timerId = setTimeout(animationFunction, 5);
+      if (i < animationInterval) setTimeout(animationFunction, 5);
     };
 
-    let timerId = setTimeout(animationFunction, 5);
+    setTimeout(animationFunction, 5);
   }
 
   private closingEventListener(event: MouseEvent): void {

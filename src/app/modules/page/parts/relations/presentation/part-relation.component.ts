@@ -31,7 +31,7 @@ import { StaticIdService } from '@shared/service/staticId.service';
 import * as d3 from 'd3';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, delay, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
-import RelationTree from './tree/tree.d3';
+import Tree from './tree/tree.d3';
 import RelationMinimap, { MinimapData } from './minimap/minimap.d3';
 
 @Component({
@@ -52,7 +52,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   public htmlId: string;
 
   private _rootPart$ = new State<View<Part>>({ loader: true });
-  private tree: RelationTree;
+  private tree: Tree;
   private minimap: RelationMinimap;
   private treeData: TreeStructure;
 
@@ -129,7 +129,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       zoom: this.zoom,
     };
 
-    this.tree = new RelationTree(treeConfig);
+    this.tree = new Tree(treeConfig);
 
     if (!this.showMiniMap) {
       return;
