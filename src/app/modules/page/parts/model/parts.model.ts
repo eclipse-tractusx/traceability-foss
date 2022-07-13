@@ -71,3 +71,11 @@ export interface PartResponse {
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;
+
+export interface PartsCountriesMapResponse {
+  [index: string]: number;
+}
+
+export interface PartsCountriesMap {
+  [index: string]: number;
+}

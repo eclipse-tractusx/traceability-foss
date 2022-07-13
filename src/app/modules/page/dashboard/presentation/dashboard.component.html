@@ -22,7 +22,7 @@ under the License.
   <section class="parts-section">
     <ng-container
       *viewContainer="
-        this.numberOfParts$ | async;
+        this.numberOfMyParts$ | async;
         main: numberOfPartsMainTmp;
         error: numberOfPartsErrorTmp;
         loading: numberOfPartsLoaderTmp
@@ -58,7 +58,7 @@ under the License.
   <section class="parts-section" *appHasRole="['admin', 'supervisor']">
     <ng-container
       *viewContainer="
-        this.numberOfParts$ | async;
+        this.numberOfBranchParts$ | async;
         main: managedNumberOfPartsMainTmp;
         error: managedNumberOfPartsErrorTmp;
         loading: managedNumberOfPartsLoaderTmp

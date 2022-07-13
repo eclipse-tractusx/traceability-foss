@@ -20,7 +20,14 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
-import { Part, PartResponse, QualityType, SortableHeaders } from '@page/parts/model/parts.model';
+import {
+  Part,
+  PartResponse,
+  QualityType,
+  SortableHeaders,
+  PartsCountriesMap,
+  PartsCountriesMapResponse,
+} from '@page/parts/model/parts.model';
 import { View } from '@shared';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { OperatorFunction } from 'rxjs';
@@ -45,6 +52,14 @@ export class PartsAssembler {
       productionDate: new CalendarDateModel(part.manufacturingDate),
       children: part.childDescriptions.map(child => child.id),
     };
+  }
+
+  public static assembleAssetsCountryMap(partsCountriesMap: PartsCountriesMapResponse): PartsCountriesMap {
+    if (!partsCountriesMap || typeof partsCountriesMap !== 'object') {
+      return null;
+    }
+
+    return partsCountriesMap;
   }
 
   public static assembleParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {

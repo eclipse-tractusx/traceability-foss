@@ -20,14 +20,12 @@
 import { Injectable } from '@angular/core';
 import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
 import { PartsService } from '@page/parts/core/parts.service';
-import { startsWith } from 'lodash-es';
-import { combineLatest, merge, Observable, of } from 'rxjs';
-import { delay, map, startWith, switchMap, tap } from 'rxjs/operators';
-import { realm } from '@core/api/api.service.properties';
+import { Observable } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 import { View } from '@shared/model/view.model';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
-import { Dashboard } from '../model/dashboard.model';
+import { DashboardStats } from '../model/dashboard.model';
 
 @Injectable()
 export class DashboardFacade {
@@ -37,44 +35,38 @@ export class DashboardFacade {
     private readonly partsService: PartsService,
   ) {}
 
-  get numberOfParts$(): Observable<View<number>> {
-    return merge(of({ loader: true }), of({ data: 2822 }).pipe(delay(1500))).pipe(delay(0));
-    // return this.dashboardState.numberOfParts$.pipe(delay(0));
+  get numberOfMyParts$(): Observable<View<number>> {
+    return this.dashboardState.numberOfMyParts$.pipe(delay(0));
+  }
+
+  get numberOfBranchParts$(): Observable<View<number>> {
+    return this.dashboardState.numberOfBranchParts$.pipe(delay(0));
   }
 
   public setNumberOfParts(): void {
-    // Disabled until dashboard endpoint is available
-    return;
-    this.dashboardState.setNumberOfParts({ loader: true });
+    this.dashboardState.setNumberOfMyParts({ loader: true });
+    this.dashboardState.setNumberOfBranchParts({ loader: true });
     this.dashboardService.getStats().subscribe({
-      next: (kpiStats: Dashboard) => {
-        const realmAsAKey = realm?.toLocaleUpperCase();
-        const assetsCount =
-          kpiStats.qualityAlertCount[realmAsAKey] && kpiStats.qualityAlertCount[realmAsAKey].length
-            ? +kpiStats.qualityAlertCount[realmAsAKey][0].totalAssetsCount
-            : 0;
-
-        this.dashboardState.setNumberOfParts({ data: assetsCount });
+      next: (dashboardStats: DashboardStats) => {
+        this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myItems });
+        this.dashboardState.setNumberOfBranchParts({ data: dashboardStats.branchItems });
       },
-      error: error => this.dashboardState.setNumberOfParts({ error }),
+      error: error => {
+        this.dashboardState.setNumberOfMyParts({ error });
+        this.dashboardState.setNumberOfBranchParts({ error });
+      },
     });
   }
 
   get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
     return this.partsService
-      .getParts(0, 1000000000, ['productionCountry', 'asc'])
+      .getPartsPerCountry()
       .pipe(delay(0))
       .pipe(
-        map(({ content }) => {
-          const countedCountries = content.reduce((p, { productionCountry }) => {
-            const countryCount = p[productionCountry];
-            p[productionCountry] = countryCount ? countryCount + 1 : 1;
-            return p;
-          }, {});
-
-          return Object.keys(countedCountries).map(key => ({
-            coordinates: CountryLocationMap[key].coordinates,
-            numberOfParts: countedCountries[key],
+        map(partsCountriesMap => {
+          return Object.keys(partsCountriesMap).map(key => ({
+            coordinates: CountryLocationMap[key.toUpperCase()].coordinates,
+            numberOfParts: partsCountriesMap[key],
           }));
         }),
         map(data => ({ data })),

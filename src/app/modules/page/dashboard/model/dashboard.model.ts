@@ -61,3 +61,13 @@ export interface Dashboard {
   qualityAlertCountByTime: Record<string, QualityAlertCountByTime[]>;
   qualityAlertTotalCount: number;
 }
+
+export interface DashboardStats {
+  branchItems: number | null;
+  myItems: number;
+}
+
+export interface DashboardStatsResponse {
+  branchItems: number | null;
+  myItems: number;
+}
