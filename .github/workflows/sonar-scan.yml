@@ -1,5 +1,7 @@
 name: Sonar Cloud Analyze
 on:
+  workflow_run:
+    workflows: ["Tests"]
   push:
     branches:
       - main
@@ -7,7 +9,6 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   sonarcloud:
-    needs: ["Tests"]
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
