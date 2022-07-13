@@ -137,5 +137,8 @@
       "@tests/(.+)": "<rootDir>/src/tests/$1",
       "src/(.+)": "<rootDir>src/$1"
     }
+  },
+  "jestSonar": {
+    "reportPath": "./src/tests"
   }
 }

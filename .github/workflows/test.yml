@@ -21,6 +21,12 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Cache jest test report
+      id: cache-jest-test-report
+      uses: actions/cache@v3
+      with:
+        path: ./src/tests
+        key: ${{ runner.os }}-jest-test-report
     - uses: Borales/actions-yarn@v3.0.0
       with:
         cmd: install # will run `yarn install` command
