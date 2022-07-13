@@ -27,6 +27,7 @@ under the License.
   </div>
   <figure class="part-relation--container" data-testId="part-relation--test-id" [id]="htmlId"></figure>
   <figure
+    *ngIf="this.showMiniMap"
     class="part-relation--minimap"
     data-testId="part-relation--minimap--test-id"
     [id]="htmlId + '-minimap'"

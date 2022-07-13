@@ -25,17 +25,88 @@
   border-radius: 20%;
   @apply shadow;
 }
+
 .part-relation--minimap {
   position: absolute;
-  right: 5px;
-  top: 5px;
+  width: 10%;
+  min-width: 150px;
+  min-height: 30%;
+  opacity: 0.3;
+  transition: opacity 0.5s, width 0.25s, min-height 0.25s, min-width 0.25s;
+  cursor: pointer;
 
-  border: 1px solid black;
+  right: 2rem;
+  bottom: 2rem;
+
+  border-radius: 5px;
+  box-shadow: 0 0 20px 2px #00000059;
+
   background-color: white;
+  overflow: hidden;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  & a {
+    cursor: unset;
+  }
 }
 
 .part-relation--container {
   height: 100%;
+}
+
+.tree--minimap {
+  @apply fill-primary;
+  opacity: 0.5;
+
+  &:hover {
+    cursor: grab;
+  }
+
+  &__closed {
+    width: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    overflow: hidden;
+    opacity: 1;
+
+    & > svg:first-child {
+      width: 0;
+      height: 0;
+    }
+
+    & > svg:last-child {
+      transition: fill 0.3s;
+
+      width: 30px;
+      min-height: 30px;
+
+      &:hover {
+        @apply fill-primary;
+      }
+    }
+  }
+
+  &__closing {
+    cursor: pointer;
+
+    & > rect {
+      fill: transparent;
+    }
+
+    & > text {
+      @apply fill-doveGray;
+      font-size: 25px;
+
+      transition: fill 0.3s;
+
+      &:hover {
+        @apply fill-primary;
+      }
+    }
+  }
 }
 
 .tree--element {
@@ -44,7 +115,7 @@
   cursor: grab;
 
   &__grabbing {
-    cursor: grabbing;
+    cursor: grabbing !important;
   }
 
   &__path {
@@ -58,6 +129,31 @@
     @apply fill-white;
     -webkit-filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
     filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
+
+    &-done {
+      @apply fill-success;
+    }
+
+    &-loading {
+      @apply fill-primary;
+      animation: MinimapElementLoading 1.5s ease-in-out infinite;
+    }
+
+    &-Minor {
+      @apply fill-primaryLight;
+    }
+
+    &-Major {
+      @apply fill-primaryDark;
+    }
+
+    &-Critical {
+      @apply fill-dangerLight;
+    }
+
+    &-LifeThreatening {
+      fill: #981b5e;
+    }
   }
 
   &__border {
@@ -222,5 +318,19 @@
   }
   100% {
     transform: rotate(420deg);
+  }
+}
+@keyframes MinimapElementLoading {
+  0% {
+    @apply fill-primary;
+    opacity: 0.5;
+  }
+  50% {
+    @apply fill-primaryDark;
+    opacity: 1;
+  }
+  100% {
+    @apply fill-primary;
+    opacity: 0.5;
   }
 }

@@ -17,16 +17,16 @@
  * under the License.
  */
 
-import { TreeData, TreeStructure } from '@page/parts/relations/model/relations.model';
-import RelationTree from '@page/parts/relations/presentation/d3.tree';
-import { D3TreeDummyData } from '@page/parts/relations/presentation/d3.tree.test.data';
-import { Selection } from 'd3-selection';
+import { TreeData } from '@page/parts/relations/model/relations.model';
+import { TreeSvg } from '@page/parts/relations/presentation/model.d3';
 import * as d3 from 'd3';
+import Tree from './tree.d3';
+import { D3TreeDummyData } from './tree.d3.test.data';
 
 describe('D3 Tree', () => {
   const id = 'id';
   const zoom = 10;
-  const mainElement: Selection<Element, TreeStructure, HTMLElement, TreeStructure> = d3.select(document.body);
+  const mainElement = d3.select(document.body).append('svg') as TreeSvg;
   const openDetails = jest.fn();
   const updateChildren = jest.fn();
 
@@ -34,23 +34,25 @@ describe('D3 Tree', () => {
   beforeEach(() => (treeData = { id, zoom, mainElement, openDetails, updateChildren }));
 
   it('should initialize tree class', () => {
-    const tree = new RelationTree(treeData);
-
-    expect(tree).toEqual({
+    const tree = new Tree(treeData);
+    const expected = {
+      _zoom: zoom,
+      _minimapConnector: { onZoom: (_zoomChange: number) => null, onDrag: (_x: number, _y: number) => null },
       id,
       mainElement,
       openDetails,
       updateChildren,
-      _zoom: zoom,
-      height: 568,
       width: 1024,
+      height: 568,
       r: 60,
-      viewX: -60,
-    });
+      _viewX: -90,
+    };
+
+    expect(JSON.stringify(tree)).toEqual(JSON.stringify(expected));
   });
 
   it('should render tree', () => {
-    const tree = new RelationTree(treeData);
+    const tree = new Tree(treeData);
 
     const treeSvg = tree.renderTree(D3TreeDummyData).node();
     const treeChildren = treeSvg.children;
@@ -63,7 +65,7 @@ describe('D3 Tree', () => {
   });
 
   it('should render element borders', () => {
-    const tree = new RelationTree(treeData);
+    const tree = new Tree(treeData);
     const treeSvg = tree.renderTree(D3TreeDummyData).node();
 
     expect(treeSvg.getElementsByClassName('tree--element__border-done').length).toBe(2);
@@ -71,7 +73,7 @@ describe('D3 Tree', () => {
   });
 
   it('should render modified text for different sizes', () => {
-    const tree = new RelationTree(treeData);
+    const tree = new Tree(treeData);
 
     const treeSvg = tree.renderTree(D3TreeDummyData).node();
     const treeChildren = treeSvg.children;

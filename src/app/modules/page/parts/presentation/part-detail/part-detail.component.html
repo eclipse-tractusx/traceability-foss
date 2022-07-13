@@ -83,7 +83,7 @@ under the License.
     <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
     <mat-card-content [class.part-detail--spinner]="!(this.isOpen$ | async)" class="part-detail--relation__container">
       <ng-container *ngIf="this.isOpen$ | async">
-        <app-part-relation [isStandalone]="false" [zoom]="1.5"></app-part-relation>
+        <app-part-relation [isStandalone]="false" [zoom]="1.5" [showMiniMap]="false"></app-part-relation>
         <mat-icon (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon"
           >open_in_new</mat-icon
         >
@@ -135,7 +135,7 @@ under the License.
     <ng-container *ngIf="!this.showQualityTypeDropdown">
       <p class="card-list--cell card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
       <p (click)="this.showQualityTypeDropdown = true" class="card-list--cell card-list--value card-list--icon">
-        {{ 'qualityType.' + item.value | i18n }}
+        {{ 'qualityType.' + (selectedValue || item.value) | i18n }}
         <mat-icon inline>edit</mat-icon>
       </p>
     </ng-container>
@@ -144,7 +144,7 @@ under the License.
       <app-select
         [lable]="'partDetail.' + item.key | i18n"
         [options]="this.qualityTypeOptions"
-        [selectedValue]="item.value"
+        [selectedValue]="selectedValue || item.value"
         (selected)="this.updateQualityType($event)"
       ></app-select
       ><mat-icon (click)="this.showQualityTypeDropdown = false" inline>close</mat-icon>

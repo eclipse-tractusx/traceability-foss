@@ -27,6 +27,7 @@ import { Part, QualityType } from '@page/parts/model/parts.model';
 import { State, View } from '@shared';
 import { SelectOption } from '@shared/components/select/select.component';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-part-detail',
@@ -46,10 +47,14 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   public qualityTypeOptions: SelectOption[];
 
   private readonly _isOpen$: State<boolean> = new State<boolean>(false);
+  public selectedValue: QualityType;
 
   constructor(private readonly partsFacade: PartsFacade, private readonly router: Router) {
     this.relationPartDetails$ = this.partsFacade.selectedPart$;
-    this.partDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForView());
+    this.partDetails$ = this.partsFacade.selectedPart$.pipe(
+      PartsAssembler.mapPartForView(),
+      tap(_ => (this.selectedValue = null)),
+    );
 
     this.manufacturerDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
     this.customerDetails$ = this.partsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerView());
@@ -92,6 +97,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public updateQualityType(newQualityType: string): void {
+    this.selectedValue = newQualityType as QualityType;
     this.partsFacade.updateQualityType(newQualityType as QualityType).subscribe();
   }
 }
