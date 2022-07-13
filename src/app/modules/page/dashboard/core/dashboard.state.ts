@@ -24,13 +24,22 @@ import { State } from '../../../shared/model/state';
 
 @Injectable()
 export class DashboardState {
-  private readonly _numberOfParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfMyParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfBranchParts$: State<View<number>> = new State<View<number>>({ loader: true });
 
-  get numberOfParts$(): Observable<View<number>> {
-    return this._numberOfParts$.observable;
+  get numberOfMyParts$(): Observable<View<number>> {
+    return this._numberOfMyParts$.observable;
   }
 
-  public setNumberOfParts(assets: View<number>): void {
-    this._numberOfParts$.update(assets);
+  get numberOfBranchParts$(): Observable<View<number>> {
+    return this._numberOfBranchParts$.observable;
+  }
+
+  public setNumberOfMyParts(assets: View<number>): void {
+    this._numberOfMyParts$.update(assets);
+  }
+
+  public setNumberOfBranchParts(assets: View<number>): void {
+    this._numberOfBranchParts$.update(assets);
   }
 }

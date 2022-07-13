@@ -115,3 +115,16 @@ export const mockAssetList: Record<string, PartResponse> = {
   [MOCK_part_4.id]: MOCK_part_4,
   [MOCK_part_5.id]: MOCK_part_5,
 };
+
+export const mockAssetsCountriesMap: Record<string, number> = {
+  NZL: 16,
+  DEU: 9,
+  PNG: 24,
+  STP: 25,
+  MHL: 12,
+  USA: 13,
+  SDN: 17,
+  GMB: 14,
+  MYS: 16,
+  POL: 16,
+};

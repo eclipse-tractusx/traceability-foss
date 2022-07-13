@@ -23,14 +23,19 @@ import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Dashboard } from '../model/dashboard.model';
+import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model';
+import { DashboardAssembler } from './dashboard.assembler';
 
 @Injectable()
 export class DashboardService {
+  private url = environment.apiUrl;
+
   constructor(private apiService: ApiService) {}
 
-  public getStats(): Observable<Dashboard> {
-    return this.apiService.post(`/kpi-stats`).pipe(map((payload: { data: Dashboard; status: number }) => payload.data));
+  public getStats(): Observable<DashboardStats> {
+    return this.apiService
+      .get(`${this.url}/dashboard`)
+      .pipe(map((payload: DashboardStatsResponse) => DashboardAssembler.assembleDashboard(payload)));
   }
 
   public getGeolocationOfCountry(iso: string): Observable<any> {

@@ -23,7 +23,13 @@ import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
 import { PartsAssembler } from '@page/parts/core/parts.assembler';
-import { Part, PartResponse, PartsResponse, QualityType } from '@page/parts/model/parts.model';
+import {
+  Part,
+  PartResponse,
+  PartsResponse,
+  PartsCountriesMapResponse,
+  PartsCountriesMap,
+} from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -40,6 +46,12 @@ export class PartsService {
     return this.apiService
       .getBy<PartsResponse>(`${this.url}/assets`, params)
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));
+  }
+
+  public getPartsPerCountry(): Observable<PartsCountriesMap> {
+    return this.apiService
+      .getBy<PartsCountriesMapResponse>(`${this.url}/assets/countries`)
+      .pipe(map(partsCountriesMap => PartsAssembler.assembleAssetsCountryMap(partsCountriesMap)));
   }
 
   public getPart(id: string): Observable<Part> {

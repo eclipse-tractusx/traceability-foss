@@ -698,5 +698,5 @@ export const CountryLocationMap = {
   YEM: { coordinates: [47.6219307491681, 15.9378350127516], place_name: 'Yemen' },
   ZAF: { coordinates: [23.9137106762068, -28.3782721906973], place_name: 'South Africa' },
   ZMB: { coordinates: [27.4306751716734, -14.0049082837326], place_name: 'Zambia' },
-  ZWe: { coordinates: [29.9386693711454, -19.1894587635565], place_name: 'Zimbabwe' },
+  ZWE: { coordinates: [29.9386693711454, -19.1894587635565], place_name: 'Zimbabwe' },
 };

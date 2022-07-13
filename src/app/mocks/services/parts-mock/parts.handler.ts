@@ -18,12 +18,16 @@
  */
 
 import { rest } from 'msw';
-import { mockAssetList, mockAssets } from './parts.model';
+import { mockAssetList, mockAssets, mockAssetsCountriesMap } from './parts.model';
 import { environment } from '@env';
 
 export const partsHandlers = [
-  rest.get(`${environment.apiUrl}/assets`, (req, res, ctx) => {
+  rest.get(`${environment.apiUrl}/assets`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockAssets));
+  }),
+
+  rest.get(`${environment.apiUrl}/assets/countries`, (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(mockAssetsCountriesMap));
   }),
 
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {

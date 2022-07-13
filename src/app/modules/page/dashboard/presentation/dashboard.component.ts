@@ -18,7 +18,6 @@
  */
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { SpinnerOverlayService } from '@layout/spinner-overlay/spinner-overlay.service';
 import { Observable } from 'rxjs';
 import { View } from '@shared/model/view.model';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
@@ -30,11 +29,13 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
-  public numberOfParts$: Observable<View<number>>;
+  public numberOfMyParts$: Observable<View<number>>;
+  public numberOfBranchParts$: Observable<View<number>>;
   public assetsPerCountry$: Observable<View<any>>;
 
   constructor(private dashboardFacade: DashboardFacade) {
-    this.numberOfParts$ = this.dashboardFacade.numberOfParts$;
+    this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
+    this.numberOfBranchParts$ = this.dashboardFacade.numberOfBranchParts$;
     this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;
   }
 

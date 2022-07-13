@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { KnownLocale } from '@core/i18n/global-i18n.providers';
 import { IconLayer } from '@deck.gl/layers';
 import { MapboxLayer } from '@deck.gl/mapbox';
@@ -35,11 +35,15 @@ import { MAPPING, PartsCoordinates, supportedLanguages } from './map.model';
   styleUrls: ['./map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements AfterViewInit {
+  @ViewChild('map') mapElRef: ElementRef<HTMLElement>;
+
   @Input()
   set mapData(data: PartsCoordinates[]) {
     this._mapData = data;
-    this.renderMap(this._mapData);
+    if (this.isViewReady) {
+      this.renderMap(this._mapData);
+    }
   }
 
   get mapData(): PartsCoordinates[] {
@@ -50,9 +54,12 @@ export class MapComponent implements OnInit {
   private map: Map;
   private currentZoom: number;
 
+  private isViewReady = false;
+
   constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {}
 
-  public ngOnInit() {
+  public ngAfterViewInit() {
+    this.isViewReady = true;
     this.i18NextService.events.languageChanged.pipe(distinctUntilChanged()).subscribe((language: KnownLocale) => {
       if (language) {
         this.currentZoom = null;
@@ -69,7 +76,7 @@ export class MapComponent implements OnInit {
     const locale: Record<string, string> = this.i18NextService.t('map', { returnObjects: true });
     this.map = new Map({
       accessToken: environment.mapBoxAccessToken,
-      container: 'map',
+      container: this.mapElRef.nativeElement,
       style: 'mapbox://styles/mapbox/light-v10',
       center: { lng: 14, lat: 52 },
       maxZoom: 13,
