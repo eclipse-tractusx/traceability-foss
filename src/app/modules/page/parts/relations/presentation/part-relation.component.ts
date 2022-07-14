@@ -32,7 +32,7 @@ import * as d3 from 'd3';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, delay, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
 import Tree from './tree/tree.d3';
-import RelationMinimap, { MinimapData } from './minimap/minimap.d3';
+import Minimap, { MinimapData } from './minimap/minimap.d3';
 
 @Component({
   selector: 'app-part-relation',
@@ -53,7 +53,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private _rootPart$ = new State<View<Part>>({ loader: true });
   private tree: Tree;
-  private minimap: RelationMinimap;
+  private minimap: Minimap;
   private treeData: TreeStructure;
 
   constructor(
@@ -142,7 +142,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       treeInstance: this.tree,
     };
 
-    this.minimap = new RelationMinimap(minimapConfig);
+    this.minimap = new Minimap(minimapConfig);
   }
 
   private updateChildren({ id }: TreeElement): void {

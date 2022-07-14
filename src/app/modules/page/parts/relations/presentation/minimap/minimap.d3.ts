@@ -31,7 +31,7 @@ export interface MinimapData {
   treeInstance: Tree;
 }
 
-class RelationMinimap {
+class Minimap {
   private readonly id: string;
   private readonly scale = 20;
   private readonly r: number;
@@ -347,4 +347,4 @@ class RelationMinimap {
   }
 }
 
-export default RelationMinimap;
+export default Minimap;

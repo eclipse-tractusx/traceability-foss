@@ -347,7 +347,10 @@ class Tree {
   }
 
   private calculateViewbox(): number[] {
-    return [this.viewX, this.viewY * this.zoom, this.width * this.zoom, this.height * this.zoom];
+    const asd = this.viewY / this.height;
+    console.log(asd, this.height * asd, this.viewY);
+
+    return [this.viewX, this.height * this.zoom * asd, this.width * this.zoom, this.height * this.zoom];
   }
 }
 
