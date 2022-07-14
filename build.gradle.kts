@@ -1,12 +1,14 @@
 plugins {
 	id("java")
 	id("groovy")
+	id("jacoco")
 	id("org.springframework.boot") version "2.7.0"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
 	id("com.autonomousapps.dependency-analysis") version "1.2.0"
 	id("com.google.cloud.tools.jib") version "3.2.1"
 	id("com.coditory.integration-test") version "1.4.0"
 	id("org.openapi.generator") version "6.0.0"
+	id("org.sonarqube") version "3.4.0.2513"
 }
 
 group = "net.catenax.traceability"
@@ -31,6 +33,15 @@ configurations {
 repositories {
 	maven { url = uri("https://repo.spring.io/release") }
 	mavenCentral()
+}
+
+sonarqube {
+	properties {
+		property("sonar.organization", "catenax-ng")
+		property("sonar.host.url", "https://sonarcloud.io")
+		property("sonar.projectKey", "catenax-ng_product-traceability-foss-backend")
+		property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/*.xml")
+	}
 }
 
 val commonsCodecVersion = "1.15"
@@ -130,4 +141,17 @@ tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
 
 tasks.withType<JavaCompile> {
 	dependsOn("generateBpnApi")
+}
+
+tasks.jacocoTestReport {
+	reports {
+		xml.required.set(true)
+		xml.outputLocation.set(File("${project.buildDir}/jacoco/jacocoTestReport.xml"))
+		csv.required.set(false)
+		html.required.set(false)
+	}
+}
+
+tasks.test {
+	finalizedBy(tasks.jacocoTestReport)
 }
