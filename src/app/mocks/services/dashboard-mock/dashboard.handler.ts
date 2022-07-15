@@ -22,7 +22,7 @@ import { environment } from '@env';
 
 import { mockDashboardStats } from './dashboard.model';
 
-export const coreHandlers = [
+export const dashboardHandler = [
   rest.get(`${environment.apiUrl}/dashboard`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockDashboardStats));
   }),

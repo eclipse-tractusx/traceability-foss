@@ -17,8 +17,6 @@
  * under the License.
  */
 
-import { AssetsPerPlant } from './assets-per-plant.model';
-
 export type HistogramType = {
   date: string;
   total: number;
@@ -35,31 +33,6 @@ export interface ReceivedAlertType {
   type: string;
   total: number;
   color: string;
-}
-
-export interface QualityAlertCount {
-  qualityType: string;
-  alertCount: string;
-  totalAssetsCount: string;
-  totalAlertCount: string;
-}
-
-export interface QualityAlertCountByTime {
-  alertDate: string;
-  qualityType: string;
-  alertCount: string;
-  totalAssetsCount: string;
-  totalAlertCount: string;
-}
-
-export interface Dashboard {
-  AssetsCountPerCountryAndSupplier: AssetsPerPlant;
-  assetsCount: number;
-  ownAssetsCount: number;
-  otherAssetsCount: number;
-  qualityAlertCount: Record<string, QualityAlertCount[]>;
-  qualityAlertCountByTime: Record<string, QualityAlertCountByTime[]>;
-  qualityAlertTotalCount: number;
 }
 
 export interface DashboardStats {

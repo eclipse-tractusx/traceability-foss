@@ -17,5 +17,5 @@
  * under the License.
  */
 
-export { coreHandlers } from './core-mock/core.handler';
+export { dashboardHandler } from './dashboard-mock/dashboard.handler';
 export { partsHandlers } from './parts-mock/parts.handler';
