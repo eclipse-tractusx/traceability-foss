@@ -47,11 +47,11 @@ export class HelperD3 {
   }
 
   public static calculateWidth(mainElement: TreeSvg): number {
-    return mainElement?.node?.()?.getBoundingClientRect?.()?.width || window.innerWidth;
+    return mainElement?.node?.()?.getBoundingClientRect?.()?.width ?? window.innerWidth;
   }
 
   public static calculateHeight(mainElement: TreeSvg): number {
-    return mainElement?.node?.()?.getBoundingClientRect?.()?.height || window.innerHeight - 200;
+    return mainElement?.node?.()?.getBoundingClientRect?.()?.height ?? window.innerHeight - 200;
   }
 
   public static shortenText(text: string): string {

@@ -42,8 +42,8 @@ describe('D3 Tree', () => {
       mainElement,
       openDetails,
       updateChildren,
-      width: 1024,
-      height: 568,
+      width: 0,
+      height: 0,
       r: 60,
       _viewX: -90,
     };
