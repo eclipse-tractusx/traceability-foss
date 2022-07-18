@@ -19,7 +19,6 @@
 
 import { DashboardModule } from '@page/dashboard/dashboard.module';
 import { MapComponent } from '@page/dashboard/presentation/map/map.component';
-import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
@@ -28,22 +27,39 @@ jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
     addControl: jest.fn(),
     on: jest.fn(),
     remove: jest.fn(),
+    resize: jest.fn(),
+    getLayer: jest.fn(),
+    addLayer: jest.fn(),
   })),
   NavigationControl: jest.fn(),
 }));
 
 describe('Map', () => {
   const renderMap = mapData =>
-    renderComponent(`<app-map [mapData]='${mapData}'></app-map>`, {
+    renderComponent(MapComponent, {
       declarations: [MapComponent],
       imports: [DashboardModule],
       translations: ['page.dashboard'],
+      componentProperties: {
+        mapData,
+      },
     });
 
   it('should render map', async () => {
-    await renderMap([]);
+    const { fixture } = await renderMap([]);
+    expect(fixture.componentInstance.map).toBeDefined();
+  });
 
-    // ToDo: Will ask anton on how to setup tests for this use case.
-    expect(screen.getByText('aspect_ratio')).toBeInTheDocument();
+  it('should handle zoom', async () => {
+    const { fixture } = await renderMap([]);
+
+    (fixture.componentInstance.map.on as jest.Mock).mock.lastCall[1]({
+      target: {
+        getZoom: () => 3,
+      },
+    });
+
+    expect(fixture.componentInstance.map.resize).toHaveBeenCalled();
+    expect(fixture.componentInstance.map.addLayer).toHaveBeenCalled();
   });
 });
