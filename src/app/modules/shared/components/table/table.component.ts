@@ -17,7 +17,9 @@
  * under the License.
  */
 
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { SelectionModel } from '@angular/cdk/collections';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -30,6 +32,9 @@ import { TableConfig, TableEventConfig, TableHeaderSort } from '@shared/componen
   styleUrls: ['table.component.scss'],
 })
 export class TableComponent {
+  @ViewChild('SelectColumn') SelectColumn: TemplateRef<any>;
+  @ViewChild('NormalColumn') NormalColumn: TemplateRef<any>;
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -45,8 +50,11 @@ export class TableComponent {
 
   @Output() selected = new EventEmitter<Record<string, unknown>>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
+  @Output() multiSelect = new EventEmitter<unknown[]>();
 
-  public dataSource: MatTableDataSource<unknown>;
+  public dataSource = new MatTableDataSource<unknown>();
+  public selection = new SelectionModel<unknown>(true, []);
+
   public totalItems: number;
   public pageIndex: number;
   public isDataLoading: boolean;
@@ -54,19 +62,44 @@ export class TableComponent {
   private pageSize: number;
   private sorting: TableHeaderSort;
 
-  constructor() {
-    this.dataSource = new MatTableDataSource();
+  public areAllRowsSelected(): boolean {
+    return this.selection.selected.length === this.dataSource.data.length;
   }
 
-  getPaginatorData({ pageIndex, pageSize }: PageEvent) {
+  public toggleAllRows(): void {
+    if (this.areAllRowsSelected()) {
+      this.selection.clear();
+      this.emitMultiSelect();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+    this.emitMultiSelect();
+  }
+
+  public getPaginatorData({ pageIndex, pageSize }: PageEvent): void {
     this.pageIndex = pageIndex;
     this.isDataLoading = true;
     this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
   }
 
-  updateSortingOfData({ active, direction }: Sort): void {
+  public updateSortingOfData({ active, direction }: Sort): void {
+    this.selection.clear();
     this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
     this.isDataLoading = true;
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
+  }
+
+  public toggleSelection(event: MatCheckboxChange, row: unknown): void {
+    if (!event) {
+      return;
+    }
+
+    this.selection.toggle(row);
+    this.emitMultiSelect();
+  }
+
+  private emitMultiSelect(): void {
+    this.multiSelect.emit(this.selection.selected);
   }
 }
