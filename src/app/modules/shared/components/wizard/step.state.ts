@@ -18,8 +18,8 @@
  */
 
 import { Injectable } from '@angular/core';
+import { State } from '@shared/model/state';
 import { Observable } from 'rxjs';
-import { State } from 'src/app/modules/shared/model/state';
 import { Step } from './step.model';
 
 @Injectable({

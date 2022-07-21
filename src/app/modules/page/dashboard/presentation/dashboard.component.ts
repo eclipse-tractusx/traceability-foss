@@ -18,8 +18,8 @@
  */
 
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Observable } from 'rxjs';
 import { View } from '@shared/model/view.model';
+import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
 
 @Component({

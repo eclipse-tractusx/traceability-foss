@@ -19,7 +19,8 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule, TemplateModule } from '@shared';
+import { SharedModule } from '@shared/shared.module';
+import { TemplateModule } from '@shared/template.module';
 import { PageNotFoundComponent } from './presentation/page-not-found.component';
 
 @NgModule({

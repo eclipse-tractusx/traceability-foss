@@ -129,7 +129,6 @@
     ],
     "moduleNameMapper": {
       "@core/(.+)": "<rootDir>src/app/modules/core/$1",
-      "@shared": "<rootDir>src/app/modules/shared/index",
       "@shared/(.+)": "<rootDir>src/app/modules/shared/$1",
       "@layout/(.+)": "<rootDir>src/app/modules/core/layout/$1",
       "@page/(.+)": "<rootDir>src/app/modules/page/$1",

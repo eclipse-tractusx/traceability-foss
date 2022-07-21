@@ -18,8 +18,8 @@
  */
 
 import { Component } from '@angular/core';
+import { Step } from '@shared/components/wizard/step.model';
 import { Observable } from 'rxjs';
-import { Step } from 'src/app/modules/shared/components/wizard/step.model';
 import { WizardFacade } from '../wizard.facade';
 
 @Component({

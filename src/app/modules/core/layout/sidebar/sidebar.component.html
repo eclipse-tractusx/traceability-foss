@@ -39,6 +39,15 @@ under the License.
             [iconName]="'build'"
           ></app-sidebar-section>
         </li>
+        <li>
+          <app-sidebar-section
+            (click)="this.navigate('otherParts')"
+            [name]="'routing.otherParts' | i18n"
+            [isActive]="this.activeMenu === 'otherParts'"
+            [isExpanded]="this.expanded"
+            [iconName]="'commute'"
+          ></app-sidebar-section>
+        </li>
       </ul>
     </div>
     <div class="flex-auto"></div>

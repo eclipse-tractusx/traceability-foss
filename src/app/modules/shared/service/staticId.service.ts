@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { State } from '@shared';
+import { State } from '@shared/model/state';
 
 @Injectable({
   providedIn: 'root',

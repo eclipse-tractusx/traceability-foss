@@ -18,7 +18,7 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { State } from '../model/state';
 
 @Injectable({

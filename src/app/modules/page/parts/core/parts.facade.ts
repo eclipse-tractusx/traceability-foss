@@ -19,36 +19,17 @@
 
 import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
-import { PartsService } from '@page/parts/core/parts.service';
 import { PartsState } from '@page/parts/core/parts.state';
-import { Part, QualityType } from '@page/parts/model/parts.model';
-import { LoadedElementsFacade } from '@page/parts/relations/core/loaded-elements.facade';
-import { RelationsAssembler } from '@page/parts/relations/core/relations.assembler';
-import { View } from '@shared';
+import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Observable, of } from 'rxjs';
-import { catchError, delay, tap } from 'rxjs/operators';
+import { View } from '@shared/model/view.model';
+import { PartsService } from '@shared/service/parts.service';
+import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
-  constructor(
-    private readonly partsService: PartsService,
-    private readonly partsState: PartsState,
-    private readonly loadedElementsFacade: LoadedElementsFacade,
-  ) {}
-
-  get selectedPart$(): Observable<View<Part>> {
-    // IMPORTANT: this delay is needed for view-container directive
-    return this.partsState.selectedPart$.pipe(delay(0));
-  }
-
-  set selectedPart(part: Part) {
-    this.partsState.selectedPart = { data: part };
-  }
-
-  get selectedPart(): Part {
-    return this.partsState.selectedPart?.data;
-  }
+  constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {}
 
   get parts$(): Observable<View<Pagination<Part>>> {
     // IMPORTANT: this delay is needed for view-container directive
@@ -62,24 +43,5 @@ export class PartsFacade {
       },
       error: error => (this.partsState.parts = { error }),
     });
-  }
-
-  public setPart(id: string): Observable<View<Part>> {
-    return this.partsService.getPart(id).pipe(
-      tap((part: Part) => {
-        this.partsState.selectedPart = { data: part };
-      }),
-      catchError(error => {
-        this.partsState.selectedPart = { error };
-        return of(error);
-      }),
-    );
-  }
-
-  public updateQualityType(qualityType: QualityType): Observable<Part> {
-    const part = { ...this.selectedPart, qualityType };
-    this.loadedElementsFacade.addLoadedElement(RelationsAssembler.assemblePartForRelation(part));
-
-    return this.partsService.patchPart(part);
   }
 }

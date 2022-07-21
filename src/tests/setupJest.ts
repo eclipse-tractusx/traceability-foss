@@ -17,12 +17,12 @@
  * under the License.
  */
 
-import 'zone.js';
-import 'zone.js/testing';
-import 'jest-extended/all';
-import '@testing-library/jest-dom/extend-expect';
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import '@testing-library/jest-dom/extend-expect';
+import 'jest-extended/all';
+import 'zone.js';
+import 'zone.js/testing';
 
 // globally defined manual mocks
 jest.mock('../app/modules/core/api/api.service.properties');

@@ -18,7 +18,8 @@
  */
 
 import { MatCardModule } from '@angular/material/card';
-import { CardListComponent, SharedModule } from '@shared';
+import { CardListComponent } from '@shared/components/card-list/card-list.component';
+import { SharedModule } from '@shared/shared.module';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
