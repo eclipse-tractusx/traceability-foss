@@ -6,14 +6,11 @@
       "supplier": "Produkte von Lieferanten"
     },
     "column": {
-      "id": "ID",
       "name": "Name",
       "manufacturer": "Hersteller",
       "partNumber": "Produktnummer",
       "serialNumber": "Seriennummer",
-      "qualityType": "Qualitätsstufe",
-      "productionDate": "Produktionsdatum",
-      "productionCountry": "Produktionsland"
+      "productionDate": "Produktionsdatum"
     }
   },
   "partDetail": {
@@ -24,14 +21,9 @@
     "name": "Name",
     "partNumber": "Produktnummer",
     "serialNumber": "Seriennummer",
-    "qualityType": "Qualitätsstufe",
     "productionDate": "Produktionsdatum",
     "manufacturer": "Hersteller",
     "nameAtCustomer": "Name beim Kunden",
     "customerPartId": "Kunden Produktnummer"
-  },
-  "relation": {
-    "increase": "Hiermit vergrößern Sie den Baum",
-    "decrease": "Hiermit verkleinern Sie den Baum"
   }
 }

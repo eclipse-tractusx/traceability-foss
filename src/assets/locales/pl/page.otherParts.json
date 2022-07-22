@@ -6,14 +6,11 @@
       "supplier": "Supplier Parts TBD."
     },
     "column": {
-      "id": "ID",
       "name": "Nazwa",
       "manufacturer": "Producent",
       "partNumber": "Numer części",
       "serialNumber": "Numer seryjny",
-      "qualityType": "Typ jakości",
-      "productionDate": "Data produkcji",
-      "productionCountry": "Kraj produkcji"
+      "productionDate": "Data produkcji"
     }
   },
   "partDetail": {
@@ -24,7 +21,6 @@
     "name": "Nazwa",
     "partNumber": "Numer części",
     "serialNumber": "Numer seryjny",
-    "qualityType": "Typ jakości",
     "productionDate": "Data produkcji",
     "manufacturer": "Producent",
     "nameAtCustomer": "Nazwa u klienta",
