@@ -18,7 +18,7 @@
  */
 
 import { setupServer } from 'msw/node';
-import { dashboardHandler, partsHandlers } from '../app/mocks/services';
+import { dashboardHandler, otherPartsHandlers, partsHandlers } from '../app/mocks/services';
 
-const handlers = [...partsHandlers, ...dashboardHandler];
+const handlers = [...dashboardHandler, ...otherPartsHandlers, ...partsHandlers];
 export const server = setupServer(...handlers);

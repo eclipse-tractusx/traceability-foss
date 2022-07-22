@@ -28,45 +28,44 @@ describe('Other Parts', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
-  const renderParts = () =>
+  const renderOtherParts = () =>
     renderComponent(OtherPartsComponent, {
       imports: [OtherPartsModule],
       translations: ['page.otherParts'],
     });
 
   it('should render part header', async () => {
-    await renderParts();
+    await renderOtherParts();
 
     expect(screen.getByText('Other Parts')).toBeInTheDocument();
   });
 
   it('should render part table', async () => {
-    await renderParts();
+    await renderOtherParts();
 
-    expect(await screen.findByTestId('table-component--test-id')).toBeInTheDocument();
+    expect((await screen.findAllByTestId('table-component--test-id')).length).toEqual(1);
   });
 
   it('should render table and display correct amount of rows', async () => {
-    await renderParts();
+    await renderOtherParts();
 
     const tableElement = await screen.findByTestId('table-component--test-id');
     expect(tableElement).toBeInTheDocument();
-    expect(tableElement.children[1].childElementCount).toEqual(5);
+    expect(tableElement.children[1].childElementCount).toEqual(4);
   });
 
-  it('should render parts with closed sidenav', async () => {
-    await renderParts();
+  it('should render other parts with closed sidenav', async () => {
+    await renderOtherParts();
 
     const sideNavElement = await screen.findByTestId('part-detail--sidenav');
     expect(sideNavElement).toBeInTheDocument();
     expect(sideNavElement).not.toHaveClass('part-detail--open');
   });
 
-  it('should render parts with closed sidenav', async () => {
-    await renderParts();
+  it('should tabs should be rendered', async () => {
+    await renderOtherParts();
+    const tabElements = await screen.findAllByRole('tab');
 
-    const sideNavElement = await screen.findByTestId('part-detail--sidenav');
-    expect(sideNavElement).toBeInTheDocument();
-    expect(sideNavElement).not.toHaveClass('part-detail--open');
+    expect(tabElements.length).toEqual(2);
   });
 });

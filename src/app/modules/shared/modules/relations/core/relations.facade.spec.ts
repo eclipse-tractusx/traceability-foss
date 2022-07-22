@@ -117,10 +117,13 @@ describe('Relations facade', () => {
   describe('deleteOpenElement', () => {
     it('should delete opened element', done => {
       const { id, childDescriptions } = MOCK_part_1;
-      const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
-      const expected = { error: 'error' };
+      const children = childDescriptionsToChild(childDescriptions);
+      const mockTreeElement = { id, children } as TreeElement;
+      const expected = { MOCK_part_1: ['MOCK_part_2', 'MOCK_part_3'], MOCK_part_3: ['MOCK_part_5'] };
 
-      relationsFacade.deleteOpenElement(id);
+      relationsFacade.openElementWithChildren(mockTreeElement);
+      relationsFacade.deleteOpenElement(children[0]);
+
       const sub = componentStateMock.openElements$.subscribe(openElements => {
         expect(openElements).toEqual(expected);
         done();

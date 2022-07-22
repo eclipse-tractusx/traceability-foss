@@ -22,6 +22,7 @@ import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
@@ -29,8 +30,8 @@ import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { PartDetailComponent } from './part-detail.component';
 
-export const PartsFactory = (initialPart: View<Part>) => {
-  return class PartsFacadeMock {
+export const PartDetailsFacadeFactory = (initialPart: View<Part>) => {
+  return class PartDetailsFacadeMock {
     public readonly _selectedPart: State<View<Part>> = new State<View<Part>>(initialPart);
 
     get selectedPart$(): Observable<View<Part>> {
@@ -64,8 +65,8 @@ describe('PartDetailComponent', () => {
       imports: [PartDetailsModule],
       providers: [
         {
-          provide: PartsFacade,
-          useClass: PartsFactory({ data: testPart }),
+          provide: PartDetailsFacade,
+          useClass: PartDetailsFacadeFactory({ data: testPart }),
         },
       ],
     });
@@ -89,8 +90,8 @@ describe('PartDetailComponent', () => {
       imports: [PartDetailsModule],
       providers: [
         {
-          provide: PartsFacade,
-          useClass: PartsFactory({ error }),
+          provide: PartDetailsFacade,
+          useClass: PartDetailsFacadeFactory({ error }),
         },
       ],
     });

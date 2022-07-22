@@ -66,12 +66,4 @@ describe('Parts', () => {
     expect(sideNavElement).toBeInTheDocument();
     expect(sideNavElement).not.toHaveClass('part-detail--open');
   });
-
-  it('should render parts with closed sidenav', async () => {
-    await renderParts();
-
-    const sideNavElement = await screen.findByTestId('part-detail--sidenav');
-    expect(sideNavElement).toBeInTheDocument();
-    expect(sideNavElement).not.toHaveClass('part-detail--open');
-  });
 });

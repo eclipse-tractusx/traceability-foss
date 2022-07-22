@@ -50,8 +50,8 @@ declare class WrapperComponent {
 export const renderComponent: typeof ExtendedRenderFn = (
   cmp,
   { imports = [], providers = [], translations = [], roles = ['user'], ...restConfig },
-) => {
-  return render(cmp, {
+) =>
+  render(cmp, {
     imports: [...imports, I18NextModule.forRoot(), HttpClientModule, NoopAnimationsModule],
     providers: [
       ...providers,
@@ -88,4 +88,3 @@ export const renderComponent: typeof ExtendedRenderFn = (
     ],
     ...restConfig,
   });
-};

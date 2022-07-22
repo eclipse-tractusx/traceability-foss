@@ -19,6 +19,7 @@
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { CardIconComponent } from '@shared/components/card-icon/card-icon.component';
 import { SharedModule } from '@shared/shared.module';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
