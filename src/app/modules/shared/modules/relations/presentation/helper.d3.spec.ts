@@ -41,12 +41,17 @@ describe('D3 Helper', () => {
   });
 
   it('should calculate width for element', () => {
-    expect(HelperD3.calculateWidth(mainElement)).toBe(0);
+    const expectedWidth = 10;
+    const elementMock = { node: () => ({ getBoundingClientRect: () => ({ width: expectedWidth }) }) } as any;
+
+    expect(HelperD3.calculateWidth(elementMock)).toBe(expectedWidth);
     expect(HelperD3.calculateWidth(null)).toBe(1024);
   });
 
   it('should calculate height for element', () => {
-    expect(HelperD3.calculateHeight(mainElement)).toBe(0);
+    const expectedHeight = 10;
+    const elementMock = { node: () => ({ getBoundingClientRect: () => ({ height: expectedHeight }) }) } as any;
+    expect(HelperD3.calculateHeight(elementMock)).toBe(expectedHeight);
     expect(HelperD3.calculateHeight(null)).toBe(568);
   });
 
