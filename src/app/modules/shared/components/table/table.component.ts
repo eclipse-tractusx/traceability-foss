@@ -32,9 +32,6 @@ import { TableConfig, TableEventConfig, TableHeaderSort } from '@shared/componen
   styleUrls: ['table.component.scss'],
 })
 export class TableComponent {
-  @ViewChild('SelectColumn') SelectColumn: TemplateRef<any>;
-  @ViewChild('NormalColumn') NormalColumn: TemplateRef<any>;
-
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -91,10 +88,6 @@ export class TableComponent {
   }
 
   public toggleSelection(event: MatCheckboxChange, row: unknown): void {
-    if (!event) {
-      return;
-    }
-
     this.selection.toggle(row);
     this.emitMultiSelect();
   }
