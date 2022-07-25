@@ -24,20 +24,10 @@ under the License.
     matSort
     data-testid="table-component--test-id"
   >
-    <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index" matColumnDef="{{ column }}">
-      <th
-        *matHeaderCellDef
-        mat-header-cell
-        mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}"
-        class="table--cell"
-      >
-        <ng-container *ngIf="tableConfig?.header?.[i]; else pureColumn">
-          {{ tableConfig?.header?.[i] | i18n }}
-        </ng-container>
-      </th>
-      <td *matCellDef="let element" mat-cell class="table--cell">
-        {{ element[column] | autoFormat | i18n }}
-      </td>
+    <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index">
+      <ng-container
+        *ngTemplateOutlet="column === 'select' ? SelectColumn : NormalColumn; context: { $implicit: column, i: i }"
+      ></ng-container>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="tableConfig.displayedColumns"></tr>
@@ -58,6 +48,45 @@ under the License.
         </div>
       </td>
     </tr>
+
+    <ng-template #SelectColumn>
+      <ng-container matColumnDef="select">
+        <th *matHeaderCellDef mat-header-cell>
+          <mat-checkbox
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selection.hasValue() && areAllRowsSelected()"
+            [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
+          >
+          </mat-checkbox>
+        </th>
+        <td *matCellDef="let row" mat-cell>
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="this.toggleSelection($event, row)"
+            [checked]="selection.isSelected(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+    </ng-template>
+
+    <ng-template #NormalColumn let-column let-i="i">
+      <ng-container matColumnDef="{{ column }}">
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}"
+          class="table--cell"
+        >
+          <ng-container *ngIf="tableConfig?.header?.[i]; else pureColumn">
+            {{ tableConfig?.header?.[i] | i18n }}
+          </ng-container>
+        </th>
+        <td *matCellDef="let element" mat-cell class="table--cell">
+          {{ element[column] | autoFormat | i18n }}
+        </td>
+      </ng-container>
+    </ng-template>
   </table>
 
   <mat-paginator
