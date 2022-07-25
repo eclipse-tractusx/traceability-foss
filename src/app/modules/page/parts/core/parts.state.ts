@@ -20,26 +20,13 @@
 import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { Part } from '@page/parts/model/parts.model';
-import { State, View } from '@shared';
+import { State } from '@shared/model/state';
+import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class PartsState {
   private readonly _parts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
-  private readonly _selectedPart: State<View<Part>> = new State<View<Part>>({ loader: true });
-
-  get selectedPart$(): Observable<View<Part>> {
-    return this._selectedPart.observable;
-  }
-
-  set selectedPart({ data, loader, error }: View<Part>) {
-    const partDetailView: View<Part> = { data, loader, error };
-    this._selectedPart.update(partDetailView);
-  }
-
-  get selectedPart(): View<Part> {
-    return this._selectedPart.snapshot;
-  }
 
   get parts$(): Observable<View<Pagination<Part>>> {
     return this._parts$.observable;

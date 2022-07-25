@@ -18,7 +18,7 @@
  */
 
 import { MatIconModule } from '@angular/material/icon';
-import { ButtonComponent } from '@shared';
+import { ButtonComponent } from '@shared/components/button/button.component';
 import { fireEvent, screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 

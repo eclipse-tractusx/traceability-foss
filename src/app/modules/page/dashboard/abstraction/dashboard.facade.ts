@@ -19,10 +19,10 @@
 
 import { Injectable } from '@angular/core';
 import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
-import { PartsService } from '@page/parts/core/parts.service';
+import { View } from '@shared/model/view.model';
+import { PartsService } from '@shared/service/parts.service';
 import { Observable } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
-import { View } from '@shared/model/view.model';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
 import { DashboardStats } from '../model/dashboard.model';

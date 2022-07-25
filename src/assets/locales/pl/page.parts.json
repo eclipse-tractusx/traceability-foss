@@ -25,5 +25,9 @@
     "manufacturer": "Producent",
     "nameAtCustomer": "Nazwa u klienta",
     "customerPartId": "ID części u klienta"
+  },
+  "relation": {
+    "increase": "Used to zoom into the tree TBD.",
+    "decrease": "Used to zoom out of the tre TBD.e"
   }
 }

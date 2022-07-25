@@ -21,7 +21,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrivateLayoutComponent } from '@layout/private-layout/private-layout.component';
 import { PageNotFoundComponent } from '@page/page-not-found/presentation/page-not-found.component';
-import { realm, defaultRealm } from './api/api.service.properties';
+import { defaultRealm, realm } from './api/api.service.properties';
 import { AuthGuard } from './auth/auth.guard';
 
 export /** @type {*} */

@@ -18,11 +18,11 @@
  */
 
 import { Injectable } from '@angular/core';
-import { LastLogin } from 'src/app/modules/shared/model/last-login.model';
+import { LastLogin } from '@shared/model/last-login.model';
 import { AuthService } from '../auth/auth.service';
 import { Realm } from '../model/realm.model';
-import { UserServiceProperties } from './user.service.properties';
 import { Role } from './role';
+import { UserServiceProperties } from './user.service.properties';
 
 @Injectable({
   providedIn: 'root',

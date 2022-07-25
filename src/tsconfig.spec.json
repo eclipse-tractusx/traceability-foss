@@ -8,7 +8,6 @@
       "@layout/*": ["src/app/modules/core/layout/*"],
       "@page/*": ["src/app/modules/page/*"],
       "@shared/*": ["src/app/modules/shared/*"],
-      "@shared": ["src/app/modules/shared/index"],
       "@env": ["src/environments/environment"],
       "@tests/*": ["src/tests/*"]
     }

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform, Inject, OnDestroy } from '@angular/core';
+import { Inject, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import type { Subscription } from 'rxjs';

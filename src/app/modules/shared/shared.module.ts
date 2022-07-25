@@ -19,23 +19,21 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PartsService } from '../page/parts/core/parts.service';
-import { SelectComponent } from './components/select/select.component';
-import { StaticIdService } from './service/staticId.service';
 import { I18NextModule } from 'angular-i18next';
-import { CardIconComponent } from './components/card-icon/card-icon.component';
-import { CardListComponent } from './components/card-list/card-list.component';
-import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
-import { TableComponent } from './components/table/table.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
+import { CardIconComponent } from './components/card-icon/card-icon.component';
+import { CardListComponent } from './components/card-list/card-list.component';
+import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { HeaderComponent } from './components/header/header.component';
+import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
 import { QualityAlertEmptyStateComponent } from './components/quality-alert-empty-state/quality-alert-empty-state.component';
-import { TabsModule } from './components/tabs/tabs.module';
+import { SelectComponent } from './components/select/select.component';
+import { TableComponent } from './components/table/table.component';
 import { StepActionsComponent } from './components/wizard/step-actions.component';
 import { StepBodyComponent } from './components/wizard/step-body.component';
 import { StepsComponent } from './components/wizard/steps/steps.component';
@@ -43,13 +41,14 @@ import { WizardComponent } from './components/wizard/wizard.component';
 import { RoleDirective } from './directives/role.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { ViewContainerDirective } from './directives/view-container.directive';
-import { FormatDatePipe } from './pipes/format-date.pipe';
-import { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
-import { ShortenPipe } from './pipes/shorten.pipe';
-import { TemplateModule } from './template.module';
-import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
-import { I18nPipe } from './pipes/i18n.pipe';
 import { AutoFormatPipe } from './pipes/auto-format.pipe';
+import { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
+import { FormatDatePipe } from './pipes/format-date.pipe';
+import { I18nPipe } from './pipes/i18n.pipe';
+import { ShortenPipe } from './pipes/shorten.pipe';
+import { PartsService } from './service/parts.service';
+import { StaticIdService } from './service/staticId.service';
+import { TemplateModule } from './template.module';
 
 @NgModule({
   declarations: [
@@ -80,7 +79,7 @@ import { AutoFormatPipe } from './pipes/auto-format.pipe';
     ToKeyValuePipe,
     SelectComponent,
   ],
-  imports: [TemplateModule, TabsModule, RouterModule, I18NextModule],
+  imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
     ConfirmDialogComponent,
     NotificationContainerComponent,
@@ -91,7 +90,6 @@ import { AutoFormatPipe } from './pipes/auto-format.pipe';
     TableComponent,
     TooltipDirective,
     RoleDirective,
-    TabsModule,
     ShortenPipe,
     I18nPipe,
     FormatDatePipe,

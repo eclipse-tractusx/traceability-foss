@@ -17,6 +17,21 @@
  * under the License.
  */
 
+export { PartDetailsFacade } from './modules/part-details/core/partDetails.facade';
+export { PartDetailsState } from './modules/part-details/core/partDetails.state';
+export { PartDetailsModule } from './modules/part-details/partDetails.module';
+export { RelationComponentState } from './modules/relations/core/component.state';
+export { LoadedElementsFacade } from './modules/relations/core/loaded-elements.facade';
+export { LoadedElementsState } from './modules/relations/core/loaded-elements.state';
+export { RelationsAssembler } from './modules/relations/core/relations.assembler';
+export { RelationsFacade } from './modules/relations/core/relations.facade';
+export { HelperD3 } from './modules/relations/presentation/helper.d3';
+export { RelationsModule } from './modules/relations/relations.module';
+export { PartsAssembler } from './assembler/parts.assembler';
+
+export { Minimap } from './modules/relations/presentation/minimap/minimap.d3';
+export { Tree } from './modules/relations/presentation/tree/tree.d3';
+
 export { CardIconComponent } from './components/card-icon/card-icon.component';
 export { CardListComponent } from './components/card-list/card-list.component';
 export { AvatarComponent } from './components/avatar/avatar.component';
@@ -29,11 +44,6 @@ export { NotificationMessage } from './components/notifications/notification-mes
 export { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
 export { NotificationService } from './components/notifications/notification.service';
 export { QualityAlertEmptyStateComponent } from './components/quality-alert-empty-state/quality-alert-empty-state.component';
-export { TabBodyComponent } from './components/tabs/tab.body.component';
-export { TabItemComponent } from './components/tabs/tab.item.component';
-export { TabLabelComponent } from './components/tabs/tab.label.component';
-export { TabsComponent } from './components/tabs/tabs.component';
-export { TabsModule } from './components/tabs/tabs.module';
 export { StepActionsComponent } from './components/wizard/step-actions.component';
 export { StepBodyComponent } from './components/wizard/step-body.component';
 export { StepState } from './components/wizard/step.state';

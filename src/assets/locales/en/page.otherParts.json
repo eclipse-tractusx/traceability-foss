@@ -1,0 +1,29 @@
+{
+  "pageParts": {
+    "title": "Other Parts",
+    "tab": {
+      "customer": "Customer Parts",
+      "supplier": "Supplier Parts"
+    },
+    "column": {
+      "name": "Name",
+      "manufacturer": "Manufacturer",
+      "partNumber": "Part Number",
+      "serialNumber": "Serial Number",
+      "productionDate": "Production Date"
+    }
+  },
+  "partDetail": {
+    "relations": "Relations",
+    "overview": "Overview",
+    "manufacturerData": "Manufacturer data",
+    "customerData": "Customer data",
+    "name": "Name",
+    "partNumber": "Part Number",
+    "serialNumber": "Serial Number",
+    "productionDate": "Production Date",
+    "manufacturer": "Manufacturer",
+    "nameAtCustomer": "Name At Customer",
+    "customerPartId": "Customer Part ID"
+  }
+}

@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { ChangeDetectionStrategy, Component, Inject, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { KnownLocale } from '@core/i18n/global-i18n.providers';
 import { IconLayer } from '@deck.gl/layers';
 import { MapboxLayer } from '@deck.gl/mapbox';

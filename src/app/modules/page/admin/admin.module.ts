@@ -20,7 +20,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
-import { SharedModule, TemplateModule } from '@shared';
+import { SharedModule } from '@shared/shared.module';
+import { TemplateModule } from '@shared/template.module';
 import { AdminRoutingModule } from './admin.routing';
 import { AdminComponent } from './presentation/admin.component';
 

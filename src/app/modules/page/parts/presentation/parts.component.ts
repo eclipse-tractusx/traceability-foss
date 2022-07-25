@@ -21,8 +21,9 @@ import { Component, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
-import { View } from '@shared';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { View } from '@shared/model/view.model';
+import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -56,7 +57,7 @@ export class PartsComponent implements OnInit {
   public tableConfig: TableConfig;
   public parts$: Observable<View<Pagination<Part>>>;
 
-  constructor(private readonly partsFacade: PartsFacade) {
+  constructor(private readonly partsFacade: PartsFacade, private readonly partDetailsFacade: PartDetailsFacade) {
     this.parts$ = this.partsFacade.parts$;
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
@@ -70,7 +71,7 @@ export class PartsComponent implements OnInit {
   }
 
   public onSelectItem($event: Record<string, unknown>) {
-    this.partsFacade.selectedPart = $event as unknown as Part;
+    this.partDetailsFacade.selectedPart = $event as unknown as Part;
   }
 
   onTableConfigChange({ page, pageSize, sorting }: TableEventConfig) {

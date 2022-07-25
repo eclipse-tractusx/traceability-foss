@@ -17,9 +17,9 @@
  * under the License.
  */
 
+import { environment } from '@env';
 import { rest } from 'msw';
 import { mockAssetList, mockAssets, mockAssetsCountriesMap } from './parts.model';
-import { environment } from '@env';
 
 export const partsHandlers = [
   rest.get(`${environment.apiUrl}/assets`, (_req, res, ctx) => {

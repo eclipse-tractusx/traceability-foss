@@ -43,6 +43,13 @@ const routes: Routes = [
     },
   },
   {
+    path: 'otherParts',
+    loadChildren: () => import('../../page/otherParts/otherParts.module').then(m => m.OtherPartsModule),
+    data: {
+      breadcrumb: 'otherParts',
+    },
+  },
+  {
     path: 'about',
     loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
     data: {

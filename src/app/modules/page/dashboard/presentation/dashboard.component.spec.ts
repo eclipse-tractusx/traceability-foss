@@ -22,9 +22,9 @@ import { PartsModule } from '@page/parts/parts.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
+import { DashboardModule } from '../dashboard.module';
 
 import { DashboardComponent } from './dashboard.component';
-import { DashboardModule } from '../dashboard.module';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   GeolocateControl: jest.fn(),

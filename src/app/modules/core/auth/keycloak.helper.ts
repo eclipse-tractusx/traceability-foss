@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { KeycloakService } from 'keycloak-angular';
 import { environment } from '@env';
+import { KeycloakService } from 'keycloak-angular';
 
 export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean | void> {
   // Set default realm

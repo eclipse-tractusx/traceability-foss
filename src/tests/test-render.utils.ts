@@ -17,14 +17,14 @@
  * under the License.
  */
 
-import { APP_INITIALIZER, Type, ɵɵFactoryDeclaration, ɵɵComponentDeclaration } from '@angular/core';
-import { render, RenderComponentOptions, RenderTemplateOptions, RenderResult } from '@testing-library/angular';
 import { HttpClientModule } from '@angular/common/http';
-import { I18NextModule, ITranslationService, I18NEXT_SERVICE } from 'angular-i18next';
-import { KeycloakService } from 'keycloak-angular';
+import { APP_INITIALIZER, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 import { Role } from '@core/user/role';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { render, RenderComponentOptions, RenderResult, RenderTemplateOptions } from '@testing-library/angular';
+import { I18NEXT_SERVICE, I18NextModule, ITranslationService } from 'angular-i18next';
+import { KeycloakService } from 'keycloak-angular';
 
 type RenderFnOptionsExtension = {
   translations?: string[];

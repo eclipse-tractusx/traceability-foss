@@ -22,15 +22,16 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AdminModule } from '@page/admin/admin.module';
-import { I18NextModule } from 'angular-i18next';
 import { environment } from '@env';
 import { LayoutModule } from '@layout/layout.module';
 import { AboutModule } from '@page/about/about.module';
+import { AdminModule } from '@page/admin/admin.module';
 import { DashboardModule } from '@page/dashboard/dashboard.module';
+import { OtherPartsModule } from '@page/otherParts/otherParts.module';
 import { PageNotFoundModule } from '@page/page-not-found/page-not-found.module';
 import { PartsModule } from '@page/parts/parts.module';
 import { NotificationService } from '@shared/components/notifications/notification.service';
+import { I18NextModule } from 'angular-i18next';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { ApiInterceptor } from './api/api.interceptor';
 import { ApiService } from './api/api.service';
@@ -40,9 +41,9 @@ import { AuthService } from './auth/auth.service';
 import { KeycloakHelper } from './auth/keycloak.helper';
 import { MockedKeycloakService } from './auth/mocked-keycloak.service';
 import { CoreRoutingModule } from './core.routing';
+import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
 import { CanDeactivateGuard } from './user/can-deactivate.guard';
 import { UserService } from './user/user.service';
-import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
 
 @NgModule({
   declarations: [AppComponent],
@@ -57,6 +58,7 @@ import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
     AboutModule,
     DashboardModule,
     PartsModule,
+    OtherPartsModule,
     AdminModule,
     I18NextModule.forRoot(),
   ],

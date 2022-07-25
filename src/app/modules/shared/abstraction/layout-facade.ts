@@ -18,11 +18,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { AuthService } from '@core/auth/auth.service';
 import { Realm } from '@core/model/realm.model';
 import { UserService } from '@core/user/user.service';
+import { Observable } from 'rxjs';
 import { LayoutState } from '../service/layout.state';
 
 @Injectable({
