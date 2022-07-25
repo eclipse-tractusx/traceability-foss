@@ -50,10 +50,10 @@ export class MapComponent implements AfterViewInit {
     return this._mapData;
   }
 
-  private _mapData: PartsCoordinates[];
-  private map: Map;
-  private currentZoom: number;
+  map: Map;
 
+  private _mapData: PartsCoordinates[];
+  private currentZoom: number;
   private isViewReady = false;
 
   constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {}

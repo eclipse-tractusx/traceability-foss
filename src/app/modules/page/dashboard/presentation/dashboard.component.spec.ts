@@ -17,13 +17,27 @@
  * under the License.
  */
 
+import { By } from '@angular/platform-browser';
 import { PartsModule } from '@page/parts/parts.module';
-import { screen } from '@testing-library/angular';
+import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
 
 import { DashboardComponent } from './dashboard.component';
 import { DashboardModule } from '../dashboard.module';
+
+jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+  GeolocateControl: jest.fn(),
+  Map: jest.fn(() => ({
+    addControl: jest.fn(),
+    on: jest.fn(),
+    remove: jest.fn(),
+    resize: jest.fn(),
+    getLayer: jest.fn(),
+    addLayer: jest.fn(),
+  })),
+  NavigationControl: jest.fn(),
+}));
 
 describe('Dashboard', () => {
   beforeAll(() => server.listen());
@@ -43,7 +57,7 @@ describe('Dashboard', () => {
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
   });
 
-  xit('should render total of parts', async () => {
+  it('should render total of parts', async () => {
     await renderDashboard();
 
     expect(await screen.findByText('3')).toBeInTheDocument();
@@ -68,5 +82,12 @@ describe('Dashboard', () => {
     });
 
     expect(await screen.findByText('Total of parts in department')).toBeInTheDocument();
+  });
+
+  it('should render map', async () => {
+    const { fixture } = await renderDashboard();
+    expect(await screen.findByText('Number of parts per country')).toBeInTheDocument();
+
+    await waitFor(() => expect(fixture.debugElement.query(By.css('.dashboard--map')).componentInstance).toBeDefined());
   });
 });
