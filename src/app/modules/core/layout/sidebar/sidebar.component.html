@@ -48,6 +48,15 @@ under the License.
             [iconName]="'commute'"
           ></app-sidebar-section>
         </li>
+        <li>
+          <app-sidebar-section
+            (click)="this.navigate('investigationsInbox')"
+            [name]="'routing.investigationsInbox' | i18n"
+            [isActive]="this.activeMenu === 'investigationsInbox'"
+            [isExpanded]="this.expanded"
+            [iconName]="'inbox'"
+          ></app-sidebar-section>
+        </li>
       </ul>
     </div>
     <div class="flex-auto"></div>

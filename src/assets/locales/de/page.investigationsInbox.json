@@ -1,0 +1,14 @@
+{
+  "pageInvestigationsInbox": {
+    "title": "Quality Investigations",
+    "tabs": {
+      "received": "Received",
+      "queued": "Queued",
+      "requested": "Requested"
+    },
+    "column": {
+      "description": "Description",
+      "created": "Created"
+    }
+  }
+}

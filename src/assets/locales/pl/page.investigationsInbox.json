@@ -1,0 +1,14 @@
+{
+  "pageInvestigationsInbox": {
+    "title": "Dochodzenie Jakości",
+    "tabs": {
+      "received": "Otrzymane",
+      "queued": "Oczekujące",
+      "requested": "Zażądane"
+    },
+    "column": {
+      "description": "Opis",
+      "created": "Utworzono"
+    }
+  }
+}

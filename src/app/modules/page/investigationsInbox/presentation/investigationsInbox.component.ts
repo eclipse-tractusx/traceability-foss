@@ -17,18 +17,21 @@
  * under the License.
  */
 
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { InvestigationType } from '../model/investigationsInbox.model';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
+@Component({
+  selector: 'app-investigations-inbox',
+  templateUrl: './investigationsInbox.component.html',
+})
+export class InvestigationsInboxComponent {
+  constructor(private route: ActivatedRoute) {}
 
-export interface TableConfig {
-  displayedColumns: string[];
-  sortableColumns?: Record<string, boolean>;
-  header?: string[];
-}
+  tabsByType = [InvestigationType.RECEIVED, InvestigationType.QUEUED, InvestigationType.REQUESTED];
 
-export interface TableEventConfig {
-  page: number;
-  pageSize: number;
-  sorting: TableHeaderSort;
+  isActive(tab: string): boolean {
+    // in test env firstChild doesn't exists on creation, however it's not the case in real app
+    return this.route.snapshot.firstChild?.url.some(segment => segment.path.includes(tab));
+  }
 }

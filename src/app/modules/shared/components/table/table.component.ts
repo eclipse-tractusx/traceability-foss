@@ -80,7 +80,8 @@ export class TableComponent {
     this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
   }
 
-  public updateSortingOfData({ active, direction }: Sort): void {
+  public updateSortingOfData(event: Sort): void {
+    const { active, direction } = event as unknown as Sort;
     this.selection.clear();
     this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
     this.isDataLoading = true;

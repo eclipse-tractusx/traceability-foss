@@ -17,18 +17,28 @@
  * under the License.
  */
 
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import type { CalendarDateModel } from '@core/model/calendar-date.model';
+import type { PaginationResponse, Pagination } from '@core/model/pagination.model';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
-
-export interface TableConfig {
-  displayedColumns: string[];
-  sortableColumns?: Record<string, boolean>;
-  header?: string[];
+export enum InvestigationType {
+  RECEIVED = 'received',
+  QUEUED = 'queued',
+  REQUESTED = 'requested',
 }
 
-export interface TableEventConfig {
-  page: number;
-  pageSize: number;
-  sorting: TableHeaderSort;
+export const DEFAULT_INVESTIGATION_TYPE: InvestigationType = InvestigationType.RECEIVED;
+
+export interface InvestigationResponse {
+  id: string;
+  description: string;
+  createDate: string;
 }
+
+export interface Investigation {
+  id: string;
+  description: string;
+  created: CalendarDateModel;
+}
+
+export type InvestigationsResponse = PaginationResponse<InvestigationResponse>;
+export type Investigations = Pagination<Investigation>;

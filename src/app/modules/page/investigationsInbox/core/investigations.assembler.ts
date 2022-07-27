@@ -17,18 +17,29 @@
  * under the License.
  */
 
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { PaginationAssembler } from '@core/pagination/pagination.assembler';
+import {
+  InvestigationsResponse,
+  Investigations,
+  Investigation,
+  InvestigationResponse,
+} from '../model/investigationsInbox.model';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
+export class InvestigationsAssembler {
+  static assembleInvestigations(response: InvestigationsResponse): Investigations {
+    if (!response) {
+      return null;
+    }
 
-export interface TableConfig {
-  displayedColumns: string[];
-  sortableColumns?: Record<string, boolean>;
-  header?: string[];
-}
+    return PaginationAssembler.assemblePagination(response, InvestigationsAssembler.assembleInvestigation);
+  }
 
-export interface TableEventConfig {
-  page: number;
-  pageSize: number;
-  sorting: TableHeaderSort;
+  static assembleInvestigation(response: InvestigationResponse): Investigation {
+    return {
+      id: response.id,
+      description: response.description ?? '',
+      created: new CalendarDateModel(response.createDate),
+    };
+  }
 }

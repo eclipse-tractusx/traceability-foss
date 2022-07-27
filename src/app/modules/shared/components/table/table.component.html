@@ -75,7 +75,8 @@ under the License.
         <th
           *matHeaderCellDef
           mat-header-cell
-          mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}"
+          [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
+          [disabled]="!tableConfig.sortableColumns?.[column]"
           class="table--cell"
         >
           <ng-container *ngIf="tableConfig?.header?.[i]; else pureColumn">

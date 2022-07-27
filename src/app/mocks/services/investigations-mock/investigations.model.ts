@@ -17,18 +17,12 @@
  * under the License.
  */
 
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import type { InvestigationResponse } from '@page/investigationsInbox/model/investigationsInbox.model';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
-
-export interface TableConfig {
-  displayedColumns: string[];
-  sortableColumns?: Record<string, boolean>;
-  header?: string[];
-}
-
-export interface TableEventConfig {
-  page: number;
-  pageSize: number;
-  sorting: TableHeaderSort;
-}
+export const buildInvestigations = (type: string): InvestigationResponse[] =>
+  new Array(25).fill(null).map((_, index) => ({
+    id: `id-${index + 1}`,
+    description: `${type.substring(0, 1).toUpperCase() + type.substring(1)} Investigation No ${index + 1}`,
+    createDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
+    type,
+  }));
