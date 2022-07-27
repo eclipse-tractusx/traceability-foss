@@ -1,0 +1,19 @@
+{
+  "pageInvestigations": {
+    "title": "Dochodzenie Jakości",
+    "tabs": {
+      "received": "Otrzymane",
+      "queuedNRequested": "Oczekujące & Zażądane"
+    },
+    "column": {
+      "description": "Opis",
+      "status": "Stan",
+      "created": "Utworzono"
+    },
+    "status": {
+      "received": "Otrzymane",
+      "queued": "Oczekujące",
+      "requested": "Zażądane"
+    }
+  }
+}

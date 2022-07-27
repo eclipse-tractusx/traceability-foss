@@ -17,21 +17,33 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { InvestigationType } from '../model/investigationsInbox.model';
+import type { CalendarDateModel } from '@core/model/calendar-date.model';
+import type { PaginationResponse, Pagination } from '@core/model/pagination.model';
 
-@Component({
-  selector: 'app-investigations-inbox',
-  templateUrl: './investigationsInbox.component.html',
-})
-export class InvestigationsInboxComponent {
-  constructor(private route: ActivatedRoute) {}
-
-  tabsByType = [InvestigationType.RECEIVED, InvestigationType.QUEUED, InvestigationType.REQUESTED];
-
-  isActive(tab: string): boolean {
-    // in test env firstChild doesn't exists on creation, however it's not the case in real app
-    return this.route.snapshot.firstChild?.url.some(segment => segment.path.includes(tab));
-  }
+export enum InvestigationStatus {
+  RECEIVED = 'received',
+  QUEUED = 'queued',
+  REQUESTED = 'requested',
 }
+
+export enum InvestigationStatusGroup {
+  RECEIVED = 'received',
+  QUEUED_N_REQUESTED = 'queued-n-requested',
+}
+
+export interface InvestigationResponse {
+  id: string;
+  description: string;
+  status: string;
+  createDate: string;
+}
+
+export interface Investigation {
+  id: string;
+  description: string;
+  status: InvestigationStatus | null;
+  created: CalendarDateModel;
+}
+
+export type InvestigationsResponse = PaginationResponse<InvestigationResponse>;
+export type Investigations = Pagination<Investigation>;

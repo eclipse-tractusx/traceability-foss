@@ -44,7 +44,7 @@ export class SidebarComponent {
     about: '',
     parts: '',
     otherParts: '',
-    investigationsInbox: ``,
+    investigations: '',
     admin: '',
   };
 
@@ -59,7 +59,7 @@ export class SidebarComponent {
       about: `/${this.realm}/about`,
       parts: `/${this.realm}/parts`,
       otherParts: `/${this.realm}/otherParts`,
-      investigationsInbox: `/${this.realm}/investigationsInbox`,
+      investigations: `/${this.realm}/investigations`,
       admin: `/${this.realm}/admin`,
     };
 

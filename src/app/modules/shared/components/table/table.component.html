@@ -84,7 +84,11 @@ under the License.
           </ng-container>
         </th>
         <td *matCellDef="let element" mat-cell class="table--cell">
-          {{ element[column] | autoFormat | i18n }}
+          <ng-container
+            [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
+            [ngTemplateOutletContext]="{ value: element[column] }"
+          >
+          </ng-container>
         </td>
       </ng-container>
     </ng-template>
@@ -103,4 +107,8 @@ under the License.
 
 <ng-template #pureColumn>
   {{ pureColumn }}
+</ng-template>
+
+<ng-template #autoFormat let-value="value">
+  {{ value | autoFormat | i18n }}
 </ng-template>

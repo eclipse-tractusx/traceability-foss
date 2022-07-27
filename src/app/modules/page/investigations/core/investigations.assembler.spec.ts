@@ -33,12 +33,19 @@ describe('InvestigationsAssembler', () => {
           page: 0,
           pageCount: 1,
           pageSize: 5,
-          totalItems: 1,
+          totalItems: 2,
           content: [
             {
               id: 'test-1',
               description: 'test descr',
               createDate: '2022-07-26T15:09:39.419Z',
+              status: 'requested',
+            },
+            {
+              id: 'test-2',
+              description: 'test descr',
+              createDate: '2022-07-26T15:09:39.419Z',
+              status: 'unknown',
             },
           ],
         }),
@@ -46,11 +53,18 @@ describe('InvestigationsAssembler', () => {
         page: 0,
         pageCount: 1,
         pageSize: 5,
-        totalItems: 1,
+        totalItems: 2,
         content: [
           {
             id: 'test-1',
             description: 'test descr',
+            status: 'requested',
+            created: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+          },
+          {
+            id: 'test-2',
+            description: 'test descr',
+            status: null,
             created: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
           },
         ],

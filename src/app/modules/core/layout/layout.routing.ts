@@ -50,11 +50,10 @@ const routes: Routes = [
     },
   },
   {
-    path: 'investigationsInbox',
-    loadChildren: () =>
-      import('../../page/investigationsInbox/investigationsInbox.module').then(m => m.InvestigationsInboxModule),
+    path: 'investigations',
+    loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
     data: {
-      breadcrumb: 'investigationsInbox',
+      breadcrumb: 'investigations',
     },
   },
   {

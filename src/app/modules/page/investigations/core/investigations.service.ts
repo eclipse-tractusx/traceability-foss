@@ -24,7 +24,7 @@ import { environment } from '@env';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { InvestigationsResponse, InvestigationType, Investigations } from '../model/investigationsInbox.model';
+import { InvestigationsResponse, InvestigationStatusGroup, Investigations } from '../model/investigations.model';
 import { InvestigationsAssembler } from './investigations.assembler';
 
 @Injectable()
@@ -33,7 +33,11 @@ export class InvestigationsService {
 
   constructor(private apiService: ApiService) {}
 
-  public getInvestigetionsByType(type: InvestigationType, page: number, pageSize: number): Observable<Investigations> {
+  public getInvestigetionsByType(
+    type: InvestigationStatusGroup,
+    page: number,
+    pageSize: number,
+  ): Observable<Investigations> {
     const params = new HttpParams().set('page', page).set('size', pageSize);
 
     return this.apiService

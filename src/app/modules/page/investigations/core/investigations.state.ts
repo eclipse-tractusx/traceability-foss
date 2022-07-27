@@ -23,20 +23,32 @@ import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
-import { Investigation } from '../model/investigationsInbox.model';
+import { Investigation } from '../model/investigations.model';
 
 @Injectable()
-export class InvestigationsInboxState {
-  private readonly _investigations$: State<View<Pagination<Investigation>>> = new State<
+export class InvestigationsState {
+  private readonly _investigationsReceived$: State<View<Pagination<Investigation>>> = new State<
+    View<Pagination<Investigation>>
+  >({ loader: true });
+  private readonly _investigationsQueuedNRequested$: State<View<Pagination<Investigation>>> = new State<
     View<Pagination<Investigation>>
   >({ loader: true });
 
-  get investigations$(): Observable<View<Pagination<Investigation>>> {
-    return this._investigations$.observable;
+  get investigationsReceived$(): Observable<View<Pagination<Investigation>>> {
+    return this._investigationsReceived$.observable;
   }
 
-  set investigations({ data, loader, error }: View<Pagination<Investigation>>) {
+  set investigationsReceived({ data, loader, error }: View<Pagination<Investigation>>) {
     const investigationsView: View<Pagination<Investigation>> = { data, loader, error };
-    this._investigations$.update(investigationsView);
+    this._investigationsReceived$.update(investigationsView);
+  }
+
+  get investigationsQueuedNRequested$(): Observable<View<Pagination<Investigation>>> {
+    return this._investigationsQueuedNRequested$.observable;
+  }
+
+  set investigationsQueuedNRequested({ data, loader, error }: View<Pagination<Investigation>>) {
+    const investigationsView: View<Pagination<Investigation>> = { data, loader, error };
+    this._investigationsQueuedNRequested$.update(investigationsView);
   }
 }

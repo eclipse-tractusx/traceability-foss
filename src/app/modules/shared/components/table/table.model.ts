@@ -17,18 +17,23 @@
  * under the License.
  */
 
+import { TemplateRef } from '@angular/core';
 import { SortableHeaders } from '@page/parts/model/parts.model';
 
 export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
 
-export interface TableConfig {
-  displayedColumns: string[];
-  sortableColumns?: Record<string, boolean>;
+export interface TableConfig<Columns extends string = string> {
+  displayedColumns: Columns[];
+  sortableColumns?: Record<Columns, boolean>;
   header?: string[];
+  cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
 }
 
-export interface TableEventConfig {
+export interface TablePaginationEventConfig {
   page: number;
   pageSize: number;
+}
+
+export interface TableEventConfig extends TablePaginationEventConfig {
   sorting: TableHeaderSort;
 }

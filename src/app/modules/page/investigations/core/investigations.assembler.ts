@@ -24,10 +24,13 @@ import {
   Investigations,
   Investigation,
   InvestigationResponse,
-} from '../model/investigationsInbox.model';
+  InvestigationStatus,
+} from '../model/investigations.model';
 
 export class InvestigationsAssembler {
-  static assembleInvestigations(response: InvestigationsResponse): Investigations {
+  private static ALL_POSSIBLE_STATUSES = new Set<string>(Object.values(InvestigationStatus));
+
+  public static assembleInvestigations(response: InvestigationsResponse): Investigations {
     if (!response) {
       return null;
     }
@@ -35,10 +38,13 @@ export class InvestigationsAssembler {
     return PaginationAssembler.assemblePagination(response, InvestigationsAssembler.assembleInvestigation);
   }
 
-  static assembleInvestigation(response: InvestigationResponse): Investigation {
+  public static assembleInvestigation(response: InvestigationResponse): Investigation {
     return {
       id: response.id,
       description: response.description ?? '',
+      status: InvestigationsAssembler.ALL_POSSIBLE_STATUSES.has(response.status)
+        ? (response.status as InvestigationStatus)
+        : null,
       created: new CalendarDateModel(response.createDate),
     };
   }

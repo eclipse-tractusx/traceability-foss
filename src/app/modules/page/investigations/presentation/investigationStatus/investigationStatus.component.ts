@@ -17,28 +17,16 @@
  * under the License.
  */
 
-import type { CalendarDateModel } from '@core/model/calendar-date.model';
-import type { PaginationResponse, Pagination } from '@core/model/pagination.model';
+import { Input, Component, ViewEncapsulation } from '@angular/core';
+import { InvestigationStatus } from '@page/investigations/model/investigations.model';
 
-export enum InvestigationType {
-  RECEIVED = 'received',
-  QUEUED = 'queued',
-  REQUESTED = 'requested',
+@Component({
+  selector: 'app-investigation-status',
+  templateUrl: './investigationStatus.component.html',
+  encapsulation: ViewEncapsulation.None,
+})
+export class InvestigationStatusComponent {
+  @Input() status: InvestigationStatus;
+
+  public readonly InvestigationStatus = InvestigationStatus;
 }
-
-export const DEFAULT_INVESTIGATION_TYPE: InvestigationType = InvestigationType.RECEIVED;
-
-export interface InvestigationResponse {
-  id: string;
-  description: string;
-  createDate: string;
-}
-
-export interface Investigation {
-  id: string;
-  description: string;
-  created: CalendarDateModel;
-}
-
-export type InvestigationsResponse = PaginationResponse<InvestigationResponse>;
-export type Investigations = Pagination<Investigation>;

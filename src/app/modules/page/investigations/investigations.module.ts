@@ -23,21 +23,22 @@ import { getI18nPageProvider } from '@core/i18n';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 
-import { InvestigationsInboxComponent } from './presentation/investigationsInbox.component';
-import { InvestigationsInboxRoutingModule } from './investigationsInbox.routing';
+import { InvestigationsComponent } from './presentation/investigations.component';
+import { InvestigationsRoutingModule } from './investigations.routing';
 import { InvestigationsService } from './core/investigations.service';
-import { InvestigationsInboxFacade } from './core/investigationsInbox.facade';
-import { InvestigationsInboxState } from './core/investigationsInbox.state';
-import { InvestigationsInboxTabComponent } from './presentation/investigationsInboxTab/investigationiInboxTab.component';
+import { InvestigationsFacade } from './core/investigations.facade';
+import { InvestigationsState } from './core/investigations.state';
+import { InvestigationsTabComponent } from './presentation/investigationsTab/investigationsTab.component';
+import { InvestigationStatusComponent } from './presentation/investigationStatus/investigationStatus.component';
 
 @NgModule({
-  declarations: [InvestigationsInboxComponent, InvestigationsInboxTabComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, InvestigationsInboxRoutingModule],
+  declarations: [InvestigationsComponent, InvestigationsTabComponent, InvestigationStatusComponent],
+  imports: [CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule],
   providers: [
     InvestigationsService,
-    InvestigationsInboxFacade,
-    InvestigationsInboxState,
-    ...getI18nPageProvider('page.investigationsInbox'),
+    InvestigationsFacade,
+    InvestigationsState,
+    ...getI18nPageProvider('page.investigations'),
   ],
 })
-export class InvestigationsInboxModule {}
+export class InvestigationsModule {}

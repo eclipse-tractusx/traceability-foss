@@ -17,12 +17,15 @@
  * under the License.
  */
 
-import type { InvestigationResponse } from '@page/investigationsInbox/model/investigationsInbox.model';
+import type { InvestigationResponse } from '@page/investigations/model/investigations.model';
 
-export const buildInvestigations = (type: string): InvestigationResponse[] =>
-  new Array(25).fill(null).map((_, index) => ({
-    id: `id-${index + 1}`,
-    description: `${type.substring(0, 1).toUpperCase() + type.substring(1)} Investigation No ${index + 1}`,
-    createDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
-    type,
-  }));
+export const buildInvestigations = (statuses: string[]): InvestigationResponse[] =>
+  new Array(25).fill(null).map((_, index) => {
+    const status = statuses[index % statuses.length];
+    return {
+      id: `id-${index + 1}`,
+      description: `Investigation No ${index + 1}`,
+      createDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
+      status,
+    };
+  });

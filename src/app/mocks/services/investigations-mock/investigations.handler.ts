@@ -48,18 +48,13 @@ const applyPagination = (items: unknown[], filters: PaginationFilters) => {
 };
 
 export const investigationsHandlers = [
-  rest.get(`${environment.apiUrl}/investigations/queued`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
-    return res(ctx.status(200), ctx.json(applyPagination(buildInvestigations('queued'), pagination)));
-  }),
-
   rest.get(`${environment.apiUrl}/investigations/received`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    return res(ctx.status(200), ctx.json(applyPagination(buildInvestigations('received'), pagination)));
+    return res(ctx.status(200), ctx.json(applyPagination(buildInvestigations(['received']), pagination)));
   }),
 
-  rest.get(`${environment.apiUrl}/investigations/requested`, (req, res, ctx) => {
+  rest.get(`${environment.apiUrl}/investigations/queued-n-requested`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    return res(ctx.status(200), ctx.json(applyPagination(buildInvestigations('requested'), pagination)));
+    return res(ctx.status(200), ctx.json(applyPagination(buildInvestigations(['requested', 'queued']), pagination)));
   }),
 ];

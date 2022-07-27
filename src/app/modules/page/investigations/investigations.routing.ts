@@ -20,35 +20,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
-import { DEFAULT_INVESTIGATION_TYPE, InvestigationType } from './model/investigationsInbox.model';
 
-import { InvestigationsInboxComponent } from './presentation/investigationsInbox.component';
-import { InvestigationsInboxTabComponent } from './presentation/investigationsInboxTab/investigationiInboxTab.component';
+import { InvestigationsComponent } from './presentation/investigations.component';
 
 export /** @type {*} */
-const INVESTIGATIONS_INBOX_ROUTING: Routes = [
+const INVESTIGATIONS_ROUTING: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'type/' + DEFAULT_INVESTIGATION_TYPE,
-  },
-  {
-    path: 'type',
-    component: InvestigationsInboxComponent,
-    data: { i18nextNamespaces: ['page.investigationsInbox'] },
+    component: InvestigationsComponent,
+    data: { i18nextNamespaces: ['page.investigations'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-    children: Object.values(InvestigationType).map((type: string) => ({
-      path: type,
-      component: InvestigationsInboxTabComponent,
-      data: {
-        type,
-      },
-    })),
   },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(INVESTIGATIONS_INBOX_ROUTING)],
+  imports: [RouterModule.forChild(INVESTIGATIONS_ROUTING)],
   exports: [RouterModule],
 })
-export class InvestigationsInboxRoutingModule {}
+export class InvestigationsRoutingModule {}
