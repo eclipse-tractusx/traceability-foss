@@ -19,7 +19,7 @@
 
 import { environment } from '@env';
 import { rest, RestRequest } from 'msw';
-import { buildInvestigations } from './investigations.model';
+import { buildMockInvestigations } from './investigations.model';
 
 interface PaginationFilters {
   page: number;
@@ -50,11 +50,14 @@ const applyPagination = (items: unknown[], filters: PaginationFilters) => {
 export const investigationsHandlers = [
   rest.get(`${environment.apiUrl}/investigations/received`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    return res(ctx.status(200), ctx.json(applyPagination(buildInvestigations(['received']), pagination)));
+    return res(ctx.status(200), ctx.json(applyPagination(buildMockInvestigations(['received']), pagination)));
   }),
 
-  rest.get(`${environment.apiUrl}/investigations/queued-n-requested`, (req, res, ctx) => {
+  rest.get(`${environment.apiUrl}/investigations/queued-and-requested`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    return res(ctx.status(200), ctx.json(applyPagination(buildInvestigations(['requested', 'queued']), pagination)));
+    return res(
+      ctx.status(200),
+      ctx.json(applyPagination(buildMockInvestigations(['requested', 'queued']), pagination)),
+    );
   }),
 ];

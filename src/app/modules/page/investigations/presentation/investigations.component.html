@@ -17,7 +17,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<div class="admin-container">
+<app-page-container>
   <app-header [title]="'pageInvestigations.title' | i18n"></app-header>
 
   <mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)">
@@ -30,8 +30,8 @@ under the License.
     <mat-tab [label]="'pageInvestigations.tabs.queuedNRequested' | i18n">
       <app-investigations-tab
         [investigations]="investigationsQueuedNRequested$ | async"
-        (pagination)="onPagination(InvestigationStatusGroup.QUEUED_N_REQUESTED, $event)"
+        (pagination)="onPagination(InvestigationStatusGroup.QUEUED_AND_REQUESTED, $event)"
       ></app-investigations-tab>
     </mat-tab>
   </mat-tab-group>
-</div>
+</app-page-container>

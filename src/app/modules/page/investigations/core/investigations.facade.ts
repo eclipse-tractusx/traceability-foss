@@ -32,7 +32,7 @@ export class InvestigationsFacade {
   static DEFAULT_PAGINATION = { page: 0, pageSize: 5 };
 
   private paginationReceived$ = new BehaviorSubject(InvestigationsFacade.DEFAULT_PAGINATION);
-  private paginationQueuedNRequested$ = new BehaviorSubject(InvestigationsFacade.DEFAULT_PAGINATION);
+  private paginationQueuedAndRequested$ = new BehaviorSubject(InvestigationsFacade.DEFAULT_PAGINATION);
 
   constructor(
     private readonly investigationsService: InvestigationsService,
@@ -46,14 +46,14 @@ export class InvestigationsFacade {
 
   get investigationsQueuedNRequested$(): Observable<View<Pagination<Investigation>>> {
     // IMPORTANT: this delay is needed for view-container directive
-    return this.investigationsState.investigationsQueuedNRequested$.pipe(delay(0));
+    return this.investigationsState.investigationsQueuedAndRequested$.pipe(delay(0));
   }
 
   public setInvestigations() {
     this.paginationReceived$
       .pipe(
         switchMap(({ page, pageSize }) =>
-          this.investigationsService.getInvestigetionsByType(InvestigationStatusGroup.RECEIVED, page, pageSize),
+          this.investigationsService.getInvestigationsByType(InvestigationStatusGroup.RECEIVED, page, pageSize),
         ),
       )
       .subscribe({
@@ -65,11 +65,11 @@ export class InvestigationsFacade {
         },
       });
 
-    this.paginationQueuedNRequested$
+    this.paginationQueuedAndRequested$
       .pipe(
         switchMap(({ page, pageSize }) =>
-          this.investigationsService.getInvestigetionsByType(
-            InvestigationStatusGroup.QUEUED_N_REQUESTED,
+          this.investigationsService.getInvestigationsByType(
+            InvestigationStatusGroup.QUEUED_AND_REQUESTED,
             page,
             pageSize,
           ),
@@ -77,17 +77,17 @@ export class InvestigationsFacade {
       )
       .subscribe({
         next: (partsPage: Pagination<Investigation>) => {
-          this.investigationsState.investigationsQueuedNRequested = { data: partsPage };
+          this.investigationsState.investigationsQueuedAndRequested = { data: partsPage };
         },
         error: (error: Error) => {
-          this.investigationsState.investigationsQueuedNRequested = { error };
+          this.investigationsState.investigationsQueuedAndRequested = { error };
         },
       });
   }
 
   public setInvestigationsPagination(type: InvestigationStatusGroup, page, pageSize): void {
     const pagination =
-      type === InvestigationStatusGroup.RECEIVED ? this.paginationReceived$ : this.paginationQueuedNRequested$;
+      type === InvestigationStatusGroup.RECEIVED ? this.paginationReceived$ : this.paginationQueuedAndRequested$;
     pagination.next({ page, pageSize });
   }
 }

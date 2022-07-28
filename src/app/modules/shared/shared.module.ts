@@ -27,10 +27,12 @@ import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { DataLoadingErrorComponent } from './components/data-loading-error/data-loading-error.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
+import { PageContainerComponent } from './components/page-container/page-container.component';
 import { QualityAlertEmptyStateComponent } from './components/quality-alert-empty-state/quality-alert-empty-state.component';
 import { SelectComponent } from './components/select/select.component';
 import { TableComponent } from './components/table/table.component';
@@ -78,6 +80,8 @@ import { TemplateModule } from './template.module';
     CardListComponent,
     ToKeyValuePipe,
     SelectComponent,
+    DataLoadingErrorComponent,
+    PageContainerComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -108,6 +112,8 @@ import { TemplateModule } from './template.module';
     CardListComponent,
     ToKeyValuePipe,
     SelectComponent,
+    DataLoadingErrorComponent,
+    PageContainerComponent,
   ],
   providers: [FormatDatePipe, StaticIdService, PartsService],
 })

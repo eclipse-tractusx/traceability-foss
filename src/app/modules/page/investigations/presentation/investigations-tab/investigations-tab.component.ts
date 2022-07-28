@@ -35,7 +35,7 @@ import { TableConfig, TablePaginationEventConfig } from '@shared/components/tabl
 
 @Component({
   selector: 'app-investigations-tab',
-  templateUrl: './investigationsTab.component.html',
+  templateUrl: './investigations-tab.component.html',
 })
 export class InvestigationsTabComponent implements AfterViewInit {
   @Input() investigations: View<Pagination<Investigation>>;
@@ -47,7 +47,7 @@ export class InvestigationsTabComponent implements AfterViewInit {
 
   public tableConfig: TableConfig<keyof Investigation>;
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
       header: this.displayedColumns.map(column => `pageInvestigations.column.${column}`),
@@ -57,7 +57,7 @@ export class InvestigationsTabComponent implements AfterViewInit {
     };
   }
 
-  onTableConfigChange(event: TablePaginationEventConfig) {
+  public onTableConfigChange(event: TablePaginationEventConfig) {
     this.pagination.emit(event);
   }
 }

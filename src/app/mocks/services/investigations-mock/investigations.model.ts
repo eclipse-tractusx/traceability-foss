@@ -19,7 +19,7 @@
 
 import type { InvestigationResponse } from '@page/investigations/model/investigations.model';
 
-export const buildInvestigations = (statuses: string[]): InvestigationResponse[] =>
+export const buildMockInvestigations = (statuses: string[]): InvestigationResponse[] =>
   new Array(25).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
     return {

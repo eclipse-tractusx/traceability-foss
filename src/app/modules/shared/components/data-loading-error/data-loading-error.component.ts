@@ -17,33 +17,13 @@
  * under the License.
  */
 
-import type { CalendarDateModel } from '@core/model/calendar-date.model';
-import type { PaginationResponse, Pagination } from '@core/model/pagination.model';
+import { Component, Input } from '@angular/core';
 
-export enum InvestigationStatus {
-  RECEIVED = 'received',
-  QUEUED = 'queued',
-  REQUESTED = 'requested',
+@Component({
+  selector: 'app-data-loading-error',
+  templateUrl: './data-loading-error.component.html',
+})
+export class DataLoadingErrorComponent {
+  @Input()
+  public error: Error;
 }
-
-export enum InvestigationStatusGroup {
-  RECEIVED = 'received',
-  QUEUED_AND_REQUESTED = 'queued-and-requested',
-}
-
-export interface InvestigationResponse {
-  id: string;
-  description: string;
-  status: string;
-  createDate: string;
-}
-
-export interface Investigation {
-  id: string;
-  description: string;
-  status: InvestigationStatus | null;
-  created: CalendarDateModel;
-}
-
-export type InvestigationsResponse = PaginationResponse<InvestigationResponse>;
-export type Investigations = Pagination<Investigation>;

@@ -41,15 +41,15 @@ export class InvestigationsComponent implements OnInit {
     private route: ActivatedRoute,
   ) {}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.investigationsFacade.setInvestigations();
   }
 
-  onPagination(type: InvestigationStatusGroup, pagination: TablePaginationEventConfig) {
+  public onPagination(type: InvestigationStatusGroup, pagination: TablePaginationEventConfig) {
     this.investigationsFacade.setInvestigationsPagination(type, pagination.page, pagination.pageSize);
   }
 
-  onTabChange(tabIndex: number) {
+  public onTabChange(tabIndex: number) {
     this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });
   }
 }

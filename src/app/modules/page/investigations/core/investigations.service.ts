@@ -33,7 +33,7 @@ export class InvestigationsService {
 
   constructor(private apiService: ApiService) {}
 
-  public getInvestigetionsByType(
+  public getInvestigationsByType(
     type: InvestigationStatusGroup,
     page: number,
     pageSize: number,

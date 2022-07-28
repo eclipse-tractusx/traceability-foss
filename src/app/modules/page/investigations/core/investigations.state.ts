@@ -27,12 +27,8 @@ import { Investigation } from '../model/investigations.model';
 
 @Injectable()
 export class InvestigationsState {
-  private readonly _investigationsReceived$: State<View<Pagination<Investigation>>> = new State<
-    View<Pagination<Investigation>>
-  >({ loader: true });
-  private readonly _investigationsQueuedNRequested$: State<View<Pagination<Investigation>>> = new State<
-    View<Pagination<Investigation>>
-  >({ loader: true });
+  private readonly _investigationsReceived$ = new State<View<Pagination<Investigation>>>({ loader: true });
+  private readonly _investigationsQueuedAndRequested$ = new State<View<Pagination<Investigation>>>({ loader: true });
 
   get investigationsReceived$(): Observable<View<Pagination<Investigation>>> {
     return this._investigationsReceived$.observable;
@@ -43,12 +39,12 @@ export class InvestigationsState {
     this._investigationsReceived$.update(investigationsView);
   }
 
-  get investigationsQueuedNRequested$(): Observable<View<Pagination<Investigation>>> {
-    return this._investigationsQueuedNRequested$.observable;
+  get investigationsQueuedAndRequested$(): Observable<View<Pagination<Investigation>>> {
+    return this._investigationsQueuedAndRequested$.observable;
   }
 
-  set investigationsQueuedNRequested({ data, loader, error }: View<Pagination<Investigation>>) {
+  set investigationsQueuedAndRequested({ data, loader, error }: View<Pagination<Investigation>>) {
     const investigationsView: View<Pagination<Investigation>> = { data, loader, error };
-    this._investigationsQueuedNRequested$.update(investigationsView);
+    this._investigationsQueuedAndRequested$.update(investigationsView);
   }
 }

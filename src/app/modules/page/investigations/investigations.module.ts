@@ -28,8 +28,8 @@ import { InvestigationsRoutingModule } from './investigations.routing';
 import { InvestigationsService } from './core/investigations.service';
 import { InvestigationsFacade } from './core/investigations.facade';
 import { InvestigationsState } from './core/investigations.state';
-import { InvestigationsTabComponent } from './presentation/investigationsTab/investigationsTab.component';
-import { InvestigationStatusComponent } from './presentation/investigationStatus/investigationStatus.component';
+import { InvestigationsTabComponent } from './presentation/investigations-tab/investigations-tab.component';
+import { InvestigationStatusComponent } from './presentation/investigation-status/investigation-status.component';
 
 @NgModule({
   declarations: [InvestigationsComponent, InvestigationsTabComponent, InvestigationStatusComponent],

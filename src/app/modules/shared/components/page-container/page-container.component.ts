@@ -17,16 +17,10 @@
  * under the License.
  */
 
-import { Input, Component, ViewEncapsulation } from '@angular/core';
-import { InvestigationStatus } from '@page/investigations/model/investigations.model';
+import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-investigation-status',
-  templateUrl: './investigationStatus.component.html',
-  encapsulation: ViewEncapsulation.None,
+  selector: 'app-page-container',
+  templateUrl: './page-container.component.html',
 })
-export class InvestigationStatusComponent {
-  @Input() status: InvestigationStatus;
-
-  public readonly InvestigationStatus = InvestigationStatus;
-}
+export class PageContainerComponent {}
