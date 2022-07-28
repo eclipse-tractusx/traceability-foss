@@ -18,21 +18,19 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { delay, switchMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Pagination } from '@core/model/pagination.model';
 import { View } from '@shared/model/view.model';
+import { InvestigationsService } from '@shared/service/investigations.service';
+import { Investigation, InvestigationStatusGroup } from '@shared/model/investigations.model';
 
-import { InvestigationsService } from './investigations.service';
 import { InvestigationsState } from './investigations.state';
-import { Investigation, InvestigationStatusGroup } from '../model/investigations.model';
 
 @Injectable()
 export class InvestigationsFacade {
-  static DEFAULT_PAGINATION = { page: 0, pageSize: 5 };
-
-  private paginationReceived$ = new BehaviorSubject(InvestigationsFacade.DEFAULT_PAGINATION);
-  private paginationQueuedAndRequested$ = new BehaviorSubject(InvestigationsFacade.DEFAULT_PAGINATION);
+  private investigationReceivedSubscription: Subscription;
+  private investigationQueuedAndRequestedSubscription: Subscription;
 
   constructor(
     private readonly investigationsService: InvestigationsService,
@@ -49,45 +47,31 @@ export class InvestigationsFacade {
     return this.investigationsState.investigationsQueuedAndRequested$.pipe(delay(0));
   }
 
-  public setInvestigations() {
-    this.paginationReceived$
-      .pipe(
-        switchMap(({ page, pageSize }) =>
-          this.investigationsService.getInvestigationsByType(InvestigationStatusGroup.RECEIVED, page, pageSize),
-        ),
-      )
+  public setReceivedInvestigation(page = 0, pageSize = 5): void {
+    this.investigationReceivedSubscription?.unsubscribe();
+    this.investigationReceivedSubscription = this.investigationsService
+      .getInvestigationsByType(InvestigationStatusGroup.RECEIVED, page, pageSize)
       .subscribe({
-        next: (partsPage: Pagination<Investigation>) => {
-          this.investigationsState.investigationsReceived = { data: partsPage };
+        next: (data: Pagination<Investigation>) => {
+          this.investigationsState.investigationsReceived = { data };
         },
         error: (error: Error) => {
           this.investigationsState.investigationsReceived = { error };
         },
       });
+  }
 
-    this.paginationQueuedAndRequested$
-      .pipe(
-        switchMap(({ page, pageSize }) =>
-          this.investigationsService.getInvestigationsByType(
-            InvestigationStatusGroup.QUEUED_AND_REQUESTED,
-            page,
-            pageSize,
-          ),
-        ),
-      )
+  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 5): void {
+    this.investigationQueuedAndRequestedSubscription?.unsubscribe();
+    this.investigationQueuedAndRequestedSubscription = this.investigationsService
+      .getInvestigationsByType(InvestigationStatusGroup.QUEUED_AND_REQUESTED, page, pageSize)
       .subscribe({
-        next: (partsPage: Pagination<Investigation>) => {
-          this.investigationsState.investigationsQueuedAndRequested = { data: partsPage };
+        next: (data: Pagination<Investigation>) => {
+          this.investigationsState.investigationsQueuedAndRequested = { data };
         },
         error: (error: Error) => {
           this.investigationsState.investigationsQueuedAndRequested = { error };
         },
       });
-  }
-
-  public setInvestigationsPagination(type: InvestigationStatusGroup, page, pageSize): void {
-    const pagination =
-      type === InvestigationStatusGroup.RECEIVED ? this.paginationReceived$ : this.paginationQueuedAndRequested$;
-    pagination.next({ page, pageSize });
   }
 }

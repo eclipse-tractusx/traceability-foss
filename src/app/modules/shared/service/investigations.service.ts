@@ -25,9 +25,11 @@ import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { InvestigationsResponse, InvestigationStatusGroup, Investigations } from '../model/investigations.model';
-import { InvestigationsAssembler } from './investigations.assembler';
+import { InvestigationsAssembler } from '../assembler/investigations.assembler';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class InvestigationsService {
   private url = environment.apiUrl;
 

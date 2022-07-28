@@ -32,10 +32,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
-import { PageContainerComponent } from './components/page-container/page-container.component';
 import { QualityAlertEmptyStateComponent } from './components/quality-alert-empty-state/quality-alert-empty-state.component';
 import { SelectComponent } from './components/select/select.component';
 import { TableComponent } from './components/table/table.component';
+import { TabAsPanelDirective } from './components/tabs/tab-as-panel.directive';
 import { StepActionsComponent } from './components/wizard/step-actions.component';
 import { StepBodyComponent } from './components/wizard/step-body.component';
 import { StepsComponent } from './components/wizard/steps/steps.component';
@@ -81,7 +81,7 @@ import { TemplateModule } from './template.module';
     ToKeyValuePipe,
     SelectComponent,
     DataLoadingErrorComponent,
-    PageContainerComponent,
+    TabAsPanelDirective,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -113,7 +113,7 @@ import { TemplateModule } from './template.module';
     ToKeyValuePipe,
     SelectComponent,
     DataLoadingErrorComponent,
-    PageContainerComponent,
+    TabAsPanelDirective,
   ],
   providers: [FormatDatePipe, StaticIdService, PartsService],
 })

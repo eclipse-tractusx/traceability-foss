@@ -20,10 +20,9 @@
 import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { State } from '@shared/model/state';
+import { Investigation } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
-
-import { Investigation } from '../model/investigations.model';
 
 @Injectable()
 export class InvestigationsState {

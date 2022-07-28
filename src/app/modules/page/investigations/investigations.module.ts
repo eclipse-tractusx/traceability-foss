@@ -25,7 +25,6 @@ import { TemplateModule } from '@shared/template.module';
 
 import { InvestigationsComponent } from './presentation/investigations.component';
 import { InvestigationsRoutingModule } from './investigations.routing';
-import { InvestigationsService } from './core/investigations.service';
 import { InvestigationsFacade } from './core/investigations.facade';
 import { InvestigationsState } from './core/investigations.state';
 import { InvestigationsTabComponent } from './presentation/investigations-tab/investigations-tab.component';
@@ -34,11 +33,6 @@ import { InvestigationStatusComponent } from './presentation/investigation-statu
 @NgModule({
   declarations: [InvestigationsComponent, InvestigationsTabComponent, InvestigationStatusComponent],
   imports: [CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule],
-  providers: [
-    InvestigationsService,
-    InvestigationsFacade,
-    InvestigationsState,
-    ...getI18nPageProvider('page.investigations'),
-  ],
+  providers: [InvestigationsFacade, InvestigationsState, ...getI18nPageProvider('page.investigations')],
 })
 export class InvestigationsModule {}

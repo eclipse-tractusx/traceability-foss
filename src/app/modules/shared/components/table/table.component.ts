@@ -18,7 +18,7 @@
  */
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
@@ -36,6 +36,7 @@ export class TableComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   @Input() tableConfig: TableConfig;
+  @Input() noShadow = false;
 
   @Input() set data({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;

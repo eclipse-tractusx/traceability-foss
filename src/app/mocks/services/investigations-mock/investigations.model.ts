@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import type { InvestigationResponse } from '@page/investigations/model/investigations.model';
+import type { InvestigationResponse } from '@shared/model/investigations.model';
 
 export const buildMockInvestigations = (statuses: string[]): InvestigationResponse[] =>
   new Array(25).fill(null).map((_, index) => {

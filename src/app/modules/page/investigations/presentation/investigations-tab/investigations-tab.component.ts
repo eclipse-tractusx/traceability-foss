@@ -17,20 +17,10 @@
  * under the License.
  */
 
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { View } from '@shared/model/view.model';
-import { Investigation } from '@page/investigations/model/investigations.model';
+import { Investigation } from '@shared/model/investigations.model';
 import { TableConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 
 @Component({

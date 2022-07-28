@@ -16,7 +16,12 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<div *ngIf="dataSource" class="mat-elevation-z8">
+<div
+  *ngIf="dataSource"
+  [ngClass]="{
+    'mat-elevation-z8': !noShadow
+  }"
+>
   <table
     [dataSource]="dataSource"
     (matSortChange)="updateSortingOfData($event)"

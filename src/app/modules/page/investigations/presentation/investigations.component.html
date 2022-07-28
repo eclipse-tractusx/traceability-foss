@@ -17,21 +17,19 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<app-page-container>
-  <app-header [title]="'pageInvestigations.title' | i18n"></app-header>
+<app-header [title]="'pageInvestigations.title' | i18n"></app-header>
 
-  <mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)">
-    <mat-tab [label]="'pageInvestigations.tabs.received' | i18n">
-      <app-investigations-tab
-        [investigations]="investigationsReceived$ | async"
-        (pagination)="onPagination(InvestigationStatusGroup.RECEIVED, $event)"
-      ></app-investigations-tab>
-    </mat-tab>
-    <mat-tab [label]="'pageInvestigations.tabs.queuedNRequested' | i18n">
-      <app-investigations-tab
-        [investigations]="investigationsQueuedNRequested$ | async"
-        (pagination)="onPagination(InvestigationStatusGroup.QUEUED_AND_REQUESTED, $event)"
-      ></app-investigations-tab>
-    </mat-tab>
-  </mat-tab-group>
-</app-page-container>
+<mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)" appTabAsPanel>
+  <mat-tab [label]="'pageInvestigations.tabs.received' | i18n">
+    <app-investigations-tab
+      [investigations]="investigationsReceived$ | async"
+      (pagination)="onReceivedPagination($event)"
+    ></app-investigations-tab>
+  </mat-tab>
+  <mat-tab [label]="'pageInvestigations.tabs.queuedNRequested' | i18n">
+    <app-investigations-tab
+      [investigations]="investigationsQueuedNRequested$ | async"
+      (pagination)="onQueuedAndRequestedPagination($event)"
+    ></app-investigations-tab>
+  </mat-tab>
+</mat-tab-group>

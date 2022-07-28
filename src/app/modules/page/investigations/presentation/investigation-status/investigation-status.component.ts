@@ -18,7 +18,7 @@
  */
 
 import { Input, Component, ViewEncapsulation } from '@angular/core';
-import { InvestigationStatus } from '@page/investigations/model/investigations.model';
+import { InvestigationStatus } from '@shared/model/investigations.model';
 
 @Component({
   selector: 'app-investigation-status',

@@ -19,9 +19,8 @@ under the License.
 
 <div class="about-container">
   <app-header [title]="'pageParts.title' | i18n"></app-header>
-  <br />
 
-  <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
+  <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" appTabAsPanel>
     <mat-tab label="{{ 'pageParts.tab.supplier' | i18n }}">
       <ng-container
         *viewContainer="supplierParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
@@ -38,20 +37,18 @@ under the License.
 </div>
 
 <ng-template #mainTmp let-parts="view">
-  <div class="otherParts--tab">
-    <app-table
-      [data]="parts.data"
-      [tableConfig]="tableConfig"
-      (selected)="onSelectItem($event)"
-      (configChanged)="onTableConfigChange($event)"
-      (multiSelect)="onMultiSelect($event)"
-    ></app-table>
-  </div>
+  <app-table
+    [data]="parts.data"
+    [tableConfig]="tableConfig"
+    (selected)="onSelectItem($event)"
+    (configChanged)="onTableConfigChange($event)"
+    (multiSelect)="onMultiSelect($event)"
+    [noShadow]="true"
+  ></app-table>
 </ng-template>
 
 <ng-template #errorTmp let-parts="view">
-  <h1>{{ 'dataLoading.error' | i18n }}</h1>
-  <p>{{ parts.error }}</p>
+  <app-data-loading-error [error]="parts.error"></app-data-loading-error>
 </ng-template>
 
 <ng-template #loaderTmp let-parts="view">

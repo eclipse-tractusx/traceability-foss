@@ -20,9 +20,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { map } from 'rxjs';
+
 import { InvestigationsFacade } from '../core/investigations.facade';
-import { InvestigationStatusGroup } from '../model/investigations.model';
 
 @Component({
   selector: 'app-investigations',
@@ -42,11 +43,16 @@ export class InvestigationsComponent implements OnInit {
   ) {}
 
   public ngOnInit() {
-    this.investigationsFacade.setInvestigations();
+    this.investigationsFacade.setReceivedInvestigation();
+    this.investigationsFacade.setQueuedAndRequestedInvestigations();
   }
 
-  public onPagination(type: InvestigationStatusGroup, pagination: TablePaginationEventConfig) {
-    this.investigationsFacade.setInvestigationsPagination(type, pagination.page, pagination.pageSize);
+  public onReceivedPagination(pagination: TablePaginationEventConfig) {
+    this.investigationsFacade.setReceivedInvestigation(pagination.page, pagination.pageSize);
+  }
+
+  public onQueuedAndRequestedPagination(pagination: TablePaginationEventConfig) {
+    this.investigationsFacade.setQueuedAndRequestedInvestigations(pagination.page, pagination.pageSize);
   }
 
   public onTabChange(tabIndex: number) {

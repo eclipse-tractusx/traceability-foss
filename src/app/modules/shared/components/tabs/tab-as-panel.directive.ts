@@ -17,10 +17,12 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
+import { Directive } from '@angular/core';
 
-@Component({
-  selector: 'app-page-container',
-  templateUrl: './page-container.component.html',
+@Directive({
+  selector: '[appTabAsPanel]',
+  host: {
+    '[class]': '"app-tab-as-panel"',
+  },
 })
-export class PageContainerComponent {}
+export class TabAsPanelDirective {}
