@@ -37,6 +37,8 @@ export class TableComponent {
 
   @Input() tableConfig: TableConfig;
   @Input() noShadow = false;
+  @Input() selectedPartsInfoLabel: string;
+  @Input() selectedPartsActionLabel: string;
 
   @Input() set data({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
@@ -46,9 +48,18 @@ export class TableComponent {
     this.pageIndex = page;
   }
 
+  @Input() set deselectTrigger(deselectItem: unknown[]) {
+    if (!deselectItem) {
+      return;
+    }
+
+    this.selection.deselect(...deselectItem);
+  }
+
   @Output() selected = new EventEmitter<Record<string, unknown>>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<unknown[]>();
+  @Output() clickSelectAction = new EventEmitter<void>();
 
   public dataSource = new MatTableDataSource<unknown>();
   public selection = new SelectionModel<unknown>(true, []);
@@ -65,17 +76,11 @@ export class TableComponent {
   }
 
   public toggleAllRows(): void {
-    if (this.areAllRowsSelected()) {
-      this.selection.clear();
-      this.emitMultiSelect();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
+    this.areAllRowsSelected() ? this.selection.clear() : this.selection.select(...this.dataSource.data);
     this.emitMultiSelect();
   }
 
-  public getPaginatorData({ pageIndex, pageSize }: PageEvent): void {
+  public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
     this.pageIndex = pageIndex;
     this.isDataLoading = true;
     this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });

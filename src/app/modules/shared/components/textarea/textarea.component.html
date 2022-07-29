@@ -17,8 +17,18 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<div class="scrollable-container">
-  <div class="layout">
-    <router-outlet></router-outlet>
-  </div>
+<div *ngIf="control" class="textarea--container">
+  <mat-form-field [style.fontSize]="'16'" appearance="fill">
+    <mat-label>{{ label }}</mat-label>
+    <textarea
+      [formControl]="control"
+      matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="5"
+    ></textarea>
+  </mat-form-field>
+
+  <span *ngIf="control.touched && control.errors" class="errorMessage">{{ control.errors | ErrorMessage | i18n }}</span>
 </div>

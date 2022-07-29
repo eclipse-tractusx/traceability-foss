@@ -19,6 +19,9 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
+import { TextareaComponent } from '@shared/components/textarea/textarea.component';
+import { ErrorMessagePipe } from '@shared/pipes/error-message.pipe';
 import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -82,6 +85,9 @@ import { TemplateModule } from './template.module';
     SelectComponent,
     DataLoadingErrorComponent,
     TabAsPanelDirective,
+    SidenavComponent,
+    TextareaComponent,
+    ErrorMessagePipe,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -114,7 +120,10 @@ import { TemplateModule } from './template.module';
     SelectComponent,
     DataLoadingErrorComponent,
     TabAsPanelDirective,
+    SidenavComponent,
+    TextareaComponent,
+    ErrorMessagePipe,
   ],
-  providers: [FormatDatePipe, StaticIdService, PartsService],
+  providers: [FormatDatePipe, StaticIdService, PartsService, ErrorMessagePipe],
 })
 export class SharedModule {}

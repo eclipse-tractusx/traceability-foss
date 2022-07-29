@@ -53,6 +53,17 @@ table {
   padding: 0 10px;
 }
 
+.table--selected__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  // Mat row defines fixed height of 48px.
+  height: 48px;
+
+  @apply bg-primaryLight border-r-2;
+}
+
 tr.loading {
   background-image: linear-gradient(to right, transparent 50%, rgba(0, 0, 0, 0.05) 50%);
   background-size: 200% 100%;

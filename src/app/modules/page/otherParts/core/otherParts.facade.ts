@@ -23,14 +23,17 @@ import { OtherPartsService } from '@page/otherParts/core/otherParts.service';
 import { OtherPartsState } from '@page/otherParts/core/otherParts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { Investigation } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
-import { Observable } from 'rxjs';
+import { InvestigationsService } from '@shared/service/investigations.service';
+import { Observable, of, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Injectable()
 export class OtherPartsFacade {
   constructor(
     private readonly otherPartsService: OtherPartsService,
+    private readonly investigationsService: InvestigationsService,
     private readonly otherPartsState: OtherPartsState,
   ) {}
 
@@ -60,5 +63,9 @@ export class OtherPartsFacade {
       },
       error: error => (this.otherPartsState.supplierParts = { error }),
     });
+  }
+
+  public sendInvestigation(selectedItems: Part[], description: string): Observable<Investigation> {
+    return this.investigationsService.postInvestigation(selectedItems, description);
   }
 }

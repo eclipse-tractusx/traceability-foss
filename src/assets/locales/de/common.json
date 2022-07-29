@@ -41,5 +41,19 @@
     "ScrollZoomBlocker.CtrlMessage": "Verwenden Sie Strg + Scrollen, um die Karte zu vergrößern.",
     "ScrollZoomBlocker.CmdMessage": "Verwenden Sie ⌘ + Scrollen, um die Karte zu vergrößern.",
     "TouchPanBlocker.Message": "Verwenden Sie zwei Finger, um die Karte zu bewegen"
+  },
+  "errorMessage": {
+    "min": "Please enter a number that is larger than: {{min}}.",
+    "max": "Please enter a number that is smaller than: {{max}}.",
+    "required": "This field is required!",
+    "requiredTrue": "This checkbox must be checked!",
+    "email": "Please enter a valid E-Mail",
+    "minLength": "Please enter a text that is larger than: {{minLength}}.",
+    "maxLength": "Please enter a text that is smaller than: {{maxLength}}.",
+    "pattern": "Please enter data that matches this pattern: {{pattern}}.",
+    "generic": "Please enter valid data."
+  },
+  "qualityInvestigation": {
+    "success": "You queued an investigation for {{amount}} Part(s)"
   }
 }

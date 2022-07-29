@@ -62,10 +62,62 @@ describe('Other Parts', () => {
     expect(sideNavElement).not.toHaveClass('part-detail--open');
   });
 
-  it('should tabs should be rendered', async () => {
+  it('should render tabs', async () => {
     await renderOtherParts();
     const tabElements = await screen.findAllByRole('tab');
 
     expect(tabElements.length).toEqual(2);
+  });
+
+  it('should render selected parts information', async () => {
+    await renderOtherParts();
+    await screen.findByTestId('table-component--test-id');
+    const selectedPartsInfo = await screen.getByText('0 Part(s) selected for this page.');
+
+    expect(selectedPartsInfo).toBeInTheDocument();
+  });
+
+  it('should set currentSelectedParts correctly', async () => {
+    const renderedComponent = await renderOtherParts();
+    const expected = ['test', 'test2'];
+
+    renderedComponent.fixture.componentInstance.onMultiSelect(expected);
+    expect(renderedComponent.fixture.componentInstance.selectedItems).toEqual([expected]);
+
+    renderedComponent.fixture.componentInstance.onTabChange({ index: 1 } as any);
+    renderedComponent.fixture.componentInstance.onMultiSelect(expected);
+    expect(renderedComponent.fixture.componentInstance.selectedItems).toEqual([expected, expected]);
+  });
+
+  it('should clear currentSelectedParts', async () => {
+    const { fixture } = await renderOtherParts();
+    const { componentInstance } = fixture;
+
+    const expected = ['test', 'test2'];
+
+    componentInstance.onMultiSelect(expected);
+    componentInstance.onTabChange({ index: 1 } as any);
+    componentInstance.onMultiSelect(expected);
+    expect(componentInstance.selectedItems).toEqual([expected, expected]);
+
+    componentInstance.onTabChange({ index: 0 } as any);
+    componentInstance.clearSelected();
+    expect(componentInstance.selectedItems).toEqual([[], expected]);
+  });
+
+  it('should remove only one item from current selection', async () => {
+    const { fixture } = await renderOtherParts();
+    const { componentInstance } = fixture;
+
+    const expected = [{ id: 'test' }, { id: 'test2' }];
+
+    componentInstance.onMultiSelect(expected);
+    componentInstance.onTabChange({ index: 1 } as any);
+    componentInstance.onMultiSelect(expected);
+    expect(componentInstance.selectedItems).toEqual([expected, expected]);
+
+    componentInstance.onTabChange({ index: 0 } as any);
+    componentInstance.removeItemFromSelection({ id: 'test' } as any);
+    expect(componentInstance.selectedItems).toEqual([[{ id: 'test2' }], expected]);
   });
 });
