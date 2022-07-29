@@ -2,11 +2,14 @@ package net.catenax.traceability
 
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
-import net.catenax.traceability.clients.cache.bpn.BpnCache
-import net.catenax.traceability.config.MailboxConfig
-import net.catenax.traceability.config.OAuth2Config
-import net.catenax.traceability.config.RestitoConfig
-import net.catenax.traceability.config.SecurityTestConfig
+import net.catenax.traceability.assets.infrastructure.adapters.cache.bpn.BpnCache
+import net.catenax.traceability.common.config.MailboxConfig
+import net.catenax.traceability.common.config.OAuth2Config
+import net.catenax.traceability.common.config.RestitoConfig
+import net.catenax.traceability.common.config.SecurityTestConfig
+import net.catenax.traceability.common.support.BpnApiSupport
+import net.catenax.traceability.common.support.KeycloakApiSupport
+import net.catenax.traceability.common.support.KeycloakSupport
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest

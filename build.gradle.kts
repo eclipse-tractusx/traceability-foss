@@ -124,8 +124,8 @@ tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gener
 
 	library.set("feign")
 	generatorName.set("java")
-	apiPackage.set("net.catenax.traceability.clients.openapi.bpn")
-	modelPackage.set("net.catenax.traceability.clients.openapi.bpn.model")
+	apiPackage.set("net.catenax.traceability.assets.infrastructure.adapters.openapi.bpn")
+	modelPackage.set("net.catenax.traceability.assets.infrastructure.adapters.openapi.bpn")
 	configOptions.put("sourceFolder", "src/main/java")
 }
 
