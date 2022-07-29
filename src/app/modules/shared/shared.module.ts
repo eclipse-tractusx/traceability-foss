@@ -27,6 +27,7 @@ import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { DataLoadingErrorComponent } from './components/data-loading-error/data-loading-error.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
@@ -34,6 +35,7 @@ import { NotificationMessageComponent } from './components/notifications/notific
 import { QualityAlertEmptyStateComponent } from './components/quality-alert-empty-state/quality-alert-empty-state.component';
 import { SelectComponent } from './components/select/select.component';
 import { TableComponent } from './components/table/table.component';
+import { TabAsPanelDirective } from './components/tabs/tab-as-panel.directive';
 import { StepActionsComponent } from './components/wizard/step-actions.component';
 import { StepBodyComponent } from './components/wizard/step-body.component';
 import { StepsComponent } from './components/wizard/steps/steps.component';
@@ -78,6 +80,8 @@ import { TemplateModule } from './template.module';
     CardListComponent,
     ToKeyValuePipe,
     SelectComponent,
+    DataLoadingErrorComponent,
+    TabAsPanelDirective,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -108,6 +112,8 @@ import { TemplateModule } from './template.module';
     CardListComponent,
     ToKeyValuePipe,
     SelectComponent,
+    DataLoadingErrorComponent,
+    TabAsPanelDirective,
   ],
   providers: [FormatDatePipe, StaticIdService, PartsService],
 })

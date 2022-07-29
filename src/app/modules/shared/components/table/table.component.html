@@ -16,7 +16,12 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<div *ngIf="dataSource" class="mat-elevation-z8">
+<div
+  *ngIf="dataSource"
+  [ngClass]="{
+    'mat-elevation-z8': !noShadow
+  }"
+>
   <table
     [dataSource]="dataSource"
     (matSortChange)="updateSortingOfData($event)"
@@ -75,7 +80,8 @@ under the License.
         <th
           *matHeaderCellDef
           mat-header-cell
-          mat-sort-header="{{ tableConfig.sortableColumns[column] ? '' : null }}"
+          [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
+          [disabled]="!tableConfig.sortableColumns?.[column]"
           class="table--cell"
         >
           <ng-container *ngIf="tableConfig?.header?.[i]; else pureColumn">
@@ -83,7 +89,11 @@ under the License.
           </ng-container>
         </th>
         <td *matCellDef="let element" mat-cell class="table--cell">
-          {{ element[column] | autoFormat | i18n }}
+          <ng-container
+            [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
+            [ngTemplateOutletContext]="{ value: element[column] }"
+          >
+          </ng-container>
         </td>
       </ng-container>
     </ng-template>
@@ -102,4 +112,8 @@ under the License.
 
 <ng-template #pureColumn>
   {{ pureColumn }}
+</ng-template>
+
+<ng-template #autoFormat let-value="value">
+  {{ value | autoFormat | i18n }}
 </ng-template>

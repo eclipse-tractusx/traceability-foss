@@ -14,9 +14,22 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
-<header class="header mb-4">
-  <h1>{{ this.title }}</h1>
-</header>
+<app-header [title]="'pageInvestigations.title' | i18n"></app-header>
+
+<mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)" appTabAsPanel>
+  <mat-tab [label]="'pageInvestigations.tabs.received' | i18n">
+    <app-investigations-tab
+      [investigations]="investigationsReceived$ | async"
+      (pagination)="onReceivedPagination($event)"
+    ></app-investigations-tab>
+  </mat-tab>
+  <mat-tab [label]="'pageInvestigations.tabs.queuedNRequested' | i18n">
+    <app-investigations-tab
+      [investigations]="investigationsQueuedNRequested$ | async"
+      (pagination)="onQueuedAndRequestedPagination($event)"
+    ></app-investigations-tab>
+  </mat-tab>
+</mat-tab-group>

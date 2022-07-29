@@ -17,23 +17,33 @@
  * under the License.
  */
 
-import { TemplateRef } from '@angular/core';
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import type { CalendarDateModel } from '@core/model/calendar-date.model';
+import type { PaginationResponse, Pagination } from '@core/model/pagination.model';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
-
-export interface TableConfig<Columns extends string = string> {
-  displayedColumns: Columns[];
-  sortableColumns?: Record<Columns, boolean>;
-  header?: string[];
-  cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
+export enum InvestigationStatus {
+  RECEIVED = 'received',
+  QUEUED = 'queued',
+  REQUESTED = 'requested',
 }
 
-export interface TablePaginationEventConfig {
-  page: number;
-  pageSize: number;
+export enum InvestigationStatusGroup {
+  RECEIVED = 'received',
+  QUEUED_AND_REQUESTED = 'queued-and-requested',
 }
 
-export interface TableEventConfig extends TablePaginationEventConfig {
-  sorting: TableHeaderSort;
+export interface InvestigationResponse {
+  id: string;
+  description: string;
+  status: string;
+  createDate: string;
 }
+
+export interface Investigation {
+  id: string;
+  description: string;
+  status: InvestigationStatus | null;
+  created: CalendarDateModel;
+}
+
+export type InvestigationsResponse = PaginationResponse<InvestigationResponse>;
+export type Investigations = Pagination<Investigation>;

@@ -29,14 +29,9 @@ export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean
     const matches: RegExpExecArray = new RegExp(environment.realmRegExp).exec(window.location.href);
     if (matches) {
       realm = matches[1];
-
-      // Update the <base> href attribute
-      document.getElementsByTagName('base').item(0).attributes.getNamedItem('href').value =
-        environment.baseUrl + realm + '/';
     } else {
       // Redirect user to the default realm page.
-      window.location.href = document.getElementsByTagName('base').item(0).attributes.getNamedItem('href').value =
-        environment.baseUrl + environment.defaultRealm + '/';
+      window.location.href = environment.baseUrl + environment.defaultRealm + '/';
 
       return (): Promise<void> => Promise.resolve();
     }

@@ -17,18 +17,5 @@
 * under the License.
 */
 
-/*--------------------------------------------------------*/
-/*  IMPORTS
-  /*--------------------------------------------------------*/
-@import './theme/material-theme.scss';
-
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-
-@import './theme/fonts.scss';
-@import './theme/base.scss';
-
-@import '../node_modules/mapbox-gl/dist/mapbox-gl.css';
-
-@import './app/modules/shared/components/unscoped-styles.scss';
+// Please, don't use it if possible
+@import './tabs/tab-as-panel.directive.scss';

@@ -14,9 +14,19 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
-<header class="header mb-4">
-  <h1>{{ this.title }}</h1>
-</header>
+<div
+  [ngClass]="{
+    'bg-startLight text-startDark border-startLightContrast before:bg-startDark':
+      InvestigationStatus.RECEIVED === status,
+    'bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-pendingDark':
+      InvestigationStatus.QUEUED === status,
+    'bg-completeLight text-completeDark border-completeLightContrast before:bg-completeDark':
+      InvestigationStatus.REQUESTED === status
+  }"
+  class="border-1 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs before:content-[' '] before:h-2 before:w-2 before:rounded-full before:inline-block"
+>
+  {{ 'pageInvestigations.status.' + status | i18n }}
+</div>

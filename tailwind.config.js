@@ -127,6 +127,19 @@ module.exports = {
       investigationBlue: '#3f7bfe',
 
       footer: '#fff5cc',
+
+      // Status colors
+      startLight: '#d2edfc',
+      startDark: '#06b2ff',
+      startLightContrast: '#def2fc',
+
+      pendingLight: '#fff0d4',
+      pendingDark: '#feb104',
+      pendingLightContrast: '#fff3da',
+
+      completeLight: '#ddf2dd',
+      completeDark: '#2ca62c',
+      completeLightContrast: '#e3f2e3',
     },
     screens: {
       sm: '640px',

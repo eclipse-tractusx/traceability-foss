@@ -17,23 +17,13 @@
  * under the License.
  */
 
-import { TemplateRef } from '@angular/core';
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import { Component, Input } from '@angular/core';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
-
-export interface TableConfig<Columns extends string = string> {
-  displayedColumns: Columns[];
-  sortableColumns?: Record<Columns, boolean>;
-  header?: string[];
-  cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
-}
-
-export interface TablePaginationEventConfig {
-  page: number;
-  pageSize: number;
-}
-
-export interface TableEventConfig extends TablePaginationEventConfig {
-  sorting: TableHeaderSort;
+@Component({
+  selector: 'app-data-loading-error',
+  templateUrl: './data-loading-error.component.html',
+})
+export class DataLoadingErrorComponent {
+  @Input()
+  public error: Error;
 }

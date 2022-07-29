@@ -50,6 +50,13 @@ const routes: Routes = [
     },
   },
   {
+    path: 'investigations',
+    loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
+    data: {
+      breadcrumb: 'investigations',
+    },
+  },
+  {
     path: 'about',
     loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
     data: {

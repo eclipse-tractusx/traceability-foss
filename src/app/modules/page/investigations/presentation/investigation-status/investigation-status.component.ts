@@ -17,23 +17,17 @@
  * under the License.
  */
 
-import { TemplateRef } from '@angular/core';
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import { Input, Component, ViewEncapsulation } from '@angular/core';
+import { InvestigationStatus } from '@shared/model/investigations.model';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
+@Component({
+  selector: 'app-investigation-status',
+  templateUrl: './investigation-status.component.html',
+  encapsulation: ViewEncapsulation.None,
+})
+export class InvestigationStatusComponent {
+  @Input()
+  public status: InvestigationStatus;
 
-export interface TableConfig<Columns extends string = string> {
-  displayedColumns: Columns[];
-  sortableColumns?: Record<Columns, boolean>;
-  header?: string[];
-  cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
-}
-
-export interface TablePaginationEventConfig {
-  page: number;
-  pageSize: number;
-}
-
-export interface TableEventConfig extends TablePaginationEventConfig {
-  sorting: TableHeaderSort;
+  public readonly InvestigationStatus = InvestigationStatus;
 }

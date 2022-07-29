@@ -20,3 +20,4 @@
 export { dashboardHandler } from './dashboard-mock/dashboard.handler';
 export { partsHandlers } from './parts-mock/parts.handler';
 export { otherPartsHandlers } from './otherParts-mock/otherParts.handler';
+export { investigationsHandlers } from './investigations-mock/investigations.handler';

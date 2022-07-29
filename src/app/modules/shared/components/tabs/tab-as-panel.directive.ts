@@ -17,23 +17,12 @@
  * under the License.
  */
 
-import { TemplateRef } from '@angular/core';
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import { Directive } from '@angular/core';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
-
-export interface TableConfig<Columns extends string = string> {
-  displayedColumns: Columns[];
-  sortableColumns?: Record<Columns, boolean>;
-  header?: string[];
-  cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
-}
-
-export interface TablePaginationEventConfig {
-  page: number;
-  pageSize: number;
-}
-
-export interface TableEventConfig extends TablePaginationEventConfig {
-  sorting: TableHeaderSort;
-}
+@Directive({
+  selector: '[appTabAsPanel]',
+  host: {
+    '[class]': '"app-tab-as-panel"',
+  },
+})
+export class TabAsPanelDirective {}

@@ -17,23 +17,15 @@
  * under the License.
  */
 
-import { TemplateRef } from '@angular/core';
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import type { InvestigationResponse } from '@shared/model/investigations.model';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
-
-export interface TableConfig<Columns extends string = string> {
-  displayedColumns: Columns[];
-  sortableColumns?: Record<Columns, boolean>;
-  header?: string[];
-  cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
-}
-
-export interface TablePaginationEventConfig {
-  page: number;
-  pageSize: number;
-}
-
-export interface TableEventConfig extends TablePaginationEventConfig {
-  sorting: TableHeaderSort;
-}
+export const buildMockInvestigations = (statuses: string[]): InvestigationResponse[] =>
+  new Array(25).fill(null).map((_, index) => {
+    const status = statuses[index % statuses.length];
+    return {
+      id: `id-${index + 1}`,
+      description: `Investigation No ${index + 1}`,
+      createDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
+      status,
+    };
+  });

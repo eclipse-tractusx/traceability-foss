@@ -1,0 +1,19 @@
+{
+  "pageInvestigations": {
+    "title": "Quality Investigations",
+    "tabs": {
+      "received": "Received",
+      "queuedNRequested": "Queued & Requested"
+    },
+    "column": {
+      "description": "Description",
+      "status": "Status",
+      "created": "Created"
+    },
+    "status": {
+      "received": "Received",
+      "queued": "Queued",
+      "requested": "Requested"
+    }
+  }
+}

@@ -17,23 +17,25 @@
  * under the License.
  */
 
-import { TemplateRef } from '@angular/core';
-import { SortableHeaders } from '@page/parts/model/parts.model';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
+import { InvestigationsComponent } from './presentation/investigations.component';
 
-export interface TableConfig<Columns extends string = string> {
-  displayedColumns: Columns[];
-  sortableColumns?: Record<Columns, boolean>;
-  header?: string[];
-  cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
-}
+export /** @type {*} */
+const INVESTIGATIONS_ROUTING: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: InvestigationsComponent,
+    data: { i18nextNamespaces: ['page.investigations'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+];
 
-export interface TablePaginationEventConfig {
-  page: number;
-  pageSize: number;
-}
-
-export interface TableEventConfig extends TablePaginationEventConfig {
-  sorting: TableHeaderSort;
-}
+@NgModule({
+  imports: [RouterModule.forChild(INVESTIGATIONS_ROUTING)],
+  exports: [RouterModule],
+})
+export class InvestigationsRoutingModule {}
