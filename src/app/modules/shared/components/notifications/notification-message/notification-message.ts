@@ -18,20 +18,17 @@
  */
 
 import { NotificationStatus } from './notification-status';
-import { NotificationText } from './notification-text';
+import { NotificationWithAction } from './notification-with-action';
+
+export type NotificationText = NotificationWithAction | string;
 
 export class NotificationMessage {
-  public id: number;
-  public isSliderON: boolean;
-  public message: NotificationText | string;
-  public status: NotificationStatus;
-  public timeout: number;
+  public isSliderON = true;
 
-  constructor(id: number, message: NotificationText | string, status: NotificationStatus | null, timeout: number) {
-    this.id = id;
-    this.message = message;
-    this.status = status;
-    this.isSliderON = true;
-    this.timeout = timeout;
-  }
+  constructor(
+    public id: number,
+    public message: NotificationText,
+    public status: NotificationStatus | null,
+    public timeout: number,
+  ) {}
 }

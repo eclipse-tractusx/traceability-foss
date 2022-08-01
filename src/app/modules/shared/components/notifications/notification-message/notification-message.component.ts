@@ -20,6 +20,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { NotificationMessage } from './notification-message';
 import { NotificationStatus } from './notification-status';
+import { NotificationWithAction } from './notification-with-action';
 
 @Component({
   selector: 'app-notification-message',
@@ -34,6 +35,14 @@ export class NotificationMessageComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.changeStatusBarCss();
+  }
+
+  public isNotificationWithAction(): boolean {
+    return typeof (this.notifierMessage?.message as NotificationWithAction)?.translationId === 'string';
+  }
+
+  public get notificationWithAction(): NotificationWithAction | null {
+    return (this.isNotificationWithAction() && (this.notifierMessage?.message as NotificationWithAction)) || null;
   }
 
   public remove(): void {

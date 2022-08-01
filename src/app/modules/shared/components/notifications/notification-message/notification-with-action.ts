@@ -17,18 +17,8 @@
  * under the License.
  */
 
-export enum NotificationText {
-  StatusChanged = 'The status was successfully changed.',
-  SuccessFullyCommitted = 'Successfully committed.',
-  SuccessFullyDeleted = 'Successfully deleted.',
-  PreparingToDownload = 'Fetching data to download.',
-  Downloading = 'Downloading...',
-  SomethingWentWrong = 'Something went wrong',
-  EmailSent = 'Email sent',
-  LoginFailed = 'Login failed',
-  LogoutError = 'Log out failed ',
-  RequestSent = 'Request sent',
-  AccessDenied = 'Access denied',
-  AccessGranted = 'Access granted',
-  AccessRemoved = 'Access removed',
+export interface NotificationWithAction {
+  translationId: string;
+  actionTextId: string;
+  actionLink?: string;
 }
