@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OtherPartsFacade } from '@page/otherParts/core/otherParts.facade';
 import { Part } from '@page/parts/model/parts.model';
@@ -51,11 +51,11 @@ export class RequestInvestigationComponent {
   public isOpen$ = new BehaviorSubject<boolean>(false);
   public textAreaControl = new FormControl(undefined, [
     Validators.required,
-    Validators.maxLength(500),
+    Validators.maxLength(1000),
     Validators.minLength(15),
   ]);
 
-  private investigationFormGroup = new FormGroup({ description: this.textAreaControl });
+  public investigationFormGroup = new FormGroup({ description: this.textAreaControl });
 
   public submitInvestigation(): void {
     this.investigationFormGroup.markAllAsTouched();

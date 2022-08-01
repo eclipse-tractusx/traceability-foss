@@ -26,28 +26,38 @@ type MinLengthError = { requiredLength: number; actualLength: number };
 type MaxLengthError = { requiredLength: number; actualLength: number };
 type PatternError = { requiredPattern: string; actualValue: string };
 
+export interface ErrorMessage {
+  id: string;
+  values: Record<string, unknown>;
+}
+
 @Pipe({
-  name: 'ErrorMessage',
+  name: 'errorMessage',
 })
 export class ErrorMessagePipe implements PipeTransform {
   transform(errors: ValidationErrors): string {
     if (!errors) {
       return '';
     }
+    const getErrorMapping = (key: string, value?: any): ErrorMessage => {
+      return { id: `errorMessage.${key}`, values: { [key]: value } };
+    };
 
     const errorMessageMapping = new Map<string, any>([
-      ['min', ({ min }: MinError) => `errorMessage.min:min:${min}`],
-      ['max', ({ max }: MaxError) => `errorMessage.max:max:${max}`],
-      ['minlength', ({ requiredLength }: MinLengthError) => `errorMessage.minLength:minLength:${requiredLength}`],
-      ['maxlength', ({ requiredLength }: MaxLengthError) => `errorMessage.maxLength:maxLength:${requiredLength}`],
-      ['pattern', ({ requiredPattern }: PatternError) => `errorMessage.pattern:pattern:${requiredPattern}`],
+      ['min', ({ min }: MinError) => getErrorMapping('min', min)],
+      ['max', ({ max }: MaxError) => getErrorMapping('max', max)],
+      ['minlength', ({ requiredLength }: MinLengthError) => getErrorMapping('minLength', requiredLength)],
+      ['maxlength', ({ requiredLength }: MaxLengthError) => getErrorMapping('maxLength', requiredLength)],
+      ['pattern', ({ requiredPattern }: PatternError) => getErrorMapping('pattern', requiredPattern)],
 
-      ['required', _ => 'errorMessage.required'],
-      ['email', _ => 'errorMessage.email'],
-      ['generic', _ => 'errorMessage.generic'],
+      ['required', _ => getErrorMapping('required')],
+      ['email', _ => getErrorMapping('email')],
+      ['generic', _ => getErrorMapping('generic')],
     ]);
 
-    const errorKey = Object.keys(errors).reduce((p, c) => (!p || c === 'required' ? c : p), '');
+    const keys = Object.keys(errors);
+    const errorKey = keys.includes('required') ? 'required' : keys[0];
+
     return errorMessageMapping.get(errorKey)?.(errors[errorKey]) || errorMessageMapping.get('generic')();
   }
 }

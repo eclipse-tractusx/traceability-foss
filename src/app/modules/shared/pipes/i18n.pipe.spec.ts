@@ -41,8 +41,10 @@ describe('I18nPipe', () => {
   });
 
   it('should format string with correct data passed in string', async () => {
-    await renderComponent(`{{ 'unitTest.test02:test:5' | i18n }}`, {
+    const errorMessageObject = { id: 'unitTest.test02', values: { test: 5 } };
+    await renderComponent(`{{ errorMessageObject | i18n }}`, {
       imports: [SharedModule],
+      componentProperties: { errorMessageObject },
     });
 
     expect(screen.getByText('This is for unit tests purposes. 5')).toBeInTheDocument();

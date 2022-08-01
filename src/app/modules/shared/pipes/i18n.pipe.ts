@@ -18,20 +18,19 @@
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
+import { ErrorMessage } from '@shared/pipes/error-message.pipe';
 import { I18NextPipe, PipeOptions } from 'angular-i18next';
 
 @Pipe({ name: 'i18n', pure: false })
 export class I18nPipe implements PipeTransform {
   constructor(private i18NextPipe: I18NextPipe) {}
 
-  public transform(key: string, options?: PipeOptions): string {
-    const seperatedKeyValues = key.split(':');
-    const keyName = seperatedKeyValues.splice(0, 1);
-    let values = {};
-    for (let i = 0; i < seperatedKeyValues.length; i += 2) {
-      values[seperatedKeyValues[i]] = seperatedKeyValues[i + 1];
+  public transform(key: string | ErrorMessage, options?: PipeOptions): string {
+    if (typeof key !== 'string') {
+      options = key.values;
+      key = key.id;
     }
 
-    return this.i18NextPipe.transform(keyName, options || values);
+    return this.i18NextPipe.transform(key, options);
   }
 }
