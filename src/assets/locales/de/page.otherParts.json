@@ -25,5 +25,14 @@
     "manufacturer": "Hersteller",
     "nameAtCustomer": "Name beim Kunden",
     "customerPartId": "Kunden Produktnummer"
+  },
+  "page": {
+    "selectedParts": {
+      "info": "{{amount}} Produkt(e) für diese Seite ausgewählt.",
+      "action": "Untersuchung starten"
+    },
+    "requestInvestigations": {
+      "partDescription": "Sie haben die folgenden Produkte ausgewählt:"
+    }
   }
 }

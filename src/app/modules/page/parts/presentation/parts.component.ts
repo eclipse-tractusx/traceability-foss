@@ -57,9 +57,10 @@ export class PartsComponent implements OnInit, AfterViewInit {
   };
 
   public tableConfig: TableConfig;
-  public parts$: Observable<View<Pagination<Part>>>;
+
   public readonly isInvestigationOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public currentSelectedItems$: Observable<View<Part[]>>;
+  public readonly parts$: Observable<View<Pagination<Part>>>;
+  public readonly currentSelectedItems$: Observable<Part[]>;
 
   constructor(private readonly partsFacade: PartsFacade, private readonly partDetailsFacade: PartDetailsFacade) {
     this.parts$ = this.partsFacade.parts$;
@@ -99,7 +100,11 @@ export class PartsComponent implements OnInit, AfterViewInit {
     this.partsFacade.removeSelectedPart(part);
   }
 
+  public addItemToSelection(part: Part) {
+    this.partsFacade.addItemToSelection(part);
+  }
+
   public clearSelected() {
-    this.partsFacade.selectedParts = { data: [] };
+    this.partsFacade.selectedParts = [];
   }
 }

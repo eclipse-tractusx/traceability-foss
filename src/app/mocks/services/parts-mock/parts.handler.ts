@@ -32,7 +32,7 @@ export const partsHandlers = [
 
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
-    return res(ctx.delay(5000), ctx.status(200), ctx.json(mockAssetList[partId as string]));
+    return res(ctx.status(200), ctx.json(mockAssetList[partId as string]));
   }),
 
   rest.patch(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {

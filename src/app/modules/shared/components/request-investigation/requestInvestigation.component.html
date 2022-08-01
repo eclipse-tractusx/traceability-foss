@@ -18,35 +18,42 @@ under the License.
 -->
 
 <app-sidenav [isOpen]="isOpen$ | async" (sidenavAction)="isOpen = $event">
-  <h1>{{ 'page.requestInvestigations.headline' | i18n }}</h1>
+  <h1 class="mb-4">{{ 'requestInvestigations.headline' | i18n }}</h1>
 
   <div class="mb-8">
     <p class="regular-text">{{ 'page.requestInvestigations.partDescription' | i18n }}</p>
     <mat-chip-list aria-label="Selected Parts">
-      <mat-chip *ngFor="let part of selectedItems?.data || []" (removed)="deselectPart.emit(part)">
-        <mat-spinner *ngIf="selectedItems.loader" [diameter]="20" class="mr-3"></mat-spinner>
+      <mat-chip *ngFor="let part of selectedItems || []" (removed)="cancelAction(part)">
+        <mat-spinner *ngIf="!part.name" [diameter]="20" class="mr-3"></mat-spinner>
         {{ part.name || part.id }}
-        <button matChipRemove>
+        <button *ngIf="selectedItems.length > 1" matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-chip>
     </mat-chip-list>
+
+    <div class="flex flex-col mt-6" *ngIf="removedItemsHistory.length">
+      <p class="regular-text mb-2">{{ 'requestInvestigations.restoreItem' | i18n }}</p>
+      <mat-chip-list>
+        <mat-chip class="cursor-pointer" (click)="restoreLastItem()">
+          <mat-icon matChipAvatar>restore</mat-icon>
+          {{ removedItemsHistory[0].name || removedItemsHistory[0].id }}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
   </div>
 
-  <p class="regular-text mb-2">{{ 'page.requestInvestigations.textAreaDescription' | i18n }}</p>
+  <p class="regular-text mb-2">{{ 'requestInvestigations.textAreaDescription' | i18n }}</p>
   <form [formGroup]="investigationFormGroup" (submit)="submitInvestigation()">
-    <app-textarea
-      [control]="textAreaControl"
-      [label]="'page.requestInvestigations.textAreaLabel' | i18n"
-    ></app-textarea>
+    <app-textarea [control]="textAreaControl" [label]="'requestInvestigations.textAreaLabel' | i18n"></app-textarea>
 
     <div class="flex justify-end mb-6">
       <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="isOpen = false" class="mr-4">{{
-        'page.requestInvestigations.cancel' | i18n
+        'requestInvestigations.cancel' | i18n
       }}</app-button>
 
       <app-button [variant]="'raised'" [color]="'accent'" [isDisabled]="isLoading$ | async" type="submit">{{
-        'page.requestInvestigations.submit' | i18n
+        'requestInvestigations.submit' | i18n
       }}</app-button>
     </div>
   </form>

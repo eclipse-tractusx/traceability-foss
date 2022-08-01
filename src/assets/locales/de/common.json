@@ -54,6 +54,15 @@
     "generic": "Die Eingabe ist ungültig."
   },
   "qualityInvestigation": {
-    "success": "You queued an investigation for {{amount}} Part(s)"
+    "success": "Sie haben eine Untersuchung für {{amount}} Produkte(e) gestartet."
+  },
+  "requestInvestigations": {
+    "headline": "Qualitätsprüfung anfordern",
+    "partDescription": "Sie haben die folgenden Produkte ausgewählt",
+    "textAreaDescription": "Fügen Sie eine Beschreibung über die Untersuchung hinzu",
+    "restoreItem": "Möchten Sie Ihren letztes Produkt wiederherstellen?",
+    "textAreaLabel": "Beschreibung",
+    "cancel": "ABBRUCH",
+    "submit": "ZUR WARTESCHLANGE HINZUFÜGEN"
   }
 }

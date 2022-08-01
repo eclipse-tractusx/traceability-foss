@@ -32,12 +32,7 @@
       "action": "Start investigation"
     },
     "requestInvestigations": {
-      "headline": "Request quality investigation",
-      "partDescription": "You selected the following parts",
-      "textAreaDescription": "Add a description about the investigation",
-      "textAreaLabel": "Description",
-      "cancel": "CANCEL",
-      "submit": "ADD TO QUEUE"
+      "partDescription": "You selected the following parts:"
     }
   }
 }

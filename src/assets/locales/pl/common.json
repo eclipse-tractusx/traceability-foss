@@ -64,5 +64,14 @@
   },
   "qualityInvestigation": {
     "success": "You queued an investigation for {{amount}} Part(s)"
+  },
+  "requestInvestigations": {
+    "headline": "Request quality investigation",
+    "partDescription": "You selected the following parts",
+    "textAreaDescription": "Add a description about the investigation",
+    "restoreItem": "Do you want to restore your last item?",
+    "textAreaLabel": "Description",
+    "cancel": "CANCEL",
+    "submit": "ADD TO QUEUE"
   }
 }

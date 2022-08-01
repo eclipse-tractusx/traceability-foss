@@ -9,7 +9,8 @@
       "serialNumber": "Seriennummer",
       "qualityType": "Qualitätsstufe",
       "productionDate": "Produktionsdatum",
-      "productionCountry": "Produktionsland"
+      "productionCountry": "Produktionsland",
+      "childInvestigation": "Kinder Untersuchen"
     }
   },
   "partDetail": {
@@ -29,5 +30,13 @@
   "relation": {
     "increase": "Hiermit vergrößern Sie den Baum",
     "decrease": "Hiermit verkleinern Sie den Baum"
+  },
+  "page": {
+    "childInvestigation": {
+      "action": "Untersuchung starten"
+    },
+    "requestInvestigations": {
+      "partDescription": "Es kann eine Weile dauern, bis der Name der ausgewählten Produkte geladen ist."
+    }
   }
 }

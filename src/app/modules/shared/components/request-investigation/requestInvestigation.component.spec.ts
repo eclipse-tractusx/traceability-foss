@@ -100,7 +100,7 @@ describe('requestInvestigationComponent', () => {
     const { componentInstance } = fixture;
 
     const spy = jest.spyOn(componentInstance.clearSelected, 'emit');
-    const spy_2 = jest.spyOn((componentInstance as any).qualityInvestigationFacade, 'sendInvestigation');
+    const spy_2 = jest.spyOn((componentInstance as any).investigationsService, 'postInvestigation');
 
     const testText = 'This is for a testing purpose.';
 

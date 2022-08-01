@@ -62,6 +62,8 @@ export class OtherPartsComponent implements OnInit {
   public selectedTab = 0;
 
   public deselectPartTrigger$: Subject<Part[]> = new Subject();
+  public addPartTrigger$: Subject<Part> = new Subject();
+
   public customerParts$: Observable<View<Pagination<Part>>>;
   public supplierParts$: Observable<View<Pagination<Part>>>;
 
@@ -75,12 +77,12 @@ export class OtherPartsComponent implements OnInit {
     this.supplierParts$ = this.otherPartsFacade.supplierParts$;
   }
 
-  public get currentSelectedItems(): View<Part[]> {
-    return { data: this.selectedItems[this.selectedTab] };
+  public get currentSelectedItems(): Part[] {
+    return this.selectedItems[this.selectedTab];
   }
 
-  public set currentSelectedItems(parts: View<Part[]>) {
-    this.selectedItems[this.selectedTab] = parts.data;
+  public set currentSelectedItems(parts: Part[]) {
+    this.selectedItems[this.selectedTab] = parts;
   }
 
   public ngOnInit(): void {
@@ -101,12 +103,12 @@ export class OtherPartsComponent implements OnInit {
   }
 
   public onMultiSelect(event: unknown[]): void {
-    this.currentSelectedItems = { data: event as Part[] };
+    this.currentSelectedItems = event as Part[];
   }
 
   public removeItemFromSelection(part: Part): void {
     this.deselectPartTrigger$.next([part]);
-    this.currentSelectedItems = { data: this.currentSelectedItems.data.filter(({ id }) => id !== part.id) };
+    this.currentSelectedItems = this.currentSelectedItems.filter(({ id }) => id !== part.id);
   }
 
   public onTabChange({ index }: MatTabChangeEvent): void {
@@ -115,7 +117,12 @@ export class OtherPartsComponent implements OnInit {
   }
 
   public clearSelected(): void {
-    this.deselectPartTrigger$.next(this.currentSelectedItems.data);
-    this.currentSelectedItems = { data: [] };
+    this.deselectPartTrigger$.next(this.currentSelectedItems);
+    this.currentSelectedItems = [];
+  }
+
+  public addItemToSelection(part: Part): void {
+    this.addPartTrigger$.next(part);
+    this.currentSelectedItems = [...this.currentSelectedItems, part];
   }
 }

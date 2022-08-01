@@ -30,5 +30,13 @@
   "relation": {
     "increase": "Used to zoom into the tree",
     "decrease": "Used to zoom out of the tree"
+  },
+  "page": {
+    "childInvestigation": {
+      "action": "Start investigation"
+    },
+    "requestInvestigations": {
+      "partDescription": "It May take a while to load the name of your selected parts."
+    }
   }
 }

@@ -26,8 +26,8 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class PartsState {
-  private readonly _parts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
-  private readonly _selectedParts$: State<View<Part[]>> = new State<View<Part[]>>({ loader: true });
+  private readonly _parts$ = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _selectedParts$ = new State<Part[]>(null);
 
   get parts$(): Observable<View<Pagination<Part>>> {
     return this._parts$.observable;
@@ -38,16 +38,15 @@ export class PartsState {
     this._parts$.update(partsView);
   }
 
-  get selectedParts$(): Observable<View<Part[]>> {
+  get selectedParts$(): Observable<Part[]> {
     return this._selectedParts$.observable;
   }
 
-  get selectedParts(): View<Part[]> {
+  get selectedParts(): Part[] {
     return this._selectedParts$.snapshot;
   }
 
-  set selectedParts({ data, loader, error }: View<Part[]>) {
-    const selectedPartsView: View<Part[]> = { data, loader, error };
-    this._selectedParts$.update(selectedPartsView);
+  set selectedParts(parts: Part[]) {
+    this._selectedParts$.update(parts);
   }
 }

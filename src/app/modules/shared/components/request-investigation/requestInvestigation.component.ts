@@ -32,6 +32,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class RequestInvestigationComponent {
   public isLoading$ = new BehaviorSubject(false);
+  public removedItemsHistory: Part[] = [];
 
   @Input() set isOpen(isOpen: boolean) {
     this.isOpen$.next(isOpen);
@@ -40,8 +41,9 @@ export class RequestInvestigationComponent {
     }
   }
 
-  @Input() selectedItems: View<Part[]>;
+  @Input() selectedItems: Part[];
   @Output() deselectPart = new EventEmitter<Part>();
+  @Output() restorePart = new EventEmitter<Part>();
   @Output() clearSelected = new EventEmitter<void>();
   @Output() sidenavIsClosing = new EventEmitter<void>();
 
@@ -69,20 +71,31 @@ export class RequestInvestigationComponent {
     this.isLoading$.next(true);
     this.textAreaControl.disable();
 
-    const amountOfItems = this.selectedItems.data.length;
-    this.investigationsService.postInvestigation(this.selectedItems.data, this.textAreaControl.value).subscribe({
+    const amountOfItems = this.selectedItems.length;
+    this.investigationsService.postInvestigation(this.selectedItems, this.textAreaControl.value).subscribe({
       next: () => {
         this.isLoading$.next(false);
         this.textAreaControl.enable();
 
         this.isOpen = false;
+        this.removedItemsHistory = [];
         this.clearSelected.emit();
 
         this.textAreaControl.setValue(undefined);
         this.textAreaControl.markAsUntouched();
 
-        this.notificationService.success(`qualityInvestigation.success:amount:${amountOfItems}`);
+        this.notificationService.success({ id: 'qualityInvestigation.success', values: { amount: amountOfItems } });
       },
     });
+  }
+
+  public cancelAction(part: Part) {
+    this.removedItemsHistory.unshift(part);
+    this.deselectPart.emit(part);
+  }
+
+  public restoreLastItem(): void {
+    this.restorePart.emit(this.removedItemsHistory[0]);
+    this.removedItemsHistory.shift();
   }
 }

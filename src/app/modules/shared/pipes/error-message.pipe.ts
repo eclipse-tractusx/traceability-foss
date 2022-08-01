@@ -19,17 +19,13 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
+import { TranslationObject } from '@shared/pipes/i18n.pipe';
 
 type MinError = { min: number; actual: number };
 type MaxError = { max: number; actual: number };
 type MinLengthError = { requiredLength: number; actualLength: number };
 type MaxLengthError = { requiredLength: number; actualLength: number };
 type PatternError = { requiredPattern: string; actualValue: string };
-
-export interface ErrorMessage {
-  id: string;
-  values: Record<string, unknown>;
-}
 
 @Pipe({
   name: 'errorMessage',
@@ -39,7 +35,7 @@ export class ErrorMessagePipe implements PipeTransform {
     if (!errors) {
       return '';
     }
-    const getErrorMapping = (key: string, value?: any): ErrorMessage => {
+    const getErrorMapping = (key: string, value?: any): TranslationObject => {
       return { id: `errorMessage.${key}`, values: { [key]: value } };
     };
 

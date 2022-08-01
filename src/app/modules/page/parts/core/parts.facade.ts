@@ -47,27 +47,21 @@ export class PartsFacade {
     });
   }
 
-  get selectedParts$(): Observable<View<Part[]>> {
+  get selectedParts$(): Observable<Part[]> {
     // IMPORTANT: this delay is needed for view-container directive
     return this.partsState.selectedParts$.pipe(delay(0));
   }
 
-  set selectedParts(parts: View<Part[]>) {
+  set selectedParts(parts: Part[]) {
     this.partsState.selectedParts = parts;
   }
 
   public setSelectedParts(selectedPartIds: string[]): void {
     selectedPartIds.forEach(id => (this.subjectList[id] = new Subject()));
-    const parts: Part[] = selectedPartIds.map(id => ({ id } as Part));
-    this.partsState.selectedParts = { loader: true, data: parts };
+    this.partsState.selectedParts = selectedPartIds.map(id => ({ id } as Part));
+    const selectedPartsObservable = selectedPartIds.map(id => this.getSelectedPartData(id));
 
-    merge(...selectedPartIds.map(id => this.partsService.getPart(id).pipe(takeUntil(this.subjectList[id]))))
-      .pipe(tap(_ => (this.subjectList = {})))
-      .subscribe({
-        next: data => this.updateSelectedParts(data),
-        error: error => (this.partsState.selectedParts = { error }),
-        complete: () => (this.partsState.selectedParts = { ...this.partsState.selectedParts, loader: false }),
-      });
+    merge(...selectedPartsObservable).subscribe(data => this.updateSelectedParts(data));
   }
 
   public removeSelectedPart(part: Part): void {
@@ -75,17 +69,26 @@ export class PartsFacade {
       this.subjectList[part.id].next();
     }
 
-    this.selectedParts = {
-      ...this.partsState.selectedParts,
-      data: this.partsState.selectedParts.data?.filter(({ id }) => id !== part.id),
-    };
+    this.selectedParts = this.partsState.selectedParts?.filter(({ id }) => id !== part.id);
   }
 
-  private updateSelectedParts(part: Part) {
-    const data = this.partsState.selectedParts.data.map(currentPart =>
+  public addItemToSelection(part: Part): void {
+    this.partsState.selectedParts = [...this.partsState.selectedParts, part];
+
+    if (part.name) {
+      return;
+    }
+
+    this.getSelectedPartData(part.id).subscribe(data => this.updateSelectedParts(data));
+  }
+
+  private updateSelectedParts(part: Part): void {
+    this.partsState.selectedParts = this.partsState.selectedParts.map(currentPart =>
       currentPart.id === part.id ? part : currentPart,
     );
+  }
 
-    this.partsState.selectedParts = { ...this.partsState.selectedParts, data };
+  private getSelectedPartData(id: string): Observable<Part> {
+    return this.partsService.getPart(id).pipe(takeUntil(this.subjectList[id]));
   }
 }
