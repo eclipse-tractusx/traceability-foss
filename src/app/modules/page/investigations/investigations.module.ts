@@ -22,13 +22,13 @@ import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
-
-import { InvestigationsComponent } from './presentation/investigations.component';
-import { InvestigationsRoutingModule } from './investigations.routing';
 import { InvestigationsFacade } from './core/investigations.facade';
 import { InvestigationsState } from './core/investigations.state';
-import { InvestigationsTabComponent } from './presentation/investigations-tab/investigations-tab.component';
+import { InvestigationsRoutingModule } from './investigations.routing';
 import { InvestigationStatusComponent } from './presentation/investigation-status/investigation-status.component';
+import { InvestigationsTabComponent } from './presentation/investigations-tab/investigations-tab.component';
+
+import { InvestigationsComponent } from './presentation/investigations.component';
 
 @NgModule({
   declarations: [InvestigationsComponent, InvestigationsTabComponent, InvestigationStatusComponent],

@@ -18,7 +18,7 @@
  */
 
 import type { CalendarDateModel } from '@core/model/calendar-date.model';
-import type { PaginationResponse, Pagination } from '@core/model/pagination.model';
+import type { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export enum InvestigationStatus {
   RECEIVED = 'received',

@@ -20,10 +20,10 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
 import {
-  InvestigationsResponse,
-  Investigations,
   Investigation,
   InvestigationResponse,
+  Investigations,
+  InvestigationsResponse,
   InvestigationStatus,
 } from '../model/investigations.model';
 

@@ -18,9 +18,6 @@
  */
 
 import { PartsComponent } from '@page/parts/presentation/parts.component';
-import { FormatDatePipe } from '@shared/pipes/format-date.pipe';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
 import { screen } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';

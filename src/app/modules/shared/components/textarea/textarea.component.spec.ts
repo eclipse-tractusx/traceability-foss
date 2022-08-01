@@ -18,7 +18,6 @@
  */
 
 import { FormControl, Validators } from '@angular/forms';
-import { ButtonComponent } from '@shared/components/button/button.component';
 import { TextareaComponent } from '@shared/components/textarea/textarea.component';
 import { SharedModule } from '@shared/shared.module';
 import { screen } from '@testing-library/angular';

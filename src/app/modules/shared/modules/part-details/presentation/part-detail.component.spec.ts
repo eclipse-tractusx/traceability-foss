@@ -18,7 +18,6 @@
  */
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';

@@ -18,13 +18,11 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/otherParts/core/otherParts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
-import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';

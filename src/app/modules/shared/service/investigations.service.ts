@@ -24,15 +24,15 @@ import { environment } from '@env';
 import { Part } from '@page/parts/model/parts.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { InvestigationsAssembler } from '../assembler/investigations.assembler';
 
 import {
-  InvestigationsResponse,
-  InvestigationStatusGroup,
-  Investigations,
   Investigation,
   InvestigationResponse,
+  Investigations,
+  InvestigationsResponse,
+  InvestigationStatusGroup,
 } from '../model/investigations.model';
-import { InvestigationsAssembler } from '../assembler/investigations.assembler';
 
 @Injectable({
   providedIn: 'root',

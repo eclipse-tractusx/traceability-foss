@@ -17,8 +17,7 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { realm } from '@core/api/api.service.properties';
 import { Part, QualityType } from '@page/parts/model/parts.model';

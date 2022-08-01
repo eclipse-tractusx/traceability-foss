@@ -18,13 +18,12 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { Pagination } from '@core/model/pagination.model';
+import { Investigation, InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
-import { Investigation, InvestigationStatusGroup } from '@shared/model/investigations.model';
-
+import { Observable, Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { InvestigationsState } from './investigations.state';
 
 @Injectable()
