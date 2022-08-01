@@ -18,9 +18,10 @@
  */
 
 import { OtherPartsModule } from '@page/otherParts/otherParts.module';
-import { RequestInvestigationComponent } from '@page/otherParts/presentation/request-investigation/requestInvestigation.component';
 import { Part } from '@page/parts/model/parts.model';
+import { RequestInvestigationComponent } from '@shared/components/request-investigation/requestInvestigation.component';
 import { InvestigationsService } from '@shared/service/investigations.service';
+import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
@@ -46,7 +47,7 @@ describe('requestInvestigationComponent', () => {
 ></app-request-investigation>`,
       {
         declarations: [RequestInvestigationComponent],
-        imports: [OtherPartsModule],
+        imports: [SharedModule],
         translations: ['page.otherParts'],
         componentProperties: {
           deselectPartMock,

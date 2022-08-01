@@ -23,8 +23,9 @@ under the License.
   <div class="mb-8">
     <p class="regular-text">{{ 'page.requestInvestigations.partDescription' | i18n }}</p>
     <mat-chip-list aria-label="Selected Parts">
-      <mat-chip *ngFor="let part of selectedItems" (removed)="deselectPart.emit(part)">
-        {{ part.name }}
+      <mat-chip *ngFor="let part of selectedItems?.data || []" (removed)="deselectPart.emit(part)">
+        <mat-spinner *ngIf="selectedItems.loader" [diameter]="20" class="mr-3"></mat-spinner>
+        {{ part.name || part.id }}
         <button matChipRemove>
           <mat-icon>cancel</mat-icon>
         </button>

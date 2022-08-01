@@ -22,6 +22,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OtherPartsFacade } from '@page/otherParts/core/otherParts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { NotificationService } from '@shared/components/notifications/notification.service';
+import { View } from '@shared/model/view.model';
+import { InvestigationsService } from '@shared/service/investigations.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -38,13 +40,13 @@ export class RequestInvestigationComponent {
     }
   }
 
-  @Input() selectedItems: Part[];
+  @Input() selectedItems: View<Part[]>;
   @Output() deselectPart = new EventEmitter<Part>();
   @Output() clearSelected = new EventEmitter<void>();
   @Output() sidenavIsClosing = new EventEmitter<void>();
 
   constructor(
-    private readonly qualityInvestigationFacade: OtherPartsFacade,
+    private readonly investigationsService: InvestigationsService,
     private readonly notificationService: NotificationService,
   ) {}
 
@@ -67,8 +69,8 @@ export class RequestInvestigationComponent {
     this.isLoading$.next(true);
     this.textAreaControl.disable();
 
-    const amountOfItems = this.selectedItems.length;
-    this.qualityInvestigationFacade.sendInvestigation(this.selectedItems, this.textAreaControl.value).subscribe({
+    const amountOfItems = this.selectedItems.data.length;
+    this.investigationsService.postInvestigation(this.selectedItems.data, this.textAreaControl.value).subscribe({
       next: () => {
         this.isLoading$.next(false);
         this.textAreaControl.enable();

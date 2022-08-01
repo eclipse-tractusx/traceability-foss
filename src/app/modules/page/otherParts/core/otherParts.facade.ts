@@ -64,8 +64,4 @@ export class OtherPartsFacade {
       error: error => (this.otherPartsState.supplierParts = { error }),
     });
   }
-
-  public sendInvestigation(selectedItems: Part[], description: string): Observable<Investigation> {
-    return this.investigationsService.postInvestigation(selectedItems, description);
-  }
 }

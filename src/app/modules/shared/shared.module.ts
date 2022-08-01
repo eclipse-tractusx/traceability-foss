@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { RequestInvestigationComponent } from '@shared/components/request-investigation/requestInvestigation.component';
 import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
 import { TextareaComponent } from '@shared/components/textarea/textarea.component';
 import { ErrorMessagePipe } from '@shared/pipes/error-message.pipe';
@@ -88,6 +89,7 @@ import { TemplateModule } from './template.module';
     SidenavComponent,
     TextareaComponent,
     ErrorMessagePipe,
+    RequestInvestigationComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -123,6 +125,7 @@ import { TemplateModule } from './template.module';
     SidenavComponent,
     TextareaComponent,
     ErrorMessagePipe,
+    RequestInvestigationComponent,
   ],
   providers: [FormatDatePipe, StaticIdService, PartsService, ErrorMessagePipe],
 })

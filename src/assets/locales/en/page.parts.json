@@ -9,7 +9,8 @@
       "serialNumber": "Serial Number",
       "qualityType": "Quality Type",
       "productionDate": "Production Date",
-      "productionCountry": "Production Country"
+      "productionCountry": "Production Country",
+      "childInvestigation": "Child Investigation"
     }
   },
   "partDetail": {
