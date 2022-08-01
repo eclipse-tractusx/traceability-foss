@@ -15,6 +15,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AssetsControllerIT extends IntegrationSpec {
 
+	private final static String[] bpnNumbers = [
+		"BPNL00000003AXS3",
+		"BPNL00000003AYRE",
+		"BPNL00000003B0Q0",
+		"BPNL00000003B2OM",
+		"BPNL00000003B3NX",
+		"BPNL00000003B5MJ"
+	]
+
 	def "should return assets for authenticated user with role"() {
 		given:
 			authenticatedUser(KeycloakRole.ADMIN)
@@ -30,13 +39,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			keycloakApiReturnsToken()
 
 		and:
-			bpnApiReturnsBusinessPartnerDataFor(
-				"BPNL00000003AXS3",
-				"BPNL00000003AYRE",
-				"BPNL00000003B0Q0",
-				"BPNL00000003B2OM",
-				"BPNL00000003B3NX"
-			)
+			bpnApiReturnsBusinessPartnerDataFor(bpnNumbers)
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -45,7 +48,7 @@ class AssetsControllerIT extends IntegrationSpec {
 
 		and:
 			verifyKeycloakApiCalledOnceForToken()
-			verifyBpnApiCalledForBusinessPartnerDetails(5)
+			verifyBpnApiCalledForBusinessPartnerDetails(bpnNumbers.size())
 	}
 
 	def "should return assets with manufacturer name using values from cache"() {
@@ -54,13 +57,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			keycloakApiReturnsToken()
 
 		and:
-			bpnApiReturnsBusinessPartnerDataFor(
-				"BPNL00000003AXS3",
-				"BPNL00000003AYRE",
-				"BPNL00000003B0Q0",
-				"BPNL00000003B2OM",
-				"BPNL00000003B3NX"
-			)
+			bpnApiReturnsBusinessPartnerDataFor(bpnNumbers)
 
 		when:
 			0..3.each {
@@ -71,7 +68,7 @@ class AssetsControllerIT extends IntegrationSpec {
 
 		then:
 			verifyKeycloakApiCalledOnceForToken()
-			verifyBpnApiCalledForBusinessPartnerDetails(5)
+			verifyBpnApiCalledForBusinessPartnerDetails(bpnNumbers.size())
 	}
 
 	def "should return assets without manufacturer name when name was not returned by BPN API"() {
@@ -80,13 +77,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			keycloakApiReturnsToken()
 
 		and:
-			bpnApiReturnsBusinessPartnerDataWithoutNamesFor(
-				"BPNL00000003AXS3",
-				"BPNL00000003AYRE",
-				"BPNL00000003B0Q0",
-				"BPNL00000003B2OM",
-				"BPNL00000003B3NX"
-			)
+			bpnApiReturnsBusinessPartnerDataWithoutNamesFor(bpnNumbers)
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -100,13 +91,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			keycloakApiReturnsToken()
 
 		and:
-			bpnApiReturnsNoBusinessPartnerDataFor(
-				"BPNL00000003AXS3",
-				"BPNL00000003AYRE",
-				"BPNL00000003B0Q0",
-				"BPNL00000003B2OM",
-				"BPNL00000003B3NX"
-			)
+			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -205,7 +190,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			keycloakApiReturnsToken()
 
 		and:
-			def existingAssetId = "urn:uuid:d3cca507-5515-4595-adb2-4c7706a75488"
+			def existingAssetId = "urn:uuid:1ae94880-e6b0-4bf3-ab74-8148b63c0640"
 
 		expect:
 			mvc.perform(get("/assets/$existingAssetId").contentType(MediaType.APPLICATION_JSON))

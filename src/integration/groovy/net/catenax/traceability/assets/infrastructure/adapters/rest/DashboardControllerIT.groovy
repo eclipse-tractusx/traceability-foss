@@ -23,8 +23,8 @@ class DashboardControllerIT extends IntegrationSpec {
 		expect:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.myItems', equalTo(2822)))
-				.andExpect(jsonPath('$.branchItems', equalTo(2822)))
+				.andExpect(jsonPath('$.myItems', equalTo(13)))
+				.andExpect(jsonPath('$.branchItems', equalTo(13)))
 
 		where:
 			role << [SUPERVISOR, ADMIN]
@@ -37,7 +37,7 @@ class DashboardControllerIT extends IntegrationSpec {
 		expect:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.myItems', equalTo(2822)))
+				.andExpect(jsonPath('$.myItems', equalTo(13)))
 				.andExpect(jsonPath('$.branchItems', nullValue()))
 	}
 
