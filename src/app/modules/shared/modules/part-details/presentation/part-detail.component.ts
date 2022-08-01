@@ -36,7 +36,6 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./part-detail.component.scss'],
 })
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('sidenav') sidenav: MatSidenav;
   @Input() showRelation = true;
   @Output() closeSidebar = new EventEmitter<void>();
 
@@ -77,7 +76,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
-      setTimeout(() => void this.sidenav.open());
+      this.isOpen = true;
     });
   }
 

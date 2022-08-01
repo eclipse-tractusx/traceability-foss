@@ -17,58 +17,33 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<mat-sidenav-container
-  [hasBackdrop]="true"
-  [class.part-detail--open]="isOpen$ | async"
-  class="part-detail--container"
-  data-testid="part-detail--sidenav"
->
-  <mat-sidenav
-    #sidenav
-    mode="over"
-    class="part-detail--sidenav"
-    position="end"
-    [fixedInViewport]="true"
-    [fixedTopGap]="64"
-    (openedChange)="isOpen = $event"
-  >
-    <div class="part-detail--part-info">
-      <ng-container
-        *viewContainer="this.partDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
-      >
-      </ng-container>
-      <ng-container
-        *viewContainer="
-          this.relationPartDetails$ | async;
-          main: partRelationMainTmp;
-          error: errorTmp;
-          loading: loaderTmp
-        "
-      >
-      </ng-container>
-    </div>
+<app-sidenav [isOpen]="isOpen$ | async" (sidenavAction)="isOpen = $event">
+  <div class="part-detail--part-info">
+    <ng-container
+      *viewContainer="this.partDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+    >
+    </ng-container>
+    <ng-container
+      *viewContainer="this.relationPartDetails$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp"
+    >
+    </ng-container>
+  </div>
 
-    <div class="part-detail--manufacturer-info">
-      <ng-container
-        *viewContainer="
-          this.manufacturerDetails$ | async;
-          main: manufacturerDetailsMainTmp;
-          error: errorTmp;
-          loading: loaderTmp
-        "
-      ></ng-container>
+  <div class="part-detail--manufacturer-info">
+    <ng-container
+      *viewContainer="
+        this.manufacturerDetails$ | async;
+        main: manufacturerDetailsMainTmp;
+        error: errorTmp;
+        loading: loaderTmp
+      "
+    ></ng-container>
 
-      <ng-container
-        *viewContainer="
-          this.customerDetails$ | async;
-          main: customerDetailsMainTmp;
-          error: errorTmp;
-          loading: loaderTmp
-        "
-      ></ng-container>
-    </div>
-  </mat-sidenav>
-</mat-sidenav-container>
+    <ng-container
+      *viewContainer="this.customerDetails$ | async; main: customerDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+    ></ng-container>
+  </div>
+</app-sidenav>
 
 <ng-template #manufacturerDetailsMainTmp let-manufacturerDetails="view">
   <app-card-list [list]="manufacturerDetails.data" [title]="'partDetail.manufacturerData' | i18n"></app-card-list>
@@ -85,8 +60,8 @@ under the License.
       <ng-container *ngIf="this.isOpen$ | async">
         <app-part-relation [isStandalone]="false" [zoom]="1.5" [showMiniMap]="false"></app-part-relation>
         <mat-icon (click)="openRelationPage(partDetails.data)" class="part-detail--relation__icon"
-          >open_in_new</mat-icon
-        >
+          >open_in_new
+        </mat-icon>
       </ng-container>
       <mat-spinner *ngIf="!(this.isOpen$ | async)"></mat-spinner>
     </mat-card-content>
@@ -103,7 +78,9 @@ under the License.
 <ng-template #loaderTmp>
   <mat-card>
     <mat-card-title>{{ 'dataLoading.inProgress' | i18n }}</mat-card-title>
-    <mat-card-content><mat-spinner></mat-spinner></mat-card-content>
+    <mat-card-content>
+      <mat-spinner></mat-spinner>
+    </mat-card-content>
   </mat-card>
 </ng-template>
 
@@ -146,8 +123,8 @@ under the License.
         [options]="this.qualityTypeOptions"
         [selectedValue]="selectedValue || item.value"
         (selected)="this.updateQualityType($event)"
-      ></app-select
-      ><mat-icon (click)="this.showQualityTypeDropdown = false" inline>close</mat-icon>
+      ></app-select>
+      <mat-icon (click)="this.showQualityTypeDropdown = false" inline>close</mat-icon>
     </div>
   </div>
 </ng-template>
