@@ -24,11 +24,12 @@ import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
+  private partsSubscription: Subscription;
   constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {}
 
   get parts$(): Observable<View<Pagination<Part>>> {
@@ -37,10 +38,9 @@ export class PartsFacade {
   }
 
   public setParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
-    this.partsService.getParts(page, pageSize, sorting).subscribe({
-      next: (partsPage: Pagination<Part>) => {
-        this.partsState.parts = { data: partsPage };
-      },
+    this.partsSubscription?.unsubscribe();
+    this.partsSubscription = this.partsService.getParts(page, pageSize, sorting).subscribe({
+      next: data => (this.partsState.parts = { data }),
       error: error => (this.partsState.parts = { error }),
     });
   }

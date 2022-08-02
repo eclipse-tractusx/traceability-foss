@@ -18,7 +18,6 @@
  */
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
@@ -51,7 +50,7 @@ describe('PartDetailComponent', () => {
       imports: [PartDetailsModule],
     });
 
-    const sideNavElement = await screen.findByTestId('part-detail--sidenav');
+    const sideNavElement = await screen.findByTestId('sidenav--test-id');
     expect(sideNavElement).toBeInTheDocument();
   });
 
@@ -71,13 +70,13 @@ describe('PartDetailComponent', () => {
       ],
     });
 
-    const sideNavElement = await screen.findByTestId('part-detail--sidenav');
+    const sideNavElement = await screen.findByTestId('sidenav--test-id');
     const nameElement = await screen.findByText(testPart.name);
     const productionDateElement = await screen.findByText('5/30/1997');
     const partNumberElement = await screen.findByText(testPart.customerPartId);
 
     expect(sideNavElement).toBeInTheDocument();
-    await waitFor(() => expect(sideNavElement).toHaveClass('part-detail--open'));
+    await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));
 
     expect(nameElement).toBeInTheDocument();
     expect(productionDateElement).toBeInTheDocument();

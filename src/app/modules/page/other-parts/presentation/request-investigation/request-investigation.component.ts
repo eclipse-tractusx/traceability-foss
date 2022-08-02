@@ -19,14 +19,14 @@
 
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OtherPartsFacade } from '@page/otherParts/core/otherParts.facade';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { NotificationService } from '@shared/components/notifications/notification.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-request-investigation',
-  templateUrl: './requestInvestigation.component.html',
+  templateUrl: './request-investigation.component.html',
 })
 export class RequestInvestigationComponent {
   public isLoading$ = new BehaviorSubject(false);
