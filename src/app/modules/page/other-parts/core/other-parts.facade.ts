@@ -19,8 +19,8 @@
 
 import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsService } from '@page/otherParts/core/otherParts.service';
-import { OtherPartsState } from '@page/otherParts/core/otherParts.state';
+import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
+import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Investigation } from '@shared/model/investigations.model';

@@ -19,7 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { OtherPartsComponent } from '@page/otherParts/presentation/otherParts.component';
+import { OtherPartsComponent } from '@page/other-parts/presentation/other-parts.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */

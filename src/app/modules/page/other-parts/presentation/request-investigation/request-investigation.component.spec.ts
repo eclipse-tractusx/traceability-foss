@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { OtherPartsModule } from '@page/otherParts/otherParts.module';
-import { RequestInvestigationComponent } from '@page/otherParts/presentation/request-investigation/requestInvestigation.component';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
+import { RequestInvestigationComponent } from '@page/other-parts/presentation/request-investigation/request-investigation.component';
 import { Part } from '@page/parts/model/parts.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { screen, waitFor } from '@testing-library/angular';

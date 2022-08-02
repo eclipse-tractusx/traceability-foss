@@ -27,7 +27,7 @@ import { LayoutModule } from '@layout/layout.module';
 import { AboutModule } from '@page/about/about.module';
 import { AdminModule } from '@page/admin/admin.module';
 import { DashboardModule } from '@page/dashboard/dashboard.module';
-import { OtherPartsModule } from '@page/otherParts/otherParts.module';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PageNotFoundModule } from '@page/page-not-found/page-not-found.module';
 import { PartsModule } from '@page/parts/parts.module';
 import { NotificationService } from '@shared/components/notifications/notification.service';

@@ -20,7 +20,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsFacade } from '@page/otherParts/core/otherParts.facade';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
@@ -29,8 +29,8 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-other-parts',
-  templateUrl: './otherParts.component.html',
-  styleUrls: ['./otherParts.component.scss'],
+  templateUrl: './other-parts.component.html',
+  styleUrls: ['./other-parts.component.scss'],
 })
 export class OtherPartsComponent implements OnInit {
   public readonly displayedColumns: string[] = [

@@ -20,8 +20,8 @@
 import { screen } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
-import { OtherPartsModule } from '../otherParts.module';
-import { OtherPartsComponent } from './otherParts.component';
+import { OtherPartsModule } from '../other-parts.module';
+import { OtherPartsComponent } from './other-parts.component';
 
 describe('Other Parts', () => {
   beforeAll(() => server.listen());
