@@ -33,20 +33,22 @@ under the License.
   </div>
 
   <p class="regular-text mb-2">{{ 'page.requestInvestigations.textAreaDescription' | i18n }}</p>
-  <app-textarea [control]="textAreaControl" [label]="'page.requestInvestigations.textAreaLabel' | i18n"></app-textarea>
+  <form [formGroup]="investigationFormGroup" (submit)="submitInvestigation()">
+    <app-textarea
+      formControlName="description"
+      [label]="'page.requestInvestigations.textAreaLabel' | i18n"
+    ></app-textarea>
 
-  <div class="flex justify-end mb-6">
-    <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="isOpen = false" class="mr-4">{{
-      'page.requestInvestigations.cancel' | i18n
-    }}</app-button>
+    <div class="flex justify-end mb-6">
+      <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="isOpen = false" class="mr-4">{{
+        'page.requestInvestigations.cancel' | i18n
+      }}</app-button>
 
-    <app-button
-      [variant]="'raised'"
-      [color]="'accent'"
-      [isDisabled]="isLoading$ | async"
-      (click)="submitInvestigation()"
-      >{{ 'page.requestInvestigations.submit' | i18n }}</app-button
-    >
-  </div>
+      <app-button [variant]="'raised'" [color]="'accent'" [isDisabled]="isLoading$ | async" type="submit">{{
+        'page.requestInvestigations.submit' | i18n
+      }}</app-button>
+    </div>
+  </form>
+
   <mat-progress-bar *ngIf="isLoading$ | async" mode="indeterminate"></mat-progress-bar>
 </app-sidenav>

@@ -43,15 +43,15 @@
     "TouchPanBlocker.Message": "Verwenden Sie zwei Finger, um die Karte zu bewegen"
   },
   "errorMessage": {
-    "min": "Please enter a number that is larger than: {{min}}.",
-    "max": "Please enter a number that is smaller than: {{max}}.",
-    "required": "This field is required!",
-    "requiredTrue": "This checkbox must be checked!",
-    "email": "Please enter a valid E-Mail",
-    "minLength": "Please enter a text that is larger than: {{minLength}}.",
-    "maxLength": "Please enter a text that is smaller than: {{maxLength}}.",
-    "pattern": "Please enter data that matches this pattern: {{pattern}}.",
-    "generic": "Please enter valid data."
+    "min": "Bitte geben Sie eine Zahl größer {{min}} ein.",
+    "max": "Bitte geben Sie eine Zahl kleiner {{max}} ein.",
+    "required": "Pflichtfeld!",
+    "requiredTrue": "Bitte Checkbox bestätigen.",
+    "email": "Die E-Mail Adresse ist ungültig.",
+    "minLength": "Bitte geben Sie mindestens {{minLength}} Zeichen ein.",
+    "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein.",
+    "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{pattern}}.",
+    "generic": "Die Eingabe ist ungültig."
   },
   "qualityInvestigation": {
     "success": "You queued an investigation for {{amount}} Part(s)"

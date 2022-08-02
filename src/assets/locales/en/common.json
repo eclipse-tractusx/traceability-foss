@@ -60,7 +60,7 @@
     "max": "Please enter a number that is smaller than: {{max}}.",
     "required": "This field is required!",
     "requiredTrue": "This checkbox must be checked!",
-    "email": "Please enter a valid E-Mail",
+    "email": "Please enter a valid E-Mail.",
     "minLength": "Please enter a text that is larger than: {{minLength}}.",
     "maxLength": "Please enter a text that is smaller than: {{maxLength}}.",
     "pattern": "Please enter data that matches this pattern: {{pattern}}.",

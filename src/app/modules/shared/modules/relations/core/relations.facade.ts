@@ -100,7 +100,7 @@ export class RelationsFacade {
   public isElementOpen(id: string): boolean {
     const currentElement = this.openElements[id];
     if (!currentElement) {
-      return !!currentElement;
+      return false;
     }
 
     // Checks if the children, of the current element, are open

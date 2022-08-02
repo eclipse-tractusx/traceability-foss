@@ -17,7 +17,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<section class="sidebar-menu-container__item" (click)="this.click.emit()" [class.active]="this.isActive">
+<section class="sidebar-menu-container__item" [class.active]="this.isActive">
   <mat-icon [tooltip]="this.name" [class.item-active]="this.isActive" appTooltip class="item text-tundora">{{
     this.iconName
   }}</mat-icon>

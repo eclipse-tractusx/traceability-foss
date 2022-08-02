@@ -19,7 +19,6 @@
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -93,7 +92,7 @@ export class TableComponent {
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
   }
 
-  public toggleSelection(event: MatCheckboxChange, row: unknown): void {
+  public toggleSelection(row: unknown): void {
     this.selection.toggle(row);
     this.emitMultiSelect();
   }
