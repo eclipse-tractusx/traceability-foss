@@ -33,46 +33,38 @@ import { realm } from '../api/api.service.properties';
 import { Role } from './role';
 import { RoleService } from './role.service';
 
+type GuardValue = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+
 @Injectable({
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
   constructor(private roleService: RoleService, private router: Router) {}
 
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const url: string = state.url;
-    return this.validateUserRole(next, url);
+  public canActivate(next: ActivatedRouteSnapshot, _state: RouterStateSnapshot): GuardValue {
+    return this.validateUserRole(next);
   }
 
-  canActivateChild(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot,
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.canActivate(next, state);
+  public canActivateChild(next: ActivatedRouteSnapshot, _state: RouterStateSnapshot): GuardValue {
+    return this.canActivate(next, _state);
   }
 
-  canDeactivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canDeactivate(): GuardValue {
     return true;
   }
 
-  canLoad(): Observable<boolean> | Promise<boolean> | boolean {
+  public canLoad(): Observable<boolean> | Promise<boolean> | boolean {
     return true;
   }
 
-  validateUserRole(route: ActivatedRouteSnapshot, url: string): boolean {
+  public validateUserRole(route: ActivatedRouteSnapshot): boolean {
     const requiredRoles = route.data.roles as Role[] | Role;
 
-    if (!requiredRoles) {
+    if (!requiredRoles || this.roleService.hasAccess(requiredRoles)) {
       return true;
     }
 
-    if (!this.roleService.hasAccess(requiredRoles)) {
-      void this.router.navigate([realm]);
-      return false;
-    }
-    return true;
+    void this.router.navigate([realm]);
+    return false;
   }
 }

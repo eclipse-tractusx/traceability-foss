@@ -67,7 +67,7 @@ under the License.
         <td *matCellDef="let row" mat-cell>
           <mat-checkbox
             (click)="$event.stopPropagation()"
-            (change)="this.toggleSelection($event, row)"
+            (change)="this.toggleSelection(row)"
             [checked]="selection.isSelected(row)"
           >
           </mat-checkbox>
