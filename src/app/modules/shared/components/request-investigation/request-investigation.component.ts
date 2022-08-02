@@ -34,9 +34,10 @@ export class RequestInvestigationComponent {
 
   @Input() set isOpen(isOpen: boolean) {
     this.isOpen$.next(isOpen);
-    if (!isOpen) {
-      this.sidenavIsClosing.emit();
-    }
+    if (isOpen) return;
+
+    this.sidenavIsClosing.emit();
+    this.removedItemsHistory = [];
   }
 
   @Input() selectedItems: Part[];

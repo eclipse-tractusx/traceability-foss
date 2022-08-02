@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { Component, Input, Self, OnInit } from '@angular/core';
-import { NgControl, ControlValueAccessor } from '@angular/forms';
+import { Component, Input, OnInit, Self } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'app-textarea',

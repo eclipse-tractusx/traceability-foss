@@ -17,10 +17,10 @@
  * under the License.
  */
 
-import { FormControl, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextareaComponent } from '@shared/components/textarea/textarea.component';
 import { SharedModule } from '@shared/shared.module';
-import { screen, fireEvent } from '@testing-library/angular';
+import { fireEvent, screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('TextareaComponent', () => {

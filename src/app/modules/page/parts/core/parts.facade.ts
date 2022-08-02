@@ -24,8 +24,8 @@ import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
-import { merge, Observable, Subject, Subscription } from 'rxjs';
-import { delay, takeUntil } from 'rxjs/operators';
+import { merge, Observable, of, Subject, Subscription } from 'rxjs';
+import { catchError, delay, takeUntil, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
@@ -58,7 +58,7 @@ export class PartsFacade {
 
   public setSelectedParts(selectedPartIds: string[]): void {
     selectedPartIds.forEach(id => (this.subjectList[id] = new Subject()));
-    this.partsState.selectedParts = selectedPartIds.map(id => ({ id } as Part));
+    this.selectedParts = selectedPartIds.map(id => ({ id } as Part));
     const selectedPartsObservable = selectedPartIds.map(id => this.getSelectedPartData(id));
 
     merge(...selectedPartsObservable).subscribe(data => this.updateSelectedParts(data));
@@ -66,29 +66,28 @@ export class PartsFacade {
 
   public removeSelectedPart(part: Part): void {
     if (Object.keys(this.subjectList).length) {
-      this.subjectList[part.id].next();
+      this.subjectList[part.id]?.next();
     }
 
     this.selectedParts = this.partsState.selectedParts?.filter(({ id }) => id !== part.id);
   }
 
   public addItemToSelection(part: Part): void {
-    this.partsState.selectedParts = [...this.partsState.selectedParts, part];
+    this.selectedParts = [...this.partsState.selectedParts, part];
+    if (part.name) return;
 
-    if (part.name) {
-      return;
-    }
-
+    // If the part hase no name, the complete part will be pulled from the BE.
     this.getSelectedPartData(part.id).subscribe(data => this.updateSelectedParts(data));
   }
 
   private updateSelectedParts(part: Part): void {
-    this.partsState.selectedParts = this.partsState.selectedParts.map(currentPart =>
-      currentPart.id === part.id ? part : currentPart,
-    );
+    this.selectedParts = this.partsState.selectedParts.map(_part => (_part.id === part.id ? part : _part));
   }
 
   private getSelectedPartData(id: string): Observable<Part> {
-    return this.partsService.getPart(id).pipe(takeUntil(this.subjectList[id]));
+    return this.partsService.getPart(id).pipe(
+      takeUntil(this.subjectList[id] || new Subject()),
+      catchError(_ => of({ id, error: true } as Part)),
+    );
   }
 }
