@@ -17,15 +17,62 @@
  * under the License.
  */
 
-import { Component, Input } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, Input, Self, OnInit } from '@angular/core';
+import { NgControl, ControlValueAccessor } from '@angular/forms';
 
 @Component({
   selector: 'app-textarea',
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
 })
-export class TextareaComponent {
+export class TextareaComponent implements ControlValueAccessor, OnInit {
   @Input() label = '';
-  @Input() control: FormControl;
+
+  public value: string;
+
+  public onChange = (_value: string) => {};
+
+  public onTouched = () => {};
+
+  public touched = false;
+
+  public disabled = false;
+
+  constructor(@Self() public ngControl: NgControl) {
+    // we cannot provide this component in NG_VALUE_ACCESSOR, as we want to have access to the ngControl
+    // so we have to setup valueAccessor manualy
+    this.ngControl.valueAccessor = this;
+  }
+
+  public ngOnInit(): void {
+    // finish ngControl setup
+    this.ngControl.control.updateValueAndValidity();
+  }
+
+  public writeValue(value: string) {
+    this.value = value;
+  }
+
+  public registerOnChange(onChange: any) {
+    this.onChange = onChange;
+  }
+
+  public registerOnTouched(onTouched: any) {
+    this.onTouched = onTouched;
+  }
+
+  public markAsTouched() {
+    if (!this.touched) {
+      this.onTouched();
+      this.touched = true;
+    }
+  }
+
+  public setDisabledState(disabled: boolean) {
+    this.disabled = disabled;
+  }
+
+  public getTextAreaFromEvent(event: Event) {
+    return event.target as HTMLTextAreaElement;
+  }
 }

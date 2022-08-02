@@ -35,7 +35,7 @@ under the License.
   <p class="regular-text mb-2">{{ 'page.requestInvestigations.textAreaDescription' | i18n }}</p>
   <form [formGroup]="investigationFormGroup" (submit)="submitInvestigation()">
     <app-textarea
-      [control]="textAreaControl"
+      formControlName="description"
       [label]="'page.requestInvestigations.textAreaLabel' | i18n"
     ></app-textarea>
 

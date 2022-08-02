@@ -17,11 +17,14 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<div *ngIf="control" class="textarea--container">
+<div class="textarea--container">
   <mat-form-field [style.fontSize]="'16'" appearance="fill">
     <mat-label>{{ label }}</mat-label>
     <textarea
-      [formControl]="control"
+      [disabled]="disabled"
+      [value]="value"
+      (input)="onChange(getTextAreaFromEvent($event).value)"
+      (blur)="markAsTouched()"
       matInput
       cdkTextareaAutosize
       #autosize="cdkTextareaAutosize"
@@ -30,5 +33,7 @@ under the License.
     ></textarea>
   </mat-form-field>
 
-  <span *ngIf="control.touched && control.errors" class="errorMessage">{{ control.errors | errorMessage | i18n }}</span>
+  <span *ngIf="touched && ngControl.control.errors" class="errorMessage">{{
+    ngControl.control.errors | errorMessage | i18n
+  }}</span>
 </div>
