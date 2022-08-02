@@ -34,11 +34,11 @@ export class MockedKeycloakService extends KeycloakService {
     return Promise.resolve(true);
   }
 
-  public login(options?: KeycloakLoginOptions): Promise<void> {
+  public login(_?: KeycloakLoginOptions): Promise<void> {
     return Promise.resolve();
   }
 
-  public logout(redirectUri?: string): Promise<void> {
+  public logout(_?: string): Promise<void> {
     return Promise.resolve();
   }
 

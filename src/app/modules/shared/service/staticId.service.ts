@@ -24,9 +24,9 @@ import { State } from '@shared/model/state';
   providedIn: 'root',
 })
 export class StaticIdService {
-  private readonly _staticIds$: State<number[]> = new State<number[]>([]);
+  private readonly _staticIds$ = new State<Record<string, number>>({});
 
-  public generateId(componentName: string) {
+  public generateId(componentName: string): string {
     const currentIds = this._staticIds$.snapshot;
     const currentId = currentIds[componentName] || 0;
 
