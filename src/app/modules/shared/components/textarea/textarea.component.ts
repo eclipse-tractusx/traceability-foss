@@ -49,30 +49,30 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
     this.ngControl.control.updateValueAndValidity();
   }
 
-  public writeValue(value: string) {
+  public writeValue(value: string): void {
     this.value = value;
   }
 
-  public registerOnChange(onChange: any) {
+  public registerOnChange(onChange: any): void {
     this.onChange = onChange;
   }
 
-  public registerOnTouched(onTouched: any) {
+  public registerOnTouched(onTouched: any): void {
     this.onTouched = onTouched;
   }
 
-  public markAsTouched() {
+  public markAsTouched(): void {
     if (!this.touched) {
       this.onTouched();
       this.touched = true;
     }
   }
 
-  public setDisabledState(disabled: boolean) {
+  public setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
 
-  public getTextAreaFromEvent(event: Event) {
+  public getTextAreaFromEvent(event: Event): HTMLTextAreaElement {
     return event.target as HTMLTextAreaElement;
   }
 }
