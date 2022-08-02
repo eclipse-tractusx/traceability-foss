@@ -61,7 +61,7 @@ export const investigationsHandlers = [
     );
   }),
 
-  rest.post(`${environment.apiUrl}/investigations`, (req, res, ctx) => {
+  rest.post(`${environment.apiUrl}/investigations`, (_, res, ctx) => {
     const investigations = buildMockInvestigations(['queued']);
     return res(ctx.status(200), ctx.json(investigations[0]));
   }),
