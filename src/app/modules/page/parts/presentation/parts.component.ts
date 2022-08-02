@@ -93,7 +93,11 @@ export class PartsComponent implements OnInit, AfterViewInit {
   public startInvestigation(event: MouseEvent, row: Part): void {
     event.stopPropagation();
     this.isInvestigationOpen$.next(true);
-    this.partsFacade.setSelectedParts(row.children);
+    this.partsFacade.setSelectedParts(
+      row.children.filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      }),
+    );
   }
 
   public removeItemFromSelection(part: Part) {

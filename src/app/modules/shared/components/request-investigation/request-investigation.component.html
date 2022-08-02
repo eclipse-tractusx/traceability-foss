@@ -24,7 +24,8 @@ under the License.
     <p class="regular-text">{{ 'page.requestInvestigations.partDescription' | i18n }}</p>
     <mat-chip-list aria-label="Selected Parts">
       <mat-chip *ngFor="let part of selectedItems || []" (removed)="cancelAction(part)">
-        <mat-spinner *ngIf="!part.name" [diameter]="20" class="mr-3"></mat-spinner>
+        <mat-icon *ngIf="part.error" [color]="'warn'" matChipAvatar>close</mat-icon>
+        <mat-spinner *ngIf="!part.name && !part.error" [diameter]="20" class="mr-3"></mat-spinner>
         {{ part.name || part.id }}
         <button *ngIf="selectedItems.length > 1" matChipRemove>
           <mat-icon>cancel</mat-icon>
