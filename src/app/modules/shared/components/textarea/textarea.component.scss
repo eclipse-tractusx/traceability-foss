@@ -17,6 +17,7 @@
 * under the License.
 */
 
-.about-container {
-  @apply flex flex-col;
+.textarea--container {
+  display: flex;
+  flex-direction: column;
 }

@@ -40,10 +40,14 @@ under the License.
   <app-table
     [data]="parts.data"
     [tableConfig]="tableConfig"
+    [selectedPartsInfoLabel]="'page.selectedParts.info'"
+    [selectedPartsActionLabel]="'page.selectedParts.action'"
+    [deselectTrigger]="deselectPartTrigger$ | async"
+    [noShadow]="true"
     (selected)="onSelectItem($event)"
     (configChanged)="onTableConfigChange($event)"
     (multiSelect)="onMultiSelect($event)"
-    [noShadow]="true"
+    (clickSelectAction)="isInvestigationOpen$.next(true)"
   ></app-table>
 </ng-template>
 
@@ -54,3 +58,11 @@ under the License.
 <ng-template #loaderTmp let-parts="view">
   <mat-spinner></mat-spinner>
 </ng-template>
+
+<app-request-investigation
+  (deselectPart)="removeItemFromSelection($event)"
+  (clearSelected)="clearSelected()"
+  (sidenavIsClosing)="isInvestigationOpen$.next(false)"
+  [isOpen]="isInvestigationOpen$ | async"
+  [selectedItems]="currentSelectedItems"
+></app-request-investigation>

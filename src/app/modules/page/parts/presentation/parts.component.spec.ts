@@ -32,7 +32,6 @@ describe('Parts', () => {
   afterAll(() => server.close());
 
   const renderParts = () => {
-    console.log(FormatDatePipe, SharedModule, TemplateModule);
     return renderComponent(PartsComponent, {
       imports: [PartsModule],
       translations: ['page.parts'],

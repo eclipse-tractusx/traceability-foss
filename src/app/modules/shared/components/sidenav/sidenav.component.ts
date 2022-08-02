@@ -17,20 +17,31 @@
  * under the License.
  */
 
-import { Pipe, PipeTransform } from '@angular/core';
-import { ErrorMessage } from '@shared/pipes/error-message.pipe';
-import { I18NextPipe, PipeOptions } from 'angular-i18next';
+import { AfterContentInit, AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 
-@Pipe({ name: 'i18n', pure: false })
-export class I18nPipe implements PipeTransform {
-  constructor(private i18NextPipe: I18NextPipe) {}
+@Component({
+  selector: 'app-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss'],
+})
+export class SidenavComponent implements AfterContentInit {
+  @ViewChild('sidenav') sidenav: MatSidenav;
+  @Output() sidenavAction = new EventEmitter<boolean>();
 
-  public transform(key: string | ErrorMessage, options?: PipeOptions): string {
-    if (typeof key !== 'string') {
-      options = key.values;
-      key = key.id;
-    }
+  @Input()
+  set isOpen(isOpenState: boolean) {
+    this._isOpen = isOpenState;
+    this._isOpen ? void this.sidenav?.open() : void this.sidenav?.close();
+  }
 
-    return this.i18NextPipe.transform(key, options);
+  get isOpen(): boolean {
+    return this._isOpen;
+  }
+
+  private _isOpen = false;
+
+  ngAfterContentInit(): void {
+    this._isOpen ? void this.sidenav?.open() : void this.sidenav?.close();
   }
 }

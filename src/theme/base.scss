@@ -50,6 +50,10 @@
     @apply font-light lg:text-sm sm:text-xs text-tundora;
   }
 
+  .errorMessage {
+    @apply font-light lg:text-sm sm:text-xs text-error;
+  }
+
   .large-text {
     @apply font-light lg:text-base sm:text-sm text-tundora;
   }

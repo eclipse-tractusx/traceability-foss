@@ -17,8 +17,23 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<div class="scrollable-container">
-  <div class="layout">
-    <router-outlet></router-outlet>
-  </div>
+<div class="textarea--container">
+  <mat-form-field [style.fontSize]="'16'" appearance="fill">
+    <mat-label>{{ label }}</mat-label>
+    <textarea
+      [disabled]="disabled"
+      [value]="value"
+      (input)="onChange(getTextAreaFromEvent($event).value)"
+      (blur)="markAsTouched()"
+      matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+      cdkAutosizeMaxRows="5"
+    ></textarea>
+  </mat-form-field>
+
+  <span *ngIf="touched && ngControl.control.errors" class="errorMessage">{{
+    ngControl.control.errors | errorMessage | i18n
+  }}</span>
 </div>

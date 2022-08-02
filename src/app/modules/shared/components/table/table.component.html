@@ -16,12 +16,14 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-<div
-  *ngIf="dataSource"
-  [ngClass]="{
-    'mat-elevation-z8': !noShadow
-  }"
->
+<div *ngIf="dataSource" [class.mat-elevation-z8]="!noShadow">
+  <div *ngIf="selectedPartsInfoLabel" class="table--selected__container">
+    <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { amount: selection?.selected?.length || 0 } }}</p>
+    <app-button *ngIf="this.selection?.selected?.length > 0" (click)="clickSelectAction.emit()">
+      {{ selectedPartsActionLabel | i18n }}
+    </app-button>
+  </div>
+
   <table
     [dataSource]="dataSource"
     (matSortChange)="updateSortingOfData($event)"
@@ -35,15 +37,16 @@ under the License.
       ></ng-container>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="tableConfig.displayedColumns"></tr>
+    <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row"></tr>
     <tr
-      mat-row
       *matRowDef="let row; columns: tableConfig.displayedColumns"
-      [class.loading]="this.isDataLoading"
       (click)="this.selected.emit(row)"
+      [class.loading]="this.isDataLoading"
+      mat-row
+      data-testid="table-component--body-row"
     ></tr>
 
-    <tr class="mat-row no-hover" *matNoDataRow>
+    <tr *matNoDataRow class="mat-row no-hover" data-testid="table-component--body-row">
       <td class="mat-cell" [attr.colspan]="tableConfig.displayedColumns.length">
         <div class="table--no-data">
           <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
@@ -61,6 +64,7 @@ under the License.
             (change)="$event ? toggleAllRows() : null"
             [checked]="selection.hasValue() && areAllRowsSelected()"
             [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
+            data-testid="select-all--test-id"
           >
           </mat-checkbox>
         </th>
@@ -69,6 +73,7 @@ under the License.
             (click)="$event.stopPropagation()"
             (change)="this.toggleSelection(row)"
             [checked]="selection.isSelected(row)"
+            data-testid="select-one--test-id"
           >
           </mat-checkbox>
         </td>
@@ -79,16 +84,16 @@ under the License.
       <ng-container matColumnDef="{{ column }}">
         <th
           *matHeaderCellDef
-          mat-header-cell
           [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
           [disabled]="!tableConfig.sortableColumns?.[column]"
+          mat-header-cell
           class="table--cell"
         >
           <ng-container *ngIf="tableConfig?.header?.[i]; else pureColumn">
             {{ tableConfig?.header?.[i] | i18n }}
           </ng-container>
         </th>
-        <td *matCellDef="let element" mat-cell class="table--cell">
+        <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
           <ng-container
             [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
             [ngTemplateOutletContext]="{ value: element[column] }"
@@ -104,7 +109,7 @@ under the License.
     [pageIndex]="this.pageIndex"
     [pageSizeOptions]="[5, 10, 20]"
     [attr.aria-label]="'table.selectPageSize' | i18n"
-    (page)="getPaginatorData($event)"
+    (page)="onPaginationChange($event)"
     showFirstLastButtons
   >
   </mat-paginator>

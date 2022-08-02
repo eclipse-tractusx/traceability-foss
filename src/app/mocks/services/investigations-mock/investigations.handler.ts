@@ -60,4 +60,9 @@ export const investigationsHandlers = [
       ctx.json(applyPagination(buildMockInvestigations(['requested', 'queued']), pagination)),
     );
   }),
+
+  rest.post(`${environment.apiUrl}/investigations`, (_, res, ctx) => {
+    const investigations = buildMockInvestigations(['queued']);
+    return res(ctx.status(200), ctx.json(investigations[0]));
+  }),
 ];

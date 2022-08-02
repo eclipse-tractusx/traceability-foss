@@ -16,9 +16,21 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
-
-<div class="scrollable-container">
-  <div class="layout">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<mat-sidenav-container
+  [hasBackdrop]="true"
+  [class.sidenav--container__open]="isOpen"
+  class="sidenav--container"
+  data-testid="sidenav--test-id"
+>
+  <mat-sidenav
+    #sidenav
+    mode="over"
+    class="sidenav--content"
+    position="end"
+    [fixedInViewport]="true"
+    [fixedTopGap]="64"
+    (openedChange)="sidenavAction.emit($event)"
+  >
+    <ng-content></ng-content>
+  </mat-sidenav>
+</mat-sidenav-container>
