@@ -17,22 +17,16 @@
  * under the License.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar-section',
   templateUrl: './sidebar-section.component.html',
   styleUrls: ['./sidebar-section.component.scss'],
 })
-export class SidebarSectionComponent implements OnInit {
+export class SidebarSectionComponent {
   @Input() name: string;
   @Input() iconName: string;
   @Input() isActive: boolean;
   @Input() isExpanded: boolean;
-
-  @Output() click = new EventEmitter<void>();
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

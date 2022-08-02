@@ -19,7 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { RequestInvestigationComponent } from '@shared/components/request-investigation/requestInvestigation.component';
+import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
 import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
 import { TextareaComponent } from '@shared/components/textarea/textarea.component';
 import { ErrorMessagePipe } from '@shared/pipes/error-message.pipe';

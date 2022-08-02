@@ -17,9 +17,9 @@
  * under the License.
  */
 
-import { OtherPartsModule } from '@page/otherParts/otherParts.module';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { Part } from '@page/parts/model/parts.model';
-import { RequestInvestigationComponent } from '@shared/components/request-investigation/requestInvestigation.component';
+import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
@@ -105,7 +105,7 @@ describe('requestInvestigationComponent', () => {
     const testText = 'This is for a testing purpose.';
 
     componentInstance.selectedItems = [{ id: 'id_1', name: 'part_1' } as Part];
-    componentInstance.textAreaControl.setValue(testText);
+    (componentInstance as any).textAreaControl.setValue(testText);
     componentInstance.submitInvestigation();
 
     await waitFor(() => expect(spy).toHaveBeenCalledTimes(1));

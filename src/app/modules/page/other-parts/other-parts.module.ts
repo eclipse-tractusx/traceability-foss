@@ -24,11 +24,11 @@ import { PartDetailsModule } from '@shared/modules/part-details/partDetails.modu
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 
-import { OtherPartsFacade } from './core/otherParts.facade';
-import { OtherPartsService } from './core/otherParts.service';
-import { OtherPartsState } from './core/otherParts.state';
-import { OtherPartsRoutingModule } from './otherParts.routing';
-import { OtherPartsComponent } from './presentation/otherParts.component';
+import { OtherPartsFacade } from './core/other-parts.facade';
+import { OtherPartsService } from './core/other-parts.service';
+import { OtherPartsState } from './core/other-parts.state';
+import { OtherPartsRoutingModule } from './other-parts.routing';
+import { OtherPartsComponent } from './presentation/other-parts.component';
 
 @NgModule({
   declarations: [OtherPartsComponent],

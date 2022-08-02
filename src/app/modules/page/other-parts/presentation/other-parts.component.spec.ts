@@ -20,8 +20,8 @@
 import { screen } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
-import { OtherPartsModule } from '../otherParts.module';
-import { OtherPartsComponent } from './otherParts.component';
+import { OtherPartsModule } from '../other-parts.module';
+import { OtherPartsComponent } from './other-parts.component';
 
 describe('Other Parts', () => {
   beforeAll(() => server.listen());
@@ -57,9 +57,11 @@ describe('Other Parts', () => {
   it('should render other parts with closed sidenav', async () => {
     await renderOtherParts();
 
-    const sideNavElement = await screen.findByTestId('part-detail--sidenav');
+    const sideNavElements = await screen.findAllByTestId('sidenav--test-id');
+    const sideNavElement = sideNavElements[0];
+
     expect(sideNavElement).toBeInTheDocument();
-    expect(sideNavElement).not.toHaveClass('part-detail--open');
+    expect(sideNavElement).not.toHaveClass('sidenav--container__open');
   });
 
   it('should render tabs', async () => {

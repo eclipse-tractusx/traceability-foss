@@ -45,7 +45,7 @@ under the License.
 
   <p class="regular-text mb-2">{{ 'requestInvestigations.textAreaDescription' | i18n }}</p>
   <form [formGroup]="investigationFormGroup" (submit)="submitInvestigation()">
-    <app-textarea [control]="textAreaControl" [label]="'requestInvestigations.textAreaLabel' | i18n"></app-textarea>
+    <app-textarea formControlName="description" [label]="'requestInvestigations.textAreaLabel' | i18n"></app-textarea>
 
     <div class="flex justify-end mb-6">
       <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="isOpen = false" class="mr-4">{{

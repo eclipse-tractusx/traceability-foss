@@ -17,18 +17,16 @@
  * under the License.
  */
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OtherPartsFacade } from '@page/otherParts/core/otherParts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { NotificationService } from '@shared/components/notifications/notification.service';
-import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-request-investigation',
-  templateUrl: './requestInvestigation.component.html',
+  templateUrl: './request-investigation.component.html',
 })
 export class RequestInvestigationComponent {
   public isLoading$ = new BehaviorSubject(false);
@@ -53,12 +51,12 @@ export class RequestInvestigationComponent {
   ) {}
 
   public isOpen$ = new BehaviorSubject<boolean>(false);
-  public textAreaControl = new FormControl(undefined, [
+
+  private textAreaControl = new FormControl(undefined, [
     Validators.required,
     Validators.maxLength(1000),
     Validators.minLength(15),
   ]);
-
   public investigationFormGroup = new FormGroup({ description: this.textAreaControl });
 
   public submitInvestigation(): void {
