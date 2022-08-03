@@ -32,7 +32,7 @@
       "action": "Untersuchung starten"
     },
     "requestInvestigations": {
-      "partDescription": "Sie haben die folgenden Produkte ausgewählt:"
+      "partDescription": "Sie haben folgende Produkte ausgewählt:"
     }
   }
 }

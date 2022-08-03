@@ -17,9 +17,12 @@
  * under the License.
  */
 
-import { screen } from '@testing-library/angular';
+import { Part } from '@page/parts/model/parts.model';
+import { TableEventConfig } from '@shared/components/table/table.model';
+import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
+import { firstValueFrom } from 'rxjs';
 import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 
@@ -121,5 +124,43 @@ describe('Other Parts', () => {
     componentInstance.onTabChange({ index: 0 } as any);
     componentInstance.removeItemFromSelection({ id: 'test' } as any);
     expect(componentInstance.selectedItems).toEqual([[{ id: 'test2' }], expected]);
+  });
+
+  describe('onTableConfigChange', () => {
+    it('should set supplier parts if first tab is selected', async () => {
+      const { fixture } = await renderOtherParts();
+      const spy = jest.spyOn((fixture.componentInstance as any).otherPartsFacade, 'setSupplierParts');
+      const expected: TableEventConfig = { page: 10, pageSize: 10, sorting: ['name', 'asc'] };
+
+      fixture.componentInstance.selectedTab = 0;
+      fixture.componentInstance.onTableConfigChange(expected);
+      expect(spy).toHaveBeenLastCalledWith(expected.page, expected.pageSize, expected.sorting);
+    });
+
+    it('should set customer parts if second tab is selected', async () => {
+      const { fixture } = await renderOtherParts();
+      const spy = jest.spyOn((fixture.componentInstance as any).otherPartsFacade, 'setCustomerParts');
+      const expected: TableEventConfig = { page: 1, pageSize: 20, sorting: ['id', 'asc'] };
+
+      fixture.componentInstance.selectedTab = 1;
+      fixture.componentInstance.onTableConfigChange(expected);
+      expect(spy).toHaveBeenLastCalledWith(expected.page, expected.pageSize, expected.sorting);
+    });
+  });
+
+  it('should add item to current list', async () => {
+    const { fixture } = await renderOtherParts();
+    const expectedPart = { id: 'someId', name: 'some name' } as Part;
+
+    fixture.componentInstance.selectedTab = 0;
+
+    const partPromise = firstValueFrom(fixture.componentInstance.addPartTrigger$);
+    fixture.componentInstance.addItemToSelection(expectedPart);
+
+    expect(await partPromise).toEqual(expectedPart);
+
+    expect(fixture.componentInstance.currentSelectedItems).toEqual([expectedPart]);
+    fixture.componentInstance.selectedTab = 1;
+    expect(fixture.componentInstance.currentSelectedItems).toEqual([]);
   });
 });

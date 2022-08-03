@@ -76,7 +76,7 @@ export class OtherPartsComponent implements OnInit {
   }
 
   public get currentSelectedItems(): Part[] {
-    return this.selectedItems[this.selectedTab];
+    return this.selectedItems[this.selectedTab] || [];
   }
 
   public set currentSelectedItems(parts: Part[]) {

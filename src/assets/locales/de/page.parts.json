@@ -10,7 +10,7 @@
       "qualityType": "Qualitätsstufe",
       "productionDate": "Produktionsdatum",
       "productionCountry": "Produktionsland",
-      "childInvestigation": "Kinder Untersuchen"
+      "childInvestigation": "Qualitätsprüfung"
     }
   },
   "partDetail": {
@@ -36,7 +36,7 @@
       "action": "Untersuchung starten"
     },
     "requestInvestigations": {
-      "partDescription": "Es kann eine Weile dauern, bis der Name der ausgewählten Produkte geladen ist."
+      "partDescription": "Es kann eine Weile dauern, bis der Name der Produkte geladen ist."
     }
   }
 }

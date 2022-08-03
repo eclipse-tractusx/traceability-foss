@@ -58,9 +58,8 @@
   },
   "requestInvestigations": {
     "headline": "Qualitätsprüfung anfordern",
-    "partDescription": "Sie haben die folgenden Produkte ausgewählt",
-    "textAreaDescription": "Fügen Sie eine Beschreibung über die Untersuchung hinzu",
-    "restoreItem": "Möchten Sie Ihren letztes Produkt wiederherstellen?",
+    "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
+    "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
     "textAreaLabel": "Beschreibung",
     "cancel": "ABBRUCH",
     "submit": "ZUR WARTESCHLANGE HINZUFÜGEN"
