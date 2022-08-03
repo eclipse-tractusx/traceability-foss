@@ -18,16 +18,13 @@
  */
 
 import { NotificationStatus } from './notification-status';
-import { NotificationWithAction } from './notification-with-action';
-
-export type NotificationText = NotificationWithAction | string;
 
 export class NotificationMessage {
   public isSliderON = true;
 
   constructor(
     public id: number,
-    public message: NotificationText,
+    public message: string,
     public status: NotificationStatus | null,
     public timeout: number,
   ) {}

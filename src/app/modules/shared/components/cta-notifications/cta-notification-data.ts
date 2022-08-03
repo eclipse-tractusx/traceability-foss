@@ -17,24 +17,10 @@
  * under the License.
  */
 
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { OtherPartsComponent } from '@page/otherParts/presentation/otherParts.component';
-import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
+import { I18nMessage } from '@shared/model/i18n-message';
+import { CallAction } from './call-action';
 
-export /** @type {*} */
-const PARTS_ROUTING: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: OtherPartsComponent,
-    data: { i18nextNamespaces: ['page.otherParts'] },
-    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
-  },
-];
-
-@NgModule({
-  imports: [RouterModule.forChild(PARTS_ROUTING)],
-  exports: [RouterModule],
-})
-export class OtherPartsRoutingModule {}
+export interface CtaNotificationData {
+  text: I18nMessage;
+  actions: CallAction[];
+}

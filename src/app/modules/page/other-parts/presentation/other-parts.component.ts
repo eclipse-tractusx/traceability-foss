@@ -20,17 +20,17 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsFacade } from '@page/otherParts/core/otherParts.facade';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-parts',
-  templateUrl: './otherParts.component.html',
-  styleUrls: ['./otherParts.component.scss'],
+  selector: 'app-other-parts',
+  templateUrl: './other-parts.component.html',
+  styleUrls: ['./other-parts.component.scss'],
 })
 export class OtherPartsComponent implements OnInit {
   public readonly displayedColumns: string[] = [
@@ -50,12 +50,20 @@ export class OtherPartsComponent implements OnInit {
     productionDate: true,
   };
 
-  public tableConfig: TableConfig;
-  public selectedItems: Array<Array<Part>> = [];
-  public selectedTabIndex = 0;
+  public tableConfig: TableConfig = {
+    displayedColumns: this.displayedColumns,
+    header: this.displayedColumns.map(column => `pageParts.column.${column}`),
+    sortableColumns: this.sortableColumns,
+  };
 
+  public selectedItems: Array<Array<Part>> = [];
+  public selectedTab = 0;
+
+  public deselectPartTrigger$: Subject<Part[]> = new Subject();
   public customerParts$: Observable<View<Pagination<Part>>>;
   public supplierParts$: Observable<View<Pagination<Part>>>;
+
+  public readonly isInvestigationOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
@@ -63,15 +71,17 @@ export class OtherPartsComponent implements OnInit {
   ) {
     this.customerParts$ = this.otherPartsFacade.customerParts$;
     this.supplierParts$ = this.otherPartsFacade.supplierParts$;
-
-    this.tableConfig = {
-      displayedColumns: this.displayedColumns,
-      header: this.displayedColumns.map(column => `pageParts.column.${column}`),
-      sortableColumns: this.sortableColumns,
-    };
   }
 
-  ngOnInit(): void {
+  public get currentSelectedItems(): Part[] {
+    return this.selectedItems[this.selectedTab];
+  }
+
+  public set currentSelectedItems(parts: Part[]) {
+    this.selectedItems[this.selectedTab] = parts;
+  }
+
+  public ngOnInit(): void {
     this.otherPartsFacade.setCustomerParts();
     this.otherPartsFacade.setSupplierParts();
   }
@@ -81,7 +91,7 @@ export class OtherPartsComponent implements OnInit {
   }
 
   public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    if (this.selectedTabIndex === 0) {
+    if (this.selectedTab === 0) {
       this.otherPartsFacade.setSupplierParts(page, pageSize, sorting);
     } else {
       this.otherPartsFacade.setCustomerParts(page, pageSize, sorting);
@@ -89,11 +99,21 @@ export class OtherPartsComponent implements OnInit {
   }
 
   public onMultiSelect(event: unknown[]): void {
-    this.selectedItems[this.selectedTabIndex] = event as Part[];
+    this.currentSelectedItems = event as Part[];
+  }
+
+  public removeItemFromSelection(part: Part): void {
+    this.deselectPartTrigger$.next([part]);
+    this.currentSelectedItems = this.currentSelectedItems.filter(({ id }) => id !== part.id);
   }
 
   public onTabChange({ index }: MatTabChangeEvent): void {
-    this.selectedTabIndex = index;
+    this.selectedTab = index;
     this.partDetailsFacade.selectedPart = null;
+  }
+
+  public clearSelected(): void {
+    this.deselectPartTrigger$.next(this.currentSelectedItems);
+    this.currentSelectedItems = [];
   }
 }

@@ -19,7 +19,6 @@
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -37,6 +36,8 @@ export class TableComponent {
 
   @Input() tableConfig: TableConfig;
   @Input() noShadow = false;
+  @Input() selectedPartsInfoLabel: string;
+  @Input() selectedPartsActionLabel: string;
 
   @Input() set data({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
@@ -46,9 +47,18 @@ export class TableComponent {
     this.pageIndex = page;
   }
 
+  @Input() set deselectTrigger(deselectItem: unknown[]) {
+    if (!deselectItem) {
+      return;
+    }
+
+    this.selection.deselect(...deselectItem);
+  }
+
   @Output() selected = new EventEmitter<Record<string, unknown>>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<unknown[]>();
+  @Output() clickSelectAction = new EventEmitter<void>();
 
   public dataSource = new MatTableDataSource<unknown>();
   public selection = new SelectionModel<unknown>(true, []);
@@ -65,17 +75,11 @@ export class TableComponent {
   }
 
   public toggleAllRows(): void {
-    if (this.areAllRowsSelected()) {
-      this.selection.clear();
-      this.emitMultiSelect();
-      return;
-    }
-
-    this.selection.select(...this.dataSource.data);
+    this.areAllRowsSelected() ? this.selection.clear() : this.selection.select(...this.dataSource.data);
     this.emitMultiSelect();
   }
 
-  public getPaginatorData({ pageIndex, pageSize }: PageEvent): void {
+  public onPaginationChange({ pageIndex, pageSize }: PageEvent): void {
     this.pageIndex = pageIndex;
     this.isDataLoading = true;
     this.configChanged.emit({ page: pageIndex, pageSize: pageSize, sorting: this.sorting });
@@ -88,7 +92,7 @@ export class TableComponent {
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });
   }
 
-  public toggleSelection(event: MatCheckboxChange, row: unknown): void {
+  public toggleSelection(row: unknown): void {
     this.selection.toggle(row);
     this.emitMultiSelect();
   }

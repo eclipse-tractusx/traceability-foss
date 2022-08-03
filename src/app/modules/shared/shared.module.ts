@@ -19,6 +19,9 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
+import { TextareaComponent } from '@shared/components/textarea/textarea.component';
+import { ErrorMessagePipe } from '@shared/pipes/error-message.pipe';
 import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -27,6 +30,7 @@ import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { CtaNotificationComponent } from './components/cta-notifications/cta-notification.component';
 import { DataLoadingErrorComponent } from './components/data-loading-error/data-loading-error.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
@@ -82,6 +86,10 @@ import { TemplateModule } from './template.module';
     SelectComponent,
     DataLoadingErrorComponent,
     TabAsPanelDirective,
+    SidenavComponent,
+    TextareaComponent,
+    ErrorMessagePipe,
+    CtaNotificationComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -114,7 +122,10 @@ import { TemplateModule } from './template.module';
     SelectComponent,
     DataLoadingErrorComponent,
     TabAsPanelDirective,
+    SidenavComponent,
+    TextareaComponent,
+    ErrorMessagePipe,
   ],
-  providers: [FormatDatePipe, StaticIdService, PartsService],
+  providers: [FormatDatePipe, StaticIdService, PartsService, ErrorMessagePipe],
 })
 export class SharedModule {}

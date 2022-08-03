@@ -18,9 +18,6 @@
  */
 
 import { PartsComponent } from '@page/parts/presentation/parts.component';
-import { FormatDatePipe } from '@shared/pipes/format-date.pipe';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
 import { screen } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
@@ -32,7 +29,6 @@ describe('Parts', () => {
   afterAll(() => server.close());
 
   const renderParts = () => {
-    console.log(FormatDatePipe, SharedModule, TemplateModule);
     return renderComponent(PartsComponent, {
       imports: [PartsModule],
       translations: ['page.parts'],
@@ -62,7 +58,7 @@ describe('Parts', () => {
   it('should render parts with closed sidenav', async () => {
     await renderParts();
 
-    const sideNavElement = await screen.findByTestId('part-detail--sidenav');
+    const sideNavElement = await screen.findByTestId('sidenav--test-id');
     expect(sideNavElement).toBeInTheDocument();
     expect(sideNavElement).not.toHaveClass('part-detail--open');
   });

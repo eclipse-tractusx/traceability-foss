@@ -54,6 +54,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [],
@@ -94,6 +95,7 @@ import { MatTreeModule } from '@angular/material/tree';
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
     MatTooltipModule,
+    MatSnackBarModule,
   ],
   exports: [
     CommonModule,
@@ -133,6 +135,7 @@ import { MatTreeModule } from '@angular/material/tree';
     NgxMatNativeDateModule,
     MatTooltipModule,
     MatTabsModule,
+    MatSnackBarModule,
   ],
 })
 export class TemplateModule {}

@@ -21,7 +21,8 @@
     }
   },
   "actions": {
-    "back": "Back"
+    "back": "Back",
+    "open": "Open"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
@@ -54,5 +55,23 @@
     "ScrollZoomBlocker.CtrlMessage": "Use ctrl + scroll to zoom the map",
     "ScrollZoomBlocker.CmdMessage": "Use ⌘ + scroll to zoom the map",
     "TouchPanBlocker.Message": "Use two fingers to move the map"
+  },
+  "errorMessage": {
+    "min": "Please enter a number that is larger than: {{min}}.",
+    "max": "Please enter a number that is smaller than: {{max}}.",
+    "required": "This field is required!",
+    "requiredTrue": "This checkbox must be checked!",
+    "email": "Please enter a valid E-Mail.",
+    "minLength": "Please enter a text that is larger than: {{minLength}}.",
+    "maxLength": "Please enter a text that is smaller than: {{maxLength}}.",
+    "pattern": "Please enter data that matches this pattern: {{pattern}}.",
+    "generic": "Please enter valid data."
+  },
+  "unitTest": {
+    "test01": "This is for unit tests purposes.",
+    "test02": "This is for unit tests purposes. {{test}}"
+  },
+  "qualityInvestigation": {
+    "success": "You queued an investigation for {{amount}} Part(s)"
   }
 }

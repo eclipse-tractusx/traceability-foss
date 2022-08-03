@@ -25,5 +25,19 @@
     "manufacturer": "Manufacturer",
     "nameAtCustomer": "Name At Customer",
     "customerPartId": "Customer Part ID"
+  },
+  "page": {
+    "selectedParts": {
+      "info": "{{amount}} Part(s) selected for this page.",
+      "action": "Start investigation"
+    },
+    "requestInvestigations": {
+      "headline": "Request quality investigation",
+      "partDescription": "You selected the following parts",
+      "textAreaDescription": "Add a description about the investigation",
+      "textAreaLabel": "Description",
+      "cancel": "CANCEL",
+      "submit": "ADD TO QUEUE"
+    }
   }
 }

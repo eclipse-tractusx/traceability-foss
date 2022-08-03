@@ -49,21 +49,6 @@ describe('notifications', () => {
     expect(within(notification).getByText('some success')).toBeInTheDocument();
   });
 
-  it('should render success notification with action', async () => {
-    const notificationService = await renderNotificationLayout();
-
-    notificationService.success({
-      translationId: 'routing.dashboard',
-      actionTextId: 'routing.home',
-      actionLink: '/',
-    });
-
-    const notification = await screen.findByTestId('notification-container');
-
-    expect(within(notification).getByText('Dashboard')).toBeInTheDocument();
-    expect(within(notification).getByText('Home')).toBeInTheDocument();
-  });
-
   it('should render info notification', async () => {
     const notificationService = await renderNotificationLayout();
 

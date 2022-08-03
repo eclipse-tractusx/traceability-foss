@@ -17,8 +17,15 @@
  * under the License.
  */
 
-export interface NotificationWithAction {
-  translationId: string;
-  actionTextId: string;
-  actionLink?: string;
-}
+import { defaultRealm, realm } from '@core/api/api.service.properties';
+import { InvestigationStatusGroup } from '@shared/model/investigations.model';
+import { investigationsTabIndexes } from './presentation/investigations-tab/investifations-tab';
+
+export const getInvestigationsExternalRoute = (investigationStatusGroup?: InvestigationStatusGroup) => ({
+  link: `${realm || defaultRealm}/investigations`,
+  queryParams: investigationStatusGroup
+    ? {
+        tabIndex: investigationsTabIndexes[investigationStatusGroup],
+      }
+    : undefined,
+});

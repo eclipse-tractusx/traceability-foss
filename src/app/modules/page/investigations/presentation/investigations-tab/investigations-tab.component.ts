@@ -19,9 +19,9 @@
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
-import { View } from '@shared/model/view.model';
-import { Investigation } from '@shared/model/investigations.model';
 import { TableConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { Investigation } from '@shared/model/investigations.model';
+import { View } from '@shared/model/view.model';
 
 @Component({
   selector: 'app-investigations-tab',

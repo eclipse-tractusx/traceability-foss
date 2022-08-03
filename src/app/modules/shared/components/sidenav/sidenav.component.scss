@@ -16,11 +16,27 @@
 * specific language governing permissions and limitations
 * under the License.
 */
+.sidenav {
+  &--container {
+    position: absolute;
+    background: none;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    pointer-events: none;
 
-.about-container {
-  @apply flex flex-col;
-}
+    &__open {
+      pointer-events: unset;
+    }
+  }
 
-.otherParts--tab {
-  margin: 20px;
+  &--content {
+    @apply flex bg-dustyGrayShadeWildSand;
+    align-items: center;
+    justify-content: center;
+    min-width: 900px;
+    max-width: 900px;
+    padding: 25px;
+  }
 }

@@ -19,7 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { NotificationMessage, NotificationText } from './notification-message/notification-message';
+import { NotificationMessage } from './notification-message/notification-message';
 import { NotificationStatus } from './notification-message/notification-status';
 
 @Injectable({
@@ -33,21 +33,21 @@ export class NotificationService {
     return this.notificationSubject.asObservable();
   }
 
-  public success(message: NotificationText, timeout = 5000): void {
+  public success(message: string, timeout = 5000): void {
     this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Success, timeout));
   }
 
-  public info(message: NotificationText, timeout = 5000): void {
+  public info(message: string, timeout = 5000): void {
     this.notificationSubject.next(
       new NotificationMessage(this.idx++, message, NotificationStatus.Informative, timeout),
     );
   }
 
-  public error(message: NotificationText, timeout = 5000): void {
+  public error(message: string, timeout = 5000): void {
     this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Error, timeout));
   }
 
-  public warning(message: NotificationText, timeout = 5000): void {
+  public warning(message: string, timeout = 5000): void {
     this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Warning, timeout));
   }
 }

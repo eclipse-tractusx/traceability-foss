@@ -17,8 +17,7 @@
  * under the License.
  */
 
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { realm } from '@core/api/api.service.properties';
 import { Part, QualityType } from '@page/parts/model/parts.model';
@@ -36,7 +35,6 @@ import { tap } from 'rxjs/operators';
   styleUrls: ['./part-detail.component.scss'],
 })
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('sidenav') sidenav: MatSidenav;
   @Input() showRelation = true;
   @Output() closeSidebar = new EventEmitter<void>();
 
@@ -77,7 +75,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
-      setTimeout(() => void this.sidenav.open());
+      this.isOpen = true;
     });
   }
 

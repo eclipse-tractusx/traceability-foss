@@ -21,7 +21,8 @@
     }
   },
   "actions": {
-    "back": "Zurück"
+    "back": "Zurück",
+    "open": "Offen"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
@@ -41,5 +42,19 @@
     "ScrollZoomBlocker.CtrlMessage": "Verwenden Sie Strg + Scrollen, um die Karte zu vergrößern.",
     "ScrollZoomBlocker.CmdMessage": "Verwenden Sie ⌘ + Scrollen, um die Karte zu vergrößern.",
     "TouchPanBlocker.Message": "Verwenden Sie zwei Finger, um die Karte zu bewegen"
+  },
+  "errorMessage": {
+    "min": "Bitte geben Sie eine Zahl größer {{min}} ein.",
+    "max": "Bitte geben Sie eine Zahl kleiner {{max}} ein.",
+    "required": "Pflichtfeld!",
+    "requiredTrue": "Bitte Checkbox bestätigen.",
+    "email": "Die E-Mail Adresse ist ungültig.",
+    "minLength": "Bitte geben Sie mindestens {{minLength}} Zeichen ein.",
+    "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein.",
+    "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{pattern}}.",
+    "generic": "Die Eingabe ist ungültig."
+  },
+  "qualityInvestigation": {
+    "success": "You queued an investigation for {{amount}} Part(s)"
   }
 }

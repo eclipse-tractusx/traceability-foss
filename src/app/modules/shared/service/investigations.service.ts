@@ -21,11 +21,18 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
+import { Part } from '@page/parts/model/parts.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { InvestigationsResponse, InvestigationStatusGroup, Investigations } from '../model/investigations.model';
 import { InvestigationsAssembler } from '../assembler/investigations.assembler';
+
+import {
+  Investigation,
+  InvestigationResponse,
+  Investigations,
+  InvestigationsResponse,
+  InvestigationStatusGroup,
+} from '../model/investigations.model';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +51,14 @@ export class InvestigationsService {
 
     return this.apiService
       .getBy<InvestigationsResponse>(`${this.url}/investigations/${type}`, params)
-      .pipe(map(parts => InvestigationsAssembler.assembleInvestigations(parts)));
+      .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
+  }
+
+  public postInvestigation(selectedParts: Part[], description: string): Observable<Investigation> {
+    const body = { selectedParts, description };
+
+    return this.apiService
+      .post<InvestigationResponse>(`${this.url}/investigations`, body)
+      .pipe(map(investigation => InvestigationsAssembler.assembleInvestigation(investigation)));
   }
 }

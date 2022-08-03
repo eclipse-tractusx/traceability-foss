@@ -21,7 +21,8 @@
     }
   },
   "actions": {
-    "back": "Wróć"
+    "back": "Wróć",
+    "open": "Otwórz"
   },
   "error": {
     "genericTitle": "Błąd"
@@ -50,5 +51,19 @@
     "ScrollZoomBlocker.CtrlMessage": "Użyj CTRL + scroll aby powiększyć mapę",
     "ScrollZoomBlocker.CmdMessage": "Użyj ⌘ + scroll aby powiększyć mapę",
     "TouchPanBlocker.Message": "Użyj dwóch palców, aby przesunąć mapę"
+  },
+  "errorMessage": {
+    "min": "Please enter a number that is larger than: {{min}}.",
+    "max": "Please enter a number that is smaller than: {{max}}.",
+    "required": "This field is required!",
+    "requiredTrue": "This checkbox must be checked!",
+    "email": "Please enter a valid E-Mail.",
+    "minLength": "Please enter a text that is larger than: {{minLength}}.",
+    "maxLength": "Please enter a text that is smaller than: {{maxLength}}.",
+    "pattern": "Please enter data that matches this pattern: {{pattern}}.",
+    "generic": "Please enter valid data."
+  },
+  "qualityInvestigation": {
+    "success": "You queued an investigation for {{amount}} Part(s)"
   }
 }

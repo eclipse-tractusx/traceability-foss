@@ -19,19 +19,25 @@
 
 import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
-import { OtherPartsService } from '@page/otherParts/core/otherParts.service';
-import { OtherPartsState } from '@page/otherParts/core/otherParts.state';
+import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
+import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import { Investigation } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
-import { Observable } from 'rxjs';
+import { InvestigationsService } from '@shared/service/investigations.service';
+import { Observable, Subscription } from 'rxjs';
 import { delay } from 'rxjs/operators';
 
 @Injectable()
 export class OtherPartsFacade {
+  private customerPartsSubscription: Subscription;
+  private supplierPartsSubscription: Subscription;
+
   constructor(
     private readonly otherPartsService: OtherPartsService,
     private readonly otherPartsState: OtherPartsState,
+    private readonly investigationsService: InvestigationsService,
   ) {}
 
   get customerParts$(): Observable<View<Pagination<Part>>> {
@@ -45,20 +51,22 @@ export class OtherPartsFacade {
   }
 
   public setCustomerParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
-    this.otherPartsService.getCustomerParts(page, pageSize, sorting).subscribe({
-      next: (partsPage: Pagination<Part>) => {
-        this.otherPartsState.customerParts = { data: partsPage };
-      },
+    this.customerPartsSubscription?.unsubscribe();
+    this.customerPartsSubscription = this.otherPartsService.getCustomerParts(page, pageSize, sorting).subscribe({
+      next: data => (this.otherPartsState.customerParts = { data }),
       error: error => (this.otherPartsState.customerParts = { error }),
     });
   }
 
   public setSupplierParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
-    this.otherPartsService.getSupplierParts(page, pageSize, sorting).subscribe({
-      next: (partsPage: Pagination<Part>) => {
-        this.otherPartsState.supplierParts = { data: partsPage };
-      },
+    this.supplierPartsSubscription?.unsubscribe();
+    this.supplierPartsSubscription = this.otherPartsService.getSupplierParts(page, pageSize, sorting).subscribe({
+      next: data => (this.otherPartsState.supplierParts = { data }),
       error: error => (this.otherPartsState.supplierParts = { error }),
     });
+  }
+
+  public sendInvestigation(selectedItems: Part[], description: string): Observable<Investigation> {
+    return this.investigationsService.postInvestigation(selectedItems, description);
   }
 }

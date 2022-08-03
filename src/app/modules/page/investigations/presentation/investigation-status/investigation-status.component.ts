@@ -17,7 +17,7 @@
  * under the License.
  */
 
-import { Input, Component, ViewEncapsulation } from '@angular/core';
+import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { InvestigationStatus } from '@shared/model/investigations.model';
 
 @Component({

@@ -18,31 +18,10 @@ under the License.
 -->
 
 <div *ngIf="notifierMessage" class=" notification {{ statusBarCss }}" data-testid="notification-container">
-  <ng-container *ngIf="isNotificationWithAction(); else textNotification">
-    <div class="flex flex-col items-end flex-1">
-      <p class="w-full">
-        <ng-container
-          *ngTemplateOutlet="message; context: { content: notificationWithAction.translationId | i18n }"
-        ></ng-container>
-      </p>
-
-      <app-button color="accent" [routerLink]="notificationWithAction.actionLink" (click)="this.remove()">
-        {{ notificationWithAction.actionTextId | i18n }}
-      </app-button>
-    </div>
-  </ng-container>
-
+  <label class="small-text p-4 text-tundora flex flex-wrap" id="notification-message">{{
+    notifierMessage.message | i18n
+  }}</label>
   <button class="btn-close p-0.5">
     <mat-icon class="text-white mt-1" (click)="this.remove()">close</mat-icon>
   </button>
 </div>
-
-<ng-template #textNotification>
-  <ng-container *ngTemplateOutlet="message; context: { content: notifierMessage.message }"></ng-container>
-</ng-template>
-
-<ng-template #message let-content="content">
-  <label class="p-4 text-tundora flex flex-wrap" id="notification-message">
-    {{ content }}
-  </label>
-</ng-template>

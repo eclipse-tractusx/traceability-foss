@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   {
     path: 'otherParts',
-    loadChildren: () => import('../../page/otherParts/otherParts.module').then(m => m.OtherPartsModule),
+    loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
     data: {
       breadcrumb: 'otherParts',
     },
