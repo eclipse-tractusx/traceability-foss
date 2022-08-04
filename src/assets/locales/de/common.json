@@ -54,7 +54,9 @@
     "generic": "Die Eingabe ist ungültig."
   },
   "qualityInvestigation": {
-    "success": "Sie haben eine Untersuchung für {{amount}} Produkte(e) gestartet."
+    "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
+    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",
+    "goToQueue": "Zur Warteschlange"
   },
   "requestInvestigations": {
     "headline": "Qualitätsprüfung anfordern",

@@ -19,8 +19,10 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { Part } from '@page/parts/model/parts.model';
-import { NotificationService } from '@shared/components/notifications/notification.service';
+import { CtaNotificationService } from '@shared/components/call-to-action-notifications/cta-notification.service';
+import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -48,7 +50,7 @@ export class RequestInvestigationComponent {
 
   constructor(
     private readonly investigationsService: InvestigationsService,
-    private readonly notificationService: NotificationService,
+    private readonly ctaNotificationService: CtaNotificationService,
   ) {}
 
   public isOpen$ = new BehaviorSubject<boolean>(false);
@@ -70,7 +72,7 @@ export class RequestInvestigationComponent {
     this.isLoading$.next(true);
     this.textAreaControl.disable();
 
-    const amountOfItems = this.selectedItems.length;
+    const count = this.selectedItems.length;
     this.investigationsService.postInvestigation(this.selectedItems, this.textAreaControl.value).subscribe({
       next: () => {
         this.isLoading$.next(false);
@@ -83,7 +85,20 @@ export class RequestInvestigationComponent {
         this.textAreaControl.setValue(undefined);
         this.textAreaControl.markAsUntouched();
 
-        this.notificationService.success({ id: 'qualityInvestigation.success', values: { amount: amountOfItems } });
+        const investigationsRoute = getInvestigationInboxRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
+        this.ctaNotificationService.show(
+          {
+            id: 'qualityInvestigation.success',
+            values: { count },
+          },
+          [
+            {
+              text: 'qualityInvestigation.goToQueue',
+              link: investigationsRoute.link,
+              linkQueryParams: investigationsRoute.queryParams,
+            },
+          ],
+        );
       },
     });
   }

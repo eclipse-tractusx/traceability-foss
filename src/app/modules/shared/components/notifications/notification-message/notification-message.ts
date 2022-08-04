@@ -17,27 +17,15 @@
  * under the License.
  */
 
-import { TranslationObject } from '@shared/pipes/i18n.pipe';
 import { NotificationStatus } from './notification-status';
-import { NotificationText } from './notification-text';
 
 export class NotificationMessage {
-  public id: number;
-  public isSliderON: boolean;
-  public message: NotificationText | string | TranslationObject;
-  public status: NotificationStatus;
-  public timeout: number;
+  public isSliderON = true;
 
   constructor(
-    id: number,
-    message: NotificationText | string | TranslationObject,
-    status: NotificationStatus | null,
-    timeout: number,
-  ) {
-    this.id = id;
-    this.message = message;
-    this.status = status;
-    this.isSliderON = true;
-    this.timeout = timeout;
-  }
+    public id: number,
+    public message: string,
+    public status: NotificationStatus | null,
+    public timeout: number,
+  ) {}
 }

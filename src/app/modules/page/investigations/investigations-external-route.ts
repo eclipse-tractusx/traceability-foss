@@ -17,10 +17,14 @@
  * under the License.
  */
 
-import { environment } from '@env';
+import { realm } from '@core/api/api.service.properties';
+import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 
-export const realmLogo = environment.realmLogo;
-export const defaultRealm = environment.defaultRealm;
-
-export /** @type {*} */
-const realm: string = new RegExp(environment.realmRegExp).exec(window.location.href)?.[1] || defaultRealm;
+export const getInvestigationInboxRoute = (investigationStatusGroup?: InvestigationStatusGroup) => ({
+  link: `${realm}/investigations`,
+  queryParams: investigationStatusGroup
+    ? {
+        tabIndex: String(Object.values(InvestigationStatusGroup).indexOf(investigationStatusGroup)),
+      }
+    : undefined,
+});

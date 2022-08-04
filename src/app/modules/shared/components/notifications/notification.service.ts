@@ -18,11 +18,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { TranslationObject } from '@shared/pipes/i18n.pipe';
 import { Observable, Subject } from 'rxjs';
 import { NotificationMessage } from './notification-message/notification-message';
 import { NotificationStatus } from './notification-message/notification-status';
-import { NotificationText } from './notification-message/notification-text';
 
 @Injectable({
   providedIn: 'root',
@@ -35,21 +33,21 @@ export class NotificationService {
     return this.notificationSubject.asObservable();
   }
 
-  public success(message: NotificationText | string | TranslationObject, timeout = 3000): void {
+  public success(message: string, timeout = 5000): void {
     this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Success, timeout));
   }
 
-  public info(message: NotificationText | string | TranslationObject, timeout = 3000): void {
+  public info(message: string, timeout = 5000): void {
     this.notificationSubject.next(
       new NotificationMessage(this.idx++, message, NotificationStatus.Informative, timeout),
     );
   }
 
-  public error(message: NotificationText | string | TranslationObject, timeout = 3000): void {
+  public error(message: string, timeout = 5000): void {
     this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Error, timeout));
   }
 
-  public warning(message: NotificationText | string | TranslationObject, timeout = 3000): void {
+  public warning(message: string, timeout = 5000): void {
     this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Warning, timeout));
   }
 }

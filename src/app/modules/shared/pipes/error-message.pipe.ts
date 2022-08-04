@@ -19,7 +19,7 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
-import { TranslationObject } from '@shared/pipes/i18n.pipe';
+import { ParameterizedMessage } from '@shared/model/i18n-message';
 
 type MinError = { min: number; actual: number };
 type MaxError = { max: number; actual: number };
@@ -35,7 +35,7 @@ export class ErrorMessagePipe implements PipeTransform {
     if (!errors) {
       return '';
     }
-    const getErrorMapping = (key: string, value?: any): TranslationObject => {
+    const getErrorMapping = (key: string, value?: any): ParameterizedMessage => {
       return { id: `errorMessage.${key}`, values: { [key]: value } };
     };
 

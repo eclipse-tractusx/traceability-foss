@@ -18,18 +18,14 @@
  */
 
 import { Pipe, PipeTransform } from '@angular/core';
+import { I18nMessage } from '@shared/model/i18n-message';
 import { I18NextPipe, PipeOptions } from 'angular-i18next';
-
-export interface TranslationObject {
-  id: string;
-  values: Record<string, unknown>;
-}
 
 @Pipe({ name: 'i18n', pure: false })
 export class I18nPipe implements PipeTransform {
   constructor(private i18NextPipe: I18NextPipe) {}
 
-  public transform(key: string | TranslationObject, options?: PipeOptions): string {
+  public transform(key: I18nMessage, options?: PipeOptions): string {
     if (typeof key !== 'string') {
       options = key.values;
       key = key.id;
