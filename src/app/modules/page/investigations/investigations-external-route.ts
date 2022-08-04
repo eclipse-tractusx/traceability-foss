@@ -17,15 +17,14 @@
  * under the License.
  */
 
-import { defaultRealm, realm } from '@core/api/api.service.properties';
+import { realm } from '@core/api/api.service.properties';
 import { InvestigationStatusGroup } from '@shared/model/investigations.model';
-import { investigationsTabIndexes } from './presentation/investigations-tab/investifations-tab';
 
-export const getInvestigationsExternalRoute = (investigationStatusGroup?: InvestigationStatusGroup) => ({
-  link: `${realm || defaultRealm}/investigations`,
+export const getInvestigationInboxRoute = (investigationStatusGroup?: InvestigationStatusGroup) => ({
+  link: `${realm}/investigations`,
   queryParams: investigationStatusGroup
     ? {
-        tabIndex: investigationsTabIndexes[investigationStatusGroup],
+        tabIndex: String(Object.values(InvestigationStatusGroup).indexOf(investigationStatusGroup)),
       }
     : undefined,
 });

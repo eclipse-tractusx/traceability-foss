@@ -21,8 +21,7 @@
     }
   },
   "actions": {
-    "back": "Wróć",
-    "open": "Otwórz"
+    "back": "Wróć"
   },
   "error": {
     "genericTitle": "Błąd"
@@ -64,6 +63,8 @@
     "generic": "Please enter valid data."
   },
   "qualityInvestigation": {
-    "success": "You queued an investigation for {{amount}} Part(s)"
+    "success_one": "You queued an investigation for {{count}} Part",
+    "success_other": "You queued an investigation for {{count}} Parts",
+    "goToQueue": "Go to Queue"
   }
 }

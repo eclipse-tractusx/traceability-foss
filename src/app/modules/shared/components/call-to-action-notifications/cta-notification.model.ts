@@ -17,22 +17,16 @@
  * under the License.
  */
 
-import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { I18nMessage } from '@shared/model/i18n-message';
 
-import { CallAction } from './call-action';
-import { CtaNotificationData } from './cta-notification-data';
-import { CtaNotificationComponent } from './cta-notification.component';
+export interface CallAction {
+  text: I18nMessage;
+  link: string;
+  linkQueryParams?: Record<string, string>;
+}
 
-@Injectable({
-  providedIn: 'root',
-})
-export class CtaNotificationService {
-  constructor(private snackBar: MatSnackBar) {}
-
-  show(text: I18nMessage, actions: CallAction[]) {
-    const data: CtaNotificationData = { text, actions };
-    this.snackBar.openFromComponent(CtaNotificationComponent, { data });
-  }
+// CTA stands for call-to-action
+export interface CtaNotificationData {
+  text: I18nMessage;
+  actions: CallAction[];
 }

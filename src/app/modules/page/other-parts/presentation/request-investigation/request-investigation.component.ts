@@ -19,10 +19,10 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { getInvestigationsExternalRoute } from '@page/investigations/investigations-external-route';
+import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
-import { CtaNotificationService } from '@shared/components/cta-notifications/cta-notification.service';
+import { CtaNotificationService } from '@shared/components/call-to-action-notifications/cta-notification.service';
 import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { BehaviorSubject } from 'rxjs';
 
@@ -69,7 +69,7 @@ export class RequestInvestigationComponent {
     this.isLoading$.next(true);
     this.textAreaControl.disable();
 
-    const amountOfItems = this.selectedItems.length;
+    const count = this.selectedItems.length;
     this.qualityInvestigationFacade.sendInvestigation(this.selectedItems, this.textAreaControl.value).subscribe({
       next: () => {
         this.isLoading$.next(false);
@@ -80,16 +80,17 @@ export class RequestInvestigationComponent {
 
         this.textAreaControl.setValue(undefined);
         this.textAreaControl.markAsUntouched();
-        const investigationsRoute = getInvestigationsExternalRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
+        const investigationsRoute = getInvestigationInboxRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
         this.ctaNotificationService.show(
           {
             id: 'qualityInvestigation.success',
-            values: { amount: amountOfItems },
+            values: { count },
           },
           [
             {
-              text: 'actions.open',
-              link: [investigationsRoute.link, investigationsRoute.queryParams],
+              text: 'qualityInvestigation.goToQueue',
+              link: investigationsRoute.link,
+              linkQueryParams: investigationsRoute.queryParams,
             },
           ],
         );

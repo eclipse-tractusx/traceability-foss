@@ -18,14 +18,14 @@ under the License.
 -->
 
 <div class="flex justify-between items-center">
-  <div>
+  <p class="regular-text text-white">
     {{ text | i18n }}
-  </div>
+  </p>
 
   <app-button
     *ngFor="let action of actions"
-    [routerLink]="getActionLink(action)"
-    [queryParams]="getActionQueryParams(action)"
+    [routerLink]="action.link"
+    [queryParams]="action.linkQueryParams"
     (click)="onActionClick()"
     color="accent"
   >

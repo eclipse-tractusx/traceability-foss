@@ -74,7 +74,7 @@ describe('Other Parts', () => {
   it('should render selected parts information', async () => {
     await renderOtherParts();
     await screen.findByTestId('table-component--test-id');
-    const selectedPartsInfo = await screen.getByText('0 Part(s) selected for this page.');
+    const selectedPartsInfo = await screen.getByText('0 Parts selected for this page.');
 
     expect(selectedPartsInfo).toBeInTheDocument();
   });

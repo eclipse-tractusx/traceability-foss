@@ -17,10 +17,33 @@
  * under the License.
  */
 
+import { Component, Inject } from '@angular/core';
+import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { I18nMessage } from '@shared/model/i18n-message';
-import { CallAction } from './call-action';
 
-export interface CtaNotificationData {
-  text: I18nMessage;
-  actions: CallAction[];
+import { CtaNotificationData, CallAction } from './cta-notification.model';
+
+// CTA stands for call-to-action
+@Component({
+  selector: 'cta-notification',
+  templateUrl: './cta-notification.component.html',
+})
+export class CtaNotificationComponent {
+  public get text(): I18nMessage {
+    return this.data.text;
+  }
+
+  public get actions(): CallAction[] {
+    return this.data.actions;
+  }
+
+  constructor(
+    @Inject(MAT_SNACK_BAR_DATA)
+    private readonly data: CtaNotificationData,
+    private snackBar: MatSnackBar,
+  ) {}
+
+  public onActionClick(): void {
+    this.snackBar.dismiss();
+  }
 }

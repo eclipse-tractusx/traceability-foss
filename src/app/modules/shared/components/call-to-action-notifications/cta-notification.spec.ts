@@ -36,7 +36,7 @@ describe('cta-notification', () => {
   it('should show message with action', async () => {
     const ctaNotificationService = await prepareEnv();
 
-    ctaNotificationService.show('actions.back', [{ text: 'actions.open', link: '' }]);
+    ctaNotificationService.show('actions.back', [{ text: 'Open', link: '' }]);
 
     expect(await screen.findByText('Back')).toBeInTheDocument();
     expect(await screen.findByText('Open')).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe('cta-notification', () => {
   it('should close message after click on action', async () => {
     const ctaNotificationService = await prepareEnv();
 
-    ctaNotificationService.show('actions.back', [{ text: 'actions.open', link: '' }]);
+    ctaNotificationService.show('actions.back', [{ text: 'Open', link: '' }]);
     fireEvent.click(await screen.findByText('Open'));
 
     await waitForElementToBeRemoved(() => screen.queryByText('Open'));
