@@ -19,7 +19,6 @@
 
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-
 import { SharedModule } from '..';
 
 describe('I18nPipe', () => {

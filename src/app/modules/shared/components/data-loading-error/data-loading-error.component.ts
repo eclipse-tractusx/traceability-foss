@@ -24,6 +24,5 @@ import { Component, Input } from '@angular/core';
   templateUrl: './data-loading-error.component.html',
 })
 export class DataLoadingErrorComponent {
-  @Input()
-  public error: Error;
+  @Input() error: Error;
 }

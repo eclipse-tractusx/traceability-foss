@@ -18,9 +18,8 @@
  */
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
 import { TableConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
-import { Investigation } from '@shared/model/investigations.model';
+import { Investigation, Investigations } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 
 @Component({
@@ -28,13 +27,12 @@ import { View } from '@shared/model/view.model';
   templateUrl: './investigations-tab.component.html',
 })
 export class InvestigationsTabComponent implements AfterViewInit {
-  @Input() investigations: View<Pagination<Investigation>>;
+  @Input() investigations: View<Investigations>;
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
 
-  @ViewChild('statusTmp') statusTmp: TemplateRef<unknown>;
+  @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
 
   public readonly displayedColumns: (keyof Investigation)[] = ['description', 'status', 'created'];
-
   public tableConfig: TableConfig<keyof Investigation>;
 
   public ngAfterViewInit(): void {
@@ -42,7 +40,7 @@ export class InvestigationsTabComponent implements AfterViewInit {
       displayedColumns: this.displayedColumns,
       header: this.displayedColumns.map(column => `pageInvestigations.column.${column}`),
       cellRenderers: {
-        status: this.statusTmp,
+        status: this.statusTemplate,
       },
     };
   }

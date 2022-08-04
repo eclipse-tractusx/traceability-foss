@@ -27,7 +27,6 @@ import { Investigation } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
 
 @Injectable()
 export class OtherPartsFacade {
@@ -40,14 +39,12 @@ export class OtherPartsFacade {
     private readonly investigationsService: InvestigationsService,
   ) {}
 
-  get customerParts$(): Observable<View<Pagination<Part>>> {
-    // IMPORTANT: this delay is needed for view-container directive
-    return this.otherPartsState.customerParts$.pipe(delay(0));
+  public get customerParts$(): Observable<View<Pagination<Part>>> {
+    return this.otherPartsState.customerParts$;
   }
 
-  get supplierParts$(): Observable<View<Pagination<Part>>> {
-    // IMPORTANT: this delay is needed for view-container directive
-    return this.otherPartsState.supplierParts$.pipe(delay(0));
+  public get supplierParts$(): Observable<View<Pagination<Part>>> {
+    return this.otherPartsState.supplierParts$;
   }
 
   public setCustomerParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {

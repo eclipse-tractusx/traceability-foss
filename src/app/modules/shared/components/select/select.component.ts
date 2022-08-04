@@ -24,6 +24,7 @@ export interface SelectOption {
   value?: string;
 }
 
+// ToDo: use ControlValueAccessor
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',

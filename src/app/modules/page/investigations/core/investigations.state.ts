@@ -18,32 +18,31 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
-import { Investigation } from '@shared/model/investigations.model';
+import { Investigations } from '@shared/model/investigations.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class InvestigationsState {
-  private readonly _investigationsReceived$ = new State<View<Pagination<Investigation>>>({ loader: true });
-  private readonly _investigationsQueuedAndRequested$ = new State<View<Pagination<Investigation>>>({ loader: true });
+  private readonly _investigationsReceived$ = new State<View<Investigations>>({ loader: true });
+  private readonly _investigationsQueuedAndRequested$ = new State<View<Investigations>>({ loader: true });
 
-  get investigationsReceived$(): Observable<View<Pagination<Investigation>>> {
+  public get investigationsReceived$(): Observable<View<Investigations>> {
     return this._investigationsReceived$.observable;
   }
 
-  set investigationsReceived({ data, loader, error }: View<Pagination<Investigation>>) {
-    const investigationsView: View<Pagination<Investigation>> = { data, loader, error };
+  public set investigationsReceived({ data, loader, error }: View<Investigations>) {
+    const investigationsView: View<Investigations> = { data, loader, error };
     this._investigationsReceived$.update(investigationsView);
   }
 
-  get investigationsQueuedAndRequested$(): Observable<View<Pagination<Investigation>>> {
+  public get investigationsQueuedAndRequested$(): Observable<View<Investigations>> {
     return this._investigationsQueuedAndRequested$.observable;
   }
 
-  set investigationsQueuedAndRequested({ data, loader, error }: View<Pagination<Investigation>>) {
-    const investigationsView: View<Pagination<Investigation>> = { data, loader, error };
+  public set investigationsQueuedAndRequested({ data, loader, error }: View<Investigations>) {
+    const investigationsView: View<Investigations> = { data, loader, error };
     this._investigationsQueuedAndRequested$.update(investigationsView);
   }
 }

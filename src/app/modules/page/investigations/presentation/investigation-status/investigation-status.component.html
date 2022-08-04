@@ -17,16 +17,6 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<div
-  [ngClass]="{
-    'bg-startLight text-startDark border-startLightContrast before:bg-startDark':
-      InvestigationStatus.RECEIVED === status,
-    'bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-pendingDark':
-      InvestigationStatus.QUEUED === status,
-    'bg-completeLight text-completeDark border-completeLightContrast before:bg-completeDark':
-      InvestigationStatus.REQUESTED === status
-  }"
-  class="border-1 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs before:content-[' '] before:h-2 before:w-2 before:rounded-full before:inline-block"
->
+<div class="investigation-status investigation-status--{{ status }}">
   {{ 'pageInvestigations.status.' + status | i18n }}
 </div>

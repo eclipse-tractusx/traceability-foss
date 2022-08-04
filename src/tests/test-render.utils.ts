@@ -21,7 +21,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, Type, ɵɵComponentDeclaration, ɵɵFactoryDeclaration } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
-import { Role } from '@core/user/role';
+import { Role } from '@core/user/role.model';
 import { render, RenderComponentOptions, RenderResult, RenderTemplateOptions } from '@testing-library/angular';
 import { I18NEXT_SERVICE, I18NextModule, ITranslationService } from 'angular-i18next';
 import { KeycloakService } from 'keycloak-angular';

@@ -24,12 +24,12 @@ under the License.
 >
   <mat-sidenav
     #sidenav
-    mode="over"
-    class="sidenav--content"
-    position="end"
     [fixedInViewport]="true"
     [fixedTopGap]="64"
     (openedChange)="sidenavAction.emit($event)"
+    mode="over"
+    class="sidenav--content"
+    position="end"
   >
     <ng-content></ng-content>
   </mat-sidenav>

@@ -25,7 +25,7 @@ import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elem
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable, of } from 'rxjs';
-import { catchError, delay, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable()
 export class PartDetailsFacade {
@@ -35,16 +35,15 @@ export class PartDetailsFacade {
     private readonly loadedElementsFacade: LoadedElementsFacade,
   ) {}
 
-  get selectedPart$(): Observable<View<Part>> {
-    // IMPORTANT: this delay is needed for view-container directive
-    return this.partDetailsState.selectedPart$.pipe(delay(0));
+  public get selectedPart$(): Observable<View<Part>> {
+    return this.partDetailsState.selectedPart$;
   }
 
-  set selectedPart(part: Part) {
+  public set selectedPart(part: Part) {
     this.partDetailsState.selectedPart = { data: part };
   }
 
-  get selectedPart(): Part {
+  public get selectedPart(): Part {
     return this.partDetailsState.selectedPart?.data;
   }
 

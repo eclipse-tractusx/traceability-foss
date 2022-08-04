@@ -18,7 +18,7 @@
  */
 
 import { Inject, Injectable, Optional } from '@angular/core';
-import { Role } from '@core/user/role';
+import { Role } from '@core/user/role.model';
 import { environment } from '@env';
 import { KeycloakService } from 'keycloak-angular';
 import Keycloak, { KeycloakLoginOptions } from 'keycloak-js';

@@ -54,19 +54,18 @@ export class PartsComponent implements OnInit {
     productionCountry: true,
   };
 
-  public tableConfig: TableConfig;
-  public parts$: Observable<View<Pagination<Part>>>;
+  public readonly parts$: Observable<View<Pagination<Part>>>;
+  public readonly tableConfig: TableConfig = {
+    displayedColumns: this.displayedColumns,
+    header: this.displayedColumns.map(column => `pageParts.column.${column}`),
+    sortableColumns: this.sortableColumns,
+  };
 
   constructor(private readonly partsFacade: PartsFacade, private readonly partDetailsFacade: PartDetailsFacade) {
     this.parts$ = this.partsFacade.parts$;
-    this.tableConfig = {
-      displayedColumns: this.displayedColumns,
-      header: this.displayedColumns.map(column => `pageParts.column.${column}`),
-      sortableColumns: this.sortableColumns,
-    };
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.partsFacade.setParts();
   }
 

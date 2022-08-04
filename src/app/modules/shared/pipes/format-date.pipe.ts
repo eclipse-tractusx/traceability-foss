@@ -21,44 +21,39 @@ import { Inject, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import type { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Pipe({ name: 'formatDate', pure: false })
 export class FormatDatePipe implements PipeTransform, OnDestroy {
   private dateFormat: Omit<Intl.DateTimeFormat, 'format'> & {
     format: (date: Date, options?: { dateStyle: string }) => string;
   };
-  private languageChangedSubscription: Subscription;
+
+  private readonly languageChangedSubscription: Subscription;
   private readonly formatOptions = { dateStyle: 'short' };
 
-  constructor(@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService) {
-    this.dateFormat = new Intl.DateTimeFormat(this.i18NextService.language);
-    this.languageChangedSubscription = i18NextService.events.languageChanged.subscribe(lang => {
-      if (lang) {
-        this.dateFormat = new Intl.DateTimeFormat(lang);
-      }
-    });
+  constructor(@Inject(I18NEXT_SERVICE) { language, events }: ITranslationService) {
+    this.dateFormat = new Intl.DateTimeFormat(language);
+
+    this.languageChangedSubscription = events.languageChanged
+      .pipe(filter(lang => !!lang))
+      .subscribe(lang => (this.dateFormat = new Intl.DateTimeFormat(lang)));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.languageChangedSubscription.unsubscribe();
   }
 
-  get formatter() {
-    return new Intl.DateTimeFormat(this.i18NextService.language);
-  }
-
-  transform(date: string | CalendarDateModel): string {
-    if (!date) {
+  public transform(input: string | CalendarDateModel): string {
+    if (!input) {
       return '';
     }
 
-    return this.dateFormat.format(
-      typeof date === 'string' ? this.transformStringToDate(date) : date.valueOf(),
-      this.formatOptions,
-    );
+    const date = typeof input === 'string' ? this.transformStringToDate(input) : input.valueOf();
+    return this.dateFormat.format(date, this.formatOptions);
   }
 
-  transformStringToDate(strDate: string) {
+  private transformStringToDate(strDate: string): Date {
     return new Date(strDate + 'Z');
   }
 }

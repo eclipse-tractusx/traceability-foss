@@ -50,14 +50,13 @@ export class RequestInvestigationComponent {
     private readonly ctaNotificationService: CtaNotificationService,
   ) {}
 
-  public isOpen$ = new BehaviorSubject<boolean>(false);
-  public textAreaControl = new FormControl(undefined, [
+  public readonly isOpen$ = new BehaviorSubject<boolean>(false);
+  public readonly textAreaControl = new FormControl(undefined, [
     Validators.required,
     Validators.maxLength(1000),
     Validators.minLength(15),
   ]);
-
-  public investigationFormGroup = new FormGroup({ description: this.textAreaControl });
+  public readonly investigationFormGroup = new FormGroup({ description: this.textAreaControl });
 
   public submitInvestigation(): void {
     this.investigationFormGroup.markAllAsTouched();
@@ -66,10 +65,11 @@ export class RequestInvestigationComponent {
     if (this.investigationFormGroup.invalid) {
       return;
     }
+
     this.isLoading$.next(true);
     this.textAreaControl.disable();
 
-    const count = this.selectedItems.length;
+    const amountOfItems = this.selectedItems.length;
     this.qualityInvestigationFacade.sendInvestigation(this.selectedItems, this.textAreaControl.value).subscribe({
       next: () => {
         this.isLoading$.next(false);
@@ -80,21 +80,27 @@ export class RequestInvestigationComponent {
 
         this.textAreaControl.setValue(undefined);
         this.textAreaControl.markAsUntouched();
-        const investigationsRoute = getInvestigationInboxRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
-        this.ctaNotificationService.show(
-          {
-            id: 'qualityInvestigation.success',
-            values: { count },
-          },
-          [
-            {
-              text: 'qualityInvestigation.goToQueue',
-              link: investigationsRoute.link,
-              linkQueryParams: investigationsRoute.queryParams,
-            },
-          ],
-        );
+
+        this.openCtaNotification(amountOfItems);
       },
     });
+  }
+
+  private openCtaNotification(count: number): void {
+    const { link, queryParams } = getInvestigationInboxRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
+
+    this.ctaNotificationService.show(
+      {
+        id: 'qualityInvestigation.success',
+        values: { count },
+      },
+      [
+        {
+          text: 'qualityInvestigation.goToQueue',
+          linkQueryParams: queryParams,
+          link,
+        },
+      ],
+    );
   }
 }

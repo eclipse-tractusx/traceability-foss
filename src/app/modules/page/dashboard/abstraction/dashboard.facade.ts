@@ -22,7 +22,7 @@ import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentati
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable } from 'rxjs';
-import { delay, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
 import { DashboardStats } from '../model/dashboard.model';
@@ -35,12 +35,24 @@ export class DashboardFacade {
     private readonly partsService: PartsService,
   ) {}
 
-  get numberOfMyParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfMyParts$.pipe(delay(0));
+  public get numberOfMyParts$(): Observable<View<number>> {
+    return this.dashboardState.numberOfMyParts$;
   }
 
-  get numberOfBranchParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfBranchParts$.pipe(delay(0));
+  public get numberOfBranchParts$(): Observable<View<number>> {
+    return this.dashboardState.numberOfBranchParts$;
+  }
+
+  public get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
+    return this.partsService.getPartsPerCountry().pipe(
+      map(partsCountriesMap => {
+        return Object.keys(partsCountriesMap).map(key => ({
+          coordinates: CountryLocationMap[key.toUpperCase()].coordinates,
+          numberOfParts: partsCountriesMap[key],
+        }));
+      }),
+      map(data => ({ data })),
+    );
   }
 
   public setNumberOfParts(): void {
@@ -56,20 +68,5 @@ export class DashboardFacade {
         this.dashboardState.setNumberOfBranchParts({ error });
       },
     });
-  }
-
-  get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
-    return this.partsService
-      .getPartsPerCountry()
-      .pipe(delay(0))
-      .pipe(
-        map(partsCountriesMap => {
-          return Object.keys(partsCountriesMap).map(key => ({
-            coordinates: CountryLocationMap[key.toUpperCase()].coordinates,
-            numberOfParts: partsCountriesMap[key],
-          }));
-        }),
-        map(data => ({ data })),
-      );
   }
 }

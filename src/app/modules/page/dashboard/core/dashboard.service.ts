@@ -17,7 +17,6 @@
  * under the License.
  */
 
-import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
@@ -30,19 +29,11 @@ import { DashboardAssembler } from './dashboard.assembler';
 export class DashboardService {
   private url = environment.apiUrl;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   public getStats(): Observable<DashboardStats> {
     return this.apiService
       .get(`${this.url}/dashboard`)
       .pipe(map((payload: DashboardStatsResponse) => DashboardAssembler.assembleDashboard(payload)));
-  }
-
-  public getGeolocationOfCountry(iso: string): Observable<any> {
-    const httpParams = new HttpParams()
-      .set('access_token', environment.mapBoxAccessToken)
-      .set('language', 'en-EN')
-      .set('types', 'country');
-    return this.apiService.getBy(`https://api.mapbox.com/geocoding/v5/mapbox.places/${iso}.json`, httpParams);
   }
 }

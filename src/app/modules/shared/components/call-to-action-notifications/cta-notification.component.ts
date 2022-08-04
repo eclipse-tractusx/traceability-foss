@@ -18,10 +18,9 @@
  */
 
 import { Component, Inject } from '@angular/core';
-import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import { I18nMessage } from '@shared/model/i18n-message';
-
-import { CtaNotificationData, CallAction } from './cta-notification.model';
+import { CallAction, CtaNotificationData } from './cta-notification.model';
 
 // CTA stands for call-to-action
 @Component({
@@ -40,7 +39,7 @@ export class CtaNotificationComponent {
   constructor(
     @Inject(MAT_SNACK_BAR_DATA)
     private readonly data: CtaNotificationData,
-    private snackBar: MatSnackBar,
+    private readonly snackBar: MatSnackBar,
   ) {}
 
   public onActionClick(): void {

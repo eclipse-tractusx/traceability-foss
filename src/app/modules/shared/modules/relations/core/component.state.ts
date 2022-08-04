@@ -25,15 +25,16 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class RelationComponentState {
   private readonly _openElements$: State<OpenElements> = new State<OpenElements>({});
-  get openElements$(): Observable<OpenElements> {
+
+  public get openElements$(): Observable<OpenElements> {
     return this._openElements$.observable;
   }
 
-  get openElements() {
+  public get openElements() {
     return this._openElements$.snapshot;
   }
 
-  set openElements(data: OpenElements) {
+  public set openElements(data: OpenElements) {
     this._openElements$.update(data);
   }
 

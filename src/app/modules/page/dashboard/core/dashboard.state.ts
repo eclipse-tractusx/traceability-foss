@@ -27,11 +27,11 @@ export class DashboardState {
   private readonly _numberOfMyParts$: State<View<number>> = new State<View<number>>({ loader: true });
   private readonly _numberOfBranchParts$: State<View<number>> = new State<View<number>>({ loader: true });
 
-  get numberOfMyParts$(): Observable<View<number>> {
+  public get numberOfMyParts$(): Observable<View<number>> {
     return this._numberOfMyParts$.observable;
   }
 
-  get numberOfBranchParts$(): Observable<View<number>> {
+  public get numberOfBranchParts$(): Observable<View<number>> {
     return this._numberOfBranchParts$.observable;
   }
 

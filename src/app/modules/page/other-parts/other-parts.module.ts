@@ -24,7 +24,6 @@ import { RequestInvestigationComponent } from '@page/other-parts/presentation/re
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
-
 import { OtherPartsFacade } from './core/other-parts.facade';
 import { OtherPartsService } from './core/other-parts.service';
 import { OtherPartsState } from './core/other-parts.state';

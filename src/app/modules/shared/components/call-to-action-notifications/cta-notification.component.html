@@ -18,9 +18,7 @@ under the License.
 -->
 
 <div class="flex justify-between items-center">
-  <p class="regular-text text-white">
-    {{ text | i18n }}
-  </p>
+  <p class="regular-text text-white">{{ text | i18n }}</p>
 
   <app-button
     *ngFor="let action of actions"
@@ -28,7 +26,6 @@ under the License.
     [queryParams]="action.linkQueryParams"
     (click)="onActionClick()"
     color="accent"
+    >{{ action.text | i18n }}</app-button
   >
-    {{ action.text | i18n }}
-  </app-button>
 </div>

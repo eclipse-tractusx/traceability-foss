@@ -18,7 +18,7 @@
  */
 
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
+import { delay, distinctUntilChanged } from 'rxjs/operators';
 
 export class State<T> {
   private readonly store$: BehaviorSubject<T>;
@@ -31,11 +31,11 @@ export class State<T> {
     this.store$ = new BehaviorSubject<T>(initialValue);
   }
 
-  get observable(): Observable<T> {
-    return this.store$.asObservable().pipe(distinctUntilChanged());
+  public get observable(): Observable<T> {
+    return this.store$.asObservable().pipe(distinctUntilChanged(), delay(0));
   }
 
-  get snapshot(): T {
+  public get snapshot(): T {
     return this.stateValue;
   }
 

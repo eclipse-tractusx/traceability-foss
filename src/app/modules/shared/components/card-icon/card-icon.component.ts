@@ -28,7 +28,7 @@ import { StaticIdService } from '@shared/service/staticId.service';
 })
 export class CardIconComponent {
   public readonly htmlIdBase = 'app-card-icon-';
-  public htmlId: string;
+  public readonly htmlId: string;
 
   @Input() label: string;
   @Input() stats: number | string;

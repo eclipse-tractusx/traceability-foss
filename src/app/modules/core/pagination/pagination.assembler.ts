@@ -21,15 +21,9 @@ import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export class PaginationAssembler {
   public static assemblePagination<ResponseItem, Item>(
-    response: PaginationResponse<ResponseItem>,
+    { page, pageCount, pageSize, totalItems, content }: PaginationResponse<ResponseItem>,
     contentMapper: (item: ResponseItem) => Item,
   ): Pagination<Item> {
-    return {
-      page: response.page,
-      pageCount: response.pageCount,
-      pageSize: response.pageSize,
-      totalItems: response.totalItems,
-      content: response.content.map(contentMapper),
-    };
+    return { page, pageCount, pageSize, totalItems, content: content.map(contentMapper) };
   }
 }

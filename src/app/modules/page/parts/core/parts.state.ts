@@ -28,11 +28,11 @@ import { Observable } from 'rxjs';
 export class PartsState {
   private readonly _parts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
 
-  get parts$(): Observable<View<Pagination<Part>>> {
+  public get parts$(): Observable<View<Pagination<Part>>> {
     return this._parts$.observable;
   }
 
-  set parts({ data, loader, error }: View<Pagination<Part>>) {
+  public set parts({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
     this._parts$.update(partsView);
   }

@@ -30,18 +30,18 @@ export class SidenavComponent implements AfterContentInit {
   @Output() sidenavAction = new EventEmitter<boolean>();
 
   @Input()
-  set isOpen(isOpenState: boolean) {
+  public set isOpen(isOpenState: boolean) {
     this._isOpen = isOpenState;
     this._isOpen ? void this.sidenav?.open() : void this.sidenav?.close();
   }
 
-  get isOpen(): boolean {
+  public get isOpen(): boolean {
     return this._isOpen;
   }
 
   private _isOpen = false;
 
-  ngAfterContentInit(): void {
+  public ngAfterContentInit(): void {
     this._isOpen ? void this.sidenav?.open() : void this.sidenav?.close();
   }
 }

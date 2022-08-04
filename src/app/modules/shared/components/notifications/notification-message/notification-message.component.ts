@@ -18,8 +18,7 @@
  */
 
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { NotificationMessage } from './notification-message';
-import { NotificationStatus } from './notification-status';
+import { NotificationMessage, NotificationStatus } from './notification-message.model';
 
 @Component({
   selector: 'app-notification-message',
@@ -32,7 +31,7 @@ export class NotificationMessageComponent implements OnChanges {
 
   public statusBarCss: string;
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     this.changeStatusBarCss();
   }
 

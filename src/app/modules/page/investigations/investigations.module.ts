@@ -27,7 +27,6 @@ import { InvestigationsState } from './core/investigations.state';
 import { InvestigationsRoutingModule } from './investigations.routing';
 import { InvestigationStatusComponent } from './presentation/investigation-status/investigation-status.component';
 import { InvestigationsTabComponent } from './presentation/investigations-tab/investigations-tab.component';
-
 import { InvestigationsComponent } from './presentation/investigations.component';
 
 @NgModule({

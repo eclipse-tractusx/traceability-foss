@@ -19,7 +19,6 @@
 
 import { environment } from '@env';
 import { rest } from 'msw';
-
 import { mockDashboardStats } from './dashboard.model';
 
 export const dashboardHandler = [

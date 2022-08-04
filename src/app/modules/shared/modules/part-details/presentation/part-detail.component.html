@@ -17,7 +17,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<app-sidenav [isOpen]="isOpen$ | async" (sidenavAction)="isOpen = $event">
+<app-sidenav [isOpen]="this.isOpen$ | async" (sidenavAction)="setIsOpen($event)">
   <div class="part-detail--part-info">
     <ng-container
       *viewContainer="this.partDetails$ | async; main: partDetailsMainTmp; error: errorTmp; loading: loaderTmp"
@@ -84,6 +84,7 @@ under the License.
   </mat-card>
 </ng-template>
 
+<!-- ToDo: this can be split into multiple files and components-->
 <ng-template #partDetailsMainTmp let-partDetails="view">
   <mat-card class="card-list">
     <mat-card-title>{{ 'partDetail.overview' | i18n }}</mat-card-title>
