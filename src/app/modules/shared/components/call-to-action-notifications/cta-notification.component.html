@@ -17,11 +17,18 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<div *ngIf="notifierMessage" class=" notification {{ statusBarCss }}" data-testid="notification-container">
-  <label class="small-text p-4 text-tundora flex flex-wrap" id="notification-message">{{
-    notifierMessage.message | i18n
-  }}</label>
-  <button class="btn-close p-0.5">
-    <mat-icon class="text-white mt-1" (click)="this.remove()">close</mat-icon>
-  </button>
+<div class="flex justify-between items-center">
+  <p class="regular-text text-white">
+    {{ text | i18n }}
+  </p>
+
+  <app-button
+    *ngFor="let action of actions"
+    [routerLink]="action.link"
+    [queryParams]="action.linkQueryParams"
+    (click)="onActionClick()"
+    color="accent"
+  >
+    {{ action.text | i18n }}
+  </app-button>
 </div>

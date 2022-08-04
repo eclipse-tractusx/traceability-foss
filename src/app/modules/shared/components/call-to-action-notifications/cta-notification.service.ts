@@ -17,10 +17,22 @@
  * under the License.
  */
 
-import { environment } from '@env';
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { I18nMessage } from '@shared/model/i18n-message';
 
-export const realmLogo = environment.realmLogo;
-export const defaultRealm = environment.defaultRealm;
+import { CallAction, CtaNotificationData } from './cta-notification.model';
+import { CtaNotificationComponent } from './cta-notification.component';
 
-export /** @type {*} */
-const realm: string = new RegExp(environment.realmRegExp).exec(window.location.href)?.[1] || defaultRealm;
+// CTA stands for call-to-action
+@Injectable({
+  providedIn: 'root',
+})
+export class CtaNotificationService {
+  constructor(private snackBar: MatSnackBar) {}
+
+  public show(text: I18nMessage, actions: CallAction[]): void {
+    const data: CtaNotificationData = { text, actions };
+    this.snackBar.openFromComponent(CtaNotificationComponent, { data });
+  }
+}

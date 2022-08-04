@@ -18,7 +18,7 @@ under the License.
 -->
 <div *ngIf="dataSource" [class.mat-elevation-z8]="!noShadow">
   <div *ngIf="selectedPartsInfoLabel" class="table--selected__container">
-    <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { amount: selection?.selected?.length || 0 } }}</p>
+    <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { count: selection?.selected?.length || 0 } }}</p>
     <app-button *ngIf="this.selection?.selected?.length > 0" (click)="clickSelectAction.emit()">
       {{ selectedPartsActionLabel | i18n }}
     </app-button>

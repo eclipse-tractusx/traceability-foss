@@ -21,7 +21,7 @@ import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { defaultRealm, realm } from 'src/app/modules/core/api/api.service.properties';
+import { defaultRealm, realm } from '@core/api/api.service.properties';
 import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 
 @Component({

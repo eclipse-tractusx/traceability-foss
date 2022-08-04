@@ -17,10 +17,9 @@
  * under the License.
  */
 
-import { environment } from '@env';
+export interface ParameterizedMessage {
+  id: string;
+  values: Record<string, unknown>;
+}
 
-export const realmLogo = environment.realmLogo;
-export const defaultRealm = environment.defaultRealm;
-
-export /** @type {*} */
-const realm: string = new RegExp(environment.realmRegExp).exec(window.location.href)?.[1] || defaultRealm;
+export type I18nMessage = ParameterizedMessage | string;

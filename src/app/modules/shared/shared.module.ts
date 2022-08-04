@@ -30,6 +30,7 @@ import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { CtaNotificationComponent } from './components/call-to-action-notifications/cta-notification.component';
 import { DataLoadingErrorComponent } from './components/data-loading-error/data-loading-error.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
@@ -88,6 +89,7 @@ import { TemplateModule } from './template.module';
     SidenavComponent,
     TextareaComponent,
     ErrorMessagePipe,
+    CtaNotificationComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
