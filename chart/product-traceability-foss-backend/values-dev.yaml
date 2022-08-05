@@ -18,7 +18,7 @@ ingress:
     - hosts:
       - "traceability.dev.demo.catena-x.net"
       # Default secret for certificate creation already provided to your namespace
-      secretName: tls-secret
+      secretName: trace-backend-tls-secret
 
 mailserver:
   password: <path:traceability-foss/data/dev#mailserverPassword>
