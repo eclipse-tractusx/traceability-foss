@@ -1,0 +1,5 @@
+auth:
+  postgresPassword: <path:traceability-foss/data/dev/database#postgresPassword>
+  username: "edc"
+  password: <path:traceability-foss/data/dev/database#password>
+  database: "edc"

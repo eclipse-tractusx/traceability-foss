@@ -1,0 +1,56 @@
+---
+# -- Specifies how many replicas of a deployed pod shall be created during the deployment
+# Note: If horizontal pod autoscaling is enabled this setting has no effect
+replicaCount: 1
+
+image:
+  tag: "0.0.6"
+
+# -- Overrides the releases full name
+fullnameOverride: "trace-consumer-dataplane"
+
+## Ingress declaration to expose the network service.
+ingresses:
+  ## Public / Internet facing Ingress
+  - enabled: true
+    # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+    hostname: trace-consumer-dataplane.dev.demo.catena-x.net
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # -- EDC endpoints exposed by this ingress resource
+    endpoints:
+      - public
+    # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
+    className: "nginx"
+    # -- Enables TLS on the ingress resource
+    tls: true
+    ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
+    certManager:
+      clusterIssuer: letsencrypt-prod
+
+# -- [Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) applied to the deployed pod
+resources:
+  limits:
+    cpu: 1.5
+    memory: 512Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+configuration:
+  # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
+  properties: |-
+    web.http.default.port=8080
+    web.http.default.path=/api
+    web.http.public.port=8185
+    web.http.public.path=/api/public
+    web.http.control.port=9999
+    web.http.control.path=/api/dataplane/control
+    edc.api.control.auth.apikey.key=X-Api-Key
+    edc.controlplane.validation-endpoint=http://trace-consumer-controlplane:8182/validation/token
+    edc.hostname=trace-consumer-dataplane.dev.demo.catena-x.net
+    edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+    edc.vault.hashicorp.health.check.enabled=true
+    edc.vault.hashicorp.health.check.standby.ok=true
+    edc.vault.hashicorp.api.secret.path=/v1/traceability-foss

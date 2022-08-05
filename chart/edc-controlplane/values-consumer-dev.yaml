@@ -1,0 +1,129 @@
+---
+replicaCount: 1
+
+image:
+  tag: "0.0.6"
+
+fullnameOverride: "trace-consumer-controlplane"
+
+## EDC endpoints exposed by the control-plane
+edc:
+  endpoints:
+    ## Default api exposing health checks etc
+    default:
+      # -- The network port, which the "default" api is going to be exposed by the container, pod and service
+      port: "8080"
+      # -- The path mapping the "default" api is going to be exposed at
+      path: /api
+    ## Data management API
+    data:
+      # -- The network port, which the "data" management api is going to be exposed by the container, pod and service
+      port: "8181"
+      # -- The path mapping the "data" management api is going to be exposed at
+      path: /data
+    ## Validation API
+    validation:
+      # -- The network port, which the "validation" api is going to be exposed by the container, pod and service
+      port: "8182"
+      # -- The path mapping the "validation" api is going to be exposed at
+      path: /validation
+    ## Control API
+    control:
+      # -- The network port, which the "control" api is going to be exposed by the container, pod and service
+      port: "9999"
+      # -- The path mapping the "control" api is going to be exposed at
+      path: /api/controlplane/control
+    ## IDS endpoints
+    ids:
+      # -- The network port, which the "ids" multipart api is going to be exposed by the container, pod and service
+      port: "8282"
+      # -- The path mapping the "ids" multipart api is going to be exposed at
+      path: /BPNL00000003CML1/api/v1/ids
+    ## Prometheus endpoint
+    metrics:
+      # -- The network port, which the prometheus metrics are going to be exposed by the container, pod and service
+      port: "9090"
+      # -- The path mapping the prometheus metrics are going to be exposed at
+      path: /metrics
+
+## Ingress declaration to expose the network service.
+ingresses:
+  ## Public / Internet facing Ingress
+  - enabled: true
+    # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+    hostname: trace-consumer-controlplane.dev.demo.catena-x.net
+    # -- Additional ingress annotations to add
+    annotations:
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    # -- EDC endpoints exposed by this ingress resource
+    endpoints:
+      - ids
+    # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
+    className: "nginx"
+    # -- Enables TLS on the ingress resource
+    tls: true
+    ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
+    certManager:
+      clusterIssuer: letsencrypt-prod
+
+resources:
+  limits:
+    cpu: 1.5
+    memory: 512Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
+configuration:
+  # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
+  properties: |-
+    web.http.default.port=8080
+    web.http.default.path=/api
+    web.http.data.port=8181
+    web.http.data.path=/data
+    web.http.validation.port=8182
+    web.http.validation.path=/validation
+    web.http.control.port=9999
+    web.http.control.path=/api/controlplane/control
+    web.http.ids.port=8282
+    web.http.ids.path=/BPNL00000003CML1/api/v1/ids
+    edc.api.control.auth.apikey.key=X-Api-Key
+    # Postgresql related configuration
+    edc.datasource.asset.name=asset
+    edc.datasource.asset.url=jdbc:postgresql://traceability-database-postgresql-hl:5432/edc?currentSchema=consumer
+    edc.datasource.asset.user=edc
+    edc.datasource.contractdefinition.name=contractdefinition
+    edc.datasource.contractdefinition.url=jdbc:postgresql://traceability-database-postgresql-hl:5432/edc?currentSchema=consumer
+    edc.datasource.contractdefinition.user=edc
+    edc.datasource.contractnegotiation.name=contractnegotiation
+    edc.datasource.contractnegotiation.url=jdbc:postgresql://traceability-database-postgresql-hl:5432/edc?currentSchema=consumer
+    edc.datasource.contractnegotiation.user=edc
+    edc.datasource.policy.name=policy
+    edc.datasource.policy.url=jdbc:postgresql://traceability-database-postgresql-hl:5432/edc?currentSchema=consumer
+    edc.datasource.policy.user=edc
+    edc.datasource.transferprocess.name=transferprocess
+    edc.datasource.transferprocess.url=jdbc:postgresql://traceability-database-postgresql-hl:5432/edc?currentSchema=consumer
+    edc.datasource.transferprocess.user=edc
+    edc.hostname=trace-consumer-controlplane.dev.demo.catena-x.net
+    edc.ids.catalog.id=urn:catalog:default
+    edc.ids.description="Eclipse Dataspace Connector"
+    edc.ids.endpoint=https://trace-consumer-controlplane.dev.demo.catena-x.net/BPNL00000003CML1/api/v1/ids
+    ids.webhook.address=https://trace-consumer-controlplane.dev.demo.catena-x.net
+    edc.ids.id=urn:connector:edc
+    edc.ids.security.profile=base
+    edc.ids.title="Eclipse Dataspace Connector"
+    edc.receiver.http.endpoint=http://trace-api-wrapper:9192/callback/endpoint-data-reference
+    edc.transfer.proxy.endpoint=https://trace-consumer-dataplane.dev.demo.catena-x.net/api/public
+    edc.transfer.proxy.token.verifier.publickey.alias=token-signer-cert-dev
+    edc.transfer.proxy.token.signer.privatekey.alias=token-signer-cert-key-dev
+    edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+    edc.vault.hashicorp.health.check.enabled=true
+    edc.vault.hashicorp.health.check.standby.ok=true
+    edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+    edc.oauth.public.key.alias=daps-cert-dev
+    edc.oauth.private.key.alias=daps-cert-key-dev
+    edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+    edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+    edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+    edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
