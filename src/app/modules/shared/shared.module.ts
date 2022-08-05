@@ -55,6 +55,8 @@ import { ShortenPipe } from './pipes/shorten.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
 
 @NgModule({
   declarations: [
@@ -126,6 +128,15 @@ import { TemplateModule } from './template.module';
     TextareaComponent,
     ErrorMessagePipe,
   ],
-  providers: [FormatDatePipe, StaticIdService, PartsService, ErrorMessagePipe],
+  providers: [
+    FormatDatePipe,
+    StaticIdService,
+    PartsService,
+    ErrorMessagePipe,
+    {
+      provide: MatPaginatorIntl,
+      useClass: PaginatorIntlService,
+    },
+  ],
 })
 export class SharedModule {}

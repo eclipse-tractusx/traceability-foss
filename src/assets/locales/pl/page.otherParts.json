@@ -2,8 +2,8 @@
   "pageParts": {
     "title": "Catena-X Części",
     "tab": {
-      "customer": "Customer Parts TBD.",
-      "supplier": "Supplier Parts TBD."
+      "customer": "Części klienta",
+      "supplier": "Części dostawcy"
     },
     "column": {
       "name": "Nazwa",
@@ -25,5 +25,21 @@
     "manufacturer": "Producent",
     "nameAtCustomer": "Nazwa u klienta",
     "customerPartId": "ID części u klienta"
+  },
+  "page": {
+    "selectedParts": {
+      "info_one": "{{count}} część została wybrana",
+      "info_few": "{{count}} części została wybrana",
+      "info_many": "{{count}} części została wybrana",
+      "action": "Rozpocznij badanie jakości"
+    },
+    "requestInvestigations": {
+      "headline": "Zacznij badanie jakości",
+      "partDescription": "Wybrano następny części",
+      "textAreaDescription": "Dodaj opis badania",
+      "textAreaLabel": "Opis",
+      "cancel": "ANULOWAĆ",
+      "submit": "DODAĆ DO KOLEJKI"
+    }
   }
 }

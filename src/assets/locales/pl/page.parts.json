@@ -27,7 +27,7 @@
     "customerPartId": "ID części u klienta"
   },
   "relation": {
-    "increase": "Used to zoom into the tree TBD.",
-    "decrease": "Used to zoom out of the tre TBD.e"
+    "increase": "Uzyte do powiększenia drzewa.",
+    "decrease": "Uzyte do zmniejszenia drzewa."
   }
 }

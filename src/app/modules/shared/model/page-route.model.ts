@@ -17,17 +17,7 @@
  * under the License.
  */
 
-import { realm } from '@core/api/api.service.properties';
-import { InvestigationStatusGroup } from '@shared/model/investigations.model';
-import { PageRoute } from '@shared/model/page-route.model';
-
-export const INVESTIGATION_TOP_ROUTE = 'investigations';
-
-export const getInvestigationInboxRoute = (investigationStatusGroup?: InvestigationStatusGroup): PageRoute => ({
-  link: `${realm}/${INVESTIGATION_TOP_ROUTE}`,
-  queryParams: investigationStatusGroup
-    ? {
-        tabIndex: String(Object.values(InvestigationStatusGroup).indexOf(investigationStatusGroup)),
-      }
-    : undefined,
-});
+export interface PageRoute {
+  link: string;
+  queryParams?: Record<string, string>;
+}

@@ -21,8 +21,14 @@ import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { defaultRealm, realm } from '@core/api/api.service.properties';
 import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
+import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
+import { PageRoute } from '@shared/model/page-route.model';
+import { getAdminRoute } from '@page/admin/admin-route';
+import { getOtherPartsRoute } from '@page/other-parts/other-parts-route';
+import { getPartsRoute } from '@page/parts/parts-route';
+import { getAboutRoute } from '@page/about/about-route';
+import { getDashboardRoute } from '@page/dashboard/dashboard-route';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,20 +38,19 @@ import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 export class SidebarComponent {
   @Input() expanded: boolean;
 
-  public realm = '';
   public activeMenu = '';
   public ownLabel = '';
   public otherLabel = '';
   public qualityAlertsBadge$: Observable<number>;
   public qualityInvestigationsBadge$: Observable<number>;
 
-  private readonly menu = {
-    dashboard: '',
-    about: '',
-    parts: '',
-    otherParts: '',
-    investigations: '',
-    admin: '',
+  private readonly menu: Record<string, PageRoute> = {
+    dashboard: getDashboardRoute(),
+    about: getAboutRoute(),
+    parts: getPartsRoute(),
+    otherParts: getOtherPartsRoute(),
+    investigations: getInvestigationInboxRoute(),
+    admin: getAdminRoute(),
   };
 
   get sidebarWidth(): number {
@@ -53,21 +58,12 @@ export class SidebarComponent {
   }
 
   constructor(private router: Router, private layoutFacade: LayoutFacade) {
-    this.realm = realm || defaultRealm;
-    this.menu = {
-      dashboard: `/${this.realm}`,
-      about: `/${this.realm}/about`,
-      parts: `/${this.realm}/parts`,
-      otherParts: `/${this.realm}/otherParts`,
-      investigations: `/${this.realm}/investigations`,
-      admin: `/${this.realm}/admin`,
-    };
-
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((r: NavigationEnd) => {
+      const endUrl = r.urlAfterRedirects ?? r.url;
       const keys: string[] = Object.keys(this.menu);
-      const parentRoute: string = keys.find(key => this.menu[key] === r.url);
+      const parentRoute: string = keys.find(key => this.menu[key].link === endUrl);
 
-      this.activeMenu = parentRoute || keys.find(menuKey => r.url.includes(menuKey));
+      this.activeMenu = parentRoute || keys.find(menuKey => endUrl.includes(menuKey));
     });
 
     this.getSidebarLabels();
@@ -76,7 +72,7 @@ export class SidebarComponent {
   }
 
   public navigate(item: string): void {
-    this.router.navigate([this.menu[item]]).then();
+    this.router.navigate([this.menu[item].link]).then();
     this.activeMenu = item;
     this.layoutFacade.setTabIndex(0);
   }

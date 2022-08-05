@@ -52,19 +52,27 @@
     "TouchPanBlocker.Message": "Użyj dwóch palców, aby przesunąć mapę"
   },
   "errorMessage": {
-    "min": "Please enter a number that is larger than: {{min}}.",
-    "max": "Please enter a number that is smaller than: {{max}}.",
-    "required": "This field is required!",
-    "requiredTrue": "This checkbox must be checked!",
-    "email": "Please enter a valid E-Mail.",
-    "minLength": "Please enter a text that is larger than: {{minLength}}.",
-    "maxLength": "Please enter a text that is smaller than: {{maxLength}}.",
-    "pattern": "Please enter data that matches this pattern: {{pattern}}.",
-    "generic": "Please enter valid data."
+    "min": "Liczba powinna być większa od {{min}}.",
+    "max": "Liczba powinna być mniejsza od {{max}}.",
+    "required": "Pole jest wymagane.",
+    "requiredTrue": "Pole musi być zaznaczone.",
+    "email": "Niepoprawny email.",
+    "minLength": "Tekst powinien zawierać co najmniej {{minLength}} znaków.",
+    "maxLength": "Tekst powinien zawierać maksymalnie {{maxLength}} znaków.",
+    "pattern": "Nie odpowiada wzorcowi: {{pattern}}.",
+    "generic": "Nieprawidłowe dane."
   },
   "qualityInvestigation": {
-    "success_one": "You queued an investigation for {{count}} Part",
-    "success_other": "You queued an investigation for {{count}} Parts",
-    "goToQueue": "Go to Queue"
+    "success": "Badanie skolejkowane dla {{count}} części",
+    "goToQueue": "Otwórz Kolejke"
+  },
+  "pagination": {
+    "itemsPerPageLabel": "Elementów na stronie:",
+    "nextPageLabel": "Następna strona",
+    "previousPageLabel": "Poprzednia strona",
+    "firstPageLabel": "Pierwsza strone",
+    "lastPageLabel": "Ostatnia strona",
+    "emptyRange": "0 z {{length}}",
+    "range": "{{startIndex}} – {{endIndex}} z {{length}}"
   }
 }

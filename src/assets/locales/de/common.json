@@ -57,5 +57,14 @@
     "success_one": "You queued an investigation for {{count}} Part",
     "success_other": "You queued an investigation for {{count}} Parts",
     "goToQueue": "Go to Queue"
+  },
+  "pagination": {
+    "itemsPerPageLabel": "Items per page:",
+    "nextPageLabel": "Next page",
+    "previousPageLabel": "Previous page",
+    "firstPageLabel": "First page",
+    "lastPageLabel": "Last page",
+    "emptyRange": "0 of {{length}}",
+    "range": "{{startIndex}} – {{endIndex}} of {{length}}"
   }
 }
