@@ -9,7 +9,8 @@
       "serialNumber": "Numer seryjny",
       "qualityType": "Typ jakości",
       "productionDate": "Data produkcji",
-      "productionCountry": "Kraj produkcji"
+      "productionCountry": "Kraj produkcji",
+      "childInvestigation": "Child Investigation"
     }
   },
   "partDetail": {
@@ -29,5 +30,13 @@
   "relation": {
     "increase": "Used to zoom into the tree TBD.",
     "decrease": "Used to zoom out of the tre TBD.e"
+  },
+  "page": {
+    "childInvestigation": {
+      "action": "Start investigation"
+    },
+    "requestInvestigations": {
+      "partDescription": "It May take a while to load the name of your selected parts."
+    }
   }
 }

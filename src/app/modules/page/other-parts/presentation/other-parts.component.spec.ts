@@ -17,9 +17,23 @@
  * under the License.
  */
 
-import { screen } from '@testing-library/angular';
+import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
+import { firstValueFrom } from 'rxjs';
+import {
+  OTHER_PARTS_MOCK_1,
+  OTHER_PARTS_MOCK_2,
+  OTHER_PARTS_MOCK_3,
+  OTHER_PARTS_MOCK_4,
+  OTHER_PARTS_MOCK_5,
+  OTHER_PARTS_MOCK_6,
+  OTHER_PARTS_MOCK_7,
+  OTHER_PARTS_MOCK_8,
+  OTHER_PARTS_MOCK_9,
+} from '../../../../mocks/services/otherParts-mock/otherParts.model';
 import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 
@@ -28,9 +42,13 @@ describe('Other Parts', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
+  let otherPartsState: OtherPartsState;
+  beforeEach(() => (otherPartsState = new OtherPartsState()));
+
   const renderOtherParts = () =>
     renderComponent(OtherPartsComponent, {
       imports: [OtherPartsModule],
+      providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }],
       translations: ['page.otherParts'],
     });
 
@@ -121,5 +139,92 @@ describe('Other Parts', () => {
     componentInstance.onTabChange({ index: 0 } as any);
     componentInstance.removeItemFromSelection({ id: 'test' } as any);
     expect(componentInstance.selectedItems).toEqual([[{ id: 'test2' }], expected]);
+  });
+
+  describe('onTableConfigChange', () => {
+    it('should request supplier parts if first tab is selected', async () => {
+      await renderOtherParts();
+
+      const supplierTabElement = screen.getByText('Supplier Parts');
+      supplierTabElement.click();
+
+      await waitFor(() => expect(screen.getByText('Manufacturer')).toBeInTheDocument());
+      const tableHeaderElement = screen.getByText('Manufacturer');
+      tableHeaderElement.click();
+
+      const supplierParts = await firstValueFrom(otherPartsState.supplierParts$);
+      await waitFor(() =>
+        expect(supplierParts).toEqual({
+          data: {
+            content: [
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_7),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_8),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_9),
+            ],
+            page: 0,
+            pageCount: 1,
+            pageSize: 10,
+            totalItems: 5,
+          },
+          error: undefined,
+          loader: undefined,
+        }),
+      );
+    });
+
+    it('should request customer parts if second tab is selected', async () => {
+      await renderOtherParts();
+
+      const customerTabElement = screen.getByText('Customer Parts');
+      customerTabElement.click();
+
+      await waitFor(() => expect(screen.getByText('Manufacturer')).toBeInTheDocument());
+      const tableHeaderElement = screen.getByText('Manufacturer');
+      tableHeaderElement.click();
+
+      const customerParts = await firstValueFrom(otherPartsState.customerParts$);
+      await waitFor(() =>
+        expect(customerParts).toEqual({
+          data: {
+            content: [
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5),
+            ],
+            page: 0,
+            pageCount: 1,
+            pageSize: 10,
+            totalItems: 5,
+          },
+          error: undefined,
+          loader: undefined,
+        }),
+      );
+    });
+  });
+
+  it('should add item to current list', async () => {
+    const { fixture } = await renderOtherParts();
+    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
+
+    const supplierTabElement = screen.getByText('Supplier Parts');
+    supplierTabElement.click();
+
+    const selectAllElement = await waitFor(() => screen.getAllByTestId('select-one--test-id')[0]);
+    (selectAllElement.firstChild as HTMLElement).click();
+
+    const selectedText_1 = await waitFor(() => screen.getByText('1 Part selected for this page.'));
+    expect(selectedText_1).toBeInTheDocument();
+    expect(fixture.componentInstance.currentSelectedItems).toEqual([expectedPart]);
+
+    const customerTabElement = screen.getByText('Customer Parts');
+    customerTabElement.click();
+
+    const selectedText_2 = await waitFor(() => screen.getByText('0 Parts selected for this page.'));
+    expect(selectedText_2).toBeInTheDocument();
+    await waitFor(() => expect(fixture.componentInstance.currentSelectedItems).toEqual([]));
   });
 });

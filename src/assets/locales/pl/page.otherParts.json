@@ -25,5 +25,14 @@
     "manufacturer": "Producent",
     "nameAtCustomer": "Nazwa u klienta",
     "customerPartId": "ID części u klienta"
+  },
+  "page": {
+    "selectedParts": {
+      "info": "{{amount}} Part(s) selected for this page.",
+      "action": "Start investigation"
+    },
+    "requestInvestigations": {
+      "partDescription": "You selected the following parts:"
+    }
   }
 }

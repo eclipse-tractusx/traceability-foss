@@ -17,21 +17,22 @@
  * under the License.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-parts',
   templateUrl: './parts.component.html',
   styleUrls: ['./parts.component.scss'],
 })
-export class PartsComponent implements OnInit {
+export class PartsComponent implements OnInit, AfterViewInit {
+  @ViewChild('statusTmp') statusTmp: TemplateRef<unknown>;
   public readonly displayedColumns: string[] = [
     'id',
     'name',
@@ -41,6 +42,7 @@ export class PartsComponent implements OnInit {
     'qualityType',
     'productionDate',
     'productionCountry',
+    'childInvestigation',
   ];
 
   public readonly sortableColumns: Record<string, boolean> = {
@@ -54,26 +56,59 @@ export class PartsComponent implements OnInit {
     productionCountry: true,
   };
 
+  public tableConfig: TableConfig;
+
+  public readonly isInvestigationOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public readonly parts$: Observable<View<Pagination<Part>>>;
-  public readonly tableConfig: TableConfig = {
-    displayedColumns: this.displayedColumns,
-    header: this.displayedColumns.map(column => `pageParts.column.${column}`),
-    sortableColumns: this.sortableColumns,
-  };
+  public readonly currentSelectedItems$: Observable<Part[]>;
 
   constructor(private readonly partsFacade: PartsFacade, private readonly partDetailsFacade: PartDetailsFacade) {
     this.parts$ = this.partsFacade.parts$;
+    this.currentSelectedItems$ = this.partsFacade.selectedParts$;
   }
 
   public ngOnInit(): void {
     this.partsFacade.setParts();
   }
 
-  public onSelectItem($event: Record<string, unknown>) {
+  public ngAfterViewInit(): void {
+    this.tableConfig = {
+      displayedColumns: this.displayedColumns,
+      header: this.displayedColumns.map(column => `pageParts.column.${column}`),
+      sortableColumns: this.sortableColumns,
+      cellRenderers: {
+        childInvestigation: this.statusTmp,
+      },
+    };
+  }
+
+  public onSelectItem($event: Record<string, unknown>): void {
     this.partDetailsFacade.selectedPart = $event as unknown as Part;
   }
 
-  onTableConfigChange({ page, pageSize, sorting }: TableEventConfig) {
+  public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     this.partsFacade.setParts(page, pageSize, sorting);
+  }
+
+  public startInvestigation(event: MouseEvent, row: Part): void {
+    event.stopPropagation();
+    this.isInvestigationOpen$.next(true);
+    this.partsFacade.setSelectedParts(
+      row.children.filter((value, index, self) => {
+        return self.indexOf(value) === index;
+      }),
+    );
+  }
+
+  public removeItemFromSelection(part: Part): void {
+    this.partsFacade.removeSelectedPart(part);
+  }
+
+  public addItemToSelection(part: Part): void {
+    this.partsFacade.addItemToSelection(part);
+  }
+
+  public clearSelected(): void {
+    this.partsFacade.selectedParts = [];
   }
 }

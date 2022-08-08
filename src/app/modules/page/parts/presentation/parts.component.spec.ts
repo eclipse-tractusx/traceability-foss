@@ -17,10 +17,14 @@
  * under the License.
  */
 
+import { Part } from '@page/parts/model/parts.model';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
-import { screen } from '@testing-library/angular';
+import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
+import { SharedModule } from '@shared/shared.module';
+import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
+import { MOCK_part_1, MOCK_part_2 } from '../../../../mocks/services/parts-mock/parts.model';
 import { PartsModule } from '../parts.module';
 
 describe('Parts', () => {
@@ -30,7 +34,7 @@ describe('Parts', () => {
 
   const renderParts = () => {
     return renderComponent(PartsComponent, {
-      imports: [PartsModule],
+      imports: [PartsModule, SharedModule],
       translations: ['page.parts'],
     });
   };
@@ -60,6 +64,19 @@ describe('Parts', () => {
 
     const sideNavElement = await screen.findByTestId('sidenav--test-id');
     expect(sideNavElement).toBeInTheDocument();
-    expect(sideNavElement).not.toHaveClass('part-detail--open');
+    expect(sideNavElement).not.toHaveClass('sidenav--container__open');
+  });
+
+  it('should open an investigation and remove duplicate children', async () => {
+    const { fixture } = await renderParts();
+    const children = [MOCK_part_1.id, MOCK_part_2.id, MOCK_part_1.id];
+    fixture.componentInstance.startInvestigation(new MouseEvent('click'), { children } as Part);
+
+    const sideNavElement = await screen.findByTestId('sidenav--test-id');
+    expect(sideNavElement).toBeInTheDocument();
+    await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));
+    expect(screen.getByText('Request quality investigation')).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText(MOCK_part_1.id)).toBeInTheDocument());
+    expect(screen.getAllByText(MOCK_part_1.id).length).toBe(1);
   });
 });
