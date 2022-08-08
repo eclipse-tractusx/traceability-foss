@@ -24,7 +24,8 @@ import { LoadedElementsState } from '@shared/modules/relations/core/loaded-eleme
 import { RelationsFacade } from '@shared/modules/relations/core/relations.facade';
 import { TreeElement } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
-import { of, firstValueFrom } from 'rxjs';
+import { waitFor } from '@testing-library/angular';
+import { of, firstValueFrom, lastValueFrom } from 'rxjs';
 import { map, skip, tap } from 'rxjs/operators';
 import {
   MOCK_part_1,
@@ -122,24 +123,25 @@ describe('Relations facade', () => {
     it('should delete open element', async () => {
       const { id, childDescriptions } = MOCK_part_1;
       const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
-      const expected = {
+      const expected_all = {
         [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childDescriptions),
+        [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childDescriptions),
         [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childDescriptions),
       };
 
       relationsFacade.openElementWithChildren(mockTreeElement);
-      let isImplemented = false;
-      const openElements = await firstValueFrom(
-        componentStateMock.openElements$.pipe(
-          tap(_ => {
-            if (!isImplemented) {
-              isImplemented = true;
-              relationsFacade.deleteOpenElement(MOCK_part_2.id);
-            }
-          }),
-        ),
-      );
-      expect(openElements).toEqual(expected);
+      const allOpenElements = await firstValueFrom(componentStateMock.openElements$);
+      await waitFor(() => expect(allOpenElements).toEqual(expected_all));
+
+      relationsFacade.deleteOpenElement(MOCK_part_2.id);
+
+      const expected_deleted = {
+        [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childDescriptions),
+        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childDescriptions),
+      };
+
+      const deletedOpenElements = await firstValueFrom(componentStateMock.openElements$);
+      await waitFor(() => expect(deletedOpenElements).toEqual(expected_deleted));
     });
   });
 
