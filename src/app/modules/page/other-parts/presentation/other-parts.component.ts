@@ -50,22 +50,22 @@ export class OtherPartsComponent implements OnInit {
     productionDate: true,
   };
 
-  public tableConfig: TableConfig = {
+  public readonly tableConfig: TableConfig = {
     displayedColumns: this.displayedColumns,
     header: this.displayedColumns.map(column => `pageParts.column.${column}`),
     sortableColumns: this.sortableColumns,
   };
 
-  public selectedItems: Array<Array<Part>> = [];
-  public selectedTab = 0;
+  public readonly customerParts$: Observable<View<Pagination<Part>>>;
+  public readonly supplierParts$: Observable<View<Pagination<Part>>>;
 
-  public deselectPartTrigger$: Subject<Part[]> = new Subject();
+  public readonly deselectPartTrigger$: Subject<Part[]> = new Subject();
   public addPartTrigger$: Subject<Part> = new Subject();
 
-  public customerParts$: Observable<View<Pagination<Part>>>;
-  public supplierParts$: Observable<View<Pagination<Part>>>;
-
   public readonly isInvestigationOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public readonly selectedItems: Array<Array<Part>> = [];
+
+  public selectedTab = 0;
 
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,

@@ -55,15 +55,15 @@ export class ViewContainerDirective<T> implements AfterViewInit {
     }
   }
 
-  private context: ViewContext<T> = new ViewContext<T>();
+  private readonly context: ViewContext<T> = new ViewContext<T>();
   private mainTemplateRef: TemplateRef<ViewContext<T>> = null;
   private errorTemplateRef: TemplateRef<ViewContext<T>> = null;
   private loaderTemplateRef: TemplateRef<ViewContext<T>> = null;
   private currentTemplateRef: TemplateRef<ViewContext<T>> = null;
 
-  constructor(private viewContainerRef: ViewContainerRef) {}
+  constructor(private readonly viewContainerRef: ViewContainerRef) {}
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     if (!this.loaderTemplateRef) throw new Error('View Pattern: Missing Loader Template');
     if (!this.errorTemplateRef) throw new Error('View Pattern: Missing Error Template');
     if (!this.mainTemplateRef) throw new Error('View Pattern: Missing Main Template');

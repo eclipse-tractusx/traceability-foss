@@ -27,7 +27,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 export class TooltipDirective {
   @Input() tooltip: string;
 
-  public appTooltip: MatTooltip;
+  public readonly appTooltip: MatTooltip;
 
   @HostListener('mouseover') mouseover(): void {
     this.appTooltip.message = this.tooltip;

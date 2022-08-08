@@ -14,18 +14,13 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
 <div *ngIf="this.notifications.length > 0" class="flex flex-col flex-wrap h-full">
   <ng-container *ngFor="let notification of this.notifications.reverse()">
     <div [@notify]="'show'">
-      <div
-        [ngClass]="{
-          'slide-left': notification.isSliderON,
-          'slide-right': !notification.isSliderON
-        }"
-      >
+      <div [class.slide-left]="notification.isSliderON" [class.slide-right]="!notification.isSliderON">
         <app-notification-message
           [notifierMessage]="notification"
           (removeNotification)="this.remove($event)"

@@ -31,7 +31,7 @@ import { OpenElements, TreeData, TreeElement, TreeStructure } from '@shared/modu
 import { StaticIdService } from '@shared/service/staticId.service';
 import * as d3 from 'd3';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { debounceTime, delay, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
+import { debounceTime, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
 import Minimap, { MinimapData } from './minimap/minimap.d3';
 import Tree from './tree/tree.d3';
 
@@ -48,9 +48,9 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() zoom: number;
 
   public readonly htmlIdBase = 'app-part-relation-';
-  public subscriptions = new Subscription();
-  public rootPart$: Observable<View<Part>>;
-  public htmlId: string;
+  public readonly subscriptions = new Subscription();
+  public readonly rootPart$: Observable<View<Part>>;
+  public readonly htmlId: string;
 
   private _rootPart$ = new State<View<Part>>({ loader: true });
   private tree: Tree;
@@ -64,7 +64,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly route: ActivatedRoute,
     staticIdService: StaticIdService,
   ) {
-    this.rootPart$ = this._rootPart$.observable.pipe(delay(0), debounceTime(100));
+    this.rootPart$ = this._rootPart$.observable.pipe(debounceTime(100));
     this.htmlId = staticIdService.generateId(this.htmlIdBase);
   }
 

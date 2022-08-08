@@ -27,7 +27,7 @@ import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-part-detail',
@@ -38,18 +38,21 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;
   @Output() closeSidebar = new EventEmitter<void>();
 
-  public partDetails$: Observable<View<Part>>;
-  public relationPartDetails$: Observable<View<Part>>;
-  public manufacturerDetails$: Observable<View<Part>>;
-  public customerDetails$: Observable<View<Part>>;
+  public readonly partDetails$: Observable<View<Part>>;
+  public readonly relationPartDetails$: Observable<View<Part>>;
+  public readonly manufacturerDetails$: Observable<View<Part>>;
+  public readonly customerDetails$: Observable<View<Part>>;
 
   public showQualityTypeDropdown = false;
   public qualityTypeOptions: SelectOption[];
 
-  private readonly _isOpen$: State<boolean> = new State<boolean>(false);
+  public readonly isOpen$: Observable<boolean>;
   public selectedValue: QualityType;
 
+  private readonly isOpenState: State<boolean> = new State<boolean>(false);
+
   constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router) {
+    this.isOpen$ = this.isOpenState.observable;
     this.relationPartDetails$ = this.partDetailsFacade.selectedPart$;
     this.partDetails$ = this.partDetailsFacade.selectedPart$.pipe(
       PartsAssembler.mapPartForView(),
@@ -65,26 +68,16 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     }));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.partDetailsFacade.selectedPart = null;
   }
 
-  ngAfterViewInit(): void {
-    this.partDetailsFacade.selectedPart$.subscribe(detailView => {
-      if (!detailView.data) {
-        return;
-      }
-
-      this.isOpen = true;
-    });
+  public ngAfterViewInit(): void {
+    this.partDetailsFacade.selectedPart$.pipe(filter(({ data }) => !!data)).subscribe(_ => this.setIsOpen(true));
   }
 
-  get isOpen$(): Observable<boolean> {
-    return this._isOpen$.observable;
-  }
-
-  set isOpen(openState: boolean) {
-    this._isOpen$.update(openState);
+  public setIsOpen(openState: boolean) {
+    this.isOpenState.update(openState);
 
     if (!openState) {
       this.partDetailsFacade.selectedPart = null;

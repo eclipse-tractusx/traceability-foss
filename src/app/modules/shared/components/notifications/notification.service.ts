@@ -19,8 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { NotificationMessage } from './notification-message/notification-message';
-import { NotificationStatus } from './notification-message/notification-status';
+import { NotificationMessage, NotificationStatus } from './notification-message/notification-message.model';
 
 @Injectable({
   providedIn: 'root',

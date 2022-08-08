@@ -23,7 +23,6 @@ import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { DashboardModule } from '../dashboard.module';
-
 import { DashboardComponent } from './dashboard.component';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({

@@ -30,9 +30,9 @@ import { FormatDatePipe } from './format-date.pipe';
  */
 @Pipe({ name: 'autoFormat', pure: false })
 export class AutoFormatPipe implements PipeTransform {
-  constructor(private formatDatePipe: FormatDatePipe) {}
+  constructor(private readonly formatDatePipe: FormatDatePipe) {}
 
-  transform(value: unknown): string {
+  public transform(value: unknown): string {
     if (value instanceof CalendarDateModel) {
       return this.formatDatePipe.transform(value);
     }

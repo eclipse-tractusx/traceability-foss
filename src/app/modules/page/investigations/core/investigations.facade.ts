@@ -18,12 +18,10 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Pagination } from '@core/model/pagination.model';
-import { Investigation, InvestigationStatusGroup } from '@shared/model/investigations.model';
+import { Investigations, InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { InvestigationsState } from './investigations.state';
 
 @Injectable()
@@ -36,14 +34,12 @@ export class InvestigationsFacade {
     private readonly investigationsState: InvestigationsState,
   ) {}
 
-  get investigationsReceived$(): Observable<View<Pagination<Investigation>>> {
-    // IMPORTANT: this delay is needed for view-container directive
-    return this.investigationsState.investigationsReceived$.pipe(delay(0));
+  public get investigationsReceived$(): Observable<View<Investigations>> {
+    return this.investigationsState.investigationsReceived$;
   }
 
-  get investigationsQueuedNRequested$(): Observable<View<Pagination<Investigation>>> {
-    // IMPORTANT: this delay is needed for view-container directive
-    return this.investigationsState.investigationsQueuedAndRequested$.pipe(delay(0));
+  public get investigationsQueuedNRequested$(): Observable<View<Investigations>> {
+    return this.investigationsState.investigationsQueuedAndRequested$;
   }
 
   public setReceivedInvestigation(page = 0, pageSize = 5): void {
@@ -51,12 +47,8 @@ export class InvestigationsFacade {
     this.investigationReceivedSubscription = this.investigationsService
       .getInvestigationsByType(InvestigationStatusGroup.RECEIVED, page, pageSize)
       .subscribe({
-        next: (data: Pagination<Investigation>) => {
-          this.investigationsState.investigationsReceived = { data };
-        },
-        error: (error: Error) => {
-          this.investigationsState.investigationsReceived = { error };
-        },
+        next: data => (this.investigationsState.investigationsReceived = { data }),
+        error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
       });
   }
 
@@ -65,12 +57,8 @@ export class InvestigationsFacade {
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
       .getInvestigationsByType(InvestigationStatusGroup.QUEUED_AND_REQUESTED, page, pageSize)
       .subscribe({
-        next: (data: Pagination<Investigation>) => {
-          this.investigationsState.investigationsQueuedAndRequested = { data };
-        },
-        error: (error: Error) => {
-          this.investigationsState.investigationsQueuedAndRequested = { error };
-        },
+        next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
+        error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),
       });
   }
 }

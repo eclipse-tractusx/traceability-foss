@@ -18,41 +18,20 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { State } from '../model/state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayoutState {
-  private readonly qualityInvestigationBadge$: State<number> = new State<number>(0);
-  private readonly tabIndex$: State<number> = new State<number>(-1);
-  private readonly receivedQualityAlertsCounter$: State<number> = new State<number>(0);
   private readonly isSideBarExpanded$: State<boolean> = new State<boolean>(false);
+  private readonly _breadcrumbLabel: string;
 
-  private breadcrumbLabel: string;
-
-  get getQualityInvestigationBadge$(): Observable<number> {
-    return this.qualityInvestigationBadge$.observable;
+  public get breadcrumbLabel(): string {
+    return this._breadcrumbLabel;
   }
 
-  get getBreadCrumbLabel(): string {
-    return this.breadcrumbLabel;
-  }
-
-  get getTabIndex$(): Observable<number> {
-    return this.tabIndex$.observable;
-  }
-
-  get getReceivedQualityAlertsCounter$(): Observable<number> {
-    return this.receivedQualityAlertsCounter$.observable;
-  }
-
-  public setTabIndex(index: number): void {
-    this.tabIndex$.update(index);
-  }
-
-  public setIsSideBarExpanded(isSideBarExpanded: boolean): void {
+  public set isSideBarExpanded(isSideBarExpanded: boolean) {
     this.isSideBarExpanded$.update(isSideBarExpanded);
   }
 }

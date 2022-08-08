@@ -26,7 +26,7 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private httpClient: HttpClient, private authService: AuthService) {}
+  constructor(private readonly httpClient: HttpClient, private readonly authService: AuthService) {}
 
   private static stringifyBody<T>(body: T | null): string {
     return JSON.stringify(body === null ? {} : body);

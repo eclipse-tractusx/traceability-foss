@@ -29,11 +29,11 @@ export class PartsState {
   private readonly _parts$ = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _selectedParts$ = new State<Part[]>(null);
 
-  get parts$(): Observable<View<Pagination<Part>>> {
+  public get parts$(): Observable<View<Pagination<Part>>> {
     return this._parts$.observable;
   }
 
-  set parts({ data, loader, error }: View<Pagination<Part>>) {
+  public set parts({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
     this._parts$.update(partsView);
   }

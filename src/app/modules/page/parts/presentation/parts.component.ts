@@ -100,15 +100,15 @@ export class PartsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  public removeItemFromSelection(part: Part) {
+  public removeItemFromSelection(part: Part): void {
     this.partsFacade.removeSelectedPart(part);
   }
 
-  public addItemToSelection(part: Part) {
+  public addItemToSelection(part: Part): void {
     this.partsFacade.addItemToSelection(part);
   }
 
-  public clearSelected() {
+  public clearSelected(): void {
     this.partsFacade.selectedParts = [];
   }
 }

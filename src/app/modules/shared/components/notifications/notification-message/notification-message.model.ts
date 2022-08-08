@@ -17,22 +17,28 @@
  * under the License.
  */
 
-import { Component } from '@angular/core';
-import { Step } from '@shared/components/wizard/step.model';
-import { Observable } from 'rxjs';
-import { WizardFacade } from '../wizard.facade';
+/**
+ * Types or status of notification messages
+ * Success status - shows the notification with a green status bar, typically used to inform the user
+ * warning status - shows the notification with a yellow status bar, typically used to alert the user
+ * error status - shows the notification with a red status bar, typically used for error messages
+ * informative status - shows the notification with a blue status bar, typically used for informative messages
+ */
 
-@Component({
-  selector: 'app-steps',
-  templateUrl: './steps.component.html',
-  styleUrls: ['./steps.component.scss'],
-})
-export class StepsComponent {
-  public steps$: Observable<Step[]>;
-  public currentStep$: Observable<Step>;
+export const enum NotificationStatus {
+  Success = 1,
+  Warning = 2,
+  Error = 3,
+  Informative = 4,
+}
 
-  constructor(private wizardFacade: WizardFacade) {
-    this.steps$ = this.wizardFacade.steps$;
-    this.currentStep$ = this.wizardFacade.currentStep$;
-  }
+export class NotificationMessage {
+  public isSliderON = true;
+
+  constructor(
+    public id: number,
+    public message: string,
+    public status: NotificationStatus | null,
+    public timeout: number,
+  ) {}
 }

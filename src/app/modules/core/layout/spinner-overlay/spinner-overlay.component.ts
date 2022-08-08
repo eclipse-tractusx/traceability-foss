@@ -29,7 +29,7 @@ import { SpinnerOverlayService } from './spinner-overlay.service';
 export class SpinnerOverlayComponent {
   public isOverlayLoading$: Observable<boolean>;
 
-  constructor(private spinnerOverlyService: SpinnerOverlayService) {
+  constructor(private readonly spinnerOverlyService: SpinnerOverlayService) {
     this.isOverlayLoading$ = this.spinnerOverlyService.isOverlayShowing$;
   }
 }

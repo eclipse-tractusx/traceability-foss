@@ -17,17 +17,14 @@
  * under the License.
  */
 
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { InvestigationStatus } from '@shared/model/investigations.model';
 
 @Component({
   selector: 'app-investigation-status',
   templateUrl: './investigation-status.component.html',
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: ['./investigation-status.component.scss'],
 })
 export class InvestigationStatusComponent {
-  @Input()
-  public status: InvestigationStatus;
-
-  public readonly InvestigationStatus = InvestigationStatus;
+  @Input() status: InvestigationStatus;
 }

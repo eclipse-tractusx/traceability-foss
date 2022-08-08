@@ -29,20 +29,20 @@ export class OtherPartsState {
   private readonly _customerParts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
   private readonly _supplierParts$: State<View<Pagination<Part>>> = new State<View<Pagination<Part>>>({ loader: true });
 
-  get customerParts$(): Observable<View<Pagination<Part>>> {
+  public get customerParts$(): Observable<View<Pagination<Part>>> {
     return this._customerParts$.observable;
   }
 
-  get supplierParts$(): Observable<View<Pagination<Part>>> {
+  public get supplierParts$(): Observable<View<Pagination<Part>>> {
     return this._supplierParts$.observable;
   }
 
-  set customerParts({ data, loader, error }: View<Pagination<Part>>) {
+  public set customerParts({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
     this._customerParts$.update(partsView);
   }
 
-  set supplierParts({ data, loader, error }: View<Pagination<Part>>) {
+  public set supplierParts({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
     this._supplierParts$.update(partsView);
   }

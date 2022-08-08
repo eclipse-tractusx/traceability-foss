@@ -29,17 +29,17 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
   encapsulation: ViewEncapsulation.None,
 })
 export class DashboardComponent implements OnInit {
-  public numberOfMyParts$: Observable<View<number>>;
-  public numberOfBranchParts$: Observable<View<number>>;
-  public assetsPerCountry$: Observable<View<any>>;
+  public readonly numberOfMyParts$: Observable<View<number>>;
+  public readonly numberOfBranchParts$: Observable<View<number>>;
+  public readonly assetsPerCountry$: Observable<View<any>>;
 
-  constructor(private dashboardFacade: DashboardFacade) {
+  constructor(private readonly dashboardFacade: DashboardFacade) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
     this.numberOfBranchParts$ = this.dashboardFacade.numberOfBranchParts$;
     this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.dashboardFacade.setNumberOfParts();
   }
 }

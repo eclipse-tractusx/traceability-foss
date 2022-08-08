@@ -25,7 +25,6 @@ import { Part } from '@page/parts/model/parts.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InvestigationsAssembler } from '../assembler/investigations.assembler';
-
 import {
   Investigation,
   InvestigationResponse,
@@ -38,9 +37,9 @@ import {
   providedIn: 'root',
 })
 export class InvestigationsService {
-  private url = environment.apiUrl;
+  private readonly url = environment.apiUrl;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   public getInvestigationsByType(
     type: InvestigationStatusGroup,

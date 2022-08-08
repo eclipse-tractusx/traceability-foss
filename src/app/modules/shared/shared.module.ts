@@ -27,39 +27,30 @@ import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
+import { CtaNotificationComponent } from './components/call-to-action-notifications/cta-notification.component';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
-import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
-import { CtaNotificationComponent } from './components/call-to-action-notifications/cta-notification.component';
 import { DataLoadingErrorComponent } from './components/data-loading-error/data-loading-error.component';
 import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
-import { QualityAlertEmptyStateComponent } from './components/quality-alert-empty-state/quality-alert-empty-state.component';
 import { SelectComponent } from './components/select/select.component';
 import { TableComponent } from './components/table/table.component';
-import { TabAsPanelDirective } from './components/tabs/tab-as-panel.directive';
-import { StepActionsComponent } from './components/wizard/step-actions.component';
-import { StepBodyComponent } from './components/wizard/step-body.component';
-import { StepsComponent } from './components/wizard/steps/steps.component';
-import { WizardComponent } from './components/wizard/wizard.component';
 import { RoleDirective } from './directives/role.directive';
+import { TabAsPanelDirective } from './directives/tabs/tab-as-panel.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { ViewContainerDirective } from './directives/view-container.directive';
 import { AutoFormatPipe } from './pipes/auto-format.pipe';
-import { FirstLetterUpperPipe } from './pipes/first-letter-upper.pipe';
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { I18nPipe } from './pipes/i18n.pipe';
-import { ShortenPipe } from './pipes/shorten.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
 
 @NgModule({
   declarations: [
-    ConfirmDialogComponent,
     NotificationContainerComponent,
     NotificationMessageComponent,
     BreadcrumbsComponent,
@@ -68,18 +59,11 @@ import { TemplateModule } from './template.module';
     TableComponent,
     TooltipDirective,
     RoleDirective,
-    ShortenPipe,
     I18nPipe,
-    FirstLetterUpperPipe,
     AutoFormatPipe,
     FormatDatePipe,
     ViewContainerDirective,
     AvatarComponent,
-    WizardComponent,
-    StepsComponent,
-    StepBodyComponent,
-    StepActionsComponent,
-    QualityAlertEmptyStateComponent,
     LanguageSelectorComponent,
     CardIconComponent,
     CardListComponent,
@@ -95,7 +79,6 @@ import { TemplateModule } from './template.module';
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
-    ConfirmDialogComponent,
     NotificationContainerComponent,
     NotificationMessageComponent,
     BreadcrumbsComponent,
@@ -104,18 +87,11 @@ import { TemplateModule } from './template.module';
     TableComponent,
     TooltipDirective,
     RoleDirective,
-    ShortenPipe,
     I18nPipe,
     FormatDatePipe,
     AutoFormatPipe,
-    FirstLetterUpperPipe,
     ViewContainerDirective,
     AvatarComponent,
-    WizardComponent,
-    StepsComponent,
-    StepBodyComponent,
-    StepActionsComponent,
-    QualityAlertEmptyStateComponent,
     I18NextModule,
     LanguageSelectorComponent,
     CardIconComponent,

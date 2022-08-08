@@ -25,7 +25,7 @@ import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
-import { catchError, delay, takeUntil, tap } from 'rxjs/operators';
+import { catchError, delay, takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
@@ -34,9 +34,8 @@ export class PartsFacade {
 
   constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {}
 
-  get parts$(): Observable<View<Pagination<Part>>> {
-    // IMPORTANT: this delay is needed for view-container directive
-    return this.partsState.parts$.pipe(delay(0));
+  public get parts$(): Observable<View<Pagination<Part>>> {
+    return this.partsState.parts$;
   }
 
   public setParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {

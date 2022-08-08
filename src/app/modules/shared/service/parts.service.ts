@@ -36,9 +36,8 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class PartsService {
-  private url = environment.apiUrl;
-
-  constructor(private apiService: ApiService) {}
+  private readonly url = environment.apiUrl;
+  constructor(private readonly apiService: ApiService) {}
 
   public getParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
     const sort = PartsAssembler.mapSortToApiSort(sorting);

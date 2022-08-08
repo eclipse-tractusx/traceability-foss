@@ -24,7 +24,8 @@ import { LoadedElementsState } from '@shared/modules/relations/core/loaded-eleme
 import { RelationsFacade } from '@shared/modules/relations/core/relations.facade';
 import { TreeElement } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
-import { of, Subscription } from 'rxjs';
+import { waitFor } from '@testing-library/angular';
+import { of, firstValueFrom, lastValueFrom } from 'rxjs';
 import { map, skip, tap } from 'rxjs/operators';
 import {
   MOCK_part_1,
@@ -35,13 +36,13 @@ import {
 
 describe('Relations facade', () => {
   const childDescriptionsToChild = children => children.map(({ id }) => id);
-  const subscriptions = new Subscription();
   let relationsFacade: RelationsFacade,
     loadedElementsFacade: LoadedElementsFacade,
     componentStateMock: RelationComponentState;
   beforeEach(() => {
     const partsServiceMok = {
-      getRelation: (partId, childId) => of(mockAssetList[childId]).pipe(map(part => PartsAssembler.assemblePart(part))),
+      getRelation: (_partId, childId) =>
+        of(mockAssetList[childId]).pipe(map(part => PartsAssembler.assemblePart(part))),
       getPart: id => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part))),
     } as PartsService;
 
@@ -49,10 +50,9 @@ describe('Relations facade', () => {
     componentStateMock = new RelationComponentState();
     relationsFacade = new RelationsFacade(partsServiceMok, loadedElementsFacade, componentStateMock);
   });
-  afterEach(() => subscriptions.unsubscribe());
 
   describe('openElementWithChildren', () => {
-    it('should set open elements state to new one', done => {
+    it('should set open elements state to new one', async () => {
       const { id, childDescriptions } = MOCK_part_1;
       const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
       const expected = {
@@ -62,29 +62,24 @@ describe('Relations facade', () => {
       };
 
       relationsFacade.openElementWithChildren(mockTreeElement);
-      const sub = componentStateMock.openElements$.subscribe(openElements => {
-        expect(openElements).toEqual(expected);
-        done();
-      });
-      subscriptions.add(sub);
+
+      const openElements = await firstValueFrom(componentStateMock.openElements$);
+      expect(openElements).toEqual(expected);
     });
   });
 
   describe('updateOpenElement', () => {
-    it('should not update open elements if element is not already open', done => {
+    it('should not update open elements if element is not already open', async () => {
       const { id, childDescriptions } = MOCK_part_1;
       const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
       const expected = {};
 
       relationsFacade.updateOpenElement(mockTreeElement);
-      const sub = componentStateMock.openElements$.subscribe(openElements => {
-        expect(openElements).toEqual(expected);
-        done();
-      });
-      subscriptions.add(sub);
+      const openElements = await firstValueFrom(componentStateMock.openElements$);
+      expect(openElements).toEqual(expected);
     });
 
-    it('should update open elements if it is already open', done => {
+    it('should update open elements if it is already open', async () => {
       const { id, childDescriptions } = MOCK_part_1;
       const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
       const mockUpdateTreeElement = { id: MOCK_part_2.id, children: [id] } as TreeElement;
@@ -96,8 +91,8 @@ describe('Relations facade', () => {
 
       relationsFacade.openElementWithChildren(mockTreeElement);
       let isImplemented = false;
-      const sub = componentStateMock.openElements$
-        .pipe(
+      const openElements = await firstValueFrom(
+        componentStateMock.openElements$.pipe(
           tap(_ => {
             if (!isImplemented) {
               isImplemented = true;
@@ -105,17 +100,14 @@ describe('Relations facade', () => {
             }
           }),
           skip(1),
-        )
-        .subscribe(openElements => {
-          expect(openElements).toEqual(expected);
-          done();
-        });
-      subscriptions.add(sub);
+        ),
+      );
+      expect(openElements).toEqual(expected);
     });
   });
 
   describe('deleteOpenElement', () => {
-    it('should delete opened element', done => {
+    it('should delete opened element', async () => {
       const { id, childDescriptions } = MOCK_part_1;
       const children = childDescriptionsToChild(childDescriptions);
       const mockTreeElement = { id, children } as TreeElement;
@@ -124,42 +116,37 @@ describe('Relations facade', () => {
       relationsFacade.openElementWithChildren(mockTreeElement);
       relationsFacade.deleteOpenElement(children[0]);
 
-      const sub = componentStateMock.openElements$.subscribe(openElements => {
-        expect(openElements).toEqual(expected);
-        done();
-      });
-      subscriptions.add(sub);
+      const openElements = await firstValueFrom(componentStateMock.openElements$);
+      expect(openElements).toEqual(expected);
     });
 
-    it('should delete open element', done => {
+    it('should delete open element', async () => {
       const { id, childDescriptions } = MOCK_part_1;
       const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
-      const expected = {
+      const expected_all = {
         [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childDescriptions),
+        [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childDescriptions),
         [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childDescriptions),
       };
 
       relationsFacade.openElementWithChildren(mockTreeElement);
-      let isImplemented = false;
-      const sub = componentStateMock.openElements$
-        .pipe(
-          tap(_ => {
-            if (!isImplemented) {
-              isImplemented = true;
-              relationsFacade.deleteOpenElement(MOCK_part_2.id);
-            }
-          }),
-        )
-        .subscribe(openElements => {
-          expect(openElements).toEqual(expected);
-          done();
-        });
-      subscriptions.add(sub);
+      const allOpenElements = await firstValueFrom(componentStateMock.openElements$);
+      await waitFor(() => expect(allOpenElements).toEqual(expected_all));
+
+      relationsFacade.deleteOpenElement(MOCK_part_2.id);
+
+      const expected_deleted = {
+        [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childDescriptions),
+        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childDescriptions),
+      };
+
+      const deletedOpenElements = await firstValueFrom(componentStateMock.openElements$);
+      await waitFor(() => expect(deletedOpenElements).toEqual(expected_deleted));
     });
   });
 
   describe('formatOpenElementsToTreeData', () => {
-    it('should format data', done => {
+    it('should format data', async () => {
       const expected = {
         id: 'MOCK_part_1',
         state: 'done',
@@ -216,12 +203,8 @@ describe('Relations facade', () => {
 
       loadedElementsFacade.addLoadedElement(mockTreeElement);
       relationsFacade.openElementWithChildren(mockTreeElement);
-      const sub = componentStateMock.openElements$.subscribe(openElements => {
-        expect(relationsFacade.formatOpenElementsToTreeData(openElements)).toEqual(expected);
-        done();
-      });
-
-      subscriptions.add(sub);
+      const openElements = await firstValueFrom(componentStateMock.openElements$);
+      expect(relationsFacade.formatOpenElementsToTreeData(openElements)).toEqual(expected);
     });
   });
 });

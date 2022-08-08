@@ -14,15 +14,15 @@ software distributed under the License is distributed on an
 "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
-under the License.    
+under the License.
 -->
 
 <ol class="breadcrumb">
   <li *ngFor="let breadcrumb of breadcrumbs; let i = index">
     <span
+      (click)="this.navigate(breadcrumb.url, i)"
       routerLink="{{ breadcrumb.url }}"
       routerLinkActive="router-link-active"
-      (click)="this.navigate(breadcrumb.url, i)"
     >
       {{ breadcrumb.label | i18n }}
     </span>

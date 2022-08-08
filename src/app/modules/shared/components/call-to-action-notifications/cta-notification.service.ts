@@ -20,16 +20,15 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { I18nMessage } from '@shared/model/i18n-message';
-
-import { CallAction, CtaNotificationData } from './cta-notification.model';
 import { CtaNotificationComponent } from './cta-notification.component';
+import { CallAction, CtaNotificationData } from './cta-notification.model';
 
 // CTA stands for call-to-action
 @Injectable({
   providedIn: 'root',
 })
 export class CtaNotificationService {
-  constructor(private snackBar: MatSnackBar) {}
+  constructor(private readonly snackBar: MatSnackBar) {}
 
   public show(text: I18nMessage, actions: CallAction[]): void {
     const data: CtaNotificationData = { text, actions };

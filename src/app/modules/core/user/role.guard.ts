@@ -30,7 +30,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { realm } from '../api/api.service.properties';
-import { Role } from './role';
+import { Role } from './role.model';
 import { RoleService } from './role.service';
 
 type GuardValue = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
@@ -39,7 +39,7 @@ type GuardValue = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | b
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
-  constructor(private roleService: RoleService, private router: Router) {}
+  constructor(private readonly roleService: RoleService, private readonly router: Router) {}
 
   public canActivate(next: ActivatedRouteSnapshot, _state: RouterStateSnapshot): GuardValue {
     return this.validateUserRole(next);

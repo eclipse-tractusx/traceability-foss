@@ -26,15 +26,15 @@ import { Observable } from 'rxjs';
 export class LoadedElementsState {
   private readonly _loadedElements$: State<LoadedElements> = new State<LoadedElements>({});
 
-  get loadedElements(): LoadedElements {
+  public get loadedElements(): LoadedElements {
     return this._loadedElements$.snapshot;
   }
 
-  get loadedElements$(): Observable<LoadedElements> {
+  public get loadedElements$(): Observable<LoadedElements> {
     return this._loadedElements$.observable;
   }
 
-  set loadedElements(data: LoadedElements) {
+  public set loadedElements(data: LoadedElements) {
     this._loadedElements$.update(data);
   }
 

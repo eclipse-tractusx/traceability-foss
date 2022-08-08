@@ -19,59 +19,40 @@
 
 import { Injectable } from '@angular/core';
 import { AuthService } from '@core/auth/auth.service';
-import { Realm } from '@core/model/realm.model';
 import { UserService } from '@core/user/user.service';
-import { Observable } from 'rxjs';
 import { LayoutState } from '../service/layout.state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LayoutFacade {
-  constructor(private layoutState: LayoutState, private userService: UserService, private authService: AuthService) {}
+  constructor(
+    private readonly layoutState: LayoutState,
+    private readonly userService: UserService,
+    private readonly authService: AuthService,
+  ) {}
 
-  // ToDo: Improve getter and setter (remove get/ set from name)
-  get getUserInformation(): { name: string; email: string; role: string } {
+  public get userInformation(): { name: string; email: string; role: string } {
     return {
-      name: `${this.userService.getFirstname()} ${this.userService.getSurname()}`,
-      email: `${this.userService.getEmail()}`,
-      role: `${this.userService.getRoles().join(', ')}`,
+      name: `${this.userService.firstname} ${this.userService.surname}`,
+      email: `${this.userService.email}`,
+      role: `${this.userService.roles.join(', ')}`,
     };
   }
 
-  get getOrgPreferences(): Realm {
-    return this.userService.getOrgPreferences();
+  public get realmName(): string {
+    return this.userService.firstname;
   }
 
-  get realmName(): string {
-    return this.userService.getFirstname();
+  public get breadcrumbLabel(): string {
+    return this.layoutState.breadcrumbLabel;
   }
 
-  get breadcrumbLabel(): string {
-    return this.layoutState.getBreadCrumbLabel;
-  }
-
-  get tabIndex$(): Observable<number> {
-    return this.layoutState.getTabIndex$;
-  }
-
-  get receivedQualityAlerts$(): Observable<number> {
-    return this.layoutState.getReceivedQualityAlertsCounter$;
-  }
-
-  get receivedQualityInvestigations$(): Observable<number> {
-    return this.layoutState.getQualityInvestigationBadge$;
+  public set isSideBarExpanded(isExpanded: boolean) {
+    this.layoutState.isSideBarExpanded = isExpanded;
   }
 
   public logOut(): void {
     this.authService.logOut();
-  }
-
-  public setTabIndex(index: number): void {
-    this.layoutState.setTabIndex(index);
-  }
-
-  public setIsSideBarExpanded(isExpanded: boolean): void {
-    this.layoutState.setIsSideBarExpanded(isExpanded);
   }
 }

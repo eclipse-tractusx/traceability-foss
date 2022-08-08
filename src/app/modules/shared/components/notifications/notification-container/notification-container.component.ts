@@ -19,7 +19,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NotificationMessage } from '../notification-message/notification-message';
+import { NotificationMessage } from '../notification-message/notification-message.model';
 import { NotificationService } from '../notification.service';
 import { notifyAnimation } from './animation';
 
@@ -34,15 +34,15 @@ export class NotificationContainerComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
 
-  constructor(private notifierService: NotificationService) {}
+  constructor(private readonly notifierService: NotificationService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.subscription = this.notifierService
       .getNotificationObservable()
       .subscribe(notification => this.add(notification));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

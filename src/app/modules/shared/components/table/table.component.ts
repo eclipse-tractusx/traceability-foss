@@ -68,8 +68,8 @@ export class TableComponent {
   @Output() multiSelect = new EventEmitter<unknown[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
 
-  public dataSource = new MatTableDataSource<unknown>();
-  public selection = new SelectionModel<unknown>(true, []);
+  public readonly dataSource = new MatTableDataSource<unknown>();
+  public readonly selection = new SelectionModel<unknown>(true, []);
 
   public totalItems: number;
   public pageIndex: number;

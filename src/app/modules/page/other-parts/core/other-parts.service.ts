@@ -32,7 +32,7 @@ import { map } from 'rxjs/operators';
 export class OtherPartsService {
   private url = environment.apiUrl;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   public getSupplierParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
     const sort = PartsAssembler.mapSortToApiSort(sorting);

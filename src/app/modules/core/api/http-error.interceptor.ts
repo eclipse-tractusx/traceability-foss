@@ -23,9 +23,9 @@ import { catchError, retry } from 'rxjs/operators';
 import { NotificationService } from 'src/app/modules/shared/components/notifications/notification.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private notificationService: NotificationService) {}
+  constructor(private readonly notificationService: NotificationService) {}
 
-  intercept(
+  public intercept(
     request: HttpRequest<Record<string, unknown>>,
     next: HttpHandler,
   ): Observable<HttpEvent<Record<string, unknown>>> {

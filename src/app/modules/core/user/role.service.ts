@@ -18,14 +18,8 @@
  */
 
 import { Injectable } from '@angular/core';
-
-import { Role } from './role';
+import { Role, RoleRelation } from './role.model';
 import { UserService } from './user.service';
-
-type RoleRelation = {
-  role: Role;
-  child: Role;
-};
 
 const ROLES_RELATIONS: RoleRelation[] = [
   {
@@ -47,7 +41,7 @@ export class RoleService {
   hasAccess(requiredRoles: Role | Role[]): boolean {
     const requiredRolesList = typeof requiredRoles === 'string' ? [requiredRoles] : requiredRoles;
 
-    const roles = this.userService.getRoles().map(role => role.toLocaleLowerCase());
+    const roles = this.userService.roles.map(role => role.toLocaleLowerCase());
     const allPossibleRoles = [...requiredRolesList, ...this.getParentsRolesFor(requiredRolesList)];
 
     return allPossibleRoles.some(possibleRole => roles.includes(possibleRole));

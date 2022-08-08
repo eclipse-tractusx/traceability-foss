@@ -20,7 +20,7 @@ under the License.
 <div class="about-container">
   <app-header [title]="'pageParts.title' | i18n"></app-header>
 
-  <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" appTabAsPanel>
+  <mat-tab-group (selectedTabChange)="onTabChange($event)" appTabAsPanel mat-align-tabs="start">
     <mat-tab label="{{ 'pageParts.tab.supplier' | i18n }}">
       <ng-container
         *viewContainer="supplierParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
@@ -61,10 +61,10 @@ under the License.
 </ng-template>
 
 <app-request-investigation
+  [isOpen]="isInvestigationOpen$ | async"
+  [selectedItems]="currentSelectedItems"
   (deselectPart)="removeItemFromSelection($event)"
   (restorePart)="addItemToSelection($event)"
   (clearSelected)="clearSelected()"
   (sidenavIsClosing)="isInvestigationOpen$.next(false)"
-  [isOpen]="isInvestigationOpen$ | async"
-  [selectedItems]="currentSelectedItems"
 ></app-request-investigation>

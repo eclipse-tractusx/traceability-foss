@@ -20,7 +20,6 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-
 import { SharedModule } from '..';
 
 describe('AutoFormatPipe', () => {
