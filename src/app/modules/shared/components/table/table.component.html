@@ -89,9 +89,10 @@ under the License.
           mat-header-cell
           class="table--cell"
         >
-          <ng-container *ngIf="tableConfig?.header?.[i]; else pureColumn">
-            {{ tableConfig?.header?.[i] | i18n }}
-          </ng-container>
+          <ng-container
+            *ngIf="tableConfig?.header?.[i]; else pureColumn"
+            >{{ tableConfig?.header?.[i] | i18n }}</ng-container
+          >
         </th>
         <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
           <ng-container

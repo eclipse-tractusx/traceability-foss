@@ -23,7 +23,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
   MOCK_part_1,
@@ -49,58 +49,46 @@ describe('Parts facade', () => {
   describe('setParts', () => {
     it('should set parts if request is successful', async () => {
       const serviceSpy = jest.spyOn(partsServiceMok, 'getParts');
-      const stateSpy = jest.spyOn(partsState, 'parts', 'set');
       partsFacade.setParts(0, 10);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, null));
-      await waitFor(() => expect(stateSpy).toHaveBeenCalledWith({ data: PartsAssembler.assembleParts(mockAssets) }));
+
+      const parts = await firstValueFrom(partsState.parts$);
+      await waitFor(() => expect(parts).toEqual({ data: PartsAssembler.assembleParts(mockAssets) }));
     });
 
     it('should not set parts if request fails', async () => {
       const serviceSpy = jest.spyOn(partsServiceMok, 'getParts');
-      const stateSpy = jest.spyOn(partsState, 'parts', 'set');
       const spyData = new BehaviorSubject(null).pipe(switchMap(_ => throwError(() => new Error('error'))));
+
       serviceSpy.mockReturnValue(spyData);
       partsFacade.setParts(0, 10);
 
-      await waitFor(() => expect(stateSpy).toHaveBeenCalledWith({ error: new Error('error') }));
+      const parts = await firstValueFrom(partsState.parts$);
+      await waitFor(() => expect(parts).toEqual({ error: new Error('error') }));
     });
   });
 
   describe('setSelectedParts', () => {
     it('should set and update selected Parts', async () => {
-      const stateSpy = jest.spyOn(partsState, 'selectedParts', 'set');
       partsFacade.setSelectedParts(PartsAssembler.assemblePart(MOCK_part_1).children);
       const childPart_1 = PartsAssembler.assemblePart(MOCK_part_2);
       const childPart_2 = PartsAssembler.assemblePart(MOCK_part_3);
-      await waitFor(() =>
-        expect(stateSpy.mock.calls).toEqual([
-          [[{ id: 'MOCK_part_2' }, { id: 'MOCK_part_3' }]],
-          [[childPart_1, { id: 'MOCK_part_3' }]],
-          [[childPart_1, childPart_2]],
-        ]),
-      );
+
+      await waitFor(() => expect(partsState.selectedParts).toEqual([childPart_1, childPart_2]));
     });
 
     it('should set and update selected Parts even if it fails', async () => {
       const serviceSpy = jest.spyOn(partsServiceMok, 'getPart');
-      const stateSpy = jest.spyOn(partsState, 'selectedParts', 'set');
       const spyData = new BehaviorSubject(null).pipe(switchMap(_ => throwError(() => new Error('error'))));
+
       serviceSpy.mockReturnValue(spyData);
-
       partsFacade.setSelectedParts(PartsAssembler.assemblePart(MOCK_part_1).children);
-
       await waitFor(() =>
-        expect(stateSpy.mock.calls).toEqual([
-          [[{ id: 'MOCK_part_2' }, { id: 'MOCK_part_3' }]],
-          [[{ id: 'MOCK_part_2', error: true }, { id: 'MOCK_part_3' }]],
-          [
-            [
-              { id: 'MOCK_part_2', error: true },
-              { id: 'MOCK_part_3', error: true },
-            ],
-          ],
+        expect(partsState.selectedParts).toEqual([
+          { id: 'MOCK_part_2', error: true },
+          { id: 'MOCK_part_3', error: true },
         ]),
       );
     });
@@ -108,28 +96,24 @@ describe('Parts facade', () => {
 
   describe('removeSelectedPart', () => {
     it('should remove item from selected list', async () => {
-      const stateSpy = jest.spyOn(partsState, 'selectedParts', 'set');
       partsFacade.setSelectedParts([MOCK_part_2.id]);
-      await waitFor(() => expect(stateSpy).toHaveBeenCalledTimes(2));
+      await waitFor(() => expect(partsState.selectedParts).toEqual([PartsAssembler.assemblePart(MOCK_part_2)]));
 
       partsFacade.removeSelectedPart({ id: MOCK_part_2.id } as Part);
-      await waitFor(() => expect(stateSpy).toHaveBeenCalledTimes(3));
-      await waitFor(() => expect(stateSpy).toHaveBeenLastCalledWith([]));
+      await waitFor(() => expect(partsState.selectedParts).toEqual([]));
     });
   });
 
   describe('addItemToSelection', () => {
     it('should add item to existing list', async () => {
-      const stateSpy = jest.spyOn(partsState, 'selectedParts', 'set');
-      partsFacade.setSelectedParts([MOCK_part_2.id]);
-      await waitFor(() => expect(stateSpy).toHaveBeenCalledTimes(2));
-
-      partsFacade.addItemToSelection({ id: MOCK_part_3.id } as Part);
-      await waitFor(() => expect(stateSpy).toHaveBeenCalledTimes(4));
-
       const part_2 = PartsAssembler.assemblePart(MOCK_part_2);
       const part_3 = PartsAssembler.assemblePart(MOCK_part_3);
-      await waitFor(() => expect(stateSpy).toHaveBeenLastCalledWith([part_2, part_3]));
+
+      partsFacade.setSelectedParts([MOCK_part_2.id]);
+      await waitFor(() => expect(partsState.selectedParts).toEqual([part_2]));
+
+      partsFacade.addItemToSelection({ id: MOCK_part_3.id } as Part);
+      await waitFor(() => expect(partsState.selectedParts).toEqual([part_2, part_3]));
     });
   });
 });

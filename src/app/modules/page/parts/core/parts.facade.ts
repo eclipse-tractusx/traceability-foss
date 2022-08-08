@@ -57,7 +57,8 @@ export class PartsFacade {
   }
 
   public setSelectedParts(selectedPartIds: string[]): void {
-    selectedPartIds.forEach(id => (this.subjectList[id] = new Subject()));
+    this.subjectList = selectedPartIds.reduce((list, id) => ({ ...list, [id]: new Subject() }), {});
+
     this.selectedParts = selectedPartIds.map(id => ({ id } as Part));
     const selectedPartsObservable = selectedPartIds.map(id => this.getSelectedPartData(id));
 

@@ -28,7 +28,8 @@
   },
   "page": {
     "selectedParts": {
-      "info": "{{amount}} Produkt(e) für diese Seite ausgewählt.",
+      "info_one": "{{count}} Produkt für diese Seite ausgewählt.",
+      "info_other": "{{count}} Produkte für diese Seite ausgewählt.",
       "action": "Untersuchung starten"
     },
     "requestInvestigations": {

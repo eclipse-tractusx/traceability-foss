@@ -17,12 +17,23 @@
  * under the License.
  */
 
-import { Part } from '@page/parts/model/parts.model';
-import { TableEventConfig } from '@shared/components/table/table.model';
+import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { firstValueFrom } from 'rxjs';
+import {
+  OTHER_PARTS_MOCK_1,
+  OTHER_PARTS_MOCK_2,
+  OTHER_PARTS_MOCK_3,
+  OTHER_PARTS_MOCK_4,
+  OTHER_PARTS_MOCK_5,
+  OTHER_PARTS_MOCK_6,
+  OTHER_PARTS_MOCK_7,
+  OTHER_PARTS_MOCK_8,
+  OTHER_PARTS_MOCK_9,
+} from '../../../../mocks/services/otherParts-mock/otherParts.model';
 import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 
@@ -31,9 +42,13 @@ describe('Other Parts', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.close());
 
+  let otherPartsState: OtherPartsState;
+  beforeEach(() => (otherPartsState = new OtherPartsState()));
+
   const renderOtherParts = () =>
     renderComponent(OtherPartsComponent, {
       imports: [OtherPartsModule],
+      providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }],
       translations: ['page.otherParts'],
     });
 
@@ -127,40 +142,89 @@ describe('Other Parts', () => {
   });
 
   describe('onTableConfigChange', () => {
-    it('should set supplier parts if first tab is selected', async () => {
-      const { fixture } = await renderOtherParts();
-      const spy = jest.spyOn((fixture.componentInstance as any).otherPartsFacade, 'setSupplierParts');
-      const expected: TableEventConfig = { page: 10, pageSize: 10, sorting: ['name', 'asc'] };
+    it('should request supplier parts if first tab is selected', async () => {
+      await renderOtherParts();
 
-      fixture.componentInstance.selectedTab = 0;
-      fixture.componentInstance.onTableConfigChange(expected);
-      expect(spy).toHaveBeenLastCalledWith(expected.page, expected.pageSize, expected.sorting);
+      const supplierTabElement = screen.getByText('Supplier Parts');
+      supplierTabElement.click();
+
+      await waitFor(() => expect(screen.getByText('Manufacturer')).toBeInTheDocument());
+      const tableHeaderElement = screen.getByText('Manufacturer');
+      tableHeaderElement.click();
+
+      const supplierParts = await firstValueFrom(otherPartsState.supplierParts$);
+      await waitFor(() =>
+        expect(supplierParts).toEqual({
+          data: {
+            content: [
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_7),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_8),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_9),
+            ],
+            page: 0,
+            pageCount: 1,
+            pageSize: 10,
+            totalItems: 5,
+          },
+          error: undefined,
+          loader: undefined,
+        }),
+      );
     });
 
-    it('should set customer parts if second tab is selected', async () => {
-      const { fixture } = await renderOtherParts();
-      const spy = jest.spyOn((fixture.componentInstance as any).otherPartsFacade, 'setCustomerParts');
-      const expected: TableEventConfig = { page: 1, pageSize: 20, sorting: ['id', 'asc'] };
+    it('should request customer parts if second tab is selected', async () => {
+      await renderOtherParts();
 
-      fixture.componentInstance.selectedTab = 1;
-      fixture.componentInstance.onTableConfigChange(expected);
-      expect(spy).toHaveBeenLastCalledWith(expected.page, expected.pageSize, expected.sorting);
+      const customerTabElement = screen.getByText('Customer Parts');
+      customerTabElement.click();
+
+      await waitFor(() => expect(screen.getByText('Manufacturer')).toBeInTheDocument());
+      const tableHeaderElement = screen.getByText('Manufacturer');
+      tableHeaderElement.click();
+
+      const customerParts = await firstValueFrom(otherPartsState.customerParts$);
+      await waitFor(() =>
+        expect(customerParts).toEqual({
+          data: {
+            content: [
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4),
+              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5),
+            ],
+            page: 0,
+            pageCount: 1,
+            pageSize: 10,
+            totalItems: 5,
+          },
+          error: undefined,
+          loader: undefined,
+        }),
+      );
     });
   });
 
   it('should add item to current list', async () => {
     const { fixture } = await renderOtherParts();
-    const expectedPart = { id: 'someId', name: 'some name' } as Part;
+    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
 
-    fixture.componentInstance.selectedTab = 0;
+    const supplierTabElement = screen.getByText('Supplier Parts');
+    supplierTabElement.click();
 
-    const partPromise = firstValueFrom(fixture.componentInstance.addPartTrigger$);
-    fixture.componentInstance.addItemToSelection(expectedPart);
+    const selectAllElement = await waitFor(() => screen.getAllByTestId('select-one--test-id')[0]);
+    (selectAllElement.firstChild as HTMLElement).click();
 
-    expect(await partPromise).toEqual(expectedPart);
-
+    const selectedText_1 = await waitFor(() => screen.getByText('1 Part selected for this page.'));
+    expect(selectedText_1).toBeInTheDocument();
     expect(fixture.componentInstance.currentSelectedItems).toEqual([expectedPart]);
-    fixture.componentInstance.selectedTab = 1;
-    expect(fixture.componentInstance.currentSelectedItems).toEqual([]);
+
+    const customerTabElement = screen.getByText('Customer Parts');
+    customerTabElement.click();
+
+    const selectedText_2 = await waitFor(() => screen.getByText('0 Parts selected for this page.'));
+    expect(selectedText_2).toBeInTheDocument();
+    await waitFor(() => expect(fixture.componentInstance.currentSelectedItems).toEqual([]));
   });
 });
