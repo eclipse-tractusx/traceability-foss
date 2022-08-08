@@ -60,6 +60,8 @@ export class OtherPartsComponent implements OnInit {
   public selectedTab = 0;
 
   public deselectPartTrigger$: Subject<Part[]> = new Subject();
+  public addPartTrigger$: Subject<Part> = new Subject();
+
   public customerParts$: Observable<View<Pagination<Part>>>;
   public supplierParts$: Observable<View<Pagination<Part>>>;
 
@@ -74,7 +76,7 @@ export class OtherPartsComponent implements OnInit {
   }
 
   public get currentSelectedItems(): Part[] {
-    return this.selectedItems[this.selectedTab];
+    return this.selectedItems[this.selectedTab] || [];
   }
 
   public set currentSelectedItems(parts: Part[]) {
@@ -115,5 +117,10 @@ export class OtherPartsComponent implements OnInit {
   public clearSelected(): void {
     this.deselectPartTrigger$.next(this.currentSelectedItems);
     this.currentSelectedItems = [];
+  }
+
+  public addItemToSelection(part: Part): void {
+    this.addPartTrigger$.next(part);
+    this.currentSelectedItems = [...this.currentSelectedItems, part];
   }
 }

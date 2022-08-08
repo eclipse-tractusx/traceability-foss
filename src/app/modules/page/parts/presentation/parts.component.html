@@ -19,8 +19,7 @@ under the License.
 
 <div class="about-container">
   <app-header [title]="'pageParts.title' | i18n"></app-header>
-  <br />
-  <ng-container *viewContainer="parts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"> </ng-container>
+  <ng-container *viewContainer="parts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
   <ng-template #mainTmp let-parts="view">
     <app-table
       [data]="parts.data"
@@ -40,3 +39,22 @@ under the License.
     <mat-spinner></mat-spinner>
   </ng-template>
 </div>
+
+<ng-template #statusTmp let-row="row">
+  <app-button
+    *ngIf="row.children.length"
+    [color]="'primary'"
+    [variant]="'raised'"
+    (click)="startInvestigation($event, row)"
+    >{{ 'page.childInvestigation.action' | i18n }}
+  </app-button>
+</ng-template>
+
+<app-request-investigation
+  (deselectPart)="removeItemFromSelection($event)"
+  (restorePart)="addItemToSelection($event)"
+  (clearSelected)="clearSelected()"
+  (sidenavIsClosing)="isInvestigationOpen$.next(false)"
+  [isOpen]="isInvestigationOpen$ | async"
+  [selectedItems]="currentSelectedItems$ | async"
+></app-request-investigation>

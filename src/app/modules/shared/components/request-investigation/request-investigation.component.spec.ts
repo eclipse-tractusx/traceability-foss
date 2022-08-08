@@ -18,9 +18,10 @@
  */
 
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
-import { RequestInvestigationComponent } from '@page/other-parts/presentation/request-investigation/request-investigation.component';
 import { Part } from '@page/parts/model/parts.model';
+import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
 import { InvestigationsService } from '@shared/service/investigations.service';
+import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
@@ -46,7 +47,7 @@ describe('requestInvestigationComponent', () => {
 ></app-request-investigation>`,
       {
         declarations: [RequestInvestigationComponent],
-        imports: [OtherPartsModule],
+        imports: [SharedModule],
         translations: ['page.otherParts'],
         componentProperties: {
           deselectPartMock,
@@ -99,12 +100,12 @@ describe('requestInvestigationComponent', () => {
     const { componentInstance } = fixture;
 
     const spy = jest.spyOn(componentInstance.clearSelected, 'emit');
-    const spy_2 = jest.spyOn((componentInstance as any).qualityInvestigationFacade, 'sendInvestigation');
+    const spy_2 = jest.spyOn((componentInstance as any).investigationsService, 'postInvestigation');
 
     const testText = 'This is for a testing purpose.';
 
     componentInstance.selectedItems = [{ id: 'id_1', name: 'part_1' } as Part];
-    componentInstance.textAreaControl.setValue(testText);
+    (componentInstance as any).textAreaControl.setValue(testText);
     componentInstance.submitInvestigation();
 
     await waitFor(() => expect(spy).toHaveBeenCalledTimes(1));

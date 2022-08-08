@@ -43,6 +43,7 @@ under the License.
     [selectedPartsInfoLabel]="'page.selectedParts.info'"
     [selectedPartsActionLabel]="'page.selectedParts.action'"
     [deselectTrigger]="deselectPartTrigger$ | async"
+    [addTrigger]="addPartTrigger$ | async"
     [noShadow]="true"
     (selected)="onSelectItem($event)"
     (configChanged)="onTableConfigChange($event)"
@@ -61,6 +62,7 @@ under the License.
 
 <app-request-investigation
   (deselectPart)="removeItemFromSelection($event)"
+  (restorePart)="addItemToSelection($event)"
   (clearSelected)="clearSelected()"
   (sidenavIsClosing)="isInvestigationOpen$.next(false)"
   [isOpen]="isInvestigationOpen$ | async"

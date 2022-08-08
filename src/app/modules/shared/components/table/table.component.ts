@@ -55,6 +55,14 @@ export class TableComponent {
     this.selection.deselect(...deselectItem);
   }
 
+  @Input() set addTrigger(newItem: unknown) {
+    if (!newItem) {
+      return;
+    }
+
+    this.selection.select(newItem);
+  }
+
   @Output() selected = new EventEmitter<Record<string, unknown>>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<unknown[]>();
