@@ -131,7 +131,7 @@
     filter: drop-shadow(0px 3px 8px rgba(0, 0, 0, 0.24));
 
     &-done {
-      @apply fill-success;
+      @apply fill-qualityTypeOk;
     }
 
     &-loading {
@@ -140,19 +140,19 @@
     }
 
     &-Minor {
-      @apply fill-primaryLight;
+      @apply fill-qualityTypeMinor;
     }
 
     &-Major {
-      @apply fill-primaryDark;
+      @apply fill-qualityTypeMajor;
     }
 
     &-Critical {
-      @apply fill-dangerLight;
+      @apply fill-qualityTypeCritical;
     }
 
     &-LifeThreatening {
-      fill: #981b5e;
+      @apply fill-qualityTypeLifeThreatening;
     }
   }
 

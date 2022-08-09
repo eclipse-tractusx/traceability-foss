@@ -140,6 +140,12 @@ module.exports = {
       completeLight: '#ddf2dd',
       completeDark: '#2ca62c',
       completeLightContrast: '#e3f2e3',
+
+      qualityTypeOk: '#3db014',
+      qualityTypeMinor: '#ffd74a',
+      qualityTypeMajor: '#c67700',
+      qualityTypeCritical: '#E5231D',
+      qualityTypeLifeThreatening: '#981b5e',
     },
     screens: {
       sm: '640px',

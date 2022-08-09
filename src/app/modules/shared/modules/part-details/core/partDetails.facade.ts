@@ -25,6 +25,7 @@ import { PartDetailsState } from '@shared/modules/part-details/core/partDetails.
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';
 import { PartsService } from '@shared/service/parts.service';
+import { cloneDeep as _cloneDeep } from 'lodash-es';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -67,10 +68,10 @@ export class PartDetailsFacade {
     this.loadedElementsFacade.addLoadedElement(RelationsAssembler.assemblePartForRelation(part));
 
     const { id } = part;
-    const { data } = this.partsState.parts;
+    const { data } = _cloneDeep(this.partsState.parts);
 
     data.content = data.content.map(currentPart => (currentPart.id === id ? part : currentPart));
-    this.partsState.parts = { data: { ...data } };
+    this.partsState.parts = { data };
 
     return this.partsService.patchPart(part);
   }
