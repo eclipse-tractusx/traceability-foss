@@ -19,7 +19,6 @@
 
 import { Part } from '@page/parts/model/parts.model';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
-import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';

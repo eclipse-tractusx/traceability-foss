@@ -25,7 +25,7 @@ import { RelationsFacade } from '@shared/modules/relations/core/relations.facade
 import { TreeElement } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
-import { of, firstValueFrom, lastValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { map, skip, tap } from 'rxjs/operators';
 import {
   MOCK_part_1,
