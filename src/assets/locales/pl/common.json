@@ -35,6 +35,13 @@
     "inProgress": "Ładowanie danych...",
     "error": "Błąd podczas ładowania danych"
   },
+  "qualityType": {
+    "Ok": "Ok",
+    "Minor": "Minor",
+    "Major": "Major",
+    "Critical": "Critical",
+    "LifeThreatening": "Life-Threatening"
+  },
   "map": {
     "AttributionControl.ToggleAttribution": "Przełącz atrybucję",
     "AttributionControl.MapFeedback": "Wysłać informacje zwrotną",

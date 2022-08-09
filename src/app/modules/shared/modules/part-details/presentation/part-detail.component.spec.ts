@@ -18,11 +18,13 @@
  */
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
+import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { Observable } from 'rxjs';
@@ -46,6 +48,7 @@ describe('PartDetailComponent', () => {
   it('should render side nav', async () => {
     await renderComponent(PartDetailComponent, {
       imports: [PartDetailsModule],
+      providers: [{ provide: PartsState }],
     });
 
     const sideNavElement = await screen.findByTestId('sidenav--test-id');

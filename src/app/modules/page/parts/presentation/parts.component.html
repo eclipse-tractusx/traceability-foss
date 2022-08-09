@@ -40,7 +40,7 @@ under the License.
   </ng-template>
 </div>
 
-<ng-template #statusTmp let-row="row">
+<ng-template #childInvestigationTmp let-row="row">
   <app-button
     *ngIf="row.children.length"
     [color]="'primary'"
@@ -48,6 +48,13 @@ under the License.
     (click)="startInvestigation($event, row)"
     >{{ 'page.childInvestigation.action' | i18n }}
   </app-button>
+</ng-template>
+
+<ng-template #qualityTypeTmp let-row="row">
+  <p class="regular-text parts--table__qualityType">
+    <mat-icon class="mr-2 parts--table__{{ row.qualityType }}">{{ getIconByQualityType(row.qualityType) }}</mat-icon
+    >{{ 'qualityType.' + row.qualityType | i18n }}
+  </p>
 </ng-template>
 
 <app-request-investigation

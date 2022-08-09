@@ -19,6 +19,7 @@
 
 import { By } from '@angular/platform-browser';
 import { PartsModule } from '@page/parts/parts.module';
+import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-server';
 import { renderComponent } from '@tests/test-render.utils';
@@ -45,7 +46,7 @@ describe('Dashboard', () => {
 
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
-      imports: [DashboardModule, PartsModule],
+      imports: [DashboardModule, SharedModule, PartsModule],
       translations: ['page.dashboard'],
       roles,
     });

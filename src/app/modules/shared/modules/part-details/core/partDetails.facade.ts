@@ -18,12 +18,14 @@
  */
 
 import { Injectable } from '@angular/core';
+import { PartsState } from '@page/parts/core/parts.state';
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsState } from '@shared/modules/part-details/core/partDetails.state';
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';
 import { PartsService } from '@shared/service/parts.service';
+import { cloneDeep as _cloneDeep } from 'lodash-es';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -31,6 +33,7 @@ import { catchError, tap } from 'rxjs/operators';
 export class PartDetailsFacade {
   constructor(
     private readonly partsService: PartsService,
+    private readonly partsState: PartsState,
     private readonly partDetailsState: PartDetailsState,
     private readonly loadedElementsFacade: LoadedElementsFacade,
   ) {}
@@ -61,7 +64,14 @@ export class PartDetailsFacade {
 
   public updateQualityType(qualityType: QualityType): Observable<Part> {
     const part = { ...this.selectedPart, qualityType };
+
     this.loadedElementsFacade.addLoadedElement(RelationsAssembler.assemblePartForRelation(part));
+
+    const { id } = part;
+    const { data } = _cloneDeep(this.partsState.parts);
+
+    data.content = data.content.map(currentPart => (currentPart.id === id ? part : currentPart));
+    this.partsState.parts = { data };
 
     return this.partsService.patchPart(part);
   }

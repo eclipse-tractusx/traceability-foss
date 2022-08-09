@@ -109,6 +109,6 @@ describe('requestInvestigationComponent', () => {
     componentInstance.submitInvestigation();
 
     await waitFor(() => expect(spy).toHaveBeenCalledTimes(1));
-    expect(spy_2).toHaveBeenCalledWith([{ id: 'id_1', name: 'part_1' } as Part], testText);
+    expect(spy_2).toHaveBeenCalledWith(['id_1'], testText);
   });
 });
