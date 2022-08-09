@@ -34,8 +34,8 @@
   },
   "qualityType": {
     "Ok": "Ok",
-    "Minor": "Minor",
-    "Major": "Major",
+    "Minor": "Gering",
+    "Major": "Schwerwiegend",
     "Critical": "Kritisch",
     "LifeThreatening": "Lebensgefährlich"
   },

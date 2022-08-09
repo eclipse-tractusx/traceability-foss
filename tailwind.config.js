@@ -144,8 +144,8 @@ module.exports = {
       qualityTypeOk: '#3db014',
       qualityTypeMinor: '#ffd74a',
       qualityTypeMajor: '#c67700',
-      qualityTypeCritical: '#E5231D',
-      qualityTypeLifeThreatening: '#981b5e',
+      qualityTypeCritical: '#981b5e',
+      qualityTypeLifeThreatening: '#E5231D',
     },
     screens: {
       sm: '640px',
