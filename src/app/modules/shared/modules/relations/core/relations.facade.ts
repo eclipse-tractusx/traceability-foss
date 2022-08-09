@@ -27,7 +27,7 @@ import { OpenElements, TreeElement, TreeStructure } from '@shared/modules/relati
 import { PartsService } from '@shared/service/parts.service';
 import _deepClone from 'lodash-es/cloneDeep';
 import { merge, Observable, of } from 'rxjs';
-import { catchError, debounceTime, delay, filter, first, map, switchMap, tap, toArray } from 'rxjs/operators';
+import { catchError, debounceTime, filter, first, map, switchMap, tap, toArray } from 'rxjs/operators';
 
 @Injectable()
 export class RelationsFacade {
@@ -37,11 +37,11 @@ export class RelationsFacade {
     private readonly relationComponentState: RelationComponentState,
   ) {}
 
-  get openElements$(): Observable<OpenElements> {
-    return this.relationComponentState.openElements$.pipe(delay(0), debounceTime(100));
+  public get openElements$(): Observable<OpenElements> {
+    return this.relationComponentState.openElements$.pipe(debounceTime(100));
   }
 
-  get openElements(): OpenElements {
+  public get openElements(): OpenElements {
     return this.relationComponentState.openElements;
   }
 
@@ -150,13 +150,10 @@ export class RelationsFacade {
       return of(null).pipe(first());
     }
 
-    if (
-      children.every(
-        childId =>
-          this.loadedElementsFacade.loadedElements[childId] &&
-          this.loadedElementsFacade.loadedElements[childId]?.state != 'loading',
-      )
-    ) {
+    const getLoadedElement = (id: string) => this.loadedElementsFacade.loadedElements[id];
+    const isNoChildLoading = children.every(id => getLoadedElement(id) && getLoadedElement(id)?.state != 'loading');
+
+    if (isNoChildLoading) {
       const mappedChildren = children.map(childId => this.loadedElementsFacade.loadedElements[childId]);
       this.addLoadedElements(mappedChildren);
       return of(mappedChildren).pipe(first());

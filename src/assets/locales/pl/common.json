@@ -66,6 +66,15 @@
     "success": "Badanie skolejkowane dla {{count}} części",
     "goToQueue": "Otwórz Kolejke"
   },
+  "requestInvestigations": {
+    "headline": "Zacznij badanie jakości",
+    "partDescription": "Wybrano następny części",
+    "textAreaDescription": "Dodaj opis badania",
+    "restoreItem": "Czy chcesz przywrócić ostatni przedmiot?",
+    "textAreaLabel": "Opis",
+    "cancel": "ANULOWAĆ",
+    "submit": "DODAĆ DO KOLEJKI"
+  },
   "pagination": {
     "itemsPerPageLabel": "Elementów na stronie:",
     "nextPageLabel": "Następna strona",

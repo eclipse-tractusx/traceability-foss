@@ -31,10 +31,11 @@ type PatternError = { requiredPattern: string; actualValue: string };
   name: 'errorMessage',
 })
 export class ErrorMessagePipe implements PipeTransform {
-  transform(errors: ValidationErrors): string {
+  public transform(errors: ValidationErrors): string {
     if (!errors) {
       return '';
     }
+
     const getErrorMapping = (key: string, value?: any): ParameterizedMessage => {
       return { id: `errorMessage.${key}`, values: { [key]: value } };
     };

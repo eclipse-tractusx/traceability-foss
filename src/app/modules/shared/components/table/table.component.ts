@@ -55,13 +55,21 @@ export class TableComponent {
     this.selection.deselect(...deselectItem);
   }
 
+  @Input() set addTrigger(newItem: unknown) {
+    if (!newItem) {
+      return;
+    }
+
+    this.selection.select(newItem);
+  }
+
   @Output() selected = new EventEmitter<Record<string, unknown>>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
   @Output() multiSelect = new EventEmitter<unknown[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
 
-  public dataSource = new MatTableDataSource<unknown>();
-  public selection = new SelectionModel<unknown>(true, []);
+  public readonly dataSource = new MatTableDataSource<unknown>();
+  public readonly selection = new SelectionModel<unknown>(true, []);
 
   public totalItems: number;
   public pageIndex: number;

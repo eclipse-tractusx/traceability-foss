@@ -27,19 +27,10 @@ import { DashboardFacade } from './abstraction/dashboard.facade';
 import { DashboardService } from './core/dashboard.service';
 import { DashboardState } from './core/dashboard.state';
 import { DashboardRoutingModule } from './dashboard.routing';
-import { AlertDonutChartComponent } from './presentation/alert-donut-chart/alert-donut-chart.component';
 import { DashboardComponent } from './presentation/dashboard.component';
-import { HistogramChartComponent } from './presentation/histogram-chart/histogram-chart.component';
-import { ReceivedAlertEmptyStateComponent } from './presentation/received-alert-empty-state/received-alert-empty-state.component';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    ReceivedAlertEmptyStateComponent,
-    AlertDonutChartComponent,
-    HistogramChartComponent,
-    MapComponent,
-  ],
+  declarations: [DashboardComponent, MapComponent],
   imports: [CommonModule, TemplateModule, SharedModule, DashboardRoutingModule],
   providers: [DashboardService, DashboardFacade, DashboardState, ...getI18nPageProvider('page.dashboard')],
 })

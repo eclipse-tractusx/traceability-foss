@@ -21,7 +21,6 @@ import { TestBed } from '@angular/core/testing';
 import { SharedModule } from '@shared/shared.module';
 import { screen, within } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-
 import { NotificationService } from './notification.service';
 
 describe('notifications', () => {

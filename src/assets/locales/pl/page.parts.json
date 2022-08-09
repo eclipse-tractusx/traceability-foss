@@ -9,7 +9,8 @@
       "serialNumber": "Numer seryjny",
       "qualityType": "Typ jakości",
       "productionDate": "Data produkcji",
-      "productionCountry": "Kraj produkcji"
+      "productionCountry": "Kraj produkcji",
+      "childInvestigation": "Child Investigation"
     }
   },
   "partDetail": {
@@ -29,5 +30,13 @@
   "relation": {
     "increase": "Uzyte do powiększenia drzewa.",
     "decrease": "Uzyte do zmniejszenia drzewa."
+  },
+  "page": {
+    "childInvestigation": {
+      "action": "Zacznij badanie jakości"
+    },
+    "requestInvestigations": {
+      "partDescription": "Załadowanie nazwy wybranych części może chwilę potrwać."
+    }
   }
 }

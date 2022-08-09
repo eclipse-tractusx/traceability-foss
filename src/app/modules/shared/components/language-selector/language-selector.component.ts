@@ -21,6 +21,7 @@ import { Component, Inject, OnDestroy } from '@angular/core';
 import { ALL_KNOWN_LOCALES, KnownLocale } from '@core/i18n/global-i18n.providers';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 interface LocaleEntry {
   locale: KnownLocale;
@@ -33,32 +34,32 @@ interface LocaleEntry {
   styleUrls: ['./language-selector.component.scss'],
 })
 export class LanguageSelectorComponent implements OnDestroy {
-  readonly locales: LocaleEntry[];
-  currentLocale: KnownLocale;
-  languageChangedSubscription: Subscription;
+  public readonly locales: LocaleEntry[];
+  public readonly languageChangedSubscription: Subscription;
 
-  constructor(@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService) {
-    const supportedLngs = this.i18NextService.options.supportedLngs || [];
+  public currentLocale: KnownLocale;
+
+  constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {
+    const supportedLanguages = this.i18NextService.options.supportedLngs || [];
+
     this.locales = (Object.entries(ALL_KNOWN_LOCALES) as [KnownLocale, string][])
-      .filter(([locale]) => supportedLngs.includes(locale))
+      .filter(([locale]) => supportedLanguages.includes(locale))
       .map(([locale, label]) => ({
         locale,
         label,
       }));
 
     this.currentLocale = this.i18NextService.resolvedLanguage as KnownLocale;
-    this.languageChangedSubscription = this.i18NextService.events.languageChanged.subscribe((language: KnownLocale) => {
-      if (language) {
-        this.currentLocale = language;
-      }
-    });
+    this.languageChangedSubscription = this.i18NextService.events.languageChanged
+      .pipe(filter(languages => !!languages))
+      .subscribe((language: KnownLocale) => (this.currentLocale = language));
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.languageChangedSubscription.unsubscribe();
   }
 
-  handleClick(localeId: KnownLocale) {
+  public handleClick(localeId: KnownLocale): void {
     void this.i18NextService.changeLanguage(localeId);
   }
 }

@@ -29,7 +29,7 @@ import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 export class PrivateLayoutComponent implements OnInit {
   public expanded: boolean;
 
-  constructor(private layoutFacade: LayoutFacade) {
+  constructor(private readonly layoutFacade: LayoutFacade) {
     this.expanded = false;
   }
 
@@ -46,6 +46,6 @@ export class PrivateLayoutComponent implements OnInit {
 
   public manualToggle(): void {
     this.expanded = !this.expanded;
-    this.layoutFacade.setIsSideBarExpanded(this.expanded);
+    this.layoutFacade.isSideBarExpanded = this.expanded;
   }
 }

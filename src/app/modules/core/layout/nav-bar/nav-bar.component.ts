@@ -32,13 +32,13 @@ export class NavBarComponent {
   public userInitials = '';
   public userDetails = { name: '', email: '', role: '' };
 
-  constructor(private layoutFacade: LayoutFacade, private router: Router) {
+  constructor(private readonly layoutFacade: LayoutFacade, private readonly router: Router) {
     this.userInitials = this.layoutFacade.realmName;
-    this.userDetails = this.layoutFacade.getUserInformation;
+    this.userDetails = this.layoutFacade.userInformation;
   }
 
   ngOnInit(): void {
-    this.userDetails = this.layoutFacade.getUserInformation;
+    this.userDetails = this.layoutFacade.userInformation;
   }
 
   public expand(event: Event): void {

@@ -18,7 +18,7 @@
  */
 
 import { Directive, Input, OnInit, TemplateRef, ViewContainerRef } from '@angular/core';
-import { Role } from '@core/user/role';
+import { Role } from '@core/user/role.model';
 import { RoleService } from '@core/user/role.service';
 
 @Directive({
@@ -29,34 +29,17 @@ export class RoleDirective implements OnInit {
 
   private isVisible = false;
 
-  /**
-   * @constructor RoleDirective
-   * @param {ViewContainerRef} viewContainerRef
-   * 	-- the location where we need to render the templateRef
-   * @param {TemplateRef<unknown>} templateRef
-   *   -- the templateRef to be potentially rendered
-   * @param {RoleService} roleService
-   *   -- will check access
-   */
   constructor(
-    private viewContainerRef: ViewContainerRef,
-    private templateRef: TemplateRef<unknown>,
-    private roleService: RoleService,
+    private readonly viewContainerRef: ViewContainerRef,
+    private readonly templateRef: TemplateRef<unknown>,
+    private readonly roleService: RoleService,
   ) {}
 
-  ngOnInit(): void {
-    if (this.roleService.hasAccess(this.appHasRole)) {
-      // We update the `isVisible` property and add the
-      // templateRef to the view using the
-      // 'createEmbeddedView' method of the viewContainerRef
-      this.isVisible = true;
-      this.viewContainerRef.createEmbeddedView(this.templateRef);
-    } else {
-      // If the user does not have the role,
-      // we update the `isVisible` property and clear
-      // the contents of the viewContainerRef
-      this.isVisible = true;
-      this.viewContainerRef.clear();
-    }
+  public ngOnInit(): void {
+    this.isVisible = true;
+
+    this.roleService.hasAccess(this.appHasRole)
+      ? this.viewContainerRef.createEmbeddedView(this.templateRef)
+      : this.viewContainerRef.clear();
   }
 }

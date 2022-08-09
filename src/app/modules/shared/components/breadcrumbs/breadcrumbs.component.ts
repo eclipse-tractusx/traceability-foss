@@ -23,7 +23,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { LayoutFacade } from '../../abstraction/layout-facade';
-import { BreadCrumbModel } from './breadcrumb.model';
+import { BreadcrumbsModel } from './breadcrumbs.model';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -31,9 +31,13 @@ import { BreadCrumbModel } from './breadcrumb.model';
   styleUrls: ['./breadcrumbs.component.scss'],
 })
 export class BreadcrumbsComponent {
-  public breadcrumbs: BreadCrumbModel[] = [];
+  public breadcrumbs: BreadcrumbsModel[] = [];
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private layoutFacade: LayoutFacade) {
+  constructor(
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly layoutFacade: LayoutFacade,
+  ) {
     this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
@@ -48,7 +52,7 @@ export class BreadcrumbsComponent {
     }
   }
 
-  private createBreadcrumbs(route: ActivatedRoute, url = '', breadcrumbs: BreadCrumbModel[] = []): BreadCrumbModel[] {
+  private createBreadcrumbs(route: ActivatedRoute, url = '', breadcrumbs: BreadcrumbsModel[] = []): BreadcrumbsModel[] {
     // If no routeConfig is available we are on the root path
     let label = route.routeConfig && route.routeConfig.data ? route.routeConfig.data.breadcrumb : '';
     let path = route.routeConfig && route.routeConfig.data ? route.routeConfig.path : '';
@@ -70,7 +74,7 @@ export class BreadcrumbsComponent {
     // so we rebuild it each time
     const nextUrl = path ? `${url}/${path}` : url;
 
-    const breadcrumb: BreadCrumbModel = {
+    const breadcrumb: BreadcrumbsModel = {
       label,
       url: nextUrl,
     };

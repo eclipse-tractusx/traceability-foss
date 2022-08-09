@@ -21,7 +21,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'ToKeyValue', pure: true })
 export class ToKeyValuePipe implements PipeTransform {
-  transform(value: Record<string, unknown>): { key: string; value: unknown }[] {
+  public transform(value: Record<string, unknown>): { key: string; value: unknown }[] {
     if (!value || typeof value !== 'object' || Array.isArray(value)) {
       return [];
     }

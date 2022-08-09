@@ -19,9 +19,7 @@
 
 import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { PageRoute } from '@shared/model/page-route.model';
 import { getAdminRoute } from '@page/admin/admin-route';
@@ -39,10 +37,6 @@ export class SidebarComponent {
   @Input() expanded: boolean;
 
   public activeMenu = '';
-  public ownLabel = '';
-  public otherLabel = '';
-  public qualityAlertsBadge$: Observable<number>;
-  public qualityInvestigationsBadge$: Observable<number>;
 
   private readonly menu: Record<string, PageRoute> = {
     dashboard: getDashboardRoute(),
@@ -57,7 +51,7 @@ export class SidebarComponent {
     return this.expanded ? 240 : 56;
   }
 
-  constructor(private router: Router, private layoutFacade: LayoutFacade) {
+  constructor(private router: Router) {
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((r: NavigationEnd) => {
       const endUrl = r.urlAfterRedirects ?? r.url;
       const keys: string[] = Object.keys(this.menu);
@@ -65,20 +59,10 @@ export class SidebarComponent {
 
       this.activeMenu = parentRoute || keys.find(menuKey => endUrl.includes(menuKey));
     });
-
-    this.getSidebarLabels();
-    this.qualityAlertsBadge$ = this.layoutFacade.receivedQualityAlerts$;
-    this.qualityInvestigationsBadge$ = this.layoutFacade.receivedQualityInvestigations$;
   }
 
   public navigate(item: string): void {
     this.router.navigate([this.menu[item].link]).then();
     this.activeMenu = item;
-    this.layoutFacade.setTabIndex(0);
-  }
-
-  public getSidebarLabels(): void {
-    this.ownLabel = this.layoutFacade.getOrgPreferences.assetsTile;
-    this.otherLabel = this.layoutFacade.getOrgPreferences.componentsTile;
   }
 }

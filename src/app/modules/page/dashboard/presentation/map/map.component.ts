@@ -39,18 +39,18 @@ export class MapComponent implements AfterViewInit {
   @ViewChild('map') mapElRef: ElementRef<HTMLElement>;
 
   @Input()
-  set mapData(data: PartsCoordinates[]) {
+  public set mapData(data: PartsCoordinates[]) {
     this._mapData = data;
     if (this.isViewReady) {
       this.renderMap(this._mapData);
     }
   }
 
-  get mapData(): PartsCoordinates[] {
+  public get mapData(): PartsCoordinates[] {
     return this._mapData;
   }
 
-  map: Map;
+  public map: Map;
 
   private _mapData: PartsCoordinates[];
   private currentZoom: number;
@@ -58,7 +58,7 @@ export class MapComponent implements AfterViewInit {
 
   constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {}
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.isViewReady = true;
     this.i18NextService.events.languageChanged.pipe(distinctUntilChanged()).subscribe((language: KnownLocale) => {
       if (language) {

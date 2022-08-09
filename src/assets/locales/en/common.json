@@ -75,6 +75,14 @@
     "success_other": "You queued an investigation for {{count}} Parts",
     "goToQueue": "Go to Queue"
   },
+  "requestInvestigations": {
+    "headline": "Request quality investigation",
+    "textAreaDescription": "Add a description about the investigation.",
+    "restoreItem": "Do you want to restore your last item?",
+    "textAreaLabel": "Description",
+    "cancel": "CANCEL",
+    "submit": "ADD TO QUEUE"
+  },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",
     "nextPageLabel": "Next page",

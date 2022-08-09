@@ -20,8 +20,8 @@
 import { realm } from '@core/api/api.service.properties';
 import { PageRoute } from '@shared/model/page-route.model';
 
-export const ADMIN_TOP_ROUTE = 'admin';
+export const ADMIN_BASE_ROUTE = 'admin';
 
 export const getAdminRoute = (): PageRoute => ({
-  link: `${realm}/${ADMIN_TOP_ROUTE}`,
+  link: `${realm}/${ADMIN_BASE_ROUTE}`,
 });

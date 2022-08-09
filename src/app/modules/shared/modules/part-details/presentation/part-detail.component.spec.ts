@@ -26,7 +26,6 @@ import { PartDetailsModule } from '@shared/modules/part-details/partDetails.modu
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { Observable } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { PartDetailComponent } from './part-detail.component';
 
 export const PartDetailsFacadeFactory = (initialPart: View<Part>) => {
@@ -34,8 +33,7 @@ export const PartDetailsFacadeFactory = (initialPart: View<Part>) => {
     public readonly _selectedPart: State<View<Part>> = new State<View<Part>>(initialPart);
 
     get selectedPart$(): Observable<View<Part>> {
-      // IMPORTANT: this delay is needed for view-container directive
-      return this._selectedPart.observable.pipe(delay(0));
+      return this._selectedPart.observable;
     }
 
     set selectedPart(part: Part) {

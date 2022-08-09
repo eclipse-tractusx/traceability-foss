@@ -20,9 +20,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TablePaginationEventConfig } from '@shared/components/table/table.model';
-import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { map } from 'rxjs';
-
 import { InvestigationsFacade } from '../core/investigations.facade';
 
 @Component({
@@ -30,8 +28,6 @@ import { InvestigationsFacade } from '../core/investigations.facade';
   templateUrl: './investigations.component.html',
 })
 export class InvestigationsComponent implements OnInit {
-  public readonly InvestigationStatusGroup = InvestigationStatusGroup;
-
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
   public readonly investigationsQueuedNRequested$ = this.investigationsFacade.investigationsQueuedNRequested$;
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
@@ -56,6 +52,6 @@ export class InvestigationsComponent implements OnInit {
   }
 
   public onTabChange(tabIndex: number) {
-    this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });
+    void this.router.navigate([], { queryParams: { tabIndex }, replaceUrl: true });
   }
 }

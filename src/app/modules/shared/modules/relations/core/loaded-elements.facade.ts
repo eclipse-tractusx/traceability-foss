@@ -25,18 +25,20 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class LoadedElementsFacade {
-  constructor(private loadedElementsState: LoadedElementsState) {}
+  constructor(private readonly loadedElementsState: LoadedElementsState) {}
 
-  get loadedElements(): LoadedElements {
+  public get loadedElements(): LoadedElements {
     return this.loadedElementsState.loadedElements;
   }
 
-  get loadedElements$(): Observable<LoadedElements> {
+  public get loadedElements$(): Observable<LoadedElements> {
     return this.loadedElementsState.loadedElements$;
   }
 
-  public addLoadedElement(element: TreeElement) {
+  public addLoadedElement(element: TreeElement): void {
     const { id, children } = element;
+
+    // TODO: It is not clear what happens here. Rework.
     const loadingChildren = children?.reduce((p: LoadedElements, c: string) => {
       return { ...p, [c]: this.loadedElements[c] || RelationsAssembler.createLoadingElement(c) };
     }, {} as LoadedElements);

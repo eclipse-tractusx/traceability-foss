@@ -27,21 +27,20 @@ export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean
   // Check multi-tenant
   if (environment.multiTenant) {
     const matches: RegExpExecArray = new RegExp(environment.realmRegExp).exec(window.location.href);
-    if (matches) {
-      realm = matches[1];
-    } else {
+    if (!matches) {
       // Redirect user to the default realm page.
       window.location.href = environment.baseUrl + environment.defaultRealm + '/';
-
-      return (): Promise<void> => Promise.resolve();
+      return () => Promise.resolve();
     }
+
+    realm = matches[1];
   }
 
   return (): Promise<boolean> =>
     keycloak.init({
       config: {
-        url: environment.keycloakUrl,
         realm,
+        url: environment.keycloakUrl,
         clientId: environment.clientId,
       },
       initOptions: {

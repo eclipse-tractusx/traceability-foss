@@ -19,9 +19,8 @@
 
 import { TestBed } from '@angular/core/testing';
 import { SharedModule } from '@shared/shared.module';
-import { screen, fireEvent, waitForElementToBeRemoved } from '@testing-library/angular';
+import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-
 import { CtaNotificationService } from './cta-notification.service';
 
 describe('cta-notification', () => {

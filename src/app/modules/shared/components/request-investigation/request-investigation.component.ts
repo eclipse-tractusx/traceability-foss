@@ -20,10 +20,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
-import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaNotificationService } from '@shared/components/call-to-action-notifications/cta-notification.service';
 import { InvestigationStatusGroup } from '@shared/model/investigations.model';
+import { InvestigationsService } from '@shared/service/investigations.service';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -32,32 +32,35 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class RequestInvestigationComponent {
   public isLoading$ = new BehaviorSubject(false);
+  public removedItemsHistory: Part[] = [];
 
   @Input() set isOpen(isOpen: boolean) {
     this.isOpen$.next(isOpen);
-    if (!isOpen) {
-      this.sidenavIsClosing.emit();
-    }
+    if (isOpen) return;
+
+    this.sidenavIsClosing.emit();
+    this.removedItemsHistory = [];
   }
 
   @Input() selectedItems: Part[];
   @Output() deselectPart = new EventEmitter<Part>();
+  @Output() restorePart = new EventEmitter<Part>();
   @Output() clearSelected = new EventEmitter<void>();
   @Output() sidenavIsClosing = new EventEmitter<void>();
 
   constructor(
-    private readonly qualityInvestigationFacade: OtherPartsFacade,
+    private readonly investigationsService: InvestigationsService,
     private readonly ctaNotificationService: CtaNotificationService,
   ) {}
 
-  public isOpen$ = new BehaviorSubject<boolean>(false);
-  public textAreaControl = new FormControl(undefined, [
+  public readonly isOpen$ = new BehaviorSubject<boolean>(false);
+
+  private readonly textAreaControl = new FormControl(undefined, [
     Validators.required,
     Validators.maxLength(1000),
     Validators.minLength(15),
   ]);
-
-  public investigationFormGroup = new FormGroup({ description: this.textAreaControl });
+  public readonly investigationFormGroup = new FormGroup({ description: this.textAreaControl });
 
   public submitInvestigation(): void {
     this.investigationFormGroup.markAllAsTouched();
@@ -66,35 +69,53 @@ export class RequestInvestigationComponent {
     if (this.investigationFormGroup.invalid) {
       return;
     }
+
     this.isLoading$.next(true);
     this.textAreaControl.disable();
 
-    const count = this.selectedItems.length;
-    this.qualityInvestigationFacade.sendInvestigation(this.selectedItems, this.textAreaControl.value).subscribe({
+    const amountOfItems = this.selectedItems.length;
+    this.investigationsService.postInvestigation(this.selectedItems, this.textAreaControl.value).subscribe({
       next: () => {
         this.isLoading$.next(false);
         this.textAreaControl.enable();
 
         this.isOpen = false;
+        this.removedItemsHistory = [];
         this.clearSelected.emit();
 
         this.textAreaControl.setValue(undefined);
         this.textAreaControl.markAsUntouched();
-        const investigationsRoute = getInvestigationInboxRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
-        this.ctaNotificationService.show(
-          {
-            id: 'qualityInvestigation.success',
-            values: { count },
-          },
-          [
-            {
-              text: 'qualityInvestigation.goToQueue',
-              link: investigationsRoute.link,
-              linkQueryParams: investigationsRoute.queryParams,
-            },
-          ],
-        );
+
+        this.openCtaNotification(amountOfItems);
       },
     });
+  }
+
+  private openCtaNotification(count: number): void {
+    const { link, queryParams } = getInvestigationInboxRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
+
+    this.ctaNotificationService.show(
+      {
+        id: 'qualityInvestigation.success',
+        values: { count },
+      },
+      [
+        {
+          text: 'qualityInvestigation.goToQueue',
+          linkQueryParams: queryParams,
+          link,
+        },
+      ],
+    );
+  }
+
+  public cancelAction(part: Part): void {
+    this.removedItemsHistory.unshift(part);
+    this.deselectPart.emit(part);
+  }
+
+  public restoreLastItem(): void {
+    this.restorePart.emit(this.removedItemsHistory[0]);
+    this.removedItemsHistory.shift();
   }
 }

@@ -22,11 +22,9 @@ import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
-
 import { LoadedElementsFacade } from '../relations/core/loaded-elements.facade';
 import { LoadedElementsState } from '../relations/core/loaded-elements.state';
 import { RelationsModule } from '../relations/relations.module';
-
 import { PartDetailsFacade } from './core/partDetails.facade';
 import { PartDetailsState } from './core/partDetails.state';
 import { PartDetailComponent } from './presentation/part-detail.component';

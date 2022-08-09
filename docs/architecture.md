@@ -95,7 +95,7 @@ The facade should also notify the presentation layer of any state updates.
 
 ```typescript
 get acls$(): Observable<View<Acl[]>> {
-    return this.aclState.getAcls$.pipe(delay(0));
+    return this.aclState.getAcls$;
 }
 ```
 

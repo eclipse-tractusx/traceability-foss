@@ -20,8 +20,8 @@
 import { realm } from '@core/api/api.service.properties';
 import { PageRoute } from '@shared/model/page-route.model';
 
-export const OTHER_PARTS_TOP_ROUTE = 'otherParts';
+export const OTHER_PARTS_BASE_ROUTE = 'otherParts';
 
 export const getOtherPartsRoute = (): PageRoute => ({
-  link: `${realm}/${OTHER_PARTS_TOP_ROUTE}`,
+  link: `${realm}/${OTHER_PARTS_BASE_ROUTE}`,
 });

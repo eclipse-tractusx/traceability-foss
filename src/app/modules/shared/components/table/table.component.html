@@ -19,7 +19,7 @@ under the License.
 <div *ngIf="dataSource" [class.mat-elevation-z8]="!noShadow">
   <div *ngIf="selectedPartsInfoLabel" class="table--selected__container">
     <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { count: selection?.selected?.length || 0 } }}</p>
-    <app-button *ngIf="this.selection?.selected?.length > 0" (click)="clickSelectAction.emit()">
+    <app-button *ngIf="this.selection?.selected?.length" (click)="clickSelectAction.emit()">
       {{ selectedPartsActionLabel | i18n }}
     </app-button>
   </div>
@@ -40,8 +40,8 @@ under the License.
     <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row"></tr>
     <tr
       *matRowDef="let row; columns: tableConfig.displayedColumns"
-      (click)="this.selected.emit(row)"
       [class.loading]="this.isDataLoading"
+      (click)="this.selected.emit(row)"
       mat-row
       data-testid="table-component--body-row"
     ></tr>
@@ -61,18 +61,18 @@ under the License.
       <ng-container matColumnDef="select">
         <th *matHeaderCellDef mat-header-cell>
           <mat-checkbox
-            (change)="$event ? toggleAllRows() : null"
             [checked]="selection.hasValue() && areAllRowsSelected()"
             [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
+            (change)="$event ? toggleAllRows() : null"
             data-testid="select-all--test-id"
           >
           </mat-checkbox>
         </th>
         <td *matCellDef="let row" mat-cell>
           <mat-checkbox
+            [checked]="selection.isSelected(row)"
             (click)="$event.stopPropagation()"
             (change)="this.toggleSelection(row)"
-            [checked]="selection.isSelected(row)"
             data-testid="select-one--test-id"
           >
           </mat-checkbox>
@@ -89,14 +89,15 @@ under the License.
           mat-header-cell
           class="table--cell"
         >
-          <ng-container *ngIf="tableConfig?.header?.[i]; else pureColumn">
-            {{ tableConfig?.header?.[i] | i18n }}
-          </ng-container>
+          <ng-container
+            *ngIf="tableConfig?.header?.[i]; else pureColumn"
+            >{{ tableConfig?.header?.[i] | i18n }}</ng-container
+          >
         </th>
         <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
           <ng-container
             [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
-            [ngTemplateOutletContext]="{ value: element[column] }"
+            [ngTemplateOutletContext]="{ value: element[column], row: element }"
           >
           </ng-container>
         </td>

@@ -20,11 +20,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
-import { RequestInvestigationComponent } from '@page/other-parts/presentation/request-investigation/request-investigation.component';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
-
 import { OtherPartsFacade } from './core/other-parts.facade';
 import { OtherPartsService } from './core/other-parts.service';
 import { OtherPartsState } from './core/other-parts.state';
@@ -32,7 +30,7 @@ import { OtherPartsRoutingModule } from './other-parts.routing';
 import { OtherPartsComponent } from './presentation/other-parts.component';
 
 @NgModule({
-  declarations: [OtherPartsComponent, RequestInvestigationComponent],
+  declarations: [OtherPartsComponent],
   imports: [CommonModule, TemplateModule, SharedModule, OtherPartsRoutingModule, PartDetailsModule],
   providers: [OtherPartsState, OtherPartsFacade, OtherPartsService, ...getI18nPageProvider('page.otherParts')],
   exports: [OtherPartsComponent],

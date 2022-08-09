@@ -54,9 +54,17 @@
     "generic": "Die Eingabe ist ungültig."
   },
   "qualityInvestigation": {
-    "success_one": "You queued an investigation for {{count}} Part",
-    "success_other": "You queued an investigation for {{count}} Parts",
-    "goToQueue": "Go to Queue"
+    "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
+    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",
+    "goToQueue": "Zur Warteschlange"
+  },
+  "requestInvestigations": {
+    "headline": "Qualitätsprüfung anfordern",
+    "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
+    "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
+    "textAreaLabel": "Beschreibung",
+    "cancel": "ABBRUCH",
+    "submit": "ZUR WARTESCHLANGE HINZUFÜGEN"
   },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",

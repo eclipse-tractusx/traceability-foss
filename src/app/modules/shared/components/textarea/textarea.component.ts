@@ -17,8 +17,8 @@
  * under the License.
  */
 
-import { Component, Input, Self, OnInit } from '@angular/core';
-import { NgControl, ControlValueAccessor } from '@angular/forms';
+import { Component, Input, OnInit, Self } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'app-textarea',
@@ -27,18 +27,14 @@ import { NgControl, ControlValueAccessor } from '@angular/forms';
 })
 export class TextareaComponent implements ControlValueAccessor, OnInit {
   @Input() label = '';
-
   public value: string;
-
-  public onChange = (_value: string) => {};
-
-  public onTouched = () => {};
-
   public touched = false;
-
   public disabled = false;
 
-  constructor(@Self() public ngControl: NgControl) {
+  public onChange = (_value: string) => {};
+  public onTouched = () => {};
+
+  constructor(@Self() public readonly ngControl: NgControl) {
     // we cannot provide this component in NG_VALUE_ACCESSOR, as we want to have access to the ngControl
     // so we have to setup valueAccessor manualy
     this.ngControl.valueAccessor = this;
@@ -62,10 +58,12 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   public markAsTouched(): void {
-    if (!this.touched) {
-      this.onTouched();
-      this.touched = true;
+    if (this.touched) {
+      return;
     }
+
+    this.onTouched();
+    this.touched = true;
   }
 
   public setDisabledState(disabled: boolean): void {

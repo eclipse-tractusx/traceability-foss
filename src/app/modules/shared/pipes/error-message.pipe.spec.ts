@@ -20,7 +20,6 @@
 import { FormControl, ValidatorFn, Validators } from '@angular/forms';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-
 import { SharedModule } from '..';
 
 describe('ErrorMessagePipe', () => {

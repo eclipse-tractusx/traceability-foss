@@ -18,7 +18,7 @@ under the License.
 -->
 <mat-form-field appearance="standard" class="select--container">
   <mat-label>{{ this.lable }}</mat-label>
-  <mat-select (selectionChange)="this.selected.emit($event.value)" [value]="this.selectedValue">
+  <mat-select [value]="this.selectedValue" (selectionChange)="this.selected.emit($event.value)">
     <mat-option *ngFor="let option of this.options" [value]="option.value || option.lable">{{
       option.lable | i18n
     }}</mat-option>

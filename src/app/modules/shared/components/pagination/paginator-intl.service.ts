@@ -32,12 +32,12 @@ export class PaginatorIntlService implements MatPaginatorIntl {
 
   public changes: Subject<void>;
 
-  constructor(@Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService) {
+  constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {
+    // unfortuantelly BehaviorSubject<string | null> cannot be automatically casted to Subject<void>
+    // which is required by MatPaginatorIntl
     const languageChanged = i18NextService.events.languageChanged as unknown as Subject<void>;
 
-    languageChanged.subscribe(() => {
-      this.setLabels();
-    });
+    languageChanged.subscribe(() => this.setLabels());
 
     this.setLabels();
     this.changes = languageChanged;

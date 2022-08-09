@@ -34,12 +34,7 @@
       "action": "Rozpocznij badanie jakości"
     },
     "requestInvestigations": {
-      "headline": "Zacznij badanie jakości",
-      "partDescription": "Wybrano następny części",
-      "textAreaDescription": "Dodaj opis badania",
-      "textAreaLabel": "Opis",
-      "cancel": "ANULOWAĆ",
-      "submit": "DODAĆ DO KOLEJKI"
+      "partDescription": "Wybrałeś następujące części:"
     }
   }
 }

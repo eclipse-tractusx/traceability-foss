@@ -52,6 +52,7 @@ export interface Part {
   children: string[];
   nameAtCustomer?: string;
   customerPartId?: string;
+  error?: boolean;
 }
 
 export interface PartResponse {

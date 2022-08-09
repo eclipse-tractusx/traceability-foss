@@ -24,17 +24,18 @@ import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
-import { Observable, Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { merge, Observable, of, Subject, Subscription } from 'rxjs';
+import { catchError, delay, takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
+  private subjectList: Record<string, Subject<void>> = {};
   private partsSubscription: Subscription;
+
   constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {}
 
-  get parts$(): Observable<View<Pagination<Part>>> {
-    // IMPORTANT: this delay is needed for view-container directive
-    return this.partsState.parts$.pipe(delay(0));
+  public get parts$(): Observable<View<Pagination<Part>>> {
+    return this.partsState.parts$;
   }
 
   public setParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
@@ -43,5 +44,50 @@ export class PartsFacade {
       next: data => (this.partsState.parts = { data }),
       error: error => (this.partsState.parts = { error }),
     });
+  }
+
+  get selectedParts$(): Observable<Part[]> {
+    // IMPORTANT: this delay is needed for view-container directive
+    return this.partsState.selectedParts$.pipe(delay(0));
+  }
+
+  set selectedParts(parts: Part[]) {
+    this.partsState.selectedParts = parts;
+  }
+
+  public setSelectedParts(selectedPartIds: string[]): void {
+    this.subjectList = selectedPartIds.reduce((list, id) => ({ ...list, [id]: new Subject() }), {});
+
+    this.selectedParts = selectedPartIds.map(id => ({ id } as Part));
+    const selectedPartsObservable = selectedPartIds.map(id => this.getSelectedPartData(id));
+
+    merge(...selectedPartsObservable).subscribe(data => this.updateSelectedParts(data));
+  }
+
+  public removeSelectedPart(part: Part): void {
+    if (Object.keys(this.subjectList).length) {
+      this.subjectList[part.id]?.next();
+    }
+
+    this.selectedParts = this.partsState.selectedParts?.filter(({ id }) => id !== part.id);
+  }
+
+  public addItemToSelection(part: Part): void {
+    this.selectedParts = [...this.partsState.selectedParts, part];
+    if (part.name) return;
+
+    // If the part hase no name, the complete part will be pulled from the BE.
+    this.getSelectedPartData(part.id).subscribe(data => this.updateSelectedParts(data));
+  }
+
+  private updateSelectedParts(part: Part): void {
+    this.selectedParts = this.partsState.selectedParts.map(_part => (_part.id === part.id ? part : _part));
+  }
+
+  private getSelectedPartData(id: string): Observable<Part> {
+    return this.partsService.getPart(id).pipe(
+      takeUntil(this.subjectList[id] || new Subject()),
+      catchError(_ => of({ id, error: true } as Part)),
+    );
   }
 }

@@ -20,8 +20,8 @@
 import { realm } from '@core/api/api.service.properties';
 import { PageRoute } from '@shared/model/page-route.model';
 
-export const DASHBOARD_TOP_ROUTE = 'dashboard';
+export const DASHBOARD_BASE_ROUTE = 'dashboard';
 
 export const getDashboardRoute = (): PageRoute => ({
-  link: `${realm}/${DASHBOARD_TOP_ROUTE}`,
+  link: `${realm}/${DASHBOARD_BASE_ROUTE}`,
 });
