@@ -2,7 +2,9 @@ name: "Publish docker image"
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - 'TRACEFOSS-*'
 
 env:
   REGISTRY: ghcr.io
