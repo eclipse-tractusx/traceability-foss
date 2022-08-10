@@ -52,9 +52,6 @@ export class NotificationContainerComponent implements OnInit, OnDestroy {
 
   public add(notification: NotificationMessage): void {
     this.notifications.unshift(notification);
-
-    if (notification.timeout !== 0) {
-      setTimeout(() => this.remove(notification), notification.timeout);
-    }
+    setTimeout(() => this.remove(notification), notification.timeout);
   }
 }
