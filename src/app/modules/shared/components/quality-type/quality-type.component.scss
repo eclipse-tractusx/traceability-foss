@@ -17,6 +17,30 @@
 * under the License.
 */
 
-.about-container {
-  @apply flex flex-col;
+.quality-type {
+  &__container {
+    display: flex;
+    align-items: center;
+    color: currentColor;
+  }
+
+  &__Ok {
+    @apply text-qualityTypeOk;
+  }
+
+  &__Minor {
+    @apply text-qualityTypeMinor;
+  }
+
+  &__Major {
+    @apply text-qualityTypeMajor;
+  }
+
+  &__Critical {
+    @apply text-qualityTypeCritical;
+  }
+
+  &__LifeThreatening {
+    @apply text-qualityTypeLifeThreatening;
+  }
 }

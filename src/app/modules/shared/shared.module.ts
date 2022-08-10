@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { QualityTypeComponent } from '@shared/components/quality-type/quality-type.component';
 import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
 import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
 import { TextareaComponent } from '@shared/components/textarea/textarea.component';
@@ -76,6 +77,7 @@ import { TemplateModule } from './template.module';
     ErrorMessagePipe,
     RequestInvestigationComponent,
     CtaNotificationComponent,
+    QualityTypeComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -104,6 +106,7 @@ import { TemplateModule } from './template.module';
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,
+    QualityTypeComponent,
   ],
   providers: [FormatDatePipe, StaticIdService, PartsService, ErrorMessagePipe],
 })

@@ -114,9 +114,13 @@ mat-card {
     text-overflow: ellipsis;
   }
 
-  &--icon:hover {
-    @apply text-primary;
-    cursor: pointer;
+  &--icon {
+    display: flex;
+
+    &:hover {
+      @apply text-primary;
+      cursor: pointer;
+    }
   }
 
   &--qualityType {

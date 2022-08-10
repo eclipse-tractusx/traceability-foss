@@ -17,25 +17,25 @@
  * under the License.
  */
 
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { QualityType } from '@page/parts/model/parts.model';
 
-export interface SelectOption {
-  lable: string;
-  value?: string;
-}
-
-// ToDo: use ControlValueAccessor
-// ToDo: Write unit tests
 @Component({
-  selector: 'app-select',
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss'],
+  selector: 'app-quality-type',
+  templateUrl: './quality-type.component.html',
+  styleUrls: ['./quality-type.component.scss'],
 })
-export class SelectComponent {
-  @Input() lable: string;
-  @Input() selectedValue: string;
-  @Input() options: SelectOption[];
-  @Input() optionsRenderer: TemplateRef<unknown>;
+export class QualityTypeComponent {
+  @Input() type: QualityType;
 
-  @Output() selected: EventEmitter<string> = new EventEmitter<string>();
+  public getIconByQualityType(qualityType: QualityType): string {
+    const iconMap = new Map<QualityType, string>([
+      [QualityType.Ok, 'check_circle_outline'],
+      [QualityType.Minor, 'info'],
+      [QualityType.Major, 'warning'],
+      [QualityType.Critical, 'error_outline'],
+      [QualityType.LifeThreatening, 'error'],
+    ]);
+    return iconMap.get(qualityType) || '';
+  }
 }
