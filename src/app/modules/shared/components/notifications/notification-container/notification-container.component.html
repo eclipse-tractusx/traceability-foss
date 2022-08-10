@@ -18,14 +18,12 @@ under the License.
 -->
 
 <div *ngIf="this.notifications.length > 0" class="flex flex-col flex-wrap h-full">
-  <ng-container *ngFor="let notification of this.notifications.reverse()">
-    <div [@notify]="'show'">
-      <div [class.slide-left]="notification.isSliderON" [class.slide-right]="!notification.isSliderON">
-        <app-notification-message
-          [notifierMessage]="notification"
-          (removeNotification)="this.remove($event)"
-        ></app-notification-message>
-      </div>
+  <ng-container *ngFor="let notification of this.notifications">
+    <div [class.slide-left]="notification.isSliderON" [class.slide-right]="!notification.isSliderON">
+      <app-notification-message
+        [notifierMessage]="notification"
+        (removeNotification)="this.remove($event)"
+      ></app-notification-message>
     </div>
   </ng-container>
 </div>
