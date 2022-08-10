@@ -5,9 +5,11 @@ import org.keycloak.adapters.RefreshableKeycloakSecurityContext
 import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount
 import org.keycloak.adapters.tomcat.SimplePrincipal
 import org.keycloak.representations.AccessToken
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.oauth2.client.InMemoryOAuth2AuthorizedClientService
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken
 
 import static java.util.Collections.emptySet
@@ -16,6 +18,9 @@ trait KeycloakSupport {
 
 	@Value('${keycloak.resource}')
 	private String resourceRealm
+
+	@Autowired
+	private InMemoryOAuth2AuthorizedClientService authorizedClientService
 
 	void authenticatedUserWithNoRole() {
 		authenticatedUser()
@@ -56,5 +61,6 @@ trait KeycloakSupport {
 
 	void clearAuthentication() {
 		SecurityContextHolder.clearContext()
+		authorizedClientService.removeAuthorizedClient("keycloak", "feignClient")
 	}
 }

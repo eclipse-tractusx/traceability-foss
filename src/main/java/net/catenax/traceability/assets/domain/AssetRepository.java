@@ -15,5 +15,9 @@ public interface AssetRepository {
 
 	Asset save(Asset asset);
 
+	List<Asset> saveAll(List<Asset> assets);
+
     long countAssets();
+
+    void clean();
 }

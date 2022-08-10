@@ -9,12 +9,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProvider;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.security.task.DelegatingSecurityContextAsyncTaskExecutor;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -41,6 +38,7 @@ import java.util.List;
 @ConfigurationPropertiesScan(basePackages = "net.catenax.traceability.*")
 @EnableOpenApi
 @EnableWebMvc
+@EnableAsync
 @EnableConfigurationProperties
 public class ApplicationConfig {
 
@@ -76,6 +74,21 @@ public class ApplicationConfig {
 		templateEngine.addTemplateResolver(htmlTemplateResolver());
 		templateEngine.addTemplateResolver(textTemplateResolver());
 		return templateEngine;
+	}
+
+	@Bean
+	public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(10);
+		executor.setMaxPoolSize(100);
+		executor.setQueueCapacity(50);
+		executor.setThreadNamePrefix("async-");
+		return executor;
+	}
+
+	@Bean
+	public DelegatingSecurityContextAsyncTaskExecutor taskExecutor(ThreadPoolTaskExecutor delegate) {
+		return new DelegatingSecurityContextAsyncTaskExecutor(delegate);
 	}
 
 	public ITemplateResolver htmlTemplateResolver() {
@@ -143,20 +156,5 @@ public class ApplicationConfig {
 			))
 			.operationSelector(operationContext -> HttpMethod.GET.equals(operationContext.httpMethod()))
 			.build();
-	}
-
-	@Bean
-	public OAuth2AuthorizedClientManager auth2AuthorizedClientManager(ClientRegistrationRepository clientRegistrationRepository,
-																	  OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository) {
-		OAuth2AuthorizedClientProvider oAuth2AuthorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
-			.clientCredentials()
-			.build();
-
-		DefaultOAuth2AuthorizedClientManager authorizedClientManager =
-			new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository, oAuth2AuthorizedClientRepository);
-
-		authorizedClientManager.setAuthorizedClientProvider(oAuth2AuthorizedClientProvider);
-
-		return authorizedClientManager;
 	}
 }

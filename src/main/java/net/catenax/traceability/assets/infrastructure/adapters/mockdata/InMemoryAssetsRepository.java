@@ -2,7 +2,6 @@ package net.catenax.traceability.assets.infrastructure.adapters.mockdata;
 
 import net.catenax.traceability.assets.domain.Asset;
 import net.catenax.traceability.assets.domain.AssetRepository;
-import net.catenax.traceability.assets.domain.AssetsReader;
 import net.catenax.traceability.assets.domain.BpnRepository;
 import net.catenax.traceability.assets.domain.PageResult;
 import org.springframework.beans.support.MutableSortDefinition;
@@ -12,20 +11,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
 public class InMemoryAssetsRepository implements AssetRepository {
 
-	private final Map<String, Asset> assets;
+	private final Map<String, Asset> assets = new HashMap<>();
 
 	private final BpnRepository bpnRepository;
 
 	public InMemoryAssetsRepository(BpnRepository bpnRepository) {
 		this.bpnRepository = bpnRepository;
-		assets = AssetsReader.readAssets();
 	}
 
 	@Override
@@ -79,8 +80,22 @@ public class InMemoryAssetsRepository implements AssetRepository {
 	}
 
 	@Override
+	public List<Asset> saveAll(List<Asset> assets) {
+		this.assets.clear();
+		this.assets.putAll(assets.stream()
+			.collect(Collectors.toMap(Asset::id, Function.identity()))
+		);
+		return assets;
+	}
+
+	@Override
 	public long countAssets() {
 		return assets.size();
+	}
+
+	@Override
+	public void clean() {
+		assets.clear();
 	}
 
 	private List<Asset> getAssetsWithUpdatedNamesForPage(PagedListHolder<Asset> originPageListHolder) {

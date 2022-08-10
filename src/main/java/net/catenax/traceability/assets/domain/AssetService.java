@@ -1,6 +1,8 @@
 package net.catenax.traceability.assets.domain;
 
+import net.catenax.traceability.assets.infrastructure.adapters.openapi.irs.IrsService;
 import net.catenax.traceability.assets.infrastructure.adapters.rest.assets.UpdateAsset;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -11,8 +13,16 @@ public class AssetService {
 
 	private final AssetRepository assetRepository;
 
-	public AssetService(AssetRepository assetRepository) {
+	private final IrsService irsService;
+
+	public AssetService(AssetRepository assetRepository, IrsService irsService) {
 		this.assetRepository = assetRepository;
+		this.irsService = irsService;
+	}
+
+	@Async
+	public void synchronizeAssets() {
+		irsService.synchronizeAssets();
 	}
 
 	public Asset updateAsset(String assetId, UpdateAsset updateAsset) {

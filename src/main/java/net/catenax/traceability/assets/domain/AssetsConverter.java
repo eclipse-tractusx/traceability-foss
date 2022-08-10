@@ -3,6 +3,7 @@ package net.catenax.traceability.assets.domain;
 import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.catenax.traceability.assets.domain.Asset.ChildDescriptions;
@@ -18,37 +19,44 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class AssetsReader {
+import static net.catenax.traceability.assets.infrastructure.adapters.openapi.irs.IRSApiClient.JobResponse;
+import static net.catenax.traceability.assets.infrastructure.adapters.openapi.irs.IRSApiClient.Shell;
+import static net.catenax.traceability.assets.infrastructure.adapters.openapi.irs.IRSApiClient.Submodel;
+
+public class AssetsConverter {
 
 	private static final String EMPTY_TEXT = "--";
 
-	public static Map<String, Asset> readAssets()  {
-		return new AssetsReader().readAndConvertAssets();
+	private ObjectMapper mapper = new ObjectMapper()
+		.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+	public List<Asset> readAndConvertAssets() {
+		try {
+			InputStream file = AssetsConverter.class.getResourceAsStream("/data/irs_assets.json");
+			JobResponse response = mapper.readValue(file, JobResponse.class);
+
+			return convertAssets(response);
+		} catch (IOException e) {
+			return Collections.emptyList();
+		}
 	}
 
-	private Map<String, Asset> readAndConvertAssets()  {
+	public List<Asset> convertAssets(JobResponse response)  {
 		try {
-			InputStream file = AssetsReader.class.getResourceAsStream("/data/irs_assets.json");
-
-			ObjectMapper mapper = new ObjectMapper()
-				.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
-				.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
 			List<SerialPartTypization> parts = new ArrayList<>();
 			Map<String, AssemblyPartRelationship> relationships = new HashMap<>();
-			RawAssets rawAssets = mapper.readValue(file, RawAssets.class);
-			Map<String, String> shortIds = rawAssets.shells.stream()
+			Map<String, String> shortIds = response.shells().stream()
 				.collect(Collectors.toMap(Shell::identification, Shell::idShort));
 
-			for (Submodel submodel : rawAssets.submodels) {
-				if (submodel.aspectType.contains("serial_part_typization")) {
-					parts.add(mapper.readValue(submodel.payload, SerialPartTypization.class));
+			for (Submodel submodel : response.submodels()) {
+				if (submodel.aspectType().contains("serial_part_typization")) {
+					parts.add(mapper.readValue(submodel.payload(), SerialPartTypization.class));
 				}
-				if (submodel.aspectType.contains("assembly_part_relationship")) {
-					AssemblyPartRelationship assemblyPartRelationship = mapper.readValue(submodel.payload, AssemblyPartRelationship.class);
+				if (submodel.aspectType().contains("assembly_part_relationship")) {
+					AssemblyPartRelationship assemblyPartRelationship = mapper.readValue(submodel.payload(), AssemblyPartRelationship.class);
 					relationships.put(assemblyPartRelationship.catenaXId, assemblyPartRelationship);
 				}
 			}
@@ -68,9 +76,9 @@ public class AssetsReader {
 					Collections.emptyMap(),
 					getChildParts(relationships, shortIds, part.catenaXId),
 					QualityType.OK
-				)).collect(Collectors.toConcurrentMap(Asset::id, Function.identity()));
-		} catch (IOException e) {
-			return Collections.emptyMap();
+				)).toList();
+		} catch (JsonProcessingException e) {
+			return Collections.emptyList();
 		}
 	}
 
@@ -112,7 +120,7 @@ public class AssetsReader {
 				return EMPTY_TEXT;
 			}
 			return localIdentifiers.stream()
-				.filter(localId -> localId.type == LocalIdType.ManufacturerID)
+				.filter(localId -> localId.type == LocalIdType.MANUFACTURER_ID)
 				.findFirst()
 				.map(LocalId::value)
 				.orElse(EMPTY_TEXT);
@@ -146,31 +154,17 @@ public class AssetsReader {
 	) {}
 
 	public enum LocalIdType {
-		ManufacturerID,
-		ManufacturerPartID,
-		PartInstanceID,
-		@JsonEnumDefaultValue Unknown
+		@JsonProperty("ManufacturerID")
+		MANUFACTURER_ID,
+		@JsonProperty("ManufacturerPartID")
+		MANUFACTURER_PART_ID,
+		@JsonProperty("PartInstanceID")
+		PART_INSTANCE_ID,
+		@JsonEnumDefaultValue UNKNOWN
 	}
 
 	public record LocalId(
 		@JsonProperty("key") LocalIdType type,
 		String value
 	) {}
-
-	public record RawAssets(
-		List<Submodel> submodels,
-		List<Shell> shells
-	) {}
-
-	public record Shell(
-		String idShort,
-		String identification
-	) {}
-
-	public record Submodel(
-		String identification,
-		String aspectType,
-		String payload
-	) {}
-
 }

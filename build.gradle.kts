@@ -56,6 +56,7 @@ val jacksonDatabindNullableVersion = "0.2.2"
 val scribejavaVersion = "8.0.0"
 val findBugsVersion = "3.0.2"
 val restitoVersion = "0.9.4"
+val resilience4jVersion = "1.7.0"
 
 dependencyManagement {
 	imports {
@@ -76,6 +77,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
 	implementation("org.springframework.boot:spring-boot-starter-cache")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
 
 	implementation("org.springframework.data:spring-data-commons")
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
@@ -98,6 +101,10 @@ dependencies {
 	}
 
 	implementation("commons-codec:commons-codec:$commonsCodecVersion")
+
+	implementation("io.github.resilience4j:resilience4j-feign:${resilience4jVersion}")
+	implementation("io.github.resilience4j:resilience4j-retry:${resilience4jVersion}")
+	implementation("io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}")
 
     testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
     testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))

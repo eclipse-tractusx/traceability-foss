@@ -26,6 +26,8 @@ class RestitoConfig {
 		void initialize(ConfigurableApplicationContext configurableApplicationContext) {
 			TestPropertyValues.of(
 				"feign.bpnApi.url=http://127.0.0.1:$STUB_SERVER_PORT",
+				"feign.irsApi.url=http://127.0.0.1:$STUB_SERVER_PORT",
+				"feign.irsApi.globalAssetId=testAssetId",
 				"spring.security.oauth2.client.provider.keycloak.token-uri=http://127.0.0.1:$STUB_SERVER_PORT/$KEYCLOAK_TOKEN_PATH",
 			).applyTo(configurableApplicationContext.getEnvironment())
 		}

@@ -65,3 +65,13 @@ cors:
     http://localhost:4200/,
     https://traceability-portal.dev.demo.catena-x.net/,
     https://traceability-portal.int.demo.catena-x.net/
+
+resilience4j:
+  retry:
+    instances:
+      irs-get:
+        resultPredicate: 'net.catenax.traceability.assets.infrastructure.adapters.openapi.irs.JobRunning'
+        maxAttempts: 5
+        waitDuration: 10s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2

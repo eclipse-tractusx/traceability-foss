@@ -18,6 +18,7 @@ class DashboardControllerIT extends IntegrationSpec {
 	@Unroll
 	def "should return all dashboard information for user with #role role"() {
 		given:
+			defaultAssets()
 			authenticatedUser(role)
 
 		expect:
@@ -32,6 +33,7 @@ class DashboardControllerIT extends IntegrationSpec {
 
 	def "should return only 'my items' dashboard information for user with USER role"() {
 		given:
+			defaultAssets()
 			authenticatedUser(USER)
 
 		expect:

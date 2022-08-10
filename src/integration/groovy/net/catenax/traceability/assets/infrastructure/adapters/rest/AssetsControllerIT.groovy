@@ -1,15 +1,19 @@
 package net.catenax.traceability.assets.infrastructure.adapters.rest
 
 import net.catenax.traceability.IntegrationSpec
+import net.catenax.traceability.assets.domain.AssetRepository
 import net.catenax.traceability.common.security.KeycloakRole
 import org.hamcrest.Matchers
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
+import spock.util.concurrent.PollingConditions
 
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.hasItems
 import static org.hamcrest.Matchers.not
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -24,6 +28,25 @@ class AssetsControllerIT extends IntegrationSpec {
 		"BPNL00000003B5MJ"
 	]
 
+	@Autowired
+	private AssetRepository assetsRepository
+
+	def "should synchronize assets"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
+			irsApiTriggerJob()
+			irsApiReturnsJobDetails()
+
+		when:
+			mvc.perform(post("/assets/sync")).andExpect(status().isOk())
+
+		then:
+			new PollingConditions(timeout: 10, initialDelay: 0.5).eventually {
+				assetsRepository.countAssets() == 13
+			}
+	}
+
 	def "should return assets for authenticated user with role"() {
 		given:
 			authenticatedUser(KeycloakRole.ADMIN)
@@ -35,6 +58,7 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets with manufacturer name"() {
 		given:
+			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
@@ -53,6 +77,7 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets with manufacturer name using values from cache"() {
 		given:
+			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
@@ -73,6 +98,7 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets without manufacturer name when name was not returned by BPN API"() {
 		given:
+			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
@@ -87,6 +113,7 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets without manufacturer name when BPN API has no data"() {
 		given:
+			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
@@ -128,6 +155,7 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should get a page of assets"() {
 		given:
+		defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
@@ -186,6 +214,7 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should update quality type for existing asset"() {
 		given:
+			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 

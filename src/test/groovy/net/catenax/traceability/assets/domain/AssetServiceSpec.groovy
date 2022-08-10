@@ -1,12 +1,13 @@
 package net.catenax.traceability.assets.domain
 
 import net.catenax.traceability.UnitSpec
+import net.catenax.traceability.assets.infrastructure.adapters.openapi.irs.IrsService
 
-class AssetServiceSpec extends UnitSpec {
+class inAssetServiceSpec extends UnitSpec {
 
 	AssetRepository repository = Mock()
 
-	AssetService assetService = new AssetService(repository)
+	AssetService assetService = new AssetService(repository, Mock(IrsService))
 
 	def "should return assets country map"() {
 		given:

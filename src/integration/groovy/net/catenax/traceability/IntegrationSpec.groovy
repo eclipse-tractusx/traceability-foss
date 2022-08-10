@@ -2,12 +2,15 @@ package net.catenax.traceability
 
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
+import net.catenax.traceability.assets.domain.AssetRepository
+import net.catenax.traceability.assets.domain.AssetsConverter
 import net.catenax.traceability.assets.infrastructure.adapters.cache.bpn.BpnCache
 import net.catenax.traceability.common.config.MailboxConfig
 import net.catenax.traceability.common.config.OAuth2Config
 import net.catenax.traceability.common.config.RestitoConfig
 import net.catenax.traceability.common.config.SecurityTestConfig
 import net.catenax.traceability.common.support.BpnApiSupport
+import net.catenax.traceability.common.support.IrsApiSupport
 import net.catenax.traceability.common.support.KeycloakApiSupport
 import net.catenax.traceability.common.support.KeycloakSupport
 import org.springframework.beans.factory.annotation.Autowired
@@ -25,7 +28,7 @@ import spock.lang.Specification
 	classes = [SecurityTestConfig.class, MailboxConfig.class, RestitoConfig.class, OAuth2Config.class],
 	initializers = [RestitoConfig.Initializer.class]
 )
-abstract class IntegrationSpec extends Specification implements KeycloakSupport, BpnApiSupport, KeycloakApiSupport {
+abstract class IntegrationSpec extends Specification implements KeycloakSupport, BpnApiSupport, IrsApiSupport, KeycloakApiSupport {
 
 	@Autowired
 	protected MockMvc mvc
@@ -33,10 +36,14 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	@Autowired
 	protected BpnCache bpnCache
 
+	@Autowired
+	private AssetRepository assetRepository
+
 	def cleanup() {
 		RestitoConfig.clear()
 		bpnCache.clear()
 		clearAuthentication()
+		assetRepository.clean()
 	}
 
 	@Override
@@ -47,4 +54,10 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	protected String asJson(Map map) {
 		return new JsonBuilder(map).toPrettyString()
 	}
+
+	void defaultAssets() {
+		AssetsConverter converter = new AssetsConverter()
+		assetRepository.saveAll(converter.readAndConvertAssets())
+	}
+
 }
