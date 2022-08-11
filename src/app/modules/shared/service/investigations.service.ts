@@ -21,13 +21,11 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
-import { Part } from '@page/parts/model/parts.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InvestigationsAssembler } from '../assembler/investigations.assembler';
 import {
-  Investigation,
-  InvestigationResponse,
+  InvestigationCreateResponse,
   Investigations,
   InvestigationsResponse,
   InvestigationStatusGroup,
@@ -53,11 +51,11 @@ export class InvestigationsService {
       .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
   }
 
-  public postInvestigation(selectedParts: Part[], description: string): Observable<Investigation> {
-    const body = { selectedParts, description };
+  public postInvestigation(partIds: string[], description: string): Observable<string> {
+    const body = { partIds, description };
 
     return this.apiService
-      .post<InvestigationResponse>(`${this.url}/investigations`, body)
-      .pipe(map(investigation => InvestigationsAssembler.assembleInvestigation(investigation)));
+      .post<InvestigationCreateResponse>(`${this.url}/investigations`, body)
+      .pipe(map(({ investigationId }) => investigationId));
   }
 }

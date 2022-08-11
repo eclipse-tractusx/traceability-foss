@@ -38,15 +38,19 @@ export class PartsState {
     this._parts$.update(partsView);
   }
 
-  get selectedParts$(): Observable<Part[]> {
+  public get parts(): View<Pagination<Part>> {
+    return this._parts$.snapshot;
+  }
+
+  public get selectedParts$(): Observable<Part[]> {
     return this._selectedParts$.observable;
   }
 
-  get selectedParts(): Part[] {
+  public get selectedParts(): Part[] {
     return this._selectedParts$.snapshot;
   }
 
-  set selectedParts(parts: Part[]) {
+  public set selectedParts(parts: Part[]) {
     this._selectedParts$.update(parts);
   }
 }

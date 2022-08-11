@@ -73,8 +73,9 @@ export class RequestInvestigationComponent {
     this.isLoading$.next(true);
     this.textAreaControl.disable();
 
+    const partIds = this.selectedItems.map(part => part.id);
     const amountOfItems = this.selectedItems.length;
-    this.investigationsService.postInvestigation(this.selectedItems, this.textAreaControl.value).subscribe({
+    this.investigationsService.postInvestigation(partIds, this.textAreaControl.value).subscribe({
       next: () => {
         this.isLoading$.next(false);
         this.textAreaControl.enable();
@@ -87,6 +88,10 @@ export class RequestInvestigationComponent {
         this.textAreaControl.markAsUntouched();
 
         this.openCtaNotification(amountOfItems);
+      },
+      error: () => {
+        this.isLoading$.next(false);
+        this.textAreaControl.enable();
       },
     });
   }

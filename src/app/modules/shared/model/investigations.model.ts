@@ -31,6 +31,10 @@ export enum InvestigationStatusGroup {
   QUEUED_AND_REQUESTED = 'queued-and-requested',
 }
 
+export interface InvestigationCreateResponse {
+  investigationId: string;
+}
+
 export interface InvestigationResponse {
   id: string;
   description: string;

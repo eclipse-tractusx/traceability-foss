@@ -32,6 +32,13 @@
     "inProgress": "Daten werden geladen...",
     "error": "Fehler beim Laden der Daten."
   },
+  "qualityType": {
+    "Ok": "Ok",
+    "Minor": "Gering",
+    "Major": "Schwerwiegend",
+    "Critical": "Kritisch",
+    "LifeThreatening": "Lebensgefährlich"
+  },
   "map": {
     "LogoControl.Title": "Mapbox logo",
     "Map.Title": "Karte",

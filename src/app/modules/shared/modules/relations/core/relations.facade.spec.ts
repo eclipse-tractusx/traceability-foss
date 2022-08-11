@@ -25,7 +25,7 @@ import { RelationsFacade } from '@shared/modules/relations/core/relations.facade
 import { TreeElement } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
-import { of, firstValueFrom, lastValueFrom } from 'rxjs';
+import { firstValueFrom, of } from 'rxjs';
 import { map, skip, tap } from 'rxjs/operators';
 import {
   MOCK_part_1,
@@ -162,7 +162,7 @@ describe('Relations facade', () => {
                 title: 'MOCK_part_4',
               },
             ],
-            state: 'done',
+            state: 'Minor',
             text: 'BMW 520d Touring',
             title: 'BMW 520d Touring | 3N1CE2CPXFL392065',
           },
@@ -177,7 +177,7 @@ describe('Relations facade', () => {
                 title: 'MOCK_part_5',
               },
             ],
-            state: 'done',
+            state: 'Major',
             text: 'A 180 Limousine',
             title: 'A 180 Limousine | JF1ZNAA12E8706066',
           },

@@ -20,7 +20,7 @@
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
-import { Part } from '@page/parts/model/parts.model';
+import { Part, QualityType } from '@page/parts/model/parts.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
@@ -33,7 +33,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit, AfterViewInit {
-  @ViewChild('statusTmp') statusTmp: TemplateRef<unknown>;
+  @ViewChild('childInvestigationTmp') childInvestigationTmp: TemplateRef<unknown>;
+  @ViewChild('qualityTypeTmp') qualityTypeTmp: TemplateRef<unknown>;
+
   public readonly displayedColumns: string[] = [
     'id',
     'name',
@@ -84,7 +86,8 @@ export class PartsComponent implements OnInit, AfterViewInit {
       header: this.displayedColumns.map(column => `pageParts.column.${column}`),
       sortableColumns: this.sortableColumns,
       cellRenderers: {
-        childInvestigation: this.statusTmp,
+        childInvestigation: this.childInvestigationTmp,
+        qualityType: this.qualityTypeTmp,
       },
     };
   }
@@ -117,5 +120,16 @@ export class PartsComponent implements OnInit, AfterViewInit {
 
   public clearSelected(): void {
     this.partsFacade.selectedParts = [];
+  }
+
+  public getIconByQualityType(qualityType: QualityType): string {
+    const iconMap = new Map<QualityType, string>([
+      [QualityType.Ok, 'check_circle_outline'],
+      [QualityType.Minor, 'info'],
+      [QualityType.Major, 'warning'],
+      [QualityType.Critical, 'error_outline'],
+      [QualityType.LifeThreatening, 'error'],
+    ]);
+    return iconMap.get(qualityType) || '';
   }
 }
