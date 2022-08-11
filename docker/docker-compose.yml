@@ -1,0 +1,24 @@
+name: trace-foss
+
+services:
+  postgres:
+    image: "postgres:14.4"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=docker
+    expose:
+      - "5432"
+    networks:
+      net:
+
+networks:
+  net:
+    ipam:
+      config:
+        - subnet: 172.170.1.0/24
+volumes:
+  postgres-data:

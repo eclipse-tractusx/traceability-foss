@@ -55,7 +55,7 @@ val springCloudVersion = "2021.0.1"
 val jacksonDatabindNullableVersion = "0.2.2"
 val scribejavaVersion = "8.0.0"
 val findBugsVersion = "3.0.2"
-val restitoVersion = "0.9.4"
+val restitoVersion = "0.9.5"
 val resilience4jVersion = "1.7.0"
 
 dependencyManagement {
@@ -81,13 +81,17 @@ dependencies {
 	implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
 
 	implementation("org.springframework.data:spring-data-commons")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.postgresql:postgresql")
+	implementation("org.flywaydb:flyway-core")
+
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+	implementation("io.github.openfeign:feign-okhttp:$feignVersion")
+	implementation("io.github.openfeign:feign-jackson:$feignVersion")
+
 	implementation("org.openapitools:jackson-databind-nullable:$jacksonDatabindNullableVersion")
 	implementation("com.google.code.findbugs:jsr305:$findBugsVersion")
 	implementation("com.github.ben-manes.caffeine:caffeine")
-
-	implementation("io.github.openfeign:feign-okhttp:$feignVersion")
-	implementation("io.github.openfeign:feign-jackson:$feignVersion")
 
 	implementation("com.github.scribejava:scribejava-core:$scribejavaVersion")
 
@@ -113,6 +117,8 @@ dependencies {
 
 	integrationImplementation("org.springframework.boot:spring-boot-starter-test")
 	integrationImplementation("org.springframework.security:spring-security-test")
+	integrationImplementation("io.zonky.test:embedded-database-spring-test:2.1.1")
+	integrationImplementation("io.zonky.test:embedded-postgres:2.0.0")
 
     integrationImplementation("com.icegreen:greenmail-spring:$greenmailVersion")
 	integrationImplementation("com.xebialabs.restito:restito:$restitoVersion")
