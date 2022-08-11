@@ -36,18 +36,15 @@ export class ViewContainerDirective<T> implements AfterViewInit {
     this.errorTemplateRef = templateRef;
   }
 
-  @Input() set viewContainerParams(params: Record<string, unknown>) {
-    this.params = params;
+  @Input() set viewContainerCustomContext(customContext: Record<string, unknown>) {
+    this.customContext = customContext;
   }
 
   @Input() set viewContainer(view: View<T>) {
     if (!view) return;
 
     this.context.view = view;
-
-    for (const paramKey of Object.keys(this.params)) {
-      this.context[paramKey] = this.params[paramKey];
-    }
+    this.context.customContext = this.customContext;
 
     let templateRef: TemplateRef<ViewContext<T>>;
 
@@ -69,7 +66,7 @@ export class ViewContainerDirective<T> implements AfterViewInit {
   private errorTemplateRef: TemplateRef<ViewContext<T>> = null;
   private loaderTemplateRef: TemplateRef<ViewContext<T>> = null;
   private currentTemplateRef: TemplateRef<ViewContext<T>> = null;
-  private params: Record<string, unknown> = {};
+  private customContext: Record<string, unknown> = {};
 
   constructor(private readonly viewContainerRef: ViewContainerRef) {}
 

@@ -32,7 +32,7 @@ under the License.
           main: mainTmp;
           error: errorTmp;
           loading: loaderTmp;
-          params: { labelId: supplierTabLabelId }
+          customContext: { labelId: supplierTabLabelId }
         "
       ></ng-container>
     </mat-tab>
@@ -48,7 +48,7 @@ under the License.
           main: mainTmp;
           error: errorTmp;
           loading: loaderTmp;
-          params: { labelId: customerTabLabelId }
+          customContext: { labelId: customerTabLabelId }
         "
       ></ng-container>
     </mat-tab>
@@ -56,7 +56,7 @@ under the License.
   <app-part-detail [showRelation]="false"></app-part-detail>
 </div>
 
-<ng-template #mainTmp let-parts="view" let-labelId="labelId">
+<ng-template #mainTmp let-parts="view" let-customContext="customContext">
   <app-table
     [data]="parts.data"
     [tableConfig]="tableConfig"
@@ -65,7 +65,7 @@ under the License.
     [deselectTrigger]="deselectPartTrigger$ | async"
     [addTrigger]="addPartTrigger$ | async"
     [noShadow]="true"
-    [labelId]="labelId"
+    [labelId]="customContext.labelId"
     (selected)="onSelectItem($event)"
     (configChanged)="onTableConfigChange($event)"
     (multiSelect)="onMultiSelect($event)"
