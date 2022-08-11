@@ -31,8 +31,8 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   public touched = false;
   public disabled = false;
 
-  public onChange = (_value: string) => {};
-  public onTouched = () => {};
+  public onChange: ((_value: string) => {}) | null = null;
+  public onTouched: (() => void) | null = null;
 
   constructor(@Self() public readonly ngControl: NgControl) {
     // we cannot provide this component in NG_VALUE_ACCESSOR, as we want to have access to the ngControl
@@ -62,7 +62,7 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
       return;
     }
 
-    this.onTouched();
+    this.onTouched?.();
     this.touched = true;
   }
 

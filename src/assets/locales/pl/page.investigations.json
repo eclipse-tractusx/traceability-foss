@@ -3,7 +3,7 @@
     "title": "Dochodzenie Jakości",
     "tabs": {
       "received": "Otrzymane",
-      "queuedNRequested": "Oczekujące & Zażądane"
+      "queuedAndRequested": "Oczekujące & Zażądane"
     },
     "column": {
       "description": "Opis",

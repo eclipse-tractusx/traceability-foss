@@ -30,6 +30,7 @@ under the License.
     mat-table
     matSort
     data-testid="table-component--test-id"
+    [attr.aria-labelledby]="labelId"
   >
     <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index">
       <ng-container

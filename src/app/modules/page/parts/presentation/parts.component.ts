@@ -21,6 +21,7 @@ import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angul
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -56,13 +57,19 @@ export class PartsComponent implements OnInit, AfterViewInit {
     productionCountry: true,
   };
 
+  public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
+
   public tableConfig: TableConfig;
 
   public readonly isInvestigationOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public readonly parts$: Observable<View<Pagination<Part>>>;
   public readonly currentSelectedItems$: Observable<Part[]>;
 
-  constructor(private readonly partsFacade: PartsFacade, private readonly partDetailsFacade: PartDetailsFacade) {
+  constructor(
+    private readonly partsFacade: PartsFacade,
+    private readonly partDetailsFacade: PartDetailsFacade,
+    private readonly staticIdService: StaticIdService,
+  ) {
     this.parts$ = this.partsFacade.parts$;
     this.currentSelectedItems$ = this.partsFacade.selectedParts$;
   }

@@ -20,15 +20,24 @@ under the License.
 <app-header [title]="'pageInvestigations.title' | i18n"></app-header>
 
 <mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)" appTabAsPanel>
-  <mat-tab [label]="'pageInvestigations.tabs.received' | i18n">
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span [id]="receivedTabLabelId">{{ 'pageInvestigations.tabs.received' | i18n }} </span>
+    </ng-template>
     <app-investigations-tab
       [investigations]="investigationsReceived$ | async"
+      [labelId]="receivedTabLabelId"
       (pagination)="onReceivedPagination($event)"
     ></app-investigations-tab>
   </mat-tab>
-  <mat-tab [label]="'pageInvestigations.tabs.queuedNRequested' | i18n">
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span [id]="queuedAndRequestedTabLabelId">{{ 'pageInvestigations.tabs.queuedAndRequested' | i18n }} </span>
+    </ng-template>
     <app-investigations-tab
-      [investigations]="investigationsQueuedNRequested$ | async"
+      [investigations]="investigationsQueuedAndRequested$ | async"
+      [labelId]="queuedAndRequestedTabLabelId"
       (pagination)="onQueuedAndRequestedPagination($event)"
     ></app-investigations-tab>
   </mat-tab>

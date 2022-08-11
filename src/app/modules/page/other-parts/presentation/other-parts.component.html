@@ -21,22 +21,42 @@ under the License.
   <app-header [title]="'pageParts.title' | i18n"></app-header>
 
   <mat-tab-group (selectedTabChange)="onTabChange($event)" appTabAsPanel mat-align-tabs="start">
-    <mat-tab label="{{ 'pageParts.tab.supplier' | i18n }}">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span [id]="supplierTabLabelId">{{ 'pageParts.tab.supplier' | i18n }} </span>
+      </ng-template>
+
       <ng-container
-        *viewContainer="supplierParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
+        *viewContainer="
+          supplierParts$ | async;
+          main: mainTmp;
+          error: errorTmp;
+          loading: loaderTmp;
+          params: { labelId: supplierTabLabelId }
+        "
       ></ng-container>
     </mat-tab>
 
-    <mat-tab label="{{ 'pageParts.tab.customer' | i18n }}">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span [id]="customerTabLabelId">{{ 'pageParts.tab.customer' | i18n }} </span>
+      </ng-template>
+
       <ng-container
-        *viewContainer="customerParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
+        *viewContainer="
+          customerParts$ | async;
+          main: mainTmp;
+          error: errorTmp;
+          loading: loaderTmp;
+          params: { labelId: customerTabLabelId }
+        "
       ></ng-container>
     </mat-tab>
   </mat-tab-group>
   <app-part-detail [showRelation]="false"></app-part-detail>
 </div>
 
-<ng-template #mainTmp let-parts="view">
+<ng-template #mainTmp let-parts="view" let-labelId="labelId">
   <app-table
     [data]="parts.data"
     [tableConfig]="tableConfig"
@@ -45,6 +65,7 @@ under the License.
     [deselectTrigger]="deselectPartTrigger$ | async"
     [addTrigger]="addPartTrigger$ | async"
     [noShadow]="true"
+    [labelId]="labelId"
     (selected)="onSelectItem($event)"
     (configChanged)="onTableConfigChange($event)"
     (multiSelect)="onMultiSelect($event)"
