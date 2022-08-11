@@ -1,9 +1,9 @@
 {
   "pageInvestigations": {
-    "title": "Dochodzenie Jakości",
+    "title": "Badanie Jakości",
     "tabs": {
       "received": "Otrzymane",
-      "queuedAndRequested": "Oczekujące & Zażądane"
+      "queuedNRequested": "Skolejkowane & Zażądane"
     },
     "column": {
       "description": "Opis",
@@ -12,7 +12,7 @@
     },
     "status": {
       "received": "Otrzymane",
-      "queued": "Oczekujące",
+      "queued": "Skolejkowane",
       "requested": "Zażądane"
     }
   }

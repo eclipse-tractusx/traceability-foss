@@ -82,5 +82,14 @@
     "textAreaLabel": "Description",
     "cancel": "CANCEL",
     "submit": "ADD TO QUEUE"
+  },
+  "pagination": {
+    "itemsPerPageLabel": "Items per page:",
+    "nextPageLabel": "Next page",
+    "previousPageLabel": "Previous page",
+    "firstPageLabel": "First page",
+    "lastPageLabel": "Last page",
+    "emptyRange": "0 of {{length}}",
+    "range": "{{startIndex}} – {{endIndex}} of {{length}}"
   }
 }

@@ -18,16 +18,10 @@
  */
 
 import { realm } from '@core/api/api.service.properties';
-import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { PageRoute } from '@shared/model/page-route.model';
 
-export const INVESTIGATION_BASE_ROUTE = 'investigations';
+export const ABOUT_BASE_ROUTE = 'about';
 
-export const getInvestigationInboxRoute = (investigationStatusGroup?: InvestigationStatusGroup): PageRoute => ({
-  link: `${realm}/${INVESTIGATION_BASE_ROUTE}`,
-  queryParams: investigationStatusGroup
-    ? {
-        tabIndex: String(Object.values(InvestigationStatusGroup).indexOf(investigationStatusGroup)),
-      }
-    : undefined,
+export const getAboutRoute = (): PageRoute => ({
+  link: `${realm}/${ABOUT_BASE_ROUTE}`,
 });
