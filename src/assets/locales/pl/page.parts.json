@@ -28,15 +28,15 @@
     "customerPartId": "ID części u klienta"
   },
   "relation": {
-    "increase": "Used to zoom into the tree TBD.",
-    "decrease": "Used to zoom out of the tre TBD.e"
+    "increase": "Uzyte do powiększenia drzewa.",
+    "decrease": "Uzyte do zmniejszenia drzewa."
   },
   "page": {
     "childInvestigation": {
-      "action": "Start investigation"
+      "action": "Zacznij badanie jakości"
     },
     "requestInvestigations": {
-      "partDescription": "It May take a while to load the name of your selected parts."
+      "partDescription": "Załadowanie nazwy wybranych części może chwilę potrwać."
     }
   }
 }

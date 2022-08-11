@@ -20,51 +20,57 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { RoleGuard } from '@core/user/role.guard';
+import { ABOUT_BASE_ROUTE } from '@page/about/about-route';
+import { ADMIN_BASE_ROUTE } from '@page/admin/admin-route';
+import { DASHBOARD_BASE_ROUTE } from '@page/dashboard/dashboard-route';
+import { INVESTIGATION_BASE_ROUTE } from '@page/investigations/investigations-external-route';
+import { OTHER_PARTS_BASE_ROUTE } from '@page/other-parts/other-parts-route';
+import { PARTS_BASE_ROUTE } from '@page/parts/parts-route';
 
 export /** @type {*} */
 const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
+    redirectTo: 'dashboard',
   },
   {
-    path: 'dashboard',
+    path: DASHBOARD_BASE_ROUTE,
     loadChildren: () => import('../../page/dashboard/dashboard.module').then(m => m.DashboardModule),
     data: {
       breadcrumb: 'home',
     },
   },
   {
-    path: 'parts',
+    path: PARTS_BASE_ROUTE,
     loadChildren: () => import('../../page/parts/parts.module').then(m => m.PartsModule),
     data: {
       breadcrumb: 'parts',
     },
   },
   {
-    path: 'otherParts',
+    path: OTHER_PARTS_BASE_ROUTE,
     loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
     data: {
       breadcrumb: 'otherParts',
     },
   },
   {
-    path: 'investigations',
+    path: INVESTIGATION_BASE_ROUTE,
     loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
     data: {
       breadcrumb: 'investigations',
     },
   },
   {
-    path: 'about',
+    path: ABOUT_BASE_ROUTE,
     loadChildren: () => import('../../page/about/about.module').then(m => m.AboutModule),
     data: {
       breadcrumb: 'about',
     },
   },
   {
-    path: 'admin',
+    path: ADMIN_BASE_ROUTE,
     loadChildren: () => import('../../page/admin/admin.module').then(m => m.AdminModule),
     data: {
       breadcrumb: 'admin',
