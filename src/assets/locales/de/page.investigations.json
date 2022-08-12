@@ -3,7 +3,7 @@
     "title": "Quality Investigations",
     "tabs": {
       "received": "Received",
-      "queuedNRequested": "Queued & Requested"
+      "queuedAndRequested": "Queued & Requested"
     },
     "column": {
       "description": "Description",

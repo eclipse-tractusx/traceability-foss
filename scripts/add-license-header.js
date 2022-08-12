@@ -1,21 +1,21 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+/********************************************************************************
+ * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
  * under the License.
- */
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 
 const fs = require('fs');
 const path = require('path');
@@ -35,16 +35,26 @@ const getArg = argName => {
 const licenseHeader = fs.readFileSync(path.resolve(__dirname, 'LICENSE_HEADER'), 'utf8').trim();
 const srcPath = getArg('src');
 
+const LICENSE_COMMENT_WIDTH = 80;
+
 const buildAddComment =
   ({ openComment, closeComment, trimLicense, printLicense = () => licenseHeader }) =>
   content => {
-    const firstHtmlCommentStarts = content.indexOf(openComment);
+    const firstHtmlCommentStarts = content.indexOf(openComment());
     const firstHtmlCommentsEnd =
-      firstHtmlCommentStarts > -1 ? content.indexOf(closeComment, firstHtmlCommentStarts) : -1;
+      firstHtmlCommentStarts > -1 ? content.indexOf(closeComment().trim(), firstHtmlCommentStarts) : -1;
     const hasAnyComment =
       firstHtmlCommentStarts > -1 &&
       (firstHtmlCommentStarts === 0 || !content.substring(0, firstHtmlCommentStarts).trim());
-    const prependNewLicenseComment = () => openComment + '\n' + printLicense() + '\n' + closeComment + '\n\n' + content;
+
+    const prependNewLicenseComment = (fileContent = content) =>
+      openComment(LICENSE_COMMENT_WIDTH) +
+      '\n' +
+      printLicense() +
+      '\n' +
+      closeComment(LICENSE_COMMENT_WIDTH) +
+      '\n\n' +
+      fileContent;
 
     if (!hasAnyComment) {
       return prependNewLicenseComment();
@@ -53,11 +63,12 @@ const buildAddComment =
         throw new Error(`Cannot check invalid comment, there is no "${closeComment}" close comment`);
       }
       const maybeLicense = trimLicense(
-        content.substring(firstHtmlCommentStarts + openComment.length, firstHtmlCommentsEnd),
+        content.substring(firstHtmlCommentStarts + openComment().length, firstHtmlCommentsEnd),
       );
 
       if (maybeLicense !== licenseHeader) {
-        return prependNewLicenseComment();
+        const endOfLicenseHeader = content.indexOf('\n', firstHtmlCommentsEnd);
+        return prependNewLicenseComment(content.substring(endOfLicenseHeader + 2));
       }
     }
 
@@ -65,8 +76,8 @@ const buildAddComment =
   };
 
 const addHtmlComment = buildAddComment({
-  openComment: '<!--',
-  closeComment: '-->',
+  openComment: _ => '<!--',
+  closeComment: _ => '-->',
   trimLicense: comment =>
     comment
       .split('\n')
@@ -76,8 +87,8 @@ const addHtmlComment = buildAddComment({
 });
 
 const addJsLikeComment = buildAddComment({
-  openComment: '/**',
-  closeComment: '*/',
+  openComment: (longestLine = 1) => '/' + new Array(longestLine).fill('*').join(''),
+  closeComment: (longestLine = 1) => ' ' + new Array(longestLine).fill('*').join('') + '/',
   trimLicense: comment =>
     comment
       .split('\n')
@@ -87,12 +98,13 @@ const addJsLikeComment = buildAddComment({
   printLicense: () =>
     licenseHeader
       .split('\n')
-      .map(line => ` * ${line}`)
+      .map(line => (line.trim() ? ` * ${line}` : ' *'))
       .join('\n'),
 });
 
 const supportedExtensions = {
   html: addHtmlComment,
+  java: addJsLikeComment,
   js: addJsLikeComment,
   ts: addJsLikeComment,
   scss: addJsLikeComment,
