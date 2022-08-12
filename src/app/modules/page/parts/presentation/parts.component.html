@@ -18,11 +18,12 @@ under the License.
 -->
 
 <div class="about-container">
-  <app-header [title]="'pageParts.title' | i18n"></app-header>
+  <app-header [title]="'pageParts.title' | i18n" [id]="titleId"></app-header>
   <ng-container *viewContainer="parts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
   <ng-template #mainTmp let-parts="view">
     <app-table
       [data]="parts.data"
+      [labelId]="titleId"
       [tableConfig]="tableConfig"
       (selected)="onSelectItem($event)"
       (configChanged)="onTableConfigChange($event)"

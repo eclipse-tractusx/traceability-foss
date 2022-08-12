@@ -21,4 +21,5 @@ import { View } from './view.model';
 
 export class ViewContext<T> {
   public view: View<T>;
+  public customContext: Record<string, unknown>;
 }

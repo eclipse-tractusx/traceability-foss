@@ -42,6 +42,10 @@ export class MockedKeycloakService extends KeycloakService {
     return Promise.resolve();
   }
 
+  // keycloack-js marked using Keycloak as deprecated, for case when it used as a function
+  // however here is different case and it used as a type. Unfortuantelly Sonar do not identify
+  // properly which kind of Keycloack is used, and keycloack-js exports doesn't help.
+  // Sonar Smell cannot be fixed without changes in keycloack-js
   public getKeycloakInstance(): Keycloak {
     return {
       token: 'MOCK',

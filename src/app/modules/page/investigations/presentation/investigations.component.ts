@@ -19,6 +19,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { map } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
@@ -29,13 +30,19 @@ import { InvestigationsFacade } from '../core/investigations.facade';
 })
 export class InvestigationsComponent implements OnInit {
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
-  public readonly investigationsQueuedNRequested$ = this.investigationsFacade.investigationsQueuedNRequested$;
+  public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
 
+  public readonly receivedTabLabelId = this.staticIdService.generateId('InvestigationsComponent.receivedTabLabel');
+  public readonly queuedAndRequestedTabLabelId = this.staticIdService.generateId(
+    'InvestigationsComponent.queuedAndRequestedTabLabel',
+  );
+
   constructor(
-    private investigationsFacade: InvestigationsFacade,
-    private router: Router,
-    private route: ActivatedRoute,
+    private readonly investigationsFacade: InvestigationsFacade,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly staticIdService: StaticIdService,
   ) {}
 
   public ngOnInit() {

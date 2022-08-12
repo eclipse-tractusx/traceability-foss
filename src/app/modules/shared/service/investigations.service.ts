@@ -21,12 +21,10 @@ import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
-import { Part } from '@page/parts/model/parts.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InvestigationsAssembler } from '../assembler/investigations.assembler';
 import {
-  Investigation,
   InvestigationCreateResponse,
   Investigations,
   InvestigationsResponse,

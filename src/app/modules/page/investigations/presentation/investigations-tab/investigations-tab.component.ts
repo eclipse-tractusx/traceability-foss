@@ -28,6 +28,7 @@ import { View } from '@shared/model/view.model';
 })
 export class InvestigationsTabComponent implements AfterViewInit {
   @Input() investigations: View<Investigations>;
+  @Input() labelId: string;
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;

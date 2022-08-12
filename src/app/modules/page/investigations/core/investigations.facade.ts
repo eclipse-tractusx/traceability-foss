@@ -38,7 +38,7 @@ export class InvestigationsFacade {
     return this.investigationsState.investigationsReceived$;
   }
 
-  public get investigationsQueuedNRequested$(): Observable<View<Investigations>> {
+  public get investigationsQueuedAndRequested$(): Observable<View<Investigations>> {
     return this.investigationsState.investigationsQueuedAndRequested$;
   }
 

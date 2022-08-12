@@ -36,10 +36,16 @@ export class ViewContainerDirective<T> implements AfterViewInit {
     this.errorTemplateRef = templateRef;
   }
 
+  @Input() set viewContainerCustomContext(customContext: Record<string, unknown>) {
+    this.customContext = customContext;
+  }
+
   @Input() set viewContainer(view: View<T>) {
     if (!view) return;
 
     this.context.view = view;
+    this.context.customContext = this.customContext;
+
     let templateRef: TemplateRef<ViewContext<T>>;
 
     if (view.loader) templateRef = this.loaderTemplateRef;
@@ -60,6 +66,7 @@ export class ViewContainerDirective<T> implements AfterViewInit {
   private errorTemplateRef: TemplateRef<ViewContext<T>> = null;
   private loaderTemplateRef: TemplateRef<ViewContext<T>> = null;
   private currentTemplateRef: TemplateRef<ViewContext<T>> = null;
+  private customContext: Record<string, unknown> = {};
 
   constructor(private readonly viewContainerRef: ViewContainerRef) {}
 

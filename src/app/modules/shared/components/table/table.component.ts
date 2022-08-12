@@ -34,6 +34,7 @@ export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  @Input() labelId: string;
   @Input() tableConfig: TableConfig;
   @Input() noShadow = false;
   @Input() selectedPartsInfoLabel: string;

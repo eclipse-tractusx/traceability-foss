@@ -22,6 +22,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -67,9 +68,13 @@ export class OtherPartsComponent implements OnInit {
 
   public selectedTab = 0;
 
+  public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
+  public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
+
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
+    private readonly staticIdService: StaticIdService,
   ) {
     this.customerParts$ = this.otherPartsFacade.customerParts$;
     this.supplierParts$ = this.otherPartsFacade.supplierParts$;

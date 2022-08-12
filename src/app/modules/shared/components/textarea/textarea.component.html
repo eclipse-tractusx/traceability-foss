@@ -23,7 +23,7 @@ under the License.
     <textarea
       [disabled]="disabled"
       [value]="value"
-      (input)="onChange(getTextAreaFromEvent($event).value)"
+      (input)="onChange?.(getTextAreaFromEvent($event).value)"
       (blur)="markAsTouched()"
       matInput
       cdkTextareaAutosize
