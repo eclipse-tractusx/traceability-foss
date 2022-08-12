@@ -19,7 +19,9 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { QualityTypeComponent } from '@shared/components/quality-type/quality-type.component';
 import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
+import { ValueToLablePipe } from '@shared/components/select/valueToLable.pipe';
 import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
 import { TextareaComponent } from '@shared/components/textarea/textarea.component';
 import { ErrorMessagePipe } from '@shared/pipes/error-message.pipe';
@@ -78,6 +80,8 @@ import { PaginatorIntlService } from './components/pagination/paginator-intl.ser
     ErrorMessagePipe,
     RequestInvestigationComponent,
     CtaNotificationComponent,
+    QualityTypeComponent,
+    ValueToLablePipe,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -106,6 +110,7 @@ import { PaginatorIntlService } from './components/pagination/paginator-intl.ser
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,
+    QualityTypeComponent,
   ],
   providers: [
     FormatDatePipe,

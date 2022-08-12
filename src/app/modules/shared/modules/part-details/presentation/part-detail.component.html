@@ -112,10 +112,10 @@ SPDX-License-Identifier: Apache-2.0
   <div *ngIf="item.value" [class.card-list--row]="!this.showQualityTypeDropdown" class="card-list--qualityType">
     <ng-container *ngIf="!this.showQualityTypeDropdown">
       <p class="card-list--cell card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
-      <p (click)="this.showQualityTypeDropdown = true" class="card-list--cell card-list--value card-list--icon">
-        {{ 'qualityType.' + (selectedValue || item.value) | i18n }}
-        <mat-icon inline>edit</mat-icon>
-      </p>
+      <div (click)="this.showQualityTypeDropdown = true" class="card-list--cell card-list--value card-list--icon">
+        <app-quality-type [type]="selectedValue || item.value"></app-quality-type>
+        <mat-icon class="ml-2" inline>edit</mat-icon>
+      </div>
     </ng-container>
 
     <div *ngIf="showQualityTypeDropdown" class="card-list--qualityType">
@@ -123,9 +123,14 @@ SPDX-License-Identifier: Apache-2.0
         [lable]="'partDetail.' + item.key | i18n"
         [options]="this.qualityTypeOptions"
         [selectedValue]="selectedValue || item.value"
+        [optionsRenderer]="qualityTypeOptionTmp"
         (selected)="this.updateQualityType($event)"
       ></app-select>
       <mat-icon (click)="this.showQualityTypeDropdown = false" inline>close</mat-icon>
     </div>
   </div>
+</ng-template>
+
+<ng-template let-lable="value" #qualityTypeOptionTmp>
+  <app-quality-type [type]="lable"></app-quality-type>
 </ng-template>
