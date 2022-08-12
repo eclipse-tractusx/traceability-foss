@@ -21,6 +21,10 @@ table {
   width: 100%;
 }
 
+.table-container {
+  overflow: auto;
+}
+
 .mat-row .mat-cell {
   cursor: pointer;
 }
