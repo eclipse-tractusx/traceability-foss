@@ -26,6 +26,10 @@ export class I18nPipe implements PipeTransform {
   constructor(private readonly i18NextPipe: I18NextPipe) {}
 
   public transform(key: I18nMessage, options?: PipeOptions): string {
+    if (!key) {
+      return '';
+    }
+
     if (typeof key !== 'string') {
       options = key.values;
       key = key.id;

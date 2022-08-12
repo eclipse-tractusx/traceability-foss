@@ -37,5 +37,5 @@ under the License.
 </ng-template>
 
 <ng-template let-lable="value" #normalOption>
-  {{ lable | i18n }}
+  {{ lable | valueToLable: options | i18n }}
 </ng-template>

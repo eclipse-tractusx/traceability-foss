@@ -17,24 +17,21 @@
  * under the License.
  */
 
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
+import { SelectOption } from '@shared/components/select/select.component';
 
-export interface SelectOption {
-  lable: string;
-  value?: string;
-}
+@Pipe({ name: 'valueToLable' })
+export class ValueToLablePipe implements PipeTransform {
+  public transform(currentValue: string, options: SelectOption[]): string {
+    if (!options) {
+      return currentValue;
+    }
 
-// ToDo: use ControlValueAccessor
-@Component({
-  selector: 'app-select',
-  templateUrl: './select.component.html',
-  styleUrls: ['./select.component.scss'],
-})
-export class SelectComponent {
-  @Input() lable: string;
-  @Input() selectedValue: string;
-  @Input() options: SelectOption[];
-  @Input() optionsRenderer: TemplateRef<unknown>;
+    const isValueLableMapping = options.some(({ value }) => !!value);
+    if (!isValueLableMapping) {
+      return currentValue;
+    }
 
-  @Output() selected: EventEmitter<string> = new EventEmitter<string>();
+    return options.find(({ value }) => value === currentValue)?.lable || '';
+  }
 }
