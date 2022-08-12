@@ -111,14 +111,16 @@ dependencies {
 	implementation("io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}")
 
     testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
+	testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
     testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))
     testImplementation("org.spockframework:spock-core")
     testImplementation("org.spockframework:spock-spring")
 
+	integrationImplementation("org.testcontainers:postgresql:1.17.3")
+	integrationImplementation("org.testcontainers:spock:1.17.3")
+
 	integrationImplementation("org.springframework.boot:spring-boot-starter-test")
 	integrationImplementation("org.springframework.security:spring-security-test")
-	integrationImplementation("io.zonky.test:embedded-database-spring-test:2.1.1")
-	integrationImplementation("io.zonky.test:embedded-postgres:2.0.0")
 
     integrationImplementation("com.icegreen:greenmail-spring:$greenmailVersion")
 	integrationImplementation("com.xebialabs.restito:restito:$restitoVersion")

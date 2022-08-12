@@ -27,7 +27,6 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +36,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Component
+//@Component
 public class InMemoryAssetsRepository implements AssetRepository {
 
 	private final Map<String, Asset> assets = new HashMap<>();
@@ -51,17 +50,17 @@ public class InMemoryAssetsRepository implements AssetRepository {
 	@Override
 	public Asset getAssetById(String assetId) {
 		return Optional.ofNullable(assets.get(assetId))
-			.map(this::addManufacturerName)
+			.map(this::withManufacturerName)
 			.orElse(null);
 	}
 
 	@Override
 	public Asset getAssetByChildId(String assetId, String childId) {
-		return assets.get(assetId).childDescriptions().stream()
-			.filter(childDescription -> childDescription.id().equals(childId))
-			.map(childDescription -> assets.get(childDescription.id()))
+		return assets.get(assetId).getChildDescriptions().stream()
+			.filter(childDescription -> childDescription.getId().equals(childId))
+			.map(childDescription -> assets.get(childDescription.getId()))
 			.findFirst()
-			.map(this::addManufacturerName)
+			.map(this::withManufacturerName)
 			.orElse(null);
 	}
 
@@ -93,7 +92,7 @@ public class InMemoryAssetsRepository implements AssetRepository {
 
 	@Override
 	public Asset save(Asset asset) {
-		assets.put(asset.id(), asset);
+		assets.put(asset.getId(), asset);
 
 		return asset;
 	}
@@ -102,7 +101,7 @@ public class InMemoryAssetsRepository implements AssetRepository {
 	public List<Asset> saveAll(List<Asset> assets) {
 		this.assets.clear();
 		this.assets.putAll(assets.stream()
-			.collect(Collectors.toMap(Asset::id, Function.identity()))
+			.collect(Collectors.toMap(Asset::getId, Function.identity()))
 		);
 		return assets;
 	}
@@ -119,7 +118,7 @@ public class InMemoryAssetsRepository implements AssetRepository {
 
 	private List<Asset> getAssetsWithUpdatedNamesForPage(PagedListHolder<Asset> originPageListHolder) {
 		List<Asset> updatedAssets = originPageListHolder.getPageList().stream()
-			.map(this::addManufacturerName)
+			.map(this::withManufacturerName)
 			.toList();
 
 		List<Asset> sourceAssets = originPageListHolder.getSource();
@@ -131,9 +130,9 @@ public class InMemoryAssetsRepository implements AssetRepository {
 		return sourceAssets;
 	}
 
-	private Asset addManufacturerName(Asset asset) {
-		return bpnRepository.findManufacturerName(asset.manufacturerId())
-			.map(asset::withManufacturerName)
-			.orElse(asset);
+	private Asset withManufacturerName(Asset asset) {
+		bpnRepository.findManufacturerName(asset.getManufacturerId())
+			.ifPresent(asset::updateManufacturerName);
+		return asset;
 	}
 }

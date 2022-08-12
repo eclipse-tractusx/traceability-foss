@@ -33,26 +33,24 @@ import net.catenax.traceability.common.support.IrsApiSupport
 import net.catenax.traceability.common.support.KeycloakApiSupport
 import net.catenax.traceability.common.support.KeycloakSupport
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.spock.Testcontainers
+import spock.lang.Shared
 import spock.lang.Specification
 
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["integration"])
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@EnableAutoConfiguration(exclude = [DataSourceAutoConfiguration.class,
-		DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class])
 @ContextConfiguration(
 	classes = [SecurityTestConfig.class, MailboxConfig.class, RestitoConfig.class, OAuth2Config.class],
 	initializers = [RestitoConfig.Initializer.class]
 )
+@Testcontainers
 abstract class IntegrationSpec extends Specification implements KeycloakSupport, BpnApiSupport, IrsApiSupport, KeycloakApiSupport {
 
 	@Autowired
@@ -63,6 +61,12 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 
 	@Autowired
 	private AssetRepository assetRepository
+
+	@Shared
+	PostgreSQLContainer postgreSQLContainer = new PostgreSQLContainer("postgres:14.4")
+		.withDatabaseName("test")
+		.withUsername("test")
+		.withPassword("test")
 
 	def cleanup() {
 		RestitoConfig.clear()

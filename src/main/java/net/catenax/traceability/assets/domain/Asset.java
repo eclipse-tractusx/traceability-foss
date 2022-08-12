@@ -26,21 +26,51 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public record Asset(
-	String id,
-	String idShort,
-	String nameAtManufacturer,
-	String manufacturerPartId,
-	String manufacturerId,
-	String manufacturerName,
-	String nameAtCustomer,
-	String customerPartId,
-	@JsonFormat(shape = JsonFormat.Shape.STRING) Instant manufacturingDate,
-	String manufacturingCountry,
-	Map<String, String> specificAssetIds,
-	List<ChildDescriptions> childDescriptions,
-	QualityType qualityType
-) {
+public final class Asset {
+	private final String id;
+	private final String idShort;
+	private final String nameAtManufacturer;
+	private final String manufacturerPartId;
+	private final String manufacturerId;
+	private String manufacturerName;
+	private final String nameAtCustomer;
+	private final String customerPartId;
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private final Instant manufacturingDate;
+	private final String manufacturingCountry;
+	private final Map<String, String> specificAssetIds;
+	private List<ChildDescriptions> childDescriptions;
+	private QualityType qualityType;
+
+	public Asset(
+		String id,
+		String idShort,
+		String nameAtManufacturer,
+		String manufacturerPartId,
+		String manufacturerId,
+		String manufacturerName,
+		String nameAtCustomer,
+		String customerPartId,
+		Instant manufacturingDate,
+		String manufacturingCountry,
+		Map<String, String> specificAssetIds,
+		List<ChildDescriptions> childDescriptions,
+		QualityType qualityType
+	) {
+		this.id = id;
+		this.idShort = idShort;
+		this.nameAtManufacturer = nameAtManufacturer;
+		this.manufacturerPartId = manufacturerPartId;
+		this.manufacturerId = manufacturerId;
+		this.manufacturerName = manufacturerName;
+		this.nameAtCustomer = nameAtCustomer;
+		this.customerPartId = customerPartId;
+		this.manufacturingDate = manufacturingDate;
+		this.manufacturingCountry = manufacturingCountry;
+		this.specificAssetIds = specificAssetIds;
+		this.childDescriptions = childDescriptions;
+		this.qualityType = qualityType;
+	}
 
 	public Asset(
 		String id,
@@ -72,60 +102,97 @@ public record Asset(
 		);
 	}
 
-	public Asset withChildDescriptions(List<ChildDescriptions> childDescriptions) {
-		return new Asset(
-			id,
-			idShort,
-			nameAtManufacturer,
-			manufacturerPartId,
-			manufacturerId,
-			manufacturerName,
-			nameAtCustomer,
-			customerPartId,
-			manufacturingDate,
-			manufacturingCountry,
-			Collections.emptySortedMap(),
-			childDescriptions,
-			qualityType
-		);
+	public void updateChildDescriptions(List<ChildDescriptions> childDescriptions) {
+		if (childDescriptions == null) {
+			childDescriptions = Collections.emptyList();
+		}
+		this.childDescriptions = childDescriptions;
 	}
 
-	public Asset withManufacturerName(String manufacturerName) {
-		return new Asset(
-			id,
-			idShort,
-			nameAtManufacturer,
-			manufacturerPartId,
-			manufacturerId,
-			manufacturerName,
-			nameAtCustomer,
-			customerPartId,
-			manufacturingDate,
-			manufacturingCountry,
-			specificAssetIds,
-			childDescriptions,
-			qualityType
-		);
+	public ChildDescriptions getChild(String childId) {
+		return childDescriptions.stream()
+			.filter(description -> description.id.equals(childId))
+			.findFirst()
+			.orElse(null);
 	}
 
-	public Asset update(QualityType qualityType) {
-		return new Asset(
-			id,
-			idShort,
-			nameAtManufacturer,
-			manufacturerPartId,
-			manufacturerId,
-			manufacturerName,
-			nameAtCustomer,
-			customerPartId,
-			manufacturingDate,
-			manufacturingCountry,
-			specificAssetIds,
-			childDescriptions,
-			qualityType
-		);
+	public void updateManufacturerName(String manufacturerName) {
+		this.manufacturerName = manufacturerName;
 	}
 
-	public record ChildDescriptions(String id, String idShort){}
+	public void updateQualityType(QualityType qualityType) {
+		this.qualityType = qualityType;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getIdShort() {
+		return idShort;
+	}
+
+	public String getNameAtManufacturer() {
+		return nameAtManufacturer;
+	}
+
+	public String getNanufacturerPartId() {
+		return manufacturerPartId;
+	}
+
+	public String getManufacturerId() {
+		return manufacturerId;
+	}
+
+	public String getManufacturerName() {
+		return manufacturerName;
+	}
+
+	public String getNameAtCustomer() {
+		return nameAtCustomer;
+	}
+
+	public String getCustomerPartId() {
+		return customerPartId;
+	}
+
+	public Instant getManufacturingDate() {
+		return manufacturingDate;
+	}
+
+	public String getManufacturingCountry() {
+		return manufacturingCountry;
+	}
+
+	public Map<String, String> getSpecificAssetIds() {
+		return specificAssetIds;
+	}
+
+	public List<ChildDescriptions> getChildDescriptions() {
+		return childDescriptions;
+	}
+
+	public QualityType getQualityType() {
+		return qualityType;
+	}
+
+	public static final class ChildDescriptions {
+		private final String id;
+		private final String idShort;
+
+		public ChildDescriptions(String id, String idShort) {
+			this.id = id;
+			this.idShort = idShort;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public String getIdShort() {
+			return idShort;
+		}
+
+	}
 
 }

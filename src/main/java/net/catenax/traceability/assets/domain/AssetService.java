@@ -51,13 +51,13 @@ public class AssetService {
 			throw new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId));
 		}
 
-		Asset updatedAsset = foundAsset.update(updateAsset.qualityType());
+		foundAsset.updateQualityType(updateAsset.qualityType());
 
-		return assetRepository.save(updatedAsset);
+		return assetRepository.save(foundAsset);
 	}
 
 	public Map<String, Long> getAssetsCountryMap() {
 		return assetRepository.getAssets().stream()
-			.collect(Collectors.groupingBy(Asset::manufacturingCountry, Collectors.counting()));
+			.collect(Collectors.groupingBy(Asset::getManufacturingCountry, Collectors.counting()));
 	}
 }

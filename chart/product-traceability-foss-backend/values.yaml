@@ -113,3 +113,8 @@ readinessProbe:
 
 healthCheck:
   enabled: true
+
+datasource:
+  url:
+  username:
+  password:

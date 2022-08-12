@@ -77,12 +77,14 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets with manufacturer name"() {
 		given:
-			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
 			bpnApiReturnsBusinessPartnerDataFor(bpnNumbers)
+
+		and:
+			defaultAssets()
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -96,12 +98,14 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets with manufacturer name using values from cache"() {
 		given:
-			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
 			bpnApiReturnsBusinessPartnerDataFor(bpnNumbers)
+
+		and:
+			defaultAssets()
 
 		when:
 			0..3.each {
@@ -117,12 +121,14 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets without manufacturer name when name was not returned by BPN API"() {
 		given:
-			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
 			bpnApiReturnsBusinessPartnerDataWithoutNamesFor(bpnNumbers)
+
+		and:
+			defaultAssets()
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -132,12 +138,14 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should return assets without manufacturer name when BPN API has no data"() {
 		given:
-			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
 			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
+
+		and:
+			defaultAssets()
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -174,9 +182,14 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should get a page of assets"() {
 		given:
-		defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
+
+		and:
+			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
+
+		and:
+			defaultAssets()
 
 		expect:
 			mvc.perform(get("/assets")
@@ -233,9 +246,14 @@ class AssetsControllerIT extends IntegrationSpec {
 
 	def "should update quality type for existing asset"() {
 		given:
-			defaultAssets()
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
+
+		and:
+			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
+
+		and:
+			defaultAssets()
 
 		and:
 			def existingAssetId = "urn:uuid:1ae94880-e6b0-4bf3-ab74-8148b63c0640"

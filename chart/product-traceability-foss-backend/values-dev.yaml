@@ -23,6 +23,11 @@ ingress:
 mailserver:
   password: <path:traceability-foss/data/dev#mailserverPassword>
 
+datasource:
+  url: jdbc:postgresql://traceability-database-postgresql:5432/trace
+  username: trace
+  password: <path:traceability-foss/data/dev/database#tracePassword>
+
 keycloak:
   oauth2:
     clientId: <path:traceability-foss/data/dev/keycloak/oauth2#clientId>

@@ -50,6 +50,12 @@ spec:
               value: {{ .Values.keycloak.oauth2.clientId }}
             - name: KEYCLOAK_OAUTH2_CLIENT_SECRET
               value: {{ .Values.keycloak.oauth2.clientSecret }}
+            - name: SPRING_DATASOURCE_URL
+              value: {{ .Values.datasource.url }}
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.datasource.username }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.datasource.password }}
           ports:
             - name: http
               containerPort: 8080

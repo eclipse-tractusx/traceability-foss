@@ -37,8 +37,9 @@ class DashboardControllerIT extends IntegrationSpec {
 	@Unroll
 	def "should return all dashboard information for user with #role role"() {
 		given:
-			defaultAssets()
 			authenticatedUser(role)
+			keycloakApiReturnsToken()
+			defaultAssets()
 
 		expect:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
@@ -52,8 +53,9 @@ class DashboardControllerIT extends IntegrationSpec {
 
 	def "should return only 'my items' dashboard information for user with USER role"() {
 		given:
-			defaultAssets()
 			authenticatedUser(USER)
+			keycloakApiReturnsToken()
+			defaultAssets()
 
 		expect:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))

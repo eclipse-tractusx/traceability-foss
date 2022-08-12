@@ -16,7 +16,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
-
 spring:
   security:
     oauth2:
@@ -37,6 +36,14 @@ spring:
       mail.smtp.starttls.enable: true
   autoconfigure:
     exclude: org.keycloak.adapters.springboot.KeycloakAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration
+  datasource:
+    url: jdbc:tc:postgresql:14.4://localhost/test
+    username: test
+    password: test
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
 
 keycloak:
   enabled: false
