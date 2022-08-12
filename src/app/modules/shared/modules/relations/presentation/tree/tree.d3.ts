@@ -219,7 +219,7 @@ export class Tree {
       .attr('textLength', '90px')
       .attr('lengthAdjust', 'spacing')
       .classed('tree--element__text', true)
-      .text(({ data }) => HelperD3.shortenText(data.text) || data.id);
+      .text(({ data }) => HelperD3.shortenText(data.text || data.id));
   }
 
   private addStatusBorder(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
