@@ -20,30 +20,3 @@
 .about-container {
   @apply flex flex-col;
 }
-
-.parts--table {
-  &__qualityType {
-    display: flex;
-    align-items: center;
-  }
-
-  &__Ok {
-    @apply text-qualityTypeOk;
-  }
-
-  &__Minor {
-    @apply text-qualityTypeMinor;
-  }
-
-  &__Major {
-    @apply text-qualityTypeMajor;
-  }
-
-  &__Critical {
-    @apply text-qualityTypeCritical;
-  }
-
-  &__LifeThreatening {
-    @apply text-qualityTypeLifeThreatening;
-  }
-}

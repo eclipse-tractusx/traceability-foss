@@ -180,23 +180,23 @@
     }
 
     &-done {
-      @apply fill-success;
+      @apply fill-qualityTypeOk;
     }
 
     &-Minor {
-      @apply fill-primaryLight;
+      @apply fill-qualityTypeMinor;
     }
 
     &-Major {
-      @apply fill-primaryDark;
+      @apply fill-qualityTypeMajor;
     }
 
     &-Critical {
-      @apply fill-dangerLight;
+      @apply fill-qualityTypeCritical;
     }
 
     &-LifeThreatening {
-      fill: #981b5e;
+      @apply fill-qualityTypeLifeThreatening;
     }
   }
 
