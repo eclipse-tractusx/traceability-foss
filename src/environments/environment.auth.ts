@@ -24,7 +24,7 @@ export const environment = {
   multiTenant: true,
   mockService: false,
   authDisabled: false,
-  apiUrl: 'https://traceability.int.demo.catena-x.net/api',
+  apiUrl: 'https://traceability.dev.demo.catena-x.net/api',
   keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
   clientId: 'Cl10-CX-Part',
   defaultRealm: 'CX-Central',

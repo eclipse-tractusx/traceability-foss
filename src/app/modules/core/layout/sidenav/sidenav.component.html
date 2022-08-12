@@ -33,6 +33,7 @@ under the License.
     class="sidenav--content"
     position="end"
   >
+    <app-button [variant]="'miniFab'" class="sidenav--close__button"><mat-icon>close</mat-icon></app-button>
     <ng-container *ngTemplateOutlet="template$ | async"></ng-container>
   </mat-sidenav>
 </mat-sidenav-container>

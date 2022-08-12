@@ -33,7 +33,6 @@ import { State } from '@shared/model/state';
 @Component({
   selector: 'app-sidenav-wrapper',
   templateUrl: './sidenav-wrapper.component.html',
-  styleUrls: ['./sidenav-wrapper.component.scss'],
 })
 export class SidenavWrapperComponent implements AfterViewInit {
   @ViewChild('templateRef') templateRef: TemplateRef<HTMLElement>;

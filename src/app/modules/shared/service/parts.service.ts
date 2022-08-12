@@ -42,6 +42,7 @@ export class PartsService {
   public getParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
     const sort = PartsAssembler.mapSortToApiSort(sorting);
     const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+
     return this.apiService
       .getBy<PartsResponse>(`${this.url}/assets`, params)
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));

@@ -31,12 +31,25 @@
     }
   }
 
+  &--close__button {
+    @apply absolute left-4 hidden;
+
+    @media (max-width: 1024px) {
+      @apply block;
+    }
+  }
+
   &--content {
     @apply flex bg-dustyGrayShadeWildSand;
+    transition: width 200ms ease;
     align-items: center;
     justify-content: center;
-    min-width: 900px;
-    max-width: 900px;
+    width: 70vw;
     padding: 25px;
+
+    @media (max-width: 1024px) {
+      width: 100vw;
+      padding-left: calc(2rem + 40px);
+    }
   }
 }
