@@ -98,6 +98,7 @@
     "postcss-loader": "6.2.1",
     "postcss-scss": "4.0.4",
     "prettier": "2.6.2",
+    "resize-observer-polyfill": "^1.5.1",
     "stylelint": "14.8.2",
     "stylelint-config-standard-scss": "3.0.0",
     "ts-node": "10.7.0",

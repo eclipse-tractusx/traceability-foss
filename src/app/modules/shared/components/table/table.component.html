@@ -17,7 +17,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div *ngIf="dataSource" [class.mat-elevation-z8]="!noShadow">
+<div [class.mat-elevation-z8]="!noShadow">
   <div *ngIf="selectedPartsInfoLabel" class="table--selected__container">
     <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { count: selection?.selected?.length || 0 } }}</p>
     <app-button *ngIf="this.selection?.selected?.length" (click)="clickSelectAction.emit()">
@@ -25,88 +25,96 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
   </div>
 
-  <div class="table-container">
-    <table
-      [dataSource]="dataSource"
-      (matSortChange)="updateSortingOfData($event)"
-      mat-table
-      matSort
-      data-testid="table-component--test-id"
-      [attr.aria-labelledby]="labelId"
+  <div class="table-context">
+    <div
+      class="table-container"
+      [class.table-container__left-scroll]="hasLeftScroll"
+      [class.table-container__right-scroll]="hasRightScroll"
+      (scroll)="calcualteScrollSettings()"
+      #tableContainer
     >
-      <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index">
-        <ng-container
-          *ngTemplateOutlet="column === 'select' ? SelectColumn : NormalColumn; context: { $implicit: column, i: i }"
-        ></ng-container>
-      </ng-container>
-
-      <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row"></tr>
-      <tr
-        *matRowDef="let row; columns: tableConfig.displayedColumns"
-        [class.loading]="this.isDataLoading"
-        (click)="this.selected.emit(row)"
-        mat-row
-        data-testid="table-component--body-row"
-      ></tr>
-
-      <tr *matNoDataRow class="mat-row no-hover" data-testid="table-component--body-row">
-        <td class="mat-cell" [attr.colspan]="tableConfig.displayedColumns.length">
-          <div class="table--no-data">
-            <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
-            <br />
-            <h3>{{ 'table.noResultFound' | i18n }}</h3>
-            <p>{{ 'table.tryAgain' | i18n }}</p>
-          </div>
-        </td>
-      </tr>
-
-      <ng-template #SelectColumn>
-        <ng-container matColumnDef="select">
-          <th *matHeaderCellDef mat-header-cell>
-            <mat-checkbox
-              [checked]="selection.hasValue() && areAllRowsSelected()"
-              [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
-              (change)="$event ? toggleAllRows() : null"
-              data-testid="select-all--test-id"
-            >
-            </mat-checkbox>
-          </th>
-          <td *matCellDef="let row" mat-cell>
-            <mat-checkbox
-              [checked]="selection.isSelected(row)"
-              (click)="$event.stopPropagation()"
-              (change)="this.toggleSelection(row)"
-              data-testid="select-one--test-id"
-            >
-            </mat-checkbox>
-          </td>
+      <table
+        [dataSource]="dataSource"
+        (matSortChange)="updateSortingOfData($event)"
+        mat-table
+        matSort
+        data-testid="table-component--test-id"
+        [attr.aria-labelledby]="labelId"
+      >
+        <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index">
+          <ng-container
+            *ngTemplateOutlet="column === 'select' ? SelectColumn : NormalColumn; context: { $implicit: column, i: i }"
+          ></ng-container>
         </ng-container>
-      </ng-template>
 
-      <ng-template #NormalColumn let-column let-i="i">
-        <ng-container matColumnDef="{{ column }}">
-          <th
-            *matHeaderCellDef
-            [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
-            [disabled]="!tableConfig.sortableColumns?.[column]"
-            mat-header-cell
-            class="table--cell"
-          >
-            <ng-container
-              *ngIf="tableConfig?.header?.[i]; else pureColumn"
-              >{{ tableConfig?.header?.[i] | i18n }}</ng-container
-            >
-          </th>
-          <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
-            <ng-container
-              [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
-              [ngTemplateOutletContext]="{ value: element[column], row: element }"
-            >
-            </ng-container>
+        <tr *matHeaderRowDef="tableConfig.displayedColumns" mat-header-row data-testid="table-component--head-row"></tr>
+        <tr
+          *matRowDef="let row; columns: tableConfig.displayedColumns"
+          [class.loading]="this.isDataLoading"
+          (click)="this.selected.emit(row)"
+          mat-row
+          data-testid="table-component--body-row"
+        ></tr>
+
+        <tr *matNoDataRow class="mat-row no-hover" data-testid="table-component--body-row">
+          <td class="mat-cell" [attr.colspan]="tableConfig.displayedColumns.length">
+            <div class="table--no-data">
+              <mat-icon color="primary" class="table--no-data__icon">build</mat-icon>
+              <br />
+              <h3>{{ 'table.noResultFound' | i18n }}</h3>
+              <p>{{ 'table.tryAgain' | i18n }}</p>
+            </div>
           </td>
-        </ng-container>
-      </ng-template>
-    </table>
+        </tr>
+
+        <ng-template #SelectColumn>
+          <ng-container matColumnDef="select">
+            <th *matHeaderCellDef mat-header-cell>
+              <mat-checkbox
+                [checked]="selection.hasValue() && areAllRowsSelected()"
+                [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
+                (change)="$event ? toggleAllRows() : null"
+                data-testid="select-all--test-id"
+              >
+              </mat-checkbox>
+            </th>
+            <td *matCellDef="let row" mat-cell>
+              <mat-checkbox
+                [checked]="selection.isSelected(row)"
+                (click)="$event.stopPropagation()"
+                (change)="this.toggleSelection(row)"
+                data-testid="select-one--test-id"
+              >
+              </mat-checkbox>
+            </td>
+          </ng-container>
+        </ng-template>
+
+        <ng-template #NormalColumn let-column let-i="i">
+          <ng-container matColumnDef="{{ column }}">
+            <th
+              *matHeaderCellDef
+              [mat-sort-header]="tableConfig.sortableColumns?.[column] ? '' : null"
+              [disabled]="!tableConfig.sortableColumns?.[column]"
+              mat-header-cell
+              class="table--cell"
+            >
+              <ng-container
+                *ngIf="tableConfig?.header?.[i]; else pureColumn"
+                >{{ tableConfig?.header?.[i] | i18n }}</ng-container
+              >
+            </th>
+            <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
+              <ng-container
+                [ngTemplateOutlet]="tableConfig?.cellRenderers?.[column] ? tableConfig?.cellRenderers?.[column] : autoFormat"
+                [ngTemplateOutletContext]="{ value: element[column], row: element }"
+              >
+              </ng-container>
+            </td>
+          </ng-container>
+        </ng-template>
+      </table>
+    </div>
   </div>
 
   <mat-paginator

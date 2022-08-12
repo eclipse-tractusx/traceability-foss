@@ -18,19 +18,20 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { has } from 'lodash-es';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss'],
 })
-export class TableComponent {
+export class TableComponent implements AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -69,15 +70,50 @@ export class TableComponent {
   @Output() multiSelect = new EventEmitter<unknown[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
 
+  @ViewChild('tableContainer') public tableContainerRef: ElementRef<HTMLDivElement>;
+
   public readonly dataSource = new MatTableDataSource<unknown>();
   public readonly selection = new SelectionModel<unknown>(true, []);
 
   public totalItems: number;
   public pageIndex: number;
   public isDataLoading: boolean;
+  public hasLeftScroll = false;
+  public hasRightScroll = false;
 
   private pageSize: number;
   private sorting: TableHeaderSort;
+  private hasScroll = false;
+
+  private readonly resizeObserver = new ResizeObserver(() => {
+    const el = this.tableContainerRef.nativeElement;
+    const hasScroll = el.scrollWidth > el.offsetWidth;
+
+    if (!this.hasScroll && hasScroll) {
+      // scroll enabled
+      this.calcualteScrollSettings();
+    } else if (this.hasScroll && !hasScroll) {
+      // scroll disabled
+      this.hasLeftScroll = false;
+      this.hasRightScroll = false;
+    }
+
+    this.hasScroll = hasScroll;
+  });
+
+  public ngAfterViewInit(): void {
+    this.resizeObserver.observe(this.tableContainerRef.nativeElement);
+  }
+
+  public ngOnDestroy(): void {
+    this.resizeObserver.disconnect();
+  }
+
+  public calcualteScrollSettings() {
+    const el = this.tableContainerRef.nativeElement;
+    this.hasLeftScroll = el.scrollLeft > 0;
+    this.hasRightScroll = el.scrollLeft + el.offsetWidth < el.scrollWidth;
+  }
 
   public areAllRowsSelected(): boolean {
     return this.selection.selected.length === this.dataSource.data.length;

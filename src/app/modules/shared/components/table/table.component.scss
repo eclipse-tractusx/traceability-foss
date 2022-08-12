@@ -21,8 +21,35 @@ table {
   width: 100%;
 }
 
+.table-context {
+  transform: translateZ(0);
+}
+
 .table-container {
   overflow: auto;
+  position: relative;
+
+  &__left-scroll::before {
+    content: '';
+    position: fixed; // it's relative to .table-context
+    left: -7px;
+    top: 0;
+    width: 1px;
+    height: 100%;
+
+    box-shadow: 8px -1px 12px 1px rgb(0 0 0);
+  }
+
+  &__right-scroll::after {
+    content: '';
+    position: fixed; // it's relative to .table-context
+    right: -7px;
+    top: 0;
+    width: 1px;
+    height: 100%;
+
+    box-shadow: -8px -1px 12px 1px rgb(0 0 0);
+  }
 }
 
 .mat-row .mat-cell {

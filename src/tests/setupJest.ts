@@ -25,9 +25,12 @@ import '@testing-library/jest-dom/extend-expect';
 
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import ResizeObserver from 'resize-observer-polyfill';
 
 // globally defined manual mocks
 jest.mock('../app/modules/core/api/api.service.properties');
+
+window.ResizeObserver = ResizeObserver;
 
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
   teardown: {
