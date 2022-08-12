@@ -17,31 +17,39 @@
  * under the License.
  */
 
-import { AfterContentInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, TemplateRef, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
+import { SidenavService } from '@layout/sidenav/sidenav.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+export interface SidenavConfig {
+  template: TemplateRef<HTMLElement>;
+  action: EventEmitter<boolean>;
+  isOpen: boolean;
+}
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
 })
-export class SidenavComponent implements AfterContentInit {
+export class SidenavComponent {
   @ViewChild('sidenav') sidenav: MatSidenav;
-  @Output() sidenavAction = new EventEmitter<boolean>();
 
-  @Input()
-  public set isOpen(isOpenState: boolean) {
-    this._isOpen = isOpenState;
-    this._isOpen ? void this.sidenav?.open() : void this.sidenav?.close();
+  public readonly isOpen$: Observable<boolean>;
+  public readonly template$: Observable<TemplateRef<HTMLElement>>;
+
+  constructor(private readonly sidenavService: SidenavService) {
+    this.isOpen$ = this.sidenavService.isOpen$.pipe(tap(isOpen => this.openSidenav(isOpen)));
+    this.template$ = this.sidenavService.template$;
   }
 
-  public get isOpen(): boolean {
-    return this._isOpen;
+  public sidenavAction(action: boolean): void {
+    this.sidenavService.action.emit(action);
   }
 
-  private _isOpen = false;
-
-  public ngAfterContentInit(): void {
-    this._isOpen ? void this.sidenav?.open() : void this.sidenav?.close();
+  private openSidenav(shouldOpen: boolean): void {
+    shouldOpen ? void this.sidenav?.open() : void this.sidenav?.close();
   }
 }

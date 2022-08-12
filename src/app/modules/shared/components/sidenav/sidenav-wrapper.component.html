@@ -17,26 +17,6 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<app-nav-bar></app-nav-bar>
-<main class="layout-container">
-  <div class="layout-sidebar">
-    <app-sidebar [expanded]="expanded"></app-sidebar>
-  </div>
-  <div class="layout-resizer">
-    <app-resizer (click)="manualToggle()" [isExpanded]="expanded"></app-resizer>
-  </div>
-  <div class="layout-content">
-    <div class="layout-content__box-modal">
-      <div class="flex flex-col">
-        <app-breadcrumbs></app-breadcrumbs>
-        <router-outlet></router-outlet>
-        <div class="layout-notification-component">
-          <app-notification-container></app-notification-container>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <app-sidenav></app-sidenav>
-  <app-spinner-overlay></app-spinner-overlay>
-</main>
+<ng-template #templateRef>
+  <ng-content></ng-content>
+</ng-template>

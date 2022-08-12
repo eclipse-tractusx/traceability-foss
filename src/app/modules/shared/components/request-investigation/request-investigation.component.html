@@ -17,7 +17,7 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-<app-sidenav [isOpen]="isOpen$ | async" (sidenavAction)="isOpen = $event">
+<app-sidenav-wrapper [isOpen]="isOpen$ | async" (sidenavAction)="isOpen = $event">
   <h1 class="mb-4">{{ 'requestInvestigations.headline' | i18n }}</h1>
 
   <div class="mb-8">
@@ -60,4 +60,4 @@ under the License.
   </form>
 
   <mat-progress-bar *ngIf="isLoading$ | async" mode="indeterminate"></mat-progress-bar>
-</app-sidenav>
+</app-sidenav-wrapper>

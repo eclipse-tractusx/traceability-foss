@@ -16,9 +16,11 @@ KIND, either express or implied.  See the License for the
 specific language governing permissions and limitations
 under the License.
 -->
+
 <mat-sidenav-container
+  *ngIf="isOpen$"
   [hasBackdrop]="true"
-  [class.sidenav--container__open]="isOpen"
+  [class.sidenav--container__open]="isOpen$ | async"
   class="sidenav--container"
   data-testid="sidenav--test-id"
 >
@@ -26,11 +28,11 @@ under the License.
     #sidenav
     [fixedInViewport]="true"
     [fixedTopGap]="64"
-    (openedChange)="sidenavAction.emit($event)"
+    (openedChange)="sidenavAction($event)"
     mode="over"
     class="sidenav--content"
     position="end"
   >
-    <ng-content></ng-content>
+    <ng-container *ngTemplateOutlet="template$ | async"></ng-container>
   </mat-sidenav>
 </mat-sidenav-container>
