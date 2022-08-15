@@ -19,11 +19,14 @@
 
 import { environment } from '@env';
 import { rest } from 'msw';
-import { mockAssetList, mockAssets, mockAssetsCountriesMap } from './parts.model';
+import { applyPagination, extractPagination } from '../pagination.helper';
+import { mockAssetList, mockAssetsCountriesMap, mockBmwAssets } from './parts.model';
 
 export const partsHandlers = [
-  rest.get(`${environment.apiUrl}/assets`, (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockAssets));
+  rest.get(`${environment.apiUrl}/assets`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
+
+    return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
   }),
 
   rest.get(`${environment.apiUrl}/assets/countries`, (_req, res, ctx) => {
