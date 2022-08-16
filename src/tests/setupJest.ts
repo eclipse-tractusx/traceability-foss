@@ -23,14 +23,35 @@ import 'jest-extended/all';
 import '@testing-library/jest-dom/extend-expect';
 // The Order of these Imports is very important!
 
-import { getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import ResizeObserver from 'resize-observer-polyfill';
+import { NgZone } from '@angular/core';
 
 // globally defined manual mocks
 jest.mock('../app/modules/core/api/api.service.properties');
 
-window.ResizeObserver = ResizeObserver;
+window.ResizeObserver = jest.fn().mockImplementation(observer => {
+  const testQueue: Promise<void>[] = [];
+
+  return {
+    TEST_triggerResize() {
+      return Promise.resolve().then(() => {
+        observer();
+      });
+    },
+    TEST_whenQueueFlushed() {
+      return Promise.all(testQueue);
+    },
+    observe: jest.fn().mockImplementation(() => {
+      testQueue.push(
+        Promise.resolve().then(() => {
+          observer();
+        }),
+      );
+    }),
+    disconnect: jest.fn(),
+  };
+});
 
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
   teardown: {

@@ -50,6 +50,7 @@ import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
+import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { PaginatorIntlService } from './components/pagination/paginator-intl.ser
     ErrorMessagePipe,
     RequestInvestigationComponent,
     CtaNotificationComponent,
+    ScrollWithShadowComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
