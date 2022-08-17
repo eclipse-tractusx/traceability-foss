@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 
 export interface SelectOption {
   lable: string;
@@ -34,6 +34,7 @@ export class SelectComponent {
   @Input() lable: string;
   @Input() selectedValue: string;
   @Input() options: SelectOption[];
+  @Input() optionsRenderer: TemplateRef<unknown>;
 
   @Output() selected: EventEmitter<string> = new EventEmitter<string>();
 }

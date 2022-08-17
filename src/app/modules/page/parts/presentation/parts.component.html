@@ -52,10 +52,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #qualityTypeTmp let-row="row">
-  <p class="regular-text parts--table__qualityType">
-    <mat-icon class="mr-2 parts--table__{{ row.qualityType }}">{{ getIconByQualityType(row.qualityType) }}</mat-icon
-    >{{ 'qualityType.' + row.qualityType | i18n }}
-  </p>
+  <app-quality-type [type]="row.qualityType"></app-quality-type>
 </ng-template>
 
 <app-request-investigation

@@ -63,7 +63,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     this.customerDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerView());
 
     this.qualityTypeOptions = Object.values(QualityType).map(value => ({
-      lable: `qualityType.${value}`,
+      lable: value,
       value: value,
     }));
   }
