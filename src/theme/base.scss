@@ -218,14 +218,6 @@
     @apply font-light lg:text-base sm:text-xs text-tundora p-2 !important;
   }
 
-  .mat-paginator {
-    @apply h-16;
-  }
-
-  .mat-paginator-outer-container {
-    height: 4.5rem;
-  }
-
   /* ---------------------------------------------------------- */
   /* OVERWRITING THE DRP PICKER CSS LIBRARY */
   /* ---------------------------------------------------------- */
