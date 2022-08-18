@@ -24,6 +24,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { CtaNotificationService } from '@shared/components/call-to-action-notifications/cta-notification.service';
 import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
+import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
@@ -40,6 +41,7 @@ export class RequestInvestigationComponent {
 
     this.sidenavIsClosing.emit();
     this.removedItemsHistory = [];
+    this.clearForm();
   }
 
   @Input() selectedItems: Part[];
@@ -81,11 +83,7 @@ export class RequestInvestigationComponent {
         this.textAreaControl.enable();
 
         this.isOpen = false;
-        this.removedItemsHistory = [];
         this.clearSelected.emit();
-
-        this.textAreaControl.setValue(undefined);
-        this.textAreaControl.markAsUntouched();
 
         this.openCtaNotification(amountOfItems);
       },
@@ -122,5 +120,10 @@ export class RequestInvestigationComponent {
   public restoreLastItem(): void {
     this.restorePart.emit(this.removedItemsHistory[0]);
     this.removedItemsHistory.shift();
+  }
+
+  private clearForm() {
+    this.investigationFormGroup.markAsUntouched();
+    this.investigationFormGroup.reset();
   }
 }
