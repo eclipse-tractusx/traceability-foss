@@ -24,7 +24,6 @@ import { Part } from '@page/parts/model/parts.model';
 import { CtaNotificationService } from '@shared/components/call-to-action-notifications/cta-notification.service';
 import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
-import * as _ from 'lodash';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
