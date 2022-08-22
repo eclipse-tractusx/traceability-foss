@@ -33,7 +33,9 @@ SPDX-License-Identifier: Apache-2.0
     class="sidenav--content"
     position="end"
   >
-    <app-button [variant]="'miniFab'" class="sidenav--close__button"><mat-icon>close</mat-icon></app-button>
+    <app-button [variant]="'miniFab'" (click)="sidenavAction(false)" class="sidenav--close__button"
+      ><mat-icon>close</mat-icon></app-button
+    >
     <ng-container *ngTemplateOutlet="template$ | async"></ng-container>
   </mat-sidenav>
 </mat-sidenav-container>

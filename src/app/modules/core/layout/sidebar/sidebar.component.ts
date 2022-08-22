@@ -19,14 +19,14 @@
 
 import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
-import { PageRoute } from '@shared/model/page-route.model';
+import { getAboutRoute } from '@page/about/about-route';
 import { getAdminRoute } from '@page/admin/admin-route';
+import { getDashboardRoute } from '@page/dashboard/dashboard-route';
+import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { getOtherPartsRoute } from '@page/other-parts/other-parts-route';
 import { getPartsRoute } from '@page/parts/parts-route';
-import { getAboutRoute } from '@page/about/about-route';
-import { getDashboardRoute } from '@page/dashboard/dashboard-route';
+import { PageRoute } from '@shared/model/page-route.model';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
