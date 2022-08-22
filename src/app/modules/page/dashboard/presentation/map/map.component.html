@@ -18,8 +18,5 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="map-container" [class.auto]="!this.mapData?.length">
-  <div class="map-resize" (click)="this.resize()">
-    <mat-icon>aspect_ratio</mat-icon>
-  </div>
   <div #map class="map-content"></div>
 </div>
