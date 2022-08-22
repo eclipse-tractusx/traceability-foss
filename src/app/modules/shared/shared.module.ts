@@ -18,6 +18,7 @@
  ********************************************************************************/
 
 import { NgModule } from '@angular/core';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { QualityTypeComponent } from '@shared/components/quality-type/quality-type.component';
 import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
@@ -38,6 +39,8 @@ import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
+import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
+import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 import { SelectComponent } from './components/select/select.component';
 import { TableComponent } from './components/table/table.component';
 import { RoleDirective } from './directives/role.directive';
@@ -50,9 +53,6 @@ import { I18nPipe } from './pipes/i18n.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
-import { MatPaginatorIntl } from '@angular/material/paginator';
-import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
-import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 
 @NgModule({
   declarations: [

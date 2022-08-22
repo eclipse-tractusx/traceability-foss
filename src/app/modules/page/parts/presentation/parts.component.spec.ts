@@ -21,9 +21,9 @@ import { Part } from '@page/parts/model/parts.model';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-server';
+import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
-import { MOCK_part_1, MOCK_part_2 } from '../../../../mocks/services/parts-mock/parts.model';
+import { MOCK_part_1, MOCK_part_2 } from '../../../../mocks/services/parts-mock/parts.test.model';
 import { PartsModule } from '../parts.module';
 
 describe('Parts', () => {
@@ -47,13 +47,13 @@ describe('Parts', () => {
   it('should render part table', async () => {
     await renderParts();
 
-    expect(await screen.findByTestId('table-component--test-id')).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByTestId('table-component--test-id'))).toBeInTheDocument();
   });
 
   it('should render table and display correct amount of rows', async () => {
     await renderParts();
 
-    const tableElement = await screen.findByTestId('table-component--test-id');
+    const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
     expect(tableElement).toBeInTheDocument();
     expect(tableElement.children[1].childElementCount).toEqual(5);
   });

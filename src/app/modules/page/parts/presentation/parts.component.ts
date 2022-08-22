@@ -21,10 +21,10 @@ import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angul
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part, QualityType } from '@page/parts/model/parts.model';
-import { StaticIdService } from '@shared/service/staticId.service';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({

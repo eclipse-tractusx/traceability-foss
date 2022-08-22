@@ -20,7 +20,8 @@
 import { environment } from '@env';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../pagination.helper';
-import { mockAssetList, mockAssetsCountriesMap, mockBmwAssets } from './parts.model';
+import { getAssetById, mockAssetsCountriesMap, mockBmwAssets } from './parts.model';
+import { mockAssetList, mockAssets } from './parts.test.model';
 
 export const partsHandlers = [
   rest.get(`${environment.apiUrl}/assets`, (req, res, ctx) => {
@@ -35,7 +36,36 @@ export const partsHandlers = [
 
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
-    return res(ctx.status(200), ctx.json(mockAssetList[partId as string]));
+    const currentAsset = getAssetById(partId as string);
+    return res(ctx.status(200), ctx.json(currentAsset));
+  }),
+
+  rest.patch(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
+    const { partId } = req.params;
+    const currentPart = getAssetById(partId as string);
+    return res(ctx.status(200), ctx.json({ ...currentPart, ...(req.body as Record<string, any>) }));
+  }),
+
+  rest.get(`${environment.apiUrl}/assets/:assetId/children/:childId`, (req, res, ctx) => {
+    const { childId } = req.params;
+    const currentAsset = getAssetById(childId as string);
+    return res(ctx.status(200), ctx.json(currentAsset));
+  }),
+];
+
+export const partsHandlersTest = [
+  rest.get(`${environment.apiUrl}/assets`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(mockAssets));
+  }),
+
+  rest.get(`${environment.apiUrl}/assets/countries`, (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(mockAssetsCountriesMap));
+  }),
+
+  rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
+    const { partId } = req.params;
+    const currentAsset = mockAssetList[partId as string];
+    return res(ctx.status(200), ctx.json(currentAsset));
   }),
 
   rest.patch(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
@@ -46,6 +76,7 @@ export const partsHandlers = [
 
   rest.get(`${environment.apiUrl}/assets/:assetId/children/:childId`, (req, res, ctx) => {
     const { childId } = req.params;
-    return res(ctx.status(200), ctx.json(mockAssetList[childId as string]));
+    const currentAsset = mockAssetList[childId as string];
+    return res(ctx.status(200), ctx.json(currentAsset));
   }),
 ];

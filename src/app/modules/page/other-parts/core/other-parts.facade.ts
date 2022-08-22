@@ -24,7 +24,6 @@ import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
-import { InvestigationsService } from '@shared/service/investigations.service';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable, Subscription } from 'rxjs';
 

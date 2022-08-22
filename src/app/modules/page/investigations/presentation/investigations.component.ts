@@ -19,8 +19,8 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StaticIdService } from '@shared/service/staticId.service';
 import { TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { map } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
