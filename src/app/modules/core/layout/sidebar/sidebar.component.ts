@@ -1,26 +1,32 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+/********************************************************************************
+ * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
  * under the License.
- */
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 
 import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { realm } from '@core/api/api.service.properties';
 import { filter } from 'rxjs/operators';
+import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
+import { PageRoute } from '@shared/model/page-route.model';
+import { getAdminRoute } from '@page/admin/admin-route';
+import { getOtherPartsRoute } from '@page/other-parts/other-parts-route';
+import { getPartsRoute } from '@page/parts/parts-route';
+import { getAboutRoute } from '@page/about/about-route';
+import { getDashboardRoute } from '@page/dashboard/dashboard-route';
 
 @Component({
   selector: 'app-sidebar',
@@ -32,39 +38,31 @@ export class SidebarComponent {
 
   public activeMenu = '';
 
-  private readonly menu = {
-    dashboard: '',
-    about: '',
-    parts: '',
-    otherParts: '',
-    investigations: '',
-    admin: '',
+  private readonly menu: Record<string, PageRoute> = {
+    dashboard: getDashboardRoute(),
+    about: getAboutRoute(),
+    parts: getPartsRoute(),
+    otherParts: getOtherPartsRoute(),
+    investigations: getInvestigationInboxRoute(),
+    admin: getAdminRoute(),
   };
 
   get sidebarWidth(): number {
     return this.expanded ? 240 : 56;
   }
 
-  constructor(private readonly router: Router) {
-    this.menu = {
-      dashboard: `/${realm}`,
-      about: `/${realm}/about`,
-      parts: `/${realm}/parts`,
-      otherParts: `/${realm}/otherParts`,
-      investigations: `/${realm}/investigations`,
-      admin: `/${realm}/admin`,
-    };
-
+  constructor(private router: Router) {
     this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((r: NavigationEnd) => {
+      const endUrl = r.urlAfterRedirects ?? r.url;
       const keys: string[] = Object.keys(this.menu);
-      const parentRoute: string = keys.find(key => this.menu[key] === r.url);
+      const parentRoute: string = keys.find(key => this.menu[key].link === endUrl);
 
-      this.activeMenu = parentRoute || keys.find(menuKey => r.url.includes(menuKey));
+      this.activeMenu = parentRoute || keys.find(menuKey => endUrl.includes(menuKey));
     });
   }
 
   public navigate(item: string): void {
-    this.router.navigate([this.menu[item]]).then();
+    this.router.navigate([this.menu[item].link]).then();
     this.activeMenu = item;
   }
 }

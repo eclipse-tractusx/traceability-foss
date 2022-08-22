@@ -1,21 +1,21 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+/********************************************************************************
+ * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
  * under the License.
- */
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 
 import { Component, Input, OnInit, Self } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
@@ -31,8 +31,8 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   public touched = false;
   public disabled = false;
 
-  public onChange = (_value: string) => {};
-  public onTouched = () => {};
+  public onChange: ((_value: string) => {}) | null = null;
+  public onTouched: (() => void) | null = null;
 
   constructor(@Self() public readonly ngControl: NgControl) {
     // we cannot provide this component in NG_VALUE_ACCESSOR, as we want to have access to the ngControl
@@ -62,7 +62,7 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
       return;
     }
 
-    this.onTouched();
+    this.onTouched?.();
     this.touched = true;
   }
 

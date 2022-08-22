@@ -162,6 +162,18 @@ In this example, we had to "transform" the data received from the API, so we ext
   }
 ```
 
+### Page Routes
+
+Each page should export function which allow to get an URL to the page, including internal
+routing. For example, in `page/dashboard` there is `dashboard-route.ts`, which exports `getDashboardRoute`.
+Such function should be used whenever we want to link different pages.
+
+Motivation for this to have explicit dependencies on URLs instead of implicit, which should improve
+maintability.
+
+`PAGE-route.ts` should also export top route const which should be used for registering page
+under it route in `layout.routing.ts`.
+
 ## View selector pattern
 
 To ease up some common application states, we've implemented the view selector pattern.

@@ -1,26 +1,27 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+/********************************************************************************
+ * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
  * under the License.
- */
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 
 import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part, QualityType } from '@page/parts/model/parts.model';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -58,13 +59,19 @@ export class PartsComponent implements OnInit, AfterViewInit {
     productionCountry: true,
   };
 
+  public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
+
   public tableConfig: TableConfig;
 
   public readonly isInvestigationOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public readonly parts$: Observable<View<Pagination<Part>>>;
   public readonly currentSelectedItems$: Observable<Part[]>;
 
-  constructor(private readonly partsFacade: PartsFacade, private readonly partDetailsFacade: PartDetailsFacade) {
+  constructor(
+    private readonly partsFacade: PartsFacade,
+    private readonly partDetailsFacade: PartDetailsFacade,
+    private readonly staticIdService: StaticIdService,
+  ) {
     this.parts$ = this.partsFacade.parts$;
     this.currentSelectedItems$ = this.partsFacade.selectedParts$;
   }

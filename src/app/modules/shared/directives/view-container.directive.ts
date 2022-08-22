@@ -1,21 +1,21 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+/********************************************************************************
+ * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
  * under the License.
- */
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 
 import { AfterViewInit, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ViewContext } from '../model/view-context.model';
@@ -36,10 +36,16 @@ export class ViewContainerDirective<T> implements AfterViewInit {
     this.errorTemplateRef = templateRef;
   }
 
+  @Input() set viewContainerCustomContext(customContext: Record<string, unknown>) {
+    this.customContext = customContext;
+  }
+
   @Input() set viewContainer(view: View<T>) {
     if (!view) return;
 
     this.context.view = view;
+    this.context.customContext = this.customContext;
+
     let templateRef: TemplateRef<ViewContext<T>>;
 
     if (view.loader) templateRef = this.loaderTemplateRef;
@@ -60,6 +66,7 @@ export class ViewContainerDirective<T> implements AfterViewInit {
   private errorTemplateRef: TemplateRef<ViewContext<T>> = null;
   private loaderTemplateRef: TemplateRef<ViewContext<T>> = null;
   private currentTemplateRef: TemplateRef<ViewContext<T>> = null;
+  private customContext: Record<string, unknown> = {};
 
   constructor(private readonly viewContainerRef: ViewContainerRef) {}
 

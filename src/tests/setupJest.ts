@@ -1,21 +1,21 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+/********************************************************************************
+ * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
  * under the License.
- */
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 
 import 'zone.js';
 import 'zone.js/testing';
@@ -23,11 +23,35 @@ import 'jest-extended/all';
 import '@testing-library/jest-dom/extend-expect';
 // The Order of these Imports is very important!
 
-import { getTestBed } from '@angular/core/testing';
+import { getTestBed, TestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { NgZone } from '@angular/core';
 
 // globally defined manual mocks
 jest.mock('../app/modules/core/api/api.service.properties');
+
+window.ResizeObserver = jest.fn().mockImplementation(observer => {
+  const testQueue: Promise<void>[] = [];
+
+  return {
+    TEST_triggerResize() {
+      return Promise.resolve().then(() => {
+        observer();
+      });
+    },
+    TEST_whenQueueFlushed() {
+      return Promise.all(testQueue);
+    },
+    observe: jest.fn().mockImplementation(() => {
+      testQueue.push(
+        Promise.resolve().then(() => {
+          observer();
+        }),
+      );
+    }),
+    disconnect: jest.fn(),
+  };
+});
 
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting(), {
   teardown: {

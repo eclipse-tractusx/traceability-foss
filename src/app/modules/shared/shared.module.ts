@@ -1,24 +1,26 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
+/********************************************************************************
+ * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
  * under the License.
- */
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
 
 import { NgModule } from '@angular/core';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
+import { ValueToLablePipe } from '@shared/components/select/valueToLable.pipe';
 import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -32,8 +34,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
+import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
 import { QualityTypeComponent } from './components/quality-type/quality-type.component';
 import { RequestInvestigationComponent } from './components/request-investigation/request-investigation.component';
+import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 import { SelectComponent } from './components/select/select.component';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper.component';
 import { TableComponent } from './components/table/table.component';
@@ -77,7 +81,9 @@ import { TemplateModule } from './template.module';
     ErrorMessagePipe,
     RequestInvestigationComponent,
     CtaNotificationComponent,
+    ScrollWithShadowComponent,
     QualityTypeComponent,
+    ValueToLablePipe,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -108,6 +114,15 @@ import { TemplateModule } from './template.module';
     RequestInvestigationComponent,
     QualityTypeComponent,
   ],
-  providers: [FormatDatePipe, StaticIdService, PartsService, ErrorMessagePipe],
+  providers: [
+    FormatDatePipe,
+    StaticIdService,
+    PartsService,
+    ErrorMessagePipe,
+    {
+      provide: MatPaginatorIntl,
+      useClass: PaginatorIntlService,
+    },
+  ],
 })
 export class SharedModule {}
