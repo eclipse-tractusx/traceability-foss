@@ -73,16 +73,6 @@ describe('Other Parts', () => {
     expect(tableElement.children[1].childElementCount).toEqual(4);
   });
 
-  it('should render other parts with closed sidenav', async () => {
-    await renderOtherParts();
-
-    const sideNavElements = await screen.findAllByTestId('sidenav--test-id');
-    const sideNavElement = sideNavElements[0];
-
-    expect(sideNavElement).toBeInTheDocument();
-    expect(sideNavElement).not.toHaveClass('sidenav--container__open');
-  });
-
   it('should render tabs', async () => {
     await renderOtherParts();
     const tabElements = await screen.findAllByRole('tab');

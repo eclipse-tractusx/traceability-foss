@@ -17,6 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { LayoutModule } from '@layout/layout.module';
+import { SidenavComponent } from '@layout/sidenav/sidenav.component';
+import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { Part } from '@page/parts/model/parts.model';
 import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
@@ -38,7 +41,7 @@ describe('requestInvestigationComponent', () => {
 
   const renderRequestInvestigationComponent = () =>
     renderComponent(
-      `<app-request-investigation
+      `<app-sidenav></app-sidenav><app-request-investigation
   (deselectPart)='deselectPartMock($event)'
   (clearSelected)='clearSelectedMock($event)'
   (sidenavIsClosing)='sidenavIsClosingMock($event)'
@@ -46,8 +49,9 @@ describe('requestInvestigationComponent', () => {
   [selectedItems]='currentSelectedItems'
 ></app-request-investigation>`,
       {
-        declarations: [RequestInvestigationComponent],
-        imports: [SharedModule],
+        declarations: [SidenavComponent, RequestInvestigationComponent],
+        providers: [{ provide: SidenavService }],
+        imports: [SharedModule, LayoutModule],
         translations: ['page.otherParts'],
         componentProperties: {
           deselectPartMock,
@@ -60,13 +64,13 @@ describe('requestInvestigationComponent', () => {
 
   it('should render', async () => {
     await renderRequestInvestigationComponent();
-    const headline = await screen.getByText('Request quality investigation');
+    const headline = await waitFor(() => screen.getByText('Request quality investigation'), { timeout: 2000 });
     expect(headline).toBeInTheDocument();
   });
 
   it('should render parts in chips', async () => {
     await renderRequestInvestigationComponent();
-    const part_1 = await screen.getByText('part_1');
+    const part_1 = await waitFor(() => screen.getByText('part_1'));
     const part_2 = await screen.getByText('part_2');
     const part_3 = await screen.getByText('part_3');
 
@@ -77,14 +81,14 @@ describe('requestInvestigationComponent', () => {
 
   it('should render textarea', async () => {
     await renderRequestInvestigationComponent();
-    const textAreaElement = await screen.getByText('Description');
+    const textAreaElement = await waitFor(() => screen.getByText('Description'));
 
     expect(textAreaElement).toBeInTheDocument();
   });
 
   it('should render buttons', async () => {
     await renderRequestInvestigationComponent();
-    const cancelElement = await screen.getByText('CANCEL');
+    const cancelElement = await waitFor(() => screen.getByText('CANCEL'));
     const submitElement = await screen.getByText('ADD TO QUEUE');
 
     expect(cancelElement).toBeInTheDocument();
