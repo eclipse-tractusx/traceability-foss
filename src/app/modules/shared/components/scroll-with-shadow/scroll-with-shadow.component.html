@@ -17,6 +17,15 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="map-container" [class.auto]="!this.mapData?.length">
-  <div #map class="map-content"></div>
+<div class="relative-context">
+  <div
+    class="scroll-container"
+    [class.scroll-container__left-scroll]="hasLeftScroll"
+    [class.scroll-container__right-scroll]="hasRightScroll"
+    (scroll)="calcualteScrollSettings()"
+    data-testid="scroll-container"
+    #container
+  >
+    <ng-content></ng-content>
+  </div>
 </div>

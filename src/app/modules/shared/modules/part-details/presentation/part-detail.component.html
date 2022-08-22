@@ -112,7 +112,12 @@ SPDX-License-Identifier: Apache-2.0
   <div *ngIf="item.value" [class.card-list--row]="!this.showQualityTypeDropdown" class="card-list--qualityType">
     <ng-container *ngIf="!this.showQualityTypeDropdown">
       <p class="card-list--cell card-list--key">{{ 'partDetail.' + item.key | i18n }}</p>
-      <div (click)="this.showQualityTypeDropdown = true" class="card-list--cell card-list--value card-list--icon">
+      <div
+        (click)="this.showQualityTypeDropdown = true"
+        (keydown.enter)="this.showQualityTypeDropdown = true"
+        class="card-list--cell card-list--value card-list--icon"
+        tabindex="0"
+      >
         <app-quality-type [type]="selectedValue || item.value"></app-quality-type>
         <mat-icon class="ml-2" inline>edit</mat-icon>
       </div>
@@ -126,7 +131,13 @@ SPDX-License-Identifier: Apache-2.0
         [optionsRenderer]="qualityTypeOptionTmp"
         (selected)="this.updateQualityType($event)"
       ></app-select>
-      <mat-icon (click)="this.showQualityTypeDropdown = false" inline>close</mat-icon>
+      <mat-icon
+        (click)="this.showQualityTypeDropdown = false"
+        (keydown.enter)="this.showQualityTypeDropdown = false"
+        tabindex="0"
+        inline
+        >close</mat-icon
+      >
     </div>
   </div>
 </ng-template>

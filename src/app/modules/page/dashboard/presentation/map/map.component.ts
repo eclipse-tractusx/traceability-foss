@@ -130,12 +130,6 @@ export class MapComponent implements AfterViewInit {
     return map;
   }
 
-  public resize(): void {
-    if (this.map) {
-      this.map.resize();
-    }
-  }
-
   private renderLayers(event: mapboxGl.MapboxEvent<unknown> & mapboxGl.EventData, data: PartsCoordinates[]) {
     const currentZoom = event.target.getZoom();
     const zoom = currentZoom > 4.5 ? 20 : 10;

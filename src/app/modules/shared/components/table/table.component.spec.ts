@@ -34,7 +34,7 @@ describe('TableComponent', () => {
 
     const tableConfig: TableConfig = { displayedColumns, header };
 
-    return renderComponent(`<app-table  [data]='data' [tableConfig]='tableConfig'></app-table>`, {
+    return renderComponent(`<app-table [data]='data' [tableConfig]='tableConfig'></app-table>`, {
       declarations: [TableComponent],
       imports: [SharedModule],
       componentProperties: {
