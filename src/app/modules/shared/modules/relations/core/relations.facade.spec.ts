@@ -32,7 +32,7 @@ import {
   MOCK_part_2,
   MOCK_part_3,
   mockAssetList,
-} from '../../../../../mocks/services/parts-mock/parts.model';
+} from '../../../../../mocks/services/parts-mock/parts.test.model';
 
 describe('Relations facade', () => {
   const childDescriptionsToChild = children => children.map(({ id }) => id);

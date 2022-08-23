@@ -19,9 +19,22 @@
 
 import { environment } from '@env';
 import { rest } from 'msw';
-import { mockCustomerAssets, mockSupplierAssets } from './otherParts.model';
+import { applyPagination, extractPagination } from '../pagination.helper';
+import { otherPartsAssets } from './otherParts.model';
+import { mockCustomerAssets, mockSupplierAssets } from './otherParts.test.model';
 
 export const otherPartsHandlers = [
+  rest.get(`${environment.apiUrl}/supplier-assets`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
+    return res(ctx.status(200), ctx.json(applyPagination(otherPartsAssets, pagination)));
+  }),
+
+  rest.get(`${environment.apiUrl}/customer-assets`, (_req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(mockCustomerAssets));
+  }),
+];
+
+export const otherPartsHandlersTest = [
   rest.get(`${environment.apiUrl}/supplier-assets`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockSupplierAssets));
   }),

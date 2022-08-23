@@ -22,10 +22,10 @@ import { TreeElement, TreeStructure } from '@shared/modules/relations/model/rela
 
 export class RelationsAssembler {
   public static assemblePartForRelation({ id, name, serialNumber, children, qualityType }: Part): TreeElement {
-    const mapQualityTypeToState = (type: QualityType) => (type === QualityType.Ok ? 'done' : type);
+    const mapQualityTypeToState = (type: QualityType) => (type === QualityType.Ok ? 'done' : type || 'error');
     const state = !!children ? mapQualityTypeToState(qualityType) || 'done' : 'loading';
 
-    return { id, text: name, title: `${name} | ${serialNumber}`, state, children };
+    return { id, text: name, title: `${name || '--'} | ${serialNumber || id}`, state, children };
   }
 
   public static elementToTreeStructure(element: TreeElement): TreeStructure {

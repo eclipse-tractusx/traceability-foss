@@ -17,6 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared/model/view.model';
@@ -161,6 +162,10 @@ export class RelationsFacade {
 
     const relationRequest = children.map(childId => this.getRelation(parentId, childId));
     return merge(...relationRequest).pipe(
+      catchError((error: HttpErrorResponse) => {
+        const partIdWithError = error.url.split('/children/')[1];
+        return of({ id: partIdWithError, children: [] } as Part);
+      }),
       toArray(),
       first(),
       map(childrenData => childrenData.map(child => RelationsAssembler.assemblePartForRelation(child))),

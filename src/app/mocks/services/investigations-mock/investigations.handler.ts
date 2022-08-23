@@ -18,34 +18,9 @@
  ********************************************************************************/
 
 import { environment } from '@env';
-import { rest, RestRequest } from 'msw';
+import { rest } from 'msw';
+import { applyPagination, extractPagination } from '../pagination.helper';
 import { buildMockInvestigations } from './investigations.model';
-
-interface PaginationFilters {
-  page: number;
-  size: number;
-}
-
-const extractPagination = (req: RestRequest) => {
-  const page = parseInt(req.url.searchParams.get('page') ?? '0', 10);
-  const size = parseInt(req.url.searchParams.get('size') ?? '5', 10);
-
-  return {
-    page,
-    size,
-  };
-};
-
-const applyPagination = (items: unknown[], filters: PaginationFilters) => {
-  const offset = filters.page * filters.size;
-  return {
-    content: items.slice(offset, offset + filters.size),
-    page: filters.page,
-    pageCount: Math.ceil(items.length / filters.size),
-    pageSize: filters.size,
-    totalItems: items.length,
-  };
-};
 
 export const investigationsHandlers = [
   rest.get(`${environment.apiUrl}/investigations/received`, (req, res, ctx) => {

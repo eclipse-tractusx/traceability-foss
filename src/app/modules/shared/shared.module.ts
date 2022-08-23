@@ -20,7 +20,6 @@
 import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
-import { ValueToLablePipe } from '@shared/components/select/valueToLable.pipe';
 import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -39,6 +38,7 @@ import { QualityTypeComponent } from './components/quality-type/quality-type.com
 import { RequestInvestigationComponent } from './components/request-investigation/request-investigation.component';
 import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 import { SelectComponent } from './components/select/select.component';
+import { ValueToLablePipe } from './components/select/valueToLable.pipe';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper.component';
 import { TableComponent } from './components/table/table.component';
 import { TextareaComponent } from './components/textarea/textarea.component';

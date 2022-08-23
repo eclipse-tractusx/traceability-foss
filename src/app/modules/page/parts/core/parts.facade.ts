@@ -25,7 +25,7 @@ import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
-import { catchError, delay, takeUntil } from 'rxjs/operators';
+import { catchError, delay, map, takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
@@ -86,6 +86,7 @@ export class PartsFacade {
 
   private getSelectedPartData(id: string): Observable<Part> {
     return this.partsService.getPart(id).pipe(
+      map(part => part || ({ id, error: true } as Part)),
       takeUntil(this.subjectList[id] || new Subject()),
       catchError(_ => of({ id, error: true } as Part)),
     );
