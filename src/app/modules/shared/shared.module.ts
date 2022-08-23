@@ -20,12 +20,6 @@
 import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
-import { QualityTypeComponent } from '@shared/components/quality-type/quality-type.component';
-import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
-import { ValueToLablePipe } from '@shared/components/select/valueToLable.pipe';
-import { SidenavComponent } from '@shared/components/sidenav/sidenav.component';
-import { TextareaComponent } from '@shared/components/textarea/textarea.component';
-import { ErrorMessagePipe } from '@shared/pipes/error-message.pipe';
 import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -40,14 +34,20 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
 import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
 import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
 import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
+import { QualityTypeComponent } from './components/quality-type/quality-type.component';
+import { RequestInvestigationComponent } from './components/request-investigation/request-investigation.component';
 import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 import { SelectComponent } from './components/select/select.component';
+import { ValueToLablePipe } from './components/select/valueToLable.pipe';
+import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper.component';
 import { TableComponent } from './components/table/table.component';
+import { TextareaComponent } from './components/textarea/textarea.component';
 import { RoleDirective } from './directives/role.directive';
 import { TabAsPanelDirective } from './directives/tabs/tab-as-panel.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
 import { ViewContainerDirective } from './directives/view-container.directive';
 import { AutoFormatPipe } from './pipes/auto-format.pipe';
+import { ErrorMessagePipe } from './pipes/error-message.pipe';
 import { FormatDatePipe } from './pipes/format-date.pipe';
 import { I18nPipe } from './pipes/i18n.pipe';
 import { PartsService } from './service/parts.service';
@@ -76,7 +76,7 @@ import { TemplateModule } from './template.module';
     SelectComponent,
     DataLoadingErrorComponent,
     TabAsPanelDirective,
-    SidenavComponent,
+    SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,
@@ -108,7 +108,7 @@ import { TemplateModule } from './template.module';
     SelectComponent,
     DataLoadingErrorComponent,
     TabAsPanelDirective,
-    SidenavComponent,
+    SidenavWrapperComponent,
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,

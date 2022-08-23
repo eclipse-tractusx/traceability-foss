@@ -19,7 +19,7 @@
 
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 
-type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'mini-fab';
+type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
 
 @Component({
   selector: 'app-button',

@@ -17,21 +17,6 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-sidenav-container
-  [hasBackdrop]="true"
-  [class.sidenav--container__open]="isOpen"
-  class="sidenav--container"
-  data-testid="sidenav--test-id"
->
-  <mat-sidenav
-    #sidenav
-    [fixedInViewport]="true"
-    [fixedTopGap]="64"
-    (openedChange)="sidenavAction.emit($event)"
-    mode="over"
-    class="sidenav--content"
-    position="end"
-  >
-    <ng-content></ng-content>
-  </mat-sidenav>
-</mat-sidenav-container>
+<ng-template #templateRef>
+  <ng-content></ng-content>
+</ng-template>

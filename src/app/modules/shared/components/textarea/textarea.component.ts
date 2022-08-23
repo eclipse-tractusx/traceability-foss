@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input, OnInit, Self } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 @Component({
@@ -26,9 +26,10 @@ import { ControlValueAccessor, NgControl } from '@angular/forms';
   styleUrls: ['./textarea.component.scss'],
 })
 export class TextareaComponent implements ControlValueAccessor, OnInit {
+  @ViewChild('textareaRef') textareaRef: ElementRef<HTMLTextAreaElement>;
+
   @Input() label = '';
   public value: string;
-  public touched = false;
   public disabled = false;
 
   public onChange: ((_value: string) => {}) | null = null;
@@ -46,7 +47,14 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   public writeValue(value: string): void {
-    this.value = value;
+    // @TODO: improve this to more straightforward solution
+    // by some reason Angular does not update textarea value if rely on data-binding
+    // as workaround we update it directly after textarea get created
+    if (this.textareaRef?.nativeElement) {
+      this.textareaRef.nativeElement.value = value ?? '';
+    } else {
+      this.value = value;
+    }
   }
 
   public registerOnChange(onChange: any): void {
@@ -58,12 +66,7 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   public markAsTouched(): void {
-    if (this.touched) {
-      return;
-    }
-
-    this.onTouched?.();
-    this.touched = true;
+    this.ngControl.control.markAsTouched();
   }
 
   public setDisabledState(disabled: boolean): void {
