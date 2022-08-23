@@ -50,11 +50,20 @@
     @apply flex flex-row;
     justify-content: space-between;
     padding-bottom: 25px;
+
+    @media (max-width: 1024px) {
+      @apply flex-col;
+      padding-bottom: unset;
+    }
   }
 
   &--manufacturer-info {
     @apply flex flex-row;
     justify-content: space-between;
+
+    @media (max-width: 1024px) {
+      @apply flex-col;
+    }
   }
 
   &--relation__container {
@@ -81,17 +90,27 @@
 }
 
 app-card-list {
-  width: 400px;
-  max-width: 400px;
-  min-width: 400px;
-  min-height: 250px;
+  width: 45%;
+  min-width: 250px;
+  height: 400px;
+
+  @media (max-width: 1024px) {
+    width: unset;
+    margin-bottom: 1rem;
+    height: 250px;
+  }
 }
 
 mat-card {
-  width: 400px;
-  max-width: 400px;
-  min-width: 400px;
-  min-height: 250px;
+  width: 45%;
+  min-width: 250px;
+  height: 400px;
+
+  @media (max-width: 1024px) {
+    width: unset;
+    margin-bottom: 1rem;
+    height: 250px;
+  }
 }
 
 .card-list {

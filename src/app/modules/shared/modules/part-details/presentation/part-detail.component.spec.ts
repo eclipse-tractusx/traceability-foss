@@ -18,8 +18,12 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { LayoutModule } from '@layout/layout.module';
+import { SidenavComponent } from '@layout/sidenav/sidenav.component';
+import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
+import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -45,12 +49,13 @@ export const PartDetailsFacadeFactory = (initialPart: View<Part>) => {
 
 describe('PartDetailComponent', () => {
   it('should render side nav', async () => {
-    await renderComponent(PartDetailComponent, {
-      imports: [PartDetailsModule],
-      providers: [{ provide: PartsState }],
+    await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
+      declarations: [SidenavComponent],
+      imports: [PartDetailsModule, LayoutModule],
+      providers: [{ provide: PartsState }, { provide: SidenavService }],
     });
 
-    const sideNavElement = await screen.findByTestId('sidenav--test-id');
+    const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
     expect(sideNavElement).toBeInTheDocument();
   });
 
@@ -60,17 +65,19 @@ describe('PartDetailComponent', () => {
       productionDate: new CalendarDateModel('1997-05-30T12:34:12Z'),
       customerPartId: '333',
     } as Part;
-    await renderComponent(PartDetailComponent, {
-      imports: [PartDetailsModule],
+    await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
+      declarations: [SidenavComponent],
+      imports: [PartDetailsModule, LayoutModule],
       providers: [
         {
           provide: PartDetailsFacade,
           useClass: PartDetailsFacadeFactory({ data: testPart }),
         },
+        { provide: SidenavService },
       ],
     });
 
-    const sideNavElement = await screen.findByTestId('sidenav--test-id');
+    const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
     const nameElement = await screen.findByText(testPart.name);
     const productionDateElement = await screen.findByText('5/30/1997');
     const partNumberElement = await screen.findByText(testPart.customerPartId);
@@ -85,17 +92,19 @@ describe('PartDetailComponent', () => {
 
   it('should render error messages if data failed loading', async () => {
     const error = { message: 'Error message' } as Error;
-    await renderComponent(PartDetailComponent, {
-      imports: [PartDetailsModule],
+    await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
+      declarations: [SidenavComponent],
+      imports: [PartDetailsModule, LayoutModule],
       providers: [
         {
           provide: PartDetailsFacade,
           useClass: PartDetailsFacadeFactory({ error }),
         },
+        { provide: SidenavService },
       ],
     });
 
-    const errorElements = await screen.findAllByText(error.message);
+    const errorElements = await waitFor(() => screen.getAllByText(error.message));
     expect(errorElements.length).toBe(4);
     errorElements.forEach(errorElement => expect(errorElement).toBeInTheDocument());
   });
