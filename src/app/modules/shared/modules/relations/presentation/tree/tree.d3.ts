@@ -22,7 +22,7 @@ import { HelperD3 } from '@shared/modules/relations/presentation/helper.d3';
 import * as d3 from 'd3';
 import { HierarchyNode, PieArcDatum } from 'd3';
 import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
-import { MinimapConnector, TreeNode, TreeSvg } from '../model.d3';
+import { MinimapConnector, TreeNode, TreeSvg, RenderOptions } from '../model.d3';
 
 export class Tree {
   private readonly id: string;
@@ -78,7 +78,7 @@ export class Tree {
     this.minimapConnector.onZoom(this.zoom);
   }
 
-  public renderTree(treeData: TreeStructure): TreeSvg {
+  public renderTree(treeData: TreeStructure, renderOptions: RenderOptions): TreeSvg {
     d3.select(`#${this.id}-svg`).remove();
     const root = d3.hierarchy(treeData);
 
@@ -90,7 +90,7 @@ export class Tree {
     this.addStatusBorder(svg, root);
     this.addLoading(svg, root);
     this.addOpeningArrow(svg, root);
-
+    this.initViewBox(renderOptions);
     return svg;
   }
 
@@ -142,7 +142,6 @@ export class Tree {
     return this.mainElement
       .append('svg')
       .attr('id', this.id + '-svg')
-      .attr('viewBox', this.calculateViewbox())
       .attr('width', this.width)
       .attr('height', this.height)
       .call(HelperD3.initDrag(d3.select(`#${this.id}-svg`), this.updateViewBoxOnDrag.bind(this)))
@@ -155,6 +154,18 @@ export class Tree {
       this.zoom = e.deltaY * 0.005 + this.zoom;
       d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
     });
+  }
+
+  private initViewBox({ preserveRight }: RenderOptions) {
+    const circlesGroup = document.querySelector(`#${this.id}--circles`) as SVGGElement;
+    const viewBoxWidth = this.width * this.zoom;
+    const viewBoxHeight = this.height * this.zoom;
+    const circlesGroupBBox = circlesGroup.getBBox();
+
+    const x = circlesGroupBBox.x - (viewBoxWidth - preserveRight - circlesGroupBBox.width) / 2;
+    const y = circlesGroupBBox.y - (viewBoxHeight - circlesGroupBBox.height) / 2;
+
+    d3.select(`#${this.id}-svg`).attr('viewBox', [x, y, viewBoxWidth, viewBoxHeight]);
   }
 
   private addPaths(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
