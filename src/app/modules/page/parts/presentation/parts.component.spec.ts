@@ -40,6 +40,7 @@ describe('Parts', () => {
       imports: [PartsModule, SharedModule, LayoutModule],
       translations: ['page.parts'],
       providers: [{ provide: SidenavService }],
+      roles: ['wip', 'admin'],
     });
   };
 

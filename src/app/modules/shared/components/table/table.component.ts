@@ -23,6 +23,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
+import { RoleService } from '@core/user/role.service';
 import { TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 
 @Component({
@@ -34,8 +35,19 @@ export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  @Input()
+  set tableConfig(tableConfig: TableConfig) {
+    const { displayedColumns, columnRoles } = tableConfig;
+    const filtered = displayedColumns.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user'));
+
+    this._tableConfig = { ...tableConfig, displayedColumns: filtered };
+  }
+
+  get tableConfig(): TableConfig {
+    return this._tableConfig;
+  }
+
   @Input() labelId: string;
-  @Input() tableConfig: TableConfig;
   @Input() noShadow = false;
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
@@ -78,6 +90,10 @@ export class TableComponent {
 
   private pageSize: number;
   private sorting: TableHeaderSort;
+
+  private _tableConfig: TableConfig;
+
+  constructor(private readonly roleService: RoleService) {}
 
   public areAllRowsSelected(): boolean {
     return this.selection.selected.length === this.dataSource.data.length;

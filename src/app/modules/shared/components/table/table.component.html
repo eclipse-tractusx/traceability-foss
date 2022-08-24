@@ -18,12 +18,14 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div [class.mat-elevation-z8]="!noShadow">
-  <div *ngIf="selectedPartsInfoLabel" class="table--selected__container">
-    <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { count: selection?.selected?.length || 0 } }}</p>
-    <app-button *ngIf="this.selection?.selected?.length" (click)="clickSelectAction.emit()">
-      {{ selectedPartsActionLabel | i18n }}
-    </app-button>
-  </div>
+  <ng-container *ngIf="selectedPartsInfoLabel">
+    <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
+      <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { count: selection?.selected?.length || 0 } }}</p>
+      <app-button *ngIf="this.selection?.selected?.length" (click)="clickSelectAction.emit()">
+        {{ selectedPartsActionLabel | i18n }}
+      </app-button>
+    </div>
+  </ng-container>
 
   <app-scroll-with-shadow>
     <table
@@ -34,9 +36,9 @@ SPDX-License-Identifier: Apache-2.0
       data-testid="table-component--test-id"
       [attr.aria-labelledby]="labelId"
     >
-      <ng-container *ngFor="let column of tableConfig?.displayedColumns; let i = index">
+      <ng-container *ngFor="let column of tableConfig?.displayedColumns">
         <ng-container
-          *ngTemplateOutlet="column === 'select' ? SelectColumn : NormalColumn; context: { $implicit: column, i: i }"
+          *ngTemplateOutlet="column === 'select' ? SelectColumn : NormalColumn; context: { $implicit: column }"
         ></ng-container>
       </ng-container>
 
@@ -83,7 +85,7 @@ SPDX-License-Identifier: Apache-2.0
         </ng-container>
       </ng-template>
 
-      <ng-template #NormalColumn let-column let-i="i">
+      <ng-template #NormalColumn let-column>
         <ng-container matColumnDef="{{ column }}">
           <th
             *matHeaderCellDef
@@ -93,8 +95,8 @@ SPDX-License-Identifier: Apache-2.0
             class="table--cell"
           >
             <ng-container
-              *ngIf="tableConfig?.header?.[i]; else pureColumn"
-              >{{ tableConfig?.header?.[i] | i18n }}</ng-container
+              *ngIf="tableConfig?.header?.[column]; else pureColumn"
+              >{{ tableConfig?.header?.[column] | i18n }}</ng-container
             >
           </th>
           <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">

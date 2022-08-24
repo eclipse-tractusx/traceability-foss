@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { TableConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { CreateHeaderFromColumns, TableConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { Investigation, Investigations } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 
@@ -39,7 +39,7 @@ export class InvestigationsTabComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
-      header: this.displayedColumns.map(column => `pageInvestigations.column.${column}`),
+      header: CreateHeaderFromColumns(this.displayedColumns, 'pageInvestigations.column'),
       cellRenderers: {
         status: this.statusTemplate,
       },

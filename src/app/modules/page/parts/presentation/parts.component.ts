@@ -21,7 +21,7 @@ import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angul
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part, QualityType } from '@page/parts/model/parts.model';
-import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -83,7 +83,8 @@ export class PartsComponent implements OnInit, AfterViewInit {
   public ngAfterViewInit(): void {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
-      header: this.displayedColumns.map(column => `pageParts.column.${column}`),
+      columnRoles: { childInvestigation: 'wip' },
+      header: CreateHeaderFromColumns(this.displayedColumns, 'pageParts.column'),
       sortableColumns: this.sortableColumns,
       cellRenderers: {
         childInvestigation: this.childInvestigationTmp,
