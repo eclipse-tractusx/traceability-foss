@@ -39,9 +39,7 @@ export class PrivateLayoutComponent implements OnInit {
 
   public handleResize(): void {
     const match = window.matchMedia('(min-width: 1024px)');
-    match.addEventListener('change', e => {
-      this.expanded = e.matches;
-    });
+    match.addEventListener('change', e => (this.expanded = e.matches), { passive: true });
   }
 
   public manualToggle(): void {

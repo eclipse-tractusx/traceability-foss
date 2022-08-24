@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part, QualityType } from '@page/parts/model/parts.model';
@@ -32,7 +32,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
   templateUrl: './parts.component.html',
   styleUrls: ['./parts.component.scss'],
 })
-export class PartsComponent implements OnInit, AfterViewInit {
+export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('childInvestigationTmp') childInvestigationTmp: TemplateRef<unknown>;
   @ViewChild('qualityTypeTmp') qualityTypeTmp: TemplateRef<unknown>;
 
@@ -90,6 +90,10 @@ export class PartsComponent implements OnInit, AfterViewInit {
         qualityType: this.qualityTypeTmp,
       },
     };
+  }
+
+  public ngOnDestroy(): void {
+    this.partsFacade.unsubscribeParts();
   }
 
   public onSelectItem($event: Record<string, unknown>): void {

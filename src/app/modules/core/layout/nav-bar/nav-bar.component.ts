@@ -19,7 +19,7 @@
 
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { realm, realmLogo } from 'src/app/modules/core/api/api.service.properties';
+import { realm, realmLogo as _realmLogo } from 'src/app/modules/core/api/api.service.properties';
 import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 
 @Component({
@@ -28,16 +28,13 @@ import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
   styleUrls: ['./nav-bar.component.scss'],
 })
 export class NavBarComponent {
+  public readonly realmLogo = _realmLogo;
   public isExpanded = false;
   public userInitials = '';
   public userDetails = { name: '', email: '', role: '' };
 
   constructor(private readonly layoutFacade: LayoutFacade, private readonly router: Router) {
     this.userInitials = this.layoutFacade.realmName;
-    this.userDetails = this.layoutFacade.userInformation;
-  }
-
-  ngOnInit(): void {
     this.userDetails = this.layoutFacade.userInformation;
   }
 
@@ -54,10 +51,6 @@ export class NavBarComponent {
 
   public navigateToHome(): void {
     this.router.navigate([`/${realm}`]).then();
-  }
-
-  public getCompanyLogo(): string {
-    return realmLogo;
   }
 
   @HostListener('window:click', [])

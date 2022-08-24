@@ -33,8 +33,4 @@ export class ButtonComponent {
   @Input() label: string;
   @Input() iconName: string;
   @Input() isDisabled: boolean = false;
-
-  public getClasses(): string {
-    return 'mat-' + this.color;
-  }
 }

@@ -63,6 +63,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-template #SelectColumn>
         <ng-container matColumnDef="select">
           <th *matHeaderCellDef mat-header-cell>
+            <!-- ToDo: Remove function call in HTML attribute -->
             <mat-checkbox
               [checked]="selection.hasValue() && areAllRowsSelected()"
               [indeterminate]="selection.hasValue() && !areAllRowsSelected()"

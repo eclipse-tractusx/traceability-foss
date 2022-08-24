@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
@@ -33,7 +33,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   templateUrl: './other-parts.component.html',
   styleUrls: ['./other-parts.component.scss'],
 })
-export class OtherPartsComponent implements OnInit {
+export class OtherPartsComponent implements OnInit, OnDestroy {
   public readonly displayedColumns: string[] = [
     'select',
     'name',
@@ -91,6 +91,10 @@ export class OtherPartsComponent implements OnInit {
   public ngOnInit(): void {
     this.otherPartsFacade.setCustomerParts();
     this.otherPartsFacade.setSupplierParts();
+  }
+
+  public ngOnDestroy(): void {
+    this.otherPartsFacade.unsubscribeParts();
   }
 
   public onSelectItem(event: Record<string, unknown>): void {

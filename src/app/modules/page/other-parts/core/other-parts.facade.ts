@@ -61,4 +61,9 @@ export class OtherPartsFacade {
       error: error => (this.otherPartsState.supplierParts = { error }),
     });
   }
+
+  public unsubscribeParts(): void {
+    this.customerPartsSubscription?.unsubscribe();
+    this.supplierPartsSubscription?.unsubscribe();
+  }
 }
