@@ -23,6 +23,9 @@ import { UserService } from './user.service';
 
 const ROLES_RELATIONS: RoleRelation[] = [
   {
+    role: 'wip',
+  },
+  {
     role: 'admin',
     child: 'supervisor',
   },
@@ -38,7 +41,7 @@ const ROLES_RELATIONS: RoleRelation[] = [
 export class RoleService {
   constructor(private readonly userService: UserService) {}
 
-  hasAccess(requiredRoles: Role | Role[]): boolean {
+  public hasAccess(requiredRoles: Role | Role[]): boolean {
     const requiredRolesList = typeof requiredRoles === 'string' ? [requiredRoles] : requiredRoles;
 
     const roles = this.userService.roles.map(role => role.toLocaleLowerCase());

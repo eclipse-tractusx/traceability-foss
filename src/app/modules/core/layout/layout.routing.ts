@@ -53,14 +53,18 @@ const routes: Routes = [
     loadChildren: () => import('@page/other-parts/other-parts.module').then(m => m.OtherPartsModule),
     data: {
       breadcrumb: 'otherParts',
+      roles: ['wip'],
     },
+    canActivate: [RoleGuard],
   },
   {
     path: INVESTIGATION_BASE_ROUTE,
     loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
     data: {
       breadcrumb: 'investigations',
+      roles: ['wip'],
     },
+    canActivate: [RoleGuard],
   },
   {
     path: ABOUT_BASE_ROUTE,

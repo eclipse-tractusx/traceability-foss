@@ -57,6 +57,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <app-request-investigation
+  *appHasRole="['wip']"
   (deselectPart)="removeItemFromSelection($event)"
   (restorePart)="addItemToSelection($event)"
   (clearSelected)="clearSelected()"
