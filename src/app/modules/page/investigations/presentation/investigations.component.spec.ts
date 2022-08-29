@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { fireEvent, screen, within } from '@testing-library/angular';
-import { server } from '@tests/mock-server';
+import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { InvestigationsModule } from '../investigations.module';
 import { InvestigationsComponent } from './investigations.component';

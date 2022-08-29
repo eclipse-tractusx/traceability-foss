@@ -39,7 +39,7 @@ describe('Relations assembler', () => {
       const expected = {
         children: [],
         id: 'id',
-        state: 'done',
+        state: 'error',
         text: 'name',
         title: 'name | serialNumber',
       };

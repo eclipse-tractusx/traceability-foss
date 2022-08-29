@@ -21,7 +21,7 @@ import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { PartsState } from '@page/parts/core/parts.state';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-server';
+import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -34,7 +34,7 @@ import {
   OTHER_PARTS_MOCK_7,
   OTHER_PARTS_MOCK_8,
   OTHER_PARTS_MOCK_9,
-} from '../../../../mocks/services/otherParts-mock/otherParts.model';
+} from '../../../../mocks/services/otherParts-mock/otherParts.test.model';
 import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 
@@ -71,16 +71,6 @@ describe('Other Parts', () => {
     const tableElement = await screen.findByTestId('table-component--test-id');
     expect(tableElement).toBeInTheDocument();
     expect(tableElement.children[1].childElementCount).toEqual(4);
-  });
-
-  it('should render other parts with closed sidenav', async () => {
-    await renderOtherParts();
-
-    const sideNavElements = await screen.findAllByTestId('sidenav--test-id');
-    const sideNavElement = sideNavElements[0];
-
-    expect(sideNavElement).toBeInTheDocument();
-    expect(sideNavElement).not.toHaveClass('sidenav--container__open');
   });
 
   it('should render tabs', async () => {

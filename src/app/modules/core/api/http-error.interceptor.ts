@@ -42,7 +42,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           errorMessage = `Backend returned code ${error.status}: ${error.message}`;
         }
         this.notificationService.error(errorMessage);
-        return throwError(() => new Error(errorMessage));
+        return throwError(() => error);
       }),
     );
   }

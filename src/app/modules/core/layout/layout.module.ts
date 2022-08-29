@@ -27,6 +27,7 @@ import { PrivateLayoutComponent } from './private-layout/private-layout.componen
 import { ResizerComponent } from './resizer/resizer.component';
 import { SidebarSectionComponent } from './sidebar/sidebar-section/sidebar-section.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { SidenavComponent } from './sidenav/sidenav.component';
 import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
 
 @NgModule({
@@ -37,6 +38,7 @@ import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.compo
     SidebarComponent,
     SpinnerOverlayComponent,
     SidebarSectionComponent,
+    SidenavComponent,
   ],
   imports: [CommonModule, LayoutRoutingModule, TemplateModule, SharedModule],
 })

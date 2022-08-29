@@ -28,7 +28,7 @@ describe('TableComponent', () => {
   const generateTableContent = (size: number) => {
     return Array.apply(null, Array(size)).map((_, i) => ({ name: 'name_' + i, test: 'test' }));
   };
-  const renderTable = (size: number, displayedColumns = ['name'], header = ['Name']) => {
+  const renderTable = (size: number, displayedColumns = ['name'], header = { name: 'Name' }) => {
     const content = generateTableContent(size);
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
@@ -69,7 +69,7 @@ describe('TableComponent', () => {
 
   it('should render correct amount of table headers', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['name'], ['Name for test']);
+    await renderTable(tableSize, ['name'], { name: 'Name for test' });
 
     expect(screen.getByText('Name for test')).toBeInTheDocument();
   });
@@ -110,7 +110,7 @@ describe('TableComponent', () => {
 
     const tableConfig: TableConfig = {
       displayedColumns: ['name'],
-      header: ['Name Sort'],
+      header: { name: 'Name Sort' },
       sortableColumns: { name: true },
     };
 

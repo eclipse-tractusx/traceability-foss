@@ -56,7 +56,7 @@ export class MockedKeycloakService extends KeycloakService {
         email: 'mock.user@foss.de',
         auth_time: '99999999',
         resource_access: {
-          [environment.clientId]: { roles: this.mockedRoles ?? ['admin'] },
+          [environment.clientId]: { roles: this.mockedRoles ?? ['wip', 'admin'] },
         },
       },
     } as any;

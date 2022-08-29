@@ -17,15 +17,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
-import { StaticIdService } from '@shared/service/staticId.service';
-import { TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
@@ -33,7 +33,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   templateUrl: './other-parts.component.html',
   styleUrls: ['./other-parts.component.scss'],
 })
-export class OtherPartsComponent implements OnInit {
+export class OtherPartsComponent implements OnInit, OnDestroy {
   public readonly displayedColumns: string[] = [
     'select',
     'name',
@@ -53,7 +53,7 @@ export class OtherPartsComponent implements OnInit {
 
   public readonly tableConfig: TableConfig = {
     displayedColumns: this.displayedColumns,
-    header: this.displayedColumns.map(column => `pageParts.column.${column}`),
+    header: CreateHeaderFromColumns(this.displayedColumns, 'pageParts.column'),
     sortableColumns: this.sortableColumns,
   };
 
@@ -91,6 +91,10 @@ export class OtherPartsComponent implements OnInit {
   public ngOnInit(): void {
     this.otherPartsFacade.setCustomerParts();
     this.otherPartsFacade.setSupplierParts();
+  }
+
+  public ngOnDestroy(): void {
+    this.otherPartsFacade.unsubscribeParts();
   }
 
   public onSelectItem(event: Record<string, unknown>): void {

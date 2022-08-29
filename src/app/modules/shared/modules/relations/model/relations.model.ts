@@ -22,7 +22,7 @@ import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 
 export type LoadedElements = Record<string, TreeElement>;
 export type OpenElements = Record<string, string[]>;
-type State = 'done' | 'loading' | QualityType;
+type State = 'done' | 'loading' | 'error' | QualityType;
 
 export interface TreeElement {
   id: string;

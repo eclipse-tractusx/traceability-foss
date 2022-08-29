@@ -59,7 +59,7 @@ table {
   align-items: center;
   padding: 0 10px;
   // Mat row defines fixed height of 48px.
-  height: 48px;
+  min-height: 48px;
 
   @apply bg-primaryLight border-r-2;
 }

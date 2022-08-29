@@ -23,9 +23,8 @@ import 'jest-extended/all';
 import '@testing-library/jest-dom/extend-expect';
 // The Order of these Imports is very important!
 
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { NgZone } from '@angular/core';
 
 // globally defined manual mocks
 jest.mock('../app/modules/core/api/api.service.properties');

@@ -17,33 +17,34 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
+import { EventEmitter, Injectable, TemplateRef } from '@angular/core';
+import { SidenavConfig } from '@layout/sidenav/sidenav.component';
+import { State } from '@shared/model/state';
+import { Observable } from 'rxjs';
 
-@Component({
-  selector: 'app-private-layout',
-  templateUrl: './private-layout.component.html',
-  styleUrls: ['./private-layout.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+@Injectable({
+  providedIn: 'root',
 })
-export class PrivateLayoutComponent implements OnInit {
-  public expanded: boolean;
+export class SidenavService {
+  private readonly _action$ = new State<EventEmitter<boolean>>(null);
+  private readonly _isOpen$ = new State<boolean>(false);
+  private readonly _template$ = new State<TemplateRef<HTMLElement>>(null);
 
-  constructor(private readonly layoutFacade: LayoutFacade) {
-    this.expanded = false;
+  public get action(): EventEmitter<boolean> {
+    return this._action$.snapshot;
   }
 
-  ngOnInit(): void {
-    this.handleResize();
+  public get isOpen$(): Observable<boolean> {
+    return this._isOpen$.observable;
   }
 
-  public handleResize(): void {
-    const match = window.matchMedia('(min-width: 1024px)');
-    match.addEventListener('change', e => (this.expanded = e.matches), { passive: true });
+  public get template$(): Observable<TemplateRef<HTMLElement>> {
+    return this._template$.observable;
   }
 
-  public manualToggle(): void {
-    this.expanded = !this.expanded;
-    this.layoutFacade.isSideBarExpanded = this.expanded;
+  public setConfig({ action, isOpen, template }: SidenavConfig): void {
+    this._action$.update(action);
+    this._isOpen$.update(isOpen);
+    this._template$.update(template);
   }
 }

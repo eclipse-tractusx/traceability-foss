@@ -38,9 +38,8 @@ export class LoadedElementsFacade {
   public addLoadedElement(element: TreeElement): void {
     const { id, children } = element;
 
-    // TODO: It is not clear what happens here. Rework.
-    const loadingChildren = children?.reduce((p: LoadedElements, c: string) => {
-      return { ...p, [c]: this.loadedElements[c] || RelationsAssembler.createLoadingElement(c) };
+    const loadingChildren = children?.reduce((p: LoadedElements, childId: string) => {
+      return { ...p, [childId]: this.loadedElements[childId] || RelationsAssembler.createLoadingElement(childId) };
     }, {} as LoadedElements);
 
     this.loadedElementsState.loadedElements = {

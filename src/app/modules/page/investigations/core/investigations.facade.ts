@@ -61,4 +61,9 @@ export class InvestigationsFacade {
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),
       });
   }
+
+  public stopInvestigations(): void {
+    this.investigationReceivedSubscription?.unsubscribe();
+    this.investigationQueuedAndRequestedSubscription?.unsubscribe();
+  }
 }

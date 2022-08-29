@@ -24,7 +24,7 @@ import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
-import { InvestigationsService } from '@shared/service/investigations.service';
+import { PartsService } from '@shared/service/parts.service';
 import { Observable, Subscription } from 'rxjs';
 
 @Injectable()
@@ -34,8 +34,8 @@ export class OtherPartsFacade {
 
   constructor(
     private readonly otherPartsService: OtherPartsService,
+    private readonly partsService: PartsService,
     private readonly otherPartsState: OtherPartsState,
-    private readonly investigationsService: InvestigationsService,
   ) {}
 
   public get customerParts$(): Observable<View<Pagination<Part>>> {
@@ -60,5 +60,10 @@ export class OtherPartsFacade {
       next: data => (this.otherPartsState.supplierParts = { data }),
       error: error => (this.otherPartsState.supplierParts = { error }),
     });
+  }
+
+  public unsubscribeParts(): void {
+    this.customerPartsSubscription?.unsubscribe();
+    this.supplierPartsSubscription?.unsubscribe();
   }
 }

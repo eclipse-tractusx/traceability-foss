@@ -17,10 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StaticIdService } from '@shared/service/staticId.service';
 import { TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { StaticIdService } from '@shared/service/staticId.service';
 import { map } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
@@ -28,7 +28,7 @@ import { InvestigationsFacade } from '../core/investigations.facade';
   selector: 'app-investigations',
   templateUrl: './investigations.component.html',
 })
-export class InvestigationsComponent implements OnInit {
+export class InvestigationsComponent implements OnInit, OnDestroy {
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
   public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
@@ -45,9 +45,13 @@ export class InvestigationsComponent implements OnInit {
     private readonly staticIdService: StaticIdService,
   ) {}
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.investigationsFacade.setReceivedInvestigation();
     this.investigationsFacade.setQueuedAndRequestedInvestigations();
+  }
+
+  public ngOnDestroy(): void {
+    this.investigationsFacade.stopInvestigations();
   }
 
   public onReceivedPagination(pagination: TablePaginationEventConfig) {

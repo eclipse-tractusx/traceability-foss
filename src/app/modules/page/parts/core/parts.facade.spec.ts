@@ -31,7 +31,7 @@ import {
   MOCK_part_3,
   mockAssetList,
   mockAssets,
-} from '../../../../mocks/services/parts-mock/parts.model';
+} from '../../../../mocks/services/parts-mock/parts.test.model';
 
 describe('Parts facade', () => {
   let partsFacade: PartsFacade, partsState: PartsState, partsServiceMok: PartsService;

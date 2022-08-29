@@ -25,12 +25,13 @@ import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
 import { merge, Observable, of, Subject, Subscription } from 'rxjs';
-import { catchError, delay, takeUntil } from 'rxjs/operators';
+import { catchError, delay, map, takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class PartsFacade {
   private subjectList: Record<string, Subject<void>> = {};
   private partsSubscription: Subscription;
+  private readonly unsubscribeTrigger = new Subject<void>();
 
   constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {}
 
@@ -44,6 +45,11 @@ export class PartsFacade {
       next: data => (this.partsState.parts = { data }),
       error: error => (this.partsState.parts = { error }),
     });
+  }
+
+  public unsubscribeParts(): void {
+    this.partsSubscription?.unsubscribe();
+    this.unsubscribeTrigger.next();
   }
 
   get selectedParts$(): Observable<Part[]> {
@@ -61,7 +67,9 @@ export class PartsFacade {
     this.selectedParts = selectedPartIds.map(id => ({ id } as Part));
     const selectedPartsObservable = selectedPartIds.map(id => this.getSelectedPartData(id));
 
-    merge(...selectedPartsObservable).subscribe(data => this.updateSelectedParts(data));
+    merge(...selectedPartsObservable)
+      .pipe(takeUntil(this.unsubscribeTrigger))
+      .subscribe(data => this.updateSelectedParts(data));
   }
 
   public removeSelectedPart(part: Part): void {
@@ -86,6 +94,8 @@ export class PartsFacade {
 
   private getSelectedPartData(id: string): Observable<Part> {
     return this.partsService.getPart(id).pipe(
+      takeUntil(this.unsubscribeTrigger),
+      map(part => part || ({ id, error: true } as Part)),
       takeUntil(this.subjectList[id] || new Subject()),
       catchError(_ => of({ id, error: true } as Part)),
     );

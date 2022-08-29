@@ -18,16 +18,22 @@
  ********************************************************************************/
 
 import { TemplateRef } from '@angular/core';
+import { Role } from '@core/user/role.model';
 import { SortableHeaders } from '@page/parts/model/parts.model';
 
 export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
 
 export interface TableConfig<Columns extends string = string> {
   displayedColumns: Columns[];
+  columnRoles?: Record<Columns, Role>;
   sortableColumns?: Record<Columns, boolean>;
-  header?: string[];
+  header?: Record<Columns, string>;
   cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
 }
+
+export const CreateHeaderFromColumns = (columns: string[], headerKey: string): Record<string, string> => {
+  return columns.reduce((header, column) => ({ ...header, [column]: `${headerKey}.${column}` }), {});
+};
 
 export interface TablePaginationEventConfig {
   page: number;

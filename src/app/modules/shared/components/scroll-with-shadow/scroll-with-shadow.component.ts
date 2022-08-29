@@ -38,7 +38,7 @@ export class ScrollWithShadowComponent implements AfterViewInit, OnDestroy {
 
     if (!this.hasScroll && hasScroll) {
       // scroll enabled
-      this.calcualteScrollSettings();
+      this.calculateScrollSettings();
     } else if (this.hasScroll && !hasScroll) {
       // scroll disabled
       this.hasLeftScroll = false;
@@ -56,7 +56,7 @@ export class ScrollWithShadowComponent implements AfterViewInit, OnDestroy {
     this.resizeObserver.disconnect();
   }
 
-  public calcualteScrollSettings() {
+  public calculateScrollSettings(): void {
     const el = this.containerRef.nativeElement;
     this.hasLeftScroll = el.scrollLeft > 0;
     this.hasRightScroll = el.scrollLeft + el.offsetWidth < el.scrollWidth;
