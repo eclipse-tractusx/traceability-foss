@@ -25,11 +25,10 @@ import { D3TreeDummyData } from '../tree/tree.d3.test.data';
 
 describe('D3 Tree', () => {
   const id = 'id';
-  const zoom = 10;
   const mainElement = d3.select(document.body).append('svg') as TreeSvg;
   const openDetails = jest.fn();
   const updateChildren = jest.fn();
-  const treeInstance = new Tree({ id, zoom, mainElement, openDetails, updateChildren });
+  const treeInstance = new Tree({ id, mainElement, openDetails, updateChildren });
 
   let minimapData: MinimapData;
   beforeEach(() => (minimapData = { id, mainElement, treeInstance }));
@@ -41,14 +40,18 @@ describe('D3 Tree', () => {
       isMinimapClosed: false,
       id,
       treeInstance: {
-        _zoom: zoom,
+        renderOptions: {
+          preserveRight: 0,
+        },
+        _zoom: 1,
         _minimapConnector: {},
         id,
         mainElement,
         width: 1024,
         height: 568,
         r: 60,
-        _viewX: -90,
+        _viewX: 0,
+        _viewY: 0,
       },
       mainElement,
       width: 1024,
@@ -60,7 +63,7 @@ describe('D3 Tree', () => {
       xOffset: -4.5,
     };
 
-    expect(JSON.stringify(tree)).toEqual(JSON.stringify(expected));
+    expect(tree).toMatchObject(expected);
   });
 
   it('should render minimap', () => {

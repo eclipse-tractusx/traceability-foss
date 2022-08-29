@@ -23,32 +23,44 @@ import * as d3 from 'd3';
 import Tree from './tree.d3';
 import { D3TreeDummyData } from './tree.d3.test.data';
 
+// jsdom don't implement SVGGElement
+(SVGElement.prototype as SVGGElement).getBBox = jest.fn().mockReturnValue({ width: 0, height: 0, x: 0, y: 0 });
+
 describe('D3 Tree', () => {
   const id = 'id';
-  const zoom = 10;
   const mainElement = d3.select(document.body).append('svg') as TreeSvg;
   const openDetails = jest.fn();
   const updateChildren = jest.fn();
 
   let treeData: TreeData;
-  beforeEach(() => (treeData = { id, zoom, mainElement, openDetails, updateChildren }));
+
+  const copyData = (obj: object) =>
+    Object.entries(obj).reduce(
+      (acc, [key, value]) => ({
+        ...acc,
+        [key]: value,
+      }),
+      {},
+    );
+
+  beforeEach(() => (treeData = { id, mainElement, openDetails, updateChildren }));
 
   it('should initialize tree class', () => {
     const tree = new Tree(treeData);
     const expected = {
-      _zoom: zoom,
-      _minimapConnector: { onZoom: (_zoomChange: number) => null, onDrag: (_x: number, _y: number) => null },
+      renderOptions: { preserveRight: 0 },
+      _zoom: 1,
+      _viewX: 0,
+      _viewY: 0,
+      _minimapConnector: { onZoom: expect.any(Function), onDrag: expect.any(Function) },
       id,
       mainElement,
-      openDetails,
-      updateChildren,
       width: 1024,
       height: 568,
       r: 60,
-      _viewX: -90,
     };
 
-    expect(JSON.stringify(tree)).toEqual(JSON.stringify(expected));
+    expect(tree).toMatchObject(expected);
   });
 
   it('should render tree', () => {

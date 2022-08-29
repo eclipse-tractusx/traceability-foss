@@ -46,7 +46,6 @@ export interface TreeStructure {
 export interface TreeData {
   id: string;
   treeId?: string;
-  zoom?: number;
   r?: number;
   mainElement?: TreeSvg;
   openDetails?: (data: TreeStructure) => void;
