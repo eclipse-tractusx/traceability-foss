@@ -35,7 +35,8 @@ COPY --from=builder /usr/local/include /usr/local/include
 COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy NGINX server configuration
-COPY ./build/server.conf /etc/nginx/conf.d/
+COPY ./build/security-headers.conf /etc/nginx/
+COPY ./build/nginx.conf /etc/nginx/
 # Add env variables inject script
 COPY ./scripts/run-inject-dynamic-env.sh /docker-entrypoint.d/00-inject-dynamic-env.sh
 COPY ./scripts/inject-dynamic-env.js /docker-entrypoint.d/

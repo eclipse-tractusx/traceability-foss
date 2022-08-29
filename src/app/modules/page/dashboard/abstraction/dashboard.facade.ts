@@ -21,7 +21,7 @@ import { Injectable } from '@angular/core';
 import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
@@ -29,6 +29,9 @@ import { DashboardStats } from '../model/dashboard.model';
 
 @Injectable()
 export class DashboardFacade {
+  private assetNumbersSubscription: Subscription;
+  private assetsPerCountrySubscription: Subscription;
+
   constructor(
     private readonly dashboardService: DashboardService,
     private readonly dashboardState: DashboardState,
@@ -44,21 +47,20 @@ export class DashboardFacade {
   }
 
   public get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
-    return this.partsService.getPartsPerCountry().pipe(
-      map(partsCountriesMap => {
-        return Object.keys(partsCountriesMap).map(key => ({
-          coordinates: CountryLocationMap[key.toUpperCase()].coordinates,
-          numberOfParts: partsCountriesMap[key],
-        }));
-      }),
-      map(data => ({ data })),
-    );
+    return this.dashboardState.assetsPerCountry$;
   }
 
-  public setNumberOfParts(): void {
+  public setDashboardData(): void {
+    this.setAssetNumbers();
+    this.setAssetsPerCountry();
+  }
+
+  private setAssetNumbers(): void {
     this.dashboardState.setNumberOfMyParts({ loader: true });
     this.dashboardState.setNumberOfBranchParts({ loader: true });
-    this.dashboardService.getStats().subscribe({
+
+    this.assetNumbersSubscription?.unsubscribe();
+    this.assetNumbersSubscription = this.dashboardService.getStats().subscribe({
       next: (dashboardStats: DashboardStats) => {
         this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myItems });
         this.dashboardState.setNumberOfBranchParts({ data: dashboardStats.branchItems });
@@ -68,5 +70,30 @@ export class DashboardFacade {
         this.dashboardState.setNumberOfBranchParts({ error });
       },
     });
+  }
+
+  private setAssetsPerCountry(): void {
+    this.dashboardState.setNumberOfBranchParts({ loader: true });
+    this.assetsPerCountrySubscription?.unsubscribe();
+
+    this.assetsPerCountrySubscription = this.partsService
+      .getPartsPerCountry()
+      .pipe(
+        map(partsCountriesMap => {
+          return Object.keys(partsCountriesMap).map(key => ({
+            coordinates: CountryLocationMap[key.toUpperCase()].coordinates,
+            numberOfParts: partsCountriesMap[key],
+          }));
+        }),
+      )
+      .subscribe({
+        next: data => this.dashboardState.setAssetsPerCountry({ data }),
+        error: error => this.dashboardState.setAssetsPerCountry({ error }),
+      });
+  }
+
+  public stopDataLoading(): void {
+    this.assetNumbersSubscription?.unsubscribe();
+    this.assetsPerCountrySubscription?.unsubscribe();
   }
 }

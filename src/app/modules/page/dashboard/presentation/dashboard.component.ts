@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
@@ -26,9 +26,8 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfMyParts$: Observable<View<number>>;
   public readonly numberOfBranchParts$: Observable<View<number>>;
   public readonly assetsPerCountry$: Observable<View<any>>;
@@ -40,6 +39,10 @@ export class DashboardComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.dashboardFacade.setNumberOfParts();
+    this.dashboardFacade.setDashboardData();
+  }
+
+  public ngOnDestroy(): void {
+    this.dashboardFacade.stopDataLoading();
   }
 }

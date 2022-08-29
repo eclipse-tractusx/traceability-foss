@@ -216,11 +216,15 @@ export class Minimap {
       const mapIconElement = this.mainElement.node().appendChild(data.documentElement);
 
       mapIconElement.setAttribute('id', iconId);
-      mapIconElement.addEventListener('click', () => {
-        this.isMinimapClosed = false;
-        d3.select(`#${this.id}`).classed('tree--minimap__closed', this.isMinimapClosed);
-        d3.select(`#${iconId}`).remove();
-      });
+      mapIconElement.addEventListener(
+        'click',
+        () => {
+          this.isMinimapClosed = false;
+          d3.select(`#${this.id}`).classed('tree--minimap__closed', this.isMinimapClosed);
+          d3.select(`#${iconId}`).remove();
+        },
+        { passive: true },
+      );
     });
   }
 
@@ -231,15 +235,19 @@ export class Minimap {
   }
 
   private initResizeListener(): void {
-    window.addEventListener('resize', _ => {
-      this.width = HelperD3.calculateWidth(this.mainElement);
-      this.height = HelperD3.calculateHeight(this.mainElement);
+    window.addEventListener(
+      'resize',
+      _ => {
+        this.width = HelperD3.calculateWidth(this.mainElement);
+        this.height = HelperD3.calculateHeight(this.mainElement);
 
-      d3.select(`#${this.id}-svg`)
-        .attr('viewBox', this.getViewBox)
-        .attr('width', this.width)
-        .attr('height', this.height);
-    });
+        d3.select(`#${this.id}-svg`)
+          .attr('viewBox', this.getViewBox)
+          .attr('width', this.width)
+          .attr('height', this.height);
+      },
+      { passive: true },
+    );
   }
 
   private onZoomChange(zoom: number): void {

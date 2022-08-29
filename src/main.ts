@@ -26,6 +26,17 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic()
-  .bootstrapModule(CoreModule)
-  .catch(err => console.error(err));
+// if the zone has already been loaded, go ahead a bootstrap the app
+if (window['Zone']) {
+  bootstrap();
+
+  // otherwise, wait to bootstrap the app until zone.js is imported
+} else {
+  import('zone.js/dist/zone').then(() => bootstrap());
+}
+
+function bootstrap() {
+  platformBrowserDynamic()
+    .bootstrapModule(CoreModule)
+    .catch(err => console.error(err));
+}
