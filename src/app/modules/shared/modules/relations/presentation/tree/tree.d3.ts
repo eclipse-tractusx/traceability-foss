@@ -22,9 +22,11 @@ import { HelperD3 } from '@shared/modules/relations/presentation/helper.d3';
 import * as d3 from 'd3';
 import { HierarchyNode, PieArcDatum } from 'd3';
 import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
-import { MinimapConnector, TreeNode, TreeSvg } from '../model.d3';
+import type { MinimapConnector, TreeNode, TreeSvg, RenderOptions } from '../model.d3';
 
 export class Tree {
+  public static readonly CENTERING_MARGIN = 0.1;
+
   private readonly id: string;
   private readonly r: number;
   private readonly openDetails: (data: TreeStructure) => void;
@@ -36,25 +38,26 @@ export class Tree {
   private width: number;
   private height: number;
 
-  private _viewX: number;
-  private _viewY: number;
+  private _viewX: number = 0;
+  private _viewY: number = 0;
+
+  private viewWidth: number;
+  private viewHeight: number;
 
   private _minimapConnector: MinimapConnector = {
     onZoom: (_zoomChange: number) => null,
     onDrag: (_x: number, _y: number) => null,
   };
 
-  constructor(treeData: TreeData) {
+  constructor(treeData: TreeData, private readonly renderOptions: RenderOptions = { preserveRight: 0 }) {
     this.id = treeData.id;
 
-    this._zoom = treeData.zoom >= 1 ? treeData.zoom : 1;
     this.mainElement = treeData.mainElement;
 
     this.width = this.getCalculatedWidth();
     this.height = this.getCalculatedHeight();
 
     this.r = 60;
-    this._viewX = -this.r * 1.5;
 
     this.openDetails = treeData.openDetails;
     this.updateChildren = treeData.updateChildren;
@@ -90,7 +93,11 @@ export class Tree {
     this.addStatusBorder(svg, root);
     this.addLoading(svg, root);
     this.addOpeningArrow(svg, root);
-
+    if (this.viewHeight === undefined) {
+      this.initViewBox();
+    } else {
+      d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
+    }
     return svg;
   }
 
@@ -136,13 +143,9 @@ export class Tree {
   private creatMainSvg(root: HierarchyNode<TreeStructure>): TreeSvg {
     d3.tree().nodeSize([this.r * 3, 250])(root);
 
-    const dy = this.height / (root.height || 1);
-    this.viewY = this.viewY || (-dy / 2) * this.zoom;
-
     return this.mainElement
       .append('svg')
       .attr('id', this.id + '-svg')
-      .attr('viewBox', this.calculateViewbox())
       .attr('width', this.width)
       .attr('height', this.height)
       .call(HelperD3.initDrag(d3.select(`#${this.id}-svg`), this.updateViewBoxOnDrag.bind(this)))
@@ -155,6 +158,38 @@ export class Tree {
       this.zoom = e.deltaY * 0.005 + this.zoom;
       d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
     });
+  }
+
+  private initViewBox() {
+    const { preserveRight } = this.renderOptions;
+    const circlesGroup = document.querySelector(`#${this.id}--circles`) as SVGGElement;
+    const arrowGroup = document.querySelector(`tree--element__arrow-container`) as SVGGElement | null;
+    const viewBoxWidth = this.width - preserveRight;
+    const viewBoxHeight = this.height;
+    const circlesGroupBBox = circlesGroup?.getBBox();
+    const arrowGroupBBox = arrowGroup?.getBBox();
+
+    const renderedElementsWidth = circlesGroupBBox.width + (arrowGroupBBox?.width ?? 0);
+    const renderedElementsHeight = circlesGroupBBox.height;
+    const centerXOffset = renderedElementsWidth * Tree.CENTERING_MARGIN;
+    const centerYOffset = renderedElementsHeight * Tree.CENTERING_MARGIN;
+
+    const renderToSizeRelation = Math.max(
+      (renderedElementsWidth + centerXOffset) / viewBoxWidth,
+      (renderedElementsHeight + centerYOffset) / viewBoxHeight,
+    );
+
+    this._zoom = Math.max(renderToSizeRelation, 1);
+
+    const x = circlesGroupBBox.x - (viewBoxWidth * this.zoom - renderedElementsWidth) / 2;
+    const y = circlesGroupBBox.y - (viewBoxHeight * this.zoom - renderedElementsHeight) / 2;
+
+    this.viewX = x;
+    this.viewY = y;
+    this.viewWidth = viewBoxWidth + preserveRight;
+    this.viewHeight = viewBoxHeight;
+
+    d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
   }
 
   private addPaths(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
@@ -351,9 +386,7 @@ export class Tree {
   }
 
   private calculateViewbox(): number[] {
-    const heightOffset = this.viewY / this.height;
-
-    return [this.viewX, this.height * this.zoom * heightOffset, this.width * this.zoom, this.height * this.zoom];
+    return [this.viewX, this.viewY, this.viewWidth * this.zoom, this.viewHeight * this.zoom];
   }
 }
 

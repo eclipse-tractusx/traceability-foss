@@ -28,3 +28,7 @@ export interface MinimapConnector {
   onZoom: (zoom: number) => void;
   onDrag: (x: number, y: number) => void;
 }
+
+export interface RenderOptions {
+  preserveRight: number; // on initial load would take into account on centering
+}
