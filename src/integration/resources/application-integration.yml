@@ -40,9 +40,6 @@ spring:
     url: jdbc:tc:postgresql:14.4://localhost/test
     username: test
     password: test
-  jpa:
-    hibernate:
-      ddl-auto: create
     show-sql: true
 
 keycloak:

@@ -26,7 +26,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableFeignClients(basePackages = {"net.catenax.traceability.assets.infrastructure.adapters.openapi.*"})
+@EnableFeignClients(basePackages = {"net.catenax.traceability.assets.infrastructure.adapters.openapi.*",
+		"net.catenax.traceability.assets.infrastructure.adapters.feign.*"})
 public class FeignGlobalConfig {
 
 	@Bean

@@ -50,6 +50,12 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 		"/actuator/**",
 	};
 
+	private final ErrorHandlingConfig errorHandlingConfig;
+
+	public SecurityConfig(ErrorHandlingConfig errorHandlingConfig) {
+		this.errorHandlingConfig = errorHandlingConfig;
+	}
+
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) {
 		KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
@@ -95,7 +101,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 	public KeycloakAuthenticationProcessingFilter keycloakAuthenticationProcessingFilter() throws Exception {
 		KeycloakAuthenticationProcessingFilter filter = new KeycloakAuthenticationProcessingFilter(authenticationManagerBean());
 		filter.setSessionAuthenticationStrategy(sessionAuthenticationStrategy());
-		filter.setAuthenticationFailureHandler(new ErrorHandlingConfig());
+		filter.setAuthenticationFailureHandler(errorHandlingConfig);
 
 		return filter;
 	}

@@ -39,7 +39,7 @@ class DashboardControllerIT extends IntegrationSpec {
 		given:
 			authenticatedUser(role)
 			keycloakApiReturnsToken()
-			defaultAssets()
+			defaultAssetsStored()
 
 		expect:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
@@ -55,7 +55,7 @@ class DashboardControllerIT extends IntegrationSpec {
 		given:
 			authenticatedUser(USER)
 			keycloakApiReturnsToken()
-			defaultAssets()
+			defaultAssetsStored()
 
 		expect:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))

@@ -20,8 +20,8 @@
 package net.catenax.traceability.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.catenax.traceability.assets.domain.AssetNotFoundException;
-import net.catenax.traceability.assets.infrastructure.config.openapi.bpn.KeycloakTechnicalUserAuthorizationException;
+import net.catenax.traceability.assets.domain.model.AssetNotFoundException;
+import net.catenax.traceability.assets.infrastructure.config.openapi.KeycloakTechnicalUserAuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -45,7 +45,11 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
 	private static final Logger logger = LoggerFactory.getLogger(ErrorHandlingConfig.class);
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
+	private final ObjectMapper objectMapper;
+
+	public ErrorHandlingConfig(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException methodArgumentNotValidException) {
@@ -82,7 +86,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 		logger.error("Couldn't retrieve keycloak token for technical user", keycloakTechnicalUserAuthorizationException);
 
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(new ErrorResponse("Please try again latter."));
+			.body(new ErrorResponse("Please try again later."));
 	}
 
 	@ExceptionHandler(Exception.class)
@@ -90,7 +94,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 		logger.error("Unhandled exception", exception);
 
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-			.body(new ErrorResponse("Please try again latter."));
+			.body(new ErrorResponse("Please try again later."));
 	}
 
 	@Override

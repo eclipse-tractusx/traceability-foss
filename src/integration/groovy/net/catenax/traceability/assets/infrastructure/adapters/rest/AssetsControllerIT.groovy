@@ -20,10 +20,8 @@
 package net.catenax.traceability.assets.infrastructure.adapters.rest
 
 import net.catenax.traceability.IntegrationSpec
-import net.catenax.traceability.assets.domain.AssetRepository
 import net.catenax.traceability.common.security.KeycloakRole
 import org.hamcrest.Matchers
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import spock.util.concurrent.PollingConditions
 
@@ -47,9 +45,6 @@ class AssetsControllerIT extends IntegrationSpec {
 		"BPNL00000003B5MJ"
 	]
 
-	@Autowired
-	private AssetRepository assetsRepository
-
 	def "should synchronize assets"() {
 		given:
 			authenticatedUser(KeycloakRole.ADMIN)
@@ -58,11 +53,120 @@ class AssetsControllerIT extends IntegrationSpec {
 			irsApiReturnsJobDetails()
 
 		when:
-			mvc.perform(post("/assets/sync")).andExpect(status().isOk())
+			mvc.perform(post("/assets/sync")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJson(
+					[
+						globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
+					]
+				))
+			).andExpect(status().isOk())
 
 		then:
 			new PollingConditions(timeout: 10, initialDelay: 0.5).eventually {
-				assetsRepository.countAssets() == 13
+				assertAssetsSize(13)
+			}
+	}
+
+	def "should synchronize assets using retry"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
+
+		and:
+			irsApiTriggerJob()
+
+		and:
+			irsApiReturnsJobInRunningAndCompleted()
+
+		when:
+			mvc.perform(post("/assets/sync")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJson(
+					[
+						globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
+					]
+				))
+			).andExpect(status().isOk())
+
+		then:
+			new PollingConditions(timeout: 15, initialDelay: 0.5).eventually {
+				assertAssetsSize(13)
+			}
+	}
+
+	def "should not synchronize assets when irs failed to trigger job"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
+			irsApiTriggerJobFailed()
+
+		when:
+			mvc.perform(post("/assets/sync")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJson(
+					[
+						globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
+					]
+				))
+			).andExpect(status().isOk())
+
+		then:
+			new PollingConditions(timeout: 10, initialDelay: 3).eventually {
+				assertNoAssetsStored()
+			}
+
+		and:
+			verifyIrsJobDetailsApiNotCalled()
+	}
+
+	def "should not synchronize assets when irs failed to return job details"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
+			irsApiTriggerJob()
+
+		and:
+			irsJobDetailsApiFailed()
+
+		when:
+			mvc.perform(post("/assets/sync")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJson(
+					[
+						globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
+					]
+				))
+			).andExpect(status().isOk())
+
+		then:
+			new PollingConditions(timeout: 10, initialDelay: 2).eventually {
+				assertNoAssetsStored()
+			}
+	}
+
+	def "should not synchronize assets when irs keeps returning job in running state"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
+			irsApiTriggerJob()
+
+		and:
+			irsApiReturnsJobInRunningState()
+
+		when:
+			mvc.perform(post("/assets/sync")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJson(
+					[
+						globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
+					]
+				))
+			).andExpect(status().isOk())
+
+		then:
+			new PollingConditions(timeout: 10, initialDelay: 2).eventually {
+				assertNoAssetsStored()
 			}
 	}
 
@@ -84,7 +188,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			bpnApiReturnsBusinessPartnerDataFor(bpnNumbers)
 
 		and:
-			defaultAssets()
+			defaultAssetsStored()
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -105,7 +209,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			bpnApiReturnsBusinessPartnerDataFor(bpnNumbers)
 
 		and:
-			defaultAssets()
+			defaultAssetsStored()
 
 		when:
 			0..3.each {
@@ -128,7 +232,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			bpnApiReturnsBusinessPartnerDataWithoutNamesFor(bpnNumbers)
 
 		and:
-			defaultAssets()
+			defaultAssetsStored()
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -145,7 +249,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
 
 		and:
-			defaultAssets()
+			defaultAssetsStored()
 
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
@@ -189,14 +293,14 @@ class AssetsControllerIT extends IntegrationSpec {
 			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
 
 		and:
-			defaultAssets()
+			defaultAssetsStored()
 
 		expect:
 			mvc.perform(get("/assets")
-					.queryParam("page", "2")
-					.queryParam("size", "2")
-					.contentType(MediaType.APPLICATION_JSON)
-				)
+				.queryParam("page", "2")
+				.queryParam("size", "2")
+				.contentType(MediaType.APPLICATION_JSON)
+			)
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.page', Matchers.is(2)))
 				.andExpect(jsonPath('$.pageSize', Matchers.is(2)))
@@ -253,7 +357,7 @@ class AssetsControllerIT extends IntegrationSpec {
 			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
 
 		and:
-			defaultAssets()
+			defaultAssetsStored()
 
 		and:
 			def existingAssetId = "urn:uuid:1ae94880-e6b0-4bf3-ab74-8148b63c0640"

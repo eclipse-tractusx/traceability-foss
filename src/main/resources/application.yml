@@ -67,7 +67,7 @@ feign:
     enabled: true
   hystrix:
     enabled: false
-  bpnApi:
+  default:
     connectionTimeoutMillis: 200
     readTimeoutMillis: 500
     maxIdleConnections: 10
@@ -89,7 +89,7 @@ resilience4j:
   retry:
     instances:
       irs-get:
-        resultPredicate: 'net.catenax.traceability.assets.infrastructure.adapters.openapi.irs.JobRunning'
+        resultPredicate: 'net.catenax.traceability.assets.infrastructure.adapters.feign.irs.JobRunning'
         maxAttempts: 5
         waitDuration: 10s
         enableExponentialBackoff: true

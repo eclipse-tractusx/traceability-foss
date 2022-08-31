@@ -57,6 +57,7 @@ val scribejavaVersion = "8.0.0"
 val findBugsVersion = "3.0.2"
 val restitoVersion = "0.9.5"
 val resilience4jVersion = "1.7.0"
+val testContainersVersion = "1.17.3"
 
 dependencyManagement {
 	imports {
@@ -116,8 +117,8 @@ dependencies {
     testImplementation("org.spockframework:spock-core")
     testImplementation("org.spockframework:spock-spring")
 
-	integrationImplementation("org.testcontainers:postgresql:1.17.3")
-	integrationImplementation("org.testcontainers:spock:1.17.3")
+	integrationImplementation("org.testcontainers:postgresql:$testContainersVersion")
+	integrationImplementation("org.testcontainers:spock:$testContainersVersion")
 
 	integrationImplementation("org.springframework.boot:spring-boot-starter-test")
 	integrationImplementation("org.springframework.security:spring-security-test")
@@ -144,6 +145,20 @@ tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gener
 	configOptions.put("sourceFolder", "src/main/java")
 }
 
+tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateAasRegistryApi") {
+	inputSpec.set("${project.rootDir}/openapi/aas-registry-openapi.yaml")
+	outputDir.set("${buildDir}/openapi")
+	validateSpec.set(false)
+
+	groupId.set("${project.group}")
+
+	library.set("feign")
+	generatorName.set("java")
+	apiPackage.set("net.catenax.traceability.assets.infrastructure.adapters.openapi.registry")
+	modelPackage.set("net.catenax.traceability.assets.infrastructure.adapters.openapi.registry")
+	configOptions.put("sourceFolder", "src/main/java")
+}
+
 tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
 	doLast {
 		delete(fileTree("$buildDir/generated/sources/openapi"))
@@ -155,7 +170,7 @@ tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
 }
 
 tasks.withType<JavaCompile> {
-	dependsOn("generateBpnApi")
+	dependsOn("generateBpnApi", "generateAasRegistryApi")
 }
 
 tasks.jacocoTestReport {
@@ -165,6 +180,21 @@ tasks.jacocoTestReport {
 		csv.required.set(false)
 		html.required.set(false)
 	}
+	classDirectories.setFrom(
+		files(classDirectories.files.map {
+			fileTree(it) {
+				exclude(
+					"net/catenax/traceability/generated/**",
+					"net/catenax/traceability/openapi/**",
+					"net/catenax/traceability/*Application.class",
+					"net/catenax/traceability/common/**",
+					"net/catenax/traceability/assets/domain/model/**",
+					"net/catenax/traceability/assets/infrastructure/**",
+					"net/catenax/traceability/assets/config/**"
+				)
+			}
+		})
+	)
 }
 
 tasks.test {

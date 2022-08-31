@@ -36,4 +36,6 @@ feign:
     url: "https://catenax-bpdm-int.demo.catena-x.net/"
   irsApi:
     url: "https://irs.dev.demo.catena-x.net"
-    globalAssetId: "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
+  registryApi:
+    url: https://semantics.int.demo.catena-x.net/registry
+    defaultBpn: BPNL00000003AXS3

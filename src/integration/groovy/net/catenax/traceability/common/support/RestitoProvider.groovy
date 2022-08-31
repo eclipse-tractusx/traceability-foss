@@ -19,8 +19,15 @@
 
 package net.catenax.traceability.common.support
 
+import com.xebialabs.restito.semantics.Action
 import com.xebialabs.restito.server.StubServer
+
+import static com.xebialabs.restito.semantics.Action.resourceContent
 
 interface RestitoProvider {
 	StubServer stubServer()
+
+	default Action jsonResponseFromFile(String location) {
+		return resourceContent(location)
+	}
 }

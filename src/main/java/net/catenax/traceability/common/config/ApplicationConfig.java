@@ -21,12 +21,14 @@ package net.catenax.traceability.common.config;
 
 import net.catenax.traceability.common.docs.SwaggerPageable;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.HttpMethod;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -59,6 +61,7 @@ import java.util.List;
 @EnableWebMvc
 @EnableAsync
 @EnableConfigurationProperties
+@EnableJpaRepositories(basePackages = "net.catenax.traceability.*")
 public class ApplicationConfig {
 
 	public static final AuthorizationScope[] DEFAULT_SCOPES = {
@@ -95,19 +98,19 @@ public class ApplicationConfig {
 		return templateEngine;
 	}
 
-	@Bean
-	public ThreadPoolTaskExecutor threadPoolTaskExecutor() {
+	@Bean(name = "security-context-async")
+	public ThreadPoolTaskExecutor securityContextAsyncExecutor() {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10);
 		executor.setMaxPoolSize(100);
 		executor.setQueueCapacity(50);
-		executor.setThreadNamePrefix("async-");
+		executor.setThreadNamePrefix("security-context-async-");
 		return executor;
 	}
 
 	@Bean
-	public DelegatingSecurityContextAsyncTaskExecutor taskExecutor(ThreadPoolTaskExecutor delegate) {
-		return new DelegatingSecurityContextAsyncTaskExecutor(delegate);
+	public DelegatingSecurityContextAsyncTaskExecutor taskExecutor(@Qualifier("security-context-async") ThreadPoolTaskExecutor threadPoolTaskExecutor) {
+		return new DelegatingSecurityContextAsyncTaskExecutor(threadPoolTaskExecutor);
 	}
 
 	public ITemplateResolver htmlTemplateResolver() {

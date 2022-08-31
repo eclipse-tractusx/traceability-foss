@@ -19,7 +19,6 @@
 
 package net.catenax.traceability.common.support
 
-import com.xebialabs.restito.semantics.Action
 import org.glassfish.grizzly.http.util.HttpStatus
 import org.springframework.http.HttpHeaders
 
@@ -29,7 +28,6 @@ import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp
 import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp
 import static com.xebialabs.restito.semantics.Action.header
 import static com.xebialabs.restito.semantics.Action.ok
-import static com.xebialabs.restito.semantics.Action.resourceContent
 import static com.xebialabs.restito.semantics.Action.status
 import static com.xebialabs.restito.semantics.Condition.get
 import static com.xebialabs.restito.semantics.Condition.matchesUri
@@ -95,9 +93,5 @@ trait BpnApiSupport implements RestitoProvider {
 			times,
 			matchesUri(compile("/api/catena/business-partner/.*", Pattern.DOTALL))
 		)
-	}
-
-	private Action jsonResponseFromFile(String location) {
-		return resourceContent(location)
 	}
 }

@@ -19,14 +19,12 @@
 
 package net.catenax.traceability.common.support
 
-import com.xebialabs.restito.semantics.Action
 import net.catenax.traceability.common.config.RestitoConfig
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp
 import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp
 import static com.xebialabs.restito.semantics.Action.header
 import static com.xebialabs.restito.semantics.Action.ok
-import static com.xebialabs.restito.semantics.Action.resourceContent
 import static com.xebialabs.restito.semantics.Action.unauthorized
 import static com.xebialabs.restito.semantics.Condition.basicAuth
 import static com.xebialabs.restito.semantics.Condition.post
@@ -67,9 +65,5 @@ trait KeycloakApiSupport implements RestitoProvider {
 		verifyHttp(stubServer()).never(
 			startsWithUri(RestitoConfig.KEYCLOAK_TOKEN_PATH)
 		)
-	}
-
-	private Action jsonResponseFromFile(String location) {
-		return resourceContent(location)
 	}
 }

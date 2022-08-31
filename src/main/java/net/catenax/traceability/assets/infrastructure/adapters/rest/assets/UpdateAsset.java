@@ -19,7 +19,7 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.rest.assets;
 
-import net.catenax.traceability.assets.domain.QualityType;
+import net.catenax.traceability.assets.domain.model.QualityType;
 
 import javax.validation.constraints.NotNull;
 

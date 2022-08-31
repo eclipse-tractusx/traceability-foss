@@ -20,7 +20,7 @@
 package net.catenax.traceability.assets.infrastructure.adapters.openapi.bpn;
 
 import feign.FeignException;
-import net.catenax.traceability.assets.domain.BpnRepository;
+import net.catenax.traceability.assets.domain.ports.BpnRepository;
 import net.catenax.traceability.assets.infrastructure.adapters.cache.bpn.BpnCache;
 import net.catenax.traceability.assets.infrastructure.adapters.cache.bpn.BpnMapping;
 import org.apache.commons.lang3.StringUtils;

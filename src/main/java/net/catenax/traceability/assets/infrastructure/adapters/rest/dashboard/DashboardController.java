@@ -19,8 +19,8 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.rest.dashboard;
 
-import net.catenax.traceability.assets.domain.Dashboard;
-import net.catenax.traceability.assets.domain.DashboardService;
+import net.catenax.traceability.assets.domain.model.Dashboard;
+import net.catenax.traceability.assets.domain.service.DashboardService;
 import net.catenax.traceability.common.security.KeycloakAuthentication;
 import net.catenax.traceability.common.security.InjectedKeycloakAuthentication;
 import org.springframework.web.bind.annotation.GetMapping;

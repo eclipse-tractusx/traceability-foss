@@ -19,10 +19,10 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.rest.assets;
 
-import net.catenax.traceability.assets.domain.Asset;
-import net.catenax.traceability.assets.domain.AssetRepository;
-import net.catenax.traceability.assets.domain.AssetService;
-import net.catenax.traceability.assets.domain.PageResult;
+import net.catenax.traceability.assets.application.AssetFacade;
+import net.catenax.traceability.assets.domain.model.Asset;
+import net.catenax.traceability.assets.domain.ports.AssetRepository;
+import net.catenax.traceability.assets.domain.model.PageResult;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -40,17 +40,16 @@ import java.util.Map;
 public class AssetsController {
 
 	private final AssetRepository assetRepository;
+	private final AssetFacade assetFacade;
 
-	private final AssetService assetService;
-
-	public AssetsController(AssetRepository assetRepository, AssetService assetService) {
+	public AssetsController(AssetRepository assetRepository, AssetFacade assetFacade) {
 		this.assetRepository = assetRepository;
-		this.assetService = assetService;
+		this.assetFacade = assetFacade;
 	}
 
 	@PostMapping("/assets/sync")
-	public void sync() {
-		assetService.synchronizeAssets();
+	public void sync(@Valid @RequestBody SyncAssets syncAssets) {
+		assetFacade.synchronizeAssetsAsync(syncAssets.globalAssetIds());
 	}
 
 	@GetMapping("/assets")
@@ -60,7 +59,7 @@ public class AssetsController {
 
 	@GetMapping("/assets/countries")
 	public Map<String, Long> assetsCountryMap() {
-		return assetService.getAssetsCountryMap();
+		return assetFacade.getAssetsCountryMap();
 	}
 
 	@GetMapping("/assets/{assetId}")
@@ -75,6 +74,6 @@ public class AssetsController {
 
 	@PatchMapping("/assets/{assetId}")
 	public Asset updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAsset updateAsset) {
-		return assetService.updateAsset(assetId, updateAsset);
+		return assetFacade.updateAsset(assetId, updateAsset);
 	}
 }

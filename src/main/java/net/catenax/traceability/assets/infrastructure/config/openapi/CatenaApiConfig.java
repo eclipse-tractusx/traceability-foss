@@ -20,8 +20,6 @@
 package net.catenax.traceability.assets.infrastructure.config.openapi;
 
 import feign.RequestInterceptor;
-import net.catenax.traceability.assets.infrastructure.config.openapi.bpn.BpnApiProperties;
-import net.catenax.traceability.assets.infrastructure.config.openapi.bpn.KeycloakAuthorizationInterceptor;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,14 +37,14 @@ import java.util.concurrent.TimeUnit;
 public class CatenaApiConfig {
 
 	@Bean
-	public OkHttpClient catenaApiOkHttpClient(@Autowired BpnApiProperties bpnApiProperties) {
+	public OkHttpClient catenaApiOkHttpClient(@Autowired FeignDefaultProperties feignDefaultProperties) {
 		return new OkHttpClient.Builder()
-			.connectTimeout(bpnApiProperties.getConnectionTimeoutMillis(), TimeUnit.MILLISECONDS)
-			.readTimeout(bpnApiProperties.getReadTimeoutMillis(), TimeUnit.MILLISECONDS)
+			.connectTimeout(feignDefaultProperties.getConnectionTimeoutMillis(), TimeUnit.MILLISECONDS)
+			.readTimeout(feignDefaultProperties.getReadTimeoutMillis(), TimeUnit.MILLISECONDS)
 			.connectionPool(
 				new ConnectionPool(
-					bpnApiProperties.getMaxIdleConnections(),
-					bpnApiProperties.getKeepAliveDurationMinutes(),
+					feignDefaultProperties.getMaxIdleConnections(),
+					feignDefaultProperties.getKeepAliveDurationMinutes(),
 					TimeUnit.MINUTES
 				)
 			)
