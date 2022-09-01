@@ -111,10 +111,42 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 1
 
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts: []
+  tls: []
+
+springprofile: ""
+
 healthCheck:
   enabled: true
 
+mailserver:
+  password: ""
+
 datasource:
-  url:
-  username:
-  password:
+  url: ""
+  username: ""
+  password: ""
+
+keycloak:
+  oaut2:
+    clientId: ""
+    clientSecret: ""
+
+postgresql:
+  secret:
+    initUserDbSql: ""
+  auth:
+    postgresPassword: ""
+  architecture: standalone
+  audit:
+    pgAuditLog: write, ddl
+    logLinePrefix: "%m %u %d "
+
+pgadmin4:
+  enabled: false
+  ingress:
+    enabled: false

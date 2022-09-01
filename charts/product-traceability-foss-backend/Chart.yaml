@@ -1,0 +1,13 @@
+apiVersion: v2
+name: product-traceability-foss-backend
+description: A Helm chart for Traceability backend application
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+dependencies:
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
+  - name: pgadmin4
+    repository: https://helm.runix.net
+    version: 1.x.x

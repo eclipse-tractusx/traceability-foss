@@ -40,6 +40,10 @@ management:
     port: 8081
 
 spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
   security:
     oauth2:
       client:
