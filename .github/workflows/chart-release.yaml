@@ -1,8 +1,10 @@
-name: Release Chart
+name: Release Charts
 
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
 
