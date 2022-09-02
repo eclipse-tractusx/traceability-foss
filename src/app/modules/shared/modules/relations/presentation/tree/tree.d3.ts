@@ -376,10 +376,7 @@ export class Tree {
         this.width = this.getCalculatedWidth();
         this.height = this.getCalculatedHeight();
 
-        d3.select(`#${this.id}-svg`)
-          .attr('viewBox', this.calculateViewbox())
-          .attr('width', this.width)
-          .attr('height', this.height);
+        d3.select(`#${this.id}-svg`).attr('width', this.width).attr('height', this.height);
       },
       { passive: true },
     );
