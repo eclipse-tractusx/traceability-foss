@@ -41,6 +41,9 @@ import Tree from './tree/tree.d3';
   styleUrls: ['./part-relation.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers: [RelationComponentState, RelationsFacade],
+  host: {
+    class: 'app-part-relation-host',
+  },
 })
 export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() isStandalone = true;

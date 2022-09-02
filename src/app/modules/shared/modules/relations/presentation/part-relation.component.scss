@@ -17,6 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+.app-part-relation-host {
+  display: block;
+  position: absolute;
+  // breadcrumb height is about 30px + 1.5rem padding
+  top: calc(30px + 1.5rem);
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
 .part-relation--button-container {
   display: flex;
   flex-direction: column;

@@ -242,7 +242,7 @@ export class Minimap {
         this.height = HelperD3.calculateHeight(this.mainElement);
 
         d3.select(`#${this.id}-svg`)
-          .attr('viewBox', this.getViewBox)
+          .attr('viewBox', this.getViewBox())
           .attr('width', this.width)
           .attr('height', this.height);
       },
