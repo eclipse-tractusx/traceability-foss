@@ -58,6 +58,7 @@ val findBugsVersion = "3.0.2"
 val restitoVersion = "0.9.5"
 val resilience4jVersion = "1.7.0"
 val testContainersVersion = "1.17.3"
+val schedlockVersion = "4.41.0"
 
 dependencyManagement {
 	imports {
@@ -99,6 +100,9 @@ dependencies {
 	implementation("org.keycloak:keycloak-spring-boot-starter:$keycloakVersion")
 
 	implementation("io.springfox:springfox-boot-starter:$springfoxVersion")
+	implementation("net.javacrumbs.shedlock:shedlock-spring:$schedlockVersion")
+	implementation("net.javacrumbs.shedlock:shedlock-provider-jdbc-template:$schedlockVersion")
+
 
 	// for demo purposes, to be removed once EDC works
 	implementation("com.github.javafaker:javafaker:1.0.2") {
@@ -131,20 +135,6 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateBpnApi") {
-	inputSpec.set("${project.rootDir}/openapi/bpn.yaml")
-	outputDir.set("${buildDir}/openapi")
-	validateSpec.set(false)
-
-	groupId.set("${project.group}")
-
-	library.set("feign")
-	generatorName.set("java")
-	apiPackage.set("net.catenax.traceability.assets.infrastructure.adapters.openapi.bpn")
-	modelPackage.set("net.catenax.traceability.assets.infrastructure.adapters.openapi.bpn")
-	configOptions.put("sourceFolder", "src/main/java")
-}
-
 tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateAasRegistryApi") {
 	inputSpec.set("${project.rootDir}/openapi/aas-registry-openapi.yaml")
 	outputDir.set("${buildDir}/openapi")
@@ -170,7 +160,7 @@ tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
 }
 
 tasks.withType<JavaCompile> {
-	dependsOn("generateBpnApi", "generateAasRegistryApi")
+	dependsOn("generateAasRegistryApi")
 }
 
 tasks.jacocoTestReport {

@@ -19,13 +19,13 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.feign.irs;
 
-import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.IRSApiClient.JobResponse;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.JobResponse;
 
 import java.util.function.Predicate;
 
 public class JobRunning implements Predicate<JobResponse> {
 	@Override
 	public boolean test(JobResponse jobResponse) {
-		return jobResponse.isJobRunning();
+		return jobResponse.isRunning();
 	}
 }

@@ -21,16 +21,21 @@ package net.catenax.traceability.assets.infrastructure.adapters.feign.irs;
 
 import net.catenax.traceability.assets.domain.model.Asset;
 import net.catenax.traceability.assets.domain.ports.IrsRepository;
-import net.catenax.traceability.assets.infrastructure.adapters.mockdata.AssetsConverter;
-import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.IRSApiClient.JobResponse;
-import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.IRSApiClient.StartJobRequest;
-import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.IRSApiClient.StartJobResponse;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.JobResponse;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.StartJobRequest;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.StartJobResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class IrsService implements IrsRepository {
+
+	private static final Logger logger = LoggerFactory.getLogger(IrsService.class);
 
 	private final IRSApiClient irsClient;
 	private final AssetsConverter assetsConverter;
@@ -45,6 +50,12 @@ public class IrsService implements IrsRepository {
 		StartJobResponse job = irsClient.registerJob(StartJobRequest.forGlobalAssetId(globalAssetId));
 		JobResponse jobDetails = irsClient.getJobDetails(job.jobId());
 
-		return assetsConverter.convertAssets(jobDetails);
+		logger.info("IRS call for globalAssetId: {} finished with status: {} ", globalAssetId, jobDetails.jobStatus());
+
+		if (jobDetails.isCompleted()) {
+			return assetsConverter.convertAssets(jobDetails);
+		}
+
+		return Collections.emptyList();
 	}
 }

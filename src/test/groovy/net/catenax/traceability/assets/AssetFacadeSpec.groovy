@@ -47,6 +47,6 @@ class AssetFacadeSpec extends AssetsSpec {
 	}
 
 	Asset newAsset(String country) {
-		new Asset(null, null, null, null, null, null, null, null, null, country, QualityType.OK)
+		new Asset(null, null, null, null, null, null, null, null, null, country, null, QualityType.OK)
 	}
 }

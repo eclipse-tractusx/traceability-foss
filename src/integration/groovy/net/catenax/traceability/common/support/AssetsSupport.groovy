@@ -1,6 +1,6 @@
 package net.catenax.traceability.common.support
 
-import net.catenax.traceability.assets.infrastructure.adapters.mockdata.AssetsConverter
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
 
 trait AssetsSupport implements AssetRepositoryProvider {
 

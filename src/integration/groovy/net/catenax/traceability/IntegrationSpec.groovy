@@ -22,7 +22,6 @@ package net.catenax.traceability
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
 import net.catenax.traceability.assets.domain.ports.AssetRepository
-import net.catenax.traceability.assets.infrastructure.adapters.cache.bpn.BpnCache
 import net.catenax.traceability.assets.infrastructure.adapters.jpa.shelldescriptor.ShellDescriptorDbStore
 import net.catenax.traceability.common.config.MailboxConfig
 import net.catenax.traceability.common.config.OAuth2Config
@@ -60,9 +59,6 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	protected MockMvc mvc
 
 	@Autowired
-	private BpnCache bpnCache
-
-	@Autowired
 	private AssetRepository assetRepository
 
 	@Autowired
@@ -70,7 +66,6 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 
 	def cleanup() {
 		RestitoConfig.clear()
-		bpnCache.clear()
 		clearAuthentication()
 		assetRepository.clean()
 		shellDescriptorDbStore.deleteAll()

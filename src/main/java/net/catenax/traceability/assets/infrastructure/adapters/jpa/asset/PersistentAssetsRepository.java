@@ -20,9 +20,9 @@
 package net.catenax.traceability.assets.infrastructure.adapters.jpa.asset;
 
 import net.catenax.traceability.assets.domain.model.Asset;
-import net.catenax.traceability.assets.domain.ports.AssetRepository;
-import net.catenax.traceability.assets.domain.ports.BpnRepository;
+import net.catenax.traceability.assets.domain.model.Asset.ChildDescriptions;
 import net.catenax.traceability.assets.domain.model.PageResult;
+import net.catenax.traceability.assets.domain.ports.AssetRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -35,11 +35,8 @@ public class PersistentAssetsRepository implements AssetRepository {
 
 	private final JpaAssetsRepository assetsRepository;
 
-	private final BpnRepository bpnRepository;
-
-	public PersistentAssetsRepository(JpaAssetsRepository assetsRepository, BpnRepository bpnRepository) {
+	public PersistentAssetsRepository(JpaAssetsRepository assetsRepository) {
 		this.assetsRepository = assetsRepository;
-		this.bpnRepository = bpnRepository;
 	}
 
 	@Override
@@ -100,15 +97,15 @@ public class PersistentAssetsRepository implements AssetRepository {
 		return new AssetEntity(
 			asset.getId(), asset.getIdShort(),
 			asset.getNameAtManufacturer(),
-			asset.getNanufacturerPartId(),
+			asset.getManufacturerPartId(),
 			asset.getManufacturerId(),
-			bpnRepository.findManufacturerName(asset.getManufacturerId()).orElse("--"),
+			asset.getManufacturerName(),
 			asset.getNameAtCustomer(),
 			asset.getCustomerPartId(),
 			asset.getManufacturingDate(),
 			asset.getManufacturingCountry(),
 			asset.getChildDescriptions().stream()
-				.map(child -> new ChildDescription(child.getId(), child.getIdShort()))
+				.map(child -> new ChildDescription(child.id(), child.idShort()))
 				.toList(),
 			asset.getQualityType()
 		);
@@ -125,6 +122,9 @@ public class PersistentAssetsRepository implements AssetRepository {
 			entity.getCustomerPartId(),
 			entity.getManufacturingDate(),
 			entity.getManufacturingCountry(),
+			entity.getChildDescriptors().stream()
+					.map(child -> new ChildDescriptions(child.getId(), child.getIdShort()))
+					.toList(),
 			entity.getQualityType()
 		);
 	}

@@ -45,3 +45,14 @@ spring:
 keycloak:
   enabled: false
   resource: "Integration-Test"
+
+resilience4j:
+  retry:
+    instances:
+      irs-get:
+        resultPredicate: 'net.catenax.traceability.assets.infrastructure.adapters.feign.irs.JobRunning'
+        maxAttempts: 10
+        waitDuration: 10s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+

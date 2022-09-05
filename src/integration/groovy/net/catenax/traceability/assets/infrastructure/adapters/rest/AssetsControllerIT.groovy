@@ -26,7 +26,6 @@ import org.springframework.http.MediaType
 import spock.util.concurrent.PollingConditions
 
 import static org.hamcrest.Matchers.equalTo
-import static org.hamcrest.Matchers.hasItems
 import static org.hamcrest.Matchers.not
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
@@ -182,10 +181,6 @@ class AssetsControllerIT extends IntegrationSpec {
 	def "should return assets with manufacturer name"() {
 		given:
 			authenticatedUser(KeycloakRole.ADMIN)
-			keycloakApiReturnsToken()
-
-		and:
-			bpnApiReturnsBusinessPartnerDataFor(bpnNumbers)
 
 		and:
 			defaultAssetsStored()
@@ -194,67 +189,6 @@ class AssetsControllerIT extends IntegrationSpec {
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.content[*].manufacturerName', not(equalTo("--"))))
-
-		and:
-			verifyKeycloakApiCalledOnceForToken()
-			verifyBpnApiCalledForBusinessPartnerDetails(bpnNumbers.size())
-	}
-
-	def "should return assets with manufacturer name using values from cache"() {
-		given:
-			authenticatedUser(KeycloakRole.ADMIN)
-			keycloakApiReturnsToken()
-
-		and:
-			bpnApiReturnsBusinessPartnerDataFor(bpnNumbers)
-
-		and:
-			defaultAssetsStored()
-
-		when:
-			0..3.each {
-				mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
-					.andExpect(status().isOk())
-					.andExpect(jsonPath('$.content[*].manufacturerName', not(equalTo("--"))))
-			}
-
-		then:
-			verifyKeycloakApiCalledOnceForToken()
-			verifyBpnApiCalledForBusinessPartnerDetails(bpnNumbers.size())
-	}
-
-	def "should return assets without manufacturer name when name was not returned by BPN API"() {
-		given:
-			authenticatedUser(KeycloakRole.ADMIN)
-			keycloakApiReturnsToken()
-
-		and:
-			bpnApiReturnsBusinessPartnerDataWithoutNamesFor(bpnNumbers)
-
-		and:
-			defaultAssetsStored()
-
-		expect:
-			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.content[*].manufacturerName', hasItems(equalTo("--"))))
-	}
-
-	def "should return assets without manufacturer name when BPN API has no data"() {
-		given:
-			authenticatedUser(KeycloakRole.ADMIN)
-			keycloakApiReturnsToken()
-
-		and:
-			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
-
-		and:
-			defaultAssetsStored()
-
-		expect:
-			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.content[*].manufacturerName', hasItems(equalTo("--"))))
 	}
 
 	def "should return assets country map"() {

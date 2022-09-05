@@ -1,6 +1,7 @@
 package net.catenax.traceability.assets.infrastructure.adapters.scheduler;
 
 import net.catenax.traceability.assets.application.RegistryFacade;
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,7 +22,12 @@ public class ShellDescriptorRefreshJob {
 	}
 
 	@Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
-	void refresh() {
+	@SchedulerLock(
+		name = "data-sync-lock",
+		lockAtLeastFor = "PT5M",
+		lockAtMostFor = "PT15M"
+	)
+	public void refresh() {
 		registryFacade.loadShellDescriptorsFor(defaultBpn);
 	}
 }

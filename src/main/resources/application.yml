@@ -94,7 +94,7 @@ resilience4j:
     instances:
       irs-get:
         resultPredicate: 'net.catenax.traceability.assets.infrastructure.adapters.feign.irs.JobRunning'
-        maxAttempts: 5
-        waitDuration: 10s
+        maxAttempts: 10
+        waitDuration: 30s
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
