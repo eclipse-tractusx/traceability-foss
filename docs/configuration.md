@@ -268,7 +268,7 @@ This variable is used to set the base path of the application. (Should be set if
 
 The app is deployed on hotel budapest.
 
-For each stage, there are different pipelines. The configuration for these pipelines can be found here: `/chart`.
+For each stage, there are different pipelines. The configuration for these pipelines can be found here: `/charts`.
 
 ## Package Manager
 

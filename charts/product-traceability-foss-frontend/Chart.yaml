@@ -1,4 +1,3 @@
-   
 apiVersion: v2
 name: product-traceability-foss-frontend
 description: A Helm chart for Traceability frontend application
