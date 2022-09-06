@@ -25,7 +25,10 @@ components:
       bearerFormat: JWT
 
 security:
-  - bearerAuth: []
+  bearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
 
 swagger:
   operations:

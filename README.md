@@ -1,5 +1,10 @@
 # Product traceability foss backend
 
+[![Kics](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/kics.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/kics.yml)
+[![Trivy](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/trivy.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/trivy.yml)
+[![VeraCode](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/veracode.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/veracode.yml)
+
+
 ## Running tests
 
 ### Unit tests
