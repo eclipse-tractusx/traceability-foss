@@ -137,6 +137,7 @@ keycloak:
     clientSecret: ""
 
 postgresql:
+  enabled: false
   secret:
     initUserDbSql: ""
   auth:

@@ -5,3 +5,5 @@
 .env
 application-local.yml
 .DS_Store
+*.tgz
+Chart.lock

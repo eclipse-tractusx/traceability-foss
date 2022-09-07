@@ -34,6 +34,7 @@ keycloak:
     clientSecret: <path:traceability-foss/data/dev/keycloak/oauth2#clientSecret>
 
 postgresql:
+  enabled: true
   secret:
     initUserDbSql: "<path:traceability-foss/data/dev/database#initUserDb.sql>"
   auth:
