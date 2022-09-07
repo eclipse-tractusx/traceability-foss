@@ -4,8 +4,6 @@ This content is part of [CatenaX](https://catena-x.net).
 
 - Project home: https://github.com/catenax-ng
 
-See the AUTHORS file(s) distributed with this work for additional information regarding authorship.
-
 ## Copyright
 
 All content is the property of the respective authors or their employers. For
