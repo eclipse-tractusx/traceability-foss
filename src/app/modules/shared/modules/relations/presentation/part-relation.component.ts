@@ -42,7 +42,7 @@ import Tree from './tree/tree.d3';
   encapsulation: ViewEncapsulation.None,
   providers: [RelationComponentState, RelationsFacade],
   host: {
-    class: 'app-part-relation-host',
+    'class.app-part-relation-host': 'isStandalone',
   },
 })
 export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
