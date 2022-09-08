@@ -16,6 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+
 package net.catenax.traceability.assets.infrastructure.adapters.jpa.asset;
 
 import org.springframework.data.jpa.repository.JpaRepository;
