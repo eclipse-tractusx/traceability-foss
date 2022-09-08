@@ -35,15 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 class AssetsControllerIT extends IntegrationSpec {
 
-	private final static String[] bpnNumbers = [
-		"BPNL00000003AXS3",
-		"BPNL00000003AYRE",
-		"BPNL00000003B0Q0",
-		"BPNL00000003B2OM",
-		"BPNL00000003B3NX",
-		"BPNL00000003B5MJ"
-	]
-
 	def "should synchronize assets"() {
 		given:
 			authenticatedUser(KeycloakRole.ADMIN)
@@ -218,13 +209,41 @@ class AssetsControllerIT extends IntegrationSpec {
 				.andExpect(status().isUnauthorized())
 	}
 
-	def "should get a page of assets"() {
+	def "should get children asset"() {
 		given:
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
 		and:
-			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
+			defaultAssetsStored()
+
+		expect:
+			mvc.perform(get("/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a")
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+				.andExpect(status().isOk())
+				.andExpect(jsonPath('$.id', Matchers.is("urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a")))
+	}
+
+	def "should return 404 when children asset is not found"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
+
+		and:
+			defaultAssetsStored()
+
+		expect:
+			mvc.perform(get("/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/unknown")
+				.contentType(MediaType.APPLICATION_JSON)
+			)
+			.andExpect(status().isNotFound())
+	}
+
+	def "should get a page of assets"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
 
 		and:
 			defaultAssetsStored()
@@ -286,9 +305,6 @@ class AssetsControllerIT extends IntegrationSpec {
 		given:
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
-
-		and:
-			bpnApiReturnsNoBusinessPartnerDataFor(bpnNumbers)
 
 		and:
 			defaultAssetsStored()

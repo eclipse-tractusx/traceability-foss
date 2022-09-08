@@ -21,22 +21,22 @@ package net.catenax.traceability.assets.infrastructure.adapters.rest.assets;
 
 import net.catenax.traceability.assets.application.AssetFacade;
 import net.catenax.traceability.assets.domain.model.Asset;
-import net.catenax.traceability.assets.domain.ports.AssetRepository;
 import net.catenax.traceability.assets.domain.model.PageResult;
+import net.catenax.traceability.assets.domain.ports.AssetRepository;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
-@RequestMapping
+@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 public class AssetsController {
 
 	private final AssetRepository assetRepository;

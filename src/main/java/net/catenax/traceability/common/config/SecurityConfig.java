@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
@@ -41,6 +42,10 @@ import java.util.List;
 
 @KeycloakConfiguration
 @ConditionalOnProperty(name = "keycloak.enabled", havingValue = "true", matchIfMissing = true)
+@EnableGlobalMethodSecurity(
+	prePostEnabled = true,
+	securedEnabled = true
+)
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
 	private static final String[] WHITELIST_URLS = {
@@ -59,7 +64,11 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 	@Override
 	public void configure(AuthenticationManagerBuilder auth) {
 		KeycloakAuthenticationProvider keycloakAuthenticationProvider = keycloakAuthenticationProvider();
-		keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
+		SimpleAuthorityMapper grantedAuthoritiesMapper = new SimpleAuthorityMapper();
+		grantedAuthoritiesMapper.setConvertToUpperCase(true);
+
+		keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(grantedAuthoritiesMapper);
+
 		auth.authenticationProvider(keycloakAuthenticationProvider);
 	}
 

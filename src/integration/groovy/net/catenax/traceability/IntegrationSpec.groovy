@@ -29,7 +29,6 @@ import net.catenax.traceability.common.config.PostgreSQLConfig
 import net.catenax.traceability.common.config.RestitoConfig
 import net.catenax.traceability.common.config.SecurityTestConfig
 import net.catenax.traceability.common.support.AssetsSupport
-import net.catenax.traceability.common.support.BpnApiSupport
 import net.catenax.traceability.common.support.IrsApiSupport
 import net.catenax.traceability.common.support.KeycloakApiSupport
 import net.catenax.traceability.common.support.KeycloakSupport
@@ -52,7 +51,7 @@ import spock.lang.Specification
 	initializers = [RestitoConfig.Initializer.class, PostgreSQLConfig.Initializer.class]
 )
 @Testcontainers
-abstract class IntegrationSpec extends Specification implements KeycloakSupport, BpnApiSupport,
+abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	IrsApiSupport, KeycloakApiSupport, AssetsSupport, ShellDescriptorStoreProviderSupport, RegistrySupport {
 
 	@Autowired

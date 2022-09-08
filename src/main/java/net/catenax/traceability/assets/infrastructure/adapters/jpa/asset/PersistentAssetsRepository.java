@@ -21,6 +21,7 @@ package net.catenax.traceability.assets.infrastructure.adapters.jpa.asset;
 
 import net.catenax.traceability.assets.domain.model.Asset;
 import net.catenax.traceability.assets.domain.model.Asset.ChildDescriptions;
+import net.catenax.traceability.assets.domain.model.AssetNotFoundException;
 import net.catenax.traceability.assets.domain.model.PageResult;
 import net.catenax.traceability.assets.domain.ports.AssetRepository;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +49,9 @@ public class PersistentAssetsRepository implements AssetRepository {
 
 	@Override
 	public Asset getAssetByChildId(String assetId, String childId) {
-		return null;
+		return assetsRepository.findById(childId)
+			.map(this::toAsset)
+			.orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
 	}
 
 	@Override
