@@ -60,12 +60,6 @@ export class PartsService {
       .pipe(map(part => PartsAssembler.assemblePart(part)));
   }
 
-  public getRelation(partId: string, childId: string): Observable<Part> {
-    return this.apiService
-      .get<PartResponse>(`${this.url}/assets/${partId}/children/${childId}`)
-      .pipe(map(part => PartsAssembler.assemblePart(part)));
-  }
-
   public patchPart({ qualityType, id }: Part): Observable<Part> {
     const patchBody = { qualityType };
 

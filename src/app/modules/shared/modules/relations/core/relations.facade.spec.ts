@@ -41,8 +41,6 @@ describe('Relations facade', () => {
     componentStateMock: RelationComponentState;
   beforeEach(() => {
     const partsServiceMok = {
-      getRelation: (_partId, childId) =>
-        of(mockAssetList[childId]).pipe(map(part => PartsAssembler.assemblePart(part))),
       getPart: id => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part))),
     } as PartsService;
 
