@@ -49,9 +49,10 @@ val groovyVersion = "3.0.10"
 val spockBomVersion = "2.1-groovy-3.0"
 val greenmailVersion = "1.6.9"
 val springfoxVersion = "3.0.0"
-val keycloakVersion = "18.0.0"
+val keycloakVersion = "19.0.1"
 val feignVersion = "11.8"
 val springCloudVersion = "2021.0.1"
+val springBootSecurityOauth2Version = "2.6.8"
 val jacksonDatabindNullableVersion = "0.2.2"
 val scribejavaVersion = "8.0.0"
 val findBugsVersion = "3.0.2"
@@ -80,7 +81,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-cache")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 
-	implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure")
+	implementation("org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:$springBootSecurityOauth2Version")
 
 	implementation("org.springframework.data:spring-data-commons")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
