@@ -153,8 +153,54 @@ export const environment = {
   apiUrl: '/api', // specify where is placed backend API
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   baseUrl: '/',
+  mapStyles: 'mapbox://styles/mapbox/light-v10',
 };
 ```
+
+#### Custom protocols
+
+There is a possibility to define custom protocols with resolution to actual URLs.
+
+Thanks to this feature, there is possibility to use mapbox styles, if register custom protocols like this:
+
+```typescript
+export const environment = {
+  ...otherEnvs,
+  customProtocols: {
+    mapbox: {
+      '//fonts/mapbox': {
+        pathname: 'https://api.mapbox.com/fonts/v1/mapbox',
+        queryParams: {
+          access_token: MAPBOX_ACCESS_TOKEN,
+        },
+      },
+      '//mapbox.': {
+        pathname: 'https://api.mapbox.com/v4/mapbox.',
+        postfix: '.json',
+        queryParams: {
+          secure: true,
+          access_token: MAPBOX_ACCESS_TOKEN,
+        },
+      },
+      '//styles/': {
+        pathname: 'https://api.mapbox.com/styles/v1/',
+        queryParams: {
+          access_token: MAPBOX_ACCESS_TOKEN,
+        },
+      },
+      '//sprites/mapbox/light-v10': {
+        pathname: 'https://api.mapbox.com/styles/v1/mapbox/light-v10/sprite',
+        queryParams: {
+          access_token: MAPBOX_ACCESS_TOKEN,
+        },
+      },
+    },
+  },
+};
+```
+
+Keys in `customProtocols` is protocol which would be present in actual URL, and inside details
+about each URL prefix (after protocol) resolution.
 
 ## Builder
 

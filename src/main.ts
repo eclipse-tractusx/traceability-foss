@@ -20,10 +20,15 @@
 import { enableProdMode } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { CoreModule } from '@core/core.module';
+import { registerCustomProtocols } from '@core/extensions/fetch-custom-protocols';
 import { environment } from '@env';
 
 if (environment.production) {
   enableProdMode();
+}
+
+if (environment.customProtocols) {
+  registerCustomProtocols(environment.customProtocols);
 }
 
 // if the zone has already been loaded, go ahead a bootstrap the app
