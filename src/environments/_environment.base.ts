@@ -17,6 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+const MAPBOX_ACCESS_TOKEN =
+  'pk.eyJ1IjoiZmVsaXhnZXJiaWciLCJhIjoiY2sxNmh4d2dvMTJkdTNpcGZtcWhvaHpuNyJ9.2hJW4R6PoiqIgytqUn1kbg';
+
 export const _environment = {
   production: false,
   mockService: true,
@@ -29,5 +32,35 @@ export const _environment = {
   apiUrl: '/api',
   realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   baseUrl: '/',
-  mapBoxAccessToken: 'pk.eyJ1IjoiZmVsaXhnZXJiaWciLCJhIjoiY2sxNmh4d2dvMTJkdTNpcGZtcWhvaHpuNyJ9.2hJW4R6PoiqIgytqUn1kbg',
+  mapStyles: 'mapbox://styles/mapbox/light-v10',
+  customProtocols: {
+    mapbox: {
+      '//fonts/mapbox': {
+        pathname: 'https://api.mapbox.com/fonts/v1/mapbox',
+        queryParams: {
+          access_token: MAPBOX_ACCESS_TOKEN,
+        },
+      },
+      '//mapbox.': {
+        pathname: 'https://api.mapbox.com/v4/mapbox.',
+        postfix: '.json',
+        queryParams: {
+          secure: '',
+          access_token: MAPBOX_ACCESS_TOKEN,
+        },
+      },
+      '//styles/': {
+        pathname: 'https://api.mapbox.com/styles/v1/',
+        queryParams: {
+          access_token: MAPBOX_ACCESS_TOKEN,
+        },
+      },
+      '//sprites/mapbox/light-v10': {
+        pathname: 'https://api.mapbox.com/styles/v1/mapbox/light-v10/sprite',
+        queryParams: {
+          access_token: MAPBOX_ACCESS_TOKEN,
+        },
+      },
+    },
+  },
 };

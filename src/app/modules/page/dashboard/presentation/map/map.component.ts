@@ -23,8 +23,8 @@ import { IconLayer } from '@deck.gl/layers';
 import { MapboxLayer } from '@deck.gl/mapbox';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
-import * as mapboxGl from 'mapbox-gl';
-import { Map, NavigationControl } from 'mapbox-gl';
+import * as mapboxGl from 'maplibre-gl';
+import { Map, NavigationControl } from 'maplibre-gl';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { MAPPING, PartsCoordinates, supportedLanguages } from './map.model';
@@ -75,9 +75,8 @@ export class MapComponent implements AfterViewInit {
 
     const locale: Record<string, string> = this.i18NextService.t('map', { returnObjects: true });
     this.map = new Map({
-      accessToken: environment.mapBoxAccessToken,
       container: this.mapElRef.nativeElement,
-      style: 'mapbox://styles/mapbox/light-v10',
+      style: environment.mapStyles,
       center: { lng: 14, lat: 52 },
       maxZoom: 13,
       minZoom: 1,
@@ -102,7 +101,9 @@ export class MapComponent implements AfterViewInit {
     );
 
     this.map.on('load', event => this.renderLayers(event, data));
-    this.map.on('zoom', event => this.renderLayers(event, data));
+    this.map.on('zoom', (event: mapboxGl.MapLibreZoomEvent) =>
+      this.renderLayers(event as mapboxGl.MapLibreEvent, data),
+    );
   }
 
   public setLayers(map: Map, data: PartsCoordinates[], sizeScale = 20): Map {
@@ -130,7 +131,7 @@ export class MapComponent implements AfterViewInit {
     return map;
   }
 
-  private renderLayers(event: mapboxGl.MapboxEvent<unknown> & mapboxGl.EventData, data: PartsCoordinates[]) {
+  private renderLayers(event: mapboxGl.MapLibreEvent, data: PartsCoordinates[]) {
     const currentZoom = event.target.getZoom();
     const zoom = currentZoom > 4.5 ? 20 : 10;
 

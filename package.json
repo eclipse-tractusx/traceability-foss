@@ -20,7 +20,10 @@
     "env:mock": "docker-compose up",
     "test": "TZ=UTC jest --watch --maxWorkers=1",
     "test:ci": "TZ=UTC jest --runInBand --coverage",
-    "add-license-header": "node ./scripts/add-license-header.js --src=src"
+    "add-license-header": "node ./scripts/add-license-header.js --src=src",
+    "dependencies:download-tool": "mkdir -p ./scripts/download && curl -L --output ./scripts/download/org.eclipse.dash.licenses.jar 'https://repo.eclipse.org/service/local/artifact/maven/redirect?r=dash-licenses&g=org.eclipse.dash&a=org.eclipse.dash.licenses&v=LATEST'",
+    "dependencies:generate": "java -jar ./scripts/download/org.eclipse.dash.licenses.jar yarn.lock -project automotive.tractusx -summary DEPENDENCIES",
+    "dependencies:validate": "java -jar ./scripts/download/org.eclipse.dash.licenses.jar yarn.lock -project automotive.tractusx"
   },
   "private": true,
   "dependencies": {
@@ -40,7 +43,6 @@
     "@deck.gl/mapbox": "8.7.12",
     "@mapbox/mapbox-gl-language": "^1.0.0",
     "@types/lodash-es": "4.17.6",
-    "@types/mapbox-gl": "2.7.3",
     "angular-i18next": "11.0.0",
     "autoprefixer": "10.4.7",
     "d3": "7.4.4",
@@ -50,13 +52,11 @@
     "keycloak-angular": "9.1.0",
     "keycloak-js": "18.0.0",
     "lodash-es": "4.17.21",
-    "luxon": "2.3.2",
-    "mapbox-gl": "2.9.1",
+    "maplibre-gl": "^2.4.0",
     "postcss": "8.4.13",
     "rxjs": "7.5.5",
     "tailwindcss": "3.0.24",
     "tslib": "2.4.0",
-    "uuid": "8.3.2",
     "webpack": "5.72.0",
     "zone.js": "0.11.5"
   },

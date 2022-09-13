@@ -21,7 +21,7 @@ import { DashboardModule } from '@page/dashboard/dashboard.module';
 import { MapComponent } from '@page/dashboard/presentation/map/map.component';
 import { renderComponent } from '@tests/test-render.utils';
 
-jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+jest.mock('maplibre-gl/dist/maplibre-gl', () => ({
   GeolocateControl: jest.fn(),
   Map: jest.fn(() => ({
     addControl: jest.fn(),
