@@ -58,7 +58,7 @@ export class RelationsFacade {
       ...childElements,
     };
 
-    this.loadChildrenInformation(id, children).subscribe();
+    this.loadChildrenInformation(children).subscribe();
   }
 
   // This is only to update already opened elements.
@@ -68,15 +68,15 @@ export class RelationsFacade {
     }
 
     this.relationComponentState.openElements = { ...this.relationComponentState.openElements, [id]: children };
-    this.loadChildrenInformation(id, children).subscribe();
+    this.loadChildrenInformation(children).subscribe();
   }
 
   public deleteOpenElement(id: string): void {
     this.relationComponentState.openElements = this._deleteOpenElement(id, this.relationComponentState.openElements);
   }
 
-  public getRelation(partId: string, childId: string): Observable<Part> {
-    return this.partsService.getRelation(partId, childId);
+  public getRelation(partId: string): Observable<Part> {
+    return this.partsService.getPart(partId);
   }
 
   public formatOpenElementsToTreeData(openElements: OpenElements): TreeStructure {
@@ -142,11 +142,7 @@ export class RelationsFacade {
     return clonedElements;
   }
 
-  private loadChildrenInformation(
-    parentId: string,
-    children: string[],
-    shouldLazyLoad = false,
-  ): Observable<TreeElement[]> {
+  private loadChildrenInformation(children: string[], shouldLazyLoad = false): Observable<TreeElement[]> {
     if (!children) {
       return of(null).pipe(first());
     }
@@ -160,7 +156,7 @@ export class RelationsFacade {
       return of(mappedChildren).pipe(first());
     }
 
-    const relationRequest = children.map(childId => this.getRelation(parentId, childId));
+    const relationRequest = children.map(childId => this.getRelation(childId));
     return merge(...relationRequest).pipe(
       catchError((error: HttpErrorResponse) => {
         const partIdWithError = error.url.split('/children/')[1];
@@ -171,9 +167,7 @@ export class RelationsFacade {
       map(childrenData => childrenData.map(child => RelationsAssembler.assemblePartForRelation(child))),
       tap(childrenData => this.addLoadedElements(childrenData)),
       filter(_ => shouldLazyLoad),
-      switchMap(childrenData =>
-        merge(...childrenData.map(child => this.loadChildrenInformation(child.id, child.children))),
-      ),
+      switchMap(childrenData => merge(...childrenData.map(child => this.loadChildrenInformation(child.children)))),
     );
   }
 
