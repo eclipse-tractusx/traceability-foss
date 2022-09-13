@@ -32,7 +32,7 @@ export class InvestigationsAssembler {
 
   public static assembleInvestigations(response: InvestigationsResponse): Investigations {
     if (!response) {
-      return null;
+      return { page: 0, pageCount: 0, pageSize: 0, totalItems: 0, content: [] };
     }
 
     return PaginationAssembler.assemblePagination(response, InvestigationsAssembler.assembleInvestigation);
