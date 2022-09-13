@@ -178,7 +178,7 @@ export const environment = {
         pathname: 'https://api.mapbox.com/v4/mapbox.',
         postfix: '.json',
         queryParams: {
-          secure: true,
+          secure: '',
           access_token: MAPBOX_ACCESS_TOKEN,
         },
       },

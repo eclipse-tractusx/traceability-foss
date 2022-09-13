@@ -17,6 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { HttpParams } from '@angular/common/http';
+
 interface CustomProtocolResolution {
   pathname: string;
   postfix?: string;
@@ -55,20 +57,15 @@ export const buildCustomProtocolResolver = (customProtocolsRegistry: CustomProto
     const fullPrefix = customProtocolName + ':' + prefix;
 
     const originalQueryParams = Object.fromEntries(new URL(url).searchParams);
-    const isOriginalUrlWithQueryParams = Object.keys(originalQueryParams).length > 0;
-    const cleanUrl = isOriginalUrlWithQueryParams ? url.substring(0, url.indexOf('?')) : url;
+    const cleanUrl = url.split('?')[0];
 
-    const targetQueryParams = Object.entries({ ...originalQueryParams, ...resolution.queryParams })
-      .map(([key, value]) => (value === true ? key : key + '=' + value))
-      .join('&');
+    const targetQueryParams = new HttpParams({
+      fromObject: { ...originalQueryParams, ...resolution.queryParams },
+    }).toString();
 
     const hasQueryParams = Object.keys(targetQueryParams).length > 0;
-
-    return (
-      cleanUrl.replace(fullPrefix, resolution.pathname) +
-      (resolution.postfix ?? '') +
-      (hasQueryParams ? '?' + targetQueryParams : '')
-    );
+    const tartegUrlWithoutParams = cleanUrl.replace(fullPrefix, resolution.pathname) + (resolution.postfix ?? '');
+    return tartegUrlWithoutParams + (hasQueryParams ? '?' + targetQueryParams : '');
   };
 };
 

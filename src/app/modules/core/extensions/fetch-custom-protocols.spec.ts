@@ -51,15 +51,15 @@ describe('buildCustomProtocolResolver', () => {
         '//storage/': {
           pathname: 'https://aws.com/v1/storage/',
           queryParams: {
-            test: true,
+            test: '',
             foo: 'bar',
           },
         },
       },
     });
-    expect(resolver('s3://storage/test.json')).toEqual('https://aws.com/v1/storage/test.json?test&foo=bar');
+    expect(resolver('s3://storage/test.json')).toEqual('https://aws.com/v1/storage/test.json?test=&foo=bar');
     expect(resolver('s3://storage/test.json?context=test')).toEqual(
-      'https://aws.com/v1/storage/test.json?context=test&test&foo=bar',
+      'https://aws.com/v1/storage/test.json?context=test&test=&foo=bar',
     );
   });
 
