@@ -3,13 +3,36 @@ services:
   keycloak:
     image: "quay.io/keycloak/keycloak:18.0.0"
     ports:
-    - "8080:8080"
+      # Bind explicitly to 127.0.0.1
+      - "127.0.0.1:8080:8080"
     command: start-dev
     environment:
-    - KEYCLOAK_ADMIN=admin
-    - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
     volumes:
       - keycloak-data:/opt/keycloak/data/
+    security_opt:
+      - label:user:testuser
+      - no-new-privileges:true
+    networks:
+      - TRACE_X_FE
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/auth/" ]
+      interval: 5s
+      timeout: 2s
+      retries: 15
+    pid: "host"
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: "512M"
+        reservations:
+          cpus: "0.25"
+          memory: "128M"
 
 volumes:
   keycloak-data:
+
+networks:
+ TRACE_X_FE:
