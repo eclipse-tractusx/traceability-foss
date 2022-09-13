@@ -162,8 +162,9 @@ export class Tree {
 
   private initViewBox() {
     const { preserveRight } = this.renderOptions;
-    const circlesGroup = document.querySelector(`#${this.id}--circles`) as SVGGElement;
-    const arrowGroup = document.querySelector(`tree--element__arrow-container`) as SVGGElement | null;
+    const circlesGroup: SVGGElement = document.querySelector(`#${this.id}--circles`);
+    const arrowGroup: SVGGElement | null = document.querySelector(`tree--element__arrow-container`);
+
     const viewBoxWidth = this.width - preserveRight;
     const viewBoxHeight = this.height;
     const circlesGroupBBox = circlesGroup?.getBBox();
