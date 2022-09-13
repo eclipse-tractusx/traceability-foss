@@ -19,4 +19,4 @@
 
 package net.catenax.traceability.assets.domain.model;
 
-public record ShellDescriptor(String shellDescriptorId, String globalAssetId, String rawDescriptor) {}
+public record ShellDescriptor(String shellDescriptorId, String globalAssetId) {}

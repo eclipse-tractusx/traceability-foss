@@ -1,8 +1,7 @@
 package net.catenax.traceability.common.support
 
-
-import net.catenax.traceability.assets.infrastructure.adapters.jpa.shelldescriptor.ShellDescriptorDbStore
+import net.catenax.traceability.assets.domain.ports.ShellDescriptorRepository
 
 interface ShellDescriptorStoreProvider {
-	ShellDescriptorDbStore shellDescriptorStore()
+	ShellDescriptorRepository shellDescriptorRepository()
 }

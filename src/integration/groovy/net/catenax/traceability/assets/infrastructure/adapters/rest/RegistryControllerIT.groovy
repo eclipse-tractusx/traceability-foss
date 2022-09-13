@@ -21,19 +21,20 @@ package net.catenax.traceability.assets.infrastructure.adapters.rest
 
 import net.catenax.traceability.IntegrationSpec
 import net.catenax.traceability.common.security.KeycloakRole
+import net.catenax.traceability.common.support.AssetsSupport
+import net.catenax.traceability.common.support.IrsApiSupport
+import net.catenax.traceability.common.support.RegistrySupport
+import net.catenax.traceability.common.support.ShellDescriptorSupport
 import org.springframework.http.MediaType
-import spock.util.concurrent.PollingConditions
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class RegistryControllerIT extends IntegrationSpec {
-
-	private static final String BPN = "BPNL00000003AXS3"
-	private static final String SHELL_DESCRIPTOR_ID = "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e9"
+class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
 
 	def "should synchronize descriptors and assets"() {
 		given:
+			String syncId = "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e9"
 			authenticatedUser(KeycloakRole.ADMIN)
 			keycloakApiReturnsToken()
 
@@ -46,16 +47,62 @@ class RegistryControllerIT extends IntegrationSpec {
 			irsApiReturnsJobDetails()
 
 		when:
-			mvc.perform(get("/registry/fetch/$BPN")
+			mvc.perform(get("/registry/reload")
 				.contentType(MediaType.APPLICATION_JSON)
 			).andExpect(status().isOk())
 
 		then:
-			new PollingConditions(timeout: 10, initialDelay: 0.5).eventually {
-				assertDescriptorsSizeFor(SHELL_DESCRIPTOR_ID, 1)
+			eventually {
+				assertShellDescriptors()
+					.hasSize(1)
+					.containsShellDescriptorWithId(syncId)
+
 				assertAssetsSize(13)
 			}
 	}
+
+	def "should synchronize and update only new"() {
+		given:
+			String[] syncIds = ["urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e7", "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e8"]
+			String[] updateIds = ["urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e6", "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e8"]
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
+
+		and:
+			assetShellsLookupReturnsDataForUpdate()
+			fetchRegistryShellDescriptorsLookupReturnsDataForUpdate()
+
+		when:
+			mvc.perform(get("/registry/reload")
+				.contentType(MediaType.APPLICATION_JSON)
+			).andExpect(status().isOk())
+
+		then:
+			eventually {
+				assertShellDescriptors()
+					.hasSize(2)
+					.containsShellDescriptorWithId(syncIds)
+			}
+
+		and:
+			verifyIrsApiTriggerJobCalledOnceFor(syncIds)
+
+		when:
+			mvc.perform(get("/registry/reload")
+				.contentType(MediaType.APPLICATION_JSON)
+			).andExpect(status().isOk())
+
+		then:
+			eventually {
+				assertShellDescriptors()
+					.hasSize(2)
+					.containsShellDescriptorWithId(updateIds)
+			}
+
+		and:
+			verifyIrsApiTriggerJobCalledOnceFor(updateIds[0])
+	}
+
 
 	def "should not synchronize descriptors and assets when asset shells lookup failed"() {
 		given:
@@ -66,13 +113,13 @@ class RegistryControllerIT extends IntegrationSpec {
 			assetShellsLookupFailed()
 
 		when:
-			mvc.perform(get("/registry/fetch/$BPN")
+			mvc.perform(get("/registry/reload")
 				.contentType(MediaType.APPLICATION_JSON)
 			).andExpect(status().isOk())
 
 		then:
-			new PollingConditions(timeout: 10, initialDelay: 2.0).eventually {
-				assertNoDescriptorsStoredFor(SHELL_DESCRIPTOR_ID)
+			eventually {
+				assertShellDescriptors().hasSize(0)
 				assertNoAssetsStored()
 			}
 
@@ -92,13 +139,13 @@ class RegistryControllerIT extends IntegrationSpec {
 			fetchRegistryShellDescriptorsLookupReturnsDataFailed()
 
 		when:
-			mvc.perform(get("/registry/fetch/$BPN")
+			mvc.perform(get("/registry/reload")
 				.contentType(MediaType.APPLICATION_JSON)
 			).andExpect(status().isOk())
 
 		then:
-			new PollingConditions(timeout: 10, initialDelay: 2.0).eventually {
-				assertNoDescriptorsStoredFor(SHELL_DESCRIPTOR_ID)
+			eventually {
+				assertShellDescriptors().hasSize(0)
 				assertNoAssetsStored()
 			}
 

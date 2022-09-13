@@ -40,5 +40,5 @@ public interface AssetRepository {
 
     long countAssets();
 
-    void clean();
+	void clean();
 }

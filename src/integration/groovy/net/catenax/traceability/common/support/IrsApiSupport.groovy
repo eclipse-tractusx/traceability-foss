@@ -31,6 +31,7 @@ import static com.xebialabs.restito.semantics.Condition.get
 import static com.xebialabs.restito.semantics.Condition.post
 import static com.xebialabs.restito.semantics.Condition.startsWithUri
 import static com.xebialabs.restito.semantics.Condition.withHeader
+import static com.xebialabs.restito.semantics.Condition.withPostBodyContaining
 
 trait IrsApiSupport implements RestitoProvider {
 
@@ -103,6 +104,15 @@ trait IrsApiSupport implements RestitoProvider {
 				header("Content-Type", "application/json"),
 				jsonResponseFromFile("./stubs/irs/get/jobs/jobId/response_200.json")
 			)
+	}
+
+	void verifyIrsApiTriggerJobCalledOnceFor(String ... globalAssetIds) {
+		for (String globalAssetId : globalAssetIds) {
+			verifyHttp(stubServer()).once(
+				post("/irs/jobs"),
+				withPostBodyContaining(globalAssetId)
+			)
+		}
 	}
 
 	void verifyIrsApiTriggerJobNotCalled() {

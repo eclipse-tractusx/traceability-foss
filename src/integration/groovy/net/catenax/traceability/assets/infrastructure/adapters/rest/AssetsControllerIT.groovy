@@ -21,6 +21,8 @@ package net.catenax.traceability.assets.infrastructure.adapters.rest
 
 import net.catenax.traceability.IntegrationSpec
 import net.catenax.traceability.common.security.KeycloakRole
+import net.catenax.traceability.common.support.AssetsSupport
+import net.catenax.traceability.common.support.IrsApiSupport
 import org.hamcrest.Matchers
 import org.springframework.http.MediaType
 import spock.util.concurrent.PollingConditions
@@ -33,7 +35,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class AssetsControllerIT extends IntegrationSpec {
+class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, AssetsSupport {
 
 	def "should synchronize assets"() {
 		given:

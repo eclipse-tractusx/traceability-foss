@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.catenax.traceability.assets.domain.model.ShellDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
@@ -31,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Component
 public class RegistryService {
@@ -39,13 +41,15 @@ public class RegistryService {
 
 	private final ObjectMapper objectMapper;
 	private final RegistryApiClient registryApiClient;
+	private final String bpn;
 
-	public RegistryService(ObjectMapper objectMapper, RegistryApiClient registryApiClient) {
+	public RegistryService(ObjectMapper objectMapper, RegistryApiClient registryApiClient, @Value("${traceability.bpn}") String bpn) {
 		this.objectMapper = objectMapper;
 		this.registryApiClient = registryApiClient;
+		this.bpn = bpn;
 	}
 
-	public List<ShellDescriptor> findAssetsByBpn(String bpn) {
+	public List<ShellDescriptor> findAssets() {
 		logger.info("Fetching all shell descriptor IDs for BPN {}.", bpn);
 
 		Map<String, Object> filter = new HashMap<>();
@@ -61,26 +65,26 @@ public class RegistryService {
 		logger.info("Received {} shell descriptors for {} IDs.", descriptors.getItems().size(), assetIds.size());
 
 		List<ShellDescriptor> shellDescriptors = descriptors.getItems().stream()
-			.filter(it -> it.getGlobalAssetId() != null)
-			.map(i -> {
-				final String rawDescriptor;
-
-				try {
-					rawDescriptor = objectMapper.writeValueAsString(i);
-				} catch (JsonProcessingException e) {
-					logger.warn("Failed to write rawDescriptor {} as string", i, e);
-
-					throw new IllegalArgumentException(e);
-				}
-
-				String globalAssetId = i.getGlobalAssetId().getValue().get(0);
-
-				return new ShellDescriptor(i.getIdentification(), globalAssetId, rawDescriptor);
-		}).toList();
+			.filter(it -> Objects.nonNull(it.getGlobalAssetId()))
+			.map(this::logIncomingDescriptor)
+			.map(i -> new ShellDescriptor(i.getIdentification(), i.getGlobalAssetId().getValue().get(0)))
+			.toList();
 
 		logger.info("Found {} shell descriptors containing a global asset ID.", shellDescriptors.size());
 
 		return shellDescriptors;
+	}
+
+	private AssetAdministrationShellDescriptor logIncomingDescriptor(AssetAdministrationShellDescriptor descriptor) {
+		if (logger.isDebugEnabled()) {
+			try {
+				String rawDescriptor = objectMapper.writeValueAsString(descriptor);
+				logger.debug("Received shell descriptor: {}", rawDescriptor);
+			} catch (JsonProcessingException e) {
+				logger.warn("Failed to write rawDescriptor {} as string", descriptor, e);
+			}
+		}
+		return descriptor;
 	}
 
 	private String getFilterValue(String key, String value) {

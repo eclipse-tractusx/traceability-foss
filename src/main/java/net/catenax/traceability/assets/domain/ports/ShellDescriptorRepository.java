@@ -21,10 +21,14 @@ package net.catenax.traceability.assets.domain.ports;
 
 import net.catenax.traceability.assets.domain.model.ShellDescriptor;
 
+import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.List;
 
-public interface ShellDescriptorStore {
-	void store(List<ShellDescriptor> globalAssetIds);
-	void deleteAll();
-	List<ShellDescriptor> findByBpn(String bpn);
+public interface ShellDescriptorRepository {
+	List<ShellDescriptor> findAll();
+	void update(ShellDescriptor shellDescriptor);
+	void saveAll(Collection<ShellDescriptor> values);
+	void removeOldDescriptors(ZonedDateTime now);
+	void clean();
 }

@@ -1,0 +1,137 @@
+{
+	"items": [
+		{
+			"description": [],
+			"globalAssetId": {
+				"value": [
+					"urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e8"
+				]
+			},
+			"idShort": "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e8",
+			"identification": "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e8",
+			"specificAssetIds": [
+				{
+					"key": "ManufacturerPartId",
+					"value": "04238D8-63"
+				},
+				{
+					"key": "BatchId",
+					"value": "NO-853080733895340261573780"
+				},
+				{
+					"key": "ManufacturerId",
+					"value": "BPNL00000003AXS3"
+				}
+			],
+			"submodelDescriptors": [
+				{
+					"description": [],
+					"idShort": "materialForRecycling",
+					"identification": "urn:uuid:3023c00e-b29b-4223-8436-5d76efb981f3",
+					"semanticId": {
+						"value": [
+							"urn:bamm:com.catenax.assembly_part_relationship:1.0.0"
+						]
+					},
+					"endpoints": [
+						{
+							"interface": "SUBMODEL-1.0RC02",
+							"protocolInformation": {
+								"endpointAddress": "http://idsvm.westeurope.cloudapp.azure.com:8282/BPNL00000003AXS3/urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e9-urn:uuid:3023c00e-b29b-4223-8436-5d76efb981f3/submodel?content=value&extent=withBlobValue",
+								"endpointProtocol": "IDS/ECLIPSEDATASPACECONNECTOR",
+								"endpointProtocolVersion": "0.0.1-SNAPSHOT"
+							}
+						}
+					]
+				},
+				{
+					"description": [],
+					"idShort": "batch",
+					"identification": "urn:uuid:855c4b9a-945b-4293-a8a5-1480d761a680",
+					"semanticId": {
+						"value": [
+							"urn:bamm:io.catenax.batch:1.0.0#Batch"
+						]
+					},
+					"endpoints": [
+						{
+							"interface": "SUBMODEL-1.0RC02",
+							"protocolInformation": {
+								"endpointAddress": "http://idsvm.westeurope.cloudapp.azure.com:8282/BPNL00000003AXS3/urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e9-urn:uuid:855c4b9a-945b-4293-a8a5-1480d761a680/submodel?content=value&extent=withBlobValue",
+								"endpointProtocol": "IDS/ECLIPSEDATASPACECONNECTOR",
+								"endpointProtocolVersion": "0.0.1-SNAPSHOT"
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"description": [],
+			"globalAssetId": {
+				"value": [
+					"urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e7"
+				]
+			},
+			"idShort": "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e7",
+			"identification": "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e7",
+			"specificAssetIds": [
+				{
+					"key": "ManufacturerPartId",
+					"value": "04238D8-63"
+				},
+				{
+					"key": "BatchId",
+					"value": "NO-853080733895340261573780"
+				},
+				{
+					"key": "ManufacturerId",
+					"value": "BPNL00000003AXS3"
+				}
+			],
+			"submodelDescriptors": [
+				{
+					"description": [],
+					"idShort": "materialForRecycling",
+					"identification": "urn:uuid:3023c00e-b29b-4223-8436-5d76efb981f3",
+					"semanticId": {
+						"value": [
+							"urn:bamm:com.catenax.assembly_part_relationship:1.0.0"
+						]
+					},
+					"endpoints": [
+						{
+							"interface": "SUBMODEL-1.0RC02",
+							"protocolInformation": {
+								"endpointAddress": "http://idsvm.westeurope.cloudapp.azure.com:8282/BPNL00000003AXS3/urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e9-urn:uuid:3023c00e-b29b-4223-8436-5d76efb981f3/submodel?content=value&extent=withBlobValue",
+								"endpointProtocol": "IDS/ECLIPSEDATASPACECONNECTOR",
+								"endpointProtocolVersion": "0.0.1-SNAPSHOT"
+							}
+						}
+					]
+				},
+				{
+					"description": [],
+					"idShort": "batch",
+					"identification": "urn:uuid:855c4b9a-945b-4293-a8a5-1480d761a680",
+					"semanticId": {
+						"value": [
+							"urn:bamm:io.catenax.batch:1.0.0#Batch"
+						]
+					},
+					"endpoints": [
+						{
+							"interface": "SUBMODEL-1.0RC02",
+							"protocolInformation": {
+								"endpointAddress": "http://idsvm.westeurope.cloudapp.azure.com:8282/BPNL00000003AXS3/urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e9-urn:uuid:855c4b9a-945b-4293-a8a5-1480d761a680/submodel?content=value&extent=withBlobValue",
+								"endpointProtocol": "IDS/ECLIPSEDATASPACECONNECTOR",
+								"endpointProtocolVersion": "0.0.1-SNAPSHOT"
+							}
+						}
+					]
+				}
+			]
+		}
+
+	]
+}

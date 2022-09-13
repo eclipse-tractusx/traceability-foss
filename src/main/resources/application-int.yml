@@ -16,7 +16,6 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
-
 spring:
   security:
     oauth2:
@@ -33,10 +32,7 @@ keycloak:
   use-resource-role-mappings: true
 
 feign:
-  bpnApi:
-    url: "https://catenax-bpdm-int.demo.catena-x.net/"
   irsApi:
     url: "https://irs.dev.demo.catena-x.net"
   registryApi:
     url: https://semantics.int.demo.catena-x.net/registry
-    defaultBpn: BPNL00000003AXS3

@@ -19,26 +19,42 @@
 
 package net.catenax.traceability.assets.application;
 
-import net.catenax.traceability.assets.domain.service.ShellDescriptiorsService;
+import net.catenax.traceability.assets.domain.model.ShellDescriptor;
+import net.catenax.traceability.assets.domain.service.AssetService;
+import net.catenax.traceability.assets.domain.service.ShellDescriptorsService;
+import net.catenax.traceability.assets.infrastructure.adapters.openapi.registry.RegistryService;
 import net.catenax.traceability.assets.infrastructure.config.async.AssetsAsyncConfig;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class RegistryFacade {
 
-	private final ShellDescriptiorsService shellDescriptiorsService;
+	private final ShellDescriptorsService shellDescriptiorsService;
+	private final RegistryService registryService;
+	private final AssetService assetService;
 
-	public RegistryFacade(ShellDescriptiorsService shellDescriptiorsService) {
+	public RegistryFacade(ShellDescriptorsService shellDescriptiorsService, RegistryService registryService, AssetService assetService) {
 		this.shellDescriptiorsService = shellDescriptiorsService;
+		this.registryService = registryService;
+		this.assetService = assetService;
 	}
 
-	public void loadShellDescriptorsFor(String bpn) {
-		shellDescriptiorsService.loadShellDescriptorsFor(bpn);
+	public List<ShellDescriptor> updateShellDescriptors() {
+		List<ShellDescriptor> descriptors = registryService.findAssets();
+		return shellDescriptiorsService.update(descriptors);
 	}
 
 	@Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
-	public void loadShellDescriptorsAsyncFor(String bpn) {
-		shellDescriptiorsService.loadShellDescriptorsFor(bpn);
+	public void loadShellDescriptors() {
+		List<ShellDescriptor> descriptors = updateShellDescriptors();
+		List<String> globalAssetIds = descriptors.stream()
+			.map(ShellDescriptor::globalAssetId)
+			.toList();
+
+		// add list
+		assetService.synchronizeAssets(globalAssetIds);
 	}
 }

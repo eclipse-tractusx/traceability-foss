@@ -19,7 +19,11 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.jpa.shelldescriptor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -30,16 +34,20 @@ public class ShellDescriptorEntity {
 	private ZonedDateTime updated;
 	private String shellDescriptorId;
 	private String globalAssetId;
-	private String rawDescriptor;
 
 	public ShellDescriptorEntity() {}
 
-	public ShellDescriptorEntity(ZonedDateTime created, ZonedDateTime updated, String shellDescriptorId, String globalAssetId, String rawDescriptor) {
-		this.shellDescriptorId = shellDescriptorId;
-		this.globalAssetId = globalAssetId;
+	public ShellDescriptorEntity(Long id, String shellDescriptorId, String globalAssetId, ZonedDateTime created, ZonedDateTime updated) {
+		this.id = id;
 		this.created = created;
 		this.updated = updated;
-		this.rawDescriptor = rawDescriptor;
+		this.shellDescriptorId = shellDescriptorId;
+		this.globalAssetId = globalAssetId;
+	}
+
+	public static ShellDescriptorEntity newEntity(String shellDescriptorId, String globalAssetId) {
+		ZonedDateTime now = ZonedDateTime.now();
+		return new ShellDescriptorEntity(null, shellDescriptorId, globalAssetId, now, now);
 	}
 
 	@Id
@@ -84,11 +92,4 @@ public class ShellDescriptorEntity {
 		this.updated = updated;
 	}
 
-	public String getRawDescriptor() {
-		return rawDescriptor;
-	}
-
-	public void setRawDescriptor(String rawDescriptor) {
-		this.rawDescriptor = rawDescriptor;
-	}
 }

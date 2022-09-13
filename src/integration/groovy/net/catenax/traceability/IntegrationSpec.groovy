@@ -22,18 +22,16 @@ package net.catenax.traceability
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
 import net.catenax.traceability.assets.domain.ports.AssetRepository
-import net.catenax.traceability.assets.infrastructure.adapters.jpa.shelldescriptor.ShellDescriptorDbStore
+import net.catenax.traceability.assets.domain.ports.ShellDescriptorRepository
 import net.catenax.traceability.common.config.MailboxConfig
 import net.catenax.traceability.common.config.OAuth2Config
 import net.catenax.traceability.common.config.PostgreSQLConfig
 import net.catenax.traceability.common.config.RestitoConfig
 import net.catenax.traceability.common.config.SecurityTestConfig
-import net.catenax.traceability.common.support.AssetsSupport
-import net.catenax.traceability.common.support.IrsApiSupport
+import net.catenax.traceability.common.support.AssetRepositoryProvider
 import net.catenax.traceability.common.support.KeycloakApiSupport
 import net.catenax.traceability.common.support.KeycloakSupport
-import net.catenax.traceability.common.support.RegistrySupport
-import net.catenax.traceability.common.support.ShellDescriptorStoreProviderSupport
+import net.catenax.traceability.common.support.ShellDescriptorStoreProvider
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -42,6 +40,7 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.testcontainers.spock.Testcontainers
 import spock.lang.Specification
+import spock.util.concurrent.PollingConditions
 
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["integration"])
@@ -51,8 +50,7 @@ import spock.lang.Specification
 	initializers = [RestitoConfig.Initializer.class, PostgreSQLConfig.Initializer.class]
 )
 @Testcontainers
-abstract class IntegrationSpec extends Specification implements KeycloakSupport,
-	IrsApiSupport, KeycloakApiSupport, AssetsSupport, ShellDescriptorStoreProviderSupport, RegistrySupport {
+abstract class IntegrationSpec extends Specification implements KeycloakSupport, KeycloakApiSupport, AssetRepositoryProvider, ShellDescriptorStoreProvider {
 
 	@Autowired
 	protected MockMvc mvc
@@ -61,13 +59,13 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	private AssetRepository assetRepository
 
 	@Autowired
-	private ShellDescriptorDbStore shellDescriptorDbStore
+	private ShellDescriptorRepository shellDescriptorRepository
 
 	def cleanup() {
 		RestitoConfig.clear()
 		clearAuthentication()
 		assetRepository.clean()
-		shellDescriptorDbStore.deleteAll()
+		shellDescriptorRepository.clean()
 	}
 
 	@Override
@@ -81,8 +79,12 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	}
 
 	@Override
-	ShellDescriptorDbStore shellDescriptorStore() {
-		return shellDescriptorDbStore
+	ShellDescriptorRepository shellDescriptorRepository() {
+		return shellDescriptorRepository
+	}
+
+	protected void eventually(Closure<?> conditions) {
+		new PollingConditions(timeout: 10, initialDelay: 0.5).eventually(conditions)
 	}
 
 	protected String asJson(Map map) {

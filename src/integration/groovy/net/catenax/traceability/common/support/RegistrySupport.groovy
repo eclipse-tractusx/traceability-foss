@@ -26,6 +26,21 @@ trait RegistrySupport implements RestitoProvider {
 			)
 	}
 
+	void assetShellsLookupReturnsDataForUpdate() {
+		whenHttp(stubServer()).match(
+			startsWithUri("/lookup/shells"),
+			withHeader(HttpHeaders.AUTHORIZATION)
+		)
+			.then(
+				ok(),
+				header("Content-Type", "application/json")
+			)
+			.withSequence(
+				jsonResponseFromFile("./stubs/registry/get/lookup/shells/response_multiple_200.json"),
+				jsonResponseFromFile("./stubs/registry/get/lookup/shells/response_update_200.json")
+			)
+	}
+
 	void assetShellsLookupFailed() {
 		whenHttp(stubServer()).match(
 			startsWithUri("/lookup/shells"),
@@ -46,6 +61,21 @@ trait RegistrySupport implements RestitoProvider {
 				ok(),
 				header("Content-Type", "application/json"),
 				jsonResponseFromFile("./stubs/registry/post/registry/shell-descriptors/fetch/response_200.json")
+			)
+	}
+
+	void fetchRegistryShellDescriptorsLookupReturnsDataForUpdate() {
+		whenHttp(stubServer()).match(
+			post("/registry/shell-descriptors/fetch"),
+			withHeader(HttpHeaders.AUTHORIZATION)
+		)
+			.then(
+				ok(),
+				header("Content-Type", "application/json")
+			)
+			.withSequence(
+				jsonResponseFromFile("./stubs/registry/post/registry/shell-descriptors/fetch/response_multiple_200.json"),
+				jsonResponseFromFile("./stubs/registry/post/registry/shell-descriptors/fetch/response_update_200.json")
 			)
 	}
 

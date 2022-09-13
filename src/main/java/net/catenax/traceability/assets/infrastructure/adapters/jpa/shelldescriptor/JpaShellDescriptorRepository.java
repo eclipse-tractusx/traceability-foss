@@ -22,7 +22,11 @@ package net.catenax.traceability.assets.infrastructure.adapters.jpa.shelldescrip
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.ZonedDateTime;
+import java.util.Optional;
+
 @Repository
-public interface ShellDescriptorRepository extends JpaRepository<ShellDescriptorEntity, Long> {
-	Long countAllByShellDescriptorIdEquals(String shellDescriptorId);
+public interface JpaShellDescriptorRepository extends JpaRepository<ShellDescriptorEntity, Long> {
+	Optional<ShellDescriptorEntity> findByShellDescriptorId(String shellDescriptorId);
+	void deleteAllByUpdatedBefore(ZonedDateTime dateTime);
 }

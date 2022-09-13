@@ -37,9 +37,9 @@ spring:
   autoconfigure:
     exclude: org.keycloak.adapters.springboot.KeycloakAutoConfiguration, org.springframework.boot.autoconfigure.security.oauth2.client.servlet.OAuth2ClientAutoConfiguration
   datasource:
-    url: jdbc:tc:postgresql:14.4://localhost/test
-    username: test
-    password: test
+    url: jdbc:postgresql://localhost:5432/trace
+    password: docker
+    username: postgres
     show-sql: true
 
 keycloak:
