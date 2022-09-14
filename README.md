@@ -1,5 +1,6 @@
 # Product traceability foss backend
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=catenax-ng_product-traceability-foss-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=catenax-ng_product-traceability-foss-backend)
 [![Kics](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/kics.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/kics.yml)
 [![Trivy](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/trivy.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/trivy.yml)
 [![VeraCode](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/veracode.yaml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/veracode.yaml)
@@ -27,6 +28,10 @@ and there should not be a need to generate them manually, however following comm
 ```
 ./gradlew generateBpnApi
 ```
+
+## API documentation
+The project follows OpenAPI specification in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](/openapi/product-traceability-foss-backend.json)
+or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swagger-ui/index.html`
 
 ## Coding styles
 

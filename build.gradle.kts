@@ -186,6 +186,7 @@ tasks.jacocoTestReport {
 			}
 		})
 	)
+	executionData(fileTree(project.buildDir).include("jacoco/*.exec"))
 }
 
 tasks.test {

@@ -58,6 +58,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: "ghcr.io/catenax-ng/product-traceability-foss-backend:latest"
+          trivyignores: "./.github/workflows/.trivyignore"
           format: "sarif"
           output: "trivy-results2.sarif"
           exit-code: "1"
