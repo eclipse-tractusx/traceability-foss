@@ -42,13 +42,13 @@ sonarqube {
 		property("sonar.projectKey", "catenax-ng_product-traceability-foss-backend")
 		property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/*.xml")
 		property("sonar.coverage.exclusions", listOf(
-				"net/catenax/traceability/generated/**",
-				"net/catenax/traceability/openapi/**",
-				"net/catenax/traceability/*Application.class",
-				"net/catenax/traceability/common/**",
-				"net/catenax/traceability/assets/domain/model/**",
-				"net/catenax/traceability/assets/infrastructure/**",
-				"net/catenax/traceability/assets/config/**"
+				"src/main/java/net/catenax/traceability/generated/**",
+				"src/main/java/net/catenax/traceability/openapi/**",
+				"src/main/java/net/catenax/traceability/*Application.class",
+				"src/main/java/net/catenax/traceability/common/**",
+				"src/main/java/net/catenax/traceability/assets/domain/model/**",
+				"src/main/java/net/catenax/traceability/assets/infrastructure/**",
+				"src/main/java/net/catenax/traceability/assets/config/**"
 			)
 		)
 	}
