@@ -1,6 +1,9 @@
 {
   "pageDashboard": {
     "title": "Dashboard",
+    "totalInvestigations": {
+      "label": "Total investigations"
+    },
     "totalOfParts": {
       "label": "Total of parts"
     },

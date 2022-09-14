@@ -62,32 +62,8 @@
     @apply font-light lg:text-xs sm:text-tiny text-tundora;
   }
 
-  .component-text {
-    @apply lg:text-xs sm:text-tiny text-tundora font-light;
-  }
-
-  .sub-headline {
-    @apply font-light lg:text-xs sm:text-tiny text-tundora;
-  }
-
-  .table-headline {
-    @apply font-extraBold lg:text-xs sm:text-tiny text-tundora;
-  }
-
   .component-headline {
     @apply font-extraBold lg:text-sm sm:text-xs text-tundora;
-  }
-
-  .component-headline-small {
-    @apply font-extraBold lg:text-xs sm:text-tiny text-tundora;
-  }
-
-  .caption {
-    @apply font-light text-tiny text-tundora;
-  }
-
-  .overlay-container {
-    z-index: 9999;
   }
 
   a {
@@ -95,44 +71,6 @@
     text-decoration: none;
     white-space: pre-wrap;
     -webkit-font-smoothing: antialiased;
-  }
-
-  .custom-dialog-container .mat-dialog-container {
-    @apply block w-full h-full overflow-auto p-0 rounded-none;
-  }
-
-  .mat-sort-header-container .mat-sort-header-content {
-    @apply flex-row text-left;
-  }
-
-  .mat-checkbox.mat-accent {
-    .mat-checkbox-frame {
-      @apply border-2 border-tundora;
-    }
-
-    &.mat-checkbox-checked .mat-checkbox-background {
-      @apply border-2 border-blueBayouxShadeLynch bg-blueBayouxShadeLynch;
-    }
-    &.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background,
-    .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-      @apply border-2 border-tundoraShadeNobel bg-tundoraShadeNobel;
-    }
-  }
-
-  .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
-    @apply bg-primary opacity-0 !important; /*click effect color change*/
-  }
-
-  .mat-radio-button.mat-accent .mat-radio-inner-circle {
-    @apply bg-primary !important; /*inner circle color change*/
-  }
-
-  .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
-    @apply border-primary !important; /*outer ring color change*/
-  }
-
-  .mat-radio-label-content {
-    @apply font-light lg:text-sm sm:text-xs text-tundora;
   }
 
   .mat-focused .mat-form-field-label {
@@ -143,162 +81,11 @@
     @apply bg-primary !important;
   }
 
-  .mat-calendar-body-cell-content {
-    @apply font-light lg:text-xs sm:text-xs text-tundora;
-  }
-
-  .mat-calendar-body-selected {
-    @apply bg-primary !important;
-  }
-
-  .mat-calendar-body-label {
-    @apply font-extraBold lg:text-sm sm:text-xs text-tundora;
-  }
-
-  .mat-datepicker-toggle-active {
-    @apply text-primary !important;
-  }
-
-  .mat-datepicker-content .mat-calendar {
-    height: 356px !important;
-  }
-
   .mat-icon-button {
     @apply focus:outline-none;
   }
 
   .mat-form-field {
     @apply font-light lg:text-base sm:text-sm text-tundora ml-0 !important;
-  }
-
-  .mat-button {
-    cursor: pointer !important;
-  }
-
-  .mat-focus-indicator {
-    @apply focus:outline-none !important;
-  }
-
-  .mat-menu-item {
-    @apply font-light lg:text-sm sm:text-xs text-tundora !important;
-  }
-
-  .mat-input-element {
-    @apply font-light lg:text-base sm:text-xs text-tundora !important;
-  }
-
-  .mat-form-field.mat-warn .mat-input-element,
-  .mat-form-field-invalid .mat-input-element {
-    @apply text-primary !important;
-  }
-
-  .mat-form-field.mat-warn .mat-input-element,
-  .mat-form-field-valid .mat-input-element {
-    @apply text-primary !important;
-  }
-
-  .mat-form-field.mat-form-field-invalid .mat-form-field-label.mat-accent,
-  .mat-form-field.mat-form-field-invalid .mat-form-field-label .mat-form-field-required-marker {
-    @apply text-error !important;
-  }
-
-  label span.mat-form-field-required-marker {
-    @apply text-primary !important;
-  }
-
-  .mat-chip {
-    @apply font-light lg:text-xs sm:text-tiny text-tundora;
-  }
-
-  .mat-select {
-    @apply font-light lg:text-base sm:text-xs text-primary !important;
-  }
-
-  .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
-    @apply font-light lg:text-base sm:text-xs text-tundora p-2 !important;
-  }
-
-  /* ---------------------------------------------------------- */
-  /* OVERWRITING THE DRP PICKER CSS LIBRARY */
-  /* ---------------------------------------------------------- */
-
-  .md-drppicker {
-    top: 60px !important;
-  }
-
-  .md-drppicker td.in-range {
-    background-color: #d6dfef !important;
-  }
-
-  .md-drppicker td.active,
-  .md-drppicker td.active:hover {
-    background-color: #617899 !important;
-  }
-
-  .md-drppicker td.off {
-    color: transparent !important;
-    background-color: transparent !important;
-    cursor: default;
-    &:hover {
-      background-color: transparent !important;
-    }
-  }
-
-  .md-drppicker .ranges ul li button {
-    border-radius: 2px !important;
-    border: 1px solid rgb(91, 112, 143) !important;
-    color: rgb(91, 112, 143);
-    @apply font-extraBold;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-    line-height: 16px;
-    text-align: center !important;
-  }
-
-  .md-drppicker .ranges ul li button.active {
-    background-color: #617899 !important;
-  }
-
-  .md-drppicker .ranges ul li {
-    margin-bottom: 5px;
-  }
-
-  .md-drppicker th.month {
-    color: #444 !important;
-    @apply font-regular text-sm;
-  }
-
-  .md-drppicker th {
-    color: rgba(0, 0, 0, 0.38);
-    font-size: 12px;
-    font-weight: 500;
-    @apply font-regular text-sm;
-  }
-
-  .md-drppicker td {
-    color: rgb(68, 68, 68);
-    @apply font-regular text-sm;
-    font-weight: normal;
-  }
-
-  .md-drppicker .ranges {
-    margin: 10px 0px !important;
-    border-left: #d8d8d8 1px solid;
-
-    ul {
-      padding: 15px !important;
-    }
-  }
-
-  .md-drppicker .btn {
-    @apply font-extraBold;
-    text-transform: uppercase;
-  }
-
-  @media (min-width: 730px) {
-    .md-drppicker.ltr .ranges {
-      float: right !important;
-    }
   }
 }

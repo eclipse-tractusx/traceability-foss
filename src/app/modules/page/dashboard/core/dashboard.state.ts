@@ -19,6 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
+import { Investigations } from '@shared/model/investigations.model';
 import { State } from '@shared/model/state';
 import { Observable } from 'rxjs';
 import { View } from 'src/app/modules/shared/model/view.model';
@@ -27,7 +28,9 @@ import { View } from 'src/app/modules/shared/model/view.model';
 export class DashboardState {
   private readonly _numberOfMyParts$: State<View<number>> = new State<View<number>>({ loader: true });
   private readonly _numberOfBranchParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfInvestigations$: State<View<number>> = new State<View<number>>({ loader: true });
 
+  private readonly _investigations$: State<View<Investigations>> = new State<View<Investigations>>({ loader: true });
   private readonly _assetsPerCountry$: State<View<PartsCoordinates[]>> = new State<View<PartsCoordinates[]>>({
     loader: true,
   });
@@ -48,11 +51,27 @@ export class DashboardState {
     this._numberOfBranchParts$.update(count);
   }
 
+  public get numberOfInvestigations$(): Observable<View<number>> {
+    return this._numberOfInvestigations$.observable;
+  }
+
+  public setNumberOfInvestigations(count: View<number>): void {
+    this._numberOfInvestigations$.update(count);
+  }
+
   public get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
     return this._assetsPerCountry$.observable;
   }
 
   public setAssetsPerCountry(coordinates: View<PartsCoordinates[]>): void {
     this._assetsPerCountry$.update(coordinates);
+  }
+
+  public get investigations$(): Observable<View<Investigations>> {
+    return this._investigations$.observable;
+  }
+
+  public setInvestigation(investigations: View<Investigations>): void {
+    this._investigations$.update(investigations);
   }
 }

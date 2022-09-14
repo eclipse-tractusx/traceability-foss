@@ -29,6 +29,7 @@ import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@ang
 // globally defined manual mocks
 jest.mock('../app/modules/core/api/api.service.properties');
 
+global.URL.createObjectURL = jest.fn();
 window.ResizeObserver = jest.fn().mockImplementation(observer => {
   const testQueue: Promise<void>[] = [];
 

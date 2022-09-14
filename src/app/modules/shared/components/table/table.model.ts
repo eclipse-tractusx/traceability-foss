@@ -28,6 +28,7 @@ export interface TableConfig<Columns extends string = string> {
   columnRoles?: Record<Columns, Role>;
   sortableColumns?: Record<Columns, boolean>;
   header?: Record<Columns, string>;
+  hasPagination?: boolean;
   cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
 }
 

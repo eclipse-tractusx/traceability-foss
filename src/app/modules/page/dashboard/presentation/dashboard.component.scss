@@ -18,11 +18,15 @@
  ********************************************************************************/
 
 .dashboard-grid {
-  @apply grid sm:grid-cols-1 lg:grid-cols-12 gap-6 mt-6;
+  @apply grid grid-cols-1 lg:grid-cols-12 gap-6 mt-6;
 }
 
 .parts-section {
-  @apply sm:col-span-12 lg:col-span-4;
+  @apply col-span-12 lg:col-span-4;
+}
+
+.dashboard--investigation {
+  @apply bg-white p-4 col-span-12;
 }
 
 .parts-per-country-section {
@@ -53,59 +57,5 @@
 
   100% {
     background-position: 200px;
-  }
-}
-
-.fade-in {
-  -webkit-animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-.fade-out {
-  -webkit-animation: fade-in 0.2s cubic-bezier(1, 0.565, 0.575, 0.39) both;
-  animation: fade-in 0.2s cubic-bezier(1, 0.565, 0.575, 0.39) both;
-}
-
-/**
- * ----------------------------------------
- * animation fade-in
- * ----------------------------------------
- */
-@-webkit-keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/**
- * ----------------------------------------
- * animation fade-in
- * ----------------------------------------
- */
-@-webkit-keyframes fade-out {
-  100% {
-    opacity: 1;
-  }
-  0% {
-    opacity: 0;
-  }
-}
-@keyframes fade-out {
-  100% {
-    opacity: 1;
-  }
-  0% {
-    opacity: 0;
   }
 }

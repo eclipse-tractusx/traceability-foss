@@ -90,4 +90,23 @@ describe('Dashboard', () => {
 
     await waitFor(() => expect(fixture.debugElement.query(By.css('.dashboard--map')).componentInstance).toBeDefined());
   });
+
+  describe('investigations', () => {
+    it('should render investigation component', async () => {
+      await renderDashboard({ roles: ['wip'] });
+
+      expect(await screen.findByText('Quality Investigations')).toBeInTheDocument();
+    });
+
+    it('should render count for investigations', async () => {
+      await renderDashboard({ roles: ['wip'] });
+
+      expect(await screen.findByText('20')).toBeInTheDocument();
+
+      expect(screen.getByText('Total investigations')).toHaveAttribute(
+        'id',
+        screen.getByText('20').getAttribute('aria-describedby'),
+      );
+    });
+  });
 });

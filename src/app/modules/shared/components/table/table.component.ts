@@ -37,10 +37,10 @@ export class TableComponent {
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
-    const { displayedColumns, columnRoles } = tableConfig;
+    const { displayedColumns, columnRoles, hasPagination = true } = tableConfig;
     const filtered = displayedColumns.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user'));
 
-    this._tableConfig = { ...tableConfig, displayedColumns: filtered };
+    this._tableConfig = { ...tableConfig, displayedColumns: filtered, hasPagination };
   }
 
   get tableConfig(): TableConfig {
