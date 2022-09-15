@@ -55,6 +55,11 @@ After installing Angular CLI, you'll need to run one command to generate a proje
 
 Find [here](docs/configuration.md) documentation to support you during the development and configuration of the app.
 
+### Setup changelog generation
+
+Follow these instructions: [GIT-CHGLOG](https://github.com/git-chglog/git-chglog#installation)  
+You can generate a changelog when running `git-chglog -o CHANGELOG.md`
+
 ## Application authentication
 
 Please find [here](docs/authentication.md) some important information about the app authentication.

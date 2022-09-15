@@ -1,0 +1,211 @@
+<a name="v0.1.0"></a>
+
+## v0.1.0 (2022-09-15)
+
+### Chore
+
+- activate dependabot
+- code cleanup and reuse of architecture
+- cleanup code smells
+- fix code smells
+- improved imports
+- clean up after code review
+- code cleanup and removed unused code
+- cleaned up dependencies
+- removed comments and fixed eslint
+
+### Documentation
+
+- fix NOTICE.md
+- add NOTICE and SECURITY files
+- angular template convention
+- fixed typos
+- Updated and improved documentation
+
+### Features
+
+- added fixes for quality gates and relations
+- renamed veracode.yml to .yaml so it complies with checks
+- helm chart release ([#76](https://github.com/catenax-ng/product-traceability-foss-frontend/issues/76))
+- improve performance throughout appication
+- added wip role for notification and role check to table component
+- added better test data for local mock
+- added close functionality to sidenav button
+- create app-scroll-with-shadow
+- cleanuo copyright headers
+- added pagination for parts
+- improved quality of life for tree component
+- added css to make sidenav more responsive
+- added unit tests for select component
+- add shadow to table when scroll appear
+- repositioned sidenav and placed it in private layout
+- new quality type component and custom renderer for dopdown options
+- adjusted fe to be implementation for quality investigation creation
+- added new display functionality for quality type
+- align translations
+- address review
+- added unit tests and updated translation
+- added idicator if name fails to load
+- added unit tests
+- added trivy security scan engine
+- fix textarea tests
+- refactor textarea
+- renaming of other parts so it aligns with naming conventions
+- code improvements and reuse of functionality
+- added functionality to start investigation from my parts
+- improvements after code review
+- reused components and architecture throughout application
+- extend notification to support action
+- added functionality to request investigations for other parts
+- refactor investigations
+- refactor investigations
+- refactor
+- implement investigations inbox
+- refined and updated unit tests
+- added other parts list view
+- added multi select feature to table component
+- cover dashboard integration with tests
+- add more exclusions for sonar
+- added unit tests for minimap
+- add new line to test workflow
+- debug sonar-scan workflow as a part of test workflow
+- debug sonar-scan workflow to wait for Tests workflow
+- update sonar-scan workflow to wait for Tests workflow
+- cache test-report.xml between workflows
+- update sonar-scan workflow to depend on test workflow
+- code coverage for sonar cloud
+- integrate dashboard API calls
+- code improvements and bug fixing
+- added minimap functionality for tree
+- aligne FE implementation with BE implementation
+- improved scrolling in tree
+- added translation for map component
+- improved iso to coordinate mapping
+- added functionality to zoom in and out of tree
+- added unit test, code cleanup, code improvements
+- change static part count
+- added map view for parts per country
+- ui improvements for tree
+- added functionality to change quality type for part
+- added pagination for parts
+- fe improvements
+- added docker environment variables
+- improved Docker file for multi-environment use
+- improve FE usability and design
+- change api url for int testing
+- add dev environment values for argo cd
+- make docker image configurable
+- added unit tests
+- integrate api
+- adapted catena-x styling
+- add basice roles support
+- updated "about" text in de+en
+- added relation view for parts
+- added translations for german and part detail
+- added unit tests for parts and detial parts
+- add language selector
+- i18n support
+- added detail view for parts
+- changed build config to mock with auth
+- changed build config to mock with auth
+- updated keycloak and added localAuth start option
+- updated fe endpoint according to be description
+- added 2 further columns for parts
+- added new page for parts. Added table components
+- add veracode scan and upload for main branch
+- replaced svg-icon with material icon
+- helm chart cleanup
+- align helm chart with other fe repo
+- fixe hel chart
+- add hotel budapest helm chart
+- Added github bages to readme and renamed file
+- added veracode github action
+- Added github action for testing on PR and push to main
+- changed aria-label usage in button and removed unused code
+- added new material theme and updated button component
+- chenged styling to catena-x
+- Changed folder structure and added alias
+- Avatar component improvements
+- added Mock and cleand up application
+- simple mock setup
+- update packages
+- Initial project setup
+
+### Fixes
+
+- fixed sonar issues
+- added hardening for pagination pages
+- fixed findings from kcis
+- add dependencies
+- use maplibre instead of mapbox
+- not-standalone parts tree size
+- minimap resize
+- relations centering
+- fixed broken unit tests
+- tree initial centering
+- part detail a11y
+- remove resize icon from the map
+- textarea behaviour
+- table responsivness
+- table responsivness
+- headers in scss
+- sonar issues
+- update headers
+- address sonar issues
+- flickering toasters
+- quality type now updates in table when changed
+- fixed broken unit tests
+- subcribtions in test
+- fixed broken tree view on 0 height
+- updated gitignore to ignore test report
+- changed scrolling speed in tree and fixed double event for button
+- fixed missing quality type
+- removed styling for mat-spinner
+- fixed wrong imports
+- fixing first pr push to docker fails
+- loading issue of tree in detail view and tree improvements
+- using own certificate issuer
+- removed commented out code
+- try fixing ssl issue
+- fixed ssl certificate issue
+- fixed certificate issue
+- roles fetching
+- ingress https redirect
+- ingress redirect
+- fixed sizing issue for relation view in part-detail
+- fixes after pr review
+- apy-service.yaml
+- ingress.yaml
+- changed url for certificates
+- fix certificate issue on INT
+- local auth config
+- github actions
+- code fixes after code review
+- fixed unit tests after translation change
+- layout navigate
+- fix parts test
+- reverted to dev env because keycloak is not configured
+- code clean up after review
+- fixed display issue for view controll
+- hotel budapest deployment
+- hotel budapest deployment
+- hotel budapest deployment and GH workflow
+- added test alias for shared index file
+- fixing github action config
+
+### Refactoring
+
+- improve custom protocols
+- add todo
+- remove unused imports
+- changed usage of spys in unit tests
+- address comments
+- introduce auto format pipe
+- datapage name
+- address comments
+- refactor button
+- rename i18n pipe
+- i18n implementation
+- add enabled button test
+- add unit tests
+- add precommit hook
