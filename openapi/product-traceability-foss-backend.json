@@ -1,1 +1,609 @@
-{"openapi":"3.0.3","info":{"title":"Api Documentation","description":"Api Documentation","termsOfService":"urn:tos","contact":{},"license":{"name":"Apache 2.0","url":"http://www.apache.org/licenses/LICENSE-2.0"},"version":"1.0"},"servers":[{"url":"http://localhost:80","description":"Inferred Url"}],"tags":[{"name":"assets-controller","description":"Assets Controller"},{"name":"dashboard-controller","description":"Dashboard Controller"},{"name":"registry-controller","description":"Registry Controller"}],"paths":{"/api/assets":{"get":{"tags":["assets-controller"],"summary":"Returns all assets","description":"The results are paginated","operationId":"assetsUsingGET","parameters":[{"name":"page","in":"query","description":"Results page you want to retrieve (0..N)","required":false,"style":"form","schema":{"type":"integer","format":"int32"}},{"name":"size","in":"query","description":"Number of records per page","required":false,"style":"form","schema":{"type":"integer","format":"int32"}},{"name":"sort","in":"query","description":"Sorting criteria in the format: [property(,asc|desc)]. Default sort order is ascending. Multiple sort criteria are supported.","required":false,"style":"form","schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/PageResultÂ«AssetÂ»"}}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"security":[{"Keycloak":["uma_authorization"]},{"Bearer":["uma_authorization"]}]}},"/api/assets/countries":{"get":{"tags":["assets-controller"],"summary":"assetsCountryMap","operationId":"assetsCountryMapUsingGET","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"type":"object","additionalProperties":{"type":"integer","format":"int64"}}}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"security":[{"Keycloak":["uma_authorization"]},{"Bearer":["uma_authorization"]}]}},"/api/assets/sync":{"post":{"tags":["assets-controller"],"summary":"Synchronizes assets from IRS","operationId":"syncUsingPOST","requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/SyncAssets"}}}},"responses":{"200":{"description":"OK"},"201":{"description":"Created"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"security":[{"#components/securitySchemes/bearerAuth":[]}]}},"/api/assets/{assetId}":{"get":{"tags":["assets-controller"],"summary":"Returns single asset by given assetId","operationId":"assetUsingGET_1","parameters":[{"name":"assetId","in":"path","description":"Unique ID of an asset","required":true,"style":"simple","schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/Asset"}}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"security":[{"Keycloak":["uma_authorization"]},{"Bearer":["uma_authorization"]}]},"patch":{"tags":["assets-controller"],"summary":"Returns single asset by given assetId","operationId":"updateAssetUsingPATCH","parameters":[{"name":"assetId","in":"path","description":"Unique ID of an asset","required":true,"style":"simple","schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"$ref":"#/components/schemas/UpdateAsset"}}}},"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/Asset"}}}},"204":{"description":"No Content"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"}},"security":[{"#components/securitySchemes/bearerAuth":[]}]}},"/api/assets/{assetId}/children/{childId}":{"get":{"tags":["assets-controller"],"summary":"Returns a single child of an asset by given assetId and childId","operationId":"assetUsingGET","parameters":[{"name":"assetId","in":"path","description":"Unique ID of an asset","required":true,"style":"simple","schema":{"type":"string"}},{"name":"childId","in":"path","description":"Unique ID of a child asset","required":true,"style":"simple","schema":{"type":"string"}}],"responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/Asset"}}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"security":[{"Keycloak":["uma_authorization"]},{"Bearer":["uma_authorization"]}]}},"/api/dashboard":{"get":{"tags":["dashboard-controller"],"summary":"Returns dashboard related data","description":"The endpoint can return limited data based on the user role","operationId":"dashboardUsingGET","responses":{"200":{"description":"OK","content":{"*/*":{"schema":{"$ref":"#/components/schemas/Dashboard"}}}},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"security":[{"Keycloak":["uma_authorization"]},{"Bearer":["uma_authorization"]}]}},"/api/registry/reload":{"get":{"tags":["registry-controller"],"summary":"reload","operationId":"reloadUsingGET","responses":{"200":{"description":"OK"},"401":{"description":"Unauthorized"},"403":{"description":"Forbidden"},"404":{"description":"Not Found"}},"security":[{"Keycloak":["uma_authorization"]},{"Bearer":["uma_authorization"]}]}}},"components":{"schemas":{"Asset":{"title":"Asset","type":"object","properties":{"childDescriptions":{"type":"array","items":{"$ref":"#/components/schemas/ChildDescriptions"}},"customerPartId":{"type":"string"},"id":{"type":"string"},"idShort":{"type":"string"},"manufacturerId":{"type":"string"},"manufacturerName":{"type":"string"},"manufacturerPartId":{"type":"string"},"manufacturingCountry":{"type":"string"},"manufacturingDate":{"type":"string"},"nameAtCustomer":{"type":"string"},"nameAtManufacturer":{"type":"string"},"qualityType":{"type":"string","enum":["Critical","LifeThreatening","Major","Minor","Ok"]}}},"ChildDescriptions":{"title":"ChildDescriptions","type":"object","properties":{"id":{"type":"string"},"idShort":{"type":"string"}}},"Dashboard":{"title":"Dashboard","type":"object","properties":{"branchItems":{"type":"integer","format":"int64"},"myItems":{"type":"integer","format":"int64"}}},"PageResultÂ«AssetÂ»":{"title":"PageResultÂ«AssetÂ»","type":"object","properties":{"content":{"type":"array","items":{"$ref":"#/components/schemas/Asset"}},"page":{"type":"integer","format":"int32"},"pageCount":{"type":"integer","format":"int32"},"pageSize":{"type":"integer","format":"int32"},"totalItems":{"type":"integer","format":"int64"}}},"SyncAssets":{"title":"SyncAssets","type":"object","properties":{"globalAssetIds":{"type":"array","items":{"type":"string"}}}},"UpdateAsset":{"title":"UpdateAsset","required":["qualityType"],"type":"object","properties":{"qualityType":{"type":"string","enum":["Critical","LifeThreatening","Major","Minor","Ok"]}}}},"securitySchemes":{"Keycloak":{"type":"oauth2","flows":{"authorizationCode":{"authorizationUrl":"/realms//protocol/openid-connect/auth","tokenUrl":"/realms//protocol/openid-connect/token","scopes":{"uma_authorization":"UMA authorization"}}}},"Bearer":{"type":"http","scheme":"bearer","bearerFormat":"JWT"}}}}
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Api Documentation",
+		"description": "Api Documentation",
+		"termsOfService": "urn:tos",
+		"contact": {},
+		"license": {
+			"name": "Apache 2.0",
+			"url": "http://www.apache.org/licenses/LICENSE-2.0"
+		},
+		"version": "1.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:80",
+			"description": "Inferred Url"
+		}
+	],
+	"tags": [
+		{
+			"name": "assets-controller",
+			"description": "Assets Controller"
+		},
+		{
+			"name": "dashboard-controller",
+			"description": "Dashboard Controller"
+		},
+		{
+			"name": "registry-controller",
+			"description": "Registry Controller"
+		}
+	],
+	"paths": {
+		"/api/assets": {
+			"get": {
+				"tags": [
+					"assets-controller"
+				],
+				"summary": "Returns all assets",
+				"description": "The results are paginated",
+				"operationId": "assetsUsingGET",
+				"parameters": [
+					{
+						"name": "page",
+						"in": "query",
+						"description": "Results page you want to retrieve (0..N)",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "size",
+						"in": "query",
+						"description": "Number of records per page",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "integer",
+							"format": "int32"
+						}
+					},
+					{
+						"name": "sort",
+						"in": "query",
+						"description": "Sorting criteria in the format: [property(,asc|desc)]. Default sort order is ascending. Multiple sort criteria are supported.",
+						"required": false,
+						"style": "form",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/PageResultÂ«AssetÂ»"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"Keycloak": [
+							"uma_authorization"
+						]
+					},
+					{
+						"Bearer": [
+							"uma_authorization"
+						]
+					}
+				]
+			}
+		},
+		"/api/assets/countries": {
+			"get": {
+				"tags": [
+					"assets-controller"
+				],
+				"summary": "Returns counts of assets manufactured countries",
+				"operationId": "assetsCountryMapUsingGET",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"type": "object",
+									"additionalProperties": {
+										"type": "integer",
+										"format": "int64"
+									}
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"Keycloak": [
+							"uma_authorization"
+						]
+					},
+					{
+						"Bearer": [
+							"uma_authorization"
+						]
+					}
+				]
+			}
+		},
+		"/api/assets/sync": {
+			"post": {
+				"tags": [
+					"assets-controller"
+				],
+				"summary": "Synchronizes assets from IRS",
+				"operationId": "syncUsingPOST",
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SyncAssets"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"201": {
+						"description": "Created"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"#components/securitySchemes/bearerAuth": []
+					}
+				]
+			}
+		},
+		"/api/assets/{assetId}": {
+			"get": {
+				"tags": [
+					"assets-controller"
+				],
+				"summary": "Returns single asset by given assetId",
+				"operationId": "assetUsingGET_1",
+				"parameters": [
+					{
+						"name": "assetId",
+						"in": "path",
+						"description": "Unique ID of an asset",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/Asset"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"Keycloak": [
+							"uma_authorization"
+						]
+					},
+					{
+						"Bearer": [
+							"uma_authorization"
+						]
+					}
+				]
+			},
+			"patch": {
+				"tags": [
+					"assets-controller"
+				],
+				"summary": "Returns single asset by given assetId",
+				"operationId": "updateAssetUsingPATCH",
+				"parameters": [
+					{
+						"name": "assetId",
+						"in": "path",
+						"description": "Unique ID of an asset",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateAsset"
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/Asset"
+								}
+							}
+						}
+					},
+					"204": {
+						"description": "No Content"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					}
+				},
+				"security": [
+					{
+						"#components/securitySchemes/bearerAuth": []
+					}
+				]
+			}
+		},
+		"/api/assets/{assetId}/children/{childId}": {
+			"get": {
+				"tags": [
+					"assets-controller"
+				],
+				"summary": "Returns a single child of an asset by given assetId and childId",
+				"operationId": "assetUsingGET",
+				"parameters": [
+					{
+						"name": "assetId",
+						"in": "path",
+						"description": "Unique ID of an asset",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "childId",
+						"in": "path",
+						"description": "Unique ID of a child asset",
+						"required": true,
+						"style": "simple",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/Asset"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"Keycloak": [
+							"uma_authorization"
+						]
+					},
+					{
+						"Bearer": [
+							"uma_authorization"
+						]
+					}
+				]
+			}
+		},
+		"/api/dashboard": {
+			"get": {
+				"tags": [
+					"dashboard-controller"
+				],
+				"summary": "Returns dashboard related data",
+				"description": "The endpoint can return limited data based on the user role",
+				"operationId": "dashboardUsingGET",
+				"responses": {
+					"200": {
+						"description": "OK",
+						"content": {
+							"*/*": {
+								"schema": {
+									"$ref": "#/components/schemas/Dashboard"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"Keycloak": [
+							"uma_authorization"
+						]
+					},
+					{
+						"Bearer": [
+							"uma_authorization"
+						]
+					}
+				]
+			}
+		},
+		"/api/registry/reload": {
+			"get": {
+				"tags": [
+					"registry-controller"
+				],
+				"summary": "Reloads shell descriptors and synchronizes assets",
+				"operationId": "reloadUsingGET",
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"401": {
+						"description": "Unauthorized"
+					},
+					"403": {
+						"description": "Forbidden"
+					},
+					"404": {
+						"description": "Not Found"
+					}
+				},
+				"security": [
+					{
+						"Keycloak": [
+							"uma_authorization"
+						]
+					},
+					{
+						"Bearer": [
+							"uma_authorization"
+						]
+					}
+				]
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"Asset": {
+				"title": "Asset",
+				"type": "object",
+				"properties": {
+					"childDescriptions": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/ChildDescriptions"
+						}
+					},
+					"customerPartId": {
+						"type": "string"
+					},
+					"id": {
+						"type": "string"
+					},
+					"idShort": {
+						"type": "string"
+					},
+					"manufacturerId": {
+						"type": "string"
+					},
+					"manufacturerName": {
+						"type": "string"
+					},
+					"manufacturerPartId": {
+						"type": "string"
+					},
+					"manufacturingCountry": {
+						"type": "string"
+					},
+					"manufacturingDate": {
+						"type": "string"
+					},
+					"nameAtCustomer": {
+						"type": "string"
+					},
+					"nameAtManufacturer": {
+						"type": "string"
+					},
+					"qualityType": {
+						"type": "string",
+						"enum": [
+							"Critical",
+							"LifeThreatening",
+							"Major",
+							"Minor",
+							"Ok"
+						]
+					}
+				}
+			},
+			"ChildDescriptions": {
+				"title": "ChildDescriptions",
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"idShort": {
+						"type": "string"
+					}
+				}
+			},
+			"Dashboard": {
+				"title": "Dashboard",
+				"type": "object",
+				"properties": {
+					"branchItems": {
+						"type": "integer",
+						"format": "int64"
+					},
+					"myItems": {
+						"type": "integer",
+						"format": "int64"
+					}
+				}
+			},
+			"PageResultÂ«AssetÂ»": {
+				"title": "PageResultÂ«AssetÂ»",
+				"type": "object",
+				"properties": {
+					"content": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/Asset"
+						}
+					},
+					"page": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageCount": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"pageSize": {
+						"type": "integer",
+						"format": "int32"
+					},
+					"totalItems": {
+						"type": "integer",
+						"format": "int64"
+					}
+				}
+			},
+			"SyncAssets": {
+				"title": "SyncAssets",
+				"type": "object",
+				"properties": {
+					"globalAssetIds": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					}
+				}
+			},
+			"UpdateAsset": {
+				"title": "UpdateAsset",
+				"required": [
+					"qualityType"
+				],
+				"type": "object",
+				"properties": {
+					"qualityType": {
+						"type": "string",
+						"enum": [
+							"Critical",
+							"LifeThreatening",
+							"Major",
+							"Minor",
+							"Ok"
+						]
+					}
+				}
+			}
+		},
+		"securitySchemes": {
+			"Keycloak": {
+				"type": "oauth2",
+				"flows": {
+					"authorizationCode": {
+						"authorizationUrl": "/realms//protocol/openid-connect/auth",
+						"tokenUrl": "/realms//protocol/openid-connect/token",
+						"scopes": {
+							"uma_authorization": "UMA authorization"
+						}
+					}
+				}
+			},
+			"Bearer": {
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+	}
+}
