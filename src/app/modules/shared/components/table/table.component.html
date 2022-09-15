@@ -46,6 +46,7 @@ SPDX-License-Identifier: Apache-2.0
       <tr
         *matRowDef="let row; columns: tableConfig.displayedColumns"
         [class.loading]="this.isDataLoading"
+        [class.highlighted]="row?.shouldHighlight"
         (click)="this.selected.emit(row)"
         mat-row
         data-testid="table-component--body-row"
