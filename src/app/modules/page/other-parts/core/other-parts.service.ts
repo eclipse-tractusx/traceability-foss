@@ -38,7 +38,7 @@ export class OtherPartsService {
     const sort = PartsAssembler.mapSortToApiSort(sorting);
     const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
     return this.apiService
-      .getBy<PartsResponse>(`${this.url}/supplier-assets`, params)
+      .getBy<PartsResponse>(`${this.url}/assets/supplier`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts)));
   }
 
@@ -46,7 +46,7 @@ export class OtherPartsService {
     const sort = PartsAssembler.mapSortToApiSort(sorting);
     const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
     return this.apiService
-      .getBy<PartsResponse>(`${this.url}/customer-assets`, params)
+      .getBy<PartsResponse>(`${this.url}/assets/customer`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts)));
   }
 }
