@@ -42,18 +42,20 @@ public class RegistryService {
 	private final ObjectMapper objectMapper;
 	private final RegistryApiClient registryApiClient;
 	private final String bpn;
+	private final String manufacturerIdKey;
 
-	public RegistryService(ObjectMapper objectMapper, RegistryApiClient registryApiClient, @Value("${traceability.bpn}") String bpn) {
+	public RegistryService(ObjectMapper objectMapper, RegistryApiClient registryApiClient, @Value("${traceability.bpn}") String bpn, @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey) {
 		this.objectMapper = objectMapper;
 		this.registryApiClient = registryApiClient;
 		this.bpn = bpn;
+		this.manufacturerIdKey = manufacturerIdKey;
 	}
 
 	public List<ShellDescriptor> findAssets() {
 		logger.info("Fetching all shell descriptor IDs for BPN {}.", bpn);
 
 		Map<String, Object> filter = new HashMap<>();
-		filter.put("assetIds", getFilterValue("ManufacturerId", bpn));
+		filter.put("assetIds", getFilterValue(manufacturerIdKey, bpn));
 
 		List<String> assetIds = registryApiClient.getAllAssetAdministrationShellIdsByAssetLink(filter);
 

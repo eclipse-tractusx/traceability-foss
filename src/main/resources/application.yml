@@ -18,6 +18,7 @@
 ################################################################################
 traceability:
   bpn: BPNL00000003AXS3
+  registry.manufacturerIdKey: manufacturerId
 
 server:
   servlet:
