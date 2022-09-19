@@ -16,6 +16,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
+traceability:
+  bpn: BPNL00000003AXS3
+  registry.manufacturerIdKey: ManufacturerID
+
 spring:
   security:
     oauth2:
