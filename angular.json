@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "webapp": {
+    "trace-x": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -127,34 +127,34 @@
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
-            "browserTarget": "webapp:build:dev",
+            "browserTarget": "trace-x:build:dev",
             "proxyConfig": "./int.proxy.conf.json"
           },
           "configurations": {
             "dev": {
-              "browserTarget": "webapp:build:dev"
+              "browserTarget": "trace-x:build:dev"
             },
             "auth": {
-              "browserTarget": "webapp:build:dev,auth"
+              "browserTarget": "trace-x:build:dev,auth"
             },
             "authLocal": {
-              "browserTarget": "webapp:build:dev,authLocal"
+              "browserTarget": "trace-x:build:dev,authLocal"
             },
             "authMock": {
-              "browserTarget": "webapp:build:dev,authMock"
+              "browserTarget": "trace-x:build:dev,authMock"
             },
             "production": {
-              "browserTarget": "webapp:build:production"
+              "browserTarget": "trace-x:build:production"
             },
             "debugProd": {
-              "browserTarget": "webapp:build:dev,debugProd"
+              "browserTarget": "trace-x:build:dev,debugProd"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "webapp:build:dev"
+            "browserTarget": "trace-x:build:dev"
           }
         },
         "test": {
@@ -191,5 +191,5 @@
       }
     }
   },
-  "defaultProject": "webapp"
+  "defaultProject": "trace-x"
 }

@@ -225,15 +225,15 @@ but since the current angular version doesn't support the CSS library Tailwind, 
   "serve": {
     "builder": "@angular-builders/custom-webpack:dev-server",
     "options": {
-      "browserTarget": "webapp:build:dev",
+      "browserTarget": "trace-x:build:dev",
       "proxyConfig": "./int.proxy.conf.json"
     },
     "configurations": {
       "dev": {
-        "browserTarget": "webapp:build:dev"
+        "browserTarget": "trace-x:build:dev"
       },
       "stage": {
-        "browserTarget": "webapp:build:stage"
+        "browserTarget": "trace-x:build:stage"
       }
     }
   }

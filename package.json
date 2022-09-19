@@ -1,6 +1,6 @@
 {
-  "name": "webapp",
-  "version": "2.1.1",
+  "name": "trace-x",
+  "version": "0.1.0",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
     "build:prod": "ng build --configuration=production",
