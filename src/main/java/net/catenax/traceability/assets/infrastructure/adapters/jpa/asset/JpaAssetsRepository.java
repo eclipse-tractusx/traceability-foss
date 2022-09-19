@@ -19,9 +19,12 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.jpa.asset;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JpaAssetsRepository extends JpaRepository<AssetEntity, String> {
+	Page<AssetEntity> findBySupplierPartIsTrue(Pageable pageable);
 }

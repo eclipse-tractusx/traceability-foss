@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -62,6 +63,11 @@ public class AssetsConverter {
 			Map<String, AssemblyPartRelationship> relationships = response.assemblyPartRelationships();
 			Map<String, String> shortIds = response.shells().stream()
 				.collect(Collectors.toMap(Shell::identification, Shell::idShort));
+			Set<String> supplierParts = relationships.values().stream()
+				.flatMap(a -> a.childParts().stream())
+				.map(ChildPart::childCatenaXId)
+				.collect(Collectors.toSet());
+
 
 			return parts.stream()
 				.map(part -> new Asset(
@@ -75,6 +81,7 @@ public class AssetsConverter {
 					defaultValue(part.partTypeInformation().customerPartId()),
 					manufacturingDate(part),
 					manufacturingCountry(part),
+					supplierParts.contains(part.catenaXId()),
 					getChildParts(relationships, shortIds, part.catenaXId()),
 					QualityType.OK
 				)).toList();

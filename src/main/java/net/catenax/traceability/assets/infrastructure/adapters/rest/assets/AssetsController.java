@@ -57,6 +57,11 @@ public class AssetsController {
 		return assetRepository.getAssets(pageable);
 	}
 
+	@GetMapping("/assets/supplier")
+	public PageResult<Asset> supplierAssets(Pageable pageable) {
+		return assetRepository.getSupplierAssets(pageable);
+	}
+
 	@GetMapping("/assets/countries")
 	public Map<String, Long> assetsCountryMap() {
 		return assetFacade.getAssetsCountryMap();

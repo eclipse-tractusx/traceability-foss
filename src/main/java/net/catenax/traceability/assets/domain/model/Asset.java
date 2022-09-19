@@ -36,6 +36,7 @@ public final class Asset {
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	private final Instant manufacturingDate;
 	private final String manufacturingCountry;
+	private final boolean supplierPart;
 	private List<ChildDescriptions> childDescriptions;
 	private QualityType qualityType;
 
@@ -50,6 +51,7 @@ public final class Asset {
 		String customerPartId,
 		Instant manufacturingDate,
 		String manufacturingCountry,
+		boolean supplierPart,
 		List<ChildDescriptions> childDescriptions,
 		QualityType qualityType
 	) {
@@ -63,6 +65,7 @@ public final class Asset {
 		this.customerPartId = customerPartId;
 		this.manufacturingDate = manufacturingDate;
 		this.manufacturingCountry = manufacturingCountry;
+		this.supplierPart = supplierPart;
 		this.childDescriptions = childDescriptions;
 		this.qualityType = qualityType;
 	}
@@ -109,6 +112,10 @@ public final class Asset {
 
 	public String getManufacturingCountry() {
 		return manufacturingCountry;
+	}
+
+	public boolean isSupplierPart() {
+		return supplierPart;
 	}
 
 	public List<ChildDescriptions> getChildDescriptions() {

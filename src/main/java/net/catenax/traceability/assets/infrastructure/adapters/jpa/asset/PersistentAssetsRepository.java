@@ -60,6 +60,11 @@ public class PersistentAssetsRepository implements AssetRepository {
 	}
 
 	@Override
+	public PageResult<Asset> getSupplierAssets(Pageable pageable) {
+		return new PageResult<>(assetsRepository.findBySupplierPartIsTrue(pageable), this::toAsset);
+	}
+
+	@Override
 	public List<Asset> getAssets() {
 		return toAssets(assetsRepository.findAll());
 	}
@@ -107,6 +112,7 @@ public class PersistentAssetsRepository implements AssetRepository {
 			asset.getCustomerPartId(),
 			asset.getManufacturingDate(),
 			asset.getManufacturingCountry(),
+			asset.isSupplierPart(),
 			asset.getChildDescriptions().stream()
 				.map(child -> new ChildDescription(child.id(), child.idShort()))
 				.toList(),
@@ -125,6 +131,7 @@ public class PersistentAssetsRepository implements AssetRepository {
 			entity.getCustomerPartId(),
 			entity.getManufacturingDate(),
 			entity.getManufacturingCountry(),
+			entity.isSupplierPart(),
 			entity.getChildDescriptors().stream()
 					.map(child -> new ChildDescriptions(child.getId(), child.getIdShort()))
 					.toList(),

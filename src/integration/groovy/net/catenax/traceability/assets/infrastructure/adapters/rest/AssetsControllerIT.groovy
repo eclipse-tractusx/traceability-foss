@@ -184,6 +184,19 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 				.andExpect(jsonPath('$.content[*].manufacturerName', not(equalTo("--"))))
 	}
 
+	def "should return supplier assets"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+
+		and:
+			defaultAssetsStored()
+
+		expect:
+			mvc.perform(get("/assets/supplier").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath('$.totalItems', equalTo(12)))
+	}
+
 	def "should return assets country map"() {
 		given:
 			authenticatedUser()
