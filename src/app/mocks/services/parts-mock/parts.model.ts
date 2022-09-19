@@ -33,6 +33,7 @@ export const mockBmwAssets = [
     manufacturingDate: '2020-07-07T13:07:39Z',
     manufacturingCountry: 'LBR',
     specificAssetIds: {},
+    isInvestigationActive: true,
     childDescriptions: [
       { id: 'urn:uuid:0535d7a7-0fca-43a1-885d-2faa81c35097', idShort: '--' },
       { id: 'urn:uuid:79571804-2e89-452a-a80a-ebff6d94c891', idShort: '--' },

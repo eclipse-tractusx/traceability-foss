@@ -75,6 +75,10 @@ tr.loading td {
   pointer-events: none;
 }
 
+tr.highlighted {
+  @apply bg-primaryLight bg-opacity-50;
+}
+
 @keyframes loading {
   0% {
     background-position: 0;

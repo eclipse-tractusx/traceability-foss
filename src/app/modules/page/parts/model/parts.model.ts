@@ -53,6 +53,7 @@ export interface Part {
   nameAtCustomer?: string;
   customerPartId?: string;
   error?: boolean;
+  shouldHighlight?: boolean;
 }
 
 export interface PartResponse {
@@ -69,6 +70,7 @@ export interface PartResponse {
   qualityType: QualityType;
   specificAssetIds: Record<string, string>;
   childDescriptions: Array<{ id: string; idShort: string }>;
+  isInvestigationActive?: boolean;
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;
