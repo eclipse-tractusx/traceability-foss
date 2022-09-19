@@ -90,5 +90,23 @@
     "lastPageLabel": "Ostatnia strona",
     "emptyRange": "0 z {{length}}",
     "range": "{{startIndex}} – {{endIndex}} z {{length}}"
+  },
+  "pageInvestigations": {
+    "title": "Badanie Jakości",
+    "viewAll": "View all",
+    "tabs": {
+      "received": "Otrzymane",
+      "queuedNRequested": "Skolejkowane & Zażądane"
+    },
+    "column": {
+      "description": "Opis",
+      "status": "Stan",
+      "created": "Utworzono"
+    },
+    "status": {
+      "received": "Otrzymane",
+      "queued": "Skolejkowane",
+      "requested": "Zażądane"
+    }
   }
 }

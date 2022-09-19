@@ -25,12 +25,10 @@ import { TemplateModule } from '@shared/template.module';
 import { InvestigationsFacade } from './core/investigations.facade';
 import { InvestigationsState } from './core/investigations.state';
 import { InvestigationsRoutingModule } from './investigations.routing';
-import { InvestigationStatusComponent } from './presentation/investigation-status/investigation-status.component';
-import { InvestigationsTabComponent } from './presentation/investigations-tab/investigations-tab.component';
 import { InvestigationsComponent } from './presentation/investigations.component';
 
 @NgModule({
-  declarations: [InvestigationsComponent, InvestigationsTabComponent, InvestigationStatusComponent],
+  declarations: [InvestigationsComponent],
   imports: [CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule],
   providers: [InvestigationsFacade, InvestigationsState, ...getI18nPageProvider('page.investigations')],
 })

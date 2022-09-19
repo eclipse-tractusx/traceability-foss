@@ -23,72 +23,64 @@ SPDX-License-Identifier: Apache-2.0
     <ng-container
       *viewContainer="
         this.numberOfMyParts$ | async;
-        main: numberOfPartsMainTmp;
-        error: numberOfPartsErrorTmp;
-        loading: numberOfPartsLoaderTmp
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.totalOfParts.label', icon: 'directions_car' }
       "
     >
     </ng-container>
-
-    <ng-template #numberOfPartsMainTmp let-numberOfParts="view">
-      <app-card-icon
-        [label]="'pageDashboard.totalOfParts.label' | i18n"
-        [icon]="'directions_car'"
-        [stats]="numberOfParts?.data"
-      ></app-card-icon>
-    </ng-template>
-
-    <ng-template #numberOfPartsErrorTmp let-numberOfParts="view">
-      <app-card-icon
-        [label]="'pageDashboard.totalOfParts.label' | i18n"
-        [icon]="'directions_car'"
-        [stats]="0"
-      ></app-card-icon>
-    </ng-template>
-
-    <ng-template #numberOfPartsLoaderTmp let-numberOfParts="view">
-      <app-card-icon
-        [label]="'pageDashboard.totalOfParts.label' | i18n"
-        [icon]="'directions_car'"
-        [stats]="''"
-      ></app-card-icon>
-    </ng-template>
   </section>
 
-  <section class="parts-section" *appHasRole="['admin', 'supervisor']">
+  <section *appHasRole="['admin', 'supervisor']" class="parts-section">
     <ng-container
       *viewContainer="
         this.numberOfBranchParts$ | async;
-        main: managedNumberOfPartsMainTmp;
-        error: managedNumberOfPartsErrorTmp;
-        loading: managedNumberOfPartsLoaderTmp
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.managedTotalOfParts.label', icon: 'directions_car' }
       "
     >
     </ng-container>
+  </section>
 
-    <ng-template #managedNumberOfPartsMainTmp let-numberOfParts="view">
-      <app-card-icon
-        [label]="'pageDashboard.managedTotalOfParts.label' | i18n"
-        [icon]="'directions_car'"
-        [stats]="numberOfParts?.data"
-      ></app-card-icon>
-    </ng-template>
+  <section *appHasRole="['wip']" class="parts-section">
+    <ng-container
+      *viewContainer="
+        this.numberOfInvestigations$ | async;
+        main: numbersMainTmp;
+        error: numbersErrorTmp;
+        loading: numbersLoaderTmp;
+        customContext: { label: 'pageDashboard.totalInvestigations.label', icon: 'find_in_page' }
+      "
+    >
+    </ng-container>
+  </section>
 
-    <ng-template #managedNumberOfPartsErrorTmp let-numberOfParts="view">
-      <app-card-icon
-        [label]="'pageDashboard.managedTotalOfParts.label' | i18n"
-        [icon]="'directions_car'"
-        [stats]="0"
-      ></app-card-icon>
-    </ng-template>
-
-    <ng-template #managedNumberOfPartsLoaderTmp let-numberOfParts="view">
-      <app-card-icon
-        [label]="'pageDashboard.managedTotalOfParts.label' | i18n"
-        [icon]="'directions_car'"
-        [stats]="''"
-      ></app-card-icon>
-    </ng-template>
+  <section *appHasRole="['wip']" class="dashboard--investigation">
+    <div class="flex justify-between items-center">
+      <h3 class="mb-4 flex items-center">
+        <mat-icon>find_in_page</mat-icon>
+        {{ 'pageInvestigations.title' | i18n }}
+      </h3>
+      <app-button
+        [color]="'primary'"
+        [routerLink]="[investigationLink]"
+        [queryParams]="investigationParams"
+        [relativeTo]="null"
+      >
+        <div class="flex justify-between items-center">
+          <mat-icon class="mr-2">remove_red_eye</mat-icon>
+          {{ 'pageInvestigations.viewAll' | i18n }}
+        </div>
+      </app-button>
+    </div>
+    <app-investigations-tab
+      [investigations]="investigations$ | async"
+      [labelId]="'dashboard-investigations'"
+      [hasPagination]="false"
+    ></app-investigations-tab>
   </section>
 
   <section class="parts-per-country-section">
@@ -116,3 +108,15 @@ SPDX-License-Identifier: Apache-2.0
     </ng-template>
   </section>
 </div>
+
+<ng-template #numbersMainTmp let-numbers="view" let-context="customContext">
+  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [stats]="numbers?.data"></app-card-icon>
+</ng-template>
+
+<ng-template #numbersErrorTmp let-context="customContext">
+  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [stats]="0"></app-card-icon>
+</ng-template>
+
+<ng-template #numbersLoaderTmp let-context="customContext">
+  <app-card-icon [label]="context.label | i18n" [icon]="context.icon" [stats]="''"></app-card-icon>
+</ng-template>

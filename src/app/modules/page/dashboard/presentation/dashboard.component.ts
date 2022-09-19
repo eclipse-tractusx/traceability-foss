@@ -18,6 +18,8 @@
  ********************************************************************************/
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
+import { Investigations, InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
@@ -30,12 +32,25 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
 export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfMyParts$: Observable<View<number>>;
   public readonly numberOfBranchParts$: Observable<View<number>>;
+  public readonly numberOfInvestigations$: Observable<View<number>>;
+
   public readonly assetsPerCountry$: Observable<View<any>>;
+  public readonly investigations$: Observable<View<Investigations>>;
+
+  public readonly investigationLink: string;
+  public readonly investigationParams: Record<string, string>;
 
   constructor(private readonly dashboardFacade: DashboardFacade) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
     this.numberOfBranchParts$ = this.dashboardFacade.numberOfBranchParts$;
+    this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;
+
     this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;
+    this.investigations$ = this.dashboardFacade.investigations$;
+
+    const { link, queryParams } = getInvestigationInboxRoute(InvestigationStatusGroup.RECEIVED);
+    this.investigationLink = link;
+    this.investigationParams = queryParams;
   }
 
   public ngOnInit(): void {

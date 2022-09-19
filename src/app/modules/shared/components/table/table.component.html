@@ -113,6 +113,7 @@ SPDX-License-Identifier: Apache-2.0
   </app-scroll-with-shadow>
 
   <mat-paginator
+    *ngIf="tableConfig.hasPagination"
     [length]="this.totalItems"
     [pageIndex]="this.pageIndex"
     [pageSizeOptions]="[5, 10, 20]"

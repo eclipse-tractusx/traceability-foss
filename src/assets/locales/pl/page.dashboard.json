@@ -1,6 +1,9 @@
 {
   "pageDashboard": {
     "title": "Pulpit",
+    "totalInvestigations": {
+      "label": "Total investigations"
+    },
     "totalOfParts": {
       "label": "Ilość części"
     },

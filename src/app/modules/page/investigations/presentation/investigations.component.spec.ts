@@ -31,7 +31,7 @@ describe('InvestigationsInboxComponent', () => {
   const renderInvestigationsInbox = () =>
     renderComponent(InvestigationsComponent, {
       imports: [InvestigationsModule],
-      translations: ['page.investigations'],
+      translations: ['common'],
     });
 
   it('should render received investigations', async () => {

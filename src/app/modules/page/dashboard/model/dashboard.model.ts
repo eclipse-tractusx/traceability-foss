@@ -17,30 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export type HistogramType = {
-  date: string;
-  total: number;
-  MINOR: number;
-  MAJOR: number;
-  CRITICAL: number;
-  'LIFE-THREATENING': number;
-  month: number;
-  year: number;
-  week: number;
-};
-
-export interface ReceivedAlertType {
-  type: string;
-  total: number;
-  color: string;
-}
-
 export interface DashboardStats {
   branchItems: number | null;
   myItems: number;
+  investigationCount?: number;
 }
 
 export interface DashboardStatsResponse {
   branchItems: number | null;
   myItems: number;
+  investigationCount?: number;
 }

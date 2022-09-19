@@ -34,8 +34,9 @@ describe('PartsAssembler', () => {
 
   describe('assembleParts', () => {
     it('should return null if array is empty or undefined', () => {
-      expect(PartsAssembler.assembleParts(null)).toBe(null);
-      expect(PartsAssembler.assembleParts(page([]))).toBe(null);
+      const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 0, totalItems: 0 };
+      expect(PartsAssembler.assembleParts(null)).toEqual(emptyPage);
+      expect(PartsAssembler.assembleParts(page([]))).toEqual(emptyPage);
     });
 
     it('should format the object correctly', () => {

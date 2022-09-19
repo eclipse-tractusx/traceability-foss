@@ -29,6 +29,7 @@ import { View } from '@shared/model/view.model';
 export class InvestigationsTabComponent implements AfterViewInit {
   @Input() investigations: View<Investigations>;
   @Input() labelId: string;
+  @Input() hasPagination = true;
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -40,6 +41,7 @@ export class InvestigationsTabComponent implements AfterViewInit {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
       header: CreateHeaderFromColumns(this.displayedColumns, 'pageInvestigations.column'),
+      hasPagination: this.hasPagination,
       cellRenderers: {
         status: this.statusTemplate,
       },

@@ -23,8 +23,9 @@ import { InvestigationsAssembler } from './investigations.assembler';
 describe('InvestigationsAssembler', () => {
   describe('assembleInvestigations', () => {
     it('should handle null response', () => {
-      expect(InvestigationsAssembler.assembleInvestigations(null)).toBe(null);
-      expect(InvestigationsAssembler.assembleInvestigations(undefined)).toBe(null);
+      const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 0, totalItems: 0 };
+      expect(InvestigationsAssembler.assembleInvestigations(null)).toEqual(emptyPage);
+      expect(InvestigationsAssembler.assembleInvestigations(undefined)).toEqual(emptyPage);
     });
 
     it('should map properly response', () => {

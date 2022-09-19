@@ -1,6 +1,9 @@
 {
   "pageDashboard": {
     "title": "Dashboard",
+    "totalInvestigations": {
+      "label": "Anzahl Untersuchungen"
+    },
     "totalOfParts": {
       "label": "Anzahl Produkte"
     },
