@@ -144,6 +144,7 @@ dependencies {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+	finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateAasRegistryApi") {
@@ -175,6 +176,7 @@ tasks.withType<JavaCompile> {
 }
 
 tasks.jacocoTestReport {
+	executionData.setFrom(fileTree("${project.buildDir}").include("/jacoco/*.exec"))
 	reports {
 		xml.required.set(true)
 		xml.outputLocation.set(File("${project.buildDir}/jacoco/jacocoTestReport.xml"))
@@ -196,8 +198,4 @@ tasks.jacocoTestReport {
 			}
 		})
 	)
-}
-
-tasks.test {
-	finalizedBy(tasks.jacocoTestReport)
 }

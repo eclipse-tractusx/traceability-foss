@@ -64,7 +64,7 @@ import java.util.List;
 @EnableJpaRepositories(basePackages = "net.catenax.traceability.*")
 public class ApplicationConfig {
 
-	public static final AuthorizationScope[] DEFAULT_SCOPES = {
+	private static final AuthorizationScope[] DEFAULT_SCOPES = {
 		new AuthorizationScope("uma_authorization", "UMA authorization")
 	};
 

@@ -29,6 +29,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.util.regex.Pattern;
 
 @Service
 public class EmailService {
@@ -42,6 +43,8 @@ public class EmailService {
 	private final Resource dividerLineImage;
 
 	private final Resource questionMarkImage;
+
+	private static final Pattern NEW_LINE_PATTERN = Pattern.compile("\\n");
 
     public EmailService(
 		JavaMailSender mailSender,
@@ -62,7 +65,8 @@ public class EmailService {
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		Context thymeleafContext = new Context();
 
-		thymeleafContext.setVariable("content", content.replaceAll("\\n", "<br/>"));
+		String updatedContent = NEW_LINE_PATTERN.matcher(content).replaceAll("<br/>");
+		thymeleafContext.setVariable("content", updatedContent);
 
 		String htmlBody = templateEngine.process("basic.html", thymeleafContext);
 		String textBody = templateEngine.process("basic.txt", thymeleafContext);
