@@ -18,28 +18,29 @@
  ********************************************************************************/
 
 import { environment } from '@env';
+import { InvestigationStatus } from '@shared/model/investigations.model';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../pagination.helper';
-import { buildMockInvestigations } from './investigations.model';
+import { buildMockInvestigations, getInvestigationById, InvestigationIdPrefix } from './investigations.model';
 
 export const investigationsHandlers = [
-  rest.get(`${environment.apiUrl}/investigations/received`, (req, res, ctx) => {
+  rest.get(`${environment.apiUrl}/investigations`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    return res(ctx.status(200), ctx.json(applyPagination(buildMockInvestigations(['received']), pagination)));
-  }),
+    const status = req.url.searchParams.get('status') ?? '';
 
-  rest.get(`${environment.apiUrl}/investigations/queued-and-requested`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
-    return res(
-      ctx.status(200),
-      ctx.json(applyPagination(buildMockInvestigations(['requested', 'queued']), pagination)),
-    );
+    const currentStatus = status.split(',') as InvestigationStatus[];
+    return res(ctx.status(200), ctx.json(applyPagination(buildMockInvestigations(currentStatus), pagination)));
   }),
 
   rest.post(`${environment.apiUrl}/investigations`, (_, res, ctx) => {
-    const investigations = buildMockInvestigations(['queued']);
+    return res(ctx.status(200), ctx.json({ id: InvestigationIdPrefix + 1 }));
+  }),
 
-    const response = { investigationId: investigations[0].id };
-    return res(ctx.status(200), ctx.json(response));
+  rest.put(`${environment.apiUrl}/investigations/:investigationId/status`, (req, res, ctx) => {
+    const { investigationId } = req.params;
+    const { status } = req.body as Record<string, unknown>;
+
+    const investigation = getInvestigationById(investigationId as string);
+    return res(ctx.status(200), ctx.json({ ...investigation, status }));
   }),
 ];

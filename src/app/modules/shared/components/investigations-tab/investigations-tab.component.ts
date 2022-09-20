@@ -34,7 +34,7 @@ export class InvestigationsTabComponent implements AfterViewInit {
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
 
-  public readonly displayedColumns: (keyof Investigation)[] = ['description', 'status', 'created'];
+  public readonly displayedColumns: (keyof Investigation)[] = ['description', 'status', 'createDate'];
   public tableConfig: TableConfig<keyof Investigation>;
 
   public ngAfterViewInit(): void {

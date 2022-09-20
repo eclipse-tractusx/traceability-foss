@@ -18,14 +18,32 @@
  ********************************************************************************/
 
 import type { InvestigationResponse } from '@shared/model/investigations.model';
+import { InvestigationStatus } from '@shared/model/investigations.model';
+import { getRandomAsset } from '../parts-mock/parts.model';
 
-export const buildMockInvestigations = (statuses: string[]): InvestigationResponse[] =>
+export const InvestigationIdPrefix = 'id-';
+export const buildMockInvestigations = (statuses: InvestigationStatus[]): InvestigationResponse[] =>
   new Array(25).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
     return {
-      id: `id-${index + 1}`,
+      id: `${InvestigationIdPrefix}${index + 1}`,
       description: `Investigation No ${index + 1}`,
-      createDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
       status,
+      createdBy: 'OEM A',
+      createDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
+      parts: [getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
     };
   });
+
+const MockEmptyInvestigation: InvestigationResponse = {
+  id: `${InvestigationIdPrefix}000`,
+  description: `Investigation No 000`,
+  status: InvestigationStatus.CREATED,
+  createdBy: 'OEM A',
+  createDate: `2022-05-01T12:34:12`,
+  parts: [getRandomAsset().id],
+};
+
+export const getInvestigationById = (id: string) => {
+  return [].find(investigation => investigation.id === id) || { ...MockEmptyInvestigation, id };
+};

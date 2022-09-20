@@ -28,24 +28,20 @@ import {
 } from '../model/investigations.model';
 
 export class InvestigationsAssembler {
-  private static ALL_POSSIBLE_STATUSES = new Set<string>(Object.values(InvestigationStatus));
-
   public static assembleInvestigations(response: InvestigationsResponse): Investigations {
-    if (!response) {
-      return { page: 0, pageCount: 0, pageSize: 0, totalItems: 0, content: [] };
-    }
-
     return PaginationAssembler.assemblePagination(response, InvestigationsAssembler.assembleInvestigation);
   }
 
   public static assembleInvestigation(response: InvestigationResponse): Investigation {
+    const { id, description = '', status, createDate, createdBy, parts } = response;
     return {
-      id: response.id,
-      description: response.description ?? '',
-      status: InvestigationsAssembler.ALL_POSSIBLE_STATUSES.has(response.status)
-        ? (response.status as InvestigationStatus)
-        : null,
-      created: new CalendarDateModel(response.createDate),
+      id,
+      description,
+      createdBy,
+      parts,
+
+      status: InvestigationStatus[status] ?? null,
+      createDate: new CalendarDateModel(createDate),
     };
   }
 }

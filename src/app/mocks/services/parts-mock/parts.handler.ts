@@ -34,6 +34,12 @@ export const partsHandlers = [
     return res(ctx.status(200), ctx.json(mockAssetsCountriesMap));
   }),
 
+  rest.get(`${environment.apiUrl}/assets/my`, (req, res, ctx) => {
+    const pagination = extractPagination(req);
+
+    return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
+  }),
+
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentAsset = getAssetById(partId as string);
@@ -60,6 +66,10 @@ export const partsHandlersTest = [
 
   rest.get(`${environment.apiUrl}/assets/countries`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockAssetsCountriesMap));
+  }),
+
+  rest.get(`${environment.apiUrl}/assets/my`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(mockAssets));
   }),
 
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {

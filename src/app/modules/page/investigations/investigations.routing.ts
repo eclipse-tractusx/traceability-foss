@@ -28,7 +28,6 @@ const INVESTIGATIONS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: InvestigationsComponent,
-    data: { i18nextNamespaces: ['page.investigations'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];

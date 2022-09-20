@@ -101,12 +101,12 @@
     "column": {
       "description": "Opis",
       "status": "Stan",
-      "created": "Utworzono"
+      "createDate": "Utworzono"
     },
     "status": {
-      "received": "Otrzymane",
-      "queued": "Skolejkowane",
-      "requested": "Zażądane"
+      "RECEIVED": "Otrzymane",
+      "CREATED": "Skolejkowane",
+      "SENT": "Zażądane"
     }
   }
 }

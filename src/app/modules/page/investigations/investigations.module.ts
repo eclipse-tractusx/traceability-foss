@@ -30,6 +30,6 @@ import { InvestigationsComponent } from './presentation/investigations.component
 @NgModule({
   declarations: [InvestigationsComponent],
   imports: [CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule],
-  providers: [InvestigationsFacade, InvestigationsState, ...getI18nPageProvider('page.investigations')],
+  providers: [InvestigationsFacade, InvestigationsState],
 })
 export class InvestigationsModule {}
