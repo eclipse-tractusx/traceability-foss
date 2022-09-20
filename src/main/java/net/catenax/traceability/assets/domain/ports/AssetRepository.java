@@ -34,6 +34,8 @@ public interface AssetRepository {
 
 	PageResult<Asset> getSupplierAssets(Pageable pageable);
 
+	public PageResult<Asset> getOwnAssets(Pageable pageable);
+
 	List<Asset> getAssets();
 
 	Asset save(Asset asset);

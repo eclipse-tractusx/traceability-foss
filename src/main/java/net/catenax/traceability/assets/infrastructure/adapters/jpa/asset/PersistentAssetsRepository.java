@@ -65,6 +65,11 @@ public class PersistentAssetsRepository implements AssetRepository {
 	}
 
 	@Override
+	public PageResult<Asset> getOwnAssets(Pageable pageable) {
+		return new PageResult<>(assetsRepository.findBySupplierPartIsFalse(pageable), this::toAsset);
+	}
+
+	@Override
 	public List<Asset> getAssets() {
 		return toAssets(assetsRepository.findAll());
 	}

@@ -27,4 +27,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface JpaAssetsRepository extends JpaRepository<AssetEntity, String> {
 	Page<AssetEntity> findBySupplierPartIsTrue(Pageable pageable);
+	Page<AssetEntity> findBySupplierPartIsFalse(Pageable pageable);
 }
