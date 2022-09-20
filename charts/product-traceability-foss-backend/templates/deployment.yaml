@@ -44,6 +44,12 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.springprofile }}
+            - name: MAILSERVER_HOST
+              value: {{ .Values.mailserver.host }}
+            - name: MAILSERVER_PORT
+              value: {{ .Values.mailserver.port }}
+            - name: MAILSERVER_USERNAME
+              value: {{ .Values.mailserver.username }}
             - name: MAILSERVER_PASSWORD
               value: {{ .Values.mailserver.password }}
             - name: KEYCLOAK_OAUTH2_CLIENT_ID

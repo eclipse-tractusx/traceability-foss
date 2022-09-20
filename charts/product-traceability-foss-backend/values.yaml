@@ -124,6 +124,9 @@ healthCheck:
   enabled: true
 
 mailserver:
+  host: ""
+  port: 0
+  username: ""
   password: ""
 
 datasource:

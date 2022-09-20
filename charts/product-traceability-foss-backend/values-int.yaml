@@ -21,6 +21,9 @@ ingress:
       secretName: trace-backend-tls-secret
 
 mailserver:
+  host: "smtp.office365.com"
+  port: 587
+  username: "notifications@catena-x.net"
   password: <path:traceability-foss/data/int#mailserverPassword>
 
 datasource:
