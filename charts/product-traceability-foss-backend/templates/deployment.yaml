@@ -47,7 +47,7 @@ spec:
             - name: MAILSERVER_HOST
               value: {{ .Values.mailserver.host }}
             - name: MAILSERVER_PORT
-              value: {{ .Values.mailserver.port }}
+              value: !!integerEnv {{ .Values.mailserver.port }}
             - name: MAILSERVER_USERNAME
               value: {{ .Values.mailserver.username }}
             - name: MAILSERVER_PASSWORD
