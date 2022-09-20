@@ -84,7 +84,7 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	}
 
 	protected void eventually(Closure<?> conditions) {
-		new PollingConditions(timeout: 10, initialDelay: 0.5).eventually(conditions)
+		new PollingConditions(timeout: 15, initialDelay: 0.5).eventually(conditions)
 	}
 
 	protected String asJson(Map map) {

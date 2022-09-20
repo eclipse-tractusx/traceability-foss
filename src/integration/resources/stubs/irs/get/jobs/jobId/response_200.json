@@ -20,7 +20,8 @@
 			"bomLifecycle": "asBuilt",
 			"aspects": [
 				"AssemblyPartRelationship",
-				"SerialPartTypization"
+				"SerialPartTypization",
+				"Batch"
 			],
 			"depth": 10,
 			"direction": "downward",
@@ -144,6 +145,23 @@
 				"assembledOn": "2022-02-03T14:48:54.709Z",
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:16bb1a7e-8ed8-48ca-a839-5f38b704fcae"
+			},
+			"aspectType": "AssemblyPartRelationship"
+		},
+		{
+			"catenaXId": "urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562",
+			"linkedItem": {
+				"quantity": {
+					"quantityNumber": 0.2014,
+					"measurementUnit": {
+						"datatypeURI": "urn:bamm:io.openmanufacturing:meta-model:1.0.0#kilogram",
+						"lexicalValue": "kilogram"
+					}
+				},
+				"lifecycleContext": "asBuilt",
+				"assembledOn": "2022-02-03T14:48:54.709Z",
+				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
+				"childCatenaXId": "urn:uuid:580d3adf-1981-44a0-a214-13d6ceed9379"
 			},
 			"aspectType": "AssemblyPartRelationship"
 		},
@@ -1158,6 +1176,30 @@
 	"tombstones": [],
 	"submodels": [
 		{
+			"identification": "urn:uuid:318f4d45-7856-4467-8238-4959b56e8912",
+			"aspectType": "urn:bamm:com.catenax.batch:1.0.0#Batch",
+			"payload": {
+				"localIdentifiers": [
+					{
+						"value": "BID000000004",
+						"key": "batchId"
+					}
+				],
+				"manufacturingInformation": {
+					"date": "2022-02-04T14:48:54",
+					"country": "HUR"
+				},
+				"catenaXId": "urn:uuid:580d3adf-1981-44a0-a214-13d6ceed9379",
+				"partTypeInformation": {
+					"manufacturerPartId": "123-0.740-3434-A",
+					"customerPartId": "PRT-12345",
+					"classification": "product",
+					"nameAtManufacturer": "PA66-GF30",
+					"nameAtCustomer": "Polyamide"
+				}
+			}
+		},
+		{
 			"identification": "urn:uuid:781dabcb-93e7-442d-bc38-8ba1451c0218",
 			"aspectType": "urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization",
 			"payload": {
@@ -1369,6 +1411,23 @@
 						"assembledOn": "2022-02-03T14:48:54.709Z",
 						"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 						"childCatenaXId": "urn:uuid:16bb1a7e-8ed8-48ca-a839-5f38b704fcae"
+					},
+					{
+						"catenaXId": "urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562",
+						"linkedItem": {
+							"quantity": {
+								"quantityNumber": 0.2014,
+								"measurementUnit": {
+									"datatypeURI": "urn:bamm:io.openmanufacturing:meta-model:1.0.0#kilogram",
+									"lexicalValue": "kilogram"
+								}
+							},
+							"lifecycleContext": "asBuilt",
+							"assembledOn": "2022-02-03T14:48:54.709Z",
+							"lastModifiedOn": "2022-02-03T14:48:54.709Z",
+							"childCatenaXId": "urn:uuid:580d3adf-1981-44a0-a214-13d6ceed9379"
+						},
+						"aspectType": "AssemblyPartRelationship"
 					},
 					{
 						"quantity": {

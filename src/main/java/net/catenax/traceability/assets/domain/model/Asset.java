@@ -30,6 +30,7 @@ public final class Asset {
 	private final String nameAtManufacturer;
 	private final String manufacturerPartId;
 	private final String manufacturerId;
+	private final String batchId;
 	private String manufacturerName;
 	private final String nameAtCustomer;
 	private final String customerPartId;
@@ -46,6 +47,7 @@ public final class Asset {
 		String nameAtManufacturer,
 		String manufacturerPartId,
 		String manufacturerId,
+		String batchId,
 		String manufacturerName,
 		String nameAtCustomer,
 		String customerPartId,
@@ -60,6 +62,7 @@ public final class Asset {
 		this.nameAtManufacturer = nameAtManufacturer;
 		this.manufacturerPartId = manufacturerPartId;
 		this.manufacturerId = manufacturerId;
+		this.batchId = batchId;
 		this.manufacturerName = manufacturerName;
 		this.nameAtCustomer = nameAtCustomer;
 		this.customerPartId = customerPartId;
@@ -68,6 +71,10 @@ public final class Asset {
 		this.supplierPart = supplierPart;
 		this.childDescriptions = childDescriptions;
 		this.qualityType = qualityType;
+	}
+
+	public String getBatchId() {
+		return batchId;
 	}
 
 	public void updateQualityType(QualityType qualityType) {

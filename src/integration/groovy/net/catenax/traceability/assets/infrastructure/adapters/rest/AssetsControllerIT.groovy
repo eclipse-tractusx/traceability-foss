@@ -55,8 +55,8 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 			).andExpect(status().isOk())
 
 		then:
-			new PollingConditions(timeout: 10, initialDelay: 0.5).eventually {
-				assertAssetsSize(13)
+			eventually {
+				assertAssetsSize(14)
 			}
 	}
 
@@ -82,8 +82,8 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 			).andExpect(status().isOk())
 
 		then:
-			new PollingConditions(timeout: 15, initialDelay: 0.5).eventually {
-				assertAssetsSize(13)
+			eventually {
+				assertAssetsSize(14)
 			}
 	}
 
@@ -132,7 +132,7 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 			).andExpect(status().isOk())
 
 		then:
-			new PollingConditions(timeout: 10, initialDelay: 2).eventually {
+			eventually {
 				assertNoAssetsStored()
 			}
 	}
@@ -157,7 +157,7 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 			).andExpect(status().isOk())
 
 		then:
-			new PollingConditions(timeout: 10, initialDelay: 2).eventually {
+			eventually {
 				assertNoAssetsStored()
 			}
 	}

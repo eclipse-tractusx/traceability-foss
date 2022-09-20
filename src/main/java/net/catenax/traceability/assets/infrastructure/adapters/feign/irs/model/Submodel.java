@@ -32,7 +32,8 @@ class Submodel {
 		property = "aspectType")
 	@JsonSubTypes({
 		@JsonSubTypes.Type(value = AssemblyPartRelationship.class, name = "urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship"),
-		@JsonSubTypes.Type(value = SerialPartTypization.class, name = "urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization")
+		@JsonSubTypes.Type(value = SerialPartTypization.class, name = "urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization"),
+		@JsonSubTypes.Type(value = SerialPartTypization.class, name = "urn:bamm:com.catenax.batch:1.0.0#Batch")
 	})
 	private Object payload;
 

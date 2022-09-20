@@ -51,6 +51,7 @@ public record JobResponse(
 			.filter(SerialPartTypization.class::isInstance)
 			.map(SerialPartTypization.class::cast)
 			.toList();
+
 		Map<String, AssemblyPartRelationship> assemblyPartRelationships = submodels.stream()
 			.map(Submodel::getPayload)
 			.filter(AssemblyPartRelationship.class::isInstance)

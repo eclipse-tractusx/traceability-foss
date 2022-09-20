@@ -57,7 +57,7 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 					.hasSize(1)
 					.containsShellDescriptorWithId(syncId)
 
-				assertAssetsSize(13)
+				assertAssetsSize(14)
 			}
 	}
 

@@ -25,13 +25,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 record SerialPartTypization(
 	String catenaXId,
 	PartTypeInformation partTypeInformation,
 	ManufacturingInformation manufacturingInformation,
 	List<LocalId> localIdentifiers
-) {}
+) {
+	public Optional<String> getLocalId(LocalIdType type) {
+		return localIdentifiers.stream()
+			.filter(localId -> localId.type() == type)
+			.findFirst()
+			.map(LocalId::value);
+	}
+}
 
 record ManufacturingInformation(
 	String country,
@@ -56,6 +64,8 @@ enum LocalIdType {
 	@JsonProperty("ManufacturerPartID")
 	MANUFACTURER_PART_ID,
 	@JsonProperty("PartInstanceID")
+	BATCH_ID,
+	@JsonProperty("batchID")
 	PART_INSTANCE_ID,
 	@JsonEnumDefaultValue UNKNOWN
 }

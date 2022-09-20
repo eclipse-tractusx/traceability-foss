@@ -33,8 +33,9 @@ public record StartJobRequest(
 }
 
 enum Aspect {
+	BATCH("Batch"),
 	SERIAL_PART_TYPIZATION("SerialPartTypization"),
-	ASSEMBLY_PART_TYPIZATION("AssemblyPartRelationship");
+	ASSEMBLY_PART_RELATIONSHIP("AssemblyPartRelationship");
 
 	private final String aspectName;
 
