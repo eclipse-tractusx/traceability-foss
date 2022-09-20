@@ -4,10 +4,13 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - 'v*'
+      - 'helm-charts-[0-9]+.[0-9]+.[0-9]+'
+
+env:
+  RELEASE_VERSION: "${{ github.ref_name }}"
 
 jobs:
-  release:
+  Release-helm-charts:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
     # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
     permissions:
@@ -38,4 +41,4 @@ jobs:
         uses: helm/chart-releaser-action@v1.4.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          CR_RELEASE_NAME_TEMPLATE: "trace-x-backend-helm-charts-{{ .Version }}"
+          CR_RELEASE_NAME_TEMPLATE: "${{ github.repository }}-${{ env.RELEASE_VERSION }}"
