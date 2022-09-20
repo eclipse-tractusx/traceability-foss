@@ -125,7 +125,7 @@ healthCheck:
 
 mailserver:
   host: ""
-  port: 0
+  port: ""
   username: ""
   password: ""
 

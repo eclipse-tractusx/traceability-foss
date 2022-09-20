@@ -22,7 +22,7 @@ ingress:
 
 mailserver:
   host: "smtp.office365.com"
-  port: 587
+  port: "587"
   username: "notifications@catena-x.net"
   password: <path:traceability-foss/data/dev#mailserverPassword>
 
