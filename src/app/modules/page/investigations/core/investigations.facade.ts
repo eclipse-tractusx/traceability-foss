@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { Investigations, InvestigationStatusGroup } from '@shared/model/investigations.model';
+import { Investigations, InvestigationStatus } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
@@ -45,7 +45,7 @@ export class InvestigationsFacade {
   public setReceivedInvestigation(page = 0, pageSize = 5): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.investigationsService
-      .getInvestigationsByType(InvestigationStatusGroup.RECEIVED, page, pageSize)
+      .getInvestigationsByType([InvestigationStatus.RECEIVED], page, pageSize)
       .subscribe({
         next: data => (this.investigationsState.investigationsReceived = { data }),
         error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
@@ -55,7 +55,7 @@ export class InvestigationsFacade {
   public setQueuedAndRequestedInvestigations(page = 0, pageSize = 5): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
-      .getInvestigationsByType(InvestigationStatusGroup.QUEUED_AND_REQUESTED, page, pageSize)
+      .getInvestigationsByType([InvestigationStatus.CREATED, InvestigationStatus.SENT], page, pageSize)
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),

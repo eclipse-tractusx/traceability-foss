@@ -77,7 +77,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public ngOnInit(): void {
-    this.partsFacade.setParts();
+    this.partsFacade.setMyParts();
   }
 
   public ngAfterViewInit(): void {
@@ -102,7 +102,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.partsFacade.setParts(page, pageSize, sorting);
+    this.partsFacade.setMyParts(page, pageSize, sorting);
   }
 
   public startInvestigation(event: MouseEvent, row: Part): void {

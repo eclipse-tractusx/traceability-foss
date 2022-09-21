@@ -18,6 +18,7 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { InvestigationStatus } from '@shared/model/investigations.model';
 import { InvestigationsAssembler } from './investigations.assembler';
 
 describe('InvestigationsAssembler', () => {
@@ -40,13 +41,17 @@ describe('InvestigationsAssembler', () => {
               id: 'test-1',
               description: 'test descr',
               createDate: '2022-07-26T15:09:39.419Z',
-              status: 'requested',
+              status: InvestigationStatus.SENT,
+              createdBy: '',
+              parts: [],
             },
             {
               id: 'test-2',
               description: 'test descr',
               createDate: '2022-07-26T15:09:39.419Z',
-              status: 'unknown',
+              status: 'unknown' as unknown as InvestigationStatus,
+              createdBy: '',
+              parts: [],
             },
           ],
         }),
@@ -59,14 +64,18 @@ describe('InvestigationsAssembler', () => {
           {
             id: 'test-1',
             description: 'test descr',
-            status: 'requested',
-            created: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+            status: InvestigationStatus.SENT,
+            createDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+            createdBy: '',
+            parts: [],
           },
           {
             id: 'test-2',
             description: 'test descr',
             status: null,
-            created: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+            createDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
+            createdBy: '',
+            parts: [],
           },
         ],
       });

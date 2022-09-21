@@ -17,13 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Pagination, PaginationResponse } from '@core/model/pagination.model';
+import { EmptyPagination, Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export class PaginationAssembler {
   public static assemblePagination<ResponseItem, Item>(
-    { page, pageCount, pageSize, totalItems, content }: PaginationResponse<ResponseItem>,
+    response: PaginationResponse<ResponseItem>,
     contentMapper: (item: ResponseItem) => Item,
   ): Pagination<Item> {
+    if (!response || !response.content.length) {
+      return EmptyPagination;
+    }
+
+    const { page, pageCount, pageSize, totalItems, content } = response;
     return { page, pageCount, pageSize, totalItems, content: content.map(contentMapper) };
   }
 }

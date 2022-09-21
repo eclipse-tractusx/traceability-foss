@@ -21,9 +21,14 @@ import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export enum InvestigationStatus {
-  RECEIVED = 'received',
-  QUEUED = 'queued',
-  REQUESTED = 'requested',
+  ACCEPTED = 'ACCEPTED',
+  ACKNOWLEDGED = 'ACKNOWLEDGED',
+  APPROVED = 'APPROVED',
+  CLOSED = 'CLOSED',
+  CREATED = 'CREATED',
+  DECLINED = 'DECLINED',
+  RECEIVED = 'RECEIVED',
+  SENT = 'SENT',
 }
 
 export enum InvestigationStatusGroup {
@@ -38,15 +43,21 @@ export interface InvestigationCreateResponse {
 export interface InvestigationResponse {
   id: string;
   description: string;
-  status: string;
+  status: InvestigationStatus;
+
   createDate: string;
+  createdBy: string;
+  parts: string[];
 }
 
 export interface Investigation {
   id: string;
   description: string;
   status: InvestigationStatus | null;
-  created: CalendarDateModel;
+
+  createDate: CalendarDateModel;
+  createdBy: string;
+  parts: string[];
 }
 
 export type InvestigationsResponse = PaginationResponse<InvestigationResponse>;

@@ -25,15 +25,15 @@
     @apply h-2 w-2 rounded-full inline-block;
   }
 
-  &--received {
+  &--RECEIVED {
     @apply bg-startLight text-startDark border-startLightContrast before:bg-startDark;
   }
 
-  &--queued {
+  &--CREATED {
     @apply bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-pendingDark;
   }
 
-  &--requested {
+  &--SENT {
     @apply bg-completeLight text-completeDark border-completeLightContrast before:bg-completeDark;
   }
 }

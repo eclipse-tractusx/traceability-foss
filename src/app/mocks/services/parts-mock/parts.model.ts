@@ -335,3 +335,8 @@ const MockEmptyPart: PartResponse = {
 export const getAssetById = (id: string) => {
   return [...mockBmwAssets, ...otherPartsAssets].find(asset => asset.id === id) || { ...MockEmptyPart, id };
 };
+
+export const getRandomAsset = () => {
+  const parts = [...mockBmwAssets, ...otherPartsAssets];
+  return parts[Math.floor(Math.random() * parts.length)];
+};

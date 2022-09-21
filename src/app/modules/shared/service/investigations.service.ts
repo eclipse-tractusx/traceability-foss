@@ -28,7 +28,7 @@ import {
   InvestigationCreateResponse,
   Investigations,
   InvestigationsResponse,
-  InvestigationStatusGroup,
+  InvestigationStatus,
 } from '../model/investigations.model';
 
 @Injectable({
@@ -40,14 +40,14 @@ export class InvestigationsService {
   constructor(private readonly apiService: ApiService) {}
 
   public getInvestigationsByType(
-    type: InvestigationStatusGroup,
+    status: InvestigationStatus[],
     page: number,
     pageSize: number,
   ): Observable<Investigations> {
-    const params = new HttpParams().set('page', page).set('size', pageSize);
+    const params = new HttpParams().set('page', page).set('size', pageSize).set('status', status.join(','));
 
     return this.apiService
-      .getBy<InvestigationsResponse>(`${this.url}/investigations/${type}`, params)
+      .getBy<InvestigationsResponse>(`${this.url}/investigations`, params)
       .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
   }
 

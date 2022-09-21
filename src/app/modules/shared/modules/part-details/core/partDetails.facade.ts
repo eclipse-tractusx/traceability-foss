@@ -68,10 +68,10 @@ export class PartDetailsFacade {
     this.loadedElementsFacade.addLoadedElement(RelationsAssembler.assemblePartForRelation(part));
 
     const { id } = part;
-    const { data } = _cloneDeep(this.partsState.parts);
+    const { data } = _cloneDeep(this.partsState.myParts);
 
     data.content = data.content.map(currentPart => (currentPart.id === id ? part : currentPart));
-    this.partsState.parts = { data };
+    this.partsState.myParts = { data };
 
     return this.partsService.patchPart(part);
   }

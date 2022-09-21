@@ -48,6 +48,15 @@ export class PartsService {
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));
   }
 
+  public getMyParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
+    const sort = PartsAssembler.mapSortToApiSort(sorting);
+    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+
+    return this.apiService
+      .getBy<PartsResponse>(`${this.url}/assets/my`, params)
+      .pipe(map(parts => PartsAssembler.assembleParts(parts)));
+  }
+
   public getPartsPerCountry(): Observable<PartsCountriesMap> {
     return this.apiService
       .getBy<PartsCountriesMapResponse>(`${this.url}/assets/countries`)

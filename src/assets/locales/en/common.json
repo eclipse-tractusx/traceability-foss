@@ -102,12 +102,12 @@
     "column": {
       "description": "Description",
       "status": "Status",
-      "created": "Created"
+      "createDate": "Created"
     },
     "status": {
-      "received": "Received",
-      "queued": "Queued",
-      "requested": "Requested"
+      "RECEIVED": "Received",
+      "CREATED": "Queued",
+      "SENT": "Requested"
     }
   }
 }

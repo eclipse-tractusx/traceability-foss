@@ -30,25 +30,25 @@ import { catchError, delay, map, takeUntil } from 'rxjs/operators';
 @Injectable()
 export class PartsFacade {
   private subjectList: Record<string, Subject<void>> = {};
-  private partsSubscription: Subscription;
+  private myPartsSubscription: Subscription;
   private readonly unsubscribeTrigger = new Subject<void>();
 
   constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {}
 
   public get parts$(): Observable<View<Pagination<Part>>> {
-    return this.partsState.parts$;
+    return this.partsState.myParts$;
   }
 
-  public setParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
-    this.partsSubscription?.unsubscribe();
-    this.partsSubscription = this.partsService.getParts(page, pageSize, sorting).subscribe({
-      next: data => (this.partsState.parts = { data }),
-      error: error => (this.partsState.parts = { error }),
+  public setMyParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
+    this.myPartsSubscription?.unsubscribe();
+    this.myPartsSubscription = this.partsService.getMyParts(page, pageSize, sorting).subscribe({
+      next: data => (this.partsState.myParts = { data }),
+      error: error => (this.partsState.myParts = { error }),
     });
   }
 
   public unsubscribeParts(): void {
-    this.partsSubscription?.unsubscribe();
+    this.myPartsSubscription?.unsubscribe();
     this.unsubscribeTrigger.next();
   }
 
