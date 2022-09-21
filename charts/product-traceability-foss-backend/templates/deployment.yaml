@@ -48,7 +48,7 @@ spec:
             - name: MAILSERVER_HOST
               value: {{ .Values.mailserver.host | quote }}
             - name: MAILSERVER_PORT
-              value: !!integerEnv {{ .Values.mailserver.port | quote }}
+              value: {{ .Values.mailserver.port | quote }}
             - name: MAILSERVER_USERNAME
               value: {{ .Values.mailserver.username | quote }}
             - name: MAILSERVER_PASSWORD
@@ -65,6 +65,10 @@ spec:
               value: {{ .Values.datasource.password | quote }}
             - name: JAVA_TOOL_OPTIONS
               value: {{ .Values.javaToolOptions | default "" | quote }}
+            {{- range $key, $val := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
