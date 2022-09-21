@@ -8,7 +8,6 @@ ingress:
   className: "nginx"
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
   hosts:
     - host: "traceability.int.demo.catena-x.net"
       paths:
@@ -17,8 +16,7 @@ ingress:
   tls:
     - hosts:
       - "traceability.int.demo.catena-x.net"
-      # Default secret for certificate creation already provided to your namespace
-      secretName: trace-backend-tls-secret
+      secretName: tls-secret
 
 mailserver:
   host: "smtp.office365.com"
@@ -84,16 +82,15 @@ pgadmin4:
     annotations:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
-      cert-manager.io/cluster-issuer: "letsencrypt-prod"
     hosts:
-      - host: trace-pgadmin4.int.demo.catena-x.net
+      - host: tracex-pgadmin4.int.demo.catena-x.net
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - trace-pgadmin4.int.demo.catena-x.net
-        secretName: trace-pgadmin4-tls-secret
+          - tracex-pgadmin4.int.demo.catena-x.net
+        secretName: tls-secret
   env:
     email: pgadmin4@trace.foss
     password: "<path:traceability-foss/data/int/database#pgadminPassword>"
@@ -104,3 +101,371 @@ pgadmin4:
     requests:
       cpu: 500m
       memory: 512Mi
+
+irs:
+  enabled: true
+
+  nameOverride: "tracex-irs"
+  fullnameOverride: "tracex-irs"
+
+  namespace: product-traceability-foss
+
+  image:
+    tag: "1.1.0"
+
+  springprofile: dev
+
+  ingress:
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    hosts:
+      - host: "tracex-irs.int.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - "tracex-irs.int.demo.catena-x.net"
+        # Default secret for certificate creation already provided to your namespace
+        secretName: tls-secret
+
+  keycloak:
+    oauth2:
+      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+      clientTokenUri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      jwkSetUri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+
+  aasWrapper:
+    host: http://tracex-irs-aaswrapper:9191/api/service
+    username: tracefoss
+    password: <path:traceability-foss/data/int/edc/api-wrapper#wrapper.auth.basic.tracefoss>
+
+  minio:
+    url: http://tracex-irs-minio:9000
+
+  rootUser: <path:traceability-foss/data/int/minio#user>
+  rootPassword: <path:traceability-foss/data/int/minio#password>
+
+  digitalTwinRegistry:
+    url: https://tracex-aas-registry.int.demo.catena-x.net
+
+  # Values for aas wrapper subchart.
+  irs-aaswrapper:
+    nameOverride: "tracex-irs-aaswrapper"
+    fullnameOverride: "tracex-irs-aaswrapper"
+
+    image:
+      tag: "0.0.6"
+
+    namespace: product-traceability-foss
+
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      hosts:
+        - host: "tracex-irs-aas-wrapper.int.demo.catena-x.net"
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: aaswrapper
+                  port:
+                    number: 9191
+      tls:
+        - hosts:
+            - "tracex-irs-aas-wrapper.int.demo.catena-x.net"
+          # Default secret for certificate creation already provided to your namespace
+          secretName: tls-secret
+
+    configuration:
+      properties: |-
+        web.http.port=9191
+        web.http.path=/api
+        web.http.callback.port=9192
+        web.http.callback.path=/callback
+        wrapper.consumer.edc.datamanagement.url=http://tracex-consumer-controlplane:8181/data
+        wrapper.consumer.edc.control.url=http://tracex-consumer-controlplane:9999/api/controlplane/control
+        wrapper.consumer.edc.apikey.name=X-Api-Key
+        wrapper.consumer.edc.apikey.value=<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+        wrapper.callback.timeout=60
+        #wrapper.auth.basic.tracefoss=<path:traceability-foss/data/int/edc/api-wrapper#wrapper.auth.basic.tracefoss>
+
+  # Values for grafana subchart.
+  irs-grafana:
+    nameOverride: "tracex-irs-grafana"
+    fullnameOverride: "tracex-irs-grafana"
+
+    namespace: product-traceability-foss
+
+    username: <path:traceability-foss/data/int/grafana#username>
+    password: <path:traceability-foss/data/int/grafana#password>
+
+    ingress:
+      hosts:
+        - host: "tracex-irs-grafana.int.demo.catena-x.net"
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      tls:
+        - hosts:
+            - "tracex-irs-grafana.int.demo.catena-x.net"
+          # Default secret for certificate creation already provided to your namespace
+          secretName: tls-secret
+    config:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          url: http://tracex-irs-prometheus:9090
+          isDefault: true
+
+    # does not work and we will disable grafana anyway
+    oauthClientId: to-be-done
+    oauthClientSecret: to-be-done
+
+    configEnvs:
+      - name: GF_SERVER_ROOT_URL
+        value: 'https://tracex-irs-grafana.int.demo.catena-x.net'
+      - name: GF_AUTH_GITHUB_ENABLED
+        value: 'true'
+      - name: GF_AUTH_GITHUB_ALLOW_SIGN_UP
+        value: 'true'
+      - name: GF_AUTH_GITHUB_TEAM_IDS
+        value: '5993975'
+      - name: GF_AUTH_GITHUB_SCOPES
+        value: 'user:email,read:org'
+      - name: GF_AUTH_GITHUB_AUTH_URL
+        value: 'https://github.com/login/oauth/authorize'
+      - name: GF_AUTH_GITHUB_TOKEN_URL
+        value: 'https://github.com/login/oauth/access_token'
+      - name: GF_AUTH_GITHUB_API_URL
+        value: 'https://api.github.com/user'
+
+  # Values for prometheus subchart.
+  irs-prometheus:
+    nameOverride: "tracex-irs-prometheus"
+    fullnameOverride: "tracex-irs-prometheus"
+
+    namespace: product-traceability-foss
+
+    config:
+      global:
+        scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+        evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
+        # scrape_timeout is set to the global default (10s).
+
+      # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+      rule_files:
+      # - "first_rules.yml"
+      # - "second_rules.yml"
+
+      # A scrape configuration containing exactly one endpoint to scrape:
+      # Here it's Prometheus itself.
+      scrape_configs:
+        # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+        - job_name: 'prometheus'
+          # metrics_path defaults to '/metrics'
+          # scheme defaults to 'http'.
+          static_configs:
+            - targets: [ '127.0.0.1:9090' ]
+
+        - job_name: 'spring-actuator'
+          metrics_path: '/actuator/prometheus'
+          scrape_interval: 5s
+          static_configs:
+            - targets: [ 'irs:4004' ]
+
+        - job_name: 'minio-actuator'
+          metrics_path: /minio/v2/metrics/cluster
+          static_configs:
+            - targets: [ 'tracex-irs-minio:9000' ]
+
+  # Values for minio subchart.
+  irs-minio:
+    nameOverride: "tracex-irs-minio"
+    fullnameOverride: "tracex-irs-minio"
+
+    namespace: product-traceability-foss
+
+    rootUser: <path:traceability-foss/data/int/minio#user>
+    rootPassword: <path:traceability-foss/data/int/minio#password>
+
+    ## Path where PV would be mounted on the MinIO Pod
+    mountPath: "/data"
+
+    ## Enable persistence using Persistent Volume Claims
+    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+    ##
+    persistence:
+      enabled: false
+
+  # Values for consumer edc-controlplane.
+  edc-controlplane:
+    nameOverride: "tracex-consumer-controlplane"
+    fullnameOverride: "tracex-consumer-controlplane"
+
+    image:
+      tag: "0.1.1"
+
+    namespace: product-traceability-foss
+
+    ingresses:
+      - enabled: true
+        hostname: "tracex-consumer-controlplane.int.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        endpoints:
+          - ids
+          - data
+        className: "nginx"
+        tls:
+          - hosts:
+              - "tracex-consumer-controlplane.int.demo.catena-x.net"
+            secretName: tls-secret
+
+    logging:
+      # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
+      properties: |-
+        .level=INFO
+        org.eclipse.dataspaceconnector.level=INFO
+        net.catenax.edc.hashicorpvault.level=INFO
+        handlers=java.util.logging.ConsoleHandler
+        java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+        java.util.logging.ConsoleHandler.level=INFO
+        java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
+
+    configuration:
+      # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
+      properties: |-
+        edc.api.auth.key=<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+        ids.webhook.address=https://tracex-consumer-controlplane.int.demo.catena-x.net
+
+        edc.ids.id=urn:connector:edc-consumer-controlplane
+        edc.ids.catalog.id=urn:catalog:default
+        edc.ids.endpoint=https://tracex-consumer-controlplane.int.demo.catena-x.net/api/v1/ids
+        edc.ids.endpoint.audience=https://tracex-consumer-controlplane.int.demo.catena-x.net/api/v1/ids/data
+
+        edc.receiver.http.endpoint=http://tracex-irs-aaswrapper:9192/callback/endpoint-data-reference
+
+        edc.transfer.dataplane.sync.endpoint=http://tracex-consumer-dataplane:8185/api/public
+        edc.transfer.proxy.endpoint=https://tracex-consumer-dataplane.int.demo.catena-x.net/api/public
+        edc.transfer.proxy.token.signer.privatekey.alias=token-signer-cert-key-int
+        edc.transfer.proxy.token.verifier.publickey.alias=token-signer-cert-int
+
+        edc.dataplane.selector.consumer.url=http://tracex-consumer-dataplane:9999/api/dataplane/control
+        edc.dataplane.selector.consumer.sourcetypes=HttpData
+        edc.dataplane.selector.consumer.destinationtypes=HttpProxy
+        edc.dataplane.selector.consumer.properties={ "publicApiUrl": "https://tracex-consumer-dataplane.int.demo.catena-x.net/api/public" }
+
+        edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+        edc.oauth.public.key.alias=daps-cert-int
+        edc.oauth.private.key.alias=daps-cert-key-int
+        edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+        edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+        edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+
+        edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+        edc.vault.hashicorp.token=<path:traceability-foss/data/int/edc#edc.vault.hashicorp.token>
+        edc.vault.hashicorp.timeout.seconds=30
+        edc.vault.hashicorp.health.check.enabled=true
+        edc.vault.hashicorp.health.check.standby.ok=true
+        edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+
+        edc.data.encryption.keys.alias=edc-data-encryption-keys-alias
+        edc.data.encryption.algorithm=AES
+
+        # Postgresql related configuration
+        edc.datasource.asset.name=asset
+        edc.datasource.asset.url=jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.asset.user=<path:traceability-foss/data/int/edc/database#user>
+        edc.datasource.asset.password=<path:traceability-foss/data/int/edc/database#password>
+        edc.datasource.contractdefinition.name=contractdefinition
+        edc.datasource.contractdefinition.url=jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.contractdefinition.user=<path:traceability-foss/data/int/edc/database#user>
+        edc.datasource.contractdefinition.password=<path:traceability-foss/data/int/edc/database#password>
+        edc.datasource.contractnegotiation.name=contractnegotiation
+        edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.contractnegotiation.user=<path:traceability-foss/data/int/edc/database#user>
+        edc.datasource.contractnegotiation.password=<path:traceability-foss/data/int/edc/database#password>
+        edc.datasource.policy.name=policy
+        edc.datasource.policy.url=jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.policy.user=<path:traceability-foss/data/int/edc/database#user>
+        edc.datasource.policy.password=<path:traceability-foss/data/int/edc/database#password>
+        edc.datasource.transferprocess.name=transferprocess
+        edc.datasource.transferprocess.url=jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.transferprocess.user=<path:traceability-foss/data/int/edc/database#user>
+        edc.datasource.transferprocess.password=<path:traceability-foss/data/int/edc/database#password>
+
+  # Values for consumer edc-dataplane.
+  edc-dataplane:
+    nameOverride: "tracex-consumer-dataplane"
+    fullnameOverride: "tracex-consumer-dataplane"
+
+    image:
+      tag: "0.1.1"
+
+    namespace: product-traceability-foss
+
+    ingresses:
+      - enabled: true
+        hostname: "tracex-consumer-dataplane.int.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        endpoints:
+          - public
+        className: "nginx"
+        tls:
+          - hosts:
+              - "tracex-consumer-dataplane.int.demo.catena-x.net"
+            secretName: tls-secret
+
+    logging:
+      # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
+      properties: |-
+        .level=INFO
+        org.eclipse.dataspaceconnector.level=INFO
+        net.catenax.edc.hashicorpvault.level=INFO
+        handlers=java.util.logging.ConsoleHandler
+        java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+        java.util.logging.ConsoleHandler.level=INFO
+        java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
+
+    configuration:
+      properties: |-
+        edc.api.auth.key=<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+
+        edc.dataplane.token.validation.endpoint=http://tracex-consumer-controlplane:8182/validation/token
+
+        edc.receiver.http.endpoint=http://tracex-irs-aaswrapper:9192/callback/endpoint-data-reference
+
+        edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+        edc.oauth.public.key.alias=daps-cert-int
+        edc.oauth.private.key.alias=daps-cert-key-int
+        edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+        edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+        edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+
+        edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+        edc.vault.hashicorp.token=<path:traceability-foss/data/int/edc#edc.vault.hashicorp.token>
+        edc.vault.hashicorp.timeout.seconds=30
+        edc.vault.hashicorp.health.check.enabled=true
+        edc.vault.hashicorp.health.check.standby.ok=true
+        edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+
+  # Values for consumer edc postgres
+  postgresql:
+    nameOverride: "tracex-consumer-edc-postgresql"
+    fullnameOverride: "tracex-consumer-edc-postgresql"
+
+    namespace: product-traceability-foss
+
+    auth:
+      postgresPassword: <path:traceability-foss/data/int/edc/database#password>
+      username: <path:traceability-foss/data/int/edc/database#user>
+      password: <path:traceability-foss/data/int/edc/database#password>
+      database: "edc"

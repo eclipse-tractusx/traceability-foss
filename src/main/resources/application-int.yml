@@ -37,6 +37,6 @@ keycloak:
 
 feign:
   irsApi:
-    url: "https://irs.dev.demo.catena-x.net"
+    url: https://irs.dev.demo.catena-x.net
   registryApi:
-    url: https://semantics.int.demo.catena-x.net/registry
+    url: https://irs-aas-registry.dev.demo.catena-x.net

@@ -13,3 +13,7 @@ dependencies:
     repository: https://helm.runix.net
     version: 1.x.x
     condition: pgadmin4.enabled
+  - name: irs
+    repository: https://catenax-ng.github.io/product-item-relationship-service
+    version: 1.0.0
+    condition: irs.enabled
