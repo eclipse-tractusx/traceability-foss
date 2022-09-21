@@ -1,6 +1,6 @@
-<a name="v0.1.0"></a>
+<a name="0.1.0"></a>
 
-## v0.1.0 (2022-09-15)
+## 0.1.0 (2022-09-21)
 
 ### Chore
 
@@ -24,6 +24,16 @@
 
 ### Features
 
+- added new logo and fav icon
+- prepare investigation mock for featuer impl
+- update documents for release
+- added installation file with instructions
+- renamed app
+- re enable other parts
+- align fe with be for supplier parts
+- generate changelog
+- highlight parts if notification active
+- added dashboard investigation widget
 - added fixes for quality gates and relations
 - renamed veracode.yml to .yaml so it complies with checks
 - helm chart release ([#76](https://github.com/catenax-ng/product-traceability-foss-frontend/issues/76))
@@ -133,6 +143,7 @@
 
 ### Fixes
 
+- fixed error on dashboard
 - fixed sonar issues
 - added hardening for pagination pages
 - fixed findings from kcis
