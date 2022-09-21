@@ -1,6 +1,6 @@
 <div style="display: flex; justify-items: center;">
 
-![Alt text](../../../../../assets/images/catena-x.svg?raw=true 'Catena-x')
+![Alt text](../../../../../assets/images/logo.svg?raw=true)
 
 <h1 style="margin: 10px 0 0 10px">Trace-FOSS Visualisation of relations</h1>
 

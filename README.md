@@ -1,4 +1,7 @@
-# ![Product Traceability FOSS Backend (TRACE-FOSS)](src/assets/images/catena-x.svg) Product Traceability FOSS Backend
+<div style="display: flex; align-items: center;justify-content: center;align-content: center;">
+   <img src="src/assets/images/logo.svg" alt="Trace-X - Product Traceability FOSS Frontend (TRACE-FOSS)" style="width:200px;"/>
+   <h1 style="margin: 10px 0 0 10px">Traceability FOSS Frontend</h1>
+</div>
 
 [![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/catenax-ng/product-traceability-foss-frontend/LICENSE)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=catenax-ng_product-traceability-foss-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=catenax-ng_product-traceability-foss-frontend)
@@ -6,7 +9,7 @@
 [![Trivy](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/trivy.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/trivy.yml)
 [![VeraCode](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/veracode.yaml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/veracode.yaml)
 
-<h2>Trace-FOSS is a system for tracking parts along the supply chain.</h2>
+<h2>Trace-X is a system for tracking parts along the supply chain.</h2>
 <h4>A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain.
 This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.</h4>
 
