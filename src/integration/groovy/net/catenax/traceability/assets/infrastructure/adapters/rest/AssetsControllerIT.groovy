@@ -57,6 +57,7 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 		then:
 			eventually {
 				assertAssetsSize(14)
+				assertHasRequiredIdentifiers();
 			}
 	}
 

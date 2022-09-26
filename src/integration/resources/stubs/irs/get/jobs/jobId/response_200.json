@@ -1210,7 +1210,7 @@
 					},
 					{
 						"value": "KR-09",
-						"key": "ManufacturerPartID"
+						"key": "manufacturerPartID"
 					},
 					{
 						"value": "OMA-TGFAYUHXFLHHUQQMPLTE",

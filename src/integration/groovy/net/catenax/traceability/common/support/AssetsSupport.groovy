@@ -14,6 +14,12 @@ trait AssetsSupport implements AssetRepositoryProvider {
 		assert assetRepository().countAssets() == size
 	}
 
+	void assertHasRequiredIdentifiers() {
+		assetRepository().getAssets().each {asset ->
+			assert asset.manufacturerId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
+		}
+	}
+
 	void assertNoAssetsStored() {
 		assertAssetsSize(0)
 	}

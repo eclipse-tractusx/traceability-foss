@@ -24,6 +24,7 @@ import net.catenax.traceability.assets.domain.model.QualityType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import java.time.Instant;
 import java.util.List;
@@ -44,7 +45,7 @@ public class AssetEntity {
 	private String manufacturingCountry;
 	private boolean supplierPart;
 	private QualityType qualityType;
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ChildDescription> childDescriptors;
 
 	public AssetEntity(String id, String idShort, String nameAtManufacturer,
