@@ -21,6 +21,7 @@ import { TreeData, TreeStructure } from '@shared/modules/relations/model/relatio
 import { HelperD3 } from '@shared/modules/relations/presentation/helper.d3';
 import * as d3 from 'd3';
 import { HierarchyNode, PieArcDatum } from 'd3';
+import type { Selection } from 'd3';
 import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
 import type { MinimapConnector, TreeNode, TreeSvg, RenderOptions } from '../model.d3';
 
@@ -82,17 +83,19 @@ export class Tree {
   }
 
   public renderTree(treeData: TreeStructure): TreeSvg {
-    d3.select(`#${this.id}-svg`).remove();
     const root = d3.hierarchy(treeData);
+    let svg = d3.select(`#${this.id}-svg`) as TreeSvg;
 
-    const svg = this.creatMainSvg(root);
-    this.addZoomListener(svg);
+    if (svg.empty()) {
+      svg = this.creatMainSvg();
+      this.addZoomListener(svg);
+    }
+
+    d3.tree().nodeSize([this.r * 3, 250])(root);
+
     this.addPaths(svg, root);
-    this.addClosingCircle(svg, root);
-    this.addCircles(svg, root);
-    this.addStatusBorder(svg, root);
-    this.addLoading(svg, root);
-    this.addOpeningArrow(svg, root);
+    this.addNodes(svg, root);
+
     if (this.viewHeight === undefined) {
       this.initViewBox();
     } else {
@@ -140,9 +143,7 @@ export class Tree {
     return this._minimapConnector;
   }
 
-  private creatMainSvg(root: HierarchyNode<TreeStructure>): TreeSvg {
-    d3.tree().nodeSize([this.r * 3, 250])(root);
-
+  private creatMainSvg(): TreeSvg {
     return this.mainElement
       .append('svg')
       .attr('id', this.id + '-svg')
@@ -162,15 +163,13 @@ export class Tree {
 
   private initViewBox() {
     const { preserveRight } = this.renderOptions;
-    const circlesGroup: SVGGElement = document.querySelector(`#${this.id}--circles`);
-    const arrowGroup: SVGGElement | null = document.querySelector(`tree--element__arrow-container`);
+    const circlesGroup: SVGGElement = document.querySelector(`#${this.id}--nodes`);
 
     const viewBoxWidth = this.width - preserveRight;
     const viewBoxHeight = this.height;
     const circlesGroupBBox = circlesGroup?.getBBox();
-    const arrowGroupBBox = arrowGroup?.getBBox();
 
-    const renderedElementsWidth = circlesGroupBBox.width + (arrowGroupBBox?.width ?? 0);
+    const renderedElementsWidth = circlesGroupBBox.width;
     const renderedElementsHeight = circlesGroupBBox.height;
     const centerXOffset = renderedElementsWidth * Tree.CENTERING_MARGIN;
     const centerYOffset = renderedElementsHeight * Tree.CENTERING_MARGIN;
@@ -200,27 +199,203 @@ export class Tree {
       .x(({ y }) => y)
       .y(({ x }) => x);
 
-    svg
-      .append('g')
-      .attr('id', `${this.id}--paths`)
-      .classed('tree--element__path', true)
+    let paths = d3.select(`#${this.id}--paths`);
+
+    if (paths.empty()) {
+      paths = svg.append('g').attr('id', `${this.id}--paths`).classed('tree--element__path', true);
+    }
+
+    paths
       .selectAll('path')
       .data(root.links())
       .join('path')
       .attr('d', (node: HierarchyCircularLink<TreeStructure>) => link(node));
   }
 
-  private addClosingCircle(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
+  private addNodes(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
+    let nodes = d3.select(`#${this.id}--nodes`);
+
+    if (nodes.empty()) {
+      nodes = svg.append('g').attr('id', `${this.id}--nodes`);
+    }
+
+    const renderRelation = this.renderRelation.bind(this);
+    const renderLoading = this.renderLoading.bind(this);
+    const renderStatusBorder = this.renderStatusBorder.bind(this);
+    const renderCircle = this.renderCircle.bind(this);
+
+    nodes
+      .selectAll('g.node')
+      .data(root.descendants(), ({ id }) => id)
+      .join(
+        enter =>
+          enter
+            .append('g')
+            .classed('node', true)
+            .each(function (dataNode: TreeNode) {
+              const el = d3.select(this);
+
+              renderCircle(el, dataNode);
+              renderStatusBorder(el, dataNode);
+              renderLoading(el, dataNode);
+              renderRelation(el, dataNode);
+            }),
+        update => {
+          update.each(function (dataNode: TreeNode) {
+            const el = d3.select(this);
+
+            renderCircle(el, dataNode);
+            renderStatusBorder(el, dataNode);
+            renderLoading(el, dataNode);
+            renderRelation(el, dataNode);
+          });
+
+          return update;
+        },
+        exit => {
+          exit.remove();
+        },
+      );
+  }
+
+  private renderCircle(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
+    const r = this.r;
+    const id = this.id;
+
+    const { data, x, y } = dataNode;
+
+    let circleNode = el.select(`#${id}--Circle`);
+
+    if (circleNode.empty()) {
+      circleNode = el
+        .append('a')
+        .attr('id', `${id}--Circle`)
+        .on('click', () => this.openDetails(data));
+
+      circleNode.append('circle').attr('r', r).classed('tree--element__circle', true);
+      circleNode.append('title').text(() => data.title);
+
+      circleNode
+        .append('text')
+        .attr('dy', '0.32em')
+        .attr('textLength', '90px')
+        .attr('lengthAdjust', 'spacing')
+        .classed('tree--element__text', true)
+        .text(() => HelperD3.shortenText(data.text || data.id));
+    }
+
+    circleNode.attr('transform', () => `translate(${y},${x})`);
+  }
+
+  private renderStatusBorder(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
+    const r = this.r;
+    const id = this.id;
+
+    const { data, x, y } = dataNode;
+    const isLoaded = data.state !== 'loading';
+
+    let statusBorder = el.select(`#${id}--StatusBorder`);
+
+    if (isLoaded) {
+      if (statusBorder.empty()) {
+        statusBorder = el.append('a').attr('id', `${id}--StatusBorder`);
+
+        const addBorder = (innerRadius: number, outerRadius: number, startAngle: number, endAngle: number) => {
+          const arc = d3
+            .arc<HierarchyNode<TreeStructure>>()
+            .innerRadius(innerRadius)
+            .outerRadius(outerRadius)
+            .startAngle(startAngle)
+            .endAngle(endAngle);
+
+          return statusBorder.append('path').attr('d', () => arc(dataNode));
+        };
+
+        const borderData = [
+          { inner: -3.2, outer: 0, start: -0.3, end: 1.6 },
+          { inner: -7, outer: -3, start: 0, end: 0.4 },
+          { inner: -7, outer: -3, start: 1.5, end: 1.8 },
+          { inner: -7, outer: -3, start: 0.7, end: 0.9 },
+          { inner: -8, outer: -5, start: 0.7, end: 1.2 },
+          { inner: -12, outer: -10, start: -1.6, end: -0.7 },
+          { inner: -12, outer: -10, start: -0.6, end: 0.3 },
+        ];
+
+        borderData.forEach(a => addBorder(r + a.inner, r + a.outer, a.start * Math.PI, a.end * Math.PI));
+      }
+
+      statusBorder
+        .attr('class', () => `tree--element__border tree--element__border-${data.state}`)
+        .attr('transform', () => `translate(${y},${x})`);
+    } else {
+      statusBorder.remove();
+    }
+  }
+
+  private renderLoading(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
+    const r = this.r;
+    const id = this.id;
+
+    const { data, x, y } = dataNode;
+
+    const isLoading = data.state === 'loading';
+
+    el.select(`${id}--Loading`).remove();
+
+    if (isLoading) {
+      const arc = d3
+        .arc<PieArcDatum<any>>()
+        .outerRadius(r)
+        .innerRadius(r - 5);
+
+      const pie = d3.pie().padAngle(1);
+      const arcs = pie(new Array(3).fill(1));
+      arc.cornerRadius(5);
+
+      const border = el
+        .append('a')
+        .attr(id, `${id}--Loading`)
+        .classed('tree--element__border-loading', true)
+        .attr('transform', () => `translate(${y},${x})`)
+        .append('g');
+
+      arcs.forEach((node, index) =>
+        border
+          .append('path')
+          .attr('d', arc(node))
+          .classed('tree--element__border-loading-' + index, true),
+      );
+    }
+  }
+
+  private renderRelation(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
+    const id = this.id;
+
+    const { data, x, y } = dataNode;
+
+    const isLoaded = data.state !== 'loading';
+    const isLoadedAndHasData = isLoaded && data.children?.length > 0;
+    const isLoadedAndHasRelations = isLoaded && data.relations?.length > 0;
+
+    el.select(`#${id}--RelationExpander`).remove();
+    const createExpander = () => el.append('g').attr('id', `${id}--RelationExpander`);
+
+    if (isLoadedAndHasData) {
+      this.renderRelationCollapse(createExpander(), dataNode);
+    } else if (isLoadedAndHasRelations) {
+      this.renderRelationExpand(createExpander(), dataNode);
+    }
+  }
+
+  private renderRelationCollapse(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
+    const r = this.r;
+    const { data, x, y } = dataNode;
+
     const circleRadius = 15;
-    const closeNode = svg
-      .append('g')
-      .attr('id', `${this.id}--ClosingCircle`)
-      .selectAll('a')
-      .data(root.descendants())
-      .join('a')
-      .filter(({ data }) => data.state !== 'loading' && data.children?.length > 0)
-      .attr('transform', ({ x, y }: TreeNode) => `translate(${y + this.r + circleRadius + 5},${x})`)
-      .on('click', (_, { data }) => this.updateChildren(data))
+    const closeNode = el
+      .append('a')
+      .attr('transform', () => `translate(${y + r + circleRadius + 5},${x})`)
+      .on('click', () => this.updateChildren(data))
       .classed('tree--element__closing', true);
 
     closeNode
@@ -235,133 +410,38 @@ export class Tree {
       .text(' - ');
   }
 
-  private addCircles(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
-    const descendants = root.descendants();
-    const node = svg
-      .append('g')
-      .attr('id', `${this.id}--circles`)
-      .selectAll('a')
-      .data(descendants)
-      .join('a')
-      .attr('transform', ({ x, y }: TreeNode) => `translate(${y},${x})`)
-      .on('click', (_, { data }) => this.openDetails(data));
-
-    node.append('circle').attr('r', this.r).classed('tree--element__circle', true);
-    node.append('title').text(({ data }: TreeNode) => data.title);
-
-    node
-      .append('text')
-      .attr('dy', '0.32em')
-      .attr('textLength', '90px')
-      .attr('lengthAdjust', 'spacing')
-      .classed('tree--element__text', true)
-      .text(({ data }) => HelperD3.shortenText(data.text || data.id));
-  }
-
-  private addStatusBorder(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
-    const border = svg
-      .append('g')
-      .attr('id', `${this.id}--statusBorder`)
-      .selectAll('a')
-      .data(root.descendants())
-      .join('a')
-      .filter(({ data }: TreeNode) => data.state !== 'loading')
-      .attr('class', ({ data }: TreeNode) => `tree--element__border tree--element__border-${data.state}`)
-      .attr('transform', ({ y, x }: TreeNode) => `translate(${y},${x})`);
-
-    const addBorder = (innerRadius, outerRadius, startAngle, endAngle) => {
-      const arc = d3
-        .arc<HierarchyNode<TreeStructure>>()
-        .innerRadius(innerRadius)
-        .outerRadius(outerRadius)
-        .startAngle(startAngle)
-        .endAngle(endAngle);
-
-      return border.append('path').attr('d', node => arc(node));
-    };
-
-    const data = [
-      { inner: -3.2, outer: 0, start: -0.3, end: 1.6 },
-      { inner: -7, outer: -3, start: 0, end: 0.4 },
-      { inner: -7, outer: -3, start: 1.5, end: 1.8 },
-      { inner: -7, outer: -3, start: 0.7, end: 0.9 },
-      { inner: -8, outer: -5, start: 0.7, end: 1.2 },
-      { inner: -12, outer: -10, start: -1.6, end: -0.7 },
-      { inner: -12, outer: -10, start: -0.6, end: 0.3 },
-    ];
-
-    data.forEach(a => addBorder(this.r + a.inner, this.r + a.outer, a.start * Math.PI, a.end * Math.PI));
-  }
-
-  private addLoading(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
-    const arc = d3
-      .arc<PieArcDatum<any>>()
-      .outerRadius(this.r)
-      .innerRadius(this.r - 5);
-
-    const pie = d3.pie().padAngle(1);
-    const arcs = pie(new Array(3).fill(1));
-    arc.cornerRadius(5);
-
-    const border = svg
-      .append('g')
-      .attr('id', `${this.id}--loading`)
-      .selectAll('a')
-      .data(root.descendants())
-      .join('a')
-      .filter(({ data }: TreeNode) => data.state === 'loading')
-      .classed('tree--element__border-loading', true)
-      .attr('transform', ({ y, x }: TreeNode) => `translate(${y},${x})`)
-      .append('g');
-
-    arcs.forEach((node, index) =>
-      border
-        .append('path')
-        .attr('d', arc(node))
-        .classed('tree--element__border-loading-' + index, true),
-    );
-  }
-
-  private addOpeningArrow(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
-    const arrowSelection = svg
-      .append('g')
-      .attr('id', `${this.id}--arrow`)
-      .selectAll('a')
-      .data(root.descendants())
-      .join('a')
-      .filter(({ data }) => data.state !== 'loading' && data.relations?.length > 0)
-      .classed('tree--element__arrow-container', true)
-      .on('click', (_, { data }) => this.updateChildren(data));
+  private renderRelationExpand(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
+    const r = this.r;
+    const { data, x, y } = dataNode;
+    el.classed('tree--element__arrow-container', true).on('click', () => this.updateChildren(data));
 
     const arc = d3
       .arc<HierarchyNode<TreeStructure>>()
-      .innerRadius(this.r + 5)
-      .outerRadius(this.r + 15)
+      .innerRadius(r + 5)
+      .outerRadius(r + 15)
       .startAngle(({ data }) => (data.children?.length ? 0 : 0.3) * Math.PI)
       .endAngle(({ data }) => (data.children?.length ? 0 : 0.7) * Math.PI);
 
-    arrowSelection
-      .append('path')
-      .attr('transform', ({ y, x }: TreeNode) => `translate(${y},${x})`)
-      .attr('d', node => arc(node))
+    el.append('path')
+      .attr('transform', () => `translate(${y},${x})`)
+      .attr('d', () => arc(dataNode))
       .classed('tree--element__arrow', true);
 
     const rightArrow = [
-      { x: this.r + 10 - 4, y: -this.r + 25 },
-      { x: this.r + 30 - 4, y: 0 },
-      { x: this.r + 10 - 4, y: this.r - 25 },
+      { x: r + 10 - 4, y: -r + 25 },
+      { x: r + 30 - 4, y: 0 },
+      { x: r + 10 - 4, y: r - 25 },
     ];
 
     const curveFunc = d3
       .area<{ x: number; y: number }>()
       .x(({ x }) => x)
       .y1(({ y }) => y)
-      .y0(this.r / 2);
+      .y0(r / 2);
 
-    arrowSelection
-      .append('path')
-      .attr('transform', ({ y, x }: TreeNode) => `translate(${y},${x})`)
-      .attr('d', ({ data: { children } }: TreeNode) => curveFunc(children?.length ? [] : rightArrow))
+    el.append('path')
+      .attr('transform', () => `translate(${y},${x})`)
+      .attr('d', () => curveFunc(data.children?.length ? [] : rightArrow))
       .classed('tree--element__arrow', true);
   }
 
