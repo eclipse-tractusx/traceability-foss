@@ -18,13 +18,13 @@
  ********************************************************************************/
 
 export interface DashboardStats {
-  branchItems: number | null;
+  otherParts: number | null;
   myItems: number;
   investigationCount?: number;
 }
 
 export interface DashboardStatsResponse {
-  branchItems: number | null;
+  otherParts: number | null;
   myItems: number;
   investigationCount?: number;
 }

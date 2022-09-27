@@ -48,8 +48,8 @@ export class DashboardFacade {
     return this.dashboardState.numberOfMyParts$;
   }
 
-  public get numberOfBranchParts$(): Observable<View<number>> {
-    return this.dashboardState.numberOfBranchParts$;
+  public get numberOfOtherParts$(): Observable<View<number>> {
+    return this.dashboardState.numberOfOtherParts$;
   }
 
   public get numberOfInvestigations$(): Observable<View<number>> {
@@ -75,26 +75,26 @@ export class DashboardFacade {
 
   private setAssetNumbers(): void {
     this.dashboardState.setNumberOfMyParts({ loader: true });
-    this.dashboardState.setNumberOfBranchParts({ loader: true });
+    this.dashboardState.setNumberOfOtherParts({ loader: true });
     this.dashboardState.setNumberOfInvestigations({ loader: true });
 
     this.assetNumbersSubscription?.unsubscribe();
     this.assetNumbersSubscription = this.dashboardService.getStats().subscribe({
       next: (dashboardStats: DashboardStats) => {
         this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myItems });
-        this.dashboardState.setNumberOfBranchParts({ data: dashboardStats.branchItems });
+        this.dashboardState.setNumberOfOtherParts({ data: dashboardStats.otherParts });
         this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigationCount || 0 });
       },
       error: error => {
         this.dashboardState.setNumberOfMyParts({ error });
-        this.dashboardState.setNumberOfBranchParts({ error });
+        this.dashboardState.setNumberOfOtherParts({ error });
         this.dashboardState.setNumberOfInvestigations({ error });
       },
     });
   }
 
   private setAssetsPerCountry(): void {
-    this.dashboardState.setNumberOfBranchParts({ loader: true });
+    this.dashboardState.setNumberOfOtherParts({ loader: true });
     this.assetsPerCountrySubscription?.unsubscribe();
 
     this.assetsPerCountrySubscription = this.partsService

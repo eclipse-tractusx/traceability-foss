@@ -22,7 +22,7 @@ import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model
 export class DashboardAssembler {
   public static assembleDashboard(dashboard: DashboardStatsResponse): DashboardStats {
     return {
-      branchItems: dashboard.branchItems,
+      otherParts: dashboard.otherParts,
       myItems: dashboard.myItems,
       investigationCount: dashboard.investigationCount,
     };
