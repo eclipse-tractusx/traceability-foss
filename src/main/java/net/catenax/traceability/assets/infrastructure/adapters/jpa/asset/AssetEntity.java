@@ -19,14 +19,20 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.jpa.asset;
 
+import net.catenax.traceability.assets.domain.model.InvestigationStatus;
 import net.catenax.traceability.assets.domain.model.QualityType;
 
+import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
@@ -47,6 +53,9 @@ public class AssetEntity {
 	private QualityType qualityType;
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<ChildDescription> childDescriptors;
+	@OneToOne(cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	private PendingInvestigation pendingInvestigation;
 
 	public AssetEntity(String id, String idShort, String nameAtManufacturer,
 					   String manufacturerPartId,  String manufacturerId, String batchId,
@@ -153,6 +162,14 @@ public class AssetEntity {
 		this.customerPartId = customerPartId;
 	}
 
+	public PendingInvestigation getPendingInvestigation() {
+		return pendingInvestigation;
+	}
+
+	public void setPendingInvestigation(PendingInvestigation pendingInvestigation) {
+		this.pendingInvestigation = pendingInvestigation;
+	}
+
 	public Instant getManufacturingDate() {
 		return manufacturingDate;
 	}
@@ -183,6 +200,63 @@ public class AssetEntity {
 
 	public void setQualityType(QualityType qualityType) {
 		this.qualityType = qualityType;
+	}
+
+	@Entity
+	@Table(name = "pending_investigation")
+	public static class PendingInvestigation {
+		@Id
+		private String assetId;
+		private InvestigationStatus status;
+		private ZonedDateTime created;
+		private ZonedDateTime updated;
+
+		public PendingInvestigation() {
+		}
+
+		private PendingInvestigation(String assetId, InvestigationStatus status, ZonedDateTime created, ZonedDateTime updated) {
+			this.assetId = assetId;
+			this.status = status;
+			this.created = created;
+			this.updated = updated;
+		}
+
+		public static PendingInvestigation newInvestigation(String assetId) {
+			ZonedDateTime now = ZonedDateTime.now();
+			return new PendingInvestigation(assetId, InvestigationStatus.PENDING, now, now);
+		}
+
+		public String getAssetId() {
+			return assetId;
+		}
+
+		public void setAssetId(String assetId) {
+			this.assetId = assetId;
+		}
+
+		public InvestigationStatus getStatus() {
+			return status;
+		}
+
+		public ZonedDateTime getCreated() {
+			return created;
+		}
+
+		public void setCreated(ZonedDateTime created) {
+			this.created = created;
+		}
+
+		public ZonedDateTime getUpdated() {
+			return updated;
+		}
+
+		public void setUpdated(ZonedDateTime updated) {
+			this.updated = updated;
+		}
+
+		public void setStatus(InvestigationStatus status) {
+			this.status = status;
+		}
 	}
 
 	@Embeddable

@@ -39,6 +39,7 @@ public final class Asset {
 	private final String manufacturingCountry;
 	private final boolean supplierPart;
 	private List<ChildDescriptions> childDescriptions;
+	private InvestigationStatus investigationStatus;
 	private QualityType qualityType;
 
 	public Asset(
@@ -55,6 +56,7 @@ public final class Asset {
 		String manufacturingCountry,
 		boolean supplierPart,
 		List<ChildDescriptions> childDescriptions,
+		InvestigationStatus investigationStatus,
 		QualityType qualityType
 	) {
 		this.id = id;
@@ -70,6 +72,7 @@ public final class Asset {
 		this.manufacturingCountry = manufacturingCountry;
 		this.supplierPart = supplierPart;
 		this.childDescriptions = childDescriptions;
+		this.investigationStatus = investigationStatus;
 		this.qualityType = qualityType;
 	}
 
@@ -131,6 +134,10 @@ public final class Asset {
 
 	public QualityType getQualityType() {
 		return qualityType;
+	}
+
+	public InvestigationStatus getInvestigationStatus() {
+		return investigationStatus;
 	}
 
 	public record ChildDescriptions(String id, String idShort) {}

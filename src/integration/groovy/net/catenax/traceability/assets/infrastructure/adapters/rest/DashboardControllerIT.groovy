@@ -30,6 +30,7 @@ import static net.catenax.traceability.common.security.KeycloakRole.USER
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.nullValue
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
@@ -45,8 +46,8 @@ class DashboardControllerIT extends IntegrationSpec implements AssetsSupport {
 		expect:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.myItems', equalTo(13)))
-				.andExpect(jsonPath('$.branchItems', equalTo(13)))
+				.andExpect(jsonPath('$.myItems', equalTo(1)))
+				.andExpect(jsonPath('$.otherParts', equalTo(12)))
 
 		where:
 			role << [SUPERVISOR, ADMIN]
@@ -61,8 +62,8 @@ class DashboardControllerIT extends IntegrationSpec implements AssetsSupport {
 		expect:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.myItems', equalTo(13)))
-				.andExpect(jsonPath('$.branchItems', nullValue()))
+				.andExpect(jsonPath('$.myItems', equalTo(1)))
+				.andExpect(jsonPath('$.otherParts', nullValue()))
 	}
 
 	def "should not return dashboard information for user without role"() {
@@ -73,5 +74,23 @@ class DashboardControllerIT extends IntegrationSpec implements AssetsSupport {
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isForbidden())
 				.andExpect(jsonPath('$.message', equalTo("User has invalid role to access the dashboard.")))
+	}
+
+	def "should return dashboard information for pending investigation"() {
+		given:
+			String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"
+			authenticatedUser(ADMIN)
+			defaultAssetsStored()
+
+		when:
+			mvc.perform(post("/assets/$assetId/investigate").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+
+		then:
+			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath('$.myItems', equalTo(1)))
+				.andExpect(jsonPath('$.otherParts', equalTo(12)))
+				.andExpect(jsonPath('$.investigations', equalTo(1)))
 	}
 }

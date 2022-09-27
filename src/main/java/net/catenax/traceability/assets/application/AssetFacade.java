@@ -50,4 +50,8 @@ public class AssetFacade {
 	public Asset updateAsset(String assetId, UpdateAsset updateAsset) {
 		return assetService.updateAsset(assetId, updateAsset.qualityType());
 	}
+
+	public Asset startInvestigation(String assetId) {
+		return assetService.startInvestigation(assetId);
+	}
 }

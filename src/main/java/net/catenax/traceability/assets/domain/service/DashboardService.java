@@ -36,12 +36,14 @@ public class DashboardService {
 	}
 
 	public Dashboard getDashboard(KeycloakAuthentication keycloakAuthentication) {
-		long assetsCount = assetRepository.countAssets();
+		long totalAssets = assetRepository.countAssets();
+		long myParts = assetRepository.countMyAssets();
+		long pendingInvestigations = assetRepository.countPendingInvestigations();
 
 		if (keycloakAuthentication.hasRole(KeycloakRole.USER)) {
-			return new Dashboard(assetsCount, null);
+			return new Dashboard(myParts, null, pendingInvestigations);
 		} else if (keycloakAuthentication.hasAtLeastOneRole(KeycloakRole.ADMIN, KeycloakRole.SUPERVISOR)) {
-			return new Dashboard(assetsCount, assetsCount);
+			return new Dashboard(myParts, totalAssets - myParts, pendingInvestigations);
 		} else {
 			throw new AccessDeniedException("User has invalid role to access the dashboard.");
 		}

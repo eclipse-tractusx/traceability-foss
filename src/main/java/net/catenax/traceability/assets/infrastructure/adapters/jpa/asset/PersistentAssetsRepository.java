@@ -22,12 +22,15 @@ package net.catenax.traceability.assets.infrastructure.adapters.jpa.asset;
 import net.catenax.traceability.assets.domain.model.Asset;
 import net.catenax.traceability.assets.domain.model.Asset.ChildDescriptions;
 import net.catenax.traceability.assets.domain.model.AssetNotFoundException;
+import net.catenax.traceability.assets.domain.model.InvestigationStatus;
 import net.catenax.traceability.assets.domain.model.PageResult;
 import net.catenax.traceability.assets.domain.ports.AssetRepository;
+import net.catenax.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity.PendingInvestigation;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 import static net.catenax.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity.ChildDescription;
 
@@ -80,6 +83,18 @@ public class PersistentAssetsRepository implements AssetRepository {
 	}
 
 	@Override
+	public Optional<Asset> startInvestigation(String assetId) {
+		Optional<AssetEntity> assetEntity = assetsRepository.findById(assetId);
+
+		assetEntity.ifPresent(entity -> {
+			entity.setPendingInvestigation(PendingInvestigation.newInvestigation(assetId));
+			assetsRepository.save(entity);
+		});
+
+		return assetEntity.map(this::toAsset);
+	}
+
+	@Override
 	public List<Asset> saveAll(List<Asset> assets) {
 		return toAssets(assetsRepository.saveAll(toEntities(assets)));
 	}
@@ -90,8 +105,18 @@ public class PersistentAssetsRepository implements AssetRepository {
 	}
 
 	@Override
+	public long countMyAssets() {
+		return assetsRepository.countBySupplierPartIsFalse();
+	}
+
+	@Override
 	public void clean() {
 		assetsRepository.deleteAll();
+	}
+
+	@Override
+	public long countPendingInvestigations() {
+		return assetsRepository.countByPendingInvestigationStatus(InvestigationStatus.PENDING);
 	}
 
 	private List<Asset> toAssets(List<AssetEntity> entities) {
@@ -142,6 +167,9 @@ public class PersistentAssetsRepository implements AssetRepository {
 			entity.getChildDescriptors().stream()
 					.map(child -> new ChildDescriptions(child.getId(), child.getIdShort()))
 					.toList(),
+			Optional.ofNullable(entity.getPendingInvestigation())
+					.map(PendingInvestigation::getStatus)
+					.orElse(InvestigationStatus.NONE),
 			entity.getQualityType()
 		);
 	}

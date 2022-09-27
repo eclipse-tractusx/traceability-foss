@@ -47,11 +47,10 @@ swagger:
       params:
         assetId: "Unique ID of an asset"
       authorizations: "#components/securitySchemes/bearerAuth"
-    api.assets.assetId.children.childId:
-      summary: "Returns a single child of an asset by given assetId and childId"
+    api.assets.assetId.investigate:
+      summary: "Start quality investigation for given asset"
       params:
         assetId: "Unique ID of an asset"
-        childId: "Unique ID of a child asset"
       authorizations: "#components/securitySchemes/bearerAuth"
     api.dashboard:
       summary: "Returns dashboard related data"

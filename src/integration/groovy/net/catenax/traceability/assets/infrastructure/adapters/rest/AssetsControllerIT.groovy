@@ -20,6 +20,8 @@
 package net.catenax.traceability.assets.infrastructure.adapters.rest
 
 import net.catenax.traceability.IntegrationSpec
+import net.catenax.traceability.assets.domain.model.Asset
+import net.catenax.traceability.assets.domain.model.InvestigationStatus
 import net.catenax.traceability.common.security.KeycloakRole
 import net.catenax.traceability.common.support.AssetsSupport
 import net.catenax.traceability.common.support.IrsApiSupport
@@ -196,6 +198,23 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 			mvc.perform(get("/assets/supplier").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath('$.totalItems', equalTo(12)))
+	}
+
+	def "should start investigation"() {
+		given:
+			String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"
+			authenticatedUser(KeycloakRole.ADMIN)
+
+		and:
+			defaultAssetsStored()
+
+		when:
+			mvc.perform(post("/assets/$assetId/investigate").contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+
+		then:
+			Asset asset = assetRepository().getAssetById(assetId)
+			asset.getInvestigationStatus() == InvestigationStatus.PENDING
 	}
 
 	def "should return own assets"() {

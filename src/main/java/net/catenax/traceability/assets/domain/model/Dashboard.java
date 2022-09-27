@@ -19,5 +19,5 @@
 
 package net.catenax.traceability.assets.domain.model;
 
-public record Dashboard(Long myItems, Long branchItems) {
+public record Dashboard(Long myItems, Long otherParts, Long investigations) {
 }
