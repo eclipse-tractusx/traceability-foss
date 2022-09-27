@@ -24,11 +24,11 @@ describe('DashboardAssembler', () => {
     it('should map response', () => {
       expect(
         DashboardAssembler.assembleDashboard({
-          branchItems: 100,
+          otherParts: 100,
           myItems: 200,
         }),
       ).toEqual({
-        branchItems: 100,
+        otherParts: 100,
         myItems: 200,
       });
     });

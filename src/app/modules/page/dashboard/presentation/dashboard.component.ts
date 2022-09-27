@@ -31,7 +31,7 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfMyParts$: Observable<View<number>>;
-  public readonly numberOfBranchParts$: Observable<View<number>>;
+  public readonly numberOfOtherParts$: Observable<View<number>>;
   public readonly numberOfInvestigations$: Observable<View<number>>;
 
   public readonly assetsPerCountry$: Observable<View<any>>;
@@ -42,7 +42,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(private readonly dashboardFacade: DashboardFacade) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
-    this.numberOfBranchParts$ = this.dashboardFacade.numberOfBranchParts$;
+    this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;
 
     this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;

@@ -27,7 +27,7 @@ import { View } from 'src/app/modules/shared/model/view.model';
 @Injectable()
 export class DashboardState {
   private readonly _numberOfMyParts$: State<View<number>> = new State<View<number>>({ loader: true });
-  private readonly _numberOfBranchParts$: State<View<number>> = new State<View<number>>({ loader: true });
+  private readonly _numberOfOtherParts$: State<View<number>> = new State<View<number>>({ loader: true });
   private readonly _numberOfInvestigations$: State<View<number>> = new State<View<number>>({ loader: true });
 
   private readonly _investigations$: State<View<Investigations>> = new State<View<Investigations>>({ loader: true });
@@ -43,12 +43,12 @@ export class DashboardState {
     this._numberOfMyParts$.update(count);
   }
 
-  public get numberOfBranchParts$(): Observable<View<number>> {
-    return this._numberOfBranchParts$.observable;
+  public get numberOfOtherParts$(): Observable<View<number>> {
+    return this._numberOfOtherParts$.observable;
   }
 
-  public setNumberOfBranchParts(count: View<number>): void {
-    this._numberOfBranchParts$.update(count);
+  public setNumberOfOtherParts(count: View<number>): void {
+    this._numberOfOtherParts$.update(count);
   }
 
   public get numberOfInvestigations$(): Observable<View<number>> {

@@ -73,7 +73,7 @@ describe('Dashboard', () => {
       roles: ['supervisor'],
     });
 
-    expect(await screen.findByText('Total of parts in department')).toBeInTheDocument();
+    expect(await screen.findByText('Total of other parts')).toBeInTheDocument();
   });
 
   it('should render supervisor section when admin user', async () => {
@@ -81,7 +81,7 @@ describe('Dashboard', () => {
       roles: ['admin'],
     });
 
-    expect(await screen.findByText('Total of parts in department')).toBeInTheDocument();
+    expect(await screen.findByText('Total of other parts')).toBeInTheDocument();
   });
 
   it('should render map', async () => {

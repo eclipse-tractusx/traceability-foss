@@ -35,11 +35,11 @@ SPDX-License-Identifier: Apache-2.0
   <section *appHasRole="['admin', 'supervisor']" class="parts-section">
     <ng-container
       *viewContainer="
-        this.numberOfBranchParts$ | async;
+        this.numberOfOtherParts$ | async;
         main: numbersMainTmp;
         error: numbersErrorTmp;
         loading: numbersLoaderTmp;
-        customContext: { label: 'pageDashboard.managedTotalOfParts.label', icon: 'directions_car' }
+        customContext: { label: 'pageDashboard.totalOfOtherParts.label', icon: 'directions_car' }
       "
     >
     </ng-container>
