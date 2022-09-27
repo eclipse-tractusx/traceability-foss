@@ -23,9 +23,10 @@ SPDX-License-Identifier: Apache-2.0
   <app-table
     [data]="investigations.data"
     [tableConfig]="tableConfig"
-    (configChanged)="onTableConfigChange($event)"
     [noShadow]="true"
     [labelId]="labelId"
+    [showHover]="false"
+    (configChanged)="onTableConfigChange($event)"
   ></app-table>
 </ng-template>
 

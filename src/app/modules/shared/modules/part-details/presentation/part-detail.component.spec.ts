@@ -23,7 +23,6 @@ import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
-import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';

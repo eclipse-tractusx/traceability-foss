@@ -18,7 +18,13 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { CreateHeaderFromColumns, TableConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
+import {
+  CreateHeaderFromColumns,
+  MenuActionConfig,
+  TableConfig,
+  DisplayColumns,
+  TablePaginationEventConfig,
+} from '@shared/components/table/table.model';
 import { Investigation, Investigations } from '@shared/model/investigations.model';
 import { View } from '@shared/model/view.model';
 
@@ -34,14 +40,24 @@ export class InvestigationsTabComponent implements AfterViewInit {
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
 
-  public readonly displayedColumns: (keyof Investigation)[] = ['description', 'status', 'createDate'];
+  public readonly displayedColumns: DisplayColumns<keyof Investigation>[] = [
+    'description',
+    'status',
+    'createDate',
+    'menu',
+  ];
   public tableConfig: TableConfig<keyof Investigation>;
+  private menuActionsConfig: MenuActionConfig[] = [
+    { label: 'actions.approve', icon: 'share', action: this.approveNotification.bind(this) },
+    { label: 'actions.delete', icon: 'delete', action: this.deleteNotification.bind(this) },
+  ];
 
   public ngAfterViewInit(): void {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
       header: CreateHeaderFromColumns(this.displayedColumns, 'pageInvestigations.column'),
       hasPagination: this.hasPagination,
+      menuActionsConfig: this.menuActionsConfig,
       cellRenderers: {
         status: this.statusTemplate,
       },
@@ -51,4 +67,8 @@ export class InvestigationsTabComponent implements AfterViewInit {
   public onTableConfigChange(event: TablePaginationEventConfig) {
     this.pagination.emit(event);
   }
+
+  private approveNotification(notification: any): void {}
+
+  private deleteNotification(notification: any): void {}
 }

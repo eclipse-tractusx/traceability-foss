@@ -18,13 +18,13 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
-import { TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
 
 @Component({
   selector: 'app-table',
@@ -34,13 +34,21 @@ import { TableConfig, TableEventConfig, TableHeaderSort } from '@shared/componen
 export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('tableElement', { read: ElementRef }) tableElementRef: ElementRef<HTMLElement>;
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
-    const { displayedColumns, columnRoles, hasPagination = true } = tableConfig;
-    const filtered = displayedColumns.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user'));
+    const { menuActionsConfig: menuActions, displayedColumns: dc, columnRoles, hasPagination = true } = tableConfig;
+    const displayedColumns = dc.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user'));
 
-    this._tableConfig = { ...tableConfig, displayedColumns: filtered, hasPagination };
+    const viewDetailsMenuAction: MenuActionConfig = {
+      label: 'actions.viewDetails',
+      icon: 'remove_red_eye',
+      action: (data: Record<string, unknown>) => this.selected.emit(data),
+    };
+
+    const menuActionsConfig = menuActions ? [viewDetailsMenuAction, ...menuActions] : null;
+    this._tableConfig = { ...tableConfig, displayedColumns, hasPagination, menuActionsConfig };
   }
 
   get tableConfig(): TableConfig {
@@ -49,6 +57,8 @@ export class TableComponent {
 
   @Input() labelId: string;
   @Input() noShadow = false;
+  @Input() showHover = true;
+
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
 
@@ -87,6 +97,7 @@ export class TableComponent {
   public totalItems: number;
   public pageIndex: number;
   public isDataLoading: boolean;
+  public selectedRow: Record<string, unknown>;
 
   private pageSize: number;
   private sorting: TableHeaderSort;
@@ -120,6 +131,14 @@ export class TableComponent {
   public toggleSelection(row: unknown): void {
     this.selection.toggle(row);
     this.emitMultiSelect();
+  }
+
+  public selectElement(row: Record<string, unknown>) {
+    this.selectedRow = this.selectedRow === row ? null : row;
+
+    if (!this.tableConfig.menuActionsConfig) {
+      this.selected.emit(row);
+    }
   }
 
   private emitMultiSelect(): void {

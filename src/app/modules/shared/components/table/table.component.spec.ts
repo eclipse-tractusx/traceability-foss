@@ -28,20 +28,23 @@ describe('TableComponent', () => {
   const generateTableContent = (size: number) => {
     return Array.apply(null, Array(size)).map((_, i) => ({ name: 'name_' + i, test: 'test' }));
   };
-  const renderTable = (size: number, displayedColumns = ['name'], header = { name: 'Name' }) => {
+  const renderTable = (size: number, displayedColumns = ['name'], header = { name: 'Name' }, selected = jest.fn()) => {
     const content = generateTableContent(size);
     const data = { page: 0, pageSize: 10, totalItems: 100, content } as Pagination<unknown>;
 
     const tableConfig: TableConfig = { displayedColumns, header };
-
-    return renderComponent(`<app-table [data]='data' [tableConfig]='tableConfig'></app-table>`, {
-      declarations: [TableComponent],
-      imports: [SharedModule],
-      componentProperties: {
-        data,
-        tableConfig,
+    return renderComponent(
+      `<app-table [data]='data' [tableConfig]='tableConfig' (selected)='selected($event)'></app-table>`,
+      {
+        declarations: [TableComponent],
+        imports: [SharedModule],
+        componentProperties: {
+          data,
+          tableConfig,
+          selected,
+        },
       },
-    });
+    );
   };
 
   it('should render table', async () => {
@@ -137,5 +140,26 @@ describe('TableComponent', () => {
     expect(spy).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'desc'] });
     nameElement.click();
     expect(spy).toHaveBeenCalledWith({ page: 0, pageSize: 10, sorting: ['name', 'desc'] });
+  });
+
+  it('should display menu icon', async () => {
+    const tableSize = 3;
+    await renderTable(tableSize, ['name', 'menu'], { name: 'Name for test' });
+
+    expect(screen.getAllByText('more_vert')[0]).toBeInTheDocument();
+    expect(screen.getAllByText('more_vert').length).toBe(tableSize);
+  });
+
+  it('should select one item', async () => {
+    const tableSize = 3;
+    const selected = jest.fn();
+    const component = await renderTable(tableSize, ['name'], { name: 'Name for test' }, selected);
+
+    const tableElement = screen.getByText('name_0');
+    expect(tableElement).toBeInTheDocument();
+
+    const spy = jest.spyOn(component.fixture.componentInstance, 'selected');
+    tableElement.click();
+    expect(spy).toHaveBeenCalledWith({ name: 'name_0', test: 'test' });
   });
 });

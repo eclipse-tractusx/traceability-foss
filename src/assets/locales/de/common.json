@@ -21,12 +21,16 @@
     }
   },
   "actions": {
-    "back": "Zurück"
+    "back": "Zurück",
+    "delete": "Löschen",
+    "approve": "Genehmigen",
+    "viewDetails": "Details anzeigen"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
     "tryAgain": "Bitte versuchen Sie es später noch einmal.",
-    "selectPageSize": "Seite für segmentierte Elemente auswählen"
+    "selectPageSize": "Seite für segmentierte Elemente auswählen",
+    "menuDescription": "Aktionsmenü"
   },
   "dataLoading": {
     "inProgress": "Daten werden geladen...",

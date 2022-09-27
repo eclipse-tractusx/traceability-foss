@@ -21,12 +21,16 @@
     }
   },
   "actions": {
-    "back": "Back"
+    "back": "Back",
+    "delete": "Delete",
+    "approve": "Approve",
+    "viewDetails": "View details"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
     "tryAgain": "Please try again later.",
-    "selectPageSize": "Select page of periodic elements"
+    "selectPageSize": "Select page of periodic elements",
+    "menuDescription": "Action menu"
   },
   "dataLoading": {
     "inProgress": "Loading data...",
