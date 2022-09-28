@@ -22,9 +22,9 @@
   },
   "actions": {
     "back": "Wróć",
-    "delete": "Delete",
-    "approve": "Approve",
-    "viewDetails": "View details"
+    "delete": "Usuń",
+    "approve": "Zatwierdź",
+    "viewDetails": "Zobacz szczegóły"
   },
   "error": {
     "genericTitle": "Błąd"
@@ -33,7 +33,7 @@
     "noResultFound": "BRAK WYNIKÓW.",
     "tryAgain": "Spróbuj ponownie później.",
     "selectPageSize": "Ilość elementów na stronie",
-    "menuDescription": "Action menu"
+    "menuDescription": "Menu akcji"
   },
   "dataLoading": {
     "inProgress": "Ładowanie danych...",

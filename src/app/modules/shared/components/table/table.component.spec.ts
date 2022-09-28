@@ -145,21 +145,18 @@ describe('TableComponent', () => {
   it('should display menu icon', async () => {
     const tableSize = 3;
     await renderTable(tableSize, ['name', 'menu'], { name: 'Name for test' });
-
-    expect(screen.getAllByText('more_vert')[0]).toBeInTheDocument();
     expect(screen.getAllByText('more_vert').length).toBe(tableSize);
   });
 
   it('should select one item', async () => {
     const tableSize = 3;
     const selected = jest.fn();
-    const component = await renderTable(tableSize, ['name'], { name: 'Name for test' }, selected);
+    await renderTable(tableSize, ['name'], { name: 'Name for test' }, selected);
 
     const tableElement = screen.getByText('name_0');
     expect(tableElement).toBeInTheDocument();
 
-    const spy = jest.spyOn(component.fixture.componentInstance, 'selected');
     tableElement.click();
-    expect(spy).toHaveBeenCalledWith({ name: 'name_0', test: 'test' });
+    expect(selected).toHaveBeenCalledWith({ name: 'name_0', test: 'test' });
   });
 });
