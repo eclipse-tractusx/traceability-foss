@@ -25,7 +25,7 @@ spring:
       client:
         provider:
           keycloak:
-            token-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
 
 keycloak:
   auth-server-url: https://centralidp.dev.demo.catena-x.net/auth
@@ -36,6 +36,6 @@ keycloak:
 
 feign:
   irsApi:
-    url: "https://tracex-irs.dev.demo.catena-x.net"
+    url: https://irs.dev.demo.catena-x.net
   registryApi:
-    url: https://semantics.int.demo.catena-x.net/registry
+    url: https://irs-aas-registry.dev.demo.catena-x.net

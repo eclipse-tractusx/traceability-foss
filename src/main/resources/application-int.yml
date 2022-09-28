@@ -18,7 +18,7 @@
 ################################################################################
 traceability:
   bpn: BPNL00000003AXS3
-  registry.manufacturerIdKey: ManufacturerID
+  registry.manufacturerIdKey: manufacturerId
 
 spring:
   security:
@@ -29,9 +29,9 @@ spring:
             token-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
 
 keycloak:
-  auth-server-url: https://centralidp.dev.demo.catena-x.net/auth
+  auth-server-url: https://centralidp.demo.catena-x.net/auth
   realm: CX-Central
-  resource: Cl10-CX-Part
+  resource: Cl17-CX-Part
   public-client: true
   use-resource-role-mappings: true
 
