@@ -20,7 +20,6 @@
 package net.catenax.traceability.assets
 
 import net.catenax.traceability.assets.domain.model.Asset
-import net.catenax.traceability.assets.domain.model.InvestigationStatus
 import net.catenax.traceability.assets.domain.model.QualityType
 
 class AssetFacadeSpec extends AssetsSpec {
@@ -48,6 +47,6 @@ class AssetFacadeSpec extends AssetsSpec {
 	}
 
 	Asset newAsset(String country) {
-		new Asset(null, null, null, null, null, null, null, null, null, null, country, true, null, InvestigationStatus.NONE, QualityType.OK)
+		new Asset(null, null, null, null, null, null, null, null, null, null, country, true, null, false, QualityType.OK)
 	}
 }

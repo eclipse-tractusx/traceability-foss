@@ -167,9 +167,7 @@ public class PersistentAssetsRepository implements AssetRepository {
 			entity.getChildDescriptors().stream()
 					.map(child -> new ChildDescriptions(child.getId(), child.getIdShort()))
 					.toList(),
-			Optional.ofNullable(entity.getPendingInvestigation())
-					.map(PendingInvestigation::getStatus)
-					.orElse(InvestigationStatus.NONE),
+			entity.isOnInvestigation(),
 			entity.getQualityType()
 		);
 	}

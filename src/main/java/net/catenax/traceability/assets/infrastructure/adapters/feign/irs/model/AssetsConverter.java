@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.catenax.traceability.assets.domain.model.Asset;
 import net.catenax.traceability.assets.domain.model.Asset.ChildDescriptions;
-import net.catenax.traceability.assets.domain.model.InvestigationStatus;
 import net.catenax.traceability.assets.domain.model.QualityType;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
@@ -85,7 +84,7 @@ public class AssetsConverter {
 				manufacturingCountry(part),
 				supplierParts.contains(part.catenaXId()),
 				getChildParts(relationships, shortIds, part.catenaXId()),
-				InvestigationStatus.NONE,
+				false,
 				QualityType.OK
 			)).toList();
 	}

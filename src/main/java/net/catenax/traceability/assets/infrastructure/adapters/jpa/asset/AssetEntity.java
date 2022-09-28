@@ -202,6 +202,10 @@ public class AssetEntity {
 		this.qualityType = qualityType;
 	}
 
+	public boolean isOnInvestigation() {
+		return pendingInvestigation != null && pendingInvestigation.status == InvestigationStatus.PENDING;
+	}
+
 	@Entity
 	@Table(name = "pending_investigation")
 	public static class PendingInvestigation {

@@ -21,7 +21,6 @@ package net.catenax.traceability.assets.infrastructure.adapters.rest
 
 import net.catenax.traceability.IntegrationSpec
 import net.catenax.traceability.assets.domain.model.Asset
-import net.catenax.traceability.assets.domain.model.InvestigationStatus
 import net.catenax.traceability.common.security.KeycloakRole
 import net.catenax.traceability.common.support.AssetsSupport
 import net.catenax.traceability.common.support.IrsApiSupport
@@ -214,7 +213,7 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 
 		then:
 			Asset asset = assetRepository().getAssetById(assetId)
-			asset.getInvestigationStatus() == InvestigationStatus.PENDING
+			asset.isUnderInvestigation()
 	}
 
 	def "should return own assets"() {
