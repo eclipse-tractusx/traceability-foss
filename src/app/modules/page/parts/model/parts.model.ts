@@ -70,7 +70,7 @@ export interface PartResponse {
   qualityType: QualityType;
   specificAssetIds: Record<string, string>;
   childDescriptions: Array<{ id: string; idShort: string }>;
-  isInvestigationActive?: boolean;
+  underInvestigation?: boolean;
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;
