@@ -134,8 +134,8 @@ irs:
     oauth2:
       clientId: <path:traceability-foss/data/dev/keycloak/oauth2#clientId>
       clientSecret: <path:traceability-foss/data/dev/keycloak/oauth2#clientSecret>
-      clientTokenUri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+      clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   aasWrapper:
     host: http://tracex-irs-aaswrapper:9191/api/service
