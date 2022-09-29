@@ -83,8 +83,15 @@ class DashboardControllerIT extends IntegrationSpec implements AssetsSupport {
 			defaultAssetsStored()
 
 		when:
-			mvc.perform(post("/assets/$assetId/investigate").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
+			mvc.perform(post("/assets//investigations")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJson(
+					[
+						partIds: [assetId],
+						description: "at least 15 characters long investigation description"
+					]
+				))
+			).andExpect(status().isOk())
 
 		then:
 			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))

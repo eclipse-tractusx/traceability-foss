@@ -212,22 +212,24 @@ public class AssetEntity {
 		@Id
 		private String assetId;
 		private InvestigationStatus status;
+		private String description;
 		private ZonedDateTime created;
 		private ZonedDateTime updated;
 
 		public PendingInvestigation() {
 		}
 
-		private PendingInvestigation(String assetId, InvestigationStatus status, ZonedDateTime created, ZonedDateTime updated) {
+		private PendingInvestigation(String assetId, String description, InvestigationStatus status, ZonedDateTime created, ZonedDateTime updated) {
 			this.assetId = assetId;
 			this.status = status;
+			this.description = description;
 			this.created = created;
 			this.updated = updated;
 		}
 
-		public static PendingInvestigation newInvestigation(String assetId) {
+		public static PendingInvestigation newInvestigation(String assetId, String description) {
 			ZonedDateTime now = ZonedDateTime.now();
-			return new PendingInvestigation(assetId, InvestigationStatus.PENDING, now, now);
+			return new PendingInvestigation(assetId, description, InvestigationStatus.PENDING, now, now);
 		}
 
 		public String getAssetId() {
@@ -260,6 +262,14 @@ public class AssetEntity {
 
 		public void setStatus(InvestigationStatus status) {
 			this.status = status;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
 		}
 	}
 

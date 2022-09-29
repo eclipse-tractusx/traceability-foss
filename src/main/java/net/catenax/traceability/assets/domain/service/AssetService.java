@@ -77,9 +77,8 @@ public class AssetService {
 		return assetRepository.save(foundAsset);
 	}
 
-	public Asset startInvestigation(String assetId) {
-		return assetRepository.startInvestigation(assetId)
-			.orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
+	public void startInvestigation(List<String> assetIds, String description) {
+		assetRepository.startInvestigation(assetIds, description);
 	}
 
 	public Map<String, Long> getAssetsCountryMap() {

@@ -30,7 +30,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 import static net.catenax.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity.ChildDescription;
 
@@ -83,15 +82,11 @@ public class PersistentAssetsRepository implements AssetRepository {
 	}
 
 	@Override
-	public Optional<Asset> startInvestigation(String assetId) {
-		Optional<AssetEntity> assetEntity = assetsRepository.findById(assetId);
-
-		assetEntity.ifPresent(entity -> {
-			entity.setPendingInvestigation(PendingInvestigation.newInvestigation(assetId));
+	public void startInvestigation(List<String> assetIds, String description) {
+		assetsRepository.findByIdIn(assetIds).forEach(entity -> {
+			entity.setPendingInvestigation(PendingInvestigation.newInvestigation(entity.getId(), description));
 			assetsRepository.save(entity);
 		});
-
-		return assetEntity.map(this::toAsset);
 	}
 
 	@Override

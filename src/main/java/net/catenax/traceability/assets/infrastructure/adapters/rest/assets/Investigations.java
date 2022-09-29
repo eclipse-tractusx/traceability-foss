@@ -16,39 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package net.catenax.traceability.assets.infrastructure.adapters.rest.assets;
 
-package net.catenax.traceability.assets.domain.ports;
-
-import net.catenax.traceability.assets.domain.model.Asset;
-import net.catenax.traceability.assets.domain.model.PageResult;
-import org.springframework.data.domain.Pageable;
-
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
-public interface AssetRepository {
-	Asset getAssetById(String assetId);
-
-	Asset getAssetByChildId(String assetId, String childId);
-
-	PageResult<Asset> getAssets(Pageable pageable);
-
-	PageResult<Asset> getSupplierAssets(Pageable pageable);
-
-	PageResult<Asset> getOwnAssets(Pageable pageable);
-
-	List<Asset> getAssets();
-
-	Asset save(Asset asset);
-
-	void startInvestigation(List<String> assetIds, String description);
-
-	List<Asset> saveAll(List<Asset> assets);
-
-    long countAssets();
-
-	long countMyAssets();
-
-	void clean();
-
-	long countPendingInvestigations();
-}
+public record Investigations(
+	@NotEmpty(message = "Specify at least one partId") List<String> partIds,
+	@Size(min = 15, message = "Description should have at least 15 characters") String description
+) {}

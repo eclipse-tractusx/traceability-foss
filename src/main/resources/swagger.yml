@@ -47,10 +47,8 @@ swagger:
       params:
         assetId: "Unique ID of an asset"
       authorizations: "#components/securitySchemes/bearerAuth"
-    api.assets.assetId.investigate:
-      summary: "Start quality investigation for given asset"
-      params:
-        assetId: "Unique ID of an asset"
+    api.assets.investigations:
+      summary: "Start quality investigation for given assets"
       authorizations: "#components/securitySchemes/bearerAuth"
     api.dashboard:
       summary: "Returns dashboard related data"

@@ -21,10 +21,14 @@ package net.catenax.traceability.assets.infrastructure.adapters.rest
 
 import net.catenax.traceability.IntegrationSpec
 import net.catenax.traceability.assets.domain.model.Asset
+import net.catenax.traceability.assets.domain.model.InvestigationStatus
+import net.catenax.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity
+import net.catenax.traceability.assets.infrastructure.adapters.jpa.asset.JpaAssetsRepository
 import net.catenax.traceability.common.security.KeycloakRole
 import net.catenax.traceability.common.support.AssetsSupport
 import net.catenax.traceability.common.support.IrsApiSupport
 import org.hamcrest.Matchers
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import spock.util.concurrent.PollingConditions
 
@@ -37,6 +41,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, AssetsSupport {
+
+	@Autowired
+	JpaAssetsRepository jpaAssetsRepository
 
 	def "should synchronize assets"() {
 		given:
@@ -201,19 +208,39 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 
 	def "should start investigation"() {
 		given:
-			String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"
+			List<String> partIds = ["urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"]
+			String description = "at least 15 characters long investigation description"
 			authenticatedUser(KeycloakRole.ADMIN)
 
 		and:
 			defaultAssetsStored()
 
 		when:
-			mvc.perform(post("/assets/$assetId/investigate").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
+			mvc.perform(post("/assets/investigations")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJson(
+					[
+						partIds: partIds,
+						description: description
+					]
+				))
+			).andExpect(status().isOk())
 
 		then:
-			Asset asset = assetRepository().getAssetById(assetId)
-			asset.isUnderInvestigation()
+			List<AssetEntity> parts = jpaAssetsRepository.findByIdIn(partIds)
+			parts.size() == 2
+			parts.each { part ->
+				assert part.pendingInvestigation
+				assert part.pendingInvestigation.status == InvestigationStatus.PENDING
+				assert part.pendingInvestigation.description == description
+			}
+
+		and:
+			partIds.each {partId ->
+				Asset asset = assetRepository().getAssetById(partId)
+				assert asset
+				assert asset.isUnderInvestigation()
+			}
 	}
 
 	def "should return own assets"() {
