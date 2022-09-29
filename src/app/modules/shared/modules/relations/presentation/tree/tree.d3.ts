@@ -296,40 +296,41 @@ export class Tree {
 
     let statusBorder = el.select(`#${id}--StatusBorder`);
 
-    if (isLoaded) {
-      if (statusBorder.empty()) {
-        statusBorder = el.append('a').attr('id', `${id}--StatusBorder`);
-
-        const addBorder = (innerRadius: number, outerRadius: number, startAngle: number, endAngle: number) => {
-          const arc = d3
-            .arc<HierarchyNode<TreeStructure>>()
-            .innerRadius(innerRadius)
-            .outerRadius(outerRadius)
-            .startAngle(startAngle)
-            .endAngle(endAngle);
-
-          return statusBorder.append('path').attr('d', () => arc(dataNode));
-        };
-
-        const borderData = [
-          { inner: -3.2, outer: 0, start: -0.3, end: 1.6 },
-          { inner: -7, outer: -3, start: 0, end: 0.4 },
-          { inner: -7, outer: -3, start: 1.5, end: 1.8 },
-          { inner: -7, outer: -3, start: 0.7, end: 0.9 },
-          { inner: -8, outer: -5, start: 0.7, end: 1.2 },
-          { inner: -12, outer: -10, start: -1.6, end: -0.7 },
-          { inner: -12, outer: -10, start: -0.6, end: 0.3 },
-        ];
-
-        borderData.forEach(a => addBorder(r + a.inner, r + a.outer, a.start * Math.PI, a.end * Math.PI));
-      }
-
-      statusBorder
-        .attr('class', () => `tree--element__border tree--element__border-${data.state}`)
-        .attr('transform', () => `translate(${y},${x})`);
-    } else {
+    if (!isLoaded) {
       statusBorder.remove();
+      return;
     }
+
+    if (statusBorder.empty()) {
+      statusBorder = el.append('a').attr('id', `${id}--StatusBorder`);
+
+      const addBorder = (innerRadius: number, outerRadius: number, startAngle: number, endAngle: number) => {
+        const arc = d3
+          .arc<HierarchyNode<TreeStructure>>()
+          .innerRadius(innerRadius)
+          .outerRadius(outerRadius)
+          .startAngle(startAngle)
+          .endAngle(endAngle);
+
+        return statusBorder.append('path').attr('d', () => arc(dataNode));
+      };
+
+      const borderData = [
+        { inner: -3.2, outer: 0, start: -0.3, end: 1.6 },
+        { inner: -7, outer: -3, start: 0, end: 0.4 },
+        { inner: -7, outer: -3, start: 1.5, end: 1.8 },
+        { inner: -7, outer: -3, start: 0.7, end: 0.9 },
+        { inner: -8, outer: -5, start: 0.7, end: 1.2 },
+        { inner: -12, outer: -10, start: -1.6, end: -0.7 },
+        { inner: -12, outer: -10, start: -0.6, end: 0.3 },
+      ];
+
+      borderData.forEach(a => addBorder(r + a.inner, r + a.outer, a.start * Math.PI, a.end * Math.PI));
+    }
+
+    statusBorder
+      .attr('class', () => `tree--element__border tree--element__border-${data.state}`)
+      .attr('transform', () => `translate(${y},${x})`);
   }
 
   private renderLoading(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
@@ -342,30 +343,31 @@ export class Tree {
 
     el.select(`${id}--Loading`).remove();
 
-    if (isLoading) {
-      const arc = d3
-        .arc<PieArcDatum<any>>()
-        .outerRadius(r)
-        .innerRadius(r - 5);
-
-      const pie = d3.pie().padAngle(1);
-      const arcs = pie(new Array(3).fill(1));
-      arc.cornerRadius(5);
-
-      const border = el
-        .append('a')
-        .attr(id, `${id}--Loading`)
-        .classed('tree--element__border-loading', true)
-        .attr('transform', () => `translate(${y},${x})`)
-        .append('g');
-
-      arcs.forEach((node, index) =>
-        border
-          .append('path')
-          .attr('d', arc(node))
-          .classed('tree--element__border-loading-' + index, true),
-      );
+    if (!isLoading) {
+      return;
     }
+    const arc = d3
+      .arc<PieArcDatum<any>>()
+      .outerRadius(r)
+      .innerRadius(r - 5);
+
+    const pie = d3.pie().padAngle(1);
+    const arcs = pie(new Array(3).fill(1));
+    arc.cornerRadius(5);
+
+    const border = el
+      .append('a')
+      .attr(id, `${id}--Loading`)
+      .classed('tree--element__border-loading', true)
+      .attr('transform', () => `translate(${y},${x})`)
+      .append('g');
+
+    arcs.forEach((node, index) =>
+      border
+        .append('path')
+        .attr('d', arc(node))
+        .classed('tree--element__border-loading-' + index, true),
+    );
   }
 
   private renderRelation(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
@@ -378,7 +380,7 @@ export class Tree {
     const isLoadedAndHasRelations = isLoaded && data.relations?.length > 0;
 
     el.select(`#${id}--RelationExpander`).remove();
-    const createExpander = () => el.append('g').attr('id', `${id}--RelationExpander`);
+    const createExpander = () => el.append('a').attr('id', `${id}--RelationExpander`);
 
     if (isLoadedAndHasData) {
       this.renderRelationCollapse(createExpander(), dataNode);
@@ -387,30 +389,26 @@ export class Tree {
     }
   }
 
-  private renderRelationCollapse(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
+  private renderRelationCollapse(el: Selection<HTMLAnchorElement, unknown, null, undefined>, dataNode: TreeNode) {
     const r = this.r;
     const { data, x, y } = dataNode;
 
     const circleRadius = 15;
-    const closeNode = el
-      .append('a')
-      .attr('transform', () => `translate(${y + r + circleRadius + 5},${x})`)
+    el.attr('transform', () => `translate(${y + r + circleRadius + 5},${x})`)
       .on('click', () => this.updateChildren(data))
       .classed('tree--element__closing', true);
 
-    closeNode
-      .append('circle')
+    el.append('circle')
       .attr('r', circleRadius)
       .classed('tree--element__closing-animation tree--element__closing-circle', true);
 
-    closeNode
-      .append('text')
+    el.append('text')
       .attr('dy', '0.26em')
       .classed('tree--element__text tree--element__closing-text tree--element__closing-animation', true)
       .text(' - ');
   }
 
-  private renderRelationExpand(el: Selection<SVGGElement, unknown, null, undefined>, dataNode: TreeNode) {
+  private renderRelationExpand(el: Selection<HTMLAnchorElement, unknown, null, undefined>, dataNode: TreeNode) {
     const r = this.r;
     const { data, x, y } = dataNode;
     el.classed('tree--element__arrow-container', true).on('click', () => this.updateChildren(data));
