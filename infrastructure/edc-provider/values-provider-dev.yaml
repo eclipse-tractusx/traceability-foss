@@ -1,0 +1,253 @@
+edcPostgresql:
+  enabled: true
+
+  nameOverride: "tracex-edc-provider-postgresql"
+  fullnameOverride: "tracex-edc-provider-postgresql"
+
+  auth:
+    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+    username: <path:traceability-foss/data/dev/edc/database#user>
+    password: <path:traceability-foss/data/dev/edc/database#password>
+    database: "edc"
+
+registryPostgresql:
+  enabled: true
+
+  nameOverride: "tracex-registry-postgresql"
+  fullnameOverride: "tracex-registry-postgresql"
+
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+  auth:
+    username: <path:traceability-foss/data/dev/aasregistry#username>
+    password: <path:traceability-foss/data/dev/aasregistry#password>
+    database: registry
+
+registry:
+  registry:
+    dataSource:
+      url: jdbc:postgresql://tracex-registry-postgresql-hl/registry
+      user: <path:traceability-foss/data/dev/aasregistry#username>
+      password: <path:traceability-foss/data/dev/aasregistry#password>
+
+edc-controlplane:
+  replicaCount: 1
+
+  fullnameOverride: "tracex-edc-provider-controlplane"
+
+  ## EDC endpoints exposed by the control-plane
+  edc:
+    endpoints:
+      ## Default api exposing health checks etc
+      default:
+        # -- The network port, which the "default" api is going to be exposed by the container, pod and service
+        port: "8080"
+        # -- The path mapping the "default" api is going to be exposed at
+        path: /api
+      ## Data management API
+      data:
+        # -- The network port, which the "data" management api is going to be exposed by the container, pod and service
+        port: "8181"
+        # -- The path mapping the "data" management api is going to be exposed at
+        path: /data
+      ## Validation API
+      validation:
+        # -- The network port, which the "validation" api is going to be exposed by the container, pod and service
+        port: "8182"
+        # -- The path mapping the "validation" api is going to be exposed at
+        path: /validation
+      ## Control API
+      control:
+        # -- The network port, which the "control" api is going to be exposed by the container, pod and service
+        port: "9999"
+        # -- The path mapping the "control" api is going to be exposed at
+        path: /api/controlplane/control
+      ## IDS endpoints
+      ids:
+        # -- The network port, which the "ids" multipart api is going to be exposed by the container, pod and service
+        port: "8282"
+        # -- The path mapping the "ids" multipart api is going to be exposed at
+        path: /api/v1/ids
+      ## Prometheus endpoint
+      metrics:
+        # -- The network port, which the prometheus metrics are going to be exposed by the container, pod and service
+        port: "9090"
+        # -- The path mapping the prometheus metrics are going to be exposed at
+        path: /metrics
+
+  ## Ingress declaration to expose the network service.
+  ingresses:
+    ## Public / Internet facing Ingress
+    - enabled: true
+      # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+      hostname: tracex-edc-provider-controlplane.dev.demo.catena-x.net
+      # -- Additional ingress annotations to add
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      # -- EDC endpoints exposed by this ingress resource
+      endpoints:
+        - ids
+        - data
+      # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
+      className: "nginx"
+      # -- Enables TLS on the ingress resource
+      tls: true
+      secretName: tls-secret
+
+  resources:
+    limits:
+      cpu: 1.5
+      memory: 2Gi
+    requests:
+      cpu: 500m
+      memory: 2Gi
+
+  configuration:
+    # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
+    properties: |-
+      web.http.default.port=8080
+      web.http.default.path=/api
+      web.http.data.port=8181
+      web.http.data.path=/data
+      web.http.validation.port=8182
+      web.http.validation.path=/validation
+      web.http.control.port=9999
+      web.http.control.path=/api/controlplane/control
+      web.http.ids.port=8282
+      web.http.ids.path=/api/v1/ids
+      edc.api.control.auth.apikey.key=X-Api-Key
+      # Postgresql related configuration
+      edc.datasource.asset.name=asset
+      edc.datasource.asset.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
+      edc.datasource.asset.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.datasource.contractdefinition.name=contractdefinition
+      edc.datasource.contractdefinition.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
+      edc.datasource.contractdefinition.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.datasource.contractnegotiation.name=contractnegotiation
+      edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
+      edc.datasource.contractnegotiation.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.datasource.policy.name=policy
+      edc.datasource.policy.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
+      edc.datasource.policy.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.datasource.transferprocess.name=transferprocess
+      edc.datasource.transferprocess.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
+      edc.datasource.transferprocess.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.hostname=tracex-edc-provider-controlplane.dev.demo.catena-x.net
+      edc.ids.catalog.id=urn:catalog:default
+      edc.ids.description="Eclipse Dataspace Connector"
+      edc.ids.endpoint=https://tracex-edc-provider-controlplane.dev.demo.catena-x.net/api/v1/ids
+      edc.ids.endpoint.audience=https://tracex-edc-provider-controlplane.dev.demo.catena-x.net/api/v1/ids/data
+      ids.webhook.address=https://tracex-edc-provider-controlplane.dev.demo.catena-x.net
+      edc.ids.id=urn:connector:edc
+      edc.ids.security.profile=base
+      edc.ids.title="Eclipse Dataspace Connector"
+      # the value below is mandatory but not used for the provider
+      edc.receiver.http.endpoint=http://tracex-api-wrapper:9192/callback/endpoint-data-reference
+      edc.transfer.dataplane.sync.endpoint=http://tracex-edc-provider-dataplane:8185/api/public
+      edc.transfer.proxy.endpoint=https://tracex-edc-provider-dataplane.dev.demo.catena-x.net/api/public
+      edc.transfer.proxy.token.verifier.publickey.alias=token-signer-cert-dev
+      edc.transfer.proxy.token.signer.privatekey.alias=token-signer-cert-key-dev
+      edc.dataplane.selector.provider.url=http://tracex-edc-provider-dataplane:9999/api/dataplane/control
+      edc.dataplane.selector.provider.sourcetypes=HttpData
+      edc.dataplane.selector.provider.destinationtypes=HttpProxy
+      edc.dataplane.selector.provider.properties={ "publicApiUrl": "http://tracex-edc-provider-dataplane:8185/api/public" }
+      edc.data.encryption.keys.alias=edc-data-encryption-keys-alias
+      edc.data.encryption.algorithm=AES
+      edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+      edc.vault.hashicorp.health.check.enabled=true
+      edc.vault.hashicorp.health.check.standby.ok=true
+      edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+      edc.oauth.public.key.alias=daps-cert-edc-provider-dev
+      edc.oauth.private.key.alias=daps-cert-key-edc-provider-dev
+      edc.oauth.client.id=3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62:keyid:3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62
+      edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+      edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+      edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+
+  secrets:
+    EDC_API_AUTH_KEY: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+    EDC_API_CONTROL_AUTH_APIKEY_VALUE: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+    EDC_DATASOURCE_ASSET_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
+    EDC_DATASOURCE_CONTRACTDEFINITION_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
+    EDC_DATASOURCE_POLICY_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
+    EDC_DATASOURCE_TRANSFERPROCESS_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
+    EDC_VAULT_HASHICORP_TOKEN: <path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+
+  logging:
+    # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
+    properties: |-
+      .level=INFO
+      org.eclipse.dataspaceconnector.level=INFO
+      net.catenax.edc.hashicorpvault.level=INFO
+      handlers=java.util.logging.ConsoleHandler
+      java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+      java.util.logging.ConsoleHandler.level=INFO
+      java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
+
+edc-dataplane:
+  replicaCount: 1
+
+  fullnameOverride: "tracex-edc-provider-dataplane"
+
+  ## Ingress declaration to expose the network service.
+  ingresses:
+    ## Public / Internet facing Ingress
+    - enabled: true
+      # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+      hostname: tracex-edc-provider-dataplane.dev.demo.catena-x.net
+      annotations:
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      # -- EDC endpoints exposed by this ingress resource
+      endpoints:
+        - public
+      # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
+      className: "nginx"
+      # -- Enables TLS on the ingress resource
+      tls: true
+      secretName: tls-secret
+
+  # -- [Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) applied to the deployed pod
+  resources:
+    limits:
+      cpu: 1.5
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
+  configuration:
+    # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
+    properties: |-
+      web.http.default.port=8080
+      web.http.default.path=/api
+      web.http.public.port=8185
+      web.http.public.path=/api/public
+      web.http.control.port=9999
+      web.http.control.path=/api/dataplane/control
+      edc.api.control.auth.apikey.key=X-Api-Key
+      edc.dataplane.token.validation.endpoint=http://tracex-edc-provider-controlplane:8182/validation/token
+      edc.hostname=tracex-edc-provider-dataplane.dev.demo.catena-x.net
+      edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+      edc.vault.hashicorp.health.check.enabled=true
+      edc.vault.hashicorp.health.check.standby.ok=true
+      edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+
+  secrets:
+    EDC_API_CONTROL_AUTH_APIKEY_VALUE: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+    EDC_VAULT_HASHICORP_TOKEN: <path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+
+  logging:
+    # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
+    properties: |-
+      .level=INFO
+      org.eclipse.dataspaceconnector.level=INFO
+      net.catenax.edc.hashicorpvault.level=INFO
+      handlers=java.util.logging.ConsoleHandler
+      java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+      java.util.logging.ConsoleHandler.level=INFO
+      java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n

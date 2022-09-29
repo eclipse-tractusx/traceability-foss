@@ -14,7 +14,7 @@ ingresses:
   ## Public / Internet facing Ingress
   - enabled: true
     # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-    hostname: trace-consumer-dataplane.dev.demo.catena-x.net
+    hostname: trace-consumer-dataplane.int.demo.catena-x.net
     annotations:
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -48,8 +48,8 @@ configuration:
     web.http.control.port=9999
     web.http.control.path=/api/dataplane/control
     edc.api.control.auth.apikey.key=X-Api-Key
-    edc.controlplane.validation-endpoint=http://trace-consumer-controlplane:8182/validation/token
-    edc.hostname=trace-consumer-dataplane.dev.demo.catena-x.net
+    edc.controlplane.validation.endpoint=http://trace-consumer-controlplane:8182/validation/token
+    edc.hostname=trace-consumer-dataplane.int.demo.catena-x.net
     edc.vault.hashicorp.url=https://vault.demo.catena-x.net
     edc.vault.hashicorp.health.check.enabled=true
     edc.vault.hashicorp.health.check.standby.ok=true
