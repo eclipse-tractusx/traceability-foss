@@ -216,7 +216,7 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 			defaultAssetsStored()
 
 		when:
-			mvc.perform(post("/assets/investigations")
+			mvc.perform(post("/investigations")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(asJson(
 					[

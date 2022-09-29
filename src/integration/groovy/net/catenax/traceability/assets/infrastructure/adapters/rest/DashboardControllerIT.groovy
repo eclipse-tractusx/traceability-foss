@@ -83,7 +83,7 @@ class DashboardControllerIT extends IntegrationSpec implements AssetsSupport {
 			defaultAssetsStored()
 
 		when:
-			mvc.perform(post("/assets//investigations")
+			mvc.perform(post("/investigations")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(asJson(
 					[
