@@ -93,3 +93,38 @@ tr.highlighted {
     background-position: -200%;
   }
 }
+
+.table--menu {
+  &__mobile {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    &__desktop {
+      display: none;
+    }
+
+    &__mobile {
+      display: table-row;
+    }
+  }
+}
+
+.expand-row {
+  height: 0;
+}
+
+.expand-element {
+  overflow: hidden;
+  display: flex;
+  transition: height 225ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expanded {
+  height: 48px;
+}
+
+.collapsed {
+  height: 0;
+  min-height: 0;
+}

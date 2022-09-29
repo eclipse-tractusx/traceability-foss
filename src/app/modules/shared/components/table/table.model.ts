@@ -24,13 +24,16 @@ import { SortableHeaders } from '@page/parts/model/parts.model';
 export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
 
 export interface TableConfig<Columns extends string = string> {
-  displayedColumns: Columns[];
+  displayedColumns: DisplayColumns<Columns>[];
   columnRoles?: Record<Columns, Role>;
   sortableColumns?: Record<Columns, boolean>;
   header?: Record<Columns, string>;
   hasPagination?: boolean;
   cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
+  menuActionsConfig?: MenuActionConfig[];
 }
+
+export type DisplayColumns<T> = 'select' | 'menu' | T;
 
 export const CreateHeaderFromColumns = (columns: string[], headerKey: string): Record<string, string> => {
   return columns.reduce((header, column) => ({ ...header, [column]: `${headerKey}.${column}` }), {});
@@ -43,4 +46,10 @@ export interface TablePaginationEventConfig {
 
 export interface TableEventConfig extends TablePaginationEventConfig {
   sorting: TableHeaderSort;
+}
+
+export interface MenuActionConfig {
+  label: string;
+  icon: string;
+  action: (data: unknown) => void;
 }

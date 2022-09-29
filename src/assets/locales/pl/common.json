@@ -21,7 +21,10 @@
     }
   },
   "actions": {
-    "back": "Wróć"
+    "back": "Wróć",
+    "delete": "Usuń",
+    "approve": "Zatwierdź",
+    "viewDetails": "Zobacz szczegóły"
   },
   "error": {
     "genericTitle": "Błąd"
@@ -29,7 +32,8 @@
   "table": {
     "noResultFound": "BRAK WYNIKÓW.",
     "tryAgain": "Spróbuj ponownie później.",
-    "selectPageSize": "Ilość elementów na stronie"
+    "selectPageSize": "Ilość elementów na stronie",
+    "menuDescription": "Menu akcji"
   },
   "dataLoading": {
     "inProgress": "Ładowanie danych...",
