@@ -24,6 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -70,10 +71,6 @@ public record JobResponse(
 	}
 
 }
-
-record JobStatus(
-	String jobState
-) {}
 
 record Bpn(
 	String manufacturerId,

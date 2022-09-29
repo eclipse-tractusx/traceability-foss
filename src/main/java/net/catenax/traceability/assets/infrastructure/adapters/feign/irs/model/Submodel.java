@@ -22,18 +22,29 @@ package net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 class Submodel {
-
 	@JsonTypeInfo(
 		use = JsonTypeInfo.Id.NAME,
 		include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
 		property = "aspectType")
 	@JsonSubTypes({
-		@JsonSubTypes.Type(value = AssemblyPartRelationship.class, name = "urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship"),
-		@JsonSubTypes.Type(value = SerialPartTypization.class, name = "urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization"),
-		@JsonSubTypes.Type(value = SerialPartTypization.class, name = "urn:bamm:com.catenax.batch:1.0.0#Batch")
+		@Type(value = AssemblyPartRelationship.class, names = {
+			"urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship",
+			"urn:bamm:io.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship",
+			"urn:bamm:io.catenax.assembly_part_relationship:1.1.0#AssemblyPartRelationship",
+			"urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship"}),
+		@Type(value = SerialPartTypization.class, names = {
+			"urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization",
+			"urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization",
+			"urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization"
+		}),
+		@Type(value = SerialPartTypization.class, names = {
+			"urn:bamm:com.catenax.batch:1.0.0#Batch",
+			"urn:bamm:io.catenax.batch:1.0.0#Batch"
+		})
 	})
 	private Object payload;
 

@@ -34,7 +34,6 @@ public class AssetsAsyncConfig {
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 		executor.setCorePoolSize(10);
 		executor.setMaxPoolSize(100);
-		executor.setQueueCapacity(50);
 		executor.setThreadNamePrefix("%s-".formatted(SYNCHRONIZE_ASSETS_EXECUTOR));
 
 		return executor;

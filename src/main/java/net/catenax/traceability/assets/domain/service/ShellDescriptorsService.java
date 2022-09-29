@@ -21,6 +21,8 @@ package net.catenax.traceability.assets.domain.service;
 
 import net.catenax.traceability.assets.domain.model.ShellDescriptor;
 import net.catenax.traceability.assets.domain.ports.ShellDescriptorRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class ShellDescriptorsService {
+	private static final Logger logger = LoggerFactory.getLogger(ShellDescriptorsService.class);
 
 	private final ShellDescriptorRepository shellDescriptorRepository;
 
@@ -42,6 +45,7 @@ public class ShellDescriptorsService {
 
 	@Transactional
 	public List<ShellDescriptor> update(List<ShellDescriptor> descriptors) {
+		logger.info("Starting update of {} shell descriptors.", descriptors.size());
 		Map<String, ShellDescriptor> existingDescriptors = shellDescriptorRepository.findAll().stream()
 			.collect(Collectors.toMap(ShellDescriptor::globalAssetId, Function.identity()));
 		List<ShellDescriptor> descriptorsToSync = new ArrayList<>();
@@ -57,6 +61,9 @@ public class ShellDescriptorsService {
 
 		shellDescriptorRepository.saveAll(descriptorsToSync);
 		shellDescriptorRepository.removeOldDescriptors(now);
+
+		logger.info("Finished update of {} shell descriptors.", descriptors.size());
+		logger.info("Updated needed for {} descriptors.", descriptorsToSync.size());
 
 		return descriptorsToSync;
 	}

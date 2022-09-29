@@ -31,7 +31,6 @@ import java.util.List;
 
 @Component
 public class RegistryFacade {
-
 	private final ShellDescriptorsService shellDescriptiorsService;
 	private final RegistryService registryService;
 	private final AssetService assetService;
@@ -50,11 +49,8 @@ public class RegistryFacade {
 	@Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
 	public void loadShellDescriptors() {
 		List<ShellDescriptor> descriptors = updateShellDescriptors();
-		List<String> globalAssetIds = descriptors.stream()
+		descriptors.stream()
 			.map(ShellDescriptor::globalAssetId)
-			.toList();
-
-		// add list
-		assetService.synchronizeAssets(globalAssetIds);
+			.forEach(assetService::synchronizeAssets);
 	}
 }

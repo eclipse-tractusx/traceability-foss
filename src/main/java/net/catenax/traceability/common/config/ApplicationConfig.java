@@ -19,8 +19,15 @@
 
 package net.catenax.traceability.common.config;
 
+import io.github.resilience4j.core.registry.EntryAddedEvent;
+import io.github.resilience4j.core.registry.EntryRemovedEvent;
+import io.github.resilience4j.core.registry.EntryReplacedEvent;
+import io.github.resilience4j.core.registry.RegistryEventConsumer;
+import io.github.resilience4j.retry.Retry;
 import net.catenax.traceability.common.docs.SwaggerPageable;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
@@ -151,6 +158,25 @@ public class ApplicationConfig {
 			.scopeSeparator(",")
 			.additionalQueryStringParams(null)
 			.build();
+	}
+
+	@Bean
+	public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
+		final Logger logger = LoggerFactory.getLogger("RetryLogger");
+
+		return new RegistryEventConsumer<>() {
+			@Override
+			public void onEntryAddedEvent(EntryAddedEvent<Retry> entryAddedEvent) {
+				entryAddedEvent.getAddedEntry().getEventPublisher()
+					.onEvent(event -> logger.info(event.toString()));
+			}
+
+			@Override
+			public void onEntryReplacedEvent(EntryReplacedEvent<Retry> entryReplacedEvent) {}
+
+			@Override
+			public void onEntryRemovedEvent(EntryRemovedEvent<Retry> entryRemoveEvent) {}
+		};
 	}
 
 	private static SecurityScheme bearerTokenAuthenticationScheme() {

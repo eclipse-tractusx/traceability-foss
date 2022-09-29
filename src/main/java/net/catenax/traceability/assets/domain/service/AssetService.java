@@ -24,8 +24,10 @@ import net.catenax.traceability.assets.domain.model.AssetNotFoundException;
 import net.catenax.traceability.assets.domain.model.QualityType;
 import net.catenax.traceability.assets.domain.ports.AssetRepository;
 import net.catenax.traceability.assets.domain.ports.IrsRepository;
+import net.catenax.traceability.assets.infrastructure.config.async.AssetsAsyncConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -34,7 +36,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class AssetService {
-
 	private static final Logger logger = LoggerFactory.getLogger(AssetService.class);
 
 	private final AssetRepository assetRepository;
@@ -55,14 +56,21 @@ public class AssetService {
 		}
 	}
 
-	private void synchronizeAssets(String globalAssetId) {
+	@Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
+	public void synchronizeAssets(String globalAssetId) {
 		logger.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
 
-		List<Asset> assets = irsRepository.findAssets(globalAssetId);
+		try {
+			List<Asset> assets = irsRepository.findAssets(globalAssetId);
 
-		logger.info("Assets synchronization for globalAssetId: {} is done. Found {} assets.", globalAssetId, assets.size());
+			logger.info("Assets synchronization for globalAssetId: {} is done. Found {} assets. Saving them in the repository.", globalAssetId, assets.size());
 
-		assetRepository.saveAll(assets);
+			assetRepository.saveAll(assets);
+
+			logger.info("Assets for globalAssetId {} successfully saved.", globalAssetId);
+		} catch (Exception e) {
+			logger.warn("Exception during assets synchronization for globalAssetId: {}. Message: {}.", globalAssetId, e.getMessage(), e);
+		}
 	}
 
 	public Asset updateAsset(String assetId, QualityType qualityType) {
