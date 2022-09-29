@@ -1,0 +1,69 @@
+name: Release Charts
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Get-helm-charts-versions:
+    outputs:
+      latest_version: ${{ steps.step1.outputs.latest_version }}
+      current_version: ${{ steps.step2.outputs.current_version }}
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get helm charts latest tag version
+        id: step1
+        run: |
+          latestVersion=$(git tag | grep "helm-charts-" | tail -1)
+          echo "::set-output name=latest_version::$latestVersion"
+          echo "Exported $latestVersion latest helm charts version"
+
+      - name: Get helm charts current version
+        id: step2
+        run: |
+          chartVersion=helm-charts-$(cat ./charts/product-traceability-foss-backend/Chart.yaml | grep "version:" | head -1 | cut -d ":" -d " " -f2)
+          echo "::set-output name=current_version::$chartVersion"
+          echo "Exported $chartVersion helm charts version"
+
+  Release-helm-charts:
+    needs: "Get-helm-charts-versions"
+    if: needs.Get-helm-charts-versions.outputs.latest_version != needs.Get-helm-charts-versions.outputs.current_version
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION: "${{needs.Get-helm-charts-versions.outputs.current_version}}"
+    steps:
+      - run: echo "Releasing helm charts with ${{ env.RELEASE_VERSION }} version"
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Install Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.8.1
+
+      - name: Add Helm repos
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add runix https://helm.runix.net
+
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.4.0
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_RELEASE_NAME_TEMPLATE: "${{ env.RELEASE_VERSION }}"

@@ -10,7 +10,7 @@ image:
   repository: ghcr.io/catenax-ng/product-traceability-foss-backend
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
+  tag: "{{ .Chart.AppVersion }}"
 
 ##
 ## Image pull secret to create to obtain the container image

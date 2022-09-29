@@ -23,6 +23,10 @@ a recorded event in the supply chain. This saves costs by seamlessly tracking pa
 
 * see [Installation guide](./docs/INSTALLATION.md)
 
+### Releasing
+
+* see [Releasing guide](./docs/RELEASE.md)
+
 ### Running tests
 
 #### Unit tests
