@@ -68,6 +68,18 @@ trait IrsApiSupport implements RestitoProvider {
 			)
 	}
 
+	void irsApiReturnsJobDetailsWithNoBPNs() {
+		whenHttp(stubServer()).match(
+			get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54"),
+			withHeader(HttpHeaders.AUTHORIZATION)
+		)
+			.then(
+				ok(),
+				header("Content-Type", "application/json"),
+				jsonResponseFromFile("./stubs/irs/get/jobs/jobId/response_no_bpns_200.json")
+			)
+	}
+
 	void irsApiReturnsJobInRunningState() {
 		whenHttp(stubServer()).match(
 			get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54"),

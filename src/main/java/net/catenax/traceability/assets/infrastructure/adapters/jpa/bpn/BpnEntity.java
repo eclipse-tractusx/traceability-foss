@@ -17,12 +17,40 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package net.catenax.traceability.assets.domain.ports;
+package net.catenax.traceability.assets.infrastructure.adapters.jpa.bpn;
 
-import java.util.Map;
-import java.util.Optional;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public interface BpnRepository {
-	Optional<String> findManufacturerName(String manufacturerId);
-	void updateManufacturers(Map<String, String> bpns);
+@Entity
+@Table(name = "bpn_storage")
+public class BpnEntity {
+	@Id
+	private String manufacturerId;
+	private String manufacturerName;
+
+	public BpnEntity() {
+	}
+
+	public BpnEntity(String manufacturerId, String manufacturerName) {
+		this.manufacturerId = manufacturerId;
+		this.manufacturerName = manufacturerName;
+	}
+
+	public String getManufacturerId() {
+		return manufacturerId;
+	}
+
+	public void setManufacturerId(String manufacturerId) {
+		this.manufacturerId = manufacturerId;
+	}
+
+	public String getManufacturerName() {
+		return manufacturerName;
+	}
+
+	public void setManufacturerName(String manufacturerName) {
+		this.manufacturerName = manufacturerName;
+	}
 }

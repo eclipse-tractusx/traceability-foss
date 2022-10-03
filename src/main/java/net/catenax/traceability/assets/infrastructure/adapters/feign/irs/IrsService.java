@@ -20,13 +20,17 @@
 package net.catenax.traceability.assets.infrastructure.adapters.feign.irs;
 
 import net.catenax.traceability.assets.domain.model.Asset;
+import net.catenax.traceability.assets.domain.ports.BpnRepository;
 import net.catenax.traceability.assets.domain.ports.IrsRepository;
-import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.*;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.JobResponse;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.JobStatus;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.StartJobRequest;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.StartJobResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
 
@@ -37,10 +41,12 @@ public class IrsService implements IrsRepository {
 
 	private final IRSApiClient irsClient;
 	private final AssetsConverter assetsConverter;
+	private final BpnRepository bpnRepository;
 
-	public IrsService(IRSApiClient irsClient, AssetsConverter assetsConverter) {
+	public IrsService(IRSApiClient irsClient, AssetsConverter assetsConverter, BpnRepository bpnRepository) {
 		this.irsClient = irsClient;
 		this.assetsConverter = assetsConverter;
+		this.bpnRepository = bpnRepository;
 	}
 
 	@Override
@@ -53,6 +59,7 @@ public class IrsService implements IrsRepository {
 		logger.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.jobState(), runtime);
 
 		if (jobDetails.isCompleted()) {
+			bpnRepository.updateManufacturers(jobDetails.bpns());
 			return assetsConverter.convertAssets(jobDetails);
 		}
 

@@ -4,10 +4,8 @@ import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.A
 
 trait AssetsSupport implements AssetRepositoryProvider {
 
-	private static final AssetsConverter CONVERTER = new AssetsConverter()
-
 	void defaultAssetsStored() {
-		assetRepository().saveAll(CONVERTER.readAndConvertAssets())
+		assetRepository().saveAll(assetsConverter().readAndConvertAssets())
 	}
 
 	void assertAssetsSize(int size) {

@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.catenax.traceability.assets.domain.model.Asset;
 import net.catenax.traceability.assets.domain.model.Asset.ChildDescriptions;
 import net.catenax.traceability.assets.domain.model.QualityType;
+import net.catenax.traceability.assets.domain.ports.BpnRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
@@ -43,9 +44,15 @@ public class AssetsConverter {
 
 	public static final String EMPTY_TEXT = "--";
 
+	private BpnRepository bpnRepository;
+
 	private final ObjectMapper mapper = new ObjectMapper()
 		.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
 		.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+	public AssetsConverter(BpnRepository bpnRepository) {
+		this.bpnRepository = bpnRepository;
+	}
 
 	public List<Asset> readAndConvertAssets() {
 		try {
@@ -69,49 +76,50 @@ public class AssetsConverter {
 			.collect(Collectors.toSet());
 
 
-		return parts.stream()
-			.map(part -> new Asset(
-				part.catenaXId(),
-				shortIds.get(part.catenaXId()),
-				defaultValue(part.partTypeInformation().nameAtManufacturer()),
-				defaultValue(part.partTypeInformation().manufacturerPartID()),
-				manufacturerId(part),
-				batchId(part),
-				manufacturerName(part, response.bpns()),
-				defaultValue(part.partTypeInformation().nameAtCustomer()),
-				defaultValue(part.partTypeInformation().customerPartId()),
-				manufacturingDate(part),
-				manufacturingCountry(part),
-				supplierParts.contains(part.catenaXId()),
-				getChildParts(relationships, shortIds, part.catenaXId()),
-				false,
-				QualityType.OK
-			)).toList();
+			return parts.stream()
+				.map(part -> new Asset(
+					part.catenaXId(),
+					shortIds.get(part.catenaXId()),
+					defaultValue(part.partTypeInformation().nameAtManufacturer()),
+					defaultValue(part.partTypeInformation().manufacturerPartID()),
+					manufacturerId(part),
+					batchId(part),
+					manufacturerName(part),
+					defaultValue(part.partTypeInformation().nameAtCustomer()),
+					defaultValue(part.partTypeInformation().customerPartId()),
+					manufacturingDate(part),
+					manufacturingCountry(part),
+					supplierParts.contains(part.catenaXId()),
+					getChildParts(relationships, shortIds, part.catenaXId()),
+					false,
+					QualityType.OK
+				)).toList();
 	}
 
-	public String manufacturerName(SerialPartTypization part, Map<String, String> bpns) {
-		String manufacturerName = bpns.get(manufacturerId(part));
-		return defaultValue(manufacturerName);
+	private String manufacturerName(SerialPartTypization part) {
+		String manufacturerId = manufacturerId(part);
+
+		return bpnRepository.findManufacturerName(manufacturerId).orElse(EMPTY_TEXT);
 	}
 
-	public String manufacturerId(SerialPartTypization part) {
+	private String manufacturerId(SerialPartTypization part) {
 		return part.getLocalId(LocalIdType.MANUFACTURER_ID)
 			.orElse(EMPTY_TEXT);
 	}
 
-	public String batchId(SerialPartTypization part) {
+	private String batchId(SerialPartTypization part) {
 		return part.getLocalId(LocalIdType.BATCH_ID)
 			.orElse(EMPTY_TEXT);
 	}
 
-	public String manufacturingCountry(SerialPartTypization part) {
+	private String manufacturingCountry(SerialPartTypization part) {
 		if (part.manufacturingInformation() == null) {
 			return EMPTY_TEXT;
 		}
 		return part.manufacturingInformation().country();
 	}
 
-	public Instant manufacturingDate(SerialPartTypization part) {
+	private Instant manufacturingDate(SerialPartTypization part) {
 		if (part.manufacturingInformation() == null) {
 			return null;
 		}

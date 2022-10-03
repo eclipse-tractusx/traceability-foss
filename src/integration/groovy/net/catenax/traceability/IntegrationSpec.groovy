@@ -23,6 +23,7 @@ import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
 import net.catenax.traceability.assets.domain.ports.AssetRepository
 import net.catenax.traceability.assets.domain.ports.ShellDescriptorRepository
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
 import net.catenax.traceability.common.config.MailboxConfig
 import net.catenax.traceability.common.config.OAuth2Config
 import net.catenax.traceability.common.config.PostgreSQLConfig
@@ -59,6 +60,9 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	private AssetRepository assetRepository
 
 	@Autowired
+	private AssetsConverter assetsConverter
+
+	@Autowired
 	private ShellDescriptorRepository shellDescriptorRepository
 
 	def cleanup() {
@@ -76,6 +80,11 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	@Override
 	AssetRepository assetRepository() {
 		return assetRepository
+	}
+
+	@Override
+	AssetsConverter assetsConverter() {
+		return assetsConverter
 	}
 
 	@Override

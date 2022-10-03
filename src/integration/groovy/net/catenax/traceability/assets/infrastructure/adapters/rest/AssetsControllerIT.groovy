@@ -22,6 +22,7 @@ package net.catenax.traceability.assets.infrastructure.adapters.rest
 import net.catenax.traceability.IntegrationSpec
 import net.catenax.traceability.assets.domain.model.Asset
 import net.catenax.traceability.assets.domain.model.InvestigationStatus
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
 import net.catenax.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity
 import net.catenax.traceability.assets.infrastructure.adapters.jpa.asset.JpaAssetsRepository
 import net.catenax.traceability.common.security.KeycloakRole
@@ -66,6 +67,35 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 			eventually {
 				assertAssetsSize(14)
 				assertHasRequiredIdentifiers();
+			}
+	}
+
+	def "should use cached BPNs when empty list is returned"() {
+		given:
+			authenticatedUser(KeycloakRole.ADMIN)
+			keycloakApiReturnsToken()
+			irsApiTriggerJob()
+			irsApiReturnsJobDetailsWithNoBPNs()
+
+		when:
+			mvc.perform(post("/assets/sync")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(asJson(
+					[
+						globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
+					]
+				))
+			).andExpect(status().isOk())
+
+		then:
+			eventually {
+				List<Asset> assets = assetRepository().getAssets().findAll {asset ->
+					asset.manufacturerId != AssetsConverter.EMPTY_TEXT
+				}
+				assets.size() == 13
+				assets.each {asset ->
+					assert asset.manufacturerName != AssetsConverter.EMPTY_TEXT
+				}
 			}
 	}
 
@@ -190,7 +220,7 @@ class AssetsControllerIT extends IntegrationSpec implements IrsApiSupport, Asset
 		expect:
 			mvc.perform(get("/assets").contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.content[*].manufacturerName', not(equalTo("--"))))
+				.andExpect(jsonPath('$.content[*].manufacturerName', not(equalTo(AssetsConverter.EMPTY_TEXT))))
 	}
 
 	def "should return supplier assets"() {

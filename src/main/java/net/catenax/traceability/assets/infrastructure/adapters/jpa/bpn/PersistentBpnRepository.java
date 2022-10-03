@@ -17,12 +17,37 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package net.catenax.traceability.assets.domain.ports;
+package net.catenax.traceability.assets.infrastructure.adapters.jpa.bpn;
 
+import net.catenax.traceability.assets.domain.ports.BpnRepository;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public interface BpnRepository {
-	Optional<String> findManufacturerName(String manufacturerId);
-	void updateManufacturers(Map<String, String> bpns);
+@Component
+public class PersistentBpnRepository implements BpnRepository {
+
+	private JpaBpnRepository repository;
+
+	public PersistentBpnRepository(JpaBpnRepository repository) {
+		this.repository = repository;
+	}
+
+	@Override
+	public Optional<String> findManufacturerName(String manufacturerId) {
+		return repository.findById(manufacturerId)
+			.map(BpnEntity::getManufacturerName);
+	}
+
+	@Override
+	public void updateManufacturers(Map<String, String> bpns) {
+		List<BpnEntity> entities = bpns.entrySet().stream()
+			.map(entry -> new BpnEntity(entry.getKey(), entry.getValue()))
+			.toList();
+
+		repository.saveAll(entities);
+	}
+
 }
