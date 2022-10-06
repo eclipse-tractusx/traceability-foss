@@ -17,34 +17,31 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.layout-container {
-  @apply h-screen pt-16 flex flex-row justify-start overflow-hidden;
-  flex: 1;
+.toast {
+  @apply flex flex-row justify-between bg-white mb-2 w-96 h-14 z-120 border-solid border-l-8;
 }
 
-.layout-sidebar {
-  @apply bg-white flex;
+.status-bar-success {
+  height: 100%;
+  @apply border-success;
 }
 
-.layout-resizer {
-  @apply sm:hidden lg:flex relative;
+.status-bar-warning {
+  height: 100%;
+  @apply border-warning;
 }
 
-.layout-content {
-  @apply flex flex-1 flex-col min-w-0 relative overflow-auto;
-  will-change: padding-left;
-  transition: padding-left 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
-
-  &__box-modal {
-    @apply pt-6 px-8 pb-12 min-w-0;
-    order: 1;
-    flex: 1 0;
-  }
+.status-bar-error {
+  height: 100%;
+  @apply border-error;
 }
 
-.layout-toast-component {
-  position: fixed;
-  top: 8%;
-  right: 0;
-  z-index: 120;
+.status-bar-informative {
+  height: 100%;
+  @apply border-info;
+}
+
+.btn-close {
+  border: 0;
+  @apply bg-tundoraShadeGray border-0;
 }

@@ -19,39 +19,37 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NotificationMessage } from '../notification-message/notification-message.model';
-import { NotificationService } from '../notification.service';
+import { ToastMessage } from '../toast-message/toast-message.model';
+import { ToastService } from '../toast.service';
 import { notifyAnimation } from './animation';
 
 @Component({
-  selector: 'app-notification-container',
-  templateUrl: './notification-container.component.html',
-  styleUrls: ['./notification-container.component.scss'],
+  selector: 'app-toast-container',
+  templateUrl: './toast-container.component.html',
+  styleUrls: ['./toast-container.component.scss'],
   animations: [notifyAnimation],
 })
-export class NotificationContainerComponent implements OnInit, OnDestroy {
-  public notifications: NotificationMessage[] = [];
+export class ToastContainerComponent implements OnInit, OnDestroy {
+  public toastMessages: ToastMessage[] = [];
 
   private subscription: Subscription;
 
-  constructor(private readonly notifierService: NotificationService) {}
+  constructor(private readonly toastService: ToastService) {}
 
   public ngOnInit(): void {
-    this.subscription = this.notifierService
-      .getNotificationObservable()
-      .subscribe(notification => this.add(notification));
+    this.subscription = this.toastService.getCurrentToast$().subscribe(toast => this.add(toast));
   }
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  public remove({ id }: NotificationMessage): void {
-    this.notifications = this.notifications.filter(notification => notification.id !== id);
+  public remove({ id }: ToastMessage): void {
+    this.toastMessages = this.toastMessages.filter(toast => toast.id !== id);
   }
 
-  public add(notification: NotificationMessage): void {
-    this.notifications.unshift(notification);
-    setTimeout(() => this.remove(notification), notification.timeout);
+  public add(message: ToastMessage): void {
+    this.toastMessages.unshift(message);
+    setTimeout(() => this.remove(message), message.timeout);
   }
 }

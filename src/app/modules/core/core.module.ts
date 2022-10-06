@@ -30,7 +30,7 @@ import { DashboardModule } from '@page/dashboard/dashboard.module';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PageNotFoundModule } from '@page/page-not-found/page-not-found.module';
 import { PartsModule } from '@page/parts/parts.module';
-import { NotificationService } from '@shared/components/notifications/notification.service';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { I18NextModule } from 'angular-i18next';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { ApiInterceptor } from './api/api.interceptor';
@@ -85,7 +85,7 @@ import { UserService } from './user/user.service';
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true,
-      deps: [NotificationService],
+      deps: [ToastService],
     },
     {
       provide: HTTP_INTERCEPTORS,

@@ -17,28 +17,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-/**
- * Types or status of notification messages
- * Success status - shows the notification with a green status bar, typically used to inform the user
- * warning status - shows the notification with a yellow status bar, typically used to alert the user
- * error status - shows the notification with a red status bar, typically used for error messages
- * informative status - shows the notification with a blue status bar, typically used for informative messages
- */
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ToastMessage } from './toast-message.model';
 
-export const enum NotificationStatus {
-  Success = 1,
-  Warning = 2,
-  Error = 3,
-  Informative = 4,
-}
-
-export class NotificationMessage {
-  public isSliderON = true;
-
-  constructor(
-    public id: number,
-    public message: string,
-    public status: NotificationStatus | null,
-    public timeout: number,
-  ) {}
+@Component({
+  selector: 'app-toast-message',
+  templateUrl: './toast-message.component.html',
+  styleUrls: ['./toast-message.component.scss'],
+})
+export class ToastMessageComponent {
+  @Input() toastMessage: ToastMessage;
+  @Output() removeToast: EventEmitter<ToastMessage> = new EventEmitter<ToastMessage>();
 }

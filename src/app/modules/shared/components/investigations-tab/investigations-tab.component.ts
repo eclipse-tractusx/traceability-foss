@@ -20,9 +20,9 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import {
   CreateHeaderFromColumns,
+  DisplayColumns,
   MenuActionConfig,
   TableConfig,
-  DisplayColumns,
   TablePaginationEventConfig,
 } from '@shared/components/table/table.model';
 import { Investigation, Investigations } from '@shared/model/investigations.model';

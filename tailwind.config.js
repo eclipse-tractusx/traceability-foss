@@ -102,7 +102,7 @@ module.exports = {
       success: '#3db014',
       warning: '#ffad1f',
       alert: '#fe6702',
-      info: '#ffa600',
+      info: '#046B99',
       inactive: '#D8D8D8',
 
       // Basic gray accent color
