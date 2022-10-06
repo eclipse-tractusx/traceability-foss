@@ -20,14 +20,14 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import { I18nMessage } from '@shared/model/i18n-message';
-import { CallAction, CtaNotificationData } from './cta-notification.model';
+import { CallAction, CtaSnackbarData } from './cta-snackbar.model';
 
 // CTA stands for call-to-action
 @Component({
-  selector: 'cta-notification',
-  templateUrl: './cta-notification.component.html',
+  selector: 'cta-snackbar',
+  templateUrl: './cta-snackbar.component.html',
 })
-export class CtaNotificationComponent {
+export class CtaSnackbarComponent {
   public get text(): I18nMessage {
     return this.data.text;
   }
@@ -38,7 +38,7 @@ export class CtaNotificationComponent {
 
   constructor(
     @Inject(MAT_SNACK_BAR_DATA)
-    private readonly data: CtaNotificationData,
+    private readonly data: CtaSnackbarData,
     private readonly snackBar: MatSnackBar,
   ) {}
 

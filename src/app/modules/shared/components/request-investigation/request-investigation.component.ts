@@ -21,7 +21,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { Part } from '@page/parts/model/parts.model';
-import { CtaNotificationService } from '@shared/components/call-to-action-notifications/cta-notification.service';
+import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { InvestigationStatusGroup } from '@shared/model/investigations.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { BehaviorSubject } from 'rxjs';
@@ -51,7 +51,7 @@ export class RequestInvestigationComponent {
 
   constructor(
     private readonly investigationsService: InvestigationsService,
-    private readonly ctaNotificationService: CtaNotificationService,
+    private readonly ctaSnackbarService: CtaSnackbarService,
   ) {}
 
   public readonly isOpen$ = new BehaviorSubject<boolean>(false);
@@ -84,7 +84,7 @@ export class RequestInvestigationComponent {
         this.isOpen = false;
         this.clearSelected.emit();
 
-        this.openCtaNotification(amountOfItems);
+        this.openCtaSnackbar(amountOfItems);
       },
       error: () => {
         this.isLoading$.next(false);
@@ -93,10 +93,10 @@ export class RequestInvestigationComponent {
     });
   }
 
-  private openCtaNotification(count: number): void {
+  private openCtaSnackbar(count: number): void {
     const { link, queryParams } = getInvestigationInboxRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
 
-    this.ctaNotificationService.show(
+    this.ctaSnackbarService.show(
       {
         id: 'qualityInvestigation.success',
         values: { count },

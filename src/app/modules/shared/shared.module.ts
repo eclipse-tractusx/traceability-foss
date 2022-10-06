@@ -24,7 +24,7 @@ import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
-import { CtaNotificationComponent } from './components/call-to-action-notifications/cta-notification.component';
+import { CtaSnackbarComponent } from './components/call-to-action-snackbar/cta-snackbar.component';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
@@ -82,7 +82,7 @@ import { TemplateModule } from './template.module';
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,
-    CtaNotificationComponent,
+    CtaSnackbarComponent,
     ScrollWithShadowComponent,
     QualityTypeComponent,
     ValueToLablePipe,
