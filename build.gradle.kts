@@ -60,20 +60,23 @@ sonarqube {
 
 val commonsCodecVersion = "1.15"
 val commonsIoVersion = "2.11.0"
-val groovyVersion = "3.0.10"
+val commonsLangVersion = "3.12.0"
+val groovyVersion = "3.0.13"
 val spockBomVersion = "2.1-groovy-3.0"
 val greenmailVersion = "1.6.9"
 val springfoxVersion = "3.0.0"
 val keycloakVersion = "19.0.2"
-val feignVersion = "11.8"
+val feignVersion = "11.9.1"
 val springCloudVersion = "2021.0.4"
 val springBootSecurityOauth2Version = "2.6.8"
-val jacksonDatabindNullableVersion = "0.2.2"
-val scribejavaVersion = "8.0.0"
+val jacksonDatabindNullableVersion = "0.2.3"
+val scribejavaVersion = "8.3.1"
 val findBugsVersion = "3.0.2"
-val restitoVersion = "0.9.5"
+val restitoVersion = "1.0.0"
+// attention when upgrading: grizzly version is linked to restito version
+val grizzlyVersion = "2.3.25"
 val resilience4jVersion = "1.7.0"
-val testContainersVersion = "1.17.3"
+val testContainersVersion = "1.17.4"
 val schedlockVersion = "4.42.0"
 
 dependencyManagement {
@@ -119,13 +122,8 @@ dependencies {
 	implementation("net.javacrumbs.shedlock:shedlock-spring:$schedlockVersion")
 	implementation("net.javacrumbs.shedlock:shedlock-provider-jdbc-template:$schedlockVersion")
 
-
-	// for demo purposes, to be removed once EDC works
-	implementation("com.github.javafaker:javafaker:1.0.2") {
-		exclude("org.yaml")
-	}
-
 	implementation("commons-codec:commons-codec:$commonsCodecVersion")
+	implementation("org.apache.commons:commons-lang3:$commonsLangVersion")
 
 	implementation("io.github.resilience4j:resilience4j-feign:${resilience4jVersion}")
 	implementation("io.github.resilience4j:resilience4j-retry:${resilience4jVersion}")
@@ -145,6 +143,8 @@ dependencies {
 
     integrationImplementation("com.icegreen:greenmail-spring:$greenmailVersion")
 	integrationImplementation("com.xebialabs.restito:restito:$restitoVersion")
+	integrationImplementation("org.glassfish.grizzly:grizzly-http:$grizzlyVersion")
+	integrationImplementation("org.glassfish.grizzly:grizzly-http-server:$grizzlyVersion")
 
 	integrationImplementation("commons-io:commons-io:$commonsIoVersion")
 }
