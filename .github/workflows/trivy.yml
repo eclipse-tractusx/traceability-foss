@@ -1,17 +1,15 @@
 name: "Trivy"
 
 on:
-  push:
-    branches: [ main ]
-  schedule:
-    # Once a day
-    - cron: "0 0 * * *"
-  workflow_dispatch:
-  # Trigger manually
+  workflow_run:
+    workflows: [Publish docker image]
+    types: [completed]
+    branches: [main]
 
 jobs:
   analyze-config:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       actions: read
       contents: read
@@ -20,6 +18,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
@@ -39,6 +39,7 @@ jobs:
 
   analyze-product-traceability-foss-backend:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       actions: read
       contents: read
@@ -47,17 +48,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
 
-      # It's also possible to scan your private registry with Trivy's built-in image scan.
-      # All you have to do is set ENV vars.
-      # Docker Hub needs TRIVY_USERNAME and TRIVY_PASSWORD.
-      # You don't need to set ENV vars when downloading from a public repository.
-      # For public images, no ENV vars must be set.
       - name: Run Trivy vulnerability scanner
         if: always()
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: "ghcr.io/catenax-ng/product-traceability-foss-backend:latest"
+          image-ref: ghcr.io/catenax-ng/product-traceability-foss-backend:${{ github.event.workflow_run.head_sha }}
           trivyignores: "./.github/workflows/.trivyignore"
           format: "sarif"
           output: "trivy-results2.sarif"
