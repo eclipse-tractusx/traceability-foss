@@ -20,6 +20,7 @@
 import { TreeData } from '@shared/modules/relations/model/relations.model';
 import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 import * as d3 from 'd3';
+import { screen } from '@testing-library/angular';
 import Tree from './tree.d3';
 import { D3TreeDummyData } from './tree.d3.test.data';
 
@@ -33,15 +34,6 @@ describe('D3 Tree', () => {
   const updateChildren = jest.fn();
 
   let treeData: TreeData;
-
-  const copyData = (obj: object) =>
-    Object.entries(obj).reduce(
-      (acc, [key, value]) => ({
-        ...acc,
-        [key]: value,
-      }),
-      {},
-    );
 
   beforeEach(() => (treeData = { id, mainElement, openDetails, updateChildren }));
 
@@ -63,19 +55,6 @@ describe('D3 Tree', () => {
     expect(tree).toMatchObject(expected);
   });
 
-  it('should render tree', () => {
-    const tree = new Tree(treeData);
-
-    const treeSvg = tree.renderTree(D3TreeDummyData).node();
-    const treeChildren = treeSvg.children;
-
-    const idMapping = [];
-    for (let i = 0; i < treeChildren.length; i++) idMapping.push(treeChildren.item(i)?.id);
-
-    const ids = ['id--paths', 'id--ClosingCircle', 'id--circles', 'id--statusBorder', 'id--loading', 'id--arrow'];
-    expect(idMapping).toEqual(ids);
-  });
-
   it('should render element borders', () => {
     const tree = new Tree(treeData);
     const treeSvg = tree.renderTree(D3TreeDummyData).node();
@@ -85,16 +64,9 @@ describe('D3 Tree', () => {
   });
 
   it('should render modified text for different sizes', () => {
-    const tree = new Tree(treeData);
+    new Tree(treeData);
 
-    const treeSvg = tree.renderTree(D3TreeDummyData).node();
-    const treeChildren = treeSvg.children;
-
-    const circleChild = treeChildren.item(2);
-    const smallText = circleChild.children.item(1).children.item(2).innerHTML;
-    const longText = circleChild.children.item(2).children.item(2).innerHTML;
-
-    expect(smallText).toBe('   Small    ');
-    expect(longText).toBe('Long text...');
+    expect(screen.getByText('Small')).toBeInTheDocument();
+    expect(screen.getByText('Long text...')).toBeInTheDocument();
   });
 });

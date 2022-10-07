@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, Input, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Part } from '@page/parts/model/parts.model';
 import { State } from '@shared/model/state';
@@ -64,6 +64,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly relationsFacade: RelationsFacade,
     private readonly loadedElementsFacade: LoadedElementsFacade,
     private readonly route: ActivatedRoute,
+    private readonly ngZone: NgZone,
     staticIdService: StaticIdService,
   ) {
     this.rootPart$ = this._rootPart$.observable.pipe(debounceTime(100));
@@ -150,9 +151,13 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private updateChildren({ id }: TreeElement): void {
-    !this.relationsFacade.isElementOpen(id)
-      ? this.relationsFacade.openElementById(id)
-      : this.relationsFacade.closeElementById(id);
+    // as d3.js handles rendering of relations, we can get some performance boost by avoiding
+    // all impure pipe computations as side effects for this operation
+    this.ngZone.runOutsideAngular(() => {
+      !this.relationsFacade.isElementOpen(id)
+        ? this.relationsFacade.openElementById(id)
+        : this.relationsFacade.closeElementById(id);
+    });
   }
 
   private openDetails({ id }: TreeElement): void {
@@ -186,12 +191,10 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public increaseSize(): void {
-    this.tree.zoom = this.tree.zoom + 0.25;
-    this.renderTree(this.treeData);
+    this.tree.changeSize(0.25);
   }
 
   public decreaseSize(): void {
-    this.tree.zoom = this.tree.zoom - 0.25;
-    this.renderTree(this.treeData);
+    this.tree.changeSize(-0.25);
   }
 }
