@@ -21,30 +21,30 @@ import { TestBed } from '@angular/core/testing';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { CtaNotificationService } from './cta-notification.service';
+import { CtaSnackbarService } from './cta-snackbar.service';
 
-describe('cta-notification', () => {
+describe('cta-snackbar', () => {
   const prepareEnv = async () => {
     await renderComponent('', {
       imports: [SharedModule],
     });
 
-    return TestBed.inject(CtaNotificationService);
+    return TestBed.inject(CtaSnackbarService);
   };
 
   it('should show message with action', async () => {
-    const ctaNotificationService = await prepareEnv();
+    const ctaSnackbarService = await prepareEnv();
 
-    ctaNotificationService.show('actions.back', [{ text: 'Open', link: '' }]);
+    ctaSnackbarService.show('actions.back', [{ text: 'Open', link: '' }]);
 
     expect(await screen.findByText('Back')).toBeInTheDocument();
     expect(await screen.findByText('Open')).toBeInTheDocument();
   });
 
   it('should close message after click on action', async () => {
-    const ctaNotificationService = await prepareEnv();
+    const ctaSnackbarService = await prepareEnv();
 
-    ctaNotificationService.show('actions.back', [{ text: 'Open', link: '' }]);
+    ctaSnackbarService.show('actions.back', [{ text: 'Open', link: '' }]);
     fireEvent.click(await screen.findByText('Open'));
 
     await waitForElementToBeRemoved(() => screen.queryByText('Open'));

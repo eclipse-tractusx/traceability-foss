@@ -17,21 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { I18nMessage } from '@shared/model/i18n-message';
-import { CtaNotificationComponent } from './cta-notification.component';
-import { CallAction, CtaNotificationData } from './cta-notification.model';
+
+export interface CallAction {
+  text: I18nMessage;
+  link: string;
+  linkQueryParams?: Record<string, string>;
+}
 
 // CTA stands for call-to-action
-@Injectable({
-  providedIn: 'root',
-})
-export class CtaNotificationService {
-  constructor(private readonly snackBar: MatSnackBar) {}
-
-  public show(text: I18nMessage, actions: CallAction[]): void {
-    const data: CtaNotificationData = { text, actions };
-    this.snackBar.openFromComponent(CtaNotificationComponent, { data });
-  }
+export interface CtaSnackbarData {
+  text: I18nMessage;
+  actions: CallAction[];
 }
