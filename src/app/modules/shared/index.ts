@@ -17,6 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+export { NotificationModule } from './modules/notification/notification.module';
 export { PartDetailsFacade } from './modules/part-details/core/partDetails.facade';
 export { PartDetailsState } from './modules/part-details/core/partDetails.state';
 export { PartDetailsModule } from './modules/part-details/partDetails.module';

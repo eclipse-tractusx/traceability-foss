@@ -30,8 +30,6 @@ import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
 import { DataLoadingErrorComponent } from './components/data-loading-error/data-loading-error.component';
 import { HeaderComponent } from './components/header/header.component';
-import { InvestigationStatusComponent } from './components/investigation-status/investigation-status.component';
-import { InvestigationsTabComponent } from './components/investigations-tab/investigations-tab.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
 import { QualityTypeComponent } from './components/quality-type/quality-type.component';
@@ -86,8 +84,6 @@ import { TemplateModule } from './template.module';
     ScrollWithShadowComponent,
     QualityTypeComponent,
     ValueToLablePipe,
-    InvestigationsTabComponent,
-    InvestigationStatusComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -117,8 +113,6 @@ import { TemplateModule } from './template.module';
     ErrorMessagePipe,
     RequestInvestigationComponent,
     QualityTypeComponent,
-    InvestigationsTabComponent,
-    InvestigationStatusComponent,
   ],
   providers: [
     FormatDatePipe,

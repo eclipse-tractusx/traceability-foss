@@ -17,23 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.investigation-status {
-  @apply border-0 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs;
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { NotificationTabComponent } from '@shared/modules/notification/notification-tab/notification-tab.component';
+import { SharedModule } from '@shared/shared.module';
+import { TemplateModule } from '@shared/template.module';
+import { NotificationComponent } from './presentation/notification.component';
 
-  &:before {
-    content: ' ';
-    @apply h-2 w-2 rounded-full inline-block;
-  }
-
-  &--RECEIVED {
-    @apply bg-startLight text-startDark border-startLightContrast before:bg-startDark;
-  }
-
-  &--CREATED {
-    @apply bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-pendingDark;
-  }
-
-  &--SENT {
-    @apply bg-completeLight text-completeDark border-completeLightContrast before:bg-completeDark;
-  }
-}
+@NgModule({
+  declarations: [NotificationComponent, NotificationTabComponent],
+  imports: [CommonModule, TemplateModule, SharedModule],
+  exports: [NotificationComponent, NotificationTabComponent],
+})
+export class NotificationModule {}

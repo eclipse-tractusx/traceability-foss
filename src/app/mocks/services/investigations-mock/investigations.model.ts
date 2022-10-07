@@ -17,12 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import type { InvestigationResponse } from '@shared/model/investigations.model';
-import { InvestigationStatus } from '@shared/model/investigations.model';
+import type { NotificationResponse } from '@shared/model/notification.model';
+import { NotificationStatus } from '@shared/model/notification.model';
 import { getRandomAsset } from '../parts-mock/parts.model';
 
 export const InvestigationIdPrefix = 'id-';
-export const buildMockInvestigations = (statuses: InvestigationStatus[]): InvestigationResponse[] =>
+export const buildMockInvestigations = (statuses: NotificationStatus[]): NotificationResponse[] =>
   new Array(25).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
     return {
@@ -35,10 +35,10 @@ export const buildMockInvestigations = (statuses: InvestigationStatus[]): Invest
     };
   });
 
-const MockEmptyInvestigation: InvestigationResponse = {
+const MockEmptyInvestigation: NotificationResponse = {
   id: `${InvestigationIdPrefix}000`,
   description: `Investigation No 000`,
-  status: InvestigationStatus.CREATED,
+  status: NotificationStatus.CREATED,
   createdBy: 'OEM A',
   createDate: `2022-05-01T12:34:12`,
   parts: [getRandomAsset().id],

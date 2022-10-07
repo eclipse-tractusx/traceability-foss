@@ -19,6 +19,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { NotificationModule } from '@shared/modules/notification/notification.module';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { InvestigationsFacade } from './core/investigations.facade';
@@ -28,7 +29,7 @@ import { InvestigationsComponent } from './presentation/investigations.component
 
 @NgModule({
   declarations: [InvestigationsComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule],
+  imports: [CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule, NotificationModule],
   providers: [InvestigationsFacade, InvestigationsState],
 })
 export class InvestigationsModule {}

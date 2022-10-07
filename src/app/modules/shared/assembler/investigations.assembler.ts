@@ -20,19 +20,19 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
 import {
-  Investigation,
-  InvestigationResponse,
-  Investigations,
-  InvestigationsResponse,
-  InvestigationStatus,
-} from '../model/investigations.model';
+  Notification,
+  NotificationResponse,
+  Notifications,
+  NotificationsResponse,
+  NotificationStatus,
+} from '../model/notification.model';
 
 export class InvestigationsAssembler {
-  public static assembleInvestigations(response: InvestigationsResponse): Investigations {
+  public static assembleInvestigations(response: NotificationsResponse): Notifications {
     return PaginationAssembler.assemblePagination(response, InvestigationsAssembler.assembleInvestigation);
   }
 
-  public static assembleInvestigation(response: InvestigationResponse): Investigation {
+  public static assembleInvestigation(response: NotificationResponse): Notification {
     const { id, description = '', status, createDate, createdBy, parts } = response;
     return {
       id,
@@ -40,7 +40,7 @@ export class InvestigationsAssembler {
       createdBy,
       parts,
 
-      status: InvestigationStatus[status] ?? null,
+      status: NotificationStatus[status] ?? null,
       createDate: new CalendarDateModel(createDate),
     };
   }

@@ -22,7 +22,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
-import { InvestigationStatusGroup } from '@shared/model/investigations.model';
+import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { BehaviorSubject } from 'rxjs';
 
@@ -94,7 +94,7 @@ export class RequestInvestigationComponent {
   }
 
   private openCtaSnackbar(count: number): void {
-    const { link, queryParams } = getInvestigationInboxRoute(InvestigationStatusGroup.QUEUED_AND_REQUESTED);
+    const { link, queryParams } = getInvestigationInboxRoute(NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
     this.ctaSnackbarService.show(
       {

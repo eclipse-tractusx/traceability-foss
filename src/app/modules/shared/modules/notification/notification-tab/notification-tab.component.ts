@@ -25,28 +25,33 @@ import {
   TableConfig,
   TablePaginationEventConfig,
 } from '@shared/components/table/table.model';
-import { Investigation, Investigations } from '@shared/model/investigations.model';
+import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-investigations-tab',
-  templateUrl: './investigations-tab.component.html',
+  selector: 'app-notifications-tab',
+  templateUrl: './notification-tab.component.html',
+  styleUrls: ['./notification-tab.component.scss'],
 })
-export class InvestigationsTabComponent implements AfterViewInit {
-  @Input() investigations: View<Investigations>;
+export class NotificationTabComponent implements AfterViewInit {
+  @Input() notificationsView$: Observable<View<Notifications>>;
   @Input() labelId: string;
   @Input() hasPagination = true;
+  @Input() translationContext: 'pageInvestigations' | 'pageAlerts';
+
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
 
-  public readonly displayedColumns: DisplayColumns<keyof Investigation>[] = [
+  public readonly displayedColumns: DisplayColumns<keyof Notification>[] = [
     'description',
     'status',
     'createDate',
     'menu',
   ];
-  public tableConfig: TableConfig<keyof Investigation>;
+
+  public tableConfig: TableConfig<keyof Notification>;
   private menuActionsConfig: MenuActionConfig[] = [
     { label: 'actions.approve', icon: 'share', action: this.approveNotification.bind(this) },
     { label: 'actions.delete', icon: 'delete', action: this.deleteNotification.bind(this) },
@@ -55,17 +60,13 @@ export class InvestigationsTabComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
-      header: CreateHeaderFromColumns(this.displayedColumns, 'pageInvestigations.column'),
+      header: CreateHeaderFromColumns(this.displayedColumns, this.translationContext + '.column'),
       hasPagination: this.hasPagination,
       menuActionsConfig: this.menuActionsConfig,
       cellRenderers: {
         status: this.statusTemplate,
       },
     };
-  }
-
-  public onTableConfigChange(event: TablePaginationEventConfig) {
-    this.pagination.emit(event);
   }
 
   private approveNotification(notification: any): void {}

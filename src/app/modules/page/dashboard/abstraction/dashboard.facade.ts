@@ -20,7 +20,7 @@
 import { Injectable } from '@angular/core';
 import { RoleService } from '@core/user/role.service';
 import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
-import { Investigations, InvestigationStatus } from '@shared/model/investigations.model';
+import { Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { PartsService } from '@shared/service/parts.service';
@@ -60,7 +60,7 @@ export class DashboardFacade {
     return this.dashboardState.assetsPerCountry$;
   }
 
-  public get investigations$(): Observable<View<Investigations>> {
+  public get investigations$(): Observable<View<Notifications>> {
     return this.dashboardState.investigations$;
   }
 
@@ -122,7 +122,7 @@ export class DashboardFacade {
   private setInvestigations(): void {
     this.investigationSubscription?.unsubscribe();
     this.investigationSubscription = this.investigationsService
-      .getInvestigationsByType([InvestigationStatus.RECEIVED], 0, 5)
+      .getInvestigationsByType([NotificationStatus.RECEIVED], 0, 5)
       .subscribe({
         next: data => this.dashboardState.setInvestigation({ data }),
         error: (error: Error) => this.dashboardState.setInvestigation({ error }),
