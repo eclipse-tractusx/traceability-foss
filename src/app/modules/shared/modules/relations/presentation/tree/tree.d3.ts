@@ -170,7 +170,7 @@ export class Tree {
     });
   }
 
-  private initCamera() {
+  private initCamera(): void {
     const { preserveRight } = this.renderOptions;
     const circlesGroup: SVGGElement = document.querySelector(`#${this.id}--nodes`);
 
@@ -201,7 +201,7 @@ export class Tree {
     this.updateCamera();
   }
 
-  private updateCamera() {
+  private updateCamera(): void {
     d3.select(`#${this.id}-translate-camera`).attr('transform', `translate(${-this.viewX}, ${-this.viewY})`);
 
     d3.select(`#${this.id}-scale-camera`).attr('transform', `scale(${1 / this.zoom})`);
