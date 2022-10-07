@@ -17,22 +17,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { animate, state, style, transition, trigger } from '@angular/animations';
-
 /**
- * Notification message animation
- * Slides the message and the status bar from right to left and the opposite way
+ * Types or status of toast messages
+ * Success status - shows the toast with a green status bar, typically used to inform the user
+ * warning status - shows the toast with a yellow status bar, typically used to alert the user
+ * error status - shows the toast with a red status bar, typically used for error messages
+ * informative status - shows the toast with a blue status bar, typically used for informative messages
  */
-export /** @type {*} */
-const notifyAnimation = trigger('notify', [
-  state(
-    'void',
-    style({
-      opacity: 0,
-      height: 0,
-      transform: 'translateX(100%)',
-    }),
-  ),
-  state('show', style({ transform: 'translateX(5%)' })),
-  transition('void => show, show => void', [animate('0.30s')]),
-]);
+
+export const enum ToastStatus {
+  Success = 'success',
+  Warning = 'warning',
+  Error = 'error',
+  Informative = 'informative',
+}
+
+export class ToastMessage {
+  public isSliderON = true;
+
+  constructor(public id: number, public message: string, public status: ToastStatus | null, public timeout: number) {}
+}

@@ -17,13 +17,9 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div *ngIf="this.notifications.length > 0" class="flex flex-col flex-wrap h-full">
-  <ng-container *ngFor="let notification of this.notifications">
-    <div [class.slide-left]="notification.isSliderON" [class.slide-right]="!notification.isSliderON">
-      <app-notification-message
-        [notifierMessage]="notification"
-        (removeNotification)="this.remove($event)"
-      ></app-notification-message>
-    </div>
-  </ng-container>
+<div *ngIf="toastMessage" class="toast status-bar-{{ toastMessage.status }}" data-testid="toast-container">
+  <label class="small-text p-4 text-tundora flex flex-wrap" id="toast-message">{{ toastMessage.message | i18n }}</label>
+  <button class="btn-close p-0.5">
+    <mat-icon class="text-white mt-1" (click)="this.removeToast.emit(toastMessage)">close</mat-icon>
+  </button>
 </div>

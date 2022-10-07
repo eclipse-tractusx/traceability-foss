@@ -33,8 +33,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { InvestigationStatusComponent } from './components/investigation-status/investigation-status.component';
 import { InvestigationsTabComponent } from './components/investigations-tab/investigations-tab.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
-import { NotificationContainerComponent } from './components/notifications/notification-container/notification-container.component';
-import { NotificationMessageComponent } from './components/notifications/notification-message/notification-message.component';
 import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
 import { QualityTypeComponent } from './components/quality-type/quality-type.component';
 import { RequestInvestigationComponent } from './components/request-investigation/request-investigation.component';
@@ -44,6 +42,8 @@ import { ValueToLablePipe } from './components/select/valueToLable.pipe';
 import { SidenavWrapperComponent } from './components/sidenav/sidenav-wrapper.component';
 import { TableComponent } from './components/table/table.component';
 import { TextareaComponent } from './components/textarea/textarea.component';
+import { ToastContainerComponent } from './components/toasts/toast-container/toast-container.component';
+import { ToastMessageComponent } from './components/toasts/toast-message/toast-message.component';
 import { RoleDirective } from './directives/role.directive';
 import { TabAsPanelDirective } from './directives/tabs/tab-as-panel.directive';
 import { TooltipDirective } from './directives/tooltip.directive';
@@ -58,8 +58,8 @@ import { TemplateModule } from './template.module';
 
 @NgModule({
   declarations: [
-    NotificationContainerComponent,
-    NotificationMessageComponent,
+    ToastContainerComponent,
+    ToastMessageComponent,
     BreadcrumbsComponent,
     HeaderComponent,
     ButtonComponent,
@@ -91,8 +91,8 @@ import { TemplateModule } from './template.module';
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
-    NotificationContainerComponent,
-    NotificationMessageComponent,
+    ToastContainerComponent,
+    ToastMessageComponent,
     BreadcrumbsComponent,
     HeaderComponent,
     ButtonComponent,

@@ -17,31 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.notification {
-  @apply flex flex-row justify-between bg-white mb-2 w-96 h-14 z-120 border-solid border-l-8;
-}
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
-.status-bar-success {
-  height: 100%;
-  @apply border-success;
-}
-
-.status-bar-warning {
-  height: 100%;
-  @apply border-warning;
-}
-
-.status-bar-error {
-  height: 100%;
-  @apply border-error;
-}
-
-.status-bar-informative {
-  height: 100%;
-  @apply border-info;
-}
-
-.btn-close {
-  border: 0;
-  @apply bg-tundoraShadeGray border-0;
-}
+/**
+ * Toast message animation
+ * Slides the message and the status bar from right to left and the opposite way
+ */
+export /** @type {*} */
+const notifyAnimation = trigger('notify', [
+  state(
+    'void',
+    style({
+      opacity: 0,
+      height: 0,
+      transform: 'translateX(100%)',
+    }),
+  ),
+  state('show', style({ transform: 'translateX(5%)' })),
+  transition('void => show, show => void', [animate('0.30s')]),
+]);

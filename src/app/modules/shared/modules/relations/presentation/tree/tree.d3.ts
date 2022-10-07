@@ -22,7 +22,7 @@ import { HelperD3 } from '@shared/modules/relations/presentation/helper.d3';
 import * as d3 from 'd3';
 import { HierarchyNode, PieArcDatum } from 'd3';
 import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
-import type { MinimapConnector, TreeNode, TreeSvg, RenderOptions } from '../model.d3';
+import type { MinimapConnector, RenderOptions, TreeNode, TreeSvg } from '../model.d3';
 
 export class Tree {
   public static readonly CENTERING_MARGIN = 0.1;

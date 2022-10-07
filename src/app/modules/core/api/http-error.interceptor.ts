@@ -20,10 +20,10 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { NotificationService } from 'src/app/modules/shared/components/notifications/notification.service';
+import { ToastService } from 'src/app/modules/shared/components/toasts/toast.service';
 
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private readonly notificationService: NotificationService) {}
+  constructor(private readonly toastService: ToastService) {}
 
   public intercept(
     request: HttpRequest<Record<string, unknown>>,
@@ -41,7 +41,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         } else {
           errorMessage = `Backend returned code ${error.status}: ${error.message}`;
         }
-        this.notificationService.error(errorMessage);
+        this.toastService.error(errorMessage);
         return throwError(() => error);
       }),
     );

@@ -19,34 +19,32 @@
 
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { NotificationMessage, NotificationStatus } from './notification-message/notification-message.model';
+import { ToastMessage, ToastStatus } from './toast-message/toast-message.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationService {
-  private notificationSubject = new Subject<NotificationMessage>();
+export class ToastService {
+  private toastStore = new Subject<ToastMessage>();
   private idx = 0;
 
-  public getNotificationObservable(): Observable<NotificationMessage> {
-    return this.notificationSubject.asObservable();
+  public getCurrentToast$(): Observable<ToastMessage> {
+    return this.toastStore.asObservable();
   }
 
   public success(message: string, timeout = 5000): void {
-    this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Success, timeout));
+    this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Success, timeout));
   }
 
   public info(message: string, timeout = 5000): void {
-    this.notificationSubject.next(
-      new NotificationMessage(this.idx++, message, NotificationStatus.Informative, timeout),
-    );
+    this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Informative, timeout));
   }
 
   public error(message: string, timeout = 5000): void {
-    this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Error, timeout));
+    this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Error, timeout));
   }
 
   public warning(message: string, timeout = 5000): void {
-    this.notificationSubject.next(new NotificationMessage(this.idx++, message, NotificationStatus.Warning, timeout));
+    this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Warning, timeout));
   }
 }
