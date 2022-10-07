@@ -146,8 +146,8 @@ export class Minimap {
     const id = this.id + '-rect';
     const { width, height } = this.getBorderSize();
 
-    this.minimapX = this.xOffset;
-    this.minimapY = -(height / 2);
+    this.minimapX = this.getMinimapXFromTree();
+    this.minimapY = this.getMinimapYFromTree();
 
     svg
       .append('rect')
@@ -229,8 +229,9 @@ export class Minimap {
   }
 
   private getBorderSize(): { width: number; height: number } {
-    const width = (this.treeInstance.getCalculatedWidth() / this.scale) * (this.zoom * this.scale);
-    const height = (this.treeInstance.getCalculatedHeight() / this.scale) * (this.zoom * this.scale);
+    const zoom = this.treeInstance.zoom / this.scale;
+    const width = this.treeInstance.getCalculatedWidth() * zoom;
+    const height = this.treeInstance.getCalculatedHeight() * zoom;
     return { width, height };
   }
 
@@ -281,11 +282,12 @@ export class Minimap {
     x = (x / normalZoom) * this.scale;
     y = (y / normalZoom) * this.scale;
 
-    this.treeInstance.updateViewBox(x, y);
+    this.treeInstance.translateCamera(x, y);
   }
 
   private getMinimapXFromTree(): number {
-    return this.treeInstance.viewX / this.scale;
+    const normalZoom = this.zoom * this.scale;
+    return (this.treeInstance.viewX / this.scale) * normalZoom;
   }
 
   private getMinimapYFromTree(): number {

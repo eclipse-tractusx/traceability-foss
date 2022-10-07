@@ -97,18 +97,23 @@ export class Tree {
     this.addNodes(svg, root);
 
     if (this.viewHeight === undefined) {
-      this.initViewBox();
+      this.initCamera();
     } else {
-      d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
+      this.updateCamera();
     }
     return svg;
   }
 
-  public updateViewBox(x: number, y: number): void {
-    this.viewX += x * this.zoom;
+  public changeSize(sizeChange: number): void {
+    this.zoom = this.zoom + sizeChange;
+    this.updateCamera();
+  }
+
+  public translateCamera(x: number, y: number): void {
+    this.viewX += x;
     this.viewY += y;
 
-    d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
+    this.updateCamera();
   }
 
   public getCalculatedWidth(): number {
@@ -149,19 +154,23 @@ export class Tree {
       .attr('id', this.id + '-svg')
       .attr('width', this.width)
       .attr('height', this.height)
-      .call(HelperD3.initDrag(d3.select(`#${this.id}-svg`), this.updateViewBoxOnDrag.bind(this)))
+      .call(HelperD3.initDrag(d3.select(`#${this.id}-svg`), this.updateCameraOnDrag.bind(this)))
       .attr('font-size', 10)
-      .classed('tree--element', true);
+      .classed('tree--element', true)
+      .append('g')
+      .attr('id', this.id + '-scale-camera')
+      .append('g')
+      .attr('id', this.id + '-translate-camera');
   }
 
   private addZoomListener(svg: TreeSvg) {
     svg.on('wheel', e => {
       this.zoom = e.deltaY * 0.005 + this.zoom;
-      d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
+      this.updateCamera();
     });
   }
 
-  private initViewBox() {
+  private initCamera() {
     const { preserveRight } = this.renderOptions;
     const circlesGroup: SVGGElement = document.querySelector(`#${this.id}--nodes`);
 
@@ -189,7 +198,13 @@ export class Tree {
     this.viewWidth = viewBoxWidth + preserveRight;
     this.viewHeight = viewBoxHeight;
 
-    d3.select(`#${this.id}-svg`).attr('viewBox', this.calculateViewbox());
+    this.updateCamera();
+  }
+
+  private updateCamera() {
+    d3.select(`#${this.id}-translate-camera`).attr('transform', `translate(${-this.viewX}, ${-this.viewY})`);
+
+    d3.select(`#${this.id}-scale-camera`).attr('transform', `scale(${1 / this.zoom})`);
   }
 
   private addPaths(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
@@ -443,9 +458,9 @@ export class Tree {
       .classed('tree--element__arrow', true);
   }
 
-  private updateViewBoxOnDrag(x: number, y: number): void {
+  private updateCameraOnDrag(x: number, y: number): void {
     this.minimapConnector.onDrag(x, y);
-    this.updateViewBox(x, y);
+    this.translateCamera(x, y);
   }
 
   private initResizeListener(): void {
@@ -459,10 +474,6 @@ export class Tree {
       },
       { passive: true },
     );
-  }
-
-  private calculateViewbox(): number[] {
-    return [this.viewX, this.viewY, this.viewWidth * this.zoom, this.viewHeight * this.zoom];
   }
 }
 

@@ -191,12 +191,10 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public increaseSize(): void {
-    this.tree.zoom = this.tree.zoom + 0.25;
-    this.renderTree(this.treeData);
+    this.tree.changeSize(0.25);
   }
 
   public decreaseSize(): void {
-    this.tree.zoom = this.tree.zoom - 0.25;
-    this.renderTree(this.treeData);
+    this.tree.changeSize(-0.25);
   }
 }
