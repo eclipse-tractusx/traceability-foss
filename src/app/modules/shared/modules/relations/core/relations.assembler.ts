@@ -21,11 +21,13 @@ import { Part, QualityType } from '@page/parts/model/parts.model';
 import { TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 
 export class RelationsAssembler {
-  public static assemblePartForRelation({ id, name, serialNumber, children, qualityType }: Part): TreeElement {
-    const mapQualityTypeToState = (type: QualityType) => (type === QualityType.Ok ? 'done' : type || 'error');
-    const state = !!children ? mapQualityTypeToState(qualityType) || 'done' : 'loading';
+  public static assemblePartForRelation(part: Part, idFallback?: string): TreeElement {
+    const { id, name = idFallback, serialNumber, children, qualityType } = part || {};
 
-    return { id, text: name, title: `${name || '--'} | ${serialNumber || id}`, state, children };
+    const mapQualityTypeToState = (type: QualityType) => (type === QualityType.Ok ? 'done' : type || 'error');
+    const state = !!children ? mapQualityTypeToState(qualityType) || 'done' : id ? 'loading' : 'error';
+
+    return { id: id || idFallback, text: name, title: `${name || '--'} | ${serialNumber || id}`, state, children };
   }
 
   public static elementToTreeStructure(element: TreeElement): TreeStructure {

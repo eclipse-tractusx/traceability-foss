@@ -27,7 +27,7 @@ import { RelationsAssembler } from '@shared/modules/relations/core/relations.ass
 import { OpenElements, TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
 import _deepClone from 'lodash-es/cloneDeep';
-import { merge, Observable, of } from 'rxjs';
+import { concat, merge, Observable, of } from 'rxjs';
 import { catchError, debounceTime, filter, first, map, switchMap, tap, toArray } from 'rxjs/operators';
 
 @Injectable()
@@ -75,7 +75,7 @@ export class RelationsFacade {
     this.relationComponentState.openElements = this._deleteOpenElement(id, this.relationComponentState.openElements);
   }
 
-  public getRelation(partId: string): Observable<Part> {
+  public getPartDetails(partId: string): Observable<Part> {
     return this.partsService.getPart(partId);
   }
 
@@ -156,15 +156,17 @@ export class RelationsFacade {
       return of(mappedChildren).pipe(first());
     }
 
-    const relationRequest = children.map(childId => this.getRelation(childId));
-    return merge(...relationRequest).pipe(
+    const relationRequest = children.map(childId => this.getPartDetails(childId));
+    return concat(...relationRequest).pipe(
       catchError((error: HttpErrorResponse) => {
         const partIdWithError = error.url.split('/children/')[1];
         return of({ id: partIdWithError, children: [] } as Part);
       }),
       toArray(),
       first(),
-      map(childrenData => childrenData.map(child => RelationsAssembler.assemblePartForRelation(child))),
+      map(childrenData =>
+        childrenData.map((child, index) => RelationsAssembler.assemblePartForRelation(child, children[index])),
+      ),
       tap(childrenData => this.addLoadedElements(childrenData)),
       filter(_ => shouldLazyLoad),
       switchMap(childrenData => merge(...childrenData.map(child => this.loadChildrenInformation(child.children)))),
