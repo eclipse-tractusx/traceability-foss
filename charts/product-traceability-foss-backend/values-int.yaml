@@ -192,7 +192,7 @@ irs:
         wrapper.consumer.edc.control.url=http://tracex-consumer-controlplane:9999/api/controlplane/control
         wrapper.consumer.edc.apikey.name=X-Api-Key
         wrapper.consumer.edc.apikey.value=<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
-        wrapper.callback.timeout=60
+        wrapper.callback.timeout=120
         wrapper.cache.agreement.enabled=true
         wrapper.auth.basic.tracefoss=<path:traceability-foss/data/int/edc/api-wrapper#wrapper.auth.basic.tracefoss>
 
