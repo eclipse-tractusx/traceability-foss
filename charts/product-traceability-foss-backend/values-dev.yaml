@@ -193,7 +193,8 @@ irs:
         wrapper.consumer.edc.apikey.name=X-Api-Key
         wrapper.consumer.edc.apikey.value=<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
         wrapper.callback.timeout=60
-        #wrapper.auth.basic.tracefoss=<path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
+        wrapper.cache.agreement.enabled=true
+        wrapper.auth.basic.tracefoss=<path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
 
   # Values for grafana subchart.
   irs-grafana:
