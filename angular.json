@@ -152,7 +152,7 @@
               "browserTarget": "trace-x:build:dev,authMock"
             },
             "localBackend": {
-              "browserTarget": "webapp:build:dev,localBackend"
+              "browserTarget": "trace-x:build:dev,localBackend"
             },
             "production": {
               "browserTarget": "trace-x:build:production"
