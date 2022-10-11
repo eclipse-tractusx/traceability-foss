@@ -157,7 +157,7 @@ irs:
     fullnameOverride: "tracex-irs-aaswrapper"
 
     image:
-      tag: "0.0.6"
+      tag: "0.0.7"
 
     namespace: product-traceability-foss
 
@@ -193,7 +193,8 @@ irs:
         wrapper.consumer.edc.apikey.name=X-Api-Key
         wrapper.consumer.edc.apikey.value=<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
         wrapper.callback.timeout=60
-        #wrapper.auth.basic.tracefoss=<path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
+        wrapper.cache.agreement.enabled=true
+        wrapper.auth.basic.tracefoss=<path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
 
   # Values for grafana subchart.
   irs-grafana:
@@ -328,6 +329,14 @@ irs:
               - "tracex-consumer-controlplane.dev.demo.catena-x.net"
             secretName: tls-secret
 
+    resources:
+      limits:
+        cpu: 1.5
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+
     logging:
       # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
       properties: |-
@@ -423,6 +432,14 @@ irs:
           - hosts:
               - "tracex-consumer-dataplane.dev.demo.catena-x.net"
             secretName: tls-secret
+
+    resources:
+      limits:
+        cpu: 1
+        memory: 1Gi
+      requests:
+        cpu: 500m
+        memory: 512Mi
 
     logging:
       # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)

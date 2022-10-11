@@ -100,7 +100,7 @@ edc-controlplane:
   resources:
     limits:
       cpu: 1.5
-      memory: 2Gi
+      memory: 3Gi
     requests:
       cpu: 500m
       memory: 2Gi
@@ -214,8 +214,8 @@ edc-dataplane:
   # -- [Resource management](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) applied to the deployed pod
   resources:
     limits:
-      cpu: 1.5
-      memory: 512Mi
+      cpu: 1
+      memory: 1Gi
     requests:
       cpu: 500m
       memory: 512Mi

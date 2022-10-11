@@ -1,33 +1,15 @@
 name: "Trivy"
 
 on:
-  workflow_dispatch:
-  # Trigger manually
   workflow_run:
     workflows: [Publish docker image]
     types: [completed]
     branches: [main]
 
 jobs:
-  prepare-env:
-    runs-on: ubuntu-latest
-    outputs:
-      check_sha: ${{ steps.step1.outputs.check_sha }}
-    steps:
-      - name: Set commit SHA to check
-        id: step1
-        run: |
-          if [ -z "${{ github.event.workflow_run.head_sha }}" ]; then
-            # use the value that is set when triggering the workflow manually
-            echo "::set-output name=check_sha::$GITHUB_SHA"
-          else
-            echo "::set-output name=check_sha::${{ github.event.workflow_run.head_sha }}"
-          fi
-
   analyze-config:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    needs: [prepare-env]
     permissions:
       actions: read
       contents: read
@@ -37,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{needs.prepare-env.outputs.check_sha}}
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@master
@@ -58,7 +40,6 @@ jobs:
   analyze-product-traceability-foss-backend:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    needs: [prepare-env]
     permissions:
       actions: read
       contents: read
@@ -68,13 +49,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: ${{needs.prepare-env.outputs.check_sha}}
+          ref: ${{ github.event.workflow_run.head_sha }}
 
       - name: Run Trivy vulnerability scanner
         if: always()
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/catenax-ng/product-traceability-foss-backend:${{needs.prepare-env.outputs.check_sha}}
+          image-ref: ghcr.io/catenax-ng/product-traceability-foss-backend:${{ github.event.workflow_run.head_sha }}
           trivyignores: "./.github/workflows/.trivyignore"
           format: "sarif"
           output: "trivy-results2.sarif"

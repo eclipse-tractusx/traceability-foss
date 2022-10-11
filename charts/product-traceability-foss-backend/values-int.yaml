@@ -157,7 +157,7 @@ irs:
     fullnameOverride: "tracex-irs-aaswrapper"
 
     image:
-      tag: "0.0.6"
+      tag: "0.0.7"
 
     namespace: product-traceability-foss
 
@@ -192,8 +192,9 @@ irs:
         wrapper.consumer.edc.control.url=http://tracex-consumer-controlplane:9999/api/controlplane/control
         wrapper.consumer.edc.apikey.name=X-Api-Key
         wrapper.consumer.edc.apikey.value=<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
-        wrapper.callback.timeout=60
-        #wrapper.auth.basic.tracefoss=<path:traceability-foss/data/int/edc/api-wrapper#wrapper.auth.basic.tracefoss>
+        wrapper.callback.timeout=120
+        wrapper.cache.agreement.enabled=true
+        wrapper.auth.basic.tracefoss=<path:traceability-foss/data/int/edc/api-wrapper#wrapper.auth.basic.tracefoss>
 
   # Values for grafana subchart.
   irs-grafana:
@@ -328,6 +329,14 @@ irs:
               - "tracex-consumer-controlplane.int.demo.catena-x.net"
             secretName: tls-secret
 
+    resources:
+      limits:
+        cpu: 1.5
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+
     logging:
       # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
       properties: |-
@@ -362,7 +371,7 @@ irs:
         edc.dataplane.selector.consumer.destinationtypes=HttpProxy
         edc.dataplane.selector.consumer.properties={ "publicApiUrl": "https://tracex-consumer-dataplane.int.demo.catena-x.net/api/public" }
 
-        edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+        edc.oauth.client.id=D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F:keyid:D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F
         edc.oauth.public.key.alias=daps-cert-int
         edc.oauth.private.key.alias=daps-cert-key-int
         edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
@@ -443,7 +452,7 @@ irs:
 
         edc.receiver.http.endpoint=http://tracex-irs-aaswrapper:9192/callback/endpoint-data-reference
 
-        edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+        edc.oauth.client.id=D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F:keyid:D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F
         edc.oauth.public.key.alias=daps-cert-int
         edc.oauth.private.key.alias=daps-cert-key-int
         edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
