@@ -99,8 +99,8 @@ edc-controlplane:
 
   resources:
     limits:
-      cpu: 1.5
-      memory: 3Gi
+      cpu: 2
+      memory: 4Gi
     requests:
       cpu: 500m
       memory: 2Gi
