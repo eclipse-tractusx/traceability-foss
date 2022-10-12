@@ -331,11 +331,11 @@ irs:
 
     resources:
       limits:
-        cpu: 1.5
-        memory: 2Gi
+        cpu: 2
+        memory: 4Gi
       requests:
         cpu: 500m
-        memory: 1Gi
+        memory: 2Gi
 
     logging:
       # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
