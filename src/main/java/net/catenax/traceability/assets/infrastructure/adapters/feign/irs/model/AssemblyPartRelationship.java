@@ -19,12 +19,19 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 record AssemblyPartRelationship(
 	String catenaXId,
 	List<ChildPart> childParts
-) {}
+) {
+	AssemblyPartRelationship(String catenaXId, List<ChildPart> childParts) {
+		this.catenaXId = catenaXId;
+		this.childParts = Objects.requireNonNullElse(childParts, Collections.emptyList());
+	}
+}
 
 record ChildPart(
 	String childCatenaXId
