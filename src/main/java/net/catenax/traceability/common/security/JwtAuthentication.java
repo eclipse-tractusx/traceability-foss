@@ -19,12 +19,36 @@
 
 package net.catenax.traceability.common.security;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
 
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface InjectedKeycloakAuthentication {
+public class JwtAuthentication {
+
+	public static final JwtAuthentication NO_ROLES = new JwtAuthentication(Set.of());
+
+	private final Set<JwtRole> jwtRoles;
+
+	public JwtAuthentication(Set<JwtRole> jwtRoles) {
+		this.jwtRoles = Collections.unmodifiableSet(jwtRoles);
+	}
+
+	public boolean hasRole(JwtRole jwtRole) {
+		return jwtRoles.contains(jwtRole);
+	}
+
+	public boolean hasAtLeastOneRole(JwtRole... jwtRole) {
+		return Arrays.stream(jwtRole)
+			.map(this::hasRole)
+			.filter(hasRole -> hasRole)
+			.findFirst()
+			.orElse(false);
+	}
+
+	@Override
+	public String toString() {
+		return "JwtAuthentication{" +
+			"jwtRoles=" + jwtRoles +
+			'}';
+	}
 }

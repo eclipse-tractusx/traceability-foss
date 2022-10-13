@@ -17,36 +17,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package net.catenax.traceability.common.security;
+package net.catenax.traceability.common.support
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import org.jose4j.jwk.RsaJsonWebKey
+import org.jose4j.jwk.RsaJwkGenerator
+import org.jose4j.jws.AlgorithmIdentifiers
 
-public enum KeycloakRole {
-	USER("User"),
-	SUPERVISOR("Supervisor"),
-	ADMIN("Admin");
+trait RsaJsonWebKeyProvider {
 
-	private final String description;
-
-	private static final Map<String, KeycloakRole> ROLE_MAPPINGS;
+	private static RsaJsonWebKey RSA_JSON_WEB_KEY
 
 	static {
-		ROLE_MAPPINGS = Arrays.stream(KeycloakRole.values())
-			.collect(Collectors.toMap(keycloakRole -> keycloakRole.description, keycloakRole -> keycloakRole));
+		RSA_JSON_WEB_KEY = RsaJwkGenerator.generateJwk(2048)
+		RSA_JSON_WEB_KEY = RsaJwkGenerator.generateJwk(2048)
+		RSA_JSON_WEB_KEY.keyId = "some-key"
+		RSA_JSON_WEB_KEY.algorithm = AlgorithmIdentifiers.RSA_USING_SHA256
+		RSA_JSON_WEB_KEY.use = "sig"
 	}
 
-	KeycloakRole(String description) {
-		this.description = description;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public static Optional<KeycloakRole> parse(String roleRaw) {
-		return Optional.ofNullable(ROLE_MAPPINGS.get(roleRaw));
+	 RsaJsonWebKey rsaJsonWebKey() {
+		return RSA_JSON_WEB_KEY
 	}
 }

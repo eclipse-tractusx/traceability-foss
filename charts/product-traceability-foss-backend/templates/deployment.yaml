@@ -53,10 +53,16 @@ spec:
               value: {{ .Values.mailserver.username | quote }}
             - name: MAILSERVER_PASSWORD
               value: {{ .Values.mailserver.password | quote }}
-            - name: KEYCLOAK_OAUTH2_CLIENT_ID
-              value: {{ .Values.keycloak.oauth2.clientId | quote }}
-            - name: KEYCLOAK_OAUTH2_CLIENT_SECRET
-              value: {{ .Values.keycloak.oauth2.clientSecret | quote }}
+            - name: OAUTH2_CLIENT_ID
+              value: {{ .Values.oauth2.clientId | quote }}
+            - name: OAUTH2_CLIENT_SECRET
+              value: {{ .Values.oauth2.clientSecret | quote }}
+            - name: OAUTH2_PROVIDER_TOKEN_URI
+              value: {{ .Values.oauth2.clientTokenUri | quote }}
+            - name: OAUTH2_JWK_SET_URI
+              value: {{ .Values.oauth2.jwkSetUri | quote }}
+            - name: JWT_RESOURCE_CLIENT
+              value: {{ .Values.oauth2.resourceClient | quote }}
             - name: SPRING_DATASOURCE_URL
               value: {{ .Values.datasource.url | quote }}
             - name: SPRING_DATASOURCE_USERNAME

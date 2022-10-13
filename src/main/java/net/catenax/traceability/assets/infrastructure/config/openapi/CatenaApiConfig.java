@@ -89,6 +89,6 @@ public class CatenaApiConfig {
 
 	@Bean
 	public RequestInterceptor requestInterceptor(AuthorizedClientServiceOAuth2AuthorizedClientManager oAuth2AuthorizedClientManager) {
-		return new KeycloakAuthorizationInterceptor(oAuth2AuthorizedClientManager);
+		return new JwtAuthorizationInterceptor(oAuth2AuthorizedClientManager);
 	}
 }

@@ -17,19 +17,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package net.catenax.traceability.common.config
+package net.catenax.traceability.assets.infrastructure.config.openapi;
 
-import org.springframework.boot.test.context.TestConfiguration
-import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+public class TechnicalUserAuthorizationException extends RuntimeException {
 
-@TestConfiguration
-class SecurityTestConfig extends WebSecurityConfigurerAdapter {
+	public TechnicalUserAuthorizationException(String message) {
+		super(message);
+	}
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		super.configure(http)
-
-		http.csrf().disable()
+	public TechnicalUserAuthorizationException(Throwable cause) {
+		super(cause);
 	}
 }

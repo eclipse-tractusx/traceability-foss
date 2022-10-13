@@ -35,13 +35,13 @@ import java.util.Optional;
 
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
-public class KeycloakAuthorizationInterceptor implements RequestInterceptor {
+public class JwtAuthorizationInterceptor implements RequestInterceptor {
 
-	private final Logger logger = LoggerFactory.getLogger(KeycloakAuthorizationInterceptor.class);
+	private final Logger logger = LoggerFactory.getLogger(JwtAuthorizationInterceptor.class);
 
 	private final OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager;
 
-	public KeycloakAuthorizationInterceptor(OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager) {
+	public JwtAuthorizationInterceptor(OAuth2AuthorizedClientManager oAuth2AuthorizedClientManager) {
 		this.oAuth2AuthorizedClientManager = oAuth2AuthorizedClientManager;
 	}
 
@@ -49,7 +49,7 @@ public class KeycloakAuthorizationInterceptor implements RequestInterceptor {
 	public void apply(RequestTemplate template) {
 		if (!template.headers().containsKey(HttpHeaders.AUTHORIZATION)) {
 			OAuth2AccessToken accessToken = getAccessToken()
-				.orElseThrow(() -> new KeycloakTechnicalUserAuthorizationException("Couldn't obtain access token for keycloak technical user"));
+				.orElseThrow(() -> new TechnicalUserAuthorizationException("Couldn't obtain access token for technical user"));
 
 			logger.debug("Injecting access token of type {}", accessToken.getTokenType());
 
@@ -58,7 +58,7 @@ public class KeycloakAuthorizationInterceptor implements RequestInterceptor {
 	}
 
 	private Optional<OAuth2AccessToken> getAccessToken() {
-		OAuth2AuthorizeRequest request = OAuth2AuthorizeRequest.withClientRegistrationId("keycloak")
+		OAuth2AuthorizeRequest request = OAuth2AuthorizeRequest.withClientRegistrationId("default")
 			.principal(new AnonymousAuthenticationToken("feignClient", "feignClient", createAuthorityList("ROLE_ANONYMOUS")))
 			.build();
 
@@ -67,7 +67,7 @@ public class KeycloakAuthorizationInterceptor implements RequestInterceptor {
 		try {
 			oAuth2AuthorizedClient = oAuth2AuthorizedClientManager.authorize(request);
 		} catch (ClientAuthorizationException e) {
-			throw new KeycloakTechnicalUserAuthorizationException(e);
+			throw new TechnicalUserAuthorizationException(e);
 		}
 
 		return Optional.ofNullable(oAuth2AuthorizedClient)

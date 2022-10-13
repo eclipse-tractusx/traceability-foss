@@ -17,13 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package net.catenax.traceability.common.config;
+package net.catenax.traceability.common.security;
 
-public class ApplicationProfiles {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-	public static final String TESTS = "integration";
-	public static final String NOT_TESTS = "!" + TESTS;
-
-	private ApplicationProfiles() {
-	}
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface InjectedJwtAuthentication {
 }

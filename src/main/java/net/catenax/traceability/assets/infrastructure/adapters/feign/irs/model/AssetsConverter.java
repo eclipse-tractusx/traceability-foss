@@ -25,8 +25,8 @@ import net.catenax.traceability.assets.domain.model.Asset;
 import net.catenax.traceability.assets.domain.model.Asset.ChildDescriptions;
 import net.catenax.traceability.assets.domain.model.QualityType;
 import net.catenax.traceability.assets.domain.ports.BpnRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -136,7 +136,7 @@ public class AssetsConverter {
 	}
 
 	private String defaultValue(String value) {
-		if (StringUtils.isBlank(value)) {
+		if (!StringUtils.hasText(value)) {
 			return EMPTY_TEXT;
 		}
 		return value;

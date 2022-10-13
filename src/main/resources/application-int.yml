@@ -20,21 +20,6 @@ traceability:
   bpn: BPNL00000003AVTH
   registry.manufacturerIdKey: manufacturerId
 
-spring:
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            token-uri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-
-keycloak:
-  auth-server-url: https://centralidp.demo.catena-x.net/auth
-  realm: CX-Central
-  resource: Cl17-CX-Part
-  public-client: true
-  use-resource-role-mappings: true
-
 feign:
   irsApi:
     url: https://tracex-irs.int.demo.catena-x.net

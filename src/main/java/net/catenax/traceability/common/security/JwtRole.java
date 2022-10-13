@@ -17,15 +17,36 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package net.catenax.traceability.assets.infrastructure.config.openapi;
+package net.catenax.traceability.common.security;
 
-public class KeycloakTechnicalUserAuthorizationException extends RuntimeException {
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
-	public KeycloakTechnicalUserAuthorizationException(String message) {
-		super(message);
+public enum JwtRole {
+	USER("User"),
+	SUPERVISOR("Supervisor"),
+	ADMIN("Admin");
+
+	private final String description;
+
+	private static final Map<String, JwtRole> ROLE_MAPPINGS;
+
+	static {
+		ROLE_MAPPINGS = Arrays.stream(JwtRole.values())
+			.collect(Collectors.toMap(jwtRole -> jwtRole.description, jwtRole -> jwtRole));
 	}
 
-	public KeycloakTechnicalUserAuthorizationException(Throwable cause) {
-		super(cause);
+	JwtRole(String description) {
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public static Optional<JwtRole> parse(String roleRaw) {
+		return Optional.ofNullable(ROLE_MAPPINGS.get(roleRaw));
 	}
 }

@@ -17,38 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package net.catenax.traceability.common.security;
+package net.catenax.traceability.common.config
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Set;
+import io.restassured.RestAssured
+import org.springframework.boot.test.context.TestConfiguration
 
-public class KeycloakAuthentication {
+import org.springframework.boot.web.context.WebServerInitializedEvent
+import org.springframework.context.event.EventListener
 
-	public static final KeycloakAuthentication NO_ROLES = new KeycloakAuthentication(Set.of());
+@TestConfiguration
+class RestAssuredConfig {
 
-	private final Set<KeycloakRole> keycloakRoles;
-
-	public KeycloakAuthentication(Set<KeycloakRole> keycloakRoles) {
-		this.keycloakRoles = Collections.unmodifiableSet(keycloakRoles);
-	}
-
-	public boolean hasRole(KeycloakRole keycloakRole) {
-		return keycloakRoles.contains(keycloakRole);
-	}
-
-	public boolean hasAtLeastOneRole(KeycloakRole... keycloakRole) {
-		return Arrays.stream(keycloakRole)
-			.map(this::hasRole)
-			.filter(hasRole -> hasRole)
-			.findFirst()
-			.orElse(false);
-	}
-
-	@Override
-	public String toString() {
-		return "KeycloakAuthentication{" +
-			"keycloakRoles=" + keycloakRoles +
-			'}';
+	@EventListener(WebServerInitializedEvent.class)
+	void onServletContainerInitialized(WebServerInitializedEvent event) {
+		RestAssured.port = event.webServer.port
 	}
 }

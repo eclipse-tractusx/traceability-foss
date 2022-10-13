@@ -1,4 +1,7 @@
-# ![Product Traceability FOSS Backend Release Guide](./catena-x-logo.svg) Product Traceability FOSS Backend Release guide
+<div style="display: flex; align-items: center;justify-content: center;align-content: center;">
+   <img src="./trace-x-logo.svg" alt="Product Traceability FOSS Backend Release Guide" style="width:200px;"/>
+   <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Backend Release guide</h1>
+</div>
 
 ## Release an app
 

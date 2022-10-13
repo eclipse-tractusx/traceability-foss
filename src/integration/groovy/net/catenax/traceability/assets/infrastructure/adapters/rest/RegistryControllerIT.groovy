@@ -20,23 +20,20 @@
 package net.catenax.traceability.assets.infrastructure.adapters.rest
 
 import net.catenax.traceability.IntegrationSpec
-import net.catenax.traceability.common.security.KeycloakRole
 import net.catenax.traceability.common.support.AssetsSupport
 import net.catenax.traceability.common.support.IrsApiSupport
 import net.catenax.traceability.common.support.RegistrySupport
 import net.catenax.traceability.common.support.ShellDescriptorSupport
-import org.springframework.http.MediaType
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import static io.restassured.RestAssured.given
+import static net.catenax.traceability.common.security.JwtRole.*
 
 class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
 
 	def "should synchronize descriptors and assets"() {
 		given:
 			String syncId = "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e9"
-			authenticatedUser(KeycloakRole.ADMIN)
-			keycloakApiReturnsToken()
+			oauth2ApiReturnsTechnicalUserToken()
 
 		and:
 			assetShellsLookupReturnsData()
@@ -47,9 +44,12 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 			irsApiReturnsJobDetails()
 
 		when:
-			mvc.perform(get("/registry/reload")
-				.contentType(MediaType.APPLICATION_JSON)
-			).andExpect(status().isOk())
+			given()
+				.header(jwtAuthorization(ADMIN))
+				.when()
+				.get("/api/registry/reload")
+				.then()
+				.statusCode(200)
 
 		then:
 			eventually {
@@ -59,23 +59,29 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 
 				assertAssetsSize(14)
 			}
+
+		and:
+			verifyOAuth2ApiCalledOnceForTechnicalUserToken()
+			verifyIrsApiTriggerJobCalledOnce()
 	}
 
 	def "should synchronize and update only new"() {
 		given:
 			String[] syncIds = ["urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e7", "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e8"]
 			String[] updateIds = ["urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e6", "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e8"]
-			authenticatedUser(KeycloakRole.ADMIN)
-			keycloakApiReturnsToken()
+			oauth2ApiReturnsTechnicalUserToken()
 
 		and:
 			assetShellsLookupReturnsDataForUpdate()
 			fetchRegistryShellDescriptorsLookupReturnsDataForUpdate()
 
 		when:
-			mvc.perform(get("/registry/reload")
-				.contentType(MediaType.APPLICATION_JSON)
-			).andExpect(status().isOk())
+			given()
+				.header(jwtAuthorization(ADMIN))
+				.when()
+				.get("/api/registry/reload")
+				.then()
+				.statusCode(200)
 
 		then:
 			eventually {
@@ -85,12 +91,16 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 			}
 
 		and:
+			verifyOAuth2ApiCalledOnceForTechnicalUserToken()
 			verifyIrsApiTriggerJobCalledOnceFor(syncIds)
 
 		when:
-			mvc.perform(get("/registry/reload")
-				.contentType(MediaType.APPLICATION_JSON)
-			).andExpect(status().isOk())
+			given()
+				.header(jwtAuthorization(ADMIN))
+				.when()
+				.get("/api/registry/reload")
+				.then()
+				.statusCode(200)
 
 		then:
 			eventually {
@@ -103,20 +113,20 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 			verifyIrsApiTriggerJobCalledOnceFor(updateIds[0])
 	}
 
-
 	def "should not synchronize descriptors and assets when asset shells lookup failed"() {
 		given:
-			authenticatedUser(KeycloakRole.ADMIN)
-			keycloakApiReturnsToken()
+			oauth2ApiReturnsTechnicalUserToken()
 
 		and:
 			assetShellsLookupFailed()
 
 		when:
-			mvc.perform(get("/registry/reload")
-				.contentType(MediaType.APPLICATION_JSON)
-			).andExpect(status().isOk())
-
+			given()
+				.header(jwtAuthorization(ADMIN))
+				.when()
+				.get("/api/registry/reload")
+				.then()
+				.statusCode(200)
 		then:
 			eventually {
 				assertShellDescriptors().hasSize(0)
@@ -124,6 +134,7 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 			}
 
 		and:
+			verifyOAuth2ApiCalledOnceForTechnicalUserToken()
 			verifyFetchRegistryShellDescriptorsLookupNotCalled()
 			verifyIrsApiTriggerJobNotCalled()
 			verifyIrsJobDetailsApiNotCalled()
@@ -131,17 +142,19 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 
 	def "should not synchronize descriptors and assets when fetch registry shell descriptors lookup failed"() {
 		given:
-			authenticatedUser(KeycloakRole.ADMIN)
-			keycloakApiReturnsToken()
+			oauth2ApiReturnsTechnicalUserToken()
 
 		and:
 			assetShellsLookupReturnsData()
 			fetchRegistryShellDescriptorsLookupReturnsDataFailed()
 
 		when:
-			mvc.perform(get("/registry/reload")
-				.contentType(MediaType.APPLICATION_JSON)
-			).andExpect(status().isOk())
+			given()
+				.header(jwtAuthorization(ADMIN))
+				.when()
+				.get("/api/registry/reload")
+				.then()
+				.statusCode(200)
 
 		then:
 			eventually {
@@ -150,6 +163,7 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 			}
 
 		and:
+			verifyOAuth2ApiCalledOnceForTechnicalUserToken()
 			verifyIrsApiTriggerJobNotCalled()
 	}
 }

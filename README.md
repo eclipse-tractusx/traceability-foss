@@ -1,4 +1,7 @@
-# ![Product Traceability FOSS Backend (TRACE-FOSS)](./docs/catena-x-logo.svg) Product Traceability FOSS Backend
+<div style="display: flex; align-items: center;justify-content: center;align-content: center;">
+   <img src="./docs/trace-x-logo.svg" alt="Product Traceability FOSS Backend (TRACE-FOSS)" style="width:200px;"/>
+   <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Backend</h1>
+</div>
 
 [![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/blob/main/LICENSE)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=catenax-ng_product-traceability-foss-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=catenax-ng_product-traceability-foss-backend)

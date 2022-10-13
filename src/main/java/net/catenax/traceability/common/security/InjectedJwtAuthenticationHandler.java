@@ -20,36 +20,33 @@
 package net.catenax.traceability.common.security;
 
 import org.jetbrains.annotations.NotNull;
-import org.keycloak.adapters.RefreshableKeycloakSecurityContext;
-import org.keycloak.adapters.springsecurity.account.SimpleKeycloakAccount;
-import org.keycloak.representations.AccessToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-public class InjectedKeycloakAuthenticationHandler implements HandlerMethodArgumentResolver {
+public class InjectedJwtAuthenticationHandler implements HandlerMethodArgumentResolver {
 
-	private static final Logger logger = LoggerFactory.getLogger(InjectedKeycloakAuthenticationHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(InjectedJwtAuthenticationHandler.class);
 
-	private final String resourceRealm;
+	private final String resourceClient;
 
-	public InjectedKeycloakAuthenticationHandler(String resourceRealm) {
-		this.resourceRealm = resourceRealm;
+	public InjectedJwtAuthenticationHandler(String resourceClient) {
+		this.resourceClient = resourceClient;
 	}
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.hasParameterAnnotation(InjectedKeycloakAuthentication.class);
+		return parameter.hasParameterAnnotation(InjectedJwtAuthentication.class);
 	}
 
 	@Override
@@ -57,35 +54,19 @@ public class InjectedKeycloakAuthenticationHandler implements HandlerMethodArgum
 								  ModelAndViewContainer mavContainer,
 								  @NotNull NativeWebRequest webRequest,
 								  WebDataBinderFactory binderFactory) {
-		Object details = Optional.ofNullable(SecurityContextHolder.getContext())
+		Object credentials = Optional.ofNullable(SecurityContextHolder.getContext())
 			.flatMap(it -> Optional.ofNullable(it.getAuthentication()))
-			.flatMap(it -> Optional.ofNullable(it.getDetails()))
-			.orElseThrow(() -> new IllegalStateException("No valid keycloak authentication found."));
+			.flatMap(it -> Optional.ofNullable(it.getCredentials()))
+			.orElseThrow(() -> new AuthenticationCredentialsNotFoundException("Authentication not found."));
 
-		if (details instanceof SimpleKeycloakAccount simpleKeycloakAccount) {
-			RefreshableKeycloakSecurityContext keycloakSecurityContext = simpleKeycloakAccount.getKeycloakSecurityContext();
+		if (credentials instanceof Jwt jwtToken) {
+			Set<JwtRole> jwtRoles = JwtRolesExtractor.extract(jwtToken, resourceClient);
 
-			AccessToken token = keycloakSecurityContext.getToken();
-
-			Map<String, AccessToken.Access> resourceAccess = token.getResourceAccess();
-
-			AccessToken.Access access = resourceAccess.get(resourceRealm);
-
-			if (access != null) {
-				Set<KeycloakRole> keycloakRoles = access.getRoles().stream()
-					.map(KeycloakRole::parse)
-					.filter(Optional::isPresent)
-					.map(Optional::get)
-					.collect(Collectors.toSet());
-
-				return new KeycloakAuthentication(keycloakRoles);
-			} else {
-				logger.warn("Keycloak token didn't contain {} resource realm roles", resourceRealm);
-
-				return KeycloakAuthentication.NO_ROLES;
-			}
+			return new JwtAuthentication(jwtRoles);
 		}
 
-		throw new IllegalStateException("No valid keycloak authentication found.");
+		logger.error("Authentication not found for {} resource realm in JWT token", resourceClient);
+
+		throw new AuthenticationCredentialsNotFoundException("Authentication not found.");
 	}
 }
