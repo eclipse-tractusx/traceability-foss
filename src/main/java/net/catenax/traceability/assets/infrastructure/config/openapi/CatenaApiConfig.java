@@ -47,6 +47,7 @@ public class CatenaApiConfig {
 		return new ResponseEntityDecoder(new JacksonDecoder(JsonMapper.builder()
 			.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
 			.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+			.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
 			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 			.build()));
 	}

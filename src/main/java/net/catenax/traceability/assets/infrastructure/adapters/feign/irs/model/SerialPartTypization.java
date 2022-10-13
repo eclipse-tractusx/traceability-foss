@@ -66,6 +66,8 @@ record LocalId(
 enum LocalIdType {
 	@JsonProperty("ManufacturerID")
 	MANUFACTURER_ID,
+	@JsonProperty("PartInstanceID")
+	PART_INSTANCE_ID,
 	@JsonProperty("BatchID")
 	BATCH_ID,
 	@JsonEnumDefaultValue UNKNOWN

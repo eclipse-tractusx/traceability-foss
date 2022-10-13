@@ -15,6 +15,8 @@ trait AssetsSupport implements AssetRepositoryProvider {
 	void assertHasRequiredIdentifiers() {
 		assetRepository().getAssets().each {asset ->
 			assert asset.manufacturerId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
+			assert asset.partInstanceId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
+			assert asset.idShort != null
 		}
 	}
 

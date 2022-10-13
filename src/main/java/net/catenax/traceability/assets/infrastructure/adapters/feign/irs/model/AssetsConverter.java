@@ -79,9 +79,10 @@ public class AssetsConverter {
 			return parts.stream()
 				.map(part -> new Asset(
 					part.catenaXId(),
-					shortIds.get(part.catenaXId()),
+					defaultValue(shortIds.get(part.catenaXId())),
 					defaultValue(part.partTypeInformation().nameAtManufacturer()),
 					defaultValue(part.partTypeInformation().manufacturerPartID()),
+					partInstanceId(part),
 					manufacturerId(part),
 					batchId(part),
 					manufacturerName(part),
@@ -109,6 +110,11 @@ public class AssetsConverter {
 
 	private String batchId(SerialPartTypization part) {
 		return part.getLocalId(LocalIdType.BATCH_ID)
+			.orElse(EMPTY_TEXT);
+	}
+
+	private String partInstanceId(SerialPartTypization part) {
+		return part.getLocalId(LocalIdType.PART_INSTANCE_ID)
 			.orElse(EMPTY_TEXT);
 	}
 
