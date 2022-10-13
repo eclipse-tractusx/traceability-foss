@@ -27,7 +27,7 @@ jobs:
       - name: KICS scan
         uses: checkmarx/kics-github-action@master
         with:
-          exclude_paths: openapi/,chart/,src/main/resources/swagger.yml
+          exclude_paths: openapi/,chart/,infrastructure/,src/main/resources/swagger.yml
           # Scanning directory .
           path: "."
           # Fail on HIGH severity results

@@ -38,40 +38,11 @@ oauth2:
 
 postgresql:
   enabled: true
-  secret:
-    initUserDbSql: "<path:traceability-foss/data/dev/database#initUserDb.sql>"
   auth:
     postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"
-  primary:
-    extraVolumeMounts:
-      - name: initdb
-        mountPath: "/docker-entrypoint-initdb.d"
-      - name: initdb-secrets
-        mountPath: "/secrets"
-    extraVolumes:
-      - name: initdb
-        emptyDir: {}
-      - name: initdb-secrets
-        secret:
-          secretName: secret-postgres-init-db-user
-    initContainers:
-      - name: initdb
-        image: ghcr.io/catenax-ng/product-portal-cd_initdb:latest
-        imagePullPolicy: Always
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying initdb secret sqls..."
-            cp /secrets/* /docker-entrypoint-initdb.d
-            echo "Copying initdb sqls..."
-            cp -R /import/* /docker-entrypoint-initdb.d
-        volumeMounts:
-          - name: initdb
-            mountPath: "/docker-entrypoint-initdb.d"
-          - name: initdb-secrets
-            mountPath: "/secrets"
+    password: "<path:traceability-foss/data/dev/database#tracePassword>"
+    database: "trace"
+    username: "trace"
 
 pgadmin4:
   enabled: true

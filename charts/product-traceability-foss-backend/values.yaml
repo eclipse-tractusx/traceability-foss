@@ -143,10 +143,11 @@ oauth2:
 
 postgresql:
   enabled: false
-  secret:
-    initUserDbSql: ""
   auth:
     postgresPassword: ""
+    password: ""
+    database: ""
+    username: ""
   architecture: standalone
   audit:
     pgAuditLog: write, ddl
