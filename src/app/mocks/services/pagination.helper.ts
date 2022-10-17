@@ -20,7 +20,7 @@
 import _deepClone from 'lodash-es/cloneDeep';
 import { RestRequest } from 'msw';
 
-type SortDirection = 'asc' | 'desc' | '';
+export type SortDirection = 'asc' | 'desc' | '';
 
 export interface PaginationFilters {
   page: number;

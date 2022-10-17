@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
   <ng-container *viewContainer="parts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
   <ng-template #mainTmp let-parts="view">
     <app-table
-      [data]="parts.data"
+      [paginationData]="parts.data"
       [labelId]="titleId"
       [tableConfig]="tableConfig"
       (selected)="onSelectItem($event)"

@@ -1,17 +1,6 @@
 {
   "pageParts": {
-    "title": "Meine Produkte",
-    "column": {
-      "id": "ID",
-      "name": "Name",
-      "manufacturer": "Hersteller",
-      "partNumber": "Produktnummer",
-      "serialNumber": "Seriennummer",
-      "qualityType": "Qualitätsstufe",
-      "productionDate": "Produktionsdatum",
-      "productionCountry": "Produktionsland",
-      "childInvestigation": "Qualitätsprüfung"
-    }
+    "title": "Meine Produkte"
   },
   "partDetail": {
     "relations": "Beziehungen",

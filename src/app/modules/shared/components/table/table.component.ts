@@ -38,6 +38,10 @@ export class TableComponent {
 
   @Input()
   set tableConfig(tableConfig: TableConfig) {
+    if (!tableConfig) {
+      return;
+    }
+
     const { menuActionsConfig: menuActions, displayedColumns: dc, columnRoles, hasPagination = true } = tableConfig;
     const displayedColumns = dc.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user'));
 
@@ -62,12 +66,17 @@ export class TableComponent {
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
 
-  @Input() set data({ page, pageSize, totalItems, content }: Pagination<unknown>) {
+  @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;
     this.dataSource.data = content;
     this.isDataLoading = false;
     this.pageIndex = page;
+  }
+
+  @Input() set data(content: unknown[]) {
+    this.dataSource.data = content;
+    this.isDataLoading = false;
   }
 
   @Input() set deselectTrigger(deselectItem: unknown[]) {

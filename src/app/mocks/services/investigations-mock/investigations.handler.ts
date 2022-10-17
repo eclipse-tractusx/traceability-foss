@@ -24,6 +24,17 @@ import { applyPagination, extractPagination } from '../pagination.helper';
 import { buildMockInvestigations, getInvestigationById, InvestigationIdPrefix } from './investigations.model';
 
 export const investigationsHandlers = [
+  rest.get(`${environment.apiUrl}/investigations/:investigationId`, (req, res, ctx) => {
+    const { investigationId } = req.params;
+
+    const indexFromId = parseInt((investigationId as string).replace('id-', ''), 10);
+
+    const statusCollection = [NotificationStatus.SENT, NotificationStatus.CREATED, NotificationStatus.RECEIVED];
+    const randomNotification = buildMockInvestigations([statusCollection[indexFromId]])[0];
+
+    return res(ctx.status(200), ctx.json({ ...randomNotification, id: investigationId }));
+  }),
+
   rest.get(`${environment.apiUrl}/investigations`, (req, res, ctx) => {
     const pagination = extractPagination(req);
     const status = req.url.searchParams.get('status') ?? '';

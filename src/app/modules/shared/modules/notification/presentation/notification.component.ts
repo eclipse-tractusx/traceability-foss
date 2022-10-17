@@ -20,7 +20,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TablePaginationEventConfig } from '@shared/components/table/table.model';
-import { Notifications } from '@shared/model/notification.model';
+import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Observable } from 'rxjs';
@@ -33,10 +33,11 @@ import { map } from 'rxjs/operators';
 export class NotificationComponent {
   @Input() receivedNotifications$: Observable<View<Notifications>>;
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
-  @Input() translationContext: 'pageInvestigations' | 'pageAlerts';
+  @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
 
   @Output() onReceivedPagination = new EventEmitter<TablePaginationEventConfig>();
   @Output() onQueuedAndRequestedPagination = new EventEmitter<TablePaginationEventConfig>();
+  @Output() selected = new EventEmitter<Notification>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));
 

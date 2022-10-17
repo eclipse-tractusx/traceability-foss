@@ -38,9 +38,10 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() notificationsView$: Observable<View<Notifications>>;
   @Input() labelId: string;
   @Input() hasPagination = true;
-  @Input() translationContext: 'pageInvestigations' | 'pageAlerts';
+  @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
 
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
+  @Output() selected = new EventEmitter<Notification>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
 
@@ -60,13 +61,17 @@ export class NotificationTabComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
-      header: CreateHeaderFromColumns(this.displayedColumns, this.translationContext + '.column'),
+      header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
       hasPagination: this.hasPagination,
       menuActionsConfig: this.menuActionsConfig,
       cellRenderers: {
         status: this.statusTemplate,
       },
     };
+  }
+
+  public selectNotification($event: Record<string, unknown>): void {
+    this.selected.emit($event as unknown as Notification);
   }
 
   private approveNotification(notification: any): void {}

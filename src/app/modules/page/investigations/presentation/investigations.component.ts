@@ -18,7 +18,11 @@
  ********************************************************************************/
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
+import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { Notification } from '@shared/model/notification.model';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
 @Component({
@@ -29,7 +33,11 @@ export class InvestigationsComponent implements OnInit, OnDestroy {
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
   public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
 
-  constructor(private readonly investigationsFacade: InvestigationsFacade) {}
+  constructor(
+    private readonly investigationsFacade: InvestigationsFacade,
+    private readonly investigationDetailFacade: InvestigationDetailFacade,
+    private readonly router: Router,
+  ) {}
 
   public ngOnInit(): void {
     this.investigationsFacade.setReceivedInvestigation();
@@ -46,5 +54,11 @@ export class InvestigationsComponent implements OnInit, OnDestroy {
 
   public onQueuedAndRequestedPagination(pagination: TablePaginationEventConfig) {
     this.investigationsFacade.setQueuedAndRequestedInvestigations(pagination.page, pagination.pageSize);
+  }
+
+  public onNotificationSelected(notification: Notification): void {
+    this.investigationDetailFacade.selected = { data: notification };
+    const { link } = getInvestigationInboxRoute();
+    this.router.navigate([`/${link}/${notification.id}`]).then();
   }
 }

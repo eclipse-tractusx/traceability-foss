@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { realm } from '@core/api/api.service.properties';
 import { Part, QualityType } from '@page/parts/model/parts.model';
@@ -36,7 +36,6 @@ import { filter, tap } from 'rxjs/operators';
 })
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;
-  @Output() closeSidebar = new EventEmitter<void>();
 
   public readonly partDetails$: Observable<View<Part>>;
   public readonly relationPartDetails$: Observable<View<Part>>;

@@ -25,7 +25,9 @@ import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InvestigationsAssembler } from '../assembler/investigations.assembler';
 import {
+  Notification,
   NotificationCreateResponse,
+  NotificationResponse,
   Notifications,
   NotificationsResponse,
   NotificationStatus,
@@ -49,6 +51,12 @@ export class InvestigationsService {
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
       .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
+  }
+
+  public getInvestigation(id: string): Observable<Notification> {
+    return this.apiService
+      .get<NotificationResponse>(`${this.url}/investigations/${id}`)
+      .pipe(map(notification => InvestigationsAssembler.assembleInvestigation(notification)));
   }
 
   public postInvestigation(partIds: string[], description: string): Observable<string> {

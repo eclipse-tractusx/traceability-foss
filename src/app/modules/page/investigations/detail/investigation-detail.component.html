@@ -1,0 +1,140 @@
+<!--
+Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
+
+See the NOTICE file(s) distributed with this work for additional
+information regarding copyright ownership.
+
+This program and the accompanying materials are made available under the
+terms of the Apache License, Version 2.0 which is available at
+https://www.apache.org/licenses/LICENSE-2.0.
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+
+SPDX-License-Identifier: Apache-2.0
+-->
+
+<app-header [title]="'commonInvestigation.title' | i18n"></app-header>
+
+<div class="detail--wrapper">
+  <mat-card>
+    <mat-card-title>{{ 'pageInvestigation.info' | i18n }}</mat-card-title>
+    <mat-card-content>
+      <ng-container
+        *viewContainer="selected$ | async; main: mainInfoTmp; error: errorTmp; loading: loaderTmp"
+      ></ng-container>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="detail--table_wrapper--notification">
+    <mat-card-title>{{
+      'pageInvestigation.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n
+    }}</mat-card-title>
+    <mat-card-content>
+      <ng-container
+        *viewContainer="
+          investigationPartsInformation$ | async;
+          main: mainNotificationPartsTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      ></ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>
+<mat-card *ngIf="isReceived" class="detail--table_wrapper--supplier">
+  <mat-card-title>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</mat-card-title>
+  <mat-card-content>
+    <ng-container
+      *viewContainer="
+        supplierPartsDetailInformation$ | async;
+        main: mainSupplierPartsTmp;
+        error: errorTmp;
+        loading: loaderTmp
+      "
+    ></ng-container>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #serialNumberTmp let-row="row">
+  <app-button (click)="copyToClipboard(row.serialNumber)">
+    <div class="flex justify-around items-center">
+      {{ row.serialNumber }}
+      <mat-icon class="investigation--serial-number__icon">filter_none</mat-icon>
+    </div>
+  </app-button>
+</ng-template>
+
+<ng-template #mainNotificationPartsTmp let-view="view">
+  <app-table
+    [data]="view.data"
+    [labelId]="notificationPartsTableId"
+    [tableConfig]="notificationPartsTableConfig"
+    [showHover]="false"
+    (configChanged)="onNotificationPartsSort($event)"
+  ></app-table>
+</ng-template>
+
+<ng-template #mainSupplierPartsTmp let-view="view">
+  <app-table
+    [data]="view.data"
+    [labelId]="supplierPartsTableId"
+    [tableConfig]="supplierPartsTableConfig"
+    [showHover]="false"
+    [deselectTrigger]="deselectPartTrigger$ | async"
+    [addTrigger]="addPartTrigger$ | async"
+    (multiSelect)="onMultiSelect($event)"
+    (clickSelectAction)="isInvestigationOpen$.next(true)"
+    (configChanged)="onSupplierPartsSort($event)"
+    selectedPartsInfoLabel="pageInvestigation.selectedParts"
+    selectedPartsActionLabel="pageInvestigation.selectPartsAction"
+  ></app-table>
+</ng-template>
+
+<ng-template #mainInfoTmp let-view="view">
+  <div class="detail--info__wrapper">
+    <div class="detail--info__content">
+      <span>{{ 'table.partsColumn.id' | i18n }}</span>
+      <p>{{ view.data?.id }}</p>
+    </div>
+    <div class="detail--info__content">
+      <span>{{ 'table.partsColumn.description' | i18n }}</span>
+      <p>{{ view.data?.description }}</p>
+    </div>
+    <div class="detail--info__content">
+      <span>{{ 'table.partsColumn.status' | i18n }}</span>
+      <div class="notification-status notification-status--{{ view.data?.status }}">
+        {{ 'commonInvestigation.status.' + view.data?.status | i18n }}
+      </div>
+    </div>
+    <div class="detail--info__content">
+      <span>{{ 'table.partsColumn.createDate' | i18n }}</span>
+      <p>{{ view.data?.createDate }}</p>
+    </div>
+    <div class="detail--info__content">
+      <span>{{ 'table.partsColumn.createdBy' | i18n }}</span>
+      <p>{{ view.data?.createdBy }}</p>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #errorTmp let-view="view">
+  <h1>{{ 'dataLoading.error' | i18n }}</h1>
+  <p>{{ view.error }}</p>
+</ng-template>
+
+<ng-template #loaderTmp let-view="view">
+  <mat-spinner></mat-spinner>
+</ng-template>
+
+<app-request-investigation
+  [isOpen]="isInvestigationOpen$ | async"
+  [selectedItems]="selectedItems$ | async"
+  (deselectPart)="removeItemFromSelection($event)"
+  (restorePart)="addItemToSelection($event)"
+  (clearSelected)="clearSelected()"
+  (sidenavIsClosing)="onRequestInvestigationClose()"
+></app-request-investigation>

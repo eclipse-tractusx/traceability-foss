@@ -22,11 +22,12 @@ SPDX-License-Identifier: Apache-2.0
 ></ng-container>
 <ng-template #mainTmp let-notifications="view">
   <app-table
-    [data]="notifications.data"
+    [paginationData]="notifications.data"
     [tableConfig]="tableConfig"
     [noShadow]="true"
     [labelId]="labelId"
     [showHover]="false"
+    (selected)="selectNotification($event)"
     (configChanged)="pagination.emit($event)"
   ></app-table>
 </ng-template>

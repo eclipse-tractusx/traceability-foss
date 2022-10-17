@@ -18,11 +18,11 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
+import { Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
-import { fireEvent, screen, waitFor, within } from '@testing-library/angular';
+import { fireEvent, screen, within } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -54,7 +54,7 @@ describe('NotificationsInboxComponent', () => {
       `<app-notification 
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
-          [translationContext]="'pageInvestigations'"
+          [translationContext]="'commonInvestigation'"
 
           (onReceivedPagination)='clickHandler($event)'
           (onQueuedAndRequestedPagination)='clickHandler($event)'

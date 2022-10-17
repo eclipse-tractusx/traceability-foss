@@ -64,7 +64,7 @@ export class BreadcrumbsComponent {
     if (isDynamicRoute && !!route.snapshot) {
       const paramName = lastRoutePart.split(':')[1];
 
-      const splitPath = path.split('/:')[0];
+      const splitPath = path.split(path.indexOf('/:') !== -1 ? '/:' : ':')[0];
       label = splitPath.split('/').pop();
 
       path = path.replace(lastRoutePart, route.snapshot.params[paramName]);

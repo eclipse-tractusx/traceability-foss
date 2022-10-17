@@ -63,7 +63,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public tableConfig: TableConfig;
 
-  public readonly isInvestigationOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
   public readonly parts$: Observable<View<Pagination<Part>>>;
   public readonly currentSelectedItems$: Observable<Part[]>;
 
@@ -84,7 +84,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
       columnRoles: { childInvestigation: 'wip' },
-      header: CreateHeaderFromColumns(this.displayedColumns, 'pageParts.column'),
+      header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
       sortableColumns: this.sortableColumns,
       cellRenderers: {
         childInvestigation: this.childInvestigationTmp,
