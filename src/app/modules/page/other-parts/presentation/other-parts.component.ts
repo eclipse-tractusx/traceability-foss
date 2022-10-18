@@ -53,17 +53,17 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
 
   public readonly tableConfig: TableConfig = {
     displayedColumns: this.displayedColumns,
-    header: CreateHeaderFromColumns(this.displayedColumns, 'pageParts.column'),
+    header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
     sortableColumns: this.sortableColumns,
   };
 
   public readonly customerParts$: Observable<View<Pagination<Part>>>;
   public readonly supplierParts$: Observable<View<Pagination<Part>>>;
 
-  public readonly deselectPartTrigger$: Subject<Part[]> = new Subject();
-  public addPartTrigger$: Subject<Part> = new Subject();
+  public readonly deselectPartTrigger$ = new Subject<Part[]>();
+  public readonly addPartTrigger$ = new Subject<Part>();
 
-  public readonly isInvestigationOpen$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
   public readonly selectedItems: Array<Array<Part>> = [];
 
   public selectedTab = 0;

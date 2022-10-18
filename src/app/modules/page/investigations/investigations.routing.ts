@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { InvestigationDetailComponent } from '@page/investigations/detail/investigation-detail.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 import { InvestigationsComponent } from './presentation/investigations.component';
 
@@ -28,6 +29,14 @@ const INVESTIGATIONS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: InvestigationsComponent,
+    data: { i18nextNamespaces: ['page.investigation'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+  {
+    path: ':investigationId',
+    pathMatch: 'full',
+    component: InvestigationDetailComponent,
+    data: { i18nextNamespaces: ['page.investigation'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];

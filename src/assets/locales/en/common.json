@@ -1,4 +1,5 @@
 {
+  "clipboard": "Copied \"{{value}}\" to clipboard!",
   "routing": {
     "home": "Home",
     "dashboard": "Dashboard",
@@ -30,7 +31,22 @@
     "noResultFound": "NO RESULTS FOUND.",
     "tryAgain": "Please try again later.",
     "selectPageSize": "Select page of periodic elements",
-    "menuDescription": "Action menu"
+    "menuDescription": "Action menu",
+    "partsColumn": {
+      "id": "ID",
+      "name": "Name",
+      "manufacturer": "Manufacturer",
+      "partNumber": "Part Number",
+      "serialNumber": "Serial Number",
+      "productionDate": "Production Date",
+      "qualityType": "Quality Type",
+      "productionCountry": "Production Country",
+      "childInvestigation": "Child Investigation",
+      "description": "Description",
+      "status": "Status",
+      "createDate": "Created",
+      "createdBy": "Created by"
+    }
   },
   "dataLoading": {
     "inProgress": "Loading data...",
@@ -96,17 +112,12 @@
     "emptyRange": "0 of {{length}}",
     "range": "{{startIndex}} – {{endIndex}} of {{length}}"
   },
-  "pageInvestigations": {
+  "commonInvestigation": {
     "title": "Quality Investigations",
     "viewAll": "View all",
     "tabs": {
       "received": "Received",
       "queuedAndRequested": "Queued & Requested"
-    },
-    "column": {
-      "description": "Description",
-      "status": "Status",
-      "createDate": "Created"
     },
     "status": {
       "RECEIVED": "Received",

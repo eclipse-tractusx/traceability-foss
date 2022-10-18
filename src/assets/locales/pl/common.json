@@ -1,4 +1,5 @@
 {
+  "clipboard": "Copied \"{{value}}\" to clipboard! TRANSLATION NEEDED",
   "routing": {
     "home": "Strona główna",
     "dashboard": "Pulpit",
@@ -33,7 +34,22 @@
     "noResultFound": "BRAK WYNIKÓW.",
     "tryAgain": "Spróbuj ponownie później.",
     "selectPageSize": "Ilość elementów na stronie",
-    "menuDescription": "Menu akcji"
+    "menuDescription": "Menu akcji",
+    "partsColumn": {
+      "id": "ID",
+      "name": "Nazwa",
+      "manufacturer": "Producent",
+      "partNumber": "Numer części",
+      "serialNumber": "Numer seryjny",
+      "qualityType": "Typ jakości",
+      "productionDate": "Data produkcji",
+      "productionCountry": "Kraj produkcji",
+      "childInvestigation": "Child Investigation",
+      "description": "Opis",
+      "status": "Stan",
+      "createDate": "Utworzono",
+      "createdBy": "Created by"
+    }
   },
   "dataLoading": {
     "inProgress": "Ładowanie danych...",
@@ -95,17 +111,12 @@
     "emptyRange": "0 z {{length}}",
     "range": "{{startIndex}} – {{endIndex}} z {{length}}"
   },
-  "pageInvestigations": {
+  "commonInvestigation": {
     "title": "Badanie Jakości",
     "viewAll": "View all",
     "tabs": {
       "received": "Otrzymane",
       "queuedNRequested": "Skolejkowane & Zażądane"
-    },
-    "column": {
-      "description": "Opis",
-      "status": "Stan",
-      "createDate": "Utworzono"
     },
     "status": {
       "RECEIVED": "Otrzymane",

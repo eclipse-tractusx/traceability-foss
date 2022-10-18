@@ -4,13 +4,6 @@
     "tab": {
       "customer": "Produkte von Kunden",
       "supplier": "Produkte von Lieferanten"
-    },
-    "column": {
-      "name": "Name",
-      "manufacturer": "Hersteller",
-      "partNumber": "Produktnummer",
-      "serialNumber": "Seriennummer",
-      "productionDate": "Produktionsdatum"
     }
   },
   "partDetail": {

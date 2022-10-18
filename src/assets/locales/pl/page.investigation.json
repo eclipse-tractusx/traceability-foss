@@ -1,0 +1,14 @@
+{
+  "pageInvestigation": {
+    "info": "Informacje ogólne",
+    "selectedParts_one": "{{count}} część została wybrana",
+    "selectedParts_few": "{{count}} części została wybrana",
+    "selectedParts_many": "{{count}} części została wybrana",
+    "selectPartsAction": "Rozpocznij badanie jakości",
+
+    "subHeadline": {
+      "affectedParts": "Affected parts NEEDS TRANSLATION",
+      "supplierParts": "Części dostawcy"
+    }
+  }
+}

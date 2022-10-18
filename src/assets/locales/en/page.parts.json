@@ -1,17 +1,6 @@
 {
   "pageParts": {
-    "title": "My Parts",
-    "column": {
-      "id": "ID",
-      "name": "Name",
-      "manufacturer": "Manufacturer",
-      "partNumber": "Part Number",
-      "serialNumber": "Serial Number",
-      "qualityType": "Quality Type",
-      "productionDate": "Production Date",
-      "productionCountry": "Production Country",
-      "childInvestigation": "Child Investigation"
-    }
+    "title": "My Parts"
   },
   "partDetail": {
     "relations": "Relations",

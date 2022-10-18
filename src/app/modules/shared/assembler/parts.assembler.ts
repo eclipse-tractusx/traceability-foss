@@ -75,6 +75,11 @@ export class PartsAssembler {
     return PaginationAssembler.assemblePagination(parts, PartsAssembler.assemblePart);
   }
 
+  public static assemblePartList(parts: PartResponse[]): Part[] {
+    const partCopy = [...parts];
+    return partCopy.map(part => PartsAssembler.assemblePart(part));
+  }
+
   public static assembleOtherParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
     return PaginationAssembler.assemblePagination(parts, PartsAssembler.assembleOtherPart);
   }

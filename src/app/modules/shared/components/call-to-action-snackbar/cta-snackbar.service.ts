@@ -30,8 +30,9 @@ import { CallAction, CtaSnackbarData } from './cta-snackbar.model';
 export class CtaSnackbarService {
   constructor(private readonly snackBar: MatSnackBar) {}
 
-  public show(text: I18nMessage, actions: CallAction[]): void {
+  public show(text: I18nMessage, actions?: CallAction[]): void {
+    const duration = actions ? undefined : 3000;
     const data: CtaSnackbarData = { text, actions };
-    this.snackBar.openFromComponent(CtaSnackbarComponent, { data });
+    this.snackBar.openFromComponent(CtaSnackbarComponent, { data, duration });
   }
 }

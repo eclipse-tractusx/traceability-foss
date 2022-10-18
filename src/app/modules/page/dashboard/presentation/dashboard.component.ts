@@ -18,8 +18,9 @@
  ********************************************************************************/
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
-import { Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
@@ -40,7 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
 
-  constructor(private readonly dashboardFacade: DashboardFacade) {
+  constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
     this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;
@@ -59,5 +60,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.dashboardFacade.stopDataLoading();
+  }
+
+  public onNotificationSelected(notification: Notification): void {
+    const { link } = getInvestigationInboxRoute();
+    this.router.navigate([`/${link}/${notification.id}`]).then();
   }
 }

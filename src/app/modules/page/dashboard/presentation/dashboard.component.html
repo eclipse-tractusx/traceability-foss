@@ -62,7 +62,7 @@ SPDX-License-Identifier: Apache-2.0
     <div class="flex justify-between items-center">
       <h3 class="mb-4 flex items-center">
         <mat-icon>find_in_page</mat-icon>
-        {{ 'pageInvestigations.title' | i18n }}
+        {{ 'commonInvestigation.title' | i18n }}
       </h3>
       <app-button
         [color]="'primary'"
@@ -72,15 +72,16 @@ SPDX-License-Identifier: Apache-2.0
       >
         <div class="flex justify-between items-center">
           <mat-icon class="mr-2">remove_red_eye</mat-icon>
-          {{ 'pageInvestigations.viewAll' | i18n }}
+          {{ 'commonInvestigation.viewAll' | i18n }}
         </div>
       </app-button>
     </div>
     <app-notifications-tab
       [notificationsView$]="investigations$"
-      [translationContext]="'pageInvestigations'"
+      [translationContext]="'commonInvestigation'"
       [labelId]="'dashboard-investigations'"
       [hasPagination]="false"
+      (selected)="onNotificationSelected($event)"
     ></app-notifications-tab>
   </section>
 

@@ -4,13 +4,6 @@
     "tab": {
       "customer": "Customer Parts",
       "supplier": "Supplier Parts"
-    },
-    "column": {
-      "name": "Name",
-      "manufacturer": "Manufacturer",
-      "partNumber": "Part Number",
-      "serialNumber": "Serial Number",
-      "productionDate": "Production Date"
     }
   },
   "partDetail": {

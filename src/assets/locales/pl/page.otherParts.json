@@ -4,13 +4,6 @@
     "tab": {
       "customer": "Części klienta",
       "supplier": "Części dostawcy"
-    },
-    "column": {
-      "name": "Nazwa",
-      "manufacturer": "Producent",
-      "partNumber": "Numer części",
-      "serialNumber": "Numer seryjny",
-      "productionDate": "Data produkcji"
     }
   },
   "partDetail": {

@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { Notifications, NotificationStatus } from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
@@ -40,6 +40,10 @@ export class InvestigationsFacade {
 
   public get investigationsQueuedAndRequested$(): Observable<View<Notifications>> {
     return this.investigationsState.investigationsQueuedAndRequested$;
+  }
+
+  public getInvestigation(id: string): Observable<Notification> {
+    return this.investigationsService.getInvestigation(id);
   }
 
   public setReceivedInvestigation(page = 0, pageSize = 5): void {

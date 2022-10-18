@@ -27,8 +27,9 @@ SPDX-License-Identifier: Apache-2.0
     <app-notifications-tab
       [notificationsView$]="receivedNotifications$"
       [labelId]="receivedTabLabelId"
-      [translationContext]="'pageInvestigations'"
+      [translationContext]="'commonInvestigation'"
       (pagination)="onReceivedPagination.emit($event)"
+      (selected)="selected.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
 
@@ -39,8 +40,9 @@ SPDX-License-Identifier: Apache-2.0
     <app-notifications-tab
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
-      [translationContext]="'pageInvestigations'"
+      [translationContext]="'commonInvestigation'"
       (pagination)="onQueuedAndRequestedPagination.emit($event)"
+      (selected)="selected.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
 </mat-tab-group>
