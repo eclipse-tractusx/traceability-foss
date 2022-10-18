@@ -40,9 +40,9 @@ export const partsHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
   }),
 
-  rest.post(`${environment.apiUrl}/assets/detailInformation`, (req, res, ctx) => {
-    const { ids } = JSON.parse(req.body as string);
-    return res(ctx.status(200), ctx.json(ids.map(id => getAssetById(id))));
+  rest.post(`${environment.apiUrl}/assets/detail-information`, (req, res, ctx) => {
+    const { assetIds } = JSON.parse(req.body as string);
+    return res(ctx.status(200), ctx.json(assetIds.map(id => getAssetById(id))));
   }),
 
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {

@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
+import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
@@ -49,7 +49,7 @@ export class InvestigationsFacade {
   public setReceivedInvestigation(page = 0, pageSize = 5): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.investigationsService
-      .getInvestigationsByType([NotificationStatus.RECEIVED], page, pageSize)
+      .getReceivedInvestigations(page, pageSize)
       .subscribe({
         next: data => (this.investigationsState.investigationsReceived = { data }),
         error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
@@ -59,7 +59,7 @@ export class InvestigationsFacade {
   public setQueuedAndRequestedInvestigations(page = 0, pageSize = 5): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
-      .getInvestigationsByType([NotificationStatus.CREATED, NotificationStatus.SENT], page, pageSize)
+      .getCreatedInvestigations(page, pageSize)
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),

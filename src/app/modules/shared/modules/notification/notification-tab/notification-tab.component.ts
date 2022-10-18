@@ -48,7 +48,7 @@ export class NotificationTabComponent implements AfterViewInit {
   public readonly displayedColumns: DisplayColumns<keyof Notification>[] = [
     'description',
     'status',
-    'createDate',
+    'createdDate',
     'menu',
   ];
 

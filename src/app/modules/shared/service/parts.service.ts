@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
@@ -75,10 +75,9 @@ export class PartsService {
     return this.apiService.patch<Part>(`${this.url}/assets/${id}`, patchBody);
   }
 
-  public getPartDetailOfIds(ids: string[]): Observable<Part[]> {
-    const headers = new HttpHeaders({ 'X-HTTP-Method-Override': 'GET' });
+  public getPartDetailOfIds(assetIds: string[]): Observable<Part[]> {
     return this.apiService
-      .post<PartResponse[]>(`${this.url}/assets/detailInformation`, { ids }, 'json', false, headers)
+      .post<PartResponse[]>(`${this.url}/assets/detail-information`, { assetIds })
       .pipe(map(parts => PartsAssembler.assemblePartList(parts)));
   }
 }

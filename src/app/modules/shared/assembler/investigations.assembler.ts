@@ -33,15 +33,15 @@ export class InvestigationsAssembler {
   }
 
   public static assembleInvestigation(response: NotificationResponse): Notification {
-    const { id, description = '', status, createDate, createdBy, parts } = response;
+    const { id, description = '', status, createdDate = '', createdBy = '', assetIds } = response;
     return {
       id,
       description,
       createdBy,
-      parts,
+      assetIds,
 
       status: NotificationStatus[status] ?? null,
-      createDate: new CalendarDateModel(createDate),
+      createdDate: new CalendarDateModel(createdDate),
     };
   }
 }

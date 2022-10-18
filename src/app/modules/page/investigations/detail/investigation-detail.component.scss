@@ -56,12 +56,20 @@
 }
 
 .detail--info__content {
-  display: flex;
   padding-bottom: 0.5rem;
+  display: table;
+  & > div {
+    display: table-row;
+  }
+}
 
-  & > span {
-    margin-right: 15px;
+.detail--text {
+  display: table-cell;
+  padding-bottom: 0.5em;
+
+  &__bold {
     font-weight: bold;
+    padding-right: 1rem;
   }
 }
 

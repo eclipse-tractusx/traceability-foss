@@ -95,35 +95,35 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #mainInfoTmp let-view="view">
-  <div class="detail--info__wrapper">
-    <div class="detail--info__content">
-      <span>{{ 'table.partsColumn.id' | i18n }}</span>
-      <p>{{ view.data?.id }}</p>
+  <div class="detail--info__content">
+    <div>
+      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.id' | i18n }}</span>
+      <span class="detail--text">{{ view.data?.id }}</span>
     </div>
-    <div class="detail--info__content">
-      <span>{{ 'table.partsColumn.description' | i18n }}</span>
-      <p>{{ view.data?.description }}</p>
+    <div>
+      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.description' | i18n }}</span>
+      <span class="detail--text">{{ view.data?.description }}</span>
     </div>
-    <div class="detail--info__content">
-      <span>{{ 'table.partsColumn.status' | i18n }}</span>
-      <div class="notification-status notification-status--{{ view.data?.status }}">
+    <div>
+      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.status' | i18n }}</span>
+      <span class="notification-status notification-status--{{ view.data?.status }}">
         {{ 'commonInvestigation.status.' + view.data?.status | i18n }}
-      </div>
+      </span>
     </div>
-    <div class="detail--info__content">
-      <span>{{ 'table.partsColumn.createDate' | i18n }}</span>
-      <p>{{ view.data?.createDate }}</p>
+    <div>
+      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.createDate' | i18n }}</span>
+      <span class="detail--text">{{ view.data?.createdDate }}</span>
     </div>
-    <div class="detail--info__content">
-      <span>{{ 'table.partsColumn.createdBy' | i18n }}</span>
-      <p>{{ view.data?.createdBy }}</p>
+    <div>
+      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.createdBy' | i18n }}</span>
+      <span class="detail--text">{{ view.data?.createdBy }}</span>
     </div>
   </div>
 </ng-template>
 
 <ng-template #errorTmp let-view="view">
   <h1>{{ 'dataLoading.error' | i18n }}</h1>
-  <p>{{ view.error }}</p>
+  <p>{{ view.error | json }}</p>
 </ng-template>
 
 <ng-template #loaderTmp let-view="view">

@@ -22,5 +22,5 @@ import { DashboardStatsResponse } from '@page/dashboard/model/dashboard.model';
 export const mockDashboardStats: DashboardStatsResponse = {
   otherParts: 5,
   myItems: 3,
-  investigationCount: 20,
+  investigations: 20,
 };

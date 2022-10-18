@@ -25,7 +25,7 @@ export class CalendarDateModel {
   private readonly date: Date;
 
   constructor(responseDate: string) {
-    this.date = new Date(responseDate);
+    this.date = new Date(responseDate || null);
   }
 
   toJSON() {

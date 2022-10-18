@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notifications, NotificationStatus } from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -35,11 +35,11 @@ describe('NotificationsInboxComponent', () => {
   beforeEach(() => (clickHandler = jest.fn()));
 
   const renderNotificationsInbox = () => {
-    const qContent = buildMockInvestigations([NotificationStatus.CREATED]).map(data => {
-      return { ...data, createDate: new CalendarDateModel(data.createDate) };
+    const qContent: Notification[] = buildMockInvestigations([NotificationStatus.CREATED]).map(data => {
+      return { ...data, createdDate: new CalendarDateModel(data.createdDate) };
     });
-    const qarContent = buildMockInvestigations([NotificationStatus.RECEIVED]).map(data => {
-      return { ...data, createDate: new CalendarDateModel(data.createDate) };
+    const qarContent: Notification[] = buildMockInvestigations([NotificationStatus.RECEIVED]).map(data => {
+      return { ...data, createdDate: new CalendarDateModel(data.createdDate) };
     });
 
     const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({

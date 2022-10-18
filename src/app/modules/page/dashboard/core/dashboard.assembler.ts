@@ -24,7 +24,7 @@ export class DashboardAssembler {
     return {
       otherParts: dashboard.otherParts,
       myItems: dashboard.myItems,
-      investigationCount: dashboard.investigationCount,
+      investigations: dashboard.investigations,
     };
   }
 }
