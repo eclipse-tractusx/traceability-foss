@@ -17,14 +17,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input } from '@angular/core';
-import { InvestigationStatus } from '@shared/model/investigations.model';
+.notification-status {
+  @apply border-0 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs;
 
-@Component({
-  selector: 'app-investigation-status',
-  templateUrl: './investigation-status.component.html',
-  styleUrls: ['./investigation-status.component.scss'],
-})
-export class InvestigationStatusComponent {
-  @Input() status: InvestigationStatus;
+  &:before {
+    content: ' ';
+    @apply h-2 w-2 rounded-full inline-block;
+  }
+
+  &--RECEIVED {
+    @apply bg-startLight text-startDark border-startLightContrast before:bg-startDark;
+  }
+
+  &--CREATED {
+    @apply bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-pendingDark;
+  }
+
+  &--SENT {
+    @apply bg-completeLight text-completeDark border-completeLightContrast before:bg-completeDark;
+  }
 }

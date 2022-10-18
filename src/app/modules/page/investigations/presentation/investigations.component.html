@@ -17,28 +17,10 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-header [title]="'pageInvestigations.title' | i18n"></app-header>
-
-<mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)" appTabAsPanel>
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <span [id]="receivedTabLabelId">{{ 'pageInvestigations.tabs.received' | i18n }} </span>
-    </ng-template>
-    <app-investigations-tab
-      [investigations]="investigationsReceived$ | async"
-      [labelId]="receivedTabLabelId"
-      (pagination)="onReceivedPagination($event)"
-    ></app-investigations-tab>
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <span [id]="queuedAndRequestedTabLabelId">{{ 'pageInvestigations.tabs.queuedAndRequested' | i18n }} </span>
-    </ng-template>
-    <app-investigations-tab
-      [investigations]="investigationsQueuedAndRequested$ | async"
-      [labelId]="queuedAndRequestedTabLabelId"
-      (pagination)="onQueuedAndRequestedPagination($event)"
-    ></app-investigations-tab>
-  </mat-tab>
-</mat-tab-group>
+<app-notification
+  [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
+  [receivedNotifications$]="investigationsReceived$"
+  [translationContext]="'pageInvestigations'"
+  (onReceivedPagination)="onReceivedPagination($event)"
+  (onQueuedAndRequestedPagination)="onQueuedAndRequestedPagination($event)"
+></app-notification>

@@ -25,11 +25,11 @@ import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { InvestigationsAssembler } from '../assembler/investigations.assembler';
 import {
-  InvestigationCreateResponse,
-  Investigations,
-  InvestigationsResponse,
-  InvestigationStatus,
-} from '../model/investigations.model';
+  NotificationCreateResponse,
+  Notifications,
+  NotificationsResponse,
+  NotificationStatus,
+} from '../model/notification.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,14 +40,14 @@ export class InvestigationsService {
   constructor(private readonly apiService: ApiService) {}
 
   public getInvestigationsByType(
-    status: InvestigationStatus[],
+    status: NotificationStatus[],
     page: number,
     pageSize: number,
-  ): Observable<Investigations> {
+  ): Observable<Notifications> {
     const params = new HttpParams().set('page', page).set('size', pageSize).set('status', status.join(','));
 
     return this.apiService
-      .getBy<InvestigationsResponse>(`${this.url}/investigations`, params)
+      .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
       .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
   }
 
@@ -55,7 +55,7 @@ export class InvestigationsService {
     const body = { partIds, description };
 
     return this.apiService
-      .post<InvestigationCreateResponse>(`${this.url}/investigations`, body)
+      .post<NotificationCreateResponse>(`${this.url}/investigations`, body)
       .pipe(map(({ investigationId }) => investigationId));
   }
 }

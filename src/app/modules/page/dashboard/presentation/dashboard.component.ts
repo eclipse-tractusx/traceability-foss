@@ -19,7 +19,7 @@
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
-import { Investigations, InvestigationStatusGroup } from '@shared/model/investigations.model';
+import { Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
@@ -35,7 +35,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfInvestigations$: Observable<View<number>>;
 
   public readonly assetsPerCountry$: Observable<View<any>>;
-  public readonly investigations$: Observable<View<Investigations>>;
+  public readonly investigations$: Observable<View<Notifications>>;
 
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;
     this.investigations$ = this.dashboardFacade.investigations$;
 
-    const { link, queryParams } = getInvestigationInboxRoute(InvestigationStatusGroup.RECEIVED);
+    const { link, queryParams } = getInvestigationInboxRoute(NotificationStatusGroup.RECEIVED);
     this.investigationLink = link;
     this.investigationParams = queryParams;
   }

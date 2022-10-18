@@ -76,11 +76,12 @@ SPDX-License-Identifier: Apache-2.0
         </div>
       </app-button>
     </div>
-    <app-investigations-tab
-      [investigations]="investigations$ | async"
+    <app-notifications-tab
+      [notificationsView$]="investigations$"
+      [translationContext]="'pageInvestigations'"
       [labelId]="'dashboard-investigations'"
       [hasPagination]="false"
-    ></app-investigations-tab>
+    ></app-notifications-tab>
   </section>
 
   <section class="parts-per-country-section">

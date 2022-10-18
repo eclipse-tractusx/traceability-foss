@@ -17,27 +17,30 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<ng-container *viewContainer="investigations; main: mainTmp; error: errorTmp; loading: loaderTmp"> </ng-container>
-
-<ng-template #mainTmp let-investigations="view">
+<ng-container
+  *viewContainer="notificationsView$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
+></ng-container>
+<ng-template #mainTmp let-notifications="view">
   <app-table
-    [data]="investigations.data"
+    [data]="notifications.data"
     [tableConfig]="tableConfig"
     [noShadow]="true"
     [labelId]="labelId"
     [showHover]="false"
-    (configChanged)="onTableConfigChange($event)"
+    (configChanged)="pagination.emit($event)"
   ></app-table>
 </ng-template>
 
-<ng-template #errorTmp let-investigations="view">
-  <app-data-loading-error [error]="investigations.error"></app-data-loading-error>
+<ng-template #errorTmp let-notifications="view">
+  <app-data-loading-error [error]="notifications.error"></app-data-loading-error>
 </ng-template>
 
-<ng-template #loaderTmp let-investigations="view">
+<ng-template #loaderTmp>
   <mat-spinner></mat-spinner>
 </ng-template>
 
 <ng-template #statusTmp let-status="value">
-  <app-investigation-status *ngIf="status" [status]="status"></app-investigation-status>
+  <div *ngIf="status" class="notification-status notification-status--{{ status }}">
+    {{ translationContext + '.status.' + status | i18n }}
+  </div>
 </ng-template>

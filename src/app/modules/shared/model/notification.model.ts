@@ -20,7 +20,7 @@
 import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { Pagination, PaginationResponse } from '@core/model/pagination.model';
 
-export enum InvestigationStatus {
+export enum NotificationStatus {
   ACCEPTED = 'ACCEPTED',
   ACKNOWLEDGED = 'ACKNOWLEDGED',
   APPROVED = 'APPROVED',
@@ -31,34 +31,34 @@ export enum InvestigationStatus {
   SENT = 'SENT',
 }
 
-export enum InvestigationStatusGroup {
+export enum NotificationStatusGroup {
   RECEIVED = 'received',
   QUEUED_AND_REQUESTED = 'queued-and-requested',
 }
 
-export interface InvestigationCreateResponse {
+export interface NotificationCreateResponse {
   investigationId: string;
 }
 
-export interface InvestigationResponse {
+export interface NotificationResponse {
   id: string;
   description: string;
-  status: InvestigationStatus;
+  status: NotificationStatus;
 
   createDate: string;
   createdBy: string;
   parts: string[];
 }
 
-export interface Investigation {
+export interface Notification {
   id: string;
   description: string;
-  status: InvestigationStatus | null;
+  status: NotificationStatus | null;
 
   createDate: CalendarDateModel;
   createdBy: string;
   parts: string[];
 }
 
-export type InvestigationsResponse = PaginationResponse<InvestigationResponse>;
-export type Investigations = Pagination<Investigation>;
+export type NotificationsResponse = PaginationResponse<NotificationResponse>;
+export type Notifications = Pagination<Notification>;

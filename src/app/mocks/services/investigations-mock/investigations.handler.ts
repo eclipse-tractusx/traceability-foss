@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { environment } from '@env';
-import { InvestigationStatus } from '@shared/model/investigations.model';
+import { NotificationStatus } from '@shared/model/notification.model';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../pagination.helper';
 import { buildMockInvestigations, getInvestigationById, InvestigationIdPrefix } from './investigations.model';
@@ -28,7 +28,7 @@ export const investigationsHandlers = [
     const pagination = extractPagination(req);
     const status = req.url.searchParams.get('status') ?? '';
 
-    const currentStatus = status.split(',') as InvestigationStatus[];
+    const currentStatus = status.split(',') as NotificationStatus[];
     return res(ctx.status(200), ctx.json(applyPagination(buildMockInvestigations(currentStatus), pagination)));
   }),
 

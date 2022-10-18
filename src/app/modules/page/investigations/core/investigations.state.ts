@@ -18,31 +18,31 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { Investigations } from '@shared/model/investigations.model';
+import { Notifications } from '@shared/model/notification.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class InvestigationsState {
-  private readonly _investigationsReceived$ = new State<View<Investigations>>({ loader: true });
-  private readonly _investigationsQueuedAndRequested$ = new State<View<Investigations>>({ loader: true });
+  private readonly _investigationsReceived$ = new State<View<Notifications>>({ loader: true });
+  private readonly _investigationsQueuedAndRequested$ = new State<View<Notifications>>({ loader: true });
 
-  public get investigationsReceived$(): Observable<View<Investigations>> {
+  public get investigationsReceived$(): Observable<View<Notifications>> {
     return this._investigationsReceived$.observable;
   }
 
-  public set investigationsReceived({ data, loader, error }: View<Investigations>) {
-    const investigationsView: View<Investigations> = { data, loader, error };
+  public set investigationsReceived({ data, loader, error }: View<Notifications>) {
+    const investigationsView: View<Notifications> = { data, loader, error };
     this._investigationsReceived$.update(investigationsView);
   }
 
-  public get investigationsQueuedAndRequested$(): Observable<View<Investigations>> {
+  public get investigationsQueuedAndRequested$(): Observable<View<Notifications>> {
     return this._investigationsQueuedAndRequested$.observable;
   }
 
-  public set investigationsQueuedAndRequested({ data, loader, error }: View<Investigations>) {
-    const investigationsView: View<Investigations> = { data, loader, error };
+  public set investigationsQueuedAndRequested({ data, loader, error }: View<Notifications>) {
+    const investigationsView: View<Notifications> = { data, loader, error };
     this._investigationsQueuedAndRequested$.update(investigationsView);
   }
 }
