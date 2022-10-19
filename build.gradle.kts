@@ -76,7 +76,7 @@ val grizzlyVersion = "2.3.25"
 val jose4jVersion = "0.8.0"
 val restAssuredVersion = "5.2.0"
 val resilience4jVersion = "1.7.0"
-val testContainersVersion = "1.17.4"
+val testContainersVersion = "1.17.5"
 val schedlockVersion = "4.42.0"
 
 dependencyManagement {
