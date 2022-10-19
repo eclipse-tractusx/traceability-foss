@@ -7,7 +7,7 @@ plugins {
 	id("com.autonomousapps.dependency-analysis") version "1.13.1"
 	id("com.google.cloud.tools.jib") version "3.2.1"
 	id("com.coditory.integration-test") version "1.4.0"
-	id("org.openapi.generator") version "6.0.0"
+	id("org.openapi.generator") version "6.2.0"
 	id("org.sonarqube") version "3.4.0.2513"
 }
 
