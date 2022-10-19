@@ -70,7 +70,7 @@ val springBootSecurityOauth2Version = "2.6.8"
 val jacksonDatabindNullableVersion = "0.2.3"
 val scribejavaVersion = "8.3.1"
 val findBugsVersion = "3.0.2"
-val restitoVersion = "1.0.0"
+val restitoVersion = "1.1.0"
 // attention when upgrading: grizzly version is linked to restito version
 val grizzlyVersion = "2.3.25"
 val jose4jVersion = "0.8.0"
