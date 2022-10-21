@@ -33,10 +33,7 @@ import { filter, first, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-investigation-detail',
   templateUrl: './investigation-detail.component.html',
-  styleUrls: [
-    './investigation-detail.component.scss',
-    '../../../shared/modules/notification/notification-tab/notification-tab.component.scss',
-  ],
+  styleUrls: ['./investigation-detail.component.scss'],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;

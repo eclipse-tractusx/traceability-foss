@@ -17,17 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ModalModule } from '@shared/modules/modal/modal.module';
-import { NotificationTabComponent } from '@shared/modules/notification/notification-tab/notification-tab.component';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { NotificationComponent } from './presentation/notification.component';
+import { TemplateRef } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-@NgModule({
-  declarations: [NotificationComponent, NotificationTabComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, ModalModule],
-  exports: [NotificationComponent, NotificationTabComponent],
-})
-export class NotificationModule {}
+export interface ConfirmModalData {
+  title: string;
+  cancelText: string;
+  confirmText: string;
+
+  template: TemplateRef<unknown>;
+  onConfirm: (isConfirmed: boolean) => void;
+
+  formGroup?: FormGroup;
+}

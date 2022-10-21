@@ -50,29 +50,6 @@
   }
 }
 
-.detail--info__wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.detail--info__content {
-  padding-bottom: 0.5rem;
-  display: table;
-  & > div {
-    display: table-row;
-  }
-}
-
-.detail--text {
-  display: table-cell;
-  padding-bottom: 0.5em;
-
-  &__bold {
-    font-weight: bold;
-    padding-right: 1rem;
-  }
-}
-
 .investigation--serial-number__icon {
   width: 14px;
   height: 14px;

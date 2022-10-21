@@ -17,17 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { ModalModule } from '@shared/modules/modal/modal.module';
-import { NotificationTabComponent } from '@shared/modules/notification/notification-tab/notification-tab.component';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { NotificationComponent } from './presentation/notification.component';
+import { Component, Input } from '@angular/core';
+import { Notification } from '@shared/model/notification.model';
 
-@NgModule({
-  declarations: [NotificationComponent, NotificationTabComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, ModalModule],
-  exports: [NotificationComponent, NotificationTabComponent],
+@Component({
+  selector: 'app-notification-overview',
+  templateUrl: './notification-overview.component.html',
+  styleUrls: [
+    './notification-overview.component.scss',
+    '../../modules/notification/notification-tab/notification-tab.component.scss',
+  ],
 })
-export class NotificationModule {}
+export class NotificationOverviewComponent {
+  @Input() notification: Notification;
+}

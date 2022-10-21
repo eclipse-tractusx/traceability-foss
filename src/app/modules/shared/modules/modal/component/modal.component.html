@@ -17,23 +17,20 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="textarea--container">
-  <mat-form-field [style.fontSize]="'16'" appearance="fill">
-    <mat-label>{{ label }}</mat-label>
-    <textarea
-      #textareaRef
-      [disabled]="disabled"
-      [value]="value"
-      (input)="onChange?.(getTextAreaFromEvent($event).value)"
-      (blur)="markAsTouched()"
-      matInput
-      cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="5"
-    ></textarea>
-  </mat-form-field>
-  <span *ngIf="ngControl.control.touched && ngControl.control.errors" class="errorMessage">{{
-    ngControl.control.errors | errorMessage | i18n
-  }}</span>
+<div class="modal--header">
+  <h1 mat-dialog-title>{{ data.title | i18n }}</h1>
+  <app-button (click)="cancel()" variant="icon" iconName="close" color="primary"></app-button>
+</div>
+
+<div mat-dialog-content>
+  <ng-container *ngTemplateOutlet="data.template"></ng-container>
+</div>
+
+<div mat-dialog-actions class="justify-between">
+  <app-button *ngIf="data.cancelText" (click)="cancel()" variant="raised" color="warn">{{
+    data.cancelText | i18n
+  }}</app-button>
+  <app-button *ngIf="data.confirmText" (click)="confirm()" variant="raised" color="accent">{{
+    data.confirmText | i18n
+  }}</app-button>
 </div>
