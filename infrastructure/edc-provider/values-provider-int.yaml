@@ -178,7 +178,7 @@ edc-controlplane:
       edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
       edc.oauth.public.key.alias=daps-cert-edc-provider-int
       edc.oauth.private.key.alias=daps-cert-key-edc-provider-int
-      edc.oauth.client.id=54:89:49:D8:E2:99:3A:A7:4A:D2:88:09:BE:2F:15:40:A2:3D:C8:D0:keyid:54:89:49:D8:E2:99:3A:A7:4A:D2:88:09:BE:2F:15:40:A2:3D:C8:D0
+      edc.oauth.client.id=D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F:keyid:D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F
       edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
       edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
       edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
