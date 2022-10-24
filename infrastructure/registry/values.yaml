@@ -25,9 +25,10 @@ registry:
   imagePullSecrets:
     - name: dockerpullsecret
   containerPort: 4243
-  host: tracex-aas-registry.dev.demo.catena-x.net
+  host: localhost
   ## If 'authentication' is set to false, no OAuth authentication is enforced
   authentication: false
+  # needs a valid issuer URI, even if authentication is disabled, because initialisation is
   idpIssuerUri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central
   service:
     port: 8080
@@ -42,14 +43,14 @@ registry:
     password: password
   ingress:
     hosts:
-      - host: "tracex-aas-registry.dev.demo.catena-x.net"
+      - host: localhost
         paths:
           - path: /
             pathType: ImplementationSpecific
     enabled: true
     tls:
       - hosts:
-          - "tracex-aas-registry.dev.demo.catena-x.net"
+          - localhost
         # Default secret for certificate creation already provided to your namespace
         secretName: tls-secret
     className: nginx

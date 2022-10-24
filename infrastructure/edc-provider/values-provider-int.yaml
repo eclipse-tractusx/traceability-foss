@@ -5,9 +5,9 @@ edcPostgresql:
   fullnameOverride: "tracex-edc-provider-postgresql"
 
   auth:
-    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
-    username: <path:traceability-foss/data/dev/edc/database#user>
-    password: <path:traceability-foss/data/dev/edc/database#password>
+    postgresPassword: <path:traceability-foss/data/int/edc/database#password>
+    username: <path:traceability-foss/data/int/edc/database#user>
+    password: <path:traceability-foss/data/int/edc/database#password>
     database: "edc"
 
 registryPostgresql:
@@ -21,32 +21,32 @@ registryPostgresql:
       enabled: true
       size: 1Gi
   auth:
-    username: <path:traceability-foss/data/dev/aasregistry#username>
-    password: <path:traceability-foss/data/dev/aasregistry#password>
+    username: <path:traceability-foss/data/int/aasregistry#username>
+    password: <path:traceability-foss/data/int/aasregistry#password>
     database: registry
 
 registry:
   enabled: true
 
   registry:
-    idpIssuerUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
-    host: trace-x-registry.dev.demo.catena-x.net
+    idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
+    host: trace-x-registry.int.demo.catena-x.net
     ingress:
       hosts:
-        - host: trace-x-registry.dev.demo.catena-x.net
+        - host: trace-x-registry.int.demo.catena-x.net
           paths:
             - path: /
               pathType: ImplementationSpecific
       enabled: true
       tls:
         - hosts:
-            - trace-x-registry.dev.demo.catena-x.net
+            - trace-x-registry.int.demo.catena-x.net
           # Default secret for certificate creation already provided to your namespace
           secretName: tls-secret
     dataSource:
       url: jdbc:postgresql://tracex-registry-postgresql-hl/registry
-      user: <path:traceability-foss/data/dev/aasregistry#username>
-      password: <path:traceability-foss/data/dev/aasregistry#password>
+      user: <path:traceability-foss/data/int/aasregistry#username>
+      password: <path:traceability-foss/data/int/aasregistry#password>
 
 edc-controlplane:
   replicaCount: 1
@@ -98,7 +98,7 @@ edc-controlplane:
     ## Public / Internet facing Ingress
     - enabled: true
       # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-      hostname: trace-x-edc.dev.demo.catena-x.net
+      hostname: trace-x-edc.int.demo.catena-x.net
       # -- Additional ingress annotations to add
       annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -138,34 +138,34 @@ edc-controlplane:
       # Postgresql related configuration
       edc.datasource.asset.name=asset
       edc.datasource.asset.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
-      edc.datasource.asset.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.datasource.asset.user=<path:traceability-foss/data/int/edc/database#user>
       edc.datasource.contractdefinition.name=contractdefinition
       edc.datasource.contractdefinition.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
-      edc.datasource.contractdefinition.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.datasource.contractdefinition.user=<path:traceability-foss/data/int/edc/database#user>
       edc.datasource.contractnegotiation.name=contractnegotiation
       edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
-      edc.datasource.contractnegotiation.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.datasource.contractnegotiation.user=<path:traceability-foss/data/int/edc/database#user>
       edc.datasource.policy.name=policy
       edc.datasource.policy.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
-      edc.datasource.policy.user=<path:traceability-foss/data/dev/edc/database#user>
+      edc.datasource.policy.user=<path:traceability-foss/data/int/edc/database#user>
       edc.datasource.transferprocess.name=transferprocess
       edc.datasource.transferprocess.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc?currentSchema=edc
-      edc.datasource.transferprocess.user=<path:traceability-foss/data/dev/edc/database#user>
-      edc.hostname=trace-x-edc.dev.demo.catena-x.net
+      edc.datasource.transferprocess.user=<path:traceability-foss/data/int/edc/database#user>
+      edc.hostname=trace-x-edc.int.demo.catena-x.net
       edc.ids.catalog.id=urn:catalog:default
       edc.ids.description="Eclipse Dataspace Connector"
-      edc.ids.endpoint=https://trace-x-edc.dev.demo.catena-x.net/api/v1/ids
-      edc.ids.endpoint.audience=https://trace-x-edc.dev.demo.catena-x.net/api/v1/ids/data
-      ids.webhook.address=https://trace-x-edc.dev.demo.catena-x.net
+      edc.ids.endpoint=https://trace-x-edc.int.demo.catena-x.net/api/v1/ids
+      edc.ids.endpoint.audience=https://trace-x-edc.int.demo.catena-x.net/api/v1/ids/data
+      ids.webhook.address=https://trace-x-edc.int.demo.catena-x.net
       edc.ids.id=urn:connector:edc
       edc.ids.security.profile=base
       edc.ids.title="Eclipse Dataspace Connector"
       # the value below is mandatory but not used for the provider
       edc.receiver.http.endpoint=http://tracex-api-wrapper:9192/callback/endpoint-data-reference
       edc.transfer.dataplane.sync.endpoint=http://tracex-edc-provider-dataplane:8185/api/public
-      edc.transfer.proxy.endpoint=https://trace-x-edc-dataplane.dev.demo.catena-x.net/api/public
-      edc.transfer.proxy.token.verifier.publickey.alias=token-signer-cert-dev
-      edc.transfer.proxy.token.signer.privatekey.alias=token-signer-cert-key-dev
+      edc.transfer.proxy.endpoint=https://trace-x-edc-dataplane.int.demo.catena-x.net/api/public
+      edc.transfer.proxy.token.verifier.publickey.alias=token-signer-cert-int
+      edc.transfer.proxy.token.signer.privatekey.alias=token-signer-cert-key-int
       edc.dataplane.selector.provider.url=http://tracex-edc-provider-dataplane:9999/api/dataplane/control
       edc.dataplane.selector.provider.sourcetypes=HttpData
       edc.dataplane.selector.provider.destinationtypes=HttpProxy
@@ -176,22 +176,22 @@ edc-controlplane:
       edc.vault.hashicorp.health.check.enabled=true
       edc.vault.hashicorp.health.check.standby.ok=true
       edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
-      edc.oauth.public.key.alias=daps-cert-edc-provider-dev
-      edc.oauth.private.key.alias=daps-cert-key-edc-provider-dev
-      edc.oauth.client.id=3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62:keyid:3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62
+      edc.oauth.public.key.alias=daps-cert-edc-provider-int
+      edc.oauth.private.key.alias=daps-cert-key-edc-provider-int
+      edc.oauth.client.id=54:89:49:D8:E2:99:3A:A7:4A:D2:88:09:BE:2F:15:40:A2:3D:C8:D0:keyid:54:89:49:D8:E2:99:3A:A7:4A:D2:88:09:BE:2F:15:40:A2:3D:C8:D0
       edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
       edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
       edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
 
   secrets:
-    EDC_API_AUTH_KEY: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
-    EDC_API_CONTROL_AUTH_APIKEY_VALUE: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
-    EDC_DATASOURCE_ASSET_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
-    EDC_DATASOURCE_CONTRACTDEFINITION_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
-    EDC_DATASOURCE_CONTRACTNEGOTIATION_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
-    EDC_DATASOURCE_POLICY_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
-    EDC_DATASOURCE_TRANSFERPROCESS_PASSWORD: <path:traceability-foss/data/dev/edc/database#password>
-    EDC_VAULT_HASHICORP_TOKEN: <path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+    EDC_API_AUTH_KEY: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+    EDC_API_CONTROL_AUTH_APIKEY_VALUE: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+    EDC_DATASOURCE_ASSET_PASSWORD: <path:traceability-foss/data/int/edc/database#password>
+    EDC_DATASOURCE_CONTRACTDEFINITION_PASSWORD: <path:traceability-foss/data/int/edc/database#password>
+    EDC_DATASOURCE_CONTRACTNEGOTIATION_PASSWORD: <path:traceability-foss/data/int/edc/database#password>
+    EDC_DATASOURCE_POLICY_PASSWORD: <path:traceability-foss/data/int/edc/database#password>
+    EDC_DATASOURCE_TRANSFERPROCESS_PASSWORD: <path:traceability-foss/data/int/edc/database#password>
+    EDC_VAULT_HASHICORP_TOKEN: <path:traceability-foss/data/int/edc#edc.vault.hashicorp.token>
 
   logging:
     # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
@@ -214,7 +214,7 @@ edc-dataplane:
     ## Public / Internet facing Ingress
     - enabled: true
       # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-      hostname: trace-x-edc-dataplane.dev.demo.catena-x.net
+      hostname: trace-x-edc-dataplane.int.demo.catena-x.net
       annotations:
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -247,15 +247,15 @@ edc-dataplane:
       web.http.control.path=/api/dataplane/control
       edc.api.control.auth.apikey.key=X-Api-Key
       edc.dataplane.token.validation.endpoint=http://tracex-edc-provider-controlplane:8182/validation/token
-      edc.hostname=trace-x-edc-dataplane.dev.demo.catena-x.net
+      edc.hostname=trace-x-edc-dataplane.int.demo.catena-x.net
       edc.vault.hashicorp.url=https://vault.demo.catena-x.net
       edc.vault.hashicorp.health.check.enabled=true
       edc.vault.hashicorp.health.check.standby.ok=true
       edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
 
   secrets:
-    EDC_API_CONTROL_AUTH_APIKEY_VALUE: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
-    EDC_VAULT_HASHICORP_TOKEN: <path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+    EDC_API_CONTROL_AUTH_APIKEY_VALUE: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+    EDC_VAULT_HASHICORP_TOKEN: <path:traceability-foss/data/int/edc#edc.vault.hashicorp.token>
 
   logging:
     # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
