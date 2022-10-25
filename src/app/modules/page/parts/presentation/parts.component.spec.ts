@@ -20,6 +20,7 @@
 import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
@@ -36,7 +37,7 @@ describe('Parts', () => {
   const renderParts = () => {
     return renderComponent(`<app-sidenav></app-sidenav><app-parts></app-parts>`, {
       declarations: [SidenavComponent, PartsComponent],
-      imports: [PartsModule, SharedModule, LayoutModule],
+      imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
       translations: ['page.parts'],
       providers: [{ provide: SidenavService }],
       roles: ['wip', 'admin'],
