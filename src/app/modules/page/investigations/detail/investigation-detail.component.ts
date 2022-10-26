@@ -18,6 +18,7 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
@@ -26,6 +27,8 @@ import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/c
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
+import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -37,6 +40,7 @@ import { filter, first, tap } from 'rxjs/operators';
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
+  @ViewChild('ModalClose') modalClose: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
@@ -56,6 +60,10 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   private subscription: Subscription;
   private selectedInvestigationTmpStore: Notification;
+  public selectedInvestigation: Notification;
+
+  private readonly textAreaControl = new FormControl();
+  public readonly closeFormGroup = new FormGroup({ reason: this.textAreaControl });
 
   constructor(
     private readonly staticIdService: StaticIdService,
@@ -63,6 +71,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly route: ActivatedRoute,
     private readonly ctaSnackbarService: CtaSnackbarService,
+    private readonly confirmModalService: ModalService,
   ) {
     this.investigationPartsInformation$ = this.investigationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.investigationDetailFacade.supplierPartsInformation$;
@@ -78,7 +87,10 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.subscription = this.selected$
       .pipe(
         filter(({ data }) => !!data),
-        tap(({ data }) => this.setTableConfigs(data)),
+        tap(({ data }) => {
+          this.setTableConfigs(data);
+          this.selectedInvestigation = data;
+        }),
       )
       .subscribe();
   }
@@ -164,5 +176,36 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
         tap(notification => (this.investigationDetailFacade.selected = { data: notification })),
       )
       .subscribe();
+  }
+
+  public closeAction(): void {
+    this.textAreaControl.setValidators([Validators.required]);
+
+    const onConfirm = (isConfirmed: boolean) => {
+      const reason = this.closeFormGroup.get('reason').value;
+
+      if (isConfirmed) {
+        this.investigationsFacade.closeInvestigation(this.selectedInvestigation.id, reason).subscribe({
+          next: () => {
+            this.ctaSnackbarService.show({ id: 'commonInvestigation.modal.closeSuccess' });
+          },
+          error: () => {
+            // TODO: error handling
+          },
+        });
+      }
+    };
+
+    const options: ConfirmModalData = {
+      title: `commonInvestigation.modal.closeTitle`,
+      confirmText: `commonInvestigation.modal.close`,
+      cancelText: `commonInvestigation.modal.cancel`,
+
+      template: this.modalClose,
+      formGroup: this.closeFormGroup,
+      onConfirm,
+    };
+
+    this.confirmModalService.open(options);
   }
 }

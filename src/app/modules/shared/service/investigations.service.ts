@@ -69,4 +69,10 @@ export class InvestigationsService {
       .post<NotificationCreateResponse>(`${this.url}/investigations`, body)
       .pipe(map(({ id }) => id));
   }
+
+  public closeInvestigation(id: string, reason: string): Observable<string> {
+    const body = { reason };
+
+    return this.apiService.post<null>(`${this.url}/investigations/${id}/close`, body).pipe();
+  }
 }
