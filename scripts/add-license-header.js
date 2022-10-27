@@ -62,6 +62,7 @@ const buildAddComment =
       if (firstHtmlCommentsEnd === -1) {
         throw new Error(`Cannot check invalid comment, there is no "${closeComment}" close comment`);
       }
+
       const maybeLicense = trimLicense(
         content.substring(firstHtmlCommentStarts + openComment().length, firstHtmlCommentsEnd),
       );

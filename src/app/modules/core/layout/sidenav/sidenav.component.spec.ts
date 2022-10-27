@@ -48,20 +48,7 @@ describe('SidenavComponent', () => {
     await waitFor(() => expect(sidenavElement).not.toHaveClass('sidenav--container__open'));
   });
 
-  it('should render open sidenav', async () => {
-    await renderComponent(`<app-sidenav></app-sidenav><app-sidenav-wrapper [isOpen]='true'></app-sidenav-wrapper>`, {
-      declarations: [SidenavComponent, SidenavWrapperComponent],
-      imports: [LayoutModule],
-      providers: [{ provide: SidenavService }],
-    });
-
-    const sidenavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
-    expect(sidenavElement).toBeInTheDocument();
-
-    await waitFor(() => expect(sidenavElement).toHaveClass('sidenav--container__open'));
-  });
-
-  it('should render sidenav with content', async () => {
+  it('should render open sidenav with content', async () => {
     const text = 'Some text';
     await renderComponent(
       `<app-sidenav></app-sidenav><app-sidenav-wrapper [isOpen]='true'><p>${text}</p></app-sidenav-wrapper>`,

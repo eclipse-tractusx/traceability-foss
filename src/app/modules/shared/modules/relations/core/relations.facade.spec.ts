@@ -22,7 +22,7 @@ import { RelationComponentState } from '@shared/modules/relations/core/component
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
 import { LoadedElementsState } from '@shared/modules/relations/core/loaded-elements.state';
 import { RelationsFacade } from '@shared/modules/relations/core/relations.facade';
-import { TreeElement } from '@shared/modules/relations/model/relations.model';
+import { TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
 import { firstValueFrom, of } from 'rxjs';
@@ -194,7 +194,7 @@ describe('Relations facade', () => {
             title: 'MOCK_part_3',
           },
         ],
-      };
+      } as TreeStructure;
 
       const { id, childDescriptions } = MOCK_part_1;
       const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;

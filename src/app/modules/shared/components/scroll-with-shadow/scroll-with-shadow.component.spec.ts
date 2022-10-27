@@ -17,42 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { fireEvent, screen } from '@testing-library/angular';
+import { By } from '@angular/platform-browser';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { ScrollWithShadowComponent } from './scroll-with-shadow.component';
 
-interface ResizeObserverMock {
-  TEST_triggerResize(): Promise<void>;
-  TEST_whenQueueFlushed(): Promise<void>;
-  observe(): jest.Mock;
-  disconnect(): jest.Mock;
-}
-
 describe('ScrollWithShadowComponent', () => {
-  const getResizeObserverLastCall = (): jest.MockResult<ResizeObserverMock> => {
-    const mock = (window.ResizeObserver as unknown as jest.Mock).mock;
-
-    return mock.results[mock.results.length - 1];
-  };
-
   const renderScrollWithShadow = async ({ withScroll }: { withScroll: boolean }) => {
-    // jsdom has no layout implementation, so by default scrollWidth and offsetWidth is always zero
-    // as workaround for this we implement here partial layouting as we know how it should be calculated
-    jest.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockImplementation(function () {
-      if (this.dataset.testid === 'scroll-container') {
-        return parseInt(getComputedStyle(screen.getByTestId('scrollable-element')).width.replace('px', ''), 10);
-      }
-
-      return 0;
-    });
-    jest.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockImplementation(function () {
-      if (this.dataset.testid === 'scroll-container') {
-        return parseInt(getComputedStyle(screen.getByTestId('overflow-element')).width.replace('px', ''), 10);
-      }
-
-      return 0;
-    });
-
     const result = await renderComponent(
       `
       <div style="width: 200px;" data-testid="overflow-element">
@@ -66,8 +37,9 @@ describe('ScrollWithShadowComponent', () => {
       },
     );
 
-    await getResizeObserverLastCall().value.TEST_whenQueueFlushed();
-    result.fixture.detectChanges();
+    const scrollWithShadowDebugElement = result.fixture.debugElement.query(By.directive(ScrollWithShadowComponent));
+    await scrollWithShadowDebugElement.componentInstance.whenMarkedAsReady;
+    result.detectChanges();
 
     return result;
   };
@@ -109,18 +81,13 @@ describe('ScrollWithShadowComponent', () => {
   it('should remove scroll shadow if resized to no scroll', async () => {
     const { fixture } = await renderScrollWithShadow({ withScroll: true });
     screen.getByTestId('scrollable-element').style.width = '100px';
+    fireEvent.scroll(screen.getByTestId('scroll-container'));
+    fixture.detectChanges(true);
 
-    await getResizeObserverLastCall().value.TEST_triggerResize();
-    fixture.detectChanges();
+    await waitFor(() =>
+      expect(screen.getByTestId('scroll-container')).not.toHaveClass('scroll-container__right-scroll'),
+    );
 
     expect(screen.getByTestId('scroll-container')).not.toHaveClass('scroll-container__left-scroll');
-    expect(screen.getByTestId('scroll-container')).not.toHaveClass('scroll-container__right-scroll');
-  });
-
-  it('should disconnect resize observer on destroy', async () => {
-    const { fixture } = await renderScrollWithShadow({ withScroll: true });
-    fixture.destroy();
-
-    expect(getResizeObserverLastCall().value.disconnect).toHaveBeenCalled();
   });
 });
