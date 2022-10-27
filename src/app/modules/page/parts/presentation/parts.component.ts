@@ -33,7 +33,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
   styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('childInvestigationTmp') childInvestigationTmp: TemplateRef<unknown>;
   @ViewChild('qualityTypeTmp') qualityTypeTmp: TemplateRef<unknown>;
 
   public readonly displayedColumns: string[] = [
@@ -45,7 +44,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     'qualityType',
     'productionDate',
     'productionCountry',
-    'childInvestigation',
   ];
 
   public readonly sortableColumns: Record<string, boolean> = {
@@ -63,7 +61,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public tableConfig: TableConfig;
 
-  public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
   public readonly parts$: Observable<View<Pagination<Part>>>;
   public readonly currentSelectedItems$: Observable<Part[]>;
 
@@ -87,7 +84,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
       sortableColumns: this.sortableColumns,
       cellRenderers: {
-        childInvestigation: this.childInvestigationTmp,
         qualityType: this.qualityTypeTmp,
       },
     };
@@ -103,38 +99,5 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     this.partsFacade.setMyParts(page, pageSize, sorting);
-  }
-
-  public startInvestigation(event: MouseEvent, row: Part): void {
-    event.stopPropagation();
-    this.isInvestigationOpen$.next(true);
-    this.partsFacade.setSelectedParts(
-      row.children.filter((value, index, self) => {
-        return self.indexOf(value) === index;
-      }),
-    );
-  }
-
-  public removeItemFromSelection(part: Part): void {
-    this.partsFacade.removeSelectedPart(part);
-  }
-
-  public addItemToSelection(part: Part): void {
-    this.partsFacade.addItemToSelection(part);
-  }
-
-  public clearSelected(): void {
-    this.partsFacade.selectedParts = [];
-  }
-
-  public getIconByQualityType(qualityType: QualityType): string {
-    const iconMap = new Map<QualityType, string>([
-      [QualityType.Ok, 'check_circle_outline'],
-      [QualityType.Minor, 'info'],
-      [QualityType.Major, 'warning'],
-      [QualityType.Critical, 'error_outline'],
-      [QualityType.LifeThreatening, 'error'],
-    ]);
-    return iconMap.get(qualityType) || '';
   }
 }
