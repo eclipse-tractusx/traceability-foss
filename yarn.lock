@@ -7536,12 +7536,12 @@ kdbush@^3.0.0:
   resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-3.0.0.tgz#f8484794d47004cc2d85ed3a79353dbe0abc2bf0"
   integrity sha512-hRkd6/XW4HTsA9vjVpY9tuXJYLSlelnkTmVFu4M9/7MIYQtFcHpbugAU7UbOfjOiVSVYl2fqgBuJ32JUmRo5Ew==
 
-keycloak-angular@9.1.0:
-  version "9.1.0"
-  resolved "https://registry.yarnpkg.com/keycloak-angular/-/keycloak-angular-9.1.0.tgz#d51f3a36101bc1f309c082ab71434fb352951607"
-  integrity sha512-ATxVOfxMaBHMOIdGIXDXqQwVhKl0CqCBwg7BabwWToA41jJdV/pBR+QeF3XkBEuvowXfr3bAW2aOfNSXLUJUeg==
+keycloak-angular@10.0.2:
+  version "10.0.2"
+  resolved "https://registry.yarnpkg.com/keycloak-angular/-/keycloak-angular-10.0.2.tgz#79fc4c68591b130cb59e366bb6a7631ad5b5d17b"
+  integrity sha512-gPYW/0jeLeMDG4X03mzeAqvpG8xcRk3Q7pwlfqp+q2PZddIPLjB0tXODtorC5DghARsv3OmClRLUS5KF/mSrgA==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.3.0"
 
 keycloak-js@18.0.0:
   version "18.0.0"
