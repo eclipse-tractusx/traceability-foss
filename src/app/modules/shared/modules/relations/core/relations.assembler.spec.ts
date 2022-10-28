@@ -19,7 +19,7 @@
 
 import { Part } from '@page/parts/model/parts.model';
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';
-import { TreeElement } from '@shared/modules/relations/model/relations.model';
+import { TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 
 describe('Relations assembler', () => {
   describe('assemblePartForRelation', () => {
@@ -31,7 +31,7 @@ describe('Relations assembler', () => {
         state: 'loading',
         text: 'name',
         title: 'name | serialNumber',
-      };
+      } as TreeElement;
       expect(RelationsAssembler.assemblePartForRelation(part)).toEqual(expected);
     });
     it('should assemble finished loading part', () => {
@@ -42,7 +42,7 @@ describe('Relations assembler', () => {
         state: 'error',
         text: 'name',
         title: 'name | serialNumber',
-      };
+      } as TreeElement;
       expect(RelationsAssembler.assemblePartForRelation(part)).toEqual(expected);
     });
   });
@@ -79,7 +79,7 @@ describe('Relations assembler', () => {
         state: 'done',
         text: 'Audi A1 Sportback',
         title: 'Audi A1 Sportback | 5XXGM4A77CG032209',
-      };
+      } as TreeStructure;
       expect(RelationsAssembler.elementToTreeStructure(treeElement)).toEqual(expected);
     });
   });
@@ -91,7 +91,7 @@ describe('Relations assembler', () => {
         title: '_id_',
         state: 'loading',
         children: null,
-      };
+      } as TreeElement;
       expect(RelationsAssembler.createLoadingElement('_id_')).toEqual(expected);
     });
   });

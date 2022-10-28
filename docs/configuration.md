@@ -33,7 +33,7 @@ There are several Angular artefacts which you can generate:
 
 ### Running unit tests
 
-Run `ng test` to execute the unit tests via [jest](https://github.com/facebook/jest).
+Run `ng test` to execute the unit tests via [karma](https://karma-runner.github.io/latest/index.html) + [jasmine](https://jasmine.github.io/).
 
 ### Running updates
 

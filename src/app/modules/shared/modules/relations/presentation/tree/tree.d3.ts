@@ -19,9 +19,9 @@
 
 import { TreeData, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { HelperD3 } from '@shared/modules/relations/presentation/helper.d3';
+import type { Selection } from 'd3';
 import * as d3 from 'd3';
 import { HierarchyNode, PieArcDatum } from 'd3';
-import type { Selection } from 'd3';
 import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
 import type { MinimapConnector, RenderOptions, TreeNode, TreeSvg } from '../model.d3';
 

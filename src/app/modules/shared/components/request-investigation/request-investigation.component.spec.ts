@@ -28,15 +28,17 @@ import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
+import { of } from 'rxjs';
 
 describe('requestInvestigationComponent', () => {
-  beforeAll(() => server.listen());
+  beforeAll(() => server.start());
   afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+  afterAll(() => server.stop());
 
-  const deselectPartMock = jest.fn();
-  const clearSelectedMock = jest.fn();
-  const submitted = jest.fn();
+  const deselectPartMock = jasmine.createSpy();
+  const clearSelectedMock = jasmine.createSpy();
+  const sidenavIsClosingMock = jasmine.createSpy();
+  const submittedMock = jasmine.createSpy();
   const currentSelectedItems = [{ name: 'part_1' }, { name: 'part_2' }, { name: 'part_3' }];
 
   const renderRequestInvestigationComponent = () =>
@@ -44,7 +46,7 @@ describe('requestInvestigationComponent', () => {
       `<app-request-investigation
   (deselectPart)='deselectPartMock($event)'
   (clearSelected)='clearSelectedMock($event)'
-  (submitted)='submitted($event)'
+  (submitted)='submittedMock($event)'
   [selectedItems]='currentSelectedItems'
 ></app-request-investigation>`,
       {
@@ -54,7 +56,7 @@ describe('requestInvestigationComponent', () => {
         componentProperties: {
           deselectPartMock,
           clearSelectedMock,
-          submitted,
+          submittedMock,
           currentSelectedItems,
         },
       },
@@ -101,8 +103,11 @@ describe('requestInvestigationComponent', () => {
     });
     const { componentInstance } = fixture;
 
-    const spy = jest.spyOn(componentInstance.clearSelected, 'emit');
-    const spy_2 = jest.spyOn((componentInstance as any).investigationsService, 'postInvestigation');
+    const spy = spyOn(componentInstance.clearSelected, 'emit');
+    const spy_2 = spyOn((componentInstance as any).investigationsService, 'postInvestigation').and.returnValue(of([]));
+    const spy_3 = spyOn((componentInstance as any).otherPartsFacade, 'setActiveInvestigationForParts').and.returnValue(
+      of([]),
+    );
 
     const testText = 'This is for a testing purpose.';
 
@@ -112,5 +117,6 @@ describe('requestInvestigationComponent', () => {
 
     await waitFor(() => expect(spy).toHaveBeenCalledTimes(1));
     expect(spy_2).toHaveBeenCalledWith(['id_1'], testText);
+    await waitFor(() => expect(spy_3).toHaveBeenCalledTimes(1));
   });
 });
