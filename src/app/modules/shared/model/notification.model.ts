@@ -37,7 +37,7 @@ export enum NotificationStatusGroup {
 }
 
 export interface NotificationCreateResponse {
-  investigationId: string;
+  id: string;
 }
 
 export interface NotificationResponse {
@@ -45,9 +45,9 @@ export interface NotificationResponse {
   description: string;
   status: NotificationStatus;
 
-  createDate: string;
+  createdDate: string;
   createdBy: string;
-  parts: string[];
+  assetIds: string[];
 }
 
 export interface Notification {
@@ -55,9 +55,9 @@ export interface Notification {
   description: string;
   status: NotificationStatus | null;
 
-  createDate: CalendarDateModel;
+  createdDate: CalendarDateModel;
   createdBy: string;
-  parts: string[];
+  assetIds: string[];
 }
 
 export type NotificationsResponse = PaginationResponse<NotificationResponse>;

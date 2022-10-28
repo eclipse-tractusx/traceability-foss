@@ -61,6 +61,7 @@ export interface PartResponse {
   idShort: string;
   nameAtManufacturer: string;
   manufacturerPartId: string;
+  partInstanceId: string;
   manufacturerId: string;
   manufacturerName: string;
   nameAtCustomer: string;

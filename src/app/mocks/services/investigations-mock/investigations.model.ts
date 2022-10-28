@@ -30,8 +30,8 @@ export const buildMockInvestigations = (statuses: NotificationStatus[]): Notific
       description: `Investigation No ${index + 1}`,
       status,
       createdBy: 'OEM A',
-      createDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
-      parts: [getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
+      createdDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
+      assetIds: [getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
     };
   });
 
@@ -40,8 +40,8 @@ const MockEmptyInvestigation: NotificationResponse = {
   description: `Investigation No 000`,
   status: NotificationStatus.CREATED,
   createdBy: 'OEM A',
-  createDate: `2022-05-01T12:34:12`,
-  parts: [getRandomAsset().id],
+  createdDate: `2022-05-01T12:34:12`,
+  assetIds: [getRandomAsset().id],
 };
 
 export const getInvestigationById = (id: string) => {

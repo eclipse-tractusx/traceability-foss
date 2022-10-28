@@ -18,9 +18,8 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { RoleService } from '@core/user/role.service';
 import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
-import { Notifications, NotificationStatus } from '@shared/model/notification.model';
+import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { PartsService } from '@shared/service/parts.service';
@@ -41,7 +40,6 @@ export class DashboardFacade {
     private readonly dashboardState: DashboardState,
     private readonly partsService: PartsService,
     private readonly investigationsService: InvestigationsService,
-    private readonly roleService: RoleService,
   ) {}
 
   public get numberOfMyParts$(): Observable<View<number>> {
@@ -67,10 +65,7 @@ export class DashboardFacade {
   public setDashboardData(): void {
     this.setAssetNumbers();
     this.setAssetsPerCountry();
-
-    if (this.roleService.hasAccess('wip')) {
-      this.setInvestigations();
-    }
+    this.setInvestigations();
   }
 
   private setAssetNumbers(): void {
@@ -83,7 +78,7 @@ export class DashboardFacade {
       next: (dashboardStats: DashboardStats) => {
         this.dashboardState.setNumberOfMyParts({ data: dashboardStats.myItems });
         this.dashboardState.setNumberOfOtherParts({ data: dashboardStats.otherParts });
-        this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigationCount || 0 });
+        this.dashboardState.setNumberOfInvestigations({ data: dashboardStats.investigations || 0 });
       },
       error: error => {
         this.dashboardState.setNumberOfMyParts({ error });
@@ -121,11 +116,9 @@ export class DashboardFacade {
 
   private setInvestigations(): void {
     this.investigationSubscription?.unsubscribe();
-    this.investigationSubscription = this.investigationsService
-      .getInvestigationsByType([NotificationStatus.RECEIVED], 0, 5)
-      .subscribe({
-        next: data => this.dashboardState.setInvestigation({ data }),
-        error: (error: Error) => this.dashboardState.setInvestigation({ error }),
-      });
+    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5).subscribe({
+      next: data => this.dashboardState.setInvestigation({ data }),
+      error: (error: Error) => this.dashboardState.setInvestigation({ error }),
+    });
   }
 }

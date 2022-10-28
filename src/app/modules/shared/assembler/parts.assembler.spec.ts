@@ -47,6 +47,7 @@ describe('PartsAssembler', () => {
         const idShort = 'idShort_' + i;
         const nameAtManufacturer = 'nameAtManufacturer';
         const manufacturerPartId = 'manufacturerPartId';
+        const partInstanceId = 'partInstanceId';
         const manufacturerId = 'manufacturerId';
         const manufacturerName = 'manufacturerName';
         const nameAtCustomer = 'nameAtCustomer';
@@ -61,6 +62,7 @@ describe('PartsAssembler', () => {
           idShort,
           nameAtManufacturer,
           manufacturerPartId,
+          partInstanceId,
           manufacturerId,
           manufacturerName,
           nameAtCustomer,
@@ -75,7 +77,7 @@ describe('PartsAssembler', () => {
           id,
           name: nameAtManufacturer,
           manufacturer: manufacturerName,
-          serialNumber: manufacturerPartId,
+          serialNumber: partInstanceId,
           partNumber: customerPartId,
           productionCountry: manufacturingCountry,
           nameAtCustomer: nameAtCustomer,
