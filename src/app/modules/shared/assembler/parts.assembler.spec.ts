@@ -89,9 +89,7 @@ describe('PartsAssembler', () => {
         });
       }
 
-      expect(JSON.stringify(PartsAssembler.assembleParts(page(testData)).content)).toStrictEqual(
-        JSON.stringify(expected),
-      );
+      expect(JSON.stringify(PartsAssembler.assembleParts(page(testData)).content)).toEqual(JSON.stringify(expected));
     });
   });
 
@@ -103,7 +101,7 @@ describe('PartsAssembler', () => {
     it('should clean up data for part view', () => {
       const data = { productionDate, qualityType, serialNumber, test: '' } as unknown as Part;
       expect(PartsAssembler.filterPartForView({ data })).toEqual({
-        data: { productionDate, qualityType, serialNumber },
+        data: { name: undefined, productionDate, qualityType, serialNumber } as unknown as Part,
       });
     });
 
@@ -125,7 +123,7 @@ describe('PartsAssembler', () => {
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
-          expect(result).toEqual({ data: { manufacturer, partNumber, serialNumber } });
+          expect(result).toEqual({ data: { manufacturer, partNumber, serialNumber } as unknown as Part });
           done();
         });
     });
@@ -150,7 +148,7 @@ describe('PartsAssembler', () => {
       of({ data })
         .pipe(PartsAssembler.mapPartForCustomerView())
         .subscribe(result => {
-          expect(result).toEqual({ data: { customerPartId, nameAtCustomer } });
+          expect(result).toEqual({ data: { customerPartId, nameAtCustomer } as unknown as Part });
           done();
         });
     });

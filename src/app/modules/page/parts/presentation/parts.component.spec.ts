@@ -20,6 +20,7 @@
 import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
@@ -29,14 +30,14 @@ import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.mo
 import { PartsModule } from '../parts.module';
 
 describe('Parts', () => {
-  beforeAll(() => server.listen());
+  beforeAll(() => server.start());
   afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+  afterAll(() => server.stop());
 
   const renderParts = () => {
     return renderComponent(`<app-sidenav></app-sidenav><app-parts></app-parts>`, {
       declarations: [SidenavComponent, PartsComponent],
-      imports: [PartsModule, SharedModule, LayoutModule],
+      imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
       translations: ['page.parts'],
       providers: [{ provide: SidenavService }],
       roles: ['wip', 'admin'],
@@ -79,8 +80,8 @@ describe('Parts', () => {
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
     expect(sideNavElement).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('Request quality investigation')).toBeInTheDocument());
     await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));
-    expect(screen.getByText('Request quality investigation')).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText(MOCK_part_1.id)).toBeInTheDocument());
     expect(screen.getAllByText(MOCK_part_1.id).length).toBe(1);
   });

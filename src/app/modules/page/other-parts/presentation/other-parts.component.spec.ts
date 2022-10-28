@@ -19,6 +19,7 @@
 
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { PartsState } from '@page/parts/core/parts.state';
+import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-test-server';
@@ -39,9 +40,9 @@ import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 
 describe('Other Parts', () => {
-  beforeAll(() => server.listen());
+  beforeAll(() => server.start());
   afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+  afterAll(() => server.stop());
 
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
@@ -90,7 +91,7 @@ describe('Other Parts', () => {
 
   it('should set currentSelectedParts correctly', async () => {
     const renderedComponent = await renderOtherParts();
-    const expected = ['test', 'test2'];
+    const expected = ['test', 'test2'] as unknown as Part[];
 
     renderedComponent.fixture.componentInstance.onMultiSelect(expected);
     expect(renderedComponent.fixture.componentInstance.selectedItems).toEqual([expected]);
@@ -104,7 +105,7 @@ describe('Other Parts', () => {
     const { fixture } = await renderOtherParts();
     const { componentInstance } = fixture;
 
-    const expected = ['test', 'test2'];
+    const expected = ['test', 'test2'] as unknown as Part[];
 
     componentInstance.onMultiSelect(expected);
     componentInstance.onTabChange({ index: 1 } as any);
@@ -120,7 +121,7 @@ describe('Other Parts', () => {
     const { fixture } = await renderOtherParts();
     const { componentInstance } = fixture;
 
-    const expected = [{ id: 'test' }, { id: 'test2' }];
+    const expected = [{ id: 'test' }, { id: 'test2' }] as Part[];
 
     componentInstance.onMultiSelect(expected);
     componentInstance.onTabChange({ index: 1 } as any);
@@ -129,7 +130,7 @@ describe('Other Parts', () => {
 
     componentInstance.onTabChange({ index: 0 } as any);
     componentInstance.removeItemFromSelection({ id: 'test' } as any);
-    expect(componentInstance.selectedItems).toEqual([[{ id: 'test2' }], expected]);
+    expect(componentInstance.selectedItems).toEqual([[{ id: 'test2' }] as Part[], expected]);
   });
 
   describe('onTableConfigChange', () => {
@@ -216,6 +217,7 @@ describe('Other Parts', () => {
 
     const selectedText_2 = await waitFor(() => screen.getByText('0 Parts selected for this page.'));
     expect(selectedText_2).toBeInTheDocument();
+    fixture.componentInstance.clearSelected();
     await waitFor(() => expect(fixture.componentInstance.currentSelectedItems).toEqual([]));
   });
 });

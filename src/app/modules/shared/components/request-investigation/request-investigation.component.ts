@@ -20,6 +20,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
+import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
@@ -51,6 +52,7 @@ export class RequestInvestigationComponent {
 
   constructor(
     private readonly investigationsService: InvestigationsService,
+    private readonly otherPartsFacade: OtherPartsFacade,
     private readonly ctaSnackbarService: CtaSnackbarService,
   ) {}
 
@@ -85,6 +87,7 @@ export class RequestInvestigationComponent {
         this.clearSelected.emit();
 
         this.openCtaSnackbar(amountOfItems);
+        this.otherPartsFacade.setActiveInvestigationForParts(this.selectedItems);
       },
       error: () => {
         this.isLoading$.next(false);

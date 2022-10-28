@@ -21,12 +21,14 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - uses: Borales/actions-yarn@v3.0.0
+    - name: Install chrome
+      uses: browser-actions/setup-chrome@latest
+    - name: Run yarn install
+      uses: Borales/actions-yarn@v3.0.0
       with:
         cmd: install # will run `yarn install` command
-    - uses: Borales/actions-yarn@v3.0.0
-      with:
-        cmd: test:ci # will run `yarn test` command
+    - name: Run npm test:ci
+      run: CHROMIUM_BIN=$(which chrome) npm run test:ci # will run `test:ci` command
     - uses: SonarSource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any

@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { setupServer } from 'msw/node';
+import { setupWorker } from 'msw';
 import {
   dashboardHandler,
   investigationsHandlers,
@@ -26,4 +26,4 @@ import {
 } from '../app/mocks/services';
 
 const handlers = [...dashboardHandler, ...otherPartsHandlersTest, ...partsHandlersTest, ...investigationsHandlers];
-export const server = setupServer(...handlers);
+export const server = setupWorker(...handlers);

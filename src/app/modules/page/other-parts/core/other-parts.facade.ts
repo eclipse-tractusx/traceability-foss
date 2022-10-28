@@ -26,6 +26,7 @@ import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable, Subscription } from 'rxjs';
+import _deepClone from 'lodash-es/cloneDeep';
 
 @Injectable()
 export class OtherPartsFacade {
@@ -60,6 +61,17 @@ export class OtherPartsFacade {
       next: data => (this.otherPartsState.supplierParts = { data }),
       error: error => (this.otherPartsState.supplierParts = { error }),
     });
+  }
+
+  public setActiveInvestigationForParts(parts: Part[]): void {
+    const { data } = _deepClone(this.otherPartsState.supplierParts);
+
+    data.content = data.content.map(part => {
+      const shouldHighlight = parts.some(currentPart => currentPart.id === part.id);
+      return { ...part, shouldHighlight };
+    });
+
+    this.otherPartsState.supplierParts = { data };
   }
 
   public unsubscribeParts(): void {

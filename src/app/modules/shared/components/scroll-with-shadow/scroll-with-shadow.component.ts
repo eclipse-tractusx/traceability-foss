@@ -27,10 +27,16 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@ang
 export class ScrollWithShadowComponent implements AfterViewInit, OnDestroy {
   @ViewChild('container') public containerRef: ElementRef<HTMLDivElement>;
 
+  public whenMarkedAsReady = new Promise(resolve => {
+    this.markAsReady = resolve as () => void;
+  });
+
   public hasLeftScroll = false;
   public hasRightScroll = false;
 
   private hasScroll = false;
+
+  private markAsReady: () => void;
 
   private readonly resizeObserver = new ResizeObserver(() => {
     const el = this.containerRef.nativeElement;
@@ -46,6 +52,8 @@ export class ScrollWithShadowComponent implements AfterViewInit, OnDestroy {
     }
 
     this.hasScroll = hasScroll;
+
+    this.markAsReady();
   });
 
   public ngAfterViewInit(): void {

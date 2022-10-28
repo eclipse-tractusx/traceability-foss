@@ -46,4 +46,8 @@ export class OtherPartsState {
     const partsView: View<Pagination<Part>> = { data, loader, error };
     this._supplierParts$.update(partsView);
   }
+
+  public get supplierParts(): View<Pagination<Part>> {
+    return this._supplierParts$.snapshot;
+  }
 }

@@ -17,6 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
@@ -49,25 +50,28 @@ describe('Parts facade', () => {
 
   describe('setParts', () => {
     it('should set parts if request is successful', async () => {
-      const serviceSpy = jest.spyOn(partsServiceMok, 'getMyParts');
+      const serviceSpy = spyOn(partsServiceMok, 'getMyParts').and.returnValue(
+        of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets)),
+      );
       partsFacade.setMyParts(0, 10);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, null));
 
       const parts = await firstValueFrom(partsState.myParts$);
-      await waitFor(() => expect(parts).toEqual({ data: PartsAssembler.assembleParts(mockAssets) }));
+      await waitFor(() =>
+        expect(parts).toEqual({ error: undefined, loader: undefined, data: PartsAssembler.assembleParts(mockAssets) }),
+      );
     });
 
     it('should not set parts if request fails', async () => {
-      const serviceSpy = jest.spyOn(partsServiceMok, 'getMyParts');
       const spyData = new BehaviorSubject(null).pipe(switchMap(_ => throwError(() => new Error('error'))));
+      spyOn(partsServiceMok, 'getMyParts').and.returnValue(spyData);
 
-      serviceSpy.mockReturnValue(spyData);
       partsFacade.setMyParts(0, 10);
 
       const parts = await firstValueFrom(partsState.myParts$);
-      await waitFor(() => expect(parts).toEqual({ error: new Error('error') }));
+      await waitFor(() => expect(parts).toEqual({ data: undefined, loader: undefined, error: new Error('error') }));
     });
   });
 
@@ -81,16 +85,15 @@ describe('Parts facade', () => {
     });
 
     it('should set and update selected Parts even if it fails', async () => {
-      const serviceSpy = jest.spyOn(partsServiceMok, 'getPart');
       const spyData = new BehaviorSubject(null).pipe(switchMap(_ => throwError(() => new Error('error'))));
+      const serviceSpy = spyOn(partsServiceMok, 'getPart').and.returnValue(spyData);
 
-      serviceSpy.mockReturnValue(spyData);
       partsFacade.setSelectedParts(PartsAssembler.assemblePart(MOCK_part_1).children);
       await waitFor(() =>
         expect(partsState.selectedParts).toEqual([
           { id: 'MOCK_part_2', error: true },
           { id: 'MOCK_part_3', error: true },
-        ]),
+        ] as Part[]),
       );
     });
   });
