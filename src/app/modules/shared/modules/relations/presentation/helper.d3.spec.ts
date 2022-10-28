@@ -26,7 +26,7 @@ describe('D3 Helper', () => {
   const mainElement = d3.select(document.body).append('svg') as TreeSvg;
 
   it('should init drag on element', () => {
-    const mockFn = jest.fn();
+    const mockFn = jasmine.createSpy();
     mainElement.call(HelperD3.initDrag(mainElement, mockFn));
 
     mainElement.node().dispatchEvent(new MouseEvent('mousedown', { view: window }));
@@ -42,6 +42,7 @@ describe('D3 Helper', () => {
 
   it('should calculate width for element', () => {
     const expectedWidth = 10;
+    window.innerWidth = 1024;
     const elementMock = { node: () => ({ getBoundingClientRect: () => ({ width: expectedWidth }) }) } as any;
 
     expect(HelperD3.calculateWidth(elementMock)).toBe(expectedWidth);
@@ -50,6 +51,7 @@ describe('D3 Helper', () => {
 
   it('should calculate height for element', () => {
     const expectedHeight = 10;
+    window.innerHeight = 768;
     const elementMock = { node: () => ({ getBoundingClientRect: () => ({ height: expectedHeight }) }) } as any;
     expect(HelperD3.calculateHeight(elementMock)).toBe(expectedHeight);
     expect(HelperD3.calculateHeight(null)).toBe(568);

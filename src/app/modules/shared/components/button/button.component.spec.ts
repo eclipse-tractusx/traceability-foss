@@ -36,7 +36,7 @@ describe('Button', () => {
   });
 
   it('should click regular button', async () => {
-    const clickHandler = jest.fn();
+    const clickHandler = jasmine.createSpy();
     await renderComponent(`<app-button (click)="clickHandler($event)">Test</app-button>`, {
       declarations: [ButtonComponent],
       componentProperties: {
@@ -48,7 +48,7 @@ describe('Button', () => {
 
     fireEvent.click(buttonEl);
 
-    expect(clickHandler).toHaveBeenCalledWith(expect.objectContaining({ type: 'click' }));
+    expect(clickHandler).toHaveBeenCalledWith(jasmine.objectContaining({ type: 'click' }));
   });
 
   it('should render accent button', async () => {

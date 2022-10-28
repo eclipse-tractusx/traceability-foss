@@ -32,7 +32,7 @@ import { NotificationModule } from '../notification.module';
 describe('NotificationsInboxComponent', () => {
   let clickHandler;
 
-  beforeEach(() => (clickHandler = jest.fn()));
+  beforeEach(() => (clickHandler = jasmine.createSpy()));
 
   const renderNotificationsInbox = () => {
     const qContent = buildMockInvestigations([NotificationStatus.CREATED]).map(data => {

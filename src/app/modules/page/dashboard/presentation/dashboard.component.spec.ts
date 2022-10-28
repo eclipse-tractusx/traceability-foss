@@ -26,23 +26,10 @@ import { renderComponent } from '@tests/test-render.utils';
 import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
 
-jest.mock('maplibre-gl/dist/maplibre-gl', () => ({
-  GeolocateControl: jest.fn(),
-  Map: jest.fn(() => ({
-    addControl: jest.fn(),
-    on: jest.fn(),
-    remove: jest.fn(),
-    resize: jest.fn(),
-    getLayer: jest.fn(),
-    addLayer: jest.fn(),
-  })),
-  NavigationControl: jest.fn(),
-}));
-
 describe('Dashboard', () => {
-  beforeAll(() => server.listen());
+  beforeAll(() => server.start());
   afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+  afterAll(() => server.stop());
 
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
