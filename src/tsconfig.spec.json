@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "esModuleInterop": true,
-    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "types": ["node", "jasmine", "@testing-library/jasmine-dom"],
     "paths": {
       "@core/*": ["src/app/modules/core/*"],
       "@layout/*": ["src/app/modules/core/layout/*"],

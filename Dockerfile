@@ -1,5 +1,6 @@
 # STAGE 1: Build
 FROM node:18-alpine as builder
+
 # Copy dependencies info
 COPY /package.json /yarn.lock ./
 

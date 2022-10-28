@@ -24,10 +24,12 @@ import * as d3 from 'd3';
 import { D3TreeDummyData } from '../tree/tree.d3.test.data';
 
 describe('D3 Tree', () => {
+  window.innerWidth = 1024;
+  window.innerHeight = 768;
   const id = 'id';
   const mainElement = d3.select(document.body).append('svg') as TreeSvg;
-  const openDetails = jest.fn();
-  const updateChildren = jest.fn();
+  const openDetails = jasmine.createSpy();
+  const updateChildren = jasmine.createSpy();
   const treeInstance = new Tree({ id, mainElement, openDetails, updateChildren });
 
   let minimapData: MinimapData;
@@ -35,27 +37,28 @@ describe('D3 Tree', () => {
 
   it('should initialize minimap class', () => {
     const tree = new Minimap(minimapData);
+    const expectedTreeInstance = {
+      // treeInstance: {
+      renderOptions: {
+        preserveRight: 0,
+      },
+      _zoom: 1,
+      id,
+      mainElement,
+      width: mainElement?.node?.()?.getBoundingClientRect?.()?.width,
+      height: mainElement?.node?.()?.getBoundingClientRect?.()?.height,
+      r: 60,
+      _viewX: 0,
+      _viewY: 0,
+      // },
+    };
     const expected = {
       scale: 20,
       isMinimapClosed: false,
       id,
-      treeInstance: {
-        renderOptions: {
-          preserveRight: 0,
-        },
-        _zoom: 1,
-        _minimapConnector: {},
-        id,
-        mainElement,
-        width: 1024,
-        height: 568,
-        r: 60,
-        _viewX: 0,
-        _viewY: 0,
-      },
       mainElement,
-      width: 1024,
-      height: 568,
+      width: mainElement?.node?.()?.getBoundingClientRect?.()?.width,
+      height: mainElement?.node?.()?.getBoundingClientRect?.()?.height,
       minimapX: 0,
       minimapY: 0,
       r: 3,
@@ -63,7 +66,8 @@ describe('D3 Tree', () => {
       xOffset: -4.5,
     };
 
-    expect(tree).toMatchObject(expected);
+    expect(tree).toEqual(jasmine.objectContaining(expected));
+    expect(tree).toEqual(jasmine.objectContaining({ treeInstance: jasmine.objectContaining(expectedTreeInstance) }));
   });
 
   it('should render minimap', () => {

@@ -30,9 +30,9 @@ import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.mo
 import { PartsModule } from '../parts.module';
 
 describe('Parts', () => {
-  beforeAll(() => server.listen());
+  beforeAll(() => server.start());
   afterEach(() => server.resetHandlers());
-  afterAll(() => server.close());
+  afterAll(() => server.stop());
 
   const renderParts = () => {
     return renderComponent(`<app-sidenav></app-sidenav><app-parts></app-parts>`, {
@@ -80,8 +80,8 @@ describe('Parts', () => {
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
     expect(sideNavElement).toBeInTheDocument();
+    await waitFor(() => expect(screen.getByText('Request quality investigation')).toBeInTheDocument());
     await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));
-    expect(screen.getByText('Request quality investigation')).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText(MOCK_part_1.id)).toBeInTheDocument());
     expect(screen.getAllByText(MOCK_part_1.id).length).toBe(1);
   });

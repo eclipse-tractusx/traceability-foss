@@ -18,8 +18,8 @@
     "start:auth:mock": "ng serve --configuration=authMock",
     "start:auth:local": "ng serve --configuration=authLocal",
     "env:mock": "docker-compose up",
-    "test": "TZ=UTC jest --watch --maxWorkers=1",
-    "test:ci": "TZ=UTC jest --runInBand --coverage",
+    "test": "ng test",
+    "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
     "add-license-header": "node ./scripts/add-license-header.js --src=src",
     "dependencies:download-tool": "mkdir -p ./scripts/download && curl -L --output ./scripts/download/org.eclipse.dash.licenses.jar 'https://repo.eclipse.org/service/local/artifact/maven/redirect?r=dash-licenses&g=org.eclipse.dash&a=org.eclipse.dash.licenses&v=LATEST'",
     "dependencies:generate": "java -jar ./scripts/download/org.eclipse.dash.licenses.jar yarn.lock -project automotive.tractusx -summary DEPENDENCIES",
@@ -75,11 +75,12 @@
     "@commitlint/cli": "16.2.4",
     "@commitlint/config-conventional": "16.2.4",
     "@testing-library/angular": "11.0.4",
-    "@testing-library/jest-dom": "5.16.4",
+    "@testing-library/jasmine-dom": "1.2.0",
     "@types/d3": "7.1.0",
-    "@types/jest": "27.5.0",
+    "@types/jasmine": "4.0.0",
     "@types/luxon": "2.3.2",
     "@types/node": "18.11.4",
+    "@types/testing-library__jasmine-dom": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
     "eslint": "8.12.0",
@@ -88,11 +89,13 @@
     "eslint-plugin-jsdoc": "39.2.9",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "husky": "7.0.4",
-    "jest": "28.1.0",
-    "jest-environment-jsdom": "28.1.0",
-    "jest-extended": "3.1.0",
-    "jest-preset-angular": "12.0.0",
-    "jest-sonar-reporter": "2.0.0",
+    "jasmine-core": "4.3.0",
+    "karma": "6.4.0",
+    "karma-chrome-launcher": "3.1.0",
+    "karma-coverage": "2.2.0",
+    "karma-jasmine": "5.1.0",
+    "karma-jasmine-html-reporter": "2.0.0",
+    "karma-sonarqube-reporter": "1.4.0",
     "lint-staged": "12.4.1",
     "msw": "0.39.2",
     "postcss-import": "14.1.0",
@@ -107,47 +110,5 @@
   },
   "msw": {
     "workerDirectory": "src"
-  },
-  "jest": {
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "<rootDir>/src/tsconfig.spec.json"
-      }
-    },
-    "preset": "jest-preset-angular",
-    "setupFilesAfterEnv": [
-      "<rootDir>/src/tests/setupJest.ts"
-    ],
-    "collectCoverageFrom": [
-      "**/*.{js,ts}",
-      "!**/mocks/**",
-      "!**/scripts/**",
-      "!**/environments/**"
-    ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/src/app/mocks"
-    ],
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/(?!internmap|delaunator|robust-predicates|d3|keycloak-angular|@testing-library|@angular|lodash-es|angular-i18next)"
-    ],
-    "testEnvironment": "jest-environment-jsdom",
-    "collectCoverage": true,
-    "testResultsProcessor": "jest-sonar-reporter",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/",
-      "/test/"
-    ],
-    "moduleNameMapper": {
-      "@core/(.+)": "<rootDir>src/app/modules/core/$1",
-      "@shared/(.+)": "<rootDir>src/app/modules/shared/$1",
-      "@layout/(.+)": "<rootDir>src/app/modules/core/layout/$1",
-      "@page/(.+)": "<rootDir>src/app/modules/page/$1",
-      "@env": "<rootDir>src/environments/environment",
-      "@tests/(.+)": "<rootDir>/src/tests/$1",
-      "src/(.+)": "<rootDir>src/$1"
-    }
-  },
-  "jestSonar": {
-    "reportPath": "./src/tests"
   }
 }
