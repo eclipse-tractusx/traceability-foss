@@ -38,6 +38,7 @@ describe('requestInvestigationComponent', () => {
   const deselectPartMock = jasmine.createSpy();
   const clearSelectedMock = jasmine.createSpy();
   const sidenavIsClosingMock = jasmine.createSpy();
+  const submittedMock = jasmine.createSpy();
   const currentSelectedItems = [{ name: 'part_1' }, { name: 'part_2' }, { name: 'part_3' }];
 
   const renderRequestInvestigationComponent = () =>
@@ -45,7 +46,7 @@ describe('requestInvestigationComponent', () => {
       `<app-request-investigation
   (deselectPart)='deselectPartMock($event)'
   (clearSelected)='clearSelectedMock($event)'
-  (submitted)='submitted($event)'
+  (submitted)='submittedMock($event)'
   [selectedItems]='currentSelectedItems'
 ></app-request-investigation>`,
       {
@@ -55,7 +56,7 @@ describe('requestInvestigationComponent', () => {
         componentProperties: {
           deselectPartMock,
           clearSelectedMock,
-          submitted,
+          submittedMock,
           currentSelectedItems,
         },
       },
