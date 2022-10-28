@@ -35,28 +35,17 @@ export class RequestInvestigationComponent {
   public isLoading$ = new BehaviorSubject(false);
   public removedItemsHistory: Part[] = [];
 
-  @Input() set isOpen(isOpen: boolean) {
-    this.isOpen$.next(isOpen);
-    if (isOpen) return;
-
-    this.sidenavIsClosing.emit();
-    this.removedItemsHistory = [];
-    this.clearForm();
-  }
-
   @Input() selectedItems: Part[];
   @Output() deselectPart = new EventEmitter<Part>();
   @Output() restorePart = new EventEmitter<Part>();
   @Output() clearSelected = new EventEmitter<void>();
-  @Output() sidenavIsClosing = new EventEmitter<void>();
+  @Output() submitted = new EventEmitter<void>();
 
   constructor(
     private readonly investigationsService: InvestigationsService,
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly ctaSnackbarService: CtaSnackbarService,
   ) {}
-
-  public readonly isOpen$ = new BehaviorSubject<boolean>(false);
 
   private readonly textAreaControl = new FormControl(undefined, [
     Validators.required,
@@ -81,10 +70,7 @@ export class RequestInvestigationComponent {
     this.investigationsService.postInvestigation(partIds, this.textAreaControl.value).subscribe({
       next: () => {
         this.isLoading$.next(false);
-        this.textAreaControl.enable();
-
-        this.isOpen = false;
-        this.clearSelected.emit();
+        this.resetForm();
 
         this.openCtaSnackbar(amountOfItems);
         this.otherPartsFacade.setActiveInvestigationForParts(this.selectedItems);
@@ -124,8 +110,17 @@ export class RequestInvestigationComponent {
     this.removedItemsHistory.shift();
   }
 
-  private clearForm() {
+  public resetForm(): void {
+    this.textAreaControl.enable();
+    this.removedItemsHistory = [];
+
+    this.clearSelected.emit();
+    this.submitted.emit();
+
     this.investigationFormGroup.markAsUntouched();
     this.investigationFormGroup.reset();
+
+    this.textAreaControl.markAsUntouched();
+    this.textAreaControl.reset();
   }
 }

@@ -17,47 +17,45 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-sidenav-wrapper [isOpen]="isOpen$ | async" (sidenavAction)="isOpen = $event">
-  <h1 class="mb-4">{{ 'requestInvestigations.headline' | i18n }}</h1>
+<h1 class="mb-4">{{ 'requestInvestigations.headline' | i18n }}</h1>
 
-  <div class="mb-8">
-    <p class="regular-text">{{ 'page.requestInvestigations.partDescription' | i18n }}</p>
-    <mat-chip-list aria-label="Selected Parts">
-      <mat-chip *ngFor="let part of selectedItems || []" (removed)="cancelAction(part)">
-        <mat-icon *ngIf="part.error" [color]="'warn'" matChipAvatar>close</mat-icon>
-        <mat-spinner *ngIf="!part.name && !part.error" [diameter]="20" class="mr-3"></mat-spinner>
-        {{ part.name || part.id }}
-        <button *ngIf="selectedItems.length > 1" matChipRemove>
-          <mat-icon>cancel</mat-icon>
-        </button>
+<div class="mb-8">
+  <p class="regular-text">{{ 'page.requestInvestigations.partDescription' | i18n }}</p>
+  <mat-chip-list aria-label="Selected Parts">
+    <mat-chip *ngFor="let part of selectedItems || []" (removed)="cancelAction(part)">
+      <mat-icon *ngIf="part.error" [color]="'warn'" matChipAvatar>close</mat-icon>
+      <mat-spinner *ngIf="!part.name && !part.error" [diameter]="20" class="mr-3"></mat-spinner>
+      {{ part.name || part.id }}
+      <button *ngIf="selectedItems.length > 1" matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+  </mat-chip-list>
+
+  <div class="flex flex-col mt-6" *ngIf="removedItemsHistory.length">
+    <p class="regular-text mb-2">{{ 'requestInvestigations.restoreItem' | i18n }}</p>
+    <mat-chip-list>
+      <mat-chip class="cursor-pointer" (click)="restoreLastItem()">
+        <mat-icon matChipAvatar>restore</mat-icon>
+        {{ removedItemsHistory[0].name || removedItemsHistory[0].id }}
       </mat-chip>
     </mat-chip-list>
-
-    <div class="flex flex-col mt-6" *ngIf="removedItemsHistory.length">
-      <p class="regular-text mb-2">{{ 'requestInvestigations.restoreItem' | i18n }}</p>
-      <mat-chip-list>
-        <mat-chip class="cursor-pointer" (click)="restoreLastItem()">
-          <mat-icon matChipAvatar>restore</mat-icon>
-          {{ removedItemsHistory[0].name || removedItemsHistory[0].id }}
-        </mat-chip>
-      </mat-chip-list>
-    </div>
   </div>
+</div>
 
-  <p class="regular-text mb-2">{{ 'requestInvestigations.textAreaDescription' | i18n }}</p>
-  <form [formGroup]="investigationFormGroup" (submit)="submitInvestigation()">
-    <app-textarea formControlName="description" [label]="'requestInvestigations.textAreaLabel' | i18n"></app-textarea>
+<p class="regular-text mb-2">{{ 'requestInvestigations.textAreaDescription' | i18n }}</p>
+<form [formGroup]="investigationFormGroup" (submit)="submitInvestigation()">
+  <app-textarea formControlName="description" [label]="'requestInvestigations.textAreaLabel' | i18n"></app-textarea>
 
-    <div class="flex flex-col justify-end mb-6 md:flex-row">
-      <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="isOpen = false" class="mr-4">{{
-        'requestInvestigations.cancel' | i18n
-      }}</app-button>
+  <div class="flex flex-col justify-end mb-6 md:flex-row">
+    <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="resetForm()" class="mr-4">{{
+      'requestInvestigations.cancel' | i18n
+    }}</app-button>
 
-      <app-button [variant]="'raised'" [color]="'accent'" [isDisabled]="isLoading$ | async" type="submit">{{
-        'requestInvestigations.submit' | i18n
-      }}</app-button>
-    </div>
-  </form>
+    <app-button [variant]="'raised'" [color]="'accent'" [isDisabled]="isLoading$ | async" type="submit">{{
+      'requestInvestigations.submit' | i18n
+    }}</app-button>
+  </div>
+</form>
 
-  <mat-progress-bar *ngIf="isLoading$ | async" mode="indeterminate"></mat-progress-bar>
-</app-sidenav-wrapper>
+<mat-progress-bar *ngIf="isLoading$ | async" mode="indeterminate"></mat-progress-bar>
