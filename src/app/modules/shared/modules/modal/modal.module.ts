@@ -19,15 +19,15 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ModalModule } from '@shared/modules/modal/modal.module';
-import { NotificationTabComponent } from '@shared/modules/notification/notification-tab/notification-tab.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { NotificationComponent } from './presentation/notification.component';
+import { ModalComponent } from './component/modal.component';
 
 @NgModule({
-  declarations: [NotificationComponent, NotificationTabComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, ModalModule],
-  exports: [NotificationComponent, NotificationTabComponent],
+  declarations: [ModalComponent],
+  exports: [ModalComponent],
+  imports: [CommonModule, MatDialogModule, SharedModule],
+  providers: [ModalService],
 })
-export class NotificationModule {}
+export class ModalModule {}

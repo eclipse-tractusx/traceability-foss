@@ -95,30 +95,7 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template #mainInfoTmp let-view="view">
-  <div class="detail--info__content">
-    <div>
-      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.id' | i18n }}</span>
-      <span class="detail--text">{{ view.data?.id }}</span>
-    </div>
-    <div>
-      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.description' | i18n }}</span>
-      <span class="detail--text">{{ view.data?.description }}</span>
-    </div>
-    <div>
-      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.status' | i18n }}</span>
-      <span class="notification-status notification-status--{{ view.data?.status }}">
-        {{ 'commonInvestigation.status.' + view.data?.status | i18n }}
-      </span>
-    </div>
-    <div>
-      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.createDate' | i18n }}</span>
-      <span class="detail--text">{{ view.data?.createdDate }}</span>
-    </div>
-    <div>
-      <span class="detail--text detail--text__bold">{{ 'table.partsColumn.createdBy' | i18n }}</span>
-      <span class="detail--text">{{ view.data?.createdBy }}</span>
-    </div>
-  </div>
+  <app-notification-overview [notification]="view.data"></app-notification-overview>
 </ng-template>
 
 <ng-template #errorTmp let-view="view">

@@ -19,3 +19,8 @@
 
 // Please, don't use it if possible
 @import '../directives/tabs/tab-as-panel.directive.scss';
+
+// Angular Dialog different background color
+mat-dialog-container {
+  background: #f6f6f6 !important;
+}

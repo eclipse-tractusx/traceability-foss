@@ -123,6 +123,15 @@
       "RECEIVED": "Received",
       "CREATED": "Queued",
       "SENT": "Requested"
+    },
+    "modal": {
+      "approvalTitle": "Approval of investigation",
+      "approvalDescription": "Are you sure you want to approve this investigation?",
+      "deletionTitle": "Deletion of investigation",
+      "deletionDescription": "Are you sure you want to delete this investigation?",
+      "deletionHint": "Enter the ID of the investigation to confirm your deletion.",
+      "confirm": "Approve",
+      "cancel": "Cancel"
     }
   }
 }
