@@ -44,7 +44,7 @@
       "childInvestigation": "Child Investigation",
       "description": "Description",
       "status": "Status",
-      "createDate": "Created",
+      "createdDate": "Created",
       "createdBy": "Created by"
     }
   },

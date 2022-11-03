@@ -41,7 +41,7 @@ export const partsHandlers = [
   }),
 
   rest.post(`${environment.apiUrl}/assets/detail-information`, (req, res, ctx) => {
-    const { assetIds } = JSON.parse(req.body as string);
+    const { assetIds } = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
     return res(ctx.status(200), ctx.json(assetIds.map(id => getAssetById(id))));
   }),
 

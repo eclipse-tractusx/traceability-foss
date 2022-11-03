@@ -47,7 +47,7 @@
       "childInvestigation": "Child Investigation",
       "description": "Opis",
       "status": "Stan",
-      "createDate": "Utworzono",
+      "createdDate": "Utworzono",
       "createdBy": "Created by"
     }
   },
