@@ -121,7 +121,7 @@
     "status": {
       "RECEIVED": "Otrzymane",
       "CREATED": "Skolejkowane",
-      "SENT": "Zażądane"
+      "APPROVED": "Zażądane"
     }
   }
 }

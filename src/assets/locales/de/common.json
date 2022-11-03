@@ -112,7 +112,7 @@
     "status": {
       "RECEIVED": "Received",
       "CREATED": "Queued",
-      "SENT": "Requested"
+      "APPROVED": "Requested"
     }
   }
 }

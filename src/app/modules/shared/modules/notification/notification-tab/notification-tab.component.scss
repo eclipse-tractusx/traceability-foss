@@ -33,7 +33,7 @@
     @apply bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-pendingDark;
   }
 
-  &--SENT {
+  &--APPROVED {
     @apply bg-completeLight text-completeDark border-completeLightContrast before:bg-completeDark;
   }
 }

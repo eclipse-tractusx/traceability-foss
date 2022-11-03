@@ -27,7 +27,7 @@ export const investigationsHandlers = [
   rest.get(`${environment.apiUrl}/investigations/created`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
-    const currentStatus = [NotificationStatus.CREATED, NotificationStatus.SENT];
+    const currentStatus = [NotificationStatus.CREATED, NotificationStatus.APPROVED];
     return res(ctx.status(200), ctx.json(applyPagination(buildMockInvestigations(currentStatus), pagination)));
   }),
 
@@ -43,7 +43,7 @@ export const investigationsHandlers = [
 
     const indexFromId = parseInt((investigationId as string).replace('id-', ''), 10);
 
-    const statusCollection = [NotificationStatus.SENT, NotificationStatus.CREATED, NotificationStatus.RECEIVED];
+    const statusCollection = [NotificationStatus.APPROVED, NotificationStatus.CREATED, NotificationStatus.RECEIVED];
     const randomNotification = buildMockInvestigations([statusCollection[indexFromId]])[0];
 
     return res(ctx.status(200), ctx.json({ ...randomNotification, id: investigationId }));

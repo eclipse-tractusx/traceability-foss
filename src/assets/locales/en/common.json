@@ -122,7 +122,7 @@
     "status": {
       "RECEIVED": "Received",
       "CREATED": "Queued",
-      "SENT": "Requested"
+      "APPROVED": "Requested"
     },
     "modal": {
       "approvalTitle": "Approval of investigation",

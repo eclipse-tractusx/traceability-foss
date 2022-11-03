@@ -55,11 +55,17 @@ SPDX-License-Identifier: Apache-2.0
   <app-quality-type [type]="row.qualityType"></app-quality-type>
 </ng-template>
 
-<app-request-investigation
-  (deselectPart)="removeItemFromSelection($event)"
-  (restorePart)="addItemToSelection($event)"
-  (clearSelected)="clearSelected()"
-  (sidenavIsClosing)="isInvestigationOpen$.next(false)"
+<app-sidenav-wrapper
+  *appHasRole="['wip']"
   [isOpen]="isInvestigationOpen$ | async"
-  [selectedItems]="currentSelectedItems$ | async"
-></app-request-investigation>
+  (sidenavAction)="isInvestigationOpen$.next($event)"
+>
+  <app-request-investigation
+    *ngIf="isInvestigationOpen$ | async"
+    (deselectPart)="removeItemFromSelection($event)"
+    (restorePart)="addItemToSelection($event)"
+    (clearSelected)="clearSelected()"
+    (submitted)="isInvestigationOpen$.next(false)"
+    [selectedItems]="currentSelectedItems$ | async"
+  ></app-request-investigation>
+</app-sidenav-wrapper>

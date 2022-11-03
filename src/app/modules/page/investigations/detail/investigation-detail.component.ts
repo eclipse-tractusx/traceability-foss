@@ -119,10 +119,6 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
   }
 
-  public onRequestInvestigationClose(): void {
-    this.isInvestigationOpen$.next(false);
-  }
-
   public copyToClipboard(serialNumber: string): void {
     const text = { id: 'clipboard', values: { value: serialNumber } };
     navigator.clipboard.writeText(serialNumber).then(_ => this.ctaSnackbarService.show(text));
