@@ -21,11 +21,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { cloneDeep } from 'lodash-es';
 import { ConfirmModalData } from '../core/modal.model';
 import { ModalComponent } from './modal.component';
 
 describe('modalComponent', () => {
-  beforeEach(() => (confirmModalData = confirmModalDataDefault));
+  beforeEach(() => (confirmModalData = cloneDeep(confirmModalDataDefault)));
 
   const confirmModalDataDefault = {
     title: 'Modal title',
