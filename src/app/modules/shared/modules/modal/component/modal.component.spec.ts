@@ -69,24 +69,26 @@ describe('modalComponent', () => {
     expect(cancelTextElement).toBeInTheDocument();
 
     const spyOnCancel = spyOn(fixture.componentInstance as any, 'cancel').and.callThrough();
-    const spyOnClose = spyOn(fixture.componentInstance as any, 'close');
+    const spyOnClose = spyOn(fixture.componentInstance as any, 'close').and.callThrough();
 
     cancelTextElement.click();
 
     await waitFor(() => expect(spyOnCancel).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(spyOnClose).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(spyOnClose).toHaveBeenCalledWith(false));
   });
 
   it('should click esc key and close', async () => {
     const { fixture } = await renderModalComponent(ModalComponent);
 
     const spyOnEsc = spyOn(fixture.componentInstance as any, 'onEsc').and.callThrough();
-    const spyOnClose = spyOn(fixture.componentInstance as any, 'close');
+    const spyOnClose = spyOn(fixture.componentInstance as any, 'close').and.callThrough();
 
     fireEvent.keyDown(screen.getByText(confirmModalData.title), { key: 'Esc', code: 'Escape' });
 
     await waitFor(() => expect(spyOnEsc).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(spyOnClose).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(spyOnClose).toHaveBeenCalledWith(false));
   });
 
   it('should click confirm button and close - no formGroup', async () => {
@@ -96,12 +98,13 @@ describe('modalComponent', () => {
     expect(confirmTextElement).toBeInTheDocument();
 
     const spyOnConfirm = spyOn(fixture.componentInstance as any, 'confirm').and.callThrough();
-    const spyOnClose = spyOn(fixture.componentInstance as any, 'close');
+    const spyOnClose = spyOn(fixture.componentInstance as any, 'close').and.callThrough();
 
     confirmTextElement.click();
 
     await waitFor(() => expect(spyOnConfirm).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(spyOnClose).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(spyOnClose).toHaveBeenCalledWith(true));
   });
 
   it('should click confirm button and close - with valid formGroup', async () => {
@@ -116,12 +119,13 @@ describe('modalComponent', () => {
     expect(confirmTextElement).toBeInTheDocument();
 
     const spyOnConfirm = spyOn(fixture.componentInstance as any, 'confirm').and.callThrough();
-    const spyOnClose = spyOn(fixture.componentInstance as any, 'close');
+    const spyOnClose = spyOn(fixture.componentInstance as any, 'close').and.callThrough();
 
     confirmTextElement.click();
 
     await waitFor(() => expect(spyOnConfirm).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(spyOnClose).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(spyOnClose).toHaveBeenCalledWith(true));
     await waitFor(() => expect(spyOnFormGroup.markAllAsTouched).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(spyOnFormGroup.updateValueAndValidity).toHaveBeenCalledTimes(1));
   });
