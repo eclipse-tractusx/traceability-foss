@@ -38,26 +38,25 @@ describe('requestInvestigationComponent', () => {
   const deselectPartMock = jasmine.createSpy();
   const clearSelectedMock = jasmine.createSpy();
   const sidenavIsClosingMock = jasmine.createSpy();
+  const submittedMock = jasmine.createSpy();
   const currentSelectedItems = [{ name: 'part_1' }, { name: 'part_2' }, { name: 'part_3' }];
 
   const renderRequestInvestigationComponent = () =>
     renderComponent(
-      `<app-sidenav></app-sidenav><app-request-investigation
+      `<app-request-investigation
   (deselectPart)='deselectPartMock($event)'
   (clearSelected)='clearSelectedMock($event)'
-  (sidenavIsClosing)='sidenavIsClosingMock($event)'
-  [isOpen]='true'
+  (submitted)='submittedMock($event)'
   [selectedItems]='currentSelectedItems'
 ></app-request-investigation>`,
       {
-        declarations: [SidenavComponent, RequestInvestigationComponent],
-        providers: [{ provide: SidenavService }],
+        declarations: [RequestInvestigationComponent],
         imports: [SharedModule, LayoutModule, OtherPartsModule],
         translations: ['page.otherParts'],
         componentProperties: {
           deselectPartMock,
           clearSelectedMock,
-          sidenavIsClosingMock,
+          submittedMock,
           currentSelectedItems,
         },
       },

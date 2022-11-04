@@ -47,7 +47,7 @@
       "childInvestigation": "Child Investigation",
       "description": "Opis",
       "status": "Stan",
-      "createDate": "Utworzono",
+      "createdDate": "Utworzono",
       "createdBy": "Created by"
     }
   },
@@ -121,7 +121,7 @@
     "status": {
       "RECEIVED": "Otrzymane",
       "CREATED": "Skolejkowane",
-      "SENT": "Zażądane"
+      "APPROVED": "Zażądane"
     }
   }
 }

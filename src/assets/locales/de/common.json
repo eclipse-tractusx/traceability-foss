@@ -44,7 +44,7 @@
       "childInvestigation": "Qualitätsprüfung",
       "description": "Beschreibung",
       "status": "Status",
-      "createDate": "Erstelldatum",
+      "createdDate": "Erstelldatum",
       "createdBy": "Erstellt von"
     }
   },
@@ -112,7 +112,7 @@
     "status": {
       "RECEIVED": "Received",
       "CREATED": "Queued",
-      "SENT": "Requested"
+      "APPROVED": "Requested"
     }
   }
 }
