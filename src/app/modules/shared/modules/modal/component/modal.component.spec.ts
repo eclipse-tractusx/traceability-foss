@@ -19,7 +19,7 @@
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SharedModule } from '@shared/shared.module';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { ConfirmModalData } from '../core/modal.model';
 import { ModalComponent } from './modal.component';
@@ -74,6 +74,18 @@ describe('modalComponent', () => {
     cancelTextElement.click();
 
     await waitFor(() => expect(spyOnCancel).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(spyOnClose).toHaveBeenCalledTimes(1));
+  });
+
+  it('should click esc key and close', async () => {
+    const { fixture } = await renderModalComponent(ModalComponent);
+
+    const spyOnEsc = spyOn(fixture.componentInstance as any, 'onEsc').and.callThrough();
+    const spyOnClose = spyOn(fixture.componentInstance as any, 'close');
+
+    fireEvent.keyDown(screen.getByText(confirmModalData.title), { key: 'Esc', code: 'Escape' });
+
+    await waitFor(() => expect(spyOnEsc).toHaveBeenCalledTimes(1));
     await waitFor(() => expect(spyOnClose).toHaveBeenCalledTimes(1));
   });
 
