@@ -18,8 +18,6 @@
  ********************************************************************************/
 
 import { LayoutModule } from '@layout/layout.module';
-import { SidenavComponent } from '@layout/sidenav/sidenav.component';
-import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { Part } from '@page/parts/model/parts.model';
 import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
@@ -31,7 +29,7 @@ import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 
 describe('requestInvestigationComponent', () => {
-  beforeAll(() => server.start());
+  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
   afterEach(() => server.resetHandlers());
   afterAll(() => server.stop());
 
@@ -103,6 +101,7 @@ describe('requestInvestigationComponent', () => {
     });
     const { componentInstance } = fixture;
 
+    // TODO: Rework!
     const spy = spyOn(componentInstance.clearSelected, 'emit');
     const spy_2 = spyOn((componentInstance as any).investigationsService, 'postInvestigation').and.returnValue(of([]));
     const spy_3 = spyOn((componentInstance as any).otherPartsFacade, 'setActiveInvestigationForParts').and.returnValue(

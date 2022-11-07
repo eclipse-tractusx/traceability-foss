@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
   <ng-container *viewContainer="childParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
 
   <app-request-investigation
-    *ngIf="(selectedChildParts$ | async).length"
+    *ngIf="(selectedChildParts$ | async)?.length"
     (deselectPart)="removeChildPartFromSelection($event)"
     (restorePart)="addChildPartToSelection($event)"
     (clearSelected)="clearSelectedChildParts()"
@@ -31,7 +31,8 @@ SPDX-License-Identifier: Apache-2.0
     [showHeadline]="false"
     class="start-investigation start-investigation--data"
   ></app-request-investigation>
-  <div *ngIf="!(selectedChildParts$ | async).length" class="start-investigation start-investigation--no-data">
+
+  <div *ngIf="!(selectedChildParts$ | async)?.length" class="start-investigation start-investigation--no-data">
     <mat-icon color="primary" class="scale-150">no_sim</mat-icon>
     <h3>{{ 'partDetail.investigation.noSelection.header' | i18n }}</h3>
     <p>{{ 'partDetail.investigation.noSelection.text' | i18n }}</p>

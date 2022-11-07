@@ -77,6 +77,11 @@ export const partsHandlersTest = [
     return res(ctx.status(200), ctx.json(mockAssets));
   }),
 
+  rest.post(`${environment.apiUrl}/assets/detailInformation`, (req, res, ctx) => {
+    const { ids } = JSON.parse(req.body as string);
+    return res(ctx.status(200), ctx.json(ids.map(id => mockAssetList[id])));
+  }),
+
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentAsset = mockAssetList[partId as string];

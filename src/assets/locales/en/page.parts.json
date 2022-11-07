@@ -40,7 +40,7 @@
       "action": "Start investigation"
     },
     "requestInvestigations": {
-      "partDescription": "It May take a while to load the name of your selected parts."
+      "partDescription": "It may take a while to load the name of your selected parts."
     }
   }
 }

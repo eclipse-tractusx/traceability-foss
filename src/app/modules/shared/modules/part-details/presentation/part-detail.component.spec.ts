@@ -17,41 +17,46 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { PartsState } from '@page/parts/core/parts.state';
-import { Part } from '@page/parts/model/parts.model';
-import { State } from '@shared/model/state';
-import { View } from '@shared/model/view.model';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
+import { PartDetailsState } from '@shared/modules/part-details/core/partDetails.state';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { screen, waitFor } from '@testing-library/angular';
+import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
-import { Observable } from 'rxjs';
+import { MOCK_part_1 } from '../../../../../mocks/services/parts-mock/parts.test.model';
 import { PartDetailComponent } from './part-detail.component';
 
-export const PartDetailsFacadeFactory = (initialPart: View<Part>) => {
-  return class PartDetailsFacadeMock {
-    public readonly _selectedPart: State<View<Part>> = new State<View<Part>>(initialPart);
+let PartsStateMock: PartsState;
+let PartDetailsStateMock: PartDetailsState;
 
-    get selectedPart$(): Observable<View<Part>> {
-      return this._selectedPart.observable;
-    }
-
-    set selectedPart(part: Part) {
-      this._selectedPart.update({ data: part });
-    }
-  };
-};
+const part = PartsAssembler.assemblePart(MOCK_part_1);
 
 describe('PartDetailComponent', () => {
+  beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.stop());
+
+  beforeEach(() => {
+    PartDetailsStateMock = new PartDetailsState();
+    PartDetailsStateMock.selectedPart = { data: part };
+
+    PartsStateMock = new PartsState();
+  });
+
   it('should render side nav', async () => {
     await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
       declarations: [SidenavComponent],
       imports: [PartDetailsModule, LayoutModule],
-      providers: [{ provide: PartsState }, { provide: SidenavService }],
+      providers: [
+        { provide: PartsState, useFactory: () => PartsStateMock },
+        { provide: PartDetailsState, useFactory: () => PartDetailsStateMock },
+        SidenavService,
+      ],
     });
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
@@ -59,52 +64,43 @@ describe('PartDetailComponent', () => {
   });
 
   it('should render an open sidenav with part details', async () => {
-    const testPart = {
-      name: 'Test_01',
-      productionDate: new CalendarDateModel('1997-05-30T12:34:12Z'),
-      customerPartId: '333',
-    } as Part;
     await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
-      declarations: [SidenavComponent],
+      declarations: [SidenavComponent, PartDetailComponent],
       imports: [PartDetailsModule, LayoutModule],
       providers: [
-        {
-          provide: PartDetailsFacade,
-          useClass: PartDetailsFacadeFactory({ data: testPart }),
-        },
-        { provide: SidenavService },
+        PartDetailsFacade,
+        { provide: PartsState, useFactory: () => PartsStateMock },
+        { provide: PartDetailsState, useFactory: () => PartDetailsStateMock },
+        SidenavService,
       ],
     });
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
-    const nameElement = await screen.findByText(testPart.name);
+    const nameElement = await screen.findByText(part.name);
     const productionDateElement = await screen.findByText('5/30/1997');
-    const partNumberElement = await screen.findByText(testPart.customerPartId);
 
     expect(sideNavElement).toBeInTheDocument();
     await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));
 
     expect(nameElement).toBeInTheDocument();
     expect(productionDateElement).toBeInTheDocument();
-    expect(partNumberElement).toBeInTheDocument();
   });
 
-  it('should render error messages if data failed loading', async () => {
-    const error = { message: 'Error message' } as Error;
+  it('should render child-component table', async () => {
     await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
-      declarations: [SidenavComponent],
+      declarations: [SidenavComponent, PartDetailComponent],
       imports: [PartDetailsModule, LayoutModule],
+      translations: ['page.parts'],
       providers: [
-        {
-          provide: PartDetailsFacade,
-          useClass: PartDetailsFacadeFactory({ error }),
-        },
-        { provide: SidenavService },
+        PartDetailsFacade,
+        { provide: PartsState, useFactory: () => PartsStateMock },
+        { provide: PartDetailsState, useFactory: () => PartDetailsStateMock },
+        SidenavService,
       ],
     });
 
-    const errorElements = await waitFor(() => screen.getAllByText(error.message));
-    expect(errorElements.length).toBe(4);
-    errorElements.forEach(errorElement => expect(errorElement).toBeInTheDocument());
+    const childTableHeadline = await screen.findByText('Request quality investigation for child parts');
+    expect(childTableHeadline).toBeInTheDocument();
+    expect(await screen.findByText('No parts selected.')).toBeInTheDocument();
   });
 });

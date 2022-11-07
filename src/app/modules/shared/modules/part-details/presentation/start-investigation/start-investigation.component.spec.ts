@@ -17,27 +17,59 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { LayoutModule } from '@layout/layout.module';
+import { OtherPartsModule } from '@page/other-parts/other-parts.module';
+import { PartsModule } from '@page/parts/parts.module';
+import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { screen, waitFor } from '@testing-library/angular';
+import { server } from '@tests/mock-test-server';
+import { renderComponent } from '@tests/test-render.utils';
+import { MOCK_part_1 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 import { StartInvestigationComponent } from './start-investigation.component';
 
 describe('StartInvestigationComponent', () => {
-  let component: StartInvestigationComponent;
-  let fixture: ComponentFixture<StartInvestigationComponent>;
+  beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.stop());
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [StartInvestigationComponent],
-    }).compileComponents();
+  const isOpen = jasmine.createSpy();
+  const part = { data: PartsAssembler.assemblePart(MOCK_part_1) };
+
+  const renderStartInvestigation = async () => {
+    return await renderComponent(
+      `<app-start-investigation [part]='part' (submitted)='isOpen(false)'></app-start-investigation>`,
+      {
+        declarations: [StartInvestigationComponent],
+        imports: [PartDetailsModule, PartsModule, OtherPartsModule, LayoutModule],
+        providers: [StaticIdService],
+        translations: ['page.parts'],
+        componentProperties: {
+          isOpen,
+          part,
+        },
+      },
+    );
+  };
+
+  it('should render component', async () => {
+    await renderStartInvestigation();
+
+    const childTableHeadline = await screen.findByText('Request quality investigation for child parts');
+    expect(childTableHeadline).toBeInTheDocument();
+    expect(await screen.findByText('No parts selected.')).toBeInTheDocument();
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(StartInvestigationComponent);
-    component = fixture.componentInstance;
+  it('should render render request investigation on selection', async () => {
+    const fixture = await renderStartInvestigation();
+
+    const listOfCheckboxes = await waitFor(() => screen.getAllByTestId('select-one--test-id'));
+    (listOfCheckboxes[0].firstChild as HTMLElement).click();
     fixture.detectChanges();
-  });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(
+      await waitFor(() => screen.getByText('It may take a while to load the name of your selected parts.')),
+    ).toBeInTheDocument();
   });
 });

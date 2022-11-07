@@ -20,12 +20,12 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
-import { Part, QualityType } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-parts',

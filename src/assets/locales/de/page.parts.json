@@ -14,7 +14,22 @@
     "productionDate": "Produktionsdatum",
     "manufacturer": "Hersteller",
     "nameAtCustomer": "Name beim Kunden",
-    "customerPartId": "Kunden Produktnummer"
+    "customerPartId": "Kunden Produktnummer",
+    "tab": {
+      "header": "Produkt-Details",
+      "description": "Detaillierte Informationen über Ihr ausgewähltes Produkt"
+    },
+    "investigation": {
+      "headline": "Qualitätsuntersuchung für Bauteile anfordern",
+      "tab": {
+        "header": "Untersuchung für Bauteile",
+        "description": "Starten Sie eine Untersuchung für Ihre Bauteile"
+      },
+      "noSelection": {
+        "header": "Keine Bauteile ausgewählt",
+        "text": "Bitte wählen Sie Bauteile für den Start einer Untersuchung aus."
+      }
+    }
   },
   "relation": {
     "increase": "Hiermit vergrößern Sie den Baum",
