@@ -33,6 +33,6 @@ import { RelationComponent } from './presentation/relation/relation.component';
 @NgModule({
   declarations: [PartsComponent, RelationComponent],
   imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule],
-  providers: [PartsState, PartsFacade, ...getI18nPageProvider('page.parts')],
+  providers: [PartsState, PartsFacade, ...getI18nPageProvider(['page.parts', 'partDetail'])],
 })
 export class PartsModule {}

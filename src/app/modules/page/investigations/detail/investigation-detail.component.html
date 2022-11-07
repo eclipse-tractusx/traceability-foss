@@ -60,7 +60,7 @@ SPDX-License-Identifier: Apache-2.0
 </mat-card>
 
 <ng-template #serialNumberTmp let-row="row">
-  <app-button (click)="copyToClipboard(row.serialNumber)">
+  <app-button (click)="copyToClipboard(row.serialNumber)" [attr.data-testId]="'copy-button--' + row.id">
     <div class="flex justify-around items-center">
       {{ row.serialNumber }}
       <mat-icon class="investigation--serial-number__icon">filter_none</mat-icon>

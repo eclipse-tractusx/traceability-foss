@@ -90,7 +90,7 @@ describe('PartDetailComponent', () => {
     await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
       declarations: [SidenavComponent, PartDetailComponent],
       imports: [PartDetailsModule, LayoutModule],
-      translations: ['page.parts'],
+      translations: ['page.parts', 'partDetail'],
       providers: [
         PartDetailsFacade,
         { provide: PartsState, useFactory: () => PartsStateMock },

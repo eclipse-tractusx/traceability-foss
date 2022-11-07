@@ -20,6 +20,7 @@
 import type { NotificationResponse } from '@shared/model/notification.model';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { getRandomAsset } from '../parts-mock/parts.model';
+import { MOCK_part_1 } from '../parts-mock/parts.test.model';
 
 export const InvestigationIdPrefix = 'id-';
 export const buildMockInvestigations = (statuses: NotificationStatus[]): NotificationResponse[] =>
@@ -31,7 +32,7 @@ export const buildMockInvestigations = (statuses: NotificationStatus[]): Notific
       status,
       createdBy: 'OEM A',
       createDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
-      parts: [getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
+      parts: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
     };
   });
 

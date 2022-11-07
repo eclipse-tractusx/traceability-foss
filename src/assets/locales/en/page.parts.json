@@ -2,35 +2,6 @@
   "pageParts": {
     "title": "My Parts"
   },
-  "partDetail": {
-    "relations": "Relations",
-    "overview": "Overview",
-    "manufacturerData": "Manufacturer data",
-    "customerData": "Customer data",
-    "name": "Name",
-    "partNumber": "Part Number",
-    "serialNumber": "Serial Number",
-    "qualityType": "Quality Type",
-    "productionDate": "Production Date",
-    "manufacturer": "Manufacturer",
-    "nameAtCustomer": "Name At Customer",
-    "customerPartId": "Customer Part ID",
-    "tab": {
-      "header": "Part details",
-      "description": "Detailed information about your selected part"
-    },
-    "investigation": {
-      "headline": "Request quality investigation for child parts",
-      "tab": {
-        "header": "Investigation for components",
-        "description": "Start an investigation for components"
-      },
-      "noSelection": {
-        "header": "No parts selected.",
-        "text": "Please select parts to start and investigation."
-      }
-    }
-  },
   "relation": {
     "increase": "Used to zoom into the tree",
     "decrease": "Used to zoom out of the tree"
