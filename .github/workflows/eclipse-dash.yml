@@ -29,7 +29,7 @@ jobs:
           grep "restricted" DASH_SUMMARY | if test $(wc -l) -gt 0; then exit 1; fi
         shell: bash
 
-     - name: upload results
+      - name: upload results
         if: always()
         uses: actions/upload-artifact@v3
         with:
