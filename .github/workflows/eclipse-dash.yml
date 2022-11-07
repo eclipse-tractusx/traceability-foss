@@ -23,7 +23,7 @@ jobs:
           distribution: 'adopt'
           cache: 'gradle'
 
-      - name: Gradle check dependencies with eclipse dash tool
+      - name: Gradle IP dependency check with eclipse dash tool
         run: |
           ./gradlew dependencies | grep -Poh "(?<=\s)[\w\.-]+:[\w\.-]+:[^:\s]+" | grep -v "^org\.eclipse" | sort | uniq > DEPENDENCIES
           java -jar org.eclipse.dash.licenses-0.0.1-20221105.055038-599.jar DEPENDENCIES -project automotive.tractusx -summary DASH_SUMMARY
