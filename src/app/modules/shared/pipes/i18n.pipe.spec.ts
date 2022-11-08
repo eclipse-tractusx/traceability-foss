@@ -56,4 +56,13 @@ describe('I18nPipe', () => {
 
     expect(screen.getByText('This is for unit tests purposes. 10')).toBeInTheDocument();
   });
+
+  it('should not format id string', async () => {
+    const id = 'urn:uuid:55c376ed-e39d-4525-96e6-71f3def7ae41';
+    await renderComponent(`{{ '${id}' | i18n }}`, {
+      imports: [SharedModule],
+    });
+
+    expect(screen.getByText(id)).toBeInTheDocument();
+  });
 });
