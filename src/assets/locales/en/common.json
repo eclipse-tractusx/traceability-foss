@@ -127,9 +127,14 @@
     "modal": {
       "approvalTitle": "Approval of investigation",
       "approvalDescription": "Are you sure you want to approve this investigation?",
+      "closeTitle": "Close of investigation",
+      "closeDescription": "Are you sure you want to close this investigation?",
+      "closeSuccess": "Investigation was closed sucessfully.",
+      "closeReasonHint": "Enter the reason for close action.",
       "deletionTitle": "Deletion of investigation",
       "deletionDescription": "Are you sure you want to delete this investigation?",
       "deletionHint": "Enter the ID of the investigation to confirm your deletion.",
+      "close": "Close",
       "confirm": "Approve",
       "cancel": "Cancel"
     }
