@@ -42,6 +42,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() labelId: string;
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
+  @Input() menuActionsConfig: MenuActionConfig[];
 
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
@@ -61,10 +62,10 @@ export class NotificationTabComponent implements AfterViewInit {
   public tableConfig: TableConfig<keyof Notification>;
   public selectedInvestigation: Notification;
 
-  private menuActionsConfig: MenuActionConfig[] = [
-    { label: 'actions.approve', icon: 'share', action: this.approveNotification.bind(this) },
-    { label: 'actions.delete', icon: 'delete', action: this.deleteNotification.bind(this) },
-  ];
+  // private menuActionsConfig: MenuActionConfig[] = [
+  //   { label: 'actions.approve', icon: 'share', action: this.approveNotification.bind(this) },
+  //   { label: 'actions.delete', icon: 'delete', action: this.deleteNotification.bind(this) },
+  // ];
 
   private readonly textAreaControl = new FormControl();
   public readonly deletionFormGroup = new FormGroup({ investigationId: this.textAreaControl });

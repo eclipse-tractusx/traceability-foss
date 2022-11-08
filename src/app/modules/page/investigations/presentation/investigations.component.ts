@@ -21,7 +21,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
-import { TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
@@ -32,6 +32,12 @@ import { InvestigationsFacade } from '../core/investigations.facade';
 export class InvestigationsComponent implements OnInit, OnDestroy {
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
   public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
+
+  public menuActionsConfig: MenuActionConfig[] = [
+    { label: 'actions.approve', icon: 'share', action: null },
+    { label: 'actions.delete', icon: 'delete', action: null },
+    { label: 'actions.close', icon: 'close', action: null },
+  ];
 
   constructor(
     private readonly investigationsFacade: InvestigationsFacade,
