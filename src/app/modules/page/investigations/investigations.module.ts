@@ -30,10 +30,11 @@ import { InvestigationsFacade } from './core/investigations.facade';
 import { InvestigationsState } from './core/investigations.state';
 import { InvestigationDetailComponent } from './detail/investigation-detail.component';
 import { InvestigationsRoutingModule } from './investigations.routing';
+import { CloseModalComponent } from './modal/close-modal/close-modal.component';
 import { InvestigationsComponent } from './presentation/investigations.component';
 
 @NgModule({
-  declarations: [InvestigationsComponent, InvestigationDetailComponent],
+  declarations: [InvestigationsComponent, InvestigationDetailComponent, CloseModalComponent],
   imports: [CommonModule, TemplateModule, SharedModule, InvestigationsRoutingModule, NotificationModule, PartsModule],
   providers: [
     InvestigationsFacade,
