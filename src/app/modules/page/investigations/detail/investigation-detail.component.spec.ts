@@ -80,6 +80,6 @@ describe('InvestigationDetailComponent', () => {
     const copyButton = await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id));
     copyButton.click();
 
-    expect(spy).toHaveBeenCalledWith('AA-00');
+    expect(spy).toHaveBeenCalledWith(MOCK_part_1.manufacturerPartId);
   });
 });

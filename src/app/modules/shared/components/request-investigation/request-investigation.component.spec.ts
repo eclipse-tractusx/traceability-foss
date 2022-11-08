@@ -50,7 +50,7 @@ describe('requestInvestigationComponent', () => {
       {
         declarations: [RequestInvestigationComponent],
         imports: [SharedModule, LayoutModule, OtherPartsModule],
-        translations: ['page.otherParts'],
+        translations: ['page.otherParts', 'partDetail'],
         componentProperties: {
           deselectPartMock,
           clearSelectedMock,
@@ -97,7 +97,7 @@ describe('requestInvestigationComponent', () => {
     const { fixture } = await renderComponent(RequestInvestigationComponent, {
       imports: [OtherPartsModule],
       providers: [InvestigationsService],
-      translations: ['page.otherParts'],
+      translations: ['page.otherParts', 'partDetail'],
     });
     const { componentInstance } = fixture;
 

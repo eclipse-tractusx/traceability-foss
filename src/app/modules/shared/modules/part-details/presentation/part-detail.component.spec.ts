@@ -48,25 +48,11 @@ describe('PartDetailComponent', () => {
     PartsStateMock = new PartsState();
   });
 
-  it('should render side nav', async () => {
-    await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
-      declarations: [SidenavComponent],
-      imports: [PartDetailsModule, LayoutModule],
-      providers: [
-        { provide: PartsState, useFactory: () => PartsStateMock },
-        { provide: PartDetailsState, useFactory: () => PartDetailsStateMock },
-        SidenavService,
-      ],
-    });
-
-    const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
-    expect(sideNavElement).toBeInTheDocument();
-  });
-
-  it('should render an open sidenav with part details', async () => {
-    await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
+  const renderPartDetailComponent = async () => {
+    return await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
       declarations: [SidenavComponent, PartDetailComponent],
       imports: [PartDetailsModule, LayoutModule],
+      translations: ['page.parts', 'partDetail'],
       providers: [
         PartDetailsFacade,
         { provide: PartsState, useFactory: () => PartsStateMock },
@@ -74,6 +60,17 @@ describe('PartDetailComponent', () => {
         SidenavService,
       ],
     });
+  };
+
+  it('should render side nav', async () => {
+    await renderPartDetailComponent();
+
+    const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
+    expect(sideNavElement).toBeInTheDocument();
+  });
+
+  it('should render an open sidenav with part details', async () => {
+    await renderPartDetailComponent();
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
     const nameElement = await screen.findByText(part.name);
@@ -87,17 +84,7 @@ describe('PartDetailComponent', () => {
   });
 
   it('should render child-component table', async () => {
-    await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
-      declarations: [SidenavComponent, PartDetailComponent],
-      imports: [PartDetailsModule, LayoutModule],
-      translations: ['page.parts', 'partDetail'],
-      providers: [
-        PartDetailsFacade,
-        { provide: PartsState, useFactory: () => PartsStateMock },
-        { provide: PartDetailsState, useFactory: () => PartDetailsStateMock },
-        SidenavService,
-      ],
-    });
+    await renderPartDetailComponent();
 
     const childTableHeadline = await screen.findByText('Request quality investigation for child parts');
     expect(childTableHeadline).toBeInTheDocument();

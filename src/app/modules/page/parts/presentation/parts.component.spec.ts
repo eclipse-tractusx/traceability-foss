@@ -26,7 +26,6 @@ import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
-import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.model';
 import { PartsModule } from '../parts.module';
 
 describe('Parts', () => {
@@ -38,7 +37,7 @@ describe('Parts', () => {
     return renderComponent(`<app-sidenav></app-sidenav><app-parts></app-parts>`, {
       declarations: [SidenavComponent, PartsComponent],
       imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
-      translations: ['page.parts'],
+      translations: ['page.parts', 'partDetail'],
       providers: [{ provide: SidenavService }],
       roles: ['wip', 'admin'],
     });

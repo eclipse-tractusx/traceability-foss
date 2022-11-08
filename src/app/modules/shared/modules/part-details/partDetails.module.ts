@@ -38,7 +38,7 @@ import { StartInvestigationComponent } from './presentation/start-investigation/
     PartDetailsFacade,
     LoadedElementsFacade,
     LoadedElementsState,
-    ...getI18nPageProvider('page.parts'),
+    ...getI18nPageProvider(['page.parts', 'partDetail']),
   ],
   exports: [PartDetailComponent],
 })

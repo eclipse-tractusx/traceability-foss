@@ -17,7 +17,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { discardPeriodicTasks, fakeAsync, flush, tick } from '@angular/core/testing';
 import { LayoutModule } from '@layout/layout.module';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsModule } from '@page/parts/parts.module';
@@ -35,25 +34,21 @@ describe('StartInvestigationComponent', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.stop());
 
-  const isOpen = jasmine.createSpy();
   const part = { data: PartsAssembler.assemblePart(MOCK_part_1) };
   const firstChild = PartsAssembler.assemblePart(MOCK_part_2);
   const secondChild = PartsAssembler.assemblePart(MOCK_part_3);
 
   const renderStartInvestigation = async () => {
-    return await renderComponent(
-      `<app-start-investigation [part]='part' (submitted)='isOpen(false)'></app-start-investigation>`,
-      {
-        declarations: [StartInvestigationComponent],
-        imports: [PartDetailsModule, PartsModule, OtherPartsModule, LayoutModule],
-        providers: [StaticIdService],
-        translations: ['page.parts', 'partDetail'],
-        componentProperties: {
-          isOpen,
-          part,
-        },
-      },
-    );
+    const { fixture } = await renderComponent(StartInvestigationComponent, {
+      declarations: [StartInvestigationComponent],
+      imports: [PartDetailsModule, PartsModule, OtherPartsModule, LayoutModule],
+      providers: [StaticIdService],
+      translations: ['page.parts', 'partDetail'],
+    });
+
+    fixture.componentInstance.part = part;
+    fixture.autoDetectChanges();
+    return fixture;
   };
 
   it('should render component', async () => {
@@ -96,27 +91,22 @@ describe('StartInvestigationComponent', () => {
     expect(restoredElement).toBeInTheDocument();
   });
 
-  it('should sort table data', fakeAsync(async () => {
+  it('should sort table data', async () => {
     const fixture = await renderStartInvestigation();
+    const spy = spyOn((fixture.componentInstance as any).childPartsState, 'update').and.callThrough();
 
     const nameHeader = await waitFor(() => screen.getByText('Name'));
-    nameHeader.click();
-    fixture.detectChanges();
-
-    tick(50);
-
-    const tableData = await waitFor(() => screen.getAllByTestId('table-component--cell-data'));
-    expect(tableData[0].innerHTML).toContain(firstChild.name);
-    expect(tableData[2].innerHTML).toContain(secondChild.name);
 
     nameHeader.click();
-    fixture.detectChanges();
+    fixture.autoDetectChanges();
 
-    tick(50);
+    let data = [firstChild, secondChild];
+    expect(spy).toHaveBeenCalledWith({ data });
 
-    expect(tableData[0].innerHTML).toContain(firstChild.name);
-    expect(tableData[2].innerHTML).toContain(secondChild.name);
-    discardPeriodicTasks();
-    flush();
-  }));
+    nameHeader.click();
+    fixture.autoDetectChanges();
+
+    data = [secondChild, firstChild];
+    expect(spy).toHaveBeenCalledWith({ data });
+  });
 });

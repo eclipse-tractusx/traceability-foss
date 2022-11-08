@@ -17,15 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ActivatedRoute } from '@angular/router';
-import { InvestigationDetailComponent } from '@page/investigations/detail/investigation-detail.component';
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
 import { InvestigationsService } from '@shared/service/investigations.service';
-import { screen } from '@testing-library/angular';
+import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
-import { of } from 'rxjs';
 
 describe('InvestigationsComponent', () => {
   beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
@@ -35,21 +32,34 @@ describe('InvestigationsComponent', () => {
   const renderInvestigations = async (id?: string) => {
     return await renderComponent(InvestigationsComponent, {
       imports: [InvestigationsModule],
-      providers: [
-        InvestigationsService,
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: of([{ tabIndex: '0' }]),
-          },
-        },
-      ],
+      providers: [InvestigationsService],
       translations: ['page.investigation'],
     });
   };
 
   it('should render', async () => {
     await renderInvestigations();
-    expect(false).toBeTruthy();
+    expect(await waitFor(() => screen.getByText('Quality Investigations'))).toBeInTheDocument();
+  });
+
+  it('should call detail page with correct ID', async () => {
+    const { fixture } = await renderInvestigations();
+    const menuButtons = await waitFor(() => screen.getAllByTestId('table-menu-button'));
+    menuButtons[0].click();
+
+    const spy = spyOn((fixture.componentInstance as any).router, 'navigate');
+    const viewDetailsButton = await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails'));
+    viewDetailsButton.click();
+
+    expect(spy).toHaveBeenCalledWith(['/context/investigations/id-1']);
+  });
+
+  it('should call change pagination of received notification', async () => {
+    await renderInvestigations();
+    const nextButton = await waitFor(() => screen.getByLabelText('Next page', { selector: 'button' }));
+    nextButton.click();
+
+    expect(await waitFor(() => screen.getByText('Investigation No 6'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Investigation No 10'))).toBeInTheDocument();
   });
 });

@@ -51,7 +51,7 @@ describe('Other Parts', () => {
     renderComponent(OtherPartsComponent, {
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
-      translations: ['page.otherParts'],
+      translations: ['page.otherParts', 'partDetail'],
     });
 
   it('should render part header', async () => {
