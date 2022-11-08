@@ -23,10 +23,7 @@ jobs:
           cache: 'gradle'
 
       - name: Gradle IP dependency check with eclipse dash tool
-        run: |
-          echo "START"
-          ./gradlew dependencies | grep -Poh "(?<=\s)[\w\.-]+:[\w\.-]+:[^:\s]+" | grep -v "^org\.eclipse" | sort | uniq
-          echo "DONE"
+        run: ./.github/scripts/eclipse_dash.sh
         shell: bash
 
       - name: upload results
