@@ -31,22 +31,15 @@ import {
 } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
+import _deepClone from 'lodash-es/cloneDeep';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { SortDirection } from '../../../mocks/services/pagination.helper';
 
 @Injectable()
 export class PartsService {
   private readonly url = environment.apiUrl;
   constructor(private readonly apiService: ApiService) {}
-
-  public getParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
-    const sort = PartsAssembler.mapSortToApiSort(sorting);
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
-
-    return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets`, params)
-      .pipe(map(parts => PartsAssembler.assembleParts(parts)));
-  }
 
   public getMyParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
     const sort = PartsAssembler.mapSortToApiSort(sorting);
@@ -80,5 +73,17 @@ export class PartsService {
     return this.apiService
       .post<PartResponse[]>(`${this.url}/assets/detailInformation`, { ids }, 'json', false, headers)
       .pipe(map(parts => PartsAssembler.assemblePartList(parts)));
+  }
+
+  public sortParts(data: Part[], key: string, direction: SortDirection): Part[] {
+    const clonedData: Part[] = _deepClone(data);
+    return clonedData.sort((partA, partB) => {
+      const a = direction === 'desc' ? partA[key] : partB[key];
+      const b = direction === 'desc' ? partB[key] : partA[key];
+
+      if (a > b) return -1;
+      if (a < b) return 1;
+      return 0;
+    });
   }
 }

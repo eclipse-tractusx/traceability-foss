@@ -1,0 +1,31 @@
+{
+  "partDetail": {
+    "relations": "Relacje",
+    "overview": "Informacje ogólne",
+    "manufacturerData": "Dane producenta",
+    "customerData": "Dane klienta",
+    "name": "Nazwa",
+    "partNumber": "Numer części",
+    "serialNumber": "Numer seryjny",
+    "qualityType": "Typ jakości",
+    "productionDate": "Data produkcji",
+    "manufacturer": "Producent",
+    "nameAtCustomer": "Nazwa u klienta",
+    "customerPartId": "ID części u klienta",
+    "tab": {
+      "header": "Part details (TBD)",
+      "description": "Detailed information about your selected part (TBD)"
+    },
+    "investigation": {
+      "headline": "Request quality investigation for child parts (TBD)",
+      "tab": {
+        "header": "Investigation for components (TBD)",
+        "description": "Start an investigation for components (TBD)"
+      },
+      "noSelection": {
+        "header": "No parts selected (TBD).",
+        "text": "Please select parts to start and investigation (TBD)."
+      }
+    }
+  }
+}

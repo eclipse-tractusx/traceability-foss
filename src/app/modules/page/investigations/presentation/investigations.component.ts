@@ -56,7 +56,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy {
     this.investigationsFacade.setQueuedAndRequestedInvestigations(pagination.page, pagination.pageSize);
   }
 
-  public onNotificationSelected(notification: Notification): void {
+  public openDetailPage(notification: Notification): void {
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getInvestigationInboxRoute();
     this.router.navigate([`/${link}/${notification.id}`]).then();

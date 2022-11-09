@@ -37,8 +37,8 @@ import { filter, tap } from 'rxjs/operators';
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;
 
-  public readonly partDetails$: Observable<View<Part>>;
-  public readonly relationPartDetails$: Observable<View<Part>>;
+  public readonly shortenPartDetails$: Observable<View<Part>>;
+  public readonly selectedPartDetails$: Observable<View<Part>>;
   public readonly manufacturerDetails$: Observable<View<Part>>;
   public readonly customerDetails$: Observable<View<Part>>;
 
@@ -52,8 +52,9 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   constructor(private readonly partDetailsFacade: PartDetailsFacade, private readonly router: Router) {
     this.isOpen$ = this.isOpenState.observable;
-    this.relationPartDetails$ = this.partDetailsFacade.selectedPart$;
-    this.partDetails$ = this.partDetailsFacade.selectedPart$.pipe(
+
+    this.selectedPartDetails$ = this.partDetailsFacade.selectedPart$;
+    this.shortenPartDetails$ = this.partDetailsFacade.selectedPart$.pipe(
       PartsAssembler.mapPartForView(),
       tap(_ => (this.selectedValue = null)),
     );

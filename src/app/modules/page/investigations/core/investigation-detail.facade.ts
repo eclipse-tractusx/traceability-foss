@@ -84,7 +84,7 @@ export class InvestigationDetailFacade {
     const { data } = this.investigationDetailState.investigationPartsInformation;
     if (!data) return;
 
-    const sortedData = this.sortParts(data, key, direction);
+    const sortedData = this.partsService.sortParts(data, key, direction);
     this.investigationDetailState.investigationPartsInformation = { data: [...sortedData] };
   }
 
@@ -92,24 +92,13 @@ export class InvestigationDetailFacade {
     const { data } = this.investigationDetailState.supplierPartsInformation;
     if (!data) return;
 
-    const sortedData = this.sortParts(data, key, direction);
+    const sortedData = this.partsService.sortParts(data, key, direction);
     this.investigationDetailState.supplierPartsInformation = { data: [...sortedData] };
   }
 
   public unsubscribeSubscriptions(): void {
     this.notificationPartsInformationDescription?.unsubscribe();
     this.supplierPartsSubscription?.unsubscribe();
-  }
-
-  private sortParts(data: Part[], key: string, direction: SortDirection): Part[] {
-    return data.sort((partA, partB) => {
-      const a = direction === 'desc' ? partA[key] : partB[key];
-      const b = direction === 'desc' ? partB[key] : partA[key];
-
-      if (a > b) return -1;
-      if (a < b) return 1;
-      return 0;
-    });
   }
 
   private getIdsFromPartList(parts: Part[]): string[] {

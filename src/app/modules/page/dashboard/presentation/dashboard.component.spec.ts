@@ -27,7 +27,7 @@ import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
 
 describe('Dashboard', () => {
-  beforeAll(() => server.start());
+  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
   afterEach(() => server.resetHandlers());
   afterAll(() => server.stop());
 

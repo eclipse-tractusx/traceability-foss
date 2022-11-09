@@ -40,32 +40,6 @@ SPDX-License-Identifier: Apache-2.0
   </ng-template>
 </div>
 
-<ng-template #childInvestigationTmp let-row="row">
-  <app-button
-    *ngIf="row.children.length"
-    [color]="'primary'"
-    [variant]="'raised'"
-    (click)="startInvestigation($event, row)"
-    data-testId="parts--investigation"
-    >{{ 'page.childInvestigation.action' | i18n }}
-  </app-button>
-</ng-template>
-
 <ng-template #qualityTypeTmp let-row="row">
   <app-quality-type [type]="row.qualityType"></app-quality-type>
 </ng-template>
-
-<app-sidenav-wrapper
-  *appHasRole="['wip']"
-  [isOpen]="isInvestigationOpen$ | async"
-  (sidenavAction)="isInvestigationOpen$.next($event)"
->
-  <app-request-investigation
-    *ngIf="isInvestigationOpen$ | async"
-    (deselectPart)="removeItemFromSelection($event)"
-    (restorePart)="addItemToSelection($event)"
-    (clearSelected)="clearSelected()"
-    (submitted)="isInvestigationOpen$.next(false)"
-    [selectedItems]="currentSelectedItems$ | async"
-  ></app-request-investigation>
-</app-sidenav-wrapper>
