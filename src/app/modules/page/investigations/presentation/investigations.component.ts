@@ -17,27 +17,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
+import { Observable } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
+import { CloseModalComponent } from '../modal/close-modal/close-modal.component';
 
 @Component({
   selector: 'app-investigations',
   templateUrl: './investigations.component.html',
 })
-export class InvestigationsComponent implements OnInit, OnDestroy {
+export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild(CloseModalComponent)
+  private modalClose!: CloseModalComponent;
+
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
   public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
 
-  public menuActionsConfig: MenuActionConfig[] = [
-    { label: 'actions.approve', icon: 'share', action: null },
-    { label: 'actions.delete', icon: 'delete', action: null },
-    { label: 'actions.close', icon: 'close', action: null },
-  ];
+  public menuActionsConfig$: Observable<MenuActionConfig[]> = this.investigationsFacade.menuActionsConfig$;
 
   constructor(
     private readonly investigationsFacade: InvestigationsFacade,
@@ -48,6 +49,14 @@ export class InvestigationsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.investigationsFacade.setReceivedInvestigation();
     this.investigationsFacade.setQueuedAndRequestedInvestigations();
+  }
+
+  public ngAfterViewInit(): void {
+    this.investigationsFacade.setMenuActionsConfig([
+      { label: 'actions.approve', icon: 'share', action: null },
+      { label: 'actions.delete', icon: 'delete', action: null },
+      { label: 'actions.close', icon: 'close', action: this.closeNotification.bind(this) },
+    ]);
   }
 
   public ngOnDestroy(): void {
@@ -66,5 +75,9 @@ export class InvestigationsComponent implements OnInit, OnDestroy {
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getInvestigationInboxRoute();
     this.router.navigate([`/${link}/${notification.id}`]).then();
+  }
+
+  private closeNotification(notification: Notification): void {
+    this.modalClose.closeAction(notification);
   }
 }

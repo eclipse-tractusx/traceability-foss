@@ -66,7 +66,6 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly route: ActivatedRoute,
     private readonly ctaSnackbarService: CtaSnackbarService,
-    private readonly confirmModalService: ModalService,
   ) {
     this.investigationPartsInformation$ = this.investigationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.investigationDetailFacade.supplierPartsInformation$;

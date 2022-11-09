@@ -42,7 +42,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() labelId: string;
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
-  @Input() menuActionsConfig: MenuActionConfig[];
+  @Input() menuActionsConfig$: Observable<MenuActionConfig[]>;
 
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
@@ -77,11 +77,16 @@ export class NotificationTabComponent implements AfterViewInit {
       displayedColumns: this.displayedColumns,
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
       hasPagination: this.hasPagination,
-      menuActionsConfig: this.menuActionsConfig,
+      menuActionsConfig: null,
       cellRenderers: {
         status: this.statusTemplate,
       },
     };
+
+    this.menuActionsConfig$.pipe().subscribe({
+      next: data => (this.tableConfig.menuActionsConfig = data),
+      // error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),
+    });
   }
 
   public selectNotification(notification: Record<string, unknown>): void {

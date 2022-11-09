@@ -38,7 +38,6 @@ export class CloseModalComponent implements OnInit {
   public readonly closeFormGroup = new FormGroup({ reason: this.textAreaControl });
 
   constructor(
-    // private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly ctaSnackbarService: CtaSnackbarService,
     private readonly confirmModalService: ModalService,
@@ -46,14 +45,15 @@ export class CloseModalComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public closeAction(): void {
+  public closeAction(notification: Notification): void {
+    this.notification = notification;
     this.textAreaControl.setValidators([Validators.required]);
 
     const onConfirm = (isConfirmed: boolean) => {
       const reason = this.closeFormGroup.get('reason').value;
 
       if (isConfirmed) {
-        this.investigationsFacade.closeInvestigation(this.notification.id, reason).subscribe({
+        this.investigationsFacade.closeInvestigation(notification.id, reason).subscribe({
           next: () => {
             this.ctaSnackbarService.show({ id: 'commonInvestigation.modal.closeSuccess' });
           },

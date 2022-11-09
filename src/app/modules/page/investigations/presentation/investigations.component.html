@@ -17,6 +17,8 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
+<app-close-modal></app-close-modal>
+
 <app-notification
   [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
   [receivedNotifications$]="investigationsReceived$"
@@ -24,5 +26,5 @@ SPDX-License-Identifier: Apache-2.0
   (onReceivedPagination)="onReceivedPagination($event)"
   (onQueuedAndRequestedPagination)="onQueuedAndRequestedPagination($event)"
   (selected)="onNotificationSelected($event)"
-  [menuActionsConfig]="menuActionsConfig"
+  [menuActionsConfig$]="menuActionsConfig$"
 ></app-notification>
