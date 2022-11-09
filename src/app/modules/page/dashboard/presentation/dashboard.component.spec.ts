@@ -27,10 +27,6 @@ import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
 
 describe('Dashboard', () => {
-  beforeAll(() => server.start());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
       imports: [DashboardModule, SharedModule, PartsModule],

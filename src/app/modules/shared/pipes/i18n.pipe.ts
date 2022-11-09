@@ -35,6 +35,10 @@ export class I18nPipe implements PipeTransform {
       key = key.id;
     }
 
+    if (key.indexOf(':') !== -1) {
+      return key;
+    }
+
     return this.i18NextPipe.transform(key, options);
   }
 }

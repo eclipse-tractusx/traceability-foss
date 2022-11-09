@@ -40,10 +40,6 @@ import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 
 describe('Other Parts', () => {
-  beforeAll(() => server.start());
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
 
@@ -51,7 +47,7 @@ describe('Other Parts', () => {
     renderComponent(OtherPartsComponent, {
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
-      translations: ['page.otherParts'],
+      translations: ['page.otherParts', 'partDetail'],
     });
 
   it('should render part header', async () => {
@@ -63,13 +59,14 @@ describe('Other Parts', () => {
   it('should render part table', async () => {
     await renderOtherParts();
 
-    expect((await screen.findAllByTestId('table-component--test-id')).length).toEqual(1);
+    const tableElements = await waitFor(() => screen.getAllByTestId('table-component--test-id'));
+    expect(tableElements.length).toEqual(1);
   });
 
   it('should render table and display correct amount of rows', async () => {
     await renderOtherParts();
 
-    const tableElement = await screen.findByTestId('table-component--test-id');
+    const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
     expect(tableElement).toBeInTheDocument();
     expect(tableElement.children[1].childElementCount).toEqual(4);
   });
