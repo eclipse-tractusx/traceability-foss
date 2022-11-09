@@ -55,7 +55,7 @@
     "lodash-es": "4.17.21",
     "maplibre-gl": "^2.4.0",
     "postcss": "8.4.13",
-    "rxjs": "7.5.5",
+    "rxjs": "7.5.7",
     "tailwindcss": "3.0.24",
     "tslib": "2.4.0",
     "webpack": "5.72.0",
