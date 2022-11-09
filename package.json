@@ -99,7 +99,7 @@
     "lint-staged": "12.4.1",
     "msw": "0.39.2",
     "postcss-import": "14.1.0",
-    "postcss-loader": "6.2.1",
+    "postcss-loader": "7.0.1",
     "postcss-scss": "4.0.4",
     "prettier": "2.7.1",
     "stylelint": "14.8.2",
