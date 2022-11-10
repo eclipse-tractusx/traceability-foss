@@ -25,6 +25,7 @@ import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components
 import { Notification } from '@shared/model/notification.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { InvestigationsFacade } from '../core/investigations.facade';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
 
 @Component({
   selector: 'app-investigations',
@@ -32,7 +33,9 @@ import { InvestigationsFacade } from '../core/investigations.facade';
 })
 export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(CloseNotificationModalComponent)
-  private modalClose!: CloseNotificationModalComponent;
+  private closeNotificationModal: CloseNotificationModalComponent;
+  @ViewChild(ApproveNotificationModalComponent)
+  private approveNotificationModal: ApproveNotificationModalComponent;
 
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
   public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
@@ -45,7 +48,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
     private readonly router: Router,
   ) {
     this.menuActionsConfig = [
-      { label: 'actions.approve', icon: 'share', action: null },
+      { label: 'actions.approve', icon: 'share', action: this.showApproveNotificationModal.bind(this) },
       { label: 'actions.delete', icon: 'delete', action: null },
       { label: 'actions.close', icon: 'close', action: this.closeNotification.bind(this) },
     ];
@@ -77,6 +80,10 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
   }
 
   private closeNotification(notification: Notification): void {
-    this.modalClose.closeAction(notification);
+    this.closeNotificationModal.closeAction(notification);
+  }
+
+  private showApproveNotificationModal(notification: Notification): void {
+    this.approveNotificationModal.show(notification);
   }
 }

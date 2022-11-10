@@ -46,15 +46,6 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </ng-template>
 
-<ng-template #ModalApproval>
-  <p>{{ translationContext + '.modal.approvalDescription' | i18n }}</p>
-  <mat-card class="m-2">
-    <mat-card-content>
-      <app-notification-overview [notification]="selectedInvestigation"></app-notification-overview>
-    </mat-card-content>
-  </mat-card>
-</ng-template>
-
 <ng-template #ModalDeletion>
   <p class="mb-2">{{ translationContext + '.modal.deletionDescription' | i18n }}</p>
   <mat-card class="m-2">
