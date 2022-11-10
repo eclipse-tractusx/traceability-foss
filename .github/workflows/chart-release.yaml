@@ -55,7 +55,7 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
-          version: v3.8.1
+          version: v3.10.0
 
       - name: Add Helm repos
         run: |
@@ -63,7 +63,7 @@ jobs:
           helm repo add runix https://helm.runix.net
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.4.0
+        uses: helm/chart-releaser-action@v1.4.1
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "${{ env.RELEASE_VERSION }}"

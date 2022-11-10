@@ -24,37 +24,32 @@ import groovy.json.JsonBuilder
 import net.catenax.traceability.assets.domain.ports.AssetRepository
 import net.catenax.traceability.assets.domain.ports.ShellDescriptorRepository
 import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import net.catenax.traceability.common.config.ApplicationProfiles
 import net.catenax.traceability.common.config.MailboxConfig
-import net.catenax.traceability.common.config.OAuth2Config
 import net.catenax.traceability.common.config.PostgreSQLConfig
+import net.catenax.traceability.common.config.RestAssuredConfig
 import net.catenax.traceability.common.config.RestitoConfig
-import net.catenax.traceability.common.config.SecurityTestConfig
 import net.catenax.traceability.common.support.AssetRepositoryProvider
-import net.catenax.traceability.common.support.KeycloakApiSupport
-import net.catenax.traceability.common.support.KeycloakSupport
+import net.catenax.traceability.common.support.OAuth2ApiSupport
+import net.catenax.traceability.common.support.OAuth2Support
 import net.catenax.traceability.common.support.ShellDescriptorStoreProvider
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
-import org.springframework.test.web.servlet.MockMvc
 import org.testcontainers.spock.Testcontainers
 import spock.lang.Specification
 import spock.util.concurrent.PollingConditions
 
-@AutoConfigureMockMvc
-@ActiveProfiles(profiles = ["integration"])
+@ActiveProfiles(profiles = [ApplicationProfiles.TESTS])
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(
-	classes = [SecurityTestConfig.class, MailboxConfig.class, RestitoConfig.class, OAuth2Config.class, PostgreSQLConfig.class],
+	classes = [RestAssuredConfig.class, MailboxConfig.class, RestitoConfig.class, PostgreSQLConfig.class],
 	initializers = [RestitoConfig.Initializer.class, PostgreSQLConfig.Initializer.class]
 )
 @Testcontainers
-abstract class IntegrationSpec extends Specification implements KeycloakSupport, KeycloakApiSupport, AssetRepositoryProvider, ShellDescriptorStoreProvider {
-
-	@Autowired
-	protected MockMvc mvc
+abstract class IntegrationSpec extends Specification
+	implements OAuth2Support, OAuth2ApiSupport, AssetRepositoryProvider, ShellDescriptorStoreProvider {
 
 	@Autowired
 	private AssetRepository assetRepository
@@ -65,9 +60,13 @@ abstract class IntegrationSpec extends Specification implements KeycloakSupport,
 	@Autowired
 	private ShellDescriptorRepository shellDescriptorRepository
 
+	def setup() {
+		oauth2ApiReturnsJwkCerts(jwk())
+	}
+
 	def cleanup() {
 		RestitoConfig.clear()
-		clearAuthentication()
+		clearOAuth2Client()
 		assetRepository.clean()
 		shellDescriptorRepository.clean()
 	}

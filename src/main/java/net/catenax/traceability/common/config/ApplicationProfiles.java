@@ -21,7 +21,8 @@ package net.catenax.traceability.common.config;
 
 public class ApplicationProfiles {
 
-	public static final String NOT_TESTS = "!integration";
+	public static final String TESTS = "integration";
+	public static final String NOT_TESTS = "!" + TESTS;
 
 	private ApplicationProfiles() {
 	}

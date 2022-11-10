@@ -5,8 +5,8 @@ description: >-
   EDC Control-Plane - The Eclipse DataSpaceConnector administration layer with responsibility of resource management and govern contracts and data transfers
 home: https://github.com/catenax-ng/product-edc/deployment/helm/edc-controlplane
 type: application
-appVersion: "0.1.1"
-version: 0.1.1
+appVersion: "0.1.2"
+version: 0.1.2
 maintainers: []
 dependencies:
   - name: postgresql
@@ -14,6 +14,10 @@ dependencies:
     version: 11.x.x
     condition: edcPostgresql.enabled
     alias: edcPostgresql
+  - name: registry
+    repository: "file://../registry"
+    version: x.x.x
+    condition: registry.enabled
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x

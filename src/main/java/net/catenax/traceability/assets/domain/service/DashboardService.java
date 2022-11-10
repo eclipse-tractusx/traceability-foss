@@ -21,8 +21,8 @@ package net.catenax.traceability.assets.domain.service;
 
 import net.catenax.traceability.assets.domain.model.Dashboard;
 import net.catenax.traceability.assets.domain.ports.AssetRepository;
-import net.catenax.traceability.common.security.KeycloakAuthentication;
-import net.catenax.traceability.common.security.KeycloakRole;
+import net.catenax.traceability.common.security.JwtAuthentication;
+import net.catenax.traceability.common.security.JwtRole;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -35,14 +35,14 @@ public class DashboardService {
 		this.assetRepository = assetRepository;
 	}
 
-	public Dashboard getDashboard(KeycloakAuthentication keycloakAuthentication) {
+	public Dashboard getDashboard(JwtAuthentication jwtAuthentication) {
 		long totalAssets = assetRepository.countAssets();
 		long myParts = assetRepository.countMyAssets();
 		long pendingInvestigations = assetRepository.countPendingInvestigations();
 
-		if (keycloakAuthentication.hasRole(KeycloakRole.USER)) {
+		if (jwtAuthentication.hasRole(JwtRole.USER)) {
 			return new Dashboard(myParts, null, pendingInvestigations);
-		} else if (keycloakAuthentication.hasAtLeastOneRole(KeycloakRole.ADMIN, KeycloakRole.SUPERVISOR)) {
+		} else if (jwtAuthentication.hasAtLeastOneRole(JwtRole.ADMIN, JwtRole.SUPERVISOR)) {
 			return new Dashboard(myParts, totalAssets - myParts, pendingInvestigations);
 		} else {
 			throw new AccessDeniedException("User has invalid role to access the dashboard.");

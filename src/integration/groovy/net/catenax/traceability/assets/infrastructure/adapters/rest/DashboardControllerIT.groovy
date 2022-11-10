@@ -19,35 +19,34 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.rest
 
+import io.restassured.http.ContentType
 import net.catenax.traceability.IntegrationSpec
 import net.catenax.traceability.common.support.AssetsSupport
-import org.springframework.http.MediaType
 import spock.lang.Unroll
 
-import static net.catenax.traceability.common.security.KeycloakRole.ADMIN
-import static net.catenax.traceability.common.security.KeycloakRole.SUPERVISOR
-import static net.catenax.traceability.common.security.KeycloakRole.USER
+import static io.restassured.RestAssured.given
+import static net.catenax.traceability.common.security.JwtRole.ADMIN
+import static net.catenax.traceability.common.security.JwtRole.SUPERVISOR
+import static net.catenax.traceability.common.security.JwtRole.USER
 import static org.hamcrest.Matchers.equalTo
 import static org.hamcrest.Matchers.nullValue
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 class DashboardControllerIT extends IntegrationSpec implements AssetsSupport {
 
 	@Unroll
 	def "should return all dashboard information for user with #role role"() {
 		given:
-			authenticatedUser(role)
-			keycloakApiReturnsToken()
 			defaultAssetsStored()
 
 		expect:
-			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.myItems', equalTo(1)))
-				.andExpect(jsonPath('$.otherParts', equalTo(12)))
+			given()
+				.header(jwtAuthorization(role))
+				.when()
+				.get("/api/dashboard")
+				.then()
+				.statusCode(200)
+				.body("myItems", equalTo(1))
+				.body("otherParts", equalTo(12))
 
 		where:
 			role << [SUPERVISOR, ADMIN]
@@ -55,49 +54,59 @@ class DashboardControllerIT extends IntegrationSpec implements AssetsSupport {
 
 	def "should return only 'my items' dashboard information for user with USER role"() {
 		given:
-			authenticatedUser(USER)
-			keycloakApiReturnsToken()
 			defaultAssetsStored()
 
 		expect:
-			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.myItems', equalTo(1)))
-				.andExpect(jsonPath('$.otherParts', nullValue()))
+			given()
+				.header(jwtAuthorization(USER))
+				.when()
+				.get("/api/dashboard")
+				.then()
+				.statusCode(200)
+				.body("myItems", equalTo(1))
+				.body("otherParts", nullValue())
 	}
 
 	def "should not return dashboard information for user without role"() {
-		given:
-			authenticatedUserWithNoRole()
-
 		expect:
-			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isForbidden())
-				.andExpect(jsonPath('$.message', equalTo("User has invalid role to access the dashboard.")))
+			given()
+				.header(jwtAuthorizationWithNoRole())
+				.when()
+				.get("/api/dashboard")
+				.then()
+				.statusCode(403)
+				.body("message", equalTo("User has invalid role to access the dashboard."))
 	}
 
 	def "should return dashboard information for pending investigation"() {
 		given:
 			String assetId = "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"
-			authenticatedUser(ADMIN)
 			defaultAssetsStored()
 
 		when:
-			mvc.perform(post("/investigations")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(asJson(
+			given()
+				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
+				.body(asJson(
 					[
-						partIds: [assetId],
+						partIds    : [assetId],
 						description: "at least 15 characters long investigation description"
 					]
 				))
-			).andExpect(status().isOk())
+				.when()
+				.post("/api/investigations")
+				.then()
+				.statusCode(200)
 
 		then:
-			mvc.perform(get("/dashboard").contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath('$.myItems', equalTo(1)))
-				.andExpect(jsonPath('$.otherParts', equalTo(12)))
-				.andExpect(jsonPath('$.investigations', equalTo(1)))
+			given()
+				.header(jwtAuthorization(ADMIN))
+				.when()
+				.get("/api/dashboard")
+				.then()
+				.statusCode(200)
+				.body("myItems", equalTo(1))
+				.body("otherParts", equalTo(12))
+				.body("investigations", equalTo(1))
 	}
 }

@@ -42,6 +42,7 @@ public class AssetEntity {
 	private String idShort;
 	private String nameAtManufacturer;
 	private String manufacturerPartId;
+	private String partInstanceId;
 	private String manufacturerId;
 	private String batchId;
 	private String manufacturerName;
@@ -58,7 +59,8 @@ public class AssetEntity {
 	private PendingInvestigation pendingInvestigation;
 
 	public AssetEntity(String id, String idShort, String nameAtManufacturer,
-					   String manufacturerPartId,  String manufacturerId, String batchId,
+					   String manufacturerPartId,  String partInstanceId,
+					   String manufacturerId, String batchId,
 					   String manufacturerName, String nameAtCustomer,
 					   String customerPartId, Instant manufacturingDate,
 					   String manufacturingCountry, boolean supplierPart,
@@ -67,6 +69,7 @@ public class AssetEntity {
 		this.idShort = idShort;
 		this.nameAtManufacturer = nameAtManufacturer;
 		this.manufacturerPartId = manufacturerPartId;
+		this.partInstanceId = partInstanceId;
 		this.manufacturerId = manufacturerId;
 		this.batchId = batchId;
 		this.manufacturerName = manufacturerName;
@@ -120,6 +123,14 @@ public class AssetEntity {
 
 	public void setManufacturerPartId(String manufacturerPartId) {
 		this.manufacturerPartId = manufacturerPartId;
+	}
+
+	public String getPartInstanceId() {
+		return partInstanceId;
+	}
+
+	public void setPartInstanceId(String partInstanceId) {
+		this.partInstanceId = partInstanceId;
 	}
 
 	public String getManufacturerId() {

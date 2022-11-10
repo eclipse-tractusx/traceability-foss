@@ -25,7 +25,6 @@ import io.github.resilience4j.core.registry.EntryReplacedEvent;
 import io.github.resilience4j.core.registry.RegistryEventConsumer;
 import io.github.resilience4j.retry.Retry;
 import net.catenax.traceability.common.docs.SwaggerPageable;
-import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -56,8 +55,6 @@ import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
 
 import java.util.Arrays;
 import java.util.List;
@@ -75,14 +72,8 @@ public class ApplicationConfig {
 		new AuthorizationScope("uma_authorization", "UMA authorization")
 	};
 
-	@Value("${keycloak.realm:}")
-	private String realm;
-
-	@Value("${keycloak.resource:}")
-	private String clientId;
-
-	@Value("${keycloak.auth-server-url:}")
-	private String authServerUrl;
+	@Value("${spring.security.oauth2.client.provider.default.token-uri}")
+	private String oauthTokenUrl;
 
 	@Value("${spring.mail.templates.path}")
 	private String mailTemplatesPath;
@@ -90,11 +81,6 @@ public class ApplicationConfig {
 	@Bean
 	public InternalResourceViewResolver defaultViewResolver() {
 		return new InternalResourceViewResolver();
-	}
-
-	@Bean
-	public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
-		return new KeycloakSpringBootConfigResolver();
 	}
 
 	@Bean
@@ -141,23 +127,12 @@ public class ApplicationConfig {
 	@Bean
 	public Docket swaggerSpringMvcPlugin() {
 		return new Docket(DocumentationType.OAS_30)
-			.securitySchemes(List.of(keycloakAuthenticationScheme(), bearerTokenAuthenticationScheme()))
+			.securitySchemes(List.of(oauthAuthenticationScheme(), bearerTokenAuthenticationScheme()))
 			.securityContexts(List.of(securityContext()))
 			.select()
 			.apis(RequestHandlerSelectors.basePackage("net.catenax.traceability"))
 			.build()
 			.directModelSubstitute(Pageable.class, SwaggerPageable.class);
-	}
-
-	@Bean
-	public SecurityConfiguration security() {
-		return SecurityConfigurationBuilder.builder()
-			.clientId(clientId)
-			.realm(realm)
-			.appName(clientId)
-			.scopeSeparator(",")
-			.additionalQueryStringParams(null)
-			.build();
 	}
 
 	@Bean
@@ -186,11 +161,11 @@ public class ApplicationConfig {
 			.build();
 	}
 
-	private SecurityScheme keycloakAuthenticationScheme() {
+	private SecurityScheme oauthAuthenticationScheme() {
 		return new OAuth2SchemeBuilder("authorizationCode")
-			.name("Keycloak")
-			.authorizationUrl(authServerUrl + "/realms/" + realm + "/protocol/openid-connect/auth")
-			.tokenUrl(authServerUrl + "/realms/" + realm + "/protocol/openid-connect/token")
+			.name("default")
+			.authorizationUrl(oauthTokenUrl.replace("token", "auth"))
+			.tokenUrl(oauthTokenUrl)
 			.scopes(Arrays.asList(DEFAULT_SCOPES))
 			.build();
 	}
@@ -199,7 +174,7 @@ public class ApplicationConfig {
 		return SecurityContext
 			.builder()
 			.securityReferences(List.of(
-				new SecurityReference("Keycloak", DEFAULT_SCOPES),
+				new SecurityReference("default", DEFAULT_SCOPES),
 				new SecurityReference("Bearer", DEFAULT_SCOPES)
 			))
 			.operationSelector(operationContext -> HttpMethod.GET.equals(operationContext.httpMethod()))

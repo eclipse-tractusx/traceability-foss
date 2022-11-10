@@ -29,47 +29,20 @@ datasource:
   username: trace
   password: <path:traceability-foss/data/dev/database#tracePassword>
 
-keycloak:
-  oauth2:
-    clientId: <path:traceability-foss/data/dev/keycloak/oauth2#clientId>
-    clientSecret: <path:traceability-foss/data/dev/keycloak/oauth2#clientSecret>
+oauth2:
+  clientId: <path:traceability-foss/data/dev/keycloak/oauth2#clientId>
+  clientSecret: <path:traceability-foss/data/dev/keycloak/oauth2#clientSecret>
+  clientTokenUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+  jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+  resourceClient: "Cl10-CX-Part"
 
 postgresql:
   enabled: true
-  secret:
-    initUserDbSql: "<path:traceability-foss/data/dev/database#initUserDb.sql>"
   auth:
     postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"
-  primary:
-    extraVolumeMounts:
-      - name: initdb
-        mountPath: "/docker-entrypoint-initdb.d"
-      - name: initdb-secrets
-        mountPath: "/secrets"
-    extraVolumes:
-      - name: initdb
-        emptyDir: {}
-      - name: initdb-secrets
-        secret:
-          secretName: secret-postgres-init-db-user
-    initContainers:
-      - name: initdb
-        image: ghcr.io/catenax-ng/product-portal-cd_initdb:latest
-        imagePullPolicy: Always
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying initdb secret sqls..."
-            cp /secrets/* /docker-entrypoint-initdb.d
-            echo "Copying initdb sqls..."
-            cp -R /import/* /docker-entrypoint-initdb.d
-        volumeMounts:
-          - name: initdb
-            mountPath: "/docker-entrypoint-initdb.d"
-          - name: initdb-secrets
-            mountPath: "/secrets"
+    password: "<path:traceability-foss/data/dev/database#tracePassword>"
+    database: "trace"
+    username: "trace"
 
 pgadmin4:
   enabled: true
@@ -331,11 +304,11 @@ irs:
 
     resources:
       limits:
-        cpu: 1.5
-        memory: 2Gi
+        cpu: 2
+        memory: 4Gi
       requests:
         cpu: 500m
-        memory: 1Gi
+        memory: 2Gi
 
     logging:
       # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)

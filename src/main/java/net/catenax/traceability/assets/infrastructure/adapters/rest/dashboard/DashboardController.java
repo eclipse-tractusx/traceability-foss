@@ -21,8 +21,8 @@ package net.catenax.traceability.assets.infrastructure.adapters.rest.dashboard;
 
 import net.catenax.traceability.assets.domain.model.Dashboard;
 import net.catenax.traceability.assets.domain.service.DashboardService;
-import net.catenax.traceability.common.security.KeycloakAuthentication;
-import net.catenax.traceability.common.security.InjectedKeycloakAuthentication;
+import net.catenax.traceability.common.security.JwtAuthentication;
+import net.catenax.traceability.common.security.InjectedJwtAuthentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +38,7 @@ public class DashboardController {
 	}
 
 	@GetMapping("/dashboard")
-	public Dashboard dashboard(@InjectedKeycloakAuthentication KeycloakAuthentication keycloakAuthentication) {
-		return dashboardService.getDashboard(keycloakAuthentication);
+	public Dashboard dashboard(@InjectedJwtAuthentication JwtAuthentication jwtAuthentication) {
+		return dashboardService.getDashboard(jwtAuthentication);
 	}
 }

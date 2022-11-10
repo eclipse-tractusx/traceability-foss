@@ -134,17 +134,20 @@ datasource:
   username: ""
   password: ""
 
-keycloak:
-  oaut2:
-    clientId: ""
-    clientSecret: ""
+oauth2:
+  clientId: ""
+  clientSecret: ""
+  clientTokenUri: ""
+  jwkSetUri: ""
+  resourceClient: ""
 
 postgresql:
   enabled: false
-  secret:
-    initUserDbSql: ""
   auth:
     postgresPassword: ""
+    password: ""
+    database: ""
+    username: ""
   architecture: standalone
   audit:
     pgAuditLog: write, ddl

@@ -51,11 +51,17 @@ spring:
     oauth2:
       client:
         registration:
-          keycloak:
-            client-id: ${KEYCLOAK_OAUTH2_CLIENT_ID}
-            client-secret: ${KEYCLOAK_OAUTH2_CLIENT_SECRET}
+          default:
+            client-id: ${OAUTH2_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_SECRET}
             authorization-grant-type: client_credentials
             scope: openid
+        provider:
+          default:
+            token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${OAUTH2_JWK_SET_URI:https://default}
   config:
     import: swagger.yml
   mail:
@@ -68,6 +74,9 @@ spring:
     properties:
       mail.smtp.auth: true
       mail.smtp.starttls.enable: true
+
+jwt:
+  resource-client: ${JWT_RESOURCE_CLIENT}
 
 feign:
   okhttp:

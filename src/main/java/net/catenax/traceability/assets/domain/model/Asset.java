@@ -29,6 +29,7 @@ public final class Asset {
 	private final String idShort;
 	private final String nameAtManufacturer;
 	private final String manufacturerPartId;
+	private final String partInstanceId;
 	private final String manufacturerId;
 	private final String batchId;
 	private String manufacturerName;
@@ -47,6 +48,7 @@ public final class Asset {
 		String idShort,
 		String nameAtManufacturer,
 		String manufacturerPartId,
+		String partInstanceId,
 		String manufacturerId,
 		String batchId,
 		String manufacturerName,
@@ -63,6 +65,7 @@ public final class Asset {
 		this.idShort = idShort;
 		this.nameAtManufacturer = nameAtManufacturer;
 		this.manufacturerPartId = manufacturerPartId;
+		this.partInstanceId = partInstanceId;
 		this.manufacturerId = manufacturerId;
 		this.batchId = batchId;
 		this.manufacturerName = manufacturerName;
@@ -126,6 +129,10 @@ public final class Asset {
 
 	public boolean isSupplierPart() {
 		return supplierPart;
+	}
+
+	public String getPartInstanceId() {
+		return partInstanceId;
 	}
 
 	public List<ChildDescriptions> getChildDescriptions() {

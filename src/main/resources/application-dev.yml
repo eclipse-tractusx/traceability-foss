@@ -19,21 +19,6 @@
 traceability:
   bpn: BPNL00000003AXS3
 
-spring:
-  security:
-    oauth2:
-      client:
-        provider:
-          keycloak:
-            token-uri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-
-keycloak:
-  auth-server-url: https://centralidp.dev.demo.catena-x.net/auth
-  realm: CX-Central
-  resource: Cl10-CX-Part
-  public-client: true
-  use-resource-role-mappings: true
-
 feign:
   irsApi:
     url: https://irs.dev.demo.catena-x.net
