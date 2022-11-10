@@ -120,11 +120,21 @@ SPDX-License-Identifier: Apache-2.0
           <th *matHeaderCellDef class="table--menu" mat-header-cell></th>
           <td *matCellDef="let row" class="table--menu" mat-cell [attr.colspan]="tableConfig.displayedColumns.length">
             <div class="table--menu__desktop">
-              <button [matMenuTriggerFor]="menu" [attr.aria-label]="'table.menuDescription' | i18n" mat-icon-button>
+              <button
+                [matMenuTriggerFor]="menu"
+                [attr.aria-label]="'table.menuDescription' | i18n"
+                data-testId="table-menu-button"
+                mat-icon-button
+              >
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button *ngFor="let config of tableConfig.menuActionsConfig" (click)="config.action(row)" mat-menu-item>
+                <button
+                  *ngFor="let config of tableConfig.menuActionsConfig"
+                  (click)="config.action(row)"
+                  [attr.data-testId]="'table-menu-button--' + config.label"
+                  mat-menu-item
+                >
                   <mat-icon>{{ config.icon }}</mat-icon>
                   <span>{{ config.label | i18n }}</span>
                 </button>
@@ -137,7 +147,12 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container matColumnDef="expandMenuActions">
         <td mat-cell *matCellDef="let row" [attr.colspan]="tableConfig.displayedColumns.length">
           <div [class.expanded]="row === selectedRow" [class.collapsed]="row !== selectedRow" class="expand-element">
-            <button *ngFor="let config of tableConfig.menuActionsConfig" (click)="config.action(row)" mat-menu-item>
+            <button
+              *ngFor="let config of tableConfig.menuActionsConfig"
+              (click)="config.action(row)"
+              [attr.data-testId]="'table-menu-button-expand--' + config.label"
+              mat-menu-item
+            >
               <mat-icon>{{ config.icon }}</mat-icon>
               <span>{{ config.label | i18n }}</span>
             </button>
@@ -177,6 +192,7 @@ SPDX-License-Identifier: Apache-2.0
     [pageIndex]="this.pageIndex"
     [pageSizeOptions]="[5, 10, 20]"
     [attr.aria-label]="'table.selectPageSize' | i18n"
+    [attr.data-testId]="'table.selectPageSize' | i18n"
     (page)="onPaginationChange($event)"
     showFirstLastButtons
   >

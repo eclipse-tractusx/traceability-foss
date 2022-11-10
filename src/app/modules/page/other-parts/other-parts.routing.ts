@@ -28,7 +28,7 @@ const PARTS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: OtherPartsComponent,
-    data: { i18nextNamespaces: ['page.otherParts'] },
+    data: { i18nextNamespaces: ['page.otherParts', 'partDetail'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];

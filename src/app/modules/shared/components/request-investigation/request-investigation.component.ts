@@ -36,6 +36,8 @@ export class RequestInvestigationComponent {
   public removedItemsHistory: Part[] = [];
 
   @Input() selectedItems: Part[];
+  @Input() showHeadline = true;
+
   @Output() deselectPart = new EventEmitter<Part>();
   @Output() restorePart = new EventEmitter<Part>();
   @Output() clearSelected = new EventEmitter<void>();

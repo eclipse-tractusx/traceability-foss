@@ -111,7 +111,10 @@ export class NotificationTabComponent implements AfterViewInit {
 
   private deleteNotification(notification: any): void {
     this.selectedInvestigation = notification;
-    this.textAreaControl.setValidators([Validators.required, Validators.pattern(this.selectedInvestigation.id)]);
+    this.textAreaControl.setValidators([
+      Validators.required,
+      Validators.pattern(this.selectedInvestigation.id.toString()),
+    ]);
     const onConfirm = (isConfirmed: boolean) => console.log(isConfirmed);
 
     const options: ConfirmModalData = {

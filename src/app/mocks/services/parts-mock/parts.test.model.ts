@@ -91,7 +91,7 @@ export const MOCK_part_1 = {
   id: 'MOCK_part_1',
   idShort: 'MOCK_part_1',
   nameAtManufacturer: 'Audi A1 Sportback',
-  nameAtCustomer: 'Audi A1 Sportback',
+  nameAtCustomer: 'Audi A1 Sportback Customer',
   manufacturerId: '1',
   manufacturerName: 'Audi',
   qualityType: QualityType.Ok,

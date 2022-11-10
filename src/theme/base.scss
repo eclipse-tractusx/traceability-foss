@@ -51,7 +51,7 @@
   }
 
   .errorMessage {
-    @apply font-light lg:text-sm sm:text-xs text-error;
+    @apply font-light lg:text-sm sm:text-xs text-error mb-2;
   }
 
   .large-text {

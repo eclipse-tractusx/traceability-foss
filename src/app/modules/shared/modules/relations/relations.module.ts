@@ -27,7 +27,7 @@ import { PartRelationComponent } from './presentation/part-relation.component';
 @NgModule({
   declarations: [PartRelationComponent],
   imports: [CommonModule, TemplateModule, SharedModule],
-  providers: [...getI18nPageProvider('page.parts')],
+  providers: [...getI18nPageProvider(['page.parts', 'partDetail'])],
   exports: [PartRelationComponent],
 })
 export class RelationsModule {}

@@ -17,14 +17,47 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { _environment } from './_environment.base';
+.start-investigation--wrapper {
+  display: flex;
+  & > app-table {
+    flex-basis: 40%;
+    padding-right: 2rem;
+  }
 
-export const environment = {
-  ..._environment,
-  multiTenant: true,
-  authDisabled: false,
-  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
-  clientId: 'Cl17-CX-Part',
-  defaultRealm: 'CX-Central',
-  apiUrl: 'https://traceability.int.demo.catena-x.net/api',
-};
+  & > app-request-investigation {
+    flex-grow: 1;
+  }
+
+  @media (max-width: 1024px) {
+    flex-flow: column-reverse;
+    & > app-table {
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+.start-investigation--no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  padding-top: 2rem;
+  flex-grow: 1;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.start-investigation {
+  min-height: 300px;
+}
+
+.start-investigation--data {
+  animation: fadeIn 0.75s;
+}

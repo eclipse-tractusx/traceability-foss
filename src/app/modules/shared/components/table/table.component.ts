@@ -132,6 +132,7 @@ export class TableComponent {
 
   public updateSortingOfData({ active, direction }: Sort): void {
     this.selection.clear();
+    this.emitMultiSelect();
     this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
     this.isDataLoading = true;
     this.configChanged.emit({ page: 0, pageSize: this.pageSize, sorting: this.sorting });

@@ -25,8 +25,8 @@ import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
-import { Observable, Subscription } from 'rxjs';
 import _deepClone from 'lodash-es/cloneDeep';
+import { Observable, Subscription } from 'rxjs';
 
 @Injectable()
 export class OtherPartsFacade {

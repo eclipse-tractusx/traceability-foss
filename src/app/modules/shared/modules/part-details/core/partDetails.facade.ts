@@ -28,6 +28,7 @@ import { PartsService } from '@shared/service/parts.service';
 import { cloneDeep as _cloneDeep } from 'lodash-es';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { SortDirection } from '../../../../../mocks/services/pagination.helper';
 
 @Injectable()
 export class PartDetailsFacade {
@@ -74,5 +75,15 @@ export class PartDetailsFacade {
     this.partsState.myParts = { data };
 
     return this.partsService.patchPart(part);
+  }
+
+  public getChildPartDetails(part): Observable<Part[]> {
+    return this.partsService.getPartDetailOfIds(part.children);
+  }
+
+  public sortChildParts(view: View<Part[]>, key: string, direction: SortDirection): Part[] {
+    if (!view.data) return [];
+
+    return this.partsService.sortParts(view.data, key, direction);
   }
 }

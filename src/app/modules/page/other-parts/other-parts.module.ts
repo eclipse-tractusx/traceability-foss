@@ -32,7 +32,12 @@ import { OtherPartsComponent } from './presentation/other-parts.component';
 @NgModule({
   declarations: [OtherPartsComponent],
   imports: [CommonModule, TemplateModule, SharedModule, OtherPartsRoutingModule, PartDetailsModule],
-  providers: [OtherPartsState, OtherPartsFacade, OtherPartsService, ...getI18nPageProvider('page.otherParts')],
+  providers: [
+    OtherPartsState,
+    OtherPartsFacade,
+    OtherPartsService,
+    ...getI18nPageProvider(['page.otherParts', 'partDetail']),
+  ],
   exports: [OtherPartsComponent],
 })
 export class OtherPartsModule {}
