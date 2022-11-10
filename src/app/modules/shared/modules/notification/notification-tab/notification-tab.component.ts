@@ -87,25 +87,4 @@ export class NotificationTabComponent implements AfterViewInit {
   public selectNotification(notification: Record<string, unknown>): void {
     this.selected.emit(notification as unknown as Notification);
   }
-
-  private deleteNotification(notification: any): void {
-    this.selectedInvestigation = notification;
-    this.textAreaControl.setValidators([
-      Validators.required,
-      Validators.pattern(this.selectedInvestigation.id.toString()),
-    ]);
-    const onConfirm = (isConfirmed: boolean) => console.log(isConfirmed);
-
-    const options: ConfirmModalData = {
-      title: `${this.translationContext}.modal.deletionTitle`,
-      confirmText: `${this.translationContext}.modal.confirm`,
-      cancelText: `${this.translationContext}.modal.cancel`,
-
-      template: this.modalDeletion,
-      formGroup: this.deletionFormGroup,
-      onConfirm,
-    };
-
-    this.confirmModalService.open(options);
-  }
 }

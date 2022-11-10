@@ -26,6 +26,7 @@ import { TemplateModule } from '@shared/template.module';
 import { CloseNotificationModalComponent } from './modal/close/close-notification-modal.component';
 import { NotificationComponent } from './presentation/notification.component';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { ApproveNotificationModalComponent } from '@shared/modules/notification/
     NotificationTabComponent,
     CloseNotificationModalComponent,
     ApproveNotificationModalComponent,
+    DeleteNotificationModalComponent,
   ],
   imports: [CommonModule, TemplateModule, SharedModule, ModalModule],
   exports: [
@@ -40,6 +42,7 @@ import { ApproveNotificationModalComponent } from '@shared/modules/notification/
     NotificationTabComponent,
     CloseNotificationModalComponent,
     ApproveNotificationModalComponent,
+    DeleteNotificationModalComponent,
   ],
 })
 export class NotificationModule {}

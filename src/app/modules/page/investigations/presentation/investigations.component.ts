@@ -26,6 +26,7 @@ import { Notification } from '@shared/model/notification.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { InvestigationsFacade } from '../core/investigations.facade';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
 
 @Component({
   selector: 'app-investigations',
@@ -36,6 +37,8 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
   private closeNotificationModal: CloseNotificationModalComponent;
   @ViewChild(ApproveNotificationModalComponent)
   private approveNotificationModal: ApproveNotificationModalComponent;
+  @ViewChild(DeleteNotificationModalComponent)
+  private deleteNotificationModal: DeleteNotificationModalComponent;
 
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
   public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
@@ -49,7 +52,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
   ) {
     this.menuActionsConfig = [
       { label: 'actions.approve', icon: 'share', action: this.showApproveNotificationModal.bind(this) },
-      { label: 'actions.delete', icon: 'delete', action: null },
+      { label: 'actions.delete', icon: 'delete', action: this.showDeleteNotificationModal.bind(this) },
       { label: 'actions.close', icon: 'close', action: this.closeNotification.bind(this) },
     ];
   }
@@ -85,5 +88,9 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
 
   private showApproveNotificationModal(notification: Notification): void {
     this.approveNotificationModal.show(notification);
+  }
+
+  private showDeleteNotificationModal(notification: Notification): void {
+    this.deleteNotificationModal.show(notification);
   }
 }
