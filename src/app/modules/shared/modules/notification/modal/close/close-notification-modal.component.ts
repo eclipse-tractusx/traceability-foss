@@ -34,14 +34,16 @@ export class CloseNotificationModalComponent implements OnInit {
   @ViewChild('ModalClose') modalClose: TemplateRef<unknown>;
   @Input() notification: Notification;
 
+  public readonly closeFormGroup;
   private readonly textAreaControl = new FormControl();
-  public readonly closeFormGroup = new FormGroup({ reason: this.textAreaControl });
 
   constructor(
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly ctaSnackbarService: CtaSnackbarService,
     private readonly confirmModalService: ModalService,
-  ) {}
+  ) {
+    this.closeFormGroup = new FormGroup({ reason: this.textAreaControl });
+  }
 
   ngOnInit(): void {}
 
@@ -52,22 +54,22 @@ export class CloseNotificationModalComponent implements OnInit {
     const onConfirm = (isConfirmed: boolean) => {
       const reason = this.closeFormGroup.get('reason').value;
 
-      if (isConfirmed) {
-        this.investigationsFacade.closeInvestigation(notification.id, reason).subscribe({
-          next: () => {
-            this.ctaSnackbarService.show({ id: 'commonInvestigation.modal.closeSuccess' });
-          },
-          error: () => {
-            // TODO: error handling
-          },
-        });
-      }
+      if (!isConfirmed) return;
+
+      this.investigationsFacade.closeInvestigation(notification.id, reason).subscribe({
+        next: () => {
+          this.ctaSnackbarService.show({ id: 'commonInvestigation.modal.closeSuccess' });
+        },
+        error: () => {
+          // TODO: error handling
+        },
+      });
     };
 
     const options: ConfirmModalData = {
-      title: `commonInvestigation.modal.closeTitle`,
-      confirmText: `commonInvestigation.modal.close`,
-      cancelText: `commonInvestigation.modal.cancel`,
+      title: 'commonInvestigation.modal.closeTitle',
+      confirmText: 'commonInvestigation.modal.close',
+      cancelText: 'commonInvestigation.modal.cancel',
 
       template: this.modalClose,
       formGroup: this.closeFormGroup,
