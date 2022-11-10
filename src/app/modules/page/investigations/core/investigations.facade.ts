@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { MenuActionConfig } from '@shared/components/table/table.model';
 import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
@@ -74,13 +73,5 @@ export class InvestigationsFacade {
 
   public closeInvestigation(investigationId: string, reason: string): Observable<string> {
     return this.investigationsService.closeInvestigation(investigationId, reason);
-  }
-
-  public get menuActionsConfig$(): Observable<MenuActionConfig[]> {
-    return this.investigationsState.menuActionsConfig$;
-  }
-
-  public setMenuActionsConfig(menuActionsConfig: MenuActionConfig[]): void {
-    this.investigationsState.menuActionsConfig = menuActionsConfig;
   }
 }

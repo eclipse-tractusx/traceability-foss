@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { MenuActionConfig } from '@shared/components/table/table.model';
 import { Notifications } from '@shared/model/notification.model';
 import { State } from '@shared/model/state';
 import { View } from '@shared/model/view.model';
@@ -28,7 +27,6 @@ import { Observable } from 'rxjs';
 export class InvestigationsState {
   private readonly _investigationsReceived$ = new State<View<Notifications>>({ loader: true });
   private readonly _investigationsQueuedAndRequested$ = new State<View<Notifications>>({ loader: true });
-  private readonly _menuActionsConfig$ = new State<MenuActionConfig[]>(null);
 
   public get investigationsReceived$(): Observable<View<Notifications>> {
     return this._investigationsReceived$.observable;
@@ -46,13 +44,5 @@ export class InvestigationsState {
   public set investigationsQueuedAndRequested({ data, loader, error }: View<Notifications>) {
     const investigationsView: View<Notifications> = { data, loader, error };
     this._investigationsQueuedAndRequested$.update(investigationsView);
-  }
-
-  public get menuActionsConfig$(): Observable<MenuActionConfig[]> {
-    return this._menuActionsConfig$.observable;
-  }
-
-  public set menuActionsConfig(currentMenuActionConfig: MenuActionConfig[]) {
-    this._menuActionsConfig$.update(currentMenuActionConfig);
   }
 }
