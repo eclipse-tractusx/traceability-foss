@@ -26,11 +26,11 @@ import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Notification } from '@shared/model/notification.model';
 
 @Component({
-  selector: 'app-close-modal',
-  templateUrl: './close-modal.component.html',
-  styleUrls: ['./close-modal.component.scss'],
+  selector: 'app-close-notification-modal',
+  templateUrl: './close-notification-modal.component.html',
+  styleUrls: ['./close-notification-modal.component.scss'],
 })
-export class CloseModalComponent implements OnInit {
+export class CloseNotificationModalComponent implements OnInit {
   @ViewChild('ModalClose') modalClose: TemplateRef<unknown>;
   @Input() notification: Notification;
 

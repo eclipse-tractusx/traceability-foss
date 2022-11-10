@@ -19,7 +19,7 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CloseModalComponent } from './close-modal.component';
+import { CloseModalComponent } from './close-notification-modal.component';
 
 describe('CloseModalComponent', () => {
   let component: CloseModalComponent;

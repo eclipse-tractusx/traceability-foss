@@ -23,17 +23,17 @@ import { InvestigationDetailFacade } from '@page/investigations/core/investigati
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
-import { CloseModalComponent } from '../modal/close-modal/close-modal.component';
 
 @Component({
   selector: 'app-investigations',
   templateUrl: './investigations.component.html',
 })
 export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(CloseModalComponent)
-  private modalClose!: CloseModalComponent;
+  @ViewChild(CloseNotificationModalComponent)
+  private modalClose!: CloseNotificationModalComponent;
 
   public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
   public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
