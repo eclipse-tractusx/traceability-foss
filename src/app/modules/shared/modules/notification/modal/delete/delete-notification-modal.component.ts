@@ -31,10 +31,10 @@ import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
   styleUrls: ['./delete-notification-modal.component.scss'],
 })
 export class DeleteNotificationModalComponent implements OnInit {
-  @ViewChild('ModalDeletion') modal: TemplateRef<unknown>;
+  @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() notification: Notification;
 
-  public readonly deletionFormGroup;
+  public readonly formGroup;
   private readonly textAreaControl = new FormControl();
 
   constructor(
@@ -42,7 +42,7 @@ export class DeleteNotificationModalComponent implements OnInit {
     private readonly ctaSnackbarService: CtaSnackbarService,
     private readonly confirmModalService: ModalService,
   ) {
-    this.deletionFormGroup = new FormGroup({ investigationId: this.textAreaControl });
+    this.formGroup = new FormGroup({ notificationId: this.textAreaControl });
   }
 
   ngOnInit(): void {}
@@ -58,7 +58,7 @@ export class DeleteNotificationModalComponent implements OnInit {
       cancelText: 'commonInvestigation.modal.cancel',
 
       template: this.modal,
-      formGroup: this.deletionFormGroup,
+      formGroup: this.formGroup,
       onConfirm,
     };
 

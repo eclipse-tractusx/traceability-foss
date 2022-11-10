@@ -30,7 +30,7 @@ import { ModalService } from '@shared/modules/modal/core/modal.service';
   styleUrls: ['./approve-notification-modal.component.scss'],
 })
 export class ApproveNotificationModalComponent implements OnInit {
-  @ViewChild('ModalApproval') modalApproval: TemplateRef<unknown>;
+  @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() notification: Notification;
 
   constructor(
@@ -51,7 +51,7 @@ export class ApproveNotificationModalComponent implements OnInit {
       confirmText: 'commonInvestigation.modal.confirm',
       cancelText: 'commonInvestigation.modal.cancel',
 
-      template: this.modalApproval,
+      template: this.modal,
       onConfirm,
     };
 

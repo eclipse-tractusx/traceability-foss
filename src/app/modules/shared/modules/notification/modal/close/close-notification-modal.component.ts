@@ -31,10 +31,10 @@ import { Notification } from '@shared/model/notification.model';
   styleUrls: ['./close-notification-modal.component.scss'],
 })
 export class CloseNotificationModalComponent implements OnInit {
-  @ViewChild('ModalClose') modalClose: TemplateRef<unknown>;
+  @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() notification: Notification;
 
-  public readonly closeFormGroup;
+  public readonly formGroup;
   private readonly textAreaControl = new FormControl();
 
   constructor(
@@ -42,17 +42,17 @@ export class CloseNotificationModalComponent implements OnInit {
     private readonly ctaSnackbarService: CtaSnackbarService,
     private readonly confirmModalService: ModalService,
   ) {
-    this.closeFormGroup = new FormGroup({ reason: this.textAreaControl });
+    this.formGroup = new FormGroup({ reason: this.textAreaControl });
   }
 
   ngOnInit(): void {}
 
-  public closeAction(notification: Notification): void {
+  public show(notification: Notification): void {
     this.notification = notification;
     this.textAreaControl.setValidators([Validators.required]);
 
     const onConfirm = (isConfirmed: boolean) => {
-      const reason = this.closeFormGroup.get('reason').value;
+      const reason = this.formGroup.get('reason').value;
 
       if (!isConfirmed) return;
 
@@ -71,8 +71,8 @@ export class CloseNotificationModalComponent implements OnInit {
       confirmText: 'commonInvestigation.modal.close',
       cancelText: 'commonInvestigation.modal.cancel',
 
-      template: this.modalClose,
-      formGroup: this.closeFormGroup,
+      template: this.modal,
+      formGroup: this.formGroup,
       onConfirm,
     };
 

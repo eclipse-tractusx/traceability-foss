@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
@@ -28,8 +27,6 @@ import {
 } from '@shared/components/table/table.model';
 import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { ModalService } from '@shared/modules/modal/core/modal.service';
-import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -49,9 +46,6 @@ export class NotificationTabComponent implements AfterViewInit {
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
 
-  @ViewChild('ModalApproval') modalApproval: TemplateRef<unknown>;
-  @ViewChild('ModalDeletion') modalDeletion: TemplateRef<unknown>;
-
   public readonly displayedColumns: DisplayColumns<keyof Notification>[] = [
     'description',
     'status',
@@ -62,15 +56,7 @@ export class NotificationTabComponent implements AfterViewInit {
   public tableConfig: TableConfig<keyof Notification>;
   public selectedInvestigation: Notification;
 
-  // private menuActionsConfig: MenuActionConfig[] = [
-  //   { label: 'actions.approve', icon: 'share', action: this.approveNotification.bind(this) },
-  //   { label: 'actions.delete', icon: 'delete', action: this.deleteNotification.bind(this) },
-  // ];
-
-  private readonly textAreaControl = new FormControl();
-  public readonly deletionFormGroup = new FormGroup({ investigationId: this.textAreaControl });
-
-  constructor(private readonly confirmModalService: ModalService) {}
+  constructor() {}
 
   public ngAfterViewInit(): void {
     this.tableConfig = {

@@ -17,8 +17,9 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
+<!-- TODO: move it back to detail page -->
 <div class="detail--actions">
-  <app-button (click)="closeAction(notification)" [color]="'primary'">
+  <app-button (click)="show(notification)" [color]="'primary'">
     <div class="flex justify-between items-center">
       <mat-icon class="mr-2">close</mat-icon>
       Close
@@ -26,7 +27,7 @@ SPDX-License-Identifier: Apache-2.0
   </app-button>
 </div>
 
-<ng-template #ModalClose>
+<ng-template #Modal>
   <p class="mb-2">{{ 'commonInvestigation.modal.closeDescription' | i18n }}</p>
   <mat-card class="m-2">
     <mat-card-content>
@@ -34,7 +35,7 @@ SPDX-License-Identifier: Apache-2.0
     </mat-card-content>
   </mat-card>
 
-  <form [formGroup]="closeFormGroup" class="mt-4">
+  <form [formGroup]="formGroup" class="mt-4">
     <mat-hint>{{ 'commonInvestigation.modal.closeReasonHint' | i18n }}</mat-hint>
     <app-textarea formControlName="reason"></app-textarea>
   </form>

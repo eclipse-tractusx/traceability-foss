@@ -53,7 +53,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
     this.menuActionsConfig = [
       { label: 'actions.approve', icon: 'share', action: this.showApproveNotificationModal.bind(this) },
       { label: 'actions.delete', icon: 'delete', action: this.showDeleteNotificationModal.bind(this) },
-      { label: 'actions.close', icon: 'close', action: this.closeNotification.bind(this) },
+      { label: 'actions.close', icon: 'close', action: this.showCloseNotificationModal.bind(this) },
     ];
   }
 
@@ -82,8 +82,8 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
     this.router.navigate([`/${link}/${notification.id}`]).then();
   }
 
-  private closeNotification(notification: Notification): void {
-    this.closeNotificationModal.closeAction(notification);
+  private showCloseNotificationModal(notification: Notification): void {
+    this.closeNotificationModal.show(notification);
   }
 
   private showApproveNotificationModal(notification: Notification): void {
