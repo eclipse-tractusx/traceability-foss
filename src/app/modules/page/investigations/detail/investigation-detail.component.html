@@ -19,6 +19,29 @@ SPDX-License-Identifier: Apache-2.0
 
 <app-header [title]="'commonInvestigation.title' | i18n"></app-header>
 
+<div class="detail--actions">
+  <app-button (click)="closeAction()" [color]="'primary'">
+    <div class="flex justify-between items-center">
+      <mat-icon class="mr-2">close</mat-icon>
+      Close
+    </div>
+  </app-button>
+</div>
+
+<ng-template #ModalClose>
+  <p class="mb-2">{{ 'commonInvestigation.modal.closeDescription' | i18n }}</p>
+  <mat-card class="m-2">
+    <mat-card-content>
+      <app-notification-overview [notification]="selectedInvestigation"></app-notification-overview>
+    </mat-card-content>
+  </mat-card>
+
+  <form [formGroup]="closeFormGroup" class="mt-4">
+    <mat-hint>{{ 'commonInvestigation.modal.closeReasonHint' | i18n }}</mat-hint>
+    <app-textarea formControlName="reason"></app-textarea>
+  </form>
+</ng-template>
+
 <div class="detail--wrapper">
   <mat-card>
     <mat-card-title>{{ 'pageInvestigation.info' | i18n }}</mat-card-title>

@@ -60,4 +60,8 @@ export const investigationsHandlers = [
     const investigation = getInvestigationById(investigationId as string);
     return res(ctx.status(200), ctx.json({ ...investigation, status }));
   }),
+
+  rest.post(`${environment.apiUrl}/investigations/:investigationId/close`, (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({}));
+  }),
 ];

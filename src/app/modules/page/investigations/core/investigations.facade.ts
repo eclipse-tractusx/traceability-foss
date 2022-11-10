@@ -70,4 +70,8 @@ export class InvestigationsFacade {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
   }
+
+  public closeInvestigation(investigationId: string, reason: string): Observable<string> {
+    return this.investigationsService.closeInvestigation(investigationId, reason);
+  }
 }
