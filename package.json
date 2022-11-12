@@ -72,7 +72,7 @@
     "@angular/cli": "13.3.5",
     "@angular/compiler-cli": "13.3.6",
     "@angular/language-service": "13.3.6",
-    "@commitlint/cli": "16.2.4",
+    "@commitlint/cli": "17.2.0",
     "@commitlint/config-conventional": "16.2.4",
     "@testing-library/angular": "11.0.4",
     "@testing-library/jasmine-dom": "1.2.0",
