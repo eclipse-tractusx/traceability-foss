@@ -20,6 +20,26 @@ SPDX-License-Identifier: Apache-2.0
 <app-header [title]="'commonInvestigation.title' | i18n"></app-header>
 
 <div class="detail--actions">
+  <app-button
+    *ngIf="selectedInvestigation && canShowApproveButton(selectedInvestigation)"
+    (click)="this.showApproveNotificationModal(selectedInvestigation)"
+    [color]="'primary'"
+  >
+    <div class="flex justify-between items-center">
+      <mat-icon class="mr-2">share</mat-icon>
+      {{ 'commonInvestigation.modal.approve' | i18n }}
+    </div>
+  </app-button>
+  <app-button
+    *ngIf="selectedInvestigation && canShowDeleteButton(selectedInvestigation)"
+    (click)="this.showDeleteNotificationModal(selectedInvestigation)"
+    [color]="'primary'"
+  >
+    <div class="flex justify-between items-center">
+      <mat-icon class="mr-2">delete</mat-icon>
+      {{ 'commonInvestigation.modal.delete' | i18n }}
+    </div>
+  </app-button>
   <app-button (click)="this.showCloseNotificationModal(selectedInvestigation)" [color]="'primary'">
     <div class="flex justify-between items-center">
       <mat-icon class="mr-2">close</mat-icon>
@@ -27,7 +47,9 @@ SPDX-License-Identifier: Apache-2.0
     </div>
   </app-button>
 </div>
+<app-approve-notification-modal [notification]="selectedInvestigation"></app-approve-notification-modal>
 <app-close-notification-modal [notification]="selectedInvestigation"></app-close-notification-modal>
+<app-delete-notification-modal [notification]="selectedInvestigation"></app-delete-notification-modal>
 
 <div class="detail--wrapper">
   <mat-card>

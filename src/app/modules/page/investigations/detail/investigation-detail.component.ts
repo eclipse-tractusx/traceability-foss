@@ -30,6 +30,8 @@ import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
 
 @Component({
   selector: 'app-investigation-detail',
@@ -37,8 +39,12 @@ import { CloseNotificationModalComponent } from '@shared/modules/notification/mo
   styleUrls: ['./investigation-detail.component.scss'],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(ApproveNotificationModalComponent)
+  private approveNotificationModal: ApproveNotificationModalComponent;
   @ViewChild(CloseNotificationModalComponent)
   private closeNotificationModal: CloseNotificationModalComponent;
+  @ViewChild(DeleteNotificationModalComponent)
+  private deleteNotificationModal: DeleteNotificationModalComponent;
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
@@ -175,5 +181,21 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public showCloseNotificationModal(notification: Notification): void {
     this.closeNotificationModal.show(notification);
+  }
+
+  public showApproveNotificationModal(notification: Notification) {
+    this.approveNotificationModal.show(notification);
+  }
+
+  public showDeleteNotificationModal(notification: Notification) {
+    this.deleteNotificationModal.show(notification);
+  }
+
+  public canShowApproveButton(notification: Notification) {
+    return NotificationStatus.RECEIVED != notification.status;
+  }
+
+  public canShowDeleteButton(notification: Notification) {
+    return NotificationStatus.RECEIVED != notification.status;
   }
 }
