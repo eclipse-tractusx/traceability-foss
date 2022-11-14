@@ -40,6 +40,7 @@ export class ApproveNotificationModalComponent implements OnInit {
 
   public show(notification: Notification): void {
     this.notification = notification;
+
     const onConfirm = (isConfirmed: boolean) => {
       if (!isConfirmed) return;
 

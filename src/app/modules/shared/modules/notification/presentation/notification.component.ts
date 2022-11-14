@@ -34,7 +34,7 @@ export class NotificationComponent {
   @Input() receivedNotifications$: Observable<View<Notifications>>;
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
   @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
-  @Input() menuActionsConfig: MenuActionConfig[];
+  @Input() menuActionsConfig: [MenuActionConfig[], MenuActionConfig[]];
 
   @Output() onReceivedPagination = new EventEmitter<TablePaginationEventConfig>();
   @Output() onQueuedAndRequestedPagination = new EventEmitter<TablePaginationEventConfig>();

@@ -54,7 +54,6 @@ export class NotificationTabComponent implements AfterViewInit {
   ];
 
   public tableConfig: TableConfig<keyof Notification>;
-  public selectedInvestigation: Notification;
 
   constructor() {}
 
