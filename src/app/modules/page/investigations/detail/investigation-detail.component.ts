@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
@@ -27,11 +26,10 @@ import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/c
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
-import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 
 @Component({
   selector: 'app-investigation-detail',
@@ -39,8 +37,9 @@ import { filter, first, tap } from 'rxjs/operators';
   styleUrls: ['./investigation-detail.component.scss'],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(CloseNotificationModalComponent)
+  private closeNotificationModal: CloseNotificationModalComponent;
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
-  @ViewChild('ModalClose') modalClose: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
@@ -62,16 +61,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private selectedInvestigationTmpStore: Notification;
   public selectedInvestigation: Notification;
 
-  private readonly textAreaControl = new FormControl();
-  public readonly closeFormGroup = new FormGroup({ reason: this.textAreaControl });
-
   constructor(
     private readonly staticIdService: StaticIdService,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly route: ActivatedRoute,
     private readonly ctaSnackbarService: CtaSnackbarService,
-    private readonly confirmModalService: ModalService,
   ) {
     this.investigationPartsInformation$ = this.investigationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.investigationDetailFacade.supplierPartsInformation$;
@@ -178,34 +173,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       .subscribe();
   }
 
-  public closeAction(): void {
-    this.textAreaControl.setValidators([Validators.required]);
-
-    const onConfirm = (isConfirmed: boolean) => {
-      const reason = this.closeFormGroup.get('reason').value;
-
-      if (isConfirmed) {
-        this.investigationsFacade.closeInvestigation(this.selectedInvestigation.id, reason).subscribe({
-          next: () => {
-            this.ctaSnackbarService.show({ id: 'commonInvestigation.modal.closeSuccess' });
-          },
-          error: () => {
-            // TODO: error handling
-          },
-        });
-      }
-    };
-
-    const options: ConfirmModalData = {
-      title: `commonInvestigation.modal.closeTitle`,
-      confirmText: `commonInvestigation.modal.close`,
-      cancelText: `commonInvestigation.modal.cancel`,
-
-      template: this.modalClose,
-      formGroup: this.closeFormGroup,
-      onConfirm,
-    };
-
-    this.confirmModalService.open(options);
+  public showCloseNotificationModal(notification: Notification): void {
+    this.closeNotificationModal.show(notification);
   }
 }

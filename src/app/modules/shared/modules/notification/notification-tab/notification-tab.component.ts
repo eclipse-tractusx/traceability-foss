@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   CreateHeaderFromColumns,
   DisplayColumns,
@@ -28,8 +27,6 @@ import {
 } from '@shared/components/table/table.model';
 import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
-import { ModalService } from '@shared/modules/modal/core/modal.service';
-import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -42,14 +39,12 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() labelId: string;
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
+  @Input() menuActionsConfig: MenuActionConfig[];
 
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
-
-  @ViewChild('ModalApproval') modalApproval: TemplateRef<unknown>;
-  @ViewChild('ModalDeletion') modalDeletion: TemplateRef<unknown>;
 
   public readonly displayedColumns: DisplayColumns<keyof Notification>[] = [
     'description',
@@ -61,15 +56,7 @@ export class NotificationTabComponent implements AfterViewInit {
   public tableConfig: TableConfig<keyof Notification>;
   public selectedInvestigation: Notification;
 
-  private menuActionsConfig: MenuActionConfig[] = [
-    { label: 'actions.approve', icon: 'share', action: this.approveNotification.bind(this) },
-    { label: 'actions.delete', icon: 'delete', action: this.deleteNotification.bind(this) },
-  ];
-
-  private readonly textAreaControl = new FormControl();
-  public readonly deletionFormGroup = new FormGroup({ investigationId: this.textAreaControl });
-
-  constructor(private readonly confirmModalService: ModalService) {}
+  constructor() {}
 
   public ngAfterViewInit(): void {
     this.tableConfig = {
@@ -85,42 +72,5 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public selectNotification(notification: Record<string, unknown>): void {
     this.selected.emit(notification as unknown as Notification);
-  }
-
-  private approveNotification(notification: Notification): void {
-    this.selectedInvestigation = notification;
-    const onConfirm = (isConfirmed: boolean) => console.log(isConfirmed);
-
-    const options: ConfirmModalData = {
-      title: `${this.translationContext}.modal.approvalTitle`,
-      confirmText: `${this.translationContext}.modal.confirm`,
-      cancelText: `${this.translationContext}.modal.cancel`,
-
-      template: this.modalApproval,
-      onConfirm,
-    };
-
-    this.confirmModalService.open(options);
-  }
-
-  private deleteNotification(notification: any): void {
-    this.selectedInvestigation = notification;
-    this.textAreaControl.setValidators([
-      Validators.required,
-      Validators.pattern(this.selectedInvestigation.id.toString()),
-    ]);
-    const onConfirm = (isConfirmed: boolean) => console.log(isConfirmed);
-
-    const options: ConfirmModalData = {
-      title: `${this.translationContext}.modal.deletionTitle`,
-      confirmText: `${this.translationContext}.modal.confirm`,
-      cancelText: `${this.translationContext}.modal.cancel`,
-
-      template: this.modalDeletion,
-      formGroup: this.deletionFormGroup,
-      onConfirm,
-    };
-
-    this.confirmModalService.open(options);
   }
 }

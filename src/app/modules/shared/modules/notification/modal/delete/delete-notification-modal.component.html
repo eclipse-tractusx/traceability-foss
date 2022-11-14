@@ -17,16 +17,16 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-close-notification-modal></app-close-notification-modal>
-<app-approve-notification-modal></app-approve-notification-modal>
-<app-delete-notification-modal></app-delete-notification-modal>
+<ng-template #Modal>
+  <p class="mb-2">{{ 'commonInvestigation.modal.deletionDescription' | i18n }}</p>
+  <mat-card class="m-2">
+    <mat-card-content>
+      <app-notification-overview [notification]="notification"></app-notification-overview>
+    </mat-card-content>
+  </mat-card>
 
-<app-notification
-  [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
-  [receivedNotifications$]="investigationsReceived$"
-  [translationContext]="'commonInvestigation'"
-  (onReceivedPagination)="onReceivedPagination($event)"
-  (onQueuedAndRequestedPagination)="onQueuedAndRequestedPagination($event)"
-  (selected)="openDetailPage($event)"
-  [menuActionsConfig]="menuActionsConfig"
-></app-notification>
+  <form [formGroup]="formGroup" class="mt-4">
+    <mat-hint>{{ 'commonInvestigation.modal.deletionHint' | i18n }}</mat-hint>
+    <app-textarea formControlName="notificationId" [label]="notification?.id"></app-textarea>
+  </form>
+</ng-template>
