@@ -71,7 +71,15 @@ export class InvestigationsFacade {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
   }
 
-  public closeInvestigation(investigationId: string, reason: string): Observable<string> {
+  public closeInvestigation(investigationId: string, reason: string): Observable<void> {
     return this.investigationsService.closeInvestigation(investigationId, reason);
+  }
+
+  public approveInvestigation(investigationId: string): Observable<void> {
+    return this.investigationsService.approveInvestigation(investigationId);
+  }
+
+  public cancelInvestigation(investigationId: string): Observable<void> {
+    return this.investigationsService.cancelInvestigation(investigationId);
   }
 }

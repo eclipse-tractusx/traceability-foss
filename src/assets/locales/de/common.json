@@ -113,6 +113,28 @@
       "RECEIVED": "Received",
       "CREATED": "Queued",
       "APPROVED": "Requested"
+    },
+    "modal": {
+      "approvalTitle": "Genehmigung der Untersuchung",
+      "approvalDescription": "Sind Sie sicher, dass Sie diese Untersuchung genehmigen wollen?",
+      "closeTitle": "Schließen der Untersuchung",
+      "closeDescription": "Sind Sie sicher, dass Sie diese Untersuchung schließen wollen?",
+      "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
+      "deletionTitle": "Löschung der Untersuchung",
+      "deletionDescription": "Sind Sie sicher, dass Sie diese Untersuchung löschen wollen?",
+      "deletionHint": "Geben Sie die ID der Untersuchung ein, um die Löschung zu bestätigen.",
+      "close": "Schließen",
+      "delete": "Löschen",
+      "confirm": "Genehmigen",
+      "cancel": "Abbrechen",
+
+      "successfullyApproved": "Untersuchung wurde erfolgreich genehmigt.",
+      "successfullyCanceled": "Untersuchung wurde erfolgreich gelöscht.",
+      "successfullyClosed": "Untersuchung wurde erfolgreich geschlossen.",
+
+      "failedApprove": "Die Untersuchung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
+      "failedCancel": "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
+      "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut."
     }
   }
 }

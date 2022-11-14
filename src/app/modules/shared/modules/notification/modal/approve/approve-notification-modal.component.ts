@@ -18,38 +18,45 @@
  ********************************************************************************/
 
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
-import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
-import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
-import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
+import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-approve-notification-modal',
   templateUrl: './approve-notification-modal.component.html',
-  styleUrls: ['./approve-notification-modal.component.scss'],
 })
 export class ApproveNotificationModalComponent implements OnInit {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
-  @Input() notification: Notification;
+  @Input() approveCall: (id: string) => Observable<void>;
 
-  constructor(
-    private readonly investigationsFacade: InvestigationsFacade,
-    private readonly ctaSnackbarService: CtaSnackbarService,
-    private readonly confirmModalService: ModalService,
-  ) {}
+  public notification: Notification;
+
+  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {}
 
   ngOnInit(): void {}
 
   public show(notification: Notification): void {
     this.notification = notification;
-    // TODO: implement call to endpoint
-    const onConfirm = (isConfirmed: boolean) => console.log(isConfirmed);
+    const onConfirm = (isConfirmed: boolean) => {
+      if (!isConfirmed) return;
 
-    const options: ConfirmModalData = {
+      this.approveCall(notification.id).subscribe({
+        next: () => {
+          this.toastService.success('commonInvestigation.modal.successfullyApproved');
+        },
+        error: () => {
+          this.toastService.error('commonInvestigation.modal.failedApprove');
+        },
+      });
+    };
+
+    const options: ModalData = {
       title: 'commonInvestigation.modal.approvalTitle',
-      confirmText: 'commonInvestigation.modal.confirm',
-      cancelText: 'commonInvestigation.modal.cancel',
+      buttonRight: 'commonInvestigation.modal.confirm',
+      buttonLeft: 'commonInvestigation.modal.cancel',
 
       template: this.modal,
       onConfirm,

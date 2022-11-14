@@ -19,20 +19,20 @@
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CloseModalComponent } from './close-notification-modal.component';
+import { CloseNotificationModalComponent } from './close-notification-modal.component';
 
-describe('CloseModalComponent', () => {
-  let component: CloseModalComponent;
-  let fixture: ComponentFixture<CloseModalComponent>;
+describe('CloseNotificationModalComponent', () => {
+  let component: CloseNotificationModalComponent;
+  let fixture: ComponentFixture<CloseNotificationModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [CloseModalComponent],
+      declarations: [CloseNotificationModalComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CloseModalComponent);
+    fixture = TestBed.createComponent(CloseNotificationModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

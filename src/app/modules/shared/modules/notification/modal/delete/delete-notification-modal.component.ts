@@ -18,30 +18,26 @@
  ********************************************************************************/
 
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { Notification } from '@shared/model/notification.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
-import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { Notification } from '@shared/model/notification.model';
+import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
-import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-delete-notification-modal',
   templateUrl: './delete-notification-modal.component.html',
-  styleUrls: ['./delete-notification-modal.component.scss'],
 })
 export class DeleteNotificationModalComponent implements OnInit {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() notification: Notification;
+  @Input() deleteCall: (id: string) => Observable<void>;
 
   public readonly formGroup;
   private readonly textAreaControl = new FormControl();
 
-  constructor(
-    private readonly investigationsFacade: InvestigationsFacade,
-    private readonly ctaSnackbarService: CtaSnackbarService,
-    private readonly confirmModalService: ModalService,
-  ) {
+  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
     this.formGroup = new FormGroup({ notificationId: this.textAreaControl });
   }
 
@@ -50,12 +46,24 @@ export class DeleteNotificationModalComponent implements OnInit {
   public show(notification: any): void {
     this.notification = notification;
     this.textAreaControl.setValidators([Validators.required, Validators.pattern(this.notification.id.toString())]);
-    const onConfirm = (isConfirmed: boolean) => console.log(isConfirmed);
+    const onConfirm = (isConfirmed: boolean) => {
+      if (!isConfirmed) return;
 
-    const options: ConfirmModalData = {
+      this.deleteCall(notification.id).subscribe({
+        next: () => {
+          this.toastService.success('commonInvestigation.modal.successfullyCanceled');
+        },
+        error: () => {
+          this.toastService.error('commonInvestigation.modal.failedCancel');
+        },
+      });
+    };
+
+    const options: ModalData = {
       title: 'commonInvestigation.modal.deletionTitle',
-      confirmText: 'commonInvestigation.modal.confirm',
-      cancelText: 'commonInvestigation.modal.cancel',
+      buttonRight: 'commonInvestigation.modal.delete',
+      buttonLeft: 'commonInvestigation.modal.cancel',
+      primaryButtonColour: 'warn',
 
       template: this.modal,
       formGroup: this.formGroup,

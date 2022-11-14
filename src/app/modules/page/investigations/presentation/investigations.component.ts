@@ -24,6 +24,7 @@ import { getInvestigationInboxRoute } from '@page/investigations/investigations-
 import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { Observable } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
 import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
@@ -80,6 +81,18 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getInvestigationInboxRoute();
     this.router.navigate([`/${link}/${notification.id}`]).then();
+  }
+
+  public approveInvestigation(id: string): Observable<void> {
+    return this.investigationsFacade.approveInvestigation(id);
+  }
+
+  public cancelInvestigation(id: string): Observable<void> {
+    return this.investigationsFacade.cancelInvestigation(id);
+  }
+
+  public closeInvestigation(id: string, reason: string): Observable<void> {
+    return this.investigationsFacade.closeInvestigation(id, reason);
   }
 
   private showCloseNotificationModal(notification: Notification): void {

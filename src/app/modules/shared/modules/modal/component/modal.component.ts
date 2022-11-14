@@ -19,7 +19,7 @@
 
 import { Component, HostListener, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
+import { ModalData } from '@shared/modules/modal/core/modal.model';
 
 @Component({
   selector: 'app-confirm',
@@ -33,7 +33,7 @@ export class ModalComponent {
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public readonly data: ConfirmModalData,
+    @Inject(MAT_DIALOG_DATA) public readonly data: ModalData,
     private readonly matDialogRef: MatDialogRef<ModalComponent>,
   ) {}
 
