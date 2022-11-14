@@ -29,6 +29,7 @@ import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 
 @Component({
   selector: 'app-investigation-detail',
@@ -36,6 +37,8 @@ import { filter, first, tap } from 'rxjs/operators';
   styleUrls: ['./investigation-detail.component.scss'],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(CloseNotificationModalComponent)
+  private closeNotificationModal: CloseNotificationModalComponent;
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
@@ -168,5 +171,9 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
         tap(notification => (this.investigationDetailFacade.selected = { data: notification })),
       )
       .subscribe();
+  }
+
+  public showCloseNotificationModal(notification: Notification): void {
+    this.closeNotificationModal.show(notification);
   }
 }
