@@ -17,27 +17,92 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CloseNotificationModalComponent } from './close-notification-modal.component';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { NotificationModule } from '@shared/modules/notification/notification.module';
+import { SharedModule } from '@shared/shared.module';
+import { TemplateModule } from '@shared/template.module';
+import { screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
+import { of } from 'rxjs';
 
 describe('CloseNotificationModalComponent', () => {
-  let component: CloseNotificationModalComponent;
-  let fixture: ComponentFixture<CloseNotificationModalComponent>;
+  let notification: Notification = {
+    id: 'id-1',
+    description: 'Investigation No 1',
+    createdBy: 'OEM A',
+    assetIds: [
+      'MOCK_part_1',
+      'urn:uuid:8cdc4414-91a5-47af-8c96-da39ccefbab8',
+      'urn:uuid:81b4dd13-2ead-4a89-9253-3494ba8fc8e5',
+      'urn:uuid:35ba10d6-c41c-456e-8ed0-92747530a132',
+    ],
+    status: NotificationStatus.RECEIVED,
+    createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
+  };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
+  const renderModal = async () => {
+    const { fixture } = await renderComponent(CloseNotificationModalComponent, {
       declarations: [CloseNotificationModalComponent],
-    }).compileComponents();
+      imports: [NotificationModule, SharedModule, TemplateModule],
+    });
+
+    fixture.componentInstance.closeCall = (id: string) => of(null);
+    fixture.componentInstance.show(notification);
+    fixture.autoDetectChanges();
+
+    return fixture;
+  };
+
+  it('should create close modal', async () => {
+    await renderModal();
+    const title = await waitFor(() => screen.getByText('Close of investigation'));
+    const hint = await waitFor(() => screen.getByText('Are you sure you want to close this investigation?'));
+    const hint2 = await waitFor(() => screen.getByText('Enter the reason for close action.'));
+    const buttonL = await waitFor(() => screen.getByText('Cancel'));
+    const buttonR = await waitFor(() => screen.getByText('Close'));
+
+    expect(title).toBeInTheDocument();
+    expect(hint).toBeInTheDocument();
+    expect(hint2).toBeInTheDocument();
+    expect(buttonL).toBeInTheDocument();
+    expect(buttonR).toBeInTheDocument();
   });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CloseNotificationModalComponent);
-    component = fixture.componentInstance;
+  it('should render investigation description', async () => {
+    await renderModal();
+    const description = await waitFor(() => screen.getByText(notification.description));
+
+    expect(description).toBeInTheDocument();
+  });
+
+  it('should check validation of textarea', async () => {
+    const fixture = await renderModal();
+    const buttonR = await waitFor(() => screen.getByText('Close'));
+    buttonR.click();
+
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+
+    const errorMessage_1 = await waitFor(() => screen.getByText('This field is required!'));
+    expect(errorMessage_1).toBeInTheDocument();
+
+    textArea.value = 'Some Text';
+    textArea.dispatchEvent(new Event('input'));
     fixture.detectChanges();
+
+    expect(errorMessage_1).not.toBeInTheDocument();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should call close function', async () => {
+    const fixture = await renderModal();
+    const randomSpyName = spyOn((fixture.componentInstance as any).toastService, 'success').and.returnValue(of([]));
+
+    const buttonR = await waitFor(() => screen.getByText('Close'));
+    buttonR.click();
+
+    await waitFor(() => expect(randomSpyName).toHaveBeenCalled());
+    await waitFor(() => expect(randomSpyName).toHaveBeenCalledWith('commonInvestigation.modal.successfullyClosed'));
   });
 });
