@@ -49,6 +49,7 @@ export class CloseNotificationModalComponent implements OnInit {
 
     const onConfirm = (isConfirmed: boolean) => {
       const reason = this.formGroup.get('reason').value;
+      this.formGroup.reset();
 
       if (!isConfirmed) return;
 

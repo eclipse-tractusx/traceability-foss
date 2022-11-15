@@ -17,11 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
+import { MenuActionConfig } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
 import { DashboardFacade } from '../abstraction/dashboard.facade';
 
@@ -30,7 +33,9 @@ import { DashboardFacade } from '../abstraction/dashboard.facade';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy, AfterContentInit {
+  @ViewChild(CloseNotificationModalComponent) private closeModal: CloseNotificationModalComponent;
+
   public readonly numberOfMyParts$: Observable<View<number>>;
   public readonly numberOfOtherParts$: Observable<View<number>>;
   public readonly numberOfInvestigations$: Observable<View<number>>;
@@ -40,8 +45,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
+  public investigationMenuAction: MenuActionConfig<Notification>[];
 
-  constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
+  constructor(
+    private readonly dashboardFacade: DashboardFacade,
+    private readonly investigationsFacade: InvestigationsFacade,
+    private readonly router: Router,
+  ) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
     this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;
@@ -58,8 +68,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dashboardFacade.setDashboardData();
   }
 
+  public ngAfterContentInit(): void {
+    this.investigationMenuAction = [
+      { label: 'actions.close', icon: 'close', action: (data: Notification) => this.closeModal.show(data) },
+    ];
+  }
+
   public ngOnDestroy(): void {
     this.dashboardFacade.stopDataLoading();
+  }
+
+  public closeInvestigation(id: string, reason: string): Observable<void> {
+    return this.investigationsFacade.closeInvestigation(id, reason);
   }
 
   public onNotificationSelected(notification: Notification): void {

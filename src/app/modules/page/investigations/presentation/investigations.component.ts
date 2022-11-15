@@ -17,12 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
-import { Notification } from '@shared/model/notification.model';
+import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
@@ -33,29 +33,23 @@ import { DeleteNotificationModalComponent } from '@shared/modules/notification/m
   selector: 'app-investigations',
   templateUrl: './investigations.component.html',
 })
-export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(CloseNotificationModalComponent)
-  private closeNotificationModal: CloseNotificationModalComponent;
-  @ViewChild(ApproveNotificationModalComponent)
-  private approveNotificationModal: ApproveNotificationModalComponent;
-  @ViewChild(DeleteNotificationModalComponent)
-  private deleteNotificationModal: DeleteNotificationModalComponent;
+export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentInit {
+  @ViewChild(CloseNotificationModalComponent) private closeModal: CloseNotificationModalComponent;
+  @ViewChild(ApproveNotificationModalComponent) private approveModal: ApproveNotificationModalComponent;
+  @ViewChild(DeleteNotificationModalComponent) private deleteModal: DeleteNotificationModalComponent;
 
-  public readonly investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
-  public readonly investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
+  public readonly investigationsReceived$;
+  public readonly investigationsQueuedAndRequested$;
 
-  public menuActionsConfig: MenuActionConfig[];
+  public menuActionsConfig: MenuActionConfig<Notification>[];
 
   constructor(
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
   ) {
-    this.menuActionsConfig = [
-      { label: 'actions.approve', icon: 'share', action: this.showApproveNotificationModal.bind(this) },
-      { label: 'actions.delete', icon: 'delete', action: this.showDeleteNotificationModal.bind(this) },
-      { label: 'actions.close', icon: 'close', action: this.showCloseNotificationModal.bind(this) },
-    ];
+    this.investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
+    this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
   }
 
   public ngOnInit(): void {
@@ -63,7 +57,28 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
     this.investigationsFacade.setQueuedAndRequestedInvestigations();
   }
 
-  public ngAfterViewInit(): void {}
+  public ngAfterContentInit(): void {
+    this.menuActionsConfig = [
+      {
+        label: 'actions.close',
+        icon: 'close',
+        action: data => this.closeModal.show(data),
+        condition: ({ status }) => status === NotificationStatus.RECEIVED,
+      },
+      {
+        label: 'actions.approve',
+        icon: 'share',
+        action: data => this.approveModal.show(data),
+        condition: ({ status }) => status === NotificationStatus.CREATED,
+      },
+      {
+        label: 'actions.delete',
+        icon: 'delete',
+        action: data => this.deleteModal.show(data),
+        condition: ({ status }) => status !== NotificationStatus.RECEIVED,
+      },
+    ];
+  }
 
   public ngOnDestroy(): void {
     this.investigationsFacade.stopInvestigations();
@@ -93,17 +108,5 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterViewInit
 
   public closeInvestigation(id: string, reason: string): Observable<void> {
     return this.investigationsFacade.closeInvestigation(id, reason);
-  }
-
-  private showCloseNotificationModal(notification: Notification): void {
-    this.closeNotificationModal.show(notification);
-  }
-
-  private showApproveNotificationModal(notification: Notification): void {
-    this.approveNotificationModal.show(notification);
-  }
-
-  private showDeleteNotificationModal(notification: Notification): void {
-    this.deleteNotificationModal.show(notification);
   }
 }

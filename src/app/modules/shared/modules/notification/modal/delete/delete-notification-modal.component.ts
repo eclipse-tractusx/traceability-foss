@@ -47,6 +47,7 @@ export class DeleteNotificationModalComponent implements OnInit {
     this.notification = notification;
     this.textAreaControl.setValidators([Validators.required, Validators.pattern(this.notification.id.toString())]);
     const onConfirm = (isConfirmed: boolean) => {
+      this.formGroup.reset();
       if (!isConfirmed) return;
 
       this.deleteCall(notification.id).subscribe({
