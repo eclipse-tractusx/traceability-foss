@@ -21,6 +21,7 @@ package net.catenax.traceability.assets.infrastructure.adapters.jpa.shelldescrip
 import net.catenax.traceability.assets.domain.model.ShellDescriptor;
 import net.catenax.traceability.assets.domain.ports.ShellDescriptorRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.ZonedDateTime;
 import java.util.Collection;
@@ -43,6 +44,7 @@ public class PersistentShellDescriptorsRepository implements ShellDescriptorRepo
 	}
 
 	@Override
+	@Transactional
 	public void update(ShellDescriptor shellDescriptor) {
 		repository.findByShellDescriptorId(shellDescriptor.shellDescriptorId()).ifPresent(entity -> {
 			entity.setUpdated(ZonedDateTime.now());
