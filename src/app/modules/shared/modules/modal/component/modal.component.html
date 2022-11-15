@@ -27,10 +27,12 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <div mat-dialog-actions class="justify-between">
-  <app-button *ngIf="data.cancelText" (click)="cancel()" variant="raised" color="warn">{{
-    data.cancelText | i18n
-  }}</app-button>
-  <app-button *ngIf="data.confirmText" (click)="confirm()" variant="raised" color="accent">{{
-    data.confirmText | i18n
-  }}</app-button>
+  <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
+  <app-button
+    *ngIf="data.buttonRight"
+    (click)="confirm()"
+    [color]="data.primaryButtonColour || 'accent'"
+    variant="raised"
+    >{{ data.buttonRight | i18n }}</app-button
+  >
 </div>

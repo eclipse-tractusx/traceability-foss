@@ -62,6 +62,14 @@ export const investigationsHandlers = [
   }),
 
   rest.post(`${environment.apiUrl}/investigations/:investigationId/close`, (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json({}));
+    return res(ctx.status(204));
+  }),
+
+  rest.post(`${environment.apiUrl}/investigations/:investigationId/approve`, (req, res, ctx) => {
+    return res(ctx.status(204));
+  }),
+
+  rest.post(`${environment.apiUrl}/investigations/:investigationId/cancel`, (req, res, ctx) => {
+    return res(ctx.status(204));
   }),
 ];

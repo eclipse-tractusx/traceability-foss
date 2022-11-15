@@ -45,7 +45,7 @@ export class TableComponent {
     const { menuActionsConfig: menuActions, displayedColumns: dc, columnRoles, hasPagination = true } = tableConfig;
     const displayedColumns = dc.filter(column => this.roleService.hasAccess(columnRoles?.[column] ?? 'user'));
 
-    const viewDetailsMenuAction: MenuActionConfig = {
+    const viewDetailsMenuAction: MenuActionConfig<unknown> = {
       label: 'actions.viewDetails',
       icon: 'remove_red_eye',
       action: (data: Record<string, unknown>) => this.selected.emit(data),

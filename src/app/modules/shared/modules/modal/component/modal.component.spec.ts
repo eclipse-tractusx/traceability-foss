@@ -22,7 +22,7 @@ import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { cloneDeep } from 'lodash-es';
-import { ConfirmModalData } from '../core/modal.model';
+import { ModalData } from '../core/modal.model';
 import { ModalComponent } from './modal.component';
 
 describe('modalComponent', () => {
@@ -30,10 +30,10 @@ describe('modalComponent', () => {
 
   const confirmModalDataDefault = {
     title: 'Modal title',
-    cancelText: 'Cancel text',
-    confirmText: 'Confirm text',
+    buttonLeft: 'Cancel text',
+    buttonRight: 'Confirm text',
     formGroup: undefined,
-  } as ConfirmModalData;
+  } as ModalData;
 
   let confirmModalData = confirmModalDataDefault;
 
@@ -56,17 +56,17 @@ describe('modalComponent', () => {
     const title = await waitFor(() => screen.getByText(confirmModalData.title));
     expect(title).toBeInTheDocument();
 
-    const cancelText = await waitFor(() => screen.getByText(confirmModalData.cancelText));
+    const cancelText = await waitFor(() => screen.getByText(confirmModalData.buttonLeft));
     expect(cancelText).toBeInTheDocument();
 
-    const confirmText = await waitFor(() => screen.getByText(confirmModalData.confirmText));
+    const confirmText = await waitFor(() => screen.getByText(confirmModalData.buttonRight));
     expect(confirmText).toBeInTheDocument();
   });
 
   it('should click cancel button and close', async () => {
     const { fixture } = await renderModalComponent(ModalComponent);
 
-    const cancelTextElement = await waitFor(() => screen.getByText(confirmModalData.cancelText));
+    const cancelTextElement = await waitFor(() => screen.getByText(confirmModalData.buttonLeft));
     expect(cancelTextElement).toBeInTheDocument();
 
     const spyOnCancel = spyOn(fixture.componentInstance as any, 'cancel').and.callThrough();
@@ -95,7 +95,7 @@ describe('modalComponent', () => {
   it('should click confirm button and close - no formGroup', async () => {
     const { fixture } = await renderModalComponent(ModalComponent);
 
-    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.confirmText));
+    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.buttonRight));
     expect(confirmTextElement).toBeInTheDocument();
 
     const spyOnConfirm = spyOn(fixture.componentInstance as any, 'confirm').and.callThrough();
@@ -116,7 +116,7 @@ describe('modalComponent', () => {
 
     const { fixture } = await renderModalComponent(ModalComponent);
 
-    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.confirmText));
+    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.buttonRight));
     expect(confirmTextElement).toBeInTheDocument();
 
     const spyOnConfirm = spyOn(fixture.componentInstance as any, 'confirm').and.callThrough();
@@ -139,7 +139,7 @@ describe('modalComponent', () => {
 
     const { fixture } = await renderModalComponent(ModalComponent);
 
-    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.confirmText));
+    const confirmTextElement = await waitFor(() => screen.getByText(confirmModalData.buttonRight));
     expect(confirmTextElement).toBeInTheDocument();
 
     const spyOnConfirm = spyOn(fixture.componentInstance as any, 'confirm').and.callThrough();

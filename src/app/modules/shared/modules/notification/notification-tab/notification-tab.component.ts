@@ -39,7 +39,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() labelId: string;
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
-  @Input() menuActionsConfig: MenuActionConfig[];
+  @Input() menuActionsConfig: MenuActionConfig<Notification>[];
 
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
@@ -54,7 +54,6 @@ export class NotificationTabComponent implements AfterViewInit {
   ];
 
   public tableConfig: TableConfig<keyof Notification>;
-  public selectedInvestigation: Notification;
 
   constructor() {}
 

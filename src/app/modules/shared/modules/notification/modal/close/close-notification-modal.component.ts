@@ -19,29 +19,25 @@
 
 import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
-import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
-import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
-import { ModalService } from '@shared/modules/modal/core/modal.service';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
+import { ModalData } from '@shared/modules/modal/core/modal.model';
+import { ModalService } from '@shared/modules/modal/core/modal.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-close-notification-modal',
   templateUrl: './close-notification-modal.component.html',
-  styleUrls: ['./close-notification-modal.component.scss'],
 })
 export class CloseNotificationModalComponent implements OnInit {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() notification: Notification;
+  @Input() closeCall: (id: string, reason: string) => Observable<void>;
 
   public readonly formGroup;
   private readonly textAreaControl = new FormControl();
 
-  constructor(
-    private readonly investigationsFacade: InvestigationsFacade,
-    private readonly ctaSnackbarService: CtaSnackbarService,
-    private readonly confirmModalService: ModalService,
-  ) {
+  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
     this.formGroup = new FormGroup({ reason: this.textAreaControl });
   }
 
@@ -53,23 +49,24 @@ export class CloseNotificationModalComponent implements OnInit {
 
     const onConfirm = (isConfirmed: boolean) => {
       const reason = this.formGroup.get('reason').value;
+      this.formGroup.reset();
 
       if (!isConfirmed) return;
 
-      this.investigationsFacade.closeInvestigation(notification.id, reason).subscribe({
+      this.closeCall(notification.id, reason).subscribe({
         next: () => {
-          this.ctaSnackbarService.show({ id: 'commonInvestigation.modal.closeSuccess' });
+          this.toastService.success('commonInvestigation.modal.successfullyClosed');
         },
         error: () => {
-          // TODO: error handling
+          this.toastService.error('commonInvestigation.modal.failedClose');
         },
       });
     };
 
-    const options: ConfirmModalData = {
+    const options: ModalData = {
       title: 'commonInvestigation.modal.closeTitle',
-      confirmText: 'commonInvestigation.modal.close',
-      cancelText: 'commonInvestigation.modal.cancel',
+      buttonRight: 'commonInvestigation.modal.close',
+      buttonLeft: 'commonInvestigation.modal.cancel',
 
       template: this.modal,
       formGroup: this.formGroup,

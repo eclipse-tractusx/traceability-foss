@@ -20,10 +20,11 @@
 import { TemplateRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-export interface ConfirmModalData {
+export interface ModalData {
   title: string;
-  cancelText: string;
-  confirmText: string;
+  buttonLeft: string;
+  buttonRight: string;
+  primaryButtonColour?: 'primary' | 'accent' | 'warn';
 
   template: TemplateRef<unknown>;
   onConfirm: (isConfirmed: boolean) => void;

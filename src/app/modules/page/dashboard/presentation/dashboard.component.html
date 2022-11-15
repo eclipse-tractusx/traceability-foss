@@ -17,6 +17,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
+<app-close-notification-modal [closeCall]="closeInvestigation.bind(this)"></app-close-notification-modal>
 <app-header title="{{ 'pageDashboard.title' | i18n }}"></app-header>
 <div class="dashboard-grid">
   <section class="parts-section">
@@ -81,6 +82,7 @@ SPDX-License-Identifier: Apache-2.0
       [translationContext]="'commonInvestigation'"
       [labelId]="'dashboard-investigations'"
       [hasPagination]="false"
+      [menuActionsConfig]="investigationMenuAction"
       (selected)="onNotificationSelected($event)"
     ></app-notifications-tab>
   </section>

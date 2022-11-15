@@ -24,6 +24,7 @@ SPDX-License-Identifier: Apache-2.0
       #textareaRef
       [disabled]="disabled"
       [value]="value"
+      [attr.data-testId]="htmlId"
       (input)="onChange?.(getTextAreaFromEvent($event).value)"
       (blur)="markAsTouched()"
       matInput

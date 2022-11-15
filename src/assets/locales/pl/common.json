@@ -122,6 +122,28 @@
       "RECEIVED": "Otrzymane",
       "CREATED": "Skolejkowane",
       "APPROVED": "Zażądane"
+    },
+    "modal": {
+      "approvalTitle": "TBD: Approval of investigation",
+      "approvalDescription": "TBD: Are you sure you want to approve this investigation?",
+      "closeTitle": "TBD: Close of investigation",
+      "closeDescription": "TBD: Are you sure you want to close this investigation?",
+      "closeReasonHint": "TBD: Enter the reason for close action.",
+      "deletionTitle": "TBD: Deletion of investigation",
+      "deletionDescription": "TBD: Are you sure you want to delete this investigation?",
+      "deletionHint": "TBD: Enter the ID of the investigation to confirm your deletion.",
+      "close": "TBD: Close",
+      "delete": "TBD: Delete",
+      "confirm": "TBD: Approve",
+      "cancel": "TBD: Cancel",
+
+      "successfullyApproved": "TBD: Investigation was closed successfully.",
+      "successfullyCanceled": "TBD: Investigation was closed successfully.",
+      "successfullyClosed": "TBD: Investigation was closed successfully.",
+
+      "failedApprove": "TBD: Investigation failed to close, please try again.",
+      "failedCancel": "TBD: Investigation failed to cancel, please try again.",
+      "failedClose": "TBD: Investigation failed to close, please try again."
     }
   }
 }

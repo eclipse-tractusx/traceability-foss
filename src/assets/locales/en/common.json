@@ -129,14 +129,22 @@
       "approvalDescription": "Are you sure you want to approve this investigation?",
       "closeTitle": "Close of investigation",
       "closeDescription": "Are you sure you want to close this investigation?",
-      "closeSuccess": "Investigation was closed sucessfully.",
       "closeReasonHint": "Enter the reason for close action.",
       "deletionTitle": "Deletion of investigation",
       "deletionDescription": "Are you sure you want to delete this investigation?",
       "deletionHint": "Enter the ID of the investigation to confirm your deletion.",
       "close": "Close",
+      "delete": "Delete",
       "confirm": "Approve",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+
+      "successfullyApproved": "Investigation was approved successfully.",
+      "successfullyCanceled": "Investigation was deleted successfully.",
+      "successfullyClosed": "Investigation was closed successfully.",
+
+      "failedApprove": "Investigation failed to close, please try again.",
+      "failedCancel": "Investigation failed to delete, please try again.",
+      "failedClose": "Investigation failed to close, please try again."
     }
   }
 }

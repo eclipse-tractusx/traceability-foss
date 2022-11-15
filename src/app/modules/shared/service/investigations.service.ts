@@ -70,9 +70,17 @@ export class InvestigationsService {
       .pipe(map(({ id }) => id));
   }
 
-  public closeInvestigation(id: string, reason: string): Observable<string> {
+  public closeInvestigation(id: string, reason: string): Observable<void> {
     const body = { reason };
 
-    return this.apiService.post<null>(`${this.url}/investigations/${id}/close`, body).pipe();
+    return this.apiService.post<void>(`${this.url}/investigations/${id}/close`, body);
+  }
+
+  public approveInvestigation(id: string): Observable<void> {
+    return this.apiService.post<void>(`${this.url}/investigations/${id}/approve`);
+  }
+
+  public cancelInvestigation(id: string): Observable<void> {
+    return this.apiService.post<void>(`${this.url}/investigations/${id}/cancel`);
   }
 }

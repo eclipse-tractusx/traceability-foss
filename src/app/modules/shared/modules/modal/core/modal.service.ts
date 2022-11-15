@@ -20,7 +20,8 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '@shared/modules/modal/component/modal.component';
-import { ConfirmModalData } from '@shared/modules/modal/core/modal.model';
+import { ModalData } from '@shared/modules/modal/core/modal.model';
+import _deepClone from 'lodash-es/cloneDeep';
 import { Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 
@@ -33,8 +34,10 @@ export class ModalService {
 
   constructor(private readonly matDialog: MatDialog) {}
 
-  public open({ title, template, cancelText, confirmText, onConfirm, formGroup }: ConfirmModalData, width = 600): void {
-    const data = { title, template, cancelText, confirmText, formGroup };
+  public open(modalData: ModalData, width = 600): void {
+    const { title, template, buttonLeft, buttonRight, onConfirm, formGroup, primaryButtonColour } = modalData;
+    const data = { title, template, buttonLeft, buttonRight, primaryButtonColour, formGroup };
+
     this.dialogRef = this.matDialog.open(ModalComponent, { width: `${width}px`, data });
 
     this.dialogConfirmSubscription = this.dialogRef

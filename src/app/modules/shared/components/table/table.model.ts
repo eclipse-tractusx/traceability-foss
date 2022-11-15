@@ -30,7 +30,7 @@ export interface TableConfig<Columns extends string = string> {
   header?: Record<Columns, string>;
   hasPagination?: boolean;
   cellRenderers?: Partial<Record<Columns, TemplateRef<unknown>>>;
-  menuActionsConfig?: MenuActionConfig[];
+  menuActionsConfig?: MenuActionConfig<unknown>[];
 }
 
 export type DisplayColumns<T> = 'select' | 'menu' | T;
@@ -48,8 +48,9 @@ export interface TableEventConfig extends TablePaginationEventConfig {
   sorting: TableHeaderSort;
 }
 
-export interface MenuActionConfig {
+export interface MenuActionConfig<T> {
   label: string;
   icon: string;
-  action: (data: unknown) => void;
+  action: (data: T) => void;
+  condition?: (data: T) => boolean;
 }
