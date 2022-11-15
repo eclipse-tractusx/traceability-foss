@@ -133,6 +133,7 @@
       "deletionTitle": "Deletion of investigation",
       "deletionDescription": "Are you sure you want to delete this investigation?",
       "deletionHint": "Enter the ID of the investigation to confirm your deletion.",
+      "approve": "Approve",
       "close": "Close",
       "delete": "Delete",
       "confirm": "Approve",

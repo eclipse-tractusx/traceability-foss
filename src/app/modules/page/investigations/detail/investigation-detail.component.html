@@ -17,17 +17,45 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-header [title]="'commonInvestigation.title' | i18n"></app-header>
+<div class="detail--header">
+  <app-header [title]="'commonInvestigation.title' | i18n"></app-header>
 
-<div class="detail--actions">
-  <app-button (click)="this.showCloseNotificationModal(selectedInvestigation)" [color]="'primary'">
-    <div class="flex justify-between items-center">
-      <mat-icon class="mr-2">close</mat-icon>
-      {{ 'commonInvestigation.modal.close' | i18n }}
-    </div>
-  </app-button>
+  <div>
+    <app-button
+      *ngIf="selectedInvestigation && canShowApproveButton(selectedInvestigation)"
+      (click)="approveModal?.show(selectedInvestigation)"
+      [color]="'primary'"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">share</mat-icon>
+        {{ 'commonInvestigation.modal.approve' | i18n }}
+      </div>
+    </app-button>
+    <app-button
+      *ngIf="selectedInvestigation && canShowDeleteButton(selectedInvestigation)"
+      (click)="deleteModal?.show(selectedInvestigation)"
+      [color]="'primary'"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">delete</mat-icon>
+        {{ 'commonInvestigation.modal.delete' | i18n }}
+      </div>
+    </app-button>
+    <app-button
+      *ngIf="selectedInvestigation && canShowCloseButton(selectedInvestigation)"
+      (click)="closeModal?.show(selectedInvestigation)"
+      [color]="'primary'"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">close</mat-icon>
+        {{ 'commonInvestigation.modal.close' | i18n }}
+      </div>
+    </app-button>
+  </div>
 </div>
-<app-close-notification-modal [notification]="selectedInvestigation"></app-close-notification-modal>
+<app-approve-notification-modal [approveCall]="approveInvestigation.bind(this)"></app-approve-notification-modal>
+<app-delete-notification-modal [deleteCall]="cancelInvestigation.bind(this)"></app-delete-notification-modal>
+<app-close-notification-modal [closeCall]="closeInvestigation.bind(this)"></app-close-notification-modal>
 
 <div class="detail--wrapper">
   <mat-card>

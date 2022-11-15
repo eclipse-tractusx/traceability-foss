@@ -30,6 +30,8 @@ import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
 
 @Component({
   selector: 'app-investigation-detail',
@@ -37,8 +39,12 @@ import { CloseNotificationModalComponent } from '@shared/modules/notification/mo
   styleUrls: ['./investigation-detail.component.scss'],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(ApproveNotificationModalComponent)
+  public approveModal: ApproveNotificationModalComponent;
   @ViewChild(CloseNotificationModalComponent)
-  private closeNotificationModal: CloseNotificationModalComponent;
+  public closeModal: CloseNotificationModalComponent;
+  @ViewChild(DeleteNotificationModalComponent)
+  public deleteModal: DeleteNotificationModalComponent;
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
@@ -173,7 +179,29 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       .subscribe();
   }
 
-  public showCloseNotificationModal(notification: Notification): void {
-    this.closeNotificationModal.show(notification);
+  // TODO: in the future let's try to unify condition logic with this part:
+  // src/app/modules/page/investigations/presentation/investigations.component.ts:66
+  public canShowApproveButton(notification: Notification): boolean {
+    return NotificationStatus.CREATED === notification.status;
+  }
+
+  public canShowDeleteButton(notification: Notification): boolean {
+    return NotificationStatus.RECEIVED !== notification.status;
+  }
+
+  public canShowCloseButton(notification: Notification): boolean {
+    return NotificationStatus.RECEIVED === notification.status;
+  }
+
+  public approveInvestigation(id: string): Observable<void> {
+    return this.investigationsFacade.approveInvestigation(id);
+  }
+
+  public cancelInvestigation(id: string): Observable<void> {
+    return this.investigationsFacade.cancelInvestigation(id);
+  }
+
+  public closeInvestigation(id: string, reason: string): Observable<void> {
+    return this.investigationsFacade.closeInvestigation(id, reason);
   }
 }
