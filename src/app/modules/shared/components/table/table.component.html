@@ -129,15 +129,17 @@ SPDX-License-Identifier: Apache-2.0
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button
-                  *ngFor="let config of tableConfig.menuActionsConfig"
-                  (click)="config.action(row)"
-                  [attr.data-testId]="'table-menu-button--' + config.label"
-                  mat-menu-item
-                >
-                  <mat-icon>{{ config.icon }}</mat-icon>
-                  <span>{{ config.label | i18n }}</span>
-                </button>
+                <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
+                  <button
+                    *ngIf="!config.condition || config.condition(row)"
+                    (click)="config.action(row)"
+                    [attr.data-testId]="'table-menu-button--' + config.label"
+                    mat-menu-item
+                  >
+                    <mat-icon>{{ config.icon }}</mat-icon>
+                    <span>{{ config.label | i18n }}</span>
+                  </button>
+                </ng-container>
               </mat-menu>
             </div>
           </td>
@@ -147,15 +149,17 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container matColumnDef="expandMenuActions">
         <td mat-cell *matCellDef="let row" [attr.colspan]="tableConfig.displayedColumns.length">
           <div [class.expanded]="row === selectedRow" [class.collapsed]="row !== selectedRow" class="expand-element">
-            <button
-              *ngFor="let config of tableConfig.menuActionsConfig"
-              (click)="config.action(row)"
-              [attr.data-testId]="'table-menu-button-expand--' + config.label"
-              mat-menu-item
-            >
-              <mat-icon>{{ config.icon }}</mat-icon>
-              <span>{{ config.label | i18n }}</span>
-            </button>
+            <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
+              <button
+                *ngIf="!config.condition || config.condition(row)"
+                (click)="config.action(row)"
+                [attr.data-testId]="'table-menu-button-expand--' + config.label"
+                mat-menu-item
+              >
+                <mat-icon>{{ config.icon }}</mat-icon>
+                <span>{{ config.label | i18n }}</span>
+              </button>
+            </ng-container>
           </div>
         </td>
       </ng-container>

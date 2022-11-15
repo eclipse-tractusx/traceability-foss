@@ -29,7 +29,7 @@ SPDX-License-Identifier: Apache-2.0
       [notificationsView$]="receivedNotifications$"
       [labelId]="receivedTabLabelId"
       [translationContext]="'commonInvestigation'"
-      [menuActionsConfig]="menuActionsConfig[0]"
+      [menuActionsConfig]="menuActionsConfig"
       (pagination)="onReceivedPagination.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>
@@ -44,7 +44,7 @@ SPDX-License-Identifier: Apache-2.0
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
       [translationContext]="'commonInvestigation'"
-      [menuActionsConfig]="menuActionsConfig[1]"
+      [menuActionsConfig]="menuActionsConfig"
       (pagination)="onQueuedAndRequestedPagination.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>
