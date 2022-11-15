@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
-import { Notification } from '@shared/model/notification.model';
+import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { Observable } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
@@ -41,7 +41,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   public readonly investigationsReceived$;
   public readonly investigationsQueuedAndRequested$;
 
-  public menuActionsConfig: [MenuActionConfig[], MenuActionConfig[]];
+  public menuActionsConfig: MenuActionConfig<Notification>[];
 
   constructor(
     private readonly investigationsFacade: InvestigationsFacade,
@@ -59,11 +59,24 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   public ngAfterContentInit(): void {
     this.menuActionsConfig = [
-      [{ label: 'actions.close', icon: 'close', action: (data: Notification) => this.closeModal.show(data) }],
-      [
-        { label: 'actions.approve', icon: 'share', action: (data: Notification) => this.approveModal.show(data) },
-        { label: 'actions.delete', icon: 'delete', action: (data: Notification) => this.deleteModal.show(data) },
-      ],
+      {
+        label: 'actions.close',
+        icon: 'close',
+        action: data => this.closeModal.show(data),
+        condition: ({ status }) => status === NotificationStatus.RECEIVED,
+      },
+      {
+        label: 'actions.approve',
+        icon: 'share',
+        action: data => this.approveModal.show(data),
+        condition: ({ status }) => status === NotificationStatus.CREATED,
+      },
+      {
+        label: 'actions.delete',
+        icon: 'delete',
+        action: data => this.deleteModal.show(data),
+        condition: ({ status }) => status !== NotificationStatus.RECEIVED,
+      },
     ];
   }
 

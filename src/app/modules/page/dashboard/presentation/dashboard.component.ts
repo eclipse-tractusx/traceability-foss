@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterContentInit {
 
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
-  public investigationMenuAction: MenuActionConfig[];
+  public investigationMenuAction: MenuActionConfig<Notification>[];
 
   constructor(
     private readonly dashboardFacade: DashboardFacade,
