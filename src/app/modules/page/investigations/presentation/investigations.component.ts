@@ -17,17 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
+import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { Observable } from 'rxjs';
-import { InvestigationsFacade } from '../core/investigations.facade';
+import { Notification } from '@shared/model/notification.model';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
+import { InvestigationsFacade } from '../core/investigations.facade';
 
 @Component({
   selector: 'app-investigations',
@@ -44,6 +44,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
   constructor(
+    public readonly helperService: InvestigationHelperService,
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
@@ -63,19 +64,19 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
         label: 'actions.close',
         icon: 'close',
         action: data => this.closeModal.show(data),
-        condition: ({ status }) => status === NotificationStatus.RECEIVED,
+        condition: data => this.helperService.showCloseButton(data),
       },
       {
         label: 'actions.approve',
         icon: 'share',
         action: data => this.approveModal.show(data),
-        condition: ({ status }) => status === NotificationStatus.CREATED,
+        condition: data => this.helperService.showApproveButton(data),
       },
       {
         label: 'actions.delete',
         icon: 'delete',
         action: data => this.deleteModal.show(data),
-        condition: ({ status }) => status !== NotificationStatus.RECEIVED,
+        condition: data => this.helperService.showCancelButton(data),
       },
     ];
   }
@@ -96,17 +97,5 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getInvestigationInboxRoute();
     this.router.navigate([`/${link}/${notification.id}`]).then();
-  }
-
-  public approveInvestigation(id: string): Observable<void> {
-    return this.investigationsFacade.approveInvestigation(id);
-  }
-
-  public cancelInvestigation(id: string): Observable<void> {
-    return this.investigationsFacade.cancelInvestigation(id);
-  }
-
-  public closeInvestigation(id: string, reason: string): Observable<void> {
-    return this.investigationsFacade.closeInvestigation(id, reason);
   }
 }

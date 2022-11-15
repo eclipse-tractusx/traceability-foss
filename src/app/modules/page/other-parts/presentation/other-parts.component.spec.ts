@@ -22,7 +22,6 @@ import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { firstValueFrom } from 'rxjs';
 import {

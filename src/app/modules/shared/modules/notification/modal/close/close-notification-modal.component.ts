@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
   selector: 'app-close-notification-modal',
   templateUrl: './close-notification-modal.component.html',
 })
-export class CloseNotificationModalComponent implements OnInit {
+export class CloseNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() closeCall: (id: string, reason: string) => Observable<void>;
 
@@ -40,8 +40,6 @@ export class CloseNotificationModalComponent implements OnInit {
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
     this.formGroup = new FormGroup({ reason: this.textAreaControl });
   }
-
-  ngOnInit(): void {}
 
   public show(notification: Notification): void {
     this.notification = notification;

@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
@@ -28,15 +28,13 @@ import { Observable } from 'rxjs';
   selector: 'app-approve-notification-modal',
   templateUrl: './approve-notification-modal.component.html',
 })
-export class ApproveNotificationModalComponent implements OnInit {
+export class ApproveNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() approveCall: (id: string) => Observable<void>;
 
   public notification: Notification;
 
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {}
-
-  ngOnInit(): void {}
 
   public show(notification: Notification): void {
     this.notification = notification;

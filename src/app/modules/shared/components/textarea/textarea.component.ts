@@ -20,7 +20,6 @@
 import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-textarea',

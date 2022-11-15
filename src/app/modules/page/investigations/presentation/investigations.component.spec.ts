@@ -21,7 +21,6 @@ import { InvestigationsModule } from '@page/investigations/investigations.module
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('InvestigationsComponent', () => {
