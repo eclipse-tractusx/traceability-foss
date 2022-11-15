@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
 traceability:
-  bpn: BPNL00000003AVTH
+  bpn: BPNL00000003AYRE
   registry.manufacturerIdKey: manufacturerId
 
 feign:
