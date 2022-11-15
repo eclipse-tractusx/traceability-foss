@@ -17,9 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.detail--actions {
+.detail--header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .detail--wrapper {
