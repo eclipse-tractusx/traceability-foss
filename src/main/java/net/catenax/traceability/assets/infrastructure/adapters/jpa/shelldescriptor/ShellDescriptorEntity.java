@@ -34,20 +34,34 @@ public class ShellDescriptorEntity {
 	private ZonedDateTime updated;
 	private String shellDescriptorId;
 	private String globalAssetId;
+	private String idShort;
+	private String partInstanceId;
+	private String manufacturerPartId;
+	private String batchId;
+	private String manufacturerId;
 
 	public ShellDescriptorEntity() {}
 
-	public ShellDescriptorEntity(Long id, String shellDescriptorId, String globalAssetId, ZonedDateTime created, ZonedDateTime updated) {
+	public ShellDescriptorEntity(Long id, String shellDescriptorId, String globalAssetId, String idShort,
+								 String partInstanceId, String manufacturerPartId, String manufacturerId,
+								 String batchId, ZonedDateTime created, ZonedDateTime updated) {
 		this.id = id;
 		this.created = created;
 		this.updated = updated;
 		this.shellDescriptorId = shellDescriptorId;
 		this.globalAssetId = globalAssetId;
+		this.idShort = idShort;
+		this.partInstanceId = partInstanceId;
+		this.manufacturerPartId = manufacturerPartId;
+		this.batchId = batchId;
+		this.manufacturerId = manufacturerId;
 	}
 
-	public static ShellDescriptorEntity newEntity(String shellDescriptorId, String globalAssetId) {
+	public static ShellDescriptorEntity newEntity(String shellDescriptorId, String globalAssetId, String idShort,
+												  String partInstanceId, String manufacturerId,
+												  String manufacturerPartId, String batchId) {
 		ZonedDateTime now = ZonedDateTime.now();
-		return new ShellDescriptorEntity(null, shellDescriptorId, globalAssetId, now, now);
+		return new ShellDescriptorEntity(null, shellDescriptorId, globalAssetId, idShort, partInstanceId, manufacturerPartId, manufacturerId, batchId, now, now);
 	}
 
 	@Id
@@ -92,4 +106,43 @@ public class ShellDescriptorEntity {
 		this.updated = updated;
 	}
 
+	public String getIdShort() {
+		return idShort;
+	}
+
+	public void setIdShort(String idShort) {
+		this.idShort = idShort;
+	}
+
+	public String getPartInstanceId() {
+		return partInstanceId;
+	}
+
+	public void setPartInstanceId(String partInstanceId) {
+		this.partInstanceId = partInstanceId;
+	}
+
+	public String getManufacturerPartId() {
+		return manufacturerPartId;
+	}
+
+	public void setManufacturerPartId(String manufacturerPartId) {
+		this.manufacturerPartId = manufacturerPartId;
+	}
+
+	public String getBatchId() {
+		return batchId;
+	}
+
+	public void setBatchId(String batchId) {
+		this.batchId = batchId;
+	}
+
+	public String getManufacturerId() {
+		return manufacturerId;
+	}
+
+	public void setManufacturerId(String manufacturerId) {
+		this.manufacturerId = manufacturerId;
+	}
 }

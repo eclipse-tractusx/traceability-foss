@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.catenax.traceability.assets.domain.model.Asset;
 import net.catenax.traceability.assets.domain.model.Asset.ChildDescriptions;
 import net.catenax.traceability.assets.domain.model.QualityType;
+import net.catenax.traceability.assets.domain.model.ShellDescriptor;
 import net.catenax.traceability.assets.domain.ports.BpnRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -65,6 +66,12 @@ public class AssetsConverter {
 		}
 	}
 
+	public List<Asset> convertAssets(List<ShellDescriptor> items) {
+		return items.stream()
+			.map(this::toAsset)
+			.toList();
+	}
+
 	public List<Asset> convertAssets(JobResponse response)  {
 		List<SerialPartTypization> parts = response.serialPartTypizations();
 		Map<String, AssemblyPartRelationship> relationships = response.assemblyPartRelationships();
@@ -95,6 +102,29 @@ public class AssetsConverter {
 					false,
 					QualityType.OK
 				)).toList();
+	}
+
+	private Asset toAsset(ShellDescriptor shellDescriptor) {
+		String manufacturerId = shellDescriptor.manufacturerId();
+		String manufacturerName = bpnRepository.findManufacturerName(manufacturerId).orElse(EMPTY_TEXT);
+		return new Asset(
+			shellDescriptor.globalAssetId(),
+			shellDescriptor.idShort(),
+			shellDescriptor.idShort(),
+			defaultValue(shellDescriptor.manufacturerPartId()),
+			defaultValue(shellDescriptor.partInstanceId()),
+			defaultValue(manufacturerId),
+			defaultValue(shellDescriptor.batchId()),
+			manufacturerName,
+			shellDescriptor.idShort(),
+			shellDescriptor.manufacturerPartId(),
+			null,
+			EMPTY_TEXT,
+			false,
+			Collections.emptyList(),
+			false,
+			QualityType.OK
+		);
 	}
 
 	private String manufacturerName(SerialPartTypization part) {

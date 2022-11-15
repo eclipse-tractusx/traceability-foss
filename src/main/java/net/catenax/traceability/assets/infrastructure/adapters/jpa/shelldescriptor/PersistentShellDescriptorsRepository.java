@@ -68,11 +68,25 @@ public class PersistentShellDescriptorsRepository implements ShellDescriptorRepo
 	}
 
 	private ShellDescriptor toShellDescriptor(ShellDescriptorEntity descriptor) {
-		return new ShellDescriptor(descriptor.getShellDescriptorId(), descriptor.getGlobalAssetId());
+		return new ShellDescriptor(
+			descriptor.getShellDescriptorId(),
+			descriptor.getGlobalAssetId(),
+			descriptor.getIdShort(),
+			descriptor.getPartInstanceId(),
+			descriptor.getManufacturerPartId(),
+			descriptor.getManufacturerId(),
+			descriptor.getBatchId()
+		);
 	}
 
 	private ShellDescriptorEntity toNewEntity(ShellDescriptor descriptor) {
-		return ShellDescriptorEntity.newEntity(descriptor.shellDescriptorId(), descriptor.globalAssetId());
+		return ShellDescriptorEntity.newEntity(
+			descriptor.shellDescriptorId(),
+			descriptor.globalAssetId(),
+			descriptor.idShort(),
+			descriptor.partInstanceId(), descriptor.manufacturerId(), descriptor.manufacturerPartId(),
+			descriptor.batchId()
+		);
 	}
 
 }

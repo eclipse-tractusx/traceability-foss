@@ -26,7 +26,7 @@ import net.catenax.traceability.common.support.RegistrySupport
 import net.catenax.traceability.common.support.ShellDescriptorSupport
 
 import static io.restassured.RestAssured.given
-import static net.catenax.traceability.common.security.JwtRole.*
+import static net.catenax.traceability.common.security.JwtRole.ADMIN
 
 class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
 
@@ -57,7 +57,42 @@ class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, Reg
 					.hasSize(1)
 					.containsShellDescriptorWithId(syncId)
 
-				assertAssetsSize(14)
+				assertAssetsSize(15)
+			}
+
+		and:
+			verifyOAuth2ApiCalledOnceForTechnicalUserToken()
+			verifyIrsApiTriggerJobCalledOnce()
+	}
+
+	def "should synchronize descriptors and assets when IRS call fails"() {
+		given:
+			String syncId = "urn:uuid:46e51326-0c00-4eae-85ea-d8a505b432e9"
+			oauth2ApiReturnsTechnicalUserToken()
+
+		and:
+			assetShellsLookupReturnsData()
+			fetchRegistryShellDescriptorsLookupReturnsData()
+
+		and:
+			irsApiTriggerJob()
+			irsJobDetailsApiFailed()
+
+		when:
+			given()
+				.header(jwtAuthorization(ADMIN))
+				.when()
+				.get("/api/registry/reload")
+				.then()
+				.statusCode(200)
+
+		then:
+			eventually {
+				assertShellDescriptors()
+					.hasSize(1)
+					.containsShellDescriptorWithId(syncId)
+
+				assertAssetsSize(1)
 			}
 
 		and:
