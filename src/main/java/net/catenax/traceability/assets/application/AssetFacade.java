@@ -48,7 +48,7 @@ public class AssetFacade {
 	}
 
 	public Asset updateAsset(String assetId, UpdateAsset updateAsset) {
-		return assetService.updateAsset(assetId, updateAsset.qualityType());
+		return assetService.updateQualityType(assetId, updateAsset.qualityType());
 	}
 
 	public void startInvestigation(List<String> assetId, String description) {

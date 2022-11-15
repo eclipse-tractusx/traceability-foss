@@ -21,6 +21,7 @@ package net.catenax.traceability.assets.infrastructure.adapters.jpa.bpn;
 
 import net.catenax.traceability.assets.domain.ports.BpnRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ public class PersistentBpnRepository implements BpnRepository {
 	}
 
 	@Override
+	@Transactional
 	public void updateManufacturers(Map<String, String> bpns) {
 		List<BpnEntity> entities = bpns.entrySet().stream()
 			.map(entry -> new BpnEntity(entry.getKey(), entry.getValue()))

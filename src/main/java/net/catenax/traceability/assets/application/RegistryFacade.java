@@ -22,6 +22,7 @@ package net.catenax.traceability.assets.application;
 import net.catenax.traceability.assets.domain.model.ShellDescriptor;
 import net.catenax.traceability.assets.domain.service.AssetService;
 import net.catenax.traceability.assets.domain.service.ShellDescriptorsService;
+import net.catenax.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter;
 import net.catenax.traceability.assets.infrastructure.adapters.openapi.registry.RegistryService;
 import net.catenax.traceability.assets.infrastructure.config.async.AssetsAsyncConfig;
 import org.springframework.scheduling.annotation.Async;
@@ -33,11 +34,13 @@ import java.util.List;
 public class RegistryFacade {
 	private final ShellDescriptorsService shellDescriptiorsService;
 	private final RegistryService registryService;
+	private final AssetsConverter assetsConverter;
 	private final AssetService assetService;
 
-	public RegistryFacade(ShellDescriptorsService shellDescriptiorsService, RegistryService registryService, AssetService assetService) {
+	public RegistryFacade(ShellDescriptorsService shellDescriptiorsService, RegistryService registryService, AssetsConverter assetsConverter, AssetService assetService) {
 		this.shellDescriptiorsService = shellDescriptiorsService;
 		this.registryService = registryService;
+		this.assetsConverter = assetsConverter;
 		this.assetService = assetService;
 	}
 
@@ -49,6 +52,9 @@ public class RegistryFacade {
 	@Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
 	public void loadShellDescriptors() {
 		List<ShellDescriptor> descriptors = updateShellDescriptors();
+
+		assetService.saveAssets(assetsConverter.convertAssets(descriptors));
+
 		descriptors.stream()
 			.map(ShellDescriptor::globalAssetId)
 			.forEach(assetService::synchronizeAssets);
