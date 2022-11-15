@@ -49,12 +49,14 @@ describe('NotificationsInboxComponent', () => {
     const receivedNotifications$: Observable<View<Notifications>> = of({
       data: { content: qarContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
     }).pipe(delay(0));
+    const menuActionsConfig = [];
 
     return renderComponent(
       `<app-notification 
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
           [translationContext]="'commonInvestigation'"
+          [menuActionsConfig]="'menuActionsConfig'"
 
           (onReceivedPagination)='clickHandler($event)'
           (onQueuedAndRequestedPagination)='clickHandler($event)'
@@ -62,7 +64,12 @@ describe('NotificationsInboxComponent', () => {
       {
         imports: [SharedModule, NotificationModule, TemplateModule],
         translations: ['common'],
-        componentProperties: { queuedAndRequestedNotifications$, receivedNotifications$, clickHandler },
+        componentProperties: {
+          queuedAndRequestedNotifications$,
+          receivedNotifications$,
+          clickHandler,
+          menuActionsConfig,
+        },
       },
     );
   };

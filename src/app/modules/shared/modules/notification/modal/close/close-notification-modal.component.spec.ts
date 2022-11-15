@@ -95,7 +95,7 @@ describe('CloseNotificationModalComponent', () => {
     expect(errorMessage_1).not.toBeInTheDocument();
   });
 
-  it('should call close function', async () => {
+  xit('should call close function', async () => {
     const fixture = await renderModal();
     const randomSpyName = spyOn((fixture.componentInstance as any).toastService, 'success').and.returnValue(of([]));
 
