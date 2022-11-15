@@ -40,11 +40,11 @@ import { DeleteNotificationModalComponent } from '@shared/modules/notification/m
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(ApproveNotificationModalComponent)
-  private approveNotificationModal: ApproveNotificationModalComponent;
+  public approveModal: ApproveNotificationModalComponent;
   @ViewChild(CloseNotificationModalComponent)
-  private closeNotificationModal: CloseNotificationModalComponent;
+  public closeModal: CloseNotificationModalComponent;
   @ViewChild(DeleteNotificationModalComponent)
-  private deleteNotificationModal: DeleteNotificationModalComponent;
+  public deleteModal: DeleteNotificationModalComponent;
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
@@ -179,23 +179,29 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       .subscribe();
   }
 
-  public showCloseNotificationModal(notification: Notification): void {
-    this.closeNotificationModal.show(notification);
+  // TODO: in the future let's try to unify condition logic with this part:
+  // src/app/modules/page/investigations/presentation/investigations.component.ts:66
+  public canShowApproveButton(notification: Notification): boolean {
+    return NotificationStatus.CREATED === notification.status;
   }
 
-  public showApproveNotificationModal(notification: Notification) {
-    this.approveNotificationModal.show(notification);
+  public canShowDeleteButton(notification: Notification): boolean {
+    return NotificationStatus.RECEIVED !== notification.status;
   }
 
-  public showDeleteNotificationModal(notification: Notification) {
-    this.deleteNotificationModal.show(notification);
+  public canShowCloseButton(notification: Notification): boolean {
+    return NotificationStatus.RECEIVED === notification.status;
   }
 
-  public canShowApproveButton(notification: Notification) {
-    return NotificationStatus.RECEIVED != notification.status;
+  public approveInvestigation(id: string): Observable<void> {
+    return this.investigationsFacade.approveInvestigation(id);
   }
 
-  public canShowDeleteButton(notification: Notification) {
-    return NotificationStatus.RECEIVED != notification.status;
+  public cancelInvestigation(id: string): Observable<void> {
+    return this.investigationsFacade.cancelInvestigation(id);
+  }
+
+  public closeInvestigation(id: string, reason: string): Observable<void> {
+    return this.investigationsFacade.closeInvestigation(id, reason);
   }
 }

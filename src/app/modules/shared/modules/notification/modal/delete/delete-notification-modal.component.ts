@@ -31,9 +31,9 @@ import { Observable } from 'rxjs';
 })
 export class DeleteNotificationModalComponent implements OnInit {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
-  @Input() notification: Notification;
   @Input() deleteCall: (id: string) => Observable<void>;
 
+  public notification: Notification;
   public readonly formGroup;
   private readonly textAreaControl = new FormControl();
 

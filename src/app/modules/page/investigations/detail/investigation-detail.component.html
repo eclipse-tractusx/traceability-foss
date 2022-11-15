@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
 <div class="detail--actions">
   <app-button
     *ngIf="selectedInvestigation && canShowApproveButton(selectedInvestigation)"
-    (click)="this.showApproveNotificationModal(selectedInvestigation)"
+    (click)="approveModal?.show(selectedInvestigation)"
     [color]="'primary'"
   >
     <div class="flex justify-between items-center">
@@ -32,7 +32,7 @@ SPDX-License-Identifier: Apache-2.0
   </app-button>
   <app-button
     *ngIf="selectedInvestigation && canShowDeleteButton(selectedInvestigation)"
-    (click)="this.showDeleteNotificationModal(selectedInvestigation)"
+    (click)="deleteModal?.show(selectedInvestigation)"
     [color]="'primary'"
   >
     <div class="flex justify-between items-center">
@@ -40,16 +40,20 @@ SPDX-License-Identifier: Apache-2.0
       {{ 'commonInvestigation.modal.delete' | i18n }}
     </div>
   </app-button>
-  <app-button (click)="this.showCloseNotificationModal(selectedInvestigation)" [color]="'primary'">
+  <app-button
+    *ngIf="selectedInvestigation && canShowCloseButton(selectedInvestigation)"
+    (click)="closeModal?.show(selectedInvestigation)"
+    [color]="'primary'"
+  >
     <div class="flex justify-between items-center">
       <mat-icon class="mr-2">close</mat-icon>
       {{ 'commonInvestigation.modal.close' | i18n }}
     </div>
   </app-button>
 </div>
-<app-approve-notification-modal [notification]="selectedInvestigation"></app-approve-notification-modal>
-<app-close-notification-modal [notification]="selectedInvestigation"></app-close-notification-modal>
-<app-delete-notification-modal [notification]="selectedInvestigation"></app-delete-notification-modal>
+<app-approve-notification-modal [approveCall]="approveInvestigation.bind(this)"></app-approve-notification-modal>
+<app-delete-notification-modal [deleteCall]="cancelInvestigation.bind(this)"></app-delete-notification-modal>
+<app-close-notification-modal [closeCall]="closeInvestigation.bind(this)"></app-close-notification-modal>
 
 <div class="detail--wrapper">
   <mat-card>

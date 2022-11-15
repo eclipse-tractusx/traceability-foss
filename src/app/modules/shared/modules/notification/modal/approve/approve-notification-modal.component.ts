@@ -30,8 +30,9 @@ import { Observable } from 'rxjs';
 })
 export class ApproveNotificationModalComponent implements OnInit {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
-  @Input() notification: Notification;
   @Input() approveCall: (id: string) => Observable<void>;
+
+  public notification: Notification;
 
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {}
 
