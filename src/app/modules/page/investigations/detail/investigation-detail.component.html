@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
 
   <div>
     <app-button
-      *ngIf="selectedInvestigation && canShowApproveButton(selectedInvestigation)"
+      *ngIf="helperService.showApproveButton(selectedInvestigation)"
       (click)="approveModal?.show(selectedInvestigation)"
       [color]="'primary'"
     >
@@ -32,7 +32,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
     </app-button>
     <app-button
-      *ngIf="selectedInvestigation && canShowDeleteButton(selectedInvestigation)"
+      *ngIf="helperService.showCancelButton(selectedInvestigation)"
       (click)="deleteModal?.show(selectedInvestigation)"
       [color]="'primary'"
     >
@@ -42,7 +42,7 @@ SPDX-License-Identifier: Apache-2.0
       </div>
     </app-button>
     <app-button
-      *ngIf="selectedInvestigation && canShowCloseButton(selectedInvestigation)"
+      *ngIf="helperService.showCloseButton(selectedInvestigation)"
       (click)="closeModal?.show(selectedInvestigation)"
       [color]="'primary'"
     >
@@ -53,9 +53,10 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
   </div>
 </div>
-<app-approve-notification-modal [approveCall]="approveInvestigation.bind(this)"></app-approve-notification-modal>
-<app-delete-notification-modal [deleteCall]="cancelInvestigation.bind(this)"></app-delete-notification-modal>
-<app-close-notification-modal [closeCall]="closeInvestigation.bind(this)"></app-close-notification-modal>
+
+<app-approve-notification-modal [approveCall]="helperService.approve.bind(this)"></app-approve-notification-modal>
+<app-delete-notification-modal [deleteCall]="helperService.cancel.bind(this)"></app-delete-notification-modal>
+<app-close-notification-modal [closeCall]="helperService.close.bind(this)"></app-close-notification-modal>
 
 <div class="detail--wrapper">
   <mat-card>

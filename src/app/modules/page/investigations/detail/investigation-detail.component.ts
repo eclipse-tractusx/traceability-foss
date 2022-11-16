@@ -20,18 +20,19 @@
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
+import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
-import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
 
 @Component({
   selector: 'app-investigation-detail',
@@ -39,12 +40,9 @@ import { DeleteNotificationModalComponent } from '@shared/modules/notification/m
   styleUrls: ['./investigation-detail.component.scss'],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
-  @ViewChild(ApproveNotificationModalComponent)
-  public approveModal: ApproveNotificationModalComponent;
-  @ViewChild(CloseNotificationModalComponent)
-  public closeModal: CloseNotificationModalComponent;
-  @ViewChild(DeleteNotificationModalComponent)
-  public deleteModal: DeleteNotificationModalComponent;
+  @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
+  @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
+  @ViewChild(DeleteNotificationModalComponent) deleteModal: DeleteNotificationModalComponent;
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
@@ -68,6 +66,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   public selectedInvestigation: Notification;
 
   constructor(
+    public readonly helperService: InvestigationHelperService,
     private readonly staticIdService: StaticIdService,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly investigationsFacade: InvestigationsFacade,
@@ -177,31 +176,5 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
         tap(notification => (this.investigationDetailFacade.selected = { data: notification })),
       )
       .subscribe();
-  }
-
-  // TODO: in the future let's try to unify condition logic with this part:
-  // src/app/modules/page/investigations/presentation/investigations.component.ts:66
-  public canShowApproveButton(notification: Notification): boolean {
-    return NotificationStatus.CREATED === notification.status;
-  }
-
-  public canShowDeleteButton(notification: Notification): boolean {
-    return NotificationStatus.RECEIVED !== notification.status;
-  }
-
-  public canShowCloseButton(notification: Notification): boolean {
-    return NotificationStatus.RECEIVED === notification.status;
-  }
-
-  public approveInvestigation(id: string): Observable<void> {
-    return this.investigationsFacade.approveInvestigation(id);
-  }
-
-  public cancelInvestigation(id: string): Observable<void> {
-    return this.investigationsFacade.cancelInvestigation(id);
-  }
-
-  public closeInvestigation(id: string, reason: string): Observable<void> {
-    return this.investigationsFacade.closeInvestigation(id, reason);
   }
 }

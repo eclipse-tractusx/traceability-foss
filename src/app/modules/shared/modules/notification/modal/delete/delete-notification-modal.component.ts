@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
@@ -29,7 +29,7 @@ import { Observable } from 'rxjs';
   selector: 'app-delete-notification-modal',
   templateUrl: './delete-notification-modal.component.html',
 })
-export class DeleteNotificationModalComponent implements OnInit {
+export class DeleteNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() deleteCall: (id: string) => Observable<void>;
 
@@ -40,8 +40,6 @@ export class DeleteNotificationModalComponent implements OnInit {
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
     this.formGroup = new FormGroup({ notificationId: this.textAreaControl });
   }
-
-  ngOnInit(): void {}
 
   public show(notification: any): void {
     this.notification = notification;

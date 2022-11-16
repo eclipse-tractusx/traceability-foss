@@ -46,23 +46,15 @@ export class NotificationTabComponent implements AfterViewInit {
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
 
-  public readonly displayedColumns: DisplayColumns<keyof Notification>[] = [
-    'description',
-    'status',
-    'createdDate',
-    'menu',
-  ];
-
   public tableConfig: TableConfig<keyof Notification>;
 
-  constructor() {}
-
   public ngAfterViewInit(): void {
+    const displayedColumns: DisplayColumns<keyof Notification>[] = ['description', 'status', 'createdDate', 'menu'];
     this.tableConfig = {
-      displayedColumns: this.displayedColumns,
-      header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
+      displayedColumns,
+      header: CreateHeaderFromColumns(displayedColumns, 'table.partsColumn'),
       hasPagination: this.hasPagination,
-      menuActionsConfig: this.menuActionsConfig,
+      menuActionsConfig: this.menuActionsConfig || [],
       cellRenderers: {
         status: this.statusTemplate,
       },

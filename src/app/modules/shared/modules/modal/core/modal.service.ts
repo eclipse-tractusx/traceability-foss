@@ -21,7 +21,6 @@ import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '@shared/modules/modal/component/modal.component';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
-import _deepClone from 'lodash-es/cloneDeep';
 import { Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 

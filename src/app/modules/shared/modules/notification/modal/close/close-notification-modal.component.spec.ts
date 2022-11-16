@@ -18,7 +18,6 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
