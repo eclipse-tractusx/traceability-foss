@@ -177,4 +177,9 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       )
       .subscribe();
   }
+
+  public handleConfirmActionCompletedEvent() {
+    this.investigationDetailFacade.selected = { loader: true };
+    this.ngAfterViewInit();
+  }
 }
