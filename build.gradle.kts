@@ -90,6 +90,16 @@ dependencies {
 
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
+	// Added because spring-cloud-dependencies:2021.0.5 lead to a downgrade to 5.7.3, and this version has a vulnerability.
+	// A constraint is not working, although spring-boot-starter-oauth2-client pulls it in as transitive dependency.
+	// Could be removed when the version conflict is removed, i.e. a new Spring Cloud version is available
+	implementation("org.springframework.security:spring-security-oauth2-client") {
+		version {
+			require("5.7.4")
+			because("previous versions have a bug impacting this application")
+		}
+	}
+
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-mail")
