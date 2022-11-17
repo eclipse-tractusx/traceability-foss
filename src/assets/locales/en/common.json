@@ -120,9 +120,11 @@
       "queuedAndRequested": "Queued & Requested"
     },
     "status": {
-      "RECEIVED": "Received",
+      "APPROVED": "Requested",
+      "CANCELED": "Cancelled",
+      "CLOSED": "Closed",
       "CREATED": "Queued",
-      "APPROVED": "Requested"
+      "RECEIVED": "Received"
     },
     "modal": {
       "approvalTitle": "Approval of investigation",

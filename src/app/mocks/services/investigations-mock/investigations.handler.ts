@@ -43,7 +43,13 @@ export const investigationsHandlers = [
 
     const indexFromId = parseInt((investigationId as string).replace('id-', ''), 10);
 
-    const statusCollection = [NotificationStatus.APPROVED, NotificationStatus.CREATED, NotificationStatus.RECEIVED];
+    const statusCollection = [
+      NotificationStatus.APPROVED,
+      NotificationStatus.CREATED,
+      NotificationStatus.RECEIVED,
+      NotificationStatus.CLOSED,
+      NotificationStatus.CANCELED,
+    ];
     const randomNotification = buildMockInvestigations([statusCollection[indexFromId]])[0];
 
     return res(ctx.status(200), ctx.json({ ...randomNotification, id: investigationId }));
