@@ -2,10 +2,10 @@ plugins {
 	id("java")
 	id("groovy")
 	id("jacoco")
-	id("org.springframework.boot") version "2.7.4"
+	id("org.springframework.boot") version "2.7.5"
 	id("io.spring.dependency-management") version "1.0.14.RELEASE"
 	id("com.autonomousapps.dependency-analysis") version "1.13.1"
-	id("com.google.cloud.tools.jib") version "3.2.1"
+	id("com.google.cloud.tools.jib") version "3.3.1"
 	id("com.coditory.integration-test") version "1.4.4"
 	id("org.openapi.generator") version "6.2.0"
 	id("org.sonarqube") version "3.4.0.2513"
@@ -64,10 +64,10 @@ val groovyVersion = "3.0.13"
 val spockBomVersion = "2.1-groovy-3.0"
 val greenmailVersion = "1.6.11"
 val springfoxVersion = "3.0.0"
-val feignVersion = "11.10"
-val springCloudVersion = "2021.0.4"
+val feignVersion = "12.0"
+val springCloudVersion = "2021.0.5"
 val springBootSecurityOauth2Version = "2.6.8"
-val jacksonDatabindNullableVersion = "0.2.3"
+val jacksonDatabindNullableVersion = "0.2.4"
 val scribejavaVersion = "8.3.2"
 val findBugsVersion = "3.0.2"
 val restitoVersion = "1.1.0"
@@ -89,6 +89,16 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+	// Added because spring-cloud-dependencies:2021.0.5 lead to a downgrade to 5.7.3, and this version has a vulnerability.
+	// A constraint is not working, although spring-boot-starter-oauth2-client pulls it in as transitive dependency.
+	// Could be removed when the version conflict is removed, i.e. a new Spring Cloud version is available
+	implementation("org.springframework.security:spring-security-oauth2-client") {
+		version {
+			require("5.7.4")
+			because("previous versions have a bug impacting this application")
+		}
+	}
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")

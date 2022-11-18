@@ -4,7 +4,6 @@ on:
   workflow_run:
     workflows: [Publish docker image]
     types: [completed]
-    branches: [main]
 
 jobs:
   analyze-config:
