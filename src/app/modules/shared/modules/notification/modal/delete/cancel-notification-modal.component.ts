@@ -26,12 +26,12 @@ import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-delete-notification-modal',
-  templateUrl: './delete-notification-modal.component.html',
+  selector: 'app-cancel-notification-modal',
+  templateUrl: './cancel-notification-modal.component.html',
 })
-export class DeleteNotificationModalComponent {
+export class CancelNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
-  @Input() deleteCall: (id: string) => Observable<void>;
+  @Input() cancelCall: (id: string) => Observable<void>;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -49,7 +49,7 @@ export class DeleteNotificationModalComponent {
       this.formGroup.reset();
       if (!isConfirmed) return;
 
-      this.deleteCall(notification.id).subscribe({
+      this.cancelCall(notification.id).subscribe({
         next: () => {
           this.toastService.success('commonInvestigation.modal.successfullyCanceled');
           this.confirmActionCompleted.emit();
@@ -61,8 +61,8 @@ export class DeleteNotificationModalComponent {
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.deletionTitle',
-      buttonRight: 'commonInvestigation.modal.delete',
+      title: 'commonInvestigation.modal.cancellationTitle',
+      buttonRight: 'commonInvestigation.modal.cancellationConfirm',
       buttonLeft: 'commonInvestigation.modal.cancel',
       primaryButtonColour: 'warn',
 

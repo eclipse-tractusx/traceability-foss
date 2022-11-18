@@ -23,7 +23,7 @@
   },
   "actions": {
     "back": "Back",
-    "delete": "Delete",
+    "cancel": "Cancel",
     "approve": "Approve",
     "close": "Close",
     "viewDetails": "View details"
@@ -132,9 +132,10 @@
       "closeTitle": "Close of investigation",
       "closeDescription": "Are you sure you want to close this investigation?",
       "closeReasonHint": "Enter the reason for close action.",
-      "deletionTitle": "Deletion of investigation",
-      "deletionDescription": "Are you sure you want to delete this investigation?",
-      "deletionHint": "Enter the ID of the investigation to confirm your deletion.",
+      "cancellationTitle": "Cancellation of investigation",
+      "cancellationDescription": "Are you sure you want to cancel this investigation?",
+      "cancellationHint": "Enter the ID of the investigation to confirm your cancellation.",
+      "cancellationConfirm": "Confirm cancellation",
       "approve": "Approve",
       "close": "Close",
       "delete": "Delete",

@@ -18,7 +18,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <ng-template #Modal>
-  <p class="mb-2">{{ 'commonInvestigation.modal.deletionDescription' | i18n }}</p>
+  <p class="mb-2">{{ 'commonInvestigation.modal.cancellationDescription' | i18n }}</p>
   <mat-card class="m-2">
     <mat-card-content>
       <app-notification-overview [notification]="notification"></app-notification-overview>
@@ -26,7 +26,7 @@ SPDX-License-Identifier: Apache-2.0
   </mat-card>
 
   <form [formGroup]="formGroup" class="mt-4">
-    <mat-hint>{{ 'commonInvestigation.modal.deletionHint' | i18n }}</mat-hint>
+    <mat-hint>{{ 'commonInvestigation.modal.cancellationHint' | i18n }}</mat-hint>
     <app-textarea formControlName="notificationId" [label]="notification?.id"></app-textarea>
   </form>
 </ng-template>

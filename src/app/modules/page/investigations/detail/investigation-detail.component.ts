@@ -29,7 +29,7 @@ import { Notification, NotificationStatus } from '@shared/model/notification.mod
 import { View } from '@shared/model/view.model';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/delete/cancel-notification-modal.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -42,7 +42,7 @@ import { filter, first, tap } from 'rxjs/operators';
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
   @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
-  @ViewChild(DeleteNotificationModalComponent) deleteModal: DeleteNotificationModalComponent;
+  @ViewChild(CancelNotificationModalComponent) cancelModal: CancelNotificationModalComponent;
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;

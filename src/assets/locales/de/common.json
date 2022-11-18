@@ -23,8 +23,9 @@
   },
   "actions": {
     "back": "Zurück",
-    "delete": "Löschen",
+    "cancel": "Abbrechen",
     "approve": "Genehmigen",
+    "close": "Schließen",
     "viewDetails": "Details anzeigen"
   },
   "table": {
@@ -120,9 +121,11 @@
       "closeTitle": "Schließen der Untersuchung",
       "closeDescription": "Sind Sie sicher, dass Sie diese Untersuchung schließen wollen?",
       "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
-      "deletionTitle": "Löschung der Untersuchung",
-      "deletionDescription": "Sind Sie sicher, dass Sie diese Untersuchung löschen wollen?",
-      "deletionHint": "Geben Sie die ID der Untersuchung ein, um die Löschung zu bestätigen.",
+      "cancellationTitle": "Abbrechen der Untersuchung",
+      "cancellationDescription": "Sind Sie sicher, dass Sie diese Untersuchung abbrechen wollen?",
+      "cancellationHint": "Geben Sie die ID der Untersuchung ein, um die Abbrechen zu bestätigen.",
+      "cancellationConfirm": "Genehmigen Abbrechen",
+      "approve": "Genehmigen",
       "close": "Schließen",
       "delete": "Löschen",
       "confirm": "Genehmigen",
