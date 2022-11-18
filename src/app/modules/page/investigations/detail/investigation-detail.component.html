@@ -54,9 +54,18 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 
-<app-approve-notification-modal [approveCall]="helperService.approve.bind(this)"></app-approve-notification-modal>
-<app-delete-notification-modal [deleteCall]="helperService.cancel.bind(this)"></app-delete-notification-modal>
-<app-close-notification-modal [closeCall]="helperService.close.bind(this)"></app-close-notification-modal>
+<app-approve-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [approveCall]="helperService.approve.bind(this)"
+></app-approve-notification-modal>
+<app-delete-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [deleteCall]="helperService.cancel.bind(this)"
+></app-delete-notification-modal>
+<app-close-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [closeCall]="helperService.close.bind(this)"
+></app-close-notification-modal>
 
 <div class="detail--wrapper">
   <mat-card>

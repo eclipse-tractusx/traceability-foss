@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
@@ -32,6 +32,7 @@ import { Observable } from 'rxjs';
 export class DeleteNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() deleteCall: (id: string) => Observable<void>;
+  @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
   public readonly formGroup;
@@ -51,6 +52,7 @@ export class DeleteNotificationModalComponent {
       this.deleteCall(notification.id).subscribe({
         next: () => {
           this.toastService.success('commonInvestigation.modal.successfullyCanceled');
+          this.confirmActionCompleted.emit();
         },
         error: () => {
           this.toastService.error('commonInvestigation.modal.failedCancel');

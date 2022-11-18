@@ -98,4 +98,8 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
     const { link } = getInvestigationInboxRoute();
     this.router.navigate([`/${link}/${notification.id}`]).then();
   }
+
+  public handleConfirmActionCompletedEvent() {
+    this.ngOnInit();
+  }
 }
