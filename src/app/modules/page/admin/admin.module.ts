@@ -20,14 +20,18 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
+import { AdminFacade } from '@page/admin/core/admin.facade';
+import { AdminService } from '@page/admin/core/admin.service';
+import { AdminState } from '@page/admin/core/admin.state';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { AdminRoutingModule } from './admin.routing';
 import { AdminComponent } from './presentation/admin.component';
+import { ScheduledRegistryProcessesComponent } from './presentation/scheduled-registry-processes/scheduled-registry-processes.component';
 
 @NgModule({
-  declarations: [AdminComponent],
+  declarations: [AdminComponent, ScheduledRegistryProcessesComponent],
   imports: [CommonModule, TemplateModule, SharedModule, AdminRoutingModule],
-  providers: [...getI18nPageProvider('page.admin')],
+  providers: [...getI18nPageProvider('page.admin'), AdminService, AdminFacade, AdminState],
 })
 export class AdminModule {}

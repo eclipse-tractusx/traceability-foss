@@ -21,3 +21,4 @@ export { dashboardHandler } from './dashboard-mock/dashboard.handler';
 export { partsHandlers, partsHandlersTest } from './parts-mock/parts.handler';
 export { otherPartsHandlers, otherPartsHandlersTest } from './otherParts-mock/otherParts.handler';
 export { investigationsHandlers } from './investigations-mock/investigations.handler';
+export { adminHandler } from './admin-mock/admin.handler';

@@ -136,6 +136,6 @@ export class PartsAssembler {
       ['productionDate', 'manufacturingDate'],
     ]);
 
-    return `${localToApiMapping.get(sorting[0])},${sorting[1]}`;
+    return `${localToApiMapping.get(sorting[0]) || sorting},${sorting[1]}`;
   }
 }

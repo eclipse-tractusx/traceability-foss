@@ -35,6 +35,14 @@
     "tryAgain": "Spróbuj ponownie później.",
     "selectPageSize": "Ilość elementów na stronie",
     "menuDescription": "Menu akcji",
+    "adminColumn": {
+      "startDate": "TBD: Start date",
+      "registryLookupStatus": "TBD: Status",
+      "successShellDescriptorsFetchCount": "TBD: Successful fetches",
+      "failedShellDescriptorsFetchCount": "TBD: Failed fetches",
+      "shellDescriptorsFetchDelta": "TBD: Fetch Delta",
+      "endDate": "TBD: End date"
+    },
     "partsColumn": {
       "id": "ID",
       "name": "Nazwa",
