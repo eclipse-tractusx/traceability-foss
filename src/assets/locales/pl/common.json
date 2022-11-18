@@ -41,6 +41,7 @@
       "manufacturer": "Producent",
       "partNumber": "Numer części",
       "serialNumber": "Numer seryjny",
+      "batchNumber": "Numer partii",
       "qualityType": "Typ jakości",
       "productionDate": "Data produkcji",
       "productionCountry": "Kraj produkcji",

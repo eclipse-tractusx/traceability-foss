@@ -38,6 +38,7 @@
       "manufacturer": "Hersteller",
       "partNumber": "Produktnummer",
       "serialNumber": "Seriennummer",
+      "batchNumber": "Chargennummer",
       "qualityType": "Qualitätsstufe",
       "productionDate": "Produktionsdatum",
       "productionCountry": "Produktionsland",

@@ -40,6 +40,7 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
     'manufacturer',
     'partNumber',
     'serialNumber',
+    'batchNumber',
     'productionDate',
   ];
 
@@ -48,6 +49,7 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
     manufacturer: true,
     partNumber: true,
     serialNumber: true,
+    batchNumber: true,
     productionDate: true,
   };
 

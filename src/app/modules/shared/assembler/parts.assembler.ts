@@ -45,6 +45,7 @@ export class PartsAssembler {
       manufacturer: part.manufacturerName,
       serialNumber: part.manufacturerPartId,
       partNumber: part.customerPartId,
+      batchNumber: part.batchId || '--',
       productionCountry: part.manufacturingCountry,
       nameAtCustomer: part.nameAtCustomer,
       customerPartId: part.customerPartId,
@@ -102,8 +103,8 @@ export class PartsAssembler {
         return viewData;
       }
 
-      const { manufacturer, partNumber, serialNumber } = viewData.data;
-      return { data: { manufacturer, partNumber, serialNumber } as Part };
+      const { manufacturer, partNumber, serialNumber, batchNumber } = viewData.data;
+      return { data: { manufacturer, partNumber, serialNumber, batchNumber } as Part };
     });
   }
 
@@ -129,6 +130,7 @@ export class PartsAssembler {
       ['manufacturer', 'manufacturerName'],
       ['serialNumber', 'manufacturerPartId'],
       ['partNumber', 'customerPartId'],
+      ['batchNumber', 'batchId'],
       ['productionCountry', 'manufacturingCountry'],
       ['nameAtCustomer', 'nameAtCustomer'],
       ['customerPartId', 'customerPartId'],
