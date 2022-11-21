@@ -17,14 +17,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { setupWorker } from 'msw';
-import { adminHandler, dashboardHandler, investigationsHandlers, otherPartsHandlers, partsHandlers } from './services';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 
-const handlers = [
-  ...dashboardHandler,
-  ...otherPartsHandlers,
-  ...partsHandlers,
-  ...investigationsHandlers,
-  ...adminHandler,
-];
-export const worker = setupWorker(...handlers);
+export interface RegistryProcess {
+  startDate: CalendarDateModel;
+  registryLookupStatus: RegistryLookupStatus;
+  successShellDescriptorsFetchCount: number;
+  failedShellDescriptorsFetchCount: number;
+  shellDescriptorsFetchDelta: number;
+  endDate: CalendarDateModel;
+}
+
+export interface RegistryProcessResponse {
+  startDate: string; // ISO8601
+  registryLookupStatus: RegistryLookupStatus;
+  successShellDescriptorsFetchCount: number;
+  failedShellDescriptorsFetchCount: number;
+  shellDescriptorsFetchDelta: number;
+  endDate: string; // ISO8601
+}
+
+export enum RegistryLookupStatus {
+  SUCCESSFUL = 'SUCCESSFUL',
+  PARTIALLY_SUCCESS = 'PARTIALLY_SUCCESS',
+  ERROR = 'ERROR',
+}

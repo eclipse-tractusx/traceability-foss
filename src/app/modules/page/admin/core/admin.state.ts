@@ -17,14 +17,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { setupWorker } from 'msw';
-import { adminHandler, dashboardHandler, investigationsHandlers, otherPartsHandlers, partsHandlers } from './services';
+import { Injectable } from '@angular/core';
+import { Pagination } from '@core/model/pagination.model';
+import { RegistryProcess } from '@page/admin/core/admin.model';
+import { State } from '@shared/model/state';
+import { View } from '@shared/model/view.model';
+import { Observable } from 'rxjs';
 
-const handlers = [
-  ...dashboardHandler,
-  ...otherPartsHandlers,
-  ...partsHandlers,
-  ...investigationsHandlers,
-  ...adminHandler,
-];
-export const worker = setupWorker(...handlers);
+@Injectable()
+export class AdminState {
+  private readonly _scheduledRegistryProcesses$ = new State<View<Pagination<RegistryProcess>>>({ loader: true });
+
+  public get scheduledRegistryProcesses$(): Observable<View<Pagination<RegistryProcess>>> {
+    return this._scheduledRegistryProcesses$.observable;
+  }
+
+  public set scheduledRegistryProcesses(view: View<Pagination<RegistryProcess>>) {
+    this._scheduledRegistryProcesses$.update(view);
+  }
+}

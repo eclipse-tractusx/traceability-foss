@@ -17,14 +17,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { setupWorker } from 'msw';
-import { adminHandler, dashboardHandler, investigationsHandlers, otherPartsHandlers, partsHandlers } from './services';
+import { environment } from '@env';
+import { rest } from 'msw';
+import { applyPagination, extractPagination } from '../pagination.helper';
+import { buildMockRegistryProcesses } from './admin.model';
 
-const handlers = [
-  ...dashboardHandler,
-  ...otherPartsHandlers,
-  ...partsHandlers,
-  ...investigationsHandlers,
-  ...adminHandler,
-];
-export const worker = setupWorker(...handlers);
+export const adminHandler = (_ => {
+  const mockRegistryProcesses = buildMockRegistryProcesses();
+  return [
+    rest.get(`${environment.apiUrl}/metrics/registry-lookup`, (req, res, ctx) => {
+      const pagination = extractPagination(req);
+
+      return res(ctx.status(200), ctx.json(applyPagination(mockRegistryProcesses, pagination)));
+    }),
+  ];
+})();
