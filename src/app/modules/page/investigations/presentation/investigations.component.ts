@@ -26,7 +26,7 @@ import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components
 import { Notification } from '@shared/model/notification.model';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/delete/cancel-notification-modal.component';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
 @Component({
@@ -36,7 +36,7 @@ import { InvestigationsFacade } from '../core/investigations.facade';
 export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentInit {
   @ViewChild(CloseNotificationModalComponent) private closeModal: CloseNotificationModalComponent;
   @ViewChild(ApproveNotificationModalComponent) private approveModal: ApproveNotificationModalComponent;
-  @ViewChild(DeleteNotificationModalComponent) private deleteModal: DeleteNotificationModalComponent;
+  @ViewChild(CancelNotificationModalComponent) private cancelModal: CancelNotificationModalComponent;
 
   public readonly investigationsReceived$;
   public readonly investigationsQueuedAndRequested$;
@@ -73,9 +73,9 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
         condition: data => this.helperService.showApproveButton(data),
       },
       {
-        label: 'actions.delete',
-        icon: 'delete',
-        action: data => this.deleteModal.show(data),
+        label: 'actions.cancel',
+        icon: 'cancel',
+        action: data => this.cancelModal.show(data),
         condition: data => this.helperService.showCancelButton(data),
       },
     ];

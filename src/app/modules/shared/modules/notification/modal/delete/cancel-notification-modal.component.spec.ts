@@ -19,7 +19,7 @@
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
-import { DeleteNotificationModalComponent } from '@shared/modules/notification/modal/delete/delete-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/delete/cancel-notification-modal.component';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -43,12 +43,12 @@ describe('DeleteNotificationModalComponent', () => {
   };
 
   const renderModal = async () => {
-    const { fixture } = await renderComponent(DeleteNotificationModalComponent, {
-      declarations: [DeleteNotificationModalComponent],
+    const { fixture } = await renderComponent(CancelNotificationModalComponent, {
+      declarations: [CancelNotificationModalComponent],
       imports: [NotificationModule, SharedModule, TemplateModule],
     });
 
-    fixture.componentInstance.deleteCall = (id: string) => of(null);
+    fixture.componentInstance.cancelCall = (id: string) => of(null);
     fixture.componentInstance.show(notification);
     fixture.autoDetectChanges();
 

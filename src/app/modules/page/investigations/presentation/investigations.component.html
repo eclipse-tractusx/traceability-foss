@@ -21,10 +21,10 @@ SPDX-License-Identifier: Apache-2.0
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [approveCall]="helperService.approve.bind(this)"
 ></app-approve-notification-modal>
-<app-delete-notification-modal
+<app-cancel-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [deleteCall]="helperService.cancel.bind(this)"
-></app-delete-notification-modal>
+  [cancelCall]="helperService.cancel.bind(this)"
+></app-cancel-notification-modal>
 <app-close-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [closeCall]="helperService.close.bind(this)"

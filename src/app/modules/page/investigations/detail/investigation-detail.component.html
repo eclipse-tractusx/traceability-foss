@@ -33,12 +33,12 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
     <app-button
       *ngIf="helperService.showCancelButton(selectedInvestigation)"
-      (click)="deleteModal?.show(selectedInvestigation)"
+      (click)="cancelModal?.show(selectedInvestigation)"
       [color]="'primary'"
     >
       <div class="flex justify-between items-center">
-        <mat-icon class="mr-2">delete</mat-icon>
-        {{ 'commonInvestigation.modal.delete' | i18n }}
+        <mat-icon class="mr-2">cancel</mat-icon>
+        {{ 'commonInvestigation.modal.cancel' | i18n }}
       </div>
     </app-button>
     <app-button
@@ -58,10 +58,10 @@ SPDX-License-Identifier: Apache-2.0
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [approveCall]="helperService.approve.bind(this)"
 ></app-approve-notification-modal>
-<app-delete-notification-modal
+<app-cancel-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [deleteCall]="helperService.cancel.bind(this)"
-></app-delete-notification-modal>
+  [cancelCall]="helperService.cancel.bind(this)"
+></app-cancel-notification-modal>
 <app-close-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [closeCall]="helperService.close.bind(this)"
