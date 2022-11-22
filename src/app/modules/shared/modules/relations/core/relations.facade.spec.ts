@@ -105,7 +105,7 @@ describe('Relations facade', () => {
   });
 
   describe('deleteOpenElement', () => {
-    it('should delete opened element', async () => {
+    it('should cancel opened element', async () => {
       const { id, childDescriptions } = MOCK_part_1;
       const children = childDescriptionsToChild(childDescriptions);
       const mockTreeElement = { id, children } as TreeElement;
@@ -118,7 +118,7 @@ describe('Relations facade', () => {
       expect(openElements).toEqual(expected);
     });
 
-    it('should delete open element', async () => {
+    it('should cancel open element', async () => {
       const { id, childDescriptions } = MOCK_part_1;
       const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
       const expected_all = {

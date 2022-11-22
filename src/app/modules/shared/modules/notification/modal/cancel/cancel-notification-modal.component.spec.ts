@@ -19,7 +19,7 @@
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
-import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/delete/cancel-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -27,7 +27,7 @@ import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 
-describe('DeleteNotificationModalComponent', () => {
+describe('CancelNotificationModalComponent', () => {
   let notification: Notification = {
     id: 'id-1',
     description: 'Investigation No 1',
@@ -55,13 +55,15 @@ describe('DeleteNotificationModalComponent', () => {
     return fixture;
   };
 
-  it('should create delete modal', async () => {
+  it('should create cancel modal', async () => {
     await renderModal();
-    const title = await waitFor(() => screen.getByText('Deletion of investigation'));
-    const hint = await waitFor(() => screen.getByText('Are you sure you want to delete this investigation?'));
-    const hint2 = await waitFor(() => screen.getByText('Enter the ID of the investigation to confirm your deletion.'));
+    const title = await waitFor(() => screen.getByText('Cancellation of investigation'));
+    const hint = await waitFor(() => screen.getByText('Are you sure you want to cancel this investigation?'));
+    const hint2 = await waitFor(() =>
+      screen.getByText('Enter the ID of the investigation to confirm your cancellation.'),
+    );
     const buttonL = await waitFor(() => screen.getByText('Cancel'));
-    const buttonR = await waitFor(() => screen.getByText('Delete'));
+    const buttonR = await waitFor(() => screen.getByText('Confirm cancellation'));
 
     expect(title).toBeInTheDocument();
     expect(hint).toBeInTheDocument();
@@ -79,7 +81,7 @@ describe('DeleteNotificationModalComponent', () => {
 
   it('should check validation of textarea', async () => {
     const fixture = await renderModal();
-    const buttonR = await waitFor(() => screen.getByText('Delete'));
+    const buttonR = await waitFor(() => screen.getByText('Confirm cancellation'));
     buttonR.click();
 
     const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
@@ -103,11 +105,11 @@ describe('DeleteNotificationModalComponent', () => {
     expect(errorMessage_2).not.toBeInTheDocument();
   });
 
-  xit('should call delete function', async () => {
+  xit('should call cancel function', async () => {
     const fixture = await renderModal();
     const randomSpyName = spyOn((fixture.componentInstance as any).toastService, 'success').and.returnValue(of([]));
 
-    const buttonR = await waitFor(() => screen.getByText('Delete'));
+    const buttonR = await waitFor(() => screen.getByText('Confirm cancellation'));
     buttonR.click();
 
     await waitFor(() => expect(randomSpyName).toHaveBeenCalled());
