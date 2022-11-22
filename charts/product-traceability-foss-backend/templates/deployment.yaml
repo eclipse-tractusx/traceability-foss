@@ -69,8 +69,6 @@ spec:
               value: {{ .Values.datasource.username | quote }}
             - name: SPRING_DATASOURCE_PASSWORD
               value: {{ .Values.datasource.password | quote }}
-            - name: DIGITALTWINREGISTRY_URL
-              value: "https://trace-x-registry.int.demo.catena-x.net"
             - name: JAVA_TOOL_OPTIONS
               value: {{ .Values.javaToolOptions | default "" | quote }}
             {{- range $key, $val := .Values.env }}
