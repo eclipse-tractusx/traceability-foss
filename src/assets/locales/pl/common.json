@@ -1,10 +1,10 @@
 {
-  "clipboard": "Copied \"{{value}}\" to clipboard! TRANSLATION NEEDED",
+  "clipboard": "Skopiowano \"{{value}}\" do schowka!",
   "routing": {
     "home": "Strona główna",
     "dashboard": "Pulpit",
     "parts": "Części",
-    "otherParts": "Other parts TBD.",
+    "otherParts": "Pozostałe cześci",
     "about": "O nas",
     "relations": "Relacje",
     "admin": "Administracja",
@@ -28,9 +28,6 @@
     "close": "Zamknij",
     "viewDetails": "Zobacz szczegóły"
   },
-  "error": {
-    "genericTitle": "Błąd"
-  },
   "table": {
     "noResultFound": "BRAK WYNIKÓW.",
     "tryAgain": "Spróbuj ponownie później.",
@@ -42,14 +39,13 @@
       "manufacturer": "Producent",
       "partNumber": "Numer części",
       "serialNumber": "Numer seryjny",
-      "qualityType": "Typ jakości",
       "productionDate": "Data produkcji",
+      "qualityType": "Typ jakości",
       "productionCountry": "Kraj produkcji",
-      "childInvestigation": "Child Investigation",
       "description": "Opis",
       "status": "Stan",
       "createdDate": "Utworzono",
-      "createdBy": "Created by"
+      "createdBy": "Utworzono przez"
     }
   },
   "dataLoading": {
@@ -58,10 +54,10 @@
   },
   "qualityType": {
     "Ok": "Ok",
-    "Minor": "Minor",
-    "Major": "Major",
-    "Critical": "Critical",
-    "LifeThreatening": "Life-Threatening"
+    "Minor": "Niewielki",
+    "Major": "Znaczny",
+    "Critical": "Krytyczny",
+    "LifeThreatening": "Zagrażający życiu"
   },
   "map": {
     "AttributionControl.ToggleAttribution": "Przełącz atrybucję",
@@ -90,13 +86,16 @@
     "pattern": "Nie odpowiada wzorcowi: {{pattern}}.",
     "generic": "Nieprawidłowe dane."
   },
+  "unitTest": {
+    "test01": "Do celów testów jednostkowych.",
+    "test02": "Do celów testów jednostkowych. {{test}}"
+  },
   "qualityInvestigation": {
     "success": "Badanie skolejkowane dla {{count}} części",
     "goToQueue": "Otwórz Kolejke"
   },
   "requestInvestigations": {
     "headline": "Zacznij badanie jakości",
-    "partDescription": "Wybrano następny części",
     "textAreaDescription": "Dodaj opis badania",
     "restoreItem": "Czy chcesz przywrócić ostatni przedmiot?",
     "textAreaLabel": "Opis",
@@ -117,36 +116,37 @@
     "viewAll": "View all",
     "tabs": {
       "received": "Otrzymane",
-      "queuedNRequested": "Skolejkowane & Zażądane"
+      "queuedAndRequested": "Skolejkowane & Zażądane"
     },
     "status": {
-      "RECEIVED": "Otrzymane",
+      "APPROVED": "Zgłoszone",
+      "CANCELED": "Anulowane",
+      "CLOSED": "Zamknięte",
       "CREATED": "Skolejkowane",
-      "APPROVED": "Zażądane"
+      "RECEIVED": "Odebrane"
     },
     "modal": {
-      "approvalTitle": "TBD: Approval of investigation",
-      "approvalDescription": "TBD: Are you sure you want to approve this investigation?",
-      "closeTitle": "TBD: Close of investigation",
-      "closeDescription": "TBD: Are you sure you want to close this investigation?",
-      "closeReasonHint": "TBD: Enter the reason for close action.",
+      "approvalTitle": "Zatwierdzenie badania jakości",
+      "approvalDescription": "Czy jesteś pewien że chcesz zatwierdzić to badanie jakości?",
+      "closeTitle": "Zamknięcie badania jakości",
+      "closeDescription": "Czy jesteś pewien, że chcesz zamknąć to badanie jakości?",
+      "closeReasonHint": "Wprowadź powód do akcji zamknięcia badania",
       "cancellationTitle": "Anulowanie badania jakości",
       "cancellationDescription": "Czy jesteś pewien, że chcesz anulować badanie jakości?",
       "cancellationHint": "Wprowadz ID badania jakości aby potwierdzić akcję anulowania.",
       "cancellationConfirm": "Potwierdż anulowanie",
       "approve": "Zaakceptuj",
-      "close": "TBD: Close",
-      "delete": "TBD: Delete",
-      "confirm": "TBD: Approve",
-      "cancel": "TBD: Cancel",
+      "close": "Zamknij",
+      "confirm": "Zatwierdź",
+      "cancel": "Anuluj",
 
-      "successfullyApproved": "TBD: Investigation was closed successfully.",
-      "successfullyCanceled": "TBD: Investigation was closed successfully.",
-      "successfullyClosed": "TBD: Investigation was closed successfully.",
+      "successfullyApproved": "Badanie zostało zaakceptowane.",
+      "successfullyCanceled": "Badanie zostało anulowane.",
+      "successfullyClosed": "Badanie zostało zamknięte.",
 
-      "failedApprove": "TBD: Investigation failed to close, please try again.",
-      "failedCancel": "TBD: Investigation failed to cancel, please try again.",
-      "failedClose": "TBD: Investigation failed to close, please try again."
+      "failedApprove": "Nie udało się zaakceptować badania, spróbuj ponownie później.",
+      "failedCancel": "Nie udało się anulować badania, spróbuj ponownie później.",
+      "failedClose": "Nie udało się zamknąć badania, spróbuj ponownie później."
     }
   }
 }

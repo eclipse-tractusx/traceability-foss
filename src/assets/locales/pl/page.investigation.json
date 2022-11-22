@@ -2,8 +2,8 @@
   "pageInvestigation": {
     "info": "Informacje ogólne",
     "selectedParts_one": "{{count}} część została wybrana",
-    "selectedParts_few": "{{count}} części została wybrana",
-    "selectedParts_many": "{{count}} części została wybrana",
+    "selectedParts_few": "{{count}} części zostały wybrane",
+    "selectedParts_many": "{{count}} części zostało wybrane",
     "selectPartsAction": "Rozpocznij badanie jakości",
 
     "subHeadline": {

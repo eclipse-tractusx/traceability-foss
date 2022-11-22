@@ -138,16 +138,15 @@
       "cancellationConfirm": "Confirm cancellation",
       "approve": "Approve",
       "close": "Close",
-      "delete": "Delete",
       "confirm": "Approve",
       "cancel": "Cancel",
 
       "successfullyApproved": "Investigation was approved successfully.",
-      "successfullyCanceled": "Investigation was deleted successfully.",
+      "successfullyCanceled": "Investigation was canceled successfully.",
       "successfullyClosed": "Investigation was closed successfully.",
 
       "failedApprove": "Investigation failed to close, please try again.",
-      "failedCancel": "Investigation failed to delete, please try again.",
+      "failedCancel": "Investigation failed to cancel, please try again.",
       "failedClose": "Investigation failed to close, please try again."
     }
   }
