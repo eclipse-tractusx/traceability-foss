@@ -26,7 +26,7 @@ import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components
 import { Notification } from '@shared/model/notification.model';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/delete/cancel-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
 @Component({
