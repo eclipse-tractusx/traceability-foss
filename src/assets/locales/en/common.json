@@ -46,6 +46,7 @@
       "manufacturer": "Manufacturer",
       "partNumber": "Part Number",
       "serialNumber": "Serial Number",
+      "batchNumber": "Batch Number",
       "productionDate": "Production Date",
       "qualityType": "Quality Type",
       "productionCountry": "Production Country",

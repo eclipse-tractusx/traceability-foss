@@ -44,6 +44,7 @@ describe('PartsAssembler', () => {
       const expected = [];
       for (let i = 0; i < 3; i++) {
         const id = 'id_' + i;
+        const batchId = 'batchId_' + i;
         const idShort = 'idShort_' + i;
         const nameAtManufacturer = 'nameAtManufacturer';
         const manufacturerPartId = 'manufacturerPartId';
@@ -65,6 +66,7 @@ describe('PartsAssembler', () => {
           manufacturerName,
           nameAtCustomer,
           customerPartId,
+          batchId,
           manufacturingDate,
           manufacturingCountry,
           specificAssetIds,
@@ -77,6 +79,7 @@ describe('PartsAssembler', () => {
           manufacturer: manufacturerName,
           serialNumber: manufacturerPartId,
           partNumber: customerPartId,
+          batchNumber: batchId,
           productionCountry: manufacturingCountry,
           nameAtCustomer: nameAtCustomer,
           customerPartId: customerPartId,
@@ -115,13 +118,14 @@ describe('PartsAssembler', () => {
     const partNumber = 'partNumber';
     const name = 'name';
     const serialNumber = 'serialNumber';
+    const batchNumber = 'batchNumber';
 
     it('should clean up data for manufacturer view', done => {
-      const data = { manufacturer, partNumber, name, serialNumber, test: '' } as unknown as Part;
+      const data = { manufacturer, partNumber, name, serialNumber, batchNumber, test: '' } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
-          expect(result).toEqual({ data: { manufacturer, partNumber, serialNumber } as unknown as Part });
+          expect(result).toEqual({ data: { manufacturer, partNumber, serialNumber, batchNumber } as unknown as Part });
           done();
         });
     });
