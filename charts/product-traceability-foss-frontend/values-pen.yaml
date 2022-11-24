@@ -15,12 +15,12 @@ ingress:
   className: "nginx"
   annotations:
   hosts:
-    - host: "traceability-pen-portal.dev.demo.catena-x.net"
+    - host: "https://traceability-portal-pen.dev.demo.catena-x.net/"
       paths:
         - path: /
           pathType: Prefix
   tls:
     - hosts:
-        - "traceability-portal.dev.demo.catena-x.net"
+        - "https://traceability-portal-pen.dev.demo.catena-x.net/"
       # Default secret for certificate creation already provided to your namespace
       secretName: tls-secret
