@@ -132,9 +132,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       updateChildren: this.updateChildren.bind(this),
     };
 
-    this.tree = new Tree(treeConfig, {
-      preserveRight: 32 + 64, // we want to preserve space on load for zoom control
-    });
+    this.tree = new Tree(treeConfig);
 
     if (!this.showMiniMap) {
       return;
