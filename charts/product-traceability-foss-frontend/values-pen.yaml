@@ -1,0 +1,26 @@
+environment: "int"
+
+image:
+  tag: $ARGOCD_APP_REVISION
+  CATENAX_PORTAL_API_URL: 'traceability-pen.dev.demo.catena-x.net'
+  CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp-pen.dev.demo.catena-x.net/auth'
+  CATENAX_PORTAL_CLIENT_ID: 'Cl17-CX-Part'
+  CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
+
+autoscaling:
+  enabled: false
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+  hosts:
+    - host: "traceability-portal-pen.dev.demo.catena-x.net"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - "traceability-portal-pen.dev.demo.catena-x.net"
+      # Default secret for certificate creation already provided to your namespace
+      secretName: tls-secret
