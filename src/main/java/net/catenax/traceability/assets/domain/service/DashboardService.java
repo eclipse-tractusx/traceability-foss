@@ -40,11 +40,13 @@ public class DashboardService {
 		long myParts = assetRepository.countMyAssets();
 		long pendingInvestigations = assetRepository.countPendingInvestigations();
 
-		if (jwtAuthentication.hasRole(JwtRole.USER)) {
-			return new Dashboard(myParts, null, pendingInvestigations);
-		} else if (jwtAuthentication.hasAtLeastOneRole(JwtRole.ADMIN, JwtRole.SUPERVISOR)) {
+		// first check if user has admin or supervisor role
+		if (jwtAuthentication.hasAtLeastOneRole(JwtRole.ADMIN, JwtRole.SUPERVISOR)) {
 			return new Dashboard(myParts, totalAssets - myParts, pendingInvestigations);
-		} else {
+		}
+		else if (jwtAuthentication.hasRole(JwtRole.USER)) {
+			return new Dashboard(myParts, null, pendingInvestigations);
+		}else {
 			throw new AccessDeniedException("User has invalid role to access the dashboard.");
 		}
 	}
