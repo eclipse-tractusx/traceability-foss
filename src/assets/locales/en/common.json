@@ -33,12 +33,21 @@
     "tryAgain": "Please try again later.",
     "selectPageSize": "Select page of periodic elements",
     "menuDescription": "Action menu",
+    "adminColumn": {
+      "startDate": "Start date",
+      "registryLookupStatus": "Status",
+      "successShellDescriptorsFetchCount": "Successful fetches",
+      "failedShellDescriptorsFetchCount": "Failed fetches",
+      "shellDescriptorsFetchDelta": "Fetch Delta",
+      "endDate": "End date"
+    },
     "partsColumn": {
       "id": "ID",
       "name": "Name",
       "manufacturer": "Manufacturer",
       "partNumber": "Part Number",
       "serialNumber": "Serial Number",
+      "batchNumber": "Batch Number",
       "productionDate": "Production Date",
       "qualityType": "Quality Type",
       "productionCountry": "Production Country",

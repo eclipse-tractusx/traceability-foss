@@ -19,11 +19,18 @@
 
 import { setupWorker } from 'msw';
 import {
+  adminHandler,
   dashboardHandler,
   investigationsHandlers,
   otherPartsHandlersTest,
   partsHandlersTest,
 } from '../app/mocks/services';
 
-const handlers = [...dashboardHandler, ...otherPartsHandlersTest, ...partsHandlersTest, ...investigationsHandlers];
+const handlers = [
+  ...dashboardHandler,
+  ...otherPartsHandlersTest,
+  ...partsHandlersTest,
+  ...investigationsHandlers,
+  ...adminHandler,
+];
 export const server = setupWorker(...handlers);

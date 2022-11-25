@@ -24,6 +24,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:55c376ed-e39d-4525-96e6-71f3def7ae41',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'PC-30',
     partInstanceId: 'PC-30',
@@ -44,6 +45,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:d37d8fe4-5684-4c31-8c03-f9dbaa48d82b',
     idShort: '--',
+    batchId: 'NO-961610245865543350976497',
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'PS-28',
     partInstanceId: 'PS-28',
@@ -63,6 +65,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:ab863676-a37c-41e7-a5f9-efaa071dbbf5',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'GP-30',
     partInstanceId: 'GP-30',
@@ -82,6 +85,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:f4d16a8a-1bff-4d93-9715-2629f3ffa560',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'WL-80',
     partInstanceId: 'WL-80',
@@ -134,6 +138,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:6853758f-d624-4530-93fb-07487801cb58',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'CM-41',
     partInstanceId: 'CM-41',
@@ -186,6 +191,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:065fe7fd-010a-4175-8564-7c9d8ce7e57e',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'VI-26',
     partInstanceId: 'VI-26',
@@ -238,6 +244,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:5e5ce920-95ed-434f-b335-efc91b7ce62d',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'WQ-59',
     partInstanceId: 'WQ-59',
@@ -257,6 +264,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:9a80e5ee-6c27-47f5-912a-56945e26b9a6',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'GC-72',
     partInstanceId: 'GC-72',
@@ -276,6 +284,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:bf5ae91d-02f8-4e33-b130-90ec402ac0db',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'VX-55',
     partInstanceId: 'VX-55',
@@ -295,6 +304,7 @@ export const mockBmwAssets = [
   {
     id: 'urn:uuid:d261e0fa-36f5-4128-875e-0f5735f5a535',
     idShort: '--',
+    batchId: '--',
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'TV-65',
     partInstanceId: 'TV-65',
@@ -329,6 +339,7 @@ export const mockAssetsCountriesMap: Record<string, number> = {
 const MockEmptyPart: PartResponse = {
   id: 'urn:uuid:a000a0aa-00a0-0000-000a-0a0000a0a000',
   idShort: '--',
+  batchId: '--',
   nameAtManufacturer: 'No Name Article',
   manufacturerPartId: 'AA-00',
   partInstanceId: 'AA-00',

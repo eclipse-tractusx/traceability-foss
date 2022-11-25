@@ -8,6 +8,7 @@
 [![Kics](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/kics.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/kics.yml)
 [![Trivy](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/trivy.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/trivy.yml)
 [![VeraCode](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/veracode.yaml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/veracode.yaml)
+[![Eclipse DASH IP Check](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/eclipse-dash.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-frontend/actions/workflows/eclipse-dash.yml)
 
 <h2>Trace-X is a system for tracking parts along the supply chain.</h2>
 <h4>A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain.

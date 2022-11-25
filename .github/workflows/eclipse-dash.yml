@@ -1,0 +1,30 @@
+name: "Eclipse DASH IP Check"
+
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - 'main'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: IP dependency check with eclipse dash tool
+        run: ./.github/scripts/eclipse_dash.sh
+        shell: bash
+
+      - name: upload results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          path: 'DASH_SUMMARY'
+
+

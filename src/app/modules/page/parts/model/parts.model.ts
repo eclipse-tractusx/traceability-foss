@@ -26,6 +26,7 @@ export type SortableHeaders =
   | 'manufacturer'
   | 'serialNumber'
   | 'partNumber'
+  | 'batchNumber'
   | 'productionCountry'
   | 'nameAtCustomer'
   | 'customerPartId'
@@ -46,6 +47,7 @@ export interface Part {
   manufacturer: string;
   serialNumber: string;
   partNumber: string;
+  batchNumber: string;
   productionCountry: string;
   qualityType: QualityType;
   productionDate: CalendarDateModel;
@@ -59,6 +61,7 @@ export interface Part {
 export interface PartResponse {
   id: string;
   idShort: string;
+  batchId?: string;
   nameAtManufacturer: string;
   manufacturerPartId: string;
   partInstanceId: string;

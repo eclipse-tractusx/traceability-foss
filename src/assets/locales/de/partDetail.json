@@ -7,6 +7,7 @@
     "name": "Name",
     "partNumber": "Produktnummer",
     "serialNumber": "Seriennummer",
+    "batchNumber": "Chargennummer",
     "qualityType": "Qualitätsstufe",
     "productionDate": "Produktionsdatum",
     "manufacturer": "Hersteller",

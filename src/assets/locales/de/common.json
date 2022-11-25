@@ -33,12 +33,21 @@
     "tryAgain": "Bitte versuchen Sie es später noch einmal.",
     "selectPageSize": "Seite für segmentierte Elemente auswählen",
     "menuDescription": "Aktionsmenü",
+    "adminColumn": {
+      "startDate": "Startdatum",
+      "registryLookupStatus": "Status",
+      "successShellDescriptorsFetchCount": "Erfolgreiche Abrufe",
+      "failedShellDescriptorsFetchCount": "Fehlgeschlagene Abrufe",
+      "shellDescriptorsFetchDelta": "Abruf-Delta",
+      "endDate": "Enddatum"
+    },
     "partsColumn": {
       "id": "ID",
       "name": "Name",
       "manufacturer": "Hersteller",
       "partNumber": "Produktnummer",
       "serialNumber": "Seriennummer",
+      "batchNumber": "Chargennummer",
       "qualityType": "Qualitätsstufe",
       "productionDate": "Produktionsdatum",
       "productionCountry": "Produktionsland",
