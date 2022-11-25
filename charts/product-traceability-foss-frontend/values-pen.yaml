@@ -1,3 +1,6 @@
+# added because of this format: charts/product-traceability-foss-frontend/templates/ingress.yaml:16
+# TODO: need to make sure if this is the best approach
+appName: "traceability-portal-pen"
 environment: "dev"
 
 image:
