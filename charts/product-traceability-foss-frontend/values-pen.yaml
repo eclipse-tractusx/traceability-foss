@@ -1,4 +1,4 @@
-environment: "int"
+environment: "dev"
 
 image:
   tag: $ARGOCD_APP_REVISION
