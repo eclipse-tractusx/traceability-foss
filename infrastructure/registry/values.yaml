@@ -29,7 +29,7 @@ registry:
   ## If 'authentication' is set to false, no OAuth authentication is enforced
   authentication: false
   # needs a valid issuer URI, even if authentication is disabled, because initialisation is
-  idpIssuerUri: https://centralidp.demo.catena-x.net/auth/realms/CX-Central
+  idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
   service:
     port: 8080
     type: ClusterIP

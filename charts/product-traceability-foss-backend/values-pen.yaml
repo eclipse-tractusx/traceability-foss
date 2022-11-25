@@ -1,0 +1,91 @@
+image:
+  tag: $ARGOCD_APP_REVISION
+
+namespace: product-traceability-foss-pen
+
+springprofile: dev #will be set as dev
+
+nameOverride: "product-traceability-foss-pen-backend"
+fullnameOverride: "product-traceability-foss-pen-backend"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+
+
+  hosts:
+    - host: "traceability-pen.dev.demo.catena-x.net"
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - hosts:
+      - "traceability-pen.dev.demo.catena-x.net"
+      secretName: tls-secret
+
+mailserver:
+  host: "smtp.office365.com"
+  port: "587"
+  username: "notifications@catena-x.net"
+  password: <path:traceability-foss/data/pen/mailserver#mailserverPassword>
+
+datasource:
+  url: jdbc:postgresql://tracex-backend-pen-postgresql:5432/trace
+  username: trace
+  password: <path:traceability-foss/data/pen/database#tracePassword>
+
+oauth2:
+  clientId: <path:traceability-foss/data/pen/keycloak/oauth2#clientId>
+  clientSecret: <path:traceability-foss/data/pen/keycloak/oauth2#clientSecret>
+  clientTokenUri: "https://centralidp-pen.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+  jwkSetUri: "https://centralidp-pen.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+  resourceClient: "Cl17-CX-Part"
+
+postgresql:
+  enabled: true
+
+  nameOverride: "tracex-backend-pen-postgresql"
+  fullnameOverride: "tracex-backend-pen-postgresql"
+
+  auth:
+    postgresPassword: <path:traceability-foss/data/pen/database#postgresPassword>
+    password: <path:traceability-foss/data/pen/database#tracePassword>
+    database: "trace"
+    username: "trace"
+
+pgadmin4:
+  enabled: true
+  strategy:
+    type: Recreate
+  networkPolicy:
+    enabled: false
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    hosts:
+      - host: tracex-pen-pgadmin4.dev.demo.catena-x.net
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - tracex-pen-pgadmin4.dev.demo.catena-x.net
+        secretName: tls-secret
+  env:
+    email: pgadmin4@trace.foss
+    password: <path:traceability-foss/data/pen/database#pgadminPassword>
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 500m
+      memory: 512Mi
+
+irs:
+  enabled: false
+
