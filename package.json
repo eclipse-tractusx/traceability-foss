@@ -54,7 +54,7 @@
     "keycloak-js": "18.0.0",
     "lodash-es": "4.17.21",
     "maplibre-gl": "^2.4.0",
-    "postcss": "8.4.13",
+    "postcss": "8.4.19",
     "rxjs": "7.5.7",
     "tailwindcss": "3.0.24",
     "tslib": "2.4.1",
