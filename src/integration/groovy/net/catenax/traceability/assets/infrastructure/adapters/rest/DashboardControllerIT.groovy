@@ -69,17 +69,17 @@ class DashboardControllerIT extends IntegrationSpec implements AssetsSupport {
 
 	def "should return only 'my items' dashboard information for user with USER role"() {
 		given:
-		defaultAssetsStored()
+			defaultAssetsStored()
 
 		expect:
-		given()
-			.header(jwtAuthorization(USER))
-			.when()
-			.get("/api/dashboard")
-			.then()
-			.statusCode(200)
-			.body("myItems", equalTo(1))
-			.body("otherParts", nullValue())
+			given()
+				.header(jwtAuthorization(USER))
+				.when()
+				.get("/api/dashboard")
+				.then()
+				.statusCode(200)
+				.body("myItems", equalTo(1))
+				.body("otherParts", nullValue())
 	}
 
 	def "should not return dashboard information for user without role"() {

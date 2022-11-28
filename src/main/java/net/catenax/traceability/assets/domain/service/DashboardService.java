@@ -43,10 +43,9 @@ public class DashboardService {
 		// first check if user has admin or supervisor role
 		if (jwtAuthentication.hasAtLeastOneRole(JwtRole.ADMIN, JwtRole.SUPERVISOR)) {
 			return new Dashboard(myParts, totalAssets - myParts, pendingInvestigations);
-		}
-		else if (jwtAuthentication.hasRole(JwtRole.USER)) {
+		} else if (jwtAuthentication.hasRole(JwtRole.USER)) {
 			return new Dashboard(myParts, null, pendingInvestigations);
-		}else {
+		} else {
 			throw new AccessDeniedException("User has invalid role to access the dashboard.");
 		}
 	}
