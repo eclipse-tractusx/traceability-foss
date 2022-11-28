@@ -90,12 +90,53 @@ dependencies {
 
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-	// Added because spring-cloud-dependencies:2021.0.5 lead to a downgrade to 5.7.3, and this version has a vulnerability.
-	// A constraint is not working, although spring-boot-starter-oauth2-client pulls it in as transitive dependency.
-	// Could be removed when the version conflict is removed, i.e. a new Spring Cloud version is available
+	// Upgrade Spring security to 5.7.5, because older versions have a CVE vulnerability
+	// Can be removed when an updated Spring version is available
+	implementation("org.springframework.security:spring-security-config") {
+		version {
+			require("5.7.5")
+			because("previous versions have a bug impacting this application")
+		}
+	}
+	implementation("org.springframework.security:spring-security-core") {
+		version {
+			require("5.7.5")
+			because("previous versions have a bug impacting this application")
+		}
+	}
+	implementation("org.springframework.security:spring-security-crypto") {
+		version {
+			require("5.7.5")
+			because("previous versions have a bug impacting this application")
+		}
+	}
 	implementation("org.springframework.security:spring-security-oauth2-client") {
 		version {
-			require("5.7.4")
+			require("5.7.5")
+			because("previous versions have a bug impacting this application")
+		}
+	}
+	implementation("org.springframework.security:spring-security-oauth2-core") {
+		version {
+			require("5.7.5")
+			because("previous versions have a bug impacting this application")
+		}
+	}
+	implementation("org.springframework.security:spring-security-oauth2-jose") {
+		version {
+			require("5.7.5")
+			because("previous versions have a bug impacting this application")
+		}
+	}
+	implementation("org.springframework.security:spring-security-oauth2-resource-server") {
+		version {
+			require("5.7.5")
+			because("previous versions have a bug impacting this application")
+		}
+	}
+	implementation("org.springframework.security:spring-security-web") {
+		version {
+			require("5.7.5")
 			because("previous versions have a bug impacting this application")
 		}
 	}
