@@ -1,8 +1,11 @@
-environment: "int"
+# added because of this format: charts/product-traceability-foss-frontend/templates/ingress.yaml:16
+# TODO: need to make sure if this is the best approach
+appName: "traceability-portal-pen"
+environment: "dev"
 
 image:
   tag: $ARGOCD_APP_REVISION
-  CATENAX_PORTAL_API_URL: 'traceability-pen.dev.demo.catena-x.net'
+  CATENAX_PORTAL_API_URL: 'https://traceability-pen.dev.demo.catena-x.net/api'
   CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp-pen.dev.demo.catena-x.net/auth'
   CATENAX_PORTAL_CLIENT_ID: 'Cl17-CX-Part'
   CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
