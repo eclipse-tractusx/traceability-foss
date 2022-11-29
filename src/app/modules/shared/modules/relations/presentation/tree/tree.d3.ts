@@ -27,32 +27,26 @@ import type { MinimapConnector, TreeSvg } from '../model.d3';
 export class Tree {
   public static readonly CENTERING_MARGIN = 0.1;
   public readonly mainElement: TreeSvg;
+  public readonly id: string;
   public readonly r: number;
-
-  private readonly id: string;
+  public width: number;
+  public height: number;
 
   private readonly openDetails: (data: TreeStructure) => void;
   private readonly updateChildren: (data: TreeStructure) => void;
-
-  public readonly zoomIdentity: ZoomTransform;
-
-  private width: number;
-  private height: number;
 
   private _minimapConnector: MinimapConnector = {
     onZoom: (_zoomChange: ZoomTransform) => null,
   };
   private treeZoom: ZoomBehavior<ZoomedElementBaseType, unknown>;
-  private minimapTriggerTimeout = 0;
+  private nextMinimapUpdate = 0;
 
   constructor(treeData: TreeData) {
     this.id = treeData.id;
-
-    this.mainElement = treeData.mainElement;
+    this.mainElement = d3.select(`#${this.id}`);
 
     this.width = HelperD3.calculateWidth(this.mainElement);
     this.height = HelperD3.calculateHeight(this.mainElement);
-    this.zoomIdentity = d3.zoomIdentity;
 
     this.r = 60;
 
@@ -62,13 +56,11 @@ export class Tree {
     this.initResizeListener();
   }
 
-  public renderTree(treeData: TreeStructure): TreeSvg {
-    const root = d3.hierarchy(treeData);
-    let svg = d3.select(`#${this.id}-svg`) as TreeSvg;
+  public renderTree(data: TreeStructure): TreeSvg {
+    const root = d3.hierarchy(data);
 
-    if (svg.empty()) {
-      svg = this.creatMainSvg();
-    }
+    let svg = d3.select(`#${this.id}-svg`) as TreeSvg;
+    if (svg.empty()) svg = this.creatMainSvg();
 
     d3.tree().nodeSize([this.r * 3, 250])(root);
 
@@ -77,7 +69,7 @@ export class Tree {
     return svg;
   }
 
-  // Darek: Old function for button actions
+  // Todo: Old function for button actions
   public changeSize(sizeChange: number): void {}
 
   public set minimapConnector(connector: MinimapConnector) {
@@ -89,11 +81,8 @@ export class Tree {
   }
 
   public changeViewPosition(transform: ZoomTransform): void {
-    this.minimapTriggerTimeout = Date.now() + 500;
-    d3.select(`#${this.id}--camera`).call(
-      this.treeZoom.transform as any,
-      this.zoomIdentity.translate(transform.x, transform.y).scale(transform.k),
-    );
+    this.nextMinimapUpdate = Date.now() + 500;
+    d3.select(`#${this.id}-svg`).call(this.treeZoom.transform as any, transform);
   }
 
   private creatMainSvg(): TreeSvg {
@@ -108,35 +97,24 @@ export class Tree {
       .append('g')
       .attr('id', this.id + '--camera');
 
-    this.treeZoom = d3
-      .zoom()
-      .extent([
-        [0, 0],
-        [this.width, this.height],
-      ])
-      .scaleExtent([0.2, 1.5])
-      .on('zoom', ({ transform }) => {
-        if (this.minimapTriggerTimeout < Date.now()) {
-          this.minimapConnector.onZoom(transform);
-        }
-        return cameraBody.attr('transform', transform);
-      });
+    this.treeZoom = d3.zoom().scaleExtent([0.2, 1.5]);
+    this.treeZoom.on('zoom', ({ transform }) => {
+      if (this.nextMinimapUpdate < Date.now()) this.minimapConnector.onZoom(transform);
+      return cameraBody.attr('transform', transform);
+    });
 
-    d3.select(`#${this.id}-svg`).call(this.treeZoom, this.zoomIdentity);
+    d3.select(`#${this.id}-svg`).call(this.treeZoom);
     return cameraBody;
   }
 
   private initResizeListener(): void {
-    window.addEventListener(
-      'resize',
-      _ => {
-        this.width = HelperD3.calculateWidth(this.mainElement);
-        this.height = HelperD3.calculateHeight(this.mainElement);
+    const onResize = (width: number, height: number) => {
+      this.width = width;
+      this.height = height;
 
-        d3.select(`#${this.id}-svg`).attr('width', this.width).attr('height', this.height);
-      },
-      { passive: true },
-    );
+      d3.select(`#${this.id}-svg`).attr('width', this.width).attr('height', this.height);
+    };
+    HelperD3.initResizeListener(this.mainElement, onResize);
   }
 }
 

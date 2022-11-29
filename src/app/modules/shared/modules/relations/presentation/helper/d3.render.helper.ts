@@ -198,6 +198,20 @@ export class D3RenderHelper {
     );
   }
 
+  public static renderMinimapClosing(svg: TreeSvg, id: string, xOffset, yOffset, callback: (_: any) => void) {
+    const closingButton = svg.append('a').attr('id', id).on('click', callback).classed('tree--minimap__closing', true);
+
+    closingButton
+      .append('text')
+      .attr('id', `${id}-text`)
+      .attr('x', xOffset + 20)
+      .attr('y', yOffset + 25)
+      .attr('width', 20)
+      .attr('height', 20)
+      .text(' x ')
+      .classed('tree--element__text', true);
+  }
+
   public static renderRelation(el: SVGSelection, dataNode: TreeNode, r: number, id: string, callback: (data) => void) {
     const { data } = dataNode;
 

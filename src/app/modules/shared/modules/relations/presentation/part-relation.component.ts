@@ -127,7 +127,6 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   private initTree(): void {
     const treeConfig: TreeData = {
       id: this.htmlId,
-      mainElement: d3.select(`#${this.htmlId}`),
       openDetails: this.isStandalone ? this.openDetails.bind(this) : _ => null,
       updateChildren: this.updateChildren.bind(this),
     };
@@ -138,10 +137,7 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    const minimapId = `${this.htmlId}-minimap`;
     const minimapConfig: MinimapData = {
-      id: minimapId,
-      mainElement: d3.select(`#${minimapId}`),
       treeInstance: this.tree,
     };
 
