@@ -53,7 +53,10 @@ SPDX-License-Identifier: Apache-2.0
         ></ng-container>
       </div>
     </mat-expansion-panel>
-    <mat-expansion-panel [disabled]="(selectedPartDetails$ | async)?.data?.children?.length ? undefined : true">
+    <mat-expansion-panel
+      *appHasRole="['wip']"
+      [disabled]="(selectedPartDetails$ | async)?.data?.children?.length ? undefined : true"
+    >
       <mat-expansion-panel-header>
         <mat-panel-title>{{ 'partDetail.investigation.tab.header' | i18n }}</mat-panel-title>
         <mat-panel-description class="justify-between items-center">

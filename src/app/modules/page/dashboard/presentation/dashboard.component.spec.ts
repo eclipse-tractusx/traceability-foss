@@ -75,13 +75,13 @@ describe('Dashboard', () => {
 
   describe('investigations', () => {
     it('should render investigation component', async () => {
-      await renderDashboard();
+      await renderDashboard({ roles: ['wip'] });
 
       expect(await screen.findByText('Quality Investigations')).toBeInTheDocument();
     });
 
     it('should render count for investigations', async () => {
-      await renderDashboard();
+      await renderDashboard({ roles: ['wip'] });
 
       expect(await screen.findByText('20')).toBeInTheDocument();
 

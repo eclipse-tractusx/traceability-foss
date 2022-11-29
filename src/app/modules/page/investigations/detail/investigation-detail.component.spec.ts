@@ -28,6 +28,7 @@ import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.mo
 describe('InvestigationDetailComponent', () => {
   const renderInvestigationDetail = async (id?: string) => {
     return await renderComponent(InvestigationDetailComponent, {
+      roles: ['wip'],
       imports: [InvestigationsModule],
       providers: [
         InvestigationsService,

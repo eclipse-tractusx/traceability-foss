@@ -61,6 +61,7 @@ const routes: Routes = [
     loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
     data: {
       breadcrumb: 'investigations',
+      roles: ['wip'],
     },
     canActivate: [RoleGuard],
   },

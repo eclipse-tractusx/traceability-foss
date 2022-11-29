@@ -24,8 +24,9 @@ import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('InvestigationsComponent', () => {
-  const renderInvestigations = async (id?: string) => {
+  const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
+      roles: ['wip'],
       imports: [InvestigationsModule],
       providers: [InvestigationsService],
       translations: ['page.investigation'],

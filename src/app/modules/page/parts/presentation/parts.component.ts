@@ -82,6 +82,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngAfterViewInit(): void {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
+      columnRoles: { childInvestigation: 'wip' },
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
       sortableColumns: this.sortableColumns,
       cellRenderers: {
