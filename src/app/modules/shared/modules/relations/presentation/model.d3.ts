@@ -28,3 +28,14 @@ export type TreeNode = HierarchyCircularNode<TreeStructure>;
 export interface MinimapConnector {
   onZoom: (zoom: ZoomTransform) => void;
 }
+
+export interface MinimapIds {
+  circle: string;
+  closeButton: string;
+  closing: string;
+  icon: string;
+  main: string;
+  minimap: string;
+  viewport: string;
+  viewportContainer: string;
+}

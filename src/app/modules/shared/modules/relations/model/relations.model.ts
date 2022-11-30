@@ -48,6 +48,7 @@ export interface TreeData {
   id: string;
   treeId?: string;
   r?: number;
+  defaultZoom?: number;
   openDetails?: (data: TreeStructure) => void;
   updateChildren?: (data: TreeStructure) => void;
 }

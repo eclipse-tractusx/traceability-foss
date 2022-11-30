@@ -29,6 +29,12 @@ export class Tree {
   public readonly mainElement: TreeSvg;
   public readonly id: string;
   public readonly r: number;
+
+  private readonly defaultZoom: number;
+  private readonly zoomConfig: [number, number] = [0.2, 1.5];
+
+  private currentZoom = new ZoomTransform(1, 0, 0);
+
   public width: number;
   public height: number;
 
@@ -38,7 +44,7 @@ export class Tree {
   private _minimapConnector: MinimapConnector = {
     onZoom: (_zoomChange: ZoomTransform) => null,
   };
-  private treeZoom: ZoomBehavior<ZoomedElementBaseType, unknown>;
+  private zoom: ZoomBehavior<ZoomedElementBaseType, unknown>;
   private nextMinimapUpdate = 0;
 
   constructor(treeData: TreeData) {
@@ -47,11 +53,12 @@ export class Tree {
 
     this.width = HelperD3.calculateWidth(this.mainElement);
     this.height = HelperD3.calculateHeight(this.mainElement);
+    this.defaultZoom = treeData.defaultZoom;
 
     this.r = 60;
 
-    this.openDetails = treeData.openDetails;
-    this.updateChildren = treeData.updateChildren;
+    this.openDetails = treeData.openDetails.bind(this);
+    this.updateChildren = treeData.updateChildren.bind(this);
 
     this.initResizeListener();
   }
@@ -65,12 +72,20 @@ export class Tree {
     d3.tree().nodeSize([this.r * 3, 250])(root);
 
     D3RenderHelper.renderTreePaths(svg, root, this.r, this.id);
-    D3RenderHelper.renderTreeNodes(svg, root, this.r, this.id, this.updateChildren.bind(this));
+    D3RenderHelper.renderTreeNodes(svg, root, this.r, this.id, this.updateChildren, this.openDetails);
     return svg;
   }
 
-  // Todo: Old function for button actions
-  public changeSize(sizeChange: number): void {}
+  public changeSize(sizeChange: number): void {
+    const { k, x, y } = this.currentZoom;
+    const [min, max] = this.zoomConfig;
+    const newScale = k - sizeChange;
+
+    if (newScale < min || newScale > max) return;
+
+    const newTransform = new ZoomTransform(newScale, x, y);
+    d3.select(`#${this.id}-svg`).call(this.zoom.transform as any, newTransform);
+  }
 
   public set minimapConnector(connector: MinimapConnector) {
     this._minimapConnector = connector;
@@ -82,28 +97,30 @@ export class Tree {
 
   public changeViewPosition(transform: ZoomTransform): void {
     this.nextMinimapUpdate = Date.now() + 500;
-    d3.select(`#${this.id}-svg`).call(this.treeZoom.transform as any, transform);
+    d3.select(`#${this.id}-svg`).call(this.zoom.transform as any, transform);
   }
 
   private creatMainSvg(): TreeSvg {
-    const cameraBody = this.mainElement
+    const svg = this.mainElement
       .append('svg')
       .attr('id', this.id + '-svg')
       .attr('viewBox', [-this.width / 3, -this.height / 2, this.width, this.height])
       .attr('width', this.width)
       .attr('height', this.height)
       .attr('font-size', 10)
-      .classed('tree--element', true)
-      .append('g')
-      .attr('id', this.id + '--camera');
+      .classed('tree--element', true);
+    const cameraBody = svg.append('g').attr('id', this.id + '--camera');
 
-    this.treeZoom = d3.zoom().scaleExtent([0.2, 1.5]);
-    this.treeZoom.on('zoom', ({ transform }) => {
+    this.zoom = d3.zoom().scaleExtent(this.zoomConfig);
+    this.zoom.on('zoom', ({ transform }) => {
+      this.currentZoom = transform;
       if (this.nextMinimapUpdate < Date.now()) this.minimapConnector.onZoom(transform);
       return cameraBody.attr('transform', transform);
     });
 
-    d3.select(`#${this.id}-svg`).call(this.treeZoom);
+    svg.call(this.zoom);
+    if (this.defaultZoom !== 1) svg.call(this.zoom.transform as any, new ZoomTransform(this.defaultZoom, 0, 0));
+
     return cameraBody;
   }
 

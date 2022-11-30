@@ -20,34 +20,18 @@
 import { TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { D3RenderHelper } from '@shared/modules/relations/presentation/helper/d3.render.helper';
 import { HelperD3 } from '@shared/modules/relations/presentation/helper/helper.d3';
-import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
+import { MinimapIds, TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 import Tree from '@shared/modules/relations/presentation/tree/tree.d3';
 import * as d3 from 'd3';
 import { HierarchyNode, ZoomBehavior, ZoomedElementBaseType, ZoomTransform } from 'd3';
 
-export interface MinimapData {
-  treeInstance: Tree;
-}
-
 export class Minimap {
-  private ids: {
-    circle: string;
-    closeButton: string;
-    closing: string;
-    icon: string;
-    main: string;
-    minimap: string;
-    viewport: string;
-    viewportContainer: string;
-  };
+  private ids: MinimapIds;
 
   private readonly scale = 20;
   private readonly r: number;
   private readonly mainElement: TreeSvg;
-  private readonly treeInstance: Tree;
 
-  private readonly treeWidth: number;
-  private readonly treeHeight: number;
   private readonly treeViewportX: number;
   private readonly treeViewportY: number;
 
@@ -57,13 +41,12 @@ export class Minimap {
   private width: number;
   private height: number;
 
-  private maxChildDepth: number;
-  private currentZoomTransform = new ZoomTransform(1, 0, 0);
-  private treeZoom: ZoomBehavior<ZoomedElementBaseType, unknown>;
+  private currentZoom = new ZoomTransform(1, 0, 0);
+  private zoom: ZoomBehavior<ZoomedElementBaseType, unknown>;
   private nextTreeUpdateAt = 0;
+  private zoomChangeStore: ZoomTransform;
 
-  constructor(treeData: MinimapData) {
-    this.treeInstance = treeData.treeInstance;
+  constructor(private readonly treeInstance: Tree) {
     this.treeInstance.minimapConnector = {
       onZoom: this.onExternalZoomChange.bind(this),
     };
@@ -74,11 +57,8 @@ export class Minimap {
     this.width = HelperD3.calculateWidth(this.mainElement);
     this.height = HelperD3.calculateHeight(this.mainElement);
 
-    this.treeWidth = this.treeInstance.width;
-    this.treeHeight = this.treeInstance.height;
-
-    this.treeViewportX = -(this.treeWidth / 3 / this.scale);
-    this.treeViewportY = -(this.treeHeight / 2 / this.scale);
+    this.treeViewportX = -(this.treeInstance.width / 3 / this.scale);
+    this.treeViewportY = -(this.treeInstance.height / 2 / this.scale);
 
     this.r = this.treeInstance.r / this.scale;
 
@@ -129,7 +109,6 @@ export class Minimap {
 
   private creatMainSvg(root: HierarchyNode<TreeStructure>): TreeSvg {
     d3.tree().nodeSize([this.r * 3, 250 / this.scale])(root);
-    this.maxChildDepth = this.getHighestChildCount(root.data);
     this.height = HelperD3.calculateHeight(this.mainElement);
 
     const calculatedHeight = this.height / (root.height || 1);
@@ -138,6 +117,7 @@ export class Minimap {
     return this.mainElement
       .append('svg')
       .attr('id', this.ids.main)
+      .attr('data-testid', this.ids.main)
       .attr('viewBox', this.getViewBox())
       .attr('width', this.width)
       .attr('height', this.height)
@@ -147,7 +127,10 @@ export class Minimap {
   private drawTreeViewport(svg: TreeSvg): void {
     const { width, height } = this.getBorderSize();
 
-    const rectGroup = svg.append('g').attr('id', this.ids.viewportContainer);
+    const rectGroup = svg
+      .append('g')
+      .attr('id', this.ids.viewportContainer)
+      .attr('data-testid', this.ids.viewportContainer);
     const rect = rectGroup
       .append('rect')
       .attr('x', this.treeViewportX)
@@ -156,21 +139,24 @@ export class Minimap {
       .attr('height', height)
       .classed('tree--minimap', true);
 
-    this.treeZoom = d3.zoom().scaleExtent([0.2, 1.5]);
-    this.treeZoom.on('zoom', ({ transform }) => {
-      // ToDo: Calculate differently on minimap zoom
+    this.zoom = d3.zoom().scaleExtent([0, 0]);
+    this.zoom.on('zoom', ({ transform }) => {
+      const { k, x, y } = this.currentZoom;
+
+      if (transform.k === 0) return rectGroup.call(this.zoom.transform, new ZoomTransform(1 / k, x, y));
       if (this.nextTreeUpdateAt < Date.now()) this.moveTree(transform);
 
-      this.currentZoomTransform = new ZoomTransform(1 / transform.k, transform.x, transform.y);
-      return rect.attr('transform', this.currentZoomTransform as any);
+      this.currentZoom = new ZoomTransform(1 / transform.k, transform.x, transform.y);
+      return rect.attr('transform', this.currentZoom as any);
     });
 
-    rectGroup.call(this.treeZoom);
+    rectGroup.call(this.zoom);
+    if (this.zoomChangeStore) this.onExternalZoomChange(this.zoomChangeStore);
   }
 
   private clickEventListener({ offsetX, offsetY }: MouseEvent): void {
-    const xDistance = offsetX + -1 * (this.treeViewportX + this.currentZoomTransform.x);
-    const yDistance = offsetY + -1 * (this.treeViewportY + this.currentZoomTransform.y);
+    const xDistance = offsetX + -1 * (this.treeViewportX + this.currentZoom.x);
+    const yDistance = offsetY + -1 * (this.treeViewportY + this.currentZoom.y);
 
     const { width, height } = this.getBorderSize();
     const xOffset = this.xOffset - width / 2;
@@ -179,17 +165,17 @@ export class Minimap {
     const total_distance_x = xDistance + xOffset;
     const total_distance_y = yDistance + yOffset;
 
-    const { k, x, y } = this.currentZoomTransform;
-    const transform = new ZoomTransform(k, x + total_distance_x, y + total_distance_y);
+    const { k, x, y } = this.currentZoom;
+    const transform = new ZoomTransform(1 / k, x + total_distance_x, y + total_distance_y);
 
-    this.currentZoomTransform = transform;
+    this.currentZoom = transform;
     const rect = d3.select(`#${this.ids.viewportContainer}`).transition().duration(500) as any;
-    this.treeZoom.transform(rect, transform);
+    this.zoom.transform(rect, transform);
   }
 
   private getBorderSize(): { width: number; height: number } {
-    const width = this.treeWidth / this.scale;
-    const height = this.treeHeight / this.scale;
+    const width = this.treeInstance.width / this.scale;
+    const height = this.treeInstance.height / this.scale;
     return { width, height };
   }
 
@@ -204,10 +190,14 @@ export class Minimap {
   }
 
   private onExternalZoomChange({ k, x, y }: ZoomTransform): void {
-    this.nextTreeUpdateAt = Date.now() + 250;
+    if (!this.zoom) {
+      this.zoomChangeStore = new ZoomTransform(k, x, y);
+      return;
+    }
 
+    this.nextTreeUpdateAt = Date.now() + 250;
     const transform = new ZoomTransform(k, -(x / this.scale) / k, -(y / this.scale) / k);
-    d3.select(`#${this.ids.viewportContainer}`).call(this.treeZoom.transform as any, transform);
+    d3.select(`#${this.ids.viewportContainer}`).call(this.zoom.transform as any, transform);
   }
 
   private moveTree({ k, x, y }: ZoomTransform): void {
@@ -246,19 +236,6 @@ export class Minimap {
     );
   }
 
-  private getHighestChildCount(data: TreeStructure): number {
-    const childCount: number[] = [1];
-    const countChildren = (index: number, children: TreeStructure[]): void => {
-      if (!children) return;
-      if (children.length) children.forEach(child => countChildren(index + 1, child.children));
-
-      childCount[index] = children.length + (childCount[index] || 0);
-    };
-
-    countChildren(1, data.children);
-    return Math.max(...childCount);
-  }
-
   private closingEventListener(event: MouseEvent): void {
     event.stopPropagation();
 
@@ -266,6 +243,7 @@ export class Minimap {
     d3.xml('/assets/images/layer-icon.svg').then(data => {
       const closeIcon = this.mainElement.node().appendChild(data.documentElement);
       closeIcon.setAttribute('id', this.ids.icon);
+      closeIcon.setAttribute('data-testid', this.ids.icon);
       closeIcon.addEventListener(
         'click',
         () => {

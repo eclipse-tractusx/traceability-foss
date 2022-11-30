@@ -44,7 +44,11 @@ export class D3RenderHelper {
     let paths = d3.select(`#${id}--paths`);
 
     if (paths.empty()) {
-      paths = svg.append('g').attr('id', `${id}--paths`).classed('tree--element__path', true);
+      paths = svg
+        .append('g')
+        .attr('id', `${id}--paths`)
+        .attr('data-testid', 'tree--element__path')
+        .classed('tree--element__path', true);
     }
 
     paths
@@ -67,6 +71,7 @@ export class D3RenderHelper {
           .attr('id', `${id}--Circle`)
           .append('circle')
           .attr('r', r)
+          .attr('data-testid', ({ data }: TreeNode) => `tree--element__circle-${data.state}`)
           .attr('class', ({ data }: TreeNode) => `tree--element__circle-${data.state}`);
       }
 
@@ -82,14 +87,15 @@ export class D3RenderHelper {
     r: number,
     id: string,
     updateChildren: (data: TreeStructure) => void,
+    openDetails: (data: TreeStructure) => void,
   ): void {
     function renderElements(dataNode: TreeNode) {
       const el = d3.select(this);
 
-      D3RenderHelper.renderCircle(el, dataNode, r, id, updateChildren);
+      D3RenderHelper.renderCircle(el, dataNode, r, id, openDetails);
       D3RenderHelper.renderStatusBorder(el, dataNode, r, id);
       D3RenderHelper.renderLoading(el, dataNode, r, id);
-      D3RenderHelper.renderRelation(el, dataNode, r, id, updateChildren);
+      D3RenderHelper.renderRelationArrow(el, dataNode, r, id, updateChildren);
     }
 
     D3RenderHelper.renderNodes(svg, root, r, id, renderElements);
@@ -106,7 +112,11 @@ export class D3RenderHelper {
         .attr('id', `${id}--Circle`)
         .on('click', () => callback(data));
 
-      circleNode.append('circle').attr('r', r).classed('tree--element__circle', true);
+      circleNode
+        .append('circle')
+        .attr('r', r)
+        .attr('data-testid', 'tree--element__circle')
+        .classed('tree--element__circle', true);
       circleNode.append('title').text(() => data.title);
 
       circleNode
@@ -114,6 +124,7 @@ export class D3RenderHelper {
         .attr('dy', '0.32em')
         .attr('textLength', '90px')
         .attr('lengthAdjust', 'spacing')
+        .attr('data-testid', 'tree--element__text')
         .classed('tree--element__text', true)
         .text(() => HelperD3.shortenText(data.text || data.id));
     }
@@ -186,6 +197,7 @@ export class D3RenderHelper {
     const border = el
       .append('a')
       .attr(id, `${id}--Loading`)
+      .attr('data-testid', 'tree--element__border-loading')
       .classed('tree--element__border-loading', true)
       .attr('transform', () => `translate(${y},${x})`)
       .append('g');
@@ -194,12 +206,18 @@ export class D3RenderHelper {
       border
         .append('path')
         .attr('d', arc(node))
+        .attr('data-testid', 'tree--element__border-loading-' + index)
         .classed('tree--element__border-loading-' + index, true),
     );
   }
 
   public static renderMinimapClosing(svg: TreeSvg, id: string, xOffset, yOffset, callback: (_: any) => void) {
-    const closingButton = svg.append('a').attr('id', id).on('click', callback).classed('tree--minimap__closing', true);
+    const closingButton = svg
+      .append('a')
+      .attr('id', id)
+      .on('click', callback)
+      .attr('data-testid', 'tree--minimap__closing')
+      .classed('tree--minimap__closing', true);
 
     closingButton
       .append('text')
@@ -209,10 +227,17 @@ export class D3RenderHelper {
       .attr('width', 20)
       .attr('height', 20)
       .text(' x ')
+      .attr('data-testid', 'tree--element__text')
       .classed('tree--element__text', true);
   }
 
-  public static renderRelation(el: SVGSelection, dataNode: TreeNode, r: number, id: string, callback: (data) => void) {
+  public static renderRelationArrow(
+    el: SVGSelection,
+    dataNode: TreeNode,
+    r: number,
+    id: string,
+    callback: (data) => void,
+  ) {
     const { data } = dataNode;
 
     const isLoaded = data.state !== 'loading';
@@ -235,21 +260,26 @@ export class D3RenderHelper {
     const circleRadius = 15;
     el.attr('transform', () => `translate(${y + r + circleRadius + 5},${x})`)
       .on('click', () => callback(data))
+      .attr('data-testid', 'tree--element__closing')
       .classed('tree--element__closing', true);
 
     el.append('circle')
       .attr('r', circleRadius)
+      .attr('data-testid', 'tree--element__closing-animation tree--element__closing-circle')
       .classed('tree--element__closing-animation tree--element__closing-circle', true);
 
     el.append('text')
       .attr('dy', '0.26em')
+      .attr('data-testid', 'tree--element__text tree--element__closing-text tree--element__closing-animation')
       .classed('tree--element__text tree--element__closing-text tree--element__closing-animation', true)
       .text(' - ');
   }
 
   public static renderRelationExpand(el: SVGSelection, dataNode: TreeNode, r: number, callback: (data) => void) {
     const { data, x, y } = dataNode;
-    el.classed('tree--element__arrow-container', true).on('click', () => callback(data));
+    el.attr('data-testid', 'tree--element__arrow-container')
+      .classed('tree--element__arrow-container', true)
+      .on('click', () => callback(data));
 
     const arc = d3
       .arc<HierarchyNode<TreeStructure>>()
@@ -261,6 +291,7 @@ export class D3RenderHelper {
     el.append('path')
       .attr('transform', () => `translate(${y},${x})`)
       .attr('d', () => arc(dataNode))
+      .attr('data-testid', 'tree--element__arrow')
       .classed('tree--element__arrow', true);
 
     const rightArrow = [
@@ -278,6 +309,7 @@ export class D3RenderHelper {
     el.append('path')
       .attr('transform', () => `translate(${y},${x})`)
       .attr('d', () => curveFunc(data.children?.length ? [] : rightArrow))
+      .attr('data-testid', 'tree--element__arrow')
       .classed('tree--element__arrow', true);
   }
 
@@ -298,7 +330,7 @@ export class D3RenderHelper {
       .selectAll('g.node')
       .data(root.descendants(), ({ id }) => id)
       .join(
-        enter => enter.append('g').classed('node', true).each(renderElements),
+        enter => enter.append('g').attr('data-testid', 'node').classed('node', true).each(renderElements),
         update => update.each(renderElements),
         exit => exit.remove(),
       );
