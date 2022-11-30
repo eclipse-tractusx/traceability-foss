@@ -17,7 +17,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Part } from '@page/parts/model/parts.model';
 import { View } from '@shared/model/view.model';
@@ -27,16 +26,22 @@ import { RelationsAssembler } from '@shared/modules/relations/core/relations.ass
 import { OpenElements, TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
 import _deepClone from 'lodash-es/cloneDeep';
-import { concat, merge, Observable, of } from 'rxjs';
-import { catchError, debounceTime, filter, first, map, switchMap, tap, toArray } from 'rxjs/operators';
+import { Observable, of, Subject, Subscription } from 'rxjs';
+import { bufferTime, catchError, debounceTime, filter, first, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class RelationsFacade {
+  private readonly requestPartDetailsQueue = new Subject<string[]>();
+  private readonly requestPartDetailsStream = new Subject<TreeElement[]>();
+  private requestPartDetailsQueueSubscription: Subscription;
+
   constructor(
     private readonly partsService: PartsService,
     private readonly loadedElementsFacade: LoadedElementsFacade,
     private readonly relationComponentState: RelationComponentState,
-  ) {}
+  ) {
+    this.requestPartDetailsQueueSubscription = this.initRequestPartDetailQueue().subscribe();
+  }
 
   public get openElements$(): Observable<OpenElements> {
     return this.relationComponentState.openElements$.pipe(debounceTime(100));
@@ -73,10 +78,6 @@ export class RelationsFacade {
 
   public deleteOpenElement(id: string): void {
     this.relationComponentState.openElements = this._deleteOpenElement(id, this.relationComponentState.openElements);
-  }
-
-  public getPartDetails(partId: string): Observable<Part> {
-    return this.partsService.getPart(partId);
   }
 
   public formatOpenElementsToTreeData(openElements: OpenElements): TreeStructure {
@@ -142,7 +143,7 @@ export class RelationsFacade {
     return clonedElements;
   }
 
-  private loadChildrenInformation(children: string[], shouldLazyLoad = false): Observable<TreeElement[]> {
+  private loadChildrenInformation(children: string[]): Observable<TreeElement[]> {
     if (!children) {
       return of(null).pipe(first());
     }
@@ -156,20 +157,25 @@ export class RelationsFacade {
       return of(mappedChildren).pipe(first());
     }
 
-    const relationRequest = children.map(childId => this.getPartDetails(childId));
-    return concat(...relationRequest).pipe(
-      catchError((error: HttpErrorResponse) => {
-        const partIdWithError = error.url.split('/children/')[1];
-        return of({ id: partIdWithError, children: [] } as Part);
+    this.requestPartDetailsQueue.next(children);
+    return this.requestPartDetailsStream.asObservable();
+  }
+
+  private initRequestPartDetailQueue(): Observable<TreeElement[]> {
+    let children;
+    return this.requestPartDetailsQueue.pipe(
+      bufferTime(500),
+      filter(childList => !!childList.length),
+      switchMap(childList => {
+        children = childList;
+        return this.partsService.getPartDetailOfIds(children.reduce((p, c) => [...p, ...c], []));
       }),
-      toArray(),
-      first(),
+      catchError(_ => of(children.map(id => ({ id, children: [] } as Part)))),
       map(childrenData =>
         childrenData.map((child, index) => RelationsAssembler.assemblePartForRelation(child, children[index])),
       ),
       tap(childrenData => this.addLoadedElements(childrenData)),
-      filter(_ => shouldLazyLoad),
-      switchMap(childrenData => merge(...childrenData.map(child => this.loadChildrenInformation(child.children)))),
+      tap(childrenData => this.requestPartDetailsStream.next(childrenData)),
     );
   }
 
