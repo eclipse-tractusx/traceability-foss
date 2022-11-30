@@ -29,11 +29,19 @@
     @apply bg-startLight text-startDark border-startLightContrast before:bg-startDark;
   }
 
+  &--CANCELED {
+    @apply bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-alert;
+  }
+
+  &--CLOSED {
+    @apply bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-doveGray;
+  }
+
   &--CREATED {
     @apply bg-pendingLight text-pendingDark border-pendingLightContrast before:bg-pendingDark;
   }
 
-  &--SENT {
+  &--APPROVED {
     @apply bg-completeLight text-completeDark border-completeLightContrast before:bg-completeDark;
   }
 }

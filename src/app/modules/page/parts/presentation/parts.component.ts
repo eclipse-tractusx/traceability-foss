@@ -41,6 +41,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     'manufacturer',
     'partNumber',
     'serialNumber',
+    'batchNumber',
     'qualityType',
     'productionDate',
     'productionCountry',
@@ -52,6 +53,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     manufacturer: true,
     partNumber: true,
     serialNumber: true,
+    batchNumber: true,
     qualityType: true,
     productionDate: true,
     productionCountry: true,
@@ -80,7 +82,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public ngAfterViewInit(): void {
     this.tableConfig = {
       displayedColumns: this.displayedColumns,
-      columnRoles: { childInvestigation: 'wip' },
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
       sortableColumns: this.sortableColumns,
       cellRenderers: {

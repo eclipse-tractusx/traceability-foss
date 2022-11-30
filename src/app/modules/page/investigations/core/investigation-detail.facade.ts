@@ -61,10 +61,12 @@ export class InvestigationDetailFacade {
     this.notificationPartsInformationDescription?.unsubscribe();
     this.investigationDetailState.investigationPartsInformation = { loader: true };
 
-    this.notificationPartsInformationDescription = this.partsService.getPartDetailOfIds(notification.parts).subscribe({
-      next: data => (this.investigationDetailState.investigationPartsInformation = { data }),
-      error: error => (this.investigationDetailState.investigationPartsInformation = { error }),
-    });
+    this.notificationPartsInformationDescription = this.partsService
+      .getPartDetailOfIds(notification.assetIds)
+      .subscribe({
+        next: data => (this.investigationDetailState.investigationPartsInformation = { data }),
+        error: error => (this.investigationDetailState.investigationPartsInformation = { error }),
+      });
   }
 
   public setSupplierPartsInformation(notification: Notification): void {
@@ -72,7 +74,7 @@ export class InvestigationDetailFacade {
     this.investigationDetailState.supplierPartsInformation = { loader: true };
 
     this.supplierPartsSubscription = this.partsService
-      .getPartDetailOfIds(notification.parts)
+      .getPartDetailOfIds(notification.assetIds)
       .pipe(switchMap(parts => this.partsService.getPartDetailOfIds(this.getIdsFromPartList(parts))))
       .subscribe({
         next: data => (this.investigationDetailState.supplierPartsInformation = { data }),

@@ -24,15 +24,10 @@ import { RequestInvestigationComponent } from '@shared/components/request-invest
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 
 describe('requestInvestigationComponent', () => {
-  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const deselectPartMock = jasmine.createSpy();
   const clearSelectedMock = jasmine.createSpy();
   const sidenavIsClosingMock = jasmine.createSpy();

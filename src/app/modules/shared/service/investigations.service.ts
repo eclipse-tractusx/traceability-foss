@@ -30,7 +30,6 @@ import {
   NotificationResponse,
   Notifications,
   NotificationsResponse,
-  NotificationStatus,
 } from '../model/notification.model';
 
 @Injectable({
@@ -41,15 +40,19 @@ export class InvestigationsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getInvestigationsByType(
-    status: NotificationStatus[],
-    page: number,
-    pageSize: number,
-  ): Observable<Notifications> {
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('status', status.join(','));
+  public getCreatedInvestigations(page: number, pageSize: number): Observable<Notifications> {
+    const params = new HttpParams().set('page', page).set('size', pageSize);
 
     return this.apiService
-      .getBy<NotificationsResponse>(`${this.url}/investigations`, params)
+      .getBy<NotificationsResponse>(`${this.url}/investigations/created`, params)
+      .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
+  }
+
+  public getReceivedInvestigations(page: number, pageSize: number): Observable<Notifications> {
+    const params = new HttpParams().set('page', page).set('size', pageSize);
+
+    return this.apiService
+      .getBy<NotificationsResponse>(`${this.url}/investigations/received`, params)
       .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
   }
 
@@ -64,6 +67,20 @@ export class InvestigationsService {
 
     return this.apiService
       .post<NotificationCreateResponse>(`${this.url}/investigations`, body)
-      .pipe(map(({ investigationId }) => investigationId));
+      .pipe(map(({ id }) => id));
+  }
+
+  public closeInvestigation(id: string, reason: string): Observable<void> {
+    const body = { reason };
+
+    return this.apiService.post<void>(`${this.url}/investigations/${id}/close`, body);
+  }
+
+  public approveInvestigation(id: string): Observable<void> {
+    return this.apiService.post<void>(`${this.url}/investigations/${id}/approve`);
+  }
+
+  public cancelInvestigation(id: string): Observable<void> {
+    return this.apiService.post<void>(`${this.url}/investigations/${id}/cancel`);
   }
 }

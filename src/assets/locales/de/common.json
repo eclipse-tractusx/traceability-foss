@@ -23,8 +23,9 @@
   },
   "actions": {
     "back": "Zurück",
-    "delete": "Löschen",
+    "cancel": "Abbrechen",
     "approve": "Genehmigen",
+    "close": "Schließen",
     "viewDetails": "Details anzeigen"
   },
   "table": {
@@ -46,13 +47,14 @@
       "manufacturer": "Hersteller",
       "partNumber": "Produktnummer",
       "serialNumber": "Seriennummer",
+      "batchNumber": "Chargennummer",
       "qualityType": "Qualitätsstufe",
       "productionDate": "Produktionsdatum",
       "productionCountry": "Produktionsland",
       "childInvestigation": "Qualitätsprüfung",
       "description": "Beschreibung",
       "status": "Status",
-      "createDate": "Erstelldatum",
+      "createdDate": "Erstelldatum",
       "createdBy": "Erstellt von"
     }
   },
@@ -120,7 +122,31 @@
     "status": {
       "RECEIVED": "Received",
       "CREATED": "Queued",
-      "SENT": "Requested"
+      "APPROVED": "Requested"
+    },
+    "modal": {
+      "approvalTitle": "Genehmigung der Untersuchung",
+      "approvalDescription": "Sind Sie sicher, dass Sie diese Untersuchung genehmigen wollen?",
+      "closeTitle": "Schließen der Untersuchung",
+      "closeDescription": "Sind Sie sicher, dass Sie diese Untersuchung schließen wollen?",
+      "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
+      "cancellationTitle": "Abbruch der Untersuchung",
+      "cancellationDescription": "Sind Sie sicher, dass Sie diese Untersuchung abbrechen wollen?",
+      "cancellationHint": "Geben Sie die ID der Untersuchung ein, um Ihre Abbruchanfrage zu bestätigen.",
+      "cancellationConfirm": "Abbruch bestätigen",
+      "approve": "Genehmigen",
+      "close": "Schließen",
+      "delete": "Löschen",
+      "confirm": "Genehmigen",
+      "cancel": "Abbrechen",
+
+      "successfullyApproved": "Untersuchung wurde erfolgreich genehmigt.",
+      "successfullyCanceled": "Untersuchung wurde erfolgreich gelöscht.",
+      "successfullyClosed": "Untersuchung wurde erfolgreich geschlossen.",
+
+      "failedApprove": "Die Untersuchung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
+      "failedCancel": "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
+      "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut."
     }
   }
 }

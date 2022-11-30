@@ -21,16 +21,11 @@ import { By } from '@angular/platform-browser';
 import { PartsModule } from '@page/parts/parts.module';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
 
 describe('Dashboard', () => {
-  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
       imports: [DashboardModule, SharedModule, PartsModule],
@@ -80,13 +75,13 @@ describe('Dashboard', () => {
 
   describe('investigations', () => {
     it('should render investigation component', async () => {
-      await renderDashboard({ roles: ['wip'] });
+      await renderDashboard();
 
       expect(await screen.findByText('Quality Investigations')).toBeInTheDocument();
     });
 
     it('should render count for investigations', async () => {
-      await renderDashboard({ roles: ['wip'] });
+      await renderDashboard();
 
       expect(await screen.findByText('20')).toBeInTheDocument();
 

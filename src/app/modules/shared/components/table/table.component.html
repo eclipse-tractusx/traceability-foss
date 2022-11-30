@@ -21,8 +21,16 @@ SPDX-License-Identifier: Apache-2.0
   <ng-container *ngIf="selectedPartsInfoLabel">
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
       <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { count: selection?.selected?.length || 0 } }}</p>
-      <app-button *ngIf="this.selection?.selected?.length" (click)="clickSelectAction.emit()">
-        {{ selectedPartsActionLabel | i18n }}
+      <app-button
+        *ngIf="this.selection?.selected?.length"
+        (click)="clickSelectAction.emit()"
+        [variant]="'raised'"
+        [color]="'primary'"
+      >
+        <div class="flex justify-between items-center text-dark">
+          <mat-icon class="mr-2">announcement</mat-icon>
+          {{ selectedPartsActionLabel | i18n }}
+        </div>
       </app-button>
     </div>
   </ng-container>
@@ -121,15 +129,17 @@ SPDX-License-Identifier: Apache-2.0
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button
-                  *ngFor="let config of tableConfig.menuActionsConfig"
-                  (click)="config.action(row)"
-                  [attr.data-testId]="'table-menu-button--' + config.label"
-                  mat-menu-item
-                >
-                  <mat-icon>{{ config.icon }}</mat-icon>
-                  <span>{{ config.label | i18n }}</span>
-                </button>
+                <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
+                  <button
+                    *ngIf="!config.condition || config.condition(row)"
+                    (click)="config.action(row)"
+                    [attr.data-testId]="'table-menu-button--' + config.label"
+                    mat-menu-item
+                  >
+                    <mat-icon>{{ config.icon }}</mat-icon>
+                    <span>{{ config.label | i18n }}</span>
+                  </button>
+                </ng-container>
               </mat-menu>
             </div>
           </td>
@@ -139,15 +149,17 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container matColumnDef="expandMenuActions">
         <td mat-cell *matCellDef="let row" [attr.colspan]="tableConfig.displayedColumns.length">
           <div [class.expanded]="row === selectedRow" [class.collapsed]="row !== selectedRow" class="expand-element">
-            <button
-              *ngFor="let config of tableConfig.menuActionsConfig"
-              (click)="config.action(row)"
-              [attr.data-testId]="'table-menu-button-expand--' + config.label"
-              mat-menu-item
-            >
-              <mat-icon>{{ config.icon }}</mat-icon>
-              <span>{{ config.label | i18n }}</span>
-            </button>
+            <ng-container *ngFor="let config of tableConfig.menuActionsConfig">
+              <button
+                *ngIf="!config.condition || config.condition(row)"
+                (click)="config.action(row)"
+                [attr.data-testId]="'table-menu-button-expand--' + config.label"
+                mat-menu-item
+              >
+                <mat-icon>{{ config.icon }}</mat-icon>
+                <span>{{ config.label | i18n }}</span>
+              </button>
+            </ng-container>
           </div>
         </td>
       </ng-container>

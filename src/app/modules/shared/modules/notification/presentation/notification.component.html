@@ -25,9 +25,11 @@ SPDX-License-Identifier: Apache-2.0
       <span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
     </ng-template>
     <app-notifications-tab
+      *ngIf="menuActionsConfig"
       [notificationsView$]="receivedNotifications$"
       [labelId]="receivedTabLabelId"
       [translationContext]="'commonInvestigation'"
+      [menuActionsConfig]="menuActionsConfig"
       (pagination)="onReceivedPagination.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>
@@ -38,9 +40,11 @@ SPDX-License-Identifier: Apache-2.0
       <span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
     </ng-template>
     <app-notifications-tab
+      *ngIf="menuActionsConfig"
       [notificationsView$]="queuedAndRequestedNotifications$"
       [labelId]="queuedAndRequestedTabLabelId"
       [translationContext]="'commonInvestigation'"
+      [menuActionsConfig]="menuActionsConfig"
       (pagination)="onQueuedAndRequestedPagination.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>

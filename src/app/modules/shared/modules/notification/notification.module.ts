@@ -19,14 +19,30 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ModalModule } from '@shared/modules/modal/modal.module';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { NotificationTabComponent } from '@shared/modules/notification/notification-tab/notification-tab.component';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
+import { CloseNotificationModalComponent } from './modal/close/close-notification-modal.component';
 import { NotificationComponent } from './presentation/notification.component';
 
 @NgModule({
-  declarations: [NotificationComponent, NotificationTabComponent],
-  imports: [CommonModule, TemplateModule, SharedModule],
-  exports: [NotificationComponent, NotificationTabComponent],
+  declarations: [
+    NotificationComponent,
+    NotificationTabComponent,
+    CloseNotificationModalComponent,
+    ApproveNotificationModalComponent,
+    CancelNotificationModalComponent,
+  ],
+  imports: [CommonModule, TemplateModule, SharedModule, ModalModule],
+  exports: [
+    NotificationComponent,
+    NotificationTabComponent,
+    CloseNotificationModalComponent,
+    ApproveNotificationModalComponent,
+    CancelNotificationModalComponent,
+  ],
 })
 export class NotificationModule {}
