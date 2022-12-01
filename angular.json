@@ -79,7 +79,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.authMock.ts"
+                  "with": "src/environments/environment.authLocal.ts"
                 }
               ]
             },
