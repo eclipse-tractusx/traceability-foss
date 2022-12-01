@@ -26,7 +26,7 @@ export { LoadedElementsFacade } from './modules/relations/core/loaded-elements.f
 export { LoadedElementsState } from './modules/relations/core/loaded-elements.state';
 export { RelationsAssembler } from './modules/relations/core/relations.assembler';
 export { RelationsFacade } from './modules/relations/core/relations.facade';
-export { HelperD3 } from './modules/relations/presentation/helper.d3';
+export { HelperD3 } from './modules/relations/presentation/helper/helper.d3';
 export { RelationsModule } from './modules/relations/relations.module';
 export { PartsAssembler } from './assembler/parts.assembler';
 

@@ -46,12 +46,12 @@ export class HelperD3 {
     return d3.drag().on('start', dragStarted).on('drag', dragged).on('end', draggedEnd);
   }
 
-  public static calculateWidth(mainElement: TreeSvg): number {
-    return mainElement?.node?.()?.getBoundingClientRect?.()?.width || window.innerWidth;
+  public static calculateWidth(element: TreeSvg): number {
+    return element?.node?.()?.getBoundingClientRect?.()?.width || window.innerWidth;
   }
 
-  public static calculateHeight(mainElement: TreeSvg): number {
-    return mainElement?.node?.()?.getBoundingClientRect?.()?.height || window.innerHeight - 200;
+  public static calculateHeight(element: TreeSvg): number {
+    return element?.node?.()?.getBoundingClientRect?.()?.height || window.innerHeight - 200;
   }
 
   public static shortenText(text: string): string {
@@ -71,5 +71,10 @@ export class HelperD3 {
       return `${spacerStart}${text}${spacerEnd}`;
     }
     return text;
+  }
+
+  public static initResizeListener(element: TreeSvg, onResize: (width: number, height: number) => void): void {
+    const listener = () => onResize(HelperD3.calculateWidth(element), HelperD3.calculateHeight(element));
+    window.addEventListener('resize', listener, { passive: true });
   }
 }

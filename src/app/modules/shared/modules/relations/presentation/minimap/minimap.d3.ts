@@ -18,25 +18,22 @@
  ********************************************************************************/
 
 import { TreeStructure } from '@shared/modules/relations/model/relations.model';
-import { HelperD3 } from '@shared/modules/relations/presentation/helper.d3';
-import { TreeNode, TreeSvg } from '@shared/modules/relations/presentation/model.d3';
+import { D3RenderHelper } from '@shared/modules/relations/presentation/helper/d3.render.helper';
+import { HelperD3 } from '@shared/modules/relations/presentation/helper/helper.d3';
+import { MinimapIds, TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 import Tree from '@shared/modules/relations/presentation/tree/tree.d3';
 import * as d3 from 'd3';
-import { HierarchyNode } from 'd3';
-import { HierarchyCircularLink, HierarchyCircularNode } from 'd3-hierarchy';
-
-export interface MinimapData {
-  id: string;
-  mainElement?: TreeSvg;
-  treeInstance: Tree;
-}
+import { HierarchyNode, ZoomBehavior, ZoomedElementBaseType, ZoomTransform } from 'd3';
 
 export class Minimap {
-  private readonly id: string;
+  private ids: MinimapIds;
+
   private readonly scale = 20;
   private readonly r: number;
   private readonly mainElement: TreeSvg;
-  private readonly treeInstance: Tree;
+
+  private readonly treeViewportX: number;
+  private readonly treeViewportY: number;
 
   private readonly xOffset: number;
   private yOffset: number;
@@ -44,57 +41,74 @@ export class Minimap {
   private width: number;
   private height: number;
 
-  private minimapX: number;
-  private minimapY: number;
+  private currentZoom = new ZoomTransform(1, 0, 0);
+  private zoom: ZoomBehavior<ZoomedElementBaseType, unknown>;
+  private nextTreeUpdateAt = 0;
+  private zoomChangeStore: ZoomTransform;
 
-  private zoom: number;
-  private isMinimapClosed = false;
-
-  private maxChildDepth: number;
-
-  constructor(treeData: MinimapData) {
-    this.id = treeData.id;
-
-    this.treeInstance = treeData.treeInstance;
+  constructor(private readonly treeInstance: Tree) {
     this.treeInstance.minimapConnector = {
-      onDrag: this.refreshBorderBasedOnTree.bind(this),
-      onZoom: this.onZoomChange.bind(this),
+      onZoom: this.onExternalZoomChange.bind(this),
     };
 
-    this.mainElement = treeData.mainElement;
+    this.setIds();
+    this.mainElement = d3.select(`#${this.ids.minimap}`);
 
     this.width = HelperD3.calculateWidth(this.mainElement);
     this.height = HelperD3.calculateHeight(this.mainElement);
 
-    this.minimapX = 0;
-    this.minimapY = 0;
+    this.treeViewportX = -(this.treeInstance.width / 3 / this.scale);
+    this.treeViewportY = -(this.treeInstance.height / 2 / this.scale);
 
-    this.r = 60 / this.scale;
-    this.zoom = 1 / this.scale;
+    this.r = this.treeInstance.r / this.scale;
 
     this.xOffset = -this.r * 1.5;
     this.initResizeListener();
   }
 
-  public renderMinimap(data: TreeStructure): TreeSvg {
-    d3.select(`#${this.id}-svg`).remove();
-    const root = d3.hierarchy(data);
-    const svg = this.creatMainSvg(root);
-    // First draw paths so paths are behind circles.
-    this.addPaths(svg, root);
-    this.addCircles(svg, root);
-    // Recalculate height after circles are drawn because of uneven distribution.
-    this.calculateMapHeight();
+  private setIds(): void {
+    const minimap = this.treeInstance.id + '--minimap';
+    const main = `${minimap}--main`;
+    const closeButton = `${minimap}--closing`;
+    const viewport = `${minimap}--rect`;
+    const viewportContainer = `${minimap}--rect-group`;
+    const circle = `${minimap}--Circle`;
+    const closing = `${minimap}--closing`;
+    const icon = `${minimap}--icon`;
+    this.ids = { minimap, main, closeButton, viewport, viewportContainer, circle, closing, icon };
+  }
 
-    this.addBorder(svg);
-    this.addClosing(svg);
+  public renderMinimap(data: TreeStructure): TreeSvg {
+    d3.select(`#${this.ids.main}`).remove();
+    const root = d3.hierarchy(data);
+
+    let svg = d3.select(`#${this.ids.main}`) as TreeSvg;
+    if (svg.empty()) svg = this.creatMainSvg(root);
+
+    // First draw paths so paths are behind circles.
+    D3RenderHelper.renderTreePaths(svg, root, this.r, this.ids.minimap, true);
+    D3RenderHelper.renderMinimapNodes(svg, root, this.r, this.ids.minimap);
+    // Recalculate height after circles are drawn because of uneven distribution.
+    this.setMapHeight();
+
+    this.drawTreeViewport(svg);
+    D3RenderHelper.renderMinimapClosing(
+      svg,
+      `${this.ids.closing}`,
+      this.xOffset,
+      this.yOffset,
+      this.closingEventListener.bind(this),
+    );
 
     return svg;
   }
 
+  private getViewBox(): number[] {
+    return [this.xOffset, this.yOffset, this.width, this.height];
+  }
+
   private creatMainSvg(root: HierarchyNode<TreeStructure>): TreeSvg {
     d3.tree().nodeSize([this.r * 3, 250 / this.scale])(root);
-    this.maxChildDepth = this.calculateChildCount(root.data);
     this.height = HelperD3.calculateHeight(this.mainElement);
 
     const calculatedHeight = this.height / (root.height || 1);
@@ -102,258 +116,143 @@ export class Minimap {
 
     return this.mainElement
       .append('svg')
-      .attr('id', this.id + '-svg')
+      .attr('id', this.ids.main)
+      .attr('data-testid', this.ids.main)
       .attr('viewBox', this.getViewBox())
       .attr('width', this.width)
       .attr('height', this.height)
       .on('click', this.clickEventListener.bind(this));
   }
 
-  private addCircles(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
-    const descendants = root.descendants();
-    const node = svg
-      .append('g')
-      .attr('id', `${this.id}--circles`)
-      .selectAll('a')
-      .data(descendants)
-      .join('a')
-      .attr('transform', ({ x, y }: TreeNode) => `translate(${y},${x})`)
-      .attr('data-y', ({ x }: TreeNode) => x);
-
-    node
-      .append('circle')
-      .attr('r', this.r)
-      .attr('class', ({ data }: TreeNode) => `tree--element__circle-${data.state}`);
-  }
-
-  private addPaths(svg: TreeSvg, root: HierarchyNode<TreeStructure>) {
-    const link = d3
-      .linkHorizontal<HierarchyCircularLink<TreeStructure>, HierarchyCircularNode<TreeStructure>>()
-      .x(({ y }) => y)
-      .y(({ x }) => x);
-
-    svg
-      .append('g')
-      .attr('id', `${this.id}--paths`)
-      .classed('tree--element__path', true)
-      .selectAll('path')
-      .data(root.links())
-      .join('path')
-      .attr('d', (node: HierarchyCircularLink<TreeStructure>) => link(node));
-  }
-
-  private addBorder(svg: TreeSvg): void {
-    const id = this.id + '-rect';
+  private drawTreeViewport(svg: TreeSvg): void {
     const { width, height } = this.getBorderSize();
 
-    this.minimapX = this.getMinimapXFromTree();
-    this.minimapY = this.getMinimapYFromTree();
-
-    svg
+    const rectGroup = svg
+      .append('g')
+      .attr('id', this.ids.viewportContainer)
+      .attr('data-testid', this.ids.viewportContainer);
+    const rect = rectGroup
       .append('rect')
-      .attr('id', id)
-      .attr('x', this.minimapX)
-      .attr('y', this.minimapY)
+      .attr('x', this.treeViewportX)
+      .attr('y', this.treeViewportY)
       .attr('width', width)
       .attr('height', height)
-      .call(HelperD3.initDrag(d3.select(`#${id}`), this.updateBorderAndTreeOnDrag.bind(this)))
       .classed('tree--minimap', true);
-  }
 
-  private addClosing(svg: TreeSvg): void {
-    const id = `${this.id}-closing`;
-    const closingButton = svg
-      .append('a')
-      .attr('id', id)
-      .on('click', this.closingEventListener.bind(this))
-      .classed('tree--minimap__closing', true);
+    this.zoom = d3.zoom().scaleExtent([0, 0]);
+    this.zoom.on('zoom', ({ transform }) => {
+      const { k, x, y } = this.currentZoom;
 
-    closingButton
-      .append('text')
-      .attr('id', `${id}-text`)
-      .attr('x', this.xOffset + 20)
-      .attr('y', this.yOffset + 25)
-      .attr('width', 20)
-      .attr('height', 20)
-      .text(' x ')
-      .classed('tree--element__text', true);
+      if (transform.k === 0) return rectGroup.call(this.zoom.transform, new ZoomTransform(1 / k, x, y));
+      if (this.nextTreeUpdateAt < Date.now()) this.moveTree(transform);
+
+      this.currentZoom = new ZoomTransform(1 / transform.k, transform.x, transform.y);
+      return rect.attr('transform', this.currentZoom as any);
+    });
+
+    rectGroup.call(this.zoom);
+    if (this.zoomChangeStore) this.onExternalZoomChange(this.zoomChangeStore);
   }
 
   private clickEventListener({ offsetX, offsetY }: MouseEvent): void {
-    const xDistance = offsetX + -1 * this.minimapX;
-    const yDistance = offsetY + -1 * this.minimapY;
+    const xDistance = offsetX + -1 * (this.treeViewportX + this.currentZoom.x);
+    const yDistance = offsetY + -1 * (this.treeViewportY + this.currentZoom.y);
 
     const { width, height } = this.getBorderSize();
     const xOffset = this.xOffset - width / 2;
     const yOffset = this.yOffset - height / 2;
 
-    const completeDistance = Math.abs(xDistance + xOffset) + Math.abs(yDistance + yOffset);
-    const animationInterval = Math.max(Math.trunc(completeDistance / 5), 1);
+    const total_distance_x = xDistance + xOffset;
+    const total_distance_y = yDistance + yOffset;
 
-    const x = (xDistance + xOffset) / animationInterval;
-    const y = (yDistance + yOffset) / animationInterval;
+    const { k, x, y } = this.currentZoom;
+    const transform = new ZoomTransform(1 / k, x + total_distance_x, y + total_distance_y);
 
-    let i = 0;
-    const animationFunction = () => {
-      i++;
-      this.updateTreeFromBorder(x, y);
-      this.refreshBorderBasedOnTree();
-      if (i < animationInterval) setTimeout(animationFunction, 5);
+    this.currentZoom = transform;
+    const rect = d3.select(`#${this.ids.viewportContainer}`).transition().duration(500) as any;
+    this.zoom.transform(rect, transform);
+  }
+
+  private getBorderSize(): { width: number; height: number } {
+    const width = this.treeInstance.width / this.scale;
+    const height = this.treeInstance.height / this.scale;
+    return { width, height };
+  }
+
+  private initResizeListener(): void {
+    const onResize = (width: number, height: number) => {
+      this.width = width;
+      this.height = height;
+
+      this.mainElement.attr('viewBox', this.getViewBox()).attr('width', this.width).attr('height', this.height);
     };
+    HelperD3.initResizeListener(this.mainElement, onResize);
+  }
 
-    setTimeout(animationFunction, 5);
+  private onExternalZoomChange({ k, x, y }: ZoomTransform): void {
+    if (!this.zoom) {
+      this.zoomChangeStore = new ZoomTransform(k, x, y);
+      return;
+    }
+
+    this.nextTreeUpdateAt = Date.now() + 250;
+    const transform = new ZoomTransform(k, -(x / this.scale) / k, -(y / this.scale) / k);
+    d3.select(`#${this.ids.viewportContainer}`).call(this.zoom.transform as any, transform);
+  }
+
+  private moveTree({ k, x, y }: ZoomTransform): void {
+    const newTransform = new ZoomTransform(k, -x * this.scale * k, -y * this.scale * k);
+    this.treeInstance.changeViewPosition(newTransform);
+  }
+
+  private setMapHeight(): void {
+    const circleContainer = d3.select(`#${this.ids.circle}`).node() as HTMLElement;
+    let { lowestPoint, highestPoint } = this.getLowestAndHighestPointFromCircles(circleContainer);
+
+    const padding = this.r / 2;
+    lowestPoint -= padding;
+    highestPoint += padding;
+
+    const minHeightOfMap = -1 * lowestPoint + highestPoint + 50;
+    this.height = minHeightOfMap > this.height ? minHeightOfMap : this.height;
+
+    const minOffset = lowestPoint - 40;
+    if (this.yOffset > minOffset || this.yOffset + this.height < highestPoint) {
+      this.yOffset = minOffset;
+    }
+
+    d3.select(`#${this.ids.main}`).attr('viewBox', this.getViewBox()).attr('height', this.height);
+  }
+
+  private getLowestAndHighestPointFromCircles(circlesContainer: HTMLElement) {
+    return Array.from(circlesContainer.children).reduce(
+      (p, c) => {
+        const currentPosition = Number.parseInt(c.getAttribute('data-y'), 10);
+        if (currentPosition < p.lowestPoint) p.lowestPoint = currentPosition;
+        if (currentPosition > p.highestPoint) p.highestPoint = currentPosition;
+        return p;
+      },
+      { lowestPoint: 0, highestPoint: 0 },
+    );
   }
 
   private closingEventListener(event: MouseEvent): void {
     event.stopPropagation();
 
-    const id = `${this.id}-closing`;
-    const iconId = `${id}-icon`;
-    this.isMinimapClosed = true;
-    d3.select(`#${this.id}`).classed('tree--minimap__closed', this.isMinimapClosed);
-
+    d3.select(`#${this.ids.minimap}`).classed('tree--minimap__closed', true);
     d3.xml('/assets/images/layer-icon.svg').then(data => {
-      const mapIconElement = this.mainElement.node().appendChild(data.documentElement);
-
-      mapIconElement.setAttribute('id', iconId);
-      mapIconElement.addEventListener(
+      const closeIcon = this.mainElement.node().appendChild(data.documentElement);
+      closeIcon.setAttribute('id', this.ids.icon);
+      closeIcon.setAttribute('data-testid', this.ids.icon);
+      closeIcon.addEventListener(
         'click',
         () => {
-          this.isMinimapClosed = false;
-          d3.select(`#${this.id}`).classed('tree--minimap__closed', this.isMinimapClosed);
-          d3.select(`#${iconId}`).remove();
+          d3.select(`#${this.ids.minimap}`).classed('tree--minimap__closed', false);
+          d3.select(`#${this.ids.icon}`).remove();
         },
         { passive: true },
       );
     });
-  }
-
-  private getBorderSize(): { width: number; height: number } {
-    const zoom = this.treeInstance.zoom / this.scale;
-    const width = this.treeInstance.getCalculatedWidth() * zoom;
-    const height = this.treeInstance.getCalculatedHeight() * zoom;
-    return { width, height };
-  }
-
-  private initResizeListener(): void {
-    window.addEventListener(
-      'resize',
-      _ => {
-        this.width = HelperD3.calculateWidth(this.mainElement);
-        this.height = HelperD3.calculateHeight(this.mainElement);
-
-        d3.select(`#${this.id}-svg`)
-          .attr('viewBox', this.getViewBox())
-          .attr('width', this.width)
-          .attr('height', this.height);
-      },
-      { passive: true },
-    );
-  }
-
-  private onZoomChange(zoom: number): void {
-    zoom = zoom / this.scale;
-    if (this.zoom === zoom) {
-      return;
-    }
-
-    const width = this.treeInstance.getCalculatedWidth() * zoom;
-    const height = this.treeInstance.getCalculatedHeight() * zoom;
-    this.zoom = zoom;
-
-    this.refreshBorderBasedOnTree();
-    d3.select(`#${this.id}-rect`).attr('width', width).attr('height', height);
-  }
-
-  private updateBorderAndTreeOnDrag(x: number, y: number): void {
-    this.updateTreeFromBorder(-x, -y);
-    this.refreshBorderBasedOnTree();
-  }
-
-  private refreshBorderBasedOnTree(): void {
-    this.minimapX = this.getMinimapXFromTree();
-    this.minimapY = this.getMinimapYFromTree();
-
-    d3.select(`#${this.id}-rect`).attr('x', this.minimapX).attr('y', this.minimapY);
-  }
-
-  private updateTreeFromBorder(x: number, y: number): void {
-    const normalZoom = this.zoom * this.scale;
-    x = (x / normalZoom) * this.scale;
-    y = (y / normalZoom) * this.scale;
-
-    this.treeInstance.translateCamera(x, y);
-  }
-
-  private getMinimapXFromTree(): number {
-    const normalZoom = this.zoom * this.scale;
-    return (this.treeInstance.viewX / this.scale) * normalZoom;
-  }
-
-  private getMinimapYFromTree(): number {
-    const normalZoom = this.zoom * this.scale;
-    return (this.treeInstance.viewY / this.scale) * normalZoom;
-  }
-
-  private calculateChildCount(data: TreeStructure): number {
-    return this.getHighestChildrenArea(data).reduce((a, b) => a + b, 0);
-  }
-
-  private getHighestChildrenArea(data: TreeStructure): number[] {
-    let childCount: number[][] = [[1]];
-    const countChildren = (index: number, children: TreeStructure[]): void => {
-      if (!children) return;
-
-      if (children.length) {
-        children.forEach(child => countChildren(index + 1, child.children));
-      }
-
-      childCount[index] = childCount[index] || ([] as number[]);
-      childCount[index].push(children.length);
-    };
-
-    countChildren(1, data.children);
-
-    const sum = (a = 0, b = 0) => a + b;
-    return childCount.reduce((p, c) => (p.reduce(sum) > c.reduce(sum) ? p : c));
-  }
-
-  private calculateMapHeight() {
-    const circles = d3.select(`#${this.id}--circles`).node() as HTMLElement;
-    const positions = Array.from(circles.children).reduce(
-      (p, c) => {
-        const currentPosition = Number.parseInt(c.getAttribute('data-y'), 10);
-
-        if (currentPosition < p.lowest) {
-          p.lowest = currentPosition;
-        }
-
-        if (currentPosition > p.highest) {
-          p.highest = currentPosition;
-        }
-
-        return p;
-      },
-      { lowest: 0, highest: 0 },
-    );
-
-    positions.lowest -= this.r / 2;
-    positions.highest += this.r / 2;
-
-    const minHeight = -1 * positions.lowest + positions.highest + 50;
-    this.height = minHeight > this.height ? minHeight : this.height;
-
-    const calculatedOffset = positions.lowest - 40;
-    if (this.yOffset > calculatedOffset || this.yOffset + this.height < positions.highest) {
-      this.yOffset = calculatedOffset;
-    }
-
-    d3.select(`#${this.id}-svg`).attr('viewBox', this.getViewBox()).attr('height', this.height);
-    this.refreshBorderBasedOnTree();
-  }
-
-  private getViewBox(): number[] {
-    return [this.xOffset, this.yOffset, this.width, this.height];
   }
 }
 
