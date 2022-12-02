@@ -31,7 +31,6 @@ describe('InvestigationsComponent', () => {
 
   const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
-      roles: ['wip'],
       imports: [InvestigationsModule],
       providers: [InvestigationsService],
       translations: ['page.investigation'],

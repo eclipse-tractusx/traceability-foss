@@ -32,7 +32,6 @@ describe('InvestigationDetailComponent', () => {
   afterAll(() => server.stop());
   const renderInvestigationDetail = async (id?: string) => {
     return await renderComponent(InvestigationDetailComponent, {
-      roles: ['wip'],
       imports: [InvestigationsModule],
       providers: [
         InvestigationsService,
