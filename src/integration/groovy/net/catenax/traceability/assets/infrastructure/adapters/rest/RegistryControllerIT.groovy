@@ -19,7 +19,7 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.rest
 
-import net.catenax.traceability.IntegrationSpec
+import net.catenax.traceability.IntegrationSpecification
 import net.catenax.traceability.common.support.AssetsSupport
 import net.catenax.traceability.common.support.IrsApiSupport
 import net.catenax.traceability.common.support.RegistrySupport
@@ -28,7 +28,7 @@ import net.catenax.traceability.common.support.ShellDescriptorSupport
 import static io.restassured.RestAssured.given
 import static net.catenax.traceability.common.security.JwtRole.ADMIN
 
-class RegistryControllerIT extends IntegrationSpec implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
+class RegistryControllerIT extends IntegrationSpecification implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
 
 	def "should synchronize descriptors and assets"() {
 		given:

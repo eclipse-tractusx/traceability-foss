@@ -36,6 +36,10 @@ swagger:
       summary: "Returns all assets"
       notes: "The results are paginated"
       authorizations: "#components/securitySchemes/bearerAuth"
+    api.assets.detail-information:
+      summary: "Returns assets detail information"
+      notes: "HTTP POST method is used instead of HTTP GET to overcome HTTP request size limitations for passed list of asset identifiers"
+      authorizations: "#components/securitySchemes/bearerAuth"
     api.assets.countries:
       summary: "Returns counts of assets manufactured countries"
       authorizations: "#components/securitySchemes/bearerAuth"
@@ -49,6 +53,29 @@ swagger:
       authorizations: "#components/securitySchemes/bearerAuth"
     api.investigations:
       summary: "Start quality investigation for given assets"
+      authorizations: "#components/securitySchemes/bearerAuth"
+    api.investigations.created:
+      summary: "Returns created investigations"
+      notes: "The results are paginated"
+      authorizations: "#components/securitySchemes/bearerAuth"
+    api.investigations.received:
+      summary: "Returns received investigations"
+      notes: "The results are paginated"
+      authorizations: "#components/securitySchemes/bearerAuth"
+    api.investigations.investigationId.cancel:
+      summary: "Cancels given investigation"
+      params:
+        investigationId: "Investigation ID"
+      authorizations: "#components/securitySchemes/bearerAuth"
+    api.investigations.investigationId.approve:
+      summary: "Approves given investigation"
+      params:
+        investigationId: "Investigation ID"
+      authorizations: "#components/securitySchemes/bearerAuth"
+    api.investigations.investigationId.close:
+      summary: "Closes given investigation"
+      params:
+        investigationId: "Investigation ID"
       authorizations: "#components/securitySchemes/bearerAuth"
     api.dashboard:
       summary: "Returns dashboard related data"

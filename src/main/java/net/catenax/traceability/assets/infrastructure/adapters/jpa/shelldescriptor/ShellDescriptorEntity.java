@@ -29,6 +29,8 @@ import java.time.ZonedDateTime;
 @Entity
 @Table(name = "shell_descriptor")
 public class ShellDescriptorEntity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private ZonedDateTime created;
 	private ZonedDateTime updated;
@@ -64,8 +66,6 @@ public class ShellDescriptorEntity {
 		return new ShellDescriptorEntity(null, shellDescriptorId, globalAssetId, idShort, partInstanceId, manufacturerPartId, manufacturerId, batchId, now, now);
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long getId() {
 		return id;
 	}

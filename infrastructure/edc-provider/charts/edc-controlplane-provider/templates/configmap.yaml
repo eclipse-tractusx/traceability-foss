@@ -1,0 +1,68 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "edc-controlplane.fullname" . }}-configmap
+  namespace: {{ .Release.Namespace | default "default" | quote }}
+  labels:
+    {{- include "edc-controlplane.labels" . | nindent 4 }}
+data:
+  configuration.properties: |-
+    web.http.default.port={{ .Values.edc.endpoints.default.port }}
+    web.http.default.path={{ .Values.edc.endpoints.default.path }}
+    web.http.data.port={{ .Values.edc.endpoints.data.port }}
+    web.http.data.path={{ .Values.edc.endpoints.data.path }}
+    web.http.validation.port={{ .Values.edc.endpoints.validation.port }}
+    web.http.validation.path={{ .Values.edc.endpoints.validation.path }}
+    web.http.control.port={{ .Values.edc.endpoints.control.port }}
+    web.http.control.path={{ .Values.edc.endpoints.control.path }}
+    web.http.ids.port={{ .Values.edc.endpoints.ids.port }}
+    web.http.ids.path={{ .Values.edc.endpoints.ids.path }}
+    edc.api.auth.key={{ .Values.edc.api.auth.key }}
+    ids.webhook.address={{ .Values.edc.controlplane.url }}
+    edc.ids.id=urn:connector:edc-consumer-controlplane
+    edc.ids.catalog.id=urn:catalog:default
+    edc.ids.endpoint={{ .Values.edc.controlplane.url }}/api/v1/ids
+    edc.ids.endpoint.audience={{ .Values.edc.controlplane.url }}/api/v1/ids/data
+    edc.receiver.http.endpoint=http://{{ include "edc-controlplane.fullname" . }}:8080/api/service/pull
+    edc.transfer.dataplane.sync.endpoint=http://{{ .Release.Name }}-edc-dataplane:8185/api/public
+    edc.transfer.proxy.endpoint={{ .Values.edc.dataplane.url }}/api/public
+    edc.transfer.proxy.token.signer.privatekey.alias={{ .Values.edc.transfer.proxy.token.signer.privatekey.alias }}
+    edc.transfer.proxy.token.verifier.publickey.alias={{ .Values.edc.transfer.proxy.token.verifier.publickey.alias }}
+    edc.dataplane.selector.consumer.url=http://{{ .Release.Name }}-edc-dataplane:9999/api/dataplane/control
+    edc.dataplane.selector.consumer.sourcetypes=HttpData
+    edc.dataplane.selector.consumer.destinationtypes=HttpProxy
+    edc.dataplane.selector.consumer.properties={ "publicApiUrl": "http://{{ .Release.Name }}-edc-dataplane:8185/api/public" }
+    # Postgresql related configuration
+    edc.datasource.asset.name=asset
+    edc.datasource.asset.url=jdbc:postgresql://{{ .Release.Name }}-postgresql-hl:5432/edc
+    edc.datasource.asset.user={{ .Values.edc.postgresql.user }}
+    edc.datasource.asset.password={{ .Values.edc.postgresql.password }}
+    edc.datasource.contractdefinition.name=contractdefinition
+    edc.datasource.contractdefinition.url=jdbc:postgresql://{{ .Release.Name }}-postgresql-hl:5432/edc
+    edc.datasource.contractdefinition.user={{ .Values.edc.postgresql.user }}
+    edc.datasource.contractdefinition.password={{ .Values.edc.postgresql.password }}
+    edc.datasource.contractnegotiation.name=contractnegotiation
+    edc.datasource.contractnegotiation.url=jdbc:postgresql://{{ .Release.Name }}-postgresql-hl:5432/edc
+    edc.datasource.contractnegotiation.user={{ .Values.edc.postgresql.user }}
+    edc.datasource.contractnegotiation.password={{ .Values.edc.postgresql.password }}
+    edc.datasource.policy.name=policy
+    edc.datasource.policy.url=jdbc:postgresql://{{ .Release.Name }}-postgresql-hl:5432/edc
+    edc.datasource.policy.user={{ .Values.edc.postgresql.user }}
+    edc.datasource.policy.password={{ .Values.edc.postgresql.password }}
+    edc.datasource.transferprocess.name=transferprocess
+    edc.datasource.transferprocess.url=jdbc:postgresql://{{ .Release.Name }}-postgresql-hl:5432/edc
+    edc.datasource.transferprocess.user={{ .Values.edc.postgresql.user }}
+    edc.datasource.transferprocess.password={{ .Values.edc.postgresql.password }}
+    edc.vault.hashicorp.timeout.seconds=30
+    edc.vault.hashicorp.health.check.enabled=true
+    edc.vault.hashicorp.health.check.standby.ok=true
+    edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+    edc.negotiation.consumer.state-machine.batch-size=50
+    {{- .Values.configuration.properties | nindent 4 }}
+
+  opentelemetry.properties: |-
+    {{- .Values.opentelemetry.properties | nindent 4 }}
+
+  logging.properties: |-
+    {{- .Values.logging.properties | nindent 4 }}

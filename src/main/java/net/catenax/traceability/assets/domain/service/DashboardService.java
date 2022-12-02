@@ -23,6 +23,7 @@ import net.catenax.traceability.assets.domain.model.Dashboard;
 import net.catenax.traceability.assets.domain.ports.AssetRepository;
 import net.catenax.traceability.common.security.JwtAuthentication;
 import net.catenax.traceability.common.security.JwtRole;
+import net.catenax.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -30,15 +31,17 @@ import org.springframework.stereotype.Component;
 public class DashboardService {
 
 	private final AssetRepository assetRepository;
+	private final InvestigationsRepository investigationsRepository;
 
-	public DashboardService(AssetRepository assetRepository) {
+	public DashboardService(AssetRepository assetRepository, InvestigationsRepository investigationsRepository) {
 		this.assetRepository = assetRepository;
+		this.investigationsRepository = investigationsRepository;
 	}
 
 	public Dashboard getDashboard(JwtAuthentication jwtAuthentication) {
 		long totalAssets = assetRepository.countAssets();
 		long myParts = assetRepository.countMyAssets();
-		long pendingInvestigations = assetRepository.countPendingInvestigations();
+		long pendingInvestigations = investigationsRepository.countPendingInvestigations();
 
 		// first check if user has admin or supervisor role
 		if (jwtAuthentication.hasAtLeastOneRole(JwtRole.ADMIN, JwtRole.SUPERVISOR)) {

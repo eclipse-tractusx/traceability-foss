@@ -16,6 +16,14 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
+traceability:
+  bpn: BPNL00000003AXS3
+
+edc:
+  api:
+    auth:
+      key: "integration-tests"
+
 spring:
   security:
     oauth2:
@@ -38,7 +46,12 @@ spring:
     url: jdbc:postgresql://localhost:5432/trace
     password: docker
     username: postgres
-    show-sql: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+#    show-sql: true
+  flyway:
+    enabled: false
 
 jwt:
   resource-client: "Integration-Test"
@@ -52,4 +65,5 @@ resilience4j:
         waitDuration: 10s
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
-
+server:
+  port: 9999

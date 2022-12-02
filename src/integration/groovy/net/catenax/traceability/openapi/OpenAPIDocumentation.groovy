@@ -1,11 +1,11 @@
 package net.catenax.traceability.openapi
 
-import net.catenax.traceability.IntegrationSpec
+import net.catenax.traceability.IntegrationSpecification
 import org.apache.commons.io.FileUtils
 
 import static io.restassured.RestAssured.given
 
-class OpenAPIDocumentation extends IntegrationSpec {
+class OpenAPIDocumentation extends IntegrationSpecification {
 
 	private static final String DOCUMENTATION_FILENAME = "./openapi/product-traceability-foss-backend.json"
 

@@ -1,0 +1,37 @@
+registryPostgresql:
+  enabled: true
+
+  nameOverride: "tracex-registry-postgresql"
+  fullnameOverride: "tracex-registry-postgresql"
+
+  primary:
+    persistence:
+      enabled: true
+      size: 1Gi
+  auth:
+    username: <path:traceability-foss/data/int/aasregistry#username>
+    password: <path:traceability-foss/data/int/aasregistry#password>
+    database: registry
+
+registry:
+  enabled: true
+
+  registry:
+    idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
+    host: trace-x-registry.int.demo.catena-x.net
+    ingress:
+      hosts:
+        - host: trace-x-registry.int.demo.catena-x.net
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+      enabled: true
+      tls:
+        - hosts:
+            - trace-x-registry.int.demo.catena-x.net
+          # Default secret for certificate creation already provided to your namespace
+          secretName: tls-secret
+    dataSource:
+      url: jdbc:postgresql://tracex-registry-postgresql-hl/registry
+      user: <path:traceability-foss/data/int/aasregistry#username>
+      password: <path:traceability-foss/data/int/aasregistry#password>

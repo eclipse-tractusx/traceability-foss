@@ -18,6 +18,9 @@ ingress:
       - "traceability.dev.demo.catena-x.net"
       secretName: tls-secret
 
+traceability:
+  bpn: "BPNL00000003AYRE"
+
 mailserver:
   host: "smtp.office365.com"
   port: "587"
@@ -30,11 +33,14 @@ datasource:
   password: <path:traceability-foss/data/dev/database#tracePassword>
 
 oauth2:
-  clientId: <path:traceability-foss/data/dev/keycloak/oauth2#clientId>
-  clientSecret: <path:traceability-foss/data/dev/keycloak/oauth2#clientSecret>
-  clientTokenUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+  clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+  clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+  clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
   jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
-  resourceClient: "Cl10-CX-Part"
+  resourceClient: "Cl17-CX-Part"
+
+edc:
+  apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
 
 postgresql:
   enabled: true
@@ -72,7 +78,7 @@ pgadmin4:
       cpu: 1000m
       memory: 1Gi
     requests:
-      cpu: 500m
+      cpu: 256m
       memory: 512Mi
 
 irs:
@@ -105,10 +111,10 @@ irs:
 
   keycloak:
     oauth2:
-      clientId: <path:traceability-foss/data/dev/keycloak/oauth2#clientId>
-      clientSecret: <path:traceability-foss/data/dev/keycloak/oauth2#clientSecret>
-      clientTokenUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   aasWrapper:
     host: http://tracex-irs-aaswrapper:9191/api/service
@@ -122,7 +128,7 @@ irs:
   rootPassword: <path:traceability-foss/data/dev/minio#password>
 
   digitalTwinRegistry:
-    url: https://tracex-aas-registry.dev.demo.catena-x.net
+    url: https://trace-x-registry.dev.demo.catena-x.net
 
   # Values for aas wrapper subchart.
   irs-aaswrapper:
@@ -359,7 +365,7 @@ irs:
         edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
 
         edc.data.encryption.keys.alias=edc-data-encryption-keys-alias
-        edc.data.encryption.algorithm=AES
+        edc.data.encryption.algorithm=NONE
 
         # Postgresql related configuration
         edc.datasource.asset.name=asset

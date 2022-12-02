@@ -20,16 +20,40 @@
 package net.catenax.traceability.common.config
 
 import io.restassured.RestAssured
+import net.catenax.traceability.investigations.domain.ports.EDCUrlProvider
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.TestConfiguration
-
 import org.springframework.boot.web.context.WebServerInitializedEvent
+import org.springframework.context.annotation.Bean
 import org.springframework.context.event.EventListener
 
 @TestConfiguration
 class RestAssuredConfig {
 
+	private static final String DEFAULT_EDC_URL = "http://localhost:9999/api/edc";
+
 	@EventListener(WebServerInitializedEvent.class)
 	void onServletContainerInitialized(WebServerInitializedEvent event) {
 		RestAssured.port = event.webServer.port
+	}
+
+	@Bean
+	EDCUrlProvider mockEDCUrlProvider(@Value('${traceability.bpn}') String defaultBPN) {
+		return new EDCUrlProvider() {
+			@Override
+			String getEdcUrl(String bpn) {
+				return DEFAULT_EDC_URL
+			}
+
+			@Override
+			String getSenderUrl() {
+				return DEFAULT_EDC_URL
+			}
+
+			@Override
+			String getSenderBpn() {
+				return defaultBPN
+			}
+		}
 	}
 }

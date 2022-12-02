@@ -123,6 +123,9 @@ springprofile: ""
 healthCheck:
   enabled: true
 
+traceability:
+  bpn: ""
+
 mailserver:
   host: ""
   port: ""
@@ -140,6 +143,9 @@ oauth2:
   clientTokenUri: ""
   jwkSetUri: ""
   resourceClient: ""
+
+edc:
+  apiKey: ""
 
 postgresql:
   enabled: false

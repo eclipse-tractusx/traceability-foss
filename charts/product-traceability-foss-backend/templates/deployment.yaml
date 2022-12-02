@@ -45,6 +45,8 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: {{ .Values.springprofile | quote }}
+            - name: TRACEABILITY_BPN
+              value: {{ .Values.traceability.bpn | quote }}
             - name: MAILSERVER_HOST
               value: {{ .Values.mailserver.host | quote }}
             - name: MAILSERVER_PORT
@@ -61,6 +63,8 @@ spec:
               value: {{ .Values.oauth2.clientTokenUri | quote }}
             - name: OAUTH2_JWK_SET_URI
               value: {{ .Values.oauth2.jwkSetUri | quote }}
+            - name: EDC_API_KEY
+              value: {{ .Values.edc.apiKey | quote }}
             - name: JWT_RESOURCE_CLIENT
               value: {{ .Values.oauth2.resourceClient | quote }}
             - name: SPRING_DATASOURCE_URL

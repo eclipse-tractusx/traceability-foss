@@ -88,7 +88,7 @@ public class AssetsConverter {
 					part.catenaXId(),
 					defaultValue(shortIds.get(part.catenaXId())),
 					defaultValue(part.partTypeInformation().nameAtManufacturer()),
-					defaultValue(part.partTypeInformation().manufacturerPartID()),
+					defaultValue(part.partTypeInformation().manufacturerPartId()),
 					partInstanceId(part),
 					manufacturerId(part),
 					batchId(part),

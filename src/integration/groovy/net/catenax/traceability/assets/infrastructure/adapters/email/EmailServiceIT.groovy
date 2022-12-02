@@ -19,11 +19,11 @@
 
 package net.catenax.traceability.assets.infrastructure.adapters.email
 
-import net.catenax.traceability.IntegrationSpec
+import net.catenax.traceability.IntegrationSpecification
 import net.catenax.traceability.common.support.MailboxSupport
 import org.springframework.beans.factory.annotation.Autowired
 
-class EmailServiceIT extends IntegrationSpec implements MailboxSupport {
+class EmailServiceIT extends IntegrationSpecification implements MailboxSupport {
 
     @Autowired
     EmailService emailService

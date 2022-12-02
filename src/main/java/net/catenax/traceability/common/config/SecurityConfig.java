@@ -44,7 +44,7 @@ public class SecurityConfig {
 		"/api/v3/api-docs/**",
 		"/api/swagger-ui/**",
 		"/api/swagger-ui.html",
-		"/actuator/**",
+		"/actuator/**"
 	};
 
 	@Value("${jwt.resource-client}")
@@ -61,6 +61,8 @@ public class SecurityConfig {
 			.and()
 			.anonymous().disable()
 			.authorizeRequests()
+			.antMatchers("/api/callback/endpoint-data-reference").permitAll()
+			.antMatchers("/api/qualitynotifications/receive").permitAll()
 			.antMatchers("/api/**").authenticated()
 			.and()
 			.oauth2Client()

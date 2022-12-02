@@ -2,14 +2,14 @@ package net.catenax.traceability.actuator
 
 import io.restassured.builder.RequestSpecBuilder
 import io.restassured.specification.RequestSpecification
-import net.catenax.traceability.IntegrationSpec
+import net.catenax.traceability.IntegrationSpecification
 import org.springframework.boot.test.web.server.LocalManagementPort
 
 import static io.restassured.RestAssured.given
 import static org.hamcrest.Matchers.containsInAnyOrder
 import static org.hamcrest.Matchers.equalTo
 
-class ActuatorIT extends IntegrationSpec {
+class ActuatorIT extends IntegrationSpecification {
 
 	@LocalManagementPort
 	private int managementPort

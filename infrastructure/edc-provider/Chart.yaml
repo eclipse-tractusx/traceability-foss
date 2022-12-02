@@ -1,25 +1,22 @@
----
 apiVersion: v2
-name: edc-controlplane
-description: >-
-  EDC Control-Plane - The Eclipse DataSpaceConnector administration layer with responsibility of resource management and govern contracts and data transfers
-home: https://github.com/catenax-ng/product-edc/deployment/helm/edc-controlplane
+name: edc-provider
+description: EDC Provider Helm chart for Kubernetes for Catena-X
+
+
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
 type: application
-appVersion: "0.1.2"
-version: 0.1.2
-maintainers: []
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 1.0.0
+
 dependencies:
-  - name: postgresql
+  - name: common
     repository: https://charts.bitnami.com/bitnami
-    version: 11.x.x
-    condition: edcPostgresql.enabled
-    alias: edcPostgresql
-  - name: registry
-    repository: "file://../registry"
-    version: x.x.x
-    condition: registry.enabled
-  - name: postgresql
-    repository: https://charts.bitnami.com/bitnami
-    version: 11.x.x
-    condition: registryPostgresql.enabled
-    alias: registryPostgresql
+    version: 1.x.x

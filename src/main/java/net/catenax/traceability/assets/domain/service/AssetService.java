@@ -85,10 +85,6 @@ public class AssetService {
 		return assetRepository.save(foundAsset);
 	}
 
-	public void startInvestigation(List<String> assetIds, String description) {
-		assetRepository.startInvestigation(assetIds, description);
-	}
-
 	public Map<String, Long> getAssetsCountryMap() {
 		return assetRepository.getAssets().stream()
 			.collect(Collectors.groupingBy(Asset::getManufacturingCountry, Collectors.counting()));

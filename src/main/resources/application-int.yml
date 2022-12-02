@@ -16,12 +16,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
-traceability:
-  bpn: BPNL00000003AYRE
-  registry.manufacturerIdKey: manufacturerId
-
 feign:
   irsApi:
     url: https://tracex-irs.int.demo.catena-x.net
   registryApi:
-    url: https://irs-aas-registry.dev.demo.catena-x.net
+    url: https://semantics.int.demo.catena-x.net/registry

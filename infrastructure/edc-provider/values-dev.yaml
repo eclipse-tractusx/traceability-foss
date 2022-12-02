@@ -1,0 +1,98 @@
+##############################
+# EDC Postgres Configuration #
+##############################
+postgresql:
+  auth:
+    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+    password: <path:traceability-foss/data/dev/edc/database#password>
+  primary:
+    resources:
+      limits:
+        cpu: 1.5
+        memory: 1.5Gi
+
+##################################
+# EDC Controlplane Configuration #
+##################################
+edc-controlplane:
+  ingresses:
+    - enabled: true
+      hostname: "trace-x-edc.dev.demo.catena-x.net"
+      annotations:
+        nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      endpoints:
+        - ids
+        - data
+      className: "nginx"
+      tls:
+        - hosts:
+            - "trace-x-edc.dev.demo.catena-x.net"
+          secretName: tls-secret
+
+  edc:
+    postgresql:
+      password: <path:traceability-foss/data/dev/edc/database#password>
+    transfer:
+      proxy:
+        token:
+          verifier:
+            publickey:
+              alias: token-signer-cert-dev
+          signer:
+            privatekey:
+              alias: token-signer-cert-key-dev
+    api:
+      auth:
+        key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+    controlplane:
+      url: "https://trace-x-edc.dev.demo.catena-x.net"
+    dataplane:
+      url: "https://trace-x-edc-dataplane.dev.demo.catena-x.net"
+  configuration:
+    properties: |-
+      edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+      edc.oauth.public.key.alias=daps-cert-edc-provider-dev
+      edc.oauth.private.key.alias=daps-cert-key-edc-provider-dev
+      edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+      edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+      edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+      edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+      edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+      edc.data.encryption.keys.alias=edc-data-encryption-keys-alias
+      edc.data.encryption.algorithm=NONE
+
+###############################
+# EDC Dataplane Configuration #
+###############################
+edc-dataplane:
+  edc:
+    api:
+      auth:
+        key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+  ingresses:
+    - enabled: true
+      hostname: "trace-x-edc-dataplane.dev.demo.catena-x.net"
+      annotations:
+        nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      endpoints:
+        - public
+      className: "nginx"
+      tls:
+        - hosts:
+            - "trace-x-edc-dataplane.dev.demo.catena-x.net"
+          secretName: tls-secret
+  configuration:
+    properties: |-
+      edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+      edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+      edc.oauth.public.key.alias=daps-cert-edc-provider-dev
+      edc.oauth.private.key.alias=daps-cert-key-edc-provider-dev
+      edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+      edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+      edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+      edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+      edc.vault.hashicorp.api.secret.path=/v1/traceability-foss

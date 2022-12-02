@@ -1,0 +1,12 @@
+dependencies:
+- name: postgresql
+  repository: https://charts.bitnami.com/bitnami
+  version: 11.9.13
+- name: pgadmin4
+  repository: https://helm.runix.net
+  version: 1.13.6
+- name: irs
+  repository: https://catenax-ng.github.io/product-item-relationship-service
+  version: 1.0.0
+digest: sha256:d028c247e98ca7eb89669e5cad714a08efb2aaa75a0aa29e43069e5452347487
+generated: "2022-10-28T08:05:20.516613+02:00"

@@ -18,6 +18,9 @@ ingress:
       - "traceability.int.demo.catena-x.net"
       secretName: tls-secret
 
+traceability:
+  bpn: "BPNL00000003B2OM"
+
 mailserver:
   host: "smtp.office365.com"
   port: "587"
@@ -35,6 +38,9 @@ oauth2:
   clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
   jwkSetUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
   resourceClient: "Cl17-CX-Part"
+
+edc:
+  apiKey: "<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>"
 
 postgresql:
   enabled: true
@@ -100,7 +106,6 @@ irs:
     tls:
       - hosts:
           - "tracex-irs.int.demo.catena-x.net"
-        # Default secret for certificate creation already provided to your namespace
         secretName: tls-secret
 
   keycloak:
@@ -122,7 +127,7 @@ irs:
   rootPassword: <path:traceability-foss/data/int/minio#password>
 
   digitalTwinRegistry:
-    url: https://tracex-aas-registry.int.demo.catena-x.net
+    url: https://semantics.int.demo.catena-x.net/registry
 
   # Values for aas wrapper subchart.
   irs-aaswrapper:
@@ -342,7 +347,7 @@ irs:
         edc.dataplane.selector.consumer.url=http://tracex-consumer-dataplane:9999/api/dataplane/control
         edc.dataplane.selector.consumer.sourcetypes=HttpData
         edc.dataplane.selector.consumer.destinationtypes=HttpProxy
-        edc.dataplane.selector.consumer.properties={ "publicApiUrl": "https://tracex-consumer-dataplane.int.demo.catena-x.net/api/public" }
+        edc.dataplane.selector.consumer.properties={ "publicApiUrl": "http://tracex-consumer-dataplane:8185/api/public" }
 
         edc.oauth.client.id=D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F:keyid:D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F
         edc.oauth.public.key.alias=daps-cert-int
@@ -359,7 +364,7 @@ irs:
         edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
 
         edc.data.encryption.keys.alias=edc-data-encryption-keys-alias
-        edc.data.encryption.algorithm=AES
+        edc.data.encryption.algorithm=NONE
 
         # Postgresql related configuration
         edc.datasource.asset.name=asset

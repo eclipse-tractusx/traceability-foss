@@ -58,7 +58,7 @@ record ManufacturingInformation(
 record PartTypeInformation(
 	String nameAtManufacturer,
 	String nameAtCustomer,
-	String manufacturerPartID,
+	String manufacturerPartId,
 	String customerPartId
 ) {}
 

@@ -20,13 +20,15 @@
 package net.catenax.traceability.assets.domain.ports;
 
 import net.catenax.traceability.assets.domain.model.Asset;
-import net.catenax.traceability.assets.domain.model.PageResult;
+import net.catenax.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface AssetRepository {
 	Asset getAssetById(String assetId);
+
+	List<Asset> getAssetsById(List<String> assetIds);
 
 	Asset getAssetByChildId(String assetId, String childId);
 
@@ -40,15 +42,9 @@ public interface AssetRepository {
 
 	Asset save(Asset asset);
 
-	void startInvestigation(List<String> assetIds, String description);
-
 	List<Asset> saveAll(List<Asset> assets);
 
     long countAssets();
 
 	long countMyAssets();
-
-	void clean();
-
-	long countPendingInvestigations();
 }

@@ -30,5 +30,4 @@ public interface ShellDescriptorRepository {
 	void update(ShellDescriptor shellDescriptor);
 	void saveAll(Collection<ShellDescriptor> values);
 	void removeOldDescriptors(ZonedDateTime now);
-	void clean();
 }
