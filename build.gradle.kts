@@ -37,7 +37,7 @@ repositories {
 
 sonarqube {
 	properties {
-		property("sonar.organization", "tractusx")
+		property("sonar.organization", "catenax-ng")
 		property("sonar.host.url", "https://sonarcloud.io")
 		property("sonar.projectKey", "catenax-ng_product-traceability-foss-backend")
 		property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/*.xml")
