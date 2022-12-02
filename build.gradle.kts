@@ -11,7 +11,7 @@ plugins {
 	id("org.sonarqube") version "3.4.0.2513"
 }
 
-group = "net.catenax.traceability"
+group = "org.eclipse.tractusx.traceability"
 version = "0.0.1-SNAPSHOT"
 
 java {
@@ -37,26 +37,26 @@ repositories {
 
 sonarqube {
 	properties {
-		property("sonar.organization", "catenax-ng")
+		property("sonar.organization", "tractusx")
 		property("sonar.host.url", "https://sonarcloud.io")
 		property("sonar.projectKey", "catenax-ng_product-traceability-foss-backend")
 		property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/*.xml")
 		property("sonar.cpd.exclusions", listOf(
-				"src/main/java/net/catenax/traceability/assets/infrastructure/adapters/jpa/**",
+				"src/main/java/org/eclipse/tractusx/traceability/assets/infrastructure/adapters/jpa/**",
 			)
 		)
 		property("sonar.coverage.exclusions", listOf(
-				"src/main/java/net/catenax/traceability/generated/**",
-				"src/main/java/net/catenax/traceability/openapi/**",
-				"src/main/java/net/catenax/traceability/TraceabilityApplication.java",
-				"src/main/java/net/catenax/traceability/common/**",
-				"src/main/java/net/catenax/traceability/infrastructure/**",
-				"src/main/java/net/catenax/traceability/assets/domain/model/**",
-				"src/main/java/net/catenax/traceability/assets/infrastructure/**",
-				"src/main/java/net/catenax/traceability/assets/config/**",
-				"src/main/java/net/catenax/traceability/investigations/domain/model/**",
-				"src/main/java/net/catenax/traceability/investigations/adapters/**",
-				"src/main/java/net/catenax/traceability/infrastructure/edc/blackbox/**"
+				"src/main/java/org/eclipse/tractusx/traceability/generated/**",
+				"src/main/java/org/eclipse/tractusx/traceability/openapi/**",
+				"src/main/java/org/eclipse/tractusx/traceability/TraceabilityApplication.java",
+				"src/main/java/org/eclipse/tractusx/traceability/common/**",
+				"src/main/java/org/eclipse/tractusx/traceability/infrastructure/**",
+				"src/main/java/org/eclipse/tractusx/traceability/assets/domain/model/**",
+				"src/main/java/org/eclipse/tractusx/traceability/assets/infrastructure/**",
+				"src/main/java/org/eclipse/tractusx/traceability/assets/config/**",
+				"src/main/java/org/eclipse/tractusx/traceability/investigations/domain/model/**",
+				"src/main/java/org/eclipse/tractusx/traceability/investigations/adapters/**",
+				"src/main/java/org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**"
 			)
 		)
 	}
@@ -222,8 +222,8 @@ tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gener
 
 	library.set("feign")
 	generatorName.set("java")
-	apiPackage.set("net.catenax.traceability.assets.infrastructure.adapters.openapi.registry")
-	modelPackage.set("net.catenax.traceability.assets.infrastructure.adapters.openapi.registry")
+	apiPackage.set("org.eclipse.tractusxtraceability.assets.infrastructure.adapters.openapi.registry")
+	modelPackage.set("org.eclipse.tractusxtraceability.assets.infrastructure.adapters.openapi.registry")
 	configOptions.put("sourceFolder", "src/main/java")
 }
 
@@ -253,13 +253,13 @@ tasks.jacocoTestReport {
 		files(classDirectories.files.map {
 			fileTree(it) {
 				exclude(
-					"net/catenax/traceability/generated/**",
-					"net/catenax/traceability/openapi/**",
-					"net/catenax/traceability/*Application.class",
-					"net/catenax/traceability/common/**",
-					"net/catenax/traceability/assets/domain/model/**",
-					"net/catenax/traceability/assets/infrastructure/**",
-					"net/catenax/traceability/assets/config/**"
+					"org/eclipse/tractusx/traceability/generated/**",
+					"org/eclipse/tractusx/traceability/openapi/**",
+					"org/eclipse/tractusx/traceability/*Application.class",
+					"org/eclipse/tractusx/traceability/common/**",
+					"org/eclipse/tractusx/traceability/assets/domain/model/**",
+					"org/eclipse/tractusx/traceability/assets/infrastructure/**",
+					"org/eclipse/tractusx/traceability/assets/config/**"
 				)
 			}
 		})
