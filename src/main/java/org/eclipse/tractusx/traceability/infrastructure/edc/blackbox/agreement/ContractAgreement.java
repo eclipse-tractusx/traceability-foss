@@ -18,6 +18,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.agreement;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Policy;
 import org.jetbrains.annotations.NotNull;
 
@@ -136,7 +137,7 @@ public class ContractAgreement {
 	}
 
 	/**
-	 * The id of the policy that describes how the {@link org.eclipse.tractusx.traceability.investigation.domain.model.edc.asset.Asset} of this contract may be used by the consumer.
+	 * The id of the policy that describes how the {@link org.eclipse.tractusx.traceability.assets.domain.model.Asset} of this contract may be used by the consumer.
 	 *
 	 * @return policy
 	 */
