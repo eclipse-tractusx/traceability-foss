@@ -24,11 +24,16 @@ import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { screen, waitFor } from '@testing-library/angular';
+import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { MOCK_part_1, MOCK_part_2, MOCK_part_3 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 import { StartInvestigationComponent } from './start-investigation.component';
 
 describe('StartInvestigationComponent', () => {
+  beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.stop());
+
   const part = { data: PartsAssembler.assemblePart(MOCK_part_1) };
   const firstChild = PartsAssembler.assemblePart(MOCK_part_2);
   const secondChild = PartsAssembler.assemblePart(MOCK_part_3);
