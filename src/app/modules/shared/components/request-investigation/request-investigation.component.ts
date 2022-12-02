@@ -75,6 +75,7 @@ export class RequestInvestigationComponent {
         this.resetForm();
 
         this.openCtaSnackbar(amountOfItems);
+        // Improve this call. Only call when needed.
         this.otherPartsFacade.setActiveInvestigationForParts(this.selectedItems);
       },
       error: () => {

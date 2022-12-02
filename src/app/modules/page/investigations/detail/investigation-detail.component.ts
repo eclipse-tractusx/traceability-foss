@@ -20,12 +20,16 @@
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
+import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -33,12 +37,12 @@ import { filter, first, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-investigation-detail',
   templateUrl: './investigation-detail.component.html',
-  styleUrls: [
-    './investigation-detail.component.scss',
-    '../../../shared/modules/notification/notification-tab/notification-tab.component.scss',
-  ],
+  styleUrls: ['./investigation-detail.component.scss'],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
+  @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
+  @ViewChild(CancelNotificationModalComponent) cancelModal: CancelNotificationModalComponent;
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
@@ -59,8 +63,10 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   private subscription: Subscription;
   private selectedInvestigationTmpStore: Notification;
+  public selectedInvestigation: Notification;
 
   constructor(
+    public readonly helperService: InvestigationHelperService,
     private readonly staticIdService: StaticIdService,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly investigationsFacade: InvestigationsFacade,
@@ -81,7 +87,10 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.subscription = this.selected$
       .pipe(
         filter(({ data }) => !!data),
-        tap(({ data }) => this.setTableConfigs(data)),
+        tap(({ data }) => {
+          this.setTableConfigs(data);
+          this.selectedInvestigation = data;
+        }),
       )
       .subscribe();
   }
@@ -120,10 +129,6 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   public addItemToSelection(part: Part): void {
     this.addPartTrigger$.next(part);
     this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
-  }
-
-  public onRequestInvestigationClose(): void {
-    this.isInvestigationOpen$.next(false);
   }
 
   public copyToClipboard(serialNumber: string): void {
@@ -171,5 +176,10 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
         tap(notification => (this.investigationDetailFacade.selected = { data: notification })),
       )
       .subscribe();
+  }
+
+  public handleConfirmActionCompletedEvent() {
+    this.investigationDetailFacade.selected = { loader: true };
+    this.ngAfterViewInit();
   }
 }

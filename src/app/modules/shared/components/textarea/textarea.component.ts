@@ -19,6 +19,7 @@
 
 import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { StaticIdService } from '@shared/service/staticId.service';
 
 @Component({
   selector: 'app-textarea',
@@ -34,11 +35,15 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
 
   public onChange: ((_value: string) => {}) | null = null;
   public onTouched: (() => void) | null = null;
+  public htmlId: string;
 
-  constructor(@Self() public readonly ngControl: NgControl) {
+  private htmlIdBase = 'TextAreaComponent-';
+
+  constructor(@Self() public readonly ngControl: NgControl, staticIdService: StaticIdService) {
     // we cannot provide this component in NG_VALUE_ACCESSOR, as we want to have access to the ngControl
     // so we have to setup valueAccessor manualy
     this.ngControl.valueAccessor = this;
+    this.htmlId = staticIdService.generateId(this.htmlIdBase);
   }
 
   public ngOnInit(): void {

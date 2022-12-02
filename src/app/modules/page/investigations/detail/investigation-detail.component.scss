@@ -17,6 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+.detail--header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .detail--wrapper {
   display: flex;
   height: max-content;
@@ -47,21 +52,6 @@
   @media (max-width: 1024px) {
     margin-left: 0;
     margin-top: 1.5rem;
-  }
-}
-
-.detail--info__wrapper {
-  display: flex;
-  flex-direction: column;
-}
-
-.detail--info__content {
-  display: flex;
-  padding-bottom: 0.5rem;
-
-  & > span {
-    margin-right: 15px;
-    font-weight: bold;
   }
 }
 

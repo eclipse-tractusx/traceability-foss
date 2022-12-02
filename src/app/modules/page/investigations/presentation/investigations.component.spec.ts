@@ -29,7 +29,7 @@ describe('InvestigationsComponent', () => {
   afterEach(() => server.resetHandlers());
   afterAll(() => server.stop());
 
-  const renderInvestigations = async (id?: string) => {
+  const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
       imports: [InvestigationsModule],
       providers: [InvestigationsService],

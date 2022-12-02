@@ -47,11 +47,12 @@ describe('Other Parts', () => {
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
 
-  const renderOtherParts = () =>
+  const renderOtherParts = ({ roles = [] } = {}) =>
     renderComponent(OtherPartsComponent, {
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
       translations: ['page.otherParts', 'partDetail'],
+      roles,
     });
 
   it('should render part header', async () => {
@@ -83,7 +84,7 @@ describe('Other Parts', () => {
   });
 
   it('should render selected parts information', async () => {
-    await renderOtherParts();
+    await renderOtherParts({ roles: ['user', 'wip'] });
     await screen.findByTestId('table-component--test-id');
     const selectedPartsInfo = await screen.getByText('0 Parts selected for this page.');
 
@@ -136,7 +137,7 @@ describe('Other Parts', () => {
 
   describe('onTableConfigChange', () => {
     it('should request supplier parts if first tab is selected', async () => {
-      await renderOtherParts();
+      await renderOtherParts({ roles: ['user', 'wip'] });
 
       const supplierTabElement = screen.getByText('Supplier Parts');
       supplierTabElement.click();
@@ -167,7 +168,7 @@ describe('Other Parts', () => {
     });
 
     it('should request customer parts if second tab is selected', async () => {
-      await renderOtherParts();
+      await renderOtherParts({ roles: ['user', 'wip'] });
 
       const customerTabElement = screen.getByText('Customer Parts');
       customerTabElement.click();
@@ -200,7 +201,7 @@ describe('Other Parts', () => {
   });
 
   it('should add item to current list', async () => {
-    const { fixture } = await renderOtherParts();
+    const { fixture } = await renderOtherParts({ roles: ['user', 'wip'] });
     const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
 
     const supplierTabElement = screen.getByText('Supplier Parts');

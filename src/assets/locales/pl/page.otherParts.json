@@ -22,8 +22,8 @@
   "page": {
     "selectedParts": {
       "info_one": "{{count}} część została wybrana",
-      "info_few": "{{count}} części została wybrana",
-      "info_many": "{{count}} części została wybrana",
+      "info_few": "{{count}} części zostały wybrane",
+      "info_many": "{{count}} części zostało wybrane",
       "action": "Rozpocznij badanie jakości"
     },
     "requestInvestigations": {
