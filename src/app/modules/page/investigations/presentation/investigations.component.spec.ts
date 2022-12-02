@@ -21,9 +21,14 @@ import { InvestigationsModule } from '@page/investigations/investigations.module
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { screen, waitFor } from '@testing-library/angular';
+import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('InvestigationsComponent', () => {
+  beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.stop());
+
   const renderInvestigations = async () => {
     return await renderComponent(InvestigationsComponent, {
       roles: ['wip'],

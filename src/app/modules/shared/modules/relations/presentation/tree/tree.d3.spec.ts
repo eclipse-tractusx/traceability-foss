@@ -27,28 +27,17 @@ import { D3TreeDummyData } from './tree.d3.test.data';
 describe('D3 Tree', () => {
   const id = 'id';
   const mainElement = d3.select(document.body).append('svg') as TreeSvg;
+  mainElement.attr('id', id);
   const openDetails = jasmine.createSpy();
   const updateChildren = jasmine.createSpy();
 
   let treeData: TreeData;
 
-  beforeEach(() => (treeData = { id, mainElement, openDetails, updateChildren }));
+  beforeEach(() => (treeData = { id, openDetails, updateChildren }));
 
   it('should initialize tree class', () => {
     const tree = new Tree(treeData);
-    const expected = {
-      renderOptions: { preserveRight: 0 },
-      _zoom: 1,
-      _viewX: 0,
-      _viewY: 0,
-      id,
-      mainElement,
-      width: mainElement?.node?.()?.getBoundingClientRect?.()?.width,
-      height: mainElement?.node?.()?.getBoundingClientRect?.()?.height,
-      r: 60,
-    };
-
-    expect(tree).toEqual(jasmine.objectContaining(expected));
+    expect(tree.renderTree).toBeTruthy();
   });
 
   it('should render element borders', () => {

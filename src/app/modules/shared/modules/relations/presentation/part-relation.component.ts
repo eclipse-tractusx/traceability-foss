@@ -29,10 +29,9 @@ import { RelationsAssembler } from '@shared/modules/relations/core/relations.ass
 import { RelationsFacade } from '@shared/modules/relations/core/relations.facade';
 import { OpenElements, TreeData, TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { StaticIdService } from '@shared/service/staticId.service';
-import * as d3 from 'd3';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, filter, map, switchMap, takeWhile, tap } from 'rxjs/operators';
-import Minimap, { MinimapData } from './minimap/minimap.d3';
+import Minimap from './minimap/minimap.d3';
 import Tree from './tree/tree.d3';
 
 @Component({
@@ -67,11 +66,11 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly ngZone: NgZone,
     staticIdService: StaticIdService,
   ) {
-    this.rootPart$ = this._rootPart$.observable.pipe(debounceTime(100));
+    this.rootPart$ = this._rootPart$.observable;
     this.htmlId = staticIdService.generateId(this.htmlIdBase);
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     const initSubscription = this.route.paramMap
       .pipe(
         switchMap(params => {
@@ -89,12 +88,12 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptions.add(initSubscription);
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
     this.tree = undefined;
   }
 
-  ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.initListeners();
   }
 
@@ -127,27 +126,18 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   private initTree(): void {
     const treeConfig: TreeData = {
       id: this.htmlId,
-      mainElement: d3.select(`#${this.htmlId}`),
       openDetails: this.isStandalone ? this.openDetails.bind(this) : _ => null,
+      defaultZoom: this.isStandalone ? 1 : 0.7,
       updateChildren: this.updateChildren.bind(this),
     };
 
-    this.tree = new Tree(treeConfig, {
-      preserveRight: 32 + 64, // we want to preserve space on load for zoom control
-    });
+    this.tree = new Tree(treeConfig);
 
     if (!this.showMiniMap) {
       return;
     }
 
-    const minimapId = `${this.htmlId}-minimap`;
-    const minimapConfig: MinimapData = {
-      id: minimapId,
-      mainElement: d3.select(`#${minimapId}`),
-      treeInstance: this.tree,
-    };
-
-    this.minimap = new Minimap(minimapConfig);
+    this.minimap = new Minimap(this.tree);
   }
 
   private updateChildren({ id }: TreeElement): void {
@@ -191,10 +181,10 @@ export class PartRelationComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public increaseSize(): void {
-    this.tree.changeSize(0.25);
+    this.tree.changeSize(0.1);
   }
 
   public decreaseSize(): void {
-    this.tree.changeSize(-0.25);
+    this.tree.changeSize(-0.1);
   }
 }

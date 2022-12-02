@@ -20,6 +20,7 @@
 import { QualityType } from '@page/parts/model/parts.model';
 import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 
+//ToDo: Move to model.d3.ts!!
 export type LoadedElements = Record<string, TreeElement>;
 export type OpenElements = Record<string, string[]>;
 type State = 'done' | 'loading' | 'error' | QualityType;
@@ -47,7 +48,7 @@ export interface TreeData {
   id: string;
   treeId?: string;
   r?: number;
-  mainElement?: TreeSvg;
+  defaultZoom?: number;
   openDetails?: (data: TreeStructure) => void;
   updateChildren?: (data: TreeStructure) => void;
 }

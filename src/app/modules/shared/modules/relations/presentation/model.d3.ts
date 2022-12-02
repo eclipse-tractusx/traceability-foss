@@ -18,6 +18,7 @@
  ********************************************************************************/
 
 import { TreeStructure } from '@shared/modules/relations/model/relations.model';
+import { ZoomTransform } from 'd3';
 import { HierarchyCircularNode } from 'd3-hierarchy';
 import { Selection } from 'd3-selection';
 
@@ -25,10 +26,16 @@ export type TreeSvg = Selection<SVGElement, TreeStructure, HTMLElement, TreeStru
 export type TreeNode = HierarchyCircularNode<TreeStructure>;
 
 export interface MinimapConnector {
-  onZoom: (zoom: number) => void;
-  onDrag: (x: number, y: number) => void;
+  onZoom: (zoom: ZoomTransform) => void;
 }
 
-export interface RenderOptions {
-  preserveRight: number; // on initial load would take into account on centering
+export interface MinimapIds {
+  circle: string;
+  closeButton: string;
+  closing: string;
+  icon: string;
+  main: string;
+  minimap: string;
+  viewport: string;
+  viewportContainer: string;
 }

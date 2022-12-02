@@ -17,77 +17,68 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import Minimap, { MinimapData } from '@shared/modules/relations/presentation/minimap/minimap.d3';
-import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
-import Tree from '@shared/modules/relations/presentation/tree/tree.d3';
-import * as d3 from 'd3';
-import { D3TreeDummyData } from '../tree/tree.d3.test.data';
+import { ActivatedRoute } from '@angular/router';
+import { PartsModule } from '@page/parts/parts.module';
+import { PartRelationComponent } from '@shared/modules/relations/presentation/part-relation.component';
+import { RelationsModule } from '@shared/modules/relations/relations.module';
+import { screen, waitFor } from '@testing-library/angular';
+import { server } from '@tests/mock-test-server';
+import { renderComponent } from '@tests/test-render.utils';
+import { BehaviorSubject } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { MOCK_part_1 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 
-describe('D3 Tree', () => {
-  window.innerWidth = 1024;
-  window.innerHeight = 768;
-  const id = 'id';
-  const mainElement = d3.select(document.body).append('svg') as TreeSvg;
-  const openDetails = jasmine.createSpy();
-  const updateChildren = jasmine.createSpy();
-  const treeInstance = new Tree({ id, mainElement, openDetails, updateChildren });
+describe('D3 Minimap', () => {
+  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.stop());
 
-  let minimapData: MinimapData;
-  beforeEach(() => (minimapData = { id, mainElement, treeInstance }));
+  const renderBase = async () => {
+    return renderComponent('<app-part-relation></app-part-relation>', {
+      declarations: [PartRelationComponent],
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            paramMap: new BehaviorSubject({ get: () => MOCK_part_1.id }).pipe(delay(10)),
+          },
+        },
+      ],
+      imports: [RelationsModule, PartsModule],
+    });
+  };
 
-  it('should initialize minimap class', () => {
-    const tree = new Minimap(minimapData);
-    const expectedTreeInstance = {
-      // treeInstance: {
-      renderOptions: {
-        preserveRight: 0,
-      },
-      _zoom: 1,
-      id,
-      mainElement,
-      width: mainElement?.node?.()?.getBoundingClientRect?.()?.width,
-      height: mainElement?.node?.()?.getBoundingClientRect?.()?.height,
-      r: 60,
-      _viewX: 0,
-      _viewY: 0,
-      // },
-    };
-    const expected = {
-      scale: 20,
-      isMinimapClosed: false,
-      id,
-      mainElement,
-      width: mainElement?.node?.()?.getBoundingClientRect?.()?.width,
-      height: mainElement?.node?.()?.getBoundingClientRect?.()?.height,
-      minimapX: 0,
-      minimapY: 0,
-      r: 3,
-      zoom: 0.05,
-      xOffset: -4.5,
-    };
-
-    expect(tree).toEqual(jasmine.objectContaining(expected));
-    expect(tree).toEqual(jasmine.objectContaining({ treeInstance: jasmine.objectContaining(expectedTreeInstance) }));
+  xit('should initialize minimap class', async () => {
+    await renderBase();
+    expect(await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--main'))).not.toBeInTheDocument();
   });
 
-  it('should render minimap', () => {
-    const minimap = new Minimap(minimapData);
+  xit('should render minimap', async () => {
+    await renderBase();
 
+    expect((await waitFor(() => screen.getAllByTestId('node'))).length).toEqual(6);
+    expect((await waitFor(() => screen.getAllByTestId('tree--element__path'))).length).toEqual(2);
+  });
+
+  xit('should render minimap status colors', async done => {
+    await renderBase();
+    await setTimeout(async () => {
+      expect((await waitFor(() => screen.getAllByTestId('tree--element__circle-done'))).length).toBe(2);
+      expect((await waitFor(() => screen.getAllByTestId('tree--element__circle-loading'))).length).toBe(1);
+      done();
+    }, 3000);
+  });
+
+  /*
+  it('should close minimap', async () => {
+    await renderBase();
+    const minimap = new Minimap(treeInstance);
     const minimapSvg = minimap.renderMinimap(D3TreeDummyData).node();
-    const minimapChildren = minimapSvg.children;
-
-    const idMapping = [];
-    for (let i = 0; i < minimapChildren.length; i++) idMapping.push(minimapChildren.item(i)?.id);
-
-    const ids = ['id--paths', 'id--circles', 'id-rect', 'id-closing'];
-    expect(idMapping).toEqual(ids);
-  });
-
-  it('should render minimap status colors', () => {
-    const minimap = new Minimap(minimapData);
-    const minimapSvg = minimap.renderMinimap(D3TreeDummyData).node();
-
-    expect(minimapSvg.getElementsByClassName('tree--element__circle-done').length).toBe(2);
-    expect(minimapSvg.getElementsByClassName('tree--element__circle-loading').length).toBe(1);
-  });
+    const closeButton = await waitFor(() => screen.getByTestId('id--minimap--closing'));
+    expect(minimapSvg.getElementsByClassName('tree--minimap__closed').length).toBe(0);
+    expect(closeButton).toBeInTheDocument();
+    console.log(closeButton);
+    closeButton.click();
+    expect(minimapSvg.getElementsByClassName('tree--minimap__closed').length).toBe(0);
+  });*/
 });

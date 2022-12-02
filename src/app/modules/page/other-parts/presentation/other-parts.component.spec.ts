@@ -22,6 +22,7 @@ import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { screen, waitFor } from '@testing-library/angular';
+import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { firstValueFrom } from 'rxjs';
 import {
@@ -39,6 +40,10 @@ import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 
 describe('Other Parts', () => {
+  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
+  afterEach(() => server.resetHandlers());
+  afterAll(() => server.stop());
+
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
 
