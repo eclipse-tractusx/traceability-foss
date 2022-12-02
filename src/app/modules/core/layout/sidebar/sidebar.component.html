@@ -50,6 +50,7 @@ SPDX-License-Identifier: Apache-2.0
         </li>
         <li>
           <app-sidebar-section
+            *appHasRole="['wip']"
             (click)="this.navigate('investigations')"
             [name]="'routing.investigations' | i18n"
             [isActive]="this.activeMenu === 'investigations'"

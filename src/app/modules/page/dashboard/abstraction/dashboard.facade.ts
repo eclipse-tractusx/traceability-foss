@@ -28,6 +28,7 @@ import { map } from 'rxjs/operators';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
 import { DashboardStats } from '../model/dashboard.model';
+import { RoleService } from '@core/user/role.service';
 
 @Injectable()
 export class DashboardFacade {
@@ -40,6 +41,7 @@ export class DashboardFacade {
     private readonly dashboardState: DashboardState,
     private readonly partsService: PartsService,
     private readonly investigationsService: InvestigationsService,
+    private readonly roleService: RoleService,
   ) {}
 
   public get numberOfMyParts$(): Observable<View<number>> {
@@ -65,7 +67,9 @@ export class DashboardFacade {
   public setDashboardData(): void {
     this.setAssetNumbers();
     this.setAssetsPerCountry();
-    this.setInvestigations();
+    if (this.roleService.hasAccess('wip')) {
+      this.setInvestigations();
+    }
   }
 
   private setAssetNumbers(): void {
