@@ -35,7 +35,7 @@ in the GitHub organization https://github.com/eclipse-tractusx:
 
 This project leverages the following third party content.
 
-See yarn.lock file.
+See DEPENDENCIES file.
 
 ## Cryptography
 
