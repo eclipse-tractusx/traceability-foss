@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { _environment } from './_environment.base';
 
 export const environment = {

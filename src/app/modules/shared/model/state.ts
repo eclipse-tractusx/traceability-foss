@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { BehaviorSubject, Observable } from 'rxjs';
 import { delay, distinctUntilChanged } from 'rxjs/operators';
 

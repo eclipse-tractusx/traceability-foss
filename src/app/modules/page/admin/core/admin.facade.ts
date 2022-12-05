@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { RegistryProcess } from '@page/admin/core/admin.model';

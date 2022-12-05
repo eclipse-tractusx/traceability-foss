@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';

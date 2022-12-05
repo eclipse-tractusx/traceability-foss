@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { buildCustomProtocolResolver } from './fetch-custom-protocols';
 
 describe('buildCustomProtocolResolver', () => {

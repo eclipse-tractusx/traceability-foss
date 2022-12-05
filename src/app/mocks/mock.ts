@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { setupWorker } from 'msw';
 import { adminHandler, dashboardHandler, investigationsHandlers, otherPartsHandlers, partsHandlers } from './services';
 

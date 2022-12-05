@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { RelationComponentState } from '@shared/modules/relations/core/component.state';
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';

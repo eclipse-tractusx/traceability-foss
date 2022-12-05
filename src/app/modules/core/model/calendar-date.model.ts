@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 /**
  * CalendarDateModel identify date as calendar date,
  * so time can and should be ignored in it

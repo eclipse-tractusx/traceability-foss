@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { HelperD3 } from '@shared/modules/relations/presentation/helper/helper.d3';
 import { TreeNode, TreeSvg } from '@shared/modules/relations/presentation/model.d3';

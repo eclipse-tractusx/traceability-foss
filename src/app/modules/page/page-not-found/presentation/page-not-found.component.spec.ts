@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { PageNotFoundModule } from '@page/page-not-found/page-not-found.module';
 import { PageNotFoundComponent } from '@page/page-not-found/presentation/page-not-found.component';
 import { screen } from '@testing-library/angular';

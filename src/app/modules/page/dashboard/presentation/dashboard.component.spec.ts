@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { By } from '@angular/platform-browser';
 import { PartsModule } from '@page/parts/parts.module';
 import { SharedModule } from '@shared/shared.module';

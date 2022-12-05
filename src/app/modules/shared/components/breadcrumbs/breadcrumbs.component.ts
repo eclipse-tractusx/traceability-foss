@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 // ToDo: May need to rework this component
 
 import { Component } from '@angular/core';

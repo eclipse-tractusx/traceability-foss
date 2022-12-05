@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { LayoutModule } from '@layout/layout.module';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsModule } from '@page/parts/parts.module';

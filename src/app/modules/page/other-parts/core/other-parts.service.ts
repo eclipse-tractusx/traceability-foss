@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';

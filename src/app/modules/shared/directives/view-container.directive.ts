@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { AfterViewInit, Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
 import { ViewContext } from '../model/view-context.model';
 import { View } from '../model/view.model';

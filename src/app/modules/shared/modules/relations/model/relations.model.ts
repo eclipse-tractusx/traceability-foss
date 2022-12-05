@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { QualityType } from '@page/parts/model/parts.model';
 import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 

@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Injectable } from '@angular/core';
 import { AuthService } from '@core/auth/auth.service';
 import { UserService } from '@core/user/user.service';

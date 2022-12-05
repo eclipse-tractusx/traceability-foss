@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { APP_INITIALIZER, LOCALE_ID } from '@angular/core';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';

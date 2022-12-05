@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { PartsResponse } from '@page/parts/model/parts.model';
 import { MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5 } from '../parts-mock/parts.test.model';
 

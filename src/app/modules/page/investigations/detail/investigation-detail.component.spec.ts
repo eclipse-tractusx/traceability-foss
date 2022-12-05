@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { ActivatedRoute } from '@angular/router';
 import { InvestigationDetailComponent } from '@page/investigations/detail/investigation-detail.component';
 import { InvestigationsModule } from '@page/investigations/investigations.module';

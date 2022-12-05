@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { environment } from '@env';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { rest } from 'msw';

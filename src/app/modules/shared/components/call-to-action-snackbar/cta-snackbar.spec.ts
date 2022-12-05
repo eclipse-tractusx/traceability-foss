@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { TestBed } from '@angular/core/testing';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitForElementToBeRemoved } from '@testing-library/angular';

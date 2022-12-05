@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Injectable } from '@angular/core';
 import { RoleService } from '@core/user/role.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';

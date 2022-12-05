@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { SelectComponent, SelectOption } from '@shared/components/select/select.component';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';

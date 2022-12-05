@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 import * as d3 from 'd3';
 import { DragBehavior, DraggedElementBaseType } from 'd3';

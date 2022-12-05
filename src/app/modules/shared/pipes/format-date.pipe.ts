@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Inject, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';

@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Injectable } from '@angular/core';
 import { LoadedElementsState } from '@shared/modules/relations/core/loaded-elements.state';
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';

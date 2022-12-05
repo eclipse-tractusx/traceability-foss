@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Directive, HostListener, Input } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
 

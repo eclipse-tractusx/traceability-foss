@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 export type Role = 'user' | 'supervisor' | 'admin' | 'wip';
 
 export type RoleRelation = {

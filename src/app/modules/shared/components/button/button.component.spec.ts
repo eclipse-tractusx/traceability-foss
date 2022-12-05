@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '@shared/components/button/button.component';
 import { fireEvent, screen } from '@testing-library/angular';

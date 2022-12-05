@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 /**
  * Types or status of toast messages
  * Success status - shows the toast with a green status bar, typically used to inform the user

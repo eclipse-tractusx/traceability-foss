@@ -19,7 +19,6 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-
 <ng-container *ngIf="this.rootPart$">
   <ng-container *viewContainer="this.rootPart$ | async; main: partRelationMainTmp; error: errorTmp; loading: loaderTmp">
   </ng-container>

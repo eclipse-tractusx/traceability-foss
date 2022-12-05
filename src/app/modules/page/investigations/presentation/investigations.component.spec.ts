@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
 import { InvestigationsService } from '@shared/service/investigations.service';

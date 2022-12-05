@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { DashboardModule } from '@page/dashboard/dashboard.module';
 import { MapComponent } from '@page/dashboard/presentation/map/map.component';
 import { renderComponent } from '@tests/test-render.utils';

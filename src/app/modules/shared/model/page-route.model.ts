@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 export interface PageRoute {
   link: string;
   queryParams?: Record<string, string>;

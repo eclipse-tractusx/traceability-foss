@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 export interface BreadcrumbsModel {
   label: string;
   url: string;

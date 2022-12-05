@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { ActivatedRoute } from '@angular/router';
 import { PartsModule } from '@page/parts/parts.module';
 import { PartRelationComponent } from '@shared/modules/relations/presentation/part-relation.component';

@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { Pagination, PaginationResponse } from '@core/model/pagination.model';
 

@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { PartResponse, PartsResponse, QualityType } from '@page/parts/model/parts.model';
 
 export const MOCK_part_5 = {

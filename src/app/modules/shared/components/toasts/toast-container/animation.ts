@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 /**

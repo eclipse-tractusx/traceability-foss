@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsState } from '@page/parts/core/parts.state';

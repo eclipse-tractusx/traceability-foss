@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { ToKeyValuePipe } from './card-list.pipe';
 
 describe('ToKeyValuePipe', () => {

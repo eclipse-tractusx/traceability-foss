@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { AdminModule } from '@page/admin/admin.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { server } from '@tests/mock-test-server';

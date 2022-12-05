@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';

@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Component } from '@angular/core';
 import { environment } from '@env';
 import * as mockService from '../../../mocks/mock';

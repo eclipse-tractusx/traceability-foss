@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';

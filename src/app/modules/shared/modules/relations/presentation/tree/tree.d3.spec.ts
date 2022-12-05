@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { TreeData } from '@shared/modules/relations/model/relations.model';
 import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 import { screen } from '@testing-library/angular';

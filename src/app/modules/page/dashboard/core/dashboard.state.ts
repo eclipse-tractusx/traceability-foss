@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-
 import { Injectable } from '@angular/core';
 import { PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
 import { Notifications } from '@shared/model/notification.model';
