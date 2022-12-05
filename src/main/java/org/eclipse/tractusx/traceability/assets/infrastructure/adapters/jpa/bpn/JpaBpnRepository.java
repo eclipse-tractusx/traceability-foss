@@ -18,7 +18,8 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-ackage org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.bpn;
+
+package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.bpn;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
