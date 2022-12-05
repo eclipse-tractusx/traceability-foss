@@ -30,6 +30,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: 'DASH_SUMMARY'
+          path: 'DEPENDENCIES'
 
 
