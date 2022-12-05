@@ -22,7 +22,6 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry.RegistryAndDiscoveryInterfaceApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(
