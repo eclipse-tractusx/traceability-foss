@@ -117,7 +117,7 @@ resilience4j:
   retry:
     instances:
       irs-get:
-        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastrappl.ymlucture.adapters.feign.irs.JobRunning'
+        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.JobRunning'
         maxAttempts: 10
         waitDuration: 30s
         enableExponentialBackoff: true
