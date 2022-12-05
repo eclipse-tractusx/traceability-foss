@@ -67,6 +67,9 @@ export class OtherPartsFacade {
 
   public setActiveInvestigationForParts(parts: Part[]): void {
     const { data } = _deepClone(this.otherPartsState.supplierParts);
+    if (!data) {
+      return;
+    }
 
     data.content = data.content.map(part => {
       const shouldHighlight = parts.some(currentPart => currentPart.id === part.id);

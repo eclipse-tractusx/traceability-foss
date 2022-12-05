@@ -42,9 +42,9 @@ export const partsHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
   }),
 
-  rest.post(`${environment.apiUrl}/assets/detailInformation`, (req, res, ctx) => {
-    const { ids } = JSON.parse(req.body as string);
-    return res(ctx.status(200), ctx.json(ids.map(id => getAssetById(id))));
+  rest.post(`${environment.apiUrl}/assets/detail-information`, (req, res, ctx) => {
+    const { assetIds } = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    return res(ctx.status(200), ctx.json(assetIds.map(id => getAssetById(id))));
   }),
 
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
@@ -79,9 +79,9 @@ export const partsHandlersTest = [
     return res(ctx.status(200), ctx.json(mockAssets));
   }),
 
-  rest.post(`${environment.apiUrl}/assets/detailInformation`, (req, res, ctx) => {
-    const { ids } = JSON.parse(req.body as string);
-    return res(ctx.status(200), ctx.json(ids.map(id => mockAssetList[id] || getAssetById(id))));
+  rest.post(`${environment.apiUrl}/assets/detail-information`, (req, res, ctx) => {
+    const { assetIds } = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    return res(ctx.status(200), ctx.json(assetIds.map(id => mockAssetList[id] || getAssetById(id))));
   }),
 
   rest.get(`${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {

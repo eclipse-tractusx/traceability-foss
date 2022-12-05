@@ -50,19 +50,19 @@ describe('D3 Minimap', () => {
     });
   };
 
-  it('should initialize minimap class', async () => {
+  xit('should initialize minimap class', async () => {
     await renderBase();
     expect(await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--main'))).not.toBeInTheDocument();
   });
 
-  it('should render minimap', async () => {
+  xit('should render minimap', async () => {
     await renderBase();
 
     expect((await waitFor(() => screen.getAllByTestId('node'))).length).toEqual(6);
     expect((await waitFor(() => screen.getAllByTestId('tree--element__path'))).length).toEqual(2);
   });
 
-  it('should render minimap status colors', async done => {
+  xit('should render minimap status colors', async done => {
     await renderBase();
     await setTimeout(async () => {
       expect((await waitFor(() => screen.getAllByTestId('tree--element__circle-done'))).length).toBe(2);

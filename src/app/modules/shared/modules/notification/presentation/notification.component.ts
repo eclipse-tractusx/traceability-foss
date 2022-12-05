@@ -21,7 +21,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -36,6 +36,7 @@ export class NotificationComponent {
   @Input() receivedNotifications$: Observable<View<Notifications>>;
   @Input() queuedAndRequestedNotifications$: Observable<View<Notifications>>;
   @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
+  @Input() menuActionsConfig: MenuActionConfig<Notification>[];
 
   @Output() onReceivedPagination = new EventEmitter<TablePaginationEventConfig>();
   @Output() onQueuedAndRequestedPagination = new EventEmitter<TablePaginationEventConfig>();

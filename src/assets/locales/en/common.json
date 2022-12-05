@@ -23,8 +23,9 @@
   },
   "actions": {
     "back": "Back",
-    "delete": "Delete",
+    "cancel": "Cancel",
     "approve": "Approve",
+    "close": "Close",
     "viewDetails": "View details"
   },
   "table": {
@@ -52,7 +53,7 @@
       "productionCountry": "Production Country",
       "description": "Description",
       "status": "Status",
-      "createDate": "Created",
+      "createdDate": "Created",
       "createdBy": "Created by"
     }
   },
@@ -128,9 +129,34 @@
       "queuedAndRequested": "Queued & Requested"
     },
     "status": {
-      "RECEIVED": "Received",
+      "APPROVED": "Requested",
+      "CANCELED": "Cancelled",
+      "CLOSED": "Closed",
       "CREATED": "Queued",
-      "SENT": "Requested"
+      "RECEIVED": "Received"
+    },
+    "modal": {
+      "approvalTitle": "Approval of investigation",
+      "approvalDescription": "Are you sure you want to approve this investigation?",
+      "closeTitle": "Close of investigation",
+      "closeDescription": "Are you sure you want to close this investigation?",
+      "closeReasonHint": "Enter the reason for close action.",
+      "cancellationTitle": "Cancellation of investigation",
+      "cancellationDescription": "Are you sure you want to cancel this investigation?",
+      "cancellationHint": "Enter the ID of the investigation to confirm your cancellation.",
+      "cancellationConfirm": "Confirm cancellation",
+      "approve": "Approve",
+      "close": "Close",
+      "confirm": "Approve",
+      "cancel": "Cancel",
+
+      "successfullyApproved": "Investigation was approved successfully.",
+      "successfullyCanceled": "Investigation was canceled successfully.",
+      "successfullyClosed": "Investigation was closed successfully.",
+
+      "failedApprove": "Investigation failed to close, please try again.",
+      "failedCancel": "Investigation failed to cancel, please try again.",
+      "failedClose": "Investigation failed to close, please try again."
     }
   }
 }

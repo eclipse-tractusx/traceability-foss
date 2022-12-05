@@ -41,42 +41,29 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() labelId: string;
   @Input() hasPagination = true;
   @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
+  @Input() menuActionsConfig: MenuActionConfig<Notification>[];
 
   @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
 
-  public readonly displayedColumns: DisplayColumns<keyof Notification>[] = [
-    'description',
-    'status',
-    'createDate',
-    'menu',
-  ];
-
   public tableConfig: TableConfig<keyof Notification>;
-  private menuActionsConfig: MenuActionConfig[] = [
-    { label: 'actions.approve', icon: 'share', action: this.approveNotification.bind(this) },
-    { label: 'actions.delete', icon: 'delete', action: this.deleteNotification.bind(this) },
-  ];
 
   public ngAfterViewInit(): void {
+    const displayedColumns: DisplayColumns<keyof Notification>[] = ['description', 'status', 'createdDate', 'menu'];
     this.tableConfig = {
-      displayedColumns: this.displayedColumns,
-      header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
+      displayedColumns,
+      header: CreateHeaderFromColumns(displayedColumns, 'table.partsColumn'),
       hasPagination: this.hasPagination,
-      menuActionsConfig: this.menuActionsConfig,
+      menuActionsConfig: this.menuActionsConfig || [],
       cellRenderers: {
         status: this.statusTemplate,
       },
     };
   }
 
-  public selectNotification($event: Record<string, unknown>): void {
-    this.selected.emit($event as unknown as Notification);
+  public selectNotification(notification: Record<string, unknown>): void {
+    this.selected.emit(notification as unknown as Notification);
   }
-
-  private approveNotification(notification: any): void {}
-
-  private deleteNotification(notification: any): void {}
 }

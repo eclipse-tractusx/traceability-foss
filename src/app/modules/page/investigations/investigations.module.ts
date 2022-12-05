@@ -24,6 +24,7 @@ import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
+import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { PartsModule } from '@page/parts/parts.module';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
 import { SharedModule } from '@shared/shared.module';
@@ -42,6 +43,7 @@ import { InvestigationsComponent } from './presentation/investigations.component
     InvestigationsState,
     InvestigationDetailFacade,
     InvestigationDetailState,
+    InvestigationHelperService,
     ...getI18nPageProvider('page.investigation'),
   ],
 })

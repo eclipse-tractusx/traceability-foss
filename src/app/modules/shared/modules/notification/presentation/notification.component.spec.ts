@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notifications, NotificationStatus } from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -37,11 +37,11 @@ describe('NotificationsInboxComponent', () => {
   beforeEach(() => (clickHandler = jasmine.createSpy()));
 
   const renderNotificationsInbox = () => {
-    const qContent = buildMockInvestigations([NotificationStatus.CREATED]).map(data => {
-      return { ...data, createDate: new CalendarDateModel(data.createDate) };
+    const qContent: Notification[] = buildMockInvestigations([NotificationStatus.CREATED]).map(data => {
+      return { ...data, createdDate: new CalendarDateModel(data.createdDate) };
     });
-    const qarContent = buildMockInvestigations([NotificationStatus.RECEIVED]).map(data => {
-      return { ...data, createDate: new CalendarDateModel(data.createDate) };
+    const qarContent: Notification[] = buildMockInvestigations([NotificationStatus.RECEIVED]).map(data => {
+      return { ...data, createdDate: new CalendarDateModel(data.createdDate) };
     });
 
     const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({
@@ -51,12 +51,14 @@ describe('NotificationsInboxComponent', () => {
     const receivedNotifications$: Observable<View<Notifications>> = of({
       data: { content: qarContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },
     }).pipe(delay(0));
+    const menuActionsConfig = [];
 
     return renderComponent(
       `<app-notification 
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
           [translationContext]="'commonInvestigation'"
+          [menuActionsConfig]="'menuActionsConfig'"
 
           (onReceivedPagination)='clickHandler($event)'
           (onQueuedAndRequestedPagination)='clickHandler($event)'
@@ -64,7 +66,12 @@ describe('NotificationsInboxComponent', () => {
       {
         imports: [SharedModule, NotificationModule, TemplateModule],
         translations: ['common'],
-        componentProperties: { queuedAndRequestedNotifications$, receivedNotifications$, clickHandler },
+        componentProperties: {
+          queuedAndRequestedNotifications$,
+          receivedNotifications$,
+          clickHandler,
+          menuActionsConfig,
+        },
       },
     );
   };

@@ -26,6 +26,7 @@ SPDX-License-Identifier: Apache-2.0
       #textareaRef
       [disabled]="disabled"
       [value]="value"
+      [attr.data-testId]="htmlId"
       (input)="onChange?.(getTextAreaFromEvent($event).value)"
       (blur)="markAsTouched()"
       matInput
@@ -35,7 +36,6 @@ SPDX-License-Identifier: Apache-2.0
       cdkAutosizeMaxRows="5"
     ></textarea>
   </mat-form-field>
-  {{ value }}
   <span *ngIf="ngControl.control.touched && ngControl.control.errors" class="errorMessage">{{
     ngControl.control.errors | errorMessage | i18n
   }}</span>

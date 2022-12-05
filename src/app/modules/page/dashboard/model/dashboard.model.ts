@@ -22,11 +22,11 @@
 export interface DashboardStats {
   otherParts: number | null;
   myItems: number;
-  investigationCount?: number;
+  investigations?: number;
 }
 
 export interface DashboardStatsResponse {
   otherParts: number | null;
   myItems: number;
-  investigationCount?: number;
+  investigations?: number;
 }

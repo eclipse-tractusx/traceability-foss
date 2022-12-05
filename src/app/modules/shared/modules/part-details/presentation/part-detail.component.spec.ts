@@ -50,7 +50,7 @@ describe('PartDetailComponent', () => {
     PartsStateMock = new PartsState();
   });
 
-  const renderPartDetailComponent = async () => {
+  const renderPartDetailComponent = async ({ roles = [] } = {}) => {
     return await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
       declarations: [SidenavComponent, PartDetailComponent],
       imports: [PartDetailsModule, LayoutModule],
@@ -61,6 +61,7 @@ describe('PartDetailComponent', () => {
         { provide: PartDetailsState, useFactory: () => PartDetailsStateMock },
         SidenavService,
       ],
+      roles,
     });
   };
 
@@ -86,7 +87,7 @@ describe('PartDetailComponent', () => {
   });
 
   it('should render child-component table', async () => {
-    await renderPartDetailComponent();
+    await renderPartDetailComponent({ roles: ['user', 'wip'] });
 
     const childTableHeadline = await screen.findByText('Request quality investigation for child parts');
     expect(childTableHeadline).toBeInTheDocument();

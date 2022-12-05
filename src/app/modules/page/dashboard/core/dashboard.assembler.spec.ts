@@ -32,7 +32,7 @@ describe('DashboardAssembler', () => {
       ).toEqual({
         otherParts: 100,
         myItems: 200,
-        investigationCount: undefined,
+        investigations: undefined,
       });
     });
   });
