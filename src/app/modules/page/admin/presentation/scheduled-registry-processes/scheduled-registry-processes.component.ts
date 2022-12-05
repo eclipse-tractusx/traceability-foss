@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { AdminFacade } from '@page/admin/core/admin.facade';

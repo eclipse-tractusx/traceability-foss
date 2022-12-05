@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { I18nMessage } from '@shared/model/i18n-message';
 import { I18NextPipe, PipeOptions } from 'angular-i18next';

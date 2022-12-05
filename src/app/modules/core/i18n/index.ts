@@ -19,4 +19,5 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 export { getI18nPageProvider } from './local-i18n.provider';

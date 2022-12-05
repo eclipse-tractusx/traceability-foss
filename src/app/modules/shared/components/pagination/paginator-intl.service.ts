@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Inject, Injectable } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';

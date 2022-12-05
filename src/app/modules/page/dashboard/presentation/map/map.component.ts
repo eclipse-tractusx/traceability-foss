@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
 import { KnownLocale } from '@core/i18n/global-i18n.providers';
 import { IconLayer } from '@deck.gl/layers';

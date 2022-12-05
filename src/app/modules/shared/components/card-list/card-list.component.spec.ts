@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { MatCardModule } from '@angular/material/card';
 import { CardListComponent } from '@shared/components/card-list/card-list.component';
 import { SharedModule } from '@shared/shared.module';

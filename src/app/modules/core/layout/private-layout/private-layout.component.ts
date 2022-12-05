@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 

@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';

@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Pipe, PipeTransform } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { QualityType } from '@page/parts/model/parts.model';

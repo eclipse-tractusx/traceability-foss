@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { StaticIdService } from '@shared/service/staticId.service';
 

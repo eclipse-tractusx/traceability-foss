@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { realm, realmLogo as _realmLogo } from 'src/app/modules/core/api/api.service.properties';

@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { SpinnerOverlayService } from './spinner-overlay.service';

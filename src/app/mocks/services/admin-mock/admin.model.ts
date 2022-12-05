@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { RegistryLookupStatus, RegistryProcessResponse } from '@page/admin/core/admin.model';
 
 export const buildMockRegistryProcesses = (): RegistryProcessResponse[] =>

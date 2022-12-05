@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { AboutModule } from '@page/about/about.module';
 import { AboutComponent } from '@page/about/presentation/about.component';
 import { screen } from '@testing-library/angular';

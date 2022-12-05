@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { I18NEXT_NAMESPACE } from 'angular-i18next';
 
 export const getI18nPageProvider = (pageNs: string | string[]) => [

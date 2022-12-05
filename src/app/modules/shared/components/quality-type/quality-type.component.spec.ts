@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { QualityType } from '@page/parts/model/parts.model';
 import { QualityTypeComponent } from '@shared/components/quality-type/quality-type.component';
 import { SharedModule } from '@shared/shared.module';

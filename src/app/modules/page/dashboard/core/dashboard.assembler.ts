@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { DashboardStats, DashboardStatsResponse } from '../model/dashboard.model';
 
 export class DashboardAssembler {

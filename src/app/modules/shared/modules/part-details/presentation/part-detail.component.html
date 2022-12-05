@@ -19,6 +19,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
+
 <app-sidenav-wrapper [isOpen]="isOpen$ | async" (sidenavAction)="setIsOpen($event)">
   <mat-accordion *ngIf="isOpen$ | async" class="example-headers-align" multi>
     <mat-expansion-panel [expanded]="true">

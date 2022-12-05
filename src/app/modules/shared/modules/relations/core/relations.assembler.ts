@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 

@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { realm } from '@core/api/api.service.properties';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { PageRoute } from '@shared/model/page-route.model';

@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Pagination } from '@core/model/pagination.model';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableConfig } from '@shared/components/table/table.model';

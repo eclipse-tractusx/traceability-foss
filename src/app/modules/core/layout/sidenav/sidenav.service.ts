@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { EventEmitter, Injectable, TemplateRef } from '@angular/core';
 import { SidenavConfig } from '@layout/sidenav/sidenav.component';
 import { State } from '@shared/model/state';

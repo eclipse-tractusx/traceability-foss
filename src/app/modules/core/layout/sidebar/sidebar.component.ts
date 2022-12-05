@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Component, Input } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { getAboutRoute } from '@page/about/about-route';

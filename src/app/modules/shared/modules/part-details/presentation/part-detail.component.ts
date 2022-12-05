@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { realm } from '@core/api/api.service.properties';

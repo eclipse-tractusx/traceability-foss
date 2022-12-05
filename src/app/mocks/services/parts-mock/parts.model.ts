@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { PartResponse, QualityType } from '@page/parts/model/parts.model';
 import { otherPartsAssets } from '../otherParts-mock/otherParts.model';
 

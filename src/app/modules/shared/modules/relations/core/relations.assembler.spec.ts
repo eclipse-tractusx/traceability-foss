@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Part } from '@page/parts/model/parts.model';
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';
 import { TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';

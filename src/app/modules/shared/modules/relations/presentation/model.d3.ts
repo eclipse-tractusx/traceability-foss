@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { ZoomTransform } from 'd3';
 import { HierarchyCircularNode } from 'd3-hierarchy';

@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { ALL_KNOWN_LOCALES, KnownLocale } from '@core/i18n/global-i18n.providers';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';

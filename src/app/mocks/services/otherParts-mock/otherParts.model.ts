@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { PartResponse } from '@page/parts/model/parts.model';
 
 export const otherPartsAssets = [

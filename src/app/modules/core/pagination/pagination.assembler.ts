@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { EmptyPagination, Pagination, PaginationResponse } from '@core/model/pagination.model';
 
 export class PaginationAssembler {

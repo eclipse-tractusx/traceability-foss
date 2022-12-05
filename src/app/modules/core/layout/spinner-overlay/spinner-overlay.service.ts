@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { State } from 'src/app/modules/shared/model/state';

@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+
 import { TreeStructure } from '@shared/modules/relations/model/relations.model';
 
 export const D3TreeDummyData: TreeStructure = {
