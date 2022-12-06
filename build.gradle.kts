@@ -222,8 +222,8 @@ tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("gener
 
 	library.set("feign")
 	generatorName.set("java")
-	apiPackage.set("org.eclipse.tractusxtraceability.assets.infrastructure.adapters.openapi.registry")
-	modelPackage.set("org.eclipse.tractusxtraceability.assets.infrastructure.adapters.openapi.registry")
+	apiPackage.set("org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry")
+	modelPackage.set("org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry")
 	configOptions.put("sourceFolder", "src/main/java")
 }
 

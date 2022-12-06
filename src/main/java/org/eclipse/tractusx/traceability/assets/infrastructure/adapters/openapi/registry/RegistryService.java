@@ -1,5 +1,7 @@
-/*
- * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -15,7 +17,7 @@
  * under the License.
  *
  * SPDX-License-Identifier: Apache-2.0
- */
+ ********************************************************************************/
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry;
 
@@ -25,9 +27,6 @@ import feign.FeignException;
 import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.metrics.RegistryLookupMeterRegistry;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.metrics.RegistryLookupMetric;
-import org.eclipse.tractusxtraceability.assets.infrastructure.adapters.openapi.registry.AssetAdministrationShellDescriptor;
-import org.eclipse.tractusxtraceability.assets.infrastructure.adapters.openapi.registry.AssetAdministrationShellDescriptorCollectionBase;
-import org.eclipse.tractusxtraceability.assets.infrastructure.adapters.openapi.registry.IdentifierKeyValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

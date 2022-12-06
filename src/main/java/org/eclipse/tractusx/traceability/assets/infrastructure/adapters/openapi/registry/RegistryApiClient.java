@@ -1,5 +1,7 @@
-/*
- * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
+/********************************************************************************
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -15,12 +17,11 @@
  * under the License.
  *
  * SPDX-License-Identifier: Apache-2.0
- */
+ ********************************************************************************/
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
-import org.eclipse.tractusxtraceability.assets.infrastructure.adapters.openapi.registry.RegistryAndDiscoveryInterfaceApi;
 import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(
