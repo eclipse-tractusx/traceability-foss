@@ -31,10 +31,6 @@ import { renderComponent } from '@tests/test-render.utils';
 import { PartsModule } from '../parts.module';
 
 describe('Parts', () => {
-  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const renderParts = () => {
     return renderComponent(`<app-sidenav></app-sidenav><app-parts></app-parts>`, {
       declarations: [SidenavComponent, PartsComponent],

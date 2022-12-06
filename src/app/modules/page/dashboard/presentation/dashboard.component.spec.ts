@@ -29,10 +29,6 @@ import { DashboardComponent } from './dashboard.component';
 import { server } from '@tests/mock-test-server';
 
 describe('Dashboard', () => {
-  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const renderDashboard = ({ roles = [] } = {}) =>
     renderComponent(DashboardComponent, {
       imports: [DashboardModule, SharedModule, PartsModule],

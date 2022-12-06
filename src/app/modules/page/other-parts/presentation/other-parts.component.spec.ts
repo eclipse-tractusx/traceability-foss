@@ -42,10 +42,6 @@ import { OtherPartsModule } from '../other-parts.module';
 import { OtherPartsComponent } from './other-parts.component';
 
 describe('Other Parts', () => {
-  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
 

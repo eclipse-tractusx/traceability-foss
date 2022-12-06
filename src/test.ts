@@ -24,12 +24,16 @@ import 'zone.js/dist/zone';
 import 'zone.js/testing'; // keep it here to avoid error: "zone-testing.js is needed for the fakeAsync() test helper but could not be found."
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
+import { server } from '@tests/mock-test-server';
 // @ts-ignore
 import JasmineDOM from '@testing-library/jasmine-dom';
 
-beforeAll(() => {
+beforeAll(async () => {
   jasmine.addMatchers(JasmineDOM);
+  await server.start({ onUnhandledRequest: 'bypass' });
 });
+afterEach(() => server.resetHandlers());
+afterAll(() => server.stop());
 
 declare const require: {
   context(

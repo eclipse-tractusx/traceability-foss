@@ -31,10 +31,6 @@ import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
 
 describe('requestInvestigationComponent', () => {
-  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const deselectPartMock = jasmine.createSpy();
   const clearSelectedMock = jasmine.createSpy();
   const sidenavIsClosingMock = jasmine.createSpy();

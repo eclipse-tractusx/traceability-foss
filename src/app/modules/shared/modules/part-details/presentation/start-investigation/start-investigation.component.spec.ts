@@ -32,10 +32,6 @@ import { MOCK_part_1, MOCK_part_2, MOCK_part_3 } from '../../../../../../mocks/s
 import { StartInvestigationComponent } from './start-investigation.component';
 
 describe('StartInvestigationComponent', () => {
-  beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const part = { data: PartsAssembler.assemblePart(MOCK_part_1) };
   const firstChild = PartsAssembler.assemblePart(MOCK_part_2);
   const secondChild = PartsAssembler.assemblePart(MOCK_part_3);

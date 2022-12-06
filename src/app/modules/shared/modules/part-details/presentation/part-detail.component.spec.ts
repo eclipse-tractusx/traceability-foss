@@ -39,10 +39,6 @@ let PartDetailsStateMock: PartDetailsState;
 const part = PartsAssembler.assemblePart(MOCK_part_1);
 
 describe('PartDetailComponent', () => {
-  beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   beforeEach(() => {
     PartDetailsStateMock = new PartDetailsState();
     PartDetailsStateMock.selectedPart = { data: part };
