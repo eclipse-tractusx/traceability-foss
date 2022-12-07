@@ -17,8 +17,6 @@ services:
 
 networks:
   net:
-    ipam:
-      config:
-        - subnet: 172.170.1.0/24
+
 volumes:
   postgres-data:

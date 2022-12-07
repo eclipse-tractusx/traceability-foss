@@ -9,6 +9,7 @@ plugins {
 	id("com.coditory.integration-test") version "1.4.4"
 	id("org.openapi.generator") version "6.2.0"
 	id("org.sonarqube") version "3.4.0.2513"
+	id("checkstyle")
 }
 
 group = "org.eclipse.tractusx.traceability"
@@ -41,11 +42,13 @@ sonarqube {
 		property("sonar.host.url", "https://sonarcloud.io")
 		property("sonar.projectKey", "catenax-ng_product-traceability-foss-backend")
 		property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/*.xml")
-		property("sonar.cpd.exclusions", listOf(
+		property(
+			"sonar.cpd.exclusions", listOf(
 				"src/main/java/org/eclipse/tractusx/traceability/assets/infrastructure/adapters/jpa/**",
 			)
 		)
-		property("sonar.coverage.exclusions", listOf(
+		property(
+			"sonar.coverage.exclusions", listOf(
 				"src/main/java/org/eclipse/tractusx/traceability/generated/**",
 				"src/main/java/org/eclipse/tractusx/traceability/openapi/**",
 				"src/main/java/org/eclipse/tractusx/traceability/TraceabilityApplication.java",
@@ -146,8 +149,8 @@ dependencies {
 	}
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-mail")
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
@@ -186,23 +189,23 @@ dependencies {
 	implementation("io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}")
 
 	testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
-    testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))
-    testImplementation("org.spockframework:spock-core")
-    testImplementation("org.spockframework:spock-spring")
+	testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))
+	testImplementation("org.spockframework:spock-core")
+	testImplementation("org.spockframework:spock-spring")
 
 	integrationImplementation("org.testcontainers:postgresql:$testContainersVersion")
 	integrationImplementation("org.testcontainers:spock:$testContainersVersion")
 
 	integrationImplementation("org.springframework.boot:spring-boot-starter-test")
 
-    integrationImplementation("com.icegreen:greenmail-spring:$greenmailVersion")
+	integrationImplementation("com.icegreen:greenmail-spring:$greenmailVersion")
 	integrationImplementation("com.xebialabs.restito:restito:$restitoVersion")
 	integrationImplementation("org.glassfish.grizzly:grizzly-http:$grizzlyVersion")
 	integrationImplementation("org.glassfish.grizzly:grizzly-http-server:$grizzlyVersion")
 
 	integrationImplementation("commons-io:commons-io:$commonsIoVersion")
 
-	integrationImplementation("io.rest-assured:rest-assured:$restAssuredVersion")  {
+	integrationImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
 		exclude("org.apache.groovy")
 	}
 	integrationImplementation("org.bitbucket.b_c:jose4j:$jose4jVersion")
@@ -264,4 +267,20 @@ tasks.jacocoTestReport {
 			}
 		})
 	)
+}
+
+
+tasks.withType<Checkstyle> {
+	configFile = file("./config/checkstyle/checkstyle.xml")
+}
+// The following configurations for checkstyle are needed! Without this configurations checkstyle ignores non java
+// files!
+tasks.checkstyleMain {
+	source = fileTree("./src/main")
+}
+tasks.checkstyleIntegration {
+	source = fileTree("./src/integration")
+}
+tasks.checkstyleTest {
+	source = fileTree("./src/test")
 }
