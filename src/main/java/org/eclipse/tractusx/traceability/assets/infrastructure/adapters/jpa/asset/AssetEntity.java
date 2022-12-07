@@ -54,6 +54,7 @@ public class AssetEntity {
 	private String manufacturingCountry;
 	private boolean supplierPart;
 	private QualityType qualityType;
+	private String van;
 
 	@ElementCollection
 	@CollectionTable(name = "asset_child_descriptors")
@@ -68,7 +69,8 @@ public class AssetEntity {
 					   String manufacturerName, String nameAtCustomer,
 					   String customerPartId, Instant manufacturingDate,
 					   String manufacturingCountry, boolean supplierPart,
-					   List<ChildDescription> childDescriptors, QualityType qualityType) {
+					   List<ChildDescription> childDescriptors, QualityType qualityType,
+					   String van) {
 		this.id = id;
 		this.idShort = idShort;
 		this.nameAtManufacturer = nameAtManufacturer;
@@ -84,6 +86,7 @@ public class AssetEntity {
 		this.supplierPart = supplierPart;
 		this.childDescriptors = childDescriptors;
 		this.qualityType = qualityType;
+		this.van = van;
 	}
 
 	public AssetEntity() {
@@ -220,6 +223,12 @@ public class AssetEntity {
 	public boolean isOnInvestigation() {
 		return getInvestigations().stream()
 			.anyMatch(investigation -> investigation.getStatus() == InvestigationStatus.CREATED);
+	}
+	public String getVan() {
+		return van;
+	}
+	public void setVan(String van) {
+		this.van = van;
 	}
 
 	@Embeddable

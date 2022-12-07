@@ -100,7 +100,8 @@ public class AssetsConverter {
 					supplierParts.contains(part.catenaXId()),
 					getChildParts(relationships, shortIds, part.catenaXId()),
 					false,
-					QualityType.OK
+					QualityType.OK,
+					part.van()
 				)).toList();
 	}
 
@@ -123,7 +124,8 @@ public class AssetsConverter {
 			false,
 			Collections.emptyList(),
 			false,
-			QualityType.OK
+			QualityType.OK,
+			EMPTY_TEXT
 		);
 	}
 

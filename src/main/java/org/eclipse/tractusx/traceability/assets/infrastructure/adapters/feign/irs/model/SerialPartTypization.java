@@ -35,13 +35,15 @@ record SerialPartTypization(
 	String catenaXId,
 	PartTypeInformation partTypeInformation,
 	ManufacturingInformation manufacturingInformation,
-	List<LocalId> localIdentifiers
+	List<LocalId> localIdentifiers,
+	String van
 ) {
-	SerialPartTypization(String catenaXId, PartTypeInformation partTypeInformation, ManufacturingInformation manufacturingInformation, List<LocalId> localIdentifiers) {
+	SerialPartTypization(String catenaXId, PartTypeInformation partTypeInformation, ManufacturingInformation manufacturingInformation, List<LocalId> localIdentifiers, String van) {
 		this.catenaXId = catenaXId;
 		this.partTypeInformation = partTypeInformation;
 		this.manufacturingInformation = manufacturingInformation;
 		this.localIdentifiers = Objects.requireNonNullElse(localIdentifiers, Collections.emptyList());
+		this.van = van;
 	}
 
 	public Optional<String> getLocalId(LocalIdType type) {
