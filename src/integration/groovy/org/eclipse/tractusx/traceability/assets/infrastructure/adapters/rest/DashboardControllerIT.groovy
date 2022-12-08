@@ -70,7 +70,7 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 				.body("otherParts", equalTo(12))
 	}
 
-	def "should return only 'my items' dashboard information for user with USER role"() {
+	def "should return all dashboard information, if user has only the USER role"() {
 		given:
 			defaultAssetsStored()
 
@@ -82,18 +82,7 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 				.then()
 				.statusCode(200)
 				.body("myItems", equalTo(1))
-				.body("otherParts", nullValue())
-	}
-
-	def "should not return dashboard information for user without role"() {
-		expect:
-			given()
-				.header(jwtAuthorizationWithNoRole())
-				.when()
-				.get("/api/dashboard")
-				.then()
-				.statusCode(403)
-				.body("message", equalTo("User has invalid role to access the dashboard."))
+				.body("otherParts", equalTo(12))
 	}
 
 	def "should return dashboard information for pending investigation"() {
