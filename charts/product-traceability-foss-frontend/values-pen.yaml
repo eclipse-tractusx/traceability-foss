@@ -1,8 +1,3 @@
-# added because of this format: charts/product-traceability-foss-frontend/templates/ingress.yaml:16
-# TODO: need to make sure if this is the best approach
-appName: "traceability-portal-pen"
-environment: "dev"
-
 image:
   tag: $ARGOCD_APP_REVISION
   CATENAX_PORTAL_API_URL: 'https://traceability-pen.dev.demo.catena-x.net/api'
@@ -17,6 +12,7 @@ ingress:
   enabled: true
   className: "nginx"
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
     - host: "traceability-portal-pen.dev.demo.catena-x.net"
       paths:
@@ -25,5 +21,4 @@ ingress:
   tls:
     - hosts:
         - "traceability-portal-pen.dev.demo.catena-x.net"
-      # Default secret for certificate creation already provided to your namespace
-      secretName: tls-secret
+      secretName: "traceability-portal-pen.dev.demo.catena-x.net-tls"
