@@ -25,6 +25,7 @@ import { PartRelationComponent } from '@shared/modules/relations/presentation/pa
 import { RelationsModule } from '@shared/modules/relations/relations.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import * as d3 from 'd3';
 import { BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { MOCK_part_1 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
@@ -68,9 +69,12 @@ describe('D3 Minimap', () => {
     const component = await renderBase();
     component.detectChanges();
     expect(await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--main'))).toBeInTheDocument();
-    const closeButton = await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--closing-text'));
+
+    const closeButton = await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--closing'));
     expect(closeButton).toBeInTheDocument();
-    closeButton.dispatchEvent(new Event('click'));
-    expect((await waitFor(() => screen.getAllByTestId('app-part-relation-0--minimap--icon'))).length).toBe(0);
+
+    const closeB = d3.select('#app-part-relation-0--minimap--closing');
+    closeB.on('click').call(closeB.node(), closeB.datum());
+    expect((await waitFor(() => screen.getAllByTestId('app-part-relation-0--minimap--icon'))).length).toBe(1);
   });
 });

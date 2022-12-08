@@ -26,7 +26,6 @@ import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { DashboardModule } from '../dashboard.module';
 import { DashboardComponent } from './dashboard.component';
-import { server } from '@tests/mock-test-server';
 
 describe('Dashboard', () => {
   const renderDashboard = ({ roles = [] } = {}) =>

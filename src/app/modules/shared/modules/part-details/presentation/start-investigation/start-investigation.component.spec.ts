@@ -26,7 +26,6 @@ import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { MOCK_part_1, MOCK_part_2, MOCK_part_3 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 import { StartInvestigationComponent } from './start-investigation.component';

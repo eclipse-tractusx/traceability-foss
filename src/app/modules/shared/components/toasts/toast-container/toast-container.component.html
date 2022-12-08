@@ -21,7 +21,11 @@ SPDX-License-Identifier: Apache-2.0
 
 <div *ngIf="this.toastMessages.length > 0" class="flex flex-col flex-wrap h-full">
   <ng-container *ngFor="let toastMessage of this.toastMessages">
-    <div [class.slide-left]="toastMessage.isSliderON" [class.slide-right]="!toastMessage.isSliderON">
+    <div
+      [class.slide-left]="toastMessage.isSliderON"
+      [class.slide-right]="!toastMessage.isSliderON"
+      [attr.data-testid]="this.toastMessages"
+    >
       <app-toast-message [toastMessage]="toastMessage" (removeToast)="this.remove($event)"></app-toast-message>
     </div>
   </ng-container>

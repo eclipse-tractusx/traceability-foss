@@ -239,7 +239,7 @@ export class Minimap {
   }
 
   private closingEventListener(event: MouseEvent): void {
-    event.stopPropagation();
+    event?.stopPropagation();
 
     d3.select(`#${this.ids.minimap}`).classed('tree--minimap__closed', true);
     d3.xml('/assets/images/layer-icon.svg').then(data => {
