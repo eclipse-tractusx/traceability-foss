@@ -59,6 +59,7 @@ describe('PartsAssembler', () => {
         const manufacturingCountry = 'manufacturingCountry';
         const specificAssetIds = { id_1: 'id_1' };
         const childDescriptions = [{ id: 'id', idShort: 'idShort' }];
+        const van = 'van';
 
         testData.push({
           id,
@@ -75,6 +76,7 @@ describe('PartsAssembler', () => {
           manufacturingCountry,
           specificAssetIds,
           childDescriptions,
+          van,
         });
 
         expected.push({
@@ -91,6 +93,7 @@ describe('PartsAssembler', () => {
           productionDate: new CalendarDateModel(manufacturingDate),
           children: childDescriptions.map(child => child.id),
           shouldHighlight: false,
+          van,
         });
       }
 
@@ -123,13 +126,16 @@ describe('PartsAssembler', () => {
     const name = 'name';
     const serialNumber = 'serialNumber';
     const batchNumber = 'batchNumber';
+    const van = 'van';
 
     it('should clean up data for manufacturer view', done => {
-      const data = { manufacturer, partNumber, name, serialNumber, batchNumber, test: '' } as unknown as Part;
+      const data = { manufacturer, partNumber, name, serialNumber, batchNumber, test: '', van } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
-          expect(result).toEqual({ data: { manufacturer, partNumber, serialNumber, batchNumber } as unknown as Part });
+          expect(result).toEqual({
+            data: { manufacturer, partNumber, serialNumber, batchNumber, van } as unknown as Part,
+          });
           done();
         });
     });

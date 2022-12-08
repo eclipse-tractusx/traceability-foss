@@ -13,6 +13,7 @@
     "manufacturer": "Producent",
     "nameAtCustomer": "Nazwa u klienta",
     "customerPartId": "ID części u klienta",
+    "van": "Van",
     "tab": {
       "header": "Part details (TBD)",
       "description": "Detailed information about your selected part (TBD)"

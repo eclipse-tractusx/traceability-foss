@@ -55,6 +55,7 @@ export class PartsAssembler {
       productionDate: new CalendarDateModel(part.manufacturingDate),
       children: part.childDescriptions.map(child => child.id),
       shouldHighlight: part.underInvestigation || false,
+      van: part.van || '--',
     };
   }
 
@@ -105,8 +106,8 @@ export class PartsAssembler {
         return viewData;
       }
 
-      const { manufacturer, partNumber, serialNumber, batchNumber } = viewData.data;
-      return { data: { manufacturer, partNumber, serialNumber, batchNumber } as Part };
+      const { manufacturer, partNumber, serialNumber, batchNumber, van } = viewData.data;
+      return { data: { manufacturer, partNumber, serialNumber, batchNumber, van } as Part };
     });
   }
 

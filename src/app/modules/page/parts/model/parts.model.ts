@@ -33,7 +33,8 @@ export type SortableHeaders =
   | 'nameAtCustomer'
   | 'customerPartId'
   | 'qualityType'
-  | 'productionDate';
+  | 'productionDate'
+  | 'van';
 
 export enum QualityType {
   Ok = 'Ok',
@@ -58,6 +59,7 @@ export interface Part {
   customerPartId?: string;
   error?: boolean;
   shouldHighlight?: boolean;
+  van?: string;
 }
 
 export interface PartResponse {
@@ -77,6 +79,7 @@ export interface PartResponse {
   specificAssetIds: Record<string, string>;
   childDescriptions: Array<{ id: string; idShort: string }>;
   underInvestigation?: boolean;
+  van?: string;
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;
