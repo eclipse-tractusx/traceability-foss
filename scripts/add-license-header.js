@@ -53,7 +53,7 @@ const buildAddComment =
       printLicense() +
       '\n' +
       closeComment(LICENSE_COMMENT_WIDTH) +
-      '\n' +
+      '\n\n' +
       fileContent;
 
     if (!hasAnyComment) {
