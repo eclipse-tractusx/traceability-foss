@@ -24,14 +24,10 @@ import { InvestigationDetailComponent } from '@page/investigations/detail/invest
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.model';
 
 describe('InvestigationDetailComponent', () => {
-  beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
   const renderInvestigationDetail = async (id?: string) => {
     return await renderComponent(InvestigationDetailComponent, {
       imports: [InvestigationsModule],

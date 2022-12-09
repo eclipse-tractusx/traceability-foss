@@ -21,15 +21,10 @@
 
 import { AdminModule } from '@page/admin/admin.module';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
 import { ScheduledRegistryProcessesComponent } from './scheduled-registry-processes.component';
 
 describe('ScheduledRegistryProcessesComponent', () => {
-  beforeAll(() => server.start({ quiet: true, onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const renderMap = () =>
     renderComponent(ScheduledRegistryProcessesComponent, {
       imports: [AdminModule],

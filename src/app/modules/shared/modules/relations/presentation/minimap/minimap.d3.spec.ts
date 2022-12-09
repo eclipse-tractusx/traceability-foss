@@ -24,17 +24,13 @@ import { PartsModule } from '@page/parts/parts.module';
 import { PartRelationComponent } from '@shared/modules/relations/presentation/part-relation.component';
 import { RelationsModule } from '@shared/modules/relations/relations.module';
 import { screen, waitFor } from '@testing-library/angular';
-import { server } from '@tests/mock-test-server';
 import { renderComponent } from '@tests/test-render.utils';
+import * as d3 from 'd3';
 import { BehaviorSubject } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { MOCK_part_1 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 
 describe('D3 Minimap', () => {
-  beforeAll(() => server.start({ onUnhandledRequest: 'bypass' }));
-  afterEach(() => server.resetHandlers());
-  afterAll(() => server.stop());
-
   const renderBase = async () => {
     return renderComponent('<app-part-relation></app-part-relation>', {
       declarations: [PartRelationComponent],
@@ -50,37 +46,35 @@ describe('D3 Minimap', () => {
     });
   };
 
-  xit('should initialize minimap class', async () => {
+  it('should initialize minimap class', async () => {
     await renderBase();
-    expect(await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--main'))).not.toBeInTheDocument();
+    expect(await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--main'))).toBeInTheDocument();
   });
 
-  xit('should render minimap', async () => {
+  it('should render minimap', async () => {
     await renderBase();
 
     expect((await waitFor(() => screen.getAllByTestId('node'))).length).toEqual(6);
     expect((await waitFor(() => screen.getAllByTestId('tree--element__path'))).length).toEqual(2);
   });
 
-  xit('should render minimap status colors', async done => {
-    await renderBase();
-    await setTimeout(async () => {
-      expect((await waitFor(() => screen.getAllByTestId('tree--element__circle-done'))).length).toBe(2);
-      expect((await waitFor(() => screen.getAllByTestId('tree--element__circle-loading'))).length).toBe(1);
-      done();
-    }, 3000);
+  it('should render minimap status colors', async () => {
+    const component = await renderBase();
+    component.detectChanges();
+    expect((await waitFor(() => screen.getAllByTestId('tree--element__circle-done'))).length).toBe(1);
+    expect((await waitFor(() => screen.getAllByTestId('tree--element__circle-loading'))).length).toBe(2);
   });
 
-  /*
   it('should close minimap', async () => {
-    await renderBase();
-    const minimap = new Minimap(treeInstance);
-    const minimapSvg = minimap.renderMinimap(D3TreeDummyData).node();
-    const closeButton = await waitFor(() => screen.getByTestId('id--minimap--closing'));
-    expect(minimapSvg.getElementsByClassName('tree--minimap__closed').length).toBe(0);
+    const component = await renderBase();
+    component.detectChanges();
+    expect(await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--main'))).toBeInTheDocument();
+
+    const closeButton = await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--closing'));
     expect(closeButton).toBeInTheDocument();
-    console.log(closeButton);
-    closeButton.click();
-    expect(minimapSvg.getElementsByClassName('tree--minimap__closed').length).toBe(0);
-  });*/
+
+    const closeB = d3.select('#app-part-relation-0--minimap--closing');
+    closeB.on('click').call(closeB.node(), closeB.datum());
+    expect((await waitFor(() => screen.getAllByTestId('app-part-relation-0--minimap--icon'))).length).toBe(1);
+  });
 });

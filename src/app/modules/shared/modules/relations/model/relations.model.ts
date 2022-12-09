@@ -20,7 +20,6 @@
  ********************************************************************************/
 
 import { QualityType } from '@page/parts/model/parts.model';
-import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
 
 //ToDo: Move to model.d3.ts!!
 export type LoadedElements = Record<string, TreeElement>;

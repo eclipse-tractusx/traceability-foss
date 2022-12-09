@@ -20,10 +20,10 @@
  ********************************************************************************/
 
 import { TreeData, TreeStructure } from '@shared/modules/relations/model/relations.model';
-import { HelperD3 } from '@shared/modules/relations/presentation/helper/helper.d3';
 import { D3RenderHelper } from '@shared/modules/relations/presentation/helper/d3.render.helper';
-import { ZoomBehavior, ZoomedElementBaseType, ZoomTransform } from 'd3';
+import { HelperD3 } from '@shared/modules/relations/presentation/helper/helper.d3';
 import * as d3 from 'd3';
+import { ZoomBehavior, ZoomedElementBaseType, ZoomTransform } from 'd3';
 import type { MinimapConnector, TreeSvg } from '../model.d3';
 
 export class Tree {
