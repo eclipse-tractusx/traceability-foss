@@ -23,6 +23,11 @@ package org.eclipse.tractusx.traceability
 
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
+import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository
+import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository
+import org.eclipse.tractusx.traceability.assets.domain.ports.ShellDescriptorRepository
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
 import org.eclipse.tractusx.traceability.common.config.MailboxConfig
 import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
 import org.eclipse.tractusx.traceability.common.config.RestAssuredConfig
@@ -37,11 +42,6 @@ import org.eclipse.tractusx.traceability.common.support.OAuth2Support
 import org.eclipse.tractusx.traceability.common.support.ShellDescriptorStoreProvider
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.JpaInvestigationRepository
 import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.JpaNotificationRepository
-import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository
-import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository
-import org.eclipse.tractusx.traceability.assets.domain.ports.ShellDescriptorRepository
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
-import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -135,6 +135,10 @@ abstract class IntegrationSpecification extends Specification
 
 	protected void eventually(Closure<?> conditions) {
 		new PollingConditions(timeout: 15, initialDelay: 0.5).eventually(conditions)
+	}
+
+	protected String asJson(Object object) {
+		return new JsonBuilder(object).toPrettyString()
 	}
 
 	protected String asJson(Map map) {

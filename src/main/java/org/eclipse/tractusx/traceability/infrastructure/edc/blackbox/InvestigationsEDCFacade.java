@@ -21,15 +21,15 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.HttpUrl;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
-import okhttp3.HttpUrl;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -106,6 +106,8 @@ public class InvestigationsEDCFacade {
 				senderEdcUrl,
 				header
 			);
+
+			endpointDataReferenceCache.storeAgreementId(agreementId);
 			logger.info(":::: Contract Agreed method[startEDCTransfer] agreementId :{}", agreementId);
 
 			if (StringUtils.hasLength(agreementId)) {

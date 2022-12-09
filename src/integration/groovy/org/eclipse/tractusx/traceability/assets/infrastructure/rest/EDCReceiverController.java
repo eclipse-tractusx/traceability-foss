@@ -23,9 +23,11 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.rest;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import org.apache.groovy.util.Maps;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.asset.Asset;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.ContractNegotiationDto;
@@ -34,7 +36,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notificatio
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Policy;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferRequestDto;
-import org.apache.groovy.util.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,11 +63,14 @@ public class EDCReceiverController {
 
 	private final TestRestTemplate restTemplate;
 
+	private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
+
 	@Value("${server.port}")
 	private int port;
 
-	public EDCReceiverController(TestRestTemplate restTemplate) {
+	public EDCReceiverController(TestRestTemplate restTemplate, InMemoryEndpointDataReferenceCache endpointDataReferenceCache) {
 		this.restTemplate = restTemplate;
+		this.endpointDataReferenceCache = endpointDataReferenceCache;
 	}
 
 	@GetMapping("/data/catalog")
@@ -107,10 +111,17 @@ public class EDCReceiverController {
 		logger.info("Notification received");
 	}
 
+	@PostMapping("/callback")
+	public void receiveCallback(@RequestBody EndpointDataReference dataReference) {
+		logger.info("Callback received");
+	}
+
 	@GetMapping("/data/contractnegotiations/{transferId}")
 	public ContractNegotiationDto getContractNegotiations(@PathVariable String transferId) {
 		logger.info("Returning contract negotiations");
 		String contractAgreementId = "contract-agreement-id";
+
+		endpointDataReferenceCache.storeAgreementId(contractAgreementId);
 
 		restTemplate.postForEntity("/callback/endpoint-data-reference",
 			EndpointDataReference.Builder.newInstance()
