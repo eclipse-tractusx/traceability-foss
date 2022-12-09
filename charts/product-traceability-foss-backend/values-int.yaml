@@ -81,7 +81,11 @@ pgadmin4:
       cpu: 500m
       memory: 512Mi
 
-irs:
+global:
+  enablePrometheus: false
+  enableGrafana: false
+
+irs-helm:
   enabled: true
 
   nameOverride: "tracex-irs"
@@ -90,14 +94,13 @@ irs:
   namespace: product-traceability-foss
 
   image:
-    tag: "1.1.0"
+    tag: "1.3.0"
 
   springprofile: dev
 
+  irsUrl: "https://tracex-irs.int.demo.catena-x.net"
+
   ingress:
-    className: "nginx"
-    annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
       - host: "tracex-irs.int.demo.catena-x.net"
         paths:
@@ -107,7 +110,14 @@ irs:
       - hosts:
           - "tracex-irs.int.demo.catena-x.net"
         secretName: tls-secret
-
+  digitalTwinRegistry:
+    url: https://semantics.int.demo.catena-x.net/registry
+  semanticsHub:
+    url: https://semantics.int.demo.catena-x.net/hub/api/v1
+  bpdm:
+    url: https://catenax-bpdm-int.demo.catena-x.net/v1
+  minioUser: <path:traceability-foss/data/int/minio#user>
+  minioPassword: <path:traceability-foss/data/int/minio#password>
   keycloak:
     oauth2:
       clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
@@ -116,27 +126,30 @@ irs:
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   aasWrapper:
-    host: http://tracex-irs-aaswrapper:9191/api/service
+    host: http://product-traceability-foss-backend-irs-aaswrapper:9191/api/service
     username: tracefoss
     password: <path:traceability-foss/data/int/edc/api-wrapper#wrapper.auth.basic.tracefoss>
 
   minio:
     url: http://tracex-irs-minio:9000
 
-  rootUser: <path:traceability-foss/data/int/minio#user>
-  rootPassword: <path:traceability-foss/data/int/minio#password>
+  irs-minio:
+    namespace: product-traceability-foss
 
-  digitalTwinRegistry:
-    url: https://semantics.int.demo.catena-x.net/registry
+    minioUser: <path:traceability-foss/data/int/minio#user>
+    minioPassword: <path:traceability-foss/data/int/minio#password>
+
+    ## Path where PV would be mounted on the MinIO Pod
+    mountPath: "/data"
+
+    ## Enable persistence using Persistent Volume Claims
+    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+    ##
+    persistence:
+      enabled: false
 
   # Values for aas wrapper subchart.
   irs-aaswrapper:
-    nameOverride: "tracex-irs-aaswrapper"
-    fullnameOverride: "tracex-irs-aaswrapper"
-
-    image:
-      tag: "0.0.7"
-
     namespace: product-traceability-foss
 
     ingress:
@@ -174,130 +187,36 @@ irs:
         wrapper.cache.agreement.enabled=true
         wrapper.auth.basic.tracefoss=<path:traceability-foss/data/int/edc/api-wrapper#wrapper.auth.basic.tracefoss>
 
-  # Values for grafana subchart.
-  irs-grafana:
-    nameOverride: "tracex-irs-grafana"
-    fullnameOverride: "tracex-irs-grafana"
+  # Values for consumer edc postgres
+  postgresql:
+    nameOverride: "tracex-consumer-edc-postgresql"
+    fullnameOverride: "tracex-consumer-edc-postgresql"
 
     namespace: product-traceability-foss
 
-    username: <path:traceability-foss/data/int/grafana#username>
-    password: <path:traceability-foss/data/int/grafana#password>
-
-    ingress:
-      hosts:
-        - host: "tracex-irs-grafana.int.demo.catena-x.net"
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
-      tls:
-        - hosts:
-            - "tracex-irs-grafana.int.demo.catena-x.net"
-          # Default secret for certificate creation already provided to your namespace
-          secretName: tls-secret
-    config:
-      apiVersion: 1
-      datasources:
-        - name: Prometheus
-          type: prometheus
-          url: http://tracex-irs-prometheus:9090
-          isDefault: true
-
-    # does not work and we will disable grafana anyway
-    oauthClientId: to-be-done
-    oauthClientSecret: to-be-done
-
-    configEnvs:
-      - name: GF_SERVER_ROOT_URL
-        value: 'https://tracex-irs-grafana.int.demo.catena-x.net'
-      - name: GF_AUTH_GITHUB_ENABLED
-        value: 'true'
-      - name: GF_AUTH_GITHUB_ALLOW_SIGN_UP
-        value: 'true'
-      - name: GF_AUTH_GITHUB_TEAM_IDS
-        value: '5993975'
-      - name: GF_AUTH_GITHUB_SCOPES
-        value: 'user:email,read:org'
-      - name: GF_AUTH_GITHUB_AUTH_URL
-        value: 'https://github.com/login/oauth/authorize'
-      - name: GF_AUTH_GITHUB_TOKEN_URL
-        value: 'https://github.com/login/oauth/access_token'
-      - name: GF_AUTH_GITHUB_API_URL
-        value: 'https://api.github.com/user'
-
-  # Values for prometheus subchart.
-  irs-prometheus:
-    nameOverride: "tracex-irs-prometheus"
-    fullnameOverride: "tracex-irs-prometheus"
-
-    namespace: product-traceability-foss
-
-    config:
-      global:
-        scrape_interval: 15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-        evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-        # scrape_timeout is set to the global default (10s).
-
-      # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
-      rule_files:
-      # - "first_rules.yml"
-      # - "second_rules.yml"
-
-      # A scrape configuration containing exactly one endpoint to scrape:
-      # Here it's Prometheus itself.
-      scrape_configs:
-        # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-        - job_name: 'prometheus'
-          # metrics_path defaults to '/metrics'
-          # scheme defaults to 'http'.
-          static_configs:
-            - targets: [ '127.0.0.1:9090' ]
-
-        - job_name: 'spring-actuator'
-          metrics_path: '/actuator/prometheus'
-          scrape_interval: 5s
-          static_configs:
-            - targets: [ 'irs:4004' ]
-
-        - job_name: 'minio-actuator'
-          metrics_path: /minio/v2/metrics/cluster
-          static_configs:
-            - targets: [ 'tracex-irs-minio:9000' ]
-
-  # Values for minio subchart.
-  irs-minio:
-    nameOverride: "tracex-irs-minio"
-    fullnameOverride: "tracex-irs-minio"
-
-    namespace: product-traceability-foss
-
-    rootUser: <path:traceability-foss/data/int/minio#user>
-    rootPassword: <path:traceability-foss/data/int/minio#password>
-
-    ## Path where PV would be mounted on the MinIO Pod
-    mountPath: "/data"
-
-    ## Enable persistence using Persistent Volume Claims
-    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
-    ##
-    persistence:
-      enabled: false
+    auth:
+      postgresPassword: <path:traceability-foss/data/int/edc/database#password>
+      username: <path:traceability-foss/data/int/edc/database#user>
+      password: <path:traceability-foss/data/int/edc/database#password>
+      database: "edc"
 
   # Values for consumer edc-controlplane.
   edc-controlplane:
     nameOverride: "tracex-consumer-controlplane"
     fullnameOverride: "tracex-consumer-controlplane"
 
-    image:
-      tag: "0.1.1"
-
     namespace: product-traceability-foss
+
+    image:
+      tag: "0.1.2"
 
     ingresses:
       - enabled: true
         hostname: "tracex-consumer-controlplane.int.demo.catena-x.net"
         annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         endpoints:
           - ids
           - data
@@ -337,7 +256,7 @@ irs:
         edc.ids.endpoint=https://tracex-consumer-controlplane.int.demo.catena-x.net/api/v1/ids
         edc.ids.endpoint.audience=https://tracex-consumer-controlplane.int.demo.catena-x.net/api/v1/ids/data
 
-        edc.receiver.http.endpoint=http://tracex-irs-aaswrapper:9192/callback/endpoint-data-reference
+        edc.receiver.http.endpoint=http://product-traceability-foss-backend-test-irs-aaswrapper:9192/callback/endpoint-data-reference
 
         edc.transfer.dataplane.sync.endpoint=http://tracex-consumer-dataplane:8185/api/public
         edc.transfer.proxy.endpoint=https://tracex-consumer-dataplane.int.demo.catena-x.net/api/public
@@ -347,7 +266,7 @@ irs:
         edc.dataplane.selector.consumer.url=http://tracex-consumer-dataplane:9999/api/dataplane/control
         edc.dataplane.selector.consumer.sourcetypes=HttpData
         edc.dataplane.selector.consumer.destinationtypes=HttpProxy
-        edc.dataplane.selector.consumer.properties={ "publicApiUrl": "http://tracex-consumer-dataplane:8185/api/public" }
+        edc.dataplane.selector.consumer.properties={ "publicApiUrl": "https://tracex-consumer-dataplane.int.demo.catena-x.net/api/public" }
 
         edc.oauth.client.id=D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F:keyid:D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F
         edc.oauth.public.key.alias=daps-cert-int
@@ -393,16 +312,18 @@ irs:
     nameOverride: "tracex-consumer-dataplane"
     fullnameOverride: "tracex-consumer-dataplane"
 
-    image:
-      tag: "0.1.1"
-
     namespace: product-traceability-foss
+
+    image:
+      tag: "0.1.2"
 
     ingresses:
       - enabled: true
         hostname: "tracex-consumer-dataplane.int.demo.catena-x.net"
         annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         endpoints:
           - public
         className: "nginx"
@@ -443,16 +364,3 @@ irs:
         edc.vault.hashicorp.health.check.enabled=true
         edc.vault.hashicorp.health.check.standby.ok=true
         edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
-
-  # Values for consumer edc postgres
-  postgresql:
-    nameOverride: "tracex-consumer-edc-postgresql"
-    fullnameOverride: "tracex-consumer-edc-postgresql"
-
-    namespace: product-traceability-foss
-
-    auth:
-      postgresPassword: <path:traceability-foss/data/int/edc/database#password>
-      username: <path:traceability-foss/data/int/edc/database#user>
-      password: <path:traceability-foss/data/int/edc/database#password>
-      database: "edc"

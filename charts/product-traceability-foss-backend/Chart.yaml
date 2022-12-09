@@ -11,9 +11,9 @@ dependencies:
     condition: postgresql.enabled
   - name: pgadmin4
     repository: https://helm.runix.net
-    version: 1.x.x
+    version: 1.13.6
     condition: pgadmin4.enabled
-  - name: irs
-    repository: https://catenax-ng.github.io/product-item-relationship-service
-    version: 1.0.0
-    condition: irs.enabled
+  - name: irs-helm
+    repository: https://catenax-ng.github.io/tx-item-relationship-service
+    version: 2.1.0
+    condition: irs-helm.enabled

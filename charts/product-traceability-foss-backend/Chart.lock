@@ -5,8 +5,8 @@ dependencies:
 - name: pgadmin4
   repository: https://helm.runix.net
   version: 1.13.6
-- name: irs
-  repository: https://catenax-ng.github.io/product-item-relationship-service
-  version: 1.0.0
-digest: sha256:d028c247e98ca7eb89669e5cad714a08efb2aaa75a0aa29e43069e5452347487
-generated: "2022-10-28T08:05:20.516613+02:00"
+- name: irs-helm
+  repository: https://catenax-ng.github.io/tx-item-relationship-service
+  version: 2.1.0
+digest: sha256:7242cf4a5086b6ead8ee0847a99af9bb1033912326c192e12aed2d952362a754
+generated: "2022-12-02T13:28:23.353907+01:00"

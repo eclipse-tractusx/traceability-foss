@@ -159,6 +159,13 @@ postgresql:
     pgAuditLog: write, ddl
     logLinePrefix: "%m %u %d "
 
+global:
+  enablePrometheus: false
+  enableGrafana: false
+
+irs-helm:
+  enabled: false
+
 pgadmin4:
   enabled: false
   ingress:
