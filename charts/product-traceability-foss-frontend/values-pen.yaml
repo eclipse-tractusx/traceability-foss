@@ -5,6 +5,12 @@ image:
   CATENAX_PORTAL_CLIENT_ID: 'Cl17-CX-Part'
   CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
 
+# important to not conflict with dev env (both use same ArgoCD instance)
+namespace: product-traceability-foss-pen
+
+nameOverride: "product-traceability-foss-pen-frontend"
+fullnameOverride: "product-traceability-foss-pen-frontend"
+
 autoscaling:
   enabled: false
 
