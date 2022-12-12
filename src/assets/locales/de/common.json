@@ -113,16 +113,16 @@
     "range": "{{startIndex}} – {{endIndex}} von {{length}}"
   },
   "commonInvestigation": {
-    "title": "TBD: Quality Investigations",
-    "viewAll": "TBD: View all",
+    "title": "Qualitätsuntersuchung",
+    "viewAll": "Alle anzeigen",
     "tabs": {
-      "received": "TBD: Received",
-      "queuedAndRequested": "TBD: Queued & Requested"
+      "received": "Zugewiesene",
+      "queuedAndRequested": "Erstellte und Angefragte"
     },
     "status": {
-      "RECEIVED": "TBD: Received",
-      "CREATED": "TBD: Queued",
-      "APPROVED": "TBD: Requested"
+      "RECEIVED": "Erhalten",
+      "CREATED": "Erstellt",
+      "APPROVED": "Zugestellt"
     },
     "modal": {
       "approvalTitle": "Genehmigung der Untersuchung",
