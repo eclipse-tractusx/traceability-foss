@@ -51,7 +51,7 @@ describe('D3 Minimap', () => {
     expect(await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--main'))).toBeInTheDocument();
   });
 
-  it('should render minimap', async () => {
+  xit('should render minimap', async () => {
     await renderBase();
 
     expect((await waitFor(() => screen.getAllByTestId('node'))).length).toEqual(6);
