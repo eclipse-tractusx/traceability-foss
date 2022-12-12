@@ -106,7 +106,6 @@ edc-controlplane:
 
 ###############################
 # EDC Dataplane Configuration #
-
 ###############################
 edc-dataplane:
   image:
