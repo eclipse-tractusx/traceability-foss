@@ -5,8 +5,9 @@ postgresql:
   image:
     tag: "14.4.0-debian-11-r21"
   auth:
+    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
     password: <path:traceability-foss/data/dev/edc/database#password>
-    username: <path:traceability-foss/data/dev/edc/database#user>
+    username: edc
     database: edc
   primary:
     resources:
