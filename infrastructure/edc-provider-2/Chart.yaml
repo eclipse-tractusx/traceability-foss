@@ -26,6 +26,6 @@ dependencies:
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 12.1.3
-  - name: nginx
-    repository: https://charts.bitnami.com/bitnami
-    version: 13.2.15
+  - name: jfelten/busybox
+    repository: https://jfelten.github.io/helm-charts/charts
+    version: 0.1.0
