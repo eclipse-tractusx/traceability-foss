@@ -84,23 +84,23 @@ edc-controlplane:
 
       # Postgresql related configuration
       edc.datasource.asset.name=asset
-      edc.datasource.asset.url=jdbc:postgresql://test-edc-postgresql-hl:5432/edc
+      edc.datasource.asset.url=jdbc:postgresql://tracex-test-edc-postgresql-hl:5432/edc
       edc.datasource.asset.user=edc
       edc.datasource.asset.password=<path:traceability-foss/data/dev/edc/database#password>
       edc.datasource.contractdefinition.name=contractdefinition
-      edc.datasource.contractdefinition.url=jdbc:postgresql://test-edc-postgresql-hl:5432/edc
+      edc.datasource.contractdefinition.url=jdbc:postgresql://tracex-test-edc-postgresql-hl:5432/edc
       edc.datasource.contractdefinition.user=edc
       edc.datasource.contractdefinition.password=<path:traceability-foss/data/dev/edc/database#password>
       edc.datasource.contractnegotiation.name=contractnegotiation
-      edc.datasource.contractnegotiation.url=jdbc:postgresql://test-edc-postgresql-hl:5432/edc
+      edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-test-edc-postgresql-hl:5432/edc
       edc.datasource.contractnegotiation.user=edc
       edc.datasource.contractnegotiation.password=<path:traceability-foss/data/dev/edc/database#password>
       edc.datasource.policy.name=policy
-      edc.datasource.policy.url=jdbc:postgresql://test-edc-postgresql-hl:5432/edc
+      edc.datasource.policy.url=jdbc:postgresql://tracex-test-edc-postgresql-hl:5432/edc
       edc.datasource.policy.user=edc
       edc.datasource.policy.password=<path:traceability-foss/data/dev/edc/database#password>
       edc.datasource.transferprocess.name=transferprocess
-      edc.datasource.transferprocess.url=jdbc:postgresql://test-edc-postgresql-hl:5432/edc
+      edc.datasource.transferprocess.url=jdbc:postgresql://tracex-test-edc-postgresql-hl:5432/edc
       edc.datasource.transferprocess.user=edc
       edc.datasource.transferprocess.password=<path:traceability-foss/data/dev/edc/database#password>
 
