@@ -104,25 +104,25 @@
     "submit": "ZUR WARTESCHLANGE HINZUFÜGEN"
   },
   "pagination": {
-    "itemsPerPageLabel": "Items per page:",
-    "nextPageLabel": "Next page",
-    "previousPageLabel": "Previous page",
-    "firstPageLabel": "First page",
-    "lastPageLabel": "Last page",
-    "emptyRange": "0 of {{length}}",
-    "range": "{{startIndex}} – {{endIndex}} of {{length}}"
+    "itemsPerPageLabel": "Artikel pro Seite:",
+    "nextPageLabel": "Nächsten Seite",
+    "previousPageLabel": "Vorherige Seite",
+    "firstPageLabel": "Erste Seite",
+    "lastPageLabel": "Letzte Seite",
+    "emptyRange": "0 von {{length}}",
+    "range": "{{startIndex}} – {{endIndex}} von {{length}}"
   },
   "commonInvestigation": {
-    "title": "Quality Investigations",
-    "viewAll": "View all",
+    "title": "Qualitätsuntersuchung",
+    "viewAll": "Alle anzeigen",
     "tabs": {
-      "received": "Received",
-      "queuedAndRequested": "Queued & Requested"
+      "received": "Zugewiesene",
+      "queuedAndRequested": "Erstellte und Angefragte"
     },
     "status": {
-      "RECEIVED": "Received",
-      "CREATED": "Queued",
-      "APPROVED": "Requested"
+      "RECEIVED": "Erhalten",
+      "CREATED": "Erstellt",
+      "APPROVED": "Zugestellt"
     },
     "modal": {
       "approvalTitle": "Genehmigung der Untersuchung",

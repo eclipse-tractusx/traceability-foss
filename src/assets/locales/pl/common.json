@@ -34,12 +34,12 @@
     "selectPageSize": "Ilość elementów na stronie",
     "menuDescription": "Menu akcji",
     "adminColumn": {
-      "startDate": "TBD: Start date",
-      "registryLookupStatus": "TBD: Status",
-      "successShellDescriptorsFetchCount": "TBD: Successful fetches",
-      "failedShellDescriptorsFetchCount": "TBD: Failed fetches",
-      "shellDescriptorsFetchDelta": "TBD: Fetch Delta",
-      "endDate": "TBD: End date"
+      "startDate": "Data rozpoczęcia",
+      "registryLookupStatus": "Status",
+      "successShellDescriptorsFetchCount": "Udanych pobrań",
+      "failedShellDescriptorsFetchCount": "Nieudanych pobrań",
+      "shellDescriptorsFetchDelta": "Zmiana",
+      "endDate": "Data zakończenia"
     },
     "partsColumn": {
       "id": "ID",
