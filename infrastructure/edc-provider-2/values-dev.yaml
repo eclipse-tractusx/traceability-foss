@@ -83,7 +83,7 @@ edc-controlplane:
 
       # Postgresql related configuration
       edc.datasource.asset.name=asset
-      edc.datasource.asset.url=jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc
+      edc.datasource.asset.url=jdbc:postgresql://edc-test-consumer-edc-postgresql-hl:5432/edc
       edc.datasource.asset.user=<path:traceability-foss/data/dev/edc/database#user>
       edc.datasource.asset.password=<path:traceability-foss/data/dev/edc/database#password>
       edc.datasource.contractdefinition.name=contractdefinition
@@ -91,7 +91,7 @@ edc-controlplane:
       edc.datasource.contractdefinition.user=<path:traceability-foss/data/dev/edc/database#user>
       edc.datasource.contractdefinition.password=<path:traceability-foss/data/dev/edc/database#password>
       edc.datasource.contractnegotiation.name=contractnegotiation
-      edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc
+      edc.datasource.contractnegotiation.url=jdbc:postgresql://edc-test-consumer-edc-postgresql-hl:5432/edc
       edc.datasource.contractnegotiation.user=<path:traceability-foss/data/dev/edc/database#user>
       edc.datasource.contractnegotiation.password=<path:traceability-foss/data/dev/edc/database#password>
       edc.datasource.policy.name=policy
