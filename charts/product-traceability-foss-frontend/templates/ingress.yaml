@@ -7,14 +7,22 @@ metadata:
   name: {{ $fullName }}
   labels:
       {{- include "product-traceability-foss-frontend.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
+  {{- if .Values.ingress.tls }}
   tls:
+    {{- range .Values.ingress.tls }}
     - hosts:
-      - {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net
-      secretName: {{ .Values.appName }}.{{ .Values.environment }}.demo.catena-x.net-tls
+        {{- range .hosts }}
+        - {{ . | quote }}
+        {{- end }}
+      secretName: {{ .secretName }}
+    {{- end }}
+  {{- end }}
   rules:
     {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
