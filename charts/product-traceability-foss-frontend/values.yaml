@@ -2,7 +2,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-appName: "traceability-portal"
 namespace: product-traceability-foss
 
 replicaCount: 1

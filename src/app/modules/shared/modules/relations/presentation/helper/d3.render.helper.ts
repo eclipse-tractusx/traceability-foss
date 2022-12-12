@@ -217,8 +217,8 @@ export class D3RenderHelper {
     const closingButton = svg
       .append('a')
       .attr('id', id)
+      .attr('data-testid', id)
       .on('click', callback)
-      .attr('data-testid', 'tree--minimap__closing')
       .classed('tree--minimap__closing', true);
 
     closingButton
@@ -229,7 +229,7 @@ export class D3RenderHelper {
       .attr('width', 20)
       .attr('height', 20)
       .text(' x ')
-      .attr('data-testid', 'tree--element__text')
+      .attr('data-testid', `${id}-text`)
       .classed('tree--element__text', true);
   }
 

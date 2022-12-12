@@ -15,18 +15,18 @@
     "customerPartId": "ID części u klienta",
     "van": "Van",
     "tab": {
-      "header": "Part details (TBD)",
-      "description": "Detailed information about your selected part (TBD)"
+      "header": "Szczegóły części",
+      "description": "Szczegółowe informacje odnośnie wybranej części"
     },
     "investigation": {
-      "headline": "Request quality investigation for child parts (TBD)",
+      "headline": "Zgłoś badanie jakości dla podrzędnych cześci",
       "tab": {
-        "header": "Investigation for components (TBD)",
-        "description": "Start an investigation for components (TBD)"
+        "header": "Badanie dla komponentów",
+        "description": "Rozpocznij badanie dla komponentów"
       },
       "noSelection": {
-        "header": "No parts selected (TBD).",
-        "text": "Please select parts to start and investigation (TBD)."
+        "header": "Nie wybrano części.",
+        "text": "Proszę wybrać częśći aby rozpocząć badanie."
       }
     }
   }

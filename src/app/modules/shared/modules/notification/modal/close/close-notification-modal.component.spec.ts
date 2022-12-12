@@ -44,10 +44,11 @@ describe('CloseNotificationModalComponent', () => {
     createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
   };
 
-  const renderModal = async () => {
+  const renderModal = async (fakeProvider: unknown[] = []) => {
     const { fixture } = await renderComponent(CloseNotificationModalComponent, {
       declarations: [CloseNotificationModalComponent],
       imports: [NotificationModule, SharedModule, TemplateModule],
+      providers: [...fakeProvider],
     });
 
     fixture.componentInstance.closeCall = (id: string) => of(null);
@@ -98,7 +99,13 @@ describe('CloseNotificationModalComponent', () => {
 
   xit('should call close function', async () => {
     const fixture = await renderModal();
+    // ToDo: Figure out why the spy does not work
     const randomSpyName = spyOn((fixture.componentInstance as any).toastService, 'success').and.returnValue(of([]));
+
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    textArea.value = 'Some Text';
+    textArea.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
 
     const buttonR = await waitFor(() => screen.getByText('Close'));
     buttonR.click();

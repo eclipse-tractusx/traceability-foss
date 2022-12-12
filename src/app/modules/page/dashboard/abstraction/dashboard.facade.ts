@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
+import { RoleService } from '@core/user/role.service';
 import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
 import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -30,7 +31,6 @@ import { map } from 'rxjs/operators';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
 import { DashboardStats } from '../model/dashboard.model';
-import { RoleService } from '@core/user/role.service';
 
 @Injectable()
 export class DashboardFacade {
