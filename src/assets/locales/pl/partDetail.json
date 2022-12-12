@@ -13,6 +13,7 @@
     "manufacturer": "Producent",
     "nameAtCustomer": "Nazwa u klienta",
     "customerPartId": "ID części u klienta",
+    "van": "Van",
     "tab": {
       "header": "Szczegóły części",
       "description": "Szczegółowe informacje odnośnie wybranej części"

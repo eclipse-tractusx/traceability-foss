@@ -43,6 +43,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:79571804-2e89-452a-a80a-ebff6d94c891', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:d37d8fe4-5684-4c31-8c03-f9dbaa48d82b',
@@ -63,6 +64,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:ea35cbd9-8a60-410f-9b5e-f5bffeb5a621', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:ab863676-a37c-41e7-a5f9-efaa071dbbf5',
@@ -83,6 +85,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:a75283ca-1761-42c4-9eb4-6aefd15e45d9', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:f4d16a8a-1bff-4d93-9715-2629f3ffa560',
@@ -136,6 +139,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:7509f6b1-586e-4400-b2fc-058667371ae9', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:6853758f-d624-4530-93fb-07487801cb58',
@@ -189,6 +193,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:861a1206-4212-4eb4-8d9b-b03ba5334a9e', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:065fe7fd-010a-4175-8564-7c9d8ce7e57e',
@@ -242,6 +247,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:5901e9c2-2c57-458f-8932-de13602d38b7', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:5e5ce920-95ed-434f-b335-efc91b7ce62d',
@@ -262,6 +268,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:6d64f6ef-123f-4c73-9748-b7e56a5ba72e', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:9a80e5ee-6c27-47f5-912a-56945e26b9a6',
@@ -282,6 +289,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:506f573a-ace2-45a6-bd0b-b1b93e3eca67', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:bf5ae91d-02f8-4e33-b130-90ec402ac0db',
@@ -302,6 +310,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:1fcc151a-4e54-465c-936b-9c80d604f4f2', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
   {
     id: 'urn:uuid:d261e0fa-36f5-4128-875e-0f5735f5a535',
@@ -322,6 +331,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:d17bbf68-6cb7-4045-b3ae-67f41403d098', idShort: '--' },
     ],
     qualityType: 'Ok',
+    van: null,
   },
 ] as PartResponse[];
 
@@ -354,6 +364,7 @@ const MockEmptyPart: PartResponse = {
   specificAssetIds: {},
   childDescriptions: [],
   qualityType: QualityType.Ok,
+  van: null,
 };
 
 export const getAssetById = (id: string) => {

@@ -13,6 +13,7 @@
     "manufacturer": "Hersteller",
     "nameAtCustomer": "Name beim Kunden",
     "customerPartId": "Kunden Produktnummer",
+    "van": "Van",
     "tab": {
       "header": "Produkt-Details",
       "description": "Detaillierte Informationen über Ihr ausgewähltes Produkt"
