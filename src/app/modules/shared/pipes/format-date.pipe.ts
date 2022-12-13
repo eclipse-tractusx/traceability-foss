@@ -48,7 +48,7 @@ export class FormatDatePipe implements PipeTransform, OnDestroy {
 
   public transform(input: string | CalendarDateModel): string {
     if (!input) {
-      return '';
+      return '--';
     }
 
     const date = typeof input === 'string' ? this.transformStringToDate(input) : input.valueOf();

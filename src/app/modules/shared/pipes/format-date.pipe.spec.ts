@@ -19,16 +19,37 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { SharedModule } from '..';
 
 describe('FormatDatePipe', () => {
   it('should format date having the 1970 value for the year', async () => {
-    await renderComponent(`{{ 'unitTest.test01' | formatDate }}`, {
+    const date = new CalendarDateModel(null);
+    await renderComponent(`{{ date | formatDate }}`, {
+      imports: [SharedModule],
+      componentProperties: { date },
+    });
+
+    expect(screen.getByText('--')).toBeInTheDocument();
+  });
+
+  it('should format date without issues', async () => {
+    const date = new CalendarDateModel('2022-02-04T13:48:54Z');
+    await renderComponent(`{{ date | formatDate }}`, {
+      imports: [SharedModule],
+      componentProperties: { date },
+    });
+
+    expect(screen.getByText('2/4/2022')).toBeInTheDocument();
+  });
+
+  it('should return -- if string is empty', async () => {
+    await renderComponent(`{{ '' | formatDate }}`, {
       imports: [SharedModule],
     });
 
-    expect(screen.getByText('This is for unit tests purposes.')).toBeInTheDocument();
+    expect(screen.getByText('--')).toBeInTheDocument();
   });
 });
