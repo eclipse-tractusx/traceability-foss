@@ -48,10 +48,13 @@ export class FormatDatePipe implements PipeTransform, OnDestroy {
 
   public transform(input: string | CalendarDateModel): string {
     if (!input) {
-      return '';
+      return '--';
     }
 
     const date = typeof input === 'string' ? this.transformStringToDate(input) : input.valueOf();
+    if (date.getFullYear() == 1970) {
+      return '--';
+    }
     return this.dateFormat.format(date, this.formatOptions);
   }
 
