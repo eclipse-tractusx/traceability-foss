@@ -35,6 +35,10 @@ There are several Angular artefacts which you can generate:
 
 Run `ng test` to execute the unit tests via [karma](https://karma-runner.github.io/latest/index.html) + [jasmine](https://jasmine.github.io/).
 
+### Running E2E tests
+
+Please find [here](e2e.md) some important information about E2E tests.
+
 ### Running updates
 
 Run `ng update` to update your application and its dependencies.
