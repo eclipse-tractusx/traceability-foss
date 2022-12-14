@@ -1,1 +1,0 @@
-# edc-controlplane Helm Chart
