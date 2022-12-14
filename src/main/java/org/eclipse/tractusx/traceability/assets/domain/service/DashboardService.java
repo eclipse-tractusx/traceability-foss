@@ -24,9 +24,7 @@ package org.eclipse.tractusx.traceability.assets.domain.service;
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
 import org.eclipse.tractusx.traceability.common.security.JwtAuthentication;
-import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -44,14 +42,6 @@ public class DashboardService {
 		long totalAssets = assetRepository.countAssets();
 		long myParts = assetRepository.countMyAssets();
 		long pendingInvestigations = investigationsRepository.countPendingInvestigations();
-
-		// first check if user has admin or supervisor role
-		if (jwtAuthentication.hasAtLeastOneRole(JwtRole.ADMIN, JwtRole.SUPERVISOR)) {
-			return new Dashboard(myParts, totalAssets - myParts, pendingInvestigations);
-		} else if (jwtAuthentication.hasRole(JwtRole.USER)) {
-			return new Dashboard(myParts, null, pendingInvestigations);
-		} else {
-			throw new AccessDeniedException("User has invalid role to access the dashboard.");
-		}
+		return new Dashboard(myParts, totalAssets - myParts, pendingInvestigations);
 	}
 }
