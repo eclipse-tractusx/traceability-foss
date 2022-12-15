@@ -123,7 +123,7 @@ edc-dataplane:
         - public
       className: "nginx"
       tls:
-        enabled: false
+        enabled: true
         secretName: "tls-secret"
 
   opentelemetry:
