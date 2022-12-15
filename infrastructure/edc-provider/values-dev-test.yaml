@@ -36,7 +36,7 @@ edc-controlplane:
       className: "nginx"
       tls:
         - hosts:
-            - "trace-x-edc.dev.demo.catena-x.net"
+            - "trace-x-test-edc.dev.demo.catena-x.net"
           secretName: "tls-secret"
 
   opentelemetry:
@@ -123,9 +123,9 @@ edc-dataplane:
       endpoints:
         - public
       className: "nginx"
-      tls:
-        enabled: false
-        secretName: "tls-secret"
+        - hosts:
+            - "trace-x-test-edc.dev.demo.catena-x.net"
+          secretName: "tls-secret"
 
   opentelemetry:
     properties: |-
