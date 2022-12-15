@@ -37,14 +37,6 @@ spring:
             client-secret: "integration-tests"
   main:
     allow-bean-definition-overriding: true
-  mail:
-    host: localhost
-    port: 3025
-    username: notifications
-    password: password
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
   datasource:
     url: jdbc:postgresql://localhost:5432/trace
     password: docker

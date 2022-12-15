@@ -47,14 +47,6 @@ spec:
               value: {{ .Values.springprofile | quote }}
             - name: TRACEABILITY_BPN
               value: {{ .Values.traceability.bpn | quote }}
-            - name: MAILSERVER_HOST
-              value: {{ .Values.mailserver.host | quote }}
-            - name: MAILSERVER_PORT
-              value: {{ .Values.mailserver.port | quote }}
-            - name: MAILSERVER_USERNAME
-              value: {{ .Values.mailserver.username | quote }}
-            - name: MAILSERVER_PASSWORD
-              value: {{ .Values.mailserver.password | quote }}
             - name: OAUTH2_CLIENT_ID
               value: {{ .Values.oauth2.clientId | quote }}
             - name: OAUTH2_CLIENT_SECRET

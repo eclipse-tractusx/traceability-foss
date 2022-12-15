@@ -77,9 +77,6 @@ public class ApplicationConfig {
 	@Value("${spring.security.oauth2.client.provider.default.token-uri}")
 	private String oauthTokenUrl;
 
-	@Value("${spring.mail.templates.path}")
-	private String mailTemplatesPath;
-
 	@Bean
 	public InternalResourceViewResolver defaultViewResolver() {
 		return new InternalResourceViewResolver();
@@ -110,7 +107,6 @@ public class ApplicationConfig {
 
 	public ITemplateResolver htmlTemplateResolver() {
 		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-		templateResolver.setPrefix(mailTemplatesPath + "/");
 		templateResolver.setSuffix(".html");
 		templateResolver.setTemplateMode(TemplateMode.HTML);
 		templateResolver.setCharacterEncoding("UTF-8");
@@ -119,7 +115,6 @@ public class ApplicationConfig {
 
 	public ITemplateResolver textTemplateResolver() {
 		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-		templateResolver.setPrefix(mailTemplatesPath + "/");
 		templateResolver.setSuffix(".txt");
 		templateResolver.setTemplateMode(TemplateMode.TEXT);
 		templateResolver.setCharacterEncoding("UTF-8");

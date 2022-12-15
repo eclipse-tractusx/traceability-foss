@@ -69,7 +69,6 @@ val commonsCodecVersion = "1.15"
 val commonsIoVersion = "2.11.0"
 val groovyVersion = "3.0.13"
 val spockBomVersion = "2.1-groovy-3.0"
-val greenmailVersion = "1.6.11"
 val springfoxVersion = "3.0.0"
 val feignVersion = "12.0"
 val springCloudVersion = "2021.0.5"
@@ -150,7 +149,6 @@ dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
@@ -198,7 +196,6 @@ dependencies {
 
 	integrationImplementation("org.springframework.boot:spring-boot-starter-test")
 
-	integrationImplementation("com.icegreen:greenmail-spring:$greenmailVersion")
 	integrationImplementation("com.xebialabs.restito:restito:$restitoVersion")
 	integrationImplementation("org.glassfish.grizzly:grizzly-http:$grizzlyVersion")
 	integrationImplementation("org.glassfish.grizzly:grizzly-http-server:$grizzlyVersion")
