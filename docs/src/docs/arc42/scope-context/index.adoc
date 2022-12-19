@@ -1,0 +1,7 @@
+= System scope and context
+
+The IRS acts as a middleware between consumers and manufacturers. This section describes the environment of IRS. Who are its users, and with which other systems does it interact with.
+
+include::business-context.adoc[leveloffset=+1]
+
+include::technical-context.adoc[leveloffset=+1]

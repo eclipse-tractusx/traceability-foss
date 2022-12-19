@@ -1,0 +1,10 @@
+= Architecture constraints
+
+== Technical Constraints
+
+== Organizational Constraints
+
+== Political constraints
+
+== Development conventions
+
