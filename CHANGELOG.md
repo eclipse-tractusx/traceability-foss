@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.0.1] - 2022-12-19
+
+### Added
+
+Using the "relationships" structure instead of "AssemblyPartRelationship" in the IRS response.
+
 ## [1.0.0] - 2022-12-09
 
 ### Added
@@ -22,6 +28,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **EDC and IRS integration**
 
 [Unreleased]: https://github.com/catenax-ng/product-traceability-foss-backend/compare/0.1.0...HEAD
+
+[1.0.1]: https://github.com/catenax-ng/product-traceability-foss-backend/compare/1.0.1
 
 [1.0.0]: https://github.com/catenax-ng/product-traceability-foss-backend/compare/1.0.0
 
