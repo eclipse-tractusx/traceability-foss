@@ -20,14 +20,20 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
+import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
-import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
+import org.eclipse.tractusx.traceability.investigations.adapters.mock.EDCProviderConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import springfox.documentation.annotations.ApiIgnore;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
@@ -36,15 +42,37 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/callback/endpoint-data-reference")
 public class EdcCallbackController {
 
+	private static final Logger log = LoggerFactory.getLogger(EdcCallbackController.class);
+
 	private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
-	public EdcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache) {
+	private final RestTemplate restTemplate;
+
+	private final EDCProviderConfiguration edcProviderConfiguration;
+
+	public EdcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EDCProviderConfiguration edcProviderConfiguration) {
 		this.endpointDataReferenceCache = endpointDataReferenceCache;
+		this.restTemplate = restTemplateBuilder.build();
+		this.edcProviderConfiguration = edcProviderConfiguration;
 	}
 
 	@PostMapping
 	public void receiveEdcCallback(@RequestBody EndpointDataReference dataReference) {
-		var contractAgreementId = dataReference.getProperties().get("cid");
-		endpointDataReferenceCache.put(contractAgreementId, dataReference);
+		String contractAgreementId = dataReference.getProperties().get("cid");
+
+		if (endpointDataReferenceCache.containsAgreementId(contractAgreementId)) {
+			endpointDataReferenceCache.put(contractAgreementId, dataReference);
+		} else {
+			callOtherServices(dataReference);
+		}
+	}
+
+	private void callOtherServices(EndpointDataReference dataReference) {
+		edcProviderConfiguration.getCallbackUrls().forEach(callbackUrl -> {
+			ResponseEntity<String> response = restTemplate.postForEntity(callbackUrl, dataReference, String.class);
+
+			log.info("Callback respond with HTTP {}", response.getStatusCode());
+			log.debug("Callback response: {}", response.getBody());
+		});
 	}
 }
