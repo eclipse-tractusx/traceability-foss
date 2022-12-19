@@ -75,14 +75,13 @@ public class AssetsConverter {
 
 	public List<Asset> convertAssets(JobResponse response)  {
 		List<SerialPartTypization> parts = response.serialPartTypizations();
-		Map<String, AssemblyPartRelationship> relationships = response.assemblyPartRelationships();
 		Map<String, String> shortIds = response.shells().stream()
 			.collect(Collectors.toMap(Shell::identification, Shell::idShort));
-		Set<String> supplierParts = relationships.values().stream()
-			.flatMap(a -> a.childParts().stream())
-			.map(ChildPart::childCatenaXId)
+		Set<String> supplierParts = response.relationships().stream()
+			.map(Relationship::childCatenaXId)
 			.collect(Collectors.toSet());
-
+		Map<String, List<Relationship>> relationships = response.relationships().stream()
+			.collect(Collectors.groupingBy(Relationship::catenaXId));
 
 			return parts.stream()
 				.map(part -> new Asset(
@@ -173,11 +172,11 @@ public class AssetsConverter {
 		return value;
 	}
 
-	private List<Asset.ChildDescriptions> getChildParts(Map<String, AssemblyPartRelationship> relationships, Map<String, String> shortIds, String catenaXId) {
+	private List<Asset.ChildDescriptions> getChildParts(Map<String, List<Relationship>> relationships, Map<String, String> shortIds, String catenaXId) {
 		return Optional.ofNullable(relationships.get(catenaXId))
-			.map(assemblyPartRelationship -> assemblyPartRelationship.childParts().stream()
-				.map(child -> new Asset.ChildDescriptions(child.childCatenaXId(), shortIds.get(child.childCatenaXId())))
-				.toList()
-			).orElse(Collections.emptyList());
+			.orElse(Collections.emptyList())
+			.stream()
+			.map(child -> new Asset.ChildDescriptions(child.childCatenaXId(), shortIds.get(child.childCatenaXId())))
+			.toList();
 	}
 }

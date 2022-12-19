@@ -18,23 +18,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-
-record AssemblyPartRelationship(
-	String catenaXId,
-	List<ChildPart> childParts
-) {
-	AssemblyPartRelationship(String catenaXId, List<ChildPart> childParts) {
-		this.catenaXId = catenaXId;
-		this.childParts = Objects.requireNonNullElse(childParts, Collections.emptyList());
+record Relationship(String catenaXId, LinkedItem linkedItem) {
+	String childCatenaXId() {
+		return linkedItem.childCatenaXId();
 	}
 }
 
-record ChildPart(
+record LinkedItem(
 	String childCatenaXId
 ) {}
