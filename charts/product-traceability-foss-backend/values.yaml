@@ -126,12 +126,6 @@ healthCheck:
 traceability:
   bpn: ""
 
-mailserver:
-  host: ""
-  port: ""
-  username: ""
-  password: ""
-
 datasource:
   url: ""
   username: ""

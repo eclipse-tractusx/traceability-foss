@@ -21,10 +21,6 @@ $ cd product-traceability-foss-backend
   * `OAUTH2_PROVIDER_TOKEN_URI` - with OAuth2 provider url to obtain tokens
   * `OAUTH2_JWK_SET_URI` - with OAuth2 provider certs url
   * `JWT_RESOURCE_CLIENT` - with JWT resource client name
-  * `MAILSERVER_HOST` - with host for the email server of your choice
-  * `MAILSERVER_PORT` - with port for the email server of your choice
-  * `MAILSERVER_USERNAME` - with username for the email server of your choice
-  * `MAILSERVER_PASSWORD` - with password for the email server of your choice
   * `SPRING_PROFILES_ACTIVE` - with profile to be picked when starting the service. One of `[dev|int]`.
 * Start the service by invoking following command in project root directory `./gradlew bootRun`
 
@@ -53,12 +49,6 @@ echo -n 'CREATE ROLE trace WITH LOGIN PASSWORD 'yourPassword';\nCREATE DATABASE 
 * `postgresql.auth.postgresPassword` - PostgreSQL master password
 * `datasource.password` - `trace` database password configured in `initUserDbSql` script
 * `pgAdmin4.env.password` - pgAdmin4 master password
-
-### Email server
-* `mailserver.host` - host for the email server of your choice
-* `mailserver.port` - port for the email server of your choice
-* `mailserver.username` - username for the email server of your choice
-* `mailserver.password` - password for the email server of your choice
 
 ## API sample endpoints
 * Swagger UI: `http://localhost:8080/api/swagger-ui/index.html`

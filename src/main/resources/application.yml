@@ -48,8 +48,6 @@ management:
       enabled: true
     livenessState:
       enabled: true
-    mail:
-      enabled: false
   endpoints:
     web:
       base-path: /actuator
@@ -78,16 +76,6 @@ spring:
           jwk-set-uri: ${OAUTH2_JWK_SET_URI:https://default}
   config:
     import: swagger.yml
-  mail:
-    templates:
-      path: mail-templates
-    host: ${MAILSERVER_HOST}
-    port: ${MAILSERVER_PORT}
-    username: ${MAILSERVER_USERNAME}
-    password: ${MAILSERVER_PASSWORD}
-    properties:
-      mail.smtp.auth: true
-      mail.smtp.starttls.enable: true
 
 jwt:
   resource-client: ${JWT_RESOURCE_CLIENT}

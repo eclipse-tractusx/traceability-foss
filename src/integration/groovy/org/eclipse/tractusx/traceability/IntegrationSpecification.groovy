@@ -28,7 +28,6 @@ import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository
 import org.eclipse.tractusx.traceability.assets.domain.ports.ShellDescriptorRepository
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
-import org.eclipse.tractusx.traceability.common.config.MailboxConfig
 import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
 import org.eclipse.tractusx.traceability.common.config.RestAssuredConfig
 import org.eclipse.tractusx.traceability.common.config.RestitoConfig
@@ -54,7 +53,7 @@ import spock.util.concurrent.PollingConditions
 @ActiveProfiles(profiles = [ApplicationProfiles.TESTS])
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(
-	classes = [RestAssuredConfig.class, MailboxConfig.class, RestitoConfig.class, PostgreSQLConfig.class],
+	classes = [RestAssuredConfig.class, RestitoConfig.class, PostgreSQLConfig.class],
 	initializers = [RestitoConfig.Initializer.class, PostgreSQLConfig.Initializer.class]
 )
 @Testcontainers

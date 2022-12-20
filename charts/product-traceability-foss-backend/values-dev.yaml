@@ -21,12 +21,6 @@ ingress:
 traceability:
   bpn: "BPNL00000003AYRE"
 
-mailserver:
-  host: "smtp.office365.com"
-  port: "587"
-  username: "notifications@catena-x.net"
-  password: <path:traceability-foss/data/dev#mailserverPassword>
-
 datasource:
   url: jdbc:postgresql://product-traceability-foss-backend-postgresql:5432/trace
   username: trace
