@@ -516,31 +516,4 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 				.body("", Matchers.hasSize(3))
 	}
 
-	def "should return asset's van"() {
-		given:
-		cachedBpnsForDefaultAssets()
-
-		and:
-		defaultAssetsStored()
-
-		expect:
-		given()
-			.contentType(ContentType.JSON)
-			.body(
-				asJson(
-					[
-						assetIds: [
-							"urn:uuid:186359fb-4584-40e4-a59b-ed842d3d80d9",
-						]
-					]
-				)
-			)
-			.header(jwtAuthorization(ADMIN))
-			.when()
-			.post("/api/assets/detail-information")
-			.then()
-			.statusCode(200)
-			.body("van", Matchers.contains("SN-BMWX6-1669098675028"))
-	}
-
 }

@@ -101,7 +101,7 @@ public class AssetsConverter {
 					getChildParts(relationships, shortIds, part.catenaXId()),
 					false,
 					QualityType.OK,
-					part.van()
+					van(part)
 				)).toList();
 	}
 
@@ -181,4 +181,10 @@ public class AssetsConverter {
 			.map(child -> new Asset.ChildDescriptions(child.childCatenaXId(), shortIds.get(child.childCatenaXId())))
 			.toList();
 	}
+
+	private String van(SerialPartTypization part) {
+		return part.getLocalId(LocalIdType.VAN)
+			.orElse(EMPTY_TEXT);
+	}
+
 }
