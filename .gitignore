@@ -36,6 +36,9 @@ testem.log
 /typings
 /audit-reports
 src/tests/test-report.xml
+cypress/videos
+cypress/screenshots
+
 # e2e
 /e2e/*.js
 /e2e/*.map

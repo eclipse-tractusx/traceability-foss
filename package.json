@@ -24,7 +24,10 @@
     "dependencies:download-tool": "mkdir -p ./scripts/download && curl -L --output ./scripts/download/org.eclipse.dash.licenses.jar 'https://repo.eclipse.org/service/local/artifact/maven/redirect?r=dash-licenses&g=org.eclipse.dash&a=org.eclipse.dash.licenses&v=LATEST'",
     "dependencies:generate": "java -jar ./scripts/download/org.eclipse.dash.licenses.jar yarn.lock -project automotive.tractusx -summary DEPENDENCIES",
     "dependencies:validate": "java -jar ./scripts/download/org.eclipse.dash.licenses.jar yarn.lock -project automotive.tractusx",
-    "generate-changelog": "git-chglog -o CHANGELOG.md"
+    "generate-changelog": "git-chglog -o CHANGELOG.md",
+    "e2e": "ng e2e",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "private": true,
   "dependencies": {
@@ -72,8 +75,11 @@
     "@angular/cli": "13.3.5",
     "@angular/compiler-cli": "13.3.6",
     "@angular/language-service": "13.3.6",
+    "@badeball/cypress-cucumber-preprocessor": "^15.0.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
     "@commitlint/cli": "17.3.0",
     "@commitlint/config-conventional": "16.2.4",
+    "@cypress/schematic": "2.4.0",
     "@testing-library/angular": "11.0.4",
     "@testing-library/jasmine-dom": "1.2.0",
     "@types/d3": "7.1.0",
@@ -83,6 +89,7 @@
     "@types/testing-library__jasmine-dom": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "5.42.1",
     "@typescript-eslint/parser": "5.17.0",
+    "cypress": "^12.1.0",
     "eslint": "8.28.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
@@ -104,6 +111,7 @@
     "prettier": "2.7.1",
     "stylelint": "14.8.2",
     "stylelint-config-standard-scss": "3.0.0",
+    "ts-loader": "^9.4.2",
     "ts-node": "10.9.1",
     "typescript": "4.6.4",
     "webpack-bundle-analyzer": "4.5.0"
