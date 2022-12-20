@@ -31,13 +31,9 @@ class Submodel {
 	@JsonTypeInfo(
 		use = JsonTypeInfo.Id.NAME,
 		include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
+		defaultImpl = Void.class,
 		property = "aspectType")
 	@JsonSubTypes({
-		@Type(value = AssemblyPartRelationship.class, names = {
-			"urn:bamm:com.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship",
-			"urn:bamm:io.catenax.assembly_part_relationship:1.0.0#AssemblyPartRelationship",
-			"urn:bamm:io.catenax.assembly_part_relationship:1.1.0#AssemblyPartRelationship",
-			"urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship"}),
 		@Type(value = SerialPartTypization.class, names = {
 			"urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization",
 			"urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization",

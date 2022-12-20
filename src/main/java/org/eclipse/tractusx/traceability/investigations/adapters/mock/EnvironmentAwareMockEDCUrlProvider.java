@@ -20,8 +20,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.investigations.adapters.mock;
 
-import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
+import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,18 +46,18 @@ public class EnvironmentAwareMockEDCUrlProvider implements EDCUrlProvider {
 
 	private final String applicationEnvironment;
 
-	private final BpnToEDCProviderMappings bpnToEDCProviderMappings;
+	private final EDCProviderConfiguration EDCProviderConfiguration;
 
-	public EnvironmentAwareMockEDCUrlProvider(@Value("${traceability.bpn}") String senderBpn, @Autowired BpnToEDCProviderMappings bpnToEDCProviderMappings, @Autowired Environment applicationEnvironment) {
+	public EnvironmentAwareMockEDCUrlProvider(@Value("${traceability.bpn}") String senderBpn, @Autowired EDCProviderConfiguration EDCProviderConfiguration, @Autowired Environment applicationEnvironment) {
 		this.senderBpn = senderBpn;
-		this.bpnToEDCProviderMappings = bpnToEDCProviderMappings;
+		this.EDCProviderConfiguration = EDCProviderConfiguration;
 		this.applicationEnvironment = Arrays.stream(applicationEnvironment.getActiveProfiles())
 			.findFirst()
 			.orElseThrow(() -> new IllegalStateException("No environment found"));
 	}
 
 	public String getEdcUrl(String bpn) {
-		String edcUrl = bpnToEDCProviderMappings.getBpnProviderUrlMappings().getOrDefault(bpn, defaultProviderUrl());
+		String edcUrl = EDCProviderConfiguration.getBpnProviderUrlMappings().getOrDefault(bpn, defaultProviderUrl());
 
 		logger.info("Resolved {} url for {} bpn", edcUrl, bpn);
 

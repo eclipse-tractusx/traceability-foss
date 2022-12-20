@@ -27,6 +27,7 @@ edc:
     auth:
       key: "integration-tests"
 
+
 spring:
   security:
     oauth2:

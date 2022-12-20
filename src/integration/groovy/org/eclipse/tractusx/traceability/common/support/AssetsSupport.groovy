@@ -42,6 +42,10 @@ trait AssetsSupport implements AssetRepositoryProvider {
 		}
 	}
 
+	void assertHasChildCount(String assetId, int count) {
+		assetRepository().getAssetById(assetId).childDescriptions.size() == count
+	}
+
 	void assertNoAssetsStored() {
 		assertAssetsSize(0)
 	}

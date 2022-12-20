@@ -22,12 +22,12 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest
 
 import io.restassured.http.ContentType
-import org.eclipse.tractusx.traceability.common.support.AssetsSupport
-import org.eclipse.tractusx.traceability.common.support.BpnSupport
-import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.common.support.AssetsSupport
+import org.eclipse.tractusx.traceability.common.support.BpnSupport
+import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
 import org.hamcrest.Matchers
 import spock.util.concurrent.PollingConditions
 
@@ -67,6 +67,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 			eventually {
 				assertAssetsSize(14)
 				assertHasRequiredIdentifiers()
+				assertHasChildCount("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", 5)
 			}
 
 		and:

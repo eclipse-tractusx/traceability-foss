@@ -26,11 +26,24 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Component
 public class InMemoryEndpointDataReferenceCache {
+
 	private final Map<String, EndpointDataReference> store = new HashMap<>();
+
+	private final Set<String> awaitingAgreementIds = new HashSet<>();
+
+	public void storeAgreementId(String agreementId) {
+		awaitingAgreementIds.add(agreementId);
+	}
+
+	public boolean containsAgreementId(String agreementId) {
+		return awaitingAgreementIds.contains(agreementId);
+	}
 
 	public static boolean endpointDataRefTokenExpired(EndpointDataReference dataReference) {
 		String token = dataReference.getAuthCode();
