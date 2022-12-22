@@ -1,6 +1,18 @@
 = System scope and context
 
-The IRS acts as a middleware between consumers and manufacturers. This section describes the environment of IRS. Who are its users, and with which other systems does it interact with.
+Trace-X empowers all companies from SMEs to large OEMs to participate in parts traceability with an Open-Source solution.
+
+The Open-Source Traceability application is developed within the Catena-X project and enables all companies to participate in Parts Traceability.
+Trace-X offers capabilities to ingest data for serialized parts and batches as well as their child components.  Within CX, we strive to establish a standardized, data-sovereign and interoperable exchange of traceability data along the value creation chain.
+
+The application gives an overview of the supplier network and the supply chain. A high level of transparency across the supplier network enables faster intervention based on recorded events in the supply chain. Additionally, automated massages regarding Quality related incidents and a tool for inspecting the supply chain helps companies in these fast-moving times.
+
+All this saves' costs by seamlessly tracking parts as well as creates trust through clearly defined and secure data access by the companies and persons involved in the process.
+
+[plantuml, target=business-context, format=svg]
+....
+include::../../../uml-diagrams/arc42/scope-context/business-context/business-context.puml[]
+....
 
 include::business-context.adoc[leveloffset=+1]
 

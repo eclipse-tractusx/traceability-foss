@@ -1,1 +1,22 @@
 = Business context
+
+
+[plantuml, target=business-context, format=svg]
+....
+include::../../../uml-diagrams/arc42/scope-context/business-context/business-context.puml[]
+....
+
+== User
+
+
+== Supervisor
+
+== Admin
+
+== Trace-X Frontend
+
+== REST Interface
+
+== Trace-X Backend
+
+
