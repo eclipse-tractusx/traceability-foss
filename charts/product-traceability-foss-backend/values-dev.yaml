@@ -251,7 +251,7 @@ irs-helm:
         edc.ids.endpoint=https://tracex-consumer-controlplane.dev.demo.catena-x.net/api/v1/ids
         edc.ids.endpoint.audience=https://tracex-consumer-controlplane.dev.demo.catena-x.net/api/v1/ids/data
 
-        edc.receiver.http.endpoint=http://product-traceability-foss-backend-irs-aaswrapper:9192/callback/endpoint-data-reference
+        edc.receiver.http.endpoint=https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference
 
         edc.transfer.dataplane.sync.endpoint=http://tracex-consumer-dataplane:8185/api/public
         edc.transfer.proxy.endpoint=https://tracex-consumer-dataplane.dev.demo.catena-x.net/api/public

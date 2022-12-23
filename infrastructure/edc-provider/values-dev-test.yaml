@@ -53,7 +53,7 @@ edc-controlplane:
       edc.ids.endpoint=https://trace-x-test-edc.dev.demo.catena-x.net/api/v1/ids
       edc.ids.endpoint.audience=https://trace-x-test-edc.dev.demo.catena-x.net/api/v1/ids/data
 
-      edc.receiver.http.endpoint=http://tracex-test-edc-provider-edc-controlplane:8080/api/service/pull
+      edc.receiver.http.endpoint=https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference
 
       edc.transfer.dataplane.sync.endpoint=http://tracex-test-edc-provider-edc-dataplane:8185/api/public
       edc.transfer.proxy.endpoint=https://trace-x-test-edc-dataplane.dev.demo.catena-x.net/api/public
