@@ -9,8 +9,7 @@
 
 == Essential features
 * List and view manufactured parts based on BoM AsBuild
-* Show detailed information on manufactured parts from Aspects
-* Asset Administration Shell description
+* Show detailed information on manufactured parts from AAS description assets and Aspects
 * Submodels SerialPartTypization, AssemblyPartRelationship, Batch
 * List and view Supplier parts (AssemblyPartRelationship) based on BoM AsBuild lifecycle
 * View parts and parts relations in a visualized parts tree
