@@ -34,7 +34,12 @@
 
 |Release as Open Source
 |The source codes, at least parts of it, are made available as open source and can be found in Github Catena-X ng as well as in Eclipse Tractus-X.
+
+|Technology Readiness Level (TRL) for Products developed within the CX Consortia
+|As Trace-X is a reference implementation, the Technology Readiness Level (TRL) must not be above TRL 8.
 |===
+
+
 
 == Political Constraints
 
@@ -55,4 +60,8 @@
 
 |Language
 |The project language is English to ensure the best possible accessibility for all participants. Therefore, classes, methods etc. are named in English as well as the documentation is written in English.
+
+|Code Coverage
+|More than 80 % Code Coverage of complete source code
+
 |===
