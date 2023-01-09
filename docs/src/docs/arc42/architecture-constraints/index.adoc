@@ -13,6 +13,9 @@
 
 |Kubernetes for Container Orchestration
 |Catena-X environment prerequisites the application to run in a Kubernetes environment via Helm Charts.
+
+|Catena-X UUX Guidance (CX Style Guide)
+|Frontend follows Catena-X wide UUX consistency according to CX Style Guide
 |===
 
 == Organizational Constraints
@@ -30,7 +33,7 @@
 |Trace-X needs to be Catena-X compliant and the application has to follow the CX standards as well as interact with the core services and components.
 
 |Release as Open Source
-|The source codes, at least parts of it, are made available as open source and can be found in Github Catena-X ng as well as in Eclipse Tractus-X ng.
+|The source codes, at least parts of it, are made available as open source and can be found in Github Catena-X ng as well as in Eclipse Tractus-X.
 |===
 
 == Political Constraints
