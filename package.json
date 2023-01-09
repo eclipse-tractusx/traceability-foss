@@ -87,7 +87,7 @@
     "@types/luxon": "2.3.2",
     "@types/node": "18.11.4",
     "@types/testing-library__jasmine-dom": "^1.0.3",
-    "@typescript-eslint/eslint-plugin": "5.42.1",
+    "@typescript-eslint/eslint-plugin": "5.48.0",
     "@typescript-eslint/parser": "5.17.0",
     "cypress": "^12.1.0",
     "eslint": "8.28.0",
