@@ -5,3 +5,4 @@ in which context the service runs and which stakeholders are involved.
 
 include::requirements.adoc[leveloffset=+1]
 include::quality-goals.adoc[leveloffset=+1]
+include::stakeholder.adoc[leveloffset=+1]

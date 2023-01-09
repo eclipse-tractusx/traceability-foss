@@ -1,1 +1,22 @@
 = Quality goals
+
+The following table entries define overall Trace-X quality goals. The order of topics does not resolve in a priority of the quality goals.
+
+|===
+|Quality goal |Motivation and description
+
+|Running application for Catena-X Traceability
+|Consume traceability data, visualize it in a state-of-the-art Frontend to the user and enable exchange of notifications.
+
+|Accessible and easy to use
+|Enable SMEs to large enterprises.
+
+|Interoperability
+|The application should be interoperable with commercial as well as other solutions.
+
+|Trustful application
+|Use the Catena-X standards as a basis to fulfill the interoperability and data sovereignty requirements.
+
+|Utilize tree structures and enable notifications along the supply chain
+|Provided part tree structures are consumed, aggregated and utilized to enable quality related actions such as notifications along the supply chain.
+|===
