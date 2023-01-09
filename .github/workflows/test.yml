@@ -23,7 +23,7 @@ jobs:
     - name: Install chrome
       uses: browser-actions/setup-chrome@latest
     - name: Run yarn install
-      uses: Borales/actions-yarn@v4.1.0
+      uses: Borales/actions-yarn@v4.2.0
       with:
         cmd: install # will run `yarn install` command
     - name: Run npm test:ci
