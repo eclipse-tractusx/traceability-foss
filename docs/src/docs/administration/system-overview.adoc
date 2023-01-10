@@ -1,0 +1,15 @@
+= System Overview
+
+The deployment contains the components required to connect the Trace-X to an existing Catena-X network. This includes:
+
+// TODO add content of the
+* TODO
+* TODO
+
+Everything else needs to be provided externally.
+
+
+[plantuml, target=integrated-overview, format=svg]
+....
+include::../../uml-diagrams/arc42/deployment-view/level-0-int.puml[]
+....
