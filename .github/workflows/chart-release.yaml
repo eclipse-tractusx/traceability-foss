@@ -64,7 +64,7 @@ jobs:
           helm repo add tx-item-relationship-service https://catenax-ng.github.io/tx-item-relationship-service
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.4.1
+        uses: helm/chart-releaser-action@v1.5.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "${{ env.RELEASE_VERSION }}"
