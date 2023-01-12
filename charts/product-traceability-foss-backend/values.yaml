@@ -130,16 +130,11 @@ healthCheck:
 traceability:
   bpn: <traceability.bpn>
 
-##############################
-# Mailserver Configuration  #
-# @Deprecated               #
-#############################
-
 mailserver:
-  host: ""  #@Deprecated
-  port: "" #@Deprecated
-  username: "" #@Deprecated
-  password: "" #@Deprecated
+  host: ""
+  port: ""
+  username: ""
+  password: ""
 
 datasource:
   url: <datasource.url>
