@@ -2,8 +2,8 @@ plugins {
 	id("java")
 	id("groovy")
 	id("jacoco")
-	id("org.springframework.boot") version "2.7.5"
-	id("io.spring.dependency-management") version "1.0.14.RELEASE"
+	id("org.springframework.boot") version "2.7.7"
+	id("io.spring.dependency-management") version "1.1.0"
 	id("com.autonomousapps.dependency-analysis") version "1.13.1"
 	id("com.google.cloud.tools.jib") version "3.3.1"
 	id("com.coditory.integration-test") version "1.4.4"
@@ -97,53 +97,9 @@ dependencies {
 
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-	// Upgrade Spring security to 5.7.5, because older versions have a CVE vulnerability
-	// Can be removed when an updated Spring version is available
-	implementation("org.springframework.security:spring-security-config") {
+	implementation("org.springframework:spring-web") {
 		version {
-			require("5.7.5")
-			because("previous versions have a bug impacting this application")
-		}
-	}
-	implementation("org.springframework.security:spring-security-core") {
-		version {
-			require("5.7.5")
-			because("previous versions have a bug impacting this application")
-		}
-	}
-	implementation("org.springframework.security:spring-security-crypto") {
-		version {
-			require("5.7.5")
-			because("previous versions have a bug impacting this application")
-		}
-	}
-	implementation("org.springframework.security:spring-security-oauth2-client") {
-		version {
-			require("5.7.5")
-			because("previous versions have a bug impacting this application")
-		}
-	}
-	implementation("org.springframework.security:spring-security-oauth2-core") {
-		version {
-			require("5.7.5")
-			because("previous versions have a bug impacting this application")
-		}
-	}
-	implementation("org.springframework.security:spring-security-oauth2-jose") {
-		version {
-			require("5.7.5")
-			because("previous versions have a bug impacting this application")
-		}
-	}
-	implementation("org.springframework.security:spring-security-oauth2-resource-server") {
-		version {
-			require("5.7.5")
-			because("previous versions have a bug impacting this application")
-		}
-	}
-	implementation("org.springframework.security:spring-security-web") {
-		version {
-			require("5.7.5")
+			require("5.3.25")
 			because("previous versions have a bug impacting this application")
 		}
 	}
