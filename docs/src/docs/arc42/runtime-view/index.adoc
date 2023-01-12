@@ -1,0 +1,8 @@
+= Runtime view
+
+This section describes the the main processes of Trace-X and explains how how data is consumed, interaction with other components is integrated and notifications are exchanged.
+
+Please see the subpages for the relevant scenarios:
+
+- xref:overall.adoc[Overall]
+- xref:data-consumption.adoc[Data consumption process]

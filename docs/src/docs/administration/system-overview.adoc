@@ -1,0 +1,21 @@
+= System Overview
+
+The deployment contains the components required to connect Trace-X to an existing Catena-X network. This includes:
+
+* Trace-X Frontend
+* Trace-X Backend
+
+
+Optionally these components can be installed using the Trace-X backend Helm chart as well:
+
+* PostgreSQL for Trace-X Backend
+* pgadmin4
+* IRS
+* EDC Consumer
+
+Everything else needs to be provided externally.
+
+[plantuml, target=integrated-overview, format=svg]
+....
+include::../../uml-diagrams/arc42/deployment-view/level-0-int.puml[]
+....

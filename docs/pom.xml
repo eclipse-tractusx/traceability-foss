@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.eclipse.tractusx.tracex</groupId>
+	<artifactId>traceability-foss-backend-docs</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+    <name>Trace-X Documentation</name>
+    <description>Trace-X system documentation</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
+        <asciidoctorj.version>2.5.7</asciidoctorj.version>
+        <asciidoctorj.diagram.version>2.2.3</asciidoctorj.diagram.version>
+        <jruby.version>9.3.9.0</jruby.version>
+    </properties>
+
+
+    <build>
+        <defaultGoal>generate-resources</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.asciidoctor</groupId>
+                <artifactId>asciidoctor-maven-plugin</artifactId>
+                <version>${asciidoctor.maven.plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jruby</groupId>
+                        <artifactId>jruby</artifactId>
+                        <version>${jruby.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj</artifactId>
+                        <version>${asciidoctorj.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.asciidoctor</groupId>
+                        <artifactId>asciidoctorj-diagram</artifactId>
+                        <version>${asciidoctorj.diagram.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <requires>
+                        <require>asciidoctor-diagram</require>
+                    </requires>
+                    <backend>html5</backend>
+                    <sourceDirectory>src/docs</sourceDirectory>
+                    <relativeBaseDir>true</relativeBaseDir>
+                    <preserveDirectories>true</preserveDirectories>
+                    <attributes>
+                        <source-highlighter>rouge</source-highlighter>
+                        <toc>left</toc>
+                        <icons>font</icons>
+                        <icon-set>fas</icon-set>
+                    </attributes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>output-html</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>process-asciidoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
