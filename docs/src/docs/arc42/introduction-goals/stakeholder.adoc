@@ -6,7 +6,7 @@ The following table presents the stakeholders of Trace-X and their respective in
 |Who |Matters and concern
 
 a|Software Developer a|* Make an impact on Catena-X by participating in open-source software.
-* Example implementation for own Use Cases and applications.
+* Example implementation for own use cases and applications.
 
 a|Operating Environments a|* Use Trace-X as a basis for industrialization.
 * Example implementation for own business applications, further features and fast ramp up.

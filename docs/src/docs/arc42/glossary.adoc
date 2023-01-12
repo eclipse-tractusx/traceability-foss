@@ -7,12 +7,12 @@
 |Collection of various aspects from the Digital Twin. An aspect can, for example, bundle all information about a specific part.
 
 |AAS
-|**A**sset **A**dministration **S**hell (Industry 4.0). Is the implementation of the digital twin for Industrie 4.0 and enables interoperability between different companies.
+|**A**sset **A**dministration **S**hell (Industry 4.0). Is the implementation of the digital twin for Industry 4.0 and enables interoperability between different companies.
 
 |BoM
-|**B**ill **o**f **M**aterial. BoM is a list of parts and materials that a product contains and without them, manufacturing would not be possible.
+|**B**ill **o**f **M**aterial. BoM is a list of parts and materials that a product contains. Without them, manufacturing would not be possible.
 
-|BoM AsBuild
+|BoM AsBuilt
 |Bill of material lifecycle of the built entity
 
 |BPN
@@ -22,7 +22,7 @@
 |Abbreviation for Catena-X
 
 |Data Sovereignty
-|Ability to keep control over own data, shared with other participants
+|Ability to keep control over own data, that is shared with other participants
 
 |EDC
 |**E**clipse **D**ataspace **C**onnector. The connector version used in Catena-X

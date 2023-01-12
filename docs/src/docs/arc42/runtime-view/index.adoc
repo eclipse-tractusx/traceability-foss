@@ -5,4 +5,4 @@ This section describes the the main processes of Trace-X and explains how how da
 Please see the subpages for the relevant scenarios:
 
 - xref:overall.adoc[Overall]
-- xref:data-consumtion.adoc[Data consumption process]
+- xref:data-consumption.adoc[Data consumption process]

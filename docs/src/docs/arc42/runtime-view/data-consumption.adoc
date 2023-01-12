@@ -1,0 +1,13 @@
+= Data consumption
+
+This sequence diagram describes the process of fetching data from a DTR and the Catena-X ecosystem.
+
+[plantuml, target=business-context, format=svg]
+....
+include::../../../uml-diagrams/arc42/runtime-view/data-consumption-process.puml[]
+....
+
+== Overview
+
+Data is fetched by a Trace-X instance using Digital Twin Registry (DTR), Item Relationship Service (IRS) and Trace-X Consumer EDC. Data has to be provided to the Catena-X network using a EDC Provider, since Trace-X is not a data provider and therefore no possibility for data provisioning with Trace-X exists.
+For digital twins the Asset Administration Shell (AAS) standard is used. For fetching data with Trace-X, a Digital Twin Registry and an IRS instance are required. Data should represent parts, supplier and customer parts, parts tree / parts relations.

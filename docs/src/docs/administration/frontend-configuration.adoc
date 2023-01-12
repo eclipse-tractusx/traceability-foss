@@ -26,10 +26,10 @@ values.yaml https://github.com/catenax-ng/product-traceability-foss-frontend/blo
 Enables <true> or disables <false> the ingress proxy for the frontend app.
 
 ==== <ingress.className>
-The class name of the ingress proxy. E.g. nginx
+The class name of the ingress proxy. E.g. `nginx`
 
 ==== <ingress.annotations>
-Annotation for the ingress. E.g. cert-manager.io/cluster-issuer: letsencrypt-prod
+Annotation for the ingress. E.g. `cert-manager.io/cluster-issuer: letsencrypt-prod`
 
 ==== <ingress.hosts>
 The hostname of the app.

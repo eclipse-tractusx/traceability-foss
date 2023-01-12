@@ -29,7 +29,7 @@ $ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-
 
 == Deployment using ArgoCD
 
-Create a new Helm chart and use the Trace-X as a dependency.
+Create a new Helm chart and use Trace-X as a dependency.
 
 [source,yaml]
 dependencies:

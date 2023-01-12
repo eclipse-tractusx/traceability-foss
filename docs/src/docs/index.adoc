@@ -1,13 +1,13 @@
 # Item Relationship Service Documentation
 
 ## Administration Guide
-[Administration Guide](administration/administration-guide.adoc)
+xref:administration/administration-guide.adoc[Administration Guide]
 
 ## Users Manual
-[Users Manual](user/user-manual.adoc)
+xref:user/user-manual.adoc[Users Manual]
 
 ## API-Documentation
-[OpenApi specification](api-specification/api-specification.adoc)
+xref:api-specification/api-specification.adoc[OpenApi specification]
 
 ## Architecture Documentation (arc42)
 - xref:arc42/index.adoc[Single chapters]

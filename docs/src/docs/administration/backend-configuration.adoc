@@ -19,7 +19,7 @@ include::../../../../charts/product-traceability-foss-backend/values.yaml[lines=
 === Values explained
 
 ==== <springprofile>
-The different profiles for the different supported environments to bootstrap the resources which are required for the certain environments.
+The different profiles for the different supported environments to bootstrap the resources which are required for the respective environment.
 
 |===
 |Springprofile | Description
@@ -55,16 +55,16 @@ Client ID for OAuth2 (KeyCloak). Request this from your Keycloak operator.
 Client secret for OAuth2. Request this from your OAuth2 operator.
 
 ==== <oauth2.clientTokenUri>
-The URL of the Keycloak token API. Used by the Trace-X for token creation to authenticate with other services.
+The URL of the Keycloak token API. Used by Trace-X for token creation to authenticate with other services.
 
 ==== <oauth2.jwkSetUri>
-The URL of the Keycloak JWK Set. Used by the Trace-X to validate tokens when the Trace-X API is called.
+The URL of the Keycloak JWK Set. Used by Trace-X to validate tokens when Trace-X API is called.
 
 ==== <oauth2.resourceClient>
-The Client which is used to auth the backend.
+The client which is used to authenticate the backend.
 
 ==== <edc.apiKey>
-The edc api key or the path to the secret inside a vault. e.g. <path:../data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+The EDC api key or the path to the secret inside a vault. e.g. <path:../data/int/edc/controlplane#edc.api.control.auth.apikey.value>
 
 === <postgresql.enabled>
 Enables <true> or disables <false> PostgresSQL database.
@@ -91,10 +91,10 @@ Enables <true> or disables <false> the grafana instance used for resource and ap
 Enables <true> or disables <false> irs helm charts.
 
 === <pgadmin4.enabled>
-Enables <true> or disables <false> pgadmin4 console for postgreSQL database instance
+Enables <true> or disables <false> pgadmin4 console for the PostgreSQL database instance
 
 === <pgadmin4.ingress.enabled>
-Enables <true> or disables <false> ingress proxy for pgadmin4 console
+Enables <true> or disables <false> a K8S Ingress for the pgadmin4 console
 
 
 
