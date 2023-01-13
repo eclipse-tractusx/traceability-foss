@@ -118,7 +118,7 @@ dependencies {
 	implementation("org.postgresql:postgresql")
 	implementation("org.flywaydb:flyway-core")
 
-	implementation("com.auth0:java-jwt:3.19.2")
+	implementation("com.auth0:java-jwt:4.2.1")
 	implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")
 
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
