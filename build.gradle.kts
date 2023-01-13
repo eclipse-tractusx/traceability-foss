@@ -67,8 +67,8 @@ sonarqube {
 
 val commonsCodecVersion = "1.15"
 val commonsIoVersion = "2.11.0"
-val groovyVersion = "3.0.13"
-val spockBomVersion = "2.1-groovy-3.0"
+val groovyVersion = "4.0.7"
+val spockBomVersion = "2.3-groovy-4.0"
 val springfoxVersion = "3.0.0"
 val feignVersion = "12.1"
 val springCloudVersion = "2021.0.5"
@@ -80,7 +80,7 @@ val restitoVersion = "1.1.0"
 // attention when upgrading: grizzly version is linked to restito version
 val grizzlyVersion = "2.3.25"
 val jose4jVersion = "0.9.2"
-val restAssuredVersion = "5.2.0"
+val restAssuredVersion = "5.3.0"
 val resilience4jVersion = "2.0.2"
 val testContainersVersion = "1.17.6"
 val schedlockVersion = "4.42.0"
@@ -144,15 +144,16 @@ dependencies {
 	implementation("io.github.resilience4j:resilience4j-spring-boot2")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
-	testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	testImplementation(platform("org.apache.groovy:groovy-bom:$groovyVersion"))
+	testImplementation("org.apache.groovy:groovy-json")
 	testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))
 	testImplementation("org.spockframework:spock-core")
 	testImplementation("org.spockframework:spock-spring")
 
 	integrationImplementation("org.testcontainers:postgresql:$testContainersVersion")
 	integrationImplementation("org.testcontainers:spock:$testContainersVersion")
-
-	integrationImplementation("org.springframework.boot:spring-boot-starter-test")
 
 	integrationImplementation("com.xebialabs.restito:restito:$restitoVersion")
 	integrationImplementation("org.glassfish.grizzly:grizzly-http:$grizzlyVersion")
@@ -161,7 +162,7 @@ dependencies {
 	integrationImplementation("commons-io:commons-io:$commonsIoVersion")
 
 	integrationImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
-		exclude("org.apache.groovy")
+		exclude("org.codehaus.groovy")
 	}
 	integrationImplementation("org.bitbucket.b_c:jose4j:$jose4jVersion")
 }
