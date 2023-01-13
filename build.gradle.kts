@@ -3,7 +3,6 @@ plugins {
 	id("groovy")
 	id("jacoco")
 	id("org.springframework.boot") version "2.7.7"
-	id("io.spring.dependency-management") version "1.1.0"
 	id("com.autonomousapps.dependency-analysis") version "1.13.1"
 	id("com.google.cloud.tools.jib") version "3.3.1"
 	id("com.coditory.integration-test") version "1.4.4"
@@ -85,16 +84,11 @@ val resilience4jVersion = "2.0.2"
 val testContainersVersion = "1.17.6"
 val schedlockVersion = "4.42.0"
 
-dependencyManagement {
-	imports {
-		mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
-		mavenBom("io.github.resilience4j:resilience4j-bom:$resilience4jVersion")
-	}
-}
-
 dependencies {
+	developmentOnly(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
+	annotationProcessor(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 	implementation("org.springframework:spring-web") {
@@ -103,6 +97,10 @@ dependencies {
 			because("previous versions have a bug impacting this application")
 		}
 	}
+
+	implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+	implementation(platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
+	implementation(platform("io.github.resilience4j:resilience4j-bom:$resilience4jVersion"))
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
