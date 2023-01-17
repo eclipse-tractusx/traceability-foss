@@ -58,7 +58,7 @@ public class IrsService implements IrsRepository {
 
 		JobStatus jobStatus = jobDetails.jobStatus();
 		long runtime = (jobStatus.lastModifiedOn().getTime() - jobStatus.startedOn().getTime()) / 1000;
-		logger.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.jobState(), runtime);
+		logger.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.state(), runtime);
 
 		if (jobDetails.isCompleted()) {
 			bpnRepository.updateManufacturers(jobDetails.bpns());
