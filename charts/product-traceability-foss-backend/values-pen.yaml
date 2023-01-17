@@ -13,8 +13,6 @@ ingress:
   className: "nginx"
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: HTTP
-
-
   hosts:
     - host: "traceability-pen.dev.demo.catena-x.net"
       paths:
