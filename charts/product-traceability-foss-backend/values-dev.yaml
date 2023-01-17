@@ -109,6 +109,7 @@ irs-helm:
     url: https://catenax-bpdm-int.demo.catena-x.net/v1
   minioUser: <path:traceability-foss/data/dev/minio#user>
   minioPassword: <path:traceability-foss/data/dev/minio#password>
+  minioUrl: http://product-traceability-foss-backend-minio:9000
   keycloak:
     oauth2:
       clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
@@ -122,62 +123,8 @@ irs-helm:
     password: <path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
 
   minio:
-    url: http://tracex-irs-minio:9000
-
-  irs-minio:
-    namespace: product-traceability-foss
-
-    minioUser: <path:traceability-foss/data/dev/minio#user>
-    minioPassword: <path:traceability-foss/data/dev/minio#password>
-
-    ## Path where PV would be mounted on the MinIO Pod
-    mountPath: "/data"
-
-    ## Enable persistence using Persistent Volume Claims
-    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
-    ##
-    persistence:
-      enabled: false
-
-  # Values for aas wrapper subchart.
-  irs-aaswrapper:
-    namespace: product-traceability-foss
-
-    ingress:
-      enabled: true
-      className: "nginx"
-      annotations:
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      hosts:
-        - host: "tracex-irs-aas-wrapper.dev.demo.catena-x.net"
-          paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: aaswrapper
-                  port:
-                    number: 9191
-      tls:
-        - hosts:
-            - "tracex-irs-aas-wrapper.dev.demo.catena-x.net"
-          # Default secret for certificate creation already provided to your namespace
-          secretName: tls-secret
-
-    configuration:
-      properties: |-
-        web.http.port=9191
-        web.http.path=/api
-        web.http.callback.port=9192
-        web.http.callback.path=/callback
-        wrapper.consumer.edc.datamanagement.url=http://tracex-consumer-controlplane:8181/data
-        wrapper.consumer.edc.control.url=http://tracex-consumer-controlplane:9999/api/controlplane/control
-        wrapper.consumer.edc.apikey.name=X-Api-Key
-        wrapper.consumer.edc.apikey.value=<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
-        wrapper.callback.timeout=60
-        wrapper.cache.agreement.enabled=true
-        wrapper.auth.basic.tracefoss=<path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
-
+    rootUser: <path:traceability-foss/data/dev/minio#user>
+    rootPassword: <path:traceability-foss/data/dev/minio#password>
 
   # Values for consumer edc postgres
   postgresql:
