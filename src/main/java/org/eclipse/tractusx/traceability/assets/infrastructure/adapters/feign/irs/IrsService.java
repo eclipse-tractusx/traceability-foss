@@ -54,7 +54,7 @@ public class IrsService implements IrsRepository {
 	@Override
 	public List<Asset> findAssets(String globalAssetId) {
 		StartJobResponse job = irsClient.registerJob(StartJobRequest.forGlobalAssetId(globalAssetId));
-		JobResponse jobDetails = irsClient.getJobDetails(job.jobId());
+		JobResponse jobDetails = irsClient.getJobDetails(job.id());
 
 		JobStatus jobStatus = jobDetails.jobStatus();
 		long runtime = (jobStatus.lastModifiedOn().getTime() - jobStatus.startedOn().getTime()) / 1000;

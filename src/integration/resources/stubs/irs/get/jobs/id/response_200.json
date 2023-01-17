@@ -1,13 +1,13 @@
 {
 	"job": {
-		"jobId": "ff51b6b2-c3b5-43b8-befd-ae0a011f604b",
+		"id": "ff51b6b2-c3b5-43b8-befd-ae0a011f604b",
 		"globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
 		"state": "COMPLETED",
 		"exception": null,
 		"createdOn": "2022-09-01T10:49:30.099898402Z",
 		"startedOn": "2022-09-01T10:49:30.100119699Z",
 		"lastModifiedOn": "2022-09-01T10:53:12.845021701Z",
-		"jobCompleted": "2022-09-01T10:53:12.845072801Z",
+		"completedOn": "2022-09-01T10:53:12.845072801Z",
 		"owner": "sa-cl6-cx-9",
 		"summary": {
 			"asyncFetchedItems": {
@@ -1210,7 +1210,7 @@
 					},
 					{
 						"value": "KR-09",
-						"key": "ManufacturerPartID"
+						"key": "manufacturerPartID"
 					},
 					{
 						"value": "OMA-TGFAYUHXFLHHUQQMPLTE",
@@ -1861,5 +1861,30 @@
 			}
 		}
 	],
-	"bpns": []
+	"bpns": [
+		{
+			"manufacturerId": "BPNL00000003AYRE",
+			"manufacturerName": "Manufacturer Name 1"
+		},
+		{
+			"manufacturerId": "BPNL00000003B5MJ",
+			"manufacturerName": "Manufacturer Name 2"
+		},
+		{
+			"manufacturerId": "BPNL00000003B2OM",
+			"manufacturerName": "Manufacturer Name 3"
+		},
+		{
+			"manufacturerId": "BPNL00000003B0Q0",
+			"manufacturerName": "Manufacturer Name 4"
+		},
+		{
+			"manufacturerId": "BPNL00000003AXS3",
+			"manufacturerName": "Manufacturer Name 5"
+		},
+		{
+			"manufacturerId": "BPNL00000003B3NX",
+			"manufacturerName": "Manufacturer Name 6"
+		}
+	]
 }
