@@ -79,6 +79,9 @@ global:
   enablePrometheus: false
   enableGrafana: false
 
+#########################
+# IRS configuration     #
+#########################
 irs-helm:
   enabled: true
 
@@ -126,7 +129,12 @@ irs-helm:
     rootUser: <path:traceability-foss/data/dev/minio#user>
     rootPassword: <path:traceability-foss/data/dev/minio#password>
 
-  # Values for consumer edc postgres
+###################################
+# IRS EDC Consumer configuration  #
+###################################
+irs-edc-consumer:
+  enabled: true
+
   postgresql:
     nameOverride: "tracex-consumer-edc-postgresql"
     fullnameOverride: "tracex-consumer-edc-postgresql"
