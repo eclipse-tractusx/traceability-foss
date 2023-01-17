@@ -15,5 +15,5 @@ dependencies:
     condition: pgadmin4.enabled
   - name: irs-helm
     repository: https://catenax-ng.github.io/tx-item-relationship-service
-    version: 2.3.0
+    version: 3.0.1
     condition: irs-helm.enabled

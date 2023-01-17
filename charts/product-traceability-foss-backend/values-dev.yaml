@@ -87,9 +87,6 @@ irs-helm:
 
   namespace: product-traceability-foss
 
-  image:
-    tag: "1.3.0"
-
   springprofile: dev
 
   irsUrl: "https://tracex-irs.dev.demo.catena-x.net"
