@@ -110,9 +110,11 @@ irs-helm:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1
   bpdm:
     url: https://catenax-bpdm-int.demo.catena-x.net/v1
+
   minioUser: <path:traceability-foss/data/dev/minio#user>
   minioPassword: <path:traceability-foss/data/dev/minio#password>
   minioUrl: http://product-traceability-foss-backend-minio:9000
+
   keycloak:
     oauth2:
       clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
@@ -128,6 +130,8 @@ irs-helm:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
+    nameOverride: "tracex-irs-minio"
+    fullnameOverride: "tracex-irs-minio"
     rootUser: <path:traceability-foss/data/dev/minio#user>
     rootPassword: <path:traceability-foss/data/dev/minio#password>
 
