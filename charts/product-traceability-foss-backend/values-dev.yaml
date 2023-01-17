@@ -95,6 +95,7 @@ irs-helm:
   irsUrl: "https://tracex-irs.dev.demo.catena-x.net"
 
   ingress:
+    enabled: true
     hosts:
       - host: "tracex-irs.dev.demo.catena-x.net"
         paths:
