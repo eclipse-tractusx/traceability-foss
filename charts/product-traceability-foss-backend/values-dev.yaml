@@ -120,10 +120,12 @@ irs-helm:
       clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
-  aasWrapper:
-    host: http://product-traceability-foss-backend-irs-aaswrapper:9191/api/service
-    username: tracefoss
-    password: <path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
+  edc:
+    controlplane:
+      endpoint:
+        data: http://tracex-consumer-controlplane
+      apikey:
+        secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
     rootUser: <path:traceability-foss/data/dev/minio#user>
