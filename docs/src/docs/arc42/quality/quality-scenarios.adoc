@@ -12,13 +12,13 @@ The initial letters of the scenario identifiers (IDs) in the following table eac
 |A senior developer looks for a reference implementation of the Traceability Use case functionalities. He or she gets it within the source code.
 
 |M03
-|A developer wants to implement new features. He is able to add it to the source code easily.
+|A developer wants to implement new features. He or she is able to add it to the source code easily.
 
 |M04
 |A developer wants to implement a new Frontend or change some components. The efforts can be reduced by using the standardized API endpoints to do so.
 
 |I01
-|An User wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.
+|An user wants to switch from FOSS application to a COTS application or the other way round. This is possible since the application is interoperable with other applications within the CX network.
 
 |F01
 |The application uses the Catena-X standards to ensure the correct interoperability and exchange with other participants.
