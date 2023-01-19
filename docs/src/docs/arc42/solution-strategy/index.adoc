@@ -1,3 +1,7 @@
 = Solution strategy
 
-== Introduction
+This section contains summarized architectural overview. A comparison of the most important goals and the corresponding solution approaches.
+
+include::introduction.adoc[leveloffset=+1]
+include::technology.adoc[leveloffset=+1]
+include::structure.adoc[leveloffset=+1]
