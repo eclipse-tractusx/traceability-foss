@@ -21,8 +21,8 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest.assets;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
-public record GetDetailInformationRequest(@NotNull(message = "assetIds must be present") List<String> assetIds) {
+public record GetDetailInformationRequest(@Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds") List<String> assetIds) {
 }

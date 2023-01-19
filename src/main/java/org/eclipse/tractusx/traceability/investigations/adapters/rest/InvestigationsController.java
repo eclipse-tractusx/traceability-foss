@@ -99,7 +99,7 @@ public class InvestigationsController {
 
 	@PostMapping("/{investigationId}/close")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void closeInvestigation(@PathVariable Long investigationId, @RequestBody CloseInvestigationRequest closeInvestigationRequest) {
+	public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseInvestigationRequest closeInvestigationRequest) {
 		investigationsPublisherService.closeInvestigation(traceabilityProperties.getBpn(), investigationId, closeInvestigationRequest.reason());
 	}
 }

@@ -48,7 +48,7 @@ public class PersistentAssetsRepository implements AssetRepository {
 	public Asset getAssetById(String assetId) {
 		return assetsRepository.findById(assetId)
 			.map(this::toAsset)
-			.orElse(null);
+			.orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
 	}
 
 	@Override
