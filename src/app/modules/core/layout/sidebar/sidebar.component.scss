@@ -32,8 +32,13 @@
 .sidebar {
   will-change: width;
   transition: width 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
+  width: 56px;
   @apply flex flex-col overflow-hidden z-auto;
   order: 0;
+
+  &--expanded {
+    width: 240px;
+  }
 }
 
 .sidebar-content {

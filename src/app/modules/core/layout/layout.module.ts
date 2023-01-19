@@ -25,7 +25,7 @@ import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { LayoutRoutingModule } from './layout.routing';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
-import { PrivateLayoutComponent } from './private-layout/private-layout.component';
+import { LayoutComponent } from './layout/layout.component';
 import { ResizerComponent } from './resizer/resizer.component';
 import { SidebarSectionComponent } from './sidebar/sidebar-section/sidebar-section.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -34,7 +34,7 @@ import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.compo
 
 @NgModule({
   declarations: [
-    PrivateLayoutComponent,
+    LayoutComponent,
     NavBarComponent,
     ResizerComponent,
     SidebarComponent,

@@ -51,7 +51,6 @@ export const readDynamicEnv = () => {
 export const environment = {
   ..._environment,
   production: true,
-  multiTenant: true,
   authDisabled: false,
   mockService: false,
   keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',

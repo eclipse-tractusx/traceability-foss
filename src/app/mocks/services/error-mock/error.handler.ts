@@ -19,38 +19,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
-import { AuthService } from '@core/auth/auth.service';
-import { UserService } from '@core/user/user.service';
-import { LayoutState } from '../service/layout.state';
+import { environment } from '@env';
+import { rest } from 'msw';
+import { errorMessageMapping } from './error.model';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class LayoutFacade {
-  constructor(
-    private readonly layoutState: LayoutState,
-    private readonly userService: UserService,
-    private readonly authService: AuthService,
-  ) {}
+export const errorHandler = [
+  rest.get(`${environment.apiUrl}/error/:statusCode`, (req, res, ctx) => {
+    const { statusCode } = req.params as { statusCode: string };
 
-  public get userInformation(): { name: string; email: string; role: string } {
-    return {
-      name: `${this.userService.firstname} ${this.userService.surname}`,
-      email: `${this.userService.email}`,
-      role: `${this.userService.roles.join(', ')}`,
-    };
-  }
+    const errorResponse = { status: statusCode, message: errorMessageMapping[statusCode] };
+    return res(ctx.status(Number.parseInt(statusCode, 10)), ctx.json(errorResponse));
+  }),
 
-  public get realmName(): string {
-    return this.userService.firstname;
-  }
+  rest.get(`${environment.apiUrl}/error/:statusCode/:errorCode`, (req, res, ctx) => {
+    const { statusCode, errorCode } = req.params as { statusCode: string; errorCode: string };
 
-  public get breadcrumbLabel(): string {
-    return this.layoutState.breadcrumbLabel;
-  }
-
-  public logOut(): void {
-    this.authService.logOut();
-  }
-}
+    const errorResponse = { status: errorCode, message: errorMessageMapping[statusCode] };
+    return res(ctx.status(Number.parseInt(statusCode, 10)), ctx.json(errorResponse));
+  }),
+];

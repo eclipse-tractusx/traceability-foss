@@ -27,6 +27,7 @@ import {
   otherPartsHandlersTest,
   partsHandlersTest,
 } from '../app/mocks/services';
+import { errorHandler } from '../app/mocks/services/error-mock/error.handler';
 
 const handlers = [
   ...dashboardHandler,
@@ -34,5 +35,6 @@ const handlers = [
   ...partsHandlersTest,
   ...investigationsHandlers,
   ...adminHandler,
+  ...errorHandler,
 ];
 export const server = setupWorker(...handlers);

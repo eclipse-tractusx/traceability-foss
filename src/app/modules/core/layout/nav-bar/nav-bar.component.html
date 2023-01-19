@@ -23,7 +23,7 @@ SPDX-License-Identifier: Apache-2.0
   <nav class="navbar">
     <section class="navbar-header">
       <div class="navbar-header__container">
-        <div class="navbar-logo-content cursor-pointer" (click)="this.navigateToHome()">
+        <div class="navbar-logo-content cursor-pointer" data-testid="nav-bar--logo" (click)="this.navigateToHome()">
           <img src="/assets/images/logo.svg" alt="Trace-x" />
         </div>
       </div>
@@ -37,7 +37,7 @@ SPDX-License-Identifier: Apache-2.0
           <!-- Profile dropdown -->
           <div class="navbar-menu-content">
             <div (click)="this.expand($event)">
-              <button class="navbar-menu-btn" id="user-menu" aria-haspopup="true">
+              <button class="navbar-menu-btn" data-testid="user-menu" id="user-menu" aria-haspopup="true">
                 <span class="sr-only">{{ 'layout.nav.openUserMenu' | i18n }}</span>
                 <app-avatar [imageUrl]="realmLogo"></app-avatar>
               </button>

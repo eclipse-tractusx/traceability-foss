@@ -19,17 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Injectable } from '@angular/core';
-import { CanDeactivate } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 
-export interface CanComponentDeactivate {
-  canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
-}
-
-@Injectable()
-export class CanDeactivateGuard implements CanDeactivate<CanComponentDeactivate> {
-  public canDeactivate(component: CanComponentDeactivate): Observable<boolean> | Promise<boolean> | boolean {
-    return component.canDeactivate?.() ?? true;
-  }
+@Component({
+  selector: 'app-private-layout',
+  templateUrl: './layout.component.html',
+  styleUrls: ['./layout.component.scss'],
+  encapsulation: ViewEncapsulation.None,
+})
+export class LayoutComponent {
+  public expanded = false;
 }

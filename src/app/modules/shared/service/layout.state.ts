@@ -26,14 +26,9 @@ import { State } from '../model/state';
   providedIn: 'root',
 })
 export class LayoutState {
-  private readonly isSideBarExpanded$: State<boolean> = new State<boolean>(false);
   private readonly _breadcrumbLabel: string;
 
   public get breadcrumbLabel(): string {
     return this._breadcrumbLabel;
-  }
-
-  public set isSideBarExpanded(isSideBarExpanded: boolean) {
-    this.isSideBarExpanded$.update(isSideBarExpanded);
   }
 }

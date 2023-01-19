@@ -111,7 +111,11 @@ export class Tree {
       .attr('height', this.height)
       .attr('font-size', 10)
       .classed('tree--element', true);
-    const cameraBody = svg.append('g').attr('id', this.id + '--camera');
+
+    const cameraBody = svg
+      .append('g')
+      .attr('id', this.id + '--camera')
+      .attr('data-testid', this.id + '--camera');
 
     this.zoom = d3.zoom().scaleExtent(this.zoomConfig);
     this.zoom.on('zoom', ({ transform }) => {

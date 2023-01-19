@@ -21,6 +21,7 @@
 
 import { setupWorker } from 'msw';
 import { adminHandler, dashboardHandler, investigationsHandlers, otherPartsHandlers, partsHandlers } from './services';
+import { errorHandler } from './services/error-mock/error.handler';
 
 const handlers = [
   ...dashboardHandler,
@@ -28,5 +29,6 @@ const handlers = [
   ...partsHandlers,
   ...investigationsHandlers,
   ...adminHandler,
+  ...errorHandler,
 ];
 export const worker = setupWorker(...handlers);

@@ -46,6 +46,8 @@ declare const require: {
   };
 };
 
+export const sleepForTests = async (ms: number) => await new Promise(resolve => setTimeout(resolve, ms));
+
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
 
