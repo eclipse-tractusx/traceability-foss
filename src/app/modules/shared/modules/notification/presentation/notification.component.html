@@ -24,7 +24,8 @@ SPDX-License-Identifier: Apache-2.0
 <mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)" appTabAsPanel>
   <mat-tab>
     <ng-template mat-tab-label>
-      <span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
+      <mat-icon class="mr-2">drafts</mat-icon
+      ><span [id]="receivedTabLabelId">{{ translationContext + '.tabs.received' | i18n }} </span>
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"
@@ -39,7 +40,8 @@ SPDX-License-Identifier: Apache-2.0
 
   <mat-tab>
     <ng-template mat-tab-label>
-      <span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
+      <mat-icon class="mr-2">send</mat-icon
+      ><span [id]="queuedAndRequestedTabLabelId">{{ translationContext + '.tabs.queuedAndRequested' | i18n }} </span>
     </ng-template>
     <app-notifications-tab
       *ngIf="menuActionsConfig"

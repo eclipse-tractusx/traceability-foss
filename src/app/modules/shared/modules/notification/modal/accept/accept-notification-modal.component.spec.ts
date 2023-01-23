@@ -20,18 +20,18 @@
  ********************************************************************************/
 
 import { NotificationStatus } from '@shared/model/notification.model';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { renderCloseModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
+import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
+import { renderAcceptModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
 import { screen, waitFor } from '@testing-library/angular';
 
-describe('CloseNotificationModalComponent', () => {
-  it('should create close modal', async () => {
-    await renderCloseModal(NotificationStatus.APPROVED);
-    const title = await waitFor(() => screen.getByText('Close of investigation'));
-    const hint = await waitFor(() => screen.getByText('Are you sure you want to close this investigation?'));
-    const hint2 = await waitFor(() => screen.getByText('Enter the reason for close action.'));
+describe('AcceptNotificationModalComponent', () => {
+  it('should create accept modal', async () => {
+    await renderAcceptModal(NotificationStatus.ACKNOWLEDGED);
+    const title = await waitFor(() => screen.getByText('Accept of investigation'));
+    const hint = await waitFor(() => screen.getByText('Are you sure you want to accept this investigation?'));
+    const hint2 = await waitFor(() => screen.getByText('Enter the reason for accepting this investigation.'));
     const buttonL = await waitFor(() => screen.getByText('Cancel'));
-    const buttonR = await waitFor(() => screen.getByText('Close'));
+    const buttonR = await waitFor(() => screen.getByText('Accept'));
 
     expect(title).toBeInTheDocument();
     expect(hint).toBeInTheDocument();
@@ -41,15 +41,15 @@ describe('CloseNotificationModalComponent', () => {
   });
 
   it('should render investigation description', async () => {
-    const { notification } = await renderCloseModal(NotificationStatus.APPROVED);
+    const { notification } = await renderAcceptModal(NotificationStatus.ACKNOWLEDGED);
     const description = await waitFor(() => screen.getByText(notification.description));
 
     expect(description).toBeInTheDocument();
   });
 
   it('should check validation of textarea', async () => {
-    const { fixture } = await renderCloseModal(NotificationStatus.APPROVED);
-    const buttonR = await waitFor(() => screen.getByText('Close'));
+    const { fixture } = await renderAcceptModal(NotificationStatus.ACKNOWLEDGED);
+    const buttonR = await waitFor(() => screen.getByText('Accept'));
     buttonR.click();
 
     const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
@@ -65,16 +65,16 @@ describe('CloseNotificationModalComponent', () => {
   });
 
   it('should call close function', async () => {
-    const { fixture } = await renderCloseModal(NotificationStatus.APPROVED);
+    const { fixture } = await renderAcceptModal(NotificationStatus.ACKNOWLEDGED);
 
     const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
     textArea.value = 'Some Text Some Text Some Text';
     textArea.dispatchEvent(new Event('input'));
     fixture.detectChanges();
 
-    const buttonR = await waitFor(() => screen.getByText('Close'));
+    const buttonR = await waitFor(() => screen.getByText('Accept'));
     buttonR.click();
 
-    await waitFor(() => expect(screen.getByText('Investigation was closed successfully.')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('Investigation was accepted successfully.')).toBeInTheDocument());
   });
 });

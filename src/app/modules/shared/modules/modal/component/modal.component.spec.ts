@@ -48,8 +48,6 @@ describe('modalComponent', () => {
         { provide: MatDialogRef, useValue: {} },
       ],
       imports: [SharedModule],
-      translations: [],
-      componentProperties: {},
     });
   };
 

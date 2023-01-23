@@ -20,7 +20,12 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
+import {
+  Notification,
+  NotificationResponse,
+  Notifications,
+  NotificationStatus,
+} from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -36,13 +41,15 @@ describe('NotificationsInboxComponent', () => {
 
   beforeEach(() => (clickHandler = jasmine.createSpy()));
 
+  const mapNotificationResponse = (data: NotificationResponse): Notification => {
+    const isFromSender = data.channel === 'SENDER';
+    delete data.channel;
+    return { ...data, createdDate: new CalendarDateModel(data.createdDate), isFromSender };
+  };
+
   const renderNotificationsInbox = () => {
-    const qContent: Notification[] = buildMockInvestigations([NotificationStatus.CREATED]).map(data => {
-      return { ...data, createdDate: new CalendarDateModel(data.createdDate) };
-    });
-    const qarContent: Notification[] = buildMockInvestigations([NotificationStatus.RECEIVED]).map(data => {
-      return { ...data, createdDate: new CalendarDateModel(data.createdDate) };
-    });
+    const qContent = buildMockInvestigations([NotificationStatus.CREATED], 'SENDER').map(mapNotificationResponse);
+    const qarContent = buildMockInvestigations([NotificationStatus.RECEIVED], 'RECEIVER').map(mapNotificationResponse);
 
     const queuedAndRequestedNotifications$: Observable<View<Notifications>> = of({
       data: { content: qContent, page: 0, pageCount: 1, pageSize: 5, totalItems: 1 },

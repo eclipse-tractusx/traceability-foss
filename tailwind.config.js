@@ -128,18 +128,25 @@ module.exports = {
 
       footer: '#fff5cc',
 
-      // Status colors
-      startLight: '#d2edfc',
-      startDark: '#06b2ff',
-      startLightContrast: '#def2fc',
+      // Status colors for notification badges
 
-      pendingLight: '#fff0d4',
-      pendingDark: '#feb104',
-      pendingLightContrast: '#fff3da',
+      createdLight: '#f2f3fb',
+      createdDark: '#000000',
 
-      completeLight: '#ddf2dd',
-      completeDark: '#2ca62c',
-      completeLightContrast: '#e3f2e3',
+      receivedLight: '#e1f1fe',
+      receivedDark: '#2b4078',
+
+      pendingLight: '#ffecbd',
+      pendingDark: '#975b26',
+
+      confirmedLight: '#e2f6c7',
+      confirmedDark: '#5c8d46',
+
+      declinedLight: '#fee7e2',
+      declinedDark: '#ff5330',
+
+      closedLight: '#ffffff',
+      closedDark: '#5d3416',
 
       qualityTypeOk: '#3db014',
       qualityTypeMinor: '#ffd74a',

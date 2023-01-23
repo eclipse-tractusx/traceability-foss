@@ -25,12 +25,12 @@ import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('Navbar', () => {
-  it('should render ', async () => {
+  it('should render navbar', async () => {
     await renderComponent(NavBarComponent, {
       imports: [LayoutModule],
     });
 
-    expect(await waitFor(() => screen.getByText('Mock User'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('OEM A'))).toBeInTheDocument();
   });
 
   it('should open details', async () => {
@@ -40,7 +40,7 @@ describe('Navbar', () => {
 
     const userAvatarButton = await waitFor(() => screen.getByTestId('user-menu'));
     userAvatarButton.click();
-    expect((await waitFor(() => screen.getAllByText('Mock User'))).length).toEqual(2);
+    expect((await waitFor(() => screen.getAllByText('OEM A'))).length).toEqual(2);
     expect(await waitFor(() => screen.getByText('user'))).toBeInTheDocument();
     expect(await waitFor(() => screen.getByText('mock.user@foss.de'))).toBeInTheDocument();
     expect(await waitFor(() => screen.getByText('Sign out'))).toBeInTheDocument();

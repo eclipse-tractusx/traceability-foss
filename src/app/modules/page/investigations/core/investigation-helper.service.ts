@@ -43,15 +43,37 @@ export class InvestigationHelperService {
     return this.investigationsFacade.closeInvestigation(id, reason);
   }
 
-  public showApproveButton(notification: Notification): boolean {
-    return notification?.status === NotificationStatus.CREATED && this.roleService.hasAccess('supervisor');
+  public acknowledge(id: string): Observable<void> {
+    return this.investigationsFacade.acknowledgeInvestigation(id);
   }
 
-  public showCancelButton(notification: Notification): boolean {
-    return notification?.status === NotificationStatus.CREATED && this.roleService.hasAccess('supervisor');
+  public accept(id: string, reason: string): Observable<void> {
+    return this.investigationsFacade.acceptInvestigation(id, reason);
   }
 
-  public showCloseButton(notification: Notification): boolean {
-    return notification?.status === NotificationStatus.APPROVED && this.roleService.hasAccess('supervisor');
+  public decline(id: string, reason: string): Observable<void> {
+    return this.investigationsFacade.declineInvestigation(id, reason);
+  }
+
+  public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
+    return isFromSender && status === NotificationStatus.CREATED && this.roleService.isSupervisor();
+  }
+
+  public showCancelButton({ status, isFromSender } = {} as Notification): boolean {
+    return isFromSender && status === NotificationStatus.CREATED && this.roleService.isSupervisor();
+  }
+
+  public showCloseButton({ status, isFromSender } = {} as Notification): boolean {
+    const disallowedStatus = [NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED];
+    return isFromSender && !disallowedStatus.includes(status) && this.roleService.isSupervisor();
+  }
+  public showAcknowledgeButton({ status, isFromSender } = {} as Notification): boolean {
+    return !isFromSender && status === NotificationStatus.RECEIVED && this.roleService.isSupervisor();
+  }
+  public showAcceptButton({ status, isFromSender } = {} as Notification): boolean {
+    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isSupervisor();
+  }
+  public showDeclineButton({ status, isFromSender } = {} as Notification): boolean {
+    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isSupervisor();
   }
 }
