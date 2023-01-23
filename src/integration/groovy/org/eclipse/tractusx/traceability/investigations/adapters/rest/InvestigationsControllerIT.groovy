@@ -255,8 +255,7 @@ class InvestigationsControllerIT extends IntegrationSpecification implements Irs
 			given()
 				.contentType(ContentType.JSON)
 				.body(asJson([
-					reason    : "Out of date",
-					description: description
+					reason    : description
 				]))
 				.header(jwtAuthorization(ADMIN))
 				.when()

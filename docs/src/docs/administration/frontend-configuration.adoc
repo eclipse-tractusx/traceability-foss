@@ -1,0 +1,44 @@
+[#_frontend_configuration]
+= Frontend Configuration
+//:allow-uri-read:
+:icons: font
+:icon-set: fas
+
+
+Take the following template and adjust the configuration parameters (<placeholders> mark the relevant spots).
+You can define the URLs as well as most of the secrets yourself.
+
+The OAuth2, Vault configuration / secrets depend on your setup and might need to be provided externally.
+
+== Helm configuration Trace-X Frontend (values.yaml)
+
+// TODO enable url include of values.yaml file
+// [source,yaml]
+// ----
+// include::https://github.com/catenax-ng/product-traceability-foss-frontend/blob/main/charts/product-traceability-foss-frontend/values.yaml[lines=91..-1]
+// ----
+
+values.yaml https://github.com/catenax-ng/product-traceability-foss-frontend/blob/main/charts/product-traceability-foss-frontend/values.yaml
+
+=== Values explained
+
+==== <ingress.enabled>
+Enables <true> or disables <false> the ingress proxy for the frontend app.
+
+==== <ingress.className>
+The class name of the ingress proxy. E.g. `nginx`
+
+==== <ingress.annotations>
+Annotation for the ingress. E.g. `cert-manager.io/cluster-issuer: letsencrypt-prod`
+
+==== <ingress.hosts>
+The hostname of the app.
+
+==== <ingress.tls>
+The tls settings of the app.
+
+==== <livenessProbe>
+Following Catena-X Helm Best Practices https://catenax-ng.github.io/docs/kubernetes-basics/helm
+
+==== <readinessProbe>
+Following Catena-X Helm Best Practices https://catenax-ng.github.io/docs/kubernetes-basics/helm

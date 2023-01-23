@@ -91,7 +91,7 @@ public class AssetsController {
 	}
 
 	@PostMapping("/assets/detail-information")
-	public List<Asset> getDetailInformation(@RequestBody GetDetailInformationRequest getDetailInformationRequest) {
+	public List<Asset> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
 		return assetRepository.getAssetsById(getDetailInformationRequest.assetIds());
 	}
 }

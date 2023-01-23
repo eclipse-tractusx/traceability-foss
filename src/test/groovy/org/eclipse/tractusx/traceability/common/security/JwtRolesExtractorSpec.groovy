@@ -26,6 +26,7 @@ import com.nimbusds.jose.shaded.json.JSONObject
 import org.springframework.security.oauth2.jwt.Jwt
 import spock.lang.Specification
 
+import java.time.Duration
 import java.time.Instant
 
 class JwtRolesExtractorSpec extends Specification {
@@ -104,7 +105,7 @@ class JwtRolesExtractorSpec extends Specification {
 			.issuer(UUID.randomUUID().toString())
 			.subject(UUID.randomUUID().toString())
 			.issuedAt(Instant.now())
-			.expiresAt(Instant.now() + 60)
+			.expiresAt(Instant.now() + Duration.ofSeconds(60))
 			.header("alg", "RS256")
 			.header("use", "sig")
 			.header("typ", "JWT")

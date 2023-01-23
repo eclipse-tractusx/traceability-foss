@@ -78,10 +78,6 @@ public class AssetService {
 	public Asset updateQualityType(String assetId, QualityType qualityType) {
 		Asset foundAsset = assetRepository.getAssetById(assetId);
 
-		if (foundAsset == null) {
-			throw new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId));
-		}
-
 		foundAsset.updateQualityType(qualityType);
 
 		return assetRepository.save(foundAsset);

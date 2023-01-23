@@ -6,7 +6,7 @@
 ## Clone the source locally:
 
 ```sh
-$ git clone git@github.com:catenax-ng/product-traceability-foss-backend.git
+$ git clone git@github.com:eclipse-tractusx/traceability-foss-backend.git
 $ cd product-traceability-foss-backend
 ```
 

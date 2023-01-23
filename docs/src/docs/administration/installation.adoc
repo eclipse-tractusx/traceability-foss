@@ -1,0 +1,47 @@
+= Installation
+
+The Trace-X Helm Backend repository can be found here:
+
+https://catenax-ng.github.io/product-traceability-foss-backend/
+
+The Trace-X Helm Frontend repository can be found here:
+
+https://catenax-ng.github.io/product-traceability-foss-frontend/
+
+Use the latest release of the "trace-x-helm" chart.
+It contains all required dependencies.
+
+Supply the required configuration properties (see chapter xref:configuration.adoc#_configuration[Configuration]) in a values.yaml file or override the settings directly.
+
+== Deployment using Helm
+
+Add the Trace-X Backend Helm repository:
+
+[listing]
+$ helm repo add traceability-foss-backend https://catenax-ng.github.io/product-traceability-foss-backend
+$ helm repo add traceability-foss-frontend https://catenax-ng.github.io/product-traceability-foss-frontend
+
+Then install the Helm chart into your cluster:
+
+[listing]
+$ helm install -f your-values.yaml traceability-foss-backend traceability-foss-backend/product-traceability-foss-backend
+$ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-frontend/product-traceability-foss-frontend
+
+== Deployment using ArgoCD
+
+Create a new Helm chart and use Trace-X as a dependency.
+
+[source,yaml]
+dependencies:
+  - name: traceability-foss-frontend
+    alias: frontend
+    version: x.x.x
+    repository: "https://catenax-ng.github.io/product-traceability-foss-frontend/"
+  - name: traceability-foss-backend
+    alias: backend
+    version: x.x.x
+    repository: "https://catenax-ng.github.io/product-traceability-foss-backend/"
+
+Then provide your configuration as the values.yaml of that chart.
+
+Create a new application in ArgoCD and point it to your repository / Helm chart folder.

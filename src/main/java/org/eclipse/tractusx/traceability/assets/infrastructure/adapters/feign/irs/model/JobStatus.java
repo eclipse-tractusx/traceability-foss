@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.i
 import java.util.Date;
 
 public record JobStatus(
-	String jobState,
+	String state,
 	Date startedOn,
 	Date lastModifiedOn
 ) {}

@@ -1,0 +1,100 @@
+[#_backend_configuration]
+= Backend Configuration
+:icons: font
+:icon-set: fas
+:hide-uri-scheme:
+
+Take the following template and adjust the configuration parameters (<placeholders> mark the relevant spots).
+You can define the URLs as well as most of the secrets yourself.
+
+The OAuth2, Vault configuration / secrets depend on your setup and might need to be provided externally.
+
+== Helm configuration Trace-X Backend (values.yaml)
+
+[source,yaml]
+----
+include::../../../../charts/product-traceability-foss-backend/values.yaml[lines=121..-1]
+----
+
+=== Values explained
+
+==== <springprofile>
+The different profiles for the different supported environments to bootstrap the resources which are required for the respective environment.
+
+|===
+|Springprofile | Description
+
+a| dev
+a| Development environment
+
+a| int
+a| Integration environment
+
+|===
+
+==== <healthCheck.enabled>
+Enables <true> or disables <false>  https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes[livenessProbe]
+and https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes[readinessProbe]
+
+==== <traceability.bpn>
+BPN (Business Partner Number) for the traceability app used to identify the partner in the network.
+
+==== <datasource.url>
+The jdbc connection string to the database. jdbc:postgresql://${url}:${port}/trace
+
+==== <datasource.username>
+The username of the datasource e.g. "trace"
+
+==== <datasource.password>
+The password of the datasource or the path to the vault which contains the secret. <path:../data/int/database#tracePassword>
+
+==== <oauth2.clientId>
+Client ID for OAuth2 (KeyCloak). Request this from your Keycloak operator.
+
+==== <oauth2.clientSecret>
+Client secret for OAuth2. Request this from your OAuth2 operator.
+
+==== <oauth2.clientTokenUri>
+The URL of the Keycloak token API. Used by Trace-X for token creation to authenticate with other services.
+
+==== <oauth2.jwkSetUri>
+The URL of the Keycloak JWK Set. Used by Trace-X to validate tokens when Trace-X API is called.
+
+==== <oauth2.resourceClient>
+The client which is used to authenticate the backend.
+
+==== <edc.apiKey>
+The EDC api key or the path to the secret inside a vault. e.g. <path:../data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+
+=== <postgresql.enabled>
+Enables <true> or disables <false> PostgresSQL database.
+
+=== <postgresql.auth.postgresPassword>
+Database password for the *postgres* user or the path to the secret inside a vault. <path:.../data/int/database#password>
+
+=== <postgresql.auth.password>
+Database password for the application user of the path to the secret inside a vault. <path:.../data/int/database#password>
+
+=== <postgresql.auth.database>
+The name  of the database instance.
+
+=== <postgresql.auth.username>
+The user for the database instance.
+
+=== <global.enablePrometheus>
+Enables <true> or disables <false> the prometheus instance.
+
+=== <global.enableGrafana>
+Enables <true> or disables <false> the grafana instance used for resource and application monitoring.
+
+=== <irs-helm.enabled>
+Enables <true> or disables <false> irs helm charts.
+
+=== <pgadmin4.enabled>
+Enables <true> or disables <false> pgadmin4 console for the PostgreSQL database instance
+
+=== <pgadmin4.ingress.enabled>
+Enables <true> or disables <false> a K8S Ingress for the pgadmin4 console
+
+
+

@@ -79,6 +79,9 @@ global:
   enablePrometheus: false
   enableGrafana: false
 
+#########################
+# IRS configuration     #
+#########################
 irs-helm:
   enabled: true
 
@@ -87,14 +90,12 @@ irs-helm:
 
   namespace: product-traceability-foss
 
-  image:
-    tag: "1.3.0"
-
   springprofile: dev
 
   irsUrl: "https://tracex-irs.dev.demo.catena-x.net"
 
   ingress:
+    enabled: true
     hosts:
       - host: "tracex-irs.dev.demo.catena-x.net"
         paths:
@@ -104,14 +105,18 @@ irs-helm:
       - hosts:
           - "tracex-irs.dev.demo.catena-x.net"
         secretName: tls-secret
+
   digitalTwinRegistry:
     url: https://trace-x-registry.dev.demo.catena-x.net
   semanticsHub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1
   bpdm:
     url: https://catenax-bpdm-int.demo.catena-x.net/v1
+
   minioUser: <path:traceability-foss/data/dev/minio#user>
   minioPassword: <path:traceability-foss/data/dev/minio#password>
+  minioUrl: http://tracex-irs-minio:9000
+
   keycloak:
     oauth2:
       clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
@@ -119,70 +124,25 @@ irs-helm:
       clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
-  aasWrapper:
-    host: http://product-traceability-foss-backend-irs-aaswrapper:9191/api/service
-    username: tracefoss
-    password: <path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
+  edc:
+    controlplane:
+      endpoint:
+        data: http://tracex-consumer-controlplane:8181/data
+      apikey:
+        secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
-    url: http://tracex-irs-minio:9000
+    nameOverride: "tracex-irs-minio"
+    fullnameOverride: "tracex-irs-minio"
+    rootUser: <path:traceability-foss/data/dev/minio#user>
+    rootPassword: <path:traceability-foss/data/dev/minio#password>
 
-  irs-minio:
-    namespace: product-traceability-foss
+###################################
+# IRS EDC Consumer configuration  #
+###################################
+irs-edc-consumer:
+  enabled: true
 
-    minioUser: <path:traceability-foss/data/dev/minio#user>
-    minioPassword: <path:traceability-foss/data/dev/minio#password>
-
-    ## Path where PV would be mounted on the MinIO Pod
-    mountPath: "/data"
-
-    ## Enable persistence using Persistent Volume Claims
-    ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
-    ##
-    persistence:
-      enabled: false
-
-  # Values for aas wrapper subchart.
-  irs-aaswrapper:
-    namespace: product-traceability-foss
-
-    ingress:
-      enabled: true
-      className: "nginx"
-      annotations:
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      hosts:
-        - host: "tracex-irs-aas-wrapper.dev.demo.catena-x.net"
-          paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: aaswrapper
-                  port:
-                    number: 9191
-      tls:
-        - hosts:
-            - "tracex-irs-aas-wrapper.dev.demo.catena-x.net"
-          # Default secret for certificate creation already provided to your namespace
-          secretName: tls-secret
-
-    configuration:
-      properties: |-
-        web.http.port=9191
-        web.http.path=/api
-        web.http.callback.port=9192
-        web.http.callback.path=/callback
-        wrapper.consumer.edc.datamanagement.url=http://tracex-consumer-controlplane:8181/data
-        wrapper.consumer.edc.control.url=http://tracex-consumer-controlplane:9999/api/controlplane/control
-        wrapper.consumer.edc.apikey.name=X-Api-Key
-        wrapper.consumer.edc.apikey.value=<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
-        wrapper.callback.timeout=60
-        wrapper.cache.agreement.enabled=true
-        wrapper.auth.basic.tracefoss=<path:traceability-foss/data/dev/edc/api-wrapper#wrapper.auth.basic.tracefoss>
-
-
-  # Values for consumer edc postgres
   postgresql:
     nameOverride: "tracex-consumer-edc-postgresql"
     fullnameOverride: "tracex-consumer-edc-postgresql"
@@ -254,14 +214,14 @@ irs-helm:
         edc.receiver.http.endpoint=https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference
 
         edc.transfer.dataplane.sync.endpoint=http://tracex-consumer-dataplane:8185/api/public
-        edc.transfer.proxy.endpoint=https://tracex-consumer-dataplane.dev.demo.catena-x.net/api/public
+        edc.transfer.proxy.endpoint=https://tracex-consumer-dataplane.dev.demo.catena-x.net/api/public/
         edc.transfer.proxy.token.signer.privatekey.alias=token-signer-cert-key-dev
         edc.transfer.proxy.token.verifier.publickey.alias=token-signer-cert-dev
 
         edc.dataplane.selector.consumer.url=http://tracex-consumer-dataplane:9999/api/dataplane/control
         edc.dataplane.selector.consumer.sourcetypes=HttpData
         edc.dataplane.selector.consumer.destinationtypes=HttpProxy
-        edc.dataplane.selector.consumer.properties={ "publicApiUrl": "https://tracex-consumer-dataplane.dev.demo.catena-x.net/api/public" }
+        edc.dataplane.selector.consumer.properties={ "publicApiUrl": "https://tracex-consumer-dataplane.dev.demo.catena-x.net/api/public/" }
 
         edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
         edc.oauth.public.key.alias=daps-cert-dev

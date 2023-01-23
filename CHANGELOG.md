@@ -27,10 +27,10 @@ Using the "relationships" structure instead of "AssemblyPartRelationship" in the
 - **BoM asBuilt** Fetch parts and supplier parts, display details, display part tree
 - **EDC and IRS integration**
 
-[Unreleased]: https://github.com/catenax-ng/product-traceability-foss-backend/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/eclipse-tractusx/traceability-foss-backend/compare//0.1.0...HEAD
 
-[1.0.1]: https://github.com/catenax-ng/product-traceability-foss-backend/compare/1.0.1
+[1.0.1]: https://github.com/eclipse-tractusx/traceability-foss-backend/compare/1.0.1
 
-[1.0.0]: https://github.com/catenax-ng/product-traceability-foss-backend/compare/1.0.0
+[1.0.0]: https://github.com/eclipse-tractusx/traceability-foss-backend/compare/1.0.0
 
-[0.1.0]: https://github.com/catenax-ng/product-traceability-foss-backend/compare/0.1.0
+[0.1.0]: https://github.com/eclipse-tractusx/traceability-foss-backend/compare/0.1.0
