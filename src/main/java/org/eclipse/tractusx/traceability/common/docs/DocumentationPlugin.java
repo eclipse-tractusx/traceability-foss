@@ -52,8 +52,7 @@ public class DocumentationPlugin implements OperationBuilderPlugin, ParameterBui
 
 		context.operationBuilder()
 			.notes(getProperty(operationKey + ".notes"))
-			.summary(getProperty(operationKey + ".summary"))
-			.authorizations(buildJWTAuthentication(operationKey));
+			.summary(getProperty(operationKey + ".summary"));
 	}
 
 	@Override
