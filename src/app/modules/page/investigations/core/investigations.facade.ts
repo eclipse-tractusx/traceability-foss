@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { Notification, Notifications } from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { Observable, Subscription } from 'rxjs';
@@ -83,5 +83,17 @@ export class InvestigationsFacade {
 
   public cancelInvestigation(investigationId: string): Observable<void> {
     return this.investigationsService.cancelInvestigation(investigationId);
+  }
+
+  public acknowledgeInvestigation(investigationId: string): Observable<void> {
+    return this.investigationsService.updateInvestigation(investigationId, NotificationStatus.ACKNOWLEDGED);
+  }
+
+  public acceptInvestigation(investigationId: string, reason: string): Observable<void> {
+    return this.investigationsService.updateInvestigation(investigationId, NotificationStatus.ACCEPTED, reason);
+  }
+
+  public declineInvestigation(investigationId: string, reason: string): Observable<void> {
+    return this.investigationsService.updateInvestigation(investigationId, NotificationStatus.DECLINED, reason);
   }
 }

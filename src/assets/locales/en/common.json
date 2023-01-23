@@ -22,10 +22,15 @@
     }
   },
   "actions": {
+    "accept": "Accept",
+    "acknowledge": "Acknowledge",
     "back": "Back",
     "cancel": "Cancel",
     "approve": "Approve",
+    "confirm": "Approve",
+    "cancellationConfirm": "Confirm cancellation",
     "close": "Close",
+    "decline": "Decline",
     "viewDetails": "View details"
   },
   "table": {
@@ -133,9 +138,20 @@
       "CANCELED": "Cancelled",
       "CLOSED": "Closed",
       "CREATED": "Queued",
-      "RECEIVED": "Received"
+      "RECEIVED": "Received",
+      "ACCEPTED": "Accepted",
+      "ACKNOWLEDGED": "Acknowledged",
+      "DECLINED": "Declined"
     },
     "modal": {
+      "acceptTitle": "Accept of investigation",
+      "acceptDescription": "Are you sure you want to accept this investigation?",
+      "acceptReasonHint": "Enter the reason for accepting this investigation.",
+      "declineTitle": "Decline of investigation",
+      "declineDescription": "Are you sure you want to decline this investigation?",
+      "declineReasonHint": "Enter the reason for declining this investigation.",
+      "acknowledgeTitle": "Acknowledgment of investigation",
+      "acknowledgeDescription": "Are you sure you want to acknowledge this investigation?",
       "approvalTitle": "Approval of investigation",
       "approvalDescription": "Are you sure you want to approve this investigation?",
       "closeTitle": "Close of investigation",
@@ -144,19 +160,18 @@
       "cancellationTitle": "Cancellation of investigation",
       "cancellationDescription": "Are you sure you want to cancel this investigation?",
       "cancellationHint": "Enter the ID of the investigation to confirm your cancellation.",
-      "cancellationConfirm": "Confirm cancellation",
-      "approve": "Approve",
-      "close": "Close",
-      "confirm": "Approve",
-      "cancel": "Cancel",
-
+      "successfullyAccepted": "Investigation was accepted successfully.",
+      "successfullyAcknowledged": "Investigation was acknowledged successfully.",
       "successfullyApproved": "Investigation was approved successfully.",
       "successfullyCanceled": "Investigation was canceled successfully.",
       "successfullyClosed": "Investigation was closed successfully.",
-
-      "failedApprove": "Investigation failed to close, please try again.",
+      "successfullyDeclined": "Investigation was declined successfully.",
+      "failedAccept": "Investigation failed to accept, please try again.",
+      "failedAcknowledge": "Investigation failed to acknowledge, please try again.",
+      "failedApprove": "Investigation failed to approve, please try again.",
       "failedCancel": "Investigation failed to cancel, please try again.",
-      "failedClose": "Investigation failed to close, please try again."
+      "failedClose": "Investigation failed to close, please try again.",
+      "failedDecline": "Investigation failed to decline, please try again."
     }
   }
 }

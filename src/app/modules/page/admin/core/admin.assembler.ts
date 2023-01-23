@@ -35,6 +35,6 @@ export class AdminAssembler {
   public static assemblePaginationRegistryProcess(
     data: PaginationResponse<RegistryProcessResponse>,
   ): Pagination<RegistryProcess> {
-    return PaginationAssembler.assemblePagination(data, AdminAssembler.AssembleRegistryProcess);
+    return PaginationAssembler.assemblePagination(AdminAssembler.AssembleRegistryProcess, data);
   }
 }

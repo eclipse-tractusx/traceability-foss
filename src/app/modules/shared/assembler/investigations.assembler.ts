@@ -31,16 +31,17 @@ import {
 
 export class InvestigationsAssembler {
   public static assembleInvestigations(response: NotificationsResponse): Notifications {
-    return PaginationAssembler.assemblePagination(response, InvestigationsAssembler.assembleInvestigation);
+    return PaginationAssembler.assemblePagination(InvestigationsAssembler.assembleInvestigation, response);
   }
 
   public static assembleInvestigation(response: NotificationResponse): Notification {
-    const { id, description = '', status, createdDate = '', createdBy = '', assetIds } = response;
+    const { id, description = '', status, createdDate = '', createdBy = '', assetIds, channel } = response;
     return {
       id,
       description,
       createdBy,
       assetIds,
+      isFromSender: channel === 'SENDER',
 
       status: NotificationStatus[status] ?? null,
       createdDate: new CalendarDateModel(createdDate),

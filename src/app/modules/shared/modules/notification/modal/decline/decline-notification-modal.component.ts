@@ -28,12 +28,12 @@ import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-close-notification-modal',
-  templateUrl: './close-notification-modal.component.html',
+  selector: 'app-decline-notification-modal',
+  templateUrl: './decline-notification-modal.component.html',
 })
-export class CloseNotificationModalComponent {
+export class DeclineNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
-  @Input() closeCall: (id: string, reason: string) => Observable<void>;
+  @Input() declineCall: (id: string, reason: string) => Observable<void>;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -54,20 +54,20 @@ export class CloseNotificationModalComponent {
 
       if (!isConfirmed) return;
 
-      this.closeCall(notification.id, reason).subscribe({
+      this.declineCall(notification.id, reason).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyClosed');
+          this.toastService.success('commonInvestigation.modal.successfullyDeclined');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedClose');
+          this.toastService.error('commonInvestigation.modal.failedDecline');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.closeTitle',
-      buttonRight: 'actions.close',
+      title: 'commonInvestigation.modal.declineTitle',
+      buttonRight: 'actions.decline',
       buttonLeft: 'actions.cancel',
 
       template: this.modal,

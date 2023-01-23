@@ -19,20 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ActivatedRoute } from '@angular/router';
-import { PartsModule } from '@page/parts/parts.module';
 import { TreeData } from '@shared/modules/relations/model/relations.model';
 import { renderTree } from '@shared/modules/relations/presentation/minimap/minimap.d3.spec';
 import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
-import { PartRelationComponent } from '@shared/modules/relations/presentation/part-relation.component';
-import { RelationsModule } from '@shared/modules/relations/relations.module';
 import { screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
 import * as d3 from 'd3';
-import { BehaviorSubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { sleepForTests } from '../../../../../../../test';
-import { MOCK_part_1 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 import Tree from './tree.d3';
 import { D3TreeDummyData } from './tree.d3.test.data';
 

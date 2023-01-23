@@ -19,46 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { NotificationStatus } from '@shared/model/notification.model';
 import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
-import { NotificationModule } from '@shared/modules/notification/notification.module';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
+import { renderCancelModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
 import { screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
-import { of } from 'rxjs';
 
 describe('CancelNotificationModalComponent', () => {
-  let notification: Notification = {
-    id: 'id-1',
-    description: 'Investigation No 1',
-    createdBy: 'OEM A',
-    assetIds: [
-      'MOCK_part_1',
-      'urn:uuid:8cdc4414-91a5-47af-8c96-da39ccefbab8',
-      'urn:uuid:81b4dd13-2ead-4a89-9253-3494ba8fc8e5',
-      'urn:uuid:35ba10d6-c41c-456e-8ed0-92747530a132',
-    ],
-    status: NotificationStatus.RECEIVED,
-    createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
-  };
-
-  const renderModal = async () => {
-    const { fixture } = await renderComponent(CancelNotificationModalComponent, {
-      declarations: [CancelNotificationModalComponent],
-      imports: [NotificationModule, SharedModule, TemplateModule],
-    });
-
-    fixture.componentInstance.cancelCall = (id: string) => of(null);
-    fixture.componentInstance.show(notification);
-    fixture.autoDetectChanges();
-
-    return fixture;
-  };
-
   it('should create cancel modal', async () => {
-    await renderModal();
+    await renderCancelModal(NotificationStatus.CREATED);
     const title = await waitFor(() => screen.getByText('Cancellation of investigation'));
     const hint = await waitFor(() => screen.getByText('Are you sure you want to cancel this investigation?'));
     const hint2 = await waitFor(() =>
@@ -75,14 +43,14 @@ describe('CancelNotificationModalComponent', () => {
   });
 
   it('should render investigation description', async () => {
-    await renderModal();
+    const { notification } = await renderCancelModal(NotificationStatus.CREATED);
     const description = await waitFor(() => screen.getByText(notification.description));
 
     expect(description).toBeInTheDocument();
   });
 
   it('should check validation of textarea', async () => {
-    const fixture = await renderModal();
+    const { fixture, notification } = await renderCancelModal(NotificationStatus.CREATED);
     const buttonR = await waitFor(() => screen.getByText('Confirm cancellation'));
     buttonR.click();
 
@@ -107,14 +75,17 @@ describe('CancelNotificationModalComponent', () => {
     expect(errorMessage_2).not.toBeInTheDocument();
   });
 
-  xit('should call cancel function', async () => {
-    const fixture = await renderModal();
-    const randomSpyName = spyOn((fixture.componentInstance as any).toastService, 'success').and.returnValue(of([]));
+  it('should call cancel function', async () => {
+    const { fixture, notification } = await renderCancelModal(NotificationStatus.CREATED);
+
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    textArea.value = notification.id;
+    textArea.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
 
     const buttonR = await waitFor(() => screen.getByText('Confirm cancellation'));
     buttonR.click();
 
-    await waitFor(() => expect(randomSpyName).toHaveBeenCalled());
-    await waitFor(() => expect(randomSpyName).toHaveBeenCalledWith('commonInvestigation.modal.successfullyApproved'));
+    await waitFor(() => expect(screen.getByText('Investigation was canceled successfully.')).toBeInTheDocument());
   });
 });
