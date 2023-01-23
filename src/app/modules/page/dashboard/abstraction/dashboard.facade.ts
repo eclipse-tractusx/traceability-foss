@@ -20,7 +20,6 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { RoleService } from '@core/user/role.service';
 import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
 import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -43,7 +42,6 @@ export class DashboardFacade {
     private readonly dashboardState: DashboardState,
     private readonly partsService: PartsService,
     private readonly investigationsService: InvestigationsService,
-    private readonly roleService: RoleService,
   ) {}
 
   public get numberOfMyParts$(): Observable<View<number>> {
@@ -69,9 +67,7 @@ export class DashboardFacade {
   public setDashboardData(): void {
     this.setAssetNumbers();
     this.setAssetsPerCountry();
-    if (this.roleService.hasAccess('wip')) {
-      this.setInvestigations();
-    }
+    this.setInvestigations();
   }
 
   private setAssetNumbers(): void {
