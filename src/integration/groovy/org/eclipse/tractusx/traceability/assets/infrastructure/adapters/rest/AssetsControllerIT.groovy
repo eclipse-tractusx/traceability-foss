@@ -515,4 +515,5 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 				.statusCode(200)
 				.body("", Matchers.hasSize(3))
 	}
+
 }

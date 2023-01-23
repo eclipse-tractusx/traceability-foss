@@ -44,6 +44,7 @@ public final class Asset {
 	private List<ChildDescriptions> childDescriptions;
 	private boolean underInvestigation;
 	private QualityType qualityType;
+	private String van;
 
 	public Asset(
 		String id,
@@ -61,7 +62,8 @@ public final class Asset {
 		boolean supplierPart,
 		List<ChildDescriptions> childDescriptions,
 		boolean underInvestigation,
-		QualityType qualityType
+		QualityType qualityType,
+		String van
 	) {
 		this.id = id;
 		this.idShort = idShort;
@@ -79,6 +81,7 @@ public final class Asset {
 		this.childDescriptions = childDescriptions;
 		this.underInvestigation = underInvestigation;
 		this.qualityType = qualityType;
+		this.van = van;
 	}
 
 	public String getBatchId() {
@@ -151,4 +154,5 @@ public final class Asset {
 
 	public record ChildDescriptions(String id, String idShort) {}
 
+	public String getVan() { return van; }
 }
