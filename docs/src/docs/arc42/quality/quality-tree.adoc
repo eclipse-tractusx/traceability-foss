@@ -1,1 +1,8 @@
 = Quality tree
+
+The tree structure provides an overview for a sometimes large number of quality requirements.
+
+[plantuml, target=business-context, format=svg]
+....
+include::../../../uml-diagrams/arc42/quality/quality-tree.puml[]
+....
