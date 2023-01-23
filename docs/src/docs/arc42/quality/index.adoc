@@ -1,1 +1,7 @@
 = Quality requirements
+
+This section includes concrete quality scenarios to better capture the key quality objectives but also other required quality attributes.
+
+include::quality-tree.adoc[leveloffset=+1]
+include::quality-scenarios.adoc[leveloffset=+1]
+

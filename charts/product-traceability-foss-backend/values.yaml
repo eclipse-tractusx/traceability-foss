@@ -164,6 +164,9 @@ global:
 irs-helm:
   enabled: false  #<irs-helm.enabled>
 
+irs-edc-consumer:
+  enabled: false
+
 pgadmin4:
   enabled: false  #<pgadmin4.enabled>
   ingress:

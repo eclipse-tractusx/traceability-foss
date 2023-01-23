@@ -65,11 +65,11 @@ public record JobResponse(
 	}
 
 	public boolean isRunning() {
-		return "RUNNING".equals(jobStatus.jobState());
+		return "RUNNING".equals(jobStatus.state());
 	}
 
 	public boolean isCompleted() {
-		return "COMPLETED".equals(jobStatus.jobState());
+		return "COMPLETED".equals(jobStatus.state());
 	}
 
 }

@@ -1,13 +1,13 @@
 {
 	"job": {
-		"jobId": "ff51b6b2-c3b5-43b8-befd-ae0a011f604b",
+		"id": "ff51b6b2-c3b5-43b8-befd-ae0a011f604b",
 		"globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
-		"jobState": "COMPLETED",
+		"state": "COMPLETED",
 		"exception": null,
 		"createdOn": "2022-09-01T10:49:30.099898402Z",
 		"startedOn": "2022-09-01T10:49:30.100119699Z",
 		"lastModifiedOn": "2022-09-01T10:53:12.845021701Z",
-		"jobCompleted": "2022-09-01T10:53:12.845072801Z",
+		"completedOn": "2022-09-01T10:53:12.845072801Z",
 		"owner": "sa-cl6-cx-9",
 		"summary": {
 			"asyncFetchedItems": {
@@ -16,7 +16,7 @@
 				"failed": 0
 			}
 		},
-		"jobParameter": {
+		"parameter": {
 			"bomLifecycle": "asBuilt",
 			"aspects": [
 				"AssemblyPartRelationship",

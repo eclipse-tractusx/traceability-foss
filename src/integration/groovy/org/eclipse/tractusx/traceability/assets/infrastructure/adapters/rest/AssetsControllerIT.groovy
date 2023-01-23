@@ -253,11 +253,14 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 	}
 
 	def "should return assets for authenticated user with role"() {
+		given:
+			defaultAssetsStored()
+
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
 				.when()
-				.get("/api/assets/1234")
+				.get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
 				.then()
 				.statusCode(200)
 	}
@@ -474,7 +477,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 				.body(
 					asJson(
 						[
-							assetIds: []
+							assetIds: ["1234"]
 						]
 					)
 				)
