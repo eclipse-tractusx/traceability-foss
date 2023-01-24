@@ -29,9 +29,9 @@
     "viewDetails": "Zobacz szczegóły",
 
     "accept": "Przyjmij",
-    "acknowledge": "Potwierdzić",
-    "confirm": "Zatwierdzić",
-    "cancellationConfirm": "Potwierdzić anulowanie",
+    "acknowledge": "Potwierdź",
+    "confirm": "Zatwierdź",
+    "cancellationConfirm": "Potwierdź anulowanie",
     "decline": "Odmowa"
   },
   "table": {
