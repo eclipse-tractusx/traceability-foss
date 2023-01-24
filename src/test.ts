@@ -32,7 +32,9 @@ beforeAll(async () => {
   jasmine.addMatchers(JasmineDOM);
   await server.start({ onUnhandledRequest: 'bypass' });
 });
+
 afterEach(() => server.resetHandlers());
+
 afterAll(() => server.stop());
 
 declare const require: {

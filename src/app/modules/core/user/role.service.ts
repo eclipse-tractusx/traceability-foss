@@ -52,12 +52,8 @@ export class RoleService {
     return allPossibleRoles.some(possibleRole => roles.includes(possibleRole));
   }
 
-  public isSupervisor(): boolean {
+  public isAtLeastSupervisor(): boolean {
     return this.hasAccess('supervisor');
-  }
-
-  public isAdmin(): boolean {
-    return this.hasAccess('admin');
   }
 
   private getParentsRolesFor(lookupRoles: Role[]): Role[] {

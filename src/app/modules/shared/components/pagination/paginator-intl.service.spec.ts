@@ -48,8 +48,7 @@ describe('PaginatorIntlService', () => {
     const paginatorIntlService = await instantinatePaginatorIntlService();
 
     const i18NextService = TestBed.inject(I18NEXT_SERVICE) as ITranslationService;
-
-    i18NextService.changeLanguage('pl');
+    await i18NextService.changeLanguage('pl');
 
     // in test env only EN language registered, so after changing language keys should be returned
     expect(paginatorIntlService.firstPageLabel).toEqual('pagination.firstPageLabel');

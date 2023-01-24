@@ -56,24 +56,24 @@ export class InvestigationHelperService {
   }
 
   public showApproveButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED && this.roleService.isSupervisor();
+    return /*isFromSender &&*/ status === NotificationStatus.CREATED && this.roleService.isAtLeastSupervisor();
   }
 
   public showCancelButton({ status, isFromSender } = {} as Notification): boolean {
-    return isFromSender && status === NotificationStatus.CREATED && this.roleService.isSupervisor();
+    return /*isFromSender &&*/ status === NotificationStatus.CREATED && this.roleService.isAtLeastSupervisor();
   }
 
   public showCloseButton({ status, isFromSender } = {} as Notification): boolean {
     const disallowedStatus = [NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED];
-    return isFromSender && !disallowedStatus.includes(status) && this.roleService.isSupervisor();
+    return /*isFromSender &&*/ !disallowedStatus.includes(status) && this.roleService.isAtLeastSupervisor();
   }
   public showAcknowledgeButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.RECEIVED && this.roleService.isSupervisor();
+    return /*!isFromSender &&*/ status === NotificationStatus.RECEIVED && this.roleService.isAtLeastSupervisor();
   }
   public showAcceptButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isSupervisor();
+    return /*!isFromSender &&*/ status === NotificationStatus.ACKNOWLEDGED && this.roleService.isAtLeastSupervisor();
   }
   public showDeclineButton({ status, isFromSender } = {} as Notification): boolean {
-    return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isSupervisor();
+    return /*!isFromSender &&*/ status === NotificationStatus.ACKNOWLEDGED && this.roleService.isAtLeastSupervisor();
   }
 }

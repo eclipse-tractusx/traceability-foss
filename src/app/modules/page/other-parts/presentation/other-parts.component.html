@@ -39,7 +39,7 @@ SPDX-License-Identifier: Apache-2.0
       ></ng-container>
     </mat-tab>
 
-    <mat-tab>
+    <mat-tab *appHasRole="['wip']">
       <ng-template mat-tab-label>
         <span [id]="customerTabLabelId">{{ 'pageParts.tab.customer' | i18n }} </span>
       </ng-template>
