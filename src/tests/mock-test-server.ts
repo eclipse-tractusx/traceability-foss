@@ -23,11 +23,11 @@ import { setupWorker } from 'msw';
 import {
   adminHandler,
   dashboardHandler,
+  errorHandler,
   investigationsHandlers,
   otherPartsHandlersTest,
   partsHandlersTest,
 } from '../app/mocks/services';
-import { errorHandler } from '../app/mocks/services/error-mock/error.handler';
 
 const handlers = [
   ...dashboardHandler,
