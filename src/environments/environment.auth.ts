@@ -23,7 +23,6 @@ import { _environment } from './_environment.base';
 
 export const environment = {
   ..._environment,
-  multiTenant: true,
   mockService: false,
   authDisabled: false,
   apiUrl: 'https://traceability.dev.demo.catena-x.net/api',

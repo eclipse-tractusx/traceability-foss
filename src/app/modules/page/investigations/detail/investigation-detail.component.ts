@@ -138,6 +138,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     navigator.clipboard.writeText(serialNumber).then(_ => this.ctaSnackbarService.show(text));
   }
 
+  public handleConfirmActionCompletedEvent(): void {
+    this.investigationDetailFacade.selected = { loader: true };
+    this.subscription?.unsubscribe();
+    this.ngAfterViewInit();
+  }
+
   private setTableConfigs(data: Notification): void {
     this.isReceived = data.status === NotificationStatus.RECEIVED;
 
@@ -178,10 +184,5 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
         tap(notification => (this.investigationDetailFacade.selected = { data: notification })),
       )
       .subscribe();
-  }
-
-  public handleConfirmActionCompletedEvent() {
-    this.investigationDetailFacade.selected = { loader: true };
-    this.ngAfterViewInit();
   }
 }

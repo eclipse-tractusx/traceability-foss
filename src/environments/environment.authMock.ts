@@ -23,7 +23,6 @@ import { _environment } from './_environment.base';
 
 export const environment = {
   ..._environment,
-  multiTenant: true,
   authDisabled: false,
   keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
   clientId: 'Cl17-CX-Part',

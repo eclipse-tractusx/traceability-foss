@@ -23,25 +23,10 @@ import { environment } from '@env';
 import { KeycloakService } from 'keycloak-angular';
 
 export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean | void> {
-  // Set default realm
-  let realm = environment.defaultRealm;
-
-  // Check multi-tenant
-  if (environment.multiTenant) {
-    const matches: RegExpExecArray = new RegExp(environment.realmRegExp).exec(window.location.href);
-    if (!matches) {
-      // Redirect user to the default realm page.
-      window.location.href = environment.baseUrl + environment.defaultRealm + '/';
-      return () => Promise.resolve();
-    }
-
-    realm = matches[1];
-  }
-
   return (): Promise<boolean> =>
     keycloak.init({
       config: {
-        realm,
+        realm: environment.defaultRealm,
         url: environment.keycloakUrl,
         clientId: environment.clientId,
       },

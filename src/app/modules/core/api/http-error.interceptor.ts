@@ -33,18 +33,12 @@ export class HttpErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<Record<string, unknown>>> {
     return next.handle(request).pipe(
       retry(1),
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage: string;
-        if (Array.isArray(error.error.error)) {
-          errorMessage = `An error occurred: ${error.error.message}`;
-          error.error.error.forEach(message => (errorMessage = message.message));
-        } else if (error.message) {
-          errorMessage = error.message;
-        } else {
-          errorMessage = `Backend returned code ${error.status}: ${error.message}`;
-        }
+      catchError((errorResponse: HttpErrorResponse) => {
+        const { error, message } = errorResponse;
+        const errorMessage = !error.message ? message : `Backend returned code ${error.status}: ${error.message}`;
+
         this.toastService.error(errorMessage);
-        return throwError(() => error);
+        return throwError(() => errorResponse);
       }),
     );
   }

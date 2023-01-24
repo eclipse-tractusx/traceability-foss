@@ -19,72 +19,39 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<aside [style.width.px]="sidebarWidth" class="sidebar">
+<aside [class.sidebar--expanded]="expanded" class="sidebar">
   <div class="sidebar-content">
     <div [class.openAnimation]="this.expanded" [class.closeAnimation]="!this.expanded" class="scrollable">
       <ul class="sidebar-menu-container">
-        <li>
-          <app-sidebar-section
-            (click)="this.navigate('dashboard')"
-            [name]="'routing.dashboard' | i18n"
-            [isActive]="this.activeMenu === 'dashboard'"
-            [isExpanded]="this.expanded"
-            [iconName]="'dashboard'"
-          ></app-sidebar-section>
-        </li>
-        <li>
-          <app-sidebar-section
-            (click)="this.navigate('parts')"
-            [name]="'routing.parts' | i18n"
-            [isActive]="this.activeMenu === 'parts'"
-            [isExpanded]="this.expanded"
-            [iconName]="'build'"
-          ></app-sidebar-section>
-        </li>
-        <li>
-          <app-sidebar-section
-            (click)="this.navigate('otherParts')"
-            [name]="'routing.otherParts' | i18n"
-            [isActive]="this.activeMenu === 'otherParts'"
-            [isExpanded]="this.expanded"
-            [iconName]="'commute'"
-          ></app-sidebar-section>
-        </li>
-        <li>
-          <app-sidebar-section
-            *appHasRole="['wip']"
-            (click)="this.navigate('investigations')"
-            [name]="'routing.investigations' | i18n"
-            [isActive]="this.activeMenu === 'investigations'"
-            [isExpanded]="this.expanded"
-            [iconName]="'inbox'"
-          ></app-sidebar-section>
-        </li>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'dashboard' }"> </ng-container>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'parts', icon: 'build' }"> </ng-container>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'otherParts', icon: 'commute' }"> </ng-container>
+        <ng-container
+          *ngTemplateOutlet="listItem; context: { name: 'investigations', icon: 'inbox', role: 'wip' }"
+        ></ng-container>
       </ul>
     </div>
     <div class="flex-auto"></div>
     <div [class.openAnimation]="this.expanded" [class.closeAnimation]="!this.expanded" class="scrollable">
       <ul class="sidebar-menu-container">
-        <li>
-          <app-sidebar-section
-            *appHasRole="['admin']"
-            [name]="'routing.admin' | i18n"
-            [isActive]="this.activeMenu === 'admin'"
-            [isExpanded]="this.expanded"
-            [iconName]="'apps'"
-            (click)="this.navigate('admin')"
-          ></app-sidebar-section>
-        </li>
-        <li>
-          <app-sidebar-section
-            (click)="this.navigate('about')"
-            [name]="'routing.about' | i18n"
-            [isActive]="this.activeMenu === 'about'"
-            [isExpanded]="this.expanded"
-            [iconName]="'info'"
-          ></app-sidebar-section>
-        </li>
+        <ng-container
+          *ngTemplateOutlet="listItem; context: { name: 'admin', icon: 'apps', role: 'admin' }"
+        ></ng-container>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'about', icon: 'info' }"> </ng-container>
       </ul>
     </div>
   </div>
 </aside>
+
+<ng-template #listItem let-name="name" let-icon="icon" let-role="role">
+  <li>
+    <app-sidebar-section
+      *appHasRole="[role ?? 'user']"
+      [name]="'routing.' + name | i18n"
+      [isActive]="this.activeMenu === name"
+      [isExpanded]="this.expanded"
+      [iconName]="icon || name"
+      (click)="this.navigate(name)"
+    ></app-sidebar-section>
+  </li>
+</ng-template>

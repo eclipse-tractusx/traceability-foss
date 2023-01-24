@@ -25,7 +25,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-sidebar [expanded]="expanded"></app-sidebar>
   </div>
   <div class="layout-resizer">
-    <app-resizer (click)="manualToggle()" [isExpanded]="expanded"></app-resizer>
+    <app-resizer (click)="expanded = !expanded" [isExpanded]="expanded"></app-resizer>
   </div>
   <div class="layout-content">
     <div class="layout-content__box-modal relative">

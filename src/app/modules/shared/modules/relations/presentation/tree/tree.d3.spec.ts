@@ -19,10 +19,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { ActivatedRoute } from '@angular/router';
+import { PartsModule } from '@page/parts/parts.module';
 import { TreeData } from '@shared/modules/relations/model/relations.model';
+import { renderTree } from '@shared/modules/relations/presentation/minimap/minimap.d3.spec';
 import { TreeSvg } from '@shared/modules/relations/presentation/model.d3';
-import { screen } from '@testing-library/angular';
+import { PartRelationComponent } from '@shared/modules/relations/presentation/part-relation.component';
+import { RelationsModule } from '@shared/modules/relations/relations.module';
+import { screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 import * as d3 from 'd3';
+import { BehaviorSubject } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { sleepForTests } from '../../../../../../../test';
+import { MOCK_part_1 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 import Tree from './tree.d3';
 import { D3TreeDummyData } from './tree.d3.test.data';
 
@@ -56,5 +66,27 @@ describe('D3 Tree', () => {
 
     expect(screen.getByText('Small')).toBeInTheDocument();
     expect(screen.getByText('Long text...')).toBeInTheDocument();
+  });
+
+  it('should change size of tree when zoom buttons are clicked', async () => {
+    const component = await renderTree();
+    component.detectChanges();
+
+    const minimapBody = await waitFor(() => screen.getByTestId('app-part-relation-0--minimap--main'));
+    expect(minimapBody).toBeInTheDocument();
+
+    // Wait for minimap to completely render
+    await sleepForTests(200);
+
+    const increaseButton = await waitFor(() => screen.getByTestId('tree--zoom__increase'));
+    const decreaseButton = await waitFor(() => screen.getByTestId('tree--zoom__decrease'));
+    const cameraElement = await waitFor(() => screen.getByTestId('app-part-relation-0--camera'));
+
+    expect(cameraElement).not.toHaveAttribute('transform');
+    increaseButton.click();
+    expect(cameraElement).toHaveAttribute('transform', 'translate(0,0) scale(1.1)');
+
+    decreaseButton.click();
+    expect(cameraElement).toHaveAttribute('transform', 'translate(0,0) scale(1)');
   });
 });
