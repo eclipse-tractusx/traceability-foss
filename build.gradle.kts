@@ -51,9 +51,9 @@ repositories {
 
 sonarqube {
 	properties {
-		property("sonar.organization", "catenax-ng")
+		property("sonar.organization", System.getenv("SONAR_ORGANIZATION") ?: "catenax-ng")
 		property("sonar.host.url", "https://sonarcloud.io")
-		property("sonar.projectKey", "catenax-ng_product-traceability-foss-backend")
+		property("sonar.projectKey", System.getenv("SONAR_PROJECT_KEY") ?: "catenax-ng_product-traceability-foss-backend")
 		property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/*.xml")
 		property(
 			"sonar.cpd.exclusions", listOf(
