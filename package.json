@@ -1,6 +1,6 @@
 {
   "name": "trace-x",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
     "build:prod": "ng build --configuration=production",
@@ -89,7 +89,7 @@
     "@types/testing-library__jasmine-dom": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "5.48.0",
     "@typescript-eslint/parser": "5.17.0",
-    "cypress": "^12.1.0",
+    "cypress": "^12.3.0",
     "eslint": "8.28.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
@@ -105,6 +105,7 @@
     "karma-sonarqube-reporter": "1.4.0",
     "lint-staged": "13.0.3",
     "msw": "0.48.0",
+    "playwright-webkit": "^1.29.2",
     "postcss-import": "15.0.0",
     "postcss-loader": "7.0.1",
     "postcss-scss": "4.0.4",
