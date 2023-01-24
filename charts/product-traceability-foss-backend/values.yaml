@@ -118,49 +118,56 @@ ingress:
   hosts: []
   tls: []
 
-springprofile: ""
+##############################
+# Application Configuration  #
+#############################
+
+springprofile: <springprofile>
 
 healthCheck:
-  enabled: true
+  enabled: true #<healthCheck.enabled>
 
 traceability:
-  bpn: ""
+  bpn: <traceability.bpn>
 
 datasource:
-  url: ""
-  username: ""
-  password: ""
+  url: <datasource.url>
+  username: <datasource.username>
+  password: <datasource.password>
 
 oauth2:
-  clientId: ""
-  clientSecret: ""
-  clientTokenUri: ""
-  jwkSetUri: ""
-  resourceClient: ""
+  clientId: <oauth2.clientId>
+  clientSecret: <oauth2.clientSecret>
+  clientTokenUri: <oauth2.clientTokenUri>
+  jwkSetUri: <oauth2.jwkSetUri>
+  resourceClient: <oauth2.resourceClient>
 
 edc:
-  apiKey: ""
+  apiKey: <edc.apiKey>
 
 postgresql:
-  enabled: false
+  enabled: false #<postgresql.enabled>
   auth:
-    postgresPassword: ""
-    password: ""
-    database: ""
-    username: ""
+    postgresPassword: <postgresql.auth.postgresPassword>
+    password: <postgresql.auth.password>
+    database: <postgresql.auth.database>
+    username: <postgresql.auth.username>
   architecture: standalone
   audit:
     pgAuditLog: write, ddl
     logLinePrefix: "%m %u %d "
 
 global:
-  enablePrometheus: false
-  enableGrafana: false
+  enablePrometheus: false  #<global.enablePrometheus>
+  enableGrafana: false  #<global.enableGrafana>
 
 irs-helm:
+  enabled: false  #<irs-helm.enabled>
+
+irs-edc-consumer:
   enabled: false
 
 pgadmin4:
-  enabled: false
+  enabled: false  #<pgadmin4.enabled>
   ingress:
-    enabled: false
+    enabled: false  #<pgadmin4.ingress.enabled>

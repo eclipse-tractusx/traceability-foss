@@ -26,7 +26,7 @@ feign:
     url: https://trace-x-registry.dev.demo.catena-x.net
 
 edc:
-  callback-urls: http://product-traceability-foss-backend-irs-aaswrapper:9192/callback/endpoint-data-reference
+  callback-urls: http://tracex-irs:8181/internal/endpoint-data-reference
   bpn-provider-url-mappings:
     "BPNL00000003AXS3": "https://trace-x-test-edc.dev.demo.catena-x.net"
     "BPNL00000002AXS2": "https://trace-x-test-edc.dev.demo.catena-x.net"

@@ -66,7 +66,7 @@ trait IrsApiSupport implements RestitoProvider {
 			.then(
 				ok(),
 				header("Content-Type", "application/json"),
-				jsonResponseFromFile("./stubs/irs/get/jobs/jobId/response_200_duplicated_ids.json")
+				jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_duplicated_ids.json")
 			)
 	}
 
@@ -78,7 +78,7 @@ trait IrsApiSupport implements RestitoProvider {
 			.then(
 				ok(),
 				header("Content-Type", "application/json"),
-				jsonResponseFromFile("./stubs/irs/get/jobs/jobId/response_200.json")
+				jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json")
 			)
 	}
 
@@ -90,7 +90,7 @@ trait IrsApiSupport implements RestitoProvider {
 			.then(
 				ok(),
 				header("Content-Type", "application/json"),
-				jsonResponseFromFile("./stubs/irs/get/jobs/jobId/response_no_bpns_200.json")
+				jsonResponseFromFile("./stubs/irs/get/jobs/id/response_no_bpns_200.json")
 			)
 	}
 
@@ -102,7 +102,7 @@ trait IrsApiSupport implements RestitoProvider {
 			.then(
 				ok(),
 				header("Content-Type", "application/json"),
-				jsonResponseFromFile("./stubs/irs/get/jobs/jobId/running_job_response_200.json")
+				jsonResponseFromFile("./stubs/irs/get/jobs/id/running_job_response_200.json")
 			)
 	}
 
@@ -115,8 +115,8 @@ trait IrsApiSupport implements RestitoProvider {
 				ok(),
 				header("Content-Type", "application/json")
 			).withSequence(
-			jsonResponseFromFile("./stubs/irs/get/jobs/jobId/running_job_response_200.json"),
-			jsonResponseFromFile("./stubs/irs/get/jobs/jobId/response_200.json")
+			jsonResponseFromFile("./stubs/irs/get/jobs/id/running_job_response_200.json"),
+			jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json")
 		)
 	}
 
@@ -128,7 +128,7 @@ trait IrsApiSupport implements RestitoProvider {
 			.then(
 				status(HttpStatus.INTERNAL_SERVER_ERROR_500),
 				header("Content-Type", "application/json"),
-				jsonResponseFromFile("./stubs/irs/get/jobs/jobId/response_200.json")
+				jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json")
 			)
 	}
 

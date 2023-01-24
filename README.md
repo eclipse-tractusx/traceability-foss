@@ -3,13 +3,13 @@
    <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Backend</h1>
 </div>
 
-[![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/blob/main/LICENSE)
+[![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/eclipse-tractusx/traceability-foss-backend/blob/main/LICENSE)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=catenax-ng_product-traceability-foss-backend&metric=coverage)](https://sonarcloud.io/summary/overall?id=catenax-ng_product-traceability-foss-backend)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=catenax-ng_product-traceability-foss-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=catenax-ng_product-traceability-foss-backend)
-[![Kics](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/kics.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/kics.yml)
-[![Trivy](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/trivy.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/trivy.yml)
-[![VeraCode](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/veracode.yaml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/veracode.yaml)
-[![Eclipse DASH IP Check](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/eclipse-dash.yml/badge.svg)](https://github.com/catenax-ng/product-traceability-foss-backend/actions/workflows/eclipse-dash.yml)
+[![Kics](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/kics.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/kics.yml)
+[![Trivy](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/trivy.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/trivy.yml)
+[![VeraCode](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/veracode.yaml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/veracode.yaml)
+[![Eclipse DASH IP Check](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/eclipse-dash.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/eclipse-dash.yml)
 
 
 ## What is TRACE-FOSS?

@@ -3,7 +3,6 @@ plugins {
 	id("groovy")
 	id("jacoco")
 	id("org.springframework.boot") version "2.7.7"
-	id("io.spring.dependency-management") version "1.1.0"
 	id("com.autonomousapps.dependency-analysis") version "1.13.1"
 	id("com.google.cloud.tools.jib") version "3.3.1"
 	id("com.coditory.integration-test") version "1.4.4"
@@ -67,8 +66,8 @@ sonarqube {
 
 val commonsCodecVersion = "1.15"
 val commonsIoVersion = "2.11.0"
-val groovyVersion = "3.0.14"
-val spockBomVersion = "2.1-groovy-3.0"
+val groovyVersion = "4.0.7"
+val spockBomVersion = "2.3-groovy-4.0"
 val springfoxVersion = "3.0.0"
 val feignVersion = "12.1"
 val springCloudVersion = "2021.0.5"
@@ -80,21 +79,16 @@ val restitoVersion = "1.1.0"
 // attention when upgrading: grizzly version is linked to restito version
 val grizzlyVersion = "2.3.25"
 val jose4jVersion = "0.9.2"
-val restAssuredVersion = "5.2.0"
+val restAssuredVersion = "5.3.0"
 val resilience4jVersion = "2.0.2"
 val testContainersVersion = "1.17.6"
 val schedlockVersion = "4.42.0"
 
-dependencyManagement {
-	imports {
-		mavenBom("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion")
-		mavenBom("io.github.resilience4j:resilience4j-bom:$resilience4jVersion")
-	}
-}
-
 dependencies {
+	developmentOnly(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
+	annotationProcessor(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 	implementation("org.springframework:spring-web") {
@@ -103,6 +97,10 @@ dependencies {
 			because("previous versions have a bug impacting this application")
 		}
 	}
+
+	implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+	implementation(platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
+	implementation(platform("io.github.resilience4j:resilience4j-bom:$resilience4jVersion"))
 
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -120,7 +118,7 @@ dependencies {
 	implementation("org.postgresql:postgresql")
 	implementation("org.flywaydb:flyway-core")
 
-	implementation("com.auth0:java-jwt:3.19.2")
+	implementation("com.auth0:java-jwt:4.2.1")
 	implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")
 
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
@@ -144,15 +142,16 @@ dependencies {
 	implementation("io.github.resilience4j:resilience4j-spring-boot2")
 	implementation("org.springframework.boot:spring-boot-starter-aop")
 
-	testImplementation("org.codehaus.groovy:groovy-all:$groovyVersion")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	testImplementation(platform("org.apache.groovy:groovy-bom:$groovyVersion"))
+	testImplementation("org.apache.groovy:groovy-json")
 	testImplementation(platform("org.spockframework:spock-bom:$spockBomVersion"))
 	testImplementation("org.spockframework:spock-core")
 	testImplementation("org.spockframework:spock-spring")
 
 	integrationImplementation("org.testcontainers:postgresql:$testContainersVersion")
 	integrationImplementation("org.testcontainers:spock:$testContainersVersion")
-
-	integrationImplementation("org.springframework.boot:spring-boot-starter-test")
 
 	integrationImplementation("com.xebialabs.restito:restito:$restitoVersion")
 	integrationImplementation("org.glassfish.grizzly:grizzly-http:$grizzlyVersion")
@@ -161,7 +160,7 @@ dependencies {
 	integrationImplementation("commons-io:commons-io:$commonsIoVersion")
 
 	integrationImplementation("io.rest-assured:rest-assured:$restAssuredVersion") {
-		exclude("org.apache.groovy")
+		exclude("org.codehaus.groovy")
 	}
 	integrationImplementation("org.bitbucket.b_c:jose4j:$jose4jVersion")
 }

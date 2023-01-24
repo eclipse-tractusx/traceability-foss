@@ -47,6 +47,7 @@ jobs:
           format: "sarif"
           output: "trivy-results1.sarif"
           severity: "CRITICAL,HIGH"
+          timeout: "10m0s"
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
@@ -73,11 +74,12 @@ jobs:
         if: always()
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/catenax-ng/product-traceability-foss-backend:${{needs.prepare-env.outputs.check_sha}}
+          image-ref: ghcr.io/eclipse-tractusx/traceability-foss-backend:${{needs.prepare-env.outputs.check_sha}}
           trivyignores: "./.github/workflows/.trivyignore"
           format: "sarif"
           output: "trivy-results2.sarif"
           severity: "CRITICAL,HIGH"
+          timeout: "10m0s"
 
       - name: Upload Trivy scan results to GitHub Security tab
         if: always()

@@ -21,16 +21,19 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Arrays;
 import java.util.List;
 
 public record StartJobRequest(
 	List<String> aspects,
 	String globalAssetId,
-	boolean collectAspects
+	boolean collectAspects,
+	BomLifecycle bomLifecycle
 ) {
 	public static StartJobRequest forGlobalAssetId(String globalAssetId) {
-		return new StartJobRequest(Aspect.allAspects(), globalAssetId, true);
+		return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT);
 	}
 }
 
@@ -53,4 +56,11 @@ enum Aspect {
 			.map(Aspect::getAspectName)
 			.toList();
 	}
+}
+
+enum BomLifecycle {
+	@JsonProperty("asBuilt")
+	AS_BUILT,
+	@JsonProperty("asPlanned")
+	AS_PLANNED
 }
