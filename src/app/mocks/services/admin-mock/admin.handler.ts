@@ -27,7 +27,7 @@ import { buildMockRegistryProcesses } from './admin.model';
 export const adminHandler = (_ => {
   const mockRegistryProcesses = buildMockRegistryProcesses();
   return [
-    rest.get(`${environment.apiUrl}/metrics/registry-lookup`, (req, res, ctx) => {
+    rest.get(`*${environment.apiUrl}/metrics/registry-lookup`, (req, res, ctx) => {
       const pagination = extractPagination(req);
 
       return res(ctx.status(200), ctx.json(applyPagination(mockRegistryProcesses, pagination)));

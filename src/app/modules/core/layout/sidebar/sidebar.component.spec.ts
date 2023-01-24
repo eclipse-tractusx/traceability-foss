@@ -21,7 +21,6 @@
 
 import { NavigationEnd, Router } from '@angular/router';
 import { Role } from '@core/user/role.model';
-
 import { LayoutModule } from '@layout/layout.module';
 import { SidebarComponent } from '@layout/sidebar/sidebar.component';
 import { getDashboardRoute } from '@page/dashboard/dashboard-route';

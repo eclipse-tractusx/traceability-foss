@@ -20,8 +20,14 @@
  ********************************************************************************/
 
 import { setupWorker } from 'msw';
-import { adminHandler, dashboardHandler, investigationsHandlers, otherPartsHandlers, partsHandlers } from './services';
-import { errorHandler } from './services/error-mock/error.handler';
+import {
+  adminHandler,
+  dashboardHandler,
+  investigationsHandlers,
+  otherPartsHandlers,
+  partsHandlers,
+  errorHandler,
+} from './services';
 
 const handlers = [
   ...dashboardHandler,
