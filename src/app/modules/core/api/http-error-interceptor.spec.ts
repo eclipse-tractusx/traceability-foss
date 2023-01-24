@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { HttpErrorInterceptor } from '@core/api/http-error.interceptor';
 import { CoreModule } from '@core/core.module';

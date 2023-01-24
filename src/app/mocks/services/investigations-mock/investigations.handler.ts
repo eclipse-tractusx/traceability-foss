@@ -29,15 +29,28 @@ export const investigationsHandlers = [
   rest.get(`*${environment.apiUrl}/investigations/created`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
-    const currentStatus = [NotificationStatus.CREATED, NotificationStatus.APPROVED];
-    return res(ctx.status(200), ctx.json(applyPagination(buildMockInvestigations(currentStatus), pagination)));
+    const currentStatus = [
+      NotificationStatus.CREATED,
+      NotificationStatus.APPROVED,
+      NotificationStatus.ACKNOWLEDGED,
+      NotificationStatus.ACCEPTED,
+      NotificationStatus.DECLINED,
+    ];
+
+    return res(
+      ctx.status(200),
+      ctx.json(applyPagination(buildMockInvestigations(currentStatus, 'SENDER'), pagination)),
+    );
   }),
 
   rest.get(`*${environment.apiUrl}/investigations/received`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
-    const currentStatus = [NotificationStatus.RECEIVED];
-    return res(ctx.status(200), ctx.json(applyPagination(buildMockInvestigations(currentStatus), pagination)));
+    const currentStatus = [NotificationStatus.RECEIVED, NotificationStatus.ACKNOWLEDGED];
+    return res(
+      ctx.status(200),
+      ctx.json(applyPagination(buildMockInvestigations(currentStatus, 'RECEIVER'), pagination)),
+    );
   }),
 
   rest.get(`*${environment.apiUrl}/investigations/:investigationId`, (req, res, ctx) => {
@@ -46,13 +59,18 @@ export const investigationsHandlers = [
     const indexFromId = parseInt((investigationId as string).replace('id-', ''), 10);
 
     const statusCollection = [
-      NotificationStatus.APPROVED,
       NotificationStatus.CREATED,
+      NotificationStatus.APPROVED,
       NotificationStatus.RECEIVED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
+      NotificationStatus.ACKNOWLEDGED,
+      NotificationStatus.ACCEPTED,
+      NotificationStatus.DECLINED,
+      NotificationStatus.ACKNOWLEDGED,
     ];
-    const randomNotification = buildMockInvestigations([statusCollection[indexFromId]])[0];
+    const channel = indexFromId === 2 || indexFromId === 8 ? 'RECEIVER' : 'SENDER';
+    const randomNotification = buildMockInvestigations([statusCollection[indexFromId]], channel)[0];
 
     return res(ctx.status(200), ctx.json({ ...randomNotification, id: investigationId }));
   }),
@@ -78,6 +96,10 @@ export const investigationsHandlers = [
   }),
 
   rest.post(`*${environment.apiUrl}/investigations/:investigationId/cancel`, (req, res, ctx) => {
+    return res(ctx.status(204));
+  }),
+
+  rest.post(`${environment.apiUrl}/investigations/:investigationId/update`, (req, res, ctx) => {
     return res(ctx.status(204));
   }),
 ];

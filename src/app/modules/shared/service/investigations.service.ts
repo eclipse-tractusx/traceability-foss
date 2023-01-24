@@ -32,6 +32,7 @@ import {
   NotificationResponse,
   Notifications,
   NotificationsResponse,
+  NotificationStatus,
 } from '../model/notification.model';
 
 @Injectable({
@@ -84,5 +85,14 @@ export class InvestigationsService {
 
   public cancelInvestigation(id: string): Observable<void> {
     return this.apiService.post<void>(`${this.url}/investigations/${id}/cancel`);
+  }
+
+  public updateInvestigation(
+    id: string,
+    status: NotificationStatus.ACKNOWLEDGED | NotificationStatus.ACCEPTED | NotificationStatus.DECLINED,
+    reason = '',
+  ): Observable<void> {
+    const body = { reason, status };
+    return this.apiService.post<void>(`${this.url}/investigations/${id}/update`, body);
   }
 }

@@ -26,7 +26,13 @@
     "cancel": "Anuluj",
     "approve": "Zatwierdź",
     "close": "Zamknij",
-    "viewDetails": "Zobacz szczegóły"
+    "viewDetails": "Zobacz szczegóły",
+
+    "accept": "Przyjmij",
+    "acknowledge": "Potwierdź",
+    "confirm": "Zatwierdź",
+    "cancellationConfirm": "Potwierdź anulowanie",
+    "decline": "Odmowa"
   },
   "table": {
     "noResultFound": "BRAK WYNIKÓW.",
@@ -135,6 +141,11 @@
       "RECEIVED": "Odebrane"
     },
     "modal": {
+      "acceptTitle": "Akceptacja dochodzenia",
+      "acceptDescription": "Czy na pewno chcesz zaakceptować to dochodzenie?",
+      "acceptReasonHint": "Wprowadź powód akceptacji tego dochodzenia.",
+      "acknowledgeTitle": "Potwierdzenie dochodzenia",
+      "acknowledgeDescription": "Czy na pewno chcesz potwierdzić to badanie?",
       "approvalTitle": "Zatwierdzenie badania jakości",
       "approvalDescription": "Czy jesteś pewien że chcesz zatwierdzić to badanie jakości?",
       "closeTitle": "Zamknięcie badania jakości",
@@ -143,19 +154,23 @@
       "cancellationTitle": "Anulowanie badania jakości",
       "cancellationDescription": "Czy jesteś pewien, że chcesz anulować badanie jakości?",
       "cancellationHint": "Wprowadz ID badania jakości aby potwierdzić akcję anulowania.",
-      "cancellationConfirm": "Potwierdż anulowanie",
-      "approve": "Zaakceptuj",
-      "close": "Zamknij",
-      "confirm": "Zatwierdź",
-      "cancel": "Anuluj",
+      "declineTitle": "Odrzucenie dochodzenia",
+      "declineDescription": "Czy na pewno chcesz odmówić wszczęcia tego dochodzenia?",
+      "declineReasonHint": "Wprowadź powód odrzucenia tego dochodzenia.",
 
+      "successfullyAccepted": "Dochodzenie zostało przyjęte z powodzeniem.",
+      "successfullyAcknowledged": "Dochodzenie zostało przyjęte z powodzeniem.",
       "successfullyApproved": "Badanie zostało zaakceptowane.",
       "successfullyCanceled": "Badanie zostało anulowane.",
       "successfullyClosed": "Badanie zostało zamknięte.",
+      "successfullyDeclined": "Badanie zostało odrzucone z powodzeniem.",
 
+      "failedAccept": "Nie udało się przyjąć dochodzenia, proszę spróbować ponownie.",
+      "failedAcknowledge": "Dochodzenie nie zostało potwierdzone, proszę spróbować ponownie.",
       "failedApprove": "Nie udało się zaakceptować badania, spróbuj ponownie później.",
       "failedCancel": "Nie udało się anulować badania, spróbuj ponownie później.",
-      "failedClose": "Nie udało się zamknąć badania, spróbuj ponownie później."
+      "failedClose": "Nie udało się zamknąć badania, spróbuj ponownie później.",
+      "failedDecline": "Śledztwo nie zostało odrzucone, spróbuj ponownie."
     }
   }
 }

@@ -20,17 +20,17 @@
  ********************************************************************************/
 
 import { NotificationStatus } from '@shared/model/notification.model';
-import { renderApproveModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
+import { renderAcknowledgeModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
 import { screen, waitFor } from '@testing-library/angular';
-import { ApproveNotificationModalComponent } from './approve-notification-modal.component';
+import { AcknowledgeNotificationModalComponent } from './acknowledge-notification-modal.component';
 
-describe('ApproveNotificationModalComponent', () => {
-  it('should create approve modal', async () => {
-    await renderApproveModal(NotificationStatus.CREATED);
-    const title = await waitFor(() => screen.getByText('Approval of investigation'));
-    const hint = await waitFor(() => screen.getByText('Are you sure you want to approve this investigation?'));
+describe('AcknowledgeNotificationModalComponent', () => {
+  it('should create acknowledge modal', async () => {
+    await renderAcknowledgeModal(NotificationStatus.RECEIVED);
+    const title = await waitFor(() => screen.getByText('Acknowledgment of investigation'));
+    const hint = await waitFor(() => screen.getByText('Are you sure you want to acknowledge this investigation?'));
     const buttonL = await waitFor(() => screen.getByText('Cancel'));
-    const buttonR = await waitFor(() => screen.getByText('Approve'));
+    const buttonR = await waitFor(() => screen.getByText('Acknowledge'));
 
     expect(title).toBeInTheDocument();
     expect(hint).toBeInTheDocument();
@@ -39,18 +39,18 @@ describe('ApproveNotificationModalComponent', () => {
   });
 
   it('should render investigation description', async () => {
-    const { notification } = await renderApproveModal(NotificationStatus.CREATED);
+    const { notification } = await renderAcknowledgeModal(NotificationStatus.RECEIVED);
     const description = await waitFor(() => screen.getByText(notification.description));
 
     expect(description).toBeInTheDocument();
   });
 
-  it('should call approve function', async () => {
-    await renderApproveModal(NotificationStatus.CREATED);
+  it('should call acknowledge function', async () => {
+    await renderAcknowledgeModal(NotificationStatus.RECEIVED);
 
-    const buttonR = await waitFor(() => screen.getByText('Approve'));
+    const buttonR = await waitFor(() => screen.getByText('Acknowledge'));
     buttonR.click();
 
-    await waitFor(() => expect(screen.getByText('Investigation was approved successfully.')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('Investigation was acknowledged successfully.')).toBeInTheDocument());
   });
 });

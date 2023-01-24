@@ -76,7 +76,7 @@ export class PartsAssembler {
   }
 
   public static assembleParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
-    return PaginationAssembler.assemblePagination(parts, PartsAssembler.assemblePart);
+    return PaginationAssembler.assemblePagination(PartsAssembler.assemblePart, parts);
   }
 
   public static assemblePartList(parts: PartResponse[]): Part[] {
@@ -85,7 +85,7 @@ export class PartsAssembler {
   }
 
   public static assembleOtherParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
-    return PaginationAssembler.assemblePagination(parts, PartsAssembler.assembleOtherPart);
+    return PaginationAssembler.assemblePagination(PartsAssembler.assembleOtherPart, parts);
   }
 
   public static filterPartForView(viewData: View<Part>): View<Part> {

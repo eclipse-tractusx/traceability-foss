@@ -23,14 +23,15 @@ import { EmptyPagination, Pagination, PaginationResponse } from '@core/model/pag
 
 export class PaginationAssembler {
   public static assemblePagination<ResponseItem, Item>(
+    contentMapper: (item: ResponseItem, ...args) => Item,
     response: PaginationResponse<ResponseItem>,
-    contentMapper: (item: ResponseItem) => Item,
+    ...args
   ): Pagination<Item> {
     if (!response || !response.content.length) {
       return EmptyPagination;
     }
 
     const { page, pageCount, pageSize, totalItems, content } = response;
-    return { page, pageCount, pageSize, totalItems, content: content.map(contentMapper) };
+    return { page, pageCount, pageSize, totalItems, content: content.map(data => contentMapper(data, ...args)) };
   }
 }

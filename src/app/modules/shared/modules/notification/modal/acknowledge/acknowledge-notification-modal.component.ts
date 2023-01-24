@@ -20,7 +20,6 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
@@ -28,50 +27,41 @@ import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'app-close-notification-modal',
-  templateUrl: './close-notification-modal.component.html',
+  selector: 'app-acknowledge-notification-modal',
+  templateUrl: './acknowledge-notification-modal.component.html',
 })
-export class CloseNotificationModalComponent {
+export class AcknowledgeNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
-  @Input() closeCall: (id: string, reason: string) => Observable<void>;
+  @Input() acknowledgeCall: (id: string) => Observable<void>;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
-  public readonly formGroup;
-  private readonly textAreaControl = new FormControl();
 
-  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
-    this.formGroup = new FormGroup({ reason: this.textAreaControl });
-  }
+  constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {}
 
   public show(notification: Notification): void {
     this.notification = notification;
-    this.textAreaControl.setValidators([Validators.required]);
 
     const onConfirm = (isConfirmed: boolean) => {
-      const reason = this.formGroup.get('reason').value;
-      this.formGroup.reset();
-
       if (!isConfirmed) return;
 
-      this.closeCall(notification.id, reason).subscribe({
+      this.acknowledgeCall(notification.id).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyClosed');
+          this.toastService.success('commonInvestigation.modal.successfullyAcknowledged');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedClose');
+          this.toastService.error('commonInvestigation.modal.failedAcknowledge');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.closeTitle',
-      buttonRight: 'actions.close',
+      title: 'commonInvestigation.modal.acknowledgeTitle',
+      buttonRight: 'actions.acknowledge',
       buttonLeft: 'actions.cancel',
 
       template: this.modal,
-      formGroup: this.formGroup,
       onConfirm,
     };
 

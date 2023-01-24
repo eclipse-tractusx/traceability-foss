@@ -26,9 +26,12 @@ import { InvestigationHelperService } from '@page/investigations/core/investigat
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
+import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
+import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
 import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
 @Component({
@@ -39,6 +42,10 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   @ViewChild(CloseNotificationModalComponent) private closeModal: CloseNotificationModalComponent;
   @ViewChild(ApproveNotificationModalComponent) private approveModal: ApproveNotificationModalComponent;
   @ViewChild(CancelNotificationModalComponent) private cancelModal: CancelNotificationModalComponent;
+
+  @ViewChild(AcceptNotificationModalComponent) private acceptModal: AcceptNotificationModalComponent;
+  @ViewChild(AcknowledgeNotificationModalComponent) private acknowledgeModal: AcknowledgeNotificationModalComponent;
+  @ViewChild(DeclineNotificationModalComponent) private declineModal: DeclineNotificationModalComponent;
 
   public readonly investigationsReceived$;
   public readonly investigationsQueuedAndRequested$;
@@ -79,6 +86,24 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
         icon: 'cancel',
         action: data => this.cancelModal.show(data),
         condition: data => this.helperService.showCancelButton(data),
+      },
+      {
+        label: 'actions.acknowledge',
+        icon: 'work',
+        action: data => this.acknowledgeModal.show(data),
+        condition: data => this.helperService.showAcknowledgeButton(data),
+      },
+      {
+        label: 'actions.accept',
+        icon: 'assignment_turned_in',
+        action: data => this.acceptModal.show(data),
+        condition: data => this.helperService.showAcceptButton(data),
+      },
+      {
+        label: 'actions.decline',
+        icon: 'assignment_late',
+        action: data => this.declineModal.show(data),
+        condition: data => this.helperService.showDeclineButton(data),
       },
     ];
   }

@@ -20,7 +20,6 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { State } from '../model/state';
 
 @Injectable({
   providedIn: 'root',

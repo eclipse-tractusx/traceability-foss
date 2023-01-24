@@ -25,14 +25,18 @@ import { getRandomAsset } from '../parts-mock/parts.model';
 import { MOCK_part_1 } from '../parts-mock/parts.test.model';
 
 export const InvestigationIdPrefix = 'id-';
-export const buildMockInvestigations = (statuses: NotificationStatus[]): NotificationResponse[] =>
+export const buildMockInvestigations = (
+  statuses: NotificationStatus[],
+  channel: 'SENDER' | 'RECEIVER',
+): NotificationResponse[] =>
   new Array(25).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
     return {
       id: `${InvestigationIdPrefix}${index + 1}`,
       description: `Investigation No ${index + 1}`,
       status,
-      createdBy: 'OEM A',
+      channel,
+      createdBy: 'BPNL00000003AYRE',
       createdDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
       assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
     };
@@ -45,6 +49,7 @@ const MockEmptyInvestigation: NotificationResponse = {
   createdBy: 'OEM A',
   createdDate: `2022-05-01T12:34:12`,
   assetIds: [getRandomAsset().id],
+  channel: 'SENDER',
 };
 
 export const getInvestigationById = (id: string) => {
