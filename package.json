@@ -54,7 +54,7 @@
     "i18next-browser-languagedetector": "7.0.1",
     "i18next-http-backend": "2.0.2",
     "keycloak-angular": "10.0.2",
-    "keycloak-js": "18.0.0",
+    "keycloak-js": "18.0.1",
     "lodash-es": "4.17.21",
     "maplibre-gl": "^2.4.0",
     "postcss": "8.4.19",
