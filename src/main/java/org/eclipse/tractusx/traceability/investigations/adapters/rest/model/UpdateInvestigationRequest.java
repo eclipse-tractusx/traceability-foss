@@ -19,24 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.jpa.investigation;
+package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
-import java.util.Set;
+import javax.validation.constraints.NotNull;
 
-@Repository
-public interface JpaInvestigationRepository extends JpaRepository<InvestigationEntity, Long> {
-	Page<InvestigationEntity> findAllByStatusInOrderByCreatedDesc(Set<InvestigationStatus> statuses, Pageable pageable);
-	Page<InvestigationEntity> findAllBySideEqualsOrderByCreatedDesc(InvestigationSide investigationSide, Pageable pageable);
-	long countAllByStatusEquals(InvestigationStatus status);
-	long countAllBySideEquals(InvestigationSide investigationSide);
-	long countAllByStatusIn(Set<InvestigationStatus> status);
-	Optional<InvestigationEntity> findByNotificationsNotificationReferenceId(String notificationId);
+public record UpdateInvestigationRequest(@NotNull(message = "status must be present") InvestigationStatus status, String reason) {
 }

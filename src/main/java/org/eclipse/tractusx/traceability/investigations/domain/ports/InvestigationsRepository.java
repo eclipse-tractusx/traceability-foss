@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.ports;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.springframework.data.domain.Pageable;
@@ -35,9 +36,11 @@ public interface InvestigationsRepository {
 	InvestigationId save(Investigation investigation);
 	InvestigationId update(Investigation investigation);
 	PageResult<Investigation> getInvestigations(Set<InvestigationStatus> investigationStatuses, Pageable pageable);
+	PageResult<Investigation> getInvestigations(InvestigationSide investigationSide, Pageable pageable);
 	Optional<Investigation> findById(InvestigationId investigationId);
 	void update(Notification notification);
 	long countPendingInvestigations();
 	Optional<Investigation> findByNotificationReferenceId(String notificationId);
 	long countInvestigations(Set<InvestigationStatus> statuses);
+	long countInvestigations(InvestigationSide investigationSide);
 }

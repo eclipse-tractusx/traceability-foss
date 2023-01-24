@@ -32,6 +32,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,8 @@ public class AssetEntity {
 	private String manufacturingCountry;
 	private boolean supplierPart;
 	private QualityType qualityType;
+
+	@Transient
 	private String van;
 
 	@ElementCollection

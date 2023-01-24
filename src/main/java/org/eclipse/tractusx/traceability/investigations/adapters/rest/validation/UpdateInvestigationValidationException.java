@@ -19,9 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.investigations.domain.model;
+package org.eclipse.tractusx.traceability.investigations.adapters.rest.validation;
 
-public enum InvestigationSide {
-	SENDER,
-	RECEIVER
+public class UpdateInvestigationValidationException extends RuntimeException {
+
+	public UpdateInvestigationValidationException(String message) {
+		super(message);
+	}
 }

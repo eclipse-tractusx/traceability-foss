@@ -19,9 +19,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.investigations.domain.model;
+package org.eclipse.tractusx.traceability.investigations.domain.model
 
-public enum InvestigationSide {
-	SENDER,
-	RECEIVER
+import org.eclipse.tractusx.traceability.common.model.BPN
+import spock.lang.Specification
+
+import java.time.Instant
+
+abstract class InvestigationBaseSpec extends Specification {
+
+	protected Investigation senderInvestigationWithStatus(BPN bpn, InvestigationStatus status) {
+		return investigationWithStatus(bpn, status, InvestigationSide.SENDER)
+	}
+
+	protected Investigation receiverInvestigationWithStatus(BPN bpn, InvestigationStatus status) {
+		return investigationWithStatus(bpn, status, InvestigationSide.RECEIVER)
+	}
+
+	protected Investigation investigationWithStatus(BPN bpn, InvestigationStatus status, InvestigationSide side) {
+		return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", Instant.now(), [], [])
+	}
 }
