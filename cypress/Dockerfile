@@ -1,3 +1,7 @@
+# DISCLAIMER!
+# purpose of this file is to run cypress E2E tests locally, we don't use it in other env
+# because of statement above, we don't need to change settings to comply with some KICS requirements
+
 
 # if you need to change image please make sure use the same version in all places
 # (here and in .github/workflows/e2e-tests.yml)
@@ -8,6 +12,7 @@
 # but cypress/included:12.3.0 version base on cypress/browsers:node16.16.0-chrome107-ff107-edge
 FROM cypress/included:12.3.0
 
+USER root
 RUN mkdir /ng-app
 WORKDIR /ng-app
 
@@ -18,4 +23,3 @@ COPY yarn.lock /ng-app/yarn.lock
 RUN yarn install
 # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
 RUN npx playwright install --with-deps webkit
-
