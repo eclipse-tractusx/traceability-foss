@@ -16,3 +16,4 @@ jobs:
       env:
         SONAR_TEST: ${{ vars.SONAR_ORGANIZATION }}
         SONAR_SECRET_TEST: ${{ secrets.SONAR_ORGANIZATION }}
+        SONAR_TOKEN_TEST: ${{ secrets.SONAR_TOKEN }}
