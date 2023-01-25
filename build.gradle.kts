@@ -73,7 +73,7 @@ val feignVersion = "12.1"
 val springCloudVersion = "2021.0.5"
 val springBootSecurityOauth2Version = "2.6.8"
 val jacksonDatabindNullableVersion = "0.2.4"
-val scribejavaVersion = "8.3.2"
+val scribejavaVersion = "8.3.3"
 val findBugsVersion = "3.0.2"
 val restitoVersion = "1.1.0"
 // attention when upgrading: grizzly version is linked to restito version
