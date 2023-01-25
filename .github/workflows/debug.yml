@@ -13,3 +13,5 @@ jobs:
     - name: Echo variables
       run: |
         set
+      env:
+        SONAR_TEST: ${{ vars.SONAR_ORGANIZATION }}
