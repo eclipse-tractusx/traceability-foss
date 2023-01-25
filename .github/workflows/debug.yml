@@ -2,7 +2,7 @@ name: Debug Actions
 
 on:
   push:
-    branches: [ debug ]
+#    branches: [ debug ]
 
 jobs:
   build:
