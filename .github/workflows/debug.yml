@@ -1,0 +1,15 @@
+name: Debug Actions
+
+on:
+  push:
+    branches: [ debug ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Echo variables
+      run: |
+        set
