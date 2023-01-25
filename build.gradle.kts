@@ -5,7 +5,7 @@ plugins {
 	id("org.springframework.boot") version "2.7.7"
 	id("com.autonomousapps.dependency-analysis") version "1.13.1"
 	id("com.google.cloud.tools.jib") version "3.3.1"
-	id("com.coditory.integration-test") version "1.4.4"
+	id("com.coditory.integration-test") version "1.4.5"
 	id("org.openapi.generator") version "6.2.0"
 	id("org.sonarqube") version "3.4.0.2513"
 	id("checkstyle")
