@@ -26,7 +26,7 @@ a recorded event in the supply chain. This saves costs by seamlessly tracking pa
 
 ### Installation
 
-* see [Installation guide](./docs/INSTALLATION.md)
+* see [Installation guide](INSTALL.md)
 
 ### Releasing
 
