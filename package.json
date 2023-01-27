@@ -83,7 +83,7 @@
     "@testing-library/angular": "11.0.4",
     "@testing-library/jasmine-dom": "1.2.0",
     "@types/d3": "7.4.0",
-    "@types/jasmine": "4.3.0",
+    "@types/jasmine": "4.3.1",
     "@types/luxon": "2.3.2",
     "@types/node": "18.11.4",
     "@types/testing-library__jasmine-dom": "^1.0.3",
