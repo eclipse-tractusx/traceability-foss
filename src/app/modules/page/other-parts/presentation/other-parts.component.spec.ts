@@ -77,7 +77,8 @@ describe('Other Parts', () => {
     await renderOtherParts();
     const tabElements = await screen.findAllByRole('tab');
 
-    expect(tabElements.length).toEqual(2);
+    // WIP: expect(tabElements.length).toEqual(2);
+    expect(tabElements.length).toEqual(1);
   });
 
   it('should render selected parts information', async () => {
@@ -164,7 +165,8 @@ describe('Other Parts', () => {
       );
     });
 
-    it('should request customer parts if second tab is selected', async () => {
+    // Disabled until BE catches up WIP
+    xit('should request customer parts if second tab is selected', async () => {
       await renderOtherParts({ roles: ['user'] });
 
       const customerTabElement = screen.getByText('Customer Parts');
@@ -211,12 +213,13 @@ describe('Other Parts', () => {
     expect(selectedText_1).toBeInTheDocument();
     expect(fixture.componentInstance.currentSelectedItems).toEqual([expectedPart]);
 
-    const customerTabElement = screen.getByText('Customer Parts');
+    // Disabled until BE catches up WIP
+    /*const customerTabElement = screen.getByText('Customer Parts');
     customerTabElement.click();
 
     const selectedText_2 = await waitFor(() => screen.getByText('0 Parts selected for this page.'));
     expect(selectedText_2).toBeInTheDocument();
     fixture.componentInstance.clearSelected();
-    await waitFor(() => expect(fixture.componentInstance.currentSelectedItems).toEqual([]));
+    await waitFor(() => expect(fixture.componentInstance.currentSelectedItems).toEqual([]));*/
   });
 });
