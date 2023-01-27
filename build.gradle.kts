@@ -1,3 +1,9 @@
+buildscript {
+	dependencies {
+		classpath("com.google.cloud.tools:jib-spring-boot-extension-gradle:0.1.0")
+	}
+}
+
 plugins {
 	id("java")
 	id("groovy")
@@ -22,6 +28,14 @@ java {
 	sourceSets {
 		main {
 			java.srcDirs("src/main/java", "${buildDir}/generated/sources/openapi/java/main")
+		}
+	}
+}
+
+jib {
+	pluginExtensions {
+		pluginExtension {
+			implementation = "com.google.cloud.tools.jib.gradle.extension.springboot.JibSpringBootExtension"
 		}
 	}
 }
