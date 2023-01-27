@@ -23,12 +23,10 @@ SPDX-License-Identifier: Apache-2.0
   <div class="sidebar-content">
     <div [class.openAnimation]="this.expanded" [class.closeAnimation]="!this.expanded" class="scrollable">
       <ul class="sidebar-menu-container">
-        <ng-container *ngTemplateOutlet="listItem; context: { name: 'dashboard' }"> </ng-container>
-        <ng-container *ngTemplateOutlet="listItem; context: { name: 'parts', icon: 'build' }"> </ng-container>
-        <ng-container *ngTemplateOutlet="listItem; context: { name: 'otherParts', icon: 'commute' }"> </ng-container>
-        <ng-container
-          *ngTemplateOutlet="listItem; context: { name: 'investigations', icon: 'inbox', role: 'wip' }"
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'dashboard' }"></ng-container>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'parts', icon: 'build' }"></ng-container>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'otherParts', icon: 'commute' }"></ng-container>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'investigations', icon: 'inbox' }"></ng-container>
       </ul>
     </div>
     <div class="flex-auto"></div>
@@ -37,7 +35,7 @@ SPDX-License-Identifier: Apache-2.0
         <ng-container
           *ngTemplateOutlet="listItem; context: { name: 'admin', icon: 'apps', role: 'admin' }"
         ></ng-container>
-        <ng-container *ngTemplateOutlet="listItem; context: { name: 'about', icon: 'info' }"> </ng-container>
+        <ng-container *ngTemplateOutlet="listItem; context: { name: 'about', icon: 'info' }"></ng-container>
       </ul>
     </div>
   </div>

@@ -167,7 +167,6 @@
       "successfullyCanceled": "Investigation was canceled successfully.",
       "successfullyClosed": "Investigation was closed successfully.",
       "successfullyDeclined": "Investigation was declined successfully.",
-
       "failedAccept": "Investigation failed to accept, please try again.",
       "failedAcknowledge": "Investigation failed to acknowledge, please try again.",
       "failedApprove": "Investigation failed to approve, please try again.",

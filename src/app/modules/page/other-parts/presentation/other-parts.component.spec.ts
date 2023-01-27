@@ -77,11 +77,12 @@ describe('Other Parts', () => {
     await renderOtherParts();
     const tabElements = await screen.findAllByRole('tab');
 
-    expect(tabElements.length).toEqual(2);
+    // WIP: expect(tabElements.length).toEqual(2);
+    expect(tabElements.length).toEqual(1);
   });
 
   it('should render selected parts information', async () => {
-    await renderOtherParts({ roles: ['user', 'wip'] });
+    await renderOtherParts({ roles: ['user'] });
     await screen.findByTestId('table-component--test-id');
     const selectedPartsInfo = await screen.getByText('0 Parts selected for this page.');
 
@@ -134,7 +135,7 @@ describe('Other Parts', () => {
 
   describe('onTableConfigChange', () => {
     it('should request supplier parts if first tab is selected', async () => {
-      await renderOtherParts({ roles: ['user', 'wip'] });
+      await renderOtherParts({ roles: ['user'] });
 
       const supplierTabElement = screen.getByText('Supplier Parts');
       supplierTabElement.click();
@@ -164,8 +165,9 @@ describe('Other Parts', () => {
       );
     });
 
-    it('should request customer parts if second tab is selected', async () => {
-      await renderOtherParts({ roles: ['user', 'wip'] });
+    // Disabled until BE catches up WIP
+    xit('should request customer parts if second tab is selected', async () => {
+      await renderOtherParts({ roles: ['user'] });
 
       const customerTabElement = screen.getByText('Customer Parts');
       customerTabElement.click();
@@ -198,7 +200,7 @@ describe('Other Parts', () => {
   });
 
   it('should add item to current list', async () => {
-    const { fixture } = await renderOtherParts({ roles: ['user', 'wip'] });
+    const { fixture } = await renderOtherParts({ roles: ['user'] });
     const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
 
     const supplierTabElement = screen.getByText('Supplier Parts');
@@ -211,12 +213,13 @@ describe('Other Parts', () => {
     expect(selectedText_1).toBeInTheDocument();
     expect(fixture.componentInstance.currentSelectedItems).toEqual([expectedPart]);
 
-    const customerTabElement = screen.getByText('Customer Parts');
+    // Disabled until BE catches up WIP
+    /*const customerTabElement = screen.getByText('Customer Parts');
     customerTabElement.click();
 
     const selectedText_2 = await waitFor(() => screen.getByText('0 Parts selected for this page.'));
     expect(selectedText_2).toBeInTheDocument();
     fixture.componentInstance.clearSelected();
-    await waitFor(() => expect(fixture.componentInstance.currentSelectedItems).toEqual([]));
+    await waitFor(() => expect(fixture.componentInstance.currentSelectedItems).toEqual([]));*/
   });
 });
