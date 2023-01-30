@@ -14,7 +14,6 @@ create table asset
 	supplier_part         boolean      not null default (true),
 	batch_id              varchar(255),
 	part_instance_id      varchar(255),
-	van                   varchar(255),
 	primary key (id)
 );
 
