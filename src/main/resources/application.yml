@@ -101,8 +101,10 @@ cors:
   origins: >
     http://localhost:4200/,
     https://traceability-portal.dev.demo.catena-x.net/,
+    https://traceability-portal-test.dev.demo.catena-x.net/,
     https://traceability-portal-pen.dev.demo.catena-x.net/,
-    https://traceability-portal.int.demo.catena-x.net/
+    https://traceability-portal.int.demo.catena-x.net/,
+    https://traceability-portal-test.int.demo.catena-x.net/
 
 resilience4j:
   retry:
