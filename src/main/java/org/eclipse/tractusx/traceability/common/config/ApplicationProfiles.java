@@ -26,6 +26,7 @@ public class ApplicationProfiles {
 	public static final String TESTS = "integration";
 	public static final String NOT_TESTS = "!" + TESTS;
 	public static final String DEV = "dev";
+	public static final String INT = "int";
 
 	private ApplicationProfiles() {
 	}
