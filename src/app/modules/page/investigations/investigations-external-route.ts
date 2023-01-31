@@ -19,14 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { realm } from '@core/api/api.service.properties';
+import { defaultRealm } from '@core/api/api.service.properties';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { PageRoute } from '@shared/model/page-route.model';
 
 export const INVESTIGATION_BASE_ROUTE = 'investigations';
 
 export const getInvestigationInboxRoute = (investigationStatusGroup?: NotificationStatusGroup): PageRoute => ({
-  link: `${realm}/${INVESTIGATION_BASE_ROUTE}`,
+  link: `${defaultRealm}/${INVESTIGATION_BASE_ROUTE}`,
   queryParams: investigationStatusGroup
     ? {
         tabIndex: String(Object.values(NotificationStatusGroup).indexOf(investigationStatusGroup)),

@@ -18,6 +18,7 @@ const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_REALM_LOGO: 'realmLogo',
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
+  CATENAX_PORTAL_BACKEND_DOMAIN,
 };
 ```
 
@@ -39,10 +40,15 @@ This variable points to the desired api
 `CATENAX_PORTAL_BASE_URL`
 This variable is used to set the base path of the application. (Should be set if application runs as a subtopic)
 
+`CATENAX_PORTAL_BACKEND_DOMAIN`
+This variable is needed for security, to be more explicit, for the security headers of a request.  
+The domain of the corresponding backend should be used here.  
+An example value could be: `catena-x.com`
+
 ### Example command:
 
 ```shell
-$ docker run -d -p 4200:8080 -e CATENAX_PORTAL_DEFAULT_REALM=TEST ${dockerImage}
+$ docker run -d -p 4200:8080 -e CATENAX_PORTAL_BASE_URL=/example -e CATENAX_PORTAL_BACKEND_DOMAIN=catena-x.net ${dockerImage}
 ```
 
 #### `Docker run`
@@ -57,7 +63,7 @@ To start a container in detached mode, you use `-d=true` or just `-d` option. By
 
 To expose a container’s internal port, an operator can start the container with the `-P` or `-p` flag. The exposed port is accessible on the host and the ports are available to any client that can reach the host.
 
-#### `-e CATENAX_PORTAL_DEFAULT_REALM=TEST`
+#### `-e ***`
 
 The operator can set any environment variable in the container by using one or more `-e` flags, even overriding already defined flags by the developer with a Dockerfile `ENV`.
 

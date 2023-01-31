@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
-    "build:prod": "ng build --configuration=production",
-    "build:prodDebug": "ng build --configuration=debugProd",
+    "build:prod": "ng build --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
+    "build:prodDebug": "ng build --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
     "format": "prettier --write \"src/**/*.{js,ts,json,md,css,scss,html}\"",
     "lint": "eslint --color --fix -c .eslintrc.js --ext .ts ./src/app",
     "ng": "ng",

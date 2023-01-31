@@ -31,7 +31,7 @@ import {
   UrlTree,
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { realm } from '../api/api.service.properties';
+import { defaultRealm } from '../api/api.service.properties';
 import { Role } from './role.model';
 import { RoleService } from './role.service';
 
@@ -66,7 +66,7 @@ export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<u
       return true;
     }
 
-    void this.router.navigate([realm]);
+    void this.router.navigate([defaultRealm]);
     return false;
   }
 }

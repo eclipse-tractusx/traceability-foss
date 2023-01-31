@@ -51,6 +51,12 @@ spec:
               value: "{{ .Values.image.CATENAX_PORTAL_CLIENT_ID }}"
             - name: CATENAX_PORTAL_DEFAULT_REALM
               value: "{{ .Values.image.CATENAX_PORTAL_DEFAULT_REALM }}"
+            - name: CATENAX_PORTAL_BASE_URL
+              value: "{{ .Values.image.CATENAX_PORTAL_BASE_URL }}"
+            - name: CATENAX_PORTAL_REALM_LOGO
+              value: "{{ .Values.image.CATENAX_PORTAL_REALM_LOGO }}"
+            - name: CATENAX_PORTAL_BACKEND_DOMAIN
+              value: "{{ .Values.image.CATENAX_PORTAL_BACKEND_DOMAIN }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

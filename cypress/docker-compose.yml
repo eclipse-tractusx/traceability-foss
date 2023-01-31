@@ -9,6 +9,5 @@ services:
       - /ng-app/node_modules/ # we don't want to override it by host machine
     network_mode: host # important to be able to connect to localhost url on host machine
 
-
 networks:
  TRACE_X_FE:

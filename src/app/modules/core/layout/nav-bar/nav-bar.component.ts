@@ -21,7 +21,7 @@
 
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-import { realm, realmLogo as _realmLogo } from 'src/app/modules/core/api/api.service.properties';
+import { defaultRealm, realmLogo as _realmLogo } from 'src/app/modules/core/api/api.service.properties';
 import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
 
 @Component({
@@ -36,7 +36,7 @@ export class NavBarComponent {
   public userDetails = { name: '', email: '', role: '' };
 
   constructor(private readonly layoutFacade: LayoutFacade, private readonly router: Router) {
-    this.userInitials = this.layoutFacade.realmName;
+    this.userInitials = this.layoutFacade.realName;
     this.userDetails = this.layoutFacade.userInformation;
   }
 
@@ -52,7 +52,7 @@ export class NavBarComponent {
   }
 
   public navigateToHome(): void {
-    this.router.navigate([`/${realm}`]).then();
+    this.router.navigate([`/${defaultRealm}`]).then();
   }
 
   @HostListener('window:click', [])

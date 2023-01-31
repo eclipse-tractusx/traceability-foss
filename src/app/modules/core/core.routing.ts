@@ -23,7 +23,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from '@layout/layout/layout.component';
 import { PageNotFoundComponent } from '@page/page-not-found/presentation/page-not-found.component';
-import { defaultRealm, realm } from './api/api.service.properties';
+import { defaultRealm } from './api/api.service.properties';
 import { AuthGuard } from './auth/auth.guard';
 
 export /** @type {*} */
@@ -34,7 +34,7 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: realm || defaultRealm,
+    path: defaultRealm,
     component: LayoutComponent,
     canActivate: [AuthGuard],
     data: { breadcrumb: 'home' },
