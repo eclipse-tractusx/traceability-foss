@@ -58,14 +58,14 @@ edc-controlplane:
       edc.receiver.http.endpoint=http://tracex-edc-provider-edc-controlplane:8080/api/service/pull
 
       edc.transfer.dataplane.sync.endpoint=http://tracex-edc-provider-edc-dataplane:8185/api/public
-      edc.transfer.proxy.endpoint=https://trace-x-edc-dataplane.dev.demo.catena-x.net/api/public
+      edc.transfer.proxy.endpoint=https://trace-x-edc-dataplane.dev.demo.catena-x.net/api/public/
       edc.transfer.proxy.token.signer.privatekey.alias=token-signer-cert-key-dev
       edc.transfer.proxy.token.verifier.publickey.alias=token-signer-cert-dev
 
       edc.dataplane.selector.consumer.url=http://tracex-edc-provider-edc-dataplane:9999/api/dataplane/control
       edc.dataplane.selector.consumer.sourcetypes=HttpData
       edc.dataplane.selector.consumer.destinationtypes=HttpProxy
-      edc.dataplane.selector.consumer.properties={ "publicApiUrl": "http://tracex-edc-provider-edc-dataplane:8185/api/public" }
+      edc.dataplane.selector.consumer.properties={ "publicApiUrl": "http://tracex-edc-provider-edc-dataplane:8185/api/public/" }
 
       edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
       edc.oauth.public.key.alias=daps-cert-edc-provider-dev
