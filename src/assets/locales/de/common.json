@@ -127,7 +127,12 @@
     "status": {
       "RECEIVED": "Erhalten",
       "CREATED": "Erstellt",
-      "APPROVED": "Zugestellt"
+      "APPROVED": "Zugestellt",
+      "CANCELED": "Abgebrochen",
+      "CLOSED": "Abgeschlossen",
+      "ACCEPTED": "Akzeptiert",
+      "ACKNOWLEDGED": "Bestätigt",
+      "DECLINED": "Abgelehnt"
     },
     "modal": {
       "acceptTitle": "Annehmen der Untersuchung",
