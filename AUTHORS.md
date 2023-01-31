@@ -15,6 +15,6 @@ The following people have contributed to this repository:
 - Darek Skrzypczak,doubleSlash Net-Business GmbH,https://github.com/ds-ext-dskrzypczak
 - Nobert Geczi,msg Systems Romania SRL,https://github.com/norbertgeczi
 - Markus Kreuz,FEV Consulting GmbH,https://github.com/CXkreuz
-- Thomas Braun, ZF Friedrichshafen AG, https://github.com/tbraun-zf
+- Thomas Braun,ZF Friedrichshafen AG,https://github.com/tbraun-zf
 
 
