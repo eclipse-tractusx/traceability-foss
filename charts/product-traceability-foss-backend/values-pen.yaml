@@ -81,6 +81,8 @@ pgadmin4:
       cpu: 500m
       memory: 512Mi
 
-irs:
+irs-helm:
   enabled: false
 
+irs-edc-consumer:
+  enabled: false
