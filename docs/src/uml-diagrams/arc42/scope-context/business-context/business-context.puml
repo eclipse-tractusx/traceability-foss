@@ -1,0 +1,34 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+
+actor User
+actor Supervisor
+actor Admin
+frame "Trace-X"{
+	interface RESTInterface
+	node [Trace-X Frontend]
+	node [Trace-X Backend]
+	database "PostgreSQL" {
+      [Trace-X Backend] --> [Database]
+    }
+
+}
+node "ItemRelationshipService" as IRS
+node "Catena-X Network" as CX
+node "EDC" as EDC
+
+Supervisor --> [Trace-X Frontend]
+
+Admin --> [Trace-X Frontend]
+User --> [Trace-X Frontend]
+[Trace-X Frontend] --( RESTInterface
+RESTInterface -- [Trace-X Backend]
+[Trace-X Backend] --> IRS : Receive ItemGraph
+[Trace-X Backend] <-> EDC : Notifications
+IRS --> CX
+
+
+
+
+@enduml

@@ -41,7 +41,7 @@ public interface IRSApiClient {
 	@RequestLine("POST /irs/jobs")
 	StartJobResponse registerJob(@RequestBody StartJobRequest request);
 
-	@RequestLine("GET /irs/jobs/{jobId}")
+	@RequestLine("GET /irs/jobs/{id}")
 	@Retry(name = "irs-get")
-	JobResponse getJobDetails(@Param("jobId") String jobId);
+	JobResponse getJobDetails(@Param("id") String id);
 }

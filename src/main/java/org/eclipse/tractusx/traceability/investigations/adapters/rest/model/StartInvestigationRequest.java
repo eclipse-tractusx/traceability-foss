@@ -21,11 +21,10 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
 
 public record StartInvestigationRequest(
-	@NotEmpty(message = "Specify at least one partId") List<String> partIds,
-	@Size(min = 15, message = "Description should have at least 15 characters") String description
+	@Size(min = 1, max = 100, message = "Specify at least 1 and at most 100 partIds") List<String> partIds,
+	@Size(min = 15, max = 1000, message = "Description should have at least 15 characters and at most 1000 characters") String description
 ) {}

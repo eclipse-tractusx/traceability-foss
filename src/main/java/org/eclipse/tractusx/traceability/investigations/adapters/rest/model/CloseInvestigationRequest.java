@@ -21,11 +21,9 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import java.util.List;
 
 public record CloseInvestigationRequest(
-	@NotBlank(message = "Specify close reason") String reason
-) {}
+	@Size(min = 15, max = 1000, message = "Close reason should have at least 15 characters and at most 1000 characters") String reason
+) {
+}

@@ -1,0 +1,23 @@
+@startmindmap
+* Quality
+** Interoperability
+***_ I01
+** Maintainability
+***_ Analyzability
+****_ M01
+****_ M02
+***_ Extensibility
+****_ M03
+***_ Modifiability
+****_ M04
+** Functional suitability
+***_ Correctness
+****_ F01
+***_ Notifications
+****_ F02
+****_ F04
+***_ Role as enabler
+****_ F03
+** Efficiency
+***_ E01
+@endmindmap

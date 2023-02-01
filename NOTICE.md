@@ -35,7 +35,7 @@ in the GitHub organization https://github.com/eclipse-tractusx:
 
 This project leverages the following third party content.
 
-See DEPENDENCIES file.
+See [DEPENDENCIES] (https://github.com/eclipse-tractusx/traceability-foss-backend/blob/main/DEPENDENCIES) file.
 
 ## Cryptography
 

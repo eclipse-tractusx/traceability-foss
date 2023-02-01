@@ -1,0 +1,12 @@
+= Architecture documentation (arc42)
+
+- xref:introduction-goals/index.adoc[Introduction and goals]
+- xref:architecture-constraints/index.adoc[Architecture constraints]
+- xref:scope-context/index.adoc[System scope and context]
+- xref:solution-strategy/index.adoc[Solution strategy]
+- xref:building-block-view/index.adoc[Building block view]
+- xref:runtime-view/index.adoc[Runtime view]
+- xref:deployment-view/index.adoc[Deployment view]
+- xref:cross-cutting/index.adoc[Cross-cutting concepts]
+- xref:quality/index.adoc[Quality requirements]
+- xref:glossary.adoc[Glossary]

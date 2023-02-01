@@ -24,3 +24,6 @@ feign:
     url: https://tracex-irs.int.demo.catena-x.net
   registryApi:
     url: https://semantics.int.demo.catena-x.net/registry
+
+edc:
+  callback-urls: http://tracex-irs:8081/internal/endpoint-data-reference

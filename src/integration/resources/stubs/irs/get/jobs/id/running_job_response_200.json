@@ -1,13 +1,13 @@
 {
 	"job": {
-		"jobId": "ebb79c45-7bba-4169-bf17-3e719989ab54",
+		"id": "ebb79c45-7bba-4169-bf17-3e719989ab54",
 		"globalAssetId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
-		"jobState": "RUNNING",
+		"state": "RUNNING",
 		"exception": null,
 		"createdOn": "2022-07-27T12:41:49.672270299Z",
 		"startedOn": "2022-07-27T12:41:49.672594203Z",
 		"lastModifiedOn": "2022-07-27T12:43:28.030938483Z",
-		"jobCompleted": "2022-07-27T12:43:28.030941583Z",
+		"completedOn": "2022-07-27T12:43:28.030941583Z",
 		"owner": "sa-cl6-cx-9",
 		"summary": {
 			"asyncFetchedItems": {
@@ -16,7 +16,7 @@
 				"failed": 0
 			}
 		},
-		"jobParameter": {
+		"parameter": {
 			"bomLifecycle": "asBuilt",
 			"aspects": [
 				"SerialPartTypization",

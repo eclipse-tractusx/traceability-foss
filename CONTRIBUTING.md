@@ -15,6 +15,7 @@ infrastructure investment. Tractus-X is meant to be the PoC project of the
 Catena-X alliance focusing on parts traceability.
 
 * https://projects.eclipse.org/projects/automotive.tractusx
+* https://github.com/eclipse-tractusx/traceability-foss-backend
 
 ## Developer resources
 

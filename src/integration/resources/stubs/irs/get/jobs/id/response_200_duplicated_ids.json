@@ -1,13 +1,13 @@
 {
 	"job": {
-		"jobId": "04fe2582-94f6-4bf0-a4a6-88eece4b84ec",
+		"id": "04fe2582-94f6-4bf0-a4a6-88eece4b84ec",
 		"globalAssetId": "urn:uuid:a4a2ba57-1c50-48ad-8981-7a0ef032146b",
-		"jobState": "COMPLETED",
+		"state": "COMPLETED",
 		"exception": null,
 		"createdOn": "2022-10-04T13:46:56.314244446Z",
 		"startedOn": "2022-10-04T13:46:56.314376347Z",
 		"lastModifiedOn": "2022-10-04T13:49:08.406519243Z",
-		"jobCompleted": "2022-10-04T13:49:08.406522243Z",
+		"completedOn": "2022-10-04T13:49:08.406522243Z",
 		"owner": "sa-cl6-cx-9",
 		"summary": {
 			"asyncFetchedItems": {
@@ -16,7 +16,7 @@
 				"failed": 175
 			}
 		},
-		"jobParameter": {
+		"parameter": {
 			"bomLifecycle": "asBuilt",
 			"aspects": [
 				"Batch",

@@ -40,7 +40,9 @@ public class EnvironmentAwareMockEDCUrlProvider implements EDCUrlProvider {
 
 	private static final String ENVIRONMENT_PLACEHOLDER = "{environment}";
 
-	private static final String DEFAULT_EDC_URL = "https://trace-x-test-edc.%s.demo.catena-x.net".formatted(ENVIRONMENT_PLACEHOLDER);
+	private static final String DEFAULT_EDC_SENDER_URL = "https://tracex-consumer-controlplane.%s.demo.catena-x.net".formatted(ENVIRONMENT_PLACEHOLDER);
+
+	private static final String DEFAULT_EDC_PROVIDER_URL = "https://trace-x-test-edc.%s.demo.catena-x.net".formatted(ENVIRONMENT_PLACEHOLDER);
 
 	private final String senderBpn;
 
@@ -65,12 +67,12 @@ public class EnvironmentAwareMockEDCUrlProvider implements EDCUrlProvider {
 	}
 
 	private String defaultProviderUrl() {
-		return DEFAULT_EDC_URL.replace(ENVIRONMENT_PLACEHOLDER, applicationEnvironment);
+		return DEFAULT_EDC_PROVIDER_URL.replace(ENVIRONMENT_PLACEHOLDER, applicationEnvironment);
 	}
 
 	@Override
 	public String getSenderUrl() {
-		return getEdcUrl(senderBpn);
+		return DEFAULT_EDC_SENDER_URL.replace(ENVIRONMENT_PLACEHOLDER, applicationEnvironment);
 	}
 
 	public String getSenderBpn() {
