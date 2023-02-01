@@ -36,7 +36,7 @@
 - added dashboard investigation widget
 - added fixes for quality gates and relations
 - renamed veracode.yml to .yaml so it complies with checks
-- helm chart release ([#76](https://github.com/catenax-ng/product-traceability-foss-frontend/issues/76))
+- helm chart release ([1.0.0](https://github.com/eclipse-tractusx/traceability-foss-frontend/releases/tag/helm-charts-1.0.0))
 - improve performance throughout appication
 - added wip role for notification and role check to table component
 - added better test data for local mock

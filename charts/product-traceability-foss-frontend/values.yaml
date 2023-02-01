@@ -7,7 +7,7 @@ namespace: product-traceability-foss
 replicaCount: 1
 
 image:
-  repository: ghcr.io/catenax-ng/product-traceability-foss-frontend
+  repository: ghcr.io/catenax-ng/tx-traceability-foss-frontend
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
@@ -25,8 +25,8 @@ imagePullSecret:
 # imagePullSecrets:
 #   - name: machineuser-pull-secret-ro
 
-nameOverride: "product-traceability-foss-frontend"
-fullnameOverride: "product-traceability-foss-frontend"
+nameOverride: "tx-traceability-foss-frontend"
+fullnameOverride: "tx-traceability-foss-frontend"
 
 serviceAccount:
   ##

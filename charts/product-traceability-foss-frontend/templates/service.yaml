@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "product-traceability-foss-frontend.fullname" . }}
+  name: {{ include "tx-traceability-foss-frontend.fullname" . }}
   labels:
-    {{- include "product-traceability-foss-frontend.labels" . | nindent 4 }}
+    {{- include "tx-traceability-foss-frontend.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -12,4 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "product-traceability-foss-frontend.selectorLabels" . | nindent 4 }}
+    {{- include "tx-traceability-foss-frontend.selectorLabels" . | nindent 4 }}
