@@ -29,7 +29,7 @@
 - update documents for release
 - added installation file with instructions
 - renamed app
-- re enable other parts
+- reenable other parts
 - align fe with be for supplier parts
 - generate changelog
 - highlight parts if notification active
@@ -42,7 +42,7 @@
 - added better test data for local mock
 - added close functionality to sidenav button
 - create app-scroll-with-shadow
-- cleanuo copyright headers
+- cleanup copyright headers
 - added pagination for parts
 - improved quality of life for tree component
 - added css to make sidenav more responsive
