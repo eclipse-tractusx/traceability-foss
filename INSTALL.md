@@ -11,7 +11,7 @@ $ cd product-traceability-foss-backend
 ```
 
 ## Local deployment
-* Start the necessary infrastructure by running: ```docker-compose up``` inside [docker folder](docker)
+* Start the necessary infrastructure by running: ```docker-compose up``` inside [docker folder](../docker)
 * Export environment variables required by the service:
   * `SPRING_DATASOURCE_URL` - with value `jdbc:postgresql://localhost:5432/trace`
   * `SPRING_DATASOURCE_USERNAME` - with value `trace` [see database initialization script](docker/db-init/create_db.sql)
