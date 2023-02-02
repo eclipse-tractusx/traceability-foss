@@ -73,6 +73,9 @@ pgadmin4:
   env:
     email: pgadmin4@trace.foss
     password: <path:traceability-foss/data/pen/database#pgadminPassword>
+    variables:
+      - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
+        value: "false"
   resources:
     limits:
       cpu: 1000m
@@ -81,6 +84,8 @@ pgadmin4:
       cpu: 500m
       memory: 512Mi
 
-irs:
+irs-helm:
   enabled: false
 
+irs-edc-consumer:
+  enabled: false

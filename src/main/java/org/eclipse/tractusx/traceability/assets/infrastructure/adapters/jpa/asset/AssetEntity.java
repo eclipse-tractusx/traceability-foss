@@ -32,6 +32,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,9 @@ public class AssetEntity {
 	private boolean supplierPart;
 	private QualityType qualityType;
 
+	@Transient
+	private String van;
+
 	@ElementCollection
 	@CollectionTable(name = "asset_child_descriptors")
 	private List<ChildDescription> childDescriptors;
@@ -68,7 +72,8 @@ public class AssetEntity {
 					   String manufacturerName, String nameAtCustomer,
 					   String customerPartId, Instant manufacturingDate,
 					   String manufacturingCountry, boolean supplierPart,
-					   List<ChildDescription> childDescriptors, QualityType qualityType) {
+					   List<ChildDescription> childDescriptors, QualityType qualityType,
+					   String van) {
 		this.id = id;
 		this.idShort = idShort;
 		this.nameAtManufacturer = nameAtManufacturer;
@@ -84,6 +89,7 @@ public class AssetEntity {
 		this.supplierPart = supplierPart;
 		this.childDescriptors = childDescriptors;
 		this.qualityType = qualityType;
+		this.van = van;
 	}
 
 	public AssetEntity() {
@@ -220,6 +226,12 @@ public class AssetEntity {
 	public boolean isOnInvestigation() {
 		return getInvestigations().stream()
 			.anyMatch(investigation -> investigation.getStatus() == InvestigationStatus.CREATED);
+	}
+	public String getVan() {
+		return van;
+	}
+	public void setVan(String van) {
+		this.van = van;
 	}
 
 	@Embeddable

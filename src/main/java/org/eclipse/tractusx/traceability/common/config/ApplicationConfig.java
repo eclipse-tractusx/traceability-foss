@@ -51,7 +51,6 @@ import springfox.documentation.builders.OAuth2SchemeBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.HttpAuthenticationScheme;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.service.SecurityScheme;
 import springfox.documentation.spi.DocumentationType;
@@ -124,11 +123,12 @@ public class ApplicationConfig {
 	@Bean
 	public Docket swaggerSpringMvcPlugin() {
 		return new Docket(DocumentationType.OAS_30)
-			.securitySchemes(List.of(oauthAuthenticationScheme(), bearerTokenAuthenticationScheme()))
+			.securitySchemes(List.of(oauthAuthenticationScheme()))
 			.securityContexts(List.of(securityContext()))
 			.select()
 			.apis(RequestHandlerSelectors.basePackage("org.eclipse.tractusx.traceability"))
 			.build()
+			.forCodeGeneration(true)
 			.directModelSubstitute(Pageable.class, SwaggerPageable.class);
 	}
 
@@ -151,13 +151,6 @@ public class ApplicationConfig {
 		};
 	}
 
-	private static SecurityScheme bearerTokenAuthenticationScheme() {
-		return HttpAuthenticationScheme
-			.JWT_BEARER_BUILDER
-			.name("Bearer")
-			.build();
-	}
-
 	private SecurityScheme oauthAuthenticationScheme() {
 		return new OAuth2SchemeBuilder("authorizationCode")
 			.name("default")
@@ -171,8 +164,7 @@ public class ApplicationConfig {
 		return SecurityContext
 			.builder()
 			.securityReferences(List.of(
-				new SecurityReference("default", DEFAULT_SCOPES),
-				new SecurityReference("Bearer", DEFAULT_SCOPES)
+				new SecurityReference("default", DEFAULT_SCOPES)
 			))
 			.operationSelector(operationContext -> HttpMethod.GET.equals(operationContext.httpMethod()))
 			.build();

@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.infrastructure.jpa.investigation;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
 import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
 import javax.persistence.CascadeType;
@@ -58,7 +59,10 @@ public class InvestigationEntity {
 
 	private String bpn;
 	private InvestigationStatus status;
+	private InvestigationSide side;
 	private String closeReason;
+	private String acceptReason;
+	private String declineReason;
 	private String description;
 	private Instant created;
 	private Instant updated;
@@ -66,25 +70,37 @@ public class InvestigationEntity {
 	public InvestigationEntity() {
 	}
 
-	public InvestigationEntity(Long id, List<AssetEntity> assets, String bpn, InvestigationStatus status, String closeReason, String description, Instant created, Instant updated) {
+	public InvestigationEntity(Long id,
+							   List<AssetEntity> assets,
+							   String bpn,
+							   InvestigationStatus status,
+							   InvestigationSide side,
+							   String closeReason,
+							   String acceptReason,
+							   String description,
+							   Instant created,
+							   Instant updated) {
 		this.id = id;
 		this.assets = assets;
 		this.bpn = bpn;
 		this.status = status;
+		this.side = side;
 		this.closeReason = closeReason;
+		this.acceptReason = acceptReason;
 		this.description = description;
 		this.created = created;
 		this.updated = updated;
 	}
 
-	public InvestigationEntity(List<AssetEntity> assets, String bpn, String description, InvestigationStatus status, Instant created) {
-		this(assets, bpn, status, "", description, created);
+	public InvestigationEntity(List<AssetEntity> assets, String bpn, String description, InvestigationStatus status, InvestigationSide side, Instant created) {
+		this(assets, bpn, status, side, "", description, created);
 	}
 
-	public InvestigationEntity(List<AssetEntity> assets, String bpn, InvestigationStatus status, String closeReason, String description, Instant created) {
+	public InvestigationEntity(List<AssetEntity> assets, String bpn, InvestigationStatus status, InvestigationSide side, String closeReason, String description, Instant created) {
 		this.assets = assets;
 		this.bpn = bpn;
 		this.status = status;
+		this.side = side;
 		this.closeReason = closeReason;
 		this.description = description;
 		this.created = created;
@@ -123,12 +139,36 @@ public class InvestigationEntity {
 		this.status = status;
 	}
 
+	public InvestigationSide getSide() {
+		return side;
+	}
+
+	public void setSide(InvestigationSide side) {
+		this.side = side;
+	}
+
 	public String getCloseReason() {
 		return closeReason;
 	}
 
 	public void setCloseReason(String closeReason) {
 		this.closeReason = closeReason;
+	}
+
+	public String getAcceptReason() {
+		return acceptReason;
+	}
+
+	public void setAcceptReason(String acceptReason) {
+		this.acceptReason = acceptReason;
+	}
+
+	public String getDeclineReason() {
+		return declineReason;
+	}
+
+	public void setDeclineReason(String declineReason) {
+		this.declineReason = declineReason;
 	}
 
 	public String getDescription() {

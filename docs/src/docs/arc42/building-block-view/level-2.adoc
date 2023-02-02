@@ -1,6 +1,0 @@
-= Level 2
-
-=== Component diagram
-
-
-=== Component description

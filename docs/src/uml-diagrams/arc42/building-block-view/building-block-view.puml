@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+
+component [**TraceX-Application**] <<System>> as TraceX {
+    component [**AssetsController**] <<Component>> as AssetsController
+    component [**DashboardController**] <<Component>> as DashboardController
+    component [**RegistryController**] <<Component>> as RegistryController
+
+    component [**AssetRepository**] <<Component>> as AssetRepository
+    component [**NotificationsRepository**] <<Component>> as NotificationsRepository
+    component [**BPNRepository**] <<Component>> as BPNRepository
+
+    port "TraceX API" as API_PORT
+
+    () "JPARepository" as StoreInterface
+
+    AssetsController <..> AssetRepository
+    AssetsController <..> NotificationsRepository
+    AssetsController <..> BPNRepository
+    DashboardController <..> AssetRepository
+    RegistryController <..> AssetRepository
+
+    BPNRepository --( StoreInterface
+    AssetRepository --( StoreInterface
+    NotificationsRepository --( StoreInterface
+}
+
+actor TraceXUser
+TraceXUser -(0- API_PORT
+AssetsController -up- API_PORT
+DashboardController -up- API_PORT
+RegistryController -up- API_PORT
+
+database "Database" as BlobStore
+StoreInterface -down- BlobStore
+
+@enduml

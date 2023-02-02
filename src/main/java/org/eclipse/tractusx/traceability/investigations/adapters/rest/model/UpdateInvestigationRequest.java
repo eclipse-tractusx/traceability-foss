@@ -19,15 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.config;
+package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
-public class ApplicationProfiles {
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
-	public static final String TESTS = "integration";
-	public static final String NOT_TESTS = "!" + TESTS;
-	public static final String DEV = "dev";
-	public static final String INT = "int";
+import javax.validation.constraints.NotNull;
 
-	private ApplicationProfiles() {
-	}
+public record UpdateInvestigationRequest(@NotNull(message = "status must be present") InvestigationStatus status, String reason) {
 }

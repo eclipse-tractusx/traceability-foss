@@ -19,15 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.config;
+package org.eclipse.tractusx.traceability.investigations.adapters.rest.validation;
 
-public class ApplicationProfiles {
+public class UpdateInvestigationValidationException extends RuntimeException {
 
-	public static final String TESTS = "integration";
-	public static final String NOT_TESTS = "!" + TESTS;
-	public static final String DEV = "dev";
-	public static final String INT = "int";
-
-	private ApplicationProfiles() {
+	public UpdateInvestigationValidationException(String message) {
+		super(message);
 	}
 }

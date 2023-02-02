@@ -23,16 +23,23 @@ package org.eclipse.tractusx.traceability.common.support
 
 
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 
 import java.time.Instant
 
 trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
-	void defaultReceivedInvestigationStored() {
-		InvestigationEntity entity = new InvestigationEntity([], "BPN000001", InvestigationStatus.RECEIVED, "",  "some-description", Instant.now())
+	Long defaultReceivedInvestigationStored() {
+		InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "",  "some-description", Instant.now())
 
-		storedInvestigation(entity)
+		return storedInvestigation(entity)
+	}
+
+	Long defaultAcknowledgedInvestigationStored() {
+		InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.ACKNOWLEDGED, InvestigationSide.RECEIVER, "",  "", Instant.now())
+
+		return storedInvestigation(entity)
 	}
 
 	void assertInvestigationsSize(int size) {

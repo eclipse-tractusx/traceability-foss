@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.jpa.investigation;
 
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,7 +34,9 @@ import java.util.Set;
 @Repository
 public interface JpaInvestigationRepository extends JpaRepository<InvestigationEntity, Long> {
 	Page<InvestigationEntity> findAllByStatusInOrderByCreatedDesc(Set<InvestigationStatus> statuses, Pageable pageable);
+	Page<InvestigationEntity> findAllBySideEqualsOrderByCreatedDesc(InvestigationSide investigationSide, Pageable pageable);
 	long countAllByStatusEquals(InvestigationStatus status);
+	long countAllBySideEquals(InvestigationSide investigationSide);
 	long countAllByStatusIn(Set<InvestigationStatus> status);
 	Optional<InvestigationEntity> findByNotificationsNotificationReferenceId(String notificationId);
 }

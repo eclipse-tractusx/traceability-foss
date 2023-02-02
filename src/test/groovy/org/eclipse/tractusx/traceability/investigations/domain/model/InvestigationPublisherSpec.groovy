@@ -25,10 +25,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.model
 import org.eclipse.tractusx.traceability.common.model.BPN
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationStatusTransitionNotAllowed
-import spock.lang.Specification
 import spock.lang.Unroll
-
-import java.time.Instant
 
 import static InvestigationStatus.ACCEPTED
 import static InvestigationStatus.ACKNOWLEDGED
@@ -40,7 +37,7 @@ import static InvestigationStatus.DECLINED
 import static InvestigationStatus.RECEIVED
 import static InvestigationStatus.SENT
 
-class InvestigationSpec extends Specification {
+class InvestigationPublisherSpec extends InvestigationBaseSpec {
 
 	@Unroll
 	def "should not allow to cancel investigation with #investigationStatus status"() {
@@ -48,7 +45,7 @@ class InvestigationSpec extends Specification {
             BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, investigationStatus)
+			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
 			investigation.cancel(bpn)
@@ -69,7 +66,7 @@ class InvestigationSpec extends Specification {
 			BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, investigationStatus)
+			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
 			investigation.approve(bpn)
@@ -90,7 +87,7 @@ class InvestigationSpec extends Specification {
 			BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, investigationStatus)
+			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
 			investigation.close(bpn, "some-reason")
@@ -110,7 +107,7 @@ class InvestigationSpec extends Specification {
 			BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, investigationStatus)
+			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
 			investigation.cancel(new BPN("BPNL000000000002"))
@@ -130,7 +127,7 @@ class InvestigationSpec extends Specification {
 			BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, investigationStatus)
+			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
 			investigation.approve(new BPN("BPNL000000000002"))
@@ -150,7 +147,7 @@ class InvestigationSpec extends Specification {
 			BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, investigationStatus)
+			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
 			investigation.close(new BPN("BPNL000000000002"), "some reason")
@@ -170,7 +167,7 @@ class InvestigationSpec extends Specification {
 			BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, CREATED)
+			Investigation investigation = senderInvestigationWithStatus(bpn, CREATED)
 
 		when:
 			investigation.approve(bpn)
@@ -187,7 +184,7 @@ class InvestigationSpec extends Specification {
 			BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, CREATED)
+			Investigation investigation = senderInvestigationWithStatus(bpn, CREATED)
 
 		when:
 			investigation.cancel(bpn)
@@ -205,7 +202,7 @@ class InvestigationSpec extends Specification {
 			BPN bpn = new BPN("BPNL000000000001")
 
 		and:
-			Investigation investigation = investigationWithStatus(bpn, investigationStatus)
+			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
 			investigation.close(bpn, "some-reason")
@@ -218,9 +215,5 @@ class InvestigationSpec extends Specification {
 
 		where:
 			investigationStatus << [APPROVED, SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED]
-	}
-
-	private Investigation investigationWithStatus(BPN bpn, InvestigationStatus status) {
-		new Investigation(new InvestigationId(1L), bpn, status, "", "", Instant.now(), [], [])
 	}
 }

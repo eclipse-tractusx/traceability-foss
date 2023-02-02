@@ -1,3 +1,9 @@
+buildscript {
+	dependencies {
+		classpath("com.google.cloud.tools:jib-spring-boot-extension-gradle:0.1.0")
+	}
+}
+
 plugins {
 	id("java")
 	id("groovy")
@@ -5,8 +11,8 @@ plugins {
 	id("org.springframework.boot") version "2.7.7"
 	id("com.autonomousapps.dependency-analysis") version "1.13.1"
 	id("com.google.cloud.tools.jib") version "3.3.1"
-	id("com.coditory.integration-test") version "1.4.4"
-	id("org.openapi.generator") version "6.2.0"
+	id("com.coditory.integration-test") version "1.4.5"
+	id("org.openapi.generator") version "6.2.1"
 	id("org.sonarqube") version "3.4.0.2513"
 	id("checkstyle")
 }
@@ -26,6 +32,14 @@ java {
 	}
 }
 
+jib {
+	pluginExtensions {
+		pluginExtension {
+			implementation = "com.google.cloud.tools.jib.gradle.extension.springboot.JibSpringBootExtension"
+		}
+	}
+}
+
 configurations {
 	compileOnly.get().extendsFrom(configurations["annotationProcessor"])
 }
@@ -37,9 +51,9 @@ repositories {
 
 sonarqube {
 	properties {
-		property("sonar.organization", "catenax-ng")
+		property("sonar.organization", System.getenv("SONAR_ORGANIZATION") ?: "catenax-ng")
 		property("sonar.host.url", "https://sonarcloud.io")
-		property("sonar.projectKey", "catenax-ng_product-traceability-foss-backend")
+		property("sonar.projectKey", System.getenv("SONAR_PROJECT_KEY") ?: "catenax-ng_product-traceability-foss-backend")
 		property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/*.xml")
 		property(
 			"sonar.cpd.exclusions", listOf(
@@ -73,7 +87,7 @@ val feignVersion = "12.1"
 val springCloudVersion = "2021.0.5"
 val springBootSecurityOauth2Version = "2.6.8"
 val jacksonDatabindNullableVersion = "0.2.4"
-val scribejavaVersion = "8.3.2"
+val scribejavaVersion = "8.3.3"
 val findBugsVersion = "3.0.2"
 val restitoVersion = "1.1.0"
 // attention when upgrading: grizzly version is linked to restito version

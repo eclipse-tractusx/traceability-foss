@@ -79,6 +79,11 @@ swagger:
       params:
         investigationId: "Investigation ID"
       authorizations: "#components/securitySchemes/bearerAuth"
+    api.investigations.investigationId.update:
+      summary: "Updates given investigation on the receiver side"
+      params:
+        investigationId: "Investigation ID"
+      authorizations: "#components/securitySchemes/bearerAuth"
     api.dashboard:
       summary: "Returns dashboard related data"
       notes: "The endpoint can return limited data based on the user role"

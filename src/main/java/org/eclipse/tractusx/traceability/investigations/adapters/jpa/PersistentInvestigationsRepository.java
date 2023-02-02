@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.Notific
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
@@ -93,7 +94,14 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 		List<AssetEntity> assetEntities = assetsRepository.findByIdIn(assetIds);
 
 		if (!assetEntities.isEmpty()) {
-			InvestigationEntity investigationEntity = new InvestigationEntity(assetEntities, investigation.getBpn(), investigation.getDescription(), investigation.getInvestigationStatus(), investigation.getCreationTime());
+			InvestigationEntity investigationEntity = new InvestigationEntity(
+				assetEntities,
+				investigation.getBpn(),
+				investigation.getDescription(),
+				investigation.getInvestigationStatus(),
+				investigation.getInvestigationSide(),
+				investigation.getCreationTime()
+			);
 
 			investigationRepository.save(investigationEntity);
 
@@ -112,6 +120,13 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 	@Override
 	public PageResult<Investigation> getInvestigations(Set<InvestigationStatus> investigationStatuses, Pageable pageable) {
 		Page<InvestigationEntity> entities = investigationRepository.findAllByStatusInOrderByCreatedDesc(investigationStatuses, pageable);
+
+		return new PageResult<>(entities, this::toInvestigation);
+	}
+
+	@Override
+	public PageResult<Investigation> getInvestigations(InvestigationSide investigationSide, Pageable pageable) {
+		Page<InvestigationEntity> entities = investigationRepository.findAllBySideEqualsOrderByCreatedDesc(investigationSide, pageable);
 
 		return new PageResult<>(entities, this::toInvestigation);
 	}
@@ -138,9 +153,16 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 		return investigationRepository.countAllByStatusIn(statuses);
 	}
 
+	@Override
+	public long countInvestigations(InvestigationSide investigationSide) {
+		return investigationRepository.countAllBySideEquals(investigationSide);
+	}
+
 	private void update(InvestigationEntity investigationEntity, Investigation investigation) {
 		investigationEntity.setStatus(investigation.getInvestigationStatus());
 		investigationEntity.setUpdated(clock.instant());
+		investigationEntity.setAcceptReason(investigation.getAcceptReason());
+		investigationEntity.setDeclineReason(investigation.getDeclineReason());
 
 		investigationEntity.getNotifications().forEach(notification -> {
 			investigation.getNotification(notification.getId()).ifPresent(data -> {
@@ -167,6 +189,7 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 			new InvestigationId(investigationEntity.getId()),
 			new BPN(investigationEntity.getBpn()),
 			investigationEntity.getStatus(),
+			investigationEntity.getSide(),
 			investigationEntity.getCloseReason(),
 			investigationEntity.getDescription(),
 			investigationEntity.getCreated(),

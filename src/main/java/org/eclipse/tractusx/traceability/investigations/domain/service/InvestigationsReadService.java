@@ -25,7 +25,7 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.InvestigationData;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.springframework.data.domain.Page;
@@ -34,7 +34,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class InvestigationsReadService {
@@ -54,22 +53,22 @@ public class InvestigationsReadService {
 	}
 
 	public PageResult<InvestigationData> getCreatedInvestigations(Pageable pageable) {
-		return getInvestigations(pageable, Investigation.CREATED_STATUSES);
+		return getInvestigations(pageable, InvestigationSide.SENDER);
 	}
 
 	public PageResult<InvestigationData> getReceivedInvestigations(Pageable pageable) {
-		return getInvestigations(pageable, Investigation.RECEIVED_STATUSES);
+		return getInvestigations(pageable, InvestigationSide.RECEIVER);
 	}
 
-	private PageResult<InvestigationData> getInvestigations(Pageable pageable, Set<InvestigationStatus> statuses) {
-		List<InvestigationData> investigationData = repository.getInvestigations(statuses, pageable)
+	private PageResult<InvestigationData> getInvestigations(Pageable pageable, InvestigationSide investigationSide) {
+		List<InvestigationData> investigationData = repository.getInvestigations(investigationSide, pageable)
 			.content()
 			.stream()
 			.sorted(Investigation.COMPARE_BY_NEWEST_INVESTIGATION_CREATION_TIME)
 			.map(Investigation::toData)
 			.toList();
 
-		Page<InvestigationData> investigationDataPage = new PageImpl<>(investigationData, pageable, repository.countInvestigations(statuses));
+		Page<InvestigationData> investigationDataPage = new PageImpl<>(investigationData, pageable, repository.countInvestigations(investigationSide));
 
 		return new PageResult<>(investigationDataPage);
 	}

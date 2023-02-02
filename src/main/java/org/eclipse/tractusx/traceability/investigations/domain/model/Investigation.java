@@ -33,7 +33,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -54,21 +53,23 @@ public class Investigation {
 		return -1;
 	};
 
-	public static final Set<InvestigationStatus> CREATED_STATUSES = Set.of(InvestigationStatus.CREATED, InvestigationStatus.APPROVED, InvestigationStatus.SENT);
-	public static final Set<InvestigationStatus> RECEIVED_STATUSES = Set.of(InvestigationStatus.RECEIVED);
-
 	private final InvestigationId investigationId;
 	private final BPN bpn;
 	private InvestigationStatus investigationStatus;
+	private final InvestigationSide investigationSide;
 	private final String description;
 	private final Instant createdAt;
 	private final List<String> assetIds;
 	private final Map<String, Notification> notifications;
+
 	private String closeReason;
+	private String acceptReason;
+	private String declineReason;
 
 	public Investigation(InvestigationId investigationId,
 						 BPN bpn,
 						 InvestigationStatus investigationStatus,
+						 InvestigationSide investigationSide,
 						 String closeReason,
 						 String description,
 						 Instant createdAt,
@@ -78,6 +79,7 @@ public class Investigation {
 		this.investigationId = investigationId;
 		this.bpn = bpn;
 		this.investigationStatus = investigationStatus;
+		this.investigationSide = investigationSide;
 		this.closeReason = closeReason;
 		this.description = description;
 		this.createdAt = createdAt;
@@ -90,6 +92,7 @@ public class Investigation {
 		return new Investigation(null,
 			bpn,
 			InvestigationStatus.CREATED,
+			InvestigationSide.SENDER,
 			null,
 			description,
 			createDate,
@@ -103,6 +106,7 @@ public class Investigation {
 			null,
 			bpn,
 			InvestigationStatus.RECEIVED,
+			InvestigationSide.RECEIVER,
 			null,
 			description,
 			createDate,
@@ -117,6 +121,10 @@ public class Investigation {
 
 	public InvestigationStatus getInvestigationStatus() {
 		return investigationStatus;
+	}
+
+	public InvestigationSide getInvestigationSide() {
+		return investigationSide;
 	}
 
 	public String getDescription() {
@@ -164,6 +172,28 @@ public class Investigation {
 		changeStatusTo(InvestigationStatus.APPROVED);
 	}
 
+	public void acknowledge(BPN callerBpn) {
+		validateBPN(callerBpn);
+
+		changeStatusTo(InvestigationStatus.ACKNOWLEDGED);
+	}
+
+	public void accept(BPN callerBpn, String reason) {
+		validateBPN(callerBpn);
+
+		changeStatusTo(InvestigationStatus.ACCEPTED);
+
+		this.acceptReason = reason;
+	}
+
+	public void decline(BPN callerBpn, String reason) {
+		validateBPN(callerBpn);
+
+		changeStatusTo(InvestigationStatus.DECLINED);
+
+		this.declineReason = reason;
+	}
+
 	private void validateBPN(BPN callerBpn) {
 		if (!callerBpn.equals(this.bpn)) {
 			throw new InvestigationIllegalUpdate("%s bpn has no permissions to update investigation with %s id.".formatted(callerBpn.value(), investigationId.value()));
@@ -197,6 +227,18 @@ public class Investigation {
 
 	public Optional<Notification> getNotification(String notificationId) {
 		return Optional.ofNullable(notifications.get(notificationId));
+	}
+
+	public String getCloseReason() {
+		return closeReason;
+	}
+
+	public String getAcceptReason() {
+		return acceptReason;
+	}
+
+	public String getDeclineReason() {
+		return declineReason;
 	}
 
 	public void addNotification(Notification notification) {

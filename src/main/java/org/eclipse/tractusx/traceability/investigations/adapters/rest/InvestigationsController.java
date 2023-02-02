@@ -27,10 +27,12 @@ import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.Clos
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.InvestigationData;
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.StartInvestigationRequest;
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.StartInvestigationResponse;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.UpdateInvestigationRequest;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsPublisherService;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReadService;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
+import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReceiverService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -45,6 +47,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+import static org.eclipse.tractusx.traceability.investigations.adapters.rest.validation.UpdateInvestigationValidator.validate;
+
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
 @RequestMapping("/investigations")
@@ -53,12 +57,16 @@ public class InvestigationsController {
 
 	private final InvestigationsReadService investigationsReadService;
 	private final InvestigationsPublisherService investigationsPublisherService;
-
+	private final InvestigationsReceiverService investigationsReceiverService;
 	private final TraceabilityProperties traceabilityProperties;
 
-	public InvestigationsController(InvestigationsReadService investigationsReadService, InvestigationsPublisherService investigationsPublisherService, TraceabilityProperties traceabilityProperties) {
+	public InvestigationsController(InvestigationsReadService investigationsReadService,
+									InvestigationsPublisherService investigationsPublisherService,
+									InvestigationsReceiverService investigationsReceiverService,
+									TraceabilityProperties traceabilityProperties) {
 		this.investigationsReadService = investigationsReadService;
 		this.investigationsPublisherService = investigationsPublisherService;
+		this.investigationsReceiverService = investigationsReceiverService;
 		this.traceabilityProperties = traceabilityProperties;
 	}
 
@@ -101,6 +109,14 @@ public class InvestigationsController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseInvestigationRequest closeInvestigationRequest) {
 		investigationsPublisherService.closeInvestigation(traceabilityProperties.getBpn(), investigationId, closeInvestigationRequest.reason());
+	}
+
+	@PostMapping("/{investigationId}/update")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateInvestigationRequest updateInvestigationRequest) {
+		validate(updateInvestigationRequest);
+
+		investigationsReceiverService.updateInvestigation(traceabilityProperties.getBpn(), investigationId, updateInvestigationRequest.status(), updateInvestigationRequest.reason());
 	}
 }
 

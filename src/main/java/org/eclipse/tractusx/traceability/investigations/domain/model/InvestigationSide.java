@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.investigations.domain.model;
 
-enum InvestigationSide {
+public enum InvestigationSide {
 	SENDER,
 	RECEIVER
 }
