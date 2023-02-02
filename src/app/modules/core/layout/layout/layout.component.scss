@@ -29,7 +29,7 @@
 }
 
 .layout-resizer {
-  @apply sm:hidden lg:flex relative;
+  @apply flex relative;
 }
 
 .layout-content {

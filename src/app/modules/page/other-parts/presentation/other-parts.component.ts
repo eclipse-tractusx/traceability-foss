@@ -57,7 +57,6 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
 
   public readonly tableConfig: TableConfig = {
     displayedColumns: this.displayedColumns,
-    columnRoles: { select: 'wip' },
     header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
     sortableColumns: this.sortableColumns,
   };
@@ -94,7 +93,8 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.otherPartsFacade.setCustomerParts();
+    // Flagging it as WIP would take to much effort, disabling it until endpoint is implemented by BE.
+    // this.otherPartsFacade.setCustomerParts();
     this.otherPartsFacade.setSupplierParts();
   }
 

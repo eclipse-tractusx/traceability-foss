@@ -64,8 +64,8 @@ export class CancelNotificationModalComponent {
 
     const options: ModalData = {
       title: 'commonInvestigation.modal.cancellationTitle',
-      buttonRight: 'commonInvestigation.modal.cancellationConfirm',
-      buttonLeft: 'commonInvestigation.modal.cancel',
+      buttonRight: 'actions.cancellationConfirm',
+      buttonLeft: 'actions.cancel',
       primaryButtonColour: 'warn',
 
       template: this.modal,

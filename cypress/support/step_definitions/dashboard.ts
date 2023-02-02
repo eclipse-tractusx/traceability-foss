@@ -19,8 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DashboardPage } from '../../integration/pages/DashboardPage';
 import { Given, Then } from '@badeball/cypress-cucumber-preprocessor';
+import { DashboardPage } from '../../integration/pages/DashboardPage';
 
 Given(/^browser is opened to dashboard page$/, () => {
   DashboardPage.visit();

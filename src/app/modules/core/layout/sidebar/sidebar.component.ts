@@ -37,7 +37,6 @@ import { filter } from 'rxjs/operators';
 })
 export class SidebarComponent {
   @Input() expanded: boolean;
-
   public activeMenu = '';
 
   private readonly menu: Record<string, PageRoute> = {
@@ -49,18 +48,13 @@ export class SidebarComponent {
     admin: getAdminRoute(),
   };
 
-  get sidebarWidth(): number {
-    return this.expanded ? 240 : 56;
-  }
-
-  constructor(private router: Router) {
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe((r: NavigationEnd) => {
-      const endUrl = r.urlAfterRedirects ?? r.url;
-      const keys: string[] = Object.keys(this.menu);
-      const parentRoute: string = keys.find(key => this.menu[key].link === endUrl);
-
-      this.activeMenu = parentRoute || keys.find(menuKey => endUrl.includes(menuKey));
-    });
+  constructor(private readonly router: Router) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(({ urlAfterRedirects, url }: NavigationEnd) => {
+        const currentUrl = urlAfterRedirects ?? url;
+        this.activeMenu = Object.keys(this.menu).find(menuKey => currentUrl.includes(menuKey));
+      });
   }
 
   public navigate(item: string): void {

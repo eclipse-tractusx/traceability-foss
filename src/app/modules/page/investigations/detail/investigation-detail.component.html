@@ -30,7 +30,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">share</mat-icon>
-        {{ 'commonInvestigation.modal.approve' | i18n }}
+        {{ 'actions.approve' | i18n }}
       </div>
     </app-button>
     <app-button
@@ -40,7 +40,7 @@ SPDX-License-Identifier: Apache-2.0
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">cancel</mat-icon>
-        {{ 'commonInvestigation.modal.cancel' | i18n }}
+        {{ 'actions.cancel' | i18n }}
       </div>
     </app-button>
     <app-button
@@ -50,7 +50,40 @@ SPDX-License-Identifier: Apache-2.0
     >
       <div class="flex justify-between items-center">
         <mat-icon class="mr-2">close</mat-icon>
-        {{ 'commonInvestigation.modal.close' | i18n }}
+        {{ 'actions.close' | i18n }}
+      </div>
+    </app-button>
+
+    <app-button
+      *ngIf="helperService.showAcceptButton(selectedInvestigation)"
+      (click)="acceptModal?.show(selectedInvestigation)"
+      [color]="'primary'"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">assignment_turned_in</mat-icon>
+        {{ 'actions.accept' | i18n }}
+      </div>
+    </app-button>
+
+    <app-button
+      *ngIf="helperService.showAcknowledgeButton(selectedInvestigation)"
+      (click)="acknowledgeModal?.show(selectedInvestigation)"
+      [color]="'primary'"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">work</mat-icon>
+        {{ 'actions.acknowledge' | i18n }}
+      </div>
+    </app-button>
+
+    <app-button
+      *ngIf="helperService.showDeclineButton(selectedInvestigation)"
+      (click)="declineModal?.show(selectedInvestigation)"
+      [color]="'primary'"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">assignment_late</mat-icon>
+        {{ 'actions.decline' | i18n }}
       </div>
     </app-button>
   </div>
@@ -68,6 +101,21 @@ SPDX-License-Identifier: Apache-2.0
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [closeCall]="helperService.close.bind(this)"
 ></app-close-notification-modal>
+
+<app-acknowledge-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [acknowledgeCall]="helperService.acknowledge.bind(this)"
+></app-acknowledge-notification-modal>
+
+<app-accept-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [acceptCall]="helperService.accept.bind(this)"
+></app-accept-notification-modal>
+
+<app-decline-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [declineCall]="helperService.decline.bind(this)"
+></app-decline-notification-modal>
 
 <div class="detail--wrapper">
   <mat-card>

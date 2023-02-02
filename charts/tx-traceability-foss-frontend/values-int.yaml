@@ -17,7 +17,7 @@ ingress:
     - host: "traceability-portal.int.demo.catena-x.net"
       paths:
         - path: /
-          pathType: Prefix
+          pathType: ImplementationSpecific
   tls:
     - hosts:
         - "traceability-portal.int.demo.catena-x.net"

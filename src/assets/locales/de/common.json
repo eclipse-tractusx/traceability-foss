@@ -26,7 +26,12 @@
     "cancel": "Abbrechen",
     "approve": "Genehmigen",
     "close": "Schließen",
-    "viewDetails": "Details anzeigen"
+    "viewDetails": "Details anzeigen",
+    "cancellationConfirm": "Abbruch bestätigen",
+    "accept": "Akzeptieren",
+    "acknowledge": "Bestätigen",
+    "confirm": "Genehmigen",
+    "decline": "Ablehnen"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
@@ -122,9 +127,19 @@
     "status": {
       "RECEIVED": "Erhalten",
       "CREATED": "Erstellt",
-      "APPROVED": "Zugestellt"
+      "APPROVED": "Zugestellt",
+      "CANCELED": "Abgebrochen",
+      "CLOSED": "Abgeschlossen",
+      "ACCEPTED": "Akzeptiert",
+      "ACKNOWLEDGED": "Bestätigt",
+      "DECLINED": "Abgelehnt"
     },
     "modal": {
+      "acceptTitle": "Annehmen der Untersuchung",
+      "acceptDescription": "Sind Sie sicher, dass Sie diese Untersuchung annehmen wollen?",
+      "acceptReasonHint": "Geben Sie den Grund für die Annahme dieser Untersuchung ein.",
+      "acknowledgeTitle": "Bestätigung der Untersuchung",
+      "acknowledgeDescription": "Sind Sie sicher, dass Sie diese Untersuchung bestätigen wollen?",
       "approvalTitle": "Genehmigung der Untersuchung",
       "approvalDescription": "Sind Sie sicher, dass Sie diese Untersuchung genehmigen wollen?",
       "closeTitle": "Schließen der Untersuchung",
@@ -133,20 +148,23 @@
       "cancellationTitle": "Abbruch der Untersuchung",
       "cancellationDescription": "Sind Sie sicher, dass Sie diese Untersuchung abbrechen wollen?",
       "cancellationHint": "Geben Sie die ID der Untersuchung ein, um Ihre Abbruchanfrage zu bestätigen.",
-      "cancellationConfirm": "Abbruch bestätigen",
-      "approve": "Genehmigen",
-      "close": "Schließen",
-      "delete": "Löschen",
-      "confirm": "Genehmigen",
-      "cancel": "Abbrechen",
+      "declineTitle": "Ablehnung der Untersuchung",
+      "declineDescription": "Sind Sie sicher, dass Sie diese Untersuchung ablehnen wollen?",
+      "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Untersuchung ein.",
 
+      "successfullyAccepted": "Untersuchung wurde erfolgreich angenommen.",
+      "successfullyAcknowledged": "Untersuchung wurde erfolgreich bestätigt",
       "successfullyApproved": "Untersuchung wurde erfolgreich genehmigt.",
       "successfullyCanceled": "Untersuchung wurde erfolgreich gelöscht.",
       "successfullyClosed": "Untersuchung wurde erfolgreich geschlossen.",
+      "successfullyDeclined": "Untersuchung wurde erfolgreich abgelehnt.",
 
+      "failedAccept": "Untersuchung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
+      "failedAcknowledge": "Untersuchung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
       "failedApprove": "Die Untersuchung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
       "failedCancel": "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
-      "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut."
+      "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
+      "failedDecline": "Untersuchung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
     }
   }
 }

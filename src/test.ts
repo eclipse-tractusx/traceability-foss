@@ -32,7 +32,9 @@ beforeAll(async () => {
   jasmine.addMatchers(JasmineDOM);
   await server.start({ onUnhandledRequest: 'bypass' });
 });
+
 afterEach(() => server.resetHandlers());
+
 afterAll(() => server.stop());
 
 declare const require: {
@@ -45,6 +47,8 @@ declare const require: {
     keys(): string[];
   };
 };
+
+export const sleepForTests = async (ms: number) => await new Promise(resolve => setTimeout(resolve, ms));
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());

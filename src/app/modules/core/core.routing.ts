@@ -21,7 +21,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PrivateLayoutComponent } from '@layout/private-layout/private-layout.component';
+import { LayoutComponent } from '@layout/layout/layout.component';
 import { PageNotFoundComponent } from '@page/page-not-found/presentation/page-not-found.component';
 import { defaultRealm, realm } from './api/api.service.properties';
 import { AuthGuard } from './auth/auth.guard';
@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: realm || defaultRealm,
-    component: PrivateLayoutComponent,
+    component: LayoutComponent,
     canActivate: [AuthGuard],
     data: { breadcrumb: 'home' },
     loadChildren: () => import('./layout/layout.module').then(m => m.LayoutModule),

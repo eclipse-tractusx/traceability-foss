@@ -32,6 +32,21 @@ SPDX-License-Identifier: Apache-2.0
   [closeCall]="helperService.close.bind(this)"
 ></app-close-notification-modal>
 
+<app-acknowledge-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [acknowledgeCall]="helperService.acknowledge.bind(this)"
+></app-acknowledge-notification-modal>
+
+<app-accept-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [acceptCall]="helperService.accept.bind(this)"
+></app-accept-notification-modal>
+
+<app-decline-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [declineCall]="helperService.decline.bind(this)"
+></app-decline-notification-modal>
+
 <app-notification
   [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
   [receivedNotifications$]="investigationsReceived$"

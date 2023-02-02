@@ -58,8 +58,8 @@ export class ApproveNotificationModalComponent {
 
     const options: ModalData = {
       title: 'commonInvestigation.modal.approvalTitle',
-      buttonRight: 'commonInvestigation.modal.confirm',
-      buttonLeft: 'commonInvestigation.modal.cancel',
+      buttonRight: 'actions.confirm',
+      buttonLeft: 'actions.cancel',
 
       template: this.modal,
       onConfirm,

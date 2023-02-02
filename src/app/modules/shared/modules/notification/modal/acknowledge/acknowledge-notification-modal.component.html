@@ -19,26 +19,11 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-nav-bar></app-nav-bar>
-<main class="layout-container">
-  <div class="layout-sidebar">
-    <app-sidebar [expanded]="expanded"></app-sidebar>
-  </div>
-  <div class="layout-resizer">
-    <app-resizer (click)="manualToggle()" [isExpanded]="expanded"></app-resizer>
-  </div>
-  <div class="layout-content">
-    <div class="layout-content__box-modal relative">
-      <div class="flex flex-col h-full">
-        <app-breadcrumbs></app-breadcrumbs>
-        <router-outlet></router-outlet>
-        <div class="layout-toast-component">
-          <app-toast-container></app-toast-container>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <app-sidenav></app-sidenav>
-  <app-spinner-overlay></app-spinner-overlay>
-</main>
+<ng-template #Modal>
+  <p>{{ 'commonInvestigation.modal.acknowledgeDescription' | i18n }}</p>
+  <mat-card class="m-2">
+    <mat-card-content>
+      <app-notification-overview [notification]="notification"></app-notification-overview>
+    </mat-card-content>
+  </mat-card>
+</ng-template>

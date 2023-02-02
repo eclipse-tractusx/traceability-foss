@@ -1,3 +1,7 @@
+# DISCLAIMER!
+# purpose of this file is to run services locally, we don't use it in other env
+# because of statement above, we don't need to change settings to comply with some KICS requirements
+
 version: "3.9"
 services:
   keycloak:

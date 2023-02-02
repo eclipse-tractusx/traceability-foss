@@ -23,7 +23,6 @@ import { _environment } from './_environment.base';
 
 export const environment = {
   ..._environment,
-  multiTenant: true,
   authDisabled: false,
   keycloakUrl: 'http://localhost:8080/',
   clientId: 'catenax-portal',
