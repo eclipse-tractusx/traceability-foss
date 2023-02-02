@@ -2,4 +2,41 @@
 
 == Component diagram
 
+[plantuml, target=level-1, format=svg]
+....
+include::../../../uml-diagrams/arc42/building-block-view/building-block-view.puml[]
+....
+
 == Component description
+
+|===
+|Components |Description
+
+|*Trace-X*
+|Trace-X is a system allowing the user to review the parts/assets catalogue, start a quality investigations and receive quality alerts
+
+|*Trace-X API*
+|The *Trace-X API* is the Interface over which the Data Consumer is communicating.
+
+|*AssetsController*
+|The *AssetsController* provides a REST Interface for retrieving the parts/assets information.
+
+|*DashboardController*
+|The *DashboardController* provides a REST Interface for retrieving overall statistics displayed on a dashboard screen.
+
+|*RegistryController*
+|The *RegistryController* provides a REST Interface for retrieving the data from parts registry.
+
+|*AssetRepository*
+|The *AssetRepository* is a component responsible for storing and getting assets from database.
+
+|*BPNRepository*
+|The *BPNRepository* is a component which stores BPN -> company name mappings.
+
+|*NotificationsRepository*
+|The *NotificationsRepository* is a component responsible for storing and holding status of sent/received notifications
+
+|*Database*
+|Place for storing assets, relations as well as sent/received notifications
+
+|===
