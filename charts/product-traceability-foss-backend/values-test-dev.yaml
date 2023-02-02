@@ -76,7 +76,7 @@ pgadmin4:
     password: "<path:traceability-foss/data/dev/database#pgadminPassword>"
     variables:
       - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
-        value: "false"
+        value: "False"
   resources:
     limits:
       cpu: 1000m
