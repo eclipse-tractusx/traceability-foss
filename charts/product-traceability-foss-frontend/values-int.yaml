@@ -4,7 +4,7 @@ image:
   CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.int.demo.catena-x.net/auth'
   CATENAX_PORTAL_CLIENT_ID: 'Cl17-CX-Part'
   CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
-  CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.com'
+  CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
 
 autoscaling:
   enabled: false

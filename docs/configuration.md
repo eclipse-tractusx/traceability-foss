@@ -317,7 +317,7 @@ This variable is used to set the base path of the application. (Should be set if
 `CATENAX_PORTAL_BACKEND_DOMAIN`
 This variable is needed for security, to be more explicit, for the security headers of a request.  
 The domain of the corresponding backend should be used here.  
-An example value could be: `catena-x.com`
+An example value could be: `catena-x.net`
 
 ## Deployment
 
