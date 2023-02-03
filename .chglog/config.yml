@@ -2,7 +2,7 @@ style: github
 template: CHANGELOG.tpl.md
 info:
   title: CHANGELOG
-  repository_url: https://github.com/catenax-ng/product-traceability-foss-frontend
+  repository_url: https://github.com/catenax-ng/tx-traceability-foss-frontend
 options:
   commits:
     filters:

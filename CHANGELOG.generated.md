@@ -29,20 +29,20 @@
 - update documents for release
 - added installation file with instructions
 - renamed app
-- re enable other parts
+- reenable other parts
 - align fe with be for supplier parts
 - generate changelog
 - highlight parts if notification active
 - added dashboard investigation widget
 - added fixes for quality gates and relations
 - renamed veracode.yml to .yaml so it complies with checks
-- helm chart release ([#76](https://github.com/catenax-ng/product-traceability-foss-frontend/issues/76))
+- helm chart release ([1.0.0](https://github.com/eclipse-tractusx/traceability-foss-frontend/releases/tag/helm-charts-1.0.0))
 - improve performance throughout appication
 - added wip role for notification and role check to table component
 - added better test data for local mock
 - added close functionality to sidenav button
 - create app-scroll-with-shadow
-- cleanuo copyright headers
+- cleanup copyright headers
 - added pagination for parts
 - improved quality of life for tree component
 - added css to make sidenav more responsive
