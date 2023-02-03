@@ -23,6 +23,7 @@ ingress:
 
 traceability:
   bpn: "BPNL00000003AYRE"
+  url: "https://traceability-test.dev.demo.catena-x.net"
 
 datasource:
   url: jdbc:postgresql://tracex-backend-test-postgresql-hl:5432/trace
@@ -38,6 +39,7 @@ oauth2:
 
 edc:
   apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
+  providerUrl: "https://trace-x-test-edc.dev.demo.catena-x.net"
 
 postgresql:
   enabled: true

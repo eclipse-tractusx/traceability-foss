@@ -25,6 +25,7 @@ ingress:
 
 traceability:
   bpn: "BPNL00000003AYRE"
+  url: "https://traceability-pen.dev.demo.catena-x.net"
 
 datasource:
   url: jdbc:postgresql://tracex-backend-pen-postgresql:5432/trace
@@ -37,6 +38,10 @@ oauth2:
   clientTokenUri: "https://centralidp-pen.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
   jwkSetUri: "https://centralidp-pen.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
   resourceClient: "Cl17-CX-Part"
+
+edc:
+  apiKey:
+  providerUrl: "https://trace-x-pen.dev.demo.catena-x.net"
 
 postgresql:
   enabled: true
