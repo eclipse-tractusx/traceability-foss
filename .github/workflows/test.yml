@@ -35,7 +35,7 @@ jobs:
           -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
           -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
     - name: Run SonarCloud with hardcoded organization and project key
-      uses: SonarSource/sonarcloud-github-action@master # Fallback for the catenax-ng/product-traceability-foss-frontend
+      uses: SonarSource/sonarcloud-github-action@master # Fallback for the catenax-ng/tx-traceability-foss-frontend
       if: ${{ vars.SONAR_ORGANIZATION == '' || vars.SONAR_PROJECT_KEY == '' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any

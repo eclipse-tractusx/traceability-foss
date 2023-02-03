@@ -6,8 +6,8 @@ image:
   CATENAX_PORTAL_CLIENT_ID: 'Cl17-CX-Part'
   CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
 
-nameOverride: "product-traceability-foss-test-frontend"
-fullnameOverride: "product-traceability-foss-test-frontend"
+nameOverride: "tx-traceability-foss-test-frontend"
+fullnameOverride: "tx-traceability-foss-test-frontend"
 
 autoscaling:
   enabled: false
