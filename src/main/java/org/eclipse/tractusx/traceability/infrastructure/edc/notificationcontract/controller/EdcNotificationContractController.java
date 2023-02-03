@@ -37,7 +37,7 @@ import javax.validation.Valid;
 @Validated
 @RestController
 @RequestMapping("/edc/notification")
-@PreAuthorize("hasAnyRole('ADMIN')")
+@PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
 public class EdcNotificationContractController {
 
 	private final EdcNotificationContractService edcNotificationContractService;

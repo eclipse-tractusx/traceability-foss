@@ -44,7 +44,7 @@ class EdcNotificationContractControllerIT extends IntegrationSpecification imple
 		expect:
 			given()
 				.contentType(ContentType.JSON)
-				.header(jwtAuthorization(ADMIN))
+				.header(jwtAuthorization(SUPERVISOR))
 				.body(
 					asJson(
 						[
@@ -79,7 +79,7 @@ class EdcNotificationContractControllerIT extends IntegrationSpecification imple
 		expect:
 			given()
 				.contentType(ContentType.JSON)
-				.header(jwtAuthorization(ADMIN))
+				.header(jwtAuthorization(SUPERVISOR))
 				.body(
 					asJson(
 						[
@@ -117,7 +117,7 @@ class EdcNotificationContractControllerIT extends IntegrationSpecification imple
 		expect:
 			given()
 				.contentType(ContentType.JSON)
-				.header(jwtAuthorization(ADMIN))
+				.header(jwtAuthorization(SUPERVISOR))
 				.body(
 					asJson(
 						[
@@ -156,7 +156,7 @@ class EdcNotificationContractControllerIT extends IntegrationSpecification imple
 		expect:
 			given()
 				.contentType(ContentType.JSON)
-				.header(jwtAuthorization(ADMIN))
+				.header(jwtAuthorization(SUPERVISOR))
 				.body(
 					asJson(
 						[
@@ -222,14 +222,14 @@ class EdcNotificationContractControllerIT extends IntegrationSpecification imple
 				.statusCode(401)
 
 		where:
-			role << [JwtRole.USER, SUPERVISOR]
+			role << [JwtRole.USER, ADMIN]
 	}
 
 	def "should not create edc contract with invalid request"() {
 		expect:
 			given()
 				.contentType(ContentType.JSON)
-				.header(jwtAuthorization(ADMIN))
+				.header(jwtAuthorization(SUPERVISOR))
 				.body(
 					asJson(
 						[
@@ -257,7 +257,7 @@ class EdcNotificationContractControllerIT extends IntegrationSpecification imple
 		expect:
 			given()
 				.contentType(ContentType.JSON)
-				.header(jwtAuthorization(ADMIN))
+				.header(jwtAuthorization(SUPERVISOR))
 				.body(
 					asJson(
 						[
