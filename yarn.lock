@@ -8943,17 +8943,17 @@ pkg-dir@^4.1.0:
   dependencies:
     find-up "^4.0.0"
 
-playwright-core@1.29.2:
-  version "1.29.2"
-  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.29.2.tgz#2e8347e7e8522409f22b244e600e703b64022406"
-  integrity sha512-94QXm4PMgFoHAhlCuoWyaBYKb92yOcGVHdQLoxQ7Wjlc7Flg4aC/jbFW7xMR52OfXMVkWicue4WXE7QEegbIRA==
+playwright-core@1.30.0:
+  version "1.30.0"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.30.0.tgz#de987cea2e86669e3b85732d230c277771873285"
+  integrity sha512-7AnRmTCf+GVYhHbLJsGUtskWTE33SwMZkybJ0v6rqR1boxq2x36U7p1vDRV7HO2IwTZgmycracLxPEJI49wu4g==
 
-playwright-webkit@^1.29.2:
-  version "1.29.2"
-  resolved "https://registry.yarnpkg.com/playwright-webkit/-/playwright-webkit-1.29.2.tgz#65054eb53b155ac4315c00faa2bd1ee17a583789"
-  integrity sha512-KYBwrNJW374ZOsAQfRxbi/r3bPTKowclX5HG58pJdEgViORSmtec5gshFx0vZbKOYbXN47w9lNQesZvk3EG9ew==
+playwright-webkit@^1.30.0:
+  version "1.30.0"
+  resolved "https://registry.yarnpkg.com/playwright-webkit/-/playwright-webkit-1.30.0.tgz#54b53c0e9499d62f2bab58becf18d63be0148801"
+  integrity sha512-ioZGkzet/tJzs3iUHHvaoLfLbgBg28RPlXBZ2lbT/FpO+P+Pinjtgn271+ciQl5HR64RHmxStnqE++W4K5EV0g==
   dependencies:
-    playwright-core "1.29.2"
+    playwright-core "1.30.0"
 
 portfinder@^1.0.28:
   version "1.0.28"
