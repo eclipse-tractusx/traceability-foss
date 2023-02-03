@@ -80,7 +80,7 @@ sonarqube {
 
 val commonsCodecVersion = "1.15"
 val commonsIoVersion = "2.11.0"
-val groovyVersion = "4.0.7"
+val groovyVersion = "4.0.8"
 val spockBomVersion = "2.3-groovy-4.0"
 val springfoxVersion = "3.0.0"
 val feignVersion = "12.1"
