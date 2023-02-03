@@ -59,7 +59,7 @@ public class EdcNotificationContractService {
 
 		NotificationMethod notificationMethod = request.notificationMethod();
 
-		logger.info("Creating notification contract for {} method and {} notification type", notificationMethod.getValue(), request.notificationType());
+		logger.info("Creating EDC asset notification contract for {} method and {} notification type", notificationMethod.getValue(), request.notificationType().getValue());
 
 		final String notificationAssetId;
 		try {

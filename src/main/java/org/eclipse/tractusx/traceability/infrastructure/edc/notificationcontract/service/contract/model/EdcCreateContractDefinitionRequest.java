@@ -32,7 +32,7 @@ public class EdcCreateContractDefinitionRequest {
 	@JsonProperty("accessPolicyId")
 	private final String accessPolicyId;
 
-	@JsonProperty("contractDefinitionId")
+	@JsonProperty("contractPolicyId")
 	private final String contractPolicyId;
 
 	@JsonProperty("criteria")

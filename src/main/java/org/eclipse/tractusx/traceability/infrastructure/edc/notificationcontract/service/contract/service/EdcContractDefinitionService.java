@@ -58,10 +58,10 @@ public class EdcContractDefinitionService {
 	public String createContractDefinition(String notificationAssetId, String accessPolicyId) {
 		EdcContractDefinitionCriteria edcContractDefinitionCriteria = new EdcContractDefinitionCriteria(ASSET_ID_OPERAND, EQUALITY_OPERATOR, notificationAssetId);
 
-		String contractDefinitionId = UUID.randomUUID().toString();
+		String contractPolicyId = UUID.randomUUID().toString();
 
 		EdcCreateContractDefinitionRequest createContractDefinitionRequest = new EdcCreateContractDefinitionRequest(
-			contractDefinitionId,
+			contractPolicyId,
 			accessPolicyId,
 			accessPolicyId,
 			List.of(
@@ -88,7 +88,7 @@ public class EdcContractDefinitionService {
 		}
 
 		if (responseCode.value() == 204) {
-			return contractDefinitionId;
+			return contractPolicyId;
 		}
 
 		logger.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, createContractDefinitionResponse.getBody(), createContractDefinitionResponse.getStatusCode());
