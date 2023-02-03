@@ -51,9 +51,9 @@ repositories {
 
 sonarqube {
 	properties {
-		property("sonar.organization", "catenax-ng")
+		property("sonar.organization", System.getenv("SONAR_ORGANIZATION") ?: "catenax-ng")
 		property("sonar.host.url", "https://sonarcloud.io")
-		property("sonar.projectKey", "catenax-ng_product-traceability-foss-backend")
+		property("sonar.projectKey", System.getenv("SONAR_PROJECT_KEY") ?: "catenax-ng_product-traceability-foss-backend")
 		property("sonar.coverage.jacoco.xmlReportPaths", "${project.buildDir}/jacoco/*.xml")
 		property(
 			"sonar.cpd.exclusions", listOf(
@@ -80,7 +80,7 @@ sonarqube {
 
 val commonsCodecVersion = "1.15"
 val commonsIoVersion = "2.11.0"
-val groovyVersion = "4.0.7"
+val groovyVersion = "4.0.8"
 val spockBomVersion = "2.3-groovy-4.0"
 val springfoxVersion = "3.0.0"
 val feignVersion = "12.1"
@@ -132,7 +132,7 @@ dependencies {
 	implementation("org.postgresql:postgresql")
 	implementation("org.flywaydb:flyway-core")
 
-	implementation("com.auth0:java-jwt:4.2.1")
+	implementation("com.auth0:java-jwt:4.2.2")
 	implementation("jakarta.ws.rs:jakarta.ws.rs-api:3.1.0")
 
 	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")

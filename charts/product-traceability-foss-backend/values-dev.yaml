@@ -69,6 +69,9 @@ pgadmin4:
   env:
     email: pgadmin4@trace.foss
     password: "<path:traceability-foss/data/dev/database#pgadminPassword>"
+    variables:
+      - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
+        value: "False"
   resources:
     limits:
       cpu: 1000m
