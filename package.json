@@ -85,7 +85,7 @@
     "@types/d3": "7.4.0",
     "@types/jasmine": "4.3.1",
     "@types/luxon": "3.2.0",
-    "@types/node": "18.11.4",
+    "@types/node": "18.11.19",
     "@types/testing-library__jasmine-dom": "^1.0.3",
     "@typescript-eslint/eslint-plugin": "5.48.0",
     "@typescript-eslint/parser": "5.49.0",
