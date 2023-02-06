@@ -149,7 +149,6 @@ export const environment = {
   production: false,
   mockService: false, // enbales mocked backend
   authDisabled: false, // disable keycloak auth
-  multiTenant: false,
   keycloakUrl: 'http://localhost:8080/',
   clientId: 'catenax-portal',
   defaultRealm: 'mock',

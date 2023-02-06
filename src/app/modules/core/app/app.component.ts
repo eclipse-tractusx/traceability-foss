@@ -30,9 +30,6 @@ import * as mockService from '../../../mocks/mock';
 })
 export class AppComponent {
   constructor() {
-    if (environment.mockService) {
-      const { worker } = mockService;
-      void worker.start({ onUnhandledRequest: 'bypass' });
-    }
+    if (environment.mockService) void mockService.worker.start({ onUnhandledRequest: 'bypass' });
   }
 }

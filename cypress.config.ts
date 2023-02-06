@@ -1,7 +1,7 @@
-import { defineConfig } from 'cypress';
-import * as createBundler from '@bahmutov/cypress-esbuild-preprocessor';
 import { addCucumberPreprocessorPlugin } from '@badeball/cypress-cucumber-preprocessor';
 import { createEsbuildPlugin } from '@badeball/cypress-cucumber-preprocessor/esbuild';
+import * as createBundler from '@bahmutov/cypress-esbuild-preprocessor';
+import { defineConfig } from 'cypress';
 
 async function setupNodeEvents(
   on: Cypress.PluginEvents,
@@ -28,6 +28,7 @@ export default defineConfig({
     supportFile: false,
     viewportWidth: 1366,
     viewportHeight: 768,
+    experimentalWebKitSupport: true, // https://docs.cypress.io/guides/guides/launching-browsers#WebKit-Experimental
     setupNodeEvents,
   },
 });

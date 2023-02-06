@@ -44,7 +44,6 @@ import { KeycloakHelper } from './auth/keycloak.helper';
 import { MockedKeycloakService } from './auth/mocked-keycloak.service';
 import { CoreRoutingModule } from './core.routing';
 import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
-import { CanDeactivateGuard } from './user/can-deactivate.guard';
 import { UserService } from './user/user.service';
 
 @NgModule({
@@ -68,7 +67,6 @@ import { UserService } from './user/user.service';
     ApiService,
     AuthService,
     UserService,
-    CanDeactivateGuard,
     {
       provide: KeycloakService,
       useClass: environment.authDisabled ? MockedKeycloakService : KeycloakService,

@@ -82,7 +82,7 @@ describe('PartDetailComponent', () => {
   });
 
   it('should render child-component table', async () => {
-    await renderPartDetailComponent({ roles: ['user', 'wip'] });
+    await renderPartDetailComponent({ roles: ['user'] });
 
     const childTableHeadline = await screen.findByText('Request quality investigation for child parts');
     expect(childTableHeadline).toBeInTheDocument();

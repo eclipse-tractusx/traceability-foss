@@ -50,10 +50,6 @@ export class LayoutFacade {
     return this.layoutState.breadcrumbLabel;
   }
 
-  public set isSideBarExpanded(isExpanded: boolean) {
-    this.layoutState.isSideBarExpanded = isExpanded;
-  }
-
   public logOut(): void {
     this.authService.logOut();
   }

@@ -64,4 +64,4 @@ The operator can set any environment variable in the container by using one or m
 #### `${dockerImage}`
 
 While not strictly a means of identifying a container, you can specify a version of an image you’d like to run the container with by adding `image[:tag]` to the command. For example, `docker run 002b3c518f5852f7fd5e9e46c0ea1ab4d76b697d33d5022af1a69e1a909645ea`.  
-Images can be pulled [here](https://github.com/catenax-ng/product-traceability-foss-frontend/pkgs/container/product-traceability-foss-frontend).
+Images can be pulled [here](https://github.com/eclipse-tractusx/traceability-foss-frontend/pkgs/container/traceability-foss-frontend).

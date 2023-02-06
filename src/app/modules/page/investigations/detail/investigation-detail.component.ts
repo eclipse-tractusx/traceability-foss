@@ -29,9 +29,12 @@ import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/c
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
+import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
 import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -45,6 +48,11 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
   @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
   @ViewChild(CancelNotificationModalComponent) cancelModal: CancelNotificationModalComponent;
+
+  @ViewChild(AcceptNotificationModalComponent) acceptModal: AcceptNotificationModalComponent;
+  @ViewChild(AcknowledgeNotificationModalComponent) acknowledgeModal: AcknowledgeNotificationModalComponent;
+  @ViewChild(DeclineNotificationModalComponent) declineModal: DeclineNotificationModalComponent;
+
   @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
@@ -138,6 +146,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     navigator.clipboard.writeText(serialNumber).then(_ => this.ctaSnackbarService.show(text));
   }
 
+  public handleConfirmActionCompletedEvent(): void {
+    this.investigationDetailFacade.selected = { loader: true };
+    this.subscription?.unsubscribe();
+    this.ngAfterViewInit();
+  }
+
   private setTableConfigs(data: Notification): void {
     this.isReceived = data.status === NotificationStatus.RECEIVED;
 
@@ -178,10 +192,5 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
         tap(notification => (this.investigationDetailFacade.selected = { data: notification })),
       )
       .subscribe();
-  }
-
-  public handleConfirmActionCompletedEvent() {
-    this.investigationDetailFacade.selected = { loader: true };
-    this.ngAfterViewInit();
   }
 }

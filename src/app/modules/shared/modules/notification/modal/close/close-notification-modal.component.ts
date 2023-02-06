@@ -67,8 +67,8 @@ export class CloseNotificationModalComponent {
 
     const options: ModalData = {
       title: 'commonInvestigation.modal.closeTitle',
-      buttonRight: 'commonInvestigation.modal.close',
-      buttonLeft: 'commonInvestigation.modal.cancel',
+      buttonRight: 'actions.close',
+      buttonLeft: 'actions.cancel',
 
       template: this.modal,
       formGroup: this.formGroup,

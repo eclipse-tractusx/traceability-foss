@@ -1,6 +1,196 @@
+<a name="1.1.0"></a>
+
+## [1.1.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/helm-charts-1.0.0...1.1.0) (2023-02-06)
+
+### Chore
+
+- use SONAR_PROJECT_KEY and SONAR_ORGANIZATION env vars in build
+- use SONAR_PROJECT_KEY and SONAR_ORGANIZATION env vars in build
+- cypress docker configuration improvements - KICS
+
+### Features
+
+- prepare for release 1 1 0
+- adjust names of container
+- disabled unit tests for customer parts
+- improve pl translations and code quality
+- added functionality to update status of recieved investigations
+- added functionality to update status of recieved investigations
+- enable notification feature
+
+### Fixes
+
+- temporary fix for sporadic faling of tests
+- added more unit tests for format date pipe
+- adding a new test for the date formatter
+- interpreting the date as -- when it is NULL in backend
+
+### Refactoring
+
+- code refactoring and added unit tests
+
+### Testing Code
+
+- cypress e2e tests run by github actions + align local cypress env
+- cypress e2e locally
+
+<a name="helm-charts-1.0.0"></a>
+
+## [helm-charts-1.0.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/1.0.0...helm-charts-1.0.0) (2022-12-12)
+
+<a name="1.0.0"></a>
+
+## [1.0.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/1.0.0-RC...1.0.0) (2022-12-12)
+
+### Chore
+
+- release 1.0.0
+- change value-pen.yaml config to avoid name collisions with DEV env
+- refactoring ingress.yaml tsl section
+
+### Features
+
+- tracefoss-866_add_van_to_application
+- fixed unit tests
+
+### Fixes
+
+- fixed german translations
+- missing translations and small changes
+- new line problem in header, between unix and windows
+- fixed unit tests for map
+
+### Testing Code
+
+- disable d3 minimap test
+
+<a name="1.0.0-RC"></a>
+
+## [1.0.0-RC](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/0.1.0...1.0.0-RC) (2022-12-06)
+
+### Chore
+
+- align with BE chart-release.yml
+- align with BE deployment helm chart
+- let dependabot run every wednesday night
+- added changelog for release 0.1.0
+- activate dependabot
+
+### Features
+
+- change header for eclipse movement
+- used new detail info endpoint for map
+- finalization of tree zoom with broken minimap
+- fixed zoom communication
+- added d3 zoom to tree and minimap
+- add batchId to parts model
+- update Polish translations and align with EN items
+- improved german translation
+- rename delete action in notifications to cancel
+- refresh investigation data after succeeded action
+- added table for registry lookups
+- switch to new keycloak for int
+- fixed unit tests
+- changed way how table menu actions are displayed
+- added distinct menues for recieved and qued and requested tab
+- add approve and delete button to notification detail page
+- added unit tests for close modal
+- aligned endpoints with be
+- added unit tests for investigations component
+- added unit tests for investigation details
+- update client id after argo cd update
+- extend notification detail page - close
+- added unit tests
+- added modal component
+- added child parts to part details
+- changed way request investigation works as a component
+- remove wip flag and implement new endpoints
+- added investigation detail page
+- changed dashboard count to other parts
+- new action menu for table component
+- make relation tree
+- adapted to keycloak changes
+- adapted to keycloak changes
+- added workflow for docker registry release version
+
+### Fixes
+
+- wrong env file replacement for local aut config
+- missing CANCELED and CLOSED status info
+- fixed delete handling for cancel investigation
+- formating of non existing translation keys
+- enable run tests github action for all PRs
+- fixed broken mock and translation
+- sonarqube code coverage with karma
+- submittedMock
+- fixed broken code after update
+- refresh supplier parts list on investigation start
+- added hardening for relations
+- minimap translate
+
+### Refactoring
+
+- add only legal documents into this push request
+- adjust code for moving to eclipse repository
+- adjust code for moving to eclipse repository
+- adjust code for moving to eclipse repository
+- adjust code for moving to eclipse repository
+- adjust code for moving to eclipse repository
+- adjust code for moving to eclipse repository
+- adjust code for moving to eclipse repository
+- fix broken tests and refactor of cancel action
+- changed way menu items behave
+- cleanings after code review
+- cleanings after code review
+- some clean up - close action translation
+- some clean up - close action on detail page
+- some clean up
+- app-delete-notification-modal
+- app-approve-notification-modal
+- cleaning up using menuActionsConfig
+- cleaning up CloseNotificationModalComponent
+- rename closeModalComponent
+- replace jest with karma ([#105](https://github.com/catenax-ng/tx-traceability-foss-frontend/issues/105))
+- rename investigation to more generic notification component
+- add return types
+- rename cta-notification to cta-snackbar
+- renaming of notification to toast
+- tree cleanup
+- improve tests and translations
+
+### Testing Code
+
+- fix broken tests require wip role
+- temporary disable minimap and relations facade tests
+- restore valid test setting - broken after merge with main
+- tests for modal component - improvements
+- tests for modal component - improvements
+- tests for modal component - onEsc
+- tests for modal component
+
+### Work In Progress
+
+- temporary disable notification feature
+- make closeModal works as list action
+- move menuActionsConfig outside
+- introduce close-modal-component
+
 <a name="0.1.0"></a>
 
-## 0.1.0 (2022-09-21)
+## [0.1.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/helm-charts-0.1.0...0.1.0) (2022-09-21)
+
+<a name="helm-charts-0.1.0"></a>
+
+## [helm-charts-0.1.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/product-traceability-foss-frontend-0.1.0...helm-charts-0.1.0) (2022-09-21)
+
+### Features
+
+- added new logo and fav icon
+- prepare investigation mock for featuer impl
+
+<a name="product-traceability-foss-frontend-0.1.0"></a>
+
+## product-traceability-foss-frontend-0.1.0 (2022-09-20)
 
 ### Chore
 
@@ -24,8 +214,6 @@
 
 ### Features
 
-- added new logo and fav icon
-- prepare investigation mock for featuer impl
 - update documents for release
 - added installation file with instructions
 - renamed app
@@ -36,7 +224,7 @@
 - added dashboard investigation widget
 - added fixes for quality gates and relations
 - renamed veracode.yml to .yaml so it complies with checks
-- helm chart release ([#76](https://github.com/catenax-ng/product-traceability-foss-frontend/issues/76))
+- helm chart release ([#76](https://github.com/catenax-ng/tx-traceability-foss-frontend/issues/76))
 - improve performance throughout appication
 - added wip role for notification and role check to table component
 - added better test data for local mock

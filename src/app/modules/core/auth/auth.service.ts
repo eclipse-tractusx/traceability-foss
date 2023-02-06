@@ -30,6 +30,7 @@ export interface UserData {
   email: string;
   roles: string[];
   auth_time: string;
+  bpn: string;
 }
 
 @Injectable({
@@ -50,12 +51,13 @@ export class AuthService {
       email = '',
       resource_access = {},
       auth_time: key_auth_time,
+      bpn = '',
     } = this.keycloakService.getKeycloakInstance().tokenParsed;
 
     const auth_time = key_auth_time.toString();
     const roles = resource_access[environment.clientId]?.roles ?? [];
 
-    return { username, firstname, surname, email, auth_time, roles };
+    return { username, firstname, surname, email, auth_time, roles, bpn };
   }
 
   public logOut(): void {

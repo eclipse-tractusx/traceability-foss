@@ -26,22 +26,22 @@ import { otherPartsAssets } from './otherParts.model';
 import { mockCustomerAssets, mockSupplierAssets } from './otherParts.test.model';
 
 export const otherPartsHandlers = [
-  rest.get(`${environment.apiUrl}/assets/supplier`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/supplier`, (req, res, ctx) => {
     const pagination = extractPagination(req);
     return res(ctx.status(200), ctx.json(applyPagination(otherPartsAssets, pagination)));
   }),
 
-  rest.get(`${environment.apiUrl}/assets/customer`, (_req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/customer`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockCustomerAssets));
   }),
 ];
 
 export const otherPartsHandlersTest = [
-  rest.get(`${environment.apiUrl}/assets/supplier`, (_req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/supplier`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockSupplierAssets));
   }),
 
-  rest.get(`${environment.apiUrl}/assets/customer`, (_req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/customer`, (_req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockCustomerAssets));
   }),
 ];
