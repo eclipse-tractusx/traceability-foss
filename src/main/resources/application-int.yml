@@ -27,3 +27,7 @@ feign:
 
 edc:
   callback-urls: http://tracex-irs:8181/internal/endpoint-data-reference
+  bpn-provider-url-mappings:
+    "BPNL00000003CSGV": "https://edc.apps.int.ocp.cx.dps.oncite.cloud"
+    "BPNL00000003AZQP": "https://sapse-7a219546-de.int.cx.dih-cloud.com"
+    "BPNL00000003CML1": "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
