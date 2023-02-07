@@ -25,7 +25,7 @@ jobs:
       - name: Get helm charts latest tag version
         id: step1
         run: |
-          latestVersion=$(git tag | grep "helm-charts-" | tail -1)
+          latestVersion=$(git tag | grep "^helm-charts-" | tail -1)
           echo "::set-output name=latest_version::$latestVersion"
           echo "Exported $latestVersion latest helm charts version"
 
