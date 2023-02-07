@@ -20,7 +20,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div *ngIf="toastMessage" class="toast status-bar-{{ toastMessage.status }}" data-testid="toast-container">
-  <label class="small-text p-4 text-tundora flex flex-wrap" id="toast-message">{{ toastMessage.message | i18n }}</label>
+  <label class="small-text p-4 text-dark flex flex-wrap" id="toast-message">{{ toastMessage.message | i18n }}</label>
   <button class="btn-close p-0.5">
     <mat-icon class="text-white mt-1" (click)="this.removeToast.emit(toastMessage)">close</mat-icon>
   </button>

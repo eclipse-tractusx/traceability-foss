@@ -22,24 +22,20 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        black: ['Catena-X Black', 'sans-serif'],
-        blackItalic: ['Catena-X BlackItalic', 'sans-serif'],
         bold: ['Catena-X Bold', 'sans-serif'],
         boldItalic: ['Catena-X BoldItalic', 'sans-serif'],
-        extraBold: ['Catena-X ExtraBold', 'sans-serif'],
-        extraBoldItalic: ['Catena-X ExtraBoldItalic', 'sans-serif'],
-        extraLight: ['Catena-X ExtraLight', 'sans-serif'],
-        extraLightItalic: ['Catena-X ExtraLightItalic', 'sans-serif'],
+
         italic: ['Catena-X Italic', 'sans-serif'],
+        regular: ['Catena-X Regular', 'sans-serif'],
+
         light: ['Catena-X Light', 'sans-serif'],
         lightItalic: ['Catena-X LightItalic', 'sans-serif'],
+
         medium: ['Catena-X Medium', 'sans-serif'],
         mediumItalic: ['Catena-X MediumItalic', 'sans-serif'],
-        regular: ['Catena-X Regular', 'sans-serif'],
+
         semiBold: ['Catena-X SemiBold', 'sans-serif'],
         semiBoldItalic: ['Catena-X SemiBoldItalic', 'sans-serif'],
-        thin: ['Catena-X Thin', 'sans-serif'],
-        thinItalic: ['Catena-X ThinItalic', 'sans-serif'],
       },
       minHeight: {
         0: '0',
@@ -60,7 +56,10 @@ module.exports = {
         120: 120,
       },
       fontSize: {
-        tiny: '.5rem',
+        tiny: '12px',
+        sm: '14px',
+        base: '16px',
+        xl: '18px',
       },
       fill: theme => ({
         green: theme('success'),
@@ -94,8 +93,9 @@ module.exports = {
       cararra: '#eeefea',
       doveGray: '#666666',
       tundora: '#444444',
-      white: '#fff',
-      dark: '#191715',
+      white: '#ffffff',
+      dark: '#111111',
+      gray: '#888888',
 
       // Alert colors
       error: '#D91E18',
@@ -131,7 +131,7 @@ module.exports = {
       // Status colors for notification badges
 
       createdLight: '#f2f3fb',
-      createdDark: '#000000',
+      createdDark: '#111111',
 
       receivedLight: '#e1f1fe',
       receivedDark: '#2b4078',
