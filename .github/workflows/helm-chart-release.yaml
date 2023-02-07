@@ -1,7 +1,12 @@
-name: Release Charts
+name: Release Helm Charts
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Trigger manually
+  push:
+    branches:
+      - main
+    paths:
+      - 'charts/**'
 
 jobs:
   Get-helm-charts-versions:
