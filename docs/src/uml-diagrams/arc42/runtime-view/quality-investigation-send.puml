@@ -1,0 +1,88 @@
+@startuml
+
+title
+    ==Send Quality Investigation
+end title
+
+autonumber "<B>[00]"
+autoactivate on
+
+box "Trace-X"
+participant "Trace-X Frontend" as TraceX order 0
+participant "Trace-X Backend" as TraceXB order 1
+participant "Trace-X EDC Adapter" as NAdapter order 2
+
+participant "EDC" as SEDC order 3
+end box
+participant "Discovery Service" as DS order 4
+box "Receiver"
+participant "EDC" as REDC order 5
+participant "Some (Traceability) App" as TraceApp2 order 6
+end box
+
+TraceApp2 -> REDC: Create EDC Asset for \n"Quality Investigation Receipt"\nwith ""DataAddress"" as ""HTTP POST"" endpoint
+return OK
+TraceApp2 -> REDC: Create Access Policy, Usage Policy, Contract Definition
+return OK
+TraceX -> TraceX: Select suspect child Part(s) / Batch(es)
+deactivate TraceX
+TraceX -> TraceXB: Create Quality Quality Investigation
+TraceXB -> TraceXB: Identify BPN for Suspect Part(s) / Batch(es)
+deactivate TraceXB
+TraceXB -> TraceXB: Create Notifications separated by BPN\nStatus := CREATED
+deactivate TraceXB
+TraceXB -> TraceX: Quality Investigation list
+deactivate TraceXB
+TraceX -> TraceXB: Release Notification(s)
+deactivate TraceX
+TraceXB -> DS: Resolve EDC Endpoint
+rnote right TraceXB
+BPN of Receiver
+end note
+return OK
+TraceXB -> TraceXB: Update Notification Status\nStatus := SENT
+deactivate TraceXB
+TraceXB -> NAdapter: Send Notification **Receipt**
+rnote right TraceXB
+Payload as described in the interface and API specification.
+end rnote
+NAdapter -> SEDC: Fetch Catalog
+SEDC <--> REDC: Fetch Catalog
+NAdapter -> NAdapter: Find and Select Contract
+rnote right NAdapter
+Find the correct contract offer with:
+
+"asset:prop:notificationtype": "qualityinvestigation",
+"asset:prop:notificationmethod": "receive"
+end rnote
+deactivate NAdapter
+NAdapter -> SEDC: Intiatiate Contract Negotiation
+SEDC <--> REDC: Contract Negotiation
+NAdapter -> SEDC: Inititate Data Transfer
+SEDC <--> REDC: Establish Channel
+NAdapter -> SEDC: POST /public/...
+rnote right NAdapter
+Payload as described in the interface and API specification.
+end rnote
+SEDC -> REDC: POST /public/...
+rnote right SEDC
+Payload as described in the interface and API specification.
+end rnote
+REDC -> TraceApp2: POST /notifications/qualityinvestigations/receive
+rnote right REDC
+Payload as described in the interface and API specification.
+end rnote
+rnote right REDC
+The http path depends on the DataAddress
+in the EDC Data Asset. Thus, it depends on the
+(Trace) app.
+end rnote
+TraceApp2 -->REDC: ""201"" OK
+REDC --> SEDC: ""201"" OK
+SEDC --> NAdapter: ""201"" OK
+NAdapter --> TraceXB: ""201"" OK
+TraceXB -> TraceXB: Update Notification Status\nStatus := RECEIVED
+deactivate TraceXB
+TraceXB -> TraceX: Update Notification Status
+deactivate TraceXB
+@enduml
