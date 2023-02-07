@@ -26,26 +26,27 @@
 @layer base {
   body {
     @apply font-light bg-white m-0 p-0 overflow-hidden;
+    font-family: 'LibreFranklin', 'Libre Franklin', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
 
   h1 {
-    @apply font-extraBold lg:text-4xl sm:text-3xl uppercase text-primary;
+    @apply font-medium sm:text-3xl uppercase text-primary;
   }
 
   h2 {
-    @apply font-extraBold lg:text-3xl sm:text-2xl uppercase text-tundora;
+    @apply font-medium sm:text-2xl uppercase text-tundora;
   }
 
   h3 {
-    @apply font-extraBold lg:text-2xl sm:text-xl text-tundora;
+    @apply font-semiBold lg:text-2xl sm:text-xl text-tundora;
   }
 
   h4 {
-    @apply font-extraBold lg:text-xl sm:text-lg text-tundora;
+    @apply font-semiBold lg:text-xl sm:text-lg text-tundora;
   }
 
   h5 {
-    @apply font-extraBold lg:text-lg sm:text-base text-tundora;
+    @apply font-semiBold lg:text-lg sm:text-base text-tundora;
   }
 
   .regular-text {
@@ -65,7 +66,7 @@
   }
 
   .component-headline {
-    @apply font-extraBold lg:text-sm sm:text-xs text-tundora;
+    @apply font-light lg:text-sm sm:text-xs text-tundora;
   }
 
   a {
