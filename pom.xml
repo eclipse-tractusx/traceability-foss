@@ -468,6 +468,28 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${checkstyle-plugin.version}</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<configLocation>${project.basedir}/config/checkstyle/checkstyle.xml</configLocation>
+							<inputEncoding>UTF-8</inputEncoding>
+							<consoleOutput>true</consoleOutput>
+							<failsOnError>true</failsOnError>
+							<failOnViolation>true</failOnViolation>
+							<includeTestSourceDirectory>true</includeTestSourceDirectory>
+							<includes>**\/*</includes>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
 				<version>${pmd-plugin.version}</version>
 				<configuration>

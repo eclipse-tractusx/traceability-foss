@@ -13,12 +13,12 @@ will be right!
 	<module name="SuppressWarningsFilter"/>
 
 	<module name="SuppressionFilter">
-		<property name="file" value="${config_loc}/suppressions.xml"/>
+		<property name="file" value="config/checkstyle/suppressions.xml"/>
 		<property name="optional" value="true"/>
 	</module>
 
 	<module name="RegexpHeader">
-		<property name="headerFile" value="${config_loc}/REGEXPR_HEADER.txt"/>
+		<property name="headerFile" value="config/checkstyle/REGEXPR_HEADER.txt"/>
 		<property name="fileExtensions" value="groovy,java,yml"/>
 	</module>
 
