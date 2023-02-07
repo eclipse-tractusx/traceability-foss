@@ -175,7 +175,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    this.investigationDetailFacade.setSupplierPartsInformation(data);
+    this.investigationDetailFacade.setAndSupplierPartsInformation();
     this.supplierPartsTableConfig = {
       ...tableConfig,
       displayedColumns: ['select', ...displayedColumns],

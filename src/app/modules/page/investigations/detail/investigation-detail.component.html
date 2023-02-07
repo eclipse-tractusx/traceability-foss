@@ -143,7 +143,7 @@ SPDX-License-Identifier: Apache-2.0
     </mat-card-content>
   </mat-card>
 </div>
-<mat-card *ngIf="isReceived" class="detail--table_wrapper--supplier">
+<mat-card *ngIf="isReceived && supplierPartsDetailInformation$ | async" class="detail--table_wrapper--supplier">
   <mat-card-title>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</mat-card-title>
   <mat-card-content>
     <ng-container
