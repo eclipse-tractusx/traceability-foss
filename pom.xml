@@ -40,13 +40,23 @@
 		<!-- Sonar -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/jacoco/*.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/jacoco/*.xml
+		</sonar.coverage.jacoco.xmlReportPaths>
 		<sonar.jacoco.reportsPaths>${project.build.directory}/jacoco-ut.exec</sonar.jacoco.reportsPaths>
 		<sonar.tests>src/test/groovy</sonar.tests>
 		<sonar.projectKey>catenax-ng_product-traceability-foss-backend</sonar.projectKey>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.organization>catenax-ng</sonar.organization>
-		<sonar.exclusions>org/eclipse/tractusx/traceability/generated/**, org/eclipse/tractusx/traceability/openapi/**, org/eclipse/tractusx/traceability/TraceabilityApplication.java, org/eclipse/tractusx/traceability/common/**,org/eclipse/tractusx/traceability/infrastructure/**, org/eclipse/tractusx/traceability/assets/domain/model/**, org/eclipse/tractusx/traceability/assets/infrastructure/**, org/eclipse/tractusx/traceability/assets/config/**, org/eclipse/tractusx/traceability/investigations/domain/model/**, org/eclipse/tractusx/traceability/investigations/adapters/**, org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**</sonar.exclusions>
+		<sonar.exclusions>org/eclipse/tractusx/traceability/generated/**, org/eclipse/tractusx/traceability/openapi/**,
+			org/eclipse/tractusx/traceability/TraceabilityApplication.java,
+			org/eclipse/tractusx/traceability/common/**,org/eclipse/tractusx/traceability/infrastructure/**,
+			org/eclipse/tractusx/traceability/assets/domain/model/**,
+			org/eclipse/tractusx/traceability/assets/infrastructure/**,
+			org/eclipse/tractusx/traceability/assets/config/**,
+			org/eclipse/tractusx/traceability/investigations/domain/model/**,
+			org/eclipse/tractusx/traceability/investigations/adapters/**,
+			org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**
+		</sonar.exclusions>
 
 
 		<surefire-plugin.version>3.0.0-M8</surefire-plugin.version>
@@ -370,8 +380,12 @@
 							<groupId>${project.groupId}</groupId>
 							<library>feign</library>
 							<generatorName>java</generatorName>
-							<apiPackage>org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry</apiPackage>
-							<modelPackage>org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry</modelPackage>
+							<apiPackage>
+								org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry
+							</apiPackage>
+							<modelPackage>
+								org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry
+							</modelPackage>
 							<configOptions>
 								<sourceFolder>src/main/java</sourceFolder>
 							</configOptions>
@@ -543,6 +557,65 @@
 	</build>
 
 	<profiles>
+		<profile>
+			<id>docs</id>
+			<properties>
+				<asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
+				<asciidoctorj.version>2.5.7</asciidoctorj.version>
+				<asciidoctorj.diagram.version>2.2.3</asciidoctorj.diagram.version>
+				<jruby.version>9.3.9.0</jruby.version>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.asciidoctor</groupId>
+						<artifactId>asciidoctor-maven-plugin</artifactId>
+						<version>${asciidoctor.maven.plugin.version}</version>
+						<dependencies>
+							<dependency>
+								<groupId>org.jruby</groupId>
+								<artifactId>jruby</artifactId>
+								<version>${jruby.version}</version>
+							</dependency>
+							<dependency>
+								<groupId>org.asciidoctor</groupId>
+								<artifactId>asciidoctorj</artifactId>
+								<version>${asciidoctorj.version}</version>
+							</dependency>
+							<dependency>
+								<groupId>org.asciidoctor</groupId>
+								<artifactId>asciidoctorj-diagram</artifactId>
+								<version>${asciidoctorj.diagram.version}</version>
+							</dependency>
+						</dependencies>
+						<configuration>
+							<requires>
+								<require>asciidoctor-diagram</require>
+							</requires>
+							<backend>html5</backend>
+							<sourceDirectory>docs/src/docs</sourceDirectory>
+							<relativeBaseDir>true</relativeBaseDir>
+							<preserveDirectories>true</preserveDirectories>
+							<attributes>
+								<source-highlighter>rouge</source-highlighter>
+								<toc>left</toc>
+								<icons>font</icons>
+								<icon-set>fas</icon-set>
+							</attributes>
+						</configuration>
+						<executions>
+							<execution>
+								<id>output-html</id>
+								<phase>generate-resources</phase>
+								<goals>
+									<goal>process-asciidoc</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 		<profile>
 			<id>dependency-check</id>
 			<build>
