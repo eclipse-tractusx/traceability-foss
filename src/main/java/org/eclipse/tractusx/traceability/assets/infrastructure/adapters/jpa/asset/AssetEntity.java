@@ -55,8 +55,6 @@ public class AssetEntity {
 	private String manufacturingCountry;
 	private boolean supplierPart;
 	private QualityType qualityType;
-
-	@Transient
 	private String van;
 
 	@ElementCollection

@@ -1164,19 +1164,19 @@
 				"localIdentifiers": [
 					{
 						"value": "BPNL00000003AYRE",
-						"key": "ManufacturerID"
+						"key": "manufacturerId"
 					},
 					{
 						"value": "KR-09",
-						"key": "ManufacturerPartID"
+						"key": "manufacturerPartId"
 					},
 					{
 						"value": "OMA-TGFAYUHXFLHHUQQMPLTE",
-						"key": "PartInstanceID"
+						"key": "partInstanceId"
 					},
 					{
 						"value": "OMA-TGFAYUHXFLHHUQQMPLTE",
-						"key": "VAN"
+						"key": "van"
 					}
 				],
 				"manufacturingInformation": {
