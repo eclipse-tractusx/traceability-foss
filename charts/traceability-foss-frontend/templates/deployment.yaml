@@ -2,16 +2,16 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: {{ .Values.namespace | default .Release.Namespace }}
-  name: {{ include "tx-traceability-foss-frontend.fullname" . }}
+  name: {{ include "traceability-foss-frontend.fullname" . }}
   labels:
-    {{- include "tx-traceability-foss-frontend.labels" . | nindent 4 }}
+    {{- include "traceability-foss-frontend.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "tx-traceability-foss-frontend.selectorLabels" . | nindent 6 }}
+      {{- include "traceability-foss-frontend.selectorLabels" . | nindent 6 }}
   revisionHistoryLimit: 2
   template:
     metadata:
@@ -21,19 +21,19 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "tx-traceability-foss-frontend.selectorLabels" . | nindent 8 }}
+        {{- include "traceability-foss-frontend.selectorLabels" . | nindent 8 }}
     spec:
       automountServiceAccountToken: false
       {{- if .Values.imagePullSecret.dockerconfigjson }}
       imagePullSecrets:
-        - name: {{ include "tx-traceability-foss-frontend.fullname" . }}-imagepullsecret
+        - name: {{ include "traceability-foss-frontend.fullname" . }}-imagepullsecret
       {{- else }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}
-      serviceAccountName: {{ include "tx-traceability-foss-frontend.serviceAccountName" . }}
+      serviceAccountName: {{ include "traceability-foss-frontend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:

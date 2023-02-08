@@ -1,6 +1,12 @@
 # STAGE 1: Build
 FROM node:18-alpine as builder
 
+#Add a user with userid 8877 and name nonroot
+RUN useradd −u 8877 nonroot
+
+#Run Container as nonroot
+USER nonroot
+
 # Copy dependencies info
 COPY /package.json /yarn.lock ./
 
@@ -19,7 +25,6 @@ FROM nginxinc/nginx-unprivileged:alpine
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=10s \
     CMD curl -fSs 127.0.0.1:8080/healthz || exit 1
 
-USER root
 RUN rm /usr/share/nginx/html/index.html && rm /etc/nginx/conf.d/default.conf
 
 # Copy project files from ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
