@@ -5,9 +5,6 @@ image:
   CATENAX_PORTAL_CLIENT_ID: 'Cl17-CX-Part'
   CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
 
-autoscaling:
-  enabled: false
-
 ingress:
   enabled: true
   className: "nginx"

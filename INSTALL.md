@@ -1,3 +1,9 @@
+# Local Helm deployment
+
+## TBD
+
+# Local Docker deployment
+
 ## How to build the application
 
 The angular app is built into Docker containers and exposed through NGINX

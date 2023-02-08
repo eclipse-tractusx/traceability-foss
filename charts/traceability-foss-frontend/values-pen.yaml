@@ -8,11 +8,8 @@ image:
 # important to not conflict with dev env (both use same ArgoCD instance)
 namespace: product-traceability-foss-pen
 
-nameOverride: "tx-traceability-foss-pen-frontend"
-fullnameOverride: "tx-traceability-foss-pen-frontend"
-
-autoscaling:
-  enabled: false
+nameOverride: "traceability-foss-pen-frontend"
+fullnameOverride: "traceability-foss-pen-frontend"
 
 ingress:
   enabled: true
