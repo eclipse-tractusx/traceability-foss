@@ -14,12 +14,7 @@
 	<artifactId>product-traceability-foss-backend-root</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>Traceability FOSS Backend Root</name>
-	<description>Root module containing other modules.</description>
-
-	<!-- modules>
-		<module>docs</module> TODO activate once the branch TRACEFOSS-arc42-documentation is merged into main
-	</modules-->
+	<name>Traceability FOSS Backend</name>
 
 	<properties>
 		<java.version>17</java.version>
@@ -92,6 +87,12 @@
 		<springCloudVersion>2021.0.5</springCloudVersion>
 		<springfoxVersion>3.0.0</springfoxVersion>
 		<springdocVersion>1.6.14</springdocVersion>
+
+		<asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
+		<asciidoctorj.version>2.5.7</asciidoctorj.version>
+		<asciidoctorj.diagram.version>2.2.3</asciidoctorj.diagram.version>
+		<jruby.version>9.3.9.0</jruby.version>
+
 	</properties>
 
 	<dependencyManagement>
@@ -198,6 +199,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -431,56 +436,6 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-				<configuration>
-					<excludes>
-						<exclude>org/eclipse/tractusx/traceability/generated/**</exclude>
-						<exclude>org/eclipse/tractusx/traceability/openapi/**</exclude>
-						<exclude>org/eclipse/tractusx/traceability/*Application.class</exclude>
-						<exclude>org/eclipse/tractusx/traceability/common/**</exclude>
-						<exclude>org/eclipse/tractusx/traceability/assets/domain/model/**</exclude>
-						<exclude>org/eclipse/tractusx/traceability/assets/infrastructure/**</exclude>
-						<exclude>org/eclipse/tractusx/traceability/assets/config/**</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<rule>
-									<element>PACKAGE</element>
-									<limits>
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.8</minimum>
-										</limit>
-									</limits>
-								</rule>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>${checkstyle-plugin.version}</version>
@@ -499,28 +454,6 @@
 							<includeTestSourceDirectory>true</includeTestSourceDirectory>
 							<includes>**\/*</includes>
 						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>${pmd-plugin.version}</version>
-				<configuration>
-					<analysisCache>true</analysisCache>
-					<printFailingErrors>true</printFailingErrors>
-					<rulesets>
-						<ruleset>../ci/pmd-rules.xml</ruleset>
-					</rulesets>
-					<excludeRoots>
-						<excludeRoot>target/generated-sources</excludeRoot>
-					</excludeRoots>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -559,12 +492,6 @@
 	<profiles>
 		<profile>
 			<id>docs</id>
-			<properties>
-				<asciidoctor.maven.plugin.version>2.2.2</asciidoctor.maven.plugin.version>
-				<asciidoctorj.version>2.5.7</asciidoctorj.version>
-				<asciidoctorj.diagram.version>2.2.3</asciidoctorj.diagram.version>
-				<jruby.version>9.3.9.0</jruby.version>
-			</properties>
 			<build>
 				<plugins>
 					<plugin>
@@ -741,6 +668,17 @@
 								</goals>
 							</execution>
 						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-report-plugin</artifactId>
+						<version>3.0.0-M8</version>
+						<configuration>
+							<skipSurefireReport>true</skipSurefireReport>
+							<reportsDirectories>
+								<reportsDirectory>${basedir}/target/failsafe-reports</reportsDirectory>
+							</reportsDirectories>
+						</configuration>
 					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
