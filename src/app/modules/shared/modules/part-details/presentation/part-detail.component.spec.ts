@@ -72,7 +72,7 @@ describe('PartDetailComponent', () => {
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
     const nameElement = await screen.findByText(part.name);
-    const productionDateElement = await screen.findByText('5/30/1997');
+    const productionDateElement = await screen.findByText('5/30/97');
 
     expect(sideNavElement).toBeInTheDocument();
     await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));

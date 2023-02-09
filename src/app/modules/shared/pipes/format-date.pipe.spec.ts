@@ -42,7 +42,17 @@ describe('FormatDatePipe', () => {
       componentProperties: { date },
     });
 
-    expect(screen.getByText('2/4/2022')).toBeInTheDocument();
+    expect(screen.getByText('2/4/22')).toBeInTheDocument();
+  });
+
+  it('should format date with options', async () => {
+    const date = new CalendarDateModel('2022-02-04T13:48:54Z');
+    await renderComponent(`{{ date | formatDate: {dateStyle: 'medium', timeStyle: 'short', timeZone: 'UTC'} }}`, {
+      imports: [SharedModule],
+      componentProperties: { date },
+    });
+
+    expect(screen.getByText('Feb 4, 2022, 1:48 PM')).toBeInTheDocument();
   });
 
   it('should return -- if string is empty', async () => {

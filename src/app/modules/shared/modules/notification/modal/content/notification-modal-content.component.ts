@@ -19,47 +19,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.detail--header {
-  display: flex;
-  justify-content: space-between;
-}
+import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ToastService } from '@shared/components/toasts/toast.service';
+import { Notification } from '@shared/model/notification.model';
+import { ModalData } from '@shared/modules/modal/core/modal.model';
+import { ModalService } from '@shared/modules/modal/core/modal.service';
+import { Observable } from 'rxjs';
 
-.detail--wrapper {
-  display: flex;
-  height: max-content;
-
-  @media (max-width: 1024px) {
-    flex-flow: column;
-    & > mat-card {
-      width: 100% !important;
-    }
-  }
-
-  & mat-card:nth-child(1) {
-    width: 30%;
-  }
-
-  & mat-card:nth-child(2) {
-    width: 70%;
-  }
-}
-
-.detail--wrapper__supplier {
-  margin-top: 1.5rem;
-}
-
-.detail--table_wrapper--notification {
-  margin-left: 1.5rem;
-
-  @media (max-width: 1024px) {
-    margin-left: 0;
-    margin-top: 1.5rem;
-  }
-}
-
-.investigation--serial-number__icon {
-  width: 14px;
-  height: 14px;
-  font-size: 14px;
-  margin-left: 0.5rem;
+@Component({
+  selector: 'app-notification-modal-content',
+  templateUrl: './notification-modal-content.component.html',
+})
+export class NotificationModalContentComponent {
+  @Input() notification: Notification;
 }

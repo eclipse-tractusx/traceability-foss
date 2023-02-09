@@ -47,6 +47,7 @@ export class NotificationTabComponent implements AfterViewInit {
   @Output() selected = new EventEmitter<Notification>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
+  @ViewChild('descriptionTmp') descriptionTemplate: TemplateRef<unknown>;
 
   public tableConfig: TableConfig<keyof Notification>;
 
@@ -59,6 +60,7 @@ export class NotificationTabComponent implements AfterViewInit {
       menuActionsConfig: this.menuActionsConfig || [],
       cellRenderers: {
         status: this.statusTemplate,
+        description: this.descriptionTemplate,
       },
     };
   }

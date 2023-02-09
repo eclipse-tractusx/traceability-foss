@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
     <span class="detail--text detail--text__bold">{{ 'table.partsColumn.id' | i18n }}</span>
     <span class="detail--text">{{ notification?.id }}</span>
   </div>
-  <div>
+  <div *ngIf="showNotification">
     <span class="detail--text detail--text__bold">{{ 'table.partsColumn.description' | i18n }}</span>
     <span class="detail--text">{{ notification?.description }}</span>
   </div>
@@ -41,5 +41,9 @@ SPDX-License-Identifier: Apache-2.0
   <div>
     <span class="detail--text detail--text__bold">{{ 'table.partsColumn.createdBy' | i18n }}</span>
     <span class="detail--text">{{ notification?.createdBy }}</span>
+  </div>
+  <div>
+    <span class="detail--text detail--text__bold">{{ 'table.partsColumn.sendTo' | i18n }}</span>
+    <span class="detail--text">{{ notification?.sendTo }}</span>
   </div>
 </div>

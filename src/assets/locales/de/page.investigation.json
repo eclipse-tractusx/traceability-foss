@@ -1,6 +1,7 @@
 {
   "pageInvestigation": {
     "info": "Übersicht",
+    "reason": "Nachrichtenverlauf",
     "selectedParts_one": "{{count}} Produkt für diese Seite ausgewählt.",
     "selectedParts_other": "{{count}} Produkte für diese Seite ausgewählt.",
     "selectPartsAction": "Untersuchung starten",
