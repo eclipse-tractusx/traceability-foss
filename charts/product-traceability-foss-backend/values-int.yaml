@@ -137,6 +137,8 @@ irs-helm:
   minio:
     nameOverride: "tracex-irs-minio"
     fullnameOverride: "tracex-irs-minio"
+    serviceAccount:
+      create: false
     rootUser: <path:traceability-foss/data/int/minio#user>
     rootPassword: <path:traceability-foss/data/int/minio#password>
 
