@@ -28,7 +28,6 @@ import spock.lang.Unroll
 
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.ACCEPTED
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.ACKNOWLEDGED
-import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.APPROVED
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CANCELED
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CLOSED
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CREATED
@@ -56,7 +55,7 @@ class InvestigationReceiverSpec extends InvestigationBaseSpec {
 			investigation.getInvestigationStatus() == investigationStatus
 
 		where:
-			investigationStatus << [CREATED, APPROVED, SENT, ACKNOWLEDGED, ACCEPTED, DECLINED, CLOSED, CANCELED]
+			investigationStatus << [CREATED, SENT, ACKNOWLEDGED, ACCEPTED, DECLINED, CLOSED, CANCELED]
 	}
 
 	@Unroll
@@ -77,7 +76,7 @@ class InvestigationReceiverSpec extends InvestigationBaseSpec {
 			investigation.getInvestigationStatus() == investigationStatus
 
 		where:
-			investigationStatus << [CREATED, APPROVED, SENT, RECEIVED, ACCEPTED, DECLINED, CLOSED, CANCELED]
+			investigationStatus << [CREATED, SENT, RECEIVED, ACCEPTED, DECLINED, CLOSED, CANCELED]
 	}
 
 	@Unroll
@@ -98,7 +97,7 @@ class InvestigationReceiverSpec extends InvestigationBaseSpec {
 			investigation.getInvestigationStatus() == investigationStatus
 
 		where:
-			investigationStatus << [CREATED, APPROVED, SENT, RECEIVED, ACCEPTED, DECLINED, CLOSED, CANCELED]
+			investigationStatus << [CREATED, SENT, RECEIVED, ACCEPTED, DECLINED, CLOSED, CANCELED]
 	}
 
 	def "should not allow to acknowledge investigation for different bpn"() {

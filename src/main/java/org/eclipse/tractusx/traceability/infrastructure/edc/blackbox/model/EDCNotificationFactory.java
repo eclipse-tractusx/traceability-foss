@@ -21,51 +21,41 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record EDCNotification(EDCNotificationHeader header, EDCNotificationContent content) {
+public class EDCNotificationFactory {
 
-	public String getRecipientBPN() {
-		return header.recipientBPN();
+	private EDCNotificationFactory(){
 	}
 
-	public String getNotificationId() {
-		return header.notificationId();
+	public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification){
+		EDCNotificationHeader header = new EDCNotificationHeader(
+			notification.getId(),
+			notification.getSenderBpnNumber(),
+			senderEDC,
+			notification.getReceiverBpnNumber(),
+			NotificationType.QMINVESTIGATION.getValue(),
+			"",
+			"",
+			notification.getInvestigationStatus().name(),
+			""
+		);
+
+		EDCNotificationContent content = new EDCNotificationContent(
+			notification.getDescription(),
+			extractAssetIds(notification)
+		);
+
+		return new EDCNotification(header, content);
 	}
 
-	public String getSenderBPN() {
-		return header.senderBPN();
-	}
-
-	public String getSenderAddress() {
-		return header.senderAddress();
-	}
-
-	public String getInformation() {
-		return content.information();
-	}
-
-	public List<AffectedPart> getListOfAffectedItems() {
-		return content.listOfAffectedItems().stream()
-			.map(AffectedPart::new)
+	private static List<String> extractAssetIds(Notification notification) {
+		return notification.getAffectedParts().stream()
+			.map(AffectedPart::assetId)
 			.collect(Collectors.toList());
-	}
-
-	public NotificationType convertNotificationType() {
-		String classification = header().classification();
-
-		return NotificationType.fromValue(classification)
-			.orElseThrow(() -> new IllegalArgumentException("%s not supported notification type".formatted(classification)));
-	}
-
-	public InvestigationStatus convertInvestigationStatus() {
-		String investigationStatus = header().status();
-
-		return InvestigationStatus.fromValue(investigationStatus)
-			.orElseThrow(() -> new IllegalArgumentException("%s not supported investigation status".formatted(investigationStatus)));
 	}
 }
 

@@ -27,6 +27,7 @@ import okhttp3.RequestBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
@@ -132,7 +133,7 @@ public class InvestigationsEDCFacade {
 				dataReference = getDataReference(agreementId);
 			}
 
-			EDCNotification edcNotification = new EDCNotification(senderEdcUrl, notification);
+			EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(senderEdcUrl, notification);
 			String body = objectMapper.writeValueAsString(edcNotification);
 			HttpUrl url = httpCallService.getUrl(dataReference.getEndpoint(), null, null);
 			Request request = new Request.Builder()

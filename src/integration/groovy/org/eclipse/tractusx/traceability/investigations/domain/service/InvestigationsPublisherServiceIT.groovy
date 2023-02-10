@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
 import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification
@@ -46,7 +47,7 @@ class InvestigationsPublisherServiceIT extends IntegrationSpecification implemen
 			defaultAssetsStored()
 
 		and:
-            EDCNotification notification = new EDCNotification(
+            EDCNotification notification = EDCNotificationFactory.createQualityInvestigation(
 				"it",
 				new Notification(
 					"some-id",
@@ -56,7 +57,7 @@ class InvestigationsPublisherServiceIT extends IntegrationSpecification implemen
 					"edcUrl",
 					null,
 					"description",
-                        InvestigationStatus.APPROVED,
+					InvestigationStatus.SENT,
 					[new AffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")]
 				)
 			)

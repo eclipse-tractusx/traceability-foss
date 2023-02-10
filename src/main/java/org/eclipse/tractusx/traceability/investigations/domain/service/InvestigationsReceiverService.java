@@ -66,14 +66,18 @@ public class InvestigationsReceiverService {
 			throw new InvestigationReceiverBpnMismatchException(applicationBPN, recipientBPN, edcNotification.getNotificationId());
 		}
 
-		if (!edcNotification.getClassification().equals(NotificationType.QMINVESTIGATION)) {
-			throw new InvestigationIllegalUpdate("Received %s classified edc notification which is not an investigation".formatted(edcNotification.getClassification()));
+		NotificationType notificationType = edcNotification.convertNotificationType();
+
+		if (!notificationType.equals(NotificationType.QMINVESTIGATION)) {
+			throw new InvestigationIllegalUpdate("Received %s classified edc notification which is not an investigation".formatted(notificationType));
 		}
 
-		switch (edcNotification.getStatus()) {
-			case APPROVED -> receiveInvestigation(edcNotification, recipientBPN);
+		InvestigationStatus investigationStatus = edcNotification.convertInvestigationStatus();
+
+		switch (investigationStatus) {
+			case SENT -> receiveInvestigation(edcNotification, recipientBPN);
 			case CLOSED -> closeInvestigation(edcNotification);
-			default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.getStatus()));
+			default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(investigationStatus));
 		}
 	}
 

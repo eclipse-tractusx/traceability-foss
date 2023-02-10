@@ -21,8 +21,11 @@
 
 package org.eclipse.tractusx.traceability.investigations.domain.model;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptySet;
 import static java.util.Set.of;
@@ -30,7 +33,6 @@ import static java.util.Set.of;
 
 public enum InvestigationStatus {
 	CREATED(InvestigationSide.SENDER, emptySet()),
-	APPROVED(InvestigationSide.SENDER, Set.of(InvestigationSide.SENDER)),
 	SENT(InvestigationSide.SENDER, Set.of(InvestigationSide.SENDER)),
 	RECEIVED(InvestigationSide.RECEIVER, emptySet()),
 	ACKNOWLEDGED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER)),
@@ -51,10 +53,11 @@ public enum InvestigationStatus {
 
 	private static final Set<InvestigationStatus> NO_TRANSITION_ALLOWED = emptySet();
 
+	private static final Map<String, InvestigationStatus> MAPPINGS;
+
 	static {
 		STATE_MACHINE = Map.of(
-			CREATED, of(APPROVED, CANCELED),
-			APPROVED, of(SENT, CLOSED),
+			CREATED, of(SENT, CANCELED),
 			SENT, of(RECEIVED, CLOSED),
 			RECEIVED, of(ACKNOWLEDGED, CLOSED),
 			ACKNOWLEDGED, of(DECLINED, ACCEPTED, CLOSED),
@@ -63,6 +66,9 @@ public enum InvestigationStatus {
 			CLOSED, NO_TRANSITION_ALLOWED,
 			CANCELED, NO_TRANSITION_ALLOWED
 		);
+
+		MAPPINGS = Arrays.stream(InvestigationStatus.values())
+			.collect(Collectors.toMap(Enum::name, investigationStatus -> investigationStatus));
 	}
 
 	public boolean transitionAllowed(InvestigationStatus to) {
@@ -77,5 +83,9 @@ public enum InvestigationStatus {
 
 	private boolean isSideEligibleForTransition(InvestigationStatus from, InvestigationStatus to) {
 		return to.allowedTransitionFromSide.contains(from.investigationSide);
+	}
+
+	public static Optional<InvestigationStatus> fromValue(String value) {
+		return Optional.ofNullable(MAPPINGS.get(value));
 	}
 }

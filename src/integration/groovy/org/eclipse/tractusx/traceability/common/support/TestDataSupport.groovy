@@ -18,36 +18,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.common.support
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
+import com.xebialabs.restito.semantics.Action
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+trait TestDataSupport {
 
-public enum NotificationType {
-	QMINVESTIGATION("QM-Investigation"),
-	QMALERT("QM-Alert");
+	private static final String BASE_PATH = "./testdata/"
 
-	private static final Map<String, NotificationType> MAPPINGS;
+	String readFile(String filename) {
+		URL resource = Action.class.getClassLoader().getResource(BASE_PATH + filename)
 
-	static {
-		MAPPINGS = Arrays.stream(NotificationType.values())
-			.collect(Collectors.toMap(NotificationType::getValue, notificationType -> notificationType));
-	}
-
-	private final String value;
-
-	NotificationType(String value) {
-		this.value = value;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public static Optional<NotificationType> fromValue(String value) {
-		return Optional.ofNullable(MAPPINGS.get(value));
+		return resource.text
 	}
 }
