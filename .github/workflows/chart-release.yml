@@ -32,7 +32,7 @@ jobs:
 
       - name: Update helm dependencies for trace-x
         run: |
-          cd charts/tx-traceability-foss-frontend
+          cd charts/traceability-foss-frontend
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm dependency update
       - name: Run chart-releaser

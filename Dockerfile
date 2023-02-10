@@ -43,3 +43,10 @@ COPY ./scripts/inject-dynamic-env.js /docker-entrypoint.d/
 
 # Validate NGINX configuration
 RUN nginx -t
+
+USER root
+#Add a user with userid 8877 and name nonroot
+RUN addgroup -S nonrootgroup && adduser -u 8877 -D -S nonroot -G nonrootgroup
+
+#Run Container as nonroot
+USER nonroot

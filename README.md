@@ -25,6 +25,7 @@ Secondly, Angular `scales` perfectly in the long run. Because of the restricted 
 With that in mind it made sense it chose Angular for an `open source` project.
 
 Source files are exposed statically through the NGINX web server.
+TRACE-FOSS product composes of the backend and frontend repositories, backend repository can be found under [GitHub repository](https://github.com/catenax-ng/tx-traceability-foss-backend).
 
 ### Challenges and solutions
 
