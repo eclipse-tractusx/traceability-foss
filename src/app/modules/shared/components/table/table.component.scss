@@ -21,6 +21,7 @@
 
 table {
   width: 100%;
+  @apply font-light;
 }
 
 .mat-row .mat-cell {
