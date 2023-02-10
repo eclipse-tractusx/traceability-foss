@@ -28,9 +28,9 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Lite
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -48,12 +48,12 @@ public class HttpCallService {
 
 	private final OkHttpClient httpClient;
 	private final ObjectMapper objectMapper;
-	@Value("${edc.catalog}")
-	String catalogPath;
+	private final EdcProperties edcProperties;
 
-	public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+	public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties) {
 		this.httpClient = withIncreasedTimeout(httpClient);
 		this.objectMapper = objectMapper;
+		this.edcProperties = edcProperties;
 		objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
 	}
 
@@ -71,7 +71,7 @@ public class HttpCallService {
 		String providerConnectorControlPlaneIDSUrl,
 		Map<String, String> headers
 	) throws IOException {
-		var url = consumerEdcDataManagementUrl + catalogPath + providerConnectorControlPlaneIDSUrl;
+		var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath() + providerConnectorControlPlaneIDSUrl;
 		var request = new Request.Builder().url(url);
 		headers.forEach(request::addHeader);
 

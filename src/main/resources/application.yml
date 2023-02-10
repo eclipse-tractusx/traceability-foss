@@ -21,6 +21,7 @@
 
 traceability:
   bpn: ${TRACEABILITY_BPN}
+  url: ${TRACEABILITY_URL}
   registry.manufacturerIdKey: manufacturerId
 
 edc:
@@ -28,11 +29,10 @@ edc:
   negotiation: "/data/contractnegotiations"
   transfer: "/data/transferprocess"
   catalog: "/data/catalog?providerUrl="
-  api:
-    auth:
-      key: ${EDC_API_KEY}
+  api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings:
     {}
+  provider-edc-url: ${EDC_PROVIDER_URL}
 
 server:
   servlet:
