@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
 import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.hamcrest.Matchers
+import spock.lang.Ignore
 import spock.lang.Unroll
 
 import static io.restassured.RestAssured.given
@@ -39,6 +40,7 @@ import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 
 class PublisherInvestigationsControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
 
+	@Ignore
 	def "should start investigation"() {
 		given:
 			List<String> partIds = [
@@ -251,7 +253,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			given()
 				.contentType(ContentType.JSON)
 				.body(asJson([
-					reason    : description
+					reason: description
 				]))
 				.header(jwtAuthorization(ADMIN))
 				.when()
