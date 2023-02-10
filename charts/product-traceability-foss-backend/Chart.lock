@@ -7,9 +7,9 @@ dependencies:
   version: 1.13.6
 - name: irs-helm
   repository: https://catenax-ng.github.io/tx-item-relationship-service
-  version: 4.1.0
+  version: 4.2.1
 - name: irs-edc-consumer
   repository: https://catenax-ng.github.io/tx-item-relationship-service
   version: 1.0.2
-digest: sha256:df12d8393908029a4270f3d96170d68817309a7c11e9e28f8c130a55ad5885fe
-generated: "2023-01-17T12:01:42.6353157+01:00"
+digest: sha256:dc6be06f565327901a166dac891f8817a838db3666c9eac1b668408300ddce3a
+generated: "2023-02-07T16:49:18.0141562+01:00"
