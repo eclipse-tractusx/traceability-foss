@@ -19,13 +19,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
+import { Observable, of, throwError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 export class ApiInterceptor implements HttpInterceptor {
   public intercept(req: HttpRequest<string>, next: HttpHandler): Observable<HttpEvent<string>> {
     const requestUrl = req.url;
     req = req.clone({ url: requestUrl });
-    return next.handle(req);
+    return next.handle(req).pipe(
+      switchMap(response => {
+        if (!(response instanceof HttpResponse)) return of(response);
+
+        const { url } = response;
+        if (url.indexOf(requestUrl) === -1)
+          return throwError(() => new Error('Request and response url do not match!'));
+
+        return of(response);
+      }),
+    );
   }
 }
