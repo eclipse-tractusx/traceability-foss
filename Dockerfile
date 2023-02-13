@@ -1,3 +1,4 @@
+# Nonroot user is not needed beause we are using the "nginx-unprivileged" image
 # STAGE 1: Build
 FROM node:18-alpine as builder
 
@@ -20,6 +21,7 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=10s \
     CMD curl -fSs 127.0.0.1:8080/healthz || exit 1
 
 USER root
+
 RUN rm /usr/share/nginx/html/index.html && rm /etc/nginx/conf.d/default.conf
 
 # Copy project files from ‘builder’ stage copy over the artifacts in dist folder to default nginx public folder
@@ -49,3 +51,5 @@ COPY ./scripts/replace-base-href.js /docker-entrypoint.d/
 USER root
 RUN chown nginx:nginx /etc/nginx/nginx.conf
 RUN chown nginx:nginx /etc/nginx/security-headers.conf
+
+USER 101

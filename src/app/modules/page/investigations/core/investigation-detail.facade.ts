@@ -25,8 +25,8 @@ import { Part } from '@page/parts/model/parts.model';
 import { Notification } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
-import { Observable, Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { SortDirection } from '../../../../mocks/services/pagination.helper';
 
 @Injectable()
@@ -63,6 +63,11 @@ export class InvestigationDetailFacade {
     this.notificationPartsInformationDescription?.unsubscribe();
     this.investigationDetailState.investigationPartsInformation = { loader: true };
 
+    if (!notification.assetIds.length) {
+      this.investigationDetailState.investigationPartsInformation = { data: [] };
+      return;
+    }
+
     this.notificationPartsInformationDescription = this.partsService
       .getPartDetailOfIds(notification.assetIds)
       .subscribe({
@@ -71,13 +76,16 @@ export class InvestigationDetailFacade {
       });
   }
 
-  public setSupplierPartsInformation(notification: Notification): void {
+  public setAndSupplierPartsInformation(): void {
     this.supplierPartsSubscription?.unsubscribe();
     this.investigationDetailState.supplierPartsInformation = { loader: true };
 
-    this.supplierPartsSubscription = this.partsService
-      .getPartDetailOfIds(notification.assetIds)
-      .pipe(switchMap(parts => this.partsService.getPartDetailOfIds(this.getIdsFromPartList(parts))))
+    this.supplierPartsSubscription = this.investigationDetailState.investigationPartsInformation$
+      .pipe(
+        filter(view => !!view.data),
+        map(({ data }) => this.getIdsFromPartList(data)),
+        switchMap(partIds => (!!partIds && !!partIds.length ? this.partsService.getPartDetailOfIds(partIds) : of([]))),
+      )
       .subscribe({
         next: data => (this.investigationDetailState.supplierPartsInformation = { data }),
         error: error => (this.investigationDetailState.supplierPartsInformation = { error }),

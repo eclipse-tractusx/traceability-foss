@@ -6,12 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2023-02-06
+
+### Added
+
+- Functionality to send and receive notifications – Quality Investigations
+- EDC router component to support notifications and data ingest process in parallel
+- Arc42 documentation
+
+### Changed
+
+- Endpoints introducing proper validation for request body depending on the endpoint type
+
+### Removed
+
+- Email Feature from application for security reasons
+
 ## [1.0.0] - 2022-12-12
 
 ### Added
 
 - **Traceability BoM asBuilt** - with the use of IRS we retrieve a BoM tree for lifecycle "as built" for serialized parts as well as batches, which as a prerequisite are provided to the Catena-X network.
-- Usage of the aspects "SerialPartTypization", “Batch” and "AssemblyPartRelationship".
+- Usage of the aspects "SerialPartTypification", “Batch” and "AssemblyPartRelationship".
 - Tree built in the downwards direction top-down/parent-child. Visualization of the BoM tree and list view of own manufactured as well as being supplied with parts.
 
 ## [0.1.0] - 2022-09-21
@@ -21,6 +37,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - **BoM asBuilt** Fetch parts and supplier parts, display details, display part tree
 - **EDC and IRS integration**
 
-[unreleased]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/0.1.0...HEAD
+[unreleased]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/1.1.0
 [1.0.0]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/1.0.0
 [0.1.0]: https://github.com/eclipse-tractusx/traceability-foss-frontend/compare/0.1.0

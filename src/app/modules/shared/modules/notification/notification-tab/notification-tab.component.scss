@@ -19,6 +19,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+.notification--table__description {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 500px;
+}
+
 .notification-status {
   @apply border-0 uppercase inline-flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-xs;
 

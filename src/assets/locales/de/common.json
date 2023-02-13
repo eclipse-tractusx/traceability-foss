@@ -60,7 +60,8 @@
       "description": "Beschreibung",
       "status": "Status",
       "createdDate": "Erstelldatum",
-      "createdBy": "Erstellt von"
+      "createdBy": "Erstellt von",
+      "sendTo": "Gesendet an"
     }
   },
   "dataLoading": {

@@ -25,4 +25,5 @@
 
 .selectedText {
   text-transform: uppercase !important;
+  @apply font-semiBold;
 }

@@ -1,0 +1,28 @@
+image:
+  tag: $ARGOCD_APP_REVISION
+  CATENAX_PORTAL_API_URL: 'https://traceability-pen.dev.demo.catena-x.net/api'
+  CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp-pen.dev.demo.catena-x.net/auth'
+  CATENAX_PORTAL_CLIENT_ID: 'Cl17-CX-Part'
+  CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
+  CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
+
+# important to not conflict with dev env (both use same ArgoCD instance)
+namespace: product-traceability-foss-pen
+
+nameOverride: "traceability-foss-pen-frontend"
+fullnameOverride: "traceability-foss-pen-frontend"
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: "traceability-portal-pen.dev.demo.catena-x.net"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - "traceability-portal-pen.dev.demo.catena-x.net"
+      secretName: "traceability-portal-pen.dev.demo.catena-x.net-tls"

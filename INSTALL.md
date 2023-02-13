@@ -1,13 +1,5 @@
-## How to build the application
+# Environment variables
 
-The angular app is built into Docker containers and exposed through NGINX
-
-It is important to specify the type of configuration profile, previously defined in the angular JSON file, so it can
-build the application correctly.
-
-## How to run the docker image
-
-When running the build docker image you are able to pass through multiple environment variables to configure the FE.
 Support environment variables are:
 
 ```javascript
@@ -44,6 +36,82 @@ This variable is used to set the base path of the application. (Should be set if
 This variable is needed for security, to be more explicit, for the security headers of a request.  
 The domain of the corresponding backend should be used here.  
 An example value could be: `catena-x.net`
+
+# Helm deployment
+
+## Configuration of values.yaml
+
+To run a helm chart you first need to specify a values file with instructions on how to run your helm file.
+Here is an example how you could structure this file for this frontend helm chart.
+
+`your-values.yaml`
+
+```yaml
+image:
+  tag: $APP_REVISION
+  ENVIRONMENT_VAR_1: 'VALUE'
+  ENVIRONMENT_VAR_2: 'VALUE'
+  ...
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: "${FE_HOST_URL}"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - "${FE_HOST_URL}"
+      secretName: "${FE_HOST_URL}-tls"
+
+```
+
+## Helm installation
+
+Add the Trace-X frontend Helm repository:
+
+```sh
+$ helm repo add traceability-foss-frontend https://catenax-ng.github.io/tx-traceability-foss-frontend
+```
+
+Then install the Helm chart into your cluster:
+
+```sh
+$ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-frontend/traceability-foss-frontend
+```
+
+### Deployment using ArgoCD
+
+Create a new Helm chart and use Trace-X as a dependency.
+
+```yaml
+dependencies:
+  - name: traceability-foss-frontend
+    alias: frontend
+    version: x.x.x
+    repository: 'https://catenax-ng.github.io/tx-traceability-foss-frontend/'
+```
+
+Then provide your configuration as the values.yaml of that chart.
+
+Create a new application in ArgoCD and point it to your repository / Helm chart folder.
+
+# Docker deployment
+
+## How to build the application
+
+The angular app is built into Docker containers and exposed through NGINX
+
+It is important to specify the type of configuration profile, previously defined in the angular JSON file, so it can
+build the application correctly.
+
+## How to run the docker image
+
+When running the build docker image you are able to pass through multiple environment variables to configure the FE.
 
 ### Example command:
 

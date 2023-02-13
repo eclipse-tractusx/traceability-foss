@@ -32,4 +32,5 @@ import { Notification } from '@shared/model/notification.model';
 })
 export class NotificationOverviewComponent {
   @Input() notification: Notification;
+  @Input() showNotification = true;
 }

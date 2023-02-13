@@ -41,9 +41,9 @@ describe('LanguageSelector', () => {
     await renderLanguageSelector();
     expect(screen.getByText('Back')).toBeInTheDocument();
     fireEvent.click(screen.getByText('en'));
-    fireEvent.click(screen.getByText('Polski'));
-    // as in test there is no PL translations expectation that translation module
-    // would return translation key aas fallback for PL
+    fireEvent.click(screen.getByText('Deutsch'));
+    // as in test there is no DE translations expectation that translation module
+    // would return translation key aas fallback for DE
     expect(await screen.findByText('actions.back')).toBeInTheDocument();
   });
 });
