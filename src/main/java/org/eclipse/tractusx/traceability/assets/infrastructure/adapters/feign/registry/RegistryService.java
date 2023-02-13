@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry;
+package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.registry;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,10 +41,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry.RegistryService.AssetIdType.BATCH_ID;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry.RegistryService.AssetIdType.MANUFACTURER_ID;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry.RegistryService.AssetIdType.MANUFACTURER_PART_ID;
-import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry.RegistryService.AssetIdType.PART_INSTANCE_ID;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.registry.RegistryService.AssetIdType.BATCH_ID;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.registry.RegistryService.AssetIdType.MANUFACTURER_ID;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.registry.RegistryService.AssetIdType.MANUFACTURER_PART_ID;
+import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.registry.RegistryService.AssetIdType.PART_INSTANCE_ID;
 
 @Component
 public class RegistryService {
@@ -98,7 +98,7 @@ public class RegistryService {
 
 		final List<String> assetIds;
 		try {
-			assetIds = registryApiClient.getAllAssetAdministrationShellIdsByAssetLink(filter);
+			assetIds = registryApiClient.getShells(filter);
 		} catch (FeignException e) {
 			endMetric(registryLookupMetric);
 
@@ -110,9 +110,9 @@ public class RegistryService {
 
 		logger.info("Fetching shell descriptors.");
 
-		final AssetAdministrationShellDescriptorCollectionBase descriptors;
+		final RegistryShellDescriptorResponse descriptors;
 		try {
-			descriptors = registryApiClient.postFetchAssetAdministrationShellDescriptor(assetIds);
+			descriptors = registryApiClient.fetchShellDescriptors(assetIds);
 		} catch (FeignException e) {
 			endMetric(registryLookupMetric);
 
@@ -121,10 +121,10 @@ public class RegistryService {
 			throw e;
 		}
 
-		logger.info("Received {} shell descriptors for {} IDs.", descriptors.getItems().size(), assetIds.size());
+		logger.info("Received {} shell descriptors for {} IDs.", descriptors.items().size(), assetIds.size());
 
-		List<ShellDescriptor> shellDescriptors = descriptors.getItems().stream()
-			.filter(it -> Objects.nonNull(it.getGlobalAssetId()))
+		List<ShellDescriptor> shellDescriptors = descriptors.items().stream()
+			.filter(it -> Objects.nonNull(it.globalAssetId()))
 			.map(aasDescriptor -> toShellDescriptor(aasDescriptor, registryLookupMetric))
 			.peek(it -> registryLookupMetric.incrementSuccessShellDescriptorsFetchCount())
 			.toList();
@@ -138,22 +138,22 @@ public class RegistryService {
 		return shellDescriptors;
 	}
 
-	private ShellDescriptor toShellDescriptor(AssetAdministrationShellDescriptor aasDescriptor, RegistryLookupMetric registryLookupMetric) {
+	private ShellDescriptor toShellDescriptor(RegistryShellDescriptor aasDescriptor, RegistryLookupMetric registryLookupMetric) {
 		logIncomingDescriptor(aasDescriptor, registryLookupMetric);
 
-		String shellDescriptorId = aasDescriptor.getIdentification();
-		String globalAssetId = aasDescriptor.getGlobalAssetId().getValue().stream()
+		String shellDescriptorId = aasDescriptor.identification();
+		String globalAssetId = aasDescriptor.globalAssetId().value().stream()
 			.findFirst()
 			.orElse(null);
-		Map<String, String> assetIdsMap = aasDescriptor.getSpecificAssetIds().stream()
-			.collect(Collectors.toMap(entry -> entry.getKey().toLowerCase(), IdentifierKeyValuePair::getValue));
+		Map<String, String> assetIdsMap = aasDescriptor.specificAssetIds().stream()
+			.collect(Collectors.toMap(entry -> entry.key().toLowerCase(), SpecificAssetId::value));
 
 		String manufacturerPartId = assetIdsMap.get(MANUFACTURER_PART_ID.asKey());
 		String partInstanceId = assetIdsMap.get(PART_INSTANCE_ID.asKey());
 		String manufacturerId = assetIdsMap.get(MANUFACTURER_ID.asKey());
 		String batchId = assetIdsMap.get(BATCH_ID.asKey());
 
-		return new ShellDescriptor(shellDescriptorId, globalAssetId, aasDescriptor.getIdShort(), partInstanceId, manufacturerPartId, manufacturerId, batchId);
+		return new ShellDescriptor(shellDescriptorId, globalAssetId, aasDescriptor.idShort(), partInstanceId, manufacturerPartId, manufacturerId, batchId);
 	}
 
 	private void endMetric(RegistryLookupMetric registryLookupMetric) {
@@ -163,7 +163,7 @@ public class RegistryService {
 		registryLookupMeterRegistry.save(registryLookupMetric);
 	}
 
-	private AssetAdministrationShellDescriptor logIncomingDescriptor(AssetAdministrationShellDescriptor descriptor, RegistryLookupMetric registryLookupMetric) {
+	private RegistryShellDescriptor logIncomingDescriptor(RegistryShellDescriptor descriptor, RegistryLookupMetric registryLookupMetric) {
 		if (logger.isDebugEnabled()) {
 			try {
 				String rawDescriptor = objectMapper.writeValueAsString(descriptor);

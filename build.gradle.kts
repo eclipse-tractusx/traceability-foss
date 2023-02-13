@@ -12,7 +12,6 @@ plugins {
 	id("com.autonomousapps.dependency-analysis") version "1.13.1"
 	id("com.google.cloud.tools.jib") version "3.3.1"
 	id("com.coditory.integration-test") version "1.4.5"
-	id("org.openapi.generator") version "6.2.1"
 	id("org.sonarqube") version "3.4.0.2513"
 	id("checkstyle")
 }
@@ -27,7 +26,7 @@ java {
 
 	sourceSets {
 		main {
-			java.srcDirs("src/main/java", "${buildDir}/generated/sources/openapi/java/main")
+			java.srcDirs("src/main/java")
 		}
 	}
 }
@@ -63,7 +62,6 @@ sonarqube {
 		property(
 			"sonar.coverage.exclusions", listOf(
 				"src/main/java/org/eclipse/tractusx/traceability/generated/**",
-				"src/main/java/org/eclipse/tractusx/traceability/openapi/**",
 				"src/main/java/org/eclipse/tractusx/traceability/TraceabilityApplication.java",
 				"src/main/java/org/eclipse/tractusx/traceability/common/**",
 				"src/main/java/org/eclipse/tractusx/traceability/infrastructure/**",
@@ -184,34 +182,6 @@ tasks.withType<Test> {
 	finalizedBy(tasks.jacocoTestReport)
 }
 
-tasks.create<org.openapitools.generator.gradle.plugin.tasks.GenerateTask>("generateAasRegistryApi") {
-	inputSpec.set("${project.rootDir}/openapi/aas-registry-openapi.yaml")
-	outputDir.set("${buildDir}/openapi")
-	validateSpec.set(false)
-
-	groupId.set("${project.group}")
-
-	library.set("feign")
-	generatorName.set("java")
-	apiPackage.set("org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry")
-	modelPackage.set("org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry")
-	configOptions.put("sourceFolder", "src/main/java")
-}
-
-tasks.withType<org.openapitools.generator.gradle.plugin.tasks.GenerateTask> {
-	doLast {
-		delete(fileTree("$buildDir/generated/sources/openapi"))
-		copy {
-			from(fileTree("${buildDir}/openapi/src/main/java"))
-			into("$buildDir/generated/sources/openapi/java/main")
-		}
-	}
-}
-
-tasks.withType<JavaCompile> {
-	dependsOn("generateAasRegistryApi")
-}
-
 tasks.jacocoTestReport {
 	executionData.setFrom(fileTree("${project.buildDir}").include("/jacoco/*.exec"))
 	reports {
@@ -225,7 +195,6 @@ tasks.jacocoTestReport {
 			fileTree(it) {
 				exclude(
 					"org/eclipse/tractusx/traceability/generated/**",
-					"org/eclipse/tractusx/traceability/openapi/**",
 					"org/eclipse/tractusx/traceability/*Application.class",
 					"org/eclipse/tractusx/traceability/common/**",
 					"org/eclipse/tractusx/traceability/assets/domain/model/**",
