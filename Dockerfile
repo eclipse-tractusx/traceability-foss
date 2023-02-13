@@ -1,3 +1,4 @@
+# Nonroot user is not needed beause we are using the "nginx-unprivileged" image
 # STAGE 1: Build
 FROM node:18-alpine as builder
 
@@ -20,8 +21,6 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=10s \
     CMD curl -fSs 127.0.0.1:8080/healthz || exit 1
 
 USER root
-#Add a user with userid 8877 and name nonroot
-RUN addgroup -S nonrootgroup && adduser -u 8877 -D -S nonroot -G nonrootgroup
 
 RUN rm /usr/share/nginx/html/index.html && rm /etc/nginx/conf.d/default.conf
 
@@ -30,7 +29,7 @@ COPY --from=builder /ng-app/dist /usr/share/nginx/html
 
 # Give ownership to nginx user over dir with content
 
-RUN chown -R nonroot:nonrootgroup /usr/share/nginx/html/
+RUN chown -R nginx:nginx /usr/share/nginx/html/
 USER nginx
 
 # Install Node.js from builder stage
@@ -46,8 +45,4 @@ COPY ./scripts/inject-dynamic-env.js /docker-entrypoint.d/
 
 # Validate NGINX configuration
 RUN nginx -t
-
-USER root
-
-#Run Container as nonroot
-USER nonroot
+USER 101
