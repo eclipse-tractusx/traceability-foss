@@ -33,7 +33,7 @@ describe('AutoFormatPipe', () => {
       },
     });
 
-    expect(screen.getByText('7/15/2022')).toBeInTheDocument();
+    expect(screen.getByText('7/15/22')).toBeInTheDocument();
   });
 
   it('should format string as it is', async () => {

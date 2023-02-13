@@ -23,7 +23,6 @@ import type { NotificationResponse } from '@shared/model/notification.model';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { getRandomAsset } from '../parts-mock/parts.model';
 import { MOCK_part_1 } from '../parts-mock/parts.test.model';
-import { getRandomIntFromInterval, getRandomText } from '../text-generator.helper';
 
 export const InvestigationIdPrefix = 'id-';
 export const buildMockInvestigations = (
@@ -32,28 +31,14 @@ export const buildMockInvestigations = (
 ): NotificationResponse[] =>
   new Array(25).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
-
-    const close = status === NotificationStatus.CLOSED ? getRandomText(getRandomIntFromInterval(15, 500)) : '';
-    const isDeclined = Math.random() >= 0.5;
-
-    const decline =
-      status === NotificationStatus.DECLINED || (!!close && isDeclined)
-        ? getRandomText(getRandomIntFromInterval(15, 500))
-        : '';
-
-    const accept =
-      status === NotificationStatus.ACCEPTED || (!!close && !isDeclined)
-        ? getRandomText(getRandomIntFromInterval(15, 500))
-        : '';
-
     return {
       id: `${InvestigationIdPrefix}${index + 1}`,
-      description: `Investigation No ${index + 1} ${getRandomText(getRandomIntFromInterval(15, 500))}`,
+      description: `Investigation No ${index + 1}`,
       status,
       channel,
-      createdBy: 'OEM A',
+      createdBy: 'OEAM A',
       sendTo: 'OEM B',
-      reason: { close, decline, accept },
+      reason: { close: '', accept: '', decline: '' },
       createdDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
       assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
     };
@@ -64,8 +49,8 @@ const MockEmptyInvestigation: NotificationResponse = {
   description: `Investigation No 000`,
   status: NotificationStatus.CREATED,
   createdBy: 'OEM A',
-  sendTo: 'OEM B',
-  reason: { close: '', decline: '', accept: '' },
+  sendTo: 'OEAM B',
+  reason: { close: '', accept: '', decline: '' },
   createdDate: `2022-05-01T12:34:12`,
   assetIds: [getRandomAsset().id],
   channel: 'SENDER',

@@ -35,16 +35,23 @@ export class InvestigationsAssembler {
   }
 
   public static assembleInvestigation(response: NotificationResponse): Notification {
-    const { id, description = '', status, createdDate = '', createdBy = '', assetIds, channel } = response;
-    return {
+    const {
       id,
-      description,
-      createdBy,
       assetIds,
-      isFromSender: channel === 'SENDER',
+      channel,
+      sendTo,
 
-      status: NotificationStatus[status] ?? null,
-      createdDate: new CalendarDateModel(createdDate),
-    };
+      reason = { accept: '', close: '', decline: '' },
+      description = '',
+      status: _status,
+      createdDate: _createdDate = '',
+      createdBy = '',
+    } = response;
+
+    const isFromSender = channel === 'SENDER';
+    const status = NotificationStatus[_status] ?? null;
+    const createdDate = new CalendarDateModel(_createdDate);
+
+    return { id, description, createdBy, sendTo, reason, assetIds, isFromSender, status, createdDate };
   }
 }

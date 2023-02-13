@@ -23,6 +23,8 @@ import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
+import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
+import { NotificationModalContentComponent } from '@shared/modules/notification/modal/content/notification-modal-content.component';
 import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
@@ -88,6 +90,8 @@ import { TemplateModule } from './template.module';
     QualityTypeComponent,
     ValueToLablePipe,
     NotificationOverviewComponent,
+    NotificationReasonComponent,
+    NotificationModalContentComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -118,6 +122,8 @@ import { TemplateModule } from './template.module';
     RequestInvestigationComponent,
     QualityTypeComponent,
     NotificationOverviewComponent,
+    NotificationReasonComponent,
+    NotificationModalContentComponent,
   ],
   providers: [
     FormatDatePipe,

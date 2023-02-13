@@ -24,7 +24,7 @@ import {
   adminHandler,
   dashboardHandler,
   errorHandler,
-  investigationsHandlers,
+  investigationsTestHandlers,
   otherPartsHandlersTest,
   partsHandlersTest,
 } from '../app/mocks/services';
@@ -33,7 +33,7 @@ const handlers = [
   ...dashboardHandler,
   ...otherPartsHandlersTest,
   ...partsHandlersTest,
-  ...investigationsHandlers,
+  ...investigationsTestHandlers,
   ...adminHandler,
   ...errorHandler,
 ];
