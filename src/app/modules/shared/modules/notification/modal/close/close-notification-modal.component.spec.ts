@@ -26,7 +26,7 @@ import { screen, waitFor } from '@testing-library/angular';
 
 describe('CloseNotificationModalComponent', () => {
   it('should create close modal', async () => {
-    await renderCloseModal(NotificationStatus.APPROVED);
+    await renderCloseModal(NotificationStatus.SENT);
     const title = await waitFor(() => screen.getByText('Close of investigation'));
     const hint = await waitFor(() => screen.getByText('Are you sure you want to close this investigation?'));
     const hint2 = await waitFor(() => screen.getByText('Enter the reason for close action.'));
@@ -41,14 +41,14 @@ describe('CloseNotificationModalComponent', () => {
   });
 
   it('should render investigation description', async () => {
-    const { notification } = await renderCloseModal(NotificationStatus.APPROVED);
+    const { notification } = await renderCloseModal(NotificationStatus.SENT);
     const description = await waitFor(() => screen.getByText(notification.description));
 
     expect(description).toBeInTheDocument();
   });
 
   it('should check validation of textarea', async () => {
-    const { fixture } = await renderCloseModal(NotificationStatus.APPROVED);
+    const { fixture } = await renderCloseModal(NotificationStatus.SENT);
     const buttonR = await waitFor(() => screen.getByText('Close'));
     buttonR.click();
 
@@ -65,7 +65,7 @@ describe('CloseNotificationModalComponent', () => {
   });
 
   it('should call close function', async () => {
-    const { fixture } = await renderCloseModal(NotificationStatus.APPROVED);
+    const { fixture } = await renderCloseModal(NotificationStatus.SENT);
 
     const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
     textArea.value = 'Some Text Some Text Some Text';

@@ -43,7 +43,7 @@ describe('InvestigationsAssembler', () => {
               id: 'test-1',
               description: 'test descr',
               createdDate: '2022-07-26T15:09:39.419Z',
-              status: NotificationStatus.APPROVED,
+              status: NotificationStatus.SENT,
               channel: 'SENDER',
               createdBy: '',
               sendTo: '',
@@ -72,7 +72,7 @@ describe('InvestigationsAssembler', () => {
           {
             id: 'test-1',
             description: 'test descr',
-            status: NotificationStatus.APPROVED,
+            status: NotificationStatus.SENT,
             createdDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
             createdBy: '',
             sendTo: '',

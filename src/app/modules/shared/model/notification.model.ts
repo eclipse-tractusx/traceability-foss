@@ -25,7 +25,7 @@ import type { Pagination, PaginationResponse } from '@core/model/pagination.mode
 export enum NotificationStatus {
   ACCEPTED = 'ACCEPTED',
   ACKNOWLEDGED = 'ACKNOWLEDGED',
-  APPROVED = 'APPROVED',
+  APPROVED = 'SENT',
   CANCELED = 'CANCELED',
   CLOSED = 'CLOSED',
   CREATED = 'CREATED',

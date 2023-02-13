@@ -19,13 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastService } from '@shared/components/toasts/toast.service';
+import { Component, Input } from '@angular/core';
 import { Notification } from '@shared/model/notification.model';
-import { ModalData } from '@shared/modules/modal/core/modal.model';
-import { ModalService } from '@shared/modules/modal/core/modal.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notification-modal-content',

@@ -49,7 +49,7 @@ export class NotificationReasonComponent {
     createdBy,
     sendTo,
   }: Notification) {
-    const { ACCEPTED, APPROVED, CLOSED, CREATED, DECLINED } = NotificationStatus;
+    const { ACCEPTED, SENT, CLOSED, CREATED, DECLINED } = NotificationStatus;
     const { accept, close, decline } = reason;
 
     const senderDirection: TextMessageDirection = isFromSender ? 'right' : 'left';
@@ -59,7 +59,7 @@ export class NotificationReasonComponent {
       reason: description,
       direction: senderDirection,
       user: createdBy,
-      status: [CREATED, APPROVED].includes(status) ? status : APPROVED,
+      status: [CREATED, SENT].includes(status) ? status : SENT,
       date: createdDate,
     };
 
