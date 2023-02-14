@@ -29,7 +29,6 @@ import HttpApi from 'i18next-http-backend';
 export const ALL_KNOWN_LOCALES = {
   en: 'English',
   de: 'Deutsch',
-  pl: 'Polski',
 };
 export type KnownLocale = keyof typeof ALL_KNOWN_LOCALES;
 

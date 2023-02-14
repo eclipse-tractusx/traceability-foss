@@ -59,7 +59,8 @@
       "description": "Description",
       "status": "Status",
       "createdDate": "Created",
-      "createdBy": "Created by"
+      "createdBy": "Created by",
+      "sendTo": "Send to"
     }
   },
   "dataLoading": {
@@ -134,7 +135,7 @@
       "queuedAndRequested": "Queued & Requested"
     },
     "status": {
-      "APPROVED": "Requested",
+      "SENT": "Requested",
       "CANCELED": "Cancelled",
       "CLOSED": "Closed",
       "CREATED": "Queued",

@@ -71,7 +71,7 @@ export const renderComponent: typeof ExtendedRenderFn = (
           return () =>
             i18next.init({
               lng: 'en',
-              supportedLngs: ['en', 'pl'],
+              supportedLngs: ['en', 'de'],
               resources: {
                 en: {
                   translation: translations.reduce(

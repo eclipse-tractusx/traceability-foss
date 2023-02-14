@@ -43,6 +43,12 @@ export interface NotificationCreateResponse {
   id: string;
 }
 
+export interface NotificationReason {
+  close: string | null;
+  accept: string | null;
+  decline: string | null;
+}
+
 export interface NotificationResponse {
   id: string;
   description: string;
@@ -50,6 +56,8 @@ export interface NotificationResponse {
 
   createdDate: string;
   createdBy: string;
+  sendTo: string;
+  reason: NotificationReason;
   assetIds: string[];
   channel: 'SENDER' | 'RECEIVER';
 }
@@ -61,6 +69,8 @@ export interface Notification {
 
   createdDate: CalendarDateModel;
   createdBy: string;
+  sendTo: string;
+  reason: NotificationReason;
   assetIds: string[];
   isFromSender: boolean;
 }

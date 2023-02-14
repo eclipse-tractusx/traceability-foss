@@ -53,12 +53,6 @@ describe('InvestigationDetailComponent', () => {
     expect(await screen.getByText('Quality Investigations')).toBeInTheDocument();
   });
 
-  it('should render Detail information', async () => {
-    await renderInvestigationDetail();
-
-    await waitFor(() => expect(screen.getByText('Investigation No 1')).toBeInTheDocument());
-  });
-
   it('should render specific text and additional table for received investigation', async () => {
     await renderInvestigationDetail();
     await waitFor(() => expect(screen.getByText('Affected parts')).toBeInTheDocument());

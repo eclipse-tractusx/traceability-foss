@@ -143,19 +143,31 @@ SPDX-License-Identifier: Apache-2.0
     </mat-card-content>
   </mat-card>
 </div>
-<mat-card *ngIf="isReceived" class="detail--table_wrapper--supplier">
-  <mat-card-title>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</mat-card-title>
-  <mat-card-content>
-    <ng-container
-      *viewContainer="
-        supplierPartsDetailInformation$ | async;
-        main: mainSupplierPartsTmp;
-        error: errorTmp;
-        loading: loaderTmp
-      "
-    ></ng-container>
-  </mat-card-content>
-</mat-card>
+
+<div class="detail--wrapper detail--wrapper__supplier">
+  <mat-card class="h-full">
+    <mat-card-title>{{ 'pageInvestigation.reason' | i18n }}</mat-card-title>
+    <mat-card-content>
+      <ng-container
+        *viewContainer="selected$ | async; main: reasonInfoTmp; error: errorTmp; loading: loaderTmp"
+      ></ng-container>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="isReceived && supplierPartsDetailInformation$ | async" class="detail--table_wrapper--notification">
+    <mat-card-title>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</mat-card-title>
+    <mat-card-content>
+      <ng-container
+        *viewContainer="
+          supplierPartsDetailInformation$ | async;
+          main: mainSupplierPartsTmp;
+          error: errorTmp;
+          loading: loaderTmp
+        "
+      ></ng-container>
+    </mat-card-content>
+  </mat-card>
+</div>
 
 <ng-template #serialNumberTmp let-row="row">
   <app-button (click)="copyToClipboard(row.serialNumber)" [attr.data-testId]="'copy-button--' + row.id">
@@ -194,6 +206,10 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #mainInfoTmp let-view="view">
   <app-notification-overview [notification]="view.data"></app-notification-overview>
+</ng-template>
+
+<ng-template #reasonInfoTmp let-view="view">
+  <app-notification-reason [notification]="view.data"></app-notification-reason>
 </ng-template>
 
 <ng-template #errorTmp let-view="view">

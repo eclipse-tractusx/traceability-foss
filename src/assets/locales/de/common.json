@@ -60,7 +60,8 @@
       "description": "Beschreibung",
       "status": "Status",
       "createdDate": "Erstelldatum",
-      "createdBy": "Erstellt von"
+      "createdBy": "Erstellt von",
+      "sendTo": "Gesendet an"
     }
   },
   "dataLoading": {
@@ -127,7 +128,7 @@
     "status": {
       "RECEIVED": "Erhalten",
       "CREATED": "Erstellt",
-      "APPROVED": "Zugestellt",
+      "SENT": "Zugestellt",
       "CANCELED": "Abgebrochen",
       "CLOSED": "Abgeschlossen",
       "ACCEPTED": "Akzeptiert",

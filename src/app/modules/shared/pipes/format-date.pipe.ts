@@ -22,31 +22,33 @@
 import { Inject, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
+import { DateTimeFormatOptions } from 'luxon';
 import type { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
+interface DateFormatOptions {
+  dateStyle: 'full' | 'long' | 'medium' | 'short';
+}
+
 @Pipe({ name: 'formatDate', pure: false })
 export class FormatDatePipe implements PipeTransform, OnDestroy {
-  private dateFormat: Omit<Intl.DateTimeFormat, 'format'> & {
-    format: (date: Date, options?: { dateStyle: string }) => string;
-  };
-
   private readonly languageChangedSubscription: Subscription;
-  private readonly formatOptions = { dateStyle: 'short' };
+  private readonly formatOptions = { dateStyle: 'short' } as DateTimeFormatOptions;
+  private language: string;
 
   constructor(@Inject(I18NEXT_SERVICE) { language, events }: ITranslationService) {
-    this.dateFormat = new Intl.DateTimeFormat(language);
+    this.language = language;
 
     this.languageChangedSubscription = events.languageChanged
       .pipe(filter(lang => !!lang))
-      .subscribe(lang => (this.dateFormat = new Intl.DateTimeFormat(lang)));
+      .subscribe(lang => (this.language = lang));
   }
 
   public ngOnDestroy(): void {
     this.languageChangedSubscription.unsubscribe();
   }
 
-  public transform(input: string | CalendarDateModel): string {
+  public transform(input: string | CalendarDateModel, dateTimeOptions?: DateTimeFormatOptions): string {
     if (!input) {
       return '--';
     }
@@ -55,10 +57,12 @@ export class FormatDatePipe implements PipeTransform, OnDestroy {
     if (date.getFullYear() == 1970) {
       return '--';
     }
-    return this.dateFormat.format(date, this.formatOptions);
+
+    const dateFormat = new Intl.DateTimeFormat(this.language, dateTimeOptions || this.formatOptions);
+    return dateFormat.format(date);
   }
 
   private transformStringToDate(strDate: string): Date {
-    return new Date(strDate + 'Z');
+    return strDate.slice(-1) === 'Z' ? new Date(strDate) : new Date(strDate + 'Z');
   }
 }

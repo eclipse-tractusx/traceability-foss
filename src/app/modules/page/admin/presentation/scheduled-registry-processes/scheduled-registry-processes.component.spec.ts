@@ -39,6 +39,6 @@ describe('ScheduledRegistryProcessesComponent', () => {
 
   it('should render data', async () => {
     await renderMap();
-    await waitFor(() => expect(screen.getByText('5/1/2022')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('5/1/22')).toBeInTheDocument());
   });
 });

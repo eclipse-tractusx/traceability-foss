@@ -26,30 +26,38 @@
 @layer base {
   body {
     @apply font-light bg-white m-0 p-0 overflow-hidden;
+    font-family: 'LibreFranklin', 'Libre Franklin', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   }
 
   h1 {
-    @apply font-extraBold lg:text-4xl sm:text-3xl uppercase text-primary;
+    @apply font-medium uppercase text-dark;
+    font-size: 56px;
   }
 
   h2 {
-    @apply font-extraBold lg:text-3xl sm:text-2xl uppercase text-tundora;
+    @apply font-medium uppercase text-dark;
+    font-size: 36px;
   }
 
   h3 {
-    @apply font-extraBold lg:text-2xl sm:text-xl text-tundora;
+    @apply font-semiBold sm:text-xl text-dark;
+    font-size: 24px;
   }
 
   h4 {
-    @apply font-extraBold lg:text-xl sm:text-lg text-tundora;
+    @apply font-semiBold sm:text-lg text-dark;
+    font-size: 18px;
   }
 
   h5 {
-    @apply font-extraBold lg:text-lg sm:text-base text-tundora;
+    @apply font-semiBold sm:text-base text-dark;
+    font-size: 16px;
   }
 
+  p,
+  span,
   .regular-text {
-    @apply font-light lg:text-sm sm:text-xs text-tundora;
+    @apply font-light lg:text-sm sm:text-xs text-dark;
   }
 
   .errorMessage {
@@ -57,15 +65,15 @@
   }
 
   .large-text {
-    @apply font-light lg:text-base sm:text-sm text-tundora;
+    @apply font-light lg:text-base sm:text-sm text-dark;
   }
 
   .small-text {
-    @apply font-light lg:text-xs sm:text-tiny text-tundora;
+    @apply font-light lg:text-xs sm:text-tiny text-dark;
   }
 
   .component-headline {
-    @apply font-extraBold lg:text-sm sm:text-xs text-tundora;
+    @apply font-light lg:text-sm sm:text-xs text-dark;
   }
 
   a {
@@ -74,6 +82,8 @@
     white-space: pre-wrap;
     -webkit-font-smoothing: antialiased;
   }
+
+  // Style fixes for material library
 
   .mat-focused .mat-form-field-label {
     @apply text-primary !important;
@@ -88,6 +98,26 @@
   }
 
   .mat-form-field {
-    @apply font-light lg:text-base sm:text-sm text-tundora ml-0 !important;
+    @apply font-light lg:text-base sm:text-sm text-dark ml-0 !important;
+  }
+
+  .mat-paginator,
+  mat-chip {
+    @apply font-light;
+  }
+
+  .mat-hint {
+    @apply font-regular text-gray;
+    font-size: 14px;
+  }
+  .mat-button-wrapper {
+    color: inherit;
+  }
+
+  .mat-sort-header {
+    @apply text-gray;
+  }
+  .mat-sort-header-sorted > .mat-sort-header-content {
+    @apply font-semiBold;
   }
 }

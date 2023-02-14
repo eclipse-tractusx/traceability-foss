@@ -33,7 +33,7 @@ import { fireEvent, screen, within } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { buildMockInvestigations } from '../../../../../mocks/services/investigations-mock/investigations.model';
+import { buildMockInvestigations } from '../../../../../mocks/services/investigations-mock/investigations.test.model';
 import { NotificationModule } from '../notification.module';
 
 describe('NotificationsInboxComponent', () => {
@@ -95,7 +95,7 @@ describe('NotificationsInboxComponent', () => {
     const descriptionEl = await screen.findByText('Investigation No 1');
     const row = descriptionEl.closest('tr');
 
-    expect(within(row).getByText('5/1/2022')).toBeInTheDocument();
+    expect(within(row).getByText('5/1/22')).toBeInTheDocument();
     expect(within(row).getByText('Received')).toBeInTheDocument();
   });
 

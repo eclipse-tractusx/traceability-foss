@@ -1,0 +1,21 @@
+image:
+  tag: $ARGOCD_APP_REVISION
+  CATENAX_PORTAL_API_URL: 'https://traceability.pre-prod.demo.catena-x.net/api'
+  CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.pre-prod.demo.catena-x.net/auth'
+  CATENAX_PORTAL_CLIENT_ID: 'Cl17-CX-Part'
+  CATENAX_PORTAL_DEFAULT_REALM: 'CX-Central'
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  hosts:
+    - host: "traceability-portal.pre-prod.demo.catena-x.net"
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - "traceability-portal.pre-prod.demo.catena-x.net"
+      secretName: "traceability-portal.pre-prod.demo.catena-x.net-tls"

@@ -20,145 +20,66 @@
  ********************************************************************************/
 
 @font-face {
-  font-family: 'Catena-X Black';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-Black.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X BlackItalic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-BlackItalic.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'Catena-X Bold';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-Bold.ttf') format('truetype');
-  font-display: swap;
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-VariableFont_wght.ttf') format('truetype');
+  font-weight: 700;
 }
-
 @font-face {
   font-family: 'Catena-X BoldItalic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-BoldItalic.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X ExtraBold';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-ExtraBold.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X ExtraBoldItalic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-ExtraBoldItalic.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X ExtraLight';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-ExtraLight.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X ExtraLightItalic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-ExtraLightItalic.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X Italic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-Italic.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X Light';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-Light.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X LightItalic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-LightItalic.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X Medium';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-Medium.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X MediumItalic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-MediumItalic.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Catena-X Regular';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-Regular.ttf') format('truetype');
-  font-display: swap;
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 700;
 }
 
 @font-face {
   font-family: 'Catena-X SemiBold';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-SemiBold.ttf') format('truetype');
-  font-display: swap;
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-VariableFont_wght.ttf') format('truetype');
+  font-weight: 600;
 }
-
 @font-face {
   font-family: 'Catena-X SemiBoldItalic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-SemiBoldItalic.ttf') format('truetype');
-  font-display: swap;
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 600;
 }
 
 @font-face {
-  font-family: 'Catena-X Thin';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-Thin.ttf') format('truetype');
-  font-display: swap;
+  font-family: 'Catena-X Medium';
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-VariableFont_wght.ttf') format('truetype');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Catena-X MediumItalic';
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 500;
 }
 
 @font-face {
-  font-family: 'Catena-X ThinItalic';
-  font-weight: normal;
-  font-style: normal;
-  src: url('/../../assets/fonts/LibreFranklin-ThinItalic.ttf') format('truetype');
-  font-display: swap;
+  font-family: 'Catena-X Regular';
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Catena-X Italic';
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Catena-X Light';
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Catena-X LightItalic';
+  font-display: block;
+  src: url('/../../assets/fonts/LibreFranklin-Italic-VariableFont_wght.ttf') format('truetype');
+  font-weight: 300;
 }
