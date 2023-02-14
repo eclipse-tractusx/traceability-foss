@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.registry;
 
+import feign.QueryMap;
 import feign.RequestLine;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -37,7 +38,7 @@ import java.util.Map;
 public interface RegistryApiClient {
 
 	@RequestLine("GET /lookup/shells?assetIds={assetIds}")
-	List<String> getShells(@SpringQueryMap Map<String, Object> queryParams);
+	List<String> getShells(@QueryMap Map<String, Object> queryParams);
 
 	@RequestLine("POST /registry/shell-descriptors/fetch")
 	RegistryShellDescriptorResponse fetchShellDescriptors(List<String> requestBody);
