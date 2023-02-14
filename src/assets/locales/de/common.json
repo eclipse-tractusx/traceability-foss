@@ -128,7 +128,7 @@
     "status": {
       "RECEIVED": "Erhalten",
       "CREATED": "Erstellt",
-      "APPROVED": "Zugestellt",
+      "SENT": "Zugestellt",
       "CANCELED": "Abgebrochen",
       "CLOSED": "Abgeschlossen",
       "ACCEPTED": "Akzeptiert",

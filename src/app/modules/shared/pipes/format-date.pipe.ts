@@ -21,7 +21,7 @@
 
 import { Inject, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { I18NEXT_SERVICE, ITranslationService, PipeOptions } from 'angular-i18next';
+import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import { DateTimeFormatOptions } from 'luxon';
 import type { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
