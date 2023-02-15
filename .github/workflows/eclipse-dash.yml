@@ -46,7 +46,7 @@ jobs:
 
       - name: Build with Maven and check dependencies with dash
         run: |
-          mvn --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests
+          mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests
       - name: upload results
         if: always()
         uses: actions/upload-artifact@v3

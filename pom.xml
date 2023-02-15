@@ -693,7 +693,7 @@
 						<artifactId>maven-surefire-report-plugin</artifactId>
 						<version>3.0.0-M8</version>
 						<configuration>
-							<skipSurefireReport>true</skipSurefireReport>
+							<skipSurefireReport>false</skipSurefireReport>
 							<reportsDirectories>
 								<reportsDirectory>${basedir}/target/failsafe-reports</reportsDirectory>
 							</reportsDirectories>
