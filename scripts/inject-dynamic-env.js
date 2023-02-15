@@ -22,8 +22,6 @@ const fs = require('fs');
 const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_KEYCLOAK_URL: 'keycloakUrl',
   CATENAX_PORTAL_CLIENT_ID: 'clientId',
-  CATENAX_PORTAL_DEFAULT_REALM: 'defaultRealm',
-  CATENAX_PORTAL_REALM_LOGO: 'realmLogo',
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
 };

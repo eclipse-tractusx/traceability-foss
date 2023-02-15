@@ -154,7 +154,6 @@ export const environment = {
   defaultRealm: 'mock',
   realmLogo: '/assets/images/logo.png',
   apiUrl: '/api', // specify where is placed backend API
-  realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   baseUrl: '/',
   mapStyles: 'mapbox://styles/mapbox/light-v10',
 };
@@ -288,8 +287,6 @@ Support environment variables are:
 const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_KEYCLOAK_URL: 'keycloakUrl',
   CATENAX_PORTAL_CLIENT_ID: 'clientId',
-  CATENAX_PORTAL_DEFAULT_REALM: 'defaultRealm',
-  CATENAX_PORTAL_REALM_LOGO: 'realmLogo',
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
 };
@@ -300,12 +297,6 @@ This variable is used to set up and use keycloak
 
 `CATENAX_PORTAL_CLIENT_ID`
 This variable is used to identify the client on keycloak
-
-`CATENAX_PORTAL_DEFAULT_REALM`
-This variable is used the set de default realm of the application
-
-`CATENAX_PORTAL_REALM_LOGO`
-This variable is used to replace the logo on the application
 
 `CATENAX_PORTAL_API_URL`
 This variable points to the desired api

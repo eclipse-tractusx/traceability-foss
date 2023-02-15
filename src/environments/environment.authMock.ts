@@ -25,7 +25,5 @@ export const environment = {
   ..._environment,
   authDisabled: false,
   keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
-  clientId: 'Cl17-CX-Part',
-  defaultRealm: 'CX-Central',
   apiUrl: 'https://traceability.int.demo.catena-x.net/api',
 };
