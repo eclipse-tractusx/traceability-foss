@@ -24,10 +24,16 @@ jobs:
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'adopt'
-          cache: 'gradle'
+          
+      - name: Cache maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
 
       - name: Build docker image
-        run: ./gradlew clean jibDockerBuild --image=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.RELEASE_VERSION }}
+        run: mvn compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.RELEASE_VERSION }}
 
       - name: Login to Docker Registry
         uses: docker/login-action@v2
