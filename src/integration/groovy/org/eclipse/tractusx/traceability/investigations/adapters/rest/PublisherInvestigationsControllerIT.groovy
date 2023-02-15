@@ -77,7 +77,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			}
 
 		and:
-			assertNotificationsSize(3)
+			assertNotificationsSize(2)
 
 		and:
 			given()
