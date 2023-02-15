@@ -39,7 +39,7 @@ SPDX-License-Identifier: Apache-2.0
             <div (click)="this.expand($event)">
               <button class="navbar-menu-btn" data-testid="user-menu" id="user-menu" aria-haspopup="true">
                 <span class="sr-only">{{ 'layout.nav.openUserMenu' | i18n }}</span>
-                <app-avatar [imageUrl]="realmLogo"></app-avatar>
+                <app-avatar [imageUrl]="'/assets/images/logo.png'"></app-avatar>
               </button>
             </div>
             <div
@@ -52,7 +52,7 @@ SPDX-License-Identifier: Apache-2.0
             >
               <section class="flex flex-row p-2">
                 <span class="navbar-menu-items__icon">
-                  <app-avatar [imageUrl]="realmLogo"></app-avatar>
+                  <app-avatar [imageUrl]="'/assets/images/logo.png'"></app-avatar>
                 </span>
                 <section class="flex flex-col p-1">
                   <p class="component-headline text-primary break-words">{{ this.userDetails.role }}</p>

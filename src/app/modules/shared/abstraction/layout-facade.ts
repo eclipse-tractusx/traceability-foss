@@ -42,7 +42,7 @@ export class LayoutFacade {
     };
   }
 
-  public get realmName(): string {
+  public get realName(): string {
     return this.userService.firstname;
   }
 

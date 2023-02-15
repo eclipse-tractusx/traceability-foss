@@ -22,7 +22,7 @@
 import { _environment } from './_environment.base';
 
 const SCRIPT_EL_ID = 'envConfig';
-const SUPPORTED_ENV_PARAMS = ['keycloakUrl', 'clientId', 'defaultRealm', 'realmLogo', 'apiUrl', 'baseUrl'];
+const SUPPORTED_ENV_PARAMS = ['keycloakUrl', 'clientId', 'apiUrl', 'baseUrl'];
 
 export const readDynamicEnv = () => {
   const scriptEl = document.getElementById(SCRIPT_EL_ID) as HTMLScriptElement;
@@ -35,7 +35,7 @@ export const readDynamicEnv = () => {
           dynamicEnv.hasOwnProperty(curr)
             ? {
                 ...acc,
-                [curr]: dynamicEnv[curr],
+                [curr]: dynamicEnv[curr] || _environment[curr],
               }
             : acc,
         {},
@@ -54,7 +54,5 @@ export const environment = {
   authDisabled: false,
   mockService: false,
   keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
-  clientId: 'Cl17-CX-Part',
-  defaultRealm: 'CX-Central',
   ...readDynamicEnv(),
 };
