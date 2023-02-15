@@ -30,7 +30,7 @@
 		<checkstyle.version>10.4</checkstyle.version>
 		<jacoco.version>0.8.8</jacoco.version>
 		<pmd-plugin.version>3.19.0</pmd-plugin.version>
-		<owasp-plugin.version>7.3.0</owasp-plugin.version>
+		<owasp-plugin.version>8.1.0</owasp-plugin.version>
 
 		<!-- Sonar -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -476,7 +476,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+			<!-- plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
 				<version>${owasp-plugin.version}</version>
@@ -495,7 +495,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin -->
 			<plugin>
 				<groupId>org.eclipse.dash</groupId>
 				<artifactId>license-tool-plugin</artifactId>
@@ -573,6 +573,14 @@
 						<configuration>
 							<suppressionFile>ci/owasp-suppressions.xml</suppressionFile>
 						</configuration>
+						<executions>
+							<execution>
+								<phase>validate</phase>
+								<goals>
+									<goal>check</goal>
+								</goals>
+							</execution>
+					</executions>
 					</plugin>
 				</plugins>
 			</build>

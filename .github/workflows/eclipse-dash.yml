@@ -44,9 +44,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build with Maven and check dependencies with dash
+      - name: Build with Maven and check dependencies
         run: |
-          mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests
+          mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests -Pdependency-check
       - name: upload results
         if: always()
         uses: actions/upload-artifact@v3

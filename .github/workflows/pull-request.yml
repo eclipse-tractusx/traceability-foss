@@ -20,10 +20,10 @@ jobs:
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'adopt'
-          cache: 'gradle'
+          cache: 'maven'
 
       - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
-        run: ./gradlew buildHealth -Pdependency.analysis=warn -Pdependency.analysis.clear.artifacts=false
+        run: mvn --quiet --batch-mode -Pdependency-check validate
 
       - name: Dependency analysis report
         run: cat build/reports/dependency-analysis/build-health-report.txt
