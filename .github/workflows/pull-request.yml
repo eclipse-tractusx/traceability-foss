@@ -39,10 +39,10 @@ jobs:
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'adopt'
-          cache: 'gradle'
+          cache: 'maven'
 
       - name: Run unit tests
-        run: mvn --quiet --batch-mode clean test
+        run: mvn -X -e --batch-mode clean test
 
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
