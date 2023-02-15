@@ -1,15 +1,17 @@
 ## Authentication
 
-The user authentication is managed by keycloak and each organization has its own realm.
+The user authentication is managed by the central keycloak instance managed by catena.
+You can configure your IDP there.
 
-The app supports multi tenancy-authentication, so a realm must be specified on the URL.
+[Here is a link on how to do that.](https://github.com/catenax-ng/tx-portal-assets/blob/main/docs/02.%20Technical%20Integration/02.%20Identity%20Provider%20Management/02.%20Configure%20Company%20IdP.md)
 
 ```bash
-http://localhost:4200/${REALM}
+http://localhost:4200/
 ```
 
 In the app module, there is a function which is executed during the app bootstrap.
-That function retrieves the realm provided on the URL, which is used to set up the Keycloak configurations.
+That function retrieves the realm provided in the environment variables,
+which is used to set up the Keycloak configurations.
 
 ### App module provider
 
@@ -28,8 +30,8 @@ That function retrieves the realm provided on the URL, which is used to set up t
 keycloak.init({
   config: {
     url: environment.keycloakUrl,
-    realm,
-    clientId: 'ui',
+    realm: environment.defaultRealm,
+    clientId: environment.clientId,
   },
   initOptions: {
     onLoad: 'login-required',
@@ -37,27 +39,3 @@ keycloak.init({
   },
 });
 ```
-
-If multi-tenancy is disabled, the default realm is considered.
-Those configurations are retrieved from the environment variables.
-
-```typescript
-export const environment = {
-  defaultRealm: '${REALM}',
-  ...
-};
-```
-
-> **Note:** For a deployed app those realms are already configured in the platform chart configurations:
-
-```yaml
-ui:
-  fullnameOverride: ui
-  image: ${IMAGE}
-  hosts:
-    ${REALM}: ui.${COMPANY-X}.test.catenax.partchain.dev
-  nodeSelector:
-    agentpool: application
-```
-
-When a user navigates to that URL, the realm is mapped with the URL's company name.

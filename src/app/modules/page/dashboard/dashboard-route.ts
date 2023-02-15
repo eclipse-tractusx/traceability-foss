@@ -19,11 +19,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { realm } from '@core/api/api.service.properties';
 import { PageRoute } from '@shared/model/page-route.model';
 
 export const DASHBOARD_BASE_ROUTE = 'dashboard';
 
 export const getDashboardRoute = (): PageRoute => ({
-  link: `${realm}/${DASHBOARD_BASE_ROUTE}`,
+  link: `${DASHBOARD_BASE_ROUTE}`,
 });

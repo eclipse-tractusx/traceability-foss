@@ -27,11 +27,9 @@ export const _environment = {
   mockService: true,
   authDisabled: true,
   keycloakUrl: 'http://localhost:8080/',
-  clientId: 'catenax-portal',
-  defaultRealm: 'mock',
-  realmLogo: '/assets/images/logo.png',
+  clientId: 'Cl17-CX-Part',
+  defaultRealm: 'CX-Central',
   apiUrl: '/api',
-  realmRegExp: '^https?://[^/]+/([-a-z-A-Z-0-9]+)',
   baseUrl: '/',
   mapStyles: 'mapbox://styles/mapbox/light-v10',
   customProtocols: {

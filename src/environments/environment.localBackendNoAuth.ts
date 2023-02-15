@@ -19,10 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { environment } from '@env';
+import { _environment } from './_environment.base';
 
-export const realmLogo = environment.realmLogo;
-export const defaultRealm = environment.defaultRealm;
-
-export /** @type {*} */
-const realm: string = new RegExp(environment.realmRegExp).exec(window.location.href)?.[1] || defaultRealm;
+export const environment = {
+  ..._environment,
+  authDisabled: true,
+  mockService: false,
+  apiUrl: 'http://localhost:8080/api',
+};

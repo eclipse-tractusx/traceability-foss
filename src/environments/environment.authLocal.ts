@@ -25,5 +25,4 @@ export const environment = {
   ..._environment,
   authDisabled: false,
   keycloakUrl: 'http://localhost:8080/',
-  clientId: 'catenax-portal',
 };
