@@ -65,7 +65,7 @@ jobs:
           cache: 'maven'
 
       - name: Run integration tests
-        run: mvn -PiT clean verify
+        run: mvn --batch-mode -PiT clean verify
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -90,7 +90,7 @@ jobs:
           cache: 'maven'
 
       - name: Build docker image
-        run: mvn compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
+        run: mvn --batch-mode compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
 
       - name: Login to Docker Registry
         uses: docker/login-action@v2
@@ -127,4 +127,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -DskipTests=true -DskipTests=true clean package sonar:sonar
+        run: mvn --batch-mode -DskipTests=true -DskipTests=true clean package sonar:sonar
