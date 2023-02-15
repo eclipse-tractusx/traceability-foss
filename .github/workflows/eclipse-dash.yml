@@ -46,7 +46,7 @@ jobs:
 
       - name: Build with Maven and check dependencies with dash
         run: |
-          mvn --batch-mode --update-snapshots verify -Ddash.fail=true -DskipTests
+          mvn --batch-mode --update-snapshots -X verify -Ddash.fail=true -DskipTests
       - name: upload results
         if: always()
         uses: actions/upload-artifact@v3
