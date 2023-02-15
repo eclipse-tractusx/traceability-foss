@@ -24,7 +24,7 @@ jobs:
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'adopt'
-          
+
       - name: Cache maven packages
         uses: actions/cache@v3
         with:
