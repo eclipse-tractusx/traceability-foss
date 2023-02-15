@@ -19,14 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { FormControl, ValidatorFn, Validators } from '@angular/forms';
+import { UntypedFormControl, ValidatorFn, Validators } from '@angular/forms';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { SharedModule } from '..';
 
 describe('ErrorMessagePipe', () => {
   const getErrorsForRules = (value: string | number, rules: ValidatorFn[]) => {
-    const control = new FormControl(value, rules);
+    const control = new UntypedFormControl(value, rules);
     control.updateValueAndValidity();
 
     return control.errors;
