@@ -71,7 +71,7 @@ jobs:
           cache: 'maven'
 
       - name: Run integration tests
-        run: mvn --quiet --batch-mode clean verify
+        run: mvn --quiet --batch-mode -PiT clean verify
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2

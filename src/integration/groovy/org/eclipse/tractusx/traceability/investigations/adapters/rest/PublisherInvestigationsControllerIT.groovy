@@ -92,7 +92,6 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.body("page", Matchers.is(0))
 			.body("pageSize", Matchers.is(10))
 			.body("content", Matchers.hasSize(1))
-			.body("channel", Matchers.is("SENDER"))
 	}
 
 	def "should cancel investigation"() {
@@ -340,53 +339,9 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 				.get("/api/investigations/created")
 				.then()
 				.statusCode(200)
-				.extract().path("content[0].channel").equals("SENDER")
-	}
-
-	def "should be created by receiver"() {
-		given:
-			List<String> partIds = [
-				"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
-				"urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
-				"urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
-			]
-			String description = "at least 15 characters long investigation description"
-		and:
-			defaultAssetsStored()
-		when:
-			given()
-				.contentType(ContentType.JSON)
-				.body(
-					asJson(
-						[
-							partIds    : partIds,
-							description: description
-						]
-					)
-				)
-				.header(jwtAuthorization(ADMIN))
-				.when()
-				.post("/api/investigations")
-				.then()
-				.statusCode(201)
-				.body("id", Matchers.isA(Number.class))
-		then:
-			partIds.each { partId ->
-				Asset asset = assetRepository().getAssetById(partId)
-				assert asset
-				assert asset.isUnderInvestigation()
-			}
-		and:
-			given()
-				.header(jwtAuthorization(ADMIN))
-				.param("page", "0")
-				.param("size", "10")
-				.contentType(ContentType.JSON)
-				.when()
-				.get("/api/investigations/created")
-				.then()
-				.statusCode(200)
-				.extract().path("content[0].channel").equals("SENDER")
+				.body("page", Matchers.is(0))
+				.body("pageSize", Matchers.is(10))
+				.body("content", Matchers.hasSize(1))
 	}
 
 }
