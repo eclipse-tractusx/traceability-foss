@@ -42,7 +42,7 @@ jobs:
           cache: 'maven'
 
       - name: Run unit tests
-        run: git fetch && ls -la openapi && mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode clean test
+        run: git pull && ls -la openapi && mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode clean test
 
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
