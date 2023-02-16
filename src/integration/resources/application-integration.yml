@@ -21,12 +21,10 @@
 
 traceability:
   bpn: BPNL00000003AXS3
+  url: localhost:${server.port}/api
 
 edc:
-  api:
-    auth:
-      key: "integration-tests"
-
+  api-auth-key: "integration-tests"
 
 spring:
   security:
@@ -63,3 +61,7 @@ resilience4j:
         exponentialBackoffMultiplier: 2
 server:
   port: 9999
+
+logging:
+  level:
+    logging.level.org.springframework.web.client.RestTemplate: DEBUG

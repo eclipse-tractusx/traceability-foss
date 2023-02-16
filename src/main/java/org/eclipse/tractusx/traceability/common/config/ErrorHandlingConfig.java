@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.common.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.traceability.assets.domain.model.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.TechnicalUserAuthorizationException;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.validation.UpdateInvestigationValidationException;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationNotFoundException;
@@ -140,6 +141,12 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 	ResponseEntity<ErrorResponse> handleUpdateInvestigationValidationException(UpdateInvestigationValidationException exception) {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
 			.body(new ErrorResponse(exception.getMessage()));
+	}
+
+	@ExceptionHandler(CreateNotificationContractException.class)
+	ResponseEntity<ErrorResponse> handleCreateNotificationContractException(CreateNotificationContractException exception) {
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+			.body(new ErrorResponse("Failed to create notification contract."));
 	}
 
 	@ExceptionHandler(Exception.class)

@@ -18,16 +18,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model;
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry;
+public class CreateEdcPolicyDefinitionException extends RuntimeException {
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
-import org.springframework.cloud.openfeign.FeignClient;
+	public CreateEdcPolicyDefinitionException(String message) {
+		super(message);
+	}
 
-@FeignClient(
-	name = "aasApi",
-	url = "${feign.registryApi.url}",
-	configuration = {CatenaApiConfig.class}
-)
-public interface RegistryApiClient extends RegistryAndDiscoveryInterfaceApi {
+	public CreateEdcPolicyDefinitionException(Throwable cause) {
+		super(cause);
+	}
 }

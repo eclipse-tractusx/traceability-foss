@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
-import org.eclipse.tractusx.traceability.investigations.adapters.mock.EDCProviderConfiguration;
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -48,12 +48,12 @@ public class EdcCallbackController {
 
 	private final RestTemplate restTemplate;
 
-	private final EDCProviderConfiguration edcProviderConfiguration;
+	private final EdcProperties edcProperties;
 
-	public EdcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EDCProviderConfiguration edcProviderConfiguration) {
+	public EdcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
 		this.endpointDataReferenceCache = endpointDataReferenceCache;
 		this.restTemplate = restTemplateBuilder.build();
-		this.edcProviderConfiguration = edcProviderConfiguration;
+		this.edcProperties = edcProperties;
 	}
 
 	@PostMapping
@@ -71,7 +71,7 @@ public class EdcCallbackController {
 	}
 
 	private void callOtherServices(EndpointDataReference dataReference) {
-		edcProviderConfiguration.getCallbackUrls().forEach(callbackUrl -> {
+		edcProperties.getCallbackUrls().forEach(callbackUrl -> {
 			log.info("Calling callback endpoint: {}", callbackUrl);
 			ResponseEntity<String> response = restTemplate.postForEntity(callbackUrl, dataReference, String.class);
 

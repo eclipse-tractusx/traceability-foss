@@ -22,6 +22,8 @@ $ cd product-traceability-foss-backend
   * `OAUTH2_JWK_SET_URI` - with OAuth2 provider certs url
   * `JWT_RESOURCE_CLIENT` - with JWT resource client name
   * `SPRING_PROFILES_ACTIVE` - with profile to be picked when starting the service. One of `[dev|int]`.
+  * `EDC_PROVIDER_URL` - with url for the EDC provider
+  * `TRACEABILITY_URL` - with url for the backend
 * Start the service by invoking following command in project root directory `./gradlew bootRun`
 
 ## OAuth2 configuration
