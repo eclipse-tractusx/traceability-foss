@@ -77,7 +77,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "./target/failsafe-reports/*.xml"
+          files: "./target/failsafe-reports/*.txt"
           check_name: "Integration Test Results"
 
   Publish-docker-image:
