@@ -44,7 +44,7 @@ jobs:
           cache: 'maven'
 
       - name: Run unit tests0
-        run: pwd && ls -la && ls -l openapi
+        run: id && pwd && ls -la && ls -l openapi
 
       - name: Run unit tests1
         run: git status
