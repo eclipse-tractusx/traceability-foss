@@ -16,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
       - uses: actions/setup-java@v3
         with:
           java-version: '${{ env.JAVA_VERSION }}'
@@ -73,7 +71,7 @@ jobs:
           cache: 'maven'
 
       - name: Run integration tests
-        run: mvn --quiet --batch-mode -PiT clean verify
+        run: mvn --quiet --batch-mode clean verify
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2
