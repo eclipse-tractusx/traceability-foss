@@ -9,7 +9,6 @@ on:
 env:
   REGISTRY: ghcr.io
   JAVA_VERSION: 17
-  COMMIT_SHA: ${{ github.sha }}
 
 jobs:
   Dependency-analysis:
