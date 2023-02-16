@@ -49,6 +49,10 @@ spec:
               value: "{{ .Values.image.CATENAX_PORTAL_KEYCLOAK_URL }}"
             - name: CATENAX_PORTAL_CLIENT_ID
               value: "{{ .Values.image.CATENAX_PORTAL_CLIENT_ID }}"
+            - name: CATENAX_PORTAL_BASE_URL
+              value: "{{ .Values.image.CATENAX_PORTAL_BASE_URL }}"
+            - name: CATENAX_PORTAL_BACKEND_DOMAIN
+              value: "{{ .Values.image.CATENAX_PORTAL_BACKEND_DOMAIN }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

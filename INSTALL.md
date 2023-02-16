@@ -8,6 +8,7 @@ const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_CLIENT_ID: 'clientId',
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
+  CATENAX_PORTAL_BACKEND_DOMAIN,
 };
 ```
 
@@ -22,6 +23,11 @@ This variable points to the desired api
 
 `CATENAX_PORTAL_BASE_URL`
 This variable is used to set the base path of the application. (Should be set if application runs as a subtopic)
+
+`CATENAX_PORTAL_BACKEND_DOMAIN`
+This variable is needed for security, to be more explicit, for the security headers of a request.  
+The domain of the corresponding backend should be used here.  
+An example value could be: `catena-x.net`
 
 # Helm deployment
 
@@ -102,7 +108,7 @@ When running the build docker image you are able to pass through multiple enviro
 ### Example command:
 
 ```shell
-$ docker run -d -p 4200:8080 -e ENV_VAR=VAR_VALUE ${dockerImage}
+$ docker run -d -p 4200:8080 -e CATENAX_PORTAL_BASE_URL=/example -e CATENAX_PORTAL_BACKEND_DOMAIN=catena-x.net ${dockerImage}
 ```
 
 #### `Docker run`

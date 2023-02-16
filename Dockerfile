@@ -39,10 +39,17 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 
 # Copy NGINX server configuration
 COPY ./build/security-headers.conf ./build/nginx.conf /etc/nginx/
-# Add env variables inject script
-COPY ./scripts/run-inject-dynamic-env.sh /docker-entrypoint.d/00-inject-dynamic-env.sh
-COPY ./scripts/inject-dynamic-env.js /docker-entrypoint.d/
 
-# Validate NGINX configuration
-RUN nginx -t
+# Copy custom script runner
+COPY scripts/custom-injector.sh /docker-entrypoint.d/00-custom-injector.sh
+
+# Add env variables inject script
+COPY ./scripts/inject-dynamic-env.js /docker-entrypoint.d/
+# Add replace base url script
+COPY ./scripts/replace-base-href.js /docker-entrypoint.d/
+
+USER root
+RUN chown nginx:nginx /etc/nginx/nginx.conf
+RUN chown nginx:nginx /etc/nginx/security-headers.conf
+
 USER 101

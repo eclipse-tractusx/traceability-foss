@@ -3,6 +3,7 @@ image:
   tag: $ARGOCD_APP_REVISION
   CATENAX_PORTAL_API_URL: 'https://traceability-test.dev.demo.catena-x.net/api'
   CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.dev.demo.catena-x.net/auth'
+  CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
 
 nameOverride: "traceability-foss-test-frontend"
 fullnameOverride: "traceability-foss-test-frontend"
