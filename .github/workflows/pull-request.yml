@@ -41,8 +41,14 @@ jobs:
           distribution: 'adopt'
           cache: 'maven'
 
-      - name: Run unit tests
-        run: git status && ls -la openapi
+      - name: Run unit tests0
+        run: pwd && ls -la && ls -l openapi
+
+      - name: Run unit tests1
+        run: git status
+
+      - name: Run unit tests2
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode clean test
 
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
