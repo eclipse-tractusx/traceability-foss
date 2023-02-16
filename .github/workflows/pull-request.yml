@@ -16,8 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.ref }}
       - uses: actions/setup-java@v3
         with:
           java-version: '${{ env.JAVA_VERSION }}'
@@ -73,7 +71,7 @@ jobs:
           cache: 'maven'
 
       - name: Run integration tests
-        run: mvn --quiet --batch-mode -PiT clean verify
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -PiT clean verify
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -98,7 +96,7 @@ jobs:
           cache: 'maven'
 
       - name: Build docker image
-        run: mvn --quiet --batch-mode compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode compile com.google.cloud.tools:jib-maven-plugin:3.3.1:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
 
       - name: Login to Docker Registry
         uses: docker/login-action@v2

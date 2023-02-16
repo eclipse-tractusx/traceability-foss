@@ -31,18 +31,18 @@ import org.eclipse.tractusx.traceability.assets.domain.ports.ShellDescriptorRepo
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService
 import org.eclipse.tractusx.traceability.assets.domain.service.ShellDescriptorsService
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry.RegistryService
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.registry.RegistryService
 import spock.lang.Specification
 
 abstract class AssetsSpec extends Specification {
 
 	AssetFacade assetFacade
-    RegistryFacade registryFacade
-    RegistryService registryService
-    AssetRepository assetRepository
-    IrsRepository irsRepository
-    ShellDescriptorRepository shellDescriptorsRepository
-    AssetsConverter assetsConverter
+	RegistryFacade registryFacade
+	RegistryService registryService
+	AssetRepository assetRepository
+	IrsRepository irsRepository
+	ShellDescriptorRepository shellDescriptorsRepository
+	AssetsConverter assetsConverter
 
 	def setup() {
 		registryService = Mock(RegistryService)
