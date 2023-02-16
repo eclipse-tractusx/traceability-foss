@@ -39,7 +39,7 @@ jobs:
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'adopt'
-          cache: 'maven'
+          cache: 'maven1'
 
       - name: Run unit tests0
         run: pwd && ls -la && ls -l openapi
