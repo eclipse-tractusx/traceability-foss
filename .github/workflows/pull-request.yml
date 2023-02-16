@@ -42,7 +42,7 @@ jobs:
           cache: 'maven'
 
       - name: Run unit tests
-        run: pwd && ls -la && ls -l openapi/aas-registry-openapi.yaml && mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode clean test
+        run: pwd && ls -la && ls -l openapi
 
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
