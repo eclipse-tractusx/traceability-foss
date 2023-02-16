@@ -571,7 +571,7 @@
 						<artifactId>dependency-check-maven</artifactId>
 						<version>${owasp-plugin.version}</version>
 						<configuration>
-							<suppressionFile>ci/owasp-suppressions.xml</suppressionFile>
+							<suppressionFile>config/dependency_check/suppressions.xml</suppressionFile>
 						</configuration>
 						<executions>
 							<execution>
