@@ -18,33 +18,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.investigations.adapters.mock;
+package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+public class CreateEdcPolicyDefinitionException extends RuntimeException {
 
-import java.util.Map;
-import java.util.Set;
-
-@ConfigurationProperties(prefix = "edc")
-public class EDCProviderConfiguration {
-
-	private Map<String, String> bpnProviderUrlMappings;
-
-	private Set<String> callbackUrls;
-
-	public Map<String, String> getBpnProviderUrlMappings() {
-		return bpnProviderUrlMappings;
+	public CreateEdcPolicyDefinitionException(String message) {
+		super(message);
 	}
 
-	public void setBpnProviderUrlMappings(Map<String, String> bpnProviderUrlMappings) {
-		this.bpnProviderUrlMappings = bpnProviderUrlMappings;
-	}
-
-	public Set<String> getCallbackUrls() {
-		return callbackUrls;
-	}
-
-	public void setCallbackUrls(Set<String> callbackUrls) {
-		this.callbackUrls = callbackUrls;
+	public CreateEdcPolicyDefinitionException(Throwable cause) {
+		super(cause);
 	}
 }

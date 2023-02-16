@@ -31,11 +31,18 @@ public class TraceabilityProperties {
 
 	private final BPN bpn;
 
-	public TraceabilityProperties(String bpn) {
+	private final String url;
+
+	public TraceabilityProperties(String bpn, String url) {
 		this.bpn = new BPN(bpn);
+		this.url = url;
 	}
 
 	public BPN getBpn() {
 		return bpn;
+	}
+
+	public String getUrl() {
+		return url;
 	}
 }

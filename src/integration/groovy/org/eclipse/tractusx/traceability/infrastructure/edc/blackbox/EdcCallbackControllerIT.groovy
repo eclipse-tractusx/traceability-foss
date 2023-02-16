@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache
-import org.eclipse.tractusx.traceability.investigations.adapters.mock.EDCProviderConfiguration
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.web.client.RestTemplateBuilder
@@ -129,8 +129,8 @@ class EdcCallbackControllerIT  extends IntegrationSpecification {
 	static class EdcTestConfig {
 
 		@Bean
-		EdcCallbackController edcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EDCProviderConfiguration edcProviderConfiguration) {
-			return new EdcCallbackController(endpointDataReferenceCache, restTemplateBuilder, edcProviderConfiguration)
+		EdcCallbackController edcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
+			return new EdcCallbackController(endpointDataReferenceCache, restTemplateBuilder, edcProperties)
 		}
 	}
 

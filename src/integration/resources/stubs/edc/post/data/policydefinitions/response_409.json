@@ -1,0 +1,8 @@
+[
+	{
+		"message": "Object of type PolicyDefinition already exists with ID = 3",
+		"type": "ObjectExists",
+		"path": null,
+		"invalidValue": null
+	}
+]

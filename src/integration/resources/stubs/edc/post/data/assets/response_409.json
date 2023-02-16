@@ -1,0 +1,8 @@
+[
+	{
+		"message": "Object of type Asset already exists with ID = {placeHolder}",
+		"type": "ObjectExists",
+		"path": null,
+		"invalidValue": null
+	}
+]

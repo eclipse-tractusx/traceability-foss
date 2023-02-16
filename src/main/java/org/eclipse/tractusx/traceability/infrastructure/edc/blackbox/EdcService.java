@@ -33,9 +33,9 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.Tr
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -53,21 +53,14 @@ public class EdcService {
 	private static final Logger logger = LoggerFactory.getLogger(EdcService.class);
 	private final HttpCallService httpCallService;
 	private final ObjectMapper objectMapper;
-
-	@Value("${edc.negotiation}")
-	String negotiationPath;
-
-	@Value("${edc.transfer}")
-	String transferPath;
-
-	@Value("${edc.ids}")
-	String idsPath;
-
+	private final EdcProperties edcProperties;
 
 	public EdcService(HttpCallService httpCallService,
-					  ObjectMapper objectMapper) {
+					  ObjectMapper objectMapper,
+					  EdcProperties edcProperties) {
 		this.httpCallService = httpCallService;
 		this.objectMapper = objectMapper;
+		this.edcProperties = edcProperties;
 	}
 
 
@@ -98,7 +91,7 @@ public class EdcService {
 		// Initiate negotiation
 		ContractOfferDescription contractOfferDescription = new ContractOfferDescription(offerId, assetId, null, policy);
 		NegotiationInitiateRequestDto contractNegotiationRequest = NegotiationInitiateRequestDto.Builder.newInstance()
-			.offerId(contractOfferDescription).connectorId("provider").connectorAddress(providerConnectorUrl + idsPath)
+			.offerId(contractOfferDescription).connectorId("provider").connectorAddress(providerConnectorUrl + edcProperties.getIdsPath())
 			.protocol("ids-multipart").build();
 
 		logger.info(":::: Start Contract Negotiation method[initializeContractNegotiation] offerId :{}, assetId:{}",offerId,assetId);
@@ -113,7 +106,7 @@ public class EdcService {
 			ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 			ScheduledFuture<ContractNegotiationDto> scheduledFuture =
 				scheduler.schedule(() -> {
-					var url = consumerEdcUrl + negotiationPath + "/" + negotiationId;
+					var url = consumerEdcUrl + edcProperties.getNegotiationPath() + "/" + negotiationId;
 					var request = new Request.Builder().url(url);
 					header.forEach(request::addHeader);
 
@@ -141,7 +134,7 @@ public class EdcService {
 	 */
 	private String initiateNegotiation(NegotiationInitiateRequestDto contractOfferRequest,String consumerEdcDataManagementUrl,
 									   Map<String, String> headers) throws IOException {
-		var url = consumerEdcDataManagementUrl + negotiationPath;
+		var url = consumerEdcDataManagementUrl + edcProperties.getNegotiationPath();
 		var requestBody = RequestBody.create(objectMapper.writeValueAsString(contractOfferRequest), Constants.JSON);
 		var request = new Request.Builder().url(url).post(requestBody);
 
@@ -157,7 +150,7 @@ public class EdcService {
 	 * Rest call for Transfer Data with HttpProxy
 	 */
 	public TransferId initiateHttpProxyTransferProcess(String agreementId, String assetId, String consumerEdcDataManagementUrl, String providerConnectorControlPlaneIDSUrl, Map<String, String> headers) throws IOException {
-		var url = consumerEdcDataManagementUrl + transferPath;
+		var url = consumerEdcDataManagementUrl + edcProperties.getTransferPath();
 
 		DataAddress dataDestination = DataAddress.Builder.newInstance().type("HttpProxy").build();
 		TransferType transferType = TransferType.Builder.transferType().contentType("application/octet-stream").isFinite(true).build();

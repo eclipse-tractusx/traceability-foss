@@ -1,4 +1,4 @@
-# Item Relationship Service Documentation
+# Trace-X Documentation
 
 ## Administration Guide
 xref:administration/administration-guide.adoc[Administration Guide]

@@ -129,6 +129,7 @@ healthCheck:
 
 traceability:
   bpn: <traceability.bpn>
+  url: <traceability.url>
 
 datasource:
   url: <datasource.url>
@@ -144,6 +145,7 @@ oauth2:
 
 edc:
   apiKey: <edc.apiKey>
+  providerUrl: <edc.providerUrl>
 
 postgresql:
   enabled: false #<postgresql.enabled>
