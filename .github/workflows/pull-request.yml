@@ -104,11 +104,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build docker image
+      - name: Build and push docker image
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true package com.google.cloud.tools:jib-maven-plugin:3.3.1:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
-
-      - name: Push docker image
-        run: ls -la target
 
   Sonar-Cloud-analyze:
     needs: ["Unit-test", "Integration-test"]
@@ -135,4 +132,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn --quiet --batch-mode -DskipTests=true -DskipTests=true clean package sonar:sonar
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true -DskipTests=true clean package sonar:sonar
