@@ -19,11 +19,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { defaultRealm } from '@core/api/api.service.properties';
 import { PageRoute } from '@shared/model/page-route.model';
 
 export const ABOUT_BASE_ROUTE = 'about';
 
 export const getAboutRoute = (): PageRoute => ({
-  link: `${defaultRealm}/${ABOUT_BASE_ROUTE}`,
+  link: `${ABOUT_BASE_ROUTE}`,
 });

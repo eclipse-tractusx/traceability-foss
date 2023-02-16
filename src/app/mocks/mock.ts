@@ -23,10 +23,10 @@ import { setupWorker } from 'msw';
 import {
   adminHandler,
   dashboardHandler,
+  errorHandler,
   investigationsHandlers,
   otherPartsHandlers,
   partsHandlers,
-  errorHandler,
 } from './services';
 
 const handlers = [

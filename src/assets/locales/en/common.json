@@ -135,7 +135,7 @@
       "queuedAndRequested": "Queued & Requested"
     },
     "status": {
-      "APPROVED": "Requested",
+      "SENT": "Requested",
       "CANCELED": "Cancelled",
       "CLOSED": "Closed",
       "CREATED": "Queued",

@@ -50,7 +50,7 @@
     @apply bg-createdLight text-createdDark before:bg-createdDark;
   }
 
-  &--APPROVED {
+  &--SENT {
     @apply bg-pendingLight text-pendingDark before:bg-pendingDark;
   }
 

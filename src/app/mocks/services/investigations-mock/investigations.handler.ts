@@ -54,7 +54,7 @@ export const investigationsHandlers = [
 
     const currentStatus = [
       NotificationStatus.CREATED,
-      NotificationStatus.APPROVED,
+      NotificationStatus.SENT,
       NotificationStatus.ACKNOWLEDGED,
       NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
@@ -92,7 +92,7 @@ export const investigationsHandlers = [
 
     const statusCollection = [
       NotificationStatus.CREATED,
-      NotificationStatus.APPROVED,
+      NotificationStatus.SENT,
       NotificationStatus.RECEIVED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,
@@ -131,7 +131,7 @@ export const investigationsTestHandlers = [
 
     const currentStatus = [
       NotificationStatus.CREATED,
-      NotificationStatus.APPROVED,
+      NotificationStatus.SENT,
       NotificationStatus.ACKNOWLEDGED,
       NotificationStatus.ACCEPTED,
       NotificationStatus.DECLINED,
@@ -160,7 +160,7 @@ export const investigationsTestHandlers = [
 
     const statusCollection = [
       NotificationStatus.CREATED,
-      NotificationStatus.APPROVED,
+      NotificationStatus.SENT,
       NotificationStatus.RECEIVED,
       NotificationStatus.CLOSED,
       NotificationStatus.CANCELED,

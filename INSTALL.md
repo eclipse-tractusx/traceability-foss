@@ -6,8 +6,6 @@ Support environment variables are:
 const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_KEYCLOAK_URL: 'keycloakUrl',
   CATENAX_PORTAL_CLIENT_ID: 'clientId',
-  CATENAX_PORTAL_DEFAULT_REALM: 'defaultRealm',
-  CATENAX_PORTAL_REALM_LOGO: 'realmLogo',
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
   CATENAX_PORTAL_BACKEND_DOMAIN,
@@ -19,12 +17,6 @@ This variable is used to set up and use keycloak
 
 `CATENAX_PORTAL_CLIENT_ID`
 This variable is used to identify the client on keycloak
-
-`CATENAX_PORTAL_DEFAULT_REALM`
-This variable is used the set de default realm of the application
-
-`CATENAX_PORTAL_REALM_LOGO`
-This variable is used to replace the logo on the application
 
 `CATENAX_PORTAL_API_URL`
 This variable points to the desired api
@@ -131,7 +123,7 @@ To start a container in detached mode, you use `-d=true` or just `-d` option. By
 
 To expose a container’s internal port, an operator can start the container with the `-P` or `-p` flag. The exposed port is accessible on the host and the ports are available to any client that can reach the host.
 
-#### `-e ***`
+#### `-e ENV_VAR=VAR_VALUE`
 
 The operator can set any environment variable in the container by using one or more `-e` flags, even overriding already defined flags by the developer with a Dockerfile `ENV`.
 

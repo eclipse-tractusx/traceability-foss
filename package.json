@@ -17,6 +17,8 @@
     "start:auth": "ng serve --configuration=dev,auth",
     "start:auth:mock": "ng serve --configuration=authMock",
     "start:auth:local": "ng serve --configuration=authLocal",
+    "start:auth:localBe": "ng serve --configuration=localBackend",
+    "start:noAuth:localBe": "ng serve --configuration=localBackendNoAuth",
     "env:mock": "docker-compose up",
     "test": "ng test",
     "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
@@ -119,5 +121,12 @@
   },
   "msw": {
     "workerDirectory": "src"
+  },
+  "cypress-cucumber-preprocessor": {
+    "json": {
+      "enabled": true,
+      "formatter": "cypress/cucumber-json-formatter",
+      "output": "cypress/reports/cucumber-report.json"
+    }
   }
 }

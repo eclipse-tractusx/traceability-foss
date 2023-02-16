@@ -30,4 +30,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }} , ${{ env.REGISTRY }}/${{ github.repository }}:fe_context
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}

@@ -48,7 +48,7 @@ describe('InvestigationsComponent', () => {
     const viewDetailsButton = await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails'));
     viewDetailsButton.click();
 
-    expect(spy).toHaveBeenCalledWith(['/mock/investigations/id-1']);
+    expect(spy).toHaveBeenCalledWith(['/investigations/id-1']);
   });
 
   it('should call change pagination of received notification', async () => {

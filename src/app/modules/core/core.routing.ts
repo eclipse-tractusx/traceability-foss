@@ -23,18 +23,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from '@layout/layout/layout.component';
 import { PageNotFoundComponent } from '@page/page-not-found/presentation/page-not-found.component';
-import { defaultRealm } from './api/api.service.properties';
 import { AuthGuard } from './auth/auth.guard';
 
 export /** @type {*} */
 const routes: Routes = [
   {
     path: '',
-    redirectTo: defaultRealm,
-    pathMatch: 'full',
-  },
-  {
-    path: defaultRealm,
     component: LayoutComponent,
     canActivate: [AuthGuard],
     data: { breadcrumb: 'home' },

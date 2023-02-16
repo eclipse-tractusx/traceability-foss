@@ -21,7 +21,6 @@
 
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { defaultRealm } from '@core/api/api.service.properties';
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { SelectOption } from '@shared/components/select/select.component';
@@ -88,7 +87,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
 
   public openRelationPage(part: Part): void {
     this.partDetailsFacade.selectedPart = null;
-    this.router.navigate([`${defaultRealm}/parts/relations/${part.id}`]).then(_ => window.location.reload());
+    this.router.navigate([`parts/relations/${part.id}`]).then(_ => window.location.reload());
   }
 
   public updateQualityType(newQualityType: string): void {
