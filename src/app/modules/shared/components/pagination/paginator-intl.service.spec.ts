@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { TestBed } from '@angular/core/testing';
-import { MatPaginatorIntl } from '@angular/material/paginator';
+import { MatLegacyPaginatorIntl as MatPaginatorIntl } from '@angular/material/legacy-paginator';
 import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
