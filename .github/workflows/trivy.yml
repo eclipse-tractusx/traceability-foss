@@ -73,6 +73,13 @@ jobs:
         with:
           ref: ${{needs.prepare-env.outputs.check_sha}}
 
+      - name: Login to Docker Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Run Trivy vulnerability scanner
         if: always()
         uses: aquasecurity/trivy-action@master
