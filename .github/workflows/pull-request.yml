@@ -23,7 +23,7 @@ jobs:
           cache: 'maven'
 
       - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
-        run: mvn --quiet --batch-mode -Pdependency-check validate
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -Pdependency-check validate
 
       - name: Dependency analysis report
         run: cat target/dependency-check-report.html
@@ -132,4 +132,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true -DskipTests=true clean package sonar:sonar
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true clean package sonar:sonar
