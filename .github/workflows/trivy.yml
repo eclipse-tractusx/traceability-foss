@@ -7,6 +7,9 @@ on:
     workflows: [Publish docker image]
     types: [completed]
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   prepare-env:
     runs-on: ubuntu-latest
@@ -18,9 +21,9 @@ jobs:
         run: |
           if [ -z "${{ github.event.workflow_run.head_sha }}" ]; then
             # use the value that is set when triggering the workflow manually
-            echo "::set-output name=check_sha::$GITHUB_SHA"
+            echo "check_sha=$GITHUB_SHA" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=check_sha::${{ github.event.workflow_run.head_sha }}"
+            echo "check_sha=${{ github.event.workflow_run.head_sha }}" >> $GITHUB_OUTPUT
           fi
 
   analyze-config:
@@ -74,7 +77,7 @@ jobs:
         if: always()
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: ghcr.io/eclipse-tractusx/traceability-foss-backend:${{needs.prepare-env.outputs.check_sha}}
+          image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:${{needs.prepare-env.outputs.check_sha}}
           trivyignores: "./.github/workflows/.trivyignore"
           format: "sarif"
           output: "trivy-results2.sarif"
