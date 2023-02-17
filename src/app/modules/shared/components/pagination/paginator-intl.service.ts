@@ -35,7 +35,7 @@ export class PaginatorIntlService implements MatPaginatorIntl {
   public changes: Subject<void>;
 
   constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {
-    // unfortuantelly BehaviorSubject<string | null> cannot be automatically casted to Subject<void>
+    // fortuneteller BehaviorSubject<string | null> cannot be automatically cast to Subject<void>
     // which is required by MatPaginatorIntl
     const languageChanged = i18NextService.events.languageChanged as unknown as Subject<void>;
 
@@ -47,7 +47,7 @@ export class PaginatorIntlService implements MatPaginatorIntl {
 
   public getRangeLabel(page: number, pageSize: number, length: number): string {
     if (length == 0 || pageSize == 0) {
-      return this.i18NextService.t('pagination.emptyRange', { length });
+      return this.i18NextService.t('pagination.emptyRange', { length } as Record<string, number>);
     }
     length = Math.max(length, 0);
     const startIndex = page * pageSize;
@@ -57,7 +57,7 @@ export class PaginatorIntlService implements MatPaginatorIntl {
       startIndex: startIndex + 1,
       endIndex,
       length,
-    });
+    } as Record<string, number>);
   }
 
   private setLabels() {

@@ -22,7 +22,6 @@
 import { Inject, OnDestroy, Pipe, PipeTransform } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
-import { DateTimeFormatOptions } from 'luxon';
 import type { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -33,7 +32,7 @@ interface DateFormatOptions {
 @Pipe({ name: 'formatDate', pure: false })
 export class FormatDatePipe implements PipeTransform, OnDestroy {
   private readonly languageChangedSubscription: Subscription;
-  private readonly formatOptions = { dateStyle: 'short' } as DateTimeFormatOptions;
+  private readonly formatOptions = { dateStyle: 'short' } as Intl.DateTimeFormatOptions;
   private language: string;
 
   constructor(@Inject(I18NEXT_SERVICE) { language, events }: ITranslationService) {
@@ -48,7 +47,7 @@ export class FormatDatePipe implements PipeTransform, OnDestroy {
     this.languageChangedSubscription.unsubscribe();
   }
 
-  public transform(input: string | CalendarDateModel, dateTimeOptions?: DateTimeFormatOptions): string {
+  public transform(input: string | CalendarDateModel, dateTimeOptions?: Intl.DateTimeFormatOptions): string {
     if (!input) {
       return '--';
     }
