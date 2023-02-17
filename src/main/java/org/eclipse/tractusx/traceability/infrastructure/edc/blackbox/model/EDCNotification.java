@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
@@ -28,26 +29,32 @@ import java.util.stream.Collectors;
 
 public record EDCNotification(EDCNotificationHeader header, EDCNotificationContent content) {
 
+	@JsonIgnore
 	public String getRecipientBPN() {
 		return header.recipientBPN();
 	}
 
+	@JsonIgnore
 	public String getNotificationId() {
 		return header.notificationId();
 	}
 
+	@JsonIgnore
 	public String getSenderBPN() {
 		return header.senderBPN();
 	}
 
+	@JsonIgnore
 	public String getSenderAddress() {
 		return header.senderAddress();
 	}
 
+	@JsonIgnore
 	public String getInformation() {
 		return content.information();
 	}
 
+	@JsonIgnore
 	public List<AffectedPart> getListOfAffectedItems() {
 		return content.listOfAffectedItems().stream()
 			.map(AffectedPart::new)
