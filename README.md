@@ -16,6 +16,7 @@
 
 Trace-FOSS is a system for tracking parts along the supply chain. A high level of transparency across the supplier network enables faster intervention based on
 a recorded event in the supply chain. This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.
+TRACE-FOSS product composes of the backend and frontend repositories, frontend repository can be found under [GitHub repository](https://github.com/eclipse-tractusx/traceability-foss-frontend).
 
 ## Getting started
 
@@ -75,7 +76,7 @@ and there should not be a need to generate them manually, however following comm
 ```
 
 ## API documentation
-The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](./openapi/product-traceability-foss-backend.json)
+The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](./openapi/traceability-foss-backend.json)
 or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swagger-ui/index.html`
 
 ## Coding styles

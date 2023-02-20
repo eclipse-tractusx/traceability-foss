@@ -7,7 +7,7 @@
 
 ```sh
 $ git clone git@github.com:eclipse-tractusx/traceability-foss-backend.git
-$ cd product-traceability-foss-backend
+$ cd traceability-foss-backend
 ```
 
 ## Local deployment
@@ -35,7 +35,7 @@ Users should have one of the following roles assigned:
 
 ## Helm secrets configuration
 Product Traceability FOSS Backend ships with helm charts and utilize [helm dependency](https://helm.sh/docs/helm/helm_dependency/) functionality for 3rd party components.
-In order to deploy the service following secrets needs to be provided for specific environment [see project helm environment specifc files](charts/product-traceability-foss-backend):
+In order to deploy the service following secrets needs to be provided for specific environment [see project helm environment specifc files](charts/traceability-foss-backend):
 
 ### OAuth2
 * `oauth2.clientId` - OAuth2 client registration id credentials
@@ -70,6 +70,36 @@ echo -n 'CREATE ROLE trace WITH LOGIN PASSWORD 'yourPassword';\nCREATE DATABASE 
 * `postgresql.auth.postgresPassword` - PostgreSQL master password
 * `datasource.password` - `trace` database password configured in `initUserDbSql` script
 * `pgAdmin4.env.password` - pgAdmin4 master password
+
+
+## Helm installation
+Add the Trace-X Backend Helm repository:
+
+
+```sh
+$ helm repo add traceability-foss-backend https://eclipse-tractusx.github.io/traceability-foss-backend
+```
+Then install the Helm chart into your cluster:
+
+```sh
+$ helm install -f your-values.yaml traceability-foss-backend traceability-foss-backend/traceability-foss-backend
+```
+
+== Deployment using ArgoCD
+
+Create a new Helm chart and use Trace-X as a dependency.
+
+```yaml
+dependencies:
+- name: traceability-foss-backend
+  alias: backend
+  version: x.x.x
+  repository: "https://eclipse-tractusx.github.io/traceability-foss-backend/"
+```
+
+Then provide your configuration as the values.yaml of that chart.
+
+Create a new application in ArgoCD and point it to your repository / Helm chart folder.
 
 ## API sample endpoints
 * Swagger UI: `http://localhost:8080/api/swagger-ui/index.html`

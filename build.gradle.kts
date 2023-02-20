@@ -32,6 +32,14 @@ java {
 }
 
 jib {
+	from {
+		image = "eclipse-temurin:17.0.6_10-jdk"
+	}
+
+	container {
+		user = "10000:1000"
+	}
+
 	pluginExtensions {
 		pluginExtension {
 			implementation = "com.google.cloud.tools.jib.gradle.extension.springboot.JibSpringBootExtension"

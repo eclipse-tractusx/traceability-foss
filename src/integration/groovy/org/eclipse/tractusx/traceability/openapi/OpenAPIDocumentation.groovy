@@ -29,7 +29,7 @@ import static io.restassured.RestAssured.given
 
 class OpenAPIDocumentation extends IntegrationSpecification {
 
-	private static final String DOCUMENTATION_FILENAME = "./openapi/product-traceability-foss-backend.json"
+	private static final String DOCUMENTATION_FILENAME = "./openapi/traceability-foss-backend.json"
 
 	def "should generate openapi documentation"() {
 		when:

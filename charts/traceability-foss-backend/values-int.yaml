@@ -1,5 +1,36 @@
 image:
+  repository: ghcr.io/catenax-ng/tx-traceability-foss-backend
   tag: $ARGOCD_APP_REVISION
+
+nameOverride: "traceability-foss-backend"
+fullnameOverride: "traceability-foss-backend"
+
+podSecurityContext:
+  runAsUser: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+# @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+securityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 3000
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+
+# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
 
 springprofile: int
 
