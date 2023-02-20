@@ -20,6 +20,7 @@ ingress:
 
 traceability:
   bpn: "BPNL00000003B2OM"
+  url: "https://traceability.int.demo.catena-x.net"
 
 datasource:
   url: jdbc:postgresql://product-traceability-foss-backend-postgresql:5432/trace
@@ -35,6 +36,7 @@ oauth2:
 
 edc:
   apiKey: "<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>"
+  providerUrl: "https://trace-x-edc.dev.demo.catena-x.net"
 
 postgresql:
   enabled: true
@@ -137,6 +139,8 @@ irs-helm:
   minio:
     nameOverride: "tracex-irs-minio"
     fullnameOverride: "tracex-irs-minio"
+    serviceAccount:
+      create: false
     rootUser: <path:traceability-foss/data/int/minio#user>
     rootPassword: <path:traceability-foss/data/int/minio#password>
 

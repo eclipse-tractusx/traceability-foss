@@ -138,7 +138,8 @@ public class Investigation {
 			description,
 			bpn.value(),
 			createdAt.toString(),
-			Collections.unmodifiableList(assetIds)
+			Collections.unmodifiableList(assetIds),
+			investigationSide
 		);
 	}
 

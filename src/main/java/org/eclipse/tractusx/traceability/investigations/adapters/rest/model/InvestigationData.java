@@ -21,7 +21,9 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
+
 import java.util.List;
 
-public record InvestigationData(Long id, String status, String description, String createdBy, String createdDate, List<String> assetIds) {
+public record InvestigationData(Long id, String status, String description, String createdBy, String createdDate, List<String> assetIds, InvestigationSide channel) {
 }

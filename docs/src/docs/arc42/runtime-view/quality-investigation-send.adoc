@@ -1,0 +1,21 @@
+= Send Quality Investigation
+
+This sequence diagram describes the process of sending a quality investigation between Traceability applications.
+
+[plantuml, target=business-context, format=svg]
+....
+include::../../../uml-diagrams/arc42/runtime-view/quality-investigation-send.puml[]
+....
+
+== Overview
+For the notification feature EDC is used to push data from a sender to a receiver.
+To enable sending respective more precisely receiving a notification by a partner you need to
+
+* Create notification endpoint for qualitynotifications/receive
+* Create EDC assets
+* Create EDC usage policies
+* Create EDC contract definitions
+
+Trace-X implements a functionality to create the assets and their corresponding policies in the admin panel. With the notification asset is possible to enable EDC contract negotiation and EDC data transfer process so that the quality investigation can be pushed by the sender.
+
+In the above UML sequence diagram the sending of quality notifications from Trace-X to a receiver (any other Traceability application) is described.

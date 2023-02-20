@@ -22,6 +22,8 @@ $ cd product-traceability-foss-backend
   * `OAUTH2_JWK_SET_URI` - with OAuth2 provider certs url
   * `JWT_RESOURCE_CLIENT` - with JWT resource client name
   * `SPRING_PROFILES_ACTIVE` - with profile to be picked when starting the service. One of `[dev|int]`.
+  * `EDC_PROVIDER_URL` - with url for the EDC provider
+  * `TRACEABILITY_URL` - with url for the backend
 * Start the service by invoking following command in project root directory `./gradlew bootRun`
 
 ## OAuth2 configuration
@@ -40,6 +42,25 @@ In order to deploy the service following secrets needs to be provided for specif
 * `oauth2.clientSecret` - OAuth2 client registration secret credentials
 
 ### Database
+To start a database for local development, go to the docker directory and run.
+
+```sh
+docker compose up -d
+```
+
+Add the database configuration to your [application-local.yml](src/main/ressouces/application-local.yml)
+
+```yaml
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/trace
+        username: postgres
+        password: docker
+    flyway:
+        clean-on-validation-error: false
+```
+Database scripts are executed with Flyway. Put the scripts at [migration](src/main/resources/db/migration)
+
 * `postgresql.secret.initUserDbSql` - database initialization script, contains username and password for databases used by the service.
 Please note that the final script should be encoded using Base64 encoding and then added to a secret. Sample command:
 ```sh

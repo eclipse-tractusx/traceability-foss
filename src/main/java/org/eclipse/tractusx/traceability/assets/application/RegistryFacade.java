@@ -25,7 +25,7 @@ import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.assets.domain.service.ShellDescriptorsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.registry.RegistryService;
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.registry.RegistryService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.async.AssetsAsyncConfig;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;

@@ -1,0 +1,81 @@
+@startuml
+
+title
+    ==Receive Quality Investigation
+end title
+
+autonumber "<B>[00]"
+autoactivate on
+
+box "Trace-X"
+participant "Trace-X Frontend" as TraceX order 0
+participant "Trace-X Backend" as TraceXB order 1
+participant "Trace-X EDC Adapter" as NAdapter order 2
+participant "EDC" as SEDC order 3
+end box
+
+participant "Discovery Service" as DS order 4
+
+box "Receiver"
+participant "EDC" as REDC order 5
+participant "Notification EDC Adapter" as NEA order 6
+participant "Some (Traceability) App" as TraceApp2 order 7
+end box
+
+TraceX -> TraceXB: Create EDC Asset for "Quality Investigation Receipt"
+TraceXB -> SEDC: Create EDC Asset for \n"Quality Investigation Receipt"\nwith ""DataAddress"" as ""HTTP POST"" endpoint
+return OK
+TraceXB -> SEDC: Create EDC Access Policy
+return OK
+TraceXB -> SEDC: Create EDC Usage Policy
+return OK
+TraceXB -> SEDC: Create EDC Contract Definition
+return OK
+TraceXB -> TraceX: OK
+deactivate TraceX
+deactivate TraceXB
+TraceApp2 -> TraceApp2: Select suspect child Part(s) / Batch(es)
+deactivate TraceApp2
+TraceApp2 -> TraceApp2: Identify BPN for Suspect Part(s) / Batch(es)
+deactivate TraceApp2
+TraceApp2 -> TraceApp2: Create Notifications\nStatus := CREATED
+deactivate TraceApp2
+TraceApp2 -> DS: Resolve EDC Endpoint
+rnote left TraceApp2
+BPN of suspect part(s) / batch(es)
+end note
+return OK
+TraceApp2 -> TraceApp2: Update Notification Status\nStatus := SENT
+deactivate TraceApp2
+TraceApp2 -> NEA: Send Notification **Receipt**
+NEA -> REDC: Fetch Catalog
+REDC <--> SEDC: Fetch Catalog
+NEA -> NEA: Find and Select Contract
+rnote left NEA
+Find the correct contract offer with:
+
+"asset:prop:notificationtype": "qualityinvestigation",
+"asset:prop:notificationmethod": "receive"
+end rnote
+deactivate NEA
+NEA -> REDC: Intiatiate Contract Negotiation
+REDC <--> SEDC: Contract Negotiation
+NEA -> REDC: Inititate Data Transfer
+REDC <--> SEDC: Establish Channel
+NEA -> REDC: POST /public/...
+REDC -> SEDC: POST /public/...
+SEDC -> NAdapter: POST /notifications/qualityinvestigations/receive
+rnote left SEDC
+The http path depends on the DataAddress
+in the EDC Data Asset. Thus, it depends on the
+(Trace) app.
+end rnote
+NAdapter -->SEDC: ""201"" OK
+SEDC --> REDC: ""201"" OK
+REDC --> NEA: ""201"" OK
+NEA --> TraceApp2: ""201"" OK
+TraceApp2 -> TraceApp2: Update Notification Status\nStatus := RECEIVED
+deactivate TraceApp2
+TraceApp2 -> TraceApp2: Update Notification Status
+deactivate TraceApp2
+@enduml

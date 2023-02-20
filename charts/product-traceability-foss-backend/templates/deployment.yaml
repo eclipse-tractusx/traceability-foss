@@ -47,6 +47,8 @@ spec:
               value: {{ .Values.springprofile | quote }}
             - name: TRACEABILITY_BPN
               value: {{ .Values.traceability.bpn | quote }}
+            - name: TRACEABILITY_URL
+              value: {{ .Values.traceability.url | quote }}
             - name: OAUTH2_CLIENT_ID
               value: {{ .Values.oauth2.clientId | quote }}
             - name: OAUTH2_CLIENT_SECRET
@@ -57,6 +59,8 @@ spec:
               value: {{ .Values.oauth2.jwkSetUri | quote }}
             - name: EDC_API_KEY
               value: {{ .Values.edc.apiKey | quote }}
+            - name: EDC_PROVIDER_URL
+              value: {{ .Values.edc.providerUrl | quote }}
             - name: JWT_RESOURCE_CLIENT
               value: {{ .Values.oauth2.resourceClient | quote }}
             - name: SPRING_DATASOURCE_URL
