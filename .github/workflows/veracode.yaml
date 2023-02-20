@@ -34,8 +34,8 @@ jobs:
       - name: Run Veracode Upload And Scan
         uses: veracode/veracode-uploadandscan-action@0.2.4
         with:
-          appname: "Traceability-Foss-Backend"
+          appname: 'Traceability-Foss-Backend'
           createprofile: false
           filepath: "./target/traceability-app-*.jar"
-          vid: "${{ secrets.ORG_VERACODE_API_ID }}"
-          vkey: "${{ secrets.ORG_VERACODE_API_KEY }}"
+          vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'
