@@ -18,7 +18,7 @@ dependencies:
     version: 4.2.1
     condition: irs-helm.enabled
   - name: irs-edc-consumer
-    repository: https://eclipse-tractusx.github.io/item-relationship-service
+    repository: https://catenax-ng.github.io/tx-item-relationship-service
     version: 1.0.2
     condition: irs-edc-consumer.enabled
 
