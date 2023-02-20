@@ -38,10 +38,10 @@ public class EDCNotificationFactory {
 			senderEDC,
 			notification.getReceiverBpnNumber(),
 			NotificationType.QMINVESTIGATION.getValue(),
-			"",
-			"",
+			"MINOR",
+			null,
 			notification.getInvestigationStatus().name(),
-			""
+			null
 		);
 
 		EDCNotificationContent content = new EDCNotificationContent(

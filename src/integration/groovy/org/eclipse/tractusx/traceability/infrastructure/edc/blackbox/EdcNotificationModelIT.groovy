@@ -79,9 +79,9 @@ class EdcNotificationModelIT extends IntegrationSpecification implements TestDat
 				"BPNL00000003AXS3",
 				"QM-Investigation",
 				"CRITICAL",
-				"",
+				null,
 				"SENT",
-				""
+				null
 			)
 
 		and:
@@ -107,9 +107,12 @@ class EdcNotificationModelIT extends IntegrationSpecification implements TestDat
 			json["header"]["recipientBPN"] == header.recipientBPN()
 			json["header"]["classification"] == header.classification()
 			json["header"]["severity"] == header.severity()
-			json["header"]["relatedNotificationId"] == header.relatedNotificationId()
 			json["header"]["status"] == header.status()
-			json["header"]["targetDate"] == header.targetDate()
+
+		and:
+			def headerObject = json["header"] as Map
+			!headerObject.containsKey("targetDate")
+			!headerObject.containsKey("relatedNotificationId")
 
 		and:
 			json["content"]["information"] == content.information()

@@ -21,12 +21,14 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotification(EDCNotificationHeader header, EDCNotificationContent content) {
 
 	@JsonIgnore
