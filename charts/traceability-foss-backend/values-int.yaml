@@ -187,6 +187,9 @@ irs-edc-consumer:
 
     namespace: product-traceability-foss
 
+    securityContext:
+      readOnlyRootFilesystem: false
+
     auth:
       postgresPassword: <path:traceability-foss/data/int/edc/database#password>
       username: <path:traceability-foss/data/int/edc/database#user>
@@ -309,6 +312,9 @@ irs-edc-consumer:
 
     image:
       tag: "0.1.2"
+
+    securityContext:
+      readOnlyRootFilesystem: false
 
     ingresses:
       - enabled: true

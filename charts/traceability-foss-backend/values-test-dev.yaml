@@ -188,6 +188,9 @@ irs-edc-consumer:
     nameOverride: "tracex-test-consumer-edc-postgresql"
     fullnameOverride: "tracex-test-consumer-edc-postgresql"
 
+    securityContext:
+      readOnlyRootFilesystem: false
+
     namespace: product-traceability-foss
 
     auth:
@@ -309,6 +312,9 @@ irs-edc-consumer:
     fullnameOverride: "tracex-test-consumer-dataplane"
 
     namespace: product-traceability-foss
+
+    securityContext:
+      readOnlyRootFilesystem: false
 
     image:
       tag: "0.1.2"
