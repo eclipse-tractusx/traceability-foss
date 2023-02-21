@@ -58,9 +58,7 @@ export const buildCustomProtocolResolver = (customProtocolsRegistry: CustomProto
     const resolution = customProtocolResolution[prefix];
     const fullPrefix = customProtocolName + ':' + prefix;
 
-    const originalQueryParams = {};
-    new URL(url).searchParams.forEach((key, value) => (originalQueryParams[key] = value));
-
+    const originalQueryParams = Object.fromEntries(new URL(url).searchParams as any);
     const cleanUrl = url.split('?')[0];
 
     const targetQueryParams = new HttpParams({

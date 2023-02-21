@@ -39,7 +39,7 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('This field is required!')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.required')).toBeInTheDocument();
   });
 
   it('should render error message for minimum number', async () => {
@@ -49,7 +49,7 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('Please enter a number that is larger than: 10.')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.min')).toBeInTheDocument();
   });
 
   it('should render error message for maximum number', async () => {
@@ -59,7 +59,7 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('Please enter a number that is smaller than: 5.')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.max')).toBeInTheDocument();
   });
 
   it('should render error message for minimum length', async () => {
@@ -69,7 +69,7 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('Please enter a text that is larger than: 10.')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.minLength')).toBeInTheDocument();
   });
 
   it('should render error message for maximum length', async () => {
@@ -79,7 +79,7 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('Please enter a text that is smaller than: 5.')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.maxLength')).toBeInTheDocument();
   });
 
   it('should render error message for a specific pattern', async () => {
@@ -89,7 +89,7 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('Please enter data that matches this pattern: &#x2F;[a-z]+&#x2F;g.')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.pattern')).toBeInTheDocument();
   });
 
   it('should render error message for invalid email', async () => {
@@ -99,7 +99,7 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('Please enter a valid E-Mail.')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.email')).toBeInTheDocument();
   });
 
   it('should render error message a not defined validation function', async () => {
@@ -110,7 +110,7 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('Please enter valid data.')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.generic')).toBeInTheDocument();
   });
 
   it('should render required error message first if multiple fail', async () => {
@@ -120,6 +120,6 @@ describe('ErrorMessagePipe', () => {
       componentProperties: { errors },
     });
 
-    expect(screen.getByText('This field is required!')).toBeInTheDocument();
+    expect(screen.getByText('errorMessage.required')).toBeInTheDocument();
   });
 });

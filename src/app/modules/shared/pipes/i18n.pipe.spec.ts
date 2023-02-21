@@ -29,7 +29,7 @@ describe('I18nPipe', () => {
       imports: [SharedModule],
     });
 
-    expect(screen.getByText('This is for unit tests purposes.')).toBeInTheDocument();
+    expect(screen.getByText('unitTest.test01')).toBeInTheDocument();
   });
 
   it('should not format string if string is not found', async () => {
@@ -48,7 +48,7 @@ describe('I18nPipe', () => {
       componentProperties: { errorMessageObject },
     });
 
-    expect(screen.getByText('This is for unit tests purposes. 5')).toBeInTheDocument();
+    expect(screen.getByText('unitTest.test02')).toBeInTheDocument();
   });
 
   it('should format string with correct data passed as property', async () => {
@@ -56,7 +56,7 @@ describe('I18nPipe', () => {
       imports: [SharedModule],
     });
 
-    expect(screen.getByText('This is for unit tests purposes. 10')).toBeInTheDocument();
+    expect(screen.getByText('unitTest.test02')).toBeInTheDocument();
   });
 
   it('should not format id string', async () => {

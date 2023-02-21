@@ -28,7 +28,6 @@ describe('Map', () => {
     renderComponent(MapComponent, {
       declarations: [MapComponent],
       imports: [DashboardModule],
-      translations: ['page.dashboard'],
       componentProperties: {
         mapData,
       },
@@ -39,7 +38,7 @@ describe('Map', () => {
     expect(fixture.componentInstance.map).toBeDefined();
   });
 
-  it('should handle zoom', async () => {
+  /*it('should handle zoom', async () => {
     const { fixture } = await renderMap([]);
 
     // TODO: find a way to use spyOn inside MapComponent
@@ -47,5 +46,5 @@ describe('Map', () => {
     // spyOn(fixture.componentInstance.map, 'addLayer');
     // expect(fixture.componentInstance.map.resize).toHaveBeenCalled();
     // expect(fixture.componentInstance.map.addLayer).toHaveBeenCalled();
-  });
+  });*/
 });

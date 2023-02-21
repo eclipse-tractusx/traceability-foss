@@ -35,7 +35,7 @@ export class FormatDatePipe implements PipeTransform, OnDestroy {
   private readonly formatOptions = { dateStyle: 'short' } as Intl.DateTimeFormatOptions;
   private language: string;
 
-  constructor(@Inject(I18NEXT_SERVICE) { language, events }: ITranslationService) {
+  constructor(@Inject(I18NEXT_SERVICE) { language = 'en', events }: ITranslationService) {
     this.language = language;
 
     this.languageChangedSubscription = events.languageChanged

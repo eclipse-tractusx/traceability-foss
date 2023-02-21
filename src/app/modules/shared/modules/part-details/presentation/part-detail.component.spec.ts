@@ -49,7 +49,6 @@ describe('PartDetailComponent', () => {
     return await renderComponent(`<app-sidenav></app-sidenav><app-part-detail></app-part-detail>`, {
       declarations: [SidenavComponent, PartDetailComponent],
       imports: [PartDetailsModule, LayoutModule],
-      translations: ['page.parts', 'partDetail'],
       providers: [
         PartDetailsFacade,
         { provide: PartsState, useFactory: () => PartsStateMock },
@@ -84,8 +83,8 @@ describe('PartDetailComponent', () => {
   it('should render child-component table', async () => {
     await renderPartDetailComponent({ roles: ['user'] });
 
-    const childTableHeadline = await screen.findByText('Request quality investigation for child parts');
+    const childTableHeadline = await screen.findByText('partDetail.investigation.headline');
     expect(childTableHeadline).toBeInTheDocument();
-    expect(await screen.findByText('No parts selected.')).toBeInTheDocument();
+    expect(await screen.findByText('partDetail.investigation.noSelection.header')).toBeInTheDocument();
   });
 });

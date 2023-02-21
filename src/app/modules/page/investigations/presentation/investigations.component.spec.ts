@@ -22,7 +22,7 @@
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
 import { InvestigationsService } from '@shared/service/investigations.service';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('InvestigationsComponent', () => {
@@ -36,25 +36,23 @@ describe('InvestigationsComponent', () => {
 
   it('should render', async () => {
     await renderInvestigations();
-    expect(await waitFor(() => screen.getByText('Quality Investigations'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('commonInvestigation.title'))).toBeInTheDocument();
   });
 
   it('should call detail page with correct ID', async () => {
     const { fixture } = await renderInvestigations();
-    const menuButtons = await waitFor(() => screen.getAllByTestId('table-menu-button'));
-    menuButtons[0].click();
+    fireEvent.click((await waitFor(() => screen.getAllByTestId('table-menu-button')))[0]);
 
     const spy = spyOn((fixture.componentInstance as any).router, 'navigate');
-    const viewDetailsButton = await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails'));
-    viewDetailsButton.click();
+    spy.and.returnValue(new Promise(null));
 
+    fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
     expect(spy).toHaveBeenCalledWith(['/investigations/id-1']);
   });
 
   it('should call change pagination of received notification', async () => {
     await renderInvestigations();
-    const nextButton = await waitFor(() => screen.getByLabelText('Next page', { selector: 'button' }));
-    nextButton.click();
+    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
     expect(await waitFor(() => screen.getByText('Investigation No 6'))).toBeInTheDocument();
     expect(await waitFor(() => screen.getByText('Investigation No 10'))).toBeInTheDocument();

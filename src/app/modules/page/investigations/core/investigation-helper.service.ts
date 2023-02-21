@@ -67,12 +67,15 @@ export class InvestigationHelperService {
     const disallowedStatus = [NotificationStatus.CREATED, NotificationStatus.CLOSED, NotificationStatus.CANCELED];
     return isFromSender && !disallowedStatus.includes(status) && this.roleService.isAtLeastSupervisor();
   }
+
   public showAcknowledgeButton({ status, isFromSender } = {} as Notification): boolean {
     return !isFromSender && status === NotificationStatus.RECEIVED && this.roleService.isAtLeastSupervisor();
   }
+
   public showAcceptButton({ status, isFromSender } = {} as Notification): boolean {
     return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isAtLeastSupervisor();
   }
+
   public showDeclineButton({ status, isFromSender } = {} as Notification): boolean {
     return !isFromSender && status === NotificationStatus.ACKNOWLEDGED && this.roleService.isAtLeastSupervisor();
   }

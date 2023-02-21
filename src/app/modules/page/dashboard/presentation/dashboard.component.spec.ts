@@ -38,7 +38,7 @@ describe('Dashboard', () => {
   it('should render header', async () => {
     await renderDashboard();
 
-    expect(screen.getByText('Dashboard')).toBeInTheDocument();
+    expect(screen.getByText('pageDashboard.title')).toBeInTheDocument();
   });
 
   it('should render total of parts', async () => {
@@ -46,7 +46,7 @@ describe('Dashboard', () => {
 
     expect(await screen.findByText('3')).toBeInTheDocument();
 
-    expect(screen.getByText('Total of parts')).toHaveAttribute(
+    expect(screen.getByText('pageDashboard.totalOfParts.label')).toHaveAttribute(
       'id',
       screen.getByText('3').getAttribute('aria-describedby'),
     );
@@ -57,7 +57,7 @@ describe('Dashboard', () => {
       roles: ['supervisor'],
     });
 
-    expect(await screen.findByText('Total of other parts')).toBeInTheDocument();
+    expect(await screen.findByText('pageDashboard.totalOfOtherParts.label')).toBeInTheDocument();
   });
 
   it('should render supervisor section when admin user', async () => {
@@ -65,12 +65,12 @@ describe('Dashboard', () => {
       roles: ['admin'],
     });
 
-    expect(await screen.findByText('Total of other parts')).toBeInTheDocument();
+    expect(await screen.findByText('pageDashboard.totalOfParts.label')).toBeInTheDocument();
   });
 
   it('should render map', async () => {
     const { fixture } = await renderDashboard();
-    expect(await screen.findByText('Number of parts per country')).toBeInTheDocument();
+    expect(await screen.findByText('map.headline')).toBeInTheDocument();
 
     await waitFor(() => expect(fixture.debugElement.query(By.css('.dashboard--map')).componentInstance).toBeDefined());
   });
@@ -79,7 +79,7 @@ describe('Dashboard', () => {
     it('should render investigation component', async () => {
       await renderDashboard();
 
-      expect(await screen.findByText('Quality Investigations')).toBeInTheDocument();
+      expect(await screen.findByText('commonInvestigation.title')).toBeInTheDocument();
     });
 
     it('should render count for investigations', async () => {
@@ -87,7 +87,7 @@ describe('Dashboard', () => {
 
       expect(await screen.findByText('20')).toBeInTheDocument();
 
-      expect(screen.getByText('Total investigations')).toHaveAttribute(
+      expect(screen.getByText('pageDashboard.totalInvestigations.label')).toHaveAttribute(
         'id',
         screen.getByText('20').getAttribute('aria-describedby'),
       );

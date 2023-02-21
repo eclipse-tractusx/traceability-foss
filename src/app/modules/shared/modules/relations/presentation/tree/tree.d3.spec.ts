@@ -30,14 +30,18 @@ import { D3TreeDummyData } from './tree.d3.test.data';
 
 describe('D3 Tree', () => {
   const id = 'id';
-  const mainElement = d3.select(document.body).append('svg') as TreeSvg;
-  mainElement.attr('id', id);
   const openDetails = jasmine.createSpy();
   const updateChildren = jasmine.createSpy();
 
   let treeData: TreeData;
 
-  beforeEach(() => (treeData = { id, openDetails, updateChildren }));
+  beforeEach(() => {
+    const mainElement = d3.select(document.body).append('svg') as TreeSvg;
+    mainElement.attr('id', id);
+    treeData = { id, openDetails, updateChildren };
+  });
+
+  afterEach(() => document.body.removeChild(document.getElementById(id)));
 
   it('should initialize tree class', () => {
     const tree = new Tree(treeData);
@@ -50,14 +54,6 @@ describe('D3 Tree', () => {
 
     expect(treeSvg.getElementsByClassName('tree--element__border-done').length).toBe(2);
     expect(treeSvg.getElementsByClassName('tree--element__border-loading').length).toBe(1);
-  });
-
-  it('should render modified text for different sizes', () => {
-    const tree = new Tree(treeData);
-    tree.renderTree(D3TreeDummyData).node();
-
-    expect(screen.getByText('Small')).toBeInTheDocument();
-    expect(screen.getByText('Long text...')).toBeInTheDocument();
   });
 
   it('should change size of tree when zoom buttons are clicked', async () => {
@@ -80,5 +76,13 @@ describe('D3 Tree', () => {
 
     decreaseButton.click();
     expect(cameraElement).toHaveAttribute('transform', 'translate(0,0) scale(1)');
+  });
+
+  it('should render modified text for different sizes', () => {
+    const tree = new Tree(treeData);
+    tree.renderTree(D3TreeDummyData).node();
+
+    expect(screen.getByText('Small')).toBeInTheDocument();
+    expect(screen.getByText('Long text...')).toBeInTheDocument();
   });
 });

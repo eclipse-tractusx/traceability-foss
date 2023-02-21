@@ -35,7 +35,7 @@ describe('QualityTypeComponent', () => {
 
   it('should render qualityType', async () => {
     await renderQualityType(QualityType.Ok);
-    expect(screen.getByText('Ok')).toBeInTheDocument();
+    expect(screen.getByText('qualityType.Ok')).toBeInTheDocument();
   });
 
   it('should render correct Ok icon', async () => {

@@ -61,7 +61,7 @@ describe('TextareaComponent', () => {
   it('should not render error message if textarea is not touched', async () => {
     const { form } = await renderTextarea();
 
-    const textareaLabelElement = screen.queryByText('This field is required!');
+    const textareaLabelElement = screen.queryByText('errorMessage.required');
     expect(form.controls.formField.errors).toEqual({ required: true });
     expect(textareaLabelElement).not.toBeInTheDocument();
   });
@@ -71,7 +71,7 @@ describe('TextareaComponent', () => {
     const { form } = await renderTextarea(label);
 
     fireEvent.blur(screen.getByLabelText(label));
-    const textareaLabelElement = screen.getByText('This field is required!');
+    const textareaLabelElement = screen.getByText('errorMessage.required');
     expect(form.controls.formField.errors).toEqual({ required: true });
     expect(textareaLabelElement).toBeInTheDocument();
   });
