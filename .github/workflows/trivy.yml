@@ -58,7 +58,7 @@ jobs:
         with:
           sarif_file: "trivy-results1.sarif"
 
-  analyze-product-traceability-foss-backend:
+  analyze-traceability-foss-backend:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     needs: [prepare-env]

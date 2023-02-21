@@ -1,8 +1,36 @@
 image:
+  repository: ghcr.io/catenax-ng/tx-traceability-foss-backend
   tag: $ARGOCD_APP_REVISION
 
 nameOverride: "product-traceability-foss-test-backend"
 fullnameOverride: "product-traceability-foss-test-backend"
+
+podSecurityContext:
+  runAsUser: 10001
+  seccompProfile:
+    type: RuntimeDefault
+
+# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+# @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+securityContext:
+  allowPrivilegeEscalation: false
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 3000
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+
+# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
 
 springprofile: dev
 
@@ -160,6 +188,9 @@ irs-edc-consumer:
     nameOverride: "tracex-test-consumer-edc-postgresql"
     fullnameOverride: "tracex-test-consumer-edc-postgresql"
 
+    securityContext:
+      readOnlyRootFilesystem: false
+
     namespace: product-traceability-foss
 
     auth:
@@ -281,6 +312,9 @@ irs-edc-consumer:
     fullnameOverride: "tracex-test-consumer-dataplane"
 
     namespace: product-traceability-foss
+
+    securityContext:
+      readOnlyRootFilesystem: false
 
     image:
       tag: "0.1.2"

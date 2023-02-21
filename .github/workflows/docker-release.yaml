@@ -24,6 +24,7 @@ jobs:
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'adopt'
+          cache: 'gradle'
 
       - name: Cache maven packages
         uses: actions/cache@v3
@@ -41,3 +42,6 @@ jobs:
 
       - name: Build docker image
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true package com.google.cloud.tools:jib-maven-plugin:3.3.1:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
+
+      - name: Push docker image latest tag
+        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:latest

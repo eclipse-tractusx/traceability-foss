@@ -15,10 +15,10 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 // TODO enable url include of values.yaml file
 // [source,yaml]
 // ----
-// include::https://github.com/catenax-ng/product-traceability-foss-frontend/blob/main/charts/product-traceability-foss-frontend/values.yaml[lines=91..-1]
+// include::https://github.com/eclipse-tractusx/traceability-foss-frontend/blob/main/charts/traceability-foss-frontend/values.yaml[lines=91..-1]
 // ----
 
-values.yaml https://github.com/catenax-ng/product-traceability-foss-frontend/blob/main/charts/product-traceability-foss-frontend/values.yaml
+values.yaml https://github.com/eclipse-tractusx/traceability-foss-frontend/blob/main/charts/traceability-foss-frontend/values.yaml
 
 === Values explained
 

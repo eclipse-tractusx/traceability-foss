@@ -12,7 +12,7 @@ Please update the [CHANGELOG.md](../CHANGELOG.md) file with release changes that
 
 ## Release helm charts
 
-In order to release helm charts, update helm charts *version* property from [Chart.yaml file](../charts/product-traceability-foss-backend/Chart.yaml). Please update *appVersion* property if there were changes to app version as well.
+In order to release helm charts, update helm charts *version* property from [Chart.yaml file](../charts/traceability-foss-backend/Chart.yaml). Please update *appVersion* property if there were changes to app version as well.
 
-Next proceed to the [Release Charts workflow](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/chart-release.yaml)
+Next proceed to the [Release Charts workflow](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/helm-chart-release.yaml)
 and invoke the workflow manually for the *main* branch. The workflow will compare previously stored helm charts version and if it detects new version, it will release it in GitHub and will create an appropriate git tag.
