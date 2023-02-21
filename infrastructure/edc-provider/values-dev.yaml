@@ -25,6 +25,9 @@ edc-controlplane:
     repository: "ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault"
     tag: "0.1.2"
 
+  securityContext:
+    readOnlyRootFilesystem: false
+
   ingresses:
     - enabled: true
       hostname: "trace-x-edc.dev.demo.catena-x.net"
@@ -113,6 +116,9 @@ edc-dataplane:
   image:
     repository: "ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault"
     tag: "0.1.2"
+
+  securityContext:
+    readOnlyRootFilesystem: false
 
   ingresses:
     - enabled: true
