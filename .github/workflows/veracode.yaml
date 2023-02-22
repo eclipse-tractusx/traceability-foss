@@ -26,16 +26,16 @@ jobs:
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'adopt'
-          cache: 'gradle'
+          cache: 'maven'
 
       - name: Build app
-        run: ./gradlew bootJar
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true package
 
       - name: Run Veracode Upload And Scan
         uses: veracode/veracode-uploadandscan-action@0.2.4
         with:
           appname: 'Traceability-Foss-Backend'
           createprofile: false
-          filepath: './build/libs/traceability-app-*.jar'
+          filepath: "./target/traceability-app-*.jar"
           vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'
