@@ -21,9 +21,11 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.Size;
 
 public record CloseInvestigationRequest(
-	@Size(min = 15, max = 1000, message = "Close reason should have at least 15 characters and at most 1000 characters") String reason
+	@Size(min = 15, max = 1000, message = "Close reason should have at least 15 characters and at most 1000 characters") @ApiModelProperty(example = "The reason.") String reason
 ) {
 }

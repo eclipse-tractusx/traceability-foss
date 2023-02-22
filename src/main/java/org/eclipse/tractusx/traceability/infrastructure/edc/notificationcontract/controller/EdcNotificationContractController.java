@@ -20,24 +20,26 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller;
 
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractResponse;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @Validated
 @RestController
-@RequestMapping("/edc/notification")
 @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
+@Tag(name = "Notifications")
+@RequestMapping(path = "/edc/notification", produces = "application/json", consumes = "application/json")
 public class EdcNotificationContractController {
 
 	private final EdcNotificationContractService edcNotificationContractService;
@@ -46,6 +48,14 @@ public class EdcNotificationContractController {
 		this.edcNotificationContractService = edcNotificationContractService;
 	}
 
+	@Operation(operationId = "createNotificationContract",
+		summary = "Triggers EDC notification contract",
+		tags = {"Notifications"},
+		description = "The endpoint Triggers EDC notification contract based on notification type and method",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@PostMapping("/contract")
 	@ResponseStatus(HttpStatus.CREATED)
 	public CreateNotificationContractResponse createNotificationContract(@Valid @RequestBody CreateNotificationContractRequest request) {

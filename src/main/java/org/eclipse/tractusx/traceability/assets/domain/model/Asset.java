@@ -22,28 +22,46 @@
 package org.eclipse.tractusx.traceability.assets.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.time.Instant;
 import java.util.List;
 
 public final class Asset {
+	@ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
 	private final String id;
+	@ApiModelProperty(example = "--")
 	private final String idShort;
+	@ApiModelProperty(example = "Door f-r")
 	private final String nameAtManufacturer;
+	@ApiModelProperty(example = "33740332-54")
 	private final String manufacturerPartId;
+	@ApiModelProperty(example = "NO-297452866581906730261974")
 	private final String partInstanceId;
+	@ApiModelProperty(example = "BPNL00000003CSGV")
 	private final String manufacturerId;
+	@ApiModelProperty(example = "--")
 	private final String batchId;
+	@ApiModelProperty(example = "Tier C")
 	private String manufacturerName;
+	@ApiModelProperty(example = "Door front-right")
 	private final String nameAtCustomer;
+	@ApiModelProperty(example = "33740332-54")
 	private final String customerPartId;
+	@ApiModelProperty(example = "2022-02-04T13:48:54Z")
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	private final Instant manufacturingDate;
+	@ApiModelProperty(example = "DEU")
 	private final String manufacturingCountry;
+	@ApiModelProperty(example = "true")
 	private final boolean supplierPart;
+
 	private List<ChildDescriptions> childDescriptions;
+	@ApiModelProperty(example = "false")
 	private boolean underInvestigation;
+	@ApiModelProperty(example = "Ok")
 	private QualityType qualityType;
+	@ApiModelProperty(example = "--")
 	private String van;
 
 	public Asset(
@@ -152,7 +170,12 @@ public final class Asset {
 		return underInvestigation;
 	}
 
-	public record ChildDescriptions(String id, String idShort) {}
+	public record ChildDescriptions(
+		@ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0") String id,
+		@ApiModelProperty(example = "null") String idShort) {
+	}
 
-	public String getVan() { return van; }
+	public String getVan() {
+		return van;
+	}
 }

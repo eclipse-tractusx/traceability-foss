@@ -21,29 +21,24 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.CloseInvestigationRequest;
-import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.InvestigationData;
-import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.StartInvestigationRequest;
-import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.StartInvestigationResponse;
-import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.UpdateInvestigationRequest;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsPublisherService;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReadService;
-import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReceiverService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -51,8 +46,9 @@ import static org.eclipse.tractusx.traceability.investigations.adapters.rest.val
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
-@RequestMapping("/investigations")
+@RequestMapping(value = "/investigations", consumes = "application/json", produces = "application/json")
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
+@Tag(name = "Investigations")
 public class InvestigationsController {
 
 	private final InvestigationsReadService investigationsReadService;
@@ -70,6 +66,14 @@ public class InvestigationsController {
 		this.traceabilityProperties = traceabilityProperties;
 	}
 
+	@Operation(operationId = "investigateAssets",
+		summary = "Start investigations by part ids",
+		tags = {"Investigations"},
+		description = "The endpoint starts investigations based on part ids provided.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public StartInvestigationResponse investigateAssets(@RequestBody @Valid StartInvestigationRequest request) {
@@ -78,44 +82,99 @@ public class InvestigationsController {
 		return new StartInvestigationResponse(investigationId.value());
 	}
 
+	@Operation(operationId = "getCreatedInvestigations",
+		summary = "Gets created investigations",
+		tags = {"Investigations"},
+		description = "The endpoint returns created investigations as paged result.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@GetMapping("/created")
 	public PageResult<InvestigationData> getCreatedInvestigations(Pageable pageable) {
 		return investigationsReadService.getCreatedInvestigations(pageable);
 	}
 
+	@Operation(operationId = "getReceivedInvestigations",
+		summary = "Gets received investigations",
+		tags = {"Investigations"},
+		description = "The endpoint returns received investigations as paged result.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@GetMapping("/received")
 	public PageResult<InvestigationData> getReceivedInvestigations(Pageable pageable) {
 		return investigationsReadService.getReceivedInvestigations(pageable);
 	}
 
+	@Operation(operationId = "getInvestigation",
+		summary = "Gets investigations by id",
+		tags = {"Investigations"},
+		description = "The endpoint returns investigations as paged result by their id.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@GetMapping("/{investigationId}")
 	public InvestigationData getInvestigation(@PathVariable Long investigationId) {
 		return investigationsReadService.findInvestigation(investigationId);
 	}
 
+	@Operation(operationId = "approveInvestigation",
+		summary = "Approves investigations by id",
+		tags = {"Investigations"},
+		description = "The endpoint approves investigations by their id.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@PostMapping("/{investigationId}/approve")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void approveInvestigation(@PathVariable Long investigationId) {
 		investigationsPublisherService.sendInvestigation(traceabilityProperties.getBpn(), investigationId);
 	}
 
+	@Operation(operationId = "cancelInvestigation",
+		summary = "Cancles investigations by id",
+		tags = {"Investigations"},
+		description = "The endpoint cancles investigations by their id.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@PostMapping("/{investigationId}/cancel")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void cancelInvestigation(@PathVariable Long investigationId) {
 		investigationsPublisherService.cancelInvestigation(traceabilityProperties.getBpn(), investigationId);
 	}
 
+	@Operation(operationId = "closeInvestigation",
+		summary = "Close investigations by id",
+		tags = {"Investigations"},
+		description = "The endpoint closes investigations by their id.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@PostMapping("/{investigationId}/close")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseInvestigationRequest closeInvestigationRequest) {
 		investigationsPublisherService.closeInvestigation(traceabilityProperties.getBpn(), investigationId, closeInvestigationRequest.reason());
 	}
 
+	@Operation(operationId = "updateInvestigation",
+		summary = "Update investigations by id",
+		tags = {"Investigations"},
+		description = "The endpoint updates investigations by their id.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@PostMapping("/{investigationId}/update")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateInvestigationRequest updateInvestigationRequest) {
 		validate(updateInvestigationRequest);
-
 		investigationsReceiverService.updateInvestigation(traceabilityProperties.getBpn(), investigationId, updateInvestigationRequest.status(), updateInvestigationRequest.reason());
 	}
 }

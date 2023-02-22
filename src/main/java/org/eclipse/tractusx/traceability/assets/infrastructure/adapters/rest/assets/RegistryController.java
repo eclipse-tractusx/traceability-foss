@@ -21,13 +21,19 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest.assets;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.traceability.assets.application.RegistryFacade;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping
+@Tag(name = "Registry")
+@RequestMapping(path = "/registry", produces = "application/json", consumes = "application/json")
 public class RegistryController {
 
 	private final RegistryFacade registryFacade;
@@ -36,7 +42,15 @@ public class RegistryController {
 		this.registryFacade = registryFacade;
 	}
 
-	@GetMapping("/registry/reload")
+	@Operation(operationId = "reload",
+		summary = "Triggers reload of shell descriptors",
+		tags = {"Registry"},
+		description = "The endpoint Triggers reload of shell descriptors.",
+		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+	@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
+		@ApiResponse(responseCode = "401", description = "Authorization failed."),
+		@ApiResponse(responseCode = "403", description = "Forbidden.")})
+	@GetMapping("/reload")
 	public void reload() {
 		registryFacade.loadShellDescriptors();
 	}
