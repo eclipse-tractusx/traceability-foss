@@ -37,12 +37,12 @@ import spock.lang.Specification
 abstract class AssetsSpec extends Specification {
 
 	AssetFacade assetFacade
-    RegistryFacade registryFacade
-    RegistryService registryService
-    AssetRepository assetRepository
-    IrsRepository irsRepository
-    ShellDescriptorRepository shellDescriptorsRepository
-    AssetsConverter assetsConverter
+	RegistryFacade registryFacade
+	RegistryService registryService
+	AssetRepository assetRepository
+	IrsRepository irsRepository
+	ShellDescriptorRepository shellDescriptorsRepository
+	AssetsConverter assetsConverter
 
 	def setup() {
 		registryService = Mock(RegistryService)
