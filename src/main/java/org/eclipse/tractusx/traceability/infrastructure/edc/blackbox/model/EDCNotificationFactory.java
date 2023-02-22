@@ -18,36 +18,44 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
+import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+
+import java.util.List;
 import java.util.stream.Collectors;
 
-public enum NotificationType {
-	QMINVESTIGATION("QM-Investigation"),
-	QMALERT("QM-Alert");
+public class EDCNotificationFactory {
 
-	private static final Map<String, NotificationType> MAPPINGS;
-
-	static {
-		MAPPINGS = Arrays.stream(NotificationType.values())
-			.collect(Collectors.toMap(NotificationType::getValue, notificationType -> notificationType));
+	private EDCNotificationFactory(){
 	}
 
-	private final String value;
+	public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification){
+		EDCNotificationHeader header = new EDCNotificationHeader(
+			notification.getId(),
+			notification.getSenderBpnNumber(),
+			senderEDC,
+			notification.getReceiverBpnNumber(),
+			NotificationType.QMINVESTIGATION.getValue(),
+			"MINOR",
+			null,
+			notification.getInvestigationStatus().name(),
+			null
+		);
 
-	NotificationType(String value) {
-		this.value = value;
+		EDCNotificationContent content = new EDCNotificationContent(
+			notification.getDescription(),
+			extractAssetIds(notification)
+		);
+
+		return new EDCNotification(header, content);
 	}
 
-	public String getValue() {
-		return value;
-	}
-
-	public static Optional<NotificationType> fromValue(String value) {
-		return Optional.ofNullable(MAPPINGS.get(value));
+	private static List<String> extractAssetIds(Notification notification) {
+		return notification.getAffectedParts().stream()
+			.map(AffectedPart::assetId)
+			.collect(Collectors.toList());
 	}
 }
+

@@ -89,12 +89,12 @@ public class InvestigationsPublisherService {
 		repository.update(investigation);
 	}
 
-	public void approveInvestigation(BPN bpn, Long id) {
+	public void sendInvestigation(BPN bpn, Long id) {
 		InvestigationId investigationId = new InvestigationId(id);
 
 		Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
 
-		investigation.approve(bpn);
+		investigation.send(bpn);
 
 		repository.update(investigation);
 

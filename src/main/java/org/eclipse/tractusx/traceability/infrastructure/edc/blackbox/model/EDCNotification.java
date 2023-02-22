@@ -20,102 +20,61 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record EDCNotification(EDCNotificationHeader header, EDCNotificationContent content) {
 
-public class EDCNotification {
-
-	private String notificationId;
-	private String senderBPN;
-	private String senderAddress;
-	private String recipientBPN;
-	private String information;
-	private List<AffectedPart> listOfAffectedItems;
-	private InvestigationStatus status;
-
-	private NotificationType classification;
-
-
-	public EDCNotification() {
-	}
-
-	public EDCNotification(String senderEDC, Notification notification) {
-		this.notificationId = notification.getId();
-		this.senderBPN = notification.getSenderBpnNumber();
-		this.senderAddress = senderEDC;
-		this.recipientBPN = notification.getReceiverBpnNumber();
-		this.information = notification.getDescription();
-		this.listOfAffectedItems = notification.getAffectedParts();
-		this.status = notification.getInvestigationStatus();
-		this.classification = NotificationType.QMINVESTIGATION;
-	}
-
-	public String getNotificationId() {
-		return notificationId;
-	}
-
-	public void setNotificationId(String notificationId) {
-		this.notificationId = notificationId;
-	}
-
-	public String getSenderBPN() {
-		return senderBPN;
-	}
-
-	public void setSenderBPN(String senderBPN) {
-		this.senderBPN = senderBPN;
-	}
-
-	public String getSenderAddress() {
-		return senderAddress;
-	}
-
-	public void setSenderAddress(String senderAddress) {
-		this.senderAddress = senderAddress;
-	}
-
+	@JsonIgnore
 	public String getRecipientBPN() {
-		return recipientBPN;
+		return header.recipientBPN();
 	}
 
-	public void setRecipientBPN(String recipientBPN) {
-		this.recipientBPN = recipientBPN;
+	@JsonIgnore
+	public String getNotificationId() {
+		return header.notificationId();
 	}
 
+	@JsonIgnore
+	public String getSenderBPN() {
+		return header.senderBPN();
+	}
+
+	@JsonIgnore
+	public String getSenderAddress() {
+		return header.senderAddress();
+	}
+
+	@JsonIgnore
 	public String getInformation() {
-		return information;
+		return content.information();
 	}
 
-	public void setInformation(String information) {
-		this.information = information;
-	}
-
-	public InvestigationStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(InvestigationStatus status) {
-		this.status = status;
-	}
-
+	@JsonIgnore
 	public List<AffectedPart> getListOfAffectedItems() {
-		return listOfAffectedItems;
+		return content.listOfAffectedItems().stream()
+			.map(AffectedPart::new)
+			.collect(Collectors.toList());
 	}
 
-	public void setListOfAffectedItems(List<AffectedPart> listOfAffectedItems) {
-		this.listOfAffectedItems = listOfAffectedItems;
+	public NotificationType convertNotificationType() {
+		String classification = header().classification();
+
+		return NotificationType.fromValue(classification)
+			.orElseThrow(() -> new IllegalArgumentException("%s not supported notification type".formatted(classification)));
 	}
 
-	public NotificationType getClassification() {
-		return classification;
-	}
+	public InvestigationStatus convertInvestigationStatus() {
+		String investigationStatus = header().status();
 
-	public void setClassification(NotificationType classification) {
-		this.classification = classification;
+		return InvestigationStatus.fromValue(investigationStatus)
+			.orElseThrow(() -> new IllegalArgumentException("%s not supported investigation status".formatted(investigationStatus)));
 	}
-
 }
+

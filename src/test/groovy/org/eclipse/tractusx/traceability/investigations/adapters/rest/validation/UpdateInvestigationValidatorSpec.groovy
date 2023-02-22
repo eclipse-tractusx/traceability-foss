@@ -28,7 +28,6 @@ import spock.lang.Unroll
 
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.ACCEPTED
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.ACKNOWLEDGED
-import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.APPROVED
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CANCELED
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CLOSED
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CREATED
@@ -53,7 +52,7 @@ class UpdateInvestigationValidatorSpec extends Specification {
 			exception.message == "$status not allowed for update investigation with"
 
 		where:
-			status << [CREATED, APPROVED, SENT, RECEIVED, CLOSED, CANCELED]
+			status << [CREATED, SENT, RECEIVED, CLOSED, CANCELED]
 	}
 
 	@Unroll

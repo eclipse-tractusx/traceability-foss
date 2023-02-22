@@ -29,7 +29,6 @@ import spock.lang.Unroll
 
 import static InvestigationStatus.ACCEPTED
 import static InvestigationStatus.ACKNOWLEDGED
-import static InvestigationStatus.APPROVED
 import static InvestigationStatus.CANCELED
 import static InvestigationStatus.CLOSED
 import static InvestigationStatus.CREATED
@@ -61,7 +60,7 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 	}
 
 	@Unroll
-	def "should not allow to approve investigation with #investigationStatus status"() {
+	def "should not allow to send investigation with #investigationStatus status"() {
 		given:
 			BPN bpn = new BPN("BPNL000000000001")
 
@@ -69,7 +68,7 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
-			investigation.approve(bpn)
+			investigation.send(bpn)
 
 		then:
 			thrown(InvestigationStatusTransitionNotAllowed)
@@ -78,7 +77,7 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 			investigation.getInvestigationStatus() == investigationStatus
 
 		where:
-			investigationStatus << [APPROVED, SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED, CLOSED]
+			investigationStatus << [SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED, CLOSED]
 	}
 
 	@Unroll
@@ -122,7 +121,7 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 			investigationStatus << InvestigationStatus.values().toList()
 	}
 
-	def "should not allow to approve investigation for different bpn"() {
+	def "should not allow to send investigation for different bpn"() {
 		given:
 			BPN bpn = new BPN("BPNL000000000001")
 
@@ -130,7 +129,7 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
 		when:
-			investigation.approve(new BPN("BPNL000000000002"))
+			investigation.send(new BPN("BPNL000000000002"))
 
 		then:
 			thrown(InvestigationIllegalUpdate)
@@ -162,7 +161,7 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 			investigationStatus << InvestigationStatus.values().toList()
 	}
 
-	def "should allow to approve investigation"() {
+	def "should allow to send investigation"() {
 		given:
 			BPN bpn = new BPN("BPNL000000000001")
 
@@ -170,13 +169,13 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 			Investigation investigation = senderInvestigationWithStatus(bpn, CREATED)
 
 		when:
-			investigation.approve(bpn)
+			investigation.send(bpn)
 
 		then:
 			noExceptionThrown()
 
 		and:
-			investigation.getInvestigationStatus() == APPROVED
+			investigation.getInvestigationStatus() == SENT
 	}
 
 	def "should allow to cancel investigation status"() {
@@ -214,6 +213,6 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 			investigation.getInvestigationStatus() == CLOSED
 
 		where:
-			investigationStatus << [APPROVED, SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED]
+			investigationStatus << [SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED]
 	}
 }
