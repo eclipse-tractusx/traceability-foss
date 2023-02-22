@@ -47,7 +47,7 @@ public class DashboardController {
 		this.dashboardService = dashboardService;
 	}
 
-	@GetMapping("/")
+	@GetMapping("")
 	@Operation(operationId = "dashboard",
 		summary = "Returns dashboard related data",
 		tags = {"Dashboard"},
