@@ -67,7 +67,7 @@
 		<springCloudVersion.version>2021.0.5</springCloudVersion.version>
 		<springBootSecurityOauth2Version.version>2.6.8</springBootSecurityOauth2Version.version>
 		<jacksonDatabindNullableVersion.version>0.2.4</jacksonDatabindNullableVersion.version>
-		<scribejavaVersion.version.version>8.3.2</scribejavaVersion.version.version>
+		<scribejavaVersion.version.version>8.3.3</scribejavaVersion.version.version>
 		<findBugsVersion.version>3.0.2</findBugsVersion.version>
 		<restitoVersion.version>1.1.0</restitoVersion.version>
 
