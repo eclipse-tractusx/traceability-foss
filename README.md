@@ -40,7 +40,7 @@ TRACE-FOSS product composes of the backend and frontend repositories, frontend r
 To run unit tests invoke following command:
 
 ```sh
-./gradlew test
+mvn clean test
 ```
 
 #### Integration tests
@@ -51,7 +51,7 @@ persistence layer, thus [Docker Engine](https://docs.docker.com/engine/) is requ
 To run integration tests invoke following command:
 
 ```sh
-./gradlew integrationTest
+mvn clean verify -PiT
 ```
 
 #### Running all tests
@@ -59,21 +59,10 @@ To run integration tests invoke following command:
 To run all tests invoke following command:
 
 ```sh
-./gradlew testAll
+mvn -DskipTests=false clean verify -PiT
 ```
 
 *Please note that this task depends on `integrationTest` task, so it's required to have [Docker Engine](https://docs.docker.com/engine/) running.*
-
-#### Generating OpenAPI clients
-
-OpenAPI clients are generated based on [OpenAPI Specification files](./openapi) and [correlated gradle tasks](build.gradle.kts).
-
-OpenAPI tasks have dependency on JavaCompile task that is OpenAPI client classes are automatically generated once you build the project
-and there should not be a need to generate them manually, however following command can be used for such purpose:
-
-```sh
-./gradlew generateAasRegistryApi
-```
 
 ## API documentation
 The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](./openapi/traceability-foss-backend.json)

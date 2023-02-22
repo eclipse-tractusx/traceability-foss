@@ -37,4 +37,3 @@ record RegistryShellDescriptor(
 	String idShort,
 	List<SpecificAssetId> specificAssetIds
 ) {}
-
