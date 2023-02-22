@@ -18,36 +18,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-public enum NotificationType {
-	QMINVESTIGATION("QM-Investigation"),
-	QMALERT("QM-Alert");
+import java.util.List;
 
-	private static final Map<String, NotificationType> MAPPINGS;
-
-	static {
-		MAPPINGS = Arrays.stream(NotificationType.values())
-			.collect(Collectors.toMap(NotificationType::getValue, notificationType -> notificationType));
-	}
-
-	private final String value;
-
-	NotificationType(String value) {
-		this.value = value;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public static Optional<NotificationType> fromValue(String value) {
-		return Optional.ofNullable(MAPPINGS.get(value));
-	}
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record EDCNotificationContent(String information, List<String> listOfAffectedItems) {
 }

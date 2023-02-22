@@ -187,10 +187,10 @@ public class Investigation {
 		this.closeReason = reason;
 	}
 
-	public void approve(BPN callerBpn) {
+	public void send(BPN callerBpn) {
 		validateBPN(callerBpn);
 
-		changeStatusTo(InvestigationStatus.APPROVED);
+		changeStatusTo(InvestigationStatus.SENT);
 	}
 
 	public void acknowledge(BPN callerBpn) {
