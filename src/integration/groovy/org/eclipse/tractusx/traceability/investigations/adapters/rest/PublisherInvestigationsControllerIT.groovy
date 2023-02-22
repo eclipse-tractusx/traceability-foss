@@ -195,6 +195,21 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.statusCode(204)
 
 		then:
+		given()
+			.header(jwtAuthorization(ADMIN))
+			.param("page", "0")
+			.param("size", "10")
+			.contentType(ContentType.JSON)
+			.when()
+			.get("/api/investigations/created")
+			.then()
+			.statusCode(200)
+			.body("page", Matchers.is(0))
+			.body("pageSize", Matchers.is(10))
+			.body("content", Matchers.hasSize(1))
+			.body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
+
+		and:
 		eventually {
 			assertNotificationsSize(2)
 			assertNotifications { NotificationEntity notification ->
@@ -267,6 +282,21 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			assertInvestigationsSize(1)
 			assertInvestigationStatus(InvestigationStatus.CLOSED)
 		}
+
+		and:
+		given()
+			.header(jwtAuthorization(ADMIN))
+			.param("page", "0")
+			.param("size", "10")
+			.contentType(ContentType.JSON)
+			.when()
+			.get("/api/investigations/created")
+			.then()
+			.statusCode(200)
+			.body("page", Matchers.is(0))
+			.body("pageSize", Matchers.is(10))
+			.body("content", Matchers.hasSize(1))
+			.body("content[0].reason.close", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
 	}
 
 	def "should not cancel not existing investigation"() {
