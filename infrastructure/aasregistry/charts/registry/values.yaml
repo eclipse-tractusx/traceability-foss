@@ -23,7 +23,7 @@ registry:
   replicaCount: 1
   imagePullPolicy: IfNotPresent
   imagePullSecrets:
-    - name: dockerpullsecret
+    - name: machineuser-pull-secret-ro
   containerPort: 4243
   host: localhost
   ## If 'authentication' is set to false, no OAuth authentication is enforced

@@ -181,5 +181,3 @@ public class RegistryService {
 		return URLEncoder.encode(String.format("{\"key\":\"%s\",\"value\":\"%s\"}", key, value), StandardCharsets.UTF_8);
 	}
 }
-
-
