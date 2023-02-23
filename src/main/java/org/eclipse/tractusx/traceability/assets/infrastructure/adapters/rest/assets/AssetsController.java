@@ -76,7 +76,7 @@ public class AssetsController {
 	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found"),
 		@ApiResponse(responseCode = "401", description = "Authorization failed."),
 		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@GetMapping("/")
+	@GetMapping("")
 	public PageResult<Asset> assets(Pageable pageable) {
 		return assetRepository.getAssets(pageable);
 	}

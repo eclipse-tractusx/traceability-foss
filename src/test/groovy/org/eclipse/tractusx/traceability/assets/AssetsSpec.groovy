@@ -45,7 +45,7 @@ abstract class AssetsSpec extends Specification {
 	AssetsConverter assetsConverter
 
 	def setup() {
-		registryService = Mock(RegistryService)
+		// registryService = Mock(RegistryService)
 		assetRepository = Mock(AssetRepository)
 		irsRepository = Mock(IrsRepository)
 		def assetService = new AssetService(assetRepository, irsRepository)

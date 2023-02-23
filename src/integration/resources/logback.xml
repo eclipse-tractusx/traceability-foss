@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- root level="info"/>
+	<logger name="org.springframework.test.jdbc.JdbcTestUtils" level="error"/>
+	<logger name="org.springframework.test.annotation.ProfileValueUtils" level="info"/>
+	<logger name="org.hibernate.engine.jdbc.spi.SqlExceptionHelper" level="error"/ -->
+</configuration>
