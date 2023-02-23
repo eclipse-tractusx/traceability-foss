@@ -21,5 +21,10 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
-public record InvestigationReason(String close, String accept, String decline) {
+import io.swagger.annotations.ApiModelProperty;
+
+public record InvestigationReason(
+	@ApiModelProperty(example = "description of closing reason") String close,
+	@ApiModelProperty(example = "description of accepting reason") String accept,
+	@ApiModelProperty(example = "description of declining reason") String decline) {
 }
