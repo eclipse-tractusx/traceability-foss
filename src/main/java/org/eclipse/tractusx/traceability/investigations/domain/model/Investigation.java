@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.model;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.InvestigationData;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.InvestigationReason;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationStatusTransitionNotAllowed;
 
@@ -61,6 +62,7 @@ public class Investigation {
 	private final Instant createdAt;
 	private final List<String> assetIds;
 	private final Map<String, Notification> notifications;
+	private final String sendTo;
 
 	private String closeReason;
 	private String acceptReason;
@@ -71,6 +73,8 @@ public class Investigation {
 						 InvestigationStatus investigationStatus,
 						 InvestigationSide investigationSide,
 						 String closeReason,
+						 String acceptReason,
+						 String declineReason,
 						 String description,
 						 Instant createdAt,
 						 List<String> assetIds,
@@ -81,11 +85,17 @@ public class Investigation {
 		this.investigationStatus = investigationStatus;
 		this.investigationSide = investigationSide;
 		this.closeReason = closeReason;
+		this.acceptReason = acceptReason;
+		this.declineReason = declineReason;
 		this.description = description;
 		this.createdAt = createdAt;
 		this.assetIds = assetIds;
 		this.notifications = notifications.stream()
-			.collect(Collectors.toMap(Notification::getId, Function.identity()));;
+			.collect(Collectors.toMap(Notification::getId, Function.identity()));
+		this.sendTo = notifications.stream()
+			.findFirst()
+			.map(Notification::getReceiverBpnNumber)
+			.orElse(null);
 	}
 
 	public static Investigation startInvestigation(Instant createDate, BPN bpn, String description) {
@@ -93,6 +103,8 @@ public class Investigation {
 			bpn,
 			InvestigationStatus.CREATED,
 			InvestigationSide.SENDER,
+			null,
+			null,
 			null,
 			description,
 			createDate,
@@ -107,6 +119,8 @@ public class Investigation {
 			bpn,
 			InvestigationStatus.RECEIVED,
 			InvestigationSide.RECEIVER,
+			null,
+			null,
 			null,
 			description,
 			createDate,
@@ -139,7 +153,13 @@ public class Investigation {
 			bpn.value(),
 			createdAt.toString(),
 			Collections.unmodifiableList(assetIds),
-			investigationSide
+			investigationSide,
+			new InvestigationReason(
+				closeReason,
+				acceptReason,
+				declineReason
+			),
+			sendTo
 		);
 	}
 
