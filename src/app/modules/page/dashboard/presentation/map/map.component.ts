@@ -26,7 +26,7 @@ import { MapboxLayer } from '@deck.gl/mapbox';
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import * as mapboxGl from 'maplibre-gl';
-import { Map, NavigationControl } from 'maplibre-gl';
+import { IControl, Map, NavigationControl } from 'maplibre-gl';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { MAPPING, PartsCoordinates, supportedLanguages } from './map.model';
@@ -75,7 +75,7 @@ export class MapComponent implements AfterViewInit {
       this.map.remove();
     }
 
-    const locale: Record<string, string> = this.i18NextService.t('map', { returnObjects: true });
+    const locale = this.i18NextService.t('map', { returnObjects: true }) as unknown as Record<string, string>;
     this.map = new Map({
       container: this.mapElRef.nativeElement,
       style: environment.mapStyles,
@@ -90,7 +90,7 @@ export class MapComponent implements AfterViewInit {
       ? this.i18NextService.language
       : 'mul';
 
-    const language = new MapboxLanguage({ defaultLanguage });
+    const language = new MapboxLanguage({ defaultLanguage }) as unknown as IControl;
     this.map.addControl(language);
 
     this.map.addControl(

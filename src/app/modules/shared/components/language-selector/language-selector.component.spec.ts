@@ -39,11 +39,10 @@ describe('LanguageSelector', () => {
 
   it('should allow to change the language', async () => {
     await renderLanguageSelector();
-    expect(screen.getByText('Back')).toBeInTheDocument();
+    expect(screen.getByText('actions.back')).toBeInTheDocument();
     fireEvent.click(screen.getByText('en'));
     fireEvent.click(screen.getByText('Deutsch'));
-    // as in test there is no DE translations expectation that translation module
-    // would return translation key aas fallback for DE
-    expect(await screen.findByText('actions.back')).toBeInTheDocument();
+
+    expect(await screen.findByText('de')).toBeInTheDocument();
   });
 });

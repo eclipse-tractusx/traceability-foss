@@ -25,15 +25,9 @@ import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('About Page', () => {
-  const renderMap = () =>
-    renderComponent(AboutComponent, {
-      imports: [AboutModule],
-      translations: ['page.about'],
-    });
-
   it('should render about page', async () => {
-    await renderMap();
+    await renderComponent(AboutComponent, { imports: [AboutModule] });
 
-    expect(screen.getByText('About Catena-X Open-Source Traceability')).toBeInTheDocument();
+    expect(screen.getByText('pageAbout.title')).toBeInTheDocument();
   });
 });

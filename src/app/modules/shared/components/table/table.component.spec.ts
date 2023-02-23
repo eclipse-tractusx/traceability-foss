@@ -97,10 +97,11 @@ describe('TableComponent', () => {
 
   it('should select all items and deselect all', async () => {
     const tableSize = 3;
-    await renderTable(tableSize, ['select', 'name']);
+    const fixture = await renderTable(tableSize, ['select', 'name']);
 
     const clickableSelectAllElement = screen.getByTestId('select-all--test-id').firstChild as HTMLElement;
     clickableSelectAllElement.click();
+    fixture.detectChanges();
 
     const selectItemElements = screen.getAllByTestId('select-one--test-id');
     for (const element of selectItemElements) {
@@ -108,6 +109,7 @@ describe('TableComponent', () => {
     }
 
     clickableSelectAllElement.click();
+    fixture.detectChanges();
     for (const element of selectItemElements) {
       await waitFor(() => expect(element).not.toHaveClass('mat-checkbox-checked'));
     }

@@ -39,27 +39,20 @@ describe('NotificationReasonComponent', () => {
     expect(screen.getByText(defaultNotification.description)).toBeInTheDocument();
   });
 
-  it('should render accept reason with accept status', async () => {
+  it('should render accept reason with sent status', async () => {
     const reason = { accept: 'Accept reason', close: '', decline: '' };
-    const status = NotificationStatus.ACCEPTED;
+    const status = NotificationStatus.SENT;
 
     await renderReason({ ...defaultNotification, reason, status });
     expect(screen.getByText(reason.accept)).toBeInTheDocument();
-    expect(screen.getByText('Accepted')).toBeInTheDocument();
+    expect(screen.getByText('commonInvestigation.status.SENT')).toBeInTheDocument();
+
+    expect(screen.getByText(defaultNotification.createdBy)).toBeInTheDocument();
+    expect(screen.getByText(defaultNotification.sendTo)).toBeInTheDocument();
   });
 
   it('should render username from sender', async () => {
     await renderReason();
     expect(screen.getByText(defaultNotification.createdBy)).toBeInTheDocument();
-  });
-
-  it('should render accept reason with accept status', async () => {
-    const reason = { accept: 'Accept reason', close: '', decline: '' };
-    const status = NotificationStatus.ACCEPTED;
-
-    await renderReason({ ...defaultNotification, reason, status });
-
-    expect(screen.getByText(defaultNotification.createdBy)).toBeInTheDocument();
-    expect(screen.getByText(defaultNotification.sendTo)).toBeInTheDocument();
   });
 });

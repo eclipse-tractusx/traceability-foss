@@ -34,7 +34,7 @@ SPDX-License-Identifier: Apache-2.0
         <p>{{ 'commonInvestigation.status.' + message?.status | i18n }}</p>
         <p class="message--text__date flex items-center" *ngIf="message.date">
           <mat-icon class="message--text__date-icon">access_time</mat-icon
-          >{{ message.date | formatDate: { dateStyle: 'short', timeStyle: 'short' } }}
+          >{{ message.date | formatDate : { dateStyle: 'short', timeStyle: 'short' } }}
         </p>
       </div>
     </div>

@@ -40,14 +40,14 @@ describe('Sidebar', () => {
 
   it('should render', async () => {
     await renderSidebar(getDashboardRoute().link);
-    const dashboardButton = screen.getByText('Dashboard');
+    const dashboardButton = screen.getByText('routing.dashboard');
 
     expect(dashboardButton).toBeInTheDocument();
   });
 
   it('should mark dashboard as active', async () => {
     await renderSidebar(getDashboardRoute().link);
-    const dashboardButton = screen.getByText('Dashboard');
+    const dashboardButton = screen.getByText('routing.dashboard');
 
     expect(dashboardButton).toBeInTheDocument();
     expect(dashboardButton).toHaveClass('item-active');
@@ -55,7 +55,7 @@ describe('Sidebar', () => {
 
   it('should not mark about as active', async () => {
     await renderSidebar(getDashboardRoute().link);
-    const dashboardButton = screen.getByText('About');
+    const dashboardButton = screen.getByText('routing.about');
 
     expect(dashboardButton).toBeInTheDocument();
     expect(dashboardButton).not.toHaveClass('item-active');
@@ -63,14 +63,14 @@ describe('Sidebar', () => {
 
   it('should hide admin panel if not admin role', async () => {
     await renderSidebar(getDashboardRoute().link);
-    const adminButton = screen.queryByText('Administration');
+    const adminButton = screen.queryByText('routing.admin');
 
     expect(adminButton).not.toBeInTheDocument();
   });
 
   it('should show admin panel if user has admin role', async () => {
     await renderSidebar(getDashboardRoute().link, 'admin');
-    const adminButton = screen.queryByText('Administration');
+    const adminButton = screen.queryByText('routing.admin');
 
     expect(adminButton).toBeInTheDocument();
   });

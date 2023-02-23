@@ -27,9 +27,7 @@ import { CtaSnackbarService } from './cta-snackbar.service';
 
 describe('cta-snackbar', () => {
   const prepareEnv = async () => {
-    await renderComponent('', {
-      imports: [SharedModule],
-    });
+    await renderComponent('', { imports: [SharedModule] });
 
     return TestBed.inject(CtaSnackbarService);
   };
@@ -39,7 +37,7 @@ describe('cta-snackbar', () => {
 
     ctaSnackbarService.show('actions.back', [{ text: 'Open', link: '' }]);
 
-    expect(await screen.findByText('Back')).toBeInTheDocument();
+    expect(await screen.findByText('actions.back')).toBeInTheDocument();
     expect(await screen.findByText('Open')).toBeInTheDocument();
   });
 
@@ -51,6 +49,6 @@ describe('cta-snackbar', () => {
 
     await waitForElementToBeRemoved(() => screen.queryByText('Open'));
 
-    expect(screen.queryByText('Back')).not.toBeInTheDocument();
+    expect(screen.queryByText('actions.back')).not.toBeInTheDocument();
   });
 });

@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
@@ -38,10 +38,10 @@ export class AcceptNotificationModalComponent {
 
   public notification: Notification;
   public readonly formGroup;
-  private readonly textAreaControl = new FormControl();
+  private readonly textAreaControl = new UntypedFormControl();
 
   constructor(private readonly toastService: ToastService, private readonly confirmModalService: ModalService) {
-    this.formGroup = new FormGroup({ reason: this.textAreaControl });
+    this.formGroup = new UntypedFormGroup({ reason: this.textAreaControl });
   }
 
   public show(notification: Notification): void {

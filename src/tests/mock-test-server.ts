@@ -37,4 +37,4 @@ const handlers = [
   ...adminHandler,
   ...errorHandler,
 ];
-export const server = setupWorker(...handlers);
+export const worker = setupWorker(...handlers);

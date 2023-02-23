@@ -96,21 +96,21 @@ describe('NotificationsInboxComponent', () => {
     const row = descriptionEl.closest('tr');
 
     expect(within(row).getByText('5/1/22')).toBeInTheDocument();
-    expect(within(row).getByText('Received')).toBeInTheDocument();
+    expect(within(row).getByText('commonInvestigation.status.RECEIVED')).toBeInTheDocument();
   });
 
   it('should be able to change notifications page', async () => {
     await renderNotificationsInbox();
 
     await screen.findByText('Investigation No 1');
-    fireEvent.click(screen.getByLabelText('Next page'));
+    fireEvent.click(screen.getByLabelText('pagination.nextPageLabel'));
 
     expect(await screen.findByText('Investigation No 6')).toBeInTheDocument();
   });
 
   it('should render queued & requested notifications', async () => {
     await renderNotificationsInbox();
-    fireEvent.click(screen.getByText('Queued & Requested'));
+    fireEvent.click(screen.getByText('commonInvestigation.tabs.queuedAndRequested'));
     expect(await screen.findByText('Investigation No 1')).toBeInTheDocument();
   });
 });

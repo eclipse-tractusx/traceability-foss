@@ -7,15 +7,15 @@
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
-    "module": "esnext",
+    "module": "es2022",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
     "resolveJsonModule": true,
-    "target": "es2015",
+    "target": "es2022",
     "typeRoots": ["node_modules/@types"],
-    "lib": ["es2018", "dom"],
+    "lib": ["es2021", "dom"],
     "paths": {
       "@core/*": ["src/app/modules/core/*"],
       "@layout/*": ["src/app/modules/core/layout/*"],
@@ -23,7 +23,8 @@
       "@shared/*": ["src/app/modules/shared/*"],
       "@env": ["src/environments/environment"],
       "@tests/*": ["src/tests/*"]
-    }
+    },
+    "useDefineForClassFields": false
   },
   "angularCompilerOptions": {
     "strictTemplates": true,

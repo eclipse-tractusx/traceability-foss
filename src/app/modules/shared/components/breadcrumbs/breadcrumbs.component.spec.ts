@@ -53,23 +53,22 @@ describe('BreadcrumbsComponent', () => {
           },
         },
       ],
-      translations: ['_test'],
     });
   };
 
   it('should render', async () => {
     const root = createRoutRoot('home', createRoutRoot('test', createRoutRoot('path')));
     await renderBreadcrumbsComponent(root);
-    expect(await waitFor(() => screen.getByText('Home_Test'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Test'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Path'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('routing.home'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('routing.test'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('routing.path'))).toBeInTheDocument();
   });
 
   it('should not render id', async () => {
     const root = createRoutRoot('home', createRoutRoot('test', createRoutRoot(':random_id')));
     await renderBreadcrumbsComponent(root);
-    expect(await waitFor(() => screen.getByText('Home_Test'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Test'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('routing.home'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('routing.test'))).toBeInTheDocument();
     expect(await screen.queryByText('random_id')).not.toBeInTheDocument();
   });
 });

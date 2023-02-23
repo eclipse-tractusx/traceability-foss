@@ -58,7 +58,7 @@ export const buildCustomProtocolResolver = (customProtocolsRegistry: CustomProto
     const resolution = customProtocolResolution[prefix];
     const fullPrefix = customProtocolName + ':' + prefix;
 
-    const originalQueryParams = Object.fromEntries(new URL(url).searchParams);
+    const originalQueryParams = Object.fromEntries(new URL(url).searchParams as any);
     const cleanUrl = url.split('?')[0];
 
     const targetQueryParams = new HttpParams({
@@ -66,8 +66,8 @@ export const buildCustomProtocolResolver = (customProtocolsRegistry: CustomProto
     }).toString();
 
     const hasQueryParams = Object.keys(targetQueryParams).length > 0;
-    const tartegUrlWithoutParams = cleanUrl.replace(fullPrefix, resolution.pathname) + (resolution.postfix ?? '');
-    return tartegUrlWithoutParams + (hasQueryParams ? '?' + targetQueryParams : '');
+    const targetUrlWithoutParams = cleanUrl.replace(fullPrefix, resolution.pathname) + (resolution.postfix ?? '');
+    return targetUrlWithoutParams + (hasQueryParams ? '?' + targetQueryParams : '');
   };
 };
 

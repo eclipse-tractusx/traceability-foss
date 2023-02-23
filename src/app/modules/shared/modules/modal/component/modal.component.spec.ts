@@ -19,7 +19,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA,
+  MatLegacyDialogRef as MatDialogRef,
+} from '@angular/material/legacy-dialog';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
@@ -45,7 +48,7 @@ describe('modalComponent', () => {
       declarations: [ModalComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: confirmModalData },
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: { close: jasmine.createSpy() } },
       ],
       imports: [SharedModule],
     });

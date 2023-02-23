@@ -39,7 +39,7 @@ describe('SelectComponent', () => {
   it('should render the select component with options', async () => {
     const lable = 'Test';
     const options: SelectOption[] = [{ lable: 'Test_01' }, { lable: 'Test_02' }];
-    await renderComponent(`<app-select [lable]='lable' [options]='options'></app-select>`, {
+    const fixture = await renderComponent(`<app-select [lable]='lable' [options]='options'></app-select>`, {
       imports: [SharedModule],
       declarations: [SelectComponent],
       componentProperties: { lable, options },
@@ -48,6 +48,7 @@ describe('SelectComponent', () => {
     const selectComponent = screen.getByText(lable);
     expect(selectComponent).toBeInTheDocument();
     selectComponent.click();
+    fixture.detectChanges();
 
     await waitFor(() => expect(screen.getByText(options[0].lable)).toBeInTheDocument());
     await waitFor(() => expect(screen.getByText(options[1].lable)).toBeInTheDocument());
@@ -95,7 +96,7 @@ describe('SelectComponent', () => {
   it('should render the select component with custom option renderer', async () => {
     const lable = 'Test';
     const options: SelectOption[] = [{ lable: 'Test_01' }, { lable: 'Test_02' }];
-    await renderComponent(
+    const fixture = await renderComponent(
       `<ng-template #test let-value='value'>_TEST_{{value}}</ng-template>
                 <app-select [lable]='lable' [options]='options' [optionsRenderer]='test'></app-select>`,
       {
@@ -108,6 +109,7 @@ describe('SelectComponent', () => {
     const selectComponent = screen.getByText(lable);
     expect(selectComponent).toBeInTheDocument();
     selectComponent.click();
+    fixture.detectChanges();
 
     await waitFor(() => expect(screen.getByText('_TEST_' + options[0].lable)).toBeInTheDocument());
     await waitFor(() => expect(screen.getByText('_TEST_' + options[1].lable)).toBeInTheDocument());

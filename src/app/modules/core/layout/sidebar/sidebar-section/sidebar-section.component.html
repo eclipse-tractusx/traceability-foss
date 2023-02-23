@@ -20,7 +20,7 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <section [class.active]="this.isActive" class="sidebar-menu-container__item">
-  <mat-icon [tooltip]="this.name" [class.item-active]="this.isActive" appTooltip class="item text-dark">{{
+  <mat-icon [tooltip]="this.name" [class.item-active]="this.isActive" appTooltip class="text-dark">{{
     this.iconName
   }}</mat-icon>
   <p class="regular-text" [class.item-active]="this.isActive" [class.disable]="!this.isExpanded">

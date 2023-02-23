@@ -25,15 +25,15 @@ import { Part } from '@page/parts/model/parts.model';
 import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { SharedModule } from '@shared/shared.module';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
+import { sleepForTests } from '../../../../../test';
 
 describe('requestInvestigationComponent', () => {
-  const deselectPartMock = jasmine.createSpy();
-  const clearSelectedMock = jasmine.createSpy();
-  const sidenavIsClosingMock = jasmine.createSpy();
-  const submittedMock = jasmine.createSpy();
+  let deselectPartMock: jasmine.Spy<jasmine.Func>;
+  let clearSelectedMock: jasmine.Spy<jasmine.Func>;
+  let submittedMock: jasmine.Spy<jasmine.Func>;
   const currentSelectedItems = [{ name: 'part_1' }, { name: 'part_2' }, { name: 'part_3' }];
 
   const renderRequestInvestigationComponent = () =>
@@ -57,9 +57,15 @@ describe('requestInvestigationComponent', () => {
       },
     );
 
+  beforeEach(() => {
+    deselectPartMock = jasmine.createSpy();
+    clearSelectedMock = jasmine.createSpy();
+    submittedMock = jasmine.createSpy();
+  });
+
   it('should render', async () => {
     await renderRequestInvestigationComponent();
-    const headline = await waitFor(() => screen.getByText('Request quality investigation'), { timeout: 2000 });
+    const headline = await waitFor(() => screen.getByText('requestInvestigations.headline'), { timeout: 2000 });
     expect(headline).toBeInTheDocument();
   });
 
@@ -76,43 +82,35 @@ describe('requestInvestigationComponent', () => {
 
   it('should render textarea', async () => {
     await renderRequestInvestigationComponent();
-    const textAreaElement = await waitFor(() => screen.getByText('Description'));
+    const textAreaElement = await waitFor(() => screen.getByText('requestInvestigations.textAreaLabel'));
 
     expect(textAreaElement).toBeInTheDocument();
   });
 
   it('should render buttons', async () => {
     await renderRequestInvestigationComponent();
-    const cancelElement = await waitFor(() => screen.getByText('CANCEL'));
-    const submitElement = await screen.getByText('ADD TO QUEUE');
+    const cancelElement = await waitFor(() => screen.getByText('requestInvestigations.cancel'));
+    const submitElement = await screen.getByText('requestInvestigations.submit');
 
     expect(cancelElement).toBeInTheDocument();
     expect(submitElement).toBeInTheDocument();
   });
 
   it('should submit parts', async () => {
-    const { fixture } = await renderComponent(RequestInvestigationComponent, {
-      imports: [OtherPartsModule],
-      providers: [InvestigationsService],
-      translations: ['page.otherParts', 'partDetail'],
-    });
-    const { componentInstance } = fixture;
-
-    // TODO: Rework!
-    const spy = spyOn(componentInstance.clearSelected, 'emit');
-    const spy_2 = spyOn((componentInstance as any).investigationsService, 'postInvestigation').and.returnValue(of([]));
-    const spy_3 = spyOn((componentInstance as any).otherPartsFacade, 'setActiveInvestigationForParts').and.returnValue(
-      of([]),
-    );
+    await renderRequestInvestigationComponent();
 
     const testText = 'This is for a testing purpose.';
+    const textArea = (await waitFor(() => screen.getByTestId('TextAreaComponent-0'))) as HTMLTextAreaElement;
+    fireEvent.input(textArea, { target: { value: testText } });
 
-    componentInstance.selectedItems = [{ id: 'id_1', name: 'part_1' } as Part];
-    (componentInstance as any).textAreaControl.setValue(testText);
-    componentInstance.submitInvestigation();
+    const submit = await waitFor(() => screen.getByText('requestInvestigations.submit'));
+    expect(submit).toBeInTheDocument();
+    expect(textArea.value).toEqual(testText);
+    fireEvent.click(submit);
 
-    await waitFor(() => expect(spy).toHaveBeenCalledTimes(1));
-    expect(spy_2).toHaveBeenCalledWith(['id_1'], testText);
-    await waitFor(() => expect(spy_3).toHaveBeenCalledTimes(1));
+    await sleepForTests(1000);
+    expect(await waitFor(() => screen.getByText('qualityInvestigation.success'))).toBeInTheDocument();
+    expect(textArea.value).toEqual('');
+    expect(submittedMock).toHaveBeenCalledTimes(1);
   });
 });

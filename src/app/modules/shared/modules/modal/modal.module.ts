@@ -21,7 +21,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { SharedModule } from '@shared/shared.module';
 import { ModalComponent } from './component/modal.component';
