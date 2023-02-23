@@ -9,6 +9,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  JAVA_VERSION: 17
 
 jobs:
   prepare-env:
@@ -73,7 +74,14 @@ jobs:
         with:
           ref: ${{needs.prepare-env.outputs.check_sha}}
 
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'adopt'
+          cache: 'maven'
+
       - name: Build docker image
+
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true package com.google.cloud.tools:jib-maven-plugin:3.3.1:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
 
       - name: Run Trivy vulnerability scanner
