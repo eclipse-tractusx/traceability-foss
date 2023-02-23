@@ -29,11 +29,11 @@ jobs:
         with:
           # Scanning directory .
           path: "."
-          exclude_paths: openapi/,infrastructure/,src/main/resources/swagger.yml
+          #exclude_paths: openapi/,infrastructure/,src/main/resources/swagger.yml
           # Fail on HIGH severity results
           fail_on: high
           # Disable secrets detection - we use GitGuardian
-         # disable_secrets: true
+          disable_secrets: true
           # when provided with a directory on output_path
           # it will generate the specified reports file named 'results.{extension}'
           # in this example it will generate:
