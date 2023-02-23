@@ -32,5 +32,8 @@ public record InvestigationData(@ApiModelProperty(example = "66") Long id,
 								@ApiModelProperty(example = "BPNL00000003AYRE") String createdBy,
 								@ApiModelProperty(example = "2023-02-21T21:27:10.734950Z") String createdDate,
 								@ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]") List<String> assetIds,
-								@ApiModelProperty(example = "SENDER") InvestigationSide channel) {
+								@ApiModelProperty(example = "SENDER") InvestigationSide channel,
+								InvestigationReason reason,
+								@ApiModelProperty(example = "BPNL00000003AYRE") String sendTo
+) {
 }

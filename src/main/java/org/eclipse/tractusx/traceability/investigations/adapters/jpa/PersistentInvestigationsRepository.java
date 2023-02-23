@@ -161,6 +161,7 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 	private void update(InvestigationEntity investigationEntity, Investigation investigation) {
 		investigationEntity.setStatus(investigation.getInvestigationStatus());
 		investigationEntity.setUpdated(clock.instant());
+		investigationEntity.setCloseReason(investigation.getCloseReason());
 		investigationEntity.setAcceptReason(investigation.getAcceptReason());
 		investigationEntity.setDeclineReason(investigation.getDeclineReason());
 
@@ -191,6 +192,8 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 			investigationEntity.getStatus(),
 			investigationEntity.getSide(),
 			investigationEntity.getCloseReason(),
+			investigationEntity.getAcceptReason(),
+			investigationEntity.getDeclineReason(),
 			investigationEntity.getDescription(),
 			investigationEntity.getCreated(),
 			assetIds,

@@ -97,6 +97,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationSpecification implem
 				.body("page", Matchers.is(0))
 				.body("pageSize", Matchers.is(10))
 				.body("content", Matchers.hasSize(1))
+				.body("content[0].reason.$action", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
 
 		where:
 			action        | json

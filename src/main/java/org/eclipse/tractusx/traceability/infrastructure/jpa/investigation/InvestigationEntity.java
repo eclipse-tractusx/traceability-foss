@@ -93,7 +93,7 @@ public class InvestigationEntity {
 	}
 
 	public InvestigationEntity(List<AssetEntity> assets, String bpn, String description, InvestigationStatus status, InvestigationSide side, Instant created) {
-		this(assets, bpn, status, side, "", description, created);
+		this(assets, bpn, status, side, null, description, created);
 	}
 
 	public InvestigationEntity(List<AssetEntity> assets, String bpn, InvestigationStatus status, InvestigationSide side, String closeReason, String description, Instant created) {
