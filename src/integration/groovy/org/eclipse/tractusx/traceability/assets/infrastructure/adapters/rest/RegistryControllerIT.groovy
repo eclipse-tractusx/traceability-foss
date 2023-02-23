@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest
 
-
+import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
 import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
 import org.eclipse.tractusx.traceability.common.support.RegistrySupport
@@ -49,6 +49,7 @@ class RegistryControllerIT extends IntegrationSpecification implements IrsApiSup
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -84,6 +85,7 @@ class RegistryControllerIT extends IntegrationSpecification implements IrsApiSup
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -116,6 +118,7 @@ class RegistryControllerIT extends IntegrationSpecification implements IrsApiSup
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -135,6 +138,7 @@ class RegistryControllerIT extends IntegrationSpecification implements IrsApiSup
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -161,6 +165,7 @@ class RegistryControllerIT extends IntegrationSpecification implements IrsApiSup
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -189,6 +194,7 @@ class RegistryControllerIT extends IntegrationSpecification implements IrsApiSup
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()

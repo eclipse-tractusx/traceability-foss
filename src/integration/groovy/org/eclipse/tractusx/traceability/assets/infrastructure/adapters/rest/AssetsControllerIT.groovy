@@ -259,6 +259,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
 				.then()
@@ -275,6 +276,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets")
 				.then()
@@ -289,6 +291,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/supplier")
 				.then()
@@ -303,6 +306,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/my")
 				.then()
@@ -314,6 +318,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(role))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/countries")
 				.then()
@@ -326,6 +331,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 	def "should not return assets country map when user is not authenticated"() {
 		expect:
 			given()
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/countries")
 				.then()
@@ -335,6 +341,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 	def "should not return assets when user is not authenticated"() {
 		expect:
 			given()
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/1234")
 				.then()
@@ -348,6 +355,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a")
 				.then()
@@ -362,6 +370,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/unknown")
 				.then()
@@ -375,6 +384,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.param("page", "2")
 				.param("size", "2")
 				.when()
@@ -433,6 +443,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		expect:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/$existingAssetId")
 				.then()
@@ -457,6 +468,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 		and:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/assets/$existingAssetId")
 				.then()

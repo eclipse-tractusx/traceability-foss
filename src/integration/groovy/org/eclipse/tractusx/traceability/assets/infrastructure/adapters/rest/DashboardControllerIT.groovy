@@ -44,6 +44,7 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 		expect:
 			given()
 				.header(jwtAuthorization(role))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/dashboard")
 				.then()
@@ -62,6 +63,7 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 		expect:
 			given()
 				.header(jwtAuthorization(USER, ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/dashboard")
 				.then()
@@ -96,6 +98,7 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 		then:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/dashboard")
 				.then()

@@ -50,6 +50,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -63,6 +64,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		and:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.param("page", "0")
 				.param("size", "10")
 				.when()
@@ -88,6 +90,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -101,6 +104,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		and:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.param("page", "0")
 				.param("size", "10")
 				.when()
@@ -129,6 +133,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -142,6 +147,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		and:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.param("page", "0")
 				.param("size", "10")
 				.when()
@@ -172,6 +178,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		when:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -185,6 +192,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		and:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.param("page", "0")
 				.param("size", "10")
 				.when()
@@ -208,6 +216,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		and:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.when()
 				.get("/api/registry/reload")
 				.then()
@@ -221,6 +230,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 		and:
 			given()
 				.header(jwtAuthorization(ADMIN))
+				.contentType(ContentType.JSON)
 				.param("page", "0")
 				.param("size", "10")
 				.when()
