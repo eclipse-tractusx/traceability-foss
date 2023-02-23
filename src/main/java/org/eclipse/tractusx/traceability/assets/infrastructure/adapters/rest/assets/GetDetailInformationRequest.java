@@ -21,8 +21,10 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest.assets;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.validation.constraints.Size;
 import java.util.List;
 
-public record GetDetailInformationRequest(@Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds") List<String> assetIds) {
+public record GetDetailInformationRequest(@Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")  @ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]") List<String> assetIds) {
 }

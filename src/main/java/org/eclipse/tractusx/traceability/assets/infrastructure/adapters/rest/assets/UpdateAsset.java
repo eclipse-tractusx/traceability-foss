@@ -21,10 +21,13 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest.assets;
 
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
 
 import javax.validation.constraints.NotNull;
 
 public record UpdateAsset(
-	@NotNull(message = "qualityType must be present") QualityType qualityType) {
+	@NotNull(message = "qualityType must be present") @ApiModelProperty(example = "Ok" ) QualityType qualityType) {
 }

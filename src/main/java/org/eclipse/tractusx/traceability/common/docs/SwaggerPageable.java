@@ -32,7 +32,7 @@ public class SwaggerPageable {
 	@ApiParam(value = "Results page you want to retrieve (0..N)", example = "0")
 	private Integer page;
 
-	@ApiParam(value = "Sorting criteria in the format: [property(,asc|desc)]. Default sort order is ascending. Multiple sort criteria are supported.")
+	@ApiParam(value = "Sorting criteria in the format: [property(asc|desc)]. Default sort order is ascending. Multiple sort criteria are supported.", example = "asc")
 	private String sort;
 
 	@Nullable

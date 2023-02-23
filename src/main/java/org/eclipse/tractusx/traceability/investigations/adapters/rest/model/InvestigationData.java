@@ -21,11 +21,16 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 
 import java.util.List;
 
-public record InvestigationData(Long id, String status, String description, String createdBy, String createdDate,
-								List<String> assetIds, InvestigationSide channel, InvestigationReason reason,
-								String sendTo) {
+public record InvestigationData(@ApiModelProperty(example = "66") Long id,
+								@ApiModelProperty(example = "CREATED") String status,
+								@ApiModelProperty(example = "DescriptionText") String description,
+								@ApiModelProperty(example = "BPNL00000003AYRE") String createdBy,
+								@ApiModelProperty(example = "2023-02-21T21:27:10.734950Z") String createdDate,
+								@ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]") List<String> assetIds,
+								@ApiModelProperty(example = "SENDER") InvestigationSide channel) {
 }
