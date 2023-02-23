@@ -26,7 +26,7 @@ import { renderComponent } from '@tests/test-render.utils';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 
 describe('PaginatorIntlService', () => {
-  const instantiatePaginationIntoService = async () => {
+  const instantiatePaginationService = async () => {
     await renderComponent('', {
       imports: [SharedModule],
     });
@@ -35,7 +35,7 @@ describe('PaginatorIntlService', () => {
   };
 
   it('should set static labels translations', async () => {
-    const paginatorIntlService = await instantiatePaginationIntoService();
+    const paginatorIntlService = await instantiatePaginationService();
 
     expect(paginatorIntlService.firstPageLabel).toEqual('pagination.firstPageLabel');
     expect(paginatorIntlService.itemsPerPageLabel).toEqual('pagination.itemsPerPageLabel');
@@ -46,7 +46,7 @@ describe('PaginatorIntlService', () => {
 
   describe('getRangeLabel', () => {
     it('should return empty label when page size equals 0', async () => {
-      const paginatorIntlService = await instantiatePaginationIntoService();
+      const paginatorIntlService = await instantiatePaginationService();
       const page = 1;
       const pageSize = 0;
       const length = 10;
@@ -55,7 +55,7 @@ describe('PaginatorIntlService', () => {
     });
 
     it('should return pagination info', async () => {
-      const paginatorIntlService = await instantiatePaginationIntoService();
+      const paginatorIntlService = await instantiatePaginationService();
       const page = 1;
       const pageSize = 5;
       const length = 10;

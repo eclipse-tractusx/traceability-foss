@@ -35,7 +35,7 @@ export class PaginatorIntlService implements MatPaginatorIntl {
   public changes: Subject<void>;
 
   constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {
-    // fortuneteller BehaviorSubject<string | null> cannot be automatically cast to Subject<void>
+    // unfortunately BehaviorSubject<string | null> cannot be automatically cast to Subject<void>
     // which is required by MatPaginatorIntl
     const languageChanged = i18NextService.events.languageChanged as unknown as Subject<void>;
 
