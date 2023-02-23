@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { I18nMessage } from '@shared/model/i18n-message';
 import { CtaSnackbarComponent } from './cta-snackbar.component';
 import { CallAction, CtaSnackbarData } from './cta-snackbar.model';

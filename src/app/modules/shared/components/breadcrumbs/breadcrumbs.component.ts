@@ -82,7 +82,7 @@ export class BreadcrumbsComponent {
     };
 
     // TODO: Don't know if this will work for future implementations
-    // We must set the breadcrumb label on the component and if we leave the route, we must put it back to empty
+    //  We must set the breadcrumb label on the component and if we leave the route, we must put it back to empty
     if (breadcrumb.url && breadcrumb.label === '' && this.layoutFacade.breadcrumbLabel) {
       breadcrumb.label = this.layoutFacade.breadcrumbLabel;
     }

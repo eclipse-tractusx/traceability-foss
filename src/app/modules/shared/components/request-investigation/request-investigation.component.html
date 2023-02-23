@@ -23,7 +23,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="mb-8">
   <p class="regular-text">{{ 'page.requestInvestigations.partDescription' | i18n }}</p>
-  <mat-chip-list aria-label="Selected Parts">
+  <mat-chip-listbox aria-label="Selected Parts">
     <mat-chip
       *ngFor="let part of selectedItems || []"
       [attr.data-testid]="'mat-chip--' + part.name || part.id"
@@ -36,20 +36,21 @@ SPDX-License-Identifier: Apache-2.0
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip>
-  </mat-chip-list>
+  </mat-chip-listbox>
 
   <div class="flex flex-col mt-6" *ngIf="removedItemsHistory.length">
     <p class="regular-text mb-2">{{ 'requestInvestigations.restoreItem' | i18n }}</p>
-    <mat-chip-list>
+    <mat-chip-set>
       <mat-chip
         [attr.data-testid]="'mat-chip-history--' + removedItemsHistory[0].name || removedItemsHistory[0].id"
         (click)="restoreLastItem()"
-        class="cursor-pointer"
+        outlined="false"
+        class="cursor-pointer border-none"
       >
         <mat-icon matChipAvatar>restore</mat-icon>
         {{ removedItemsHistory[0].name || removedItemsHistory[0].id }}
       </mat-chip>
-    </mat-chip-list>
+    </mat-chip-set>
   </div>
 </div>
 

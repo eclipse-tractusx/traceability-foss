@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalComponent } from '@shared/modules/modal/component/modal.component';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { Subscription } from 'rxjs';
@@ -35,11 +35,11 @@ export class ModalService {
 
   constructor(private readonly matDialog: MatDialog) {}
 
-  public open(modalData: ModalData, width = 600): void {
+  public open(modalData: ModalData): void {
     const { title, template, buttonLeft, buttonRight, onConfirm, formGroup, primaryButtonColour } = modalData;
     const data = { title, template, buttonLeft, buttonRight, primaryButtonColour, formGroup };
 
-    this.dialogRef = this.matDialog.open(ModalComponent, { width: `${width}px`, data });
+    this.dialogRef = this.matDialog.open(ModalComponent, { data });
 
     this.dialogConfirmSubscription = this.dialogRef
       .afterClosed()

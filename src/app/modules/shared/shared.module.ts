@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { NgModule } from '@angular/core';
-import { MatLegacyPaginatorIntl as MatPaginatorIntl } from '@angular/material/legacy-paginator';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
