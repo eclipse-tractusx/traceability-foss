@@ -38,23 +38,22 @@ serviceAccount:
 
 podAnnotations: { }
 
-podSecurityContext: {}
-#  runAsUser: 10001
-#  seccompProfile:
-#    type: RuntimeDefault
+podSecurityContext:
+  runAsUser: 10001
+  seccompProfile:
+    type: RuntimeDefault
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
 securityContext:
   allowPrivilegeEscalation: false
-
-#  runAsNonRoot: true
-#  runAsUser: 10001
-#  runAsGroup: 3000
-#  capabilities:
-#    drop:
-#      - ALL
-#  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 3000
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
 
 service:
   type: ClusterIP
