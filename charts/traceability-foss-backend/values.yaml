@@ -35,8 +35,12 @@ serviceAccount:
   ##
   name: ""
 
-
 podAnnotations: { }
+
+springprofile: dev #will be set as dev
+
+nameOverride: "traceability-foss-backend"
+fullnameOverride: "traceability-foss-backend"
 
 podSecurityContext:
   runAsUser: 10001
@@ -64,45 +68,17 @@ autoscaling:
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
-resources: {}
-#  limits:
-#    cpu: 500m
-#    memory: 512Mi
-#  requests:
-#    cpu: 500m
-#    memory: 512Mi
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 500m
+    memory: 512Mi
 
-nodeSelector: { }
+nodeSelector: {}
 
-tolerations: [ ]
-
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
-affinity:
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - weight: 100
-        podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-              - key: app.kubernetes.io/name
-                operator: DoesNotExist
-          topologyKey: kubernetes.io/hostname
-
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
-livenessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 1
-readinessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 1
+tolerations: []
 
 ingress:
   enabled: false
@@ -111,58 +87,45 @@ ingress:
   hosts: []
   tls: []
 
-##############################
-# Application Configuration  #
-#############################
-
-springprofile: <springprofile>
-
-healthCheck:
-  enabled: true #<healthCheck.enabled>
-
 traceability:
-  bpn: <traceability.bpn>
-  url: <traceability.url>
+  bpn: "" #<traceability.bpn>
+  url: "" #<traceability.url>
 
 datasource:
-  url: <datasource.url>
-  username: <datasource.username>
-  password: <datasource.password>
+  url: jdbc:postgresql://product-traceability-foss-backend-postgresql:5432/trace
+  username: trace
+  password: "" #<datasource.password>
 
 oauth2:
-  clientId: <oauth2.clientId>
-  clientSecret: <oauth2.clientSecret>
-  clientTokenUri: <oauth2.clientTokenUri>
-  jwkSetUri: <oauth2.jwkSetUri>
-  resourceClient: <oauth2.resourceClient>
+  clientId: "" #<oauth2.clientId>
+  clientSecret: "" #<oauth2.clientSecret>
+  clientTokenUri: "" #<oauth2.clientTokenUri>
+  jwkSetUri: "" #<oauth2.jwkSetUri>
+  resourceClient: "" #<oauth2.resourceClient>
 
 edc:
-  apiKey: <edc.apiKey>
-  providerUrl: <edc.providerUrl>
+  apiKey: "" #<edc.apiKey>
+  providerUrl: "" #<edc.providerUrl>
 
 postgresql:
-  enabled: false #<postgresql.enabled>
+  enabled: true
   auth:
-    postgresPassword: <postgresql.auth.postgresPassword>
-    password: <postgresql.auth.password>
-    database: <postgresql.auth.database>
-    username: <postgresql.auth.username>
-  architecture: standalone
-  audit:
-    pgAuditLog: write, ddl
-    logLinePrefix: "%m %u %d "
+    postgresPassword: "" #<postgresql.auth.postgresPassword>
+    password: "" #postgresql.auth.password>
+    database: "trace"
+    username: "trace"
+
+pgadmin4:
+  enabled: false #<pgadmin4.enabled>
+  ingress:
+    enabled: false  #<pgadmin4.ingress.enabled>
 
 global:
   enablePrometheus: false  #<global.enablePrometheus>
   enableGrafana: false  #<global.enableGrafana>
 
 irs-helm:
-  enabled: false  #<irs-helm.enabled>
+  enabled: false #<irs-helm.enabled>
 
 irs-edc-consumer:
-  enabled: false
-
-pgadmin4:
-  enabled: false  #<pgadmin4.enabled>
-  ingress:
-    enabled: false  #<pgadmin4.ingress.enabled>
+  enabled: false #<irs-edc-consumer.enabled>
