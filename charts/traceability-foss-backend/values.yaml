@@ -87,12 +87,15 @@ ingress:
   hosts: []
   tls: []
 
+healthCheck:
+  enabled: true #<healthCheck.enabled>
+
 traceability:
   bpn: "" #<traceability.bpn>
   url: "" #<traceability.url>
 
 datasource:
-  url: jdbc:postgresql://product-traceability-foss-backend-postgresql:5432/trace
+  url: jdbc:postgresql://tracex-backend-postgresql:5432/trace
   username: trace
   password: "" #<datasource.password>
 
@@ -109,6 +112,10 @@ edc:
 
 postgresql:
   enabled: true
+
+  nameOverride: "tracex-backend-postgresql"
+  fullnameOverride: "tracex-backend-postgresql"
+
   auth:
     postgresPassword: "" #<postgresql.auth.postgresPassword>
     password: "" #postgresql.auth.password>
