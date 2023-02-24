@@ -29,7 +29,8 @@ jobs:
         with:
           # Scanning directory .
           path: "."
-          #exclude_paths: openapi/,infrastructure/,src/main/resources/swagger.yml
+
+          exclude_paths: openapi/,infrastructure/,src/main/resources/swagger.yml
           # Fail on HIGH severity results
           fail_on: high
           # Disable secrets detection - we use GitGuardian
