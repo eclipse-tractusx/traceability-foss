@@ -125,7 +125,7 @@ traceability:
 datasource:
   url: jdbc:postgresql://tracex-backend-postgresql:5432/trace
   username: trace
-  password: "" #<datasource.password>
+  password: "CHANGEME" #<datasource.password>
 
 oauth2:
   clientId: "" #<oauth2.clientId>
@@ -145,8 +145,8 @@ postgresql:
   fullnameOverride: "tracex-backend-postgresql"
 
   auth:
-    postgresPassword: "" #<postgresql.auth.postgresPassword>
-    password: "" #postgresql.auth.password>
+    postgresPassword: "CHANGEME" #<postgresql.auth.postgresPassword>
+    password: "CHANGEME" #postgresql.auth.password>
     database: "trace"
     username: "trace"
 
