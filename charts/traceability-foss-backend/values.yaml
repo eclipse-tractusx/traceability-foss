@@ -119,7 +119,7 @@ healthCheck:
   enabled: true #<healthCheck.enabled>
 
 traceability:
-  bpn: "" #<traceability.bpn>
+  bpn: "CHANGEME" #<traceability.bpn>
   url: "" #<traceability.url>
 
 datasource:
@@ -128,11 +128,11 @@ datasource:
   password: "CHANGEME" #<datasource.password>
 
 oauth2:
-  clientId: "" #<oauth2.clientId>
-  clientSecret: "" #<oauth2.clientSecret>
-  clientTokenUri: "" #<oauth2.clientTokenUri>
-  jwkSetUri: "" #<oauth2.jwkSetUri>
-  resourceClient: "" #<oauth2.resourceClient>
+  clientId: "CHANGEME" #<oauth2.clientId>
+  clientSecret: "CHANGEME" #<oauth2.clientSecret>
+  clientTokenUri: "https://changeme.com" #<oauth2.clientTokenUri>
+  jwkSetUri: "https://changeme.com" #<oauth2.jwkSetUri>
+  resourceClient: "CHANGEME" #<oauth2.resourceClient>
 
 edc:
   apiKey: "" #<edc.apiKey>
