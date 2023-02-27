@@ -2,12 +2,6 @@ name: "Eclipse DASH IP Check"
 
 on:
   workflow_dispatch: # Trigger manually
-  push:
-    branches-ignore:
-      - 'main'
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.txt'
   pull_request:
     branches: main
     paths-ignore:
