@@ -54,7 +54,7 @@ traceability:
   url: "https://traceability.int.demo.catena-x.net"
 
 datasource:
-  url: jdbc:postgresql://product-traceability-foss-backend-postgresql:5432/trace
+  url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
   username: trace
   password: <path:traceability-foss/data/int/database#tracePassword>
 
@@ -71,6 +71,10 @@ edc:
 
 postgresql:
   enabled: true
+
+  nameOverride: "traceability-foss-backend-postgresql"
+  fullnameOverride: "traceability-foss-backend-postgresql"
+
   auth:
     postgresPassword: "<path:traceability-foss/data/int/database#postgresPassword>"
     password: "<path:traceability-foss/data/int/database#tracePassword>"
