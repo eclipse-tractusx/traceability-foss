@@ -22,7 +22,12 @@ SPDX-License-Identifier: Apache-2.0
 <div class="about-container">
   <app-header [title]="'pageOtherParts.title' | i18n"></app-header>
 
-  <mat-tab-group (selectedTabChange)="onTabChange($event)" appTabAsPanel mat-align-tabs="start">
+  <mat-tab-group
+    (selectedTabChange)="onTabChange($event)"
+    appTabAsPanel
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+  >
     <mat-tab>
       <ng-template mat-tab-label>
         <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>

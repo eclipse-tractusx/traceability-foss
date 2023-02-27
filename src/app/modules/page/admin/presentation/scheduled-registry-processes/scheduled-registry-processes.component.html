@@ -20,7 +20,11 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <mat-card>
-  <mat-card-title>{{ 'pageAdmin.scheduledRegistryProcesses.title' | i18n }}</mat-card-title>
+  <mat-card-header>
+    <mat-card-title
+      ><h3>{{ 'pageAdmin.scheduledRegistryProcesses.title' | i18n }}</h3></mat-card-title
+    >
+  </mat-card-header>
   <mat-card-content>
     <ng-container
       *viewContainer="scheduledRegistryProcesses$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"
@@ -31,6 +35,7 @@ SPDX-License-Identifier: Apache-2.0
         [labelId]="titleId"
         [tableConfig]="tableConfig"
         [showHover]="false"
+        [noShadow]="true"
         (configChanged)="onTableConfigChange($event)"
       ></app-table>
     </ng-template>

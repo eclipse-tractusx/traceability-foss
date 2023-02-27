@@ -18,16 +18,15 @@
           "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "keycloak-js",
-              "file-saver",
-              "chart.js",
-              "probe.gl/env",
-              "@babel/runtime/regenerator",
               "hammerjs",
-              "@mswjs/cookies",
-              "@mswjs/interceptors",
-              "@mswjs/interceptors/lib/interceptors/XMLHttpRequest",
-              "@mswjs/interceptors/lib/interceptors/fetch"
+              "earcut",
+              "@mapbox/tiny-sdf",
+              "base64-js",
+              "js-sha256",
+              "msw",
+              "@mapbox/mapbox-gl-language",
+              "maplibre-gl",
+              "zone.js/dist/zone"
             ],
             "customWebpackConfig": {
               "path": "./webpack.config.js",
@@ -243,5 +242,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

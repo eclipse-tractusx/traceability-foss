@@ -82,7 +82,9 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #partRelationMainTmp let-partDetails="view">
   <mat-card *ngIf="showRelation" class="part-detail--relation__card">
-    <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
+    <mat-card-header>
+      <mat-card-title>{{ 'partDetail.relations' | i18n }}</mat-card-title>
+    </mat-card-header>
     <mat-card-content [class.part-detail--spinner]="!(isOpen$ | async)" class="part-detail--relation__container">
       <ng-container *ngIf="isOpen$ | async">
         <app-part-relation [isStandalone]="false" [showMiniMap]="false"></app-part-relation>
@@ -97,14 +99,18 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #errorTmp let-customerDetails="view">
   <mat-card>
-    <mat-card-title>{{ 'dataLoading.error' | i18n }}</mat-card-title>
+    <mat-card-header>
+      <mat-card-title>{{ 'dataLoading.error' | i18n }}</mat-card-title>
+    </mat-card-header>
     <mat-card-content>{{ customerDetails.error.message }}</mat-card-content>
   </mat-card>
 </ng-template>
 
 <ng-template #loaderTmp>
   <mat-card>
-    <mat-card-title>{{ 'dataLoading.inProgress' | i18n }}</mat-card-title>
+    <mat-card-header>
+      <mat-card-title>{{ 'dataLoading.inProgress' | i18n }}</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
       <mat-spinner></mat-spinner>
     </mat-card-content>
@@ -114,7 +120,9 @@ SPDX-License-Identifier: Apache-2.0
 <!-- ToDo: this can be split into multiple files and components-->
 <ng-template #partDetailsMainTmp let-partDetails="view">
   <mat-card class="card-list">
-    <mat-card-title>{{ 'partDetail.overview' | i18n }}</mat-card-title>
+    <mat-card-header>
+      <mat-card-title>{{ 'partDetail.overview' | i18n }}</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
       <div class="card-list--container">
         <ng-container

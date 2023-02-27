@@ -54,9 +54,9 @@ export class TextareaComponent implements ControlValueAccessor, OnInit {
   }
 
   public writeValue(value: string): void {
-    // @TODO: improve this to more straightforward solution
-    // by some reason Angular does not update textarea value if rely on data-binding
-    // as workaround we update it directly after textarea get created
+    /* TODO: improve this to more straightforward solution
+        by some reason Angular does not update textarea value if rely on data-binding
+        as workaround we update it directly after textarea get created */
     if (this.textareaRef?.nativeElement) {
       this.textareaRef.nativeElement.value = value ?? '';
     } else {

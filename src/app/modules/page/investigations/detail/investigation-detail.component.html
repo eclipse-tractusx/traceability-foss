@@ -119,7 +119,11 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="detail--wrapper">
   <mat-card>
-    <mat-card-title>{{ 'pageInvestigation.info' | i18n }}</mat-card-title>
+    <mat-card-header>
+      <mat-card-title
+        ><h4>{{ 'pageInvestigation.info' | i18n }}</h4></mat-card-title
+      >
+    </mat-card-header>
     <mat-card-content>
       <ng-container
         *viewContainer="selected$ | async; main: mainInfoTmp; error: errorTmp; loading: loaderTmp"
@@ -128,9 +132,13 @@ SPDX-License-Identifier: Apache-2.0
   </mat-card>
 
   <mat-card class="detail--table_wrapper--notification">
-    <mat-card-title>{{
-      'pageInvestigation.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n
-    }}</mat-card-title>
+    <mat-card-header>
+      <mat-card-title
+        ><h4>
+          {{ 'pageInvestigation.subHeadline.' + (isReceived ? 'affectedParts' : 'supplierParts') | i18n }}
+        </h4></mat-card-title
+      >
+    </mat-card-header>
     <mat-card-content>
       <ng-container
         *viewContainer="
@@ -146,7 +154,11 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="detail--wrapper detail--wrapper__supplier">
   <mat-card class="h-full">
-    <mat-card-title>{{ 'pageInvestigation.reason' | i18n }}</mat-card-title>
+    <mat-card-header>
+      <mat-card-title
+        ><h4>{{ 'pageInvestigation.reason' | i18n }}</h4></mat-card-title
+      >
+    </mat-card-header>
     <mat-card-content>
       <ng-container
         *viewContainer="selected$ | async; main: reasonInfoTmp; error: errorTmp; loading: loaderTmp"
@@ -155,7 +167,11 @@ SPDX-License-Identifier: Apache-2.0
   </mat-card>
 
   <mat-card *ngIf="isReceived && supplierPartsDetailInformation$ | async" class="detail--table_wrapper--notification">
-    <mat-card-title>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</mat-card-title>
+    <mat-card-header>
+      <mat-card-title
+        ><h4>{{ 'pageInvestigation.subHeadline.supplierParts' | i18n }}</h4></mat-card-title
+      >
+    </mat-card-header>
     <mat-card-content>
       <ng-container
         *viewContainer="
@@ -184,6 +200,7 @@ SPDX-License-Identifier: Apache-2.0
     [labelId]="notificationPartsTableId"
     [tableConfig]="notificationPartsTableConfig"
     [showHover]="false"
+    [noShadow]="true"
     (configChanged)="onNotificationPartsSort($event)"
   ></app-table>
 </ng-template>
@@ -193,9 +210,10 @@ SPDX-License-Identifier: Apache-2.0
     [data]="view.data"
     [labelId]="supplierPartsTableId"
     [tableConfig]="supplierPartsTableConfig"
-    [showHover]="false"
     [deselectTrigger]="deselectPartTrigger$ | async"
     [addTrigger]="addPartTrigger$ | async"
+    [showHover]="false"
+    [noShadow]="true"
     (multiSelect)="onMultiSelect($event)"
     (clickSelectAction)="isInvestigationOpen$.next(true)"
     (configChanged)="onSupplierPartsSort($event)"
