@@ -19,11 +19,18 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { getI18nPageProvider } from '@core/i18n';
+import { CommonModule } from '@angular/common';
 
-@Component({
-  selector: 'app-page-not-found',
-  templateUrl: './page-not-found.component.html',
-  styleUrls: ['./page-not-found.component.scss'],
+import { ErrorPageRoutingModule } from './error-page.routing';
+import { ErrorPageComponent } from './presentation/error-page.component';
+import { TemplateModule } from '@shared/template.module';
+import { SharedModule } from '@shared/shared.module';
+
+@NgModule({
+  declarations: [ErrorPageComponent],
+  imports: [CommonModule, TemplateModule, SharedModule, ErrorPageRoutingModule],
+  providers: [...getI18nPageProvider('page.error-page')],
 })
-export class PageNotFoundComponent {}
+export class ErrorPageModule {}

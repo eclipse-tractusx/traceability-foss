@@ -56,6 +56,10 @@ export class RoleService {
     return this.hasAccess('supervisor');
   }
 
+  public isAtLeastUser(): boolean {
+    return this.hasAccess('user');
+  }
+
   private getParentsRolesFor(lookupRoles: Role[]): Role[] {
     const parentRoles = ROLES_RELATIONS.filter(({ child }) => lookupRoles.includes(child));
 

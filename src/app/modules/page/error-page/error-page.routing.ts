@@ -19,14 +19,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { PageNotFoundComponent } from './presentation/page-not-found.component';
+import { RouterModule, Routes } from '@angular/router';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
+import { ErrorPageComponent } from '@page/error-page/presentation/error-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: ErrorPageComponent,
+    data: { i18nextNamespaces: ['page.error-page'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+];
 
 @NgModule({
-  declarations: [PageNotFoundComponent],
-  imports: [CommonModule, TemplateModule, SharedModule],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
-export class PageNotFoundModule {}
+export class ErrorPageRoutingModule {}

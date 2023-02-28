@@ -19,10 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.page-not-found-container {
+.error-page-container {
   @apply flex flex-row h-screen justify-center items-center;
-}
-
-.page-not-found-content {
-  @apply flex-none flex flex-col justify-center items-center text-center p-4 bg-white h-1/2 shadow w-1/3;
 }

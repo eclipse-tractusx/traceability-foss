@@ -30,7 +30,6 @@ import { AboutModule } from '@page/about/about.module';
 import { AdminModule } from '@page/admin/admin.module';
 import { DashboardModule } from '@page/dashboard/dashboard.module';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
-import { PageNotFoundModule } from '@page/page-not-found/page-not-found.module';
 import { PartsModule } from '@page/parts/parts.module';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { I18NextModule } from 'angular-i18next';
@@ -45,6 +44,7 @@ import { MockedKeycloakService } from './auth/mocked-keycloak.service';
 import { CoreRoutingModule } from './core.routing';
 import { I18N_PROVIDERS } from './i18n/global-i18n.providers';
 import { UserService } from './user/user.service';
+import { ErrorPageModule } from '@page/error-page/error-page.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -55,7 +55,7 @@ import { UserService } from './user/user.service';
     HttpClientModule,
     KeycloakAngularModule,
     LayoutModule,
-    PageNotFoundModule,
+    ErrorPageModule,
     AboutModule,
     DashboardModule,
     PartsModule,

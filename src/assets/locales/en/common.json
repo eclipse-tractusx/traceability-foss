@@ -16,11 +16,6 @@
       "signOut": "Sign out"
     }
   },
-  "errorPage": {
-    "pageNotFound": {
-      "message": "The page you requested could not be found"
-    }
-  },
   "actions": {
     "accept": "Accept",
     "acknowledge": "Acknowledge",

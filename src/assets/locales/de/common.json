@@ -16,11 +16,6 @@
       "signOut": "Abmelden"
     }
   },
-  "errorPage": {
-    "pageNotFound": {
-      "message": "Die von Ihnen angeforderte Seite konnte nicht gefunden werden."
-    }
-  },
   "actions": {
     "back": "Zurück",
     "cancel": "Abbrechen",

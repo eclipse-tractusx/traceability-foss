@@ -65,7 +65,8 @@ export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<u
       return true;
     }
 
-    void this.router.navigate(['']);
+    // we use skipLocationChange = true, to don't lose context
+    void this.router.navigate(['no-permissions'], { skipLocationChange: true });
     return false;
   }
 }
