@@ -103,6 +103,10 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 		<!-- dependencies from Spring Boot -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -544,7 +548,7 @@
 				<executions>
 					<execution>
 						<id>build-image</id>
-						<phase>package</phase>
+						<phase>install</phase>
 						<goals>
 							<goal>dockerBuild</goal>
 						</goals>
