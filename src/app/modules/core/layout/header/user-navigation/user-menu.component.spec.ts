@@ -19,35 +19,29 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { SharedModule } from '@shared/shared.module';
-import { fireEvent, screen } from '@testing-library/angular';
+import { LayoutModule } from '@layout/layout.module';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { LanguageSelectorComponent } from './language-selector.component';
+import { UserMenuComponent } from '@layout/header/user-navigation/user-menu.component';
 
-describe('LanguageSelector', () => {
-  const renderLanguageSelector = () =>
-    renderComponent(
-      `
-    <app-language-selector></app-language-selector>
-  `,
-      {
-        imports: [SharedModule],
-        declarations: [LanguageSelectorComponent],
-      },
-    );
+describe('UserMenuComponent', () => {
+  const renderUserMenuComponent = () => renderComponent(UserMenuComponent, { imports: [LayoutModule] });
+  it('should render user menu', async () => {
+    await renderUserMenuComponent();
 
-  it('should allow to change the language', async () => {
-    await renderLanguageSelector();
+    expect(await waitFor(() => screen.getByTestId('user-menu'))).toBeInTheDocument();
+  });
+
+  it('should open details', async () => {
+    await renderUserMenuComponent();
+    fireEvent.click(await waitFor(() => screen.getByTestId('user-menu')));
+
+    expect((await waitFor(() => screen.getAllByText('OEM A'))).length).toEqual(1);
+    expect(await waitFor(() => screen.getByText('user'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('layout.nav.signOut'))).toBeInTheDocument();
 
     expect(await screen.findByText('EN')).toBeInTheDocument();
     expect(await screen.findByText('EN')).toHaveClassName('selectedText');
-
-    fireEvent.click(screen.getByText('DE'));
     expect(await screen.findByText('DE')).toBeInTheDocument();
-    expect(await screen.findByText('DE')).toHaveClassName('selectedText');
-
-    fireEvent.click(screen.getByText('EN'));
-    expect(await screen.findByText('EN')).toBeInTheDocument();
-    expect(await screen.findByText('EN')).toHaveClassName('selectedText');
   });
 });

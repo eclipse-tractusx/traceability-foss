@@ -19,62 +19,42 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.foss-avatar {
-  &--container {
-    border-radius: 40px;
-    text-align: center;
-    overflow: hidden;
+import { Component, HostListener } from '@angular/core';
+import { LayoutFacade } from '@shared/abstraction/layout-facade';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-user-navigation',
+  templateUrl: './user-menu.component.html',
+  styleUrls: ['./user-menu.component.scss'],
+})
+export class UserMenuComponent {
+  public isExpanded = false;
+  public userInitials = '';
+  public userDetails = { name: '', email: '', role: '' };
+
+  constructor(private readonly layoutFacade: LayoutFacade, private readonly router: Router) {
+    this.userInitials = this.layoutFacade.realName;
+    this.userDetails = this.layoutFacade.userInformation;
   }
 
-  &--name {
-    position: relative;
-    color: #fff;
-  }
-
-  &--circle {
-    /* Avatar */
-
-    position: relative;
-    left: 0%;
-    right: 0%;
-    top: 0%;
-    bottom: 0%;
-
-    color: #fff;
-    background: #0f71cb;
-    height: 2.5rem;
-    width: 2.5rem;
-  }
-
-  &--span {
-    font-size: 1rem;
-    line-height: 1rem;
-    top: 0.5rem;
-
-    & > mat-icon {
-      position: relative;
-      left: 0%;
-      right: 0%;
-      top: 20%;
-      bottom: 0%;
+  public expand(event: Event): void {
+    if (event) {
+      event.stopPropagation();
+      this.isExpanded = !this.isExpanded;
     }
   }
-}
 
-/**
- * ----------------------------------------
- * User avatar
- * ----------------------------------------
- */
-.user-avatar {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
+  public logOut(): void {
+    this.layoutFacade.logOut();
+  }
 
-  /* Interactive/Primary */
+  public navigateToHome(): void {
+    this.router.navigate(['']).then();
+  }
 
-  background: #0f71cb;
-  border-radius: 40px;
+  @HostListener('window:click', [])
+  private onClick(): void {
+    this.isExpanded = false;
+  }
 }
