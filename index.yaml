@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   traceability-foss-frontend:
   - apiVersion: v2
+    appVersion: 1.1.2
+    created: "2023-03-01T07:34:41.610464577Z"
+    description: A Helm chart for Traceability frontend application
+    digest: e9fda84ae54be5e31d9992dba2d3035af1b1688b89f3029f0e1913b1aebbb6b0
+    name: traceability-foss-frontend
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/traceability-foss-frontend/releases/download/traceability-foss-frontend-1.1.2/traceability-foss-frontend-1.1.2.tgz
+    version: 1.1.2
+  - apiVersion: v2
     appVersion: 1.1.0
     created: "2023-02-14T08:54:26.235797863Z"
     description: A Helm chart for Traceability frontend application
@@ -22,4 +32,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/traceability-foss-frontend/releases/download/tx-traceability-foss-frontend-1.1.0/tx-traceability-foss-frontend-1.1.0.tgz
     version: 1.1.0
-generated: "2023-02-14T08:54:26.235802863Z"
+generated: "2023-03-01T07:34:41.610479477Z"
