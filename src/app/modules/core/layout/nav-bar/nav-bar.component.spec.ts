@@ -21,28 +21,24 @@
 
 import { LayoutModule } from '@layout/layout.module';
 import { NavBarComponent } from '@layout/nav-bar/nav-bar.component';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('Navbar', () => {
+  const renderNavbar = () => renderComponent(NavBarComponent, { imports: [LayoutModule] });
   it('should render navbar', async () => {
-    await renderComponent(NavBarComponent, {
-      imports: [LayoutModule],
-    });
+    await renderNavbar();
 
     expect(await waitFor(() => screen.getByText('OEM A'))).toBeInTheDocument();
   });
 
   it('should open details', async () => {
-    await renderComponent(NavBarComponent, {
-      imports: [LayoutModule],
-    });
+    await renderNavbar();
+    fireEvent.click(await waitFor(() => screen.getByTestId('user-menu')));
 
-    const userAvatarButton = await waitFor(() => screen.getByTestId('user-menu'));
-    userAvatarButton.click();
     expect((await waitFor(() => screen.getAllByText('OEM A'))).length).toEqual(2);
     expect(await waitFor(() => screen.getByText('user'))).toBeInTheDocument();
     expect(await waitFor(() => screen.getByText('mock.user@foss.de'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Sign out'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('layout.nav.signOut'))).toBeInTheDocument();
   });
 });

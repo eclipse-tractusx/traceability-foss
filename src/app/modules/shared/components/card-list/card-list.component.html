@@ -20,7 +20,9 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <mat-card>
-  <mat-card-title>{{ title }}</mat-card-title>
+  <mat-card-header>
+    <mat-card-title>{{ title }}</mat-card-title>
+  </mat-card-header>
   <mat-card-content>
     <div class="card-list--container">
       <div *ngFor="let item of list | ToKeyValue" class="card-list--row">

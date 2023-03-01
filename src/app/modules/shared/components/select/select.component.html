@@ -19,7 +19,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-form-field appearance="standard" class="select--container">
+<mat-form-field class="select--container">
   <mat-label>{{ this.lable }}</mat-label>
   <mat-select [value]="this.selectedValue" (selectionChange)="this.selected.emit($event.value)">
     <mat-select-trigger>
@@ -40,5 +40,5 @@ SPDX-License-Identifier: Apache-2.0
 </ng-template>
 
 <ng-template let-lable="value" #normalOption>
-  {{ lable | valueToLable: options | i18n }}
+  {{ lable | valueToLable : options | i18n }}
 </ng-template>

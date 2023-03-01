@@ -21,16 +21,16 @@
 
 import { NotificationStatus } from '@shared/model/notification.model';
 import { renderApproveModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { ApproveNotificationModalComponent } from './approve-notification-modal.component';
 
 describe('ApproveNotificationModalComponent', () => {
   it('should create approve modal', async () => {
     await renderApproveModal(NotificationStatus.CREATED);
-    const title = await waitFor(() => screen.getByText('Approval of investigation'));
-    const hint = await waitFor(() => screen.getByText('Are you sure you want to approve this investigation?'));
-    const buttonL = await waitFor(() => screen.getByText('Cancel'));
-    const buttonR = await waitFor(() => screen.getByText('Approve'));
+    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.approvalTitle'));
+    const hint = await waitFor(() => screen.getByText('commonInvestigation.modal.approvalDescription'));
+    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
+    const buttonR = await waitFor(() => screen.getByText('actions.confirm'));
 
     expect(title).toBeInTheDocument();
     expect(hint).toBeInTheDocument();
@@ -47,10 +47,8 @@ describe('ApproveNotificationModalComponent', () => {
 
   it('should call approve function', async () => {
     await renderApproveModal(NotificationStatus.CREATED);
+    fireEvent.click(await waitFor(() => screen.getByText('actions.confirm')));
 
-    const buttonR = await waitFor(() => screen.getByText('Approve'));
-    buttonR.click();
-
-    await waitFor(() => expect(screen.getByText('Investigation was approved successfully.')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('commonInvestigation.modal.successfullyApproved')).toBeInTheDocument());
   });
 });

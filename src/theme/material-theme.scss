@@ -21,8 +21,6 @@
 
 @use '@angular/material' as mat;
 
-@include mat.core();
-
 $primary-palette: (
   50: #fff3de,
   100: #ffe0ae,
@@ -112,8 +110,6 @@ $tracefoss-theme: mat.define-light-theme(
   )
 );
 
+@include mat.core();
 @include mat.core-theme($tracefoss-theme);
 @include mat.all-component-themes($tracefoss-theme);
-
-@include mat.all-component-colors($tracefoss-theme);
-@include mat.all-component-typographies($tracefoss-theme);

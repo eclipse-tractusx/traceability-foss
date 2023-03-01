@@ -36,12 +36,12 @@ testem.log
 /typings
 /audit-reports
 src/tests/test-report.xml
-cypress/videos
-cypress/screenshots
 
 # e2e
-/e2e/*.js
-/e2e/*.map
+cypress/videos
+cypress/screenshots
+cypress/reports/*
+cucumber-messages.ndjson
 
 # System Files
 .DS_Store

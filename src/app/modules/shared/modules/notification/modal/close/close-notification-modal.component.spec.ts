@@ -22,16 +22,16 @@
 import { NotificationStatus } from '@shared/model/notification.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { renderCloseModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 
 describe('CloseNotificationModalComponent', () => {
   it('should create close modal', async () => {
     await renderCloseModal(NotificationStatus.SENT);
-    const title = await waitFor(() => screen.getByText('Close of investigation'));
-    const hint = await waitFor(() => screen.getByText('Are you sure you want to close this investigation?'));
-    const hint2 = await waitFor(() => screen.getByText('Enter the reason for close action.'));
-    const buttonL = await waitFor(() => screen.getByText('Cancel'));
-    const buttonR = await waitFor(() => screen.getByText('Close'));
+    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.closeTitle'));
+    const hint = await waitFor(() => screen.getByText('commonInvestigation.modal.closeDescription'));
+    const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.closeReasonHint'));
+    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
+    const buttonR = await waitFor(() => screen.getByText('actions.close'));
 
     expect(title).toBeInTheDocument();
     expect(hint).toBeInTheDocument();
@@ -48,33 +48,24 @@ describe('CloseNotificationModalComponent', () => {
   });
 
   it('should check validation of textarea', async () => {
-    const { fixture } = await renderCloseModal(NotificationStatus.SENT);
-    const buttonR = await waitFor(() => screen.getByText('Close'));
-    buttonR.click();
-
+    await renderCloseModal(NotificationStatus.SENT);
+    fireEvent.click(await waitFor(() => screen.getByText('actions.close')));
     const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
 
-    const errorMessage_1 = await waitFor(() => screen.getByText('This field is required!'));
+    const errorMessage_1 = await waitFor(() => screen.getByText('errorMessage.required'));
     expect(errorMessage_1).toBeInTheDocument();
-
-    textArea.value = 'Some Text';
-    textArea.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    fireEvent.input(textArea, { target: { value: 'Some Text' } });
 
     expect(errorMessage_1).not.toBeInTheDocument();
   });
 
   it('should call close function', async () => {
-    const { fixture } = await renderCloseModal(NotificationStatus.SENT);
+    await renderCloseModal(NotificationStatus.SENT);
 
-    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
-    textArea.value = 'Some Text Some Text Some Text';
-    textArea.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    const textArea = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    fireEvent.input(textArea, { target: { value: 'Some Text Some Text Some Text' } });
 
-    const buttonR = await waitFor(() => screen.getByText('Close'));
-    buttonR.click();
-
-    await waitFor(() => expect(screen.getByText('Investigation was closed successfully.')).toBeInTheDocument());
+    fireEvent.click(await waitFor(() => screen.getByText('actions.close')));
+    await waitFor(() => expect(screen.getByText('commonInvestigation.modal.successfullyClosed')).toBeInTheDocument());
   });
 });

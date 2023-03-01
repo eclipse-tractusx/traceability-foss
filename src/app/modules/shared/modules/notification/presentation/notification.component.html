@@ -21,7 +21,13 @@ SPDX-License-Identifier: Apache-2.0
 
 <app-header [title]="translationContext + '.title' | i18n"></app-header>
 
-<mat-tab-group [selectedIndex]="tabIndex$ | async" (selectedTabChange)="onTabChange($event.index)" appTabAsPanel>
+<mat-tab-group
+  [selectedIndex]="tabIndex$ | async"
+  (selectedTabChange)="onTabChange($event.index)"
+  appTabAsPanel
+  mat-stretch-tabs="false"
+  mat-align-tabs="start"
+>
   <mat-tab>
     <ng-template mat-tab-label>
       <mat-icon class="mr-2">drafts</mat-icon

@@ -1,0 +1,17 @@
+{
+  "errorPage": {
+    "title": "Fehler Seite",
+    "message": "TBD: Something went wrong."
+  },
+  "pageNotFound": {
+    "title": "TBD: Page not found",
+    "message": "Die von Ihnen angeforderte Seite konnte nicht gefunden werden."
+  },
+  "noPermissions": {
+    "title": "TBD: No permissions",
+    "message": "TBD: You don't have access to this page. Please contact with your admin."
+  },
+  "actions": {
+    "homepage": "TBD: Home page"
+  }
+}

@@ -39,7 +39,7 @@ describe('Button', () => {
 
   it('should click regular button', async () => {
     const clickHandler = jasmine.createSpy();
-    await renderComponent(`<app-button (click)="clickHandler($event)">Test</app-button>`, {
+    const fixture = await renderComponent(`<app-button (click)="clickHandler($event)">Test</app-button>`, {
       declarations: [ButtonComponent],
       componentProperties: {
         clickHandler,
@@ -49,6 +49,7 @@ describe('Button', () => {
     const buttonEl = screen.getByText('Test');
 
     fireEvent.click(buttonEl);
+    fixture.detectChanges();
 
     expect(clickHandler).toHaveBeenCalledWith(jasmine.objectContaining({ type: 'click' }));
   });

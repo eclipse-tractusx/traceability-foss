@@ -25,7 +25,7 @@ import { PartsModule } from '@page/parts/parts.module';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { MOCK_part_1, MOCK_part_2, MOCK_part_3 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 import { StartInvestigationComponent } from './start-investigation.component';
@@ -40,49 +40,44 @@ describe('StartInvestigationComponent', () => {
       declarations: [StartInvestigationComponent],
       imports: [PartDetailsModule, PartsModule, OtherPartsModule, LayoutModule],
       providers: [StaticIdService],
-      translations: ['page.parts', 'partDetail'],
     });
 
     fixture.componentInstance.part = part;
     fixture.autoDetectChanges();
+    fixture.detectChanges();
     return fixture;
   };
 
   it('should render component', async () => {
     await renderStartInvestigation();
 
-    const childTableHeadline = await screen.findByText('Request quality investigation for child parts');
-    expect(childTableHeadline).toBeInTheDocument();
-    expect(await screen.findByText('No parts selected.')).toBeInTheDocument();
+    expect(await screen.findByText('partDetail.investigation.headline')).toBeInTheDocument();
+    expect(await screen.findByText('partDetail.investigation.noSelection.header')).toBeInTheDocument();
   });
 
   it('should render request investigation on selection', async () => {
-    const fixture = await renderStartInvestigation();
+    await renderStartInvestigation();
 
     const listOfCheckboxes = await waitFor(() => screen.getAllByTestId('select-one--test-id'));
-    (listOfCheckboxes[0].firstChild as HTMLElement).click();
-    fixture.detectChanges();
+    fireEvent.click(listOfCheckboxes[0].firstChild);
 
-    expect(
-      await waitFor(() => screen.getByText('It may take a while to load the name of your selected parts.')),
-    ).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('page.requestInvestigations.partDescription'))).toBeInTheDocument();
   });
 
   it('should render selected items and remove them again', async () => {
-    const fixture = await renderStartInvestigation();
+    await renderStartInvestigation();
 
     const listOfCheckboxes = await waitFor(() => screen.getAllByTestId('select-one--test-id'));
-    (listOfCheckboxes[0].firstChild as HTMLElement).click();
-    (listOfCheckboxes[1].firstChild as HTMLElement).click();
-    fixture.detectChanges();
+    fireEvent.click(listOfCheckboxes[0].firstChild);
+    fireEvent.click(listOfCheckboxes[1].firstChild);
 
     const matChipElement = await waitFor(() => screen.getByTestId('mat-chip--' + firstChild.name));
     expect(matChipElement).toBeInTheDocument();
-    (matChipElement.lastElementChild as HTMLElement).click();
+    fireEvent.click(matChipElement.lastElementChild);
 
     const historyElement = await waitFor(() => screen.getByTestId('mat-chip-history--' + firstChild.name));
     expect(historyElement).toBeInTheDocument();
-    historyElement.click();
+    fireEvent.click(historyElement);
 
     const restoredElement = await waitFor(() => screen.getByTestId('mat-chip--' + firstChild.name));
     expect(restoredElement).toBeInTheDocument();
@@ -91,19 +86,12 @@ describe('StartInvestigationComponent', () => {
   it('should sort table data', async () => {
     const fixture = await renderStartInvestigation();
     const spy = spyOn((fixture.componentInstance as any).childPartsState, 'update').and.callThrough();
+    const nameHeader = await waitFor(() => screen.getByText('table.partsColumn.name'));
 
-    const nameHeader = await waitFor(() => screen.getByText('Name'));
+    fireEvent.click(nameHeader);
+    expect(spy).toHaveBeenCalledWith({ data: [firstChild, secondChild] });
 
-    nameHeader.click();
-    fixture.autoDetectChanges();
-
-    let data = [firstChild, secondChild];
-    expect(spy).toHaveBeenCalledWith({ data });
-
-    nameHeader.click();
-    fixture.autoDetectChanges();
-
-    data = [secondChild, firstChild];
-    expect(spy).toHaveBeenCalledWith({ data });
+    fireEvent.click(nameHeader);
+    expect(spy).toHaveBeenCalledWith({ data: [secondChild, firstChild] });
   });
 });

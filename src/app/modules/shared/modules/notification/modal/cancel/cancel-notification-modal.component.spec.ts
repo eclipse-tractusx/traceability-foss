@@ -22,18 +22,17 @@
 import { NotificationStatus } from '@shared/model/notification.model';
 import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { renderCancelModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { sleepForTests } from '../../../../../../../test';
 
 describe('CancelNotificationModalComponent', () => {
   it('should create cancel modal', async () => {
     await renderCancelModal(NotificationStatus.CREATED);
-    const title = await waitFor(() => screen.getByText('Cancellation of investigation'));
-    const hint = await waitFor(() => screen.getByText('Are you sure you want to cancel this investigation?'));
-    const hint2 = await waitFor(() =>
-      screen.getByText('Enter the ID of the investigation to confirm your cancellation.'),
-    );
-    const buttonL = await waitFor(() => screen.getByText('Cancel'));
-    const buttonR = await waitFor(() => screen.getByText('Confirm cancellation'));
+    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.cancellationTitle'));
+    const hint = await waitFor(() => screen.getByText('commonInvestigation.modal.cancellationDescription'));
+    const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.cancellationHint'));
+    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
+    const buttonR = await waitFor(() => screen.getByText('actions.cancellationConfirm'));
 
     expect(title).toBeInTheDocument();
     expect(hint).toBeInTheDocument();
@@ -50,42 +49,28 @@ describe('CancelNotificationModalComponent', () => {
   });
 
   it('should check validation of textarea', async () => {
-    const { fixture, notification } = await renderCancelModal(NotificationStatus.CREATED);
-    const buttonR = await waitFor(() => screen.getByText('Confirm cancellation'));
-    buttonR.click();
+    const { notification } = await renderCancelModal(NotificationStatus.CREATED);
 
-    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
-
-    const errorMessage_1 = await waitFor(() => screen.getByText('This field is required!'));
+    fireEvent.click(await waitFor(() => screen.getByText('actions.cancellationConfirm')));
+    const errorMessage_1 = await waitFor(() => screen.getByText('errorMessage.required'));
     expect(errorMessage_1).toBeInTheDocument();
 
-    textArea.value = 'error';
-    textArea.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
-    const errorMessage_2 = await waitFor(() =>
-      screen.getByText(`Please enter data that matches this pattern: ^${notification.id}$.`),
-    );
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    fireEvent.input(textArea, { target: { value: 'error' } });
+    const errorMessage_2 = await waitFor(() => screen.getByText('errorMessage.pattern'));
     expect(errorMessage_2).toBeInTheDocument();
 
-    textArea.value = notification.id;
-    textArea.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
-
+    fireEvent.input(textArea, { target: { value: notification.id } });
     expect(errorMessage_2).not.toBeInTheDocument();
   });
 
   it('should call cancel function', async () => {
-    const { fixture, notification } = await renderCancelModal(NotificationStatus.CREATED);
+    const { notification } = await renderCancelModal(NotificationStatus.CREATED);
 
     const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
-    textArea.value = notification.id;
-    textArea.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    fireEvent.input(textArea, { target: { value: notification.id } });
 
-    const buttonR = await waitFor(() => screen.getByText('Confirm cancellation'));
-    buttonR.click();
-
-    await waitFor(() => expect(screen.getByText('Investigation was canceled successfully.')).toBeInTheDocument());
+    fireEvent.click(await waitFor(() => screen.getByText('actions.cancellationConfirm')));
+    await waitFor(() => expect(screen.getByText('commonInvestigation.modal.successfullyCanceled')).toBeInTheDocument());
   });
 });

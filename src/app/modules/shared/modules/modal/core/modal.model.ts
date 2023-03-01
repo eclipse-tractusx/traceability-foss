@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { TemplateRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 export interface ModalData {
   title: string;
@@ -31,5 +31,5 @@ export interface ModalData {
   template: TemplateRef<unknown>;
   onConfirm: (isConfirmed: boolean) => void;
 
-  formGroup?: FormGroup;
+  formGroup?: UntypedFormGroup;
 }

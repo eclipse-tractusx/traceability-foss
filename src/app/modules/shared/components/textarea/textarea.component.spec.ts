@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextareaComponent } from '@shared/components/textarea/textarea.component';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen } from '@testing-library/angular';
@@ -27,8 +27,8 @@ import { renderComponent } from '@tests/test-render.utils';
 
 describe('TextareaComponent', () => {
   const renderTextarea = async (label = 'Label') => {
-    const form = new FormGroup({
-      formField: new FormControl(undefined, [Validators.required]),
+    const form = new UntypedFormGroup({
+      formField: new UntypedFormControl(undefined, [Validators.required]),
     });
 
     await renderComponent(
@@ -40,8 +40,8 @@ describe('TextareaComponent', () => {
         declarations: [TextareaComponent],
         imports: [ReactiveFormsModule, SharedModule],
         componentProperties: {
-          form: new FormGroup({
-            formField: new FormControl(undefined, [Validators.required]),
+          form: new UntypedFormGroup({
+            formField: new UntypedFormControl(undefined, [Validators.required]),
           }),
         },
       },
@@ -61,7 +61,7 @@ describe('TextareaComponent', () => {
   it('should not render error message if textarea is not touched', async () => {
     const { form } = await renderTextarea();
 
-    const textareaLabelElement = screen.queryByText('This field is required!');
+    const textareaLabelElement = screen.queryByText('errorMessage.required');
     expect(form.controls.formField.errors).toEqual({ required: true });
     expect(textareaLabelElement).not.toBeInTheDocument();
   });
@@ -71,7 +71,7 @@ describe('TextareaComponent', () => {
     const { form } = await renderTextarea(label);
 
     fireEvent.blur(screen.getByLabelText(label));
-    const textareaLabelElement = screen.getByText('This field is required!');
+    const textareaLabelElement = screen.getByText('errorMessage.required');
     expect(form.controls.formField.errors).toEqual({ required: true });
     expect(textareaLabelElement).toBeInTheDocument();
   });

@@ -21,16 +21,16 @@
 
 import { NotificationStatus } from '@shared/model/notification.model';
 import { renderDeclineModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 
 describe('DeclineNotificationModalComponent', () => {
   it('should create close modal', async () => {
     await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
-    const title = await waitFor(() => screen.getByText('Decline of investigation'));
-    const hint = await waitFor(() => screen.getByText('Are you sure you want to decline this investigation?'));
-    const hint2 = await waitFor(() => screen.getByText('Enter the reason for declining this investigation.'));
-    const buttonL = await waitFor(() => screen.getByText('Cancel'));
-    const buttonR = await waitFor(() => screen.getByText('Decline'));
+    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.declineTitle'));
+    const hint = await waitFor(() => screen.getByText('commonInvestigation.modal.declineDescription'));
+    const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.declineReasonHint'));
+    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
+    const buttonR = await waitFor(() => screen.getByText('actions.decline'));
 
     expect(title).toBeInTheDocument();
     expect(hint).toBeInTheDocument();
@@ -47,33 +47,26 @@ describe('DeclineNotificationModalComponent', () => {
   });
 
   it('should check validation of textarea', async () => {
-    const { fixture } = await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
-    const buttonR = await waitFor(() => screen.getByText('Decline'));
-    buttonR.click();
+    await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
+    fireEvent.click(await waitFor(() => screen.getByText('actions.decline')));
 
     const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
 
-    const errorMessage_1 = await waitFor(() => screen.getByText('This field is required!'));
+    const errorMessage_1 = await waitFor(() => screen.getByText('errorMessage.required'));
     expect(errorMessage_1).toBeInTheDocument();
 
-    textArea.value = 'Some Text';
-    textArea.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    fireEvent.input(textArea, { target: { value: 'Some Text' } });
 
     expect(errorMessage_1).not.toBeInTheDocument();
   });
 
   it('should call close function', async () => {
-    const { fixture } = await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
+    await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
 
     const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
-    textArea.value = 'Some Text Some Text Some Text';
-    textArea.dispatchEvent(new Event('input'));
-    fixture.detectChanges();
+    fireEvent.input(textArea, { target: { value: 'Some Text Some Text Some Text' } });
+    fireEvent.click(await waitFor(() => screen.getByText('actions.decline')));
 
-    const buttonR = await waitFor(() => screen.getByText('Decline'));
-    buttonR.click();
-
-    await waitFor(() => expect(screen.getByText('Investigation was declined successfully.')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('commonInvestigation.modal.successfullyDeclined')).toBeInTheDocument());
   });
 });

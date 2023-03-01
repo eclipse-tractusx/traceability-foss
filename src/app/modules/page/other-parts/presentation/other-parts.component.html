@@ -20,12 +20,17 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="about-container">
-  <app-header [title]="'pageParts.title' | i18n"></app-header>
+  <app-header [title]="'pageOtherParts.title' | i18n"></app-header>
 
-  <mat-tab-group (selectedTabChange)="onTabChange($event)" appTabAsPanel mat-align-tabs="start">
+  <mat-tab-group
+    (selectedTabChange)="onTabChange($event)"
+    appTabAsPanel
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+  >
     <mat-tab>
       <ng-template mat-tab-label>
-        <span [id]="supplierTabLabelId">{{ 'pageParts.tab.supplier' | i18n }} </span>
+        <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
       </ng-template>
 
       <ng-container
@@ -41,7 +46,7 @@ SPDX-License-Identifier: Apache-2.0
 
     <mat-tab *appHasRole="['wip']">
       <ng-template mat-tab-label>
-        <span [id]="customerTabLabelId">{{ 'pageParts.tab.customer' | i18n }} </span>
+        <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
       </ng-template>
 
       <ng-container

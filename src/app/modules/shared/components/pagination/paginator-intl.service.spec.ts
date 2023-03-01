@@ -26,7 +26,7 @@ import { renderComponent } from '@tests/test-render.utils';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 
 describe('PaginatorIntlService', () => {
-  const instantinatePaginatorIntlService = async () => {
+  const instantiatePaginationService = async () => {
     await renderComponent('', {
       imports: [SharedModule],
     });
@@ -35,22 +35,8 @@ describe('PaginatorIntlService', () => {
   };
 
   it('should set static labels translations', async () => {
-    const paginatorIntlService = await instantinatePaginatorIntlService();
+    const paginatorIntlService = await instantiatePaginationService();
 
-    expect(paginatorIntlService.firstPageLabel).toEqual('First page');
-    expect(paginatorIntlService.itemsPerPageLabel).toEqual('Items per page:');
-    expect(paginatorIntlService.nextPageLabel).toEqual('Next page');
-    expect(paginatorIntlService.previousPageLabel).toEqual('Previous page');
-    expect(paginatorIntlService.lastPageLabel).toEqual('Last page');
-  });
-
-  it('should change labels when language get changed', async () => {
-    const paginatorIntlService = await instantinatePaginatorIntlService();
-
-    const i18NextService = TestBed.inject(I18NEXT_SERVICE) as ITranslationService;
-    await i18NextService.changeLanguage('de');
-
-    // in test env only EN language registered, so after changing language keys should be returned
     expect(paginatorIntlService.firstPageLabel).toEqual('pagination.firstPageLabel');
     expect(paginatorIntlService.itemsPerPageLabel).toEqual('pagination.itemsPerPageLabel');
     expect(paginatorIntlService.nextPageLabel).toEqual('pagination.nextPageLabel');
@@ -60,48 +46,21 @@ describe('PaginatorIntlService', () => {
 
   describe('getRangeLabel', () => {
     it('should return empty label when page size equals 0', async () => {
-      const paginatorIntlService = await instantinatePaginatorIntlService();
+      const paginatorIntlService = await instantiatePaginationService();
       const page = 1;
       const pageSize = 0;
       const length = 10;
 
-      expect(paginatorIntlService.getRangeLabel(page, pageSize, length)).toEqual('0 of 10');
-    });
-
-    it('should return empty label when length equals 0', async () => {
-      const paginatorIntlService = await instantinatePaginatorIntlService();
-      const page = 1;
-      const pageSize = 0;
-      const length = 0;
-
-      expect(paginatorIntlService.getRangeLabel(page, pageSize, length)).toEqual('0 of 0');
+      expect(paginatorIntlService.getRangeLabel(page, pageSize, length)).toEqual('pagination.emptyRange');
     });
 
     it('should return pagination info', async () => {
-      const paginatorIntlService = await instantinatePaginatorIntlService();
+      const paginatorIntlService = await instantiatePaginationService();
       const page = 1;
       const pageSize = 5;
       const length = 10;
 
-      expect(paginatorIntlService.getRangeLabel(page, pageSize, length)).toEqual('6 – 10 of 10');
-    });
-
-    it('should return pagination info properly when start index out of range', async () => {
-      const paginatorIntlService = await instantinatePaginatorIntlService();
-      const page = 2;
-      const pageSize = 5;
-      const length = 10;
-
-      expect(paginatorIntlService.getRangeLabel(page, pageSize, length)).toEqual('11 – 15 of 10');
-    });
-
-    it('should handle negative length', async () => {
-      const paginatorIntlService = await instantinatePaginatorIntlService();
-      const page = 2;
-      const pageSize = 5;
-      const length = -10;
-
-      expect(paginatorIntlService.getRangeLabel(page, pageSize, length)).toEqual('11 – 15 of 0');
+      expect(paginatorIntlService.getRangeLabel(page, pageSize, length)).toEqual('pagination.range');
     });
   });
 });

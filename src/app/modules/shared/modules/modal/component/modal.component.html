@@ -19,22 +19,24 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="modal--header">
-  <h1 mat-dialog-title>{{ data.title | i18n }}</h1>
-  <app-button (click)="cancel()" variant="icon" iconName="close" color="primary"></app-button>
-</div>
+<div class="bg-dustyGrayShadeWildSand">
+  <div class="modal--header">
+    <h1 mat-dialog-title>{{ data.title | i18n }}</h1>
+    <app-button (click)="cancel()" variant="icon" iconName="close" color="primary"></app-button>
+  </div>
 
-<div mat-dialog-content>
-  <ng-container *ngTemplateOutlet="data.template"></ng-container>
-</div>
+  <mat-dialog-content>
+    <ng-container *ngTemplateOutlet="data.template"></ng-container>
+  </mat-dialog-content>
 
-<div mat-dialog-actions class="justify-between">
-  <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
-  <app-button
-    *ngIf="data.buttonRight"
-    (click)="confirm()"
-    [color]="data.primaryButtonColour || 'accent'"
-    variant="raised"
-    >{{ data.buttonRight | i18n }}</app-button
-  >
+  <mat-dialog-actions>
+    <app-button *ngIf="data.buttonLeft" (click)="cancel()" variant="raised">{{ data.buttonLeft | i18n }}</app-button>
+    <app-button
+      *ngIf="data.buttonRight"
+      (click)="confirm()"
+      [color]="data.primaryButtonColour || 'accent'"
+      variant="raised"
+      >{{ data.buttonRight | i18n }}</app-button
+    >
+  </mat-dialog-actions>
 </div>

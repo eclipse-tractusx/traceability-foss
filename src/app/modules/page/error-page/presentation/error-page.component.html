@@ -19,12 +19,23 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="page-not-found-container">
-  <section class="page-not-found-content">
-    <h1 class="text-9xl mb-4">404</h1>
-    <h3 class="mb-8">{{ 'errorPage.pageNotFound.message' | i18n }}</h3>
-    <a href="#">
-      <app-button [variant]="'raised'" [color]="'primary'">{{ 'actions.back' | i18n }}</app-button>
+<div class="error-page-container">
+  <div class="">
+    <img src="/assets/images/error_page.svg" alt="Error page image" />
+  </div>
+
+  <div class="ml-2">
+    <h1 class="text-4xl mb-4">{{ title | i18n }}</h1>
+    <h3 class="text-xl mb-8">
+      {{ message | i18n }}
+    </h3>
+
+    <a *ngIf="actionLabel != ''" href="{{ actionUrl }}">
+      <app-button [variant]="'raised'" [color]="'primary'">{{ actionLabel | i18n }}</app-button>
     </a>
-  </section>
+
+    <a *ngIf="showSignOutButton" (click)="this.logOut()">
+      <app-button [variant]="'raised'" [color]="'primary'">{{ 'layout.nav.signOut' | i18n }}</app-button>
+    </a>
+  </div>
 </div>

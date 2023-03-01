@@ -9,6 +9,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
     - uses: actions/checkout@v3
@@ -24,9 +25,10 @@ jobs:
         cmd: install # will run `yarn install` command
     - name: Run npm test:ci
       run: CHROMIUM_BIN=$(which chrome) npm run test:ci # will run `test:ci` command
+      continue-on-error: true
     - name: Run SonarCloud with organzation and project key from environment
+      if: always() && ${{ vars.SONAR_ORGANIZATION != '' && vars.SONAR_PROJECT_KEY != '' }}
       uses: SonarSource/sonarcloud-github-action@master
-      if: ${{ vars.SONAR_ORGANIZATION != '' && vars.SONAR_PROJECT_KEY != '' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

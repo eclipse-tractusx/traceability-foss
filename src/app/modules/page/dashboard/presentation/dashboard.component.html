@@ -59,45 +59,61 @@ SPDX-License-Identifier: Apache-2.0
     >
     </ng-container>
   </section>
-
   <section class="dashboard--investigation">
-    <div class="flex justify-between items-center">
-      <h3 class="mb-4 flex items-center">
-        <mat-icon>find_in_page</mat-icon>
-        {{ 'commonInvestigation.title' | i18n }}
-      </h3>
-      <app-button
-        [color]="'primary'"
-        [routerLink]="[investigationLink]"
-        [queryParams]="investigationParams"
-        [relativeTo]="null"
-      >
-        <div class="flex justify-between items-center">
-          <mat-icon class="mr-2">remove_red_eye</mat-icon>
-          {{ 'commonInvestigation.viewAll' | i18n }}
+    <mat-card>
+      <mat-card-header>
+        <div class="inline-block w-full">
+          <div class="flex justify-between items-center">
+            <h3 class="mb-4 flex items-center">
+              <mat-icon>find_in_page</mat-icon>
+              {{ 'commonInvestigation.title' | i18n }}
+            </h3>
+            <app-button
+              [color]="'primary'"
+              [routerLink]="[investigationLink]"
+              [queryParams]="investigationParams"
+              [relativeTo]="null"
+            >
+              <div class="flex justify-between items-center">
+                <mat-icon class="mr-2">remove_red_eye</mat-icon>
+                {{ 'commonInvestigation.viewAll' | i18n }}
+              </div>
+            </app-button>
+          </div>
         </div>
-      </app-button>
-    </div>
-    <app-notifications-tab
-      [notificationsView$]="investigations$"
-      [translationContext]="'commonInvestigation'"
-      [labelId]="'dashboard-investigations'"
-      [hasPagination]="false"
-      (selected)="onNotificationSelected($event)"
-    ></app-notifications-tab>
+      </mat-card-header>
+
+      <mat-card-content>
+        <app-notifications-tab
+          [notificationsView$]="investigations$"
+          [translationContext]="'commonInvestigation'"
+          [labelId]="'dashboard-investigations'"
+          [hasPagination]="false"
+          (selected)="onNotificationSelected($event)"
+        ></app-notifications-tab>
+      </mat-card-content>
+    </mat-card>
   </section>
 
   <section class="parts-per-country-section">
-    <h3 class="mb-4">{{ 'map.headline' | i18n }}</h3>
-    <ng-container
-      *viewContainer="
-        assetsPerCountry$ | async;
-        main: mainPerCountryTmp;
-        error: errorPerCountryTmp;
-        loading: loaderPerCountryTmp
-      "
-    >
-    </ng-container>
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title
+          ><h3 class="mb-4">{{ 'map.headline' | i18n }}</h3></mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <ng-container
+          *viewContainer="
+            assetsPerCountry$ | async;
+            main: mainPerCountryTmp;
+            error: errorPerCountryTmp;
+            loading: loaderPerCountryTmp
+          "
+        >
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
 
     <ng-template #mainPerCountryTmp let-assets="view">
       <app-map [mapData]="assets.data" class="dashboard--map"></app-map>

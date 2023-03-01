@@ -289,6 +289,7 @@ const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_CLIENT_ID: 'clientId',
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
+  CATENAX_PORTAL_BACKEND_DOMAIN,
 };
 ```
 
@@ -303,6 +304,11 @@ This variable points to the desired api
 
 `CATENAX_PORTAL_BASE_URL`
 This variable is used to set the base path of the application. (Should be set if application runs as a subtopic)
+
+`CATENAX_PORTAL_BACKEND_DOMAIN`
+This variable is needed for security, to be more explicit, for the security headers of a request.  
+The domain of the corresponding backend should be used here.  
+An example value could be: `catena-x.net`
 
 ## Deployment
 

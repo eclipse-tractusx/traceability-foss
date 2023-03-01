@@ -35,11 +35,11 @@ export class ModalService {
 
   constructor(private readonly matDialog: MatDialog) {}
 
-  public open(modalData: ModalData, width = 600): void {
+  public open(modalData: ModalData): void {
     const { title, template, buttonLeft, buttonRight, onConfirm, formGroup, primaryButtonColour } = modalData;
     const data = { title, template, buttonLeft, buttonRight, primaryButtonColour, formGroup };
 
-    this.dialogRef = this.matDialog.open(ModalComponent, { width: `${width}px`, data });
+    this.dialogRef = this.matDialog.open(ModalComponent, { data });
 
     this.dialogConfirmSubscription = this.dialogRef
       .afterClosed()

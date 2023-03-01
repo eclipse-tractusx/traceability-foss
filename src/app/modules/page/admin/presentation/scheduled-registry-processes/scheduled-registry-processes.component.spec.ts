@@ -25,20 +25,17 @@ import { renderComponent } from '@tests/test-render.utils';
 import { ScheduledRegistryProcessesComponent } from './scheduled-registry-processes.component';
 
 describe('ScheduledRegistryProcessesComponent', () => {
-  const renderMap = () =>
-    renderComponent(ScheduledRegistryProcessesComponent, {
-      imports: [AdminModule],
-      translations: ['page.admin'],
-    });
+  const renderRegistryProcessesComponent = () =>
+    renderComponent(ScheduledRegistryProcessesComponent, { imports: [AdminModule] });
 
   it('should create', async () => {
-    await renderMap();
+    await renderRegistryProcessesComponent();
 
-    expect(await screen.getByText('Registry lookups')).toBeInTheDocument();
+    expect(await screen.getByText('pageAdmin.scheduledRegistryProcesses.title')).toBeInTheDocument();
   });
 
   it('should render data', async () => {
-    await renderMap();
+    await renderRegistryProcessesComponent();
     await waitFor(() => expect(screen.getByText('5/1/22')).toBeInTheDocument());
   });
 });

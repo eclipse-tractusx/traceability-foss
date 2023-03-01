@@ -45,7 +45,7 @@ describe('modalComponent', () => {
       declarations: [ModalComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: confirmModalData },
-        { provide: MatDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: { close: jasmine.createSpy() } },
       ],
       imports: [SharedModule],
     });

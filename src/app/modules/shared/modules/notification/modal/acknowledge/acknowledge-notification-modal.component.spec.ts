@@ -21,16 +21,16 @@
 
 import { NotificationStatus } from '@shared/model/notification.model';
 import { renderAcknowledgeModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { AcknowledgeNotificationModalComponent } from './acknowledge-notification-modal.component';
 
 describe('AcknowledgeNotificationModalComponent', () => {
   it('should create acknowledge modal', async () => {
     await renderAcknowledgeModal(NotificationStatus.RECEIVED);
-    const title = await waitFor(() => screen.getByText('Acknowledgment of investigation'));
-    const hint = await waitFor(() => screen.getByText('Are you sure you want to acknowledge this investigation?'));
-    const buttonL = await waitFor(() => screen.getByText('Cancel'));
-    const buttonR = await waitFor(() => screen.getByText('Acknowledge'));
+    const title = await waitFor(() => screen.getByText('commonInvestigation.modal.acknowledgeTitle'));
+    const hint = await waitFor(() => screen.getByText('commonInvestigation.modal.acknowledgeDescription'));
+    const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
+    const buttonR = await waitFor(() => screen.getByText('actions.acknowledge'));
 
     expect(title).toBeInTheDocument();
     expect(hint).toBeInTheDocument();
@@ -47,10 +47,10 @@ describe('AcknowledgeNotificationModalComponent', () => {
 
   it('should call acknowledge function', async () => {
     await renderAcknowledgeModal(NotificationStatus.RECEIVED);
+    fireEvent.click(await waitFor(() => screen.getByText('actions.acknowledge')));
 
-    const buttonR = await waitFor(() => screen.getByText('Acknowledge'));
-    buttonR.click();
-
-    await waitFor(() => expect(screen.getByText('Investigation was acknowledged successfully.')).toBeInTheDocument());
+    await waitFor(() =>
+      expect(screen.getByText('commonInvestigation.modal.successfullyAcknowledged')).toBeInTheDocument(),
+    );
   });
 });

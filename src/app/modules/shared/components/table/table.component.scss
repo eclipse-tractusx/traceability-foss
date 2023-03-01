@@ -24,11 +24,11 @@ table {
   @apply font-light;
 }
 
-.mat-row .mat-cell {
+.mat-mdc-row .mat-mdc-cell {
   cursor: pointer;
 }
 
-.mat-row:hover {
+.mat-mdc-row:hover {
   outline: 1px solid currentColor;
 }
 
@@ -44,7 +44,7 @@ table {
   }
 }
 
-.no-hover .mat-cell {
+.no-hover .mat-mdc-cell {
   cursor: default;
 }
 
@@ -80,6 +80,9 @@ tr.loading td {
 
 tr.highlighted {
   @apply bg-primaryLight bg-opacity-50;
+  &:hover {
+    @apply bg-primaryLight bg-opacity-50;
+  }
 }
 
 @keyframes loading {

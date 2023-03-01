@@ -24,36 +24,19 @@ import 'zone.js/dist/zone';
 import 'zone.js/testing'; // keep it here to avoid error: "zone-testing.js is needed for the fakeAsync() test helper but could not be found."
 import { getTestBed } from '@angular/core/testing';
 import { BrowserDynamicTestingModule, platformBrowserDynamicTesting } from '@angular/platform-browser-dynamic/testing';
-import { server } from '@tests/mock-test-server';
+import { registerCustomProtocols } from '@core/extensions/fetch-custom-protocols';
+import { environment } from '@env';
+import { worker } from '@tests/mock-test-server';
 // @ts-ignore
 import JasmineDOM from '@testing-library/jasmine-dom';
 
 beforeAll(async () => {
+  registerCustomProtocols(environment.customProtocols);
+  await worker.start({ onUnhandledRequest: 'bypass', quiet: true, waitUntilReady: true });
   jasmine.addMatchers(JasmineDOM);
-  await server.start({ onUnhandledRequest: 'bypass' });
 });
-
-afterEach(() => server.resetHandlers());
-
-afterAll(() => server.stop());
-
-declare const require: {
-  context(
-    path: string,
-    deep?: boolean,
-    filter?: RegExp,
-  ): {
-    <T>(id: string): T;
-    keys(): string[];
-  };
-};
 
 export const sleepForTests = async (ms: number) => await new Promise(resolve => setTimeout(resolve, ms));
 
 // First, initialize the Angular testing environment.
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting());
-
-// Then we find all the tests.
-const context = require.context('./', true, /\.spec\.ts$/);
-// And load the modules.
-context.keys().forEach(context);

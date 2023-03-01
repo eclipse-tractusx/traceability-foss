@@ -16,3 +16,4 @@
 # under the License.
 
 node /docker-entrypoint.d/inject-dynamic-env.js
+node /docker-entrypoint.d/replace-base-href.js

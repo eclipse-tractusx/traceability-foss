@@ -23,7 +23,7 @@ import { ActivatedRoute } from '@angular/router';
 import { InvestigationDetailComponent } from '@page/investigations/detail/investigation-detail.component';
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsService } from '@shared/service/investigations.service';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.model';
 
@@ -44,33 +44,31 @@ describe('InvestigationDetailComponent', () => {
           },
         },
       ],
-      translations: ['page.investigation'],
     });
   };
 
   it('should render', async () => {
     await renderInvestigationDetail();
-    expect(await screen.getByText('Quality Investigations')).toBeInTheDocument();
+    expect(await screen.getByText('commonInvestigation.title')).toBeInTheDocument();
   });
 
   it('should render specific text and additional table for received investigation', async () => {
     await renderInvestigationDetail();
-    await waitFor(() => expect(screen.getByText('Affected parts')).toBeInTheDocument());
-    await waitFor(() => expect(screen.getByText('Supplier parts')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('pageInvestigation.subHeadline.affectedParts')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('pageInvestigation.subHeadline.supplierParts')).toBeInTheDocument());
   });
 
   it('should render specific text for queued or requested investigations', async () => {
     await renderInvestigationDetail('id-1');
-    await waitFor(() => expect(screen.getByText('Supplier parts')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('pageInvestigation.subHeadline.supplierParts')).toBeInTheDocument());
   });
 
   it('should render copy data to clipboard', async () => {
     await renderInvestigationDetail('id-1');
-    await waitFor(() => expect(screen.getByText('Supplier parts')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('pageInvestigation.subHeadline.supplierParts')).toBeInTheDocument());
 
     const spy = spyOn(navigator.clipboard, 'writeText').and.returnValue(new Promise(null));
-    const copyButton = await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id));
-    copyButton.click();
+    fireEvent.click(await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id)));
 
     expect(spy).toHaveBeenCalledWith(MOCK_part_1.manufacturerPartId);
   });

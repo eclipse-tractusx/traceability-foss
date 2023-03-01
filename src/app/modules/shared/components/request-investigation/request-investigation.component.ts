@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
@@ -51,12 +51,12 @@ export class RequestInvestigationComponent {
     private readonly ctaSnackbarService: CtaSnackbarService,
   ) {}
 
-  private readonly textAreaControl = new FormControl(undefined, [
+  private readonly textAreaControl = new UntypedFormControl(undefined, [
     Validators.required,
     Validators.maxLength(1000),
     Validators.minLength(15),
   ]);
-  public readonly investigationFormGroup = new FormGroup({ description: this.textAreaControl });
+  public readonly investigationFormGroup = new UntypedFormGroup({ description: this.textAreaControl });
 
   public submitInvestigation(): void {
     this.investigationFormGroup.markAllAsTouched();

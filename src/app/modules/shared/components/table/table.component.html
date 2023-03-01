@@ -22,7 +22,7 @@ SPDX-License-Identifier: Apache-2.0
 <div [class.mat-elevation-z8]="!noShadow">
   <ng-container *ngIf="selectedPartsInfoLabel">
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
-      <p class="regular-text">{{ selectedPartsInfoLabel | i18n: { count: selection?.selected?.length || 0 } }}</p>
+      <p class="regular-text">{{ selectedPartsInfoLabel | i18n : { count: selection?.selected?.length || 0 } }}</p>
       <app-button
         *ngIf="this.selection?.selected?.length"
         (click)="clickSelectAction.emit()"
