@@ -1861,10 +1861,10 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@deck.gl/core@8.8.25":
-  version "8.8.25"
-  resolved "https://registry.yarnpkg.com/@deck.gl/core/-/core-8.8.25.tgz#b7f180136488db1aee7edefd5ecfb4190533a432"
-  integrity sha512-kErkO6SaUV22UguMO1+uH/C8CYiHs5gEy9SZWMIz22OidOqUdUydTfQf3WmW2ixWhfgevLNfKqB8IymRJ8smdg==
+"@deck.gl/core@8.8.26":
+  version "8.8.26"
+  resolved "https://registry.yarnpkg.com/@deck.gl/core/-/core-8.8.26.tgz#fedaaeee93112b019d9e8537c3e7a2e41f7d0827"
+  integrity sha512-CqhTo9ZXNn/rWdPa56FjZCPvmCjIA7Tzd3k+cS8Fn6bHYwYaXpPaHH5MStJd52xI1wfNBgCgQdHLE51aMUHeQg==
   dependencies:
     "@loaders.gl/core" "^3.2.10"
     "@loaders.gl/images" "^3.2.10"
@@ -2368,18 +2368,7 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz#b2ac626d6cb9c8718ab459166d4bb405b8ffa78b"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
 
-"@loaders.gl/core@^3.2.10":
-  version "3.2.12"
-  resolved "https://registry.yarnpkg.com/@loaders.gl/core/-/core-3.2.12.tgz#55a58b71d1aa64aa404d0369d190392fd2d4faca"
-  integrity sha512-kRQZGZ2+bvd++spjfp00aq2e3RrawAlaCwFxVyyQT6kYyQIzexr/obKd3X+yxYcrr4kUsav2iGqhLVObINlStQ==
-  dependencies:
-    "@babel/runtime" "^7.3.1"
-    "@loaders.gl/loader-utils" "3.2.12"
-    "@loaders.gl/worker-utils" "3.2.12"
-    "@probe.gl/log" "^3.5.0"
-    probe.gl "^3.4.0"
-
-"@loaders.gl/core@^3.3.1":
+"@loaders.gl/core@^3.2.10", "@loaders.gl/core@^3.3.1":
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/@loaders.gl/core/-/core-3.3.1.tgz#a17703c47bea51876619bb34479a0b0b4a299d0d"
   integrity sha512-molMKfNbg/6T705VCW2XOKcXPfYZGj9XimQ6YVE4bSN+wwGpkni63ABuqndUllVga98CBZUBZplCQ0ljg6Bv3A==
@@ -3428,7 +3417,7 @@
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-"@probe.gl/log@3.5.0", "@probe.gl/log@^3.5.0":
+"@probe.gl/log@^3.5.0":
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/@probe.gl/log/-/log-3.5.0.tgz#6589822ab771eadf77787ffc6ecf73e59d181c64"
   integrity sha512-nW/qz2X1xY08WU/TsmJP6/6IPNcaY5fS/vLjpC4ahJuE2Mezga4hGM/R2X5JWE/nkPc+BsC5GnAnD13rwAxS7g==
@@ -3436,7 +3425,7 @@
     "@babel/runtime" "^7.0.0"
     "@probe.gl/env" "3.5.0"
 
-"@probe.gl/stats@3.5.0", "@probe.gl/stats@^3.5.0":
+"@probe.gl/stats@^3.5.0":
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/@probe.gl/stats/-/stats-3.5.0.tgz#774495772f06e898aae28c1d315c9edac07f3425"
   integrity sha512-IH2M+F3c8HR1DTroBARePUFG7wIewumtKA0UFqx51Z7S4hKrD60wFbpMmg0AcF4FvHAXMBoC+kYi1UKW9XbAOw==
@@ -10218,16 +10207,6 @@ pretty-format@^27.0.2:
     ansi-regex "^5.0.1"
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
-
-probe.gl@^3.4.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/probe.gl/-/probe.gl-3.5.0.tgz#084c0ef3a233e1c055cd8a88efb67abb11eba483"
-  integrity sha512-KWj8u0PNytr/rVwcQFcN7O8SK7n/ITOsUZ91l4fSX95oHhKvVCI7eadrzFUzFRlXkFfBWpMWZXFHITsHHHUctw==
-  dependencies:
-    "@babel/runtime" "^7.0.0"
-    "@probe.gl/env" "3.5.0"
-    "@probe.gl/log" "3.5.0"
-    "@probe.gl/stats" "3.5.0"
 
 proc-log@^3.0.0:
   version "3.0.0"
