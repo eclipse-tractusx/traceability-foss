@@ -76,12 +76,6 @@ describe('Dashboard', () => {
   });
 
   describe('investigations', () => {
-    it('should render investigation component', async () => {
-      await renderDashboard();
-
-      expect(await screen.findByText('commonInvestigation.title')).toBeInTheDocument();
-    });
-
     it('should render count for investigations', async () => {
       await renderDashboard();
 

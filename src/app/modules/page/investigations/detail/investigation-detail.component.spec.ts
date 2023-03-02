@@ -47,11 +47,6 @@ describe('InvestigationDetailComponent', () => {
     });
   };
 
-  it('should render', async () => {
-    await renderInvestigationDetail();
-    expect(await screen.getByText('commonInvestigation.title')).toBeInTheDocument();
-  });
-
   it('should render specific text and additional table for received investigation', async () => {
     await renderInvestigationDetail();
     await waitFor(() => expect(screen.getByText('pageInvestigation.subHeadline.affectedParts')).toBeInTheDocument());

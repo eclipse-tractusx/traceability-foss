@@ -39,12 +39,6 @@ describe('Parts', () => {
     });
   };
 
-  it('should render part header', async () => {
-    await renderParts();
-
-    expect(screen.getByText('pageParts.title')).toBeInTheDocument();
-  });
-
   it('should render part table', async () => {
     await renderParts();
 

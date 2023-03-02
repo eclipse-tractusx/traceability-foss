@@ -10,6 +10,15 @@
     "admin": "Verwaltung",
     "investigations": "Quality Investigation"
   },
+  "pageTitle": {
+    "dashboard": "Dashboard",
+    "parts": "Meine Produkte",
+    "otherParts": "Andere Produkte",
+    "about": "Über Catena-X Open-Source Rückverfolgbarkeit",
+    "relations": "Beziehungen",
+    "admin": "Verwaltung Catena-X",
+    "investigations": "Qualitätsuntersuchung"
+  },
   "layout": {
     "nav": {
       "openUserMenu": "Benutzermenü öffnen",
@@ -115,7 +124,6 @@
     "range": "{{startIndex}} – {{endIndex}} von {{length}}"
   },
   "commonInvestigation": {
-    "title": "Qualitätsuntersuchung",
     "viewAll": "Alle anzeigen",
     "tabs": {
       "received": "Zugewiesene",
@@ -148,14 +156,12 @@
       "declineTitle": "Ablehnung der Untersuchung",
       "declineDescription": "Sind Sie sicher, dass Sie diese Untersuchung ablehnen wollen?",
       "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Untersuchung ein.",
-
       "successfullyAccepted": "Untersuchung wurde erfolgreich angenommen.",
       "successfullyAcknowledged": "Untersuchung wurde erfolgreich bestätigt",
       "successfullyApproved": "Untersuchung wurde erfolgreich genehmigt.",
       "successfullyCanceled": "Untersuchung wurde erfolgreich gelöscht.",
       "successfullyClosed": "Untersuchung wurde erfolgreich geschlossen.",
       "successfullyDeclined": "Untersuchung wurde erfolgreich abgelehnt.",
-
       "failedAccept": "Untersuchung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
       "failedAcknowledge": "Untersuchung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
       "failedApprove": "Die Untersuchung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",

@@ -51,12 +51,6 @@ describe('Other Parts', () => {
       roles,
     });
 
-  it('should render part header', async () => {
-    await renderOtherParts();
-
-    expect(screen.getByText('pageOtherParts.title')).toBeInTheDocument();
-  });
-
   it('should render part table', async () => {
     await renderOtherParts();
 

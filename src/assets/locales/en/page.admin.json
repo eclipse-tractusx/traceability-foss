@@ -1,6 +1,5 @@
 {
   "pageAdmin": {
-    "title": "Administration Catena-X",
     "scheduledRegistryProcesses": {
       "title": "Registry lookups"
     }
