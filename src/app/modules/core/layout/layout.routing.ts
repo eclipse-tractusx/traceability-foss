@@ -21,13 +21,16 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import {
+  ABOUT_BASE_ROUTE,
+  ADMIN_BASE_ROUTE,
+  DASHBOARD_BASE_ROUTE,
+  INVESTIGATION_BASE_ROUTE,
+  NO_PERMISSION_BASE_ROUTE,
+  OTHER_PARTS_BASE_ROUTE,
+  PARTS_BASE_ROUTE,
+} from '@core/kown-route';
 import { RoleGuard } from '@core/user/role.guard';
-import { ABOUT_BASE_ROUTE } from '@page/about/about-route';
-import { ADMIN_BASE_ROUTE } from '@page/admin/admin-route';
-import { DASHBOARD_BASE_ROUTE } from '@page/dashboard/dashboard-route';
-import { INVESTIGATION_BASE_ROUTE } from '@page/investigations/investigations-external-route';
-import { OTHER_PARTS_BASE_ROUTE } from '@page/other-parts/other-parts-route';
-import { PARTS_BASE_ROUTE } from '@page/parts/parts-route';
 import { ErrorPageType } from '@page/error-page/model/error-page.model';
 
 export /** @type {*} */
@@ -40,7 +43,7 @@ const routes: Routes = [
     redirectTo: 'dashboard',
   },
   {
-    path: 'no-permissions',
+    path: NO_PERMISSION_BASE_ROUTE,
     loadChildren: () => import('@page/error-page/error-page.module').then(m => m.ErrorPageModule),
     data: {
       errorPage: {

@@ -22,11 +22,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
-  selector: 'app-private-layout',
+  selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class LayoutComponent {
-  public expanded = false;
-}
+export class LayoutComponent {}

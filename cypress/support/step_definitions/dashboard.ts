@@ -31,7 +31,7 @@ Then(/^url should contain dashboard$/, () => {
 });
 
 Then(/^should be visible "Dashboard" header$/, () => {
-  cy.get('h2').contains('Dashboard').should('be.visible');
+  cy.get('h3').contains('Dashboard').should('be.visible');
 });
 
 Then(/^should be visible "TOTAL OF PARTS" section$/, () => {

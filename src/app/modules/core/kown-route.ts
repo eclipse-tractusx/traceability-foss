@@ -19,10 +19,41 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { PageRoute } from '@shared/model/page-route.model';
 
+export const PARTS_BASE_ROUTE = 'parts';
 export const OTHER_PARTS_BASE_ROUTE = 'otherParts';
+export const DASHBOARD_BASE_ROUTE = 'dashboard';
+export const ADMIN_BASE_ROUTE = 'admin';
+export const ABOUT_BASE_ROUTE = 'about';
+export const INVESTIGATION_BASE_ROUTE = 'investigations';
+export const NO_PERMISSION_BASE_ROUTE = 'no-permissions';
 
-export const getOtherPartsRoute = (): PageRoute => ({
-  link: `${OTHER_PARTS_BASE_ROUTE}`,
+export const NavigableUrls = [
+  PARTS_BASE_ROUTE,
+  OTHER_PARTS_BASE_ROUTE,
+  DASHBOARD_BASE_ROUTE,
+  ADMIN_BASE_ROUTE,
+  ABOUT_BASE_ROUTE,
+  INVESTIGATION_BASE_ROUTE,
+] as const;
+
+export type KnownUrl = (typeof NavigableUrls)[number];
+
+export const getRoute = (urlType: KnownUrl, ...args): PageRoute => {
+  if (urlType === INVESTIGATION_BASE_ROUTE) {
+    return getInvestigationInboxRoute(...args);
+  }
+
+  return { link: urlType };
+};
+
+const getInvestigationInboxRoute = (investigationStatusGroup?: NotificationStatusGroup): PageRoute => ({
+  link: `${INVESTIGATION_BASE_ROUTE}`,
+  queryParams: investigationStatusGroup
+    ? {
+        tabIndex: String(Object.values(NotificationStatusGroup).indexOf(investigationStatusGroup)),
+      }
+    : undefined,
 });

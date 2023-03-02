@@ -21,8 +21,8 @@
 
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { getRoute } from '@core/kown-route';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
-import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;
     this.investigations$ = this.dashboardFacade.investigations$;
 
-    const { link, queryParams } = getInvestigationInboxRoute(NotificationStatusGroup.RECEIVED);
+    const { link, queryParams } = getRoute('investigations', NotificationStatusGroup.RECEIVED);
     this.investigationLink = link;
     this.investigationParams = queryParams;
   }
@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onNotificationSelected(notification: Notification): void {
-    const { link } = getInvestigationInboxRoute();
+    const { link } = getRoute('investigations');
     this.router.navigate([`/${link}/${notification.id}`]).then();
   }
 }

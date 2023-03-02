@@ -26,7 +26,8 @@
     "cancellationConfirm": "Confirm cancellation",
     "close": "Close",
     "decline": "Decline",
-    "viewDetails": "View details"
+    "viewDetails": "View details",
+    "help": "Help"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",

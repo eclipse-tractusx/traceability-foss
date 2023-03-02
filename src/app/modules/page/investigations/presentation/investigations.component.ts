@@ -21,9 +21,9 @@
 
 import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { getRoute } from '@core/kown-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
-import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
 import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
@@ -122,7 +122,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   public openDetailPage(notification: Notification): void {
     this.investigationDetailFacade.selected = { data: notification };
-    const { link } = getInvestigationInboxRoute();
+    const { link } = getRoute('investigations');
     this.router.navigate([`/${link}/${notification.id}`]).then();
   }
 

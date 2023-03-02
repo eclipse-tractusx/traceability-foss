@@ -26,7 +26,8 @@
     "accept": "Akzeptieren",
     "acknowledge": "Bestätigen",
     "confirm": "Genehmigen",
-    "decline": "Ablehnen"
+    "decline": "Ablehnen",
+    "help": "Hilfe"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
