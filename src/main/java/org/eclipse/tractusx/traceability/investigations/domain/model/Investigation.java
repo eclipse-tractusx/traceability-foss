@@ -169,6 +169,8 @@ public class Investigation {
 		changeStatusTo(InvestigationStatus.CLOSED);
 
 		this.closeReason = reason;
+		this.notifications.values()
+			.forEach(notification -> notification.setDescription(reason));
 	}
 
 	public void send(BPN callerBpn) {
@@ -206,14 +208,14 @@ public class Investigation {
 	}
 
 	private void changeStatusTo(InvestigationStatus to) {
-		notifications.values()
-			.forEach(notification -> notification.changeStatusTo(to));
-
 		boolean transitionAllowed = investigationStatus.transitionAllowed(to);
 
 		if (!transitionAllowed) {
 			throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
 		}
+
+		notifications.values()
+			.forEach(notification -> notification.changeStatusTo(to));
 
 		this.investigationStatus = to;
 	}
@@ -253,5 +255,5 @@ public class Investigation {
 			.map(AffectedPart::assetId)
 			.forEach(assetIds::add);
 	}
-	
+
 }

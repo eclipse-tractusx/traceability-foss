@@ -67,7 +67,7 @@ oauth2:
 
 edc:
   apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
-  providerUrl: "https://trace-x-test-edc.dev.demo.catena-x.net"
+  providerUrl: "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
 
 postgresql:
   enabled: true

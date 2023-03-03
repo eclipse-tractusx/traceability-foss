@@ -37,6 +37,30 @@ abstract class InvestigationBaseSpec extends Specification {
 	}
 
 	protected Investigation investigationWithStatus(BPN bpn, InvestigationStatus status, InvestigationSide side) {
-		return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", "", "", Instant.now(), [], [])
+		return new Investigation(
+			new InvestigationId(1L),
+			bpn,
+			status,
+			side,
+			"",
+			"",
+			"",
+			"",
+			Instant.now(),
+			[],
+			[
+			    new Notification(
+					"1",
+					null,
+					bpn.value(),
+					bpn.value(),
+					null,
+					null,
+					"",
+					status,
+					[]
+				)
+			]
+		)
 	}
 }

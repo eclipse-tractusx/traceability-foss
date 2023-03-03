@@ -203,14 +203,20 @@ class InvestigationPublisherSpec extends InvestigationBaseSpec {
 		and:
 			Investigation investigation = senderInvestigationWithStatus(bpn, investigationStatus)
 
+		and:
+			String closeReason = "some-reason"
+
 		when:
-			investigation.close(bpn, "some-reason")
+			investigation.close(bpn, closeReason)
 
 		then:
 			noExceptionThrown()
 
 		and:
 			investigation.getInvestigationStatus() == CLOSED
+
+		and:
+			investigation.notifications.collect {it.description } == [closeReason]
 
 		where:
 			investigationStatus << [SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED]
