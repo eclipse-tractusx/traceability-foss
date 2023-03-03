@@ -1,6 +1,6 @@
 # Contributing to Eclipse Tractus-X
 
-Thanks for your interest in this project.
+Thank you for your interest in this project.
 
 ## Project description
 
@@ -51,6 +51,23 @@ fulfills the DCO's requirement that you sign-off on your contributions.
 
 For more information, please see the Eclipse Committer Handbook:
 https://www.eclipse.org/projects/handbook/#resources-commit
+
+### Commit messages
+The commit messages have to match a pattern in the form of:
+`<type>(optional scope): <Ticket_ID> <description>`
+
+Allowed types are `chore`, `fix` and `feature`.
+
+Examples:
+`feature(users): TRACEFOSS-XXX description`
+`fix: TRACEFOSS-123 make X work again`
+
+The detailed pattern can be found here: [commit-msg](./dev/commit-msg)
+
+#### How to use
+```shell
+cp dev/commit-msg .git/hooks/commit-msg && chmod 500 .git/hooks/commit-msg
+```
 
 ## Contact
 
