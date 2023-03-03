@@ -21,7 +21,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
-import { getRoute } from '@core/kown-route';
+import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
@@ -88,7 +88,7 @@ export class RequestInvestigationComponent {
   }
 
   private openCtaSnackbar(count: number): void {
-    const { link, queryParams } = getRoute('investigations', NotificationStatusGroup.QUEUED_AND_REQUESTED);
+    const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
     this.ctaSnackbarService.show(
       {

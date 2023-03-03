@@ -29,7 +29,7 @@ import {
   NO_PERMISSION_BASE_ROUTE,
   OTHER_PARTS_BASE_ROUTE,
   PARTS_BASE_ROUTE,
-} from '@core/kown-route';
+} from '@core/known-route';
 import { RoleGuard } from '@core/user/role.guard';
 import { ErrorPageType } from '@page/error-page/model/error-page.model';
 

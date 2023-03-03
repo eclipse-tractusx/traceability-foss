@@ -21,7 +21,7 @@
 
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { getRoute } from '@core/kown-route';
+import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -59,7 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;
     this.investigations$ = this.dashboardFacade.investigations$;
 
-    const { link, queryParams } = getRoute('investigations', NotificationStatusGroup.RECEIVED);
+    const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);
     this.investigationLink = link;
     this.investigationParams = queryParams;
   }
@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   public onNotificationSelected(notification: Notification): void {
-    const { link } = getRoute('investigations');
+    const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
     this.router.navigate([`/${link}/${notification.id}`]).then();
   }
 }
