@@ -25,23 +25,13 @@ import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { LayoutRoutingModule } from './layout.routing';
 import { LayoutComponent } from './layout/layout.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { HeaderComponent } from './header/header.component';
 import { ResizerComponent } from './resizer/resizer.component';
-import { SidebarSectionComponent } from './sidebar/sidebar-section/sidebar-section.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
 
 @NgModule({
-  declarations: [
-    LayoutComponent,
-    NavBarComponent,
-    ResizerComponent,
-    SidebarComponent,
-    SpinnerOverlayComponent,
-    SidebarSectionComponent,
-    SidenavComponent,
-  ],
+  declarations: [LayoutComponent, HeaderComponent, ResizerComponent, SpinnerOverlayComponent, SidenavComponent],
   imports: [CommonModule, LayoutRoutingModule, TemplateModule, SharedModule],
 })
 export class LayoutModule {}

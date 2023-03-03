@@ -19,25 +19,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.sidebar-menu-container__item {
-  @apply flex p-4 cursor-pointer hover:bg-primaryLight items-center relative;
+import { Component, Input } from '@angular/core';
 
-  &__badge {
-    @apply bg-dangerLight inline-block absolute text-center p-1 w-6 h-6;
-    border-radius: 50%;
-    top: 5px;
-    left: 27px;
-  }
-}
-
-.active {
-  @apply text-white bg-primary hover:bg-primaryDark;
-}
-
-.item-active {
-  @apply text-white;
-}
-
-.disable {
-  display: none;
+@Component({
+  selector: 'app-text-with-icon',
+  templateUrl: './text-with-icon.component.html',
+})
+export class TextWithIconComponent {
+  @Input() iconName: string;
+  @Input() isTextLeft: false;
 }

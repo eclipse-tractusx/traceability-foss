@@ -1,6 +1,5 @@
 {
   "pageDashboard": {
-    "title": "Dashboard",
     "totalInvestigations": {
       "label": "Anzahl Untersuchungen"
     },

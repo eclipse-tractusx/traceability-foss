@@ -1,7 +1,5 @@
 {
-  "pageParts": {
-    "title": "My Parts"
-  },
+  "pageParts": {},
   "relation": {
     "increase": "Used to zoom into the tree",
     "decrease": "Used to zoom out of the tree"

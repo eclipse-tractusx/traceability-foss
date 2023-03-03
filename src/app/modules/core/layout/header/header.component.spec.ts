@@ -19,47 +19,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.openAnimation {
-  transition: width 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
-  width: 240px;
-}
+import { LayoutModule } from '@layout/layout.module';
+import { HeaderComponent } from '@layout/header/header.component';
+import { SharedModule } from '@shared/shared.module';
+import { screen, waitFor } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 
-.closeAnimation {
-  transition: width 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
-  width: 56px;
-}
+describe('Header', () => {
+  const renderHeader = () => {
+    return renderComponent(HeaderComponent, {
+      imports: [LayoutModule, SharedModule],
+    });
+  };
+  it('should render header', async () => {
+    await renderHeader();
 
-.sidebar {
-  will-change: width;
-  transition: width 300ms cubic-bezier(0.2, 0, 0, 1) 0s;
-  width: 56px;
-  @apply flex flex-col overflow-hidden z-auto;
-  order: 0;
+    expect(await waitFor(() => screen.getByText('routing.dashboard'))).toBeInTheDocument();
+  });
 
-  &--expanded {
-    width: 240px;
-  }
-}
+  it('should render help button', async () => {
+    await renderHeader();
 
-.sidebar-content {
-  height: calc(100vh - 4.75rem);
-  @apply flex flex-col fixed;
-}
-
-.scrollable {
-  will-change: width;
-  @apply pt-0 pb-4 overflow-y-hidden overflow-x-hidden relative;
-  -webkit-transform: translateZ(0);
-}
-
-.sidebar-menu-container {
-  @apply p-0 list-none overflow-hidden;
-}
-
-.divider {
-  @apply mt-4 pt-4 border-t border-primaryLight;
-}
-
-.margin-right {
-  @apply mr-4;
-}
+    expect(await waitFor(() => screen.getByText('actions.help'))).toBeInTheDocument();
+  });
+});

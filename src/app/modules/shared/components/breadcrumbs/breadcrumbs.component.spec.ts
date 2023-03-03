@@ -45,7 +45,7 @@ describe('BreadcrumbsComponent', () => {
       imports: [SharedModule],
       providers: [
         LayoutFacade,
-        { provide: Router, useValue: { events: of(routerEvents) } },
+        { provide: Router, useValue: { root: '', events: of(routerEvents) } },
         {
           provide: ActivatedRoute,
           useValue: {

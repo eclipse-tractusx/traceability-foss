@@ -20,7 +20,6 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="about-container">
-  <app-header [title]="'pageParts.title' | i18n" [id]="titleId"></app-header>
   <ng-container *viewContainer="parts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
   <ng-template #mainTmp let-parts="view">
     <app-table
