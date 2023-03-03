@@ -5,13 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-## [1.1.0] - 2023-02-07
+- Added functionality to close notifications – Quality Investigations
+
+
+## [1.1.0] - 2023-03-02
 
 ### Added
 
-- Implementation of Quality Investigations
-- Using IRS version 2.2.0
-- Project documentation update
+- Added functionality to send and receive notifications – Quality Investigations
+- Added EDC router component to support notifications and data ingest process in parallel
+- Added arc42 documentation
+
+### Changed
+
+- Changed endpoints introducing proper validation for request body depending on the endpoint type
+
+### Removed
+
+- Removed email feature from application for security reasons
 
 ## [1.0.1] - 2022-12-19
 
