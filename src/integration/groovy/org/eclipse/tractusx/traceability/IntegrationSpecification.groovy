@@ -31,14 +31,9 @@ import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
 import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
 import org.eclipse.tractusx.traceability.common.config.RestAssuredConfig
 import org.eclipse.tractusx.traceability.common.config.RestitoConfig
-import org.eclipse.tractusx.traceability.common.support.AssetRepositoryProvider
-import org.eclipse.tractusx.traceability.common.support.BpnRepositoryProvider
-import org.eclipse.tractusx.traceability.common.support.DatabaseSupport
-import org.eclipse.tractusx.traceability.common.support.InvestigationsRepositoryProvider
-import org.eclipse.tractusx.traceability.common.support.NotificationsRepositoryProvider
-import org.eclipse.tractusx.traceability.common.support.OAuth2ApiSupport
-import org.eclipse.tractusx.traceability.common.support.OAuth2Support
-import org.eclipse.tractusx.traceability.common.support.ShellDescriptorStoreProvider
+import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper
+import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper
+import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.JpaInvestigationRepository
 import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.JpaNotificationRepository
 import org.springframework.beans.factory.annotation.Autowired

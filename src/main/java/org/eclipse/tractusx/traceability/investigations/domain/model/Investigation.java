@@ -28,14 +28,10 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.exception.I
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationStatusTransitionNotAllowed;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
 
 public class Investigation {
 
@@ -54,19 +50,23 @@ public class Investigation {
 		return -1;
 	};
 
-	private final InvestigationId investigationId;
-	private final BPN bpn;
+	private InvestigationId investigationId;
+	private BPN bpn;
 	private InvestigationStatus investigationStatus;
-	private final InvestigationSide investigationSide;
-	private final String description;
-	private final Instant createdAt;
-	private final List<String> assetIds;
-	private final Map<String, Notification> notifications;
-	private final String sendTo;
+	private InvestigationSide investigationSide;
+	private String description;
+	private Instant createdAt;
+	private List<String> assetIds;
+	private Map<String, Notification> notifications;
+	private String sendTo;
 
 	private String closeReason;
 	private String acceptReason;
 	private String declineReason;
+
+
+	public Investigation() {
+	}
 
 	public Investigation(InvestigationId investigationId,
 						 BPN bpn,
@@ -103,22 +103,6 @@ public class Investigation {
 			bpn,
 			InvestigationStatus.CREATED,
 			InvestigationSide.SENDER,
-			null,
-			null,
-			null,
-			description,
-			createDate,
-			new ArrayList<>(),
-			new ArrayList<>()
-		);
-	}
-
-	public static Investigation receiveInvestigation(Instant createDate, BPN bpn, String description) {
-		return new Investigation(
-			null,
-			bpn,
-			InvestigationStatus.RECEIVED,
-			InvestigationSide.RECEIVER,
 			null,
 			null,
 			null,
@@ -269,4 +253,5 @@ public class Investigation {
 			.map(AffectedPart::assetId)
 			.forEach(assetIds::add);
 	}
+	
 }

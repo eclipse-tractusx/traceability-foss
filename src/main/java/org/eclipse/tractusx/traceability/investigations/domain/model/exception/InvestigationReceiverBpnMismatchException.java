@@ -25,6 +25,10 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 
 public class InvestigationReceiverBpnMismatchException extends IllegalArgumentException {
 
+	public InvestigationReceiverBpnMismatchException(String message) {
+		super(message);
+	}
+
 	public InvestigationReceiverBpnMismatchException(BPN actual, BPN receiver, String investigationId) {
 		super("%s BPN is not eligible to handle %s BPN %s investigation".formatted(actual, receiver, investigationId));
 	}

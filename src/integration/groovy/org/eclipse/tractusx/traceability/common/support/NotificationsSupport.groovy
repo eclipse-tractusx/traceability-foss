@@ -26,6 +26,10 @@ import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.Notific
 
 trait NotificationsSupport implements NotificationsRepositoryProvider {
 
+	NotificationEntity storedNotification(NotificationEntity notification) {
+		return jpaNotificationRepository().save(notification)
+	}
+
 	void assertNotificationsSize(int size) {
 		List<NotificationEntity> notifications = jpaNotificationRepository().findAll()
 

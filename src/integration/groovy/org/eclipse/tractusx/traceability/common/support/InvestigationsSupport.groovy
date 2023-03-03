@@ -31,13 +31,13 @@ import java.time.Instant
 trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
 	Long defaultReceivedInvestigationStored() {
-		InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "",  "some-description", Instant.now())
+		InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "some-description", Instant.now())
 
 		return storedInvestigation(entity)
 	}
 
 	Long defaultAcknowledgedInvestigationStored() {
-		InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.ACKNOWLEDGED, InvestigationSide.RECEIVER, "",  "", Instant.now())
+		InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.ACKNOWLEDGED, InvestigationSide.RECEIVER, "", "", Instant.now())
 
 		return storedInvestigation(entity)
 	}
@@ -62,5 +62,9 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
 	Long storedInvestigation(InvestigationEntity investigation) {
 		return jpaInvestigationRepository().save(investigation).id
+	}
+
+	InvestigationEntity storedInvestigationFullObject(InvestigationEntity investigation) {
+		return jpaInvestigationRepository().save(investigation);
 	}
 }

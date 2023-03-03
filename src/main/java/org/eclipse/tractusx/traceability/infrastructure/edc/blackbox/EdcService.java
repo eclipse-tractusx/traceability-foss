@@ -21,6 +21,9 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.asset.Asset;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.ContractNegotiationDto;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.ContractOfferDescription;
@@ -31,26 +34,21 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Poli
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.DataAddress;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferRequestDto;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Component
 public class EdcService {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdcService.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	private final HttpCallService httpCallService;
 	private final ObjectMapper objectMapper;
 	private final EdcProperties edcProperties;
@@ -77,24 +75,36 @@ public class EdcService {
 			logger.error("No contract found");
 			throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
 		}
-		logger.info(":::: Find Notification contract method[findNotificationContractOffer] total catalog ::{}",catalog.getContractOffers().size());
+		logger.info(":::: Find Notification contract method[findNotificationContractOffer] total catalog ::{}", catalog.getContractOffers().size());
+
 		return catalog.getContractOffers().stream()
-			.filter(it -> it.getAsset().getProperty(Constants.ASSET_TYPE_PROPERTY_NAME) != null && it.getAsset().getProperty(Constants.ASSET_TYPE_PROPERTY_NAME).equals(Constants.ASSET_TYPE_NOTIFICATION))
-			.findFirst();
+			.filter(it -> isPropertyQualityInvestigationType(it.getAsset()) && isPropertyUpdateNotificationMethod(it.getAsset())).findAny();
+	}
+
+	private boolean isPropertyQualityInvestigationType(Asset asset) {
+		String formatted = String.format(":::: Asset %s has value %s", Constants.ASSET_KEY_NOTIFICATION_TYPE, asset.getPropertyNotificationType());
+		logger.info(formatted);
+		return Constants.ASSET_VALUE_QUALITY_INVESTIGATION.equals(asset.getPropertyNotificationType());
+	}
+
+	private boolean isPropertyUpdateNotificationMethod(Asset asset) {
+		String formatted = String.format(":::: Asset isPropertyUpdateNotificationMethod %s has value %s", "asset:prop:notificationmethod", asset.getPropertyNotificationMethod());
+		logger.info(formatted);
+		return Constants.ASSET_VALUE_NOTIFICATION_METHOD_UPDATE.equals(asset.getPropertyNotificationMethod());
 	}
 
 	/**
 	 * Prepare for contract negotiation. it will wait for while till API return agreementId
 	 */
 	public String initializeContractNegotiation(String providerConnectorUrl, String assetId, String offerId, Policy policy, String consumerEdcUrl,
-                                                Map<String, String> header) throws InterruptedException, IOException {
+												Map<String, String> header) throws InterruptedException, IOException {
 		// Initiate negotiation
 		ContractOfferDescription contractOfferDescription = new ContractOfferDescription(offerId, assetId, null, policy);
 		NegotiationInitiateRequestDto contractNegotiationRequest = NegotiationInitiateRequestDto.Builder.newInstance()
 			.offerId(contractOfferDescription).connectorId("provider").connectorAddress(providerConnectorUrl + edcProperties.getIdsPath())
 			.protocol("ids-multipart").build();
 
-		logger.info(":::: Start Contract Negotiation method[initializeContractNegotiation] offerId :{}, assetId:{}",offerId,assetId);
+		logger.info(":::: Start Contract Negotiation method[initializeContractNegotiation] offerId :{}, assetId:{}", offerId, assetId);
 
 		String negotiationId = initiateNegotiation(contractNegotiationRequest, consumerEdcUrl, header);
 		ContractNegotiationDto negotiation = null;
@@ -110,17 +120,17 @@ public class EdcService {
 					var request = new Request.Builder().url(url);
 					header.forEach(request::addHeader);
 
-					logger.info(":::: Start call for contract agreement method [initializeContractNegotiation] URL :{}",url);
+					logger.info(":::: Start call for contract agreement method [initializeContractNegotiation] URL :{}", url);
 
-					return  (ContractNegotiationDto) httpCallService.sendRequest(request.build(), ContractNegotiationDto.class);
-				},1000,TimeUnit.MILLISECONDS);
+					return (ContractNegotiationDto) httpCallService.sendRequest(request.build(), ContractNegotiationDto.class);
+				}, 1000, TimeUnit.MILLISECONDS);
 			try {
 				negotiation = scheduledFuture.get();
 				scheduler.shutdown();
 			} catch (ExecutionException e) {
 				throw new RuntimeException(e);
-			}finally {
-				if(!scheduler.isShutdown()){
+			} finally {
+				if (!scheduler.isShutdown()) {
 					scheduler.shutdown();
 				}
 			}
@@ -132,7 +142,7 @@ public class EdcService {
 	/**
 	 * Rest call for Contract negotiation and return agreementId.
 	 */
-	private String initiateNegotiation(NegotiationInitiateRequestDto contractOfferRequest,String consumerEdcDataManagementUrl,
+	private String initiateNegotiation(NegotiationInitiateRequestDto contractOfferRequest, String consumerEdcDataManagementUrl,
 									   Map<String, String> headers) throws IOException {
 		var url = consumerEdcDataManagementUrl + edcProperties.getNegotiationPath();
 		var requestBody = RequestBody.create(objectMapper.writeValueAsString(contractOfferRequest), Constants.JSON);
@@ -141,7 +151,7 @@ public class EdcService {
 		headers.forEach(request::addHeader);
 		request.build();
 		TransferId negotiationId = (TransferId) httpCallService.sendRequest(request.build(), TransferId.class);
-		logger.info(":::: Method [initiateNegotiation] Negotiation Id :{}",negotiationId.getId());
+		logger.info(":::: Method [initiateNegotiation] Negotiation Id :{}", negotiationId.getId());
 		return negotiationId.getId();
 	}
 
@@ -164,7 +174,7 @@ public class EdcService {
 		var request = new Request.Builder().url(url).post(requestBody);
 
 		headers.forEach(request::addHeader);
-		logger.info(":::: call Transfer process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}",agreementId,assetId,consumerEdcDataManagementUrl,providerConnectorControlPlaneIDSUrl );
+		logger.info(":::: call Transfer process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}", agreementId, assetId, consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl);
 		return (TransferId) httpCallService.sendRequest(request.build(), TransferId.class);
 	}
 }

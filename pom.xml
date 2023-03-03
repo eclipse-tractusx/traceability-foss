@@ -61,7 +61,7 @@
             ${project.build.directory}/target/site/jacoco-integration/jacoco.xml,
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.jacoco.reportsPaths>${project.build.directory}/jacoco.exec</sonar.jacoco.reportsPaths>
-        <sonar.tests>src/test/groovy</sonar.tests>
+        <sonar.tests>src/test/java</sonar.tests>
         <sonar.projectKey>catenax-ng_product-traceability-foss-backend</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>catenax-ng</sonar.organization>
@@ -75,6 +75,25 @@
             org/eclipse/tractusx/traceability/investigations/adapters/**,
             org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**
         </sonar.exclusions>
+		<!-- Sonar related properties -->
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.jacoco.reportsPaths>/target/jacoco-ut.exec</sonar.jacoco.reportsPaths>
+		<sonar.tests>src/test/java</sonar.tests>
+		<sonar.projectKey>catenax-ng_product-traceability-foss-backend</sonar.projectKey>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<sonar.organization>catenax-ng</sonar.organization>
+		<sonar.exclusions>org/eclipse/tractusx/traceability/generated/**, org/eclipse/tractusx/traceability/openapi/**,
+			org/eclipse/tractusx/traceability/TraceabilityApplication.java,
+			org/eclipse/tractusx/traceability/common/**,org/eclipse/tractusx/traceability/infrastructure/**,
+			org/eclipse/tractusx/traceability/assets/domain/model/**,
+			org/eclipse/tractusx/traceability/assets/infrastructure/**,
+			org/eclipse/tractusx/traceability/assets/config/**,
+			org/eclipse/tractusx/traceability/investigations/domain/model/**,
+			org/eclipse/tractusx/traceability/investigations/adapters/**,
+			org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**
+		</sonar.exclusions>
 
     </properties>
 
@@ -262,12 +281,31 @@
             <artifactId>commons-io</artifactId>
             <version>2.11.0</version>
         </dependency>
+
         <!-- test related dependencies -->
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit5.version}</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -278,6 +316,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit5.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -303,23 +347,14 @@
             <artifactId>postgresql</artifactId>
             <version>1.17.6</version>
         </dependency>
-        <!-- dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-bom</artifactId>
-            <version>2.2-M1-groovy-4.0</version>
-            <type>pom</type>
-        </dependency -->
+
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
             <version>${spock.version}</version>
             <scope>test</scope>
         </dependency>
-        <!-- dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-spring</artifactId>
-            <version>2.4-M1-groovy-4.0</version>
-        </dependency -->
+
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -459,23 +494,6 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco-plugin.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>org/eclipse/tractusx/traceability/generated/**,
-                            org/eclipse/tractusx/traceability/openapi/**
-                        </exclude>
-                        <exclude>org/eclipse/tractusx/traceability/TraceabilityApplication.java</exclude>
-                        <exclude>
-                            org/eclipse/tractusx/traceability/common/**,org/eclipse/tractusx/traceability/infrastructure/**
-                        </exclude>
-                        <exclude>org/eclipse/tractusx/traceability/assets/domain/model/**</exclude>
-                        <exclude>org/eclipse/tractusx/traceability/assets/infrastructure/**</exclude>
-                        <exclude>org/eclipse/tractusx/traceability/assets/config/**</exclude>
-                        <exclude>org/eclipse/tractusx/traceability/investigations/domain/model/**</exclude>
-                        <exclude>org/eclipse/tractusx/traceability/investigations/adapters/**</exclude>
-                        <exclude>org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**</exclude>
-                    </excludes>
-                </configuration>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>

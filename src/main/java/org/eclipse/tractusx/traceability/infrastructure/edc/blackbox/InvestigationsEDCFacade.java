@@ -38,19 +38,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 @Component
 public class InvestigationsEDCFacade {
 
-	private static final Logger logger = LoggerFactory.getLogger(InvestigationsEDCFacade.class);
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private final EdcService edcService;
 
@@ -99,7 +96,7 @@ public class InvestigationsEDCFacade {
 				throw new BadRequestException("No notification contract offer found.");
 			}
 
-			logger.info(":::: Initialize Contract Negotiation method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}",senderEdcUrl,receiverEdcUrl);
+			logger.info(":::: Initialize Contract Negotiation method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
 			String agreementId = edcService.initializeContractNegotiation(
 				receiverEdcUrl,
 				contractOffer.get().getAsset().getId(),
@@ -119,12 +116,12 @@ public class InvestigationsEDCFacade {
 			EndpointDataReference dataReference = endpointDataReferenceCache.get(agreementId);
 			boolean validDataReference = dataReference != null && InMemoryEndpointDataReferenceCache.endpointDataRefTokenExpired(dataReference);
 			if (!validDataReference) {
-				logger.info(":::: Invalid Data Reference :::::" );
+				logger.info(":::: Invalid Data Reference :::::");
 				if (dataReference != null) {
 					endpointDataReferenceCache.remove(agreementId);
 				}
 
-				logger.info(":::: initialize Transfer process with http Proxy :::::" );
+				logger.info(":::: initialize Transfer process with http Proxy :::::");
 				// Initiate transfer process
 				edcService.initiateHttpProxyTransferProcess(agreementId, contractOffer.get().getAsset().getId(),
 					senderEdcUrl,
@@ -144,7 +141,7 @@ public class InvestigationsEDCFacade {
 				.post(RequestBody.create(body, Constants.JSON))
 				.build();
 
-			logger.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}",body,dataReference.getEndpoint());
+			logger.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
 			httpCallService.sendRequest(request);
 
 			logger.info(":::: EDC Data Transfer Completed :::::");
@@ -164,15 +161,15 @@ public class InvestigationsEDCFacade {
 		while (dataReference == null && waitTimeout > 0) {
 			ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 			ScheduledFuture<EndpointDataReference> scheduledFuture =
-				scheduler.schedule(() -> endpointDataReferenceCache.get(agreementId),30, TimeUnit.SECONDS);
+				scheduler.schedule(() -> endpointDataReferenceCache.get(agreementId), 30, TimeUnit.SECONDS);
 			try {
 				dataReference = scheduledFuture.get();
 				waitTimeout--;
 				scheduler.shutdown();
 			} catch (ExecutionException e) {
 				throw new RuntimeException(e);
-			}finally {
-				if(!scheduler.isShutdown()){
+			} finally {
+				if (!scheduler.isShutdown()) {
 					scheduler.shutdown();
 				}
 			}

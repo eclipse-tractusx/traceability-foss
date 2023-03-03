@@ -43,6 +43,8 @@ public class Asset {
 	public static final String PROPERTY_DESCRIPTION = "asset:prop:description";
 	public static final String PROPERTY_VERSION = "asset:prop:version";
 	public static final String PROPERTY_CONTENT_TYPE = "asset:prop:contenttype";
+	public static final String PROPERTY_NOTIFICATION_METHOD = "asset:prop:notificationmethod";
+	public static final String PROPERTY_NOTIFICATION_TYPE = "asset:prop:notificationtype";
 
 	private Map<String, Object> properties;
 
@@ -73,6 +75,16 @@ public class Asset {
 	@JsonIgnore
 	public String getContentType() {
 		return getPropertyAsString(PROPERTY_CONTENT_TYPE);
+	}
+
+	@JsonIgnore
+	public String getPropertyNotificationMethod() {
+		return getPropertyAsString(PROPERTY_NOTIFICATION_METHOD);
+	}
+
+	@JsonIgnore
+	public String getPropertyNotificationType() {
+		return getPropertyAsString(PROPERTY_NOTIFICATION_TYPE);
 	}
 
 	public Map<String, Object> getProperties() {

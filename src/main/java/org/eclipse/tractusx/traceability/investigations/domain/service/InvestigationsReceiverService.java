@@ -21,6 +21,8 @@
 
 package org.eclipse.tractusx.traceability.investigations.domain.service;
 
+import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
+import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
@@ -30,47 +32,39 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Investigati
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.Clock;
-import java.util.UUID;
+import java.lang.invoke.MethodHandles;
 
 @Component
 public class InvestigationsReceiverService {
 
 	private final InvestigationsRepository repository;
 	private final InvestigationsReadService investigationsReadService;
-	private final NotificationsService notificationsService;
+	private final NotificationMapper notificationMapper;
+	private final InvestigationMapper investigationMapper;
 	private final TraceabilityProperties traceabilityProperties;
-	private final Clock clock;
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	public InvestigationsReceiverService(InvestigationsRepository repository,
 										 InvestigationsReadService investigationsReadService,
-										 NotificationsService notificationsService,
-										 TraceabilityProperties traceabilityProperties,
-										 Clock clock) {
+										 NotificationMapper notificationMapper, InvestigationMapper investigationMapper, TraceabilityProperties traceabilityProperties) {
 		this.repository = repository;
 		this.investigationsReadService = investigationsReadService;
-		this.notificationsService = notificationsService;
+		this.notificationMapper = notificationMapper;
+		this.investigationMapper = investigationMapper;
 		this.traceabilityProperties = traceabilityProperties;
-		this.clock = clock;
 	}
 
-	public void handle(EDCNotification edcNotification) {
+	public void handleNotificationReceiverCallback(EDCNotification edcNotification) {
+		logger.info("Received notification response with id {}", edcNotification.getNotificationId());
+
 		BPN recipientBPN = BPN.of(edcNotification.getRecipientBPN());
-		BPN applicationBPN = traceabilityProperties.getBpn();
 
-		if (!applicationBPN.equals(recipientBPN)) {
-			throw new InvestigationReceiverBpnMismatchException(applicationBPN, recipientBPN, edcNotification.getNotificationId());
-		}
-
-		NotificationType notificationType = edcNotification.convertNotificationType();
-
-		if (!notificationType.equals(NotificationType.QMINVESTIGATION)) {
-			throw new InvestigationIllegalUpdate("Received %s classified edc notification which is not an investigation".formatted(notificationType));
-		}
+		validateNotificationReceiverCallback(edcNotification);
 
 		InvestigationStatus investigationStatus = edcNotification.convertInvestigationStatus();
 
@@ -81,31 +75,23 @@ public class InvestigationsReceiverService {
 		}
 	}
 
+	private void validateNotificationReceiverCallback(EDCNotification edcNotification) {
+		NotificationType notificationType = edcNotification.convertNotificationType();
+
+		if (!notificationType.equals(NotificationType.QMINVESTIGATION)) {
+			throw new InvestigationIllegalUpdate("Received %s classified edc notification which is not an investigation".formatted(notificationType));
+		}
+	}
+
 	private void receiveInvestigation(EDCNotification edcNotification, BPN bpn) {
-		Investigation investigation = Investigation.receiveInvestigation(clock.instant(), bpn, edcNotification.getInformation());
-
-		Notification notification = new Notification(
-			UUID.randomUUID().toString(),
-			edcNotification.getNotificationId(),
-			edcNotification.getSenderBPN(),
-			edcNotification.getRecipientBPN(),
-			edcNotification.getSenderAddress(),
-			null,
-			edcNotification.getInformation(),
-			InvestigationStatus.RECEIVED,
-			edcNotification.getListOfAffectedItems()
-		);
-
-		investigation.addNotification(notification);
-
+		Notification notification = notificationMapper.toReceiverNotification(edcNotification);
+		Investigation investigation = investigationMapper.toReceiverInvestigation(bpn, edcNotification.getInformation(), notification);
 		repository.save(investigation);
 	}
 
 	private void closeInvestigation(EDCNotification edcNotification) {
 		Investigation investigation = investigationsReadService.loadInvestigationByNotificationReferenceId(edcNotification.getNotificationId());
-
 		investigation.close(traceabilityProperties.getBpn(), edcNotification.getInformation());
-
 		repository.update(investigation);
 	}
 

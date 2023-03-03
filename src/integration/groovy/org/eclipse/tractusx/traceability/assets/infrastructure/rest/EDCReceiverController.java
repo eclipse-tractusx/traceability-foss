@@ -40,13 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.sql.Date;
@@ -79,14 +73,14 @@ public class EDCReceiverController {
 		return Catalog.Builder.newInstance()
 			.id("contract-id")
 			.contractOffers(List.of(ContractOffer.Builder.newInstance()
-					.id("contract-id")
-					.asset(Asset.Builder.newInstance()
-						.id("asset-id")
-						.property(Constants.ASSET_TYPE_PROPERTY_NAME, Constants.ASSET_TYPE_NOTIFICATION)
-						.build()
-					).policy(Policy.Builder.newInstance()
-						.build()
-					).build())
+				.id("contract-id")
+				.asset(Asset.Builder.newInstance()
+					.id("asset-id")
+					.property(Constants.ASSET_KEY_NOTIFICATION_TYPE, Constants.ASSET_VALUE_QUALITY_INVESTIGATION)
+					.build()
+				).policy(Policy.Builder.newInstance()
+					.build()
+				).build())
 			).build();
 	}
 
@@ -125,13 +119,13 @@ public class EDCReceiverController {
 
 		restTemplate.postForEntity("/callback/endpoint-data-reference",
 			EndpointDataReference.Builder.newInstance()
-			.authCode(JWT.create()
-				.withExpiresAt(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
-				.sign(Algorithm.HMAC256("test-token")))
-			.authKey("auth-key")
-			.endpoint("http://localhost:" + port + "/api/edc/receive-notification")
-			.properties(Maps.of("cid", contractAgreementId))
-			.build(),
+				.authCode(JWT.create()
+					.withExpiresAt(Date.from(Instant.now().plus(1, ChronoUnit.DAYS)))
+					.sign(Algorithm.HMAC256("test-token")))
+				.authKey("auth-key")
+				.endpoint("http://localhost:" + port + "/api/edc/receive-notification")
+				.properties(Maps.of("cid", contractAgreementId))
+				.build(),
 			Void.class
 		);
 

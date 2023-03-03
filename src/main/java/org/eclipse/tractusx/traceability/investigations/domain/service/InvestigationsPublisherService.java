@@ -24,11 +24,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.service;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.investigations.domain.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.springframework.stereotype.Service;
 
@@ -47,10 +43,8 @@ public class InvestigationsPublisherService {
 	private final AssetRepository assetRepository;
 	private final Clock clock;
 
-	public InvestigationsPublisherService(NotificationsService notificationsService,
-										  InvestigationsRepository repository,
-										  InvestigationsReadService investigationsReadService,
-										  AssetRepository assetRepository, Clock clock) {
+
+	public InvestigationsPublisherService(NotificationsService notificationsService, InvestigationsRepository repository, InvestigationsReadService investigationsReadService, AssetRepository assetRepository, Clock clock) {
 		this.notificationsService = notificationsService;
 		this.repository = repository;
 		this.investigationsReadService = investigationsReadService;
@@ -58,6 +52,14 @@ public class InvestigationsPublisherService {
 		this.clock = clock;
 	}
 
+	/**
+	 * Starts a new investigation with the given BPN, asset IDs and description.
+	 *
+	 * @param bpn         the BPN to use for the investigation
+	 * @param assetIds    the IDs of the assets to investigate
+	 * @param description the description of the investigation
+	 * @return the ID of the newly created investigation
+	 */
 	public InvestigationId startInvestigation(BPN bpn, List<String> assetIds, String description) {
 		Investigation investigation = Investigation.startInvestigation(clock.instant(), bpn, description);
 
@@ -79,37 +81,45 @@ public class InvestigationsPublisherService {
 		return repository.save(investigation);
 	}
 
+	/**
+	 * Cancels an ongoing investigation with the given BPN and ID.
+	 *
+	 * @param bpn the BPN associated with the investigation
+	 * @param id  the ID of the investigation to cancel
+	 */
 	public void cancelInvestigation(BPN bpn, Long id) {
 		InvestigationId investigationId = new InvestigationId(id);
-
 		Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
-
 		investigation.cancel(bpn);
-
 		repository.update(investigation);
 	}
 
+	/**
+	 * Sends an ongoing investigation with the given BPN and ID to the next stage.
+	 *
+	 * @param bpn the BPN associated with the investigation
+	 * @param id  the ID of the investigation to send
+	 */
 	public void sendInvestigation(BPN bpn, Long id) {
 		InvestigationId investigationId = new InvestigationId(id);
-
 		Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
-
 		investigation.send(bpn);
-
 		repository.update(investigation);
-
 		investigation.getNotifications().forEach(notificationsService::updateAsync);
 	}
 
+	/**
+	 * Closes an ongoing investigation with the given BPN, ID and reason.
+	 *
+	 * @param bpn    the BPN associated with the investigation
+	 * @param id     the ID of the investigation to close
+	 * @param reason the reason for closing the investigation
+	 */
 	public void closeInvestigation(BPN bpn, Long id, String reason) {
 		InvestigationId investigationId = new InvestigationId(id);
-
 		Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
-
 		investigation.close(bpn, reason);
-
 		repository.update(investigation);
-
 		investigation.getNotifications().forEach(notificationsService::updateAsync);
 	}
 }

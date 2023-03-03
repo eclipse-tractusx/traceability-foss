@@ -22,14 +22,21 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record EDCNotification(EDCNotificationHeader header, EDCNotificationContent content) {
+public record EDCNotification(@Valid
+							  @NotNull
+							  @Schema(description = "Header of the EDC notification",
+								  implementation = EDCNotificationHeader.class) EDCNotificationHeader header,
+							  @NotNull EDCNotificationContent content) {
 
 	@JsonIgnore
 	public String getRecipientBPN() {

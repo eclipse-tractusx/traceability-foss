@@ -35,8 +35,9 @@ public class Constants {
 
 
 	// EDC
-	public static final String ASSET_TYPE_PROPERTY_NAME = "asset:prop:notificationtype";
-	public static final String ASSET_TYPE_NOTIFICATION = "qualityinvestigation";
+	public static final String ASSET_KEY_NOTIFICATION_TYPE = "asset:prop:notificationtype";
+	public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
+	public static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
 	public static final MediaType JSON = MediaType.get("application/json");
 
 
