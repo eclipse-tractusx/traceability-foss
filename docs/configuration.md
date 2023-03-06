@@ -312,7 +312,7 @@ The domain of the corresponding backend should be used here.
 An example value could be: `catena-x.net`
 
 `CATENAX_PORTAL_URL`
-This variable points to the CX Portal instance
+This variable is optional and points to the CX Portal instance
 
 ## Deployment
 

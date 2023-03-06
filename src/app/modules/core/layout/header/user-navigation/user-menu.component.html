@@ -30,7 +30,7 @@ SPDX-License-Identifier: Apache-2.0
     </div>
     <div
       *ngIf="this.isExpanded"
-      [class.fade-in]="isExpanded"
+      [class.expand]="isExpanded"
       class="user-menu-items-container"
       role="menu"
       aria-orientation="vertical"
@@ -45,7 +45,7 @@ SPDX-License-Identifier: Apache-2.0
 
       <mat-divider></mat-divider>
 
-      <div class="user-menu-items" (click)="openPortalPage()">
+      <div *ngIf="portalUrl" (click)="openPortalPage()" class="user-menu-items">
         <p class="regular-text user-menu-items__label" role="menuitem">
           {{ 'layout.nav.goToPortal' | i18n }}
         </p>
@@ -68,8 +68,8 @@ SPDX-License-Identifier: Apache-2.0
 
       <mat-divider></mat-divider>
 
-      <div class="user-menu-items">
-        <p class="regular-text user-menu-items__label">
+      <div class="user-menu-language">
+        <p class="user-menu-language__items">
           <app-language-selector></app-language-selector>
         </p>
       </div>

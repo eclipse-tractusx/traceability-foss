@@ -69,6 +69,14 @@
   @apply block px-4 py-2 cursor-pointer focus:outline-none;
 }
 
+.user-menu-language {
+  @apply flex items-center space-x-2 p-1;
+}
+
+.user-menu-language__items {
+  @apply block px-4 py-2 focus:outline-none;
+}
+
 .user-menu-items__badge {
   @apply ml-4 text-dangerLight font-bold;
 }
@@ -78,59 +86,6 @@
   border-radius: 32px;
 }
 
-.fade-in {
+.expand {
   opacity: 1;
-}
-.fade-inn {
-  -webkit-animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-  animation: fade-in 0.25s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-.fade-out {
-  -webkit-animation: fade-in 0.2s cubic-bezier(1, 0.565, 0.575, 0.39) both;
-  animation: fade-in 0.2s cubic-bezier(1, 0.565, 0.575, 0.39) both;
-}
-
-/**
- * ----------------------------------------
- * animation fade-in
- * ----------------------------------------
- */
-@-webkit-keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-@keyframes fade-in {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/**
- * ----------------------------------------
- * animation fade-in
- * ----------------------------------------
- */
-@-webkit-keyframes fade-out {
-  100% {
-    opacity: 1;
-  }
-  0% {
-    opacity: 0;
-  }
-}
-@keyframes fade-out {
-  100% {
-    opacity: 1;
-  }
-  0% {
-    opacity: 0;
-  }
 }
