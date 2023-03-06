@@ -22,6 +22,7 @@
 import { NotificationStatus } from '@shared/model/notification.model';
 import { renderDeclineModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { getRandomText } from '../../../../../../mocks/services/text-generator.helper';
 
 describe('DeclineNotificationModalComponent', () => {
   it('should create close modal', async () => {
@@ -56,8 +57,17 @@ describe('DeclineNotificationModalComponent', () => {
     expect(errorMessage_1).toBeInTheDocument();
 
     fireEvent.input(textArea, { target: { value: 'Some Text' } });
+    const errorMessage_2 = await waitFor(() => screen.getByText('errorMessage.minLength'));
+    expect(errorMessage_2).toBeInTheDocument();
 
+    fireEvent.input(textArea, { target: { value: getRandomText(1500) } });
+    const errorMessage_3 = await waitFor(() => screen.getByText('errorMessage.maxLength'));
+    expect(errorMessage_3).toBeInTheDocument();
+
+    fireEvent.input(textArea, { target: { value: 'Some longer text with at least 15 chars' } });
     expect(errorMessage_1).not.toBeInTheDocument();
+    expect(errorMessage_2).not.toBeInTheDocument();
+    expect(errorMessage_3).not.toBeInTheDocument();
   });
 
   it('should call close function', async () => {

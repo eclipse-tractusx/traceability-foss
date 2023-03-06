@@ -46,7 +46,7 @@ export class CloseNotificationModalComponent {
 
   public show(notification: Notification): void {
     this.notification = notification;
-    this.textAreaControl.setValidators([Validators.required]);
+    this.textAreaControl.setValidators([Validators.required, Validators.maxLength(1000), Validators.minLength(15)]);
 
     const onConfirm = (isConfirmed: boolean) => {
       const reason = this.formGroup.get('reason').value;
