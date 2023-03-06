@@ -348,7 +348,6 @@
             <version>1.17.6</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
@@ -373,7 +372,6 @@
             </exclusions>
         </dependency>
     </dependencies>
-
 
     <pluginRepositories>
         <pluginRepository>

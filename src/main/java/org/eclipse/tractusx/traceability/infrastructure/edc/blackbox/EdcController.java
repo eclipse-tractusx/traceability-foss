@@ -65,7 +65,6 @@ public class EdcController {
 	public void qualityNotificationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
 		logger.info("EdcController [qualityNotificationUpdate] notificationId:{}", edcNotification);
 		investigationsReceiverService.handleNotificationReceiverCallback(edcNotification);
-
 	}
 }
 
