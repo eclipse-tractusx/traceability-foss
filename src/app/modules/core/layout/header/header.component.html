@@ -44,7 +44,7 @@ SPDX-License-Identifier: Apache-2.0
     <app-breadcrumbs></app-breadcrumbs>
   </div>
 
-  <div class="header--app-header">
+  <div *ngIf="activeMenu" class="header--app-header">
     <h3>{{ 'pageTitle.' + activeMenu | i18n }}</h3>
   </div>
 

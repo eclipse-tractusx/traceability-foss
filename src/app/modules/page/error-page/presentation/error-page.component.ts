@@ -21,9 +21,9 @@
 
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
 import { RoleService } from '@core/user/role.service';
 import { LayoutFacade } from '@shared/abstraction/layout-facade';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-error',
@@ -42,13 +42,12 @@ export class ErrorPageComponent {
     private readonly activatedRoute: ActivatedRoute,
     private readonly layoutFacade: LayoutFacade,
   ) {
-    const errorPage = activatedRoute.data.pipe(map(d => d.errorPage));
-    errorPage.subscribe({
-      next: (errorPage: any) => {
-        if (errorPage && errorPage.type) {
-          this.title = errorPage.type + '.title';
-          this.message = errorPage.type + '.message';
-        }
+    const errorPage$ = activatedRoute.data.pipe(map(d => d.errorPage));
+    errorPage$.subscribe({
+      next: (errorPage: Record<string, string>) => {
+        if (!errorPage?.type) return;
+        this.title = errorPage.type + '.title';
+        this.message = errorPage.type + '.message';
       },
     });
 
