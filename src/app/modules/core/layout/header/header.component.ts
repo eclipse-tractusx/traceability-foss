@@ -41,8 +41,8 @@ export class HeaderComponent {
     admin: 'apps',
   };
 
-  constructor(private readonly router: Router) {
-    this.router.events
+  constructor(router: Router) {
+    router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(({ urlAfterRedirects, url }: NavigationEnd) => {
         const currentUrl = urlAfterRedirects ?? url;
