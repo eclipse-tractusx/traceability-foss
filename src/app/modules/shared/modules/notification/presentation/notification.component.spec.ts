@@ -61,7 +61,7 @@ describe('NotificationsInboxComponent', () => {
     const menuActionsConfig = [];
 
     return renderComponent(
-      `<app-notification 
+      `<app-notification
           [queuedAndRequestedNotifications$]='queuedAndRequestedNotifications$'
           [receivedNotifications$]='receivedNotifications$'
           [translationContext]="'commonInvestigation'"

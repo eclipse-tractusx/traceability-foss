@@ -8,13 +8,13 @@
 
 <h2>This Module is responsible for the visualisation of relations between assets.</h2>
 <h4>"A high level of transparency across the supplier network" -> This module tackles the channels to provide an
-intuitive and clear visualisation for exactly that.  
+intuitive and clear visualisation for exactly that.
 The visualisation is done in a tree-like structure. By visualising the relations between assets like this,
 it is easy to understand and follow.
 
 ## Structure
 
-The module can be found in this location: `src/app/modules/page/parts/relations`.  
+The module can be found in this location: `src/app/modules/page/parts/relations`.
 Relations is a submodule of parts because it is only available within parts and has no separate access point.
 
 "Relations" is set up like every other module.
@@ -25,10 +25,10 @@ Relations is a submodule of parts because it is only available within parts and 
 
 ## Architecture
 
-The diagram is built with [d3.js](https://github.com/d3/d3). It uses SVGs to render any shape or form.  
+The diagram is built with [d3.js](https://github.com/d3/d3). It uses SVGs to render any shape or form.
 The implementation of `d3` and the custom implementation for displaying the tree can be found in `d3.tree.ts`.
 The class `RelationTree` expects a config. This config should provide all necessary event handlers, properties and the
-main element.  
+main element.
 The main element should be a `figure` element. The result of the tree is displayed there as an SVG.
 
 There are two important state variables you should keep track of. These are `openElements` and `loadedElements`.
@@ -44,10 +44,10 @@ With this one-dimensional approach, it is easy to detect and handle changes.
 
 ### loadedElements
 
-Loaded elements has a similar structure to open Elements. But with one exception,  
+Loaded elements has a similar structure to open Elements. But with one exception,
 the value is `not a list of ids`, it contains `detailed information about an `already downloaded` asset.
 
-With this approach, we can reduce the load on the network.  
+With this approach, we can reduce the load on the network.
 In addition to that, we are preloading the children of an opened asset. By doing that we provide nearly a seamless
 navigation.
 
