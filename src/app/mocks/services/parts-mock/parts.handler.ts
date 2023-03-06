@@ -42,9 +42,11 @@ export const partsHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
   }),
 
-  rest.post(`*${environment.apiUrl}/assets/detail-information`, (req, res, ctx) => {
-    const { assetIds } = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-    return res(ctx.status(200), ctx.json(assetIds.map(id => getAssetById(id))));
+  rest.post(`*${environment.apiUrl}/assets/detail-information`, async (req, res, ctx) => {
+    const { assetIds } = await req.json();
+
+    const response = assetIds.map(id => getAssetById(id));
+    return res(ctx.status(200), ctx.json(response.filter(data => !!data)));
   }),
 
   rest.get(`*${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
@@ -56,7 +58,7 @@ export const partsHandlers = [
   rest.patch(`*${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentPart = getAssetById(partId as string);
-    return res(ctx.status(200), ctx.json({ ...currentPart, ...(req.body as Record<string, any>) }));
+    return res(ctx.status(200), ctx.json({ ...currentPart, ...req.json() }));
   }),
 
   rest.get(`*${environment.apiUrl}/assets/:assetId/children/:childId`, (req, res, ctx) => {
@@ -81,7 +83,9 @@ export const partsHandlersTest = [
 
   rest.post(`*${environment.apiUrl}/assets/detail-information`, async (req, res, ctx) => {
     const { assetIds } = await req.json();
-    return res(ctx.status(200), ctx.json(assetIds.map(id => mockAssetList[id] || getAssetById(id))));
+
+    const response = assetIds.map(id => mockAssetList[id] || getAssetById(id));
+    return res(ctx.status(200), ctx.json(response.filter(data => !!data)));
   }),
 
   rest.get(`*${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
@@ -93,7 +97,7 @@ export const partsHandlersTest = [
   rest.patch(`*${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentPart = mockAssetList[partId as string];
-    return res(ctx.status(200), ctx.json({ ...currentPart, ...(req.body as Record<string, any>) }));
+    return res(ctx.status(200), ctx.json({ ...currentPart, ...req.json() }));
   }),
 
   rest.get(`*${environment.apiUrl}/assets/:assetId/children/:childId`, (req, res, ctx) => {

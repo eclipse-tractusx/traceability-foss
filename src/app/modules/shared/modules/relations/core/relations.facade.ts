@@ -169,13 +169,14 @@ export class RelationsFacade {
       bufferTime(500),
       filter(childList => !!childList.length),
       switchMap(childList => {
-        children = childList;
-        return this.partsService.getPartDetailOfIds(children.reduce((p, c) => [...p, ...c], []));
+        children = childList.reduce((p, c) => [...p, ...c], []);
+        return this.partsService.getPartDetailOfIds(children);
       }),
       catchError(_ => of(children.map(id => ({ id, children: [] } as Part)))),
       map(childrenData =>
-        childrenData.map((child, index) => RelationsAssembler.assemblePartForRelation(child, children[index])),
+        children.map(id => childrenData.find(data => data.id === id) || ({ id, children: [] } as Part)),
       ),
+      map(childrenData => childrenData.map(child => RelationsAssembler.assemblePartForRelation(child))),
       tap(childrenData => this.addLoadedElements(childrenData)),
       tap(childrenData => this.requestPartDetailsStream.next(childrenData)),
     );
