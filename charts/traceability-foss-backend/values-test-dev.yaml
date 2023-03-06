@@ -50,7 +50,7 @@ ingress:
       secretName: tls-secret
 
 traceability:
-  bpn: "BPNL00000003AYRE"
+  bpn: "BPNL00000003B2OM"
   url: "https://traceability-test.dev.demo.catena-x.net"
 
 datasource:

@@ -28,9 +28,5 @@ feign:
 edc:
   callback-urls: http://tracex-irs:8181/internal/endpoint-data-reference
   bpn-provider-url-mappings:
-    "BPNL00000003AXS3": "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
-    "BPNL00000002AXS2": "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
-    "BPNL00000001AXS1": "https://trace-x-edc.dev.demo.catena-x.net/api/v1/data/catalog"
-    "BPNL00000003CML1": "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
-    "BPNL00000003CNKC": "http://provider-controlplane:8282"
-    "BPNL00000003AYRE": "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
+    "BPNL00000003AYRE": "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
+    "BPNL00000003B2OM": "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
