@@ -55,6 +55,10 @@
   @apply flex items-center space-x-2 hover:bg-dustyGrayShadeGallery p-1 cursor-pointer;
   justify-content: space-between;
   flex-direction: row;
+
+  &--selected {
+    @apply bg-dustyGrayShadeGallery;
+  }
 }
 
 .user-menu-items__icon {

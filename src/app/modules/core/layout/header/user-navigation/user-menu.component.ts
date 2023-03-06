@@ -21,8 +21,10 @@
 
 import { Component, HostListener } from '@angular/core';
 import { LayoutFacade } from '@shared/abstraction/layout-facade';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '@env';
+import { NavigableUrls, KnownUrl } from '@core/kown-route';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-navigation',
@@ -33,10 +35,18 @@ export class UserMenuComponent {
   public isExpanded = false;
   public userInitials = '';
   public userDetails = { name: '', email: '', role: '' };
+  public activeItem: string = '';
 
   constructor(private readonly layoutFacade: LayoutFacade, private readonly router: Router) {
     this.userInitials = this.layoutFacade.realName;
     this.userDetails = this.layoutFacade.userInformation;
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(({ urlAfterRedirects, url }: NavigationEnd) => {
+        const currentUrl = urlAfterRedirects ?? url;
+        this.activeItem = NavigableUrls.find(menuKey => currentUrl.includes(menuKey));
+      });
   }
 
   public expand(event: Event): void {

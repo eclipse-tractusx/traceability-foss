@@ -52,7 +52,9 @@ SPDX-License-Identifier: Apache-2.0
         <app-button variant="icon" iconName="home"></app-button>
       </div>
 
-      <ng-container *ngTemplateOutlet="menuItem; context: { name: 'admin', icon: 'apps', role: 'admin' }">
+      <ng-container
+        *ngTemplateOutlet="menuItem; context: { name: 'admin', icon: 'apps', role: 'admin', route: 'admin' }"
+      >
       </ng-container>
 
       <mat-divider></mat-divider>
@@ -75,11 +77,13 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 
-<ng-template #menuItem let-name="name" let-icon="icon" let-role="role">
-  <!--      TODO: [isActive]="this.activeMenu === name"-->
-  <!--      TODO: (click)="this.navigate(name)"-->
-
-  <div class="user-menu-items" *appHasRole="[role ?? 'user']">
+<ng-template #menuItem let-name="name" let-icon="icon" let-role="role" let-route="route">
+  <div
+    class="user-menu-items"
+    *appHasRole="[role ?? 'user']"
+    [routerLink]="route"
+    [class.user-menu-items--selected]="route === activeItem"
+  >
     <p class="regular-text user-menu-items__label" role="menuitem">
       {{ 'routing.' + name | i18n }}
     </p>
