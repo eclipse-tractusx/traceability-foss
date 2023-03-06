@@ -1,6 +1,113 @@
+<a name="2.0.0"></a>
+
+## [2.0.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/1.1.2...2.0.0) (2023-03-06)
+
+### Chore
+
+- Version upgrade for release to 2.0.0
+
+### Features
+
+- small changes after the review
+- handle routes in user menu - admin
+- add portal url to the app config
+- rework user manu to align with CX guidelines
+- improvements after review
+- ran editorconfig on all files
+- added my local project settings as editorconfig
+- removed old title translation approach
+- replaced old header with new design
+
+### Fixes
+
+- add CATENAX_PORTAL_URL to inject-dynamic-env.js
+- fixed imports after update from main
+- added some adjustments after review
+- fixed header for error pages
+- aligned validations in FE and BE
+- removed bug with infinit loading animation on parts tree
+
+<a name="1.1.2"></a>
+
+## [1.1.2](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/traceability-foss-frontend-1.1.2...1.1.2) (2023-02-28)
+
+<a name="traceability-foss-frontend-1.1.2"></a>
+
+## [traceability-foss-frontend-1.1.2](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/1.1.1...traceability-foss-frontend-1.1.2) (2023-02-28)
+
+### Chore
+
+- disable Angular analytics
+- fix different env var names for veracode in Eclipse and catena-x ([#13](https://github.com/catenax-ng/tx-traceability-foss-frontend/issues/13))
+
+### Features
+
+- error page for unauthorized users or page not found ([#18](https://github.com/catenax-ng/tx-traceability-foss-frontend/issues/18))
+- updated version for release
+- update browser list and added workaround for test
+- replaced legacy with new components
+- added common js packages in allowed list
+- update to latest package versions
+- update to latest package versions
+- fixed broken unit tests after update
+- added beta environment
+- update packages to the newest version
+- update angular material to v15
+- update angular to v15
+- update angular material to v14
+- update angular to v14
+- remove traces of realm usage bc not allowed by cx
+- switched from approved state to sent
+- switched from approved state to sent
+- add scripts to run fe locally against be
+- reactived isFromSender after be update
+- add context route support for fe application
+
+### Fixes
+
+- typo changes after review
+
+<a name="1.1.1"></a>
+
+## [1.1.1](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/traceability-foss-frontend-1.1.0...1.1.1) (2023-02-13)
+
+### Features
+
+- added reason visualisation for notification pick dd7191d feature: removed prefix of product- from builds, removed tag from basic value file
+- changed approach how to use fonts
+- removed Polish language, too hard to maintain
+
+### Fixes
+
+- removed nonroot user because we are using unprivileged nginx
+- fixed wrong permission in dockerfile
+- added check that compares response and request url
+
+<a name="traceability-foss-frontend-1.1.0"></a>
+
+## [traceability-foss-frontend-1.1.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/tx-traceability-foss-frontend-1.1.0...traceability-foss-frontend-1.1.0) (2023-02-10)
+
+### Features
+
+- added link to be repo
+- added installation instructions for helm
+- rename package and add nonroot user
+
+### Fixes
+
+- fixed way investigations detail handle parts
+
+<a name="tx-traceability-foss-frontend-1.1.0"></a>
+
+## [tx-traceability-foss-frontend-1.1.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/1.1.0...tx-traceability-foss-frontend-1.1.0) (2023-02-06)
+
+### Features
+
+- added generated changelog updates
+
 <a name="1.1.0"></a>
 
-## [1.1.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/helm-charts-1.0.0...1.1.0) (2023-02-06)
+## [1.1.0](https://github.com/catenax-ng/tx-traceability-foss-frontend/compare/1.0.0...1.1.0) (2023-02-06)
 
 ### Chore
 
