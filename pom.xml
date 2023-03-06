@@ -348,6 +348,7 @@
             <version>1.17.6</version>
         </dependency>
 
+
         <dependency>
             <groupId>org.spockframework</groupId>
             <artifactId>spock-core</artifactId>
@@ -372,6 +373,7 @@
             </exclusions>
         </dependency>
     </dependencies>
+
 
     <pluginRepositories>
         <pluginRepository>
@@ -446,10 +448,10 @@
                 </dependencies>
                 <configuration>
                     <testSources>
-                        <testSource>
-                            <directory>src/test/groovy</directory>
+                         <testSource>
+                            <directory>src/test/java</directory>
                             <includes>
-                                <include>**/*.groovy</include>
+                                <include>**/*.java</include>
                             </includes>
                         </testSource>
                         <testSource>

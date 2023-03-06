@@ -74,6 +74,7 @@ class EdcServiceTest {
 		properties.put(PROPERTY_NOTIFICATION_TYPE, "qualityinvestigation");
 		properties.put(PROPERTY_NOTIFICATION_METHOD, "receive");
 
+
 		Policy policy = Policy.Builder.newInstance().build();
 		Asset asset = Builder.newInstance().properties(properties).build();
 		ContractOffer expectedContractOffer = ContractOffer.Builder.newInstance().id("123").policy(policy).asset(asset).build();

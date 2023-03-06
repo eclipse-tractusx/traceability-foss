@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class JwtRolesExtractorTest {
 	@Test
-	@DisplayName("should extract jwt resource client roles")
-	void shouldExtractJwtResourceClientRoles() {
+	@DisplayName("Extract Jwt Roles successfully")
+	void testExtractJwtResourceClientRoles() {
 		// given
 		String resourceClient = "unit-tests";
 		Set<JwtRole> roles = Set.of(JwtRole.USER, JwtRole.ADMIN, JwtRole.SUPERVISOR);
@@ -33,8 +33,9 @@ class JwtRolesExtractorTest {
 	}
 
 	@Test
-	@DisplayName("should extract only mapped jwt roles")
-	void shouldExtractOnlyMappedJwtRoles() {
+	@DisplayName("Extract Only Mapped Jwt Roles successfully")
+	void testExtractOnlyMappedJwtRoles() {
+
 		// given
 		String resourceClient = "unit-tests";
 		Set<JwtRole> roles = Set.of(JwtRole.USER, JwtRole.ADMIN);
@@ -48,8 +49,8 @@ class JwtRolesExtractorTest {
 	}
 
 	@Test
-	@DisplayName("should not extract roles from jwt unknown resource client")
-	void shouldNotExtractRolesFromJwtUnknownResourceClient() {
+	@DisplayName("Extraction empty in case of unknown Resource Client")
+	void testExtractNoRolesWithUnknownResource() {
 		// given
 		String resourceClient = "unit-tests";
 		Set<JwtRole> roles = Set.of(JwtRole.USER, JwtRole.ADMIN, JwtRole.SUPERVISOR);

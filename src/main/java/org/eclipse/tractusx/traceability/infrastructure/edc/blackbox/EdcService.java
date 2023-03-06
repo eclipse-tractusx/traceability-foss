@@ -82,6 +82,7 @@ public class EdcService {
 	}
 
 	private boolean isPropertyQualityInvestigationType(Asset asset) {
+
 		String formatted = String.format(":::: Asset %s has value %s", Constants.ASSET_KEY_NOTIFICATION_TYPE, asset.getPropertyNotificationType());
 		logger.info(formatted);
 		return Constants.ASSET_VALUE_QUALITY_INVESTIGATION.equals(asset.getPropertyNotificationType());
@@ -91,6 +92,7 @@ public class EdcService {
 		String formatted = String.format(":::: Asset isPropertyUpdateNotificationMethod %s has value %s", "asset:prop:notificationmethod", asset.getPropertyNotificationMethod());
 		logger.info(formatted);
 		return Constants.ASSET_VALUE_NOTIFICATION_METHOD_UPDATE.equals(asset.getPropertyNotificationMethod());
+
 	}
 
 	/**
