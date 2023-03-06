@@ -22,7 +22,8 @@
   "layout": {
     "nav": {
       "openUserMenu": "Open user menu",
-      "signOut": "Sign out"
+      "signOut": "Sign out",
+      "goToPortal": "Go to CX Portal"
     }
   },
   "actions": {

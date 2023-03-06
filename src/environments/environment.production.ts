@@ -22,7 +22,7 @@
 import { _environment } from './_environment.base';
 
 const SCRIPT_EL_ID = 'envConfig';
-const SUPPORTED_ENV_PARAMS = ['keycloakUrl', 'clientId', 'apiUrl', 'baseUrl'];
+const SUPPORTED_ENV_PARAMS = ['keycloakUrl', 'clientId', 'apiUrl', 'baseUrl', 'portalUrl'];
 
 export const readDynamicEnv = () => {
   const scriptEl = document.getElementById(SCRIPT_EL_ID) as HTMLScriptElement;

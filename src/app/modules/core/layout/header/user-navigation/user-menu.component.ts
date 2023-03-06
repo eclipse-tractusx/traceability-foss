@@ -22,6 +22,7 @@
 import { Component, HostListener } from '@angular/core';
 import { LayoutFacade } from '@shared/abstraction/layout-facade';
 import { Router } from '@angular/router';
+import { environment } from '@env';
 
 @Component({
   selector: 'app-user-navigation',
@@ -56,5 +57,9 @@ export class UserMenuComponent {
   @HostListener('window:click', [])
   private onClick(): void {
     this.isExpanded = false;
+  }
+
+  public openPortalPage(): void {
+    window.open(environment.portalUrl, '_blank', 'noopener');
   }
 }

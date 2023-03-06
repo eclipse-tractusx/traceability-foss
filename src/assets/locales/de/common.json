@@ -22,7 +22,8 @@
   "layout": {
     "nav": {
       "openUserMenu": "Benutzermenü öffnen",
-      "signOut": "Abmelden"
+      "signOut": "Abmelden",
+      "goToPortal": "TBD: Go to CX Portal"
     }
   },
   "actions": {
