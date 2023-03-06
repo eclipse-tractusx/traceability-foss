@@ -26,7 +26,8 @@ import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
+import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
+import { sleepForTests } from '../../../../../../../test';
 import { MOCK_part_1, MOCK_part_2, MOCK_part_3 } from '../../../../../../mocks/services/parts-mock/parts.test.model';
 import { StartInvestigationComponent } from './start-investigation.component';
 
@@ -57,23 +58,21 @@ describe('StartInvestigationComponent', () => {
 
   it('should render request investigation on selection', async () => {
     await renderStartInvestigation();
+    fireEvent.click(await getTableCheckbox(screen, 0));
 
-    const listOfCheckboxes = await waitFor(() => screen.getAllByTestId('select-one--test-id'));
-    fireEvent.click(listOfCheckboxes[0].firstChild);
-
+    await sleepForTests(2000);
     expect(await waitFor(() => screen.getByText('page.requestInvestigations.partDescription'))).toBeInTheDocument();
   });
 
   it('should render selected items and remove them again', async () => {
     await renderStartInvestigation();
 
-    const listOfCheckboxes = await waitFor(() => screen.getAllByTestId('select-one--test-id'));
-    fireEvent.click(listOfCheckboxes[0].firstChild);
-    fireEvent.click(listOfCheckboxes[1].firstChild);
+    fireEvent.click(await getTableCheckbox(screen, 0));
+    fireEvent.click(await getTableCheckbox(screen, 1));
 
     const matChipElement = await waitFor(() => screen.getByTestId('mat-chip--' + firstChild.name));
     expect(matChipElement).toBeInTheDocument();
-    fireEvent.click(matChipElement.lastElementChild);
+    fireEvent.click(matChipElement.lastElementChild.firstChild);
 
     const historyElement = await waitFor(() => screen.getByTestId('mat-chip-history--' + firstChild.name));
     expect(historyElement).toBeInTheDocument();

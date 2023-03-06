@@ -27,7 +27,7 @@ export default defineConfig({
     specPattern: '**/*.feature',
     supportFile: false,
     viewportWidth: 1366,
-    viewportHeight: 768,
+    viewportHeight: 900,
     experimentalWebKitSupport: true, // https://docs.cypress.io/guides/guides/launching-browsers#WebKit-Experimental
     setupNodeEvents,
   },

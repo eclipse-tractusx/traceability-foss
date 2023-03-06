@@ -30,6 +30,7 @@ module.exports = function (config) {
       require('karma-coverage'),
       require('karma-sonarqube-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
+      'karma-spec-reporter',
     ],
     client: {
       jasmine: {
@@ -52,7 +53,7 @@ module.exports = function (config) {
         { type: 'lcov', subdir: 'lcov-report' },
       ],
     },
-    reporters: ['sonarqube'],
+    reporters: ['spec', 'sonarqube'],
     sonarqubeReporter: {
       basePath: 'src', // test files folder
       filePattern: '**/*spec.ts', // test files glob pattern

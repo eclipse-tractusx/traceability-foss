@@ -20,11 +20,11 @@
  ********************************************************************************/
 
 import { Component, HostListener } from '@angular/core';
-import { NavigableUrls } from '@core/kown-route';
 import { LayoutFacade } from '@shared/abstraction/layout-facade';
 import { NavigationEnd, Router } from '@angular/router';
 import { environment } from '@env';
 import { filter } from 'rxjs/operators';
+import { NavigableUrls } from '@core/known-route';
 
 @Component({
   selector: 'app-user-navigation',
