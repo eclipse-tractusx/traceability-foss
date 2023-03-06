@@ -31,6 +31,7 @@ export const _environment = {
   defaultRealm: 'CX-Central',
   apiUrl: '/api',
   baseUrl: '/',
+  portalUrl: 'https://portal.dev.demo.catena-x.net/',
   mapStyles: 'mapbox://styles/mapbox/light-v10',
   customProtocols: {
     mapbox: {

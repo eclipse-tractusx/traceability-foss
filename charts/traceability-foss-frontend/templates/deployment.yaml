@@ -53,6 +53,8 @@ spec:
               value: "{{ .Values.image.CATENAX_PORTAL_BASE_URL }}"
             - name: CATENAX_PORTAL_BACKEND_DOMAIN
               value: "{{ .Values.image.CATENAX_PORTAL_BACKEND_DOMAIN }}"
+            - name: CATENAX_PORTAL_URL
+              value: "{{ .Values.image.CATENAX_PORTAL_URL }}"
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}

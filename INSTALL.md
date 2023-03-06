@@ -9,6 +9,7 @@ const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
   CATENAX_PORTAL_BACKEND_DOMAIN,
+  CATENAX_PORTAL_URL: 'portalUrl',
 };
 ```
 
@@ -25,9 +26,12 @@ This variable points to the desired api
 This variable is used to set the base path of the application. (Should be set if application runs as a subtopic)
 
 `CATENAX_PORTAL_BACKEND_DOMAIN`
-This variable is needed for security, to be more explicit, for the security headers of a request.  
-The domain of the corresponding backend should be used here.  
+This variable is needed for security, to be more explicit, for the security headers of a request.
+The domain of the corresponding backend should be used here.
 An example value could be: `catena-x.net`
+
+`CATENAX_PORTAL_URL`
+This variable is optional and points to the CX Portal instance
 
 # Helm deployment
 
@@ -52,13 +56,13 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
     - host: "${FE_HOST_URL}"
-      paths:
+    paths:
         - path: /
-          pathType: Prefix
+        pathType: Prefix
   tls:
     - hosts:
         - "${FE_HOST_URL}"
-      secretName: "${FE_HOST_URL}-tls"
+    secretName: "${FE_HOST_URL}-tls"
 
 ```
 
@@ -129,5 +133,5 @@ The operator can set any environment variable in the container by using one or m
 
 #### `${dockerImage}`
 
-While not strictly a means of identifying a container, you can specify a version of an image you’d like to run the container with by adding `image[:tag]` to the command. For example, `docker run 002b3c518f5852f7fd5e9e46c0ea1ab4d76b697d33d5022af1a69e1a909645ea`.  
+While not strictly a means of identifying a container, you can specify a version of an image you’d like to run the container with by adding `image[:tag]` to the command. For example, `docker run 002b3c518f5852f7fd5e9e46c0ea1ab4d76b697d33d5022af1a69e1a909645ea`.
 Images can be pulled [here](https://github.com/eclipse-tractusx/traceability-foss-frontend/pkgs/container/traceability-foss-frontend).

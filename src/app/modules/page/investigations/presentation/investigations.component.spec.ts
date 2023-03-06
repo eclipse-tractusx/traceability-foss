@@ -34,11 +34,6 @@ describe('InvestigationsComponent', () => {
     });
   };
 
-  it('should render', async () => {
-    await renderInvestigations();
-    expect(await waitFor(() => screen.getByText('commonInvestigation.title'))).toBeInTheDocument();
-  });
-
   it('should call detail page with correct ID', async () => {
     const { fixture } = await renderInvestigations();
     fireEvent.click((await waitFor(() => screen.getAllByTestId('table-menu-button')))[0]);

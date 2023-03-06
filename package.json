@@ -1,6 +1,6 @@
 {
   "name": "trace-x",
-  "version": "1.1.2",
+  "version": "2.0.0",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
     "build:prod": "ng build --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
@@ -108,6 +108,7 @@
     "karma-coverage": "2.2.0",
     "karma-jasmine": "5.1.0",
     "karma-sonarqube-reporter": "1.4.0",
+    "karma-spec-reporter": "^0.0.36",
     "lint-staged": "13.1.2",
     "msw": "1.0.1",
     "playwright-webkit": "^1.30.0",

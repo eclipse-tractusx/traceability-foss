@@ -24,6 +24,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
+import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
 import { NotificationModalContentComponent } from '@shared/modules/notification/modal/content/notification-modal-content.component';
 import { I18NextModule } from 'angular-i18next';
 import { AvatarComponent } from './components/avatar/avatar.component';
@@ -34,7 +35,6 @@ import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
 import { DataLoadingErrorComponent } from './components/data-loading-error/data-loading-error.component';
-import { HeaderComponent } from './components/header/header.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
 import { QualityTypeComponent } from './components/quality-type/quality-type.component';
@@ -64,8 +64,8 @@ import { TemplateModule } from './template.module';
     ToastContainerComponent,
     ToastMessageComponent,
     BreadcrumbsComponent,
-    HeaderComponent,
     ButtonComponent,
+    TextWithIconComponent,
     TableComponent,
     TooltipDirective,
     RoleDirective,
@@ -98,8 +98,8 @@ import { TemplateModule } from './template.module';
     ToastContainerComponent,
     ToastMessageComponent,
     BreadcrumbsComponent,
-    HeaderComponent,
     ButtonComponent,
+    TextWithIconComponent,
     TableComponent,
     TooltipDirective,
     RoleDirective,

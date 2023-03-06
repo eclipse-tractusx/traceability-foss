@@ -35,16 +35,10 @@ describe('Dashboard', () => {
       roles,
     });
 
-  it('should render header', async () => {
-    await renderDashboard();
-
-    expect(screen.getByText('pageDashboard.title')).toBeInTheDocument();
-  });
-
   it('should render total of parts', async () => {
     await renderDashboard();
 
-    expect(await screen.findByText('3')).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('3'))).toBeInTheDocument();
 
     expect(screen.getByText('pageDashboard.totalOfParts.label')).toHaveAttribute(
       'id',
@@ -76,16 +70,10 @@ describe('Dashboard', () => {
   });
 
   describe('investigations', () => {
-    it('should render investigation component', async () => {
-      await renderDashboard();
-
-      expect(await screen.findByText('commonInvestigation.title')).toBeInTheDocument();
-    });
-
     it('should render count for investigations', async () => {
       await renderDashboard();
 
-      expect(await screen.findByText('20')).toBeInTheDocument();
+      expect(await waitFor(() => screen.getByText('20'))).toBeInTheDocument();
 
       expect(screen.getByText('pageDashboard.totalInvestigations.label')).toHaveAttribute(
         'id',

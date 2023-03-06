@@ -19,10 +19,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { PageRoute } from '@shared/model/page-route.model';
+import { MatIconModule } from '@angular/material/icon';
+import { ButtonComponent } from '@shared/components/button/button.component';
+import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
+import { fireEvent, screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 
-export const PARTS_BASE_ROUTE = 'parts';
+describe('TextWithIcon', () => {
+  it('should render text with icon', async () => {
+    await renderComponent(`<app-text-with-icon iconName='help'>Test</app-text-with-icon>`, {
+      declarations: [TextWithIconComponent],
+    });
 
-export const getPartsRoute = (): PageRoute => ({
-  link: `${PARTS_BASE_ROUTE}`,
+    const textElement = screen.getByText('Test');
+    expect(textElement).toBeInTheDocument();
+  });
 });

@@ -29,7 +29,6 @@ describe('LanguageSelector', () => {
     renderComponent(
       `
     <app-language-selector></app-language-selector>
-    <div>{{'actions.back' | i18n}}</div>
   `,
       {
         imports: [SharedModule],
@@ -39,10 +38,16 @@ describe('LanguageSelector', () => {
 
   it('should allow to change the language', async () => {
     await renderLanguageSelector();
-    expect(screen.getByText('actions.back')).toBeInTheDocument();
-    fireEvent.click(screen.getByText('en'));
-    fireEvent.click(screen.getByText('Deutsch'));
 
-    expect(await screen.findByText('de')).toBeInTheDocument();
+    expect(await screen.findByText('EN')).toBeInTheDocument();
+    expect(await screen.findByText('EN')).toHaveClassName('selectedText');
+
+    fireEvent.click(screen.getByText('DE'));
+    expect(await screen.findByText('DE')).toBeInTheDocument();
+    expect(await screen.findByText('DE')).toHaveClassName('selectedText');
+
+    fireEvent.click(screen.getByText('EN'));
+    expect(await screen.findByText('EN')).toBeInTheDocument();
+    expect(await screen.findByText('EN')).toHaveClassName('selectedText');
   });
 });

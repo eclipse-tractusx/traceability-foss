@@ -1,6 +1,6 @@
 <div style="display: flex; align-items: center;justify-content: center;align-content: center;">
-   <img src="src/assets/images/logo.svg" alt="Trace-X - Product Traceability FOSS Frontend (TRACE-FOSS)" style="width:200px;"/>
-   <h1 style="margin: 10px 0 0 10px">Traceability FOSS Frontend</h1>
+    <img src="src/assets/images/logo.svg" alt="Trace-X - Product Traceability FOSS Frontend (TRACE-FOSS)" style="width:200px;"/>
+    <h1 style="margin: 10px 0 0 10px">Traceability FOSS Frontend</h1>
 </div>
 
 [![Apache 2 License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://github.com/eclipse-tractusx/traceability-foss-frontend/LICENSE)
@@ -18,10 +18,10 @@ This saves costs by seamlessly tracking parts and creates trust through clearly 
 
 This application serves as a user entry point to the Catena-X network.
 
-It's written in Typescript based on the `Angular` framework.  
-We decided on using Angular because of two important aspects.  
-Firstly, Angular comes with `strict guidelines`, which makes it harder to start working on for new developers, but for established developers it is `easy to start working with`.  
-Secondly, Angular `scales` perfectly in the long run. Because of the restricted possibilities and stricted guidelines it is hard to implement multiple solutions for the same problem. e.g. Storing data or routing.  
+It's written in Typescript based on the `Angular` framework.
+We decided on using Angular because of two important aspects.
+Firstly, Angular comes with `strict guidelines`, which makes it harder to start working on for new developers, but for established developers it is `easy to start working with`.
+Secondly, Angular `scales` perfectly in the long run. Because of the restricted possibilities and stricted guidelines it is hard to implement multiple solutions for the same problem. e.g. Storing data or routing.
 With that in mind it made sense it chose Angular for an `open source` project.
 
 Source files are exposed statically through the NGINX web server.
@@ -29,10 +29,10 @@ TRACE-FOSS product composes of the backend and frontend repositories, backend re
 
 ### Challenges and solutions
 
-"Visualisation of traceability" is one of our most important feature, but once was one of our biggest problems.  
-We wanted to achieve something that is `visually pleasing`, is `easy to use` and `performs` very good in a `browser application`.  
-Our first approach was to use HTML canvas. But it turned out it is hard to perform accurate actions inside a canvas. That is why we decided on using the [D3 library](https://d3js.org/).  
-D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML, SVG, and CSS.  
+"Visualisation of traceability" is one of our most important feature, but once was one of our biggest problems.
+We wanted to achieve something that is `visually pleasing`, is `easy to use` and `performs` very good in a `browser application`.
+Our first approach was to use HTML canvas. But it turned out it is hard to perform accurate actions inside a canvas. That is why we decided on using the [D3 library](https://d3js.org/).
+D3.js is a JavaScript library for manipulating documents based on data. D3 helps you bring data to life using HTML, SVG, and CSS.
 Because it uses SVGs, we knew it will perform great. And we are able to have pinpoint accuracy when it comes to user actions.
 
 ## Getting started
@@ -59,7 +59,7 @@ Find [here](docs/configuration.md) documentation to support you during the devel
 
 ### Setup changelog generation
 
-Follow these instructions: [GIT-CHGLOG](https://github.com/git-chglog/git-chglog#installation)  
+Follow these instructions: [GIT-CHGLOG](https://github.com/git-chglog/git-chglog#installation)
 You can generate a changelog when running `git-chglog -o CHANGELOG.md`
 
 ## Application authentication
@@ -185,16 +185,16 @@ All done!
 
 ## How to contribute
 
-TBD  
+TBD
 For now, we are following the angular guidelines which can be found here: [Angulars how to contribute](https://github.com/angular/angular-cli/blob/main/CONTRIBUTING.md)
 
 ## Branching system and release workflow
 
 We are using the [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow) for our branching system.
 
-The general idea behind this approach is that you keep the main code in a constant deployable state.  
-You start off with the main branch, then a developer creates a feature branch directly from main.  
-After the feature is developed the code is reviewed and tested on the branch.  
+The general idea behind this approach is that you keep the main code in a constant deployable state.
+You start off with the main branch, then a developer creates a feature branch directly from main.
+After the feature is developed the code is reviewed and tested on the branch.
 Only after the code is stable it can be merged to main.
 
 <img src="docs/images/github-flow-branching-model.jpeg" height="60%" width="60%"/>

@@ -23,8 +23,8 @@ import { Pagination } from '@core/model/pagination.model';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableConfig } from '@shared/components/table/table.model';
 import { SharedModule } from '@shared/shared.module';
-import { screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
+import { getInputFromChildNodes, renderComponent } from '@tests/test-render.utils';
 
 describe('TableComponent', () => {
   const generateTableContent = (size: number) => {
@@ -97,21 +97,21 @@ describe('TableComponent', () => {
 
   it('should select all items and deselect all', async () => {
     const tableSize = 3;
-    const fixture = await renderTable(tableSize, ['select', 'name']);
+    await renderTable(tableSize, ['select', 'name']);
 
-    const clickableSelectAllElement = screen.getByTestId('select-all--test-id').firstChild as HTMLElement;
-    clickableSelectAllElement.click();
-    fixture.detectChanges();
+    const checkboxSelectAll = getInputFromChildNodes(
+      screen.getByTestId('select-all--test-id').firstChild.firstChild.childNodes,
+    );
 
+    fireEvent.click(checkboxSelectAll);
     const selectItemElements = screen.getAllByTestId('select-one--test-id');
     for (const element of selectItemElements) {
-      await waitFor(() => expect(element).toHaveClass('mat-checkbox-checked'));
+      await waitFor(() => expect(element).toHaveClass('mat-mdc-checkbox-checked'));
     }
 
-    clickableSelectAllElement.click();
-    fixture.detectChanges();
+    fireEvent.click(checkboxSelectAll);
     for (const element of selectItemElements) {
-      await waitFor(() => expect(element).not.toHaveClass('mat-checkbox-checked'));
+      await waitFor(() => expect(element).not.toHaveClass('mat-mdc-checkbox-checked'));
     }
   });
 

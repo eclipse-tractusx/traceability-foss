@@ -19,46 +19,38 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { getAboutRoute } from '@page/about/about-route';
-import { getAdminRoute } from '@page/admin/admin-route';
-import { getDashboardRoute } from '@page/dashboard/dashboard-route';
-import { getInvestigationInboxRoute } from '@page/investigations/investigations-external-route';
-import { getOtherPartsRoute } from '@page/other-parts/other-parts-route';
-import { getPartsRoute } from '@page/parts/parts-route';
-import { PageRoute } from '@shared/model/page-route.model';
+import { KnownUrl, NavigableUrls } from '@core/known-route';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
 })
-export class SidebarComponent {
-  @Input() expanded: boolean;
+export class HeaderComponent {
   public activeMenu = '';
 
-  private readonly menu: Record<string, PageRoute> = {
-    dashboard: getDashboardRoute(),
-    about: getAboutRoute(),
-    parts: getPartsRoute(),
-    otherParts: getOtherPartsRoute(),
-    investigations: getInvestigationInboxRoute(),
-    admin: getAdminRoute(),
+  public readonly iconMapping: Record<KnownUrl, string> = {
+    dashboard: 'dashboard',
+    about: 'info',
+    parts: 'build',
+    otherParts: 'commute',
+    investigations: 'inbox',
+    admin: 'apps',
   };
 
-  constructor(private readonly router: Router) {
-    this.router.events
+  constructor(router: Router) {
+    router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe(({ urlAfterRedirects, url }: NavigationEnd) => {
         const currentUrl = urlAfterRedirects ?? url;
-        this.activeMenu = Object.keys(this.menu).find(menuKey => currentUrl.includes(menuKey));
+        this.activeMenu = NavigableUrls.find(menuKey => currentUrl.includes(menuKey));
       });
   }
 
-  public navigate(item: string): void {
-    this.router.navigate([this.menu[item].link]).then();
-    this.activeMenu = item;
+  public openDocumentation(): void {
+    window.open('https://eclipse-tractusx.github.io/traceability-foss-backend/docs/', '_blank', 'noopener');
   }
 }

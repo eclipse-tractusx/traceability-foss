@@ -20,25 +20,28 @@
  ********************************************************************************/
 
 import { LayoutModule } from '@layout/layout.module';
-import { NavBarComponent } from '@layout/nav-bar/nav-bar.component';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { UserMenuComponent } from '@layout/header/user-navigation/user-menu.component';
 
-describe('Navbar', () => {
-  const renderNavbar = () => renderComponent(NavBarComponent, { imports: [LayoutModule] });
-  it('should render navbar', async () => {
-    await renderNavbar();
+describe('UserMenuComponent', () => {
+  const renderUserMenuComponent = () => renderComponent(UserMenuComponent, { imports: [LayoutModule] });
+  it('should render user menu', async () => {
+    await renderUserMenuComponent();
 
-    expect(await waitFor(() => screen.getByText('OEM A'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByTestId('user-menu'))).toBeInTheDocument();
   });
 
   it('should open details', async () => {
-    await renderNavbar();
+    await renderUserMenuComponent();
     fireEvent.click(await waitFor(() => screen.getByTestId('user-menu')));
 
-    expect((await waitFor(() => screen.getAllByText('OEM A'))).length).toEqual(2);
+    expect((await waitFor(() => screen.getAllByText('OEM A'))).length).toEqual(1);
     expect(await waitFor(() => screen.getByText('user'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('mock.user@foss.de'))).toBeInTheDocument();
     expect(await waitFor(() => screen.getByText('layout.nav.signOut'))).toBeInTheDocument();
+
+    expect(await screen.findByText('EN')).toBeInTheDocument();
+    expect(await screen.findByText('EN')).toHaveClassName('selectedText');
+    expect(await screen.findByText('DE')).toBeInTheDocument();
   });
 });

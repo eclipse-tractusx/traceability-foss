@@ -1,6 +1,5 @@
 {
-  "pageParts": {
-    "title": "Andere Produkte",
+  "pageOtherParts": {
     "tab": {
       "customer": "Produkte von Kunden",
       "supplier": "Produkte von Lieferanten"

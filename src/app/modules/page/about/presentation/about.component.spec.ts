@@ -28,6 +28,6 @@ describe('About Page', () => {
   it('should render about page', async () => {
     await renderComponent(AboutComponent, { imports: [AboutModule] });
 
-    expect(screen.getByText('pageAbout.title')).toBeInTheDocument();
+    expect(screen.getByText('pageAbout.content')).toBeInTheDocument();
   });
 });

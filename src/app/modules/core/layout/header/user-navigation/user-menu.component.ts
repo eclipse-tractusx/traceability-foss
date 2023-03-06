@@ -20,22 +20,34 @@
  ********************************************************************************/
 
 import { Component, HostListener } from '@angular/core';
-import { Router } from '@angular/router';
-import { LayoutFacade } from 'src/app/modules/shared/abstraction/layout-facade';
+import { LayoutFacade } from '@shared/abstraction/layout-facade';
+import { NavigationEnd, Router } from '@angular/router';
+import { environment } from '@env';
+import { filter } from 'rxjs/operators';
+import { NavigableUrls } from '@core/known-route';
 
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.scss'],
+  selector: 'app-user-navigation',
+  templateUrl: './user-menu.component.html',
+  styleUrls: ['./user-menu.component.scss'],
 })
-export class NavBarComponent {
+export class UserMenuComponent {
   public isExpanded = false;
   public userInitials = '';
   public userDetails = { name: '', email: '', role: '' };
+  public activeItem: string = '';
+  public portalUrl = environment.portalUrl;
 
   constructor(private readonly layoutFacade: LayoutFacade, private readonly router: Router) {
     this.userInitials = this.layoutFacade.realName;
     this.userDetails = this.layoutFacade.userInformation;
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(({ urlAfterRedirects, url }: NavigationEnd) => {
+        const currentUrl = urlAfterRedirects ?? url;
+        this.activeItem = NavigableUrls.find(menuKey => currentUrl.includes(menuKey));
+      });
   }
 
   public expand(event: Event): void {
@@ -56,5 +68,9 @@ export class NavBarComponent {
   @HostListener('window:click', [])
   private onClick(): void {
     this.isExpanded = false;
+  }
+
+  public openPortalPage(): void {
+    window.open(environment.portalUrl, '_blank', 'noopener');
   }
 }

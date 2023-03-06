@@ -24,7 +24,7 @@ import { PartsState } from '@page/parts/core/parts.state';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
-import { renderComponent } from '@tests/test-render.utils';
+import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
 import { firstValueFrom } from 'rxjs';
 import {
   OTHER_PARTS_MOCK_1,
@@ -50,12 +50,6 @@ describe('Other Parts', () => {
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
       roles,
     });
-
-  it('should render part header', async () => {
-    await renderOtherParts();
-
-    expect(screen.getByText('pageOtherParts.title')).toBeInTheDocument();
-  });
 
   it('should render part table', async () => {
     await renderOtherParts();
@@ -197,9 +191,7 @@ describe('Other Parts', () => {
     const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
 
     fireEvent.click(screen.getByText('pageOtherParts.tab.supplier'));
-
-    const checkbox = await waitFor(() => screen.getAllByTestId('select-one--test-id')[0]);
-    fireEvent.click(checkbox.firstChild);
+    fireEvent.click(await getTableCheckbox(screen, 0));
 
     const selectedText_1 = await waitFor(() => screen.getByText('page.selectedParts.info'));
     expect(selectedText_1).toBeInTheDocument();

@@ -25,9 +25,13 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
 import { localeIdFactory } from '@core/i18n/global-i18n.providers';
 import { Role } from '@core/user/role.model';
-import { render, RenderComponentOptions, RenderResult, RenderTemplateOptions } from '@testing-library/angular';
+import { SharedModule } from '@shared/shared.module';
+import { TemplateModule } from '@shared/template.module';
+import { render, RenderComponentOptions, RenderResult, RenderTemplateOptions, waitFor } from '@testing-library/angular';
+import { Screen } from '@testing-library/dom';
 import { I18NEXT_SERVICE, I18NextModule, ITranslationService } from 'angular-i18next';
 import { KeycloakService } from 'keycloak-angular';
+import { node } from 'webpack';
 
 type RenderFnOptionsExtension = {
   translations?: string[];
@@ -55,7 +59,14 @@ export const renderComponent: typeof ExtendedRenderFn = (
   { imports = [], providers = [], translations = [], roles = ['user'], ...restConfig },
 ) =>
   render(cmp, {
-    imports: [...imports, I18NextModule.forRoot(), HttpClientModule, NoopAnimationsModule],
+    imports: [
+      ...imports,
+      I18NextModule.forRoot(),
+      HttpClientModule,
+      NoopAnimationsModule,
+      SharedModule,
+      TemplateModule,
+    ],
     providers: [
       ...providers,
       {
@@ -82,3 +93,12 @@ export const renderComponent: typeof ExtendedRenderFn = (
     ],
     ...restConfig,
   });
+
+export const getTableCheckbox = async (screen: Screen, checkboxIndex: number): Promise<ChildNode> => {
+  const matCheckbox = (await waitFor(() => screen.getAllByTestId('select-one--test-id')))[checkboxIndex];
+  return getInputFromChildNodes(matCheckbox.firstChild.firstChild.childNodes);
+};
+
+export const getInputFromChildNodes = (childNodes: NodeListOf<ChildNode>): ChildNode => {
+  return Array.from(childNodes).find(node => node.nodeName === 'INPUT');
+};

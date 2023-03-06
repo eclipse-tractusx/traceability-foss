@@ -10,10 +10,20 @@
     "admin": "Administration",
     "investigations": "Quality investigation"
   },
+  "pageTitle": {
+    "dashboard": "Dashboard",
+    "parts": "My Parts",
+    "otherParts": "Other Parts",
+    "about": "About Catena-X Open-Source Traceability",
+    "relations": "Part Relations",
+    "admin": "Administration Catena-X",
+    "investigations": "Quality Investigations"
+  },
   "layout": {
     "nav": {
       "openUserMenu": "Open user menu",
-      "signOut": "Sign out"
+      "signOut": "Sign out",
+      "goToPortal": "Go to CX Portal"
     }
   },
   "actions": {
@@ -26,7 +36,8 @@
     "cancellationConfirm": "Confirm cancellation",
     "close": "Close",
     "decline": "Decline",
-    "viewDetails": "View details"
+    "viewDetails": "View details",
+    "help": "Help"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
@@ -123,7 +134,6 @@
     "range": "{{startIndex}} – {{endIndex}} of {{length}}"
   },
   "commonInvestigation": {
-    "title": "Quality Investigations",
     "viewAll": "View all",
     "tabs": {
       "received": "Received",
@@ -156,7 +166,6 @@
       "declineTitle": "Decline of investigation",
       "declineDescription": "Are you sure you want to decline this investigation?",
       "declineReasonHint": "Enter the reason for declining this investigation.",
-
       "successfullyAccepted": "Investigation was accepted successfully.",
       "successfullyAcknowledged": "Investigation was acknowledged successfully.",
       "successfullyApproved": "Investigation was approved successfully.",
