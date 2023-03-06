@@ -93,6 +93,7 @@
 			org/eclipse/tractusx/traceability/investigations/domain/model/**,
 			org/eclipse/tractusx/traceability/investigations/adapters/**,
 			org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**
+			**/src/test/java/**/*.java
 		</sonar.exclusions>
 
     </properties>
