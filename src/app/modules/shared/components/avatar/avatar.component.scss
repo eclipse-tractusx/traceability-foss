@@ -21,7 +21,7 @@
 
 .foss-avatar {
   &--container {
-    border-radius: 50%;
+    border-radius: 40px;
     text-align: center;
     overflow: hidden;
   }
@@ -32,14 +32,49 @@
   }
 
   &--circle {
-    background-color: #fff;
-    height: 2rem;
-    width: 2rem;
+    /* Avatar */
+
+    position: relative;
+    left: 0%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+
+    color: #fff;
+    background: #0f71cb;
+    height: 2.5rem;
+    width: 2.5rem;
   }
 
   &--span {
     font-size: 1rem;
     line-height: 1rem;
     top: 0.5rem;
+
+    & > mat-icon {
+      position: relative;
+      left: 0%;
+      right: 0%;
+      top: 20%;
+      bottom: 0%;
+    }
   }
+}
+
+/**
+ * ----------------------------------------
+ * User avatar
+ * ----------------------------------------
+ */
+.user-avatar {
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+
+  /* Interactive/Primary */
+
+  background: #0f71cb;
+  border-radius: 40px;
 }

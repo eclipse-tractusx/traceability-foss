@@ -3,6 +3,7 @@ image:
   CATENAX_PORTAL_API_URL: 'https://traceability-pen.dev.demo.catena-x.net/api'
   CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp-pen.dev.demo.catena-x.net/auth'
   CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
+  CATENAX_PORTAL_URL: 'https://portal.dev.demo.catena-x.net/'
 
 # important to not conflict with dev env (both use same ArgoCD instance)
 namespace: product-traceability-foss-pen

@@ -28,5 +28,5 @@ import { Component, Input } from '@angular/core';
 })
 export class AvatarComponent {
   @Input() name = '';
-  @Input() imageUrl: string;
+  @Input() imageUrl: string = '';
 }

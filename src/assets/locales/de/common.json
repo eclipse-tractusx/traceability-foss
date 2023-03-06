@@ -22,7 +22,8 @@
   "layout": {
     "nav": {
       "openUserMenu": "Benutzermenü öffnen",
-      "signOut": "Abmelden"
+      "signOut": "Abmelden",
+      "goToPortal": "Öffne CX Portal"
     }
   },
   "actions": {

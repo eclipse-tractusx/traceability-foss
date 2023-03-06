@@ -19,11 +19,11 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-button [matMenuTriggerFor]="menu" iconName="language" class="language-button">
-  <span class="selectedText">{{ currentLocale }}</span>
-</app-button>
-<mat-menu #menu="matMenu">
-  <button *ngFor="let localEntry of locales" (click)="handleClick(localEntry.locale)" mat-menu-item>
-    {{ localEntry.label }}
-  </button>
-</mat-menu>
+<button
+  *ngFor="let localEntry of locales"
+  (click)="handleClick(localEntry.locale)"
+  class="language-button"
+  [ngClass]="localEntry.locale == currentLocale ? 'selectedText' : ''"
+>
+  {{ localEntry.locale | uppercase }}
+</button>
