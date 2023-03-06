@@ -19,8 +19,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { MatIconModule } from '@angular/material/icon';
 import { ButtonComponent } from '@shared/components/button/button.component';
+import { SharedModule } from '@shared/shared.module';
+import { TemplateModule } from '@shared/template.module';
 import { fireEvent, screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
@@ -28,9 +29,10 @@ describe('Button', () => {
   it('should render regular button', async () => {
     await renderComponent(`<app-button (click)="clickHandler">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode;
 
     expect(buttonEl).toBeInTheDocument();
     expect(buttonEl).toHaveAttribute('mat-button');
@@ -41,12 +43,13 @@ describe('Button', () => {
     const clickHandler = jasmine.createSpy();
     const fixture = await renderComponent(`<app-button (click)="clickHandler($event)">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
       componentProperties: {
         clickHandler,
       },
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode;
 
     fireEvent.click(buttonEl);
     fixture.detectChanges();
@@ -57,25 +60,28 @@ describe('Button', () => {
   it('should render accent button', async () => {
     await renderComponent(`<app-button color="accent">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    expect(screen.getByText('Test')).toHaveClass('mat-accent');
+    expect(screen.getByText('Test').parentNode).toHaveClass('mat-accent');
   });
 
   it('should render warn button', async () => {
     await renderComponent(`<app-button color="warn">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    expect(screen.getByText('Test')).toHaveClass('mat-warn');
+    expect(screen.getByText('Test').parentNode).toHaveClass('mat-warn');
   });
 
   it('should render enabled button', async () => {
     await renderComponent(`<app-button [isDisabled]="false">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode;
 
     expect(buttonEl).toBeEnabled();
     expect(buttonEl).not.toHaveAttribute('disabled');
@@ -84,29 +90,30 @@ describe('Button', () => {
   it('should render disabled button', async () => {
     await renderComponent(`<app-button [isDisabled]="true">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
-
+    const buttonEl = screen.getByText('Test').parentNode;
     expect(buttonEl).toBeDisabled();
   });
 
   it('should render raised button', async () => {
     await renderComponent(`<app-button variant="raised">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
-
+    const buttonEl = screen.getByText('Test').parentNode;
     expect(buttonEl).toHaveAttribute('mat-raised-button');
   });
 
   it('should render flat button', async () => {
     await renderComponent(`<app-button variant="flat">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode;
 
     expect(buttonEl).toHaveAttribute('mat-flat-button');
   });
@@ -114,9 +121,10 @@ describe('Button', () => {
   it('should render stroked button', async () => {
     await renderComponent(`<app-button variant="stroked">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode;
 
     expect(buttonEl).toHaveAttribute('mat-stroked-button');
   });
@@ -124,9 +132,10 @@ describe('Button', () => {
   it('should render stroked button', async () => {
     await renderComponent(`<app-button variant="stroked">Test</app-button>`, {
       declarations: [ButtonComponent],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode;
 
     expect(buttonEl).toHaveAttribute('mat-stroked-button');
   });
@@ -134,10 +143,10 @@ describe('Button', () => {
   it('should render icon button', async () => {
     await renderComponent(`<app-button variant="icon" iconName="home">Test</app-button>`, {
       declarations: [ButtonComponent],
-      imports: [MatIconModule],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode;
     const iconEl = screen.getByText('home');
 
     expect(iconEl).toHaveClass('mat-icon');
@@ -147,10 +156,10 @@ describe('Button', () => {
   it('should render fab button', async () => {
     await renderComponent(`<app-button variant="fab" iconName="home">Test</app-button>`, {
       declarations: [ButtonComponent],
-      imports: [MatIconModule],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode.parentNode;
     const iconEl = screen.getByText('home');
 
     expect(iconEl).toHaveClass('mat-icon');
@@ -160,10 +169,10 @@ describe('Button', () => {
   it('should render mini fab button', async () => {
     await renderComponent(`<app-button variant="miniFab" iconName="home">Test</app-button>`, {
       declarations: [ButtonComponent],
-      imports: [MatIconModule],
+      imports: [SharedModule, TemplateModule],
     });
 
-    const buttonEl = screen.getByText('Test');
+    const buttonEl = screen.getByText('Test').parentNode.parentNode;
     const iconEl = screen.getByText('home');
 
     expect(iconEl).toHaveClass('mat-icon');
