@@ -24,8 +24,7 @@ jobs:
         cmd: install # will run `yarn install` command
     - name: Run npm test:ci
       run: CHROMIUM_BIN=$(which chrome) npm run test:ci # will run `test:ci` command
-    - name: Run SonarCloud with organzation and project key from environment
-      if: ${{ vars.SONAR_ORGANIZATION != '' && vars.SONAR_PROJECT_KEY != '' }}
+    - name: Run SonarCloud check
       uses: SonarSource/sonarcloud-github-action@master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -34,9 +33,3 @@ jobs:
         args: >
           -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
           -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
-    - name: Run SonarCloud with hardcoded organization and project key
-      uses: SonarSource/sonarcloud-github-action@master # Fallback for the catenax-ng/tx-traceability-foss-frontend
-      if: ${{ vars.SONAR_ORGANIZATION == '' || vars.SONAR_PROJECT_KEY == '' }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
