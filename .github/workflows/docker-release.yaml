@@ -24,7 +24,7 @@ jobs:
         with:
           java-version: '${{ env.JAVA_VERSION }}'
           distribution: 'temurin'
-          cache: 'gradle'
+          cache: 'maven'
 
       - name: Cache maven packages
         uses: actions/cache@v3
