@@ -75,10 +75,12 @@ public class SecurityConfig {
 
 		return http.build();
 	}
+
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return (web) -> web.ignoring().antMatchers(WHITELIST_URLS);
 	}
+
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource(@Value("${cors.origins}") List<String> origins) {
 		CorsConfiguration configuration = new CorsConfiguration();
