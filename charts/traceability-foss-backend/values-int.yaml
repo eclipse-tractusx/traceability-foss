@@ -151,7 +151,7 @@ irs-helm:
   semanticsHub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1
   bpdm:
-    url: https://catenax-bpdm-int.demo.catena-x.net/v1
+    url: https://partners-pool.int.demo.catena-x.net
 
   minioUser: <path:traceability-foss/data/int/minio#user>
   minioPassword: <path:traceability-foss/data/int/minio#password>
