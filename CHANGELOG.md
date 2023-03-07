@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Changed
 - Changed github action docker-release to have maven cache instead of previously used gradle
+- Removed duplicated dependencies / Added version numbers for all dependencies for better managing
 
 ## [2.0.0] - 2023-03-06
 
