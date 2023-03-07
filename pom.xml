@@ -64,7 +64,7 @@
 		<testcontainer-postgresql.version>1.17.6</testcontainer-postgresql.version>
 		<testcontainer-spock.version>1.17.6</testcontainer-spock.version>
 		<rest-assured.version>5.2.0</rest-assured.version>
-
+		<spock-bom.version>2.1-groovy-3.0</spock-bom.version>
 
 		<!-- Sonar related properties -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -290,23 +290,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.spockframework</groupId>
-			<artifactId>spock-bom</artifactId>
-			<version>2.1-groovy-3.0</version>
-			<type>pom</type>
-		</dependency>
-		<dependency>
-			<groupId>org.spockframework</groupId>
-			<artifactId>spock-core</artifactId>
-			<version>${spock-core.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.spockframework</groupId>
-			<artifactId>spock-spring</artifactId>
-			<version>${spock-core.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all</artifactId>
 			<version>${groovy-all.version}</version>
@@ -362,9 +345,29 @@
 
 		<!-- Integration Testing Dependencies -->
 		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-bom</artifactId>
+			<version>${spock-bom.version}</version>
+			<type>pom</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-core</artifactId>
+			<version>${spock-core.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-spring</artifactId>
+			<version>${spock-core.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.bitbucket.b_c</groupId>
 			<artifactId>jose4j</artifactId>
 			<version>${jose4j.version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.xebialabs.restito</groupId>
