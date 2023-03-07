@@ -63,7 +63,6 @@ public class SecurityConfig {
 			.and()
 			.anonymous().disable()
 			.authorizeRequests()
-			.antMatchers(WHITELIST_URLS).permitAll()
 			.antMatchers("/api/callback/endpoint-data-reference").permitAll()
 			.antMatchers("/api/qualitynotifications/receive").permitAll()
 			.antMatchers("/api/**").authenticated()
@@ -76,7 +75,10 @@ public class SecurityConfig {
 
 		return http.build();
 	}
-
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring().antMatchers(WHITELIST_URLS);
+	}
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource(@Value("${cors.origins}") List<String> origins) {
 		CorsConfiguration configuration = new CorsConfiguration();
