@@ -446,10 +446,10 @@
                 </dependencies>
                 <configuration>
                     <testSources>
-                        <testSource>
-                            <directory>src/test/groovy</directory>
+                         <testSource>
+                            <directory>src/test/java</directory>
                             <includes>
-                                <include>**/*.groovy</include>
+                                <include>**/*.java</include>
                             </includes>
                         </testSource>
                         <testSource>
