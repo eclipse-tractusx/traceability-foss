@@ -45,6 +45,7 @@ public class AssetFacade {
 		assetService.synchronizeAssets(globalAssetIds);
 	}
 
+
 	public Map<String, Long> getAssetsCountryMap() {
 		return assetService.getAssetsCountryMap();
 	}

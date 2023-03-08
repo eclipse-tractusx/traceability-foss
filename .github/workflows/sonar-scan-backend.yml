@@ -2,6 +2,8 @@ name: "Sonar Cloud Analyze"
 on:
   workflow_dispatch:
   push:
+    paths:
+      - 'backend/**'
     branches:
       - main
 

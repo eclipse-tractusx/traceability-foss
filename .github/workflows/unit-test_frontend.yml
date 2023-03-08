@@ -1,0 +1,42 @@
+name: Unit Tests Frontend
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+  pull_request:
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+    - name: Install chrome
+      uses: browser-actions/setup-chrome@latest
+    - name: Install yarn
+      run: npm install yarn -g
+    - name: Install packages
+      run: yarn install
+    - name: Run yarn test:ci
+      run: CHROMIUM_BIN=$(which chrome) yarn test:ci # will run `test:ci` command
+    #- name: Run SonarCloud check
+    #  uses: SonarSource/sonarcloud-github-action@master
+    #  env:
+    #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+    #    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #  with:
+    #    args: >
+    #      -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+    #      -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}

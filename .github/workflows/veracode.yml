@@ -33,7 +33,7 @@ jobs:
         with:
           appname: "Traceability-Foss-Frontend"
           createprofile: false
-          filepath: "./veracode-scan-target.zip"
+          filepath: "./frontend/veracode-scan-target.zip"
           vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'
 
@@ -65,6 +65,6 @@ jobs:
         with:
           appname: 'Traceability-Foss-Backend'
           createprofile: false
-          filepath: "./target/traceability-app-*.jar"
+          filepath: "./backend/target/traceability-app-*.jar"
           vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'
