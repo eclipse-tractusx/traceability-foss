@@ -1,6 +1,7 @@
 name: "Pull request Backend"
 
 on:
+  workflow_dispatch: # Trigger manually
   pull_request:
     paths:
       - 'backend/**'
