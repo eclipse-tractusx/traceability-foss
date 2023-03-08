@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+
+actor User
+participant TraceX
+participant "Digital Twin Registry" as DTR
+participant IRS
+
+User -> TraceX: Open asset list
+TraceX -> DTR: lookup assets by configured BPN
+rnote right TraceX
+Once per day, schedule based
+end rnote
+TraceX <-- DTR: List<aasID>
+
+TraceX -> DTR: Get shell by AAS identifier: ""/registry/shell-descriptors/{aasIdentifier}""
+TraceX <-- DTR: Shell Descriptor
+TraceX -> TraceX: Merge data to backend
+rnote right TraceX
+manufacturerId, manufacturerPartId, partInstanceId, idShort, batchId, globalAssetId, customerPartId, van
+end rnote
+TraceX -> TraceX: Extract globalAssetId as CatenaX UUID
+TraceX -> TraceX: Filter for new CX UUIDs
+
+	loop for each new CX_UUID
+        TraceX -> IRS: Register job to get submodel data
+            rnote right TraceX
+                aspects, globalAssetId, bomLifecycle, collectAspects, direction, depth
+            end rnote
+        TraceX <-- IRS: Submodel Data
+        TraceX -> TraceX: Extract objects
+            rnote right TraceX
+                relationships, shells, tombstones, submodels, bpns
+            end rnote
+		TraceX -> TraceX: Merge data to backend
+	end
+
+User <-- TraceX: List<Assets>
+
+@enduml

@@ -1,0 +1,146 @@
+{
+	"bpn": "BPNL00000003AYRE",
+	"identifiers": [
+		{
+			"uuid": "5da44e0d-a57b-4529-aac1-ee1cd65d956c",
+			"value": "624eda97399ae27f57f27002",
+			"type": {
+				"technicalKey": "CDQID",
+				"name": "CDQ Identifier",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CDQ",
+				"name": "CDQ AG",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "CDQ_IMPORTED",
+				"name": "Imported from CDQ but not synchronized"
+			}
+		},
+		{
+			"uuid": "3ded31a1-dd59-4587-b281-f8425fb970ce",
+			"value": "BPNL00000003AYRE",
+			"type": {
+				"technicalKey": "BPN",
+				"name": "Business Partner Number",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CATENAX",
+				"name": "Catena-X",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "UNKNOWN",
+				"name": "Unknown"
+			}
+		},
+		{
+			"uuid": "54e28d44-b74f-4637-8644-4f4e765af352",
+			"value": "DE132515725",
+			"type": {
+				"technicalKey": "EU_VAT_ID_DE",
+				"name": "Umsatzsteuer-Identifikationsnummer",
+				"url": "https://meta.cdq.com/European_value_added_tax_identifier_(Germany)"
+			},
+			"issuingBody": null,
+			"status": null
+		},
+		{
+			"uuid": "25af3319-cd4b-4e14-b280-6712d524097c",
+			"value": "CX.POOL:624ED7BD885D863690CF6E340",
+			"type": {
+				"technicalKey": "CX_POOL_ID",
+				"name": "",
+				"url": null
+			},
+			"issuingBody": null,
+			"status": null
+		}
+	],
+	"names": [],
+	"legalForm": null,
+	"status": null,
+	"addresses": [
+		{
+			"uuid": "d758976d-5be4-4587-9b0f-13eb6c647d18",
+			"bpn": "BPNA00000003AYRE",
+			"version": {
+				"characterSet": {
+					"technicalKey": "LATIN",
+					"name": "Latin"
+				},
+				"language": {
+					"technicalKey": "en",
+					"name": "English"
+				}
+			},
+			"careOf": null,
+			"contexts": [],
+			"country": {
+				"technicalKey": "DE",
+				"name": "Germany"
+			},
+			"administrativeAreas": [],
+			"postCodes": [
+				{
+					"uuid": "bce59030-79f7-4e05-8377-9bb2217d5e5d",
+					"value": "60599",
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					}
+				}
+			],
+			"localities": [
+				{
+					"uuid": "9e1be3e3-b076-43ba-a99b-9d2ac580439d",
+					"value": "Frankfurt",
+					"shortName": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"thoroughfares": [
+				{
+					"uuid": "029d6d72-5433-49e8-8720-baaa8afab3eb",
+					"value": "Offenbacher Landstraße",
+					"name": null,
+					"shortName": null,
+					"number": "223A",
+					"direction": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"premises": [],
+			"postalDeliveryPoints": [],
+			"geographicCoordinates": null,
+			"types": []
+		}
+	],
+	"sites": [],
+	"profileClassifications": [],
+	"types": [],
+	"bankAccounts": [],
+	"roles": [],
+	"relations": [],
+	"currentness": "2022-06-03T11:47:21.114296Z"
+}

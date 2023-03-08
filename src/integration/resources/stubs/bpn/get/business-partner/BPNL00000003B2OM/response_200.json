@@ -1,0 +1,161 @@
+{
+	"bpn": "BPNL00000003B2OM",
+	"identifiers": [
+		{
+			"uuid": "d1efed5e-5886-4778-af6f-e3b1abee2236",
+			"value": "624eda97399ae27f57f27006",
+			"type": {
+				"technicalKey": "CDQID",
+				"name": "CDQ Identifier",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CDQ",
+				"name": "CDQ AG",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "CDQ_IMPORTED",
+				"name": "Imported from CDQ but not synchronized"
+			}
+		},
+		{
+			"uuid": "8898db79-3af6-4355-8134-be7c052720bb",
+			"value": "CX.POOL:624ED7C429B7A338C3E865860",
+			"type": {
+				"technicalKey": "CX_POOL_ID",
+				"name": "",
+				"url": null
+			},
+			"issuingBody": null,
+			"status": null
+		},
+		{
+			"uuid": "a312a496-f1e7-48c7-9d84-44bd2e490cd5",
+			"value": "DE129273398",
+			"type": {
+				"technicalKey": "EU_VAT_ID_DE",
+				"name": "Umsatzsteuer-Identifikationsnummer",
+				"url": "https://meta.cdq.com/European_value_added_tax_identifier_(Germany)"
+			},
+			"issuingBody": null,
+			"status": null
+		},
+		{
+			"uuid": "695f265b-2466-4ad4-92e2-95ed2cb1e53e",
+			"value": "BPNL00000003B2OM",
+			"type": {
+				"technicalKey": "BPN",
+				"name": "Business Partner Number",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CATENAX",
+				"name": "Catena-X",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "UNKNOWN",
+				"name": "Unknown"
+			}
+		}
+	],
+	"names": [
+		{
+			"uuid": "20070224-7d23-4492-9c76-cabc1d7c5a9f",
+			"value": "Tier A",
+			"shortName": null,
+			"type": {
+				"technicalKey": "LOCAL",
+				"name": "The business partner name identifies a business partner in a given context, e.g. a country or region.",
+				"url": ""
+			},
+			"language": {
+				"technicalKey": "undefined",
+				"name": "Undefined"
+			}
+		}
+	],
+	"legalForm": null,
+	"status": null,
+	"addresses": [
+		{
+			"uuid": "75ea46d8-dc64-4fd7-a2c7-62c02cbaa06f",
+			"bpn": "BPNA00000003B2OM",
+			"version": {
+				"characterSet": {
+					"technicalKey": "LATIN",
+					"name": "Latin"
+				},
+				"language": {
+					"technicalKey": "en",
+					"name": "English"
+				}
+			},
+			"careOf": null,
+			"contexts": [],
+			"country": {
+				"technicalKey": "DE",
+				"name": "Germany"
+			},
+			"administrativeAreas": [],
+			"postCodes": [
+				{
+					"uuid": "0fc25fd8-dd9c-4b4f-988e-5d3d18d1d8a4",
+					"value": "70597",
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					}
+				}
+			],
+			"localities": [
+				{
+					"uuid": "68f19c8d-b5d0-42d5-83ce-faa366dba89a",
+					"value": "Stuttgart",
+					"shortName": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"thoroughfares": [
+				{
+					"uuid": "86d6131d-fad0-47d0-8e70-b086f1ddb6a5",
+					"value": "Untere Waldplätze",
+					"name": null,
+					"shortName": null,
+					"number": "2A",
+					"direction": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"premises": [],
+			"postalDeliveryPoints": [],
+			"geographicCoordinates": null,
+			"types": []
+		}
+	],
+	"sites": [],
+	"profileClassifications": [],
+	"types": [],
+	"bankAccounts": [],
+	"roles": [],
+	"relations": [],
+	"currentness": "2022-06-03T11:47:21.127377Z"
+}

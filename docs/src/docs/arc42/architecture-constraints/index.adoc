@@ -1,0 +1,67 @@
+= Architecture Constraints
+
+== Technical Constraints
+
+|===
+|Name |Description
+
+|Interoperability
+|Trace-X must use EDC together with Catena-X approved data models to guarantee interoperability between participants.
+
+|Data Sovereignty
+|Data owners and data consumers have to use usage policies for offering, consuming and therefore transferring data.
+
+|Kubernetes for Container Orchestration
+|Catena-X requires the application to run in a Kubernetes environment, deployed via Helm Charts.
+
+|Catena-X UUX Guidance (CX Style Guide)
+|Frontend follows Catena-X wide UUX consistency according to CX Style Guide
+|===
+
+== Organizational Constraints
+
+|===
+|Name |Description
+
+|Schedule
+|Start of development in July 2022. Further development in alignment with the Foundation of the Catena-X Automotive Network e.V. requirements and timeline.
+
+|Process model
+|Iterative and incremental. SAFe Framework is used to align with Catena-X services, prerequisites, components and requirements to be Catena-X compatible.
+
+|Catena-X services / requirements
+|Trace-X needs to be Catena-X compliant and the application has to follow the CX standards as well as interact with the core services and components.
+
+|Release as Open Source
+|The source code, at least parts of it, are made available as open source and can be found in Github Catena-X ng as well as in Eclipse Tractus-X.
+
+|Technology Readiness Level (TRL) for Products developed within the CX Consortia
+|As Trace-X is a reference implementation, the Technology Readiness Level (TRL) must not be above TRL 8.
+|===
+
+
+
+== Political Constraints
+
+|===
+|Name |Description
+
+|Open Source
+|FOSS licenses approved be the Eclipse foundation have to be used.
+|===
+
+== Development Conventions
+
+|===
+|Name |Description
+
+|Architecture documentation
+|Architectural documentation of Trace-X reference application in arc42-Template terminology and structure.
+
+|Language
+|The project language is English to ensure the best possible accessibility for all participants. Therefore, classes, methods etc. are named in English and the documentation is written in English.
+
+|Code Coverage
+|More than 80% test coverage of the complete source code
+
+|===

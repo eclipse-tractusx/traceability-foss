@@ -1,0 +1,25 @@
+= Stakeholder
+
+The following table presents the stakeholders of Trace-X and their respective intentions.
+
+|===
+|Who |Matters and concern
+
+a|Software Developer a|* Make an impact on Catena-X by participating in open-source software.
+* Example implementation for own use cases and applications.
+
+a|Operating Environments a|* Use Trace-X as a basis for industrialization.
+* Example implementation for own business applications, further features and fast ramp up.
+
+|Catena-X Partners
+a|* Take part in Traceability Use Case.
+* See relationships in the value chain.
+* React on quality issues with standardized actions and notifications.
+
+|Larger OEMs / Tiers
+a|* Want to use this implementation for further development and integration into their system landscape.
+
+|SMEs
+a|* Need a solution to view data provided into the Catena-X network.
+* Act in a standardized way with partners within CX.
+|===

@@ -1,0 +1,71 @@
+name: Publish documentation
+
+on:
+  workflow_dispatch: # Trigger manually
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+
+jobs:
+  publish:
+    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
+    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Graphviz
+        uses: ts-graphviz/setup-graphviz@v1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+
+#      - name: Build API documentation with Maven
+#        run: |
+#          mvn clean package -pl <<modules>> -DskipTests --batch-mode
+#          cp ../openapi/index.html docs/src/docs/api-specification/index.html
+
+      - name: Build with Maven
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        run: |
+          mvn -f docs/pom.xml --batch-mode generate-resources
+
+      - name: Install pandoc
+        run: |
+          sudo apt-get install pandoc
+          which pandoc
+
+      - name: Convert HTML to markdown
+        env:
+          FILES: "administration/administration-guide arc42/full api-specification/api-specification"
+        run: |
+          cd docs/target/generated-docs
+          for file in ${FILES}; do \
+            pandoc -f html -t markdown_strict --wrap=preserve "${file}.html" -o "${file}.md"; \
+            sed -i 's/](#_/](#/' "${file}.md"; \
+            sed -i -E '/\[.*\]\(#.*\)/ s/_/-/g' "${file}.md"; done
+
+      - name: GitHub Pages action
+        uses: peaceiris/actions-gh-pages@v3.9.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: "./docs/target/generated-docs"
+          destination_dir: "docs"
