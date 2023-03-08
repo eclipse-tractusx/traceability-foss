@@ -49,6 +49,8 @@ jobs:
         run: |
           chmod +x ./scripts/xray-download-feature-files.sh
           ./scripts/xray-download-feature-files.sh
+      - name: Fix permission on file
+        run: chmod +x ./cypress/cucumber-json-formatter
 
       - name: Save cypress/e2e folder
         uses: actions/upload-artifact@v3
@@ -147,6 +149,7 @@ jobs:
           wait-on: "http://localhost:4200"
           wait-on-timeout: 120
           browser: firefox
+          working-directory: frontend
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR
@@ -209,6 +212,7 @@ jobs:
           wait-on: "http://localhost:4200"
           wait-on-timeout: 120
           browser: webkit
+          working-directory: frontend
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR
