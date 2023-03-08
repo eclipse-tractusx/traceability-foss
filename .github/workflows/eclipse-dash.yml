@@ -1,7 +1,10 @@
 name: "Eclipse DASH IP Check"
 
 on:
-  workflow_dispatch: # Trigger manually
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - 'main'
   pull_request:
     branches: main
     paths-ignore:
@@ -20,8 +23,33 @@ on:
       - 'CHANGELOG.md'
 
 jobs:
-  build:
+  build-frontend:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: IP dependency check with eclipse dash tool
+        run: ./.github/scripts/eclipse_dash.sh
+        shell: bash
+
+      - name: upload results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          path: 'DASH_SUMMARY'
+
+  build-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
     steps:
       - uses: actions/checkout@v3
 
@@ -46,3 +74,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: 'DEPENDENCIES'
+

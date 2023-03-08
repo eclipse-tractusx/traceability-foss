@@ -1,9 +1,0 @@
-target/
-/.idea/
-/.gradle/
-/build/
-/out/
-.env
-application-local.yml
-.DS_Store
-*.tgz

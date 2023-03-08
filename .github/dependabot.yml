@@ -14,3 +14,10 @@ updates:
       day: "wednesday"
       time: "03:00"
 
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "03:00"
+

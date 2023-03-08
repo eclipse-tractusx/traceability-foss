@@ -12,7 +12,7 @@
     "ng-cli": "ng update --force @angular/cli",
     "ng-core": "ng update --force @angular/core",
     "ng-material": "ng update --force @angular/material",
-    "prepare": "husky install",
+    "prepare": "cd .. && husky install frontend/.husky",
     "start": "ng serve",
     "start:auth": "ng serve --configuration=dev,auth",
     "start:auth:mock": "ng serve --configuration=authMock",
