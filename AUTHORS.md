@@ -18,3 +18,4 @@ The following people have contributed to this repository:
 - Thomas Braun, ZF Friedrichshafen AG, https://github.com/tbraun-zf
 - Maximilian Wesener, doubleSlash Net-Business GmbH, https://github.com/ds-mwesener
 - László Graf, msg systems Romania, https://www.msg-systems.ro
+
