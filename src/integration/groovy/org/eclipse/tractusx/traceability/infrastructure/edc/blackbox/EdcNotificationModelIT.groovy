@@ -31,6 +31,8 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.Notif
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.springframework.beans.factory.annotation.Autowired
 
+import java.time.Instant
+
 class EdcNotificationModelIT extends IntegrationSpecification implements TestDataSupport {
 
 	@Autowired
@@ -81,7 +83,7 @@ class EdcNotificationModelIT extends IntegrationSpecification implements TestDat
 				"CRITICAL",
 				null,
 				"SENT",
-				null
+				"2018-11-30T18:35:24.00Z"
 			)
 
 		and:
@@ -108,10 +110,10 @@ class EdcNotificationModelIT extends IntegrationSpecification implements TestDat
 			json["header"]["classification"] == header.classification()
 			json["header"]["severity"] == header.severity()
 			json["header"]["status"] == header.status()
+			json["header"]["targetDate"] == header.targetDate()
 
 		and:
 			def headerObject = json["header"] as Map
-			!headerObject.containsKey("targetDate")
 			!headerObject.containsKey("relatedNotificationId")
 
 		and:

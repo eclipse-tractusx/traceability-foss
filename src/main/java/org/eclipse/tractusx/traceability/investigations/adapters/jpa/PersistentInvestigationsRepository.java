@@ -215,7 +215,8 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 			investigation.getStatus(),
 			notificationEntity.getAssets().stream()
 				.map(asset -> new AffectedPart(asset.getId()))
-				.toList()
+				.toList(),
+			notificationEntity.getTargetDate()
 		);
 	}
 
@@ -232,7 +233,8 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 			notification.getSenderBpnNumber(),
 			notification.getReceiverBpnNumber(),
 			notificationAssets,
-			notification.getNotificationReferenceId()
+			notification.getNotificationReferenceId(),
+			notification.getTargetDate()
 		);
 	}
 

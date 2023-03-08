@@ -34,6 +34,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.time.Instant;
 import java.util.List;
 
 @Entity
@@ -62,16 +63,20 @@ public class NotificationEntity {
 	private String edcUrl;
 	private String contractAgreementId;
 	private String notificationReferenceId;
+	private Instant targetDate;
 
 	public NotificationEntity() {
 	}
 
-	public NotificationEntity(InvestigationEntity investigation, String senderBpnNumber, String receiverBpnNumber, List<AssetEntity> assets, String notificationReferenceId) {
+	public NotificationEntity(InvestigationEntity investigation, String senderBpnNumber,
+							  String receiverBpnNumber, List<AssetEntity> assets, String notificationReferenceId,
+							  Instant targetDate) {
 		this.investigation = investigation;
 		this.senderBpnNumber = senderBpnNumber;
 		this.receiverBpnNumber = receiverBpnNumber;
 		this.assets = assets;
 		this.notificationReferenceId = notificationReferenceId;
+		this.targetDate = targetDate;
 	}
 
 	public String getId() {
@@ -137,4 +142,13 @@ public class NotificationEntity {
 	public void setAssets(List<AssetEntity> assets) {
 		this.assets = assets;
 	}
+
+	public Instant getTargetDate() {
+		return this.targetDate;
+	}
+
+	public void setTargetDate(Instant targetDate) {
+		this.targetDate = targetDate;
+	}
+
 }

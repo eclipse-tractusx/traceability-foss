@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.investigations.domain.ports.Investigati
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -60,22 +61,24 @@ public class InvestigationsPublisherService {
 	 * @param description    the description of the investigation
 	 * @return the ID of the newly created investigation
 	 */
-	public InvestigationId startInvestigation(BPN applicationBpn, List<String> assetIds, String description) {
+	public InvestigationId startInvestigation(BPN applicationBpn, List<String> assetIds, String description, Instant targetDate) {
 		Investigation investigation = Investigation.startInvestigation(clock.instant(), applicationBpn, description);
 
 		Map<String, List<Asset>> assetsByManufacturer = assetRepository.getAssetsById(assetIds).stream().collect(Collectors.groupingBy(Asset::getManufacturerId));
 
-		assetsByManufacturer.entrySet().stream().map(it -> new Notification(
-			UUID.randomUUID().toString(),
-			null,
-			applicationBpn.value(),
-			it.getKey(),
-			null,
-			null,
-			description,
-			InvestigationStatus.RECEIVED,
-			it.getValue().stream().map(Asset::getId).map(AffectedPart::new).collect(Collectors.toList())
-		)).forEach(investigation::addNotification);
+		assetsByManufacturer.entrySet().stream()
+			.map(it -> new Notification(
+				UUID.randomUUID().toString(),
+				null,
+				applicationBpn.value(),
+				it.getKey(),
+				null,
+				null,
+				description,
+				InvestigationStatus.RECEIVED,
+				it.getValue().stream().map(Asset::getId).map(AffectedPart::new).toList(),
+				targetDate
+			)).forEach(investigation::addNotification);
 
 		return repository.save(investigation);
 	}

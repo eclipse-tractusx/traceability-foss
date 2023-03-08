@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -53,7 +54,8 @@ class NotificationsServiceTest {
 			null,
 			null,
 			null,
-			null
+			null,
+			Instant.now()
 		);
 
 		// when

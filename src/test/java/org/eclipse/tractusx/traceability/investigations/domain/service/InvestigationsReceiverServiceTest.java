@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +70,8 @@ class InvestigationsReceiverServiceTest {
 			"agreement",
 			"information",
 			InvestigationStatus.CLOSED,
-			affectedParts
+			affectedParts,
+			Instant.now()
 		);
 
 		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
@@ -101,7 +103,8 @@ class InvestigationsReceiverServiceTest {
 			"agreement",
 			"information",
 			InvestigationStatus.SENT,
-			affectedParts
+			affectedParts,
+			Instant.now()
 		);
 
 		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
@@ -138,7 +141,8 @@ class InvestigationsReceiverServiceTest {
 			"agreement",
 			"information",
 			InvestigationStatus.RECEIVED,
-			affectedParts
+			affectedParts,
+			Instant.now()
 		);
 
 		Notification notification2 = new Notification(
@@ -150,7 +154,8 @@ class InvestigationsReceiverServiceTest {
 			"agreement",
 			"information",
 			InvestigationStatus.RECEIVED,
-			affectedParts
+			affectedParts,
+			Instant.now()
 		);
 		List<Notification> notifications = new ArrayList<>();
 		notifications.add(notification);
@@ -188,7 +193,8 @@ class InvestigationsReceiverServiceTest {
 			"agreement",
 			"information",
 			InvestigationStatus.CREATED,
-			affectedParts
+			affectedParts,
+			Instant.now()
 		);
 
 		List<Notification> notifications = new ArrayList<>();
@@ -228,7 +234,8 @@ class InvestigationsReceiverServiceTest {
 			"agreement",
 			"information",
 			InvestigationStatus.CREATED,
-			affectedParts
+			affectedParts,
+			Instant.now()
 		);
 
 		List<Notification> notifications = new ArrayList<>();

@@ -77,7 +77,9 @@ public class InvestigationsController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public StartInvestigationResponse investigateAssets(@RequestBody @Valid StartInvestigationRequest request) {
-		InvestigationId investigationId = investigationsPublisherService.startInvestigation(traceabilityProperties.getBpn(), request.partIds(), request.description());
+		InvestigationId investigationId =
+			investigationsPublisherService.startInvestigation(
+				traceabilityProperties.getBpn(), request.partIds(), request.description(), request.targetDate());
 
 		return new StartInvestigationResponse(investigationId.value());
 	}

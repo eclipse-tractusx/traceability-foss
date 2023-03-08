@@ -6,7 +6,6 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Investigati
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
-
 import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.Test;
@@ -16,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Clock;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,7 +48,9 @@ class InvestigationsPublisherServiceTest {
         when(repository.save(any(Investigation.class))).thenReturn(investigation.getId());
 
         // When
-        investigationsPublisherService.startInvestigation(BPN.of("bpn-123"), Arrays.asList("asset-1", "asset-2"), "Test investigation");
+        investigationsPublisherService.startInvestigation(
+			BPN.of("bpn-123"),
+			Arrays.asList("asset-1", "asset-2"), "Test investigation", Instant.parse("2022-03-01T12:00:00Z"));
 
         // Then
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
@@ -56,61 +58,62 @@ class InvestigationsPublisherServiceTest {
 
     }
 
-    @Test
-    void testCancelInvestigationSuccessful() {
-        // Given
-        BPN bpn = new BPN("bpn123");
-        Long id = 1L;
-        Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.CREATED, InvestigationStatus.CREATED, "bpn123");
-        when(investigationsReadService.loadInvestigation(any())).thenReturn(investigation);
-        when(repository.update(investigation)).thenReturn(new InvestigationId(id));
+	@Test
+	void testCancelInvestigationSuccessful() {
+		// Given
+		BPN bpn = new BPN("bpn123");
+		Long id = 1L;
+		Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.CREATED, InvestigationStatus.CREATED);
+		when(investigationsReadService.loadInvestigation(any())).thenReturn(investigation);
+		when(repository.update(investigation)).thenReturn(new InvestigationId(id));
 
-        // When
-        investigationsPublisherService.cancelInvestigation(bpn, id);
+		// When
+		investigationsPublisherService.cancelInvestigation(bpn, id);
 
-        // Then
-        verify(investigationsReadService).loadInvestigation(new InvestigationId(id));
-        verify(repository).update(investigation);
-        assertEquals(InvestigationStatus.CANCELED, investigation.getInvestigationStatus());
-    }
+		// Then
+		verify(investigationsReadService).loadInvestigation(new InvestigationId(id));
+		verify(repository).update(investigation);
+		assertEquals(InvestigationStatus.CANCELED, investigation.getInvestigationStatus());
+	}
 
-    @Test
-    void testCloseInvestigationSuccessful() {
+	@Test
+	void testCloseInvestigationSuccessful() {
 
-        // Given
-        final long id = 1L;
-        final String reason = "TEST_REASON";
-        final BPN bpn = new BPN("bpn123");
-        InvestigationId investigationId = new InvestigationId(id);
-        Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.RECEIVED, "bpn123");
-        when(investigationsReadService.loadInvestigation(investigationId)).thenReturn(investigation);
-        when(repository.update(investigation)).thenReturn(investigationId);
+		// Given
+		final long id = 1L;
+		final String reason = "TEST_REASON";
+		final BPN bpn = new BPN("bpn123");
+		InvestigationId investigationId = new InvestigationId(id);
+		Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.RECEIVED);
+		when(investigationsReadService.loadInvestigation(investigationId)).thenReturn(investigation);
+		when(repository.update(investigation)).thenReturn(investigationId);
 
-        // When
-        investigationsPublisherService.closeInvestigation(bpn, id, reason);
+		// When
+		investigationsPublisherService.closeInvestigation(bpn, id, reason);
 
-        // Then
-        verify(investigationsReadService).loadInvestigation(investigationId);
-        verify(repository).update(investigation);
-        verify(notificationsService).updateAsync(any());
-    }
+		// Then
+		verify(investigationsReadService).loadInvestigation(investigationId);
+		verify(repository).update(investigation);
+		verify(notificationsService).updateAsync(any());
+	}
 
-    @Test
-    void testSendInvestigationSuccessful() {
-        // Given
-        final long id = 1L;
-        final BPN bpn = new BPN("bpn123");
-        InvestigationId investigationId = new InvestigationId(1L);
-        Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.CREATED, InvestigationStatus.CREATED, "bpn123");
-        when(investigationsReadService.loadInvestigation(investigationId)).thenReturn(investigation);
-        when(repository.update(investigation)).thenReturn(investigationId);
+	@Test
+	void testSendInvestigationSuccessful() {
+		// Given
+		final long id = 1L;
+		final BPN bpn = new BPN("bpn123");
+		InvestigationId investigationId = new InvestigationId(1L);
+		Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.CREATED, InvestigationStatus.CREATED);
+		when(investigationsReadService.loadInvestigation(investigationId)).thenReturn(investigation);
+		when(repository.update(investigation)).thenReturn(investigationId);
 
-        // When
-        investigationsPublisherService.sendInvestigation(bpn, id);
+		// When
+		investigationsPublisherService.sendInvestigation(bpn, id);
 
-        // Then
-        verify(investigationsReadService).loadInvestigation(investigationId);
-        verify(repository).update(investigation);
-        verify(notificationsService).updateAsync(any());
-    }
+		// Then
+		verify(investigationsReadService).loadInvestigation(investigationId);
+		verify(repository).update(investigation);
+		verify(notificationsService).updateAsync(any());
+	}
+
 }

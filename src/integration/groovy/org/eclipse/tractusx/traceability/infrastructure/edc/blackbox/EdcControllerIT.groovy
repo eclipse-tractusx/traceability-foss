@@ -26,7 +26,8 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 			"senderBpnNumber",
 			"receiverBpnNumber",
 			null,
-			"notificationReferenceId"
+			"notificationReferenceId",
+			Instant.parse("2022-03-01T12:00:00Z")
 		)
 		notification.setEdcUrl("http://example.com")
 		notification.setContractAgreementId("contractAgreementId")
@@ -87,7 +88,8 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 			"senderBpnNumber",
 			"receiverBpnNumber",
 			null,
-			"notificationReferenceId"
+			"notificationReferenceId",
+			Instant.parse("2022-03-01T12:00:00Z")
 		)
 		notification.setEdcUrl("http://example.com")
 		notification.setContractAgreementId("contractAgreementId")
@@ -144,11 +146,12 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 		given:
 
 		NotificationEntity notification = new NotificationEntity(
-				null,
-				"senderBpnNumber",
-				"receiverBpnNumber",
-				null,
-				"notificationReferenceId"
+			null,
+			"senderBpnNumber",
+			"receiverBpnNumber",
+			null,
+			"notificationReferenceId",
+			Instant.parse("2022-03-01T12:00:00Z")
 		)
 		notification.setEdcUrl("http://example.com")
 		notification.setContractAgreementId("contractAgreementId")
@@ -205,11 +208,12 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 		given:
 
 		NotificationEntity notification = new NotificationEntity(
-				null,
-				"senderBpnNumber",
-				"receiverBpnNumber",
-				null,
-				"notificationReferenceId"
+			null,
+			"senderBpnNumber",
+			"receiverBpnNumber",
+			null,
+			"notificationReferenceId",
+			Instant.parse("2022-03-01T12:00:00Z")
 		)
 		notification.setEdcUrl("http://example.com")
 		notification.setContractAgreementId("contractAgreementId")
@@ -269,7 +273,8 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 			"senderBpnNumber",
 			"receiverBpnNumber",
 			null,
-			"notificationReferenceId"
+			"notificationReferenceId",
+			Instant.now()
 		)
 		notification.setEdcUrl("http://example.com")
 		notification.setContractAgreementId("contractAgreementId")

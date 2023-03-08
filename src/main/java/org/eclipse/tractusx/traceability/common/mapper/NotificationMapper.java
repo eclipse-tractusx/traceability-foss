@@ -46,7 +46,8 @@ public class NotificationMapper {
 			null,
 			edcNotification.getInformation(),
 			InvestigationStatus.RECEIVED,
-			edcNotification.getListOfAffectedItems()
+			edcNotification.getListOfAffectedItems(),
+			edcNotification.getTargetDate()
 		);
 	}
 }

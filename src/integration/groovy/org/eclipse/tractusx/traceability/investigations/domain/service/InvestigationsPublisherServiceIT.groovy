@@ -36,6 +36,8 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Notificatio
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
+import java.time.Instant
+
 class InvestigationsPublisherServiceIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
 
 	@Autowired
@@ -58,7 +60,8 @@ class InvestigationsPublisherServiceIT extends IntegrationSpecification implemen
 					null,
 					"description",
 					InvestigationStatus.SENT,
-					[new AffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")]
+					[new AffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")],
+					Instant.parse("2018-11-30T18:35:24.00Z")
 				)
 			)
 
