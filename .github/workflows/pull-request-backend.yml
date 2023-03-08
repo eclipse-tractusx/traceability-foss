@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'backend/**'
+      - '.github/workflows/**'
     paths-ignore:
       - '**.md'
       - 'docs/**'
