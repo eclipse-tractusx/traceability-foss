@@ -5,10 +5,6 @@ on:
     paths:
       - 'backend/**'
       - '.github/workflows/**'
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-
 env:
   REGISTRY: ghcr.io
   JAVA_VERSION: 17
