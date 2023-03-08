@@ -36,7 +36,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.RELEASE_VERSION }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.RELEASE_VERSION }}
 
   Release-docker-image-backend:
     runs-on: ubuntu-latest
@@ -73,4 +73,4 @@ jobs:
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
 
       - name: Push docker image latest tag
-        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:latest
+        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
