@@ -117,4 +117,18 @@ public class Notification {
 	public InvestigationStatus getInvestigationStatus() {
 		return investigationStatus;
 	}
+
+	public Notification copy() {
+		return new Notification(
+			id,
+			notificationReferenceId,
+			senderBpnNumber,
+			receiverBpnNumber,
+			edcUrl,
+			contractAgreementId,
+			description,
+			investigationStatus,
+			affectedParts
+		);
+	}
 }

@@ -20,21 +20,16 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.investigations.adapters.mock;
 
-import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
-@Component
-@Profile(ApplicationProfiles.NOT_TESTS)
 public class EnvironmentAwareMockEDCUrlProvider implements EDCUrlProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(EnvironmentAwareMockEDCUrlProvider.class);
@@ -45,28 +40,26 @@ public class EnvironmentAwareMockEDCUrlProvider implements EDCUrlProvider {
 
 	private static final String DEFAULT_EDC_PROVIDER_URL = "https://trace-x-test-edc.%s.demo.catena-x.net".formatted(ENVIRONMENT_PLACEHOLDER);
 
-	private final String senderBpn;
-
 	private final String applicationEnvironment;
 
 	private final EdcProperties edcProperties;
 
-	public EnvironmentAwareMockEDCUrlProvider(@Value("${traceability.bpn}") String senderBpn,
-											  @Autowired Environment applicationEnvironment,
-											  @Autowired EdcProperties edcProperties) {
-		this.senderBpn = senderBpn;
+	public EnvironmentAwareMockEDCUrlProvider(@Autowired Environment applicationEnvironment,
+											  @Autowired EdcProperties edcProperties
+	) {
 		this.applicationEnvironment = Arrays.stream(applicationEnvironment.getActiveProfiles())
 			.findFirst()
 			.orElseThrow(() -> new IllegalStateException("No environment found"));
 		this.edcProperties = edcProperties;
 	}
 
-	public String getEdcUrl(String bpn) {
+	@Override
+	public List<String> getEdcUrls(String bpn) {
 		String edcUrl = edcProperties.getBpnProviderUrlMappings().getOrDefault(bpn, defaultProviderUrl());
 
 		logger.info("Resolved {} url for {} bpn", edcUrl, bpn);
 
-		return edcUrl;
+		return List.of(edcUrl);
 	}
 
 	private String defaultProviderUrl() {
@@ -76,9 +69,5 @@ public class EnvironmentAwareMockEDCUrlProvider implements EDCUrlProvider {
 	@Override
 	public String getSenderUrl() {
 		return DEFAULT_EDC_SENDER_URL.replace(ENVIRONMENT_PLACEHOLDER, applicationEnvironment);
-	}
-
-	public String getSenderBpn() {
-		return senderBpn;
 	}
 }

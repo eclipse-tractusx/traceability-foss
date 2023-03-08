@@ -24,24 +24,37 @@ package org.eclipse.tractusx.traceability.investigations.domain.service;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.async.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class NotificationsService {
 
 	private final InvestigationsEDCFacade edcFacade;
 	private final InvestigationsRepository repository;
+	private final EDCUrlProvider edcUrlProvider;
 
-	public NotificationsService(InvestigationsEDCFacade edcFacade, InvestigationsRepository repository) {
+	public NotificationsService(InvestigationsEDCFacade edcFacade, InvestigationsRepository repository, EDCUrlProvider edcUrlProvider) {
 		this.edcFacade = edcFacade;
 		this.repository = repository;
+		this.edcUrlProvider = edcUrlProvider;
 	}
 
 	@Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
 	public void updateAsync(Notification notification) {
-		edcFacade.startEDCTransfer(notification);
-		repository.update(notification);
+		String senderEdcUrl = edcUrlProvider.getSenderUrl();
+
+		List<String> receiverEdcUrls = edcUrlProvider.getEdcUrls(notification.getReceiverBpnNumber());
+
+		for (String receiverEdcUrl : receiverEdcUrls) {
+			Notification notificationToSend = notification.copy();
+
+			edcFacade.startEDCTransfer(notificationToSend, receiverEdcUrl, senderEdcUrl);
+			repository.update(notificationToSend);
+		}
 	}
 }

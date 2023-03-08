@@ -47,6 +47,7 @@ class RestitoConfig {
 				"spring.security.oauth2.client.provider.default.token-uri=http://127.0.0.1:$STUB_SERVER_PORT$OAUTH2_TOKEN_PATH",
 				"feign.bpnApi.url=http://127.0.0.1:$STUB_SERVER_PORT",
 				"feign.irsApi.url=http://127.0.0.1:$STUB_SERVER_PORT",
+				"feign.portalApi.url=http://127.0.0.1:$STUB_SERVER_PORT",
 				"feign.irsApi.globalAssetId=testAssetId",
 				"feign.registryApi.url=http://127.0.0.1:$STUB_SERVER_PORT",
 				"feign.registryApi.defaultBpn=BPNL00000003AYRE",

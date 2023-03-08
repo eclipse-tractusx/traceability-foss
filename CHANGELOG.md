@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Fixed Sending and saving quality investigation closure reason
+- Added connector lookup dataspace discovery service functionality for finding EDC url
 
 ## [1.1.0] - 2023-03-02
 
