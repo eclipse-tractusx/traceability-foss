@@ -1,4 +1,4 @@
-name: Unit Tests
+name: Unit Tests Frontend
 
 on:
   push:
@@ -29,6 +29,8 @@ jobs:
       uses: Borales/actions-yarn@v4.2.0
       with:
         cmd: install # will run `yarn install` command
+    - name: LS LA
+      run: ls -la
     - name: Run npm test:ci
       run: CHROMIUM_BIN=$(which chrome) npm run test:ci # will run `test:ci` command
     - name: Run SonarCloud check
