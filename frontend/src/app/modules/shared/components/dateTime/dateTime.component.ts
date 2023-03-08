@@ -19,18 +19,31 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Component, Inject, Self } from '@angular/core';
+import { NgControl } from '@angular/forms';
+import { KnownLocale } from '@core/i18n/global-i18n.providers';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
+import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-textarea',
-  templateUrl: './textarea.component.html',
-  styleUrls: ['./textarea.component.scss'],
+  selector: 'app-dateTime',
+  templateUrl: './dateTime.component.html',
 })
-export class TextareaComponent extends BaseInputComponent {
-  constructor(@Self() ngControl: NgControl, staticIdService: StaticIdService) {
+export class DateTimeComponent extends BaseInputComponent {
+  public language$: Observable<'en-GB' | 'de-DE'>;
+
+  constructor(
+    @Self() ngControl: NgControl,
+    staticIdService: StaticIdService,
+    @Inject(I18NEXT_SERVICE) i18NextService: ITranslationService,
+  ) {
     super(ngControl, staticIdService);
+    this.language$ = i18NextService.events.languageChanged.pipe(
+      distinctUntilChanged(),
+      map((language: KnownLocale) => (language === 'en' ? 'en-GB' : 'de-DE')),
+    );
   }
 }

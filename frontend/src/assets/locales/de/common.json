@@ -65,6 +65,7 @@
       "childInvestigation": "Qualitätsprüfung",
       "description": "Beschreibung",
       "status": "Status",
+      "targetDate": "Ziel Datum",
       "createdDate": "Erstelldatum",
       "createdBy": "Erstellt von",
       "sendTo": "Gesendet an"

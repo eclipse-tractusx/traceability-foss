@@ -19,18 +19,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
-import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
-import { StaticIdService } from '@shared/service/staticId.service';
+import { ButtonComponent } from '@shared/components/button/button.component';
+import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
+import { SharedModule } from '@shared/shared.module';
+import { TemplateModule } from '@shared/template.module';
+import { fireEvent, screen } from '@testing-library/angular';
+import { renderComponent } from '@tests/test-render.utils';
 
-@Component({
-  selector: 'app-textarea',
-  templateUrl: './textarea.component.html',
-  styleUrls: ['./textarea.component.scss'],
-})
-export class TextareaComponent extends BaseInputComponent {
-  constructor(@Self() ngControl: NgControl, staticIdService: StaticIdService) {
-    super(ngControl, staticIdService);
-  }
-}
+describe('FormErrorMessageComponent', () => {
+  const renderErrorMessage = async () =>
+    renderComponent(FormErrorMessageComponent, { imports: [SharedModule, TemplateModule] });
+
+  it('should fail', async () => {
+    await renderErrorMessage();
+
+    expect(true).toBeFalsy();
+  });
+});

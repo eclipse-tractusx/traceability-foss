@@ -56,7 +56,12 @@ export class RequestInvestigationComponent {
     Validators.maxLength(1000),
     Validators.minLength(15),
   ]);
-  public readonly investigationFormGroup = new UntypedFormGroup({ description: this.textAreaControl });
+  private readonly targetDateControl = new UntypedFormControl(undefined, []);
+
+  public readonly investigationFormGroup = new UntypedFormGroup({
+    description: this.textAreaControl,
+    targetDate: this.targetDateControl,
+  });
 
   public submitInvestigation(): void {
     this.investigationFormGroup.markAllAsTouched();

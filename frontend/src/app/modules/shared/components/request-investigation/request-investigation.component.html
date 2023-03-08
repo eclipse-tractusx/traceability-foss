@@ -54,8 +54,10 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 
-<p class="regular-text mb-2">{{ 'requestInvestigations.textAreaDescription' | i18n }}</p>
 <form [formGroup]="investigationFormGroup" (submit)="submitInvestigation()">
+  <app-dateTime formControlName="targetDate" [label]="'requestInvestigations.textAreaLabel' | i18n"></app-dateTime>
+
+  <p class="regular-text mb-2">{{ 'requestInvestigations.textAreaDescription' | i18n }}</p>
   <app-textarea formControlName="description" [label]="'requestInvestigations.textAreaLabel' | i18n"></app-textarea>
 
   <div class="flex flex-col justify-end mb-6 md:flex-row">

@@ -60,6 +60,7 @@ export interface NotificationResponse {
   reason: NotificationReason;
   assetIds: string[];
   channel: 'SENDER' | 'RECEIVER';
+  targetDate?: string;
 }
 
 export interface Notification {
@@ -73,6 +74,7 @@ export interface Notification {
   reason: NotificationReason;
   assetIds: string[];
   isFromSender: boolean;
+  targetDate?: CalendarDateModel;
 }
 
 export type NotificationsResponse = PaginationResponse<NotificationResponse>;

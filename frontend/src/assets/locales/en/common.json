@@ -64,6 +64,7 @@
       "productionCountry": "Production country",
       "description": "Description",
       "status": "Status",
+      "targetDate": "Target date",
       "createdDate": "Created",
       "createdBy": "Created by",
       "sendTo": "Send to"
