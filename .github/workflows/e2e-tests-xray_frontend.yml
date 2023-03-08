@@ -84,6 +84,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      - name: Fix permission on file
+        run: chmod +x ./cypress/cucumber-json-formatter
 
       - name: Cypress run all tests
         uses: cypress-io/github-action@v5.0.7 # use the explicit version number
@@ -139,6 +141,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      - name: Fix permission on file
+        run: chmod +x ./cypress/cucumber-json-formatter
 
       - name: Cypress run all tests
         uses: cypress-io/github-action@v5.0.7 # use the explicit version number
@@ -147,6 +151,7 @@ jobs:
           wait-on: "http://localhost:4200"
           wait-on-timeout: 120
           browser: firefox
+          working-directory: frontend
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR
@@ -197,6 +202,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+      - name: Fix permission on file
+        run: chmod +x ./cypress/cucumber-json-formatter
 
       # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
       - name: Install additional dependencies
@@ -209,6 +216,7 @@ jobs:
           wait-on: "http://localhost:4200"
           wait-on-timeout: 120
           browser: webkit
+          working-directory: frontend
 
       - name: Submit results to Xray
         # we don't want to submit results to xray when it was run by PR

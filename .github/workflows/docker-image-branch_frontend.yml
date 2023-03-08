@@ -1,7 +1,8 @@
-name: Build&Push Docker image
+name: Build&Push Docker image for branch
 on:
-  push:
-    branches: [ main ]
+  pull_request:
+    paths:
+      - 'frontend/**'
 
 env:
   REGISTRY: ghcr.io
@@ -21,6 +22,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}
 
       - name: Login to Docker Registry
         uses: docker/login-action@v2
@@ -32,5 +35,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
+          context: frontend/
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_latest , ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ github.event.pull_request.head.sha }}
