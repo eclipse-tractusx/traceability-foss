@@ -49,8 +49,6 @@ jobs:
         run: |
           chmod +x ./scripts/xray-download-feature-files.sh
           ./scripts/xray-download-feature-files.sh
-      - name: Fix permission on file
-        run: chmod +x ./cypress/cucumber-json-formatter
 
       - name: Save cypress/e2e folder
         uses: actions/upload-artifact@v3
@@ -86,6 +84,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      - name: Fix permission on file
+        run: chmod +x ./cypress/cucumber-json-formatter
 
       - name: Cypress run all tests
         uses: cypress-io/github-action@v5.0.7 # use the explicit version number
@@ -141,6 +141,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
+      - name: Fix permission on file
+        run: chmod +x ./cypress/cucumber-json-formatter
 
       - name: Cypress run all tests
         uses: cypress-io/github-action@v5.0.7 # use the explicit version number
@@ -200,6 +202,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.x
+      - name: Fix permission on file
+        run: chmod +x ./cypress/cucumber-json-formatter
 
       # https://docs.cypress.io/guides/guides/launching-browsers#Linux-Dependencies
       - name: Install additional dependencies
