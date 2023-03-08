@@ -23,161 +23,158 @@ package org.eclipse.tractusx.traceability.investigations.adapters.rest
 
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
-import org.eclipse.tractusx.traceability.common.support.AssetsSupport
-import org.eclipse.tractusx.traceability.common.support.BpnSupport
-import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
-import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
-import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
+import org.eclipse.tractusx.traceability.common.support.*
 import org.hamcrest.Matchers
 import spock.lang.Unroll
 
 import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR
 
 class ReceiverInvestigationsControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
 
-	def "should acknowledge received investigation"() {
-		given:
-			def investigationId = defaultReceivedInvestigationStored()
+    def "should acknowledge received investigation"() {
+        given:
+        def investigationId = defaultReceivedInvestigationStored()
 
-		when:
-			given()
-				.contentType(ContentType.JSON)
-				.body(asJson(
-					[
-						status: "ACKNOWLEDGED"
-					]
-				))
-				.header(jwtAuthorization(ADMIN))
-				.when()
-				.post("/api/investigations/$investigationId/update")
-				.then()
-				.statusCode(204)
+        when:
+        given()
+                .contentType(ContentType.JSON)
+                .body(asJson(
+                        [
+                                status: "ACKNOWLEDGED"
+                        ]
+                ))
+                .header(jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/investigations/$investigationId/update")
+                .then()
+                .statusCode(204)
 
-		then:
-			given()
-				.header(jwtAuthorization(ADMIN))
-				.param("page", "0")
-				.param("size", "10")
-				.contentType(ContentType.JSON)
-				.when()
-				.get("/api/investigations/received")
-				.then()
-				.statusCode(200)
-				.body("page", Matchers.is(0))
-				.body("pageSize", Matchers.is(10))
-				.body("content", Matchers.hasSize(1))
-	}
+        then:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/received")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(1))
+    }
 
-	@Unroll
-	def "should #action acknowledged investigation"() {
-		given:
-			def investigationId = defaultAcknowledgedInvestigationStored()
+    @Unroll
+    def "should #action acknowledged investigation"() {
+        given:
+        def investigationId = defaultAcknowledgedInvestigationStored()
 
-		when:
-			given()
-				.contentType(ContentType.JSON)
-				.body(json)
-				.header(jwtAuthorization(ADMIN))
-				.when()
-				.post("/api/investigations/$investigationId/update")
-				.then()
-				.statusCode(204)
+        when:
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .header(jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/investigations/$investigationId/update")
+                .then()
+                .statusCode(204)
 
-		then:
-			given()
-				.header(jwtAuthorization(ADMIN))
-				.param("page", "0")
-				.param("size", "10")
-				.contentType(ContentType.JSON)
-				.when()
-				.get("/api/investigations/received")
-				.then()
-				.statusCode(200)
-				.body("page", Matchers.is(0))
-				.body("pageSize", Matchers.is(10))
-				.body("content", Matchers.hasSize(1))
-				.body("content[0].reason.$action", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
+        then:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/received")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(1))
+                .body("content[0].reason.$action", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
 
-		where:
-			action        | json
-			"accept"      | asJson([status: "ACCEPTED", reason: "some long accept reason"])
-			"decline"     | asJson([status: "DECLINED", reason: "some long decline reason"])
-	}
+        where:
+        action    | json
+        "accept"  | asJson([status: "ACCEPTED", reason: "some long accept reason"])
+        "decline" | asJson([status: "DECLINED", reason: "some long decline reason"])
+    }
 
-	@Unroll
-	def "should not #action not existing investigation"() {
-		given:
-			def notExistingInvestigationId = 1234
+    @Unroll
+    def "should not #action not existing investigation"() {
+        given:
+        def notExistingInvestigationId = 1234
 
-		when:
-			given()
-				.contentType(ContentType.JSON)
-				.body(json)
-				.header(jwtAuthorization(ADMIN))
-				.when()
-				.post("/api/investigations/$notExistingInvestigationId/update")
-				.then()
-				.statusCode(404)
+        when:
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .header(jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/investigations/$notExistingInvestigationId/update")
+                .then()
+                .statusCode(404)
 
-		then:
-			given()
-				.header(jwtAuthorization(ADMIN))
-				.param("page", "0")
-				.param("size", "15")
-				.contentType(ContentType.JSON)
-				.when()
-				.get("/api/investigations/received")
-				.then()
-				.statusCode(200)
-				.body("page", Matchers.is(0))
-				.body("pageSize", Matchers.is(15))
-				.body("content", Matchers.hasSize(0))
+        then:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "15")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/received")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(15))
+                .body("content", Matchers.hasSize(0))
 
-		where:
-			action        | json
-			"acknowledge" | asJson([status: "ACKNOWLEDGED"])
-			"accept"      | asJson([status: "ACCEPTED", reason: "some long accept reason"])
-			"decline"     | asJson([status: "DECLINED", reason: "some long decline reason"])
-	}
+        where:
+        action        | json
+        "acknowledge" | asJson([status: "ACKNOWLEDGED"])
+        "accept"      | asJson([status: "ACCEPTED", reason: "some long accept reason"])
+        "decline"     | asJson([status: "DECLINED", reason: "some long decline reason"])
+    }
 
-	@Unroll
-	def "should not #action with invalid request"() {
-		given:
-			def notExistingInvestigationId = 12
+    @Unroll
+    def "should not #action with invalid request"() {
+        given:
+        def notExistingInvestigationId = 12
 
-		when:
-			given()
-				.contentType(ContentType.JSON)
-				.body(json)
-				.header(jwtAuthorization(ADMIN))
-				.when()
-				.post("/api/investigations/$notExistingInvestigationId/update")
-				.then()
-				.statusCode(400)
+        when:
+        given()
+                .contentType(ContentType.JSON)
+                .body(json)
+                .header(jwtAuthorization(SUPERVISOR))
+                .when()
+                .post("/api/investigations/$notExistingInvestigationId/update")
+                .then()
+                .statusCode(400)
 
-		then:
-			given()
-				.header(jwtAuthorization(ADMIN))
-				.param("page", "0")
-				.param("size", "15")
-				.contentType(ContentType.JSON)
-				.when()
-				.get("/api/investigations/received")
-				.then()
-				.statusCode(200)
-				.body("page", Matchers.is(0))
-				.body("pageSize", Matchers.is(15))
-				.body("content", Matchers.hasSize(0))
+        then:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "15")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/received")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(15))
+                .body("content", Matchers.hasSize(0))
 
-		where:
-			action        | json
-			"acknowledge" | asJson([status: "ACKNOWLEDGED", reason: "no reason should be allowed for acknowledging"])
-			"accept"      | asJson([status: "ACCEPTED", reason: null])
-			"accept"      | asJson([status: "ACCEPTED", reason: " "])
-			"decline"     | asJson([status: "DECLINED", reason: null])
-			"decline"     | asJson([status: "DECLINED", reason: " "])
-	}
+        where:
+        action        | json
+        "acknowledge" | asJson([status: "ACKNOWLEDGED", reason: "no reason should be allowed for acknowledging"])
+        "accept"      | asJson([status: "ACCEPTED", reason: null])
+        "accept"      | asJson([status: "ACCEPTED", reason: " "])
+        "decline"     | asJson([status: "DECLINED", reason: null])
+        "decline"     | asJson([status: "DECLINED", reason: " "])
+    }
 
 
 }

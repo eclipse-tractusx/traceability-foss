@@ -29,12 +29,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
 import java.time.Instant;
 import java.util.ArrayList;
 
 import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class InvestigationReceiverTest {
@@ -44,12 +44,13 @@ class InvestigationReceiverTest {
 	@Test
 	@DisplayName("Forbid Acknowledge Investigation with disallowed status")
 	void forbidAcknowledgeInvestigationWithDisallowedStatus() {
+
+		// Given
 		InvestigationStatus status = CREATED;
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, status);
+		investigation = receiverInvestigationWithStatus(status);
 
 		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigation.acknowledge(bpn);
+			investigation.acknowledge();
 		});
 
 		assertEquals(status, investigation.getInvestigationStatus());
@@ -61,11 +62,11 @@ class InvestigationReceiverTest {
 	void forbidAcceptInvestigationWithDisallowedStatus() {
 
 		InvestigationStatus status = CREATED;
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, status);
+
+		investigation = receiverInvestigationWithStatus(status);
 
 		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigation.accept(bpn, "some reason");
+			investigation.accept("some reason");
 		});
 
 		assertEquals(status, investigation.getInvestigationStatus());
@@ -78,11 +79,10 @@ class InvestigationReceiverTest {
 
 		InvestigationStatus status = CREATED;
 
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, status);
+		investigation = receiverInvestigationWithStatus(status);
 
 		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigation.decline(bpn, "some-reason");
+			investigation.decline("some-reason");
 		});
 
 		assertEquals(status, investigation.getInvestigationStatus());
@@ -90,61 +90,10 @@ class InvestigationReceiverTest {
 	}
 
 	@Test
-	@DisplayName("Forbid Acknowledge Investigation with different bpn")
-	void forbidAcknowledgeInvestigationWithDifferentBpn() {
-
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, RECEIVED);
-
-		org.junit.jupiter.api.Assertions.assertThrows(InvestigationIllegalUpdate.class, () -> {
-			investigation.acknowledge(new BPN("BPNL000000000002"));
-		});
-
-		assertEquals(RECEIVED, investigation.getInvestigationStatus());
-
-	}
-
-	@Test
-	@DisplayName("Forbid Accept Investigation with different bpn")
-	void forbidAcceptInvestigationWithDifferentBpn() {
-
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, ACKNOWLEDGED);
-
-		org.junit.jupiter.api.Assertions.assertThrows(InvestigationIllegalUpdate.class, () -> {
-			investigation.accept(new BPN("BPNL000000000002"), "some reason");
-		});
-
-		assertEquals(ACKNOWLEDGED, investigation.getInvestigationStatus());
-
-	}
-
-	@Test
-	@DisplayName("Forbid Decline Investigation with different bpn")
-	void forbidDeclineInvestigationWithDifferentBpn() {
-
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, DECLINED);
-
-		assertThrows(InvestigationIllegalUpdate.class, () -> {
-			investigation.decline(new BPN("BPNL000000000002"), "some reason");
-		});
-
-		assertEquals(DECLINED, investigation.getInvestigationStatus());
-
-	}
-
-
-	@Test
 	@DisplayName("Acknowledge Investigation successfully")
 	void acknowledgeInvestigationSuccessfully() {
-
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, RECEIVED);
-
-		investigation.acknowledge(bpn);
-
-
+		investigation = receiverInvestigationWithStatus(RECEIVED);
+		investigation.acknowledge();
 		assertEquals(ACKNOWLEDGED, investigation.getInvestigationStatus());
 
 	}
@@ -152,12 +101,8 @@ class InvestigationReceiverTest {
 	@Test
 	@DisplayName("Accept Investigation successfully")
 	void acceptInvestigationSuccessfully() {
-
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, ACKNOWLEDGED);
-		investigation.accept(bpn, "some reason");
-
-
+		investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
+		investigation.accept("some reason");
 		assertEquals(ACCEPTED, investigation.getInvestigationStatus());
 
 	}
@@ -166,22 +111,20 @@ class InvestigationReceiverTest {
 	@DisplayName("Decline Investigation successfully")
 	void declineInvestigationSuccessfully() {
 
-		BPN bpn = new BPN("BPNL000000000001");
-		investigation = receiverInvestigationWithStatus(bpn, ACKNOWLEDGED);
-		investigation.decline(bpn, "some reason");
-
-
+		investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
+		investigation.decline("some reason");
 		assertEquals(DECLINED, investigation.getInvestigationStatus());
 
 	}
 
 
 	//util functions
-	private Investigation receiverInvestigationWithStatus(BPN bpn, InvestigationStatus status) {
-		return investigationWithStatus(bpn, status, InvestigationSide.RECEIVER);
+	private Investigation receiverInvestigationWithStatus(InvestigationStatus status) {
+		return investigationWithStatus(status, InvestigationSide.RECEIVER);
 	}
 
-	private Investigation investigationWithStatus(BPN bpn, InvestigationStatus status, InvestigationSide side) {
+	private Investigation investigationWithStatus(InvestigationStatus status, InvestigationSide side) {
+		BPN bpn = new BPN("BPNL000000000001");
 		return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", "", "", Instant.now(), new ArrayList<>(), new ArrayList<>());
 	}
 }

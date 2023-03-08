@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -26,6 +27,9 @@ class EdcServiceTest {
 
 	@Mock
 	private HttpCallService httpCallService;
+
+	@Mock
+	private ObjectMapper objectMapper;
 
 	@InjectMocks
 	private EdcService edcService;

@@ -30,10 +30,11 @@ public record StartJobRequest(
 	List<String> aspects,
 	String globalAssetId,
 	boolean collectAspects,
-	BomLifecycle bomLifecycle
+	BomLifecycle bomLifecycle,
+	boolean lookupBPNs
 ) {
 	public static StartJobRequest forGlobalAssetId(String globalAssetId) {
-		return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT);
+		return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT, true);
 	}
 }
 

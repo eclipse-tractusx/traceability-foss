@@ -69,6 +69,34 @@ The detailed pattern can be found here: [commit-msg](./dev/commit-msg)
 cp dev/commit-msg .git/hooks/commit-msg && chmod 500 .git/hooks/commit-msg
 ```
 
+# Static Code Analysis with SonarCloud
+
+## Overview
+This project utilizes SonarCloud for static code analysis, which provides feedback on issues such as code smells, bugs, and security vulnerabilities.
+
+## How to Use (IntelliJ Example)
+To connect your remote SonarCloud instance with your IntelliJ IDE, follow these steps:
+
+1. Install the SonarLint plugin for IntelliJ:
+	* Open IntelliJ and go to File > Settings (or IntelliJ IDEA > Preferences on macOS)
+	* Select Plugins and search for "SonarLint"
+	* Click on the "Install" button and follow the prompts to complete the installation
+
+2. Configure SonarLint with your SonarCloud account:
+	* Go to File > Settings (or IntelliJ IDEA > Preferences on macOS)
+	* Select Other Settings > SonarLint
+	* Click on the "+ Add" button and select "SonarCloud"
+	* Add your project key
+	* Click on "Create Token" and log in
+	* Copy and paste the token
+	* Click on the "Test Connection" button to verify the connection
+
+3. Analyze your code with SonarLint:
+	* Open your project in IntelliJ IDEA
+	* Right-click on your project folder in the Project Explorer and select "SonarLint > Analyze <project_name>"
+
+By following these steps, you can connect your remote SonarCloud instance with your IntelliJ IDE and analyze your code with SonarLint.
+
 ## Contact
 
 Contact the project developers via the project's "dev" list.

@@ -19,30 +19,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.investigations.adapters.feign;
+package org.eclipse.tractusx.traceability.common.support
 
-import feign.Param;
-import feign.RequestLine;
-import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
-import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpHeaders
 
-import java.util.List;
+import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp
+import static com.xebialabs.restito.semantics.Action.header
+import static com.xebialabs.restito.semantics.Action.ok
+import static com.xebialabs.restito.semantics.Condition.post
+import static com.xebialabs.restito.semantics.Condition.withHeader
 
-@FeignClient(
-	name = "sdHubApi",
-	url = "${feign.sdHubApi.url}",
-	configuration = {CatenaApiConfig.class}
-)
-public interface SdHubApiClient {
+trait PortalApiSupport implements RestitoProvider {
 
-	@RequestLine("GET /selfdescription/by-params")
-	GetSdHubResponse getSelfDescriptions(
-		@Param(value = "id") List<String> ids,
-		@Param(value = "companyNumbers") List<String> companyNumbers,
-		@Param(value = "headquarterCountries") List<String> headquarterCountries,
-		@Param(value = "legalCountries") List<String> legalCountries,
-		@Param(value = "serviceProviders") List<String> serviceProviders,
-		@Param(value = "sdTypes") List<String> sdTypes,
-		@Param(value = "bpns") List<String> bpns
-	);
+	void portalAdministrationReturnsRegisteredConnectorEndpoints() {
+		whenHttp(stubServer()).match(
+			post("/administration/connectors/discovery"),
+			withHeader(HttpHeaders.AUTHORIZATION)
+		).then(
+			ok(),
+			header("Content-Type", "application/json"),
+			jsonResponseFromFile("./stubs/portal/post/administration/connectors/discovery/response_200.json")
+		)
+	}
 }

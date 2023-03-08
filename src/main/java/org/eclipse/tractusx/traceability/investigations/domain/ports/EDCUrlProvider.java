@@ -21,8 +21,9 @@
 
 package org.eclipse.tractusx.traceability.investigations.domain.ports;
 
+import java.util.List;
+
 public interface EDCUrlProvider {
-	String getEdcUrl(String bpn);
+	List<String> getEdcUrls(String bpn);
 	String getSenderUrl();
-	String getSenderBpn();
 }

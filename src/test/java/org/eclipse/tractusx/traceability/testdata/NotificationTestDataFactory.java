@@ -4,6 +4,7 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPar
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 
+import java.time.Instant;
 import java.util.List;
 
 public class NotificationTestDataFactory {
@@ -19,7 +20,8 @@ public class NotificationTestDataFactory {
 			"agreement",
 			"information",
 			InvestigationStatus.RECEIVED,
-			affectedParts
+			affectedParts,
+			Instant.parse("2022-03-01T12:00:00Z")
 		);
 	}
 }

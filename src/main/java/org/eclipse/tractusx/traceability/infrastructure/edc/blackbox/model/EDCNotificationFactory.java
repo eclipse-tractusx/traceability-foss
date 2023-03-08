@@ -41,7 +41,7 @@ public class EDCNotificationFactory {
 			"MINOR",
 			null,
 			notification.getInvestigationStatus().name(),
-			null
+			notification.getTargetDate().toString()
 		);
 
 		EDCNotificationContent content = new EDCNotificationContent(

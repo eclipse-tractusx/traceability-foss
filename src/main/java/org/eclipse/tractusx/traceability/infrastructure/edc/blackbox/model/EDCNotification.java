@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
+import java.time.Instant;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -82,6 +83,10 @@ public record EDCNotification(@Valid
 
 		return InvestigationStatus.fromValue(investigationStatus)
 			.orElseThrow(() -> new IllegalArgumentException("%s not supported investigation status".formatted(investigationStatus)));
+	}
+
+	public Instant getTargetDate() {
+		return Instant.parse(header.targetDate());
 	}
 }
 

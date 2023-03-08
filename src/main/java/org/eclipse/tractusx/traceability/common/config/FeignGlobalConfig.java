@@ -28,8 +28,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableFeignClients(basePackages = {"org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.*",
-		"org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.*"})
+@EnableFeignClients(basePackages = {
+	"org.eclipse.tractusx.traceability.assets.infrastructure.adapters.openapi.*",
+	"org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.*",
+	"org.eclipse.tractusx.traceability.investigations.adapters.feign.*",
+})
 public class FeignGlobalConfig {
 
 	@Bean

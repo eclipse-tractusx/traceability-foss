@@ -31,7 +31,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNo
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
-import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -57,31 +56,24 @@ public class InvestigationsEDCFacade {
 
 	private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
-	private final EDCUrlProvider edcUrlProvider;
-
 	private final EdcProperties edcProperties;
 
 	public InvestigationsEDCFacade(EdcService edcService,
 								   HttpCallService httpCallService,
 								   ObjectMapper objectMapper,
 								   InMemoryEndpointDataReferenceCache endpointDataReferenceCache,
-								   EDCUrlProvider edcUrlProvider,
 								   EdcProperties edcProperties) {
 		this.edcService = edcService;
 		this.httpCallService = httpCallService;
 		this.objectMapper = objectMapper;
 		this.endpointDataReferenceCache = endpointDataReferenceCache;
-		this.edcUrlProvider = edcUrlProvider;
 		this.edcProperties = edcProperties;
 	}
 
-	public void startEDCTransfer(Notification notification) {
+	public void startEDCTransfer(Notification notification, String receiverEdcUrl, String senderEdcUrl) {
 		Map<String, String> header = new HashMap<>();
 		header.put("x-api-key", edcProperties.getApiAuthKey());
 		try {
-			String receiverEdcUrl = edcUrlProvider.getEdcUrl(notification.getReceiverBpnNumber());
-			String senderEdcUrl = edcUrlProvider.getSenderUrl();
-
 			notification.setEdcUrl(receiverEdcUrl);
 
 			logger.info(":::: Find Notification contract method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);

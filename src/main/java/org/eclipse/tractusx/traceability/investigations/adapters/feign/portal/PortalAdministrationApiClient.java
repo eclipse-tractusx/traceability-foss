@@ -18,34 +18,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.investigations.adapters.feign;
+
+package org.eclipse.tractusx.traceability.investigations.adapters.feign.portal;
+
+import feign.RequestLine;
+import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
+import org.springframework.cloud.openfeign.FeignClient;
 
 import java.util.List;
 
-public class GetSdHubResponse {
+@FeignClient(
+	name = "portalApi",
+	url = "${feign.portalApi.url}",
+	configuration = {CatenaApiConfig.class}
+)
+public interface PortalAdministrationApiClient {
 
-	private String id;
-	private List<VerifiableCredential> verifiableCredential;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public List<VerifiableCredential> getVerifiableCredential() {
-		return verifiableCredential;
-	}
-
-	public void setVerifiableCredential(List<VerifiableCredential> verifiableCredential) {
-		this.verifiableCredential = verifiableCredential;
-	}
-
-	public record VerifiableCredential(String id, List<String> type, CredentialSubject credentialSubject) {
-	}
-
-	public record CredentialSubject(String bpn, String service_provider) {
-	}
+	@RequestLine("POST /administration/connectors/discovery")
+	List<ConnectorDiscoveryMappingResponse> getConnectorEndpointMappings(List<String> bpns);
 }

@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Clock;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,35 +26,37 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class InvestigationsPublisherServiceTest {
-	@InjectMocks
-	private InvestigationsPublisherService investigationsPublisherService;
+    @InjectMocks
+    private InvestigationsPublisherService investigationsPublisherService;
 
-	@Mock
-	private InvestigationsRepository repository;
-	@Mock
-	private AssetRepository assetRepository;
-	@Mock
-	private Clock clock;
-	@Mock
-	private InvestigationsReadService investigationsReadService;
-	@Mock
-	private NotificationsService notificationsService;
+    @Mock
+    private InvestigationsRepository repository;
+    @Mock
+    private AssetRepository assetRepository;
+    @Mock
+    private Clock clock;
+    @Mock
+    private InvestigationsReadService investigationsReadService;
+    @Mock
+    private NotificationsService notificationsService;
 
-	@Test
-	void testStartInvestigationSuccessful() {
-		// Given
-		Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.CLOSED);
-		when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
-		when(repository.save(any(Investigation.class))).thenReturn(investigation.getId());
+    @Test
+    void testStartInvestigationSuccessful() {
+        // Given
+        Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.CLOSED, "bpn123");
+        when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
+        when(repository.save(any(Investigation.class))).thenReturn(investigation.getId());
 
-		// When
-		investigationsPublisherService.startInvestigation(BPN.of("bpn-123"), Arrays.asList("asset-1", "asset-2"), "Test investigation");
+        // When
+        investigationsPublisherService.startInvestigation(
+			BPN.of("bpn-123"),
+			Arrays.asList("asset-1", "asset-2"), "Test investigation", Instant.parse("2022-03-01T12:00:00Z"));
 
-		// Then
-		verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
-		verify(repository).save(any(Investigation.class));
+        // Then
+        verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
+        verify(repository).save(any(Investigation.class));
 
-	}
+    }
 
 	@Test
 	void testCancelInvestigationSuccessful() {

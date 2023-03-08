@@ -49,7 +49,12 @@ class InvestigationMapperTest {
 		// Given
 		BPN bpn = new BPN("123");
 		String description = "Test investigation";
-		Notification notification = new Notification("1", "Test notification", "", "", "", "", "", InvestigationStatus.RECEIVED, List.of(new AffectedPart("123")));
+		Notification notification = new Notification("1",
+			"Test notification",
+			"", "", "", "",
+			"", InvestigationStatus.RECEIVED, List.of(new AffectedPart("123")),
+			Instant.parse("2022-03-01T12:00:00Z")
+		);
 		when(clock.instant()).thenReturn(Instant.parse("2022-03-01T12:00:00Z"));
 
 		// When

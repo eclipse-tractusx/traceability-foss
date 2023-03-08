@@ -77,7 +77,9 @@ public class InvestigationsController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public StartInvestigationResponse investigateAssets(@RequestBody @Valid StartInvestigationRequest request) {
-		InvestigationId investigationId = investigationsPublisherService.startInvestigation(traceabilityProperties.getBpn(), request.partIds(), request.description());
+		InvestigationId investigationId =
+			investigationsPublisherService.startInvestigation(
+				traceabilityProperties.getBpn(), request.partIds(), request.description(), request.targetDate());
 
 		return new StartInvestigationResponse(investigationId.value());
 	}
@@ -172,6 +174,7 @@ public class InvestigationsController {
 	@ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
 		@ApiResponse(responseCode = "401", description = "Authorization failed."),
 		@ApiResponse(responseCode = "403", description = "Forbidden.")})
+	@PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
 	@PostMapping("/{investigationId}/update")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateInvestigationRequest updateInvestigationRequest) {

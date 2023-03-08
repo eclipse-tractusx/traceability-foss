@@ -45,30 +45,45 @@ class EDCNotificationValidatorTest {
 
 	}
 
-	@Test
-	void testIsValidWithValidEDCNotification() {
-		// Given
-		when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPN_OF_APPLICATION"));
-		when(edcNotification.getSenderBPN()).thenReturn("BPN_OF_SENDER");
-
-		// When
-		// Then
-		assertThrows(InvestigationReceiverBpnMismatchException.class, () -> {
-			validator.isValid(edcNotification, context);
-		});
-	}
 
 	@Test
-	void testIsValidWithInvalidEDCNotification() {
+	void testIsValidSenderBpnMatch() {
 		// Given
 		when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPN_OF_APPLICATION"));
 		when(edcNotification.getSenderBPN()).thenReturn("BPN_OF_APPLICATION");
+		when(edcNotification.getRecipientBPN()).thenReturn("OTHER");
+		// When
+		boolean result = validator.isValid(edcNotification, context);
+
+		// Then
+		assertTrue(result);
+	}
+
+	@Test
+	void testReceiverIsApplicationOwner() {
+		// Given
+		when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPN_OF_APPLICATION"));
+		when(edcNotification.getSenderBPN()).thenReturn("OTHER");
+		when(edcNotification.getRecipientBPN()).thenReturn("BPN_OF_APPLICATION");
 
 		// When
 		boolean result = validator.isValid(edcNotification, context);
 
 		// Then
 		assertTrue(result);
+	}
+
+	@Test
+	void testThrowsExceptionNoBpnMatch() {
+		// Given
+		when(traceabilityProperties.getBpn()).thenReturn(BPN.of("BPN_OF_APPLICATION"));
+		when(edcNotification.getSenderBPN()).thenReturn("BPN_OF_SENDER");
+		when(edcNotification.getRecipientBPN()).thenReturn("OTHER");
+		// When
+		// Then
+		assertThrows(InvestigationReceiverBpnMismatchException.class, () -> {
+			validator.isValid(edcNotification, context);
+		});
 	}
 
 }

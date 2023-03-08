@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.model;
 
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.NotificationStatusTransitionNotAllowed;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +40,8 @@ public class Notification {
 	private String description;
 	private InvestigationStatus investigationStatus;
 
+	private Instant targetDate;
+
 	public Notification(String id,
 						String notificationReferenceId,
 						String senderBpnNumber,
@@ -47,7 +50,8 @@ public class Notification {
 						String contractAgreementId,
 						String description,
 						InvestigationStatus investigationStatus,
-						List<AffectedPart> affectedParts) {
+						List<AffectedPart> affectedParts,
+						Instant targetDate) {
 		this.id = id;
 		this.notificationReferenceId = notificationReferenceId;
 		this.senderBpnNumber = senderBpnNumber;
@@ -56,8 +60,8 @@ public class Notification {
 		this.contractAgreementId = contractAgreementId;
 		this.description = description;
 		this.investigationStatus = investigationStatus;
-
 		this.affectedParts = requireNonNullElseGet(affectedParts, ArrayList::new);
+		this.targetDate = targetDate;
 	}
 
 	void changeStatusTo(InvestigationStatus to) {
@@ -116,5 +120,25 @@ public class Notification {
 
 	public InvestigationStatus getInvestigationStatus() {
 		return investigationStatus;
+	}
+
+	public Instant getTargetDate() {
+		return this.targetDate;
+	}
+
+
+	public Notification copy() {
+		return new Notification(
+			id,
+			notificationReferenceId,
+			senderBpnNumber,
+			receiverBpnNumber,
+			edcUrl,
+			contractAgreementId,
+			description,
+			investigationStatus,
+			affectedParts,
+			Instant.now()
+		);
 	}
 }
