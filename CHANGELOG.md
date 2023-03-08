@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 - Added functionality to update notifications – Quality Investigations
+- Included a guide for connecting sonarcloud to IntelliJ -> Contribution.md
 
 ### Changed
 - Changed github action docker-release to have maven cache instead of previously used gradle
