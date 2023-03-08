@@ -38,7 +38,8 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "./target/failsafe-reports/TEST-*.xml"
+       #   files: "./target/failsafe-reports/TEST-*.xml"
+          files: "**/TEST-*.xml"
           check_name: "Integration Test Results"
           working-directory: backend
 
