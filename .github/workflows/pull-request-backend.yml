@@ -1,7 +1,9 @@
-name: "Pull request"
+name: "Pull request Backend"
 
 on:
   pull_request:
+    paths:
+      - 'backend/**'
     paths-ignore:
       - '**.md'
       - 'docs/**'

@@ -25,14 +25,12 @@ jobs:
         node-version: 18.x
     - name: Install chrome
       uses: browser-actions/setup-chrome@latest
-    - name: Run yarn install
-      uses: Borales/actions-yarn@v4.2.0
-      with:
-        cmd: install # will run `yarn install` command
-    - name: LS LA
-      run: ls -la
-    - name: Run npm test:ci
-      run: CHROMIUM_BIN=$(which chrome) npm run test:ci # will run `test:ci` command
+    - name: Install yarn
+      run: npm install yarn -g
+    - name: Install packages
+      run: yarn install
+    - name: Run yarn test:ci
+      run: CHROMIUM_BIN=$(which chrome) yarn test:ci # will run `test:ci` command
     - name: Run SonarCloud check
       uses: SonarSource/sonarcloud-github-action@master
       env:
