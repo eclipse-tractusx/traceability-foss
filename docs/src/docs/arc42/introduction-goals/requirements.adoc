@@ -1,0 +1,17 @@
+= Requirements overview
+
+== What is the purpose of the Trace-X application
+* Empower all companies from SMEs to large OEMs to participate in parts traceability with an Open-Source solution to easily take part in Catena-X Traceability Use Case.
+* It is a standalone application which can be self-hosted.
+* Display the relations of the automotive value chain based on a standardized IT model.
+* Overview and transparency across the supplier network enable faster intervention based on recorded events in the supply chain.
+* Notifications/Messages regarding quality-related incidents and a tool for inspecting the supply chain.
+
+== Essential features
+* List and view manufactured parts based on BoM AsBuild
+* Show detailed information on manufactured parts from AAS description assets and Aspects
+* Uses Submodels SerialPartTypization, AssemblyPartRelationship and Batch
+* List and view Supplier parts (AssemblyPartRelationship) based on BoM AsBuild lifecycle
+* View parts and parts relations in a visualized parts tree
+* Send and receive top-down notifications (quality investigations) along the supply chain
+* Compliance with Catena-X Guidelines

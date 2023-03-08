@@ -21,6 +21,9 @@ on:
 jobs:
   install:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     # Install YARN dependencies, cache them correctly
     steps:
       - name: Checkout
@@ -55,6 +58,9 @@ jobs:
   cypress-run-chrome:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     container:
       # if you need to change image please make sure use the same version in all places
       # (here and in cypress/Dockerfile)
@@ -106,6 +112,9 @@ jobs:
   cypress-run-firefox:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     container:
       # if you need to change image please make sure use the same version in all places
       # (here and in cypress/Dockerfile)
@@ -157,6 +166,9 @@ jobs:
   cypress-run-webkit:
     timeout-minutes: 15
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
     needs: install
 
     steps:

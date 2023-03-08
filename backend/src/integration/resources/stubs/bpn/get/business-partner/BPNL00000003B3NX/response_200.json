@@ -1,0 +1,161 @@
+{
+	"bpn": "BPNL00000003B3NX",
+	"identifiers": [
+		{
+			"uuid": "1676b44b-95dc-4750-8817-494525160a18",
+			"value": "624eda97399ae27f57f27007",
+			"type": {
+				"technicalKey": "CDQID",
+				"name": "CDQ Identifier",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CDQ",
+				"name": "CDQ AG",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "CDQ_IMPORTED",
+				"name": "Imported from CDQ but not synchronized"
+			}
+		},
+		{
+			"uuid": "d631b1ca-8d2a-45c5-afa8-0db4614ab1db",
+			"value": "DE115507197",
+			"type": {
+				"technicalKey": "EU_VAT_ID_DE",
+				"name": "Umsatzsteuer-Identifikationsnummer",
+				"url": "https://meta.cdq.com/European_value_added_tax_identifier_(Germany)"
+			},
+			"issuingBody": null,
+			"status": null
+		},
+		{
+			"uuid": "b611c866-52c7-4385-8621-e639de8b39a6",
+			"value": "BPNL00000003B3NX",
+			"type": {
+				"technicalKey": "BPN",
+				"name": "Business Partner Number",
+				"url": ""
+			},
+			"issuingBody": {
+				"technicalKey": "CATENAX",
+				"name": "Catena-X",
+				"url": ""
+			},
+			"status": {
+				"technicalKey": "UNKNOWN",
+				"name": "Unknown"
+			}
+		},
+		{
+			"uuid": "e0c2a1a4-86e9-4ec2-aa7c-09f91b3316e1",
+			"value": "CX.POOL:624ED7C5885D863690CF6E380",
+			"type": {
+				"technicalKey": "CX_POOL_ID",
+				"name": "",
+				"url": null
+			},
+			"issuingBody": null,
+			"status": null
+		}
+	],
+	"names": [
+		{
+			"uuid": "d14af8ef-9205-4ad6-95da-d2cd1f8d8c99",
+			"value": "Sub Tier A",
+			"shortName": null,
+			"type": {
+				"technicalKey": "LOCAL",
+				"name": "The business partner name identifies a business partner in a given context, e.g. a country or region.",
+				"url": ""
+			},
+			"language": {
+				"technicalKey": "undefined",
+				"name": "Undefined"
+			}
+		}
+	],
+	"legalForm": null,
+	"status": null,
+	"addresses": [
+		{
+			"uuid": "dc78fceb-8259-4e4e-9762-d9e8e2e52992",
+			"bpn": "BPNA00000003B3NX",
+			"version": {
+				"characterSet": {
+					"technicalKey": "LATIN",
+					"name": "Latin"
+				},
+				"language": {
+					"technicalKey": "en",
+					"name": "English"
+				}
+			},
+			"careOf": null,
+			"contexts": [],
+			"country": {
+				"technicalKey": "DE",
+				"name": "Germany"
+			},
+			"administrativeAreas": [],
+			"postCodes": [
+				{
+					"uuid": "9d6343d9-affe-4bd3-90ed-8bdacc39da60",
+					"value": "49078",
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					}
+				}
+			],
+			"localities": [
+				{
+					"uuid": "965810a4-f1a2-4055-b7e5-a5a90801c67d",
+					"value": "Osnabrück",
+					"shortName": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"thoroughfares": [
+				{
+					"uuid": "4eb83a2f-562c-4280-a490-07ae94862205",
+					"value": "Rheinstr.",
+					"name": null,
+					"shortName": null,
+					"number": "74B",
+					"direction": null,
+					"type": {
+						"technicalKey": "OTHER",
+						"name": "Other type",
+						"url": ""
+					},
+					"language": {
+						"technicalKey": "en",
+						"name": "English"
+					}
+				}
+			],
+			"premises": [],
+			"postalDeliveryPoints": [],
+			"geographicCoordinates": null,
+			"types": []
+		}
+	],
+	"sites": [],
+	"profileClassifications": [],
+	"types": [],
+	"bankAccounts": [],
+	"roles": [],
+	"relations": [],
+	"currentness": "2022-06-03T11:47:21.130594Z"
+}

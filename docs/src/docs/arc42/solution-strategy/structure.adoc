@@ -1,0 +1,12 @@
+= Structure
+
+Trace-X is divided into two components: Frontend and Backend.
+It roughly can be broken down into the following parts:
+
+* Asset controller to get the asset information
+* Dashboard controller to get dashboard related summed up information
+* Registry controller to fetch assets from the Digital Twin Registry
+* Registry lookup metrics controller to set parameters to the Registry lookup
+
+The backend does a request to the Digital Twin Registry utilizing the Registry controller and Registry lookup metrics. Extracted data from the response is made available through the Asset controller and the Dashboard controller to the Frontend.
+

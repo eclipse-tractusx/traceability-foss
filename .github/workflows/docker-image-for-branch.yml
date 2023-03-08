@@ -8,6 +8,9 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
 
     permissions:
       contents: read
@@ -30,4 +33,4 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ github.event.pull_request.head.sha }}

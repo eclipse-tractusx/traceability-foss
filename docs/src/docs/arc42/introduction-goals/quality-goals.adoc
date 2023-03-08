@@ -1,0 +1,28 @@
+= Quality goals
+
+The following table entries define overall Trace-X quality goals. The order of topics does not imply a priority of the quality goals.
+
+|===
+|Quality goal |Motivation and description
+
+|Running reference application for Catena-X Traceability
+|Consume traceability data, visualize it in a state-of-the-art frontend to the user and enable the exchange of notifications.
+
+|Accessible and easy to use
+|Enable SMEs to large enterprises.
+
+|Cloud agnostic solution
+|Trace-X is built as reference architecture and able to be run on different cloud solutions. It uses Helm, i.e. Helm charts, so that it can easily be deployed on different systems.
+
+|Trustworthy application
+|Use the Catena-X standards as a basis to fulfill the interoperability (with commercial as well as other solutions) and data sovereignty requirements.
+
+|Application reliability
+|The Trace-X architecture is set up so that provided part tree structures are consumed, aggregated and utilized to enable quality related actions such as notifications along the supply chain on which the costumers can rely.
+
+|Usability and user experience
+|Trace-X is aligned with the overarching UUX guidelines. This ensures ease of use for the user as well as a good user experience.
+
+|Security
+|Static Application Security Testing (SAST) and Dynamic Application Security Testing (DAST) are executed automatically and regularly. Findings are recorded and mitigated.
+|===
