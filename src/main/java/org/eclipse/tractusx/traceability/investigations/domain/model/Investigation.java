@@ -155,55 +155,42 @@ public class Investigation {
 		return bpn.value();
 	}
 
-	public void cancel(BPN callerBpn) {
-		validateBPN(callerBpn);
-
+	public void cancel(BPN applicationBpn) {
+		validateBPN(applicationBpn);
 		changeStatusTo(InvestigationStatus.CANCELED);
-
 		this.closeReason = "canceled";
 	}
 
-	public void close(BPN callerBpn, String reason) {
-		validateBPN(callerBpn);
-
+	public void close(BPN applicationBpn, String reason) {
+		validateBPN(applicationBpn);
 		changeStatusTo(InvestigationStatus.CLOSED);
-
 		this.closeReason = reason;
 		this.notifications.values()
 			.forEach(notification -> notification.setDescription(reason));
 	}
 
-	public void send(BPN callerBpn) {
-		validateBPN(callerBpn);
-
+	public void send(BPN applicationBpn) {
+		validateBPN(applicationBpn);
 		changeStatusTo(InvestigationStatus.SENT);
 	}
 
-	public void acknowledge(BPN callerBpn) {
-		validateBPN(callerBpn);
-
+	public void acknowledge() {
 		changeStatusTo(InvestigationStatus.ACKNOWLEDGED);
 	}
 
-	public void accept(BPN callerBpn, String reason) {
-		validateBPN(callerBpn);
-
+	public void accept(String reason) {
 		changeStatusTo(InvestigationStatus.ACCEPTED);
-
 		this.acceptReason = reason;
 	}
 
-	public void decline(BPN callerBpn, String reason) {
-		validateBPN(callerBpn);
-
+	public void decline(String reason) {
 		changeStatusTo(InvestigationStatus.DECLINED);
-
 		this.declineReason = reason;
 	}
 
-	private void validateBPN(BPN callerBpn) {
-		if (!callerBpn.equals(this.bpn)) {
-			throw new InvestigationIllegalUpdate("%s bpn has no permissions to update investigation with %s id.".formatted(callerBpn.value(), investigationId.value()));
+	private void validateBPN(BPN applicationBpn) {
+		if (!applicationBpn.equals(this.bpn)) {
+			throw new InvestigationIllegalUpdate("%s bpn has no permissions to update investigation with %s id.".formatted(applicationBpn.value(), investigationId.value()));
 		}
 	}
 
@@ -255,5 +242,4 @@ public class Investigation {
 			.map(AffectedPart::assetId)
 			.forEach(assetIds::add);
 	}
-
 }

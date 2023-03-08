@@ -84,17 +84,6 @@
 		<sonar.projectKey>catenax-ng_product-traceability-foss-backend</sonar.projectKey>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 		<sonar.organization>catenax-ng</sonar.organization>
-		<sonar.exclusions>org/eclipse/tractusx/traceability/generated/**, org/eclipse/tractusx/traceability/openapi/**,
-			org/eclipse/tractusx/traceability/TraceabilityApplication.java,
-			org/eclipse/tractusx/traceability/common/**,org/eclipse/tractusx/traceability/infrastructure/**,
-			org/eclipse/tractusx/traceability/assets/domain/model/**,
-			org/eclipse/tractusx/traceability/assets/infrastructure/**,
-			org/eclipse/tractusx/traceability/assets/config/**,
-			org/eclipse/tractusx/traceability/investigations/domain/model/**,
-			org/eclipse/tractusx/traceability/investigations/adapters/**,
-			org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**
-		</sonar.exclusions>
-
     </properties>
 
     <dependencyManagement>

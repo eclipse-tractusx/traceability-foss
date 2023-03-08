@@ -32,12 +32,14 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Investigati
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
 @Component
 public class InvestigationsReceiverService {
@@ -48,15 +50,19 @@ public class InvestigationsReceiverService {
 	private final InvestigationMapper investigationMapper;
 	private final TraceabilityProperties traceabilityProperties;
 	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+	private final NotificationsService notificationsService;
+
 
 	public InvestigationsReceiverService(InvestigationsRepository repository,
 										 InvestigationsReadService investigationsReadService,
-										 NotificationMapper notificationMapper, InvestigationMapper investigationMapper, TraceabilityProperties traceabilityProperties) {
+										 NotificationMapper notificationMapper, NotificationsService notificationsService, InvestigationMapper investigationMapper, TraceabilityProperties traceabilityProperties) {
+
 		this.repository = repository;
 		this.investigationsReadService = investigationsReadService;
 		this.notificationMapper = notificationMapper;
 		this.investigationMapper = investigationMapper;
 		this.traceabilityProperties = traceabilityProperties;
+		this.notificationsService = notificationsService;
 	}
 
 	public void handleNotificationReceiverCallback(EDCNotification edcNotification) {
@@ -95,18 +101,36 @@ public class InvestigationsReceiverService {
 		repository.update(investigation);
 	}
 
-	public void updateInvestigation(BPN bpn, Long investigationIdRaw, InvestigationStatus status, String reason) {
+	public void updateInvestigation(BPN applicationBpn, Long investigationIdRaw, InvestigationStatus status, String reason) {
 		Investigation investigation = investigationsReadService.loadInvestigation(new InvestigationId(investigationIdRaw));
+		List<Notification> invalidNotifications = invalidNotifications(investigation, applicationBpn);
+
+		if (!invalidNotifications.isEmpty()) {
+			StringBuilder builder = new StringBuilder("Investigation receiverBpnNumber mismatch for notifications with IDs: ");
+			for (Notification notification : invalidNotifications) {
+				builder.append(notification.getId()).append(", ");
+			}
+			builder.delete(builder.length() - 2, builder.length()); // Remove the last ", " from the string
+			throw new InvestigationReceiverBpnMismatchException(builder.toString());
+		}
+
 
 		switch (status) {
-			case ACKNOWLEDGED -> investigation.acknowledge(bpn);
-			case ACCEPTED -> investigation.accept(bpn, reason);
-			case DECLINED -> investigation.decline(bpn, reason);
+			case ACKNOWLEDGED -> investigation.acknowledge();
+			case ACCEPTED -> investigation.accept(reason);
+			case DECLINED -> investigation.decline(reason);
 			default -> throw new InvestigationIllegalUpdate("Can't update %s investigation with %s status".formatted(investigationIdRaw, status));
 		}
 
 		repository.update(investigation);
-
-		// TODO EDC communication
+		investigation.getNotifications().forEach(notificationsService::updateAsync);
 	}
+
+	private List<Notification> invalidNotifications(final Investigation investigation, final BPN applicationBpn) {
+		final String applicationBpnValue = applicationBpn.value();
+		return investigation.getNotifications().stream()
+			.filter(notification -> !notification.getReceiverBpnNumber().equals(applicationBpnValue)).toList();
+	}
+
+
 }
