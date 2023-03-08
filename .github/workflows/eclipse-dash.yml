@@ -36,7 +36,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: IP dependency check with eclipse dash tool
-        run: ./.github/scripts/eclipse_dash.sh
+        run: | 
+         chmod +x ./scripts/eclipse_dash.sh
+         ./scripts/eclipse_dash.sh
         shell: bash
 
       - name: upload results
