@@ -40,6 +40,7 @@ jobs:
         with:
           files: "./target/failsafe-reports/TEST-*.xml"
           check_name: "Integration Test Results"
+          working-directory: backend
 
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -47,6 +48,7 @@ jobs:
         with:
           files: "./target/surefire-reports/*.xml"
           check_name: "Unit Test Results"
+          working-directory: backend
 
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
