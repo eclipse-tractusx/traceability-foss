@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Size;
@@ -35,6 +36,10 @@ public record StartInvestigationRequest(
 	@Size(min = 15, max = 1000, message = "Description should have at least 15 characters and at most 1000 characters")
 	@ApiModelProperty(example = "The description of the investigation")
 	String description,
+	@ApiModelProperty(example = "The future targetDate of the investigation")
 	@Future(message = "Specify at least the current day or a date in future")
-	Instant targetDate
-) {}
+	Instant targetDate,
+	@ApiModelProperty(example = "The severity of the investigation")
+	Severity severity
+) {
+}

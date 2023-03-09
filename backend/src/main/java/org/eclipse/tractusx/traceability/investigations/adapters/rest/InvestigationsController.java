@@ -79,7 +79,7 @@ public class InvestigationsController {
 	public StartInvestigationResponse investigateAssets(@RequestBody @Valid StartInvestigationRequest request) {
 		InvestigationId investigationId =
 			investigationsPublisherService.startInvestigation(
-				traceabilityProperties.getBpn(), request.partIds(), request.description(), request.targetDate());
+				traceabilityProperties.getBpn(), request.partIds(), request.description(), request.targetDate(), request.severity());
 
 		return new StartInvestigationResponse(investigationId.value());
 	}

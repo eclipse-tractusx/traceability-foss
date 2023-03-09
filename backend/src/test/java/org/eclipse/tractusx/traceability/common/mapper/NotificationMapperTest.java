@@ -46,7 +46,7 @@ class NotificationMapperTest {
 
 		EDCNotificationHeader header = new EDCNotificationHeader("id123",
 			"senderBPN", "senderAddress", "recipientBPN", "classification",
-			"status", "relatedNotificationId", "RECEIVED", "2022-03-01T12:00:00Z");
+			"MINOR", "relatedNotificationId", "RECEIVED", "2022-03-01T12:00:00Z");
 		EDCNotificationContent content = new EDCNotificationContent("information", List.of("partId"));
 		EDCNotification edcNotification = new EDCNotification(header, content);
 

@@ -42,6 +42,8 @@ public class Notification {
 
 	private Instant targetDate;
 
+	private Severity severity;
+
 	public Notification(String id,
 						String notificationReferenceId,
 						String senderBpnNumber,
@@ -51,7 +53,8 @@ public class Notification {
 						String description,
 						InvestigationStatus investigationStatus,
 						List<AffectedPart> affectedParts,
-						Instant targetDate) {
+						Instant targetDate,
+						Severity severity) {
 		this.id = id;
 		this.notificationReferenceId = notificationReferenceId;
 		this.senderBpnNumber = senderBpnNumber;
@@ -62,6 +65,7 @@ public class Notification {
 		this.investigationStatus = investigationStatus;
 		this.affectedParts = requireNonNullElseGet(affectedParts, ArrayList::new);
 		this.targetDate = targetDate;
+		this.severity = severity;
 	}
 
 	void changeStatusTo(InvestigationStatus to) {
@@ -126,6 +130,13 @@ public class Notification {
 		return this.targetDate;
 	}
 
+	public void setInvestigationStatus(InvestigationStatus investigationStatus) {
+		this.investigationStatus = investigationStatus;
+	}
+
+	public void setTargetDate(Instant targetDate) {
+		this.targetDate = targetDate;
+	}
 
 	public Notification copy() {
 		return new Notification(
@@ -138,7 +149,8 @@ public class Notification {
 			description,
 			investigationStatus,
 			affectedParts,
-			Instant.now()
+			Instant.now(),
+			severity
 		);
 	}
 }
