@@ -15,8 +15,12 @@ on:
   # or automatically by merge to main
   push:
     branches: [ main ]
+      paths:
+        - 'frontend/**'
   # or in PR
   pull_request:
+    paths:
+      - 'frontend/**'
 
 jobs:
   install:
