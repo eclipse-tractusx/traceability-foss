@@ -36,7 +36,11 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: IP dependency check with eclipse dash tool
-        run: ./scripts/eclipse_dash.sh && ls -la /home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/frontend/DASH_SUMMARY
+        run: ./scripts/eclipse_dash.sh
+        shell: bash
+
+      - name: List DASH_SUMMARY
+        run: ls -la /home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/frontend
         shell: bash
 
       - name: upload results
@@ -69,6 +73,11 @@ jobs:
       - name: Build with Maven and check dependencies
         run: |
           mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests -Pdependency-check
+
+      - name: List DEPENDENCIES
+        run: ls -la /home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/backend
+        shell: bash
+
       - name: upload results
         if: always()
         uses: actions/upload-artifact@v3
