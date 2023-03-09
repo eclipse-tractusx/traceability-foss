@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Registry")
-@RequestMapping(path = "/registry", produces = "application/json", consumes = "application/json")
+@RequestMapping(path = "/registry", produces = "application/json")
 public class RegistryController {
 
 	private final RegistryFacade registryFacade;
