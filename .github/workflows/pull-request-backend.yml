@@ -63,6 +63,15 @@ jobs:
           SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-integration/jacoco.xml,target/site/jacoco-unittest/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
 
+      - name: Check dependencies
+        run: |
+          mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests -Pdependency-check
+      - name: upload results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          path: 'DEPENDENCIES'
+
   Publish-docker-image:
     needs: ["Test-and-Sonar"]
     runs-on: ubuntu-latest
