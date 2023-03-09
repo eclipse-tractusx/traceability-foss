@@ -61,46 +61,46 @@ jobs:
     permissions:
       checks: write
       pull-requests: write
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
-    steps:
-      - uses: actions/download-artifact@v3
-        with:
-          name: target
+      runs-on: ubuntu-latest
+      defaults:
+        run:
+          working-directory: backend
+      steps:
+        - uses: actions/download-artifact@v3
+          with:
+            name: target
 
-      - name: Display structure of downloaded files
-        run: ls -R
-      - uses: actions/setup-java@v3
-        with:
-          java-version: '${{ env.JAVA_VERSION }}'
-          distribution: 'temurin'
-          cache: 'maven'
+        - name: Display structure of downloaded files
+          run: ls -R
+        - uses: actions/setup-java@v3
+          with:
+            java-version: '${{ env.JAVA_VERSION }}'
+            distribution: 'temurin'
+            cache: 'maven'
 
-      - name: Cache SonarCloud packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
+        - name: Cache SonarCloud packages
+          uses: actions/cache@v3
+          with:
+            path: ~/.sonar/cache
+            key: ${{ runner.os }}-sonar
+            restore-keys: ${{ runner.os }}-sonar
 
-      - name: Verify Sonar Scan
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
-          SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-integration/jacoco.xml,target/site/jacoco-unittest/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+        - name: Verify Sonar Scan
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
+            SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+          run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-integration/jacoco.xml,target/site/jacoco-unittest/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
 
-      - name: Check dependencies
-        run: |
-          mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=backend/DEPENDENCIES -DskipTests -Pdependency-check
-      - name: upload results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          path: 'DEPENDENCIES'
+        - name: Check dependencies
+          run: |
+            mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=backend/DEPENDENCIES -DskipTests -Pdependency-check
+        - name: upload results
+          if: always()
+          uses: actions/upload-artifact@v3
+          with:
+            path: 'DEPENDENCIES'
 
 
   Publish-docker-image:
