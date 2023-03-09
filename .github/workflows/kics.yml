@@ -3,7 +3,7 @@ name: "KICS"
 on:
   workflow_dispatch:
   push:
-    branches: [main, master, TRACEFOSS-1029_Kics_Trivy_Veracode]
+    branches: [main, master]
   # pull_request:
   # The branches below must be a subset of the branches above
   # branches: [main, master]
