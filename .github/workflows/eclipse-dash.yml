@@ -43,7 +43,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: 'DASH_SUMMARY'
+          path: /home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/frontend/DASH_SUMMARY
 
   build-backend:
     runs-on: ubuntu-latest
@@ -73,5 +73,5 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: 'DEPENDENCIES'
+          path: /home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/backend/DEPENDENCIES
 
