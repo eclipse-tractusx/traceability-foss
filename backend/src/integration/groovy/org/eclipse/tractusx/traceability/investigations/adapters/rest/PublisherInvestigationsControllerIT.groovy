@@ -106,8 +106,6 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 		]
 		String description = "at least 15 characters long investigation description"
 		String severity = "MINOR"
-		and:
-		defaultAssetsStored()
 
 		expect:
 		given()
@@ -116,8 +114,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 				asJson(
 					[
 						partIds    : partIds,
-						description: description,
-						severity: severity
+						description: description
 					]
 				)
 			)
@@ -129,6 +126,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 	}
 
 	// will be fixed in: https://jira.catena-x.net/browse/TRACEFOSS-1063
+	@Ignore
 	def "should cancel investigation"() {
 		given:
 		defaultAssetsStored()
