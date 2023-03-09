@@ -1,5 +1,5 @@
 image:
-  repository: ghcr.io/catenax-ng/tx-traceability-foss-backend
+  repository: ghcr.io/catenax-ng/tx-traceability-foss-frontend
   tag: $ARGOCD_APP_REVISION
 
 namespace: product-traceability-foss-pen
