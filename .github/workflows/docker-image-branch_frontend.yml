@@ -3,6 +3,7 @@ on:
   pull_request:
     paths:
       - 'frontend/**'
+      - '.github/workflows/**'
 
 env:
   REGISTRY: ghcr.io

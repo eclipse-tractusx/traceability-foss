@@ -39,7 +39,7 @@ export class D3RenderHelper {
     const offset = isMinimap ? 0 : r + 15;
     const link = d3
       .linkHorizontal<HierarchyCircularLink<TreeStructure>, HierarchyCircularNode<TreeStructure>>()
-      .source(({ source }) => ({ ...source, y: source.y + offset }))
+      .source(({ source }) => ({ ...source, y: source.y + offset } as HierarchyCircularNode<TreeStructure>))
       .x(({ y }) => y)
       .y(({ x }) => x);
 
