@@ -18,6 +18,7 @@ application-local.yml
 
 # IDEs and editors
 /.idea
+*.iml
 .project
 .classpath
 .c9/

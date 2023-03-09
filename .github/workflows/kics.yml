@@ -3,7 +3,7 @@ name: "KICS"
 on:
   workflow_dispatch:
   push:
-    branches: [main, master]
+    branches: [main, master, TRACEFOSS-1029_Kics_Trivy_Veracode]
   # pull_request:
   # The branches below must be a subset of the branches above
   # branches: [main, master]
@@ -32,7 +32,7 @@ jobs:
         uses: checkmarx/kics-github-action@master
         with:
           # Scanning directory .
-          path: "."
+          path: "./frontend"
           # Excluded paths:
           # - docker-compose.yml - used only on local env
           # - in cypress dir docker related files used only on local env
@@ -79,7 +79,7 @@ jobs:
         uses: checkmarx/kics-github-action@master
         with:
           # Scanning directory .
-          path: "."
+          path: "./backend"
 
           exclude_paths: openapi/,infrastructure/,src/main/resources/swagger.yml
           # Fail on HIGH severity results
