@@ -105,7 +105,6 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			"urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
 		]
 		String description = "at least 15 characters long investigation description"
-		String severity = "MINOR"
 
 		expect:
 		given()
