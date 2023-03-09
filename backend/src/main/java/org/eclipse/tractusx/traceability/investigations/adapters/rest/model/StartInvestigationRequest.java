@@ -43,7 +43,7 @@ public record StartInvestigationRequest(
 	Instant targetDate,
 	@NotNull
 	@EnumValidator(enumClass = Severity.class)
-	@ApiModelProperty(example = "The severity of the investigation")
+	@ApiModelProperty(example = "MINOR")
 	String severity
 ) {
 }

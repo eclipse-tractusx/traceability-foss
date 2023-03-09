@@ -144,8 +144,6 @@ public class Investigation {
 				declineReason
 			),
 			sendTo,
-			// TODO: do we want to return the whole notificationList with severities - otherwise each notification will have the same state as the investigation
-			// Otherwise we could add a Notification list with id and severity at the beginning - but as the frontend does not know the notification id so far that would not make sense
 			notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name()
 		);
 	}
