@@ -31,6 +31,7 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsPublisherService;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReadService;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReceiverService;
@@ -79,7 +80,7 @@ public class InvestigationsController {
 	public StartInvestigationResponse investigateAssets(@RequestBody @Valid StartInvestigationRequest request) {
 		InvestigationId investigationId =
 			investigationsPublisherService.startInvestigation(
-				traceabilityProperties.getBpn(), request.partIds(), request.description(), request.targetDate(), request.severity());
+				traceabilityProperties.getBpn(), request.partIds(), request.description(), request.targetDate(), Severity.valueOf(request.severity()));
 
 		return new StartInvestigationResponse(investigationId.value());
 	}
