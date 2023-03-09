@@ -1,13 +1,11 @@
 name: "Pull request Backend"
 
 on:
+  workflow_dispatch: # Trigger manually
   pull_request:
     paths:
       - 'backend/**'
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
-
+      - '.github/workflows/**'
 env:
   REGISTRY: ghcr.io
   JAVA_VERSION: 17
@@ -40,14 +38,14 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "./target/failsafe-reports/TEST-*.xml"
+          files: "**/failsafe-reports/TEST-*.xml"
           check_name: "Integration Test Results"
 
       - name: Publish unit test results
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "./target/surefire-reports/*.xml"
+          files: "**/surefire-reports/TEST-*.xml"
           check_name: "Unit Test Results"
 
       - name: Cache SonarCloud packages
@@ -63,7 +61,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode verify -DskipTests sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-integration/jacoco.xml,target/site/jacoco-unittest/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-integration/jacoco.xml,target/site/jacoco-unittest/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
 
   Publish-docker-image:
     needs: ["Test-and-Sonar"]
@@ -93,7 +91,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push docker image
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.COMMIT_SHA }}
 
   Dependency-analysis:
     runs-on: ubuntu-latest
