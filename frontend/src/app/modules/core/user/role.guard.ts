@@ -25,7 +25,7 @@ import {
   CanActivate,
   CanActivateChild,
   CanDeactivate,
-  CanLoad,
+  CanMatch,
   Router,
   RouterStateSnapshot,
   UrlTree,
@@ -39,7 +39,7 @@ type GuardValue = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | b
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanLoad {
+export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanMatch {
   constructor(private readonly roleService: RoleService, private readonly router: Router) {}
 
   public canActivate(next: ActivatedRouteSnapshot, _state: RouterStateSnapshot): GuardValue {
@@ -54,7 +54,7 @@ export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<u
     return true;
   }
 
-  public canLoad(): Observable<boolean> | Promise<boolean> | boolean {
+  public canMatch(): Observable<boolean> | Promise<boolean> | boolean {
     return true;
   }
 

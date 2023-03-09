@@ -27,8 +27,10 @@ export class RelationsAssembler {
     const { id, name = idFallback, serialNumber, children, qualityType } = part || {};
 
     const mapQualityTypeToState = (type: QualityType) => (type === QualityType.Ok ? 'done' : type || 'error');
-    const state = !!children ? mapQualityTypeToState(qualityType) || 'done' : id ? 'loading' : 'error';
+    const loadingOrErrorStatus = id ? 'loading' : 'error';
+    const mappedOrFallbackStatus = mapQualityTypeToState(qualityType) || 'done';
 
+    const state = !!children ? mappedOrFallbackStatus : loadingOrErrorStatus;
     return { id: id || idFallback, text: name, title: `${name || '--'} | ${serialNumber || id}`, state, children };
   }
 
