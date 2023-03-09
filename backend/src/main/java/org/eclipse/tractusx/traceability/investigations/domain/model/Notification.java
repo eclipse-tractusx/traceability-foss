@@ -134,6 +134,14 @@ public class Notification {
 		this.investigationStatus = investigationStatus;
 	}
 
+	public Severity getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(Severity severity) {
+		this.severity = severity;
+	}
+
 	public void setTargetDate(Instant targetDate) {
 		this.targetDate = targetDate;
 	}

@@ -46,9 +46,7 @@ public class InvestigationsReadService {
 
 	public InvestigationData findInvestigation(Long id) {
 		InvestigationId investigationId = new InvestigationId(id);
-
 		Investigation investigation = loadInvestigation(investigationId);
-
 		return investigation.toData();
 	}
 
