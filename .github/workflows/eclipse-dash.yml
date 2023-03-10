@@ -39,15 +39,11 @@ jobs:
         run: ./scripts/eclipse_dash.sh
         shell: bash
 
-      - name: List DASH_SUMMARY
-        run: ls -la /home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/frontend
-        shell: bash
-
       - name: upload results
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: '/home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/frontend/DASH_SUMMARY'
+          path: DASH_SUMMARY
 
   build-backend:
     runs-on: ubuntu-latest
@@ -74,13 +70,8 @@ jobs:
         run: |
           mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests -Pdependency-check
 
-      - name: List DEPENDENCIES
-        run: ls -la /home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/backend
-        shell: bash
-
       - name: upload results
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: '/home/runner/work/tx-traceability-foss-frontend/tx-traceability-foss-frontend/backend/DEPENDENCIES'
-
+          path: DEPENDENCIES
