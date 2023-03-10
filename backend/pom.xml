@@ -87,7 +87,7 @@
 			org/eclipse/tractusx/traceability/investigations/domain/model/**,
 			org/eclipse/tractusx/traceability/investigations/adapters/**,
 			org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**,
-			org/eclipse/tractusx/traceability/infrastructure/jpa/notification
+			org/eclipse/tractusx/traceability/infrastructure/jpa/notification/**
 		</sonar.exclusions>
 		<!-- Sonar related properties -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
