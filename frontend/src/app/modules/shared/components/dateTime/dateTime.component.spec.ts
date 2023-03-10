@@ -19,163 +19,95 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ButtonComponent } from '@shared/components/button/button.component';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { fireEvent, screen } from '@testing-library/angular';
+import { UntypedFormControl, UntypedFormGroup, ValidatorFn } from '@angular/forms';
+import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
+import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+import { sleepForTests } from '../../../../../test';
 
-describe('Button', () => {
-  it('should render regular button', async () => {
-    await renderComponent(`<app-button (click)="clickHandler">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
+describe('DateTimeComponent', () => {
+  const renderDateTime = async (label = 'Label', validators: ValidatorFn[] = []) => {
+    const form = new UntypedFormGroup({
+      formField: new UntypedFormControl(undefined, validators),
     });
 
-    const buttonEl = screen.getByText('Test').parentNode;
-
-    expect(buttonEl).toBeInTheDocument();
-    expect(buttonEl).toHaveAttribute('mat-button');
-    expect(buttonEl).toBeEnabled();
-  });
-
-  it('should click regular button', async () => {
-    const clickHandler = jasmine.createSpy();
-    const fixture = await renderComponent(`<app-button (click)="clickHandler($event)">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-      componentProperties: {
-        clickHandler,
+    const { fixture } = await renderComponent(
+      `
+      <form [formGroup]="form">
+        <app-dateTime formControlName="formField" [label]="'${label}'"></app-dateTime>
+      </form>`,
+      {
+        declarations: [DateTimeComponent],
+        componentProperties: { form },
       },
-    });
+    );
 
-    const buttonEl = screen.getByText('Test').parentNode;
+    return { form, fixture };
+  };
 
-    fireEvent.click(buttonEl);
-    fixture.detectChanges();
+  it('should render', async () => {
+    const label = 'Some label';
+    await renderDateTime(label);
 
-    expect(clickHandler).toHaveBeenCalledWith(jasmine.objectContaining({ type: 'click' }));
+    const dateTimeElement = screen.getByText(label);
+    expect(dateTimeElement).toBeInTheDocument();
   });
 
-  it('should render accent button', async () => {
-    await renderComponent(`<app-button color="accent">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
+  it('should render minimum date error message', async () => {
+    const label = 'Some label';
+    const minDate = new Date('2022-02-20T12:00');
+    const dateInput = '2021-02-20T12:00';
 
-    expect(screen.getByText('Test').parentNode).toHaveClass('mat-accent');
+    const { form } = await renderDateTime(label, [DateValidators.min(minDate)]);
+
+    const inputElement = screen.getByTestId('BaseInputElement-0');
+    expect(inputElement).toBeInTheDocument();
+
+    fireEvent.input(inputElement, { target: { value: dateInput } });
+    form.controls.formField.markAsTouched();
+    form.controls.formField.updateValueAndValidity();
+
+    const errorMessageLabel = await waitFor(() => screen.getByText('errorMessage.minDate'));
+    expect(errorMessageLabel).toBeInTheDocument();
+
+    expect(form.controls.formField.errors).toEqual({ minDate: { actualValue: dateInput, date: minDate } });
   });
 
-  it('should render warn button', async () => {
-    await renderComponent(`<app-button color="warn">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
+  it('should render maximum date error message', async () => {
+    const label = 'Some label';
 
-    expect(screen.getByText('Test').parentNode).toHaveClass('mat-warn');
+    const maxDate = new Date('2022-02-20T12:00');
+    const dateInput = '2023-02-20T12:00';
+
+    const { form } = await renderDateTime(label, [DateValidators.max(maxDate)]);
+
+    const inputElement = screen.getByTestId('BaseInputElement-0');
+    expect(inputElement).toBeInTheDocument();
+    fireEvent.input(inputElement, { target: { value: dateInput } });
+    form.controls.formField.markAsTouched();
+    form.controls.formField.updateValueAndValidity();
+
+    await sleepForTests(1000);
+    const errorMessageLabel = await waitFor(() => screen.getByText('errorMessage.maxDate'));
+    expect(errorMessageLabel).toBeInTheDocument();
+    expect(form.controls.formField.errors).toEqual({ maxDate: { actualValue: dateInput, date: maxDate } });
   });
 
-  it('should render enabled button', async () => {
-    await renderComponent(`<app-button [isDisabled]="false">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
+  it('should render current date error message', async () => {
+    const label = 'Some label';
+    const dateInput = new Date().toISOString().substring(0, 16);
 
-    const buttonEl = screen.getByText('Test').parentNode;
+    const { form } = await renderDateTime(label, [DateValidators.atLeastNow()]);
 
-    expect(buttonEl).toBeEnabled();
-    expect(buttonEl).not.toHaveAttribute('disabled');
-  });
+    const inputElement = screen.getByTestId('BaseInputElement-0');
+    expect(inputElement).toBeInTheDocument();
 
-  it('should render disabled button', async () => {
-    await renderComponent(`<app-button [isDisabled]="true">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
+    fireEvent.input(inputElement, { target: { value: dateInput } });
+    form.controls.formField.markAsTouched();
+    form.controls.formField.updateValueAndValidity();
 
-    const buttonEl = screen.getByText('Test').parentNode;
-    expect(buttonEl).toBeDisabled();
-  });
-
-  it('should render raised button', async () => {
-    await renderComponent(`<app-button variant="raised">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
-
-    const buttonEl = screen.getByText('Test').parentNode;
-    expect(buttonEl).toHaveAttribute('mat-raised-button');
-  });
-
-  it('should render flat button', async () => {
-    await renderComponent(`<app-button variant="flat">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
-
-    const buttonEl = screen.getByText('Test').parentNode;
-
-    expect(buttonEl).toHaveAttribute('mat-flat-button');
-  });
-
-  it('should render stroked button', async () => {
-    await renderComponent(`<app-button variant="stroked">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
-
-    const buttonEl = screen.getByText('Test').parentNode;
-
-    expect(buttonEl).toHaveAttribute('mat-stroked-button');
-  });
-
-  it('should render stroked button', async () => {
-    await renderComponent(`<app-button variant="stroked">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
-
-    const buttonEl = screen.getByText('Test').parentNode;
-
-    expect(buttonEl).toHaveAttribute('mat-stroked-button');
-  });
-
-  it('should render icon button', async () => {
-    await renderComponent(`<app-button variant="icon" iconName="home">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
-
-    const buttonEl = screen.getByText('Test').parentNode;
-    const iconEl = screen.getByText('home');
-
-    expect(iconEl).toHaveClass('mat-icon');
-    expect(buttonEl).toHaveAttribute('mat-icon-button');
-  });
-
-  it('should render fab button', async () => {
-    await renderComponent(`<app-button variant="fab" iconName="home">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
-
-    const buttonEl = screen.getByText('Test').parentNode.parentNode;
-    const iconEl = screen.getByText('home');
-
-    expect(iconEl).toHaveClass('mat-icon');
-    expect(buttonEl).toHaveAttribute('mat-fab');
-  });
-
-  it('should render mini fab button', async () => {
-    await renderComponent(`<app-button variant="miniFab" iconName="home">Test</app-button>`, {
-      declarations: [ButtonComponent],
-      imports: [SharedModule, TemplateModule],
-    });
-
-    const buttonEl = screen.getByText('Test').parentNode.parentNode;
-    const iconEl = screen.getByText('home');
-
-    expect(iconEl).toHaveClass('mat-icon');
-    expect(buttonEl).toHaveAttribute('mat-mini-fab');
+    const errorMessageLabel = await waitFor(() => screen.getByText('errorMessage.currentDate'));
+    expect(errorMessageLabel).toBeInTheDocument();
   });
 });

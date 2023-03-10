@@ -57,7 +57,7 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
 
   public readonly tableConfig: TableConfig = {
     displayedColumns: this.displayedColumns,
-    header: CreateHeaderFromColumns(this.displayedColumns, 'table.partsColumn'),
+    header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
     sortableColumns: this.sortableColumns,
   };
 

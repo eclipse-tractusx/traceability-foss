@@ -19,20 +19,91 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { ButtonComponent } from '@shared/components/button/button.component';
+import { FormControl, Validators } from '@angular/forms';
+import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { fireEvent, screen } from '@testing-library/angular';
+import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 describe('FormErrorMessageComponent', () => {
-  const renderErrorMessage = async () =>
-    renderComponent(FormErrorMessageComponent, { imports: [SharedModule, TemplateModule] });
+  const renderErrorMessage = async (value, validators) => {
+    const control = new FormControl(value, validators);
+    control.markAsTouched();
+    control.updateValueAndValidity();
 
-  it('should fail', async () => {
-    await renderErrorMessage();
+    return await renderComponent(FormErrorMessageComponent, { componentProperties: { control } });
+  };
 
-    expect(true).toBeFalsy();
+  it('should render required error message', async () => {
+    await renderErrorMessage('', [Validators.required]);
+
+    expect(screen.getByText('errorMessage.required')).toBeInTheDocument();
+  });
+
+  it('should render required error message', async () => {
+    await renderErrorMessage('', [Validators.required]);
+
+    expect(screen.getByText('errorMessage.required')).toBeInTheDocument();
+  });
+
+  it('should render min error message', async () => {
+    await renderErrorMessage(0, [Validators.min(1)]);
+
+    expect(screen.getByText('errorMessage.min')).toBeInTheDocument();
+  });
+
+  it('should render max error message', async () => {
+    await renderErrorMessage(11, [Validators.max(10)]);
+
+    expect(screen.getByText('errorMessage.max')).toBeInTheDocument();
+  });
+
+  it('should render email error message', async () => {
+    await renderErrorMessage('not an email', [Validators.email]);
+
+    expect(screen.getByText('errorMessage.email')).toBeInTheDocument();
+  });
+
+  it('should render minLength error message', async () => {
+    await renderErrorMessage('123', [Validators.minLength(5)]);
+
+    expect(screen.getByText('errorMessage.minLength')).toBeInTheDocument();
+  });
+
+  it('should render maxLength error message', async () => {
+    await renderErrorMessage('123456', [Validators.maxLength(5)]);
+
+    expect(screen.getByText('errorMessage.maxLength')).toBeInTheDocument();
+  });
+
+  it('should render pattern error message', async () => {
+    await renderErrorMessage('a', [Validators.pattern(/d/)]);
+
+    expect(screen.getByText('errorMessage.pattern')).toBeInTheDocument();
+  });
+
+  it('should render maxDate error message', async () => {
+    await renderErrorMessage(new Date('2024-02-02'), [DateValidators.max(new Date('2023-02-02'))]);
+
+    expect(screen.getByText('errorMessage.maxDate')).toBeInTheDocument();
+  });
+
+  it('should render minDate error message', async () => {
+    await renderErrorMessage(new Date('2022-02-02'), [DateValidators.min(new Date('2023-02-02'))]);
+
+    expect(screen.getByText('errorMessage.minDate')).toBeInTheDocument();
+  });
+
+  it('should render currentDate error message', async () => {
+    await renderErrorMessage(new Date('2022-02-02'), [DateValidators.atLeastNow()]);
+
+    expect(screen.getByText('errorMessage.currentDate')).toBeInTheDocument();
+  });
+
+  it('should render generic error message', async () => {
+    const customValidator = _ => ({ notFound: true });
+    await renderErrorMessage('', [customValidator]);
+
+    expect(screen.getByText('errorMessage.generic')).toBeInTheDocument();
   });
 });

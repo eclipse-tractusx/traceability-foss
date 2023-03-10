@@ -59,7 +59,7 @@ export class NotificationTabComponent implements AfterViewInit {
 
     this.tableConfig = {
       displayedColumns,
-      header: CreateHeaderFromColumns(displayedColumns, 'table.partsColumn'),
+      header: CreateHeaderFromColumns(displayedColumns, 'table.column'),
       hasPagination: this.hasPagination,
       menuActionsConfig: this.menuActionsConfig || [],
       cellRenderers: {

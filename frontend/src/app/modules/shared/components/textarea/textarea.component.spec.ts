@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { UntypedFormControl, UntypedFormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { TextareaComponent } from '@shared/components/textarea/textarea.component';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen } from '@testing-library/angular';

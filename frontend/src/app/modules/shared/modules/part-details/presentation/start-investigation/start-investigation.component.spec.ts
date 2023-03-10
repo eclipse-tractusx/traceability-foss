@@ -85,7 +85,7 @@ describe('StartInvestigationComponent', () => {
   it('should sort table data', async () => {
     const fixture = await renderStartInvestigation();
     const spy = spyOn((fixture.componentInstance as any).childPartsState, 'update').and.callThrough();
-    const nameHeader = await waitFor(() => screen.getByText('table.partsColumn.name'));
+    const nameHeader = await waitFor(() => screen.getByText('table.column.name'));
 
     fireEvent.click(nameHeader);
     expect(spy).toHaveBeenCalledWith({ data: [firstChild, secondChild] });

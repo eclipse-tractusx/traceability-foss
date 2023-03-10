@@ -27,7 +27,7 @@ import { InvestigationsFacade } from '@page/investigations/core/investigations.f
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { Notification } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
 import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
@@ -153,14 +153,14 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   private setTableConfigs(data: Notification): void {
-    this.isReceived = data.status === NotificationStatus.RECEIVED;
+    this.isReceived = !data.isFromSender;
 
     const displayedColumns = ['id', 'name', 'serialNumber'];
     const sortableColumns = { id: true, name: true, serialNumber: true };
 
     const tableConfig = {
       displayedColumns,
-      header: CreateHeaderFromColumns(displayedColumns, 'table.partsColumn'),
+      header: CreateHeaderFromColumns(displayedColumns, 'table.column'),
       sortableColumns: sortableColumns,
       hasPagination: false,
       cellRenderers: {
@@ -179,7 +179,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.supplierPartsTableConfig = {
       ...tableConfig,
       displayedColumns: ['select', ...displayedColumns],
-      header: CreateHeaderFromColumns(['select', ...displayedColumns], 'table.partsColumn'),
+      header: CreateHeaderFromColumns(['select', ...displayedColumns], 'table.column'),
     };
   }
 

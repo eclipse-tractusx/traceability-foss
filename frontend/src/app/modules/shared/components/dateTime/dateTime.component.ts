@@ -19,31 +19,31 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Inject, Self } from '@angular/core';
+import { Component, Input, Self } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { KnownLocale } from '@core/i18n/global-i18n.providers';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+
+type DateString = `${string}${string}${string}${string}-${string}${string}-${string}${string}`;
+type TimeString = `${string}${string}:${string}${string}`;
+export type DateTimeString = `${DateString}T${TimeString}`;
 
 @Component({
   selector: 'app-dateTime',
   templateUrl: './dateTime.component.html',
 })
 export class DateTimeComponent extends BaseInputComponent {
-  public language$: Observable<'en-GB' | 'de-DE'>;
+  @Input() set min(date: Date) {
+    this.minDate = date.toISOString().substring(0, 16) as DateTimeString;
+  }
+  @Input() set max(date: Date) {
+    this.maxDate = date.toISOString().substring(0, 16) as DateTimeString;
+  }
 
-  constructor(
-    @Self() ngControl: NgControl,
-    staticIdService: StaticIdService,
-    @Inject(I18NEXT_SERVICE) i18NextService: ITranslationService,
-  ) {
+  public minDate: DateTimeString;
+  public maxDate: DateTimeString;
+
+  constructor(@Self() ngControl: NgControl, staticIdService: StaticIdService) {
     super(ngControl, staticIdService);
-    this.language$ = i18NextService.events.languageChanged.pipe(
-      distinctUntilChanged(),
-      map((language: KnownLocale) => (language === 'en' ? 'en-GB' : 'de-DE')),
-    );
   }
 }

@@ -21,29 +21,36 @@ SPDX-License-Identifier: Apache-2.0
 
 <div class="detail--info__content">
   <div>
-    <span class="detail--text detail--text__bold">{{ 'table.partsColumn.id' | i18n }}</span>
+    <span class="detail--text detail--text__bold">{{ 'table.column.id' | i18n }}</span>
     <span class="detail--text">{{ notification?.id }}</span>
   </div>
   <div *ngIf="showNotification">
-    <span class="detail--text detail--text__bold">{{ 'table.partsColumn.description' | i18n }}</span>
+    <span class="detail--text detail--text__bold">{{ 'table.column.description' | i18n }}</span>
     <span class="detail--text">{{ notification?.description }}</span>
   </div>
   <div>
-    <span class="detail--text detail--text__bold">{{ 'table.partsColumn.status' | i18n }}</span>
+    <span class="detail--text detail--text__bold">{{ 'table.column.status' | i18n }}</span>
     <span class="notification-status notification-status--{{ notification?.status }}">
       {{ 'commonInvestigation.status.' + notification?.status | i18n }}
     </span>
   </div>
   <div>
-    <span class="detail--text detail--text__bold">{{ 'table.partsColumn.createdDate' | i18n }}</span>
+    <span class="detail--text detail--text__bold">{{ 'table.column.createdDate' | i18n }}</span>
     <span class="detail--text">{{ notification?.createdDate }}</span>
   </div>
   <div>
-    <span class="detail--text detail--text__bold">{{ 'table.partsColumn.createdBy' | i18n }}</span>
+    <span class="detail--text detail--text__bold">{{ 'table.column.createdBy' | i18n }}</span>
     <span class="detail--text">{{ notification?.createdBy }}</span>
   </div>
   <div>
-    <span class="detail--text detail--text__bold">{{ 'table.partsColumn.sendTo' | i18n }}</span>
+    <span class="detail--text detail--text__bold">{{ 'table.column.sendTo' | i18n }}</span>
     <span class="detail--text">{{ notification?.sendTo }}</span>
+  </div>
+
+  <div *ngIf="notification?.targetDate">
+    <span class="detail--text detail--text__bold">{{ 'table.column.targetDate' | i18n }}</span>
+    <span class="detail--text">{{
+      notification.targetDate | formatDate : { dateStyle: 'short', timeStyle: 'short' }
+    }}</span>
   </div>
 </div>

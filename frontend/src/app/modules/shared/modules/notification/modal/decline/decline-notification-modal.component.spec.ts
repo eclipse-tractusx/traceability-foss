@@ -51,7 +51,7 @@ describe('DeclineNotificationModalComponent', () => {
     await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
     fireEvent.click(await waitFor(() => screen.getByText('actions.decline')));
 
-    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('BaseInputElement-0'));
 
     const errorMessage_1 = await waitFor(() => screen.getByText('errorMessage.required'));
     expect(errorMessage_1).toBeInTheDocument();
@@ -73,7 +73,7 @@ describe('DeclineNotificationModalComponent', () => {
   it('should call close function', async () => {
     await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
 
-    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('BaseInputElement-0'));
     fireEvent.input(textArea, { target: { value: 'Some Text Some Text Some Text' } });
     fireEvent.click(await waitFor(() => screen.getByText('actions.decline')));
 

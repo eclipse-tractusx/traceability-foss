@@ -52,7 +52,7 @@
       "shellDescriptorsFetchDelta": "Fetch Delta",
       "endDate": "End date"
     },
-    "partsColumn": {
+    "column": {
       "id": "ID",
       "name": "Name",
       "manufacturer": "Manufacturer",
@@ -64,7 +64,7 @@
       "productionCountry": "Production country",
       "description": "Description",
       "status": "Status",
-      "targetDate": "Target date",
+      "targetDate": "Deadline",
       "createdDate": "Created",
       "createdBy": "Created by",
       "sendTo": "Send to"
@@ -106,6 +106,9 @@
     "minLength": "Please enter a text that is larger than: {{minLength}}.",
     "maxLength": "Please enter a text that is smaller than: {{maxLength}}.",
     "pattern": "Please enter data that matches this pattern: {{pattern}}.",
+    "maxDate": "Please select a date that is before {{- maxDate}}.",
+    "minDate": "Please select a date that is after {{- minDate}}.",
+    "currentDate": "Please select a date that is after {{- currentDate}}.",
     "generic": "Please enter valid data."
   },
   "unitTest": {
@@ -120,8 +123,10 @@
   "requestInvestigations": {
     "headline": "Request quality investigation",
     "textAreaDescription": "Add a description about the investigation.",
+    "targetDateDescription": "Please specify the deadline by which you expect a response.",
     "restoreItem": "Do you want to restore your last item?",
     "textAreaLabel": "Description",
+    "targetDateLabel": "Deadline",
     "cancel": "CANCEL",
     "submit": "ADD TO QUEUE"
   },
