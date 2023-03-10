@@ -97,7 +97,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.body("content", Matchers.hasSize(1))
 	}
 
-	def "should throw bad request on start investigation"() {
+	def "should throw bad request on start investigation missing required parameter severity"() {
 		given:
 		List<String> partIds = [
 			"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
