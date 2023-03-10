@@ -143,7 +143,8 @@ public class Investigation {
 				acceptReason,
 				declineReason
 			),
-			sendTo
+			sendTo,
+			notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name()
 		);
 	}
 

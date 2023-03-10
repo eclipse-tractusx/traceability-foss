@@ -87,7 +87,8 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 				.body(asJson(
 					[
 						partIds    : [assetId],
-						description: "at least 15 characters long investigation description"
+						description: "at least 15 characters long investigation description",
+						severity: "MINOR"
 					]
 				))
 				.when()
