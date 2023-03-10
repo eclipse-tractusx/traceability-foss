@@ -75,7 +75,7 @@ jobs:
           # Scanning directory .
           path: "./backend"
 
-          exclude_paths: "backend/openapi/traceability-foss-backend.json,infrastructure/,src/main/resources/swagger.yml"
+          exclude_paths: "backend/openapi/traceability-foss-backend.json,infrastructure/,backend/src/main/resources/swagger.yml"
           # Fail on HIGH severity results
           fail_on: high
           # Disable secrets detection - we use GitGuardian
