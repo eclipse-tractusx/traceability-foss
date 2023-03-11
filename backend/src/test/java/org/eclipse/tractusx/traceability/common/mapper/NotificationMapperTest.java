@@ -23,9 +23,9 @@ package org.eclipse.tractusx.traceability.common.mapper;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationHeader;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -46,13 +46,13 @@ class NotificationMapperTest {
 
 		EDCNotificationHeader header = new EDCNotificationHeader("id123",
 			"senderBPN", "senderAddress", "recipientBPN", "classification",
-			"MINOR", "relatedNotificationId", "RECEIVED", "2022-03-01T12:00:00Z");
+			"MINOR", "relatedNotificationId", "ACKNOWLEDGED", "2022-03-01T12:00:00Z");
 		EDCNotificationContent content = new EDCNotificationContent("information", List.of("partId"));
 		EDCNotification edcNotification = new EDCNotification(header, content);
 
 		Notification expectedNotification = NotificationTestDataFactory.createNotificationTestData();
 
-		Notification actualNotification = notificationMapper.toReceiverNotification(edcNotification);
+		Notification actualNotification = notificationMapper.toReceiverNotification(edcNotification, InvestigationStatus.ACKNOWLEDGED);
 		assertNotNull(actualNotification.getId());
 		assertEquals(expectedNotification.getNotificationReferenceId(), actualNotification.getNotificationReferenceId());
 		assertEquals(expectedNotification.getSenderBpnNumber(), actualNotification.getSenderBpnNumber());

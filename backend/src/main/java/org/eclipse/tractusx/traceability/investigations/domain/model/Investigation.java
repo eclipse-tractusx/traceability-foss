@@ -239,8 +239,29 @@ public class Investigation {
 	public void addNotification(Notification notification) {
 		notifications.put(notification.getId(), notification);
 
+		List<String> newAssetIds = new ArrayList<>();
 		notification.getAffectedParts().stream()
 			.map(AffectedPart::assetId)
-			.forEach(assetIds::add);
+			.forEach(newAssetIds::add);
+
+		assetIds = List.copyOf(newAssetIds);
+	}
+
+	@Override
+	public String toString() {
+		return "Investigation{" +
+			"investigationId=" + investigationId +
+			", bpn=" + bpn +
+			", investigationStatus=" + investigationStatus +
+			", investigationSide=" + investigationSide +
+			", description='" + description + '\'' +
+			", createdAt=" + createdAt +
+			", assetIds=" + assetIds +
+			", notifications=" + notifications +
+			", sendTo='" + sendTo + '\'' +
+			", closeReason='" + closeReason + '\'' +
+			", acceptReason='" + acceptReason + '\'' +
+			", declineReason='" + declineReason + '\'' +
+			'}';
 	}
 }

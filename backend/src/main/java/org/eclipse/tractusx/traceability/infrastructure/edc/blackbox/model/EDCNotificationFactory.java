@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,8 +39,8 @@ public class EDCNotificationFactory {
 			senderEDC,
 			notification.getReceiverBpnNumber(),
 			NotificationType.QMINVESTIGATION.getValue(),
-			"MINOR",
-			null,
+			notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
+			notification.getNotificationReferenceId(),
 			notification.getInvestigationStatus().name(),
 			notification.getTargetDate().toString()
 		);
@@ -54,8 +55,7 @@ public class EDCNotificationFactory {
 
 	private static List<String> extractAssetIds(Notification notification) {
 		return notification.getAffectedParts().stream()
-			.map(AffectedPart::assetId)
-			.collect(Collectors.toList());
+			.map(AffectedPart::assetId).toList();
 	}
 }
 

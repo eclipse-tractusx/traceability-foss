@@ -22,6 +22,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -114,7 +115,7 @@ class InvestigationsPublisherServiceTest {
 		// Then
 		verify(investigationsReadService).loadInvestigation(investigationId);
 		verify(repository).update(investigation);
-		verify(notificationsService).updateAsync(any());
+		verify(notificationsService).updateAsync(any(), anyBoolean());
 	}
 
 }

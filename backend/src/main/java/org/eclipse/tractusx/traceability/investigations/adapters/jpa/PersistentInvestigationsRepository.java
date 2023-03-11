@@ -143,8 +143,14 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 	}
 
 	@Override
-	public Optional<Investigation> findByNotificationReferenceId(String notificationId) {
-		return investigationRepository.findByNotificationsNotificationReferenceId(notificationId)
+	public Optional<Investigation> findByNotificationReferenceId(String notificationReferenceId) {
+		return investigationRepository.findByNotificationsNotificationReferenceId(notificationReferenceId)
+			.map(this::toInvestigation);
+	}
+
+	@Override
+	public Optional<Investigation> findByNotificationId(String notificationId) {
+		return investigationRepository.findByNotificationsNotificationId(notificationId)
 			.map(this::toInvestigation);
 	}
 
@@ -175,6 +181,7 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 	private void update(NotificationEntity notificationEntity, Notification notification) {
 		notificationEntity.setEdcUrl(notification.getEdcUrl());
 		notificationEntity.setContractAgreementId(notification.getContractAgreementId());
+		notificationEntity.setNotificationReferenceId(notification.getNotificationReferenceId());
 	}
 
 	private Investigation toInvestigation(InvestigationEntity investigationEntity) {

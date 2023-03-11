@@ -70,6 +70,9 @@ public record EDCNotification(@Valid
 	}
 
 	@JsonIgnore
+	public String getRelatedNotificationId() {return header.relatedNotificationId(); }
+
+	@JsonIgnore
 	public List<AffectedPart> getListOfAffectedItems() {
 		return content.listOfAffectedItems().stream()
 			.map(AffectedPart::new)

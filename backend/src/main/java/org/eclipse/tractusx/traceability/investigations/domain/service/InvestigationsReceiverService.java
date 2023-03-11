@@ -27,10 +27,7 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.investigations.domain.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
@@ -76,6 +73,8 @@ public class InvestigationsReceiverService {
 
 		switch (investigationStatus) {
 			case SENT -> receiveInvestigation(edcNotification, recipientBPN);
+			case ACKNOWLEDGED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACKNOWLEDGED);
+			case ACCEPTED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACCEPTED);
 			case CLOSED -> closeInvestigation(edcNotification);
 			default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(investigationStatus));
 		}
@@ -90,18 +89,32 @@ public class InvestigationsReceiverService {
 	}
 
 	private void receiveInvestigation(EDCNotification edcNotification, BPN bpn) {
-		Notification notification = notificationMapper.toReceiverNotification(edcNotification);
+		logger.info("receiveInvestigation");
+		Notification notification = notificationMapper.toReceiverNotification(edcNotification, InvestigationStatus.RECEIVED);
 		Investigation investigation = investigationMapper.toReceiverInvestigation(bpn, edcNotification.getInformation(), notification);
-		repository.save(investigation);
+		InvestigationId savedInvestigation = repository.save(investigation);
+		logger.info("Stored received notification as investigation {}", investigation);
+	}
+
+	private void receiveUpdateInvestigation(EDCNotification edcNotification, InvestigationStatus investigationStatus) {
+		logger.info("receiveUpdateInvestigation with status {}", investigationStatus);
+		Notification notification = notificationMapper.toReceiverNotification(edcNotification, investigationStatus);
+		logger.info("receiveUpdateInvestigation notification with status {}", notification);
+		Investigation investigation = investigationsReadService.loadInvestigationByNotificationId(edcNotification.getRelatedNotificationId());
+		logger.info("receiveUpdateInvestigation investigation with status {}", investigation);
+		investigation.addNotification(notification);
+		InvestigationId savedInvestigation = repository.save(investigation);
+		logger.info("Stored received notification in investigation {}", savedInvestigation);
 	}
 
 	private void closeInvestigation(EDCNotification edcNotification) {
-		Investigation investigation = investigationsReadService.loadInvestigationByNotificationReferenceId(edcNotification.getNotificationId());
+		logger.info("closeInvestigation");
+		Investigation investigation = investigationsReadService.loadInvestigationByNotificationId(edcNotification.getNotificationId());
 		investigation.close(traceabilityProperties.getBpn(), edcNotification.getInformation());
 		repository.update(investigation);
 	}
 
-	public void updateInvestigation(BPN applicationBpn, Long investigationIdRaw, InvestigationStatus status, String reason) {
+	public void updateInvestigationPublisher(BPN applicationBpn, Long investigationIdRaw, InvestigationStatus status, String reason) {
 		Investigation investigation = investigationsReadService.loadInvestigation(new InvestigationId(investigationIdRaw));
 		List<Notification> invalidNotifications = invalidNotifications(investigation, applicationBpn);
 
@@ -123,7 +136,17 @@ public class InvestigationsReceiverService {
 		}
 
 		repository.update(investigation);
-		investigation.getNotifications().forEach(notificationsService::updateAsync);
+
+		final boolean isReceiver = investigation.getInvestigationSide().equals(InvestigationSide.RECEIVER);
+		String side = "";
+		if (investigation.getInvestigationSide() != null) {
+			side = investigation.getInvestigationSide().name();
+		} else {
+			side = "not set";
+		}
+		logger.info("updateInvestigationPublisher with investigation {}", investigation);
+
+		investigation.getNotifications().forEach(notification -> notificationsService.updateAsync(notification, isReceiver));
 	}
 
 	private List<Notification> invalidNotifications(final Investigation investigation, final BPN applicationBpn) {

@@ -26,8 +26,11 @@ import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.domain.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.lang.invoke.MethodHandles;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.List;
@@ -43,6 +46,7 @@ public class InvestigationsPublisherService {
 	private final InvestigationsReadService investigationsReadService;
 	private final AssetRepository assetRepository;
 	private final Clock clock;
+	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 
 	public InvestigationsPublisherService(NotificationsService notificationsService, InvestigationsRepository repository, InvestigationsReadService investigationsReadService, AssetRepository assetRepository, Clock clock) {
@@ -82,7 +86,7 @@ public class InvestigationsPublisherService {
 				targetDate,
 				severity
 			)).forEach(investigation::addNotification);
-
+		logger.info("Start Investigation {}", investigation);
 		return repository.save(investigation);
 	}
 
@@ -110,7 +114,9 @@ public class InvestigationsPublisherService {
 		Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
 		investigation.send(applicationBpn);
 		repository.update(investigation);
-		investigation.getNotifications().forEach(notificationsService::updateAsync);
+		final boolean isReceiver = investigation.getInvestigationSide().equals(InvestigationSide.RECEIVER);
+
+		investigation.getNotifications().forEach(notification -> notificationsService.updateAsync(notification, isReceiver));
 	}
 
 	/**

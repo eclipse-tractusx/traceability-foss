@@ -146,7 +146,8 @@ public class Notification {
 		this.targetDate = targetDate;
 	}
 
-	public Notification copy() {
+
+	public Notification copy(final String senderBpnNumber, final String receiverBpnNumber) {
 		return new Notification(
 			id,
 			notificationReferenceId,
@@ -160,5 +161,22 @@ public class Notification {
 			Instant.now(),
 			severity
 		);
+	}
+
+	@Override
+	public String toString() {
+		return "Notification{" +
+			"id='" + id + '\'' +
+			", notificationReferenceId='" + notificationReferenceId + '\'' +
+			", senderBpnNumber='" + senderBpnNumber + '\'' +
+			", receiverBpnNumber='" + receiverBpnNumber + '\'' +
+			", edcUrl='" + edcUrl + '\'' +
+			", contractAgreementId='" + contractAgreementId + '\'' +
+			", affectedParts=" + affectedParts +
+			", description='" + description + '\'' +
+			", investigationStatus=" + investigationStatus +
+			", targetDate=" + targetDate +
+			", severity=" + severity +
+			'}';
 	}
 }

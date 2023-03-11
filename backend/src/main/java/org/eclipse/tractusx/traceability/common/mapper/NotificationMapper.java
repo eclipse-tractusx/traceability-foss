@@ -37,7 +37,7 @@ public class NotificationMapper {
 	 * @param edcNotification the EDCNotification received by the receiver
 	 * @return a Notification object representing the notification received by the receiver
 	 */
-	public Notification toReceiverNotification(EDCNotification edcNotification) {
+	public Notification toReceiverNotification(EDCNotification edcNotification, InvestigationStatus investigationStatus) {
 		return new Notification(
 			UUID.randomUUID().toString(),
 			edcNotification.getNotificationId(),
@@ -46,7 +46,7 @@ public class NotificationMapper {
 			edcNotification.getSenderAddress(),
 			null,
 			edcNotification.getInformation(),
-			InvestigationStatus.RECEIVED,
+			investigationStatus,
 			edcNotification.getListOfAffectedItems(),
 			edcNotification.getTargetDate(),
 			Severity.valueOf(edcNotification.getSeverity())
