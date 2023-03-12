@@ -53,8 +53,8 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 				"\t\t\"recipientBPN\": \"OTHER_BPN\",\n" +
 				"\t\t\"classification\": \"QM-Investigation\",\n" +
 				"\t\t\"severity\": \"CRITICAL\",\n" +
-				"\t\t\"relatedNotificationId\": \"\",\n" +
-				"\t\t\"status\": \"CLOSED\",\n" +
+				"\t\t\"relatedNotificationId\": \"notificationReferenceId\",\n" +
+				"\t\t\"status\": \"SENT\",\n" +
 				"\t\t\"targetDate\": \"\"\n" +
 				"\t},\n" +
 				"\t\"content\": {\n" +
