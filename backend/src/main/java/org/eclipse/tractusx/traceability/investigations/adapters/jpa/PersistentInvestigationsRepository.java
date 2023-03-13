@@ -138,12 +138,6 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 	}
 
 	@Override
-	public Optional<Investigation> findByNotificationReferenceId(String notificationReferenceId) {
-		return investigationRepository.findByNotificationsNotificationReferenceId(notificationReferenceId)
-			.map(this::toInvestigation);
-	}
-
-	@Override
 	public Optional<Investigation> findByNotificationId(String notificationId) {
 		return investigationRepository.findByNotificationsNotificationId(notificationId)
 			.map(this::toInvestigation);
@@ -159,6 +153,7 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 		return investigationRepository.countAllBySideEquals(investigationSide);
 	}
 
+	// TODO improve
 	private void update(InvestigationEntity investigationEntity, Investigation investigation) {
 		investigationEntity.setStatus(investigation.getInvestigationStatus());
 		investigationEntity.setUpdated(clock.instant());

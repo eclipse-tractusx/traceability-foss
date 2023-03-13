@@ -64,6 +64,7 @@ public class InvestigationsReceiverService {
 		this.notificationsService = notificationsService;
 	}
 
+	// TODO improve
 	public void handleNotificationReceiverCallback(EDCNotification edcNotification) {
 		logger.info("Received notification response with id {}", edcNotification.getNotificationId());
 
@@ -124,6 +125,7 @@ public class InvestigationsReceiverService {
 		repository.update(investigation);
 	}
 
+	// TODO move to publisher service
 	public void updateInvestigationPublisher(BPN applicationBpn, Long investigationIdRaw, InvestigationStatus status, String reason) {
 		Investigation investigation = investigationsReadService.loadInvestigation(new InvestigationId(investigationIdRaw));
 		List<Notification> invalidNotifications = invalidNotifications(investigation, applicationBpn);

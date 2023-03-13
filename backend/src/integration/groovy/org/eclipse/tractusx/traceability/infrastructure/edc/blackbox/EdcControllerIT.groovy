@@ -109,7 +109,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 		assertNotificationsSize(2)
 		assertInvestigationsSize(1)
 
-		assertInvestigationStatus(InvestigationStatus.ACCEPTED)
+		assertInvestigationStatus(InvestigationStatus.ACKNOWLEDGED)
 	}
 
 	def "should call the /qualitynotifications/update api with wrong requestobject "() {

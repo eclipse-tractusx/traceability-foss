@@ -44,7 +44,7 @@ public class InvestigationEntity {
 		inverseJoinColumns = @JoinColumn(name = "asset_id")
 	)
 	private List<AssetEntity> assets;
-
+	// TODO check if eager is needed
 	@OneToMany(mappedBy = "investigation")
 	private List<NotificationEntity> notifications;
 
