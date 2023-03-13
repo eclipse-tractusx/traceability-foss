@@ -19,17 +19,30 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Component, Input, Self } from '@angular/core';
+import { NgControl } from '@angular/forms';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 
+type DateString = `${string}${string}${string}${string}-${string}${string}-${string}${string}`;
+type TimeString = `${string}${string}:${string}${string}`;
+export type DateTimeString = `${DateString}T${TimeString}`;
+
 @Component({
-  selector: 'app-textarea',
-  templateUrl: './textarea.component.html',
-  styleUrls: ['./textarea.component.scss'],
+  selector: 'app-date-time',
+  templateUrl: './dateTime.component.html',
 })
-export class TextareaComponent extends BaseInputComponent {
+export class DateTimeComponent extends BaseInputComponent {
+  @Input() set min(date: Date) {
+    this.minDate = date.toISOString().substring(0, 16) as DateTimeString;
+  }
+  @Input() set max(date: Date) {
+    this.maxDate = date.toISOString().substring(0, 16) as DateTimeString;
+  }
+
+  public minDate: DateTimeString;
+  public maxDate: DateTimeString;
+
   constructor(@Self() ngControl: NgControl, staticIdService: StaticIdService) {
     super(ngControl, staticIdService);
   }

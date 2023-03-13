@@ -76,7 +76,7 @@ jobs:
       run:
         working-directory: backend
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    needs: [prepare-env]
+    needs: [prepare-env-backend]
     permissions:
       actions: read
       contents: read
@@ -111,7 +111,7 @@ jobs:
       run:
         working-directory: backend
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    needs: [prepare-env]
+    needs: [prepare-env-backend]
     permissions:
       actions: read
       contents: read

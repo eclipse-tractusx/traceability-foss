@@ -25,10 +25,6 @@ import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 import type { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-interface DateFormatOptions {
-  dateStyle: 'full' | 'long' | 'medium' | 'short';
-}
-
 @Pipe({ name: 'formatDate', pure: false })
 export class FormatDatePipe implements PipeTransform, OnDestroy {
   private readonly languageChangedSubscription: Subscription;

@@ -157,7 +157,7 @@ public class Notification {
 			description,
 			investigationStatus,
 			affectedParts,
-			Instant.now(),
+			targetDate,
 			severity
 		);
 	}
