@@ -106,6 +106,12 @@ public class InvestigationsReceiverService {
 		logger.info("receiveUpdateInvestigation investigation with status {}", investigation);
 		investigation.addNotification(notification);
 
+		switch (investigationStatus) {
+			case ACKNOWLEDGED -> investigation.acknowledge();
+			case ACCEPTED -> investigation.accept("the accept reason (set by system)");
+			case DECLINED -> investigation.decline("the decline reason (set by system)");
+			default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(investigationStatus));
+		}
 		InvestigationId savedInvestigation = repository.update(investigation);
 
 		logger.info("Stored received notification in investigation {}", savedInvestigation);
