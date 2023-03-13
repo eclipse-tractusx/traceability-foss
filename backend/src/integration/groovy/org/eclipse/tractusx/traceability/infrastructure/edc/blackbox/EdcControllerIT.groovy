@@ -13,6 +13,7 @@ import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.Invest
 import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity
 import org.springframework.beans.factory.annotation.Autowired
 
 import java.time.Instant
@@ -73,7 +74,8 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 			"receiverBpnNumber",
 			null,
 			null,
-			Instant.parse("2022-03-01T12:00:00Z")
+			Instant.parse("2022-03-01T12:00:00Z"),
+			Severity.CRITICAL
 		)
 
 		InvestigationEntity investigation = new InvestigationEntity(
