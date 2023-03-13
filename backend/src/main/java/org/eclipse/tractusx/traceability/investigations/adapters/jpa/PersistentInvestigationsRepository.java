@@ -153,7 +153,6 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 		return investigationRepository.countAllBySideEquals(investigationSide);
 	}
 
-	// TODO improve
 	private void update(InvestigationEntity investigationEntity, Investigation investigation) {
 		investigationEntity.setStatus(investigation.getInvestigationStatus());
 		investigationEntity.setUpdated(clock.instant());
@@ -161,19 +160,21 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 		investigationEntity.setAcceptReason(investigation.getAcceptReason());
 		investigationEntity.setDeclineReason(investigation.getDeclineReason());
 
-		investigationEntity.getNotifications().forEach(notification -> {
-			investigation.getNotification(notification.getId()).ifPresent(data -> {
-				update(notification, data);
-			});
-		});
+		// Persist existing notifications
+		investigationEntity.getNotifications()
+			.forEach(notification -> investigation.getNotification(notification.getId())
+				.ifPresent(data -> update(notification, data)));
 		List<Notification> notifications = investigation.getNotifications();
 		List<NotificationEntity> notificationEntities = investigationEntity.getNotifications();
+
+		// Persist new notifications
 		List<Notification> notPersistedNotifications =
 			notifications
 				.stream()
 				.filter(notification -> notificationEntities
 					.stream()
-					.anyMatch(notificationEntity -> !notificationEntity.getId().equals(notification.getId()))).toList();
+					.anyMatch(notificationEntity -> !notificationEntity.getId().equals(notification.getId())))
+				.toList();
 
 		List<String> assetIds = investigation.getAssetIds();
 		List<AssetEntity> assetEntities = assetsRepository.findByIdIn(assetIds);
