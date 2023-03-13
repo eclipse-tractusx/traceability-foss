@@ -239,12 +239,12 @@ public class Investigation {
 	public void addNotification(Notification notification) {
 		notifications.put(notification.getId(), notification);
 
-		List<String> newAssetIds = new ArrayList<>();
+		List<String> newAssetIds = new ArrayList<>(assetIds); // create a mutable copy of assetIds
 		notification.getAffectedParts().stream()
 			.map(AffectedPart::assetId)
 			.forEach(newAssetIds::add);
 
-		assetIds = List.copyOf(newAssetIds);
+		assetIds = Collections.unmodifiableList(newAssetIds); //
 	}
 
 	@Override

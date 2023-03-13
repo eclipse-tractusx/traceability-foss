@@ -27,6 +27,8 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType;
+import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.InvestigationData;
 import org.eclipse.tractusx.traceability.investigations.domain.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
@@ -92,18 +94,20 @@ public class InvestigationsReceiverService {
 		logger.info("receiveInvestigation");
 		Notification notification = notificationMapper.toReceiverNotification(edcNotification, InvestigationStatus.RECEIVED);
 		Investigation investigation = investigationMapper.toReceiverInvestigation(bpn, edcNotification.getInformation(), notification);
-		InvestigationId savedInvestigation = repository.save(investigation);
-		logger.info("Stored received notification as investigation {}", investigation);
+		repository.save(investigation);
 	}
 
 	private void receiveUpdateInvestigation(EDCNotification edcNotification, InvestigationStatus investigationStatus) {
 		logger.info("receiveUpdateInvestigation with status {}", investigationStatus);
 		Notification notification = notificationMapper.toReceiverNotification(edcNotification, investigationStatus);
 		logger.info("receiveUpdateInvestigation notification with status {}", notification);
+
 		Investigation investigation = investigationsReadService.loadInvestigationByNotificationId(edcNotification.getRelatedNotificationId());
 		logger.info("receiveUpdateInvestigation investigation with status {}", investigation);
 		investigation.addNotification(notification);
-		InvestigationId savedInvestigation = repository.save(investigation);
+
+		InvestigationId savedInvestigation = repository.update(investigation);
+
 		logger.info("Stored received notification in investigation {}", savedInvestigation);
 	}
 

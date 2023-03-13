@@ -29,12 +29,7 @@ import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.Invest
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.JpaInvestigationRepository;
 import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.JpaNotificationRepository;
 import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity;
-import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.investigations.domain.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -106,8 +101,8 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 			investigationRepository.save(investigationEntity);
 
 			List<NotificationEntity> notifications = investigation.getNotifications().stream()
-					.map(notification -> toNotificationEntity(investigationEntity, notification, assetEntities))
-						.toList();
+				.map(notification -> toNotificationEntity(investigationEntity, notification, assetEntities))
+				.toList();
 
 			notificationRepository.saveAll(notifications);
 
@@ -176,6 +171,22 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 				update(notification, data);
 			});
 		});
+		List<Notification> notifications = investigation.getNotifications();
+		List<NotificationEntity> notificationEntities = investigationEntity.getNotifications();
+		List<Notification> notPersistedNotifications =
+			notifications
+				.stream()
+				.filter(notification -> notificationEntities
+					.stream()
+					.anyMatch(notificationEntity -> !notificationEntity.getId().equals(notification.getId()))).toList();
+
+		List<String> assetIds = investigation.getAssetIds();
+		List<AssetEntity> assetEntities = assetsRepository.findByIdIn(assetIds);
+		List<NotificationEntity> newNotificationEntities = notPersistedNotifications.stream()
+			.map(notification -> toNotificationEntity(investigationEntity, notification, assetEntities))
+			.toList();
+
+		notificationRepository.saveAll(newNotificationEntities);
 	}
 
 	private void update(NotificationEntity notificationEntity, Notification notification) {

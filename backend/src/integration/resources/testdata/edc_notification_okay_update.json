@@ -6,8 +6,8 @@
 		"recipientBPN": "BPNL00000003AXS3",
 		"classification": "QM-Investigation",
 		"severity": "CRITICAL",
-		"relatedNotificationId": "",
-		"status": "SENT",
+		"relatedNotificationId": "REPLACE_ME",
+		"status": "ACCEPTED",
 		"targetDate": "2099-03-11T22:44:06.333826952Z"
 	},
 	"content": {

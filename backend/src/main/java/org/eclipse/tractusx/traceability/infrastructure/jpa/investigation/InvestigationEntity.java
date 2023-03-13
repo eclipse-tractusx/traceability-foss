@@ -26,16 +26,7 @@ import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.Notific
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
 
@@ -54,7 +45,7 @@ public class InvestigationEntity {
 	)
 	private List<AssetEntity> assets;
 
-	@OneToMany(mappedBy = "investigation")
+	@OneToMany(mappedBy = "investigation", fetch = FetchType.EAGER)
 	private List<NotificationEntity> notifications;
 
 	private String bpn;

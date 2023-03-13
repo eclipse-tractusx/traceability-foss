@@ -44,8 +44,11 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
 	void assertInvestigationsSize(int size) {
 		List<InvestigationEntity> investigations = jpaInvestigationRepository().findAll()
-
 		assert investigations.size() == size
+	}
+
+	List<InvestigationEntity> findAllInvestigations() {
+	return jpaInvestigationRepository().findAll()
 	}
 
 	void assertInvestigationStatus(InvestigationStatus investigationStatus) {
