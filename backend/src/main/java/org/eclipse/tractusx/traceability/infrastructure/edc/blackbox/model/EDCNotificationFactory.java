@@ -24,6 +24,8 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPar
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 
+import java.time.Instant;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,7 +44,7 @@ public class EDCNotificationFactory {
 			notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
 			notification.getNotificationReferenceId(),
 			notification.getInvestigationStatus().name(),
-			notification.getTargetDate() != null ? notification.getTargetDate().toString() : null
+			notification.getTargetDate() != null ? Instant.now().toString() : null
 		);
 
 		EDCNotificationContent content = new EDCNotificationContent(
