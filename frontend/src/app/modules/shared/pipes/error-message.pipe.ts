@@ -19,20 +19,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Pipe, PipeTransform } from '@angular/core';
+import { Inject, Pipe, PipeTransform } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { ParameterizedMessage } from '@shared/model/i18n-message';
+import { FormatDatePipe } from '@shared/pipes/format-date.pipe';
+import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 
 type MinError = { min: number; actual: number };
 type MaxError = { max: number; actual: number };
 type MinLengthError = { requiredLength: number; actualLength: number };
 type MaxLengthError = { requiredLength: number; actualLength: number };
 type PatternError = { requiredPattern: string; actualValue: string };
+type DateError = { date: Date; actualValue: string };
 
 @Pipe({
   name: 'errorMessage',
 })
 export class ErrorMessagePipe implements PipeTransform {
+  private datePipe: FormatDatePipe;
+  constructor(@Inject(I18NEXT_SERVICE) translationService: ITranslationService) {
+    this.datePipe = new FormatDatePipe(translationService);
+  }
   public transform(errors: ValidationErrors): string {
     if (!errors) {
       return '';
@@ -42,12 +50,21 @@ export class ErrorMessagePipe implements PipeTransform {
       return { id: `errorMessage.${key}`, values: { [key]: value } };
     };
 
+    const formatDate = (date: Date): string => {
+      const dateConfig: Intl.DateTimeFormatOptions = { dateStyle: 'long', timeStyle: 'short' };
+      const formattedDate = this.datePipe.transform(new CalendarDateModel(date.toString()), dateConfig);
+      return decodeURIComponent(formattedDate);
+    };
+
     const errorMessageMapping = new Map<string, any>([
       ['min', ({ min }: MinError) => getErrorMapping('min', min)],
       ['max', ({ max }: MaxError) => getErrorMapping('max', max)],
       ['minlength', ({ requiredLength }: MinLengthError) => getErrorMapping('minLength', requiredLength)],
       ['maxlength', ({ requiredLength }: MaxLengthError) => getErrorMapping('maxLength', requiredLength)],
       ['pattern', ({ requiredPattern }: PatternError) => getErrorMapping('pattern', requiredPattern)],
+      ['maxDate', ({ date }: DateError) => getErrorMapping('maxDate', formatDate(date))],
+      ['minDate', ({ date }: DateError) => getErrorMapping('minDate', formatDate(date))],
+      ['currentDate', ({ date }: DateError) => getErrorMapping('currentDate', formatDate(date))],
 
       ['required', _ => getErrorMapping('required')],
       ['email', _ => getErrorMapping('email')],

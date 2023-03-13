@@ -23,7 +23,6 @@ import { NotificationStatus } from '@shared/model/notification.model';
 import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { renderCancelModal } from '@shared/modules/notification/modal/modalTestHelper.spec';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
-import { sleepForTests } from '../../../../../../../test';
 
 describe('CancelNotificationModalComponent', () => {
   it('should create cancel modal', async () => {
@@ -55,7 +54,7 @@ describe('CancelNotificationModalComponent', () => {
     const errorMessage_1 = await waitFor(() => screen.getByText('errorMessage.required'));
     expect(errorMessage_1).toBeInTheDocument();
 
-    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('BaseInputElement-0'));
     fireEvent.input(textArea, { target: { value: 'error' } });
     const errorMessage_2 = await waitFor(() => screen.getByText('errorMessage.pattern'));
     expect(errorMessage_2).toBeInTheDocument();
@@ -67,7 +66,7 @@ describe('CancelNotificationModalComponent', () => {
   it('should call cancel function', async () => {
     const { notification } = await renderCancelModal(NotificationStatus.CREATED);
 
-    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('BaseInputElement-0'));
     fireEvent.input(textArea, { target: { value: notification.id } });
 
     fireEvent.click(await waitFor(() => screen.getByText('actions.cancellationConfirm')));

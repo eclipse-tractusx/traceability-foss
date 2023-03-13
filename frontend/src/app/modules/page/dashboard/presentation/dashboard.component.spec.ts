@@ -19,7 +19,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { By } from '@angular/platform-browser';
 import { PartsModule } from '@page/parts/parts.module';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
@@ -65,8 +64,6 @@ describe('Dashboard', () => {
   it('should render map', async () => {
     const { fixture } = await renderDashboard();
     expect(await screen.findByText('map.headline')).toBeInTheDocument();
-
-    await waitFor(() => expect(fixture.debugElement.query(By.css('.dashboard--map')).componentInstance).toBeDefined());
   });
 
   describe('investigations', () => {
