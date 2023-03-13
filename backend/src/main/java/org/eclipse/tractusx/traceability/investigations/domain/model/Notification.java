@@ -79,7 +79,7 @@ public class Notification {
 	}
 
     public boolean existOnReceiverSide(){
-       return this.getNotificationReferenceId() != null;
+       return !this.getNotificationReferenceId().isBlank();
     }
 
 	public String getId() {
