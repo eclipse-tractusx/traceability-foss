@@ -74,7 +74,7 @@ public class InvestigationsReceiverService {
 		InvestigationStatus investigationStatus = edcNotification.convertInvestigationStatus();
 
 		switch (investigationStatus) {
-			case SENT -> receiveInvestigation(edcNotification, recipientBPN);
+			case SENT, RECEIVED -> receiveInvestigation(edcNotification, recipientBPN, investigationStatus);
 			case ACKNOWLEDGED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACKNOWLEDGED);
 			case ACCEPTED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACCEPTED);
 			case CLOSED -> closeInvestigation(edcNotification);
@@ -90,9 +90,9 @@ public class InvestigationsReceiverService {
 		}
 	}
 
-	private void receiveInvestigation(EDCNotification edcNotification, BPN bpn) {
+	private void receiveInvestigation(EDCNotification edcNotification, BPN bpn, InvestigationStatus investigationStatus) {
 		logger.info("receiveInvestigation");
-		Notification notification = notificationMapper.toReceiverNotification(edcNotification, InvestigationStatus.RECEIVED);
+		Notification notification = notificationMapper.toReceiverNotification(edcNotification, investigationStatus);
 		Investigation investigation = investigationMapper.toReceiverInvestigation(bpn, edcNotification.getInformation(), notification);
 		repository.save(investigation);
 	}
