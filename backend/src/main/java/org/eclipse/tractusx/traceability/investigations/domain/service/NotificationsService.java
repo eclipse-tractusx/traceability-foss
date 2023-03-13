@@ -66,6 +66,7 @@ public class NotificationsService {
 		List<String> receiverEdcUrls = edcUrlProvider.getEdcUrls(receiverBpn);
 
 		for (String receiverEdcUrl : receiverEdcUrls) {
+			// TODO currently the close case does not work correctly
 			Notification notificationToSend = notification.copy(senderBpn, receiverBpn);
 			logger.info("NotificationUpdate (NotificationService) id: {}, refId: {}", notificationToSend.getId(), notificationToSend.getNotificationReferenceId());
 			edcFacade.startEDCTransfer(notificationToSend, receiverEdcUrl, senderEdcUrl);
