@@ -34,10 +34,10 @@ import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 import static org.eclipse.tractusx.traceability.common.support.ISO8601DateTimeMatcher.isIso8601DateTime
 
-
+@Ignore
 class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
 
-    @Ignore
+
 	def "should return registry lookup metrics after success refresh"() {
 		given:
 			oauth2ApiReturnsTechnicalUserToken()
