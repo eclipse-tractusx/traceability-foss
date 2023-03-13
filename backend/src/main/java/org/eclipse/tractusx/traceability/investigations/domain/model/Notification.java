@@ -146,7 +146,6 @@ public class Notification {
 		this.targetDate = targetDate;
 	}
 
-
 	public Notification copy(final String senderBpnNumber, final String receiverBpnNumber) {
 		return new Notification(
 			id,

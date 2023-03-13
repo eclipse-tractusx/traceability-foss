@@ -55,11 +55,6 @@ public enum InvestigationStatus {
 
 	private static final Map<String, InvestigationStatus> MAPPINGS;
 
-	//BPN A (SENT) -> BPN B (RECEIVED)
-	//2) BPN B (ACKOW..) -> BPN A (ACKO..)
-
-	// 2) BPN B -> RECEIVER, BPN A -> SENDER
-
 	static {
 		STATE_MACHINE = Map.of(
 			CREATED, of(SENT, CANCELED),

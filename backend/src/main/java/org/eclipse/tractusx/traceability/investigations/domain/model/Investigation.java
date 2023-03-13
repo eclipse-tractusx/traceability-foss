@@ -179,10 +179,26 @@ public class Investigation {
 		changeStatusTo(InvestigationStatus.ACKNOWLEDGED);
 	}
 
+	public void acknowledge(Notification notification) {
+		changeStatusToWithoutNotifications(InvestigationStatus.ACKNOWLEDGED);
+		notification.setInvestigationStatus(InvestigationStatus.ACKNOWLEDGED);
+	}
 
 	public void accept(String reason) {
 		changeStatusTo(InvestigationStatus.ACCEPTED);
 		this.acceptReason = reason;
+	}
+
+	public void accept(String reason, Notification notification) {
+		changeStatusToWithoutNotifications(InvestigationStatus.ACCEPTED);
+		notification.setInvestigationStatus(InvestigationStatus.ACCEPTED);
+		this.acceptReason = reason;
+	}
+
+	public void decline(String reason, Notification notification) {
+		changeStatusTo(InvestigationStatus.DECLINED);
+		notification.setInvestigationStatus(InvestigationStatus.DECLINED);
+		this.declineReason = reason;
 	}
 
 	public void decline(String reason) {
@@ -203,8 +219,18 @@ public class Investigation {
 			throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
 		}
 
-	/*	notifications.values()
-			.forEach(notification -> notification.changeStatusTo(to));*/
+		notifications.values()
+			.forEach(notification -> notification.changeStatusTo(to));
+
+		this.investigationStatus = to;
+	}
+
+	private void changeStatusToWithoutNotifications(InvestigationStatus to) {
+		boolean transitionAllowed = investigationStatus.transitionAllowed(to);
+
+		if (!transitionAllowed) {
+			throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
+		}
 
 		this.investigationStatus = to;
 	}
