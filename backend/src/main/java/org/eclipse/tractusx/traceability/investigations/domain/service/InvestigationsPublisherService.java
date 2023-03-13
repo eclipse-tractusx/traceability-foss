@@ -130,9 +130,10 @@ public class InvestigationsPublisherService {
 	public void closeInvestigation(BPN applicationBpn, Long id, String reason) {
 		InvestigationId investigationId = new InvestigationId(id);
 		Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
+        logger.info("InvestigationPublisherService: closeInvestigation {}", investigation);
 		investigation.close(applicationBpn, reason);
 		repository.update(investigation);
-		investigation.getNotifications().forEach(notificationsService::updateAsync);
+		investigation.getNotifications().stream().filter(Notification::existOnReceiverSide).forEach(notificationsService::updateAsync);
 	}
 
 	/**

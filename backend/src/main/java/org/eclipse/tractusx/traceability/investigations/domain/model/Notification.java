@@ -78,6 +78,10 @@ public class Notification {
 		this.investigationStatus = to;
 	}
 
+    public boolean existOnReceiverSide(){
+       return this.getNotificationReferenceId() != null;
+    }
+
 	public String getId() {
 		return id;
 	}
