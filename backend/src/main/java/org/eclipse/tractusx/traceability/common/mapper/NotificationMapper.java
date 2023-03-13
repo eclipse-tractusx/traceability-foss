@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.common.mapper;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -47,7 +48,8 @@ public class NotificationMapper {
 			edcNotification.getInformation(),
 			InvestigationStatus.RECEIVED,
 			edcNotification.getListOfAffectedItems(),
-			edcNotification.getTargetDate()
+			edcNotification.getTargetDate(),
+			Severity.valueOf(edcNotification.getSeverity())
 		);
 	}
 }

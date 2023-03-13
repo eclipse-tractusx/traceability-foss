@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.infrastructure.jpa.notification;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.CascadeType;
@@ -64,6 +65,7 @@ public class NotificationEntity {
 	private String contractAgreementId;
 	private String notificationReferenceId;
 	private Instant targetDate;
+	private Severity severity;
 
 	public NotificationEntity() {
 	}
@@ -151,4 +153,11 @@ public class NotificationEntity {
 		this.targetDate = targetDate;
 	}
 
+	public Severity getSeverity() {
+		return severity;
+	}
+
+	public void setSeverity(Severity severity) {
+		this.severity = severity;
+	}
 }

@@ -59,9 +59,11 @@ public class InvestigationsPublisherService {
 	 * @param applicationBpn the BPN to use for the investigation
 	 * @param assetIds       the IDs of the assets to investigate
 	 * @param description    the description of the investigation
+	 * @param targetDate     the targetDate of the investigation
+	 * @param severity       the severity of the investigation
 	 * @return the ID of the newly created investigation
 	 */
-	public InvestigationId startInvestigation(BPN applicationBpn, List<String> assetIds, String description, Instant targetDate) {
+	public InvestigationId startInvestigation(BPN applicationBpn, List<String> assetIds, String description, Instant targetDate, Severity severity) {
 		Investigation investigation = Investigation.startInvestigation(clock.instant(), applicationBpn, description);
 
 		Map<String, List<Asset>> assetsByManufacturer = assetRepository.getAssetsById(assetIds).stream().collect(Collectors.groupingBy(Asset::getManufacturerId));
@@ -77,7 +79,8 @@ public class InvestigationsPublisherService {
 				description,
 				InvestigationStatus.RECEIVED,
 				it.getValue().stream().map(Asset::getId).map(AffectedPart::new).toList(),
-				targetDate
+				targetDate,
+				severity
 			)).forEach(investigation::addNotification);
 
 		return repository.save(investigation);

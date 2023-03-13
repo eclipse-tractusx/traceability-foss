@@ -130,8 +130,8 @@ describe('Other Parts', () => {
       await renderOtherParts({ roles: ['user'] });
       fireEvent.click(screen.getByText('pageOtherParts.tab.supplier'));
 
-      await waitFor(() => expect(screen.getByText('table.partsColumn.manufacturer')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('table.partsColumn.manufacturer'));
+      await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturer'));
 
       const supplierParts = await firstValueFrom(otherPartsState.supplierParts$);
       await waitFor(() =>

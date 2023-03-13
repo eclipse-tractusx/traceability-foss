@@ -52,7 +52,7 @@ describe('AcceptNotificationModalComponent', () => {
     await renderAcceptModal(NotificationStatus.ACKNOWLEDGED);
     fireEvent.click(await waitFor(() => screen.getByText('actions.accept')));
 
-    const textArea = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    const textArea = await waitFor(() => screen.getByTestId('BaseInputElement-0'));
     const errorMessage_1 = await waitFor(() => screen.getByText('errorMessage.required'));
     expect(errorMessage_1).toBeInTheDocument();
 
@@ -73,7 +73,7 @@ describe('AcceptNotificationModalComponent', () => {
   it('should call close function', async () => {
     await renderAcceptModal(NotificationStatus.ACKNOWLEDGED);
 
-    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('TextAreaComponent-0'));
+    const textArea: HTMLTextAreaElement = await waitFor(() => screen.getByTestId('BaseInputElement-0'));
     fireEvent.input(textArea, { target: { value: 'Some Text Some Text Some Text' } });
 
     fireEvent.click(await waitFor(() => screen.getByText('actions.accept')));

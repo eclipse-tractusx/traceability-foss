@@ -84,7 +84,7 @@ export class StartInvestigationComponent {
 
     this.tableConfig = {
       displayedColumns,
-      header: CreateHeaderFromColumns(displayedColumns, 'table.partsColumn'),
+      header: CreateHeaderFromColumns(displayedColumns, 'table.column'),
       sortableColumns: sortableColumns,
       hasPagination: false,
     };

@@ -14,9 +14,13 @@ on:
         default: 11645
   # or automatically by merge to main
   push:
-    branches: [ main ]
+    branches: main
+    paths:
+      - 'frontend/**'
   # or in PR
   pull_request:
+    paths:
+      - 'frontend/**'
 
 jobs:
   install:
