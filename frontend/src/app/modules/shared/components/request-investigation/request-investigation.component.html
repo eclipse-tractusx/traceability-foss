@@ -58,11 +58,11 @@ SPDX-License-Identifier: Apache-2.0
   <div class="flex">
     <div>
       <p class="regular-text mb-2">{{ 'requestInvestigations.targetDateDescription' | i18n }}</p>
-      <app-dateTime
+      <app-date-time
         [label]="'requestInvestigations.targetDateLabel' | i18n"
         [min]="minDate"
         formControlName="targetDate"
-      ></app-dateTime>
+      ></app-date-time>
     </div>
   </div>
 

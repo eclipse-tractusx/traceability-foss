@@ -23,7 +23,7 @@ import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-formErrorMessage',
+  selector: 'app-form-error-message',
   templateUrl: './formErrorMessage.component.html',
 })
 export class FormErrorMessageComponent {

@@ -35,7 +35,7 @@ describe('DateTimeComponent', () => {
     const { fixture } = await renderComponent(
       `
       <form [formGroup]="form">
-        <app-dateTime formControlName="formField" [label]="'${label}'"></app-dateTime>
+        <app-date-time formControlName="formField" [label]="'${label}'"></app-date-time>
       </form>`,
       {
         declarations: [DateTimeComponent],

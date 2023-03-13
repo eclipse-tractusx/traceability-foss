@@ -29,7 +29,7 @@ type TimeString = `${string}${string}:${string}${string}`;
 export type DateTimeString = `${DateString}T${TimeString}`;
 
 @Component({
-  selector: 'app-dateTime',
+  selector: 'app-date-time',
   templateUrl: './dateTime.component.html',
 })
 export class DateTimeComponent extends BaseInputComponent {
