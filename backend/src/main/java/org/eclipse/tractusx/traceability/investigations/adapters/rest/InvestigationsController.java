@@ -57,18 +57,15 @@ public class InvestigationsController {
 
     private final InvestigationsReadService investigationsReadService;
     private final InvestigationsPublisherService investigationsPublisherService;
-    private final InvestigationsReceiverService investigationsReceiverService;
     private final TraceabilityProperties traceabilityProperties;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private static final String API_LOG_START = "Received API call on /investigations";
 
     public InvestigationsController(InvestigationsReadService investigationsReadService,
                                     InvestigationsPublisherService investigationsPublisherService,
-                                    InvestigationsReceiverService investigationsReceiverService,
                                     TraceabilityProperties traceabilityProperties) {
         this.investigationsReadService = investigationsReadService;
         this.investigationsPublisherService = investigationsPublisherService;
-        this.investigationsReceiverService = investigationsReceiverService;
         this.traceabilityProperties = traceabilityProperties;
     }
 
