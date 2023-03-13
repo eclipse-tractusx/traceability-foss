@@ -65,6 +65,10 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 	}
 
 	def "should add a notification to an existing investigation on API callback /qualitynotifications/update success"() {
+		// TODO after lunch
+		// dieser test schlägt fehl mit ner 500
+		// ich habe in der edcnotification den status auf acknowledge gesetzt weil die transition nicht erlaubt ist
+		// nun scheint sie erlaubt zu sein aber 500 fliegt -> siehe InvestigationReceiverService.receiveUpdateInvestigation
 		given:
 
 		defaultAssetsStored()

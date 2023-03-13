@@ -7,7 +7,7 @@
 		"classification": "QM-Investigation",
 		"severity": "CRITICAL",
 		"relatedNotificationId": "REPLACE_ME",
-		"status": "ACCEPTED",
+		"status": "ACKNOWLEDGED",
 		"targetDate": "2099-03-11T22:44:06.333826952Z"
 	},
 	"content": {

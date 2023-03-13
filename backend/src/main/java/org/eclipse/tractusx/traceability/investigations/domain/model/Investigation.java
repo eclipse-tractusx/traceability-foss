@@ -179,6 +179,7 @@ public class Investigation {
 		changeStatusTo(InvestigationStatus.ACKNOWLEDGED);
 	}
 
+
 	public void accept(String reason) {
 		changeStatusTo(InvestigationStatus.ACCEPTED);
 		this.acceptReason = reason;
@@ -202,8 +203,8 @@ public class Investigation {
 			throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
 		}
 
-		notifications.values()
-			.forEach(notification -> notification.changeStatusTo(to));
+	/*	notifications.values()
+			.forEach(notification -> notification.changeStatusTo(to));*/
 
 		this.investigationStatus = to;
 	}

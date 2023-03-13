@@ -8,6 +8,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNo
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.investigations.domain.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
+import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.NotificationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
@@ -144,13 +145,13 @@ class InvestigationsReceiverServiceTest {
 	}
 
 	@Test
-	@DisplayName("Test updateInvestigation is invalid because notification status transition not allowed")
+	@DisplayName("Test updateInvestigation is invalid because investigation status transition not allowed")
 	void testUpdateInvestigationInvalid() {
 
 		// Given
 		BPN bpn = BPN.of("recipientBPN");
 		Long investigationIdRaw = 1L;
-		InvestigationStatus status = InvestigationStatus.ACKNOWLEDGED;
+		InvestigationStatus status = InvestigationStatus.ACCEPTED;
 		String reason = "the update reason";
 
 		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
@@ -171,12 +172,12 @@ class InvestigationsReceiverServiceTest {
 		List<Notification> notifications = new ArrayList<>();
 		notifications.add(notification);
 
-		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.RECEIVED, "recipientBPN", notifications);
+		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.SENT, "recipientBPN", notifications);
 
 		when(mockReadService.loadInvestigation(any(InvestigationId.class))).thenReturn(investigationTestData);
 
 		// When
-		assertThrows(NotificationStatusTransitionNotAllowed.class, () -> {
+		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
 			service.updateInvestigationPublisher(bpn, investigationIdRaw, status, reason);
 		});
 
