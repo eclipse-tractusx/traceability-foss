@@ -43,7 +43,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: 'DASH_SUMMARY'
+          path: DASH_SUMMARY
 
   build-backend:
     runs-on: ubuntu-latest
@@ -69,9 +69,9 @@ jobs:
       - name: Build with Maven and check dependencies
         run: |
           mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests -Pdependency-check
+
       - name: upload results
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: 'DEPENDENCIES'
-
+          path: DEPENDENCIES
