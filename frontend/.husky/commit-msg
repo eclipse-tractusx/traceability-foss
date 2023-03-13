@@ -1,4 +1,23 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
-npx --no -- commitlint --edit "${1}"
+if [ ! -e "$1" ]; then
+	echo "Argument for the commit message file is missing or the file \"$1\" does not exist. Did you try to run this manually?"
+	exit 1
+fi
+
+commitTitle="$(cat "$1" | head -n1)"
+
+if echo "${commitTitle}" | grep -qE "^Merge branch '.*"; then
+	echo "Commit hook: ignoring merge commit."
+	exit 0
+fi
+
+export EXPRESSION='^(chore|fix|feature)(\([A-Za-z0-9\/-]+\))?: [A-Z0-9-]+ .+$'
+
+if ! echo "${commitTitle}" | grep -qE "${EXPRESSION}"; then
+	echo "Your commit title \"${commitTitle}\" does not follow the commit rules."
+	echo "It has to match \"${EXPRESSION}\"."
+	exit 1
+fi
+

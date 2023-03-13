@@ -137,7 +137,8 @@ public class Investigation {
 				acceptReason,
 				declineReason
 			),
-			getReceiverBPN(notifications.values())
+			getReceiverBPN(notifications.values()),
+			notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name()
 		);
 	}
 

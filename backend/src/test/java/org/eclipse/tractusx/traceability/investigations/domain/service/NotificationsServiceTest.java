@@ -2,6 +2,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.service;
 
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,8 @@ class NotificationsServiceTest {
 			null,
 			null,
 			null,
-			Instant.now()
+			Instant.now(),
+			Severity.MINOR
 		);
 
 		// when

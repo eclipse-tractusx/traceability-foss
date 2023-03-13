@@ -55,6 +55,7 @@ export const buildMockInvestigations = (
       sendTo: 'OEM B',
       reason: { close, decline, accept },
       createdDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
+      targetDate: `2022-05-${(index + 2).toString().padStart(2, '0')}T11:34:12Z`,
       assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
     };
   });
@@ -67,6 +68,7 @@ const MockEmptyInvestigation: NotificationResponse = {
   sendTo: 'OEM B',
   reason: { close: '', decline: '', accept: '' },
   createdDate: `2022-05-01T12:34:12`,
+  targetDate: `2022-02-01T12:34:12`,
   assetIds: [getRandomAsset().id],
   channel: 'SENDER',
 };

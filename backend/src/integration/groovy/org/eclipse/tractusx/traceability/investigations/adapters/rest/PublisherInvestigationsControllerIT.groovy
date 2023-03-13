@@ -38,7 +38,7 @@ import spock.lang.Unroll
 import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 
-@Ignore
+
 class PublisherInvestigationsControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
 
 	def "should start investigation"() {
@@ -49,7 +49,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			"urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
 		]
 		String description = "at least 15 characters long investigation description"
-
+		String severity = "MINOR"
 		and:
 		defaultAssetsStored()
 
@@ -60,7 +60,8 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 				asJson(
 					[
 						partIds    : partIds,
-						description: description
+						description: description,
+						severity: severity
 					]
 				)
 			)
@@ -96,6 +97,35 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.body("content", Matchers.hasSize(1))
 	}
 
+	def "should throw bad request on start investigation missing required parameter severity"() {
+		given:
+		List<String> partIds = [
+			"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+			"urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+			"urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+		]
+		String description = "at least 15 characters long investigation description"
+
+		expect:
+		given()
+			.contentType(ContentType.JSON)
+			.body(
+				asJson(
+					[
+						partIds    : partIds,
+						description: description
+					]
+				)
+			)
+			.header(jwtAuthorization(ADMIN))
+			.when()
+			.post("/api/investigations")
+			.then()
+			.statusCode(400)
+	}
+
+	// will be fixed in: https://jira.catena-x.net/browse/TRACEFOSS-1063
+	@Ignore
 	def "should cancel investigation"() {
 		given:
 		defaultAssetsStored()
@@ -156,6 +186,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.body("content", Matchers.hasSize(1))
 	}
 
+
 	def "should approve investigation status"() {
 		given:
 		List<String> partIds = [
@@ -164,6 +195,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 		]
 		String description = "at least 15 characters long investigation description"
 
+		String severity = "MINOR"
 		and:
 		defaultAssetsStored()
 
@@ -172,7 +204,8 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.contentType(ContentType.JSON)
 			.body(asJson([
 				partIds    : partIds,
-				description: description
+				description: description,
+				severity: severity
 			]))
 			.header(jwtAuthorization(ADMIN))
 			.when()
@@ -208,16 +241,19 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.body("content", Matchers.hasSize(1))
 			.body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
 
-		and:
+		// will be fixed in: https://jira.catena-x.net/browse/TRACEFOSS-1063
+		/*and:
 		eventually {
 			assertNotificationsSize(2)
 			assertNotifications { NotificationEntity notification ->
 				assert notification.edcUrl != null
 				assert notification.contractAgreementId != null
 			}
-		}
+		}*/
 	}
 
+	// will be fixed in: https://jira.catena-x.net/browse/TRACEFOSS-1063
+	@Ignore
 	def "should close investigation"() {
 		given:
 		List<String> partIds = [
@@ -225,7 +261,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			"urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
 		]
 		String description = "at least 15 characters long investigation description"
-
+		String severity = "MINOR"
 		and:
 		defaultAssetsStored()
 
@@ -234,7 +270,8 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.contentType(ContentType.JSON)
 			.body(asJson([
 				partIds    : partIds,
-				description: description
+				description: description,
+				severity: severity
 			]))
 			.header(jwtAuthorization(ADMIN))
 			.when()
@@ -254,6 +291,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 			.post("/api/investigations/{investigationId}/approve", investigationId)
 			.then()
 			.statusCode(204)
+
 
 		then:
 		eventually {
@@ -334,6 +372,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 				"urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
 			]
 			String description = "at least 15 characters long investigation description"
+		    String severity = "MINOR"
 		and:
 			defaultAssetsStored()
 		when:
@@ -343,7 +382,8 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 					asJson(
 						[
 							partIds    : partIds,
-							description: description
+							description: description,
+							severity: severity
 						]
 					)
 				)

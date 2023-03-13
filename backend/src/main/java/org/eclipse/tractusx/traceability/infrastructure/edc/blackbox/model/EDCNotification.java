@@ -26,9 +26,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
-import java.time.Instant;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -62,6 +62,11 @@ public record EDCNotification(@Valid
 	@JsonIgnore
 	public String getInformation() {
 		return content.information();
+	}
+
+	@JsonIgnore
+	public String getSeverity() {
+		return header.severity();
 	}
 
 	@JsonIgnore

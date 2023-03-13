@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased - 3.0.0]
 ### Added
 - Added functionality to update notifications – Quality Investigations
 - Included a guide for connecting sonarcloud to IntelliJ -> Contribution.md
+- Added required severity to notifications
 
 ### Changed
 - Changed github action docker-release to have maven cache instead of previously used gradle

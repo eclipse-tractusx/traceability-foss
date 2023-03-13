@@ -21,13 +21,10 @@
 
 import { LayoutModule } from '@layout/layout.module';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
-import { Part } from '@page/parts/model/parts.model';
 import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
-import { InvestigationsService } from '@shared/service/investigations.service';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { of } from 'rxjs';
 import { sleepForTests } from '../../../../../test';
 
 describe('requestInvestigationComponent', () => {
@@ -100,7 +97,7 @@ describe('requestInvestigationComponent', () => {
     await renderRequestInvestigationComponent();
 
     const testText = 'This is for a testing purpose.';
-    const textArea = (await waitFor(() => screen.getByTestId('TextAreaComponent-0'))) as HTMLTextAreaElement;
+    const textArea = (await waitFor(() => screen.getByTestId('BaseInputElement-1'))) as HTMLTextAreaElement;
     fireEvent.input(textArea, { target: { value: testText } });
 
     const submit = await waitFor(() => screen.getByText('requestInvestigations.submit'));

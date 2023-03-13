@@ -46,12 +46,14 @@ export class InvestigationsAssembler {
       status: _status,
       createdDate: _createdDate = '',
       createdBy = '',
+      targetDate: _targetDate = '',
     } = response;
 
     const isFromSender = channel === 'SENDER';
     const status = NotificationStatus[_status] ?? null;
     const createdDate = new CalendarDateModel(_createdDate);
+    const targetDate = new CalendarDateModel(_targetDate);
 
-    return { id, description, createdBy, sendTo, reason, assetIds, isFromSender, status, createdDate };
+    return { id, description, createdBy, sendTo, reason, assetIds, isFromSender, status, createdDate, targetDate };
   }
 }
