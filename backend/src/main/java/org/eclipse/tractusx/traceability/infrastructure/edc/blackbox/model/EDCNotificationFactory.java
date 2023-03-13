@@ -42,7 +42,7 @@ public class EDCNotificationFactory {
 			notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
 			notification.getNotificationReferenceId(),
 			notification.getInvestigationStatus().name(),
-			notification.getTargetDate().toString()
+			notification.getTargetDate() != null ? notification.getTargetDate().toString() : null
 		);
 
 		EDCNotificationContent content = new EDCNotificationContent(
