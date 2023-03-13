@@ -25,6 +25,8 @@ import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.domain.model.*;
+import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,5 +133,46 @@ public class InvestigationsPublisherService {
 		investigation.close(applicationBpn, reason);
 		repository.update(investigation);
 		investigation.getNotifications().forEach(notificationsService::updateAsync);
+	}
+
+	/**
+	 * Updates an ongoing investigation with the given BPN, ID, status and reason.
+	 *
+	 * @param applicationBpn     the BPN associated with the investigation
+	 * @param investigationIdRaw the ID of the investigation to update
+	 * @param status             the InvestigationStatus of the investigation to update
+	 * @param reason             the reason for update of the investigation
+	 */
+	public void updateInvestigationPublisher(BPN applicationBpn, Long investigationIdRaw, InvestigationStatus status, String reason) {
+		Investigation investigation = investigationsReadService.loadInvestigation(new InvestigationId(investigationIdRaw));
+		List<Notification> invalidNotifications = invalidNotifications(investigation, applicationBpn);
+
+		if (!invalidNotifications.isEmpty()) {
+			StringBuilder builder = new StringBuilder("Investigation receiverBpnNumber mismatch for notifications with IDs: ");
+			for (Notification notification : invalidNotifications) {
+				builder.append(notification.getId()).append(", ");
+			}
+			builder.delete(builder.length() - 2, builder.length()); // Remove the last ", " from the string
+			throw new InvestigationReceiverBpnMismatchException(builder.toString());
+		}
+
+		switch (status) {
+			case ACKNOWLEDGED -> investigation.acknowledge();
+			case ACCEPTED -> investigation.accept(reason);
+			case DECLINED -> investigation.decline(reason);
+			default -> throw new InvestigationIllegalUpdate("Can't update %s investigation with %s status".formatted(investigationIdRaw, status));
+		}
+
+		repository.update(investigation);
+
+		final boolean isReceiver = investigation.getInvestigationSide().equals(InvestigationSide.RECEIVER);
+
+		investigation.getNotifications().forEach(notification -> notificationsService.updateAsync(notification, isReceiver));
+	}
+
+	private List<Notification> invalidNotifications(final Investigation investigation, final BPN applicationBpn) {
+		final String applicationBpnValue = applicationBpn.value();
+		return investigation.getNotifications().stream()
+			.filter(notification -> !notification.getReceiverBpnNumber().equals(applicationBpnValue)).toList();
 	}
 }

@@ -124,46 +124,4 @@ public class InvestigationsReceiverService {
 		repository.update(investigation);
 	}
 
-	// TODO move to publisher service
-	public void updateInvestigationPublisher(BPN applicationBpn, Long investigationIdRaw, InvestigationStatus status, String reason) {
-		Investigation investigation = investigationsReadService.loadInvestigation(new InvestigationId(investigationIdRaw));
-		List<Notification> invalidNotifications = invalidNotifications(investigation, applicationBpn);
-
-		if (!invalidNotifications.isEmpty()) {
-			StringBuilder builder = new StringBuilder("Investigation receiverBpnNumber mismatch for notifications with IDs: ");
-			for (Notification notification : invalidNotifications) {
-				builder.append(notification.getId()).append(", ");
-			}
-			builder.delete(builder.length() - 2, builder.length()); // Remove the last ", " from the string
-			throw new InvestigationReceiverBpnMismatchException(builder.toString());
-		}
-
-		switch (status) {
-			case ACKNOWLEDGED -> investigation.acknowledge();
-			case ACCEPTED -> investigation.accept(reason);
-			case DECLINED -> investigation.decline(reason);
-			default -> throw new InvestigationIllegalUpdate("Can't update %s investigation with %s status".formatted(investigationIdRaw, status));
-		}
-
-		repository.update(investigation);
-
-		final boolean isReceiver = investigation.getInvestigationSide().equals(InvestigationSide.RECEIVER);
-		String side = "";
-		if (investigation.getInvestigationSide() != null) {
-			side = investigation.getInvestigationSide().name();
-		} else {
-			side = "not set";
-		}
-		logger.info("updateInvestigationPublisher with investigation {}", investigation);
-
-		investigation.getNotifications().forEach(notification -> notificationsService.updateAsync(notification, isReceiver));
-	}
-
-	private List<Notification> invalidNotifications(final Investigation investigation, final BPN applicationBpn) {
-		final String applicationBpnValue = applicationBpn.value();
-		return investigation.getNotifications().stream()
-			.filter(notification -> !notification.getReceiverBpnNumber().equals(applicationBpnValue)).toList();
-	}
-
-
 }
