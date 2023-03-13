@@ -73,10 +73,11 @@ public class InvestigationsReceiverService {
 
 		InvestigationStatus investigationStatus = edcNotification.convertInvestigationStatus();
 
+
 		switch (investigationStatus) {
 			case CREATED -> receiveInvestigation(edcNotification, recipientBPN, InvestigationStatus.RECEIVED);
-			case SENT, RECEIVED -> receiveInvestigation(edcNotification, recipientBPN, investigationStatus);
-			case ACKNOWLEDGED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACKNOWLEDGED);
+			case SENT -> receiveInvestigation(edcNotification, recipientBPN, investigationStatus);
+			case RECEIVED, ACKNOWLEDGED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACKNOWLEDGED);
 			case ACCEPTED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACCEPTED);
 			case CLOSED -> closeInvestigation(edcNotification);
 			default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(investigationStatus));
