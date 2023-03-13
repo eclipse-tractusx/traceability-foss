@@ -47,21 +47,23 @@ class InvestigationMapperTest {
 	@Test
 	void testToReceiverInvestigation() {
 		// Given
-		BPN bpn = new BPN("123");
+		String sender ="BPNL000000000001";
+		String receiver = "BPNL000000000002";
 		String description = "Test investigation";
 		Notification notification = new Notification("1",
 			"Test notification",
-			"", "", "", "",
+			sender, receiver, "", "",
 			"", InvestigationStatus.RECEIVED, List.of(new AffectedPart("123")),
 			Instant.parse("2022-03-01T12:00:00Z")
 		);
 		when(clock.instant()).thenReturn(Instant.parse("2022-03-01T12:00:00Z"));
 
 		// When
-		Investigation result = mapper.toReceiverInvestigation(bpn, description, notification);
+		Investigation result = mapper.toReceiverInvestigation(new BPN(receiver), description, notification);
 
 		// Then
-		assertEquals(bpn.value(), result.getBpn());
+		assertEquals(sender, result.toData().createdBy());
+		assertEquals(receiver, result.toData().sendTo());
 		assertEquals(InvestigationStatus.RECEIVED, result.getInvestigationStatus());
 		assertEquals(InvestigationSide.RECEIVER, result.getInvestigationSide());
 		assertEquals(description, result.getDescription());
