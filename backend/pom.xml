@@ -36,7 +36,7 @@
 		<spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
 		<spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
 		<surefire-plugin.version>3.0.0-M9</surefire-plugin.version>
-		<groovy-all.version>3.0.13</groovy-all.version>
+		<apache-groovy.version>4.0.10</apache-groovy.version>
 
 		<!-- versions for 3rd party dependecies -->
 		<ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
@@ -48,7 +48,7 @@
 		<jruby.version>9.3.9.0</jruby.version>
 		<resilience4j.version>2.0.2</resilience4j.version>
 		<schedlock.version>4.42.0</schedlock.version>
-		<spock-core.version>2.1-M1-groovy-3.0</spock-core.version>
+		<spock-core.version>2.3-groovy-4.0</spock-core.version>
 		<spring-cloud.version>2021.0.5</spring-cloud.version>
 		<springfox.version>3.0.0</springfox.version>
 		<jetbrains-annotation.version>13.0</jetbrains-annotation.version>
@@ -64,7 +64,7 @@
 		<testcontainer-postgresql.version>1.17.6</testcontainer-postgresql.version>
 		<testcontainer-spock.version>1.17.6</testcontainer-spock.version>
 		<rest-assured.version>5.2.0</rest-assured.version>
-		<spock-bom.version>2.1-groovy-3.0</spock-bom.version>
+		<spock-bom.version>2.3-groovy-4.0</spock-bom.version>
 
 		<!-- Sonar related properties -->
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
@@ -290,12 +290,17 @@
 			<version>${commons-io.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy-all</artifactId>
-			<version>${groovy-all.version}</version>
-			<type>pom</type>
-		</dependency>
+        <dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>${apache-groovy.version}</version>
+        </dependency>
+
+        <dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
+            <groupId>org.apache.groovy</groupId>
+            <artifactId>groovy-json</artifactId>
+            <version>${apache-groovy.version}</version>
+        </dependency>
 
 		<!-- test dependencies spring boot managed -->
 		<dependency>
@@ -395,12 +400,8 @@
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
-					<groupId>org.apache.groovy</groupId>
-					<artifactId>groovy</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.groovy</groupId>
-					<artifactId>groovy-xml</artifactId>
+                    <groupId>org.codehaus.groovy</groupId>
+                    <artifactId>*</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
