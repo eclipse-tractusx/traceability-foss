@@ -73,6 +73,7 @@ public class InvestigationsReceiverService {
 
 		InvestigationStatus investigationStatus = edcNotification.convertInvestigationStatus();
 
+
 		switch (investigationStatus) {
 			case CREATED -> receiveInvestigation(edcNotification, recipientBPN, InvestigationStatus.RECEIVED);
 			case SENT -> receiveInvestigation(edcNotification, recipientBPN, investigationStatus);
