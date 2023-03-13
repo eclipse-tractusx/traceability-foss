@@ -27,18 +27,17 @@ import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType;
-import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity;
-import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.InvestigationData;
-import org.eclipse.tractusx.traceability.investigations.domain.model.*;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.lang.invoke.MethodHandles;
-import java.util.List;
 
 @Component
 public class InvestigationsReceiverService {
@@ -75,10 +74,10 @@ public class InvestigationsReceiverService {
 		InvestigationStatus investigationStatus = edcNotification.convertInvestigationStatus();
 
 		switch (investigationStatus) {
-		/*	case CREATED -> receiveInvestigation(edcNotification, recipientBPN, InvestigationStatus.RECEIVED);*/
 			case SENT -> receiveInvestigation(edcNotification, recipientBPN, investigationStatus);
-			case RECEIVED, ACKNOWLEDGED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACKNOWLEDGED);
+			case ACKNOWLEDGED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACKNOWLEDGED);
 			case ACCEPTED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACCEPTED);
+			case DECLINED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.DECLINED);
 			case CLOSED -> closeInvestigation(edcNotification);
 			default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(investigationStatus));
 		}
