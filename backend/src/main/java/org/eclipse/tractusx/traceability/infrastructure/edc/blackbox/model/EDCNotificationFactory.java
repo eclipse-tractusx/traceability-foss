@@ -47,6 +47,7 @@ public class EDCNotificationFactory {
 			senderEDC,
 			notification.getReceiverBpnNumber(),
 			NotificationType.QMINVESTIGATION.getValue(),
+			// TODO this needs to be fixed
 			notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
 			notification.getNotificationReferenceId(),
 			notification.getInvestigationStatus().name(),

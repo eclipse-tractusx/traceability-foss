@@ -45,7 +45,7 @@ public class InvestigationEntity {
 	)
 	private List<AssetEntity> assets;
 
-	@OneToMany(mappedBy = "investigation", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "investigation")
 	private List<NotificationEntity> notifications;
 
 	private String bpn;
