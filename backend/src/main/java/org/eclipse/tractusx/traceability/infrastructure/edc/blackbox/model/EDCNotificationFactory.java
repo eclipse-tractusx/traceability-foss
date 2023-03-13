@@ -35,6 +35,12 @@ public class EDCNotificationFactory {
 	}
 
 	public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification){
+		String targetDate = "";
+		if (notification.getTargetDate() == null){
+			targetDate = Instant.now().toString();
+		} else{
+			targetDate = notification.getTargetDate().toString();
+		}
 		EDCNotificationHeader header = new EDCNotificationHeader(
 			notification.getId(),
 			notification.getSenderBpnNumber(),
@@ -44,7 +50,7 @@ public class EDCNotificationFactory {
 			notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
 			notification.getNotificationReferenceId(),
 			notification.getInvestigationStatus().name(),
-			notification.getTargetDate() != null ? Instant.now().toString() : null
+			targetDate
 		);
 
 		EDCNotificationContent content = new EDCNotificationContent(
