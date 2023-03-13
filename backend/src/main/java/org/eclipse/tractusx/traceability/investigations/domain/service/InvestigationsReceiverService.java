@@ -119,7 +119,7 @@ public class InvestigationsReceiverService {
 
 	private void closeInvestigation(EDCNotification edcNotification) {
 		logger.info("closeInvestigation");
-		Investigation investigation = investigationsReadService.loadInvestigationByNotificationId(edcNotification.getNotificationId());
+		Investigation investigation = investigationsReadService.loadInvestigationByNotificationId(edcNotification.getRelatedNotificationId());
 		investigation.close(traceabilityProperties.getBpn(), edcNotification.getInformation());
 		repository.update(investigation);
 	}
