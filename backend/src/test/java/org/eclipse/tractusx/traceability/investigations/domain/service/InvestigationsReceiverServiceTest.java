@@ -71,7 +71,8 @@ class InvestigationsReceiverServiceTest {
 			"information",
 			InvestigationStatus.CLOSED,
 			affectedParts,
-			Instant.now()
+			Instant.now(),
+			Severity.MINOR
 		);
 
 		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
@@ -104,7 +105,8 @@ class InvestigationsReceiverServiceTest {
 			"information",
 			InvestigationStatus.SENT,
 			affectedParts,
-			Instant.now()
+			Instant.now(),
+			Severity.MINOR
 		);
 
 		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
@@ -142,7 +144,8 @@ class InvestigationsReceiverServiceTest {
 			"information",
 			InvestigationStatus.RECEIVED,
 			affectedParts,
-			Instant.now()
+			Instant.now(),
+			Severity.MINOR
 		);
 
 		Notification notification2 = new Notification(
@@ -155,7 +158,8 @@ class InvestigationsReceiverServiceTest {
 			"information",
 			InvestigationStatus.RECEIVED,
 			affectedParts,
-			Instant.now()
+			Instant.now(),
+			Severity.MINOR
 		);
 		List<Notification> notifications = new ArrayList<>();
 		notifications.add(notification);
@@ -194,7 +198,8 @@ class InvestigationsReceiverServiceTest {
 			"information",
 			InvestigationStatus.CREATED,
 			affectedParts,
-			Instant.now()
+			Instant.now(),
+			Severity.MINOR
 		);
 
 		List<Notification> notifications = new ArrayList<>();
@@ -235,7 +240,8 @@ class InvestigationsReceiverServiceTest {
 			"information",
 			InvestigationStatus.CREATED,
 			affectedParts,
-			Instant.now()
+			Instant.now(),
+			Severity.MINOR
 		);
 
 		List<Notification> notifications = new ArrayList<>();

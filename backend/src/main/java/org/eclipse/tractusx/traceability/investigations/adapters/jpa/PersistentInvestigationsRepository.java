@@ -216,7 +216,8 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 			notificationEntity.getAssets().stream()
 				.map(asset -> new AffectedPart(asset.getId()))
 				.toList(),
-			notificationEntity.getTargetDate()
+			notificationEntity.getTargetDate(),
+			notificationEntity.getSeverity()
 		);
 	}
 

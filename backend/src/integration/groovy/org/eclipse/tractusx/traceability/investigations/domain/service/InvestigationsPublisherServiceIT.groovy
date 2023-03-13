@@ -33,6 +33,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNo
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
 
@@ -61,7 +62,8 @@ class InvestigationsPublisherServiceIT extends IntegrationSpecification implemen
 					"description",
 					InvestigationStatus.SENT,
 					[new AffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")],
-					Instant.parse("2018-11-30T18:35:24.00Z")
+					Instant.parse("2018-11-30T18:35:24.00Z"),
+					Severity.MINOR
 				)
 			)
 

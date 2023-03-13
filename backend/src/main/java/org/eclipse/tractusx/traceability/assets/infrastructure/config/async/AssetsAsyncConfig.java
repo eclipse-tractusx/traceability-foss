@@ -38,7 +38,6 @@ public class AssetsAsyncConfig {
 		executor.setCorePoolSize(10);
 		executor.setMaxPoolSize(100);
 		executor.setThreadNamePrefix("%s-".formatted(SYNCHRONIZE_ASSETS_EXECUTOR));
-
 		return executor;
 	}
 
