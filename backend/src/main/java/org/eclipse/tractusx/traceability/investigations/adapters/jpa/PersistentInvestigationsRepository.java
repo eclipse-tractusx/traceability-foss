@@ -249,7 +249,8 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
 			notification.getReceiverBpnNumber(),
 			notificationAssets,
 			notification.getNotificationReferenceId(),
-			notification.getTargetDate()
+			notification.getTargetDate(),
+			notification.getSeverity()
 		);
 	}
 
