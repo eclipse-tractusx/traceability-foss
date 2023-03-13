@@ -25,46 +25,43 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Notificatio
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 
 import java.time.Instant;
-import java.time.temporal.TemporalUnit;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EDCNotificationFactory {
 
-	private EDCNotificationFactory(){
-	}
+    private EDCNotificationFactory() {
+    }
 
-	public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification){
-		String targetDate = "";
-		if (notification.getTargetDate() == null){
-			targetDate = Instant.now().toString();
-		} else{
-			targetDate = notification.getTargetDate().toString();
-		}
-		EDCNotificationHeader header = new EDCNotificationHeader(
-			notification.getId(),
-			notification.getSenderBpnNumber(),
-			senderEDC,
-			notification.getReceiverBpnNumber(),
-			NotificationType.QMINVESTIGATION.getValue(),
-			// TODO this needs to be fixed
-			notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
-			notification.getNotificationReferenceId(),
-			notification.getInvestigationStatus().name(),
-			targetDate
-		);
+    public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification) {
+        String targetDate = "";
+        if (notification.getTargetDate() == null) {
+            targetDate = Instant.now().toString();
+        } else {
+            targetDate = notification.getTargetDate().toString();
+        }
+        EDCNotificationHeader header = new EDCNotificationHeader(
+                notification.getId(),
+                notification.getSenderBpnNumber(),
+                senderEDC,
+                notification.getReceiverBpnNumber(),
+                NotificationType.QMINVESTIGATION.getValue(),
+                notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
+                notification.getNotificationReferenceId(),
+                notification.getInvestigationStatus().name(),
+                targetDate
+        );
 
-		EDCNotificationContent content = new EDCNotificationContent(
-			notification.getDescription(),
-			extractAssetIds(notification)
-		);
+        EDCNotificationContent content = new EDCNotificationContent(
+                notification.getDescription(),
+                extractAssetIds(notification)
+        );
 
-		return new EDCNotification(header, content);
-	}
+        return new EDCNotification(header, content);
+    }
 
-	private static List<String> extractAssetIds(Notification notification) {
-		return notification.getAffectedParts().stream()
-			.map(AffectedPart::assetId).toList();
-	}
+    private static List<String> extractAssetIds(Notification notification) {
+        return notification.getAffectedParts().stream()
+                .map(AffectedPart::assetId).toList();
+    }
 }
 
