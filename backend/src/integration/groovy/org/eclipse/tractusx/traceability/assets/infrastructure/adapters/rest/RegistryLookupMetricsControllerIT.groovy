@@ -34,9 +34,10 @@ import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 import static org.eclipse.tractusx.traceability.common.support.ISO8601DateTimeMatcher.isIso8601DateTime
 
-@Ignore
+
 class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
 
+    @Ignore
 	def "should return registry lookup metrics after success refresh"() {
 		given:
 			oauth2ApiReturnsTechnicalUserToken()
@@ -97,9 +98,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 				.statusCode(200)
 
 		then:
-			eventually {
-				assertNoAssetsStored()
-			}
+        assertNoAssetsStored()
 
 		and:
 			given()
@@ -140,9 +139,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 				.statusCode(200)
 
 		then:
-			eventually {
-				assertNoAssetsStored()
-			}
+        assertNoAssetsStored()
 
 		and:
 			given()
@@ -164,7 +161,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 				.body("content[0].shellDescriptorsFetchDelta", Matchers.equalTo(0))
 				.body("content[0].endDate", Matchers.is(isIso8601DateTime()))
 	}
-
+    @Ignore
 	def "should return registry lookup metrics with new delta"() {
 		given:
 			oauth2ApiReturnsTechnicalUserToken()
