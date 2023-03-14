@@ -25,7 +25,9 @@ import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.common.support.BpnSupport
 import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
+import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity
+import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.hamcrest.Matchers
@@ -37,7 +39,7 @@ import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 import static org.eclipse.tractusx.traceability.common.support.ISO8601DateTimeMatcher.isIso8601DateTime
 
-class ReadInvestigationsControllerIT extends IntegrationSpecification implements InvestigationsSupport, BpnSupport {
+class ReadInvestigationsControllerIT extends IntegrationSpecification implements InvestigationsSupport, NotificationsSupport, BpnSupport {
 
 	@Unroll
 	def "should not return #type investigations without authentication"() {
@@ -87,14 +89,23 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 		given:
 			Instant now = Instant.now()
 			String testBpn = testBpn()
+			String senderBPN = "BPN0001"
+			String receiverBPN = "BPN0002"
 
 		and:
-			storedInvestigations(
-				new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "1", now.minusSeconds(10L)),
-				new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "2", now.plusSeconds(21L)),
-				new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "3", now),
-				new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "4", now.plusSeconds(20L)),
-				new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "5", now.plusSeconds(40L))
+			InvestigationEntity firstInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "1", now.minusSeconds(10L))
+			InvestigationEntity secondInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "2", now.plusSeconds(21L))
+			InvestigationEntity thirdInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "3", now)
+			InvestigationEntity fourthInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "4", now.plusSeconds(20L))
+			InvestigationEntity fifthInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "5", now.plusSeconds(40L))
+
+		and:
+			storedNotifications(
+				new NotificationEntity(firstInvestigation, senderBPN, receiverBPN, [], null, null),
+				new NotificationEntity(secondInvestigation, senderBPN, receiverBPN, [], null, null),
+				new NotificationEntity(thirdInvestigation, senderBPN, receiverBPN, [], null, null),
+				new NotificationEntity(fourthInvestigation, senderBPN, receiverBPN, [], null, null),
+				new NotificationEntity(fifthInvestigation, senderBPN, receiverBPN, [], null, null)
 			)
 
 		expect:
@@ -112,7 +123,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 				.body("content", Matchers.hasSize(4))
 				.body("totalItems", Matchers.is(4))
 				.body("content.description", Matchers.containsInRelativeOrder("2", "4", "3", "1"))
-				.body("content.createdBy", Matchers.hasItems(testBpn))
+				.body("content.createdBy", Matchers.hasItems(senderBPN))
 				.body("content.createdDate", Matchers.hasItems(isIso8601DateTime()))
 	}
 
@@ -146,10 +157,21 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 		given:
 			Instant now = Instant.now()
 			String testBpn = testBpn()
+			String senderBPN = "BPN0001"
+			String receiverBPN = "BPN0002"
 
 		and:
 			(101..200).each { it ->
-				storedInvestigation(new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "", now))
+				storedNotification(
+					new NotificationEntity(
+						new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "", now),
+						senderBPN,
+						receiverBPN,
+						[],
+						null,
+						null
+					)
+				)
 			}
 
 		expect:
@@ -162,6 +184,8 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 				.get("/api/investigations/received")
 				.then()
 				.statusCode(200)
+				.body("content.createdBy", Matchers.hasItems(senderBPN))
+				.body("content.sendTo", Matchers.hasItems(receiverBPN))
 				.body("page", Matchers.is(2))
 				.body("pageSize", Matchers.is(10))
 				.body("content", Matchers.hasSize(10))
@@ -172,14 +196,23 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 		given:
 			Instant now = Instant.now()
 			String testBpn = testBpn()
+			String senderBPN = "BPN0001"
+			String receiverBPN = "BPN0002"
 
 		and:
-			storedInvestigations(
-				new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "1", now.minusSeconds(5L)),
-				new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "2", now.plusSeconds(2L)),
-				new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "3", now),
-				new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "4", now.plusSeconds(20L)),
-				new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "5", now.plusSeconds(40L))
+			InvestigationEntity firstInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "1", now.minusSeconds(5L))
+			InvestigationEntity secondInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "2", now.plusSeconds(2L))
+			InvestigationEntity thirdInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "3", now)
+			InvestigationEntity fourthInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "4", now.plusSeconds(20L))
+			InvestigationEntity fifthInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "5", now.plusSeconds(40L))
+
+		and:
+			storedNotifications(
+				new NotificationEntity(firstInvestigation, senderBPN, receiverBPN, [], null, null),
+				new NotificationEntity(secondInvestigation, senderBPN, receiverBPN, [], null, null),
+				new NotificationEntity(thirdInvestigation, senderBPN, receiverBPN, [], null, null),
+				new NotificationEntity(fourthInvestigation, senderBPN, receiverBPN, [], null, null),
+				new NotificationEntity(fifthInvestigation, senderBPN, receiverBPN, [], null, null)
 			)
 
 		expect:
@@ -197,7 +230,8 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 				.body("content", Matchers.hasSize(4))
 				.body("totalItems", Matchers.is(4))
 				.body("content.description", Matchers.containsInRelativeOrder("4", "2", "3", "1"))
-				.body("content.createdBy", Matchers.hasItems(testBpn))
+				.body("content.createdBy", Matchers.hasItems(senderBPN))
+				.body("content.sendTo", Matchers.hasItems(receiverBPN))
 				.body("content.createdDate", Matchers.hasItems(isIso8601DateTime()))
 	}
 
@@ -216,7 +250,17 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 	def "should return investigation by id"() {
 		given:
 			String testBpn = testBpn()
-			Long investigationId = storedInvestigation(new InvestigationEntity([], testBpn, "1", InvestigationStatus.RECEIVED, InvestigationSide.SENDER, Instant.now()))
+			String senderBPN = "BPN0001"
+			String receiverBPN = "BPN0002"
+
+		and:
+			InvestigationEntity investigationEntity = new InvestigationEntity([], testBpn, "1", InvestigationStatus.RECEIVED, InvestigationSide.SENDER, Instant.now())
+
+		and:
+			storedNotification(new NotificationEntity(investigationEntity, senderBPN, receiverBPN, [], null, null))
+
+		and:
+			Long investigationId = investigationEntity.getId()
 
 		expect:
 			given()
@@ -230,7 +274,8 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 				.body("status", Matchers.is("RECEIVED"))
 				.body("description", Matchers.is("1"))
 				.body("assetIds", Matchers.empty())
-				.body("createdBy", Matchers.is(testBpn))
+				.body("createdBy", Matchers.is(senderBPN))
+				.body("sendTo", Matchers.is(receiverBPN))
 				.body("createdDate", isIso8601DateTime())
 	}
 }

@@ -61,28 +61,6 @@ public class InvestigationEntity {
 	public InvestigationEntity() {
 	}
 
-	public InvestigationEntity(Long id,
-							   List<AssetEntity> assets,
-							   String bpn,
-							   InvestigationStatus status,
-							   InvestigationSide side,
-							   String closeReason,
-							   String acceptReason,
-							   String description,
-							   Instant created,
-							   Instant updated) {
-		this.id = id;
-		this.assets = assets;
-		this.bpn = bpn;
-		this.status = status;
-		this.side = side;
-		this.closeReason = closeReason;
-		this.acceptReason = acceptReason;
-		this.description = description;
-		this.created = created;
-		this.updated = updated;
-	}
-
 	public InvestigationEntity(List<AssetEntity> assets, String bpn, String description, InvestigationStatus status, InvestigationSide side, Instant created) {
 		this(assets, bpn, status, side, null, description, created);
 	}
