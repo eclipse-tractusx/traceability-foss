@@ -24,7 +24,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 	@Autowired
 	private ObjectMapper objectMapper
 
-	def "should create a investigation including notification on API callback /qualitynotifications/receive success"() {
+	def "should create an investigation including notification on API callback /qualitynotifications/receive success"() {
 		given:
 		defaultAssetsStored()
 		String notificationJson = readFile("edc_notification_okay.json")
@@ -46,7 +46,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 		assertInvestigationStatus(InvestigationStatus.RECEIVED)
 	}
 
-	def "should not create a investigation on API callback /qualitynotifications/receive bad request wrong bpn"() {
+	def "should not create an investigation on API callback /qualitynotifications/receive bad request bpn of notification does not match app bpn"() {
 		given:
 		String notificationJson = readFile("edc_notification_wrong_bpn.json")
 		EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);

@@ -28,14 +28,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.EnumSource;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.util.ArrayList;
 
-import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.*;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CREATED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.RECEIVED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.SENT;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CANCELED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CLOSED;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)

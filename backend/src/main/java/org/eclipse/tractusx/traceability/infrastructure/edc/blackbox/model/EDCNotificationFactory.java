@@ -24,7 +24,6 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPar
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 
-import java.time.Instant;
 import java.util.List;
 
 public class EDCNotificationFactory {
@@ -33,10 +32,8 @@ public class EDCNotificationFactory {
     }
 
     public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification) {
-        String targetDate = "";
-        if (notification.getTargetDate() == null) {
-            targetDate = Instant.now().toString();
-        } else {
+        String targetDate = null;
+        if (notification.getTargetDate() != null) {
             targetDate = notification.getTargetDate().toString();
         }
         EDCNotificationHeader header = new EDCNotificationHeader(

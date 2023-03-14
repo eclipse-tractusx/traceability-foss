@@ -39,6 +39,6 @@ public interface JpaInvestigationRepository extends JpaRepository<InvestigationE
 	long countAllByStatusEquals(InvestigationStatus status);
 	long countAllBySideEquals(InvestigationSide investigationSide);
 	long countAllByStatusIn(Set<InvestigationStatus> status);
-	@Query("SELECT i FROM InvestigationEntity i JOIN i.notifications n WHERE n.id = :notificationId")
+	@Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.id = :notificationId")
 	Optional<InvestigationEntity> findByNotificationsNotificationId(String notificationId);
 }

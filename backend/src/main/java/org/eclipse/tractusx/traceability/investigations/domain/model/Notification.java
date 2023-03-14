@@ -150,7 +150,7 @@ public class Notification {
 		this.targetDate = targetDate;
 	}
 
-	public Notification copy(final String senderBpnNumber, final String receiverBpnNumber) {
+	public Notification copy(String senderBpnNumber, String receiverBpnNumber) {
 		return new Notification(
 			id,
 			notificationReferenceId,
