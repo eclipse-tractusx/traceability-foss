@@ -7,7 +7,7 @@ namespace: product-traceability-foss
 replicaCount: 1
 
 image:
-  repository: ghcr.io/catenax-ng/tx-traceability-foss-frontend
+  repository: ghcr.io/catenax-ng/tx-traceability-foss
   pullPolicy: Always
 
 ##
