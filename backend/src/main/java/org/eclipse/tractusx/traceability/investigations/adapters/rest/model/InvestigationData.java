@@ -35,6 +35,7 @@ public record InvestigationData(@ApiModelProperty(example = "66") Long id,
 								@ApiModelProperty(example = "SENDER") InvestigationSide channel,
 								InvestigationReason reason,
 								@ApiModelProperty(example = "BPNL00000003AYRE") String sendTo,
-								@ApiModelProperty(example = "MINOR") String severity
+								@ApiModelProperty(example = "MINOR") String severity,
+                                @ApiModelProperty(example = "2099-02-21T21:27:10.734950Z") String targetDate
 ) {
 }

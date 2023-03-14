@@ -129,24 +129,24 @@ public class Investigation {
 		return description;
 	}
 
-	public InvestigationData toData() {
-		return new InvestigationData(
-			investigationId.value(),
-			investigationStatus.name(),
-			description,
-			bpn.value(),
-			createdAt.toString(),
-			Collections.unmodifiableList(assetIds),
-			investigationSide,
-			new InvestigationReason(
-				closeReason,
-				acceptReason,
-				declineReason
-			),
-			sendTo,
-			notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name()
-		);
-	}
+    public InvestigationData toData() {
+        return new InvestigationData(
+                investigationId.value(),
+                investigationStatus.name(),
+                description,
+                bpn.value(),
+                createdAt.toString(),
+                Collections.unmodifiableList(assetIds),
+                investigationSide,
+                new InvestigationReason(
+                        closeReason,
+                        acceptReason,
+                        declineReason
+                ),
+                sendTo,
+                notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name(),
+                notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getTargetDate).map(Instant::toString).orElse(Instant.now().toString()));
+    }
 
 	public boolean hasIdentity() {
 		return investigationId != null;
