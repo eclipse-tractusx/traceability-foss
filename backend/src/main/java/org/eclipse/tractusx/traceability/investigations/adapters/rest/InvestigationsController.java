@@ -34,7 +34,6 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Investigati
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsPublisherService;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReadService;
-import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReceiverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
