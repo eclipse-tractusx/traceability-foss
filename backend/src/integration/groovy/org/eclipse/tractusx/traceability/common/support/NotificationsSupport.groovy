@@ -30,6 +30,12 @@ trait NotificationsSupport implements NotificationsRepositoryProvider {
 		return jpaNotificationRepository().save(notification)
 	}
 
+	void storedNotifications(NotificationEntity...notifications) {
+		notifications.each {
+			storedNotification(it)
+		}
+	}
+
 	void assertNotificationsSize(int size) {
 		List<NotificationEntity> notifications = jpaNotificationRepository().findAll()
 

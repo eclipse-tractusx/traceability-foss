@@ -58,8 +58,6 @@ public class Investigation {
 	private Instant createdAt;
 	private List<String> assetIds;
 	private Map<String, Notification> notifications;
-	private String sendTo;
-
 	private String closeReason;
 	private String acceptReason;
 	private String declineReason;
@@ -92,10 +90,6 @@ public class Investigation {
 		this.assetIds = assetIds;
 		this.notifications = notifications.stream()
 			.collect(Collectors.toMap(Notification::getId, Function.identity()));
-		this.sendTo = notifications.stream()
-			.findFirst()
-			.map(Notification::getReceiverBpnNumber)
-			.orElse(null);
 	}
 
 	public static Investigation startInvestigation(Instant createDate, BPN bpn, String description) {
@@ -131,10 +125,10 @@ public class Investigation {
 
 	public InvestigationData toData() {
 		return new InvestigationData(
-			investigationId.value(),
+			getInvestigationId(),
 			investigationStatus.name(),
 			description,
-			bpn.value(),
+			getSenderBPN(notifications.values()),
 			createdAt.toString(),
 			Collections.unmodifiableList(assetIds),
 			investigationSide,
@@ -143,13 +137,9 @@ public class Investigation {
 				acceptReason,
 				declineReason
 			),
-			sendTo,
+			getReceiverBPN(notifications.values()),
 			notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name()
 		);
-	}
-
-	public boolean hasIdentity() {
-		return investigationId != null;
 	}
 
 	public String getBpn() {
@@ -242,5 +232,25 @@ public class Investigation {
 		notification.getAffectedParts().stream()
 			.map(AffectedPart::assetId)
 			.forEach(assetIds::add);
+	}
+
+	private Long getInvestigationId() {
+		return Optional.ofNullable(investigationId)
+			.map(InvestigationId::value)
+			.orElse(null);
+	}
+
+	private static String getSenderBPN(Collection<Notification> notifications) {
+		return notifications.stream()
+			.findFirst()
+			.map(Notification::getSenderBpnNumber)
+			.orElse(null);
+	}
+
+	private static String getReceiverBPN(Collection<Notification> notifications) {
+		return notifications.stream()
+			.findFirst()
+			.map(Notification::getReceiverBpnNumber)
+			.orElse(null);
 	}
 }
