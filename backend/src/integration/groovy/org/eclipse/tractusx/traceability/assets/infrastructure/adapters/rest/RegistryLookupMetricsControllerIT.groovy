@@ -98,7 +98,9 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 				.statusCode(200)
 
 		then:
-        assertNoAssetsStored()
+			eventually {
+				assertNoAssetsStored()
+			}
 
 		and:
 			given()
@@ -139,7 +141,9 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 				.statusCode(200)
 
 		then:
-        assertNoAssetsStored()
+			eventually {
+				assertNoAssetsStored()
+			}
 
 		and:
 			given()
@@ -161,7 +165,7 @@ class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implem
 				.body("content[0].shellDescriptorsFetchDelta", Matchers.equalTo(0))
 				.body("content[0].endDate", Matchers.is(isIso8601DateTime()))
 	}
-    @Ignore
+
 	def "should return registry lookup metrics with new delta"() {
 		given:
 			oauth2ApiReturnsTechnicalUserToken()
