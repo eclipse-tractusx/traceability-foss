@@ -189,16 +189,16 @@ public class Investigation {
 		this.acceptReason = reason;
 	}
 
-	public void accept(String reason, Notification notification) {
+	public void accept(Notification notification) {
 		changeStatusToWithoutNotifications(InvestigationStatus.ACCEPTED);
 		notification.setInvestigationStatus(InvestigationStatus.ACCEPTED);
-		this.acceptReason = reason;
+		this.acceptReason = notification.getDescription();
 	}
 
-	public void decline(String reason, Notification notification) {
+	public void decline(Notification notification) {
 		changeStatusTo(InvestigationStatus.DECLINED);
 		notification.setInvestigationStatus(InvestigationStatus.DECLINED);
-		this.declineReason = reason;
+		this.declineReason = notification.getDescription();
 	}
 
 	public void decline(String reason) {

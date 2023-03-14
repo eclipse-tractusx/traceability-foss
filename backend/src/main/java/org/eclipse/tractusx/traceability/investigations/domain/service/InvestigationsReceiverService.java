@@ -102,8 +102,8 @@ public class InvestigationsReceiverService {
 
         switch (investigationStatus) {
             case ACKNOWLEDGED -> investigation.acknowledge(notification);
-            case ACCEPTED -> investigation.accept("the accept reason (set by system)", notification);
-            case DECLINED -> investigation.decline("the decline reason (set by system)", notification);
+            case ACCEPTED -> investigation.accept(notification);
+            case DECLINED -> investigation.decline(notification);
             default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(investigationStatus));
         }
         investigation.addNotification(notification);
