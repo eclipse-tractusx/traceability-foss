@@ -181,14 +181,19 @@ public class Investigation {
 
 	public void accept(Notification notification) {
 		changeStatusToWithoutNotifications(InvestigationStatus.ACCEPTED);
-		notification.setInvestigationStatus(InvestigationStatus.ACCEPTED);
+        notification.setInvestigationStatus(InvestigationStatus.ACCEPTED);
 		this.acceptReason = notification.getDescription();
+        this.notifications.values()
+                .forEach(noti -> noti.setDescription(acceptReason));
 	}
 
 	public void decline(Notification notification) {
 		changeStatusTo(InvestigationStatus.DECLINED);
 		notification.setInvestigationStatus(InvestigationStatus.DECLINED);
 		this.declineReason = notification.getDescription();
+        this.notifications.values()
+                .forEach(noti -> noti.setDescription(declineReason));
+
 	}
 
 	public void decline(String reason) {
