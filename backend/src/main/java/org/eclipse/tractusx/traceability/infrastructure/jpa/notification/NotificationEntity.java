@@ -72,13 +72,14 @@ public class NotificationEntity {
 
 	public NotificationEntity(InvestigationEntity investigation, String senderBpnNumber,
 							  String receiverBpnNumber, List<AssetEntity> assets, String notificationReferenceId,
-							  Instant targetDate) {
+							  Instant targetDate, Severity severity) {
 		this.investigation = investigation;
 		this.senderBpnNumber = senderBpnNumber;
 		this.receiverBpnNumber = receiverBpnNumber;
 		this.assets = assets;
 		this.notificationReferenceId = notificationReferenceId;
 		this.targetDate = targetDate;
+		this.severity = severity;
 	}
 
 	public String getId() {

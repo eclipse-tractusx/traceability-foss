@@ -20,7 +20,7 @@ public class NotificationTestDataFactory {
 			"senderAddress",
 			"agreement",
 			"information",
-			InvestigationStatus.RECEIVED,
+			InvestigationStatus.ACKNOWLEDGED,
 			affectedParts,
 			Instant.parse("2022-03-01T12:00:00Z"),
 			Severity.MINOR

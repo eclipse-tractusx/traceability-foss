@@ -37,6 +37,7 @@ import static org.eclipse.tractusx.traceability.common.support.ISO8601DateTimeMa
 @Ignore
 class RegistryLookupMetricsControllerIT extends IntegrationSpecification  implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
 
+
 	def "should return registry lookup metrics after success refresh"() {
 		given:
 			oauth2ApiReturnsTechnicalUserToken()

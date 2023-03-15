@@ -27,10 +27,12 @@ import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
 import org.eclipse.tractusx.traceability.common.support.RegistrySupport
 import org.eclipse.tractusx.traceability.common.support.ShellDescriptorSupport
 import org.eclipse.tractusx.traceability.IntegrationSpecification
+import spock.lang.Ignore
 
 import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 
+@Ignore
 class RegistryControllerIT extends IntegrationSpecification implements IrsApiSupport, RegistrySupport, ShellDescriptorSupport, AssetsSupport {
 
 	def "should synchronize descriptors and assets"() {

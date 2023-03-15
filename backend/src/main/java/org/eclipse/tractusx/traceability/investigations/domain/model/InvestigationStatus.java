@@ -35,7 +35,7 @@ public enum InvestigationStatus {
 	CREATED(InvestigationSide.SENDER, emptySet()),
 	SENT(InvestigationSide.SENDER, Set.of(InvestigationSide.SENDER)),
 	RECEIVED(InvestigationSide.RECEIVER, emptySet()),
-	ACKNOWLEDGED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER)),
+	ACKNOWLEDGED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER, InvestigationSide.SENDER)),
 	ACCEPTED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER)),
 	DECLINED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER)),
 	CANCELED(InvestigationSide.SENDER, Set.of(InvestigationSide.SENDER)),
@@ -58,7 +58,7 @@ public enum InvestigationStatus {
 	static {
 		STATE_MACHINE = Map.of(
 			CREATED, of(SENT, CANCELED),
-			SENT, of(RECEIVED, CLOSED),
+			SENT, of(RECEIVED, CLOSED, ACKNOWLEDGED),
 			RECEIVED, of(ACKNOWLEDGED, CLOSED),
 			ACKNOWLEDGED, of(DECLINED, ACCEPTED, CLOSED),
 			ACCEPTED, of(CLOSED),
@@ -72,6 +72,7 @@ public enum InvestigationStatus {
 	}
 
 	public boolean transitionAllowed(InvestigationStatus to) {
+
 		Set<InvestigationStatus> allowedStatusesToTransition = STATE_MACHINE.get(this);
 
 		if (!allowedStatusesToTransition.contains(to)) {

@@ -22,40 +22,43 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class EDCNotificationFactory {
 
-	private EDCNotificationFactory(){
-	}
+    private EDCNotificationFactory() {
+    }
 
-	public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification){
-		EDCNotificationHeader header = new EDCNotificationHeader(
-			notification.getId(),
-			notification.getSenderBpnNumber(),
-			senderEDC,
-			notification.getReceiverBpnNumber(),
-			NotificationType.QMINVESTIGATION.getValue(),
-			"MINOR",
-			null,
-			notification.getInvestigationStatus().name(),
-			notification.getTargetDate().toString()
-		);
+    public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification) {
+        String targetDate = null;
+        if (notification.getTargetDate() != null) {
+            targetDate = notification.getTargetDate().toString();
+        }
+        EDCNotificationHeader header = new EDCNotificationHeader(
+                notification.getId(),
+                notification.getSenderBpnNumber(),
+                senderEDC,
+                notification.getReceiverBpnNumber(),
+                NotificationType.QMINVESTIGATION.getValue(),
+                notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
+                notification.getNotificationReferenceId(),
+                notification.getInvestigationStatus().name(),
+                targetDate
+        );
 
-		EDCNotificationContent content = new EDCNotificationContent(
-			notification.getDescription(),
-			extractAssetIds(notification)
-		);
+        EDCNotificationContent content = new EDCNotificationContent(
+                notification.getDescription(),
+                extractAssetIds(notification)
+        );
 
-		return new EDCNotification(header, content);
-	}
+        return new EDCNotification(header, content);
+    }
 
-	private static List<String> extractAssetIds(Notification notification) {
-		return notification.getAffectedParts().stream()
-			.map(AffectedPart::assetId)
-			.collect(Collectors.toList());
-	}
+    private static List<String> extractAssetIds(Notification notification) {
+        return notification.getAffectedParts().stream()
+                .map(AffectedPart::assetId).toList();
+    }
 }
 

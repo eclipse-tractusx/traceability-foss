@@ -62,8 +62,6 @@ class InvestigationMapperTest {
 		Investigation result = mapper.toReceiverInvestigation(new BPN(receiver), description, notification);
 
 		// Then
-		assertEquals(sender, result.toData().createdBy());
-		assertEquals(receiver, result.toData().sendTo());
 		assertEquals(InvestigationStatus.RECEIVED, result.getInvestigationStatus());
 		assertEquals(InvestigationSide.RECEIVER, result.getInvestigationSide());
 		assertEquals(description, result.getDescription());

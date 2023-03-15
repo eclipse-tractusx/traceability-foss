@@ -74,9 +74,12 @@ public class Notification {
 		if (!transitionAllowed) {
 			throw new NotificationStatusTransitionNotAllowed(id, investigationStatus, to);
 		}
-
 		this.investigationStatus = to;
 	}
+
+    public boolean existOnReceiverSide(){
+       return !this.getNotificationReferenceId().isBlank();
+    }
 
 	public String getId() {
 		return id;
@@ -146,7 +149,7 @@ public class Notification {
 		this.targetDate = targetDate;
 	}
 
-	public Notification copy() {
+	public Notification copy(String senderBpnNumber, String receiverBpnNumber) {
 		return new Notification(
 			id,
 			notificationReferenceId,
@@ -160,5 +163,22 @@ public class Notification {
 			targetDate,
 			severity
 		);
+	}
+
+	@Override
+	public String toString() {
+		return "Notification{" +
+			"id='" + id + '\'' +
+			", notificationReferenceId='" + notificationReferenceId + '\'' +
+			", senderBpnNumber='" + senderBpnNumber + '\'' +
+			", receiverBpnNumber='" + receiverBpnNumber + '\'' +
+			", edcUrl='" + edcUrl + '\'' +
+			", contractAgreementId='" + contractAgreementId + '\'' +
+			", affectedParts=" + affectedParts +
+			", description='" + description + '\'' +
+			", investigationStatus=" + investigationStatus +
+			", targetDate=" + targetDate +
+			", severity=" + severity +
+			'}';
 	}
 }

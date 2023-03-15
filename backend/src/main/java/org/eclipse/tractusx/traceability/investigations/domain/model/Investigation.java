@@ -123,24 +123,24 @@ public class Investigation {
 		return description;
 	}
 
-	public InvestigationData toData() {
-		return new InvestigationData(
-			getInvestigationId(),
-			investigationStatus.name(),
-			description,
-			getSenderBPN(notifications.values()),
-			createdAt.toString(),
-			Collections.unmodifiableList(assetIds),
-			investigationSide,
-			new InvestigationReason(
-				closeReason,
-				acceptReason,
-				declineReason
-			),
-			getReceiverBPN(notifications.values()),
-			notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name()
-		);
-	}
+    public InvestigationData toData() {
+        return new InvestigationData(
+                investigationId.value(),
+                investigationStatus.name(),
+                description,
+                getSenderBPN(notifications.values()),
+                createdAt.toString(),
+                Collections.unmodifiableList(assetIds),
+                investigationSide,
+                new InvestigationReason(
+                        closeReason,
+                        acceptReason,
+                        declineReason
+                ),
+                getReceiverBPN(notifications.values()),
+                notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name(),
+                notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getTargetDate).map(Instant::toString).orElse(null));
+    }
 
 	public String getBpn() {
 		return bpn.value();
@@ -169,9 +169,26 @@ public class Investigation {
 		changeStatusTo(InvestigationStatus.ACKNOWLEDGED);
 	}
 
+	public void acknowledge(Notification notification) {
+		changeStatusToWithoutNotifications(InvestigationStatus.ACKNOWLEDGED);
+		notification.setInvestigationStatus(InvestigationStatus.ACKNOWLEDGED);
+	}
+
 	public void accept(String reason) {
 		changeStatusTo(InvestigationStatus.ACCEPTED);
 		this.acceptReason = reason;
+	}
+
+	public void accept(Notification notification) {
+		changeStatusToWithoutNotifications(InvestigationStatus.ACCEPTED);
+		notification.setInvestigationStatus(InvestigationStatus.ACCEPTED);
+		this.acceptReason = notification.getDescription();
+	}
+
+	public void decline(Notification notification) {
+		changeStatusTo(InvestigationStatus.DECLINED);
+		notification.setInvestigationStatus(InvestigationStatus.DECLINED);
+		this.declineReason = notification.getDescription();
 	}
 
 	public void decline(String reason) {
@@ -192,8 +209,18 @@ public class Investigation {
 			throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
 		}
 
-		notifications.values()
+        notifications.values()
 			.forEach(notification -> notification.changeStatusTo(to));
+
+		this.investigationStatus = to;
+	}
+
+	private void changeStatusToWithoutNotifications(InvestigationStatus to) {
+		boolean transitionAllowed = investigationStatus.transitionAllowed(to);
+
+		if (!transitionAllowed) {
+			throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
+		}
 
 		this.investigationStatus = to;
 	}
@@ -229,9 +256,29 @@ public class Investigation {
 	public void addNotification(Notification notification) {
 		notifications.put(notification.getId(), notification);
 
+		List<String> newAssetIds = new ArrayList<>(assetIds); // create a mutable copy of assetIds
 		notification.getAffectedParts().stream()
 			.map(AffectedPart::assetId)
-			.forEach(assetIds::add);
+			.forEach(newAssetIds::add);
+
+		assetIds = Collections.unmodifiableList(newAssetIds); //
+	}
+
+	@Override
+	public String toString() {
+		return "Investigation{" +
+			"investigationId=" + investigationId +
+			", bpn=" + bpn +
+			", investigationStatus=" + investigationStatus +
+			", investigationSide=" + investigationSide +
+			", description='" + description + '\'' +
+			", createdAt=" + createdAt +
+			", assetIds=" + assetIds +
+			", notifications=" + notifications +
+			", closeReason='" + closeReason + '\'' +
+			", acceptReason='" + acceptReason + '\'' +
+			", declineReason='" + declineReason + '\'' +
+			'}';
 	}
 
 	private Long getInvestigationId() {

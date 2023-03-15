@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Investigati
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -38,5 +39,6 @@ public interface JpaInvestigationRepository extends JpaRepository<InvestigationE
 	long countAllByStatusEquals(InvestigationStatus status);
 	long countAllBySideEquals(InvestigationSide investigationSide);
 	long countAllByStatusIn(Set<InvestigationStatus> status);
-	Optional<InvestigationEntity> findByNotificationsNotificationReferenceId(String notificationId);
+	@Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.id = :notificationId")
+	Optional<InvestigationEntity> findByNotificationsNotificationId(String notificationId);
 }

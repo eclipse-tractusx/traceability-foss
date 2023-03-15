@@ -38,7 +38,7 @@ public record StartInvestigationRequest(
 	@Size(min = 15, max = 1000, message = "Description should have at least 15 characters and at most 1000 characters")
 	@ApiModelProperty(example = "The description of the investigation")
 	String description,
-	@ApiModelProperty(example = "The future targetDate of the investigation")
+	@ApiModelProperty(example = "2099-03-11T22:44:06.333826952Z")
 	@Future(message = "Specify at least the current day or a date in future")
 	Instant targetDate,
 	@NotNull
