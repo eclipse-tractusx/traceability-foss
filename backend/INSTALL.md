@@ -6,8 +6,8 @@
 ## Clone the source locally:
 
 ```sh
-$ git clone git@github.com:eclipse-tractusx/traceability-foss-backend.git
-$ cd traceability-foss-backend
+$ git clone git@github.com:catenax-ng/tx-traceability-foss.git
+$ cd tx-traceability-foss/backend
 ```
 
 ## Local deployment
@@ -82,7 +82,7 @@ $ helm repo add traceability-foss-backend https://eclipse-tractusx.github.io/tra
 Then install the Helm chart into your cluster:
 
 ```sh
-$ helm install -f your-values.yaml traceability-foss-backend traceability-foss-backend/traceability-foss-backend
+$ helm install -f your-values.yaml traceability-foss backend/traceability-foss-backend
 ```
 
 == Deployment using ArgoCD
