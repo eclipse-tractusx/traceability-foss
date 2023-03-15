@@ -209,15 +209,8 @@ public class Investigation {
 			throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
 		}
 
-       String description = null;
-        switch (investigationStatus) {
-            case ACCEPTED -> description = acceptReason;
-            case DECLINED -> description = declineReason;
-            case CLOSED -> description = closeReason;
-        }
-       final String finalDescription = description;
         notifications.values()
-			.forEach(notification -> notification.changeStatusTo(to, finalDescription));
+			.forEach(notification -> notification.changeStatusTo(to));
 
 		this.investigationStatus = to;
 	}

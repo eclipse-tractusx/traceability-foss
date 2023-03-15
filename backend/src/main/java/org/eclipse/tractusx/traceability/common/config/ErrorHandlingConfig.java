@@ -63,76 +63,76 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException methodArgumentNotValidException) {
-        String errorMessage = methodArgumentNotValidException
+    ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        String errorMessage = exception
                 .getBindingResult()
                 .getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(", "));
-        logger.warn("handleMethodArgumentNotValidException message: {}, stacktrace: {}", errorMessage, methodArgumentNotValidException.getStackTrace());
+        logger.warn("handleMethodArgumentNotValidException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(errorMessage));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException) {
-        logger.warn("handleHttpMessageNotReadableException message: {}, stacktrace {}", httpMessageNotReadableException.getMessage(), httpMessageNotReadableException.getStackTrace());
+    ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
+        logger.warn("handleHttpMessageNotReadableException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("Failed to deserialize request body."));
     }
 
     @ExceptionHandler(AssetNotFoundException.class)
-    ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException assetNotFoundException) {
-        logger.warn("handleAssetNotFoundException message: {}, stacktrace {}", assetNotFoundException.getMessage(), assetNotFoundException.getStackTrace());
+    ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException exception) {
+        logger.warn("handleAssetNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse(assetNotFoundException.getMessage()));
+                .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationNotFoundException.class)
     ResponseEntity<ErrorResponse> handleInvestigationNotFoundException(InvestigationNotFoundException exception) {
-        logger.warn("handleInvestigationNotFoundException message: {}, stacktrace {}", exception.getMessage(), exception.getStackTrace());
+        logger.warn("handleInvestigationNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationStatusTransitionNotAllowed.class)
     ResponseEntity<ErrorResponse> handleInvestigationStatusTransitionNotAllowed(InvestigationStatusTransitionNotAllowed exception) {
-        logger.warn("handleInvestigationStatusTransitionNotAllowed message: {}, stacktrace {}", exception.getMessage(), exception.getStackTrace());
+        logger.warn("handleInvestigationStatusTransitionNotAllowed", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationReceiverBpnMismatchException.class)
     ResponseEntity<ErrorResponse> handleInvestigationReceiverBpnMismatchException(InvestigationReceiverBpnMismatchException exception) {
-        logger.warn("handleInvestigationReceiverBpnMismatchException message: {}, stacktrace {}", exception.getMessage(), exception.getStackTrace());
+        logger.warn("handleInvestigationReceiverBpnMismatchException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(ValidationException.class)
     ResponseEntity<ErrorResponse> handleValidationException(ValidationException exception) {
-        logger.warn("handleValidationException message: {}, stacktrace {}", exception.getMessage(), exception.getStackTrace());
+        logger.warn("handleValidationExceptionexception", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationIllegalUpdate.class)
     ResponseEntity<ErrorResponse> handleInvestigationIllegalUpdate(InvestigationIllegalUpdate exception) {
-        logger.warn("handleInvestigationIllegalUpdate message: {}, stacktrace {}", exception.getMessage(), exception.getStackTrace());
+        logger.warn("handleInvestigationIllegalUpdate", exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException accessDeniedException) {
-        logger.warn("handleAccessDeniedException message: {}, stacktrace {}", accessDeniedException.getMessage(), accessDeniedException.getStackTrace());
+    ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException exception) {
+        logger.warn("handleAccessDeniedException", exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(new ErrorResponse(accessDeniedException.getMessage()));
+                .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(TechnicalUserAuthorizationException.class)
-    ResponseEntity<ErrorResponse> handleTechnicalUserAuthorizationException(TechnicalUserAuthorizationException technicalUserAuthorizationException) {
-        logger.error("Couldn't retrieve token for technical user", technicalUserAuthorizationException);
+    ResponseEntity<ErrorResponse> handleTechnicalUserAuthorizationException(TechnicalUserAuthorizationException exception) {
+        logger.error("Couldn't retrieve token for technical user", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Please try again later."));
     }
@@ -146,21 +146,21 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @ExceptionHandler(NotificationStatusTransitionNotAllowed.class)
     ResponseEntity<ErrorResponse> handleNotificationStatusTransitionNotAllowed(NotificationStatusTransitionNotAllowed exception) {
-        logger.warn("handleNotificationStatusTransitionNotAllowed message: {}, stacktrace {}", exception.getMessage(), exception.getStackTrace());
+        logger.warn("handleNotificationStatusTransitionNotAllowed", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(UpdateInvestigationValidationException.class)
     ResponseEntity<ErrorResponse> handleUpdateInvestigationValidationException(UpdateInvestigationValidationException exception) {
-        logger.warn("handleUpdateInvestigationValidationException message: {}, stacktrace {}", exception.getMessage(), exception.getStackTrace());
+        logger.warn("handleUpdateInvestigationValidationException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(CreateNotificationContractException.class)
     ResponseEntity<ErrorResponse> handleCreateNotificationContractException(CreateNotificationContractException exception) {
-        logger.warn("handleCreateNotificationContractException message: {}, stacktrace {}", exception.getMessage(), exception.getStackTrace());
+        logger.warn("handleCreateNotificationContractException", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Failed to create notification contract."));
     }

@@ -68,13 +68,12 @@ public class Notification {
 		this.severity = severity;
 	}
 
-	void changeStatusTo(InvestigationStatus to, String description) {
+	void changeStatusTo(InvestigationStatus to) {
 		boolean transitionAllowed = investigationStatus.transitionAllowed(to);
 
 		if (!transitionAllowed) {
 			throw new NotificationStatusTransitionNotAllowed(id, investigationStatus, to);
 		}
-        this.description = description;
 		this.investigationStatus = to;
 	}
 
