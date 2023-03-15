@@ -114,6 +114,10 @@
   .mat-sort-header-sorted > .mat-sort-header-content {
     @apply font-semiBold;
   }
+
+  .mat-mdc-form-field-infix {
+    padding-bottom: 0px !important;
+  }
 }
 
 .mdc-text-field__input::-webkit-calendar-picker-indicator {

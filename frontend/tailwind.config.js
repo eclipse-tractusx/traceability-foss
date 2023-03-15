@@ -153,6 +153,11 @@ module.exports = {
       qualityTypeMajor: '#c67700',
       qualityTypeCritical: '#981b5e',
       qualityTypeLifeThreatening: '#E5231D',
+
+      severityMinor: '#ffd74a',
+      severityMajor: '#c67700',
+      severityCritical: '#981b5e',
+      severityLifeThreatening: '#E5231D',
     },
     screens: {
       sm: '640px',

@@ -21,6 +21,7 @@
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { NotificationStatus } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 import { InvestigationsAssembler } from './investigations.assembler';
 
 describe('InvestigationsAssembler', () => {
@@ -45,6 +46,7 @@ describe('InvestigationsAssembler', () => {
               createdDate: '2022-07-26T15:09:39.419Z',
               targetDate: '2022-06-26T15:09:39.419Z',
               status: NotificationStatus.SENT,
+              severity: Severity.MINOR,
               channel: 'SENDER',
               createdBy: '',
               sendTo: '',
@@ -57,6 +59,7 @@ describe('InvestigationsAssembler', () => {
               createdDate: '2022-07-26T15:09:39.419Z',
               targetDate: '2022-06-26T15:09:39.419Z',
               status: 'unknown' as unknown as NotificationStatus,
+              severity: Severity.MAJOR,
               createdBy: '',
               sendTo: '',
               reason: { close: '', accept: '', decline: '' },
@@ -75,6 +78,7 @@ describe('InvestigationsAssembler', () => {
             id: 'test-1',
             description: 'test descr',
             status: NotificationStatus.SENT,
+            severity: Severity.MINOR,
             createdDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
             targetDate: new CalendarDateModel('2022-06-26T15:09:39.419Z'),
             createdBy: '',
@@ -87,6 +91,7 @@ describe('InvestigationsAssembler', () => {
             id: 'test-2',
             description: 'test descr',
             status: null,
+            severity: Severity.MAJOR,
             createdDate: new CalendarDateModel('2022-07-26T15:09:39.419Z'),
             targetDate: new CalendarDateModel('2022-06-26T15:09:39.419Z'),
             createdBy: '',

@@ -36,6 +36,7 @@ export type SortableHeaders =
   | 'productionDate'
   | 'van';
 
+// TODO: needs to be aligned with Severity in the future in terms of coding standards and use
 export enum QualityType {
   Ok = 'Ok',
   Minor = 'Minor',

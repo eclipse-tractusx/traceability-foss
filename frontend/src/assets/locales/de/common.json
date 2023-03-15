@@ -68,7 +68,8 @@
       "targetDate": "Rückmeldedatum",
       "createdDate": "Erstelldatum",
       "createdBy": "Erstellt von",
-      "sendTo": "Gesendet an"
+      "sendTo": "Gesendet an",
+      "severity": "Gefahrenstufe"
     }
   },
   "dataLoading": {
@@ -81,6 +82,12 @@
     "Major": "Schwerwiegend",
     "Critical": "Kritisch",
     "LifeThreatening": "Lebensgefährlich"
+  },
+  "severity": {
+    "MINOR": "Gering",
+    "MAJOR": "Schwerwiegend",
+    "CRITICAL": "Kritisch",
+    "LIFE-THREATENING": "Lebensgefährlich"
   },
   "map": {
     "LogoControl.Title": "Mapbox logo",
@@ -119,7 +126,9 @@
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",
     "cancel": "ABBRUCH",
-    "submit": "ZUR WARTESCHLANGE HINZUFÜGEN"
+    "submit": "ZUR WARTESCHLANGE HINZUFÜGEN",
+    "severity": "Gefahrenstufe",
+    "severityDescription": "Wählen Sie die Gefahrenstufe für das vorliegende Problem"
   },
   "pagination": {
     "itemsPerPageLabel": "Artikel pro Seite:",

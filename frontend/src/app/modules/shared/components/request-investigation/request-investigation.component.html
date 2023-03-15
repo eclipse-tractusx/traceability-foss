@@ -55,14 +55,23 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <form [formGroup]="investigationFormGroup" (submit)="submitInvestigation()">
-  <div class="flex">
-    <div>
+  <div class="flex flex-row justify-start">
+    <div class="mr-5">
       <p class="regular-text mb-2">{{ 'requestInvestigations.targetDateDescription' | i18n }}</p>
       <app-date-time
         [label]="'requestInvestigations.targetDateLabel' | i18n"
         [min]="minDate"
         formControlName="targetDate"
       ></app-date-time>
+    </div>
+    <div>
+      <p class="regular-text mb-2">{{ 'requestInvestigations.severityDescription' | i18n }}</p>
+      <app-severity-select
+        [translationContext]="'requestInvestigations'"
+        (selectedEvent)="onSeveritySelected($event)"
+        [selectedValue]="selectedSeverity"
+      >
+      </app-severity-select>
     </div>
   </div>
 

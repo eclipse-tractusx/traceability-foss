@@ -53,4 +53,11 @@ SPDX-License-Identifier: Apache-2.0
       notification.targetDate | formatDate : { dateStyle: 'short', timeStyle: 'short' }
     }}</span>
   </div>
+
+  <div>
+    <span class="detail--text detail--text__bold">{{ 'table.column.severity' | i18n }}</span>
+    <span class="detail--text">
+      <app-severity [severity]="notification?.severity"></app-severity>
+    </span>
+  </div>
 </div>

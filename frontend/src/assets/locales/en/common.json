@@ -67,7 +67,8 @@
       "targetDate": "Deadline",
       "createdDate": "Created",
       "createdBy": "Created by",
-      "sendTo": "Send to"
+      "sendTo": "Send to",
+      "severity": "Severity"
     }
   },
   "dataLoading": {
@@ -80,6 +81,12 @@
     "Major": "Major",
     "Critical": "Critical",
     "LifeThreatening": "Life-Threatening"
+  },
+  "severity": {
+    "MINOR": "Minor",
+    "MAJOR": "Major",
+    "CRITICAL": "Critical",
+    "LIFE-THREATENING": "Life-Threatening"
   },
   "map": {
     "AttributionControl.ToggleAttribution": "Toggle attribution",
@@ -128,7 +135,9 @@
     "textAreaLabel": "Description",
     "targetDateLabel": "Deadline",
     "cancel": "CANCEL",
-    "submit": "ADD TO QUEUE"
+    "submit": "ADD TO QUEUE",
+    "severity": "Severity",
+    "severityDescription": "Select the severity for the problem at hand"
   },
   "pagination": {
     "itemsPerPageLabel": "Items per page:",

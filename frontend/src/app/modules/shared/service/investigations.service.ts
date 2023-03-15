@@ -35,6 +35,7 @@ import {
   NotificationsResponse,
   NotificationStatus,
 } from '../model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 
 @Injectable({
   providedIn: 'root',
@@ -66,9 +67,14 @@ export class InvestigationsService {
       .pipe(map(notification => InvestigationsAssembler.assembleInvestigation(notification)));
   }
 
-  public postInvestigation(partIds: string[], description: string, dateString: DateTimeString): Observable<string> {
+  public postInvestigation(
+    partIds: string[],
+    description: string,
+    severity: Severity,
+    dateString: DateTimeString,
+  ): Observable<string> {
     const targetDate = new Date(dateString).toISOString();
-    const body = { partIds, description, targetDate };
+    const body = { partIds, description, severity, targetDate };
 
     return this.apiService
       .post<NotificationCreateResponse>(`${this.url}/investigations`, body)

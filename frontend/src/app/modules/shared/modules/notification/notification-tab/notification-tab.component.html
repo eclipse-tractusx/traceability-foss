@@ -47,6 +47,11 @@ SPDX-License-Identifier: Apache-2.0
     {{ translationContext + '.status.' + status | i18n }}
   </div>
 </ng-template>
+
+<ng-template #severityTmp let-severity="value">
+  <app-severity [severity]="severity"></app-severity>
+</ng-template>
+
 <ng-template #descriptionTmp let-text="value">
   <p class="notification--table__description">{{ text }}</p>
 </ng-template>

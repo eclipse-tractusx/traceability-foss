@@ -88,7 +88,7 @@ SPDX-License-Identifier: Apache-2.0
           [translationContext]="'commonInvestigation'"
           [labelId]="'dashboard-investigations'"
           [hasPagination]="false"
-          [optionalColumns]="['targetDate']"
+          [optionalColumns]="['targetDate', 'severity']"
           (selected)="onNotificationSelected($event)"
         ></app-notifications-tab>
       </mat-card-content>

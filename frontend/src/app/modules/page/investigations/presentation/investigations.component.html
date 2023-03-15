@@ -51,7 +51,7 @@ SPDX-License-Identifier: Apache-2.0
   [queuedAndRequestedNotifications$]="investigationsQueuedAndRequested$"
   [receivedNotifications$]="investigationsReceived$"
   [translationContext]="'commonInvestigation'"
-  [optionalColumns]="['targetDate']"
+  [optionalColumns]="['targetDate', 'severity']"
   (onReceivedPagination)="onReceivedPagination($event)"
   (onQueuedAndRequestedPagination)="onQueuedAndRequestedPagination($event)"
   (selected)="openDetailPage($event)"

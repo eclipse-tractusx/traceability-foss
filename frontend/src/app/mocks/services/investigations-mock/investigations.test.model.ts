@@ -23,18 +23,24 @@ import type { NotificationResponse } from '@shared/model/notification.model';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { getRandomAsset } from '../parts-mock/parts.model';
 import { MOCK_part_1 } from '../parts-mock/parts.test.model';
+import { Severity } from '@shared/model/severity.model';
 
 export const InvestigationIdPrefix = 'id-';
+
+// TODO: rethink this approach
+const severities = [Severity.MINOR, Severity.MAJOR, Severity.CRITICAL, Severity.LIFE_THREATENING];
 export const buildMockInvestigations = (
   statuses: NotificationStatus[],
   channel: 'SENDER' | 'RECEIVER',
 ): NotificationResponse[] =>
   new Array(25).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
+    const severity = severities[index % severities.length];
     return {
       id: `${InvestigationIdPrefix}${index + 1}`,
       description: `Investigation No ${index + 1}`,
       status,
+      severity,
       channel,
       createdBy: 'OEAM A',
       sendTo: 'OEM B',
@@ -48,6 +54,7 @@ const MockEmptyInvestigation: NotificationResponse = {
   id: `${InvestigationIdPrefix}000`,
   description: `Investigation No 000`,
   status: NotificationStatus.CREATED,
+  severity: Severity.MINOR,
   createdBy: 'OEM A',
   sendTo: 'OEAM B',
   reason: { close: '', accept: '', decline: '' },
