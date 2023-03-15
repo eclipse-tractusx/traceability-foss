@@ -177,6 +177,8 @@ public class Investigation {
 	public void accept(String reason) {
 		changeStatusTo(InvestigationStatus.ACCEPTED);
 		this.acceptReason = reason;
+        this.notifications.values()
+                .forEach(noti -> noti.setDescription(acceptReason));
 	}
 
 	public void accept(Notification notification) {
@@ -199,6 +201,8 @@ public class Investigation {
 	public void decline(String reason) {
 		changeStatusTo(InvestigationStatus.DECLINED);
 		this.declineReason = reason;
+        this.notifications.values()
+                .forEach(noti -> noti.setDescription(declineReason));
 	}
 
 	private void validateBPN(BPN applicationBpn) {
