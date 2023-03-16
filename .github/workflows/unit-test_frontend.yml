@@ -40,4 +40,4 @@ jobs:
         projectBaseDir: frontend
         args: >
           -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
-          -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY }}
+          -Dsonar.projectKey=catenax-ng_tx-traceability-foss_frontend
