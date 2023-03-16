@@ -138,7 +138,7 @@ public class Investigation {
                         declineReason
                 ),
                 getReceiverBPN(notifications.values()),
-                notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).name(),
+                notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).getRealName(),
                 notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getTargetDate).map(Instant::toString).orElse(null));
     }
 
