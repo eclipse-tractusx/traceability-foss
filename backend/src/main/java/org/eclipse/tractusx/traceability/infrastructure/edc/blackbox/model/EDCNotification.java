@@ -94,7 +94,9 @@ public record EDCNotification(@Valid
 	}
 
 	public Instant getTargetDate() {
-		return Instant.parse(header.targetDate());
+        if (header.targetDate() != null){
+            return Instant.parse(header.targetDate());
+        } return null;
 	}
 }
 
