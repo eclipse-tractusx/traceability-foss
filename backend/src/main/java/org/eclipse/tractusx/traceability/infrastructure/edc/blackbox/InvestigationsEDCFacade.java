@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
@@ -124,7 +125,9 @@ public class InvestigationsEDCFacade {
 			}
 
 			EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(senderEdcUrl, notification);
+            objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 			String body = objectMapper.writeValueAsString(edcNotification);
+
 			HttpUrl url = httpCallService.getUrl(dataReference.getEndpoint(), null, null);
 			Request request = new Request.Builder()
 				.url(url)
