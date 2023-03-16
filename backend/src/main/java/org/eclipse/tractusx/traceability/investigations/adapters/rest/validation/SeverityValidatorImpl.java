@@ -21,30 +21,35 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.validation;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.TYPE_USE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
-@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
-@Retention(RUNTIME)
-@Documented
-@Constraint(validatedBy = EnumValidatorImpl.class)
-public @interface EnumValidator {
-    Class<? extends Enum<?>> enumClass();
+public class SeverityValidatorImpl implements ConstraintValidator<ValidSeverity, String> {
 
-    String message() default "must be any of enum {enumClass}";
+    @Override
+    public void initialize(ValidSeverity constraintAnnotation) {
+    }
 
-    Class<?>[] groups() default {};
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        // do not validate notNull
+        if (value == null) {
+            return true;
+        }
 
-    Class<? extends Payload>[] payload() default {};
+        try {
+            Severity[] severities = Severity.values();
+            for (Severity severity : severities) {
+                if (severity.getRealName().equals(value)) {
+                    return true;
+                }
+            }
+            Severity.valueOf(value);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
 }

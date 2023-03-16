@@ -24,25 +24,18 @@ package org.eclipse.tractusx.traceability.investigations.adapters.rest.validatio
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.ElementType.TYPE_USE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
-
-@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
-@Retention(RUNTIME)
+@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = SeverityValidatorImpl.class)
 @Documented
-@Constraint(validatedBy = EnumValidatorImpl.class)
-public @interface EnumValidator {
-    Class<? extends Enum<?>> enumClass();
+public @interface ValidSeverity {
 
-    String message() default "must be any of enum {enumClass}";
+    String message() default "Invalid severity please use one of MINOR, MAJOR, CRITICAL, LIFE-THREATENING";
 
     Class<?>[] groups() default {};
 

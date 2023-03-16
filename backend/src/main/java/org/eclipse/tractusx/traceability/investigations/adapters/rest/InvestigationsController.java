@@ -29,7 +29,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.*;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.CloseInvestigationRequest;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.InvestigationData;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.StartInvestigationRequest;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.StartInvestigationResponse;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.UpdateInvestigationRequest;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsPublisherService;
@@ -40,7 +44,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.lang.invoke.MethodHandles;
@@ -81,7 +91,7 @@ public class InvestigationsController {
     public StartInvestigationResponse investigateAssets(@RequestBody @Valid StartInvestigationRequest request) {
         InvestigationId investigationId =
                 investigationsPublisherService.startInvestigation(
-                        traceabilityProperties.getBpn(), request.partIds(), request.description(), request.targetDate(), Severity.valueOf(request.severity()));
+                        traceabilityProperties.getBpn(), request.partIds(), request.description(), request.targetDate(), Severity.fromString(request.severity()));
         logger.info(API_LOG_START + " with params: {}", request);
         return new StartInvestigationResponse(investigationId.value());
     }

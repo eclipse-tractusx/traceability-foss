@@ -123,6 +123,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
+        logger.warn("handleIllegalArgumentException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException exception) {
         logger.warn("handleAccessDeniedException", exception);

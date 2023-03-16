@@ -27,16 +27,17 @@ import java.util.Arrays;
 
 public class ApplicationProfiles {
 
-	public static final String TESTS = "integration";
-	public static final String NOT_TESTS = "!" + TESTS;
-	public static final String DEV = "dev";
-	public static final String INT = "int";
+    public static final String LOCAL = "local";
+    public static final String TESTS = "integration";
+    public static final String NOT_TESTS = "!" + TESTS;
+    public static final String DEV = "dev";
+    public static final String INT = "int";
 
-	private ApplicationProfiles() {
-	}
+    private ApplicationProfiles() {
+    }
 
-	public static boolean doesNotContainTestProfile(Environment environment) {
-		return Arrays.stream(environment.getActiveProfiles())
-			.noneMatch(profile -> profile.equals(TESTS));
-	}
+    public static boolean doesNotContainTestProfile(Environment environment) {
+        return Arrays.stream(environment.getActiveProfiles())
+                .noneMatch(profile -> profile.equals(TESTS));
+    }
 }
