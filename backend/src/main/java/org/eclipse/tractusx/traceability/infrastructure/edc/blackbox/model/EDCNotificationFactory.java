@@ -32,7 +32,7 @@ public class EDCNotificationFactory {
     }
 
     public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification) {
-        String targetDate = null;
+        String targetDate = "";
         if (notification.getTargetDate() != null) {
             targetDate = notification.getTargetDate().toString();
         }
