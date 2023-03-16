@@ -7,7 +7,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=eclipse-tractusx_traceability-foss-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eclipse-tractusx_traceability-foss-frontend)
 [![Kics](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/kics.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/kics.yml)
 [![Trivy](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/trivy.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/trivy.yml)
-[![VeraCode](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/veracode.yaml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/veracode.yaml)
+[![VeraCode](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/veracode.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/veracode.yml)
 [![Eclipse DASH IP Check](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/eclipse-dash.yml/badge.svg)](https://github.com/eclipse-tractusx/traceability-foss-frontend/actions/workflows/eclipse-dash.yml)
 
 <h2>Trace-X is a system for tracking parts along the supply chain.</h2>
