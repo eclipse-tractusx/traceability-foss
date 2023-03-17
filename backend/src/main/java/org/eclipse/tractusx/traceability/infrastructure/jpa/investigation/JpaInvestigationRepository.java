@@ -41,4 +41,6 @@ public interface JpaInvestigationRepository extends JpaRepository<InvestigationE
 	long countAllByStatusIn(Set<InvestigationStatus> status);
 	@Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.id = :notificationId")
 	Optional<InvestigationEntity> findByNotificationsNotificationId(String notificationId);
+    @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.notificationReferenceId = :notificationReferenceId")
+    Optional<InvestigationEntity> findByNotificationsNotificationReferenceId(String notificationReferenceId);
 }

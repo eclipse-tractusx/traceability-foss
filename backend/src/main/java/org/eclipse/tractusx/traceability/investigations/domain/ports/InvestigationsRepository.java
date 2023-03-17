@@ -41,6 +41,7 @@ public interface InvestigationsRepository {
 	void update(Notification notification);
 	long countPendingInvestigations();
 	Optional<Investigation> findByNotificationId(String notificationId);
+    Optional<Investigation> findByNotificationReferenceId(String notificationReferenceId);
 	long countInvestigations(Set<InvestigationStatus> statuses);
 	long countInvestigations(InvestigationSide investigationSide);
 }
