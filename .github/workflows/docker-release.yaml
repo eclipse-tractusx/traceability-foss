@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.RELEASE_VERSION }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_latest
 
   Release-docker-image-backend:
     runs-on: ubuntu-latest
