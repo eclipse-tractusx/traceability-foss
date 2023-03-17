@@ -144,6 +144,7 @@ public class InvestigationsPublisherService {
                 notificationsService.updateAsync(notification);
             } else {
                 notification.updateNotificationReferenceId(notification.getId());
+                notificationsService.updateAsync(notification);
             }
         });
     }
