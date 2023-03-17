@@ -10,6 +10,7 @@ env:
   RELEASE_VERSION: "${{ github.ref_name }}"
   REGISTRY: ghcr.io
   JAVA_VERSION: 17
+  COMMIT_SHA: ${{ github.sha }}
 
 jobs:
   Release-docker-image-frontend:

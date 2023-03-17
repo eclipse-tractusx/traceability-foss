@@ -68,7 +68,7 @@ jobs:
 
       - name: Build with Maven and check dependencies
         run: |
-          mvn --quiet --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests -Pdependency-check
+          mvn --batch-mode --update-snapshots verify -Ddash.summary=DEPENDENCIES -DskipTests -Pdependency-check -Ddash.fail=true
 
       - name: upload results
         if: always()
