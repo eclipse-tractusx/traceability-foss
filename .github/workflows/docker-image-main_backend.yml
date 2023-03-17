@@ -34,5 +34,5 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build docker image
+      - name: Build & Push docker image ${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.COMMIT_SHA }}
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.COMMIT_SHA }}
