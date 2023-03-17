@@ -7,7 +7,7 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+'
 
 env:
-  RELEASE_VERSION: "${{ github.ref_name }}"
+  TAG_NAME: "${{ github.ref_name }}"
   REGISTRY: ghcr.io
   JAVA_VERSION: 17
   COMMIT_SHA: ${{ github.sha }}
@@ -38,6 +38,12 @@ jobs:
         with:
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_latest
+
+      - name: Build and push
+          uses: docker/build-push-action@v4
+          with:
+            push: true
+            tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.TAG_NAME }}
 
   Release-docker-image-backend:
     runs-on: ubuntu-latest
@@ -70,11 +76,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build docker image
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
+      - name: Build & push docker image ${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.TAG_NAME }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.TAG_NAME }}
 
-      - name: Tag docker image as latest
+      - name: Tag docker image ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
         run: docker tag ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }} ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
 
-      - name: Push docker image latest tag
+      - name: Push docker image ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
         run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
