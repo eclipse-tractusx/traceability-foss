@@ -71,7 +71,7 @@ public class NotificationsService {
 			repository.update(notificationToSend);
 		}
 	}
-
+    @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
 	public void updateAsync(Notification notification) {
 		updateAsync(notification, false);
 	}
