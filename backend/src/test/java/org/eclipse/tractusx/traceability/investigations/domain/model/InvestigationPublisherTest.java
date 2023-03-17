@@ -83,9 +83,10 @@ class InvestigationPublisherTest {
 
 		InvestigationStatus status = CREATED;
 		BPN bpn = new BPN("BPNL000000000001");
-		investigation = senderInvestigationWithStatus(bpn, status);
+        BPN bpnOther = new BPN("BPNL12321321321");
+		investigation = senderInvestigationWithStatus(bpnOther, status);
 
-		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
+		assertThrows(InvestigationIllegalUpdate.class, () -> {
 			investigation.close(bpn, "some-reason");
 		});
 
