@@ -36,12 +36,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_latest
-
-      - name: Build and push
-        uses: docker/build-push-action@v4
-        with:
+          context: frontend
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.TAG_NAME }}
 
