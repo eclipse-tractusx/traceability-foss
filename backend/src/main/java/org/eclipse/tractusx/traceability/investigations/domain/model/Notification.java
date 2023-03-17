@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.investigations.domain.model;
 
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.NotificationStatusTransitionNotAllowed;
 
 import java.time.Instant;
@@ -82,7 +83,7 @@ public class Notification {
     }
 
     public boolean existOnReceiverSide(){
-       return !this.getNotificationReferenceId().isBlank();
+       return StringUtils.isNotBlank(this.getNotificationReferenceId());
     }
 
 	public String getId() {
