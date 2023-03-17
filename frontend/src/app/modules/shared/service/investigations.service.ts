@@ -73,7 +73,8 @@ export class InvestigationsService {
     severity: Severity,
     dateString: DateTimeString,
   ): Observable<string> {
-    const targetDate = new Date(dateString).toISOString();
+    // targetDate is an optional field
+    const targetDate = null === dateString ? null : new Date(dateString).toISOString();
     const body = { partIds, description, severity, targetDate };
 
     return this.apiService
