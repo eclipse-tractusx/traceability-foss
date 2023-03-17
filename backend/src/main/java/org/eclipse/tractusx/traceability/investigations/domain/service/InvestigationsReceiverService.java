@@ -119,8 +119,4 @@ public class InvestigationsReceiverService {
             repository.update(investigation);
     }
 
-    private boolean notificationOnMySideExists(EDCNotification edcNotification) {
-        return edcNotification.getRelatedNotificationId() != null;
-    }
-
 }

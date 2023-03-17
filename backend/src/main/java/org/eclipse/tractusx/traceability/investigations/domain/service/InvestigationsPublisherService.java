@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.investigations.domain.service;
 
+import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
@@ -139,12 +140,17 @@ public class InvestigationsPublisherService {
         logger.info("InvestigationPublisherService: closeInvestigation {}", investigation);
         investigation.close(applicationBpn, reason);
         repository.update(investigation);
+        logger.info("InvestigationPublisherService: after update");
         investigation.getNotifications().forEach(notification -> {
-            if (notification.existOnReceiverSide()) {
+            // Already reference existing
+            if (StringUtils.isNotBlank(notification.getNotificationReferenceId())) {
                 notificationsService.updateAsync(notification);
+                logger.info("reference existing notificationsService updateAsync");
+            // No reference existing
             } else {
                 notification.updateNotificationReferenceId(notification.getId());
                 notificationsService.updateAsync(notification);
+                logger.info("No reference existing notificationsService updateAsync");
             }
         });
     }
