@@ -137,20 +137,18 @@ public class InvestigationsPublisherService {
     public void closeInvestigation(BPN applicationBpn, Long id, String reason) {
         InvestigationId investigationId = new InvestigationId(id);
         Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
-        logger.info("InvestigationPublisherService: closeInvestigation {}", investigation);
+
         investigation.close(applicationBpn, reason);
         repository.update(investigation);
-        logger.info("InvestigationPublisherService: after update");
+
         investigation.getNotifications().forEach(notification -> {
             // Already reference existing
             if (StringUtils.isNotBlank(notification.getNotificationReferenceId())) {
                 notificationsService.updateAsync(notification);
-                logger.info("reference existing notificationsService updateAsync");
-            // No reference existing
+                // No reference existing
             } else {
                 notification.updateNotificationReferenceId(notification.getId());
                 notificationsService.updateAsync(notification);
-                logger.info("No reference existing notificationsService updateAsync");
             }
         });
     }
