@@ -74,4 +74,4 @@ jobs:
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.COMMIT_SHA }}
 
       - name: Push docker image latest tag
-        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
+        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.RELEASE_VERSION }}
