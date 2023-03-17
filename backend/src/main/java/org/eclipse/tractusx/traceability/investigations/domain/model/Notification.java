@@ -31,7 +31,7 @@ import static java.util.Objects.requireNonNullElseGet;
 
 public class Notification {
 	private final String id;
-	private final String notificationReferenceId;
+	private String notificationReferenceId;
 	private final String senderBpnNumber;
 	private final String receiverBpnNumber;
 	private String edcUrl;
@@ -76,6 +76,10 @@ public class Notification {
 		}
 		this.investigationStatus = to;
 	}
+
+    public void updateNotificationReferenceId(String notificationReferenceId) {
+        this.notificationReferenceId = notificationReferenceId;
+    }
 
     public boolean existOnReceiverSide(){
        return !this.getNotificationReferenceId().isBlank();
