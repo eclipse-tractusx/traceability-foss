@@ -1,0 +1,68 @@
+<FindBugsFilter>
+    <Match>
+        <!-- Do not fail on Spring REST endpoints. -->
+        <Bug pattern="SPRING_ENDPOINT"/>
+    </Match>
+    <Match>
+        <!-- Classes should generally use generated SerialVersionUID unless there is a reason to implement compatibility. -->
+        <Bug pattern="SE_NO_SERIALVERSIONID"/>
+    </Match>
+    <Match>
+        <!-- Classes should be able to write logs. -->
+        <Bug pattern="CRLF_INJECTION_LOGS"/>
+    </Match>
+    <Match>
+        <!-- Lombok getters used. -->
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <!-- Lombok getters used. -->
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
+    <Match>
+        <Class name="org.eclipse.tractusx.irs.component.Shell$ShellBuilder"/>
+        <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
+    </Match>
+    <Match>
+        <!-- CSRF protection turned off on purpose. -->
+        <Class name="org.eclipse.tractusx.irs.configuration.SecurityConfiguration"/>
+        <Method name="securityFilterChain"/>
+        <Bug pattern="SPRING_CSRF_PROTECTION_DISABLED"/>
+    </Match>
+    <Match>
+        <!-- We want to explicitly throw Exception in this method. -->
+        <Class name="org.eclipse.tractusx.irs.configuration.SecurityConfiguration"/>
+        <Method name="securityFilterChain"/>
+        <Bug pattern="THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION"/>
+    </Match>
+    <Match>
+        <!-- This one is false-positive. -->
+        <Class name="org.eclipse.tractusx.irs.controllers.IrsExceptionHandler"/>
+        <Method name="handleMethodArgumentTypeMismatchException"/>
+        <Bug pattern="BC_UNCONFIRMED_CAST_OF_RETURN_VALUE"/>
+    </Match>
+    <Match>
+        <!-- This one is false-positive. -->
+        <Class name="org.eclipse.tractusx.irs.controllers.IrsExceptionHandler"/>
+        <Method name="handleMethodArgumentTypeMismatchException"/>
+        <Bug pattern="NP_NULL_ON_SOME_PATH_FROM_RETURN_VALUE"/>
+    </Match>
+    <Match>
+        <Class name="org.eclipse.tractusx.irs.util.JobMetrics$JobMetricsBuilder"/>
+        <Bug pattern="UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR"/>
+    </Match>
+    <Match>
+        <!-- This one is an extreme edge case and not relevant in our case. -->
+        <Class name="org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor"/>
+        <Bug pattern="IMPROPER_UNICODE"/>
+    </Match>
+    <Match>
+        <Class name="org.eclipse.tractusx.irs.configuration.RestTemplateConfig"/>
+        <Bug pattern="SIC_INNER_SHOULD_BE_STATIC_ANON"/>
+    </Match>
+    <Match>
+        <!-- The folder path is not provided by a user, the file name is normalized heavily, and we use a recent JRE -->
+        <Class name="org.eclipse.tractusx.irs.semanticshub.SemanticsHubClientImpl"/>
+        <Bug pattern="PATH_TRAVERSAL_IN,WEAK_FILENAMEUTILS"/>
+    </Match>
+</FindBugsFilter>
