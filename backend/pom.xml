@@ -33,7 +33,7 @@
 		<jacoco-plugin.version>0.8.8</jacoco-plugin.version>
 		<jar-plugin.version>3.3.0</jar-plugin.version>
 		<owasp-plugin.version>8.1.0</owasp-plugin.version>
-		<spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
+		<spotbugs-plugin.version>4.7.3.2</spotbugs-plugin.version>
 		<spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
 		<surefire-plugin.version>3.0.0-M9</surefire-plugin.version>
 		<apache-groovy.version>4.0.10</apache-groovy.version>
@@ -302,6 +302,12 @@
             <version>${apache-groovy.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-maven-plugin</artifactId>
+            <version>${spotbugs-plugin.version}</version>
+        </dependency>
+
 		<!-- test dependencies spring boot managed -->
 		<dependency>
 			<groupId>org.mockito</groupId>
@@ -441,33 +447,33 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- plugin>
-				<groupId>com.github.spotbugs</groupId>
-				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>${spotbugs-plugin.version}</version>
-				<configuration>
-					<effort>Max</effort>
-					<threshold>Low</threshold>
-					<xmlOutput>true</xmlOutput>
-					<failThreshold>Low</failThreshold>
-					<excludeFilterFile>ci/spotbugs-excludes.xml</excludeFilterFile>
-					<plugins>
-						<plugin>
-							<groupId>com.h3xstream.findsecbugs</groupId>
-							<artifactId>findsecbugs-plugin</artifactId>
-							<version>${findsecbugs-plugin.version}</version>
-						</plugin>
-					</plugins>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin -->
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs-plugin.version}</version>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Low</threshold>
+                    <xmlOutput>true</xmlOutput>
+                    <failThreshold>Low</failThreshold>
+                    <excludeFilterFile>ci/spotbugs-excludes.xml</excludeFilterFile>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.h3xstream.findsecbugs</groupId>
+                            <artifactId>findsecbugs-plugin</artifactId>
+                            <version>${findsecbugs-plugin.version}</version>
+                        </plugin>
+                    </plugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
 
 
 			<!--Test Plugin-->
