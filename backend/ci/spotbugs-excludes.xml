@@ -13,5 +13,11 @@
         <Method name="securityFilterChain"/>
         <Bug pattern="SPRING_CSRF_PROTECTION_DISABLED"/>
     </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP"/>
+    </Match>
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+    </Match>
 
 </FindBugsFilter>

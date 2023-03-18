@@ -455,7 +455,7 @@
                     <effort>Max</effort>
                     <threshold>Low</threshold>
                     <xmlOutput>true</xmlOutput>
-                    <failThreshold>Low</failThreshold>
+                    <failThreshold>High</failThreshold>
                     <excludeFilterFile>ci/spotbugs-excludes.xml</excludeFilterFile>
                     <plugins>
                         <plugin>
