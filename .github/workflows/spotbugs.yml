@@ -6,13 +6,15 @@ on:
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
+      - 'backend/openapi/**'
+      - 'docs/**'
   pull_request:
     branches: main
     paths-ignore:
       - '**/*.md'
-      - '**/*.txt'
-      - 'backend/openapi/**'
-      - 'docs/**'
+        - '**/*.txt'
+        - 'backend/openapi/**'
+        - 'docs/**'
   schedule:
     - cron: '0 0 * * *' # Once a day
 
