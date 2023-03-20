@@ -33,12 +33,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.TAG_NAME }} and :fe_latest
+      - name: Build and push ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }} and :latest
         uses: docker/build-push-action@v4
         with:
           context: frontend
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.TAG_NAME }}, ${{ env.REGISTRY }}/${{ github.repository }}:fe_latest
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }}, ${{ env.REGISTRY }}/${{ github.repository }}-frontend:latest
 
   Release-docker-image-backend:
     runs-on: ubuntu-latest
@@ -71,11 +71,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & push docker image ${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.TAG_NAME }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.TAG_NAME }}
+      - name: Build & push docker image ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
 
-      - name: Tag docker image ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
-        run: docker tag ${{ env.REGISTRY }}/${{ github.repository }}:be_${{ env.TAG_NAME }} ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
+      - name: Tag docker image ${{ env.REGISTRY }}/${{ github.repository }}:latest
+        run: docker tag ${{ env.REGISTRY }}/${{ github.repository }}-backend:${{ env.TAG_NAME }} ${{ env.REGISTRY }}/${{ github.repository }}:latest
 
-      - name: Push docker image ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
-        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:be_latest
+      - name: Push docker image ${{ env.REGISTRY }}/${{ github.repository }}:latest
+        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:latest

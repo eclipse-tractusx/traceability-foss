@@ -38,4 +38,4 @@ jobs:
         with:
           context: frontend/
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ github.event.pull_request.head.sha }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ github.event.pull_request.head.sha }}
