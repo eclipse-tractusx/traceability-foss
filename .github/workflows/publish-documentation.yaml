@@ -2,6 +2,7 @@ name: Publish documentation
 
 on:
   workflow_dispatch: # Trigger manually
+  pull-request:
   push:
     branches:
       - main
