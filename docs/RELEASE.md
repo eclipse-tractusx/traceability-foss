@@ -1,6 +1,6 @@
 <div style="display: flex; align-items: center;justify-content: center;align-content: center;">
-   <img src="./trace-x-logo.svg" alt="Product Traceability FOSS Backend Release Guide" style="width:200px;"/>
-   <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Backend Release guide</h1>
+   <img src="./trace-x-logo.svg" alt="Product Traceability FOSS Release Guide" style="width:200px;"/>
+   <h1 style="margin: 10px 0 0 10px">Product Traceability FOSS Release guide</h1>
 </div>
 
 ## Release an app
@@ -12,7 +12,10 @@ Please update the [CHANGELOG.md](../CHANGELOG.md) file with release changes that
 
 ## Release helm charts
 
-In order to release helm charts, update helm charts *version* property from [Chart.yaml file](../charts/traceability-foss-backend/Chart.yaml). Please update *appVersion* property if there were changes to app version as well.
+In order to release helm charts, update helm charts *version* property from
+[backend Chart.yaml file](../backend/charts/traceability-foss-backend/Chart.yaml) and from
+[frontend Chart.yaml file](../frontend/charts/traceability-foss-backend/Chart.yaml).
+Please update *appVersion* property if there were changes to app version as well.
 
 Next proceed to the [Release Charts workflow](https://github.com/eclipse-tractusx/traceability-foss-backend/actions/workflows/helm-chart-release.yaml)
 and invoke the workflow manually for the *main* branch. The workflow will compare previously stored helm charts version and if it detects new version, it will release it in GitHub and will create an appropriate git tag.
