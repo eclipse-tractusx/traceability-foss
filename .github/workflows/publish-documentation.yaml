@@ -18,9 +18,6 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -63,7 +60,7 @@ jobs:
         env:
           FILES: "administration/administration-guide arc42/full api-specification/api-specification"
         run: |
-          cd backend/docs/target/generated-docs
+          cd docs/target/generated-docs
           for file in ${FILES}; do \
             pandoc -f html -t markdown_strict --wrap=preserve "${file}.html" -o "${file}.md"; \
             sed -i 's/](#_/](#/' "${file}.md"; \
@@ -73,5 +70,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3.9.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ".backend/docs/target/generated-docs"
+          publish_dir: "./docs/target/generated-docs"
           destination_dir: "docs"
