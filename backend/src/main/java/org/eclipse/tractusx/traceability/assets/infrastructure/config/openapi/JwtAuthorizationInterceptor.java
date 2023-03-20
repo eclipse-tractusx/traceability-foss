@@ -60,7 +60,7 @@ public class JwtAuthorizationInterceptor implements RequestInterceptor {
 	}
 
 	private Optional<OAuth2AccessToken> getAccessToken() {
-		OAuth2AuthorizeRequest request = OAuth2AuthorizeRequest.withClientRegistrationId("default")
+		OAuth2AuthorizeRequest request = OAuth2AuthorizeRequest.withClientRegistrationId("OKTA")
 			.principal(new AnonymousAuthenticationToken("feignClient", "feignClient", createAuthorityList("ROLE_ANONYMOUS")))
 			.build();
 

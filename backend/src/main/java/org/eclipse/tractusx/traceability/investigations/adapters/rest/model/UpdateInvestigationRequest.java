@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 import io.swagger.annotations.ApiModelProperty;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public record UpdateInvestigationRequest(@NotNull(message = "status must be present") InvestigationStatus status,
 										 @ApiModelProperty(example = "The reason.") String reason) {

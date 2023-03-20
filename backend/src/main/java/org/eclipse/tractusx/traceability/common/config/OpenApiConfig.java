@@ -21,81 +21,52 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
-import org.eclipse.tractusx.traceability.common.docs.SwaggerPageable;
-import org.springframework.beans.factory.annotation.Value;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.media.Content;
+import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpMethod;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.OAuth2SchemeBuilder;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.oas.annotations.EnableOpenApi;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.AuthorizationScope;
-import springfox.documentation.service.SecurityReference;
-import springfox.documentation.service.SecurityScheme;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spi.service.contexts.SecurityContext;
-import springfox.documentation.spring.web.plugins.Docket;
+import org.springframework.http.MediaType;
 
-import java.util.Arrays;
-import java.util.List;
-
-@EnableOpenApi
 @Configuration
+@OpenAPIDefinition
 public class OpenApiConfig {
 
-	private static final AuthorizationScope[] DEFAULT_SCOPES = {
-		new AuthorizationScope("uma_authorization", "UMA authorization")
-	};
-
-	@Value("${spring.security.oauth2.client.provider.default.token-uri}")
-	private String oauthTokenUrl;
-
-	@Bean
-	public Docket swaggerSpringMvcPlugin() {
-		return new Docket(DocumentationType.OAS_30)
-			.securitySchemes(List.of(oauthAuthenticationScheme()))
-			.securityContexts(List.of(securityContext()))
-			.apiInfo(apiInfo())
-			.select()
-			.apis(RequestHandlerSelectors.basePackage("org.eclipse.tractusx.traceability"))
-			.build()
-			.forCodeGeneration(true)
-			.directModelSubstitute(Pageable.class, SwaggerPageable.class);
-	}
-
-	private SecurityScheme oauthAuthenticationScheme() {
-		return new OAuth2SchemeBuilder("clientCredentials")
-			.name("default")
-			.authorizationUrl(oauthTokenUrl.replace("token", "auth"))
-			.tokenUrl(oauthTokenUrl)
-			.scopes(Arrays.asList(DEFAULT_SCOPES))
-			.build();
-	}
-
-	private SecurityContext securityContext() {
-		return SecurityContext
-			.builder()
-			.securityReferences(List.of(
-				new SecurityReference("default", DEFAULT_SCOPES)
-			))
-			.operationSelector(operationContext -> HttpMethod.GET.equals(operationContext.httpMethod()))
-			.build();
-	}
-
-	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder()
-			.title("Trace-FOSS - OpenAPI Documentation")
-			.description("Trace-FOSS is a system for tracking parts along the supply chain. " +
-				"A high level of transparency across the supplier network enables faster intervention " +
-				"based on a recorded event in the supply chain. This saves costs by seamlessly tracking parts" +
-				" and creates trust through clearly defined and secure data access by the companies and persons" +
-				" involved in the process.")
-			.version("1.0.0")
-			.license("License: Apache 2.0")
-			.build();
-	}
-
+    @Bean
+    public OpenAPI baseOpenAPI() {
+        ApiResponse badRequestAPI = new ApiResponse().content(
+                new Content().addMediaType(
+                        MediaType.APPLICATION_JSON_VALUE,
+                        new io.swagger.v3.oas.models.media.MediaType().addExamples(
+                                "default",
+                                new Example().value("{\"code\" : 400, \"Status\" : \"Bad request\", \"Message\" : \"Bad request\"}")
+                        ))).description("Bad request");
+        ApiResponse internalServerErrorAPI = new ApiResponse().content(
+                new Content().addMediaType(
+                        MediaType.APPLICATION_JSON_VALUE,
+                        new io.swagger.v3.oas.models.media.MediaType().addExamples(
+                                "default",
+                                new Example().value("{\"code\" : 500, \"Status\" : \"Internal server error\", \"Message\" : \"Internal server error\"}")
+                        ))).description("Internal server error");
+        Components components = new Components();
+        components.addResponses("badRequestAPI", badRequestAPI);
+        components.addResponses("internalServerErrorAPI", internalServerErrorAPI);
+        return new OpenAPI()
+                .components(components)
+                .info(new Info()
+                        .title("Trace-FOSS - OpenAPI Documentation")
+                        .version("1.0.0")
+                        .description("Trace-FOSS is a system for tracking parts along the supply chain. " +
+                                "A high level of transparency across the supplier network enables faster intervention " +
+                                "based on a recorded event in the supply chain. This saves costs by seamlessly tracking parts" +
+                                " and creates trust through clearly defined and secure data access by the companies and persons" +
+                                " involved in the process.")
+                        .license(new License().name("License: Apache 2.0"))
+                );
+    }
 }

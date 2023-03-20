@@ -22,8 +22,8 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import java.util.Set;
 
 public record AddQualityInvestigation(@NotEmpty(message = Constants.PARTS_IDS_MUST_PRESENT) Set<String> partIds,

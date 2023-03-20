@@ -31,7 +31,7 @@ spring:
     oauth2:
       client:
         registration:
-          default:
+          OKTA:
             client-id: "traceability-foss-integration-tests"
             client-secret: "integration-tests"
   main:
@@ -64,4 +64,6 @@ server:
 
 logging:
   level:
-    logging.level.org.springframework.web.client.RestTemplate: DEBUG
+    org.springframework.web.client.RestTemplate: INFO
+    org.springframework.security: INFO
+    org.springframework: INFO

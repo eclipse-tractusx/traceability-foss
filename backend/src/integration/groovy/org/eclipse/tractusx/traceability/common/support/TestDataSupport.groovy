@@ -27,8 +27,7 @@ trait TestDataSupport {
 	private static final String BASE_PATH = "./testdata/"
 
 	String readFile(String filename) {
-		URL resource = Action.class.getClassLoader().getResource(BASE_PATH + filename)
-
+		URL resource = getClass().getClassLoader().getResource(BASE_PATH + filename)
 		return resource.text
 	}
 }

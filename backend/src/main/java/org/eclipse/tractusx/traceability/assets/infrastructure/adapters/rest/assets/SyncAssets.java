@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest.as
 
 import io.swagger.annotations.ApiModelProperty;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public record SyncAssets(

@@ -23,9 +23,7 @@ package org.eclipse.tractusx.traceability.common.properties;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConstructorBinding;
 
-@ConstructorBinding
 @ConfigurationProperties("traceability")
 public class TraceabilityProperties {
 

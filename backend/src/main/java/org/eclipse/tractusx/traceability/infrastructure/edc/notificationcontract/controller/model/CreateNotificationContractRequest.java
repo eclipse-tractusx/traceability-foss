@@ -20,7 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 public record CreateNotificationContractRequest(@NotNull(message = "notificationType must be present") NotificationType notificationType,
 												@NotNull(message = "notificationMethod must be present") NotificationMethod notificationMethod) {

@@ -21,10 +21,9 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.validation;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 public class SeverityValidatorImpl implements ConstraintValidator<ValidSeverity, String> {
 

@@ -41,7 +41,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
+
+import io.swagger.v3.oas.annotations.Hidden;
 
 import java.sql.Date;
 import java.time.Instant;
@@ -49,7 +50,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @RestController
-@ApiIgnore
+@Hidden
 @RequestMapping("/edc/")
 public class EDCReceiverController {
 

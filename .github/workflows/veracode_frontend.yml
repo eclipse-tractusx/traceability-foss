@@ -1,0 +1,41 @@
+name: "Veracode upload and scan - Frontend"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+  schedule:
+    # Once a day 1 am
+    - cron: "0 1 * * *"
+env:
+  JAVA_VERSION: 17
+
+jobs:
+  analyze-frontend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          repository: ''
+
+      - run: zip -r veracode-scan-target.zip ./
+
+      - name: Run Veracode Upload And Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.4
+        with:
+          appname: "Traceability-Foss-Frontend"
+          createprofile: false
+          filepath: "./frontend/veracode-scan-target.zip"
+          vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'

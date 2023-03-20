@@ -67,7 +67,7 @@
     "rxjs": "7.8.0",
     "tailwindcss": "3.2.7",
     "tslib": "2.5.0",
-    "webpack": "5.75.0",
+    "webpack": "5.76.2",
     "zone.js": "0.12.0"
   },
   "devDependencies": {

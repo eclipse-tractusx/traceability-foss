@@ -63,19 +63,17 @@ spring:
     oauth2:
       client:
         registration:
-          default:
+          OKTA:
             client-id: ${OAUTH2_CLIENT_ID}
             client-secret: ${OAUTH2_CLIENT_SECRET}
             authorization-grant-type: client_credentials
             scope: openid
         provider:
-          default:
+          OKTA:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
       resourceserver:
         jwt:
           jwk-set-uri: ${OAUTH2_JWK_SET_URI:https://default}
-  config:
-    import: swagger.yml
 
 jwt:
   resource-client: ${JWT_RESOURCE_CLIENT}
@@ -116,3 +114,4 @@ resilience4j:
         waitDuration: 30s
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
+

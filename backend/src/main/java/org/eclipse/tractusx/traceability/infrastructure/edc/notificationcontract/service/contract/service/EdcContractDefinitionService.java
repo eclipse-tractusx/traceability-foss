@@ -28,7 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
@@ -79,7 +79,7 @@ public class EdcContractDefinitionService {
 			throw new CreateEdcContractDefinitionException(e);
 		}
 
-		HttpStatus responseCode = createContractDefinitionResponse.getStatusCode();
+		HttpStatusCode responseCode = createContractDefinitionResponse.getStatusCode();
 
 		if (responseCode.value() == 409) {
 			logger.info("{} asset contract definition already exists in the EDC", notificationAssetId);
