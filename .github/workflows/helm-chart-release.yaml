@@ -51,8 +51,6 @@ jobs:
     env:
       RELEASE_VERSION: "${{needs.Get-BE-helm-charts-versions.outputs.current_version}}"
     steps:
-      - run: echo "Releasing backend helm charts with ${{ env.RELEASE_VERSION }} version"
-
       - name: Checkout
         uses: actions/checkout@v3
         with:

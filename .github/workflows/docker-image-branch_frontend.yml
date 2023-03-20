@@ -1,4 +1,4 @@
-name: Build&Push Docker image for branch
+name: Frontend Build&Push Docker image for branch
 on:
   pull_request:
     paths:
