@@ -73,6 +73,8 @@ jobs:
 
       - name: Run chart-releaser for the backend
         uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: backend/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "${{ env.RELEASE_VERSION }}"
@@ -96,6 +98,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
       - name: Install Helm
         uses: azure/setup-helm@v3
         with:
@@ -106,7 +109,10 @@ jobs:
           cd charts/traceability-foss-frontend
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm dependency update
+
       - name: Run chart-releaser for the frontend
-        uses: helm/chart-releaser-action@v1.4.1
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: backend/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
