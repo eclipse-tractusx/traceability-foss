@@ -40,4 +40,11 @@
     font-weight: bold;
     padding-right: 1rem;
   }
+
+  &__description {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 275px;
+  }
 }

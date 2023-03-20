@@ -19,5 +19,13 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<strong style="font-weight: bold">{{ user.bpn }}</strong> <br />
-{{ user.name }}
+<ng-container *ngIf="mode == 'normal'">
+  <strong style="font-weight: bold">{{ user.bpn }}</strong> <br />
+  {{ user.name }}
+</ng-container>
+
+<ng-container *ngIf="mode == 'sup'">
+  <span
+    >{{ user.bpn }} <sup>{{ user.name }}</sup></span
+  >
+</ng-container>

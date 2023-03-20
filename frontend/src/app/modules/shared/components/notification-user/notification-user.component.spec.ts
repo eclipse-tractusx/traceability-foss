@@ -30,7 +30,7 @@ import { NotificationUserComponent } from './notification-user.component';
 describe('NotificationUserComponent', () => {
   const defaultNotification = Object.assign({ ...notificationTemplate });
   const renderUser = (user: NotificationUser = defaultNotification.createdBy) => {
-    return renderComponent(`<app-notification-user [user]='user'></app-notification-user>`, {
+    return renderComponent(`<app-notification-user [user]='user' mode="normal"></app-notification-user>`, {
       imports: [SharedModule],
       componentProperties: { user: user },
     });

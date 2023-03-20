@@ -29,4 +29,6 @@ import { NotificationUser } from '@shared/model/notification.model';
 export class NotificationUserComponent {
   @Input()
   user: NotificationUser;
+  @Input()
+  mode: 'normal' | 'sup';
 }
