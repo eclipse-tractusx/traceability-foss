@@ -8,6 +8,7 @@ on:
     paths:
       - 'docs/**'
 
+
 jobs:
   publish:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
@@ -15,9 +16,6 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - name: Checkout
         uses: actions/checkout@v3
