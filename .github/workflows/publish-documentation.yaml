@@ -52,7 +52,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         run: |
-          mvn -f backend/docs/pom.xml --batch-mode generate-resources
+          mvn -f docs/pom.xml --batch-mode generate-resources
 
       - name: Install pandoc
         run: |
