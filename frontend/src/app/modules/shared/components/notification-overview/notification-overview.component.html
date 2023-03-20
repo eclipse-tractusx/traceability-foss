@@ -40,11 +40,15 @@ SPDX-License-Identifier: Apache-2.0
   </div>
   <div>
     <span class="detail--text detail--text__bold">{{ 'table.column.createdBy' | i18n }}</span>
-    <span class="detail--text">{{ notification?.createdBy }}</span>
+    <span class="detail--text">
+      <app-notification-user [user]="notification.createdBy"></app-notification-user>
+    </span>
   </div>
   <div>
     <span class="detail--text detail--text__bold">{{ 'table.column.sendTo' | i18n }}</span>
-    <span class="detail--text">{{ notification?.sendTo }}</span>
+    <span class="detail--text">
+      <app-notification-user [user]="notification.sendTo"></app-notification-user>
+    </span>
   </div>
 
   <div *ngIf="notification?.targetDate">

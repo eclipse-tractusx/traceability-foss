@@ -21,13 +21,13 @@
 
 import { Component, Input } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
-import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { Notification, NotificationUser, NotificationStatus } from '@shared/model/notification.model';
 
 type TextMessageDirection = 'left' | 'right';
 interface TextMessage {
   reason: string;
   direction: TextMessageDirection;
-  user: string;
+  user: NotificationUser;
   status: NotificationStatus;
   date?: CalendarDateModel;
 }

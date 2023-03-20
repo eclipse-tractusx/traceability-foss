@@ -122,8 +122,8 @@ class CloseModalComponent implements AfterViewInit {
 export const notificationTemplate: Notification = {
   id: 'id-1',
   description: 'Investigation No 1',
-  createdBy: 'OEM A',
-  sendTo: 'OEM B',
+  createdBy: { name: 'OEM xxxxxxxxxxxxxxx A', bpn: 'BPN10000000OEM0A' },
+  sendTo: { name: 'OEM xxxxxxxxxxxxxxx B', bpn: 'BPN20000000OEM0B' },
   reason: { close: '', accept: '', decline: '' },
   isFromSender: false,
   assetIds: ['MOCK_part_1'],

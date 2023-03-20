@@ -19,40 +19,32 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { NotificationStatus } from '@shared/model/notification.model';
+import { NotificationUser } from '@shared/model/notification.model';
 import { notificationTemplate } from '@shared/modules/notification/modal/modalTestHelper.spec';
 import { SharedModule } from '@shared/shared.module';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
-describe('NotificationReasonComponent', () => {
+import { NotificationUserComponent } from './notification-user.component';
+
+describe('NotificationUserComponent', () => {
   const defaultNotification = Object.assign({ ...notificationTemplate });
-  const renderReason = (notification: Notification = defaultNotification) => {
-    return renderComponent(`<app-notification-reason [notification]='notification'></app-notification-reason>`, {
+  const renderUser = (user: NotificationUser = defaultNotification.createdBy) => {
+    return renderComponent(`<app-notification-user [user]='user'></app-notification-user>`, {
       imports: [SharedModule],
-      componentProperties: { notification },
+      componentProperties: { user: user },
     });
   };
 
-  it('should render description', async () => {
-    await renderReason();
-    expect(screen.getByText(defaultNotification.description)).toBeInTheDocument();
+  it('should render user name and number from createdBy', async () => {
+    await renderUser();
+    expect(screen.getByText(defaultNotification.createdBy.name)).toBeInTheDocument();
+    expect(screen.getByText(defaultNotification.createdBy.bpn)).toBeInTheDocument();
   });
 
-  it('should render accept reason with sent status', async () => {
-    const reason = { accept: 'Accept reason', close: '', decline: '' };
-    const status = NotificationStatus.SENT;
-
-    await renderReason({ ...defaultNotification, reason, status });
-    expect(screen.getByText(reason.accept)).toBeInTheDocument();
-    expect(screen.getByText('commonInvestigation.status.SENT')).toBeInTheDocument();
-
-    expect(screen.getByText(defaultNotification.createdBy.bpn)).toBeInTheDocument();
+  it('should render user name and number from sendTo', async () => {
+    await renderUser(defaultNotification.sendTo);
+    expect(screen.getByText(defaultNotification.sendTo.name)).toBeInTheDocument();
     expect(screen.getByText(defaultNotification.sendTo.bpn)).toBeInTheDocument();
-  });
-
-  it('should render username from sender', async () => {
-    await renderReason();
-    expect(screen.getByText(defaultNotification.createdBy.bpn)).toBeInTheDocument();
   });
 });

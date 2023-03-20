@@ -26,6 +26,7 @@ import { DateTimeComponent } from '@shared/components/dateTime/dateTime.componen
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
 import { NotificationOverviewComponent } from '@shared/components/notification-overview/notification-overview.component';
 import { NotificationReasonComponent } from '@shared/components/notification-reason/notification-reason.component';
+import { NotificationUserComponent } from '@shared/components/notification-user/notification-user.component';
 import { SeveritySelectComponent } from '@shared/components/severity-select/severity-select.component';
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
@@ -102,6 +103,7 @@ import { TemplateModule } from './template.module';
     FormErrorMessageComponent,
     SeverityComponent,
     SeveritySelectComponent,
+    NotificationUserComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -138,6 +140,7 @@ import { TemplateModule } from './template.module';
     BaseInputComponent,
     SeverityComponent,
     SeveritySelectComponent,
+    NotificationUserComponent,
   ],
   providers: [
     FormatDatePipe,

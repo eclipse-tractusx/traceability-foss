@@ -40,14 +40,16 @@ export class InvestigationsAssembler {
       id,
       assetIds,
       channel,
-      sendTo,
 
       reason = { accept: '', close: '', decline: '' },
       description = '',
       status: _status,
       severity: _severity,
       createdDate: _createdDate = '',
-      createdBy = '',
+      createdBy: _createdBy = '',
+      createdByName: _createdByName = '',
+      sendTo: _sendTo = '',
+      sendToName: _sendToName = '',
       targetDate: _targetDate = '',
     } = response;
 
@@ -56,6 +58,8 @@ export class InvestigationsAssembler {
     const severity = Object.values(Severity).find(element => element == _severity);
     const createdDate = new CalendarDateModel(_createdDate);
     const targetDate = new CalendarDateModel(_targetDate);
+    const createdBy = { bpn: _createdBy, name: _createdByName };
+    const sendTo = { bpn: _sendTo, name: _sendToName };
 
     return {
       id,
