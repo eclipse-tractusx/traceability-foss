@@ -302,12 +302,6 @@
             <version>${apache-groovy.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.spotbugs</groupId>
-            <artifactId>spotbugs-maven-plugin</artifactId>
-            <version>${spotbugs-plugin.version}</version>
-        </dependency>
-
 		<!-- test dependencies spring boot managed -->
 		<dependency>
 			<groupId>org.mockito</groupId>

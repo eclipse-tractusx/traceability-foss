@@ -33,12 +33,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and push
+      - name: Build and push ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.TAG_NAME }} and :fe_latest
         uses: docker/build-push-action@v4
         with:
           context: frontend
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.TAG_NAME }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ env.TAG_NAME }}, ${{ env.REGISTRY }}/${{ github.repository }}:fe_latest
 
   Release-docker-image-backend:
     runs-on: ubuntu-latest
