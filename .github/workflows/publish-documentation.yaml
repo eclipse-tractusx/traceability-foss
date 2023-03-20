@@ -2,12 +2,14 @@ name: Publish documentation
 
 on:
   workflow_dispatch: # Trigger manually
-  pull-request:
+  pull_request:
+    branches: main
   push:
     branches:
       - main
     paths:
       - 'docs/**'
+
 
 jobs:
   publish:
