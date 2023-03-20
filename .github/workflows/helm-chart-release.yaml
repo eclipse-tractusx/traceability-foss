@@ -113,6 +113,6 @@ jobs:
       - name: Run chart-releaser for the frontend
         uses: helm/chart-releaser-action@v1.5.0
         with:
-          charts_dir: backend/charts
+          charts_dir: frontend/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
