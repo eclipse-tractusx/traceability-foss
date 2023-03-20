@@ -71,11 +71,11 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & push docker image ${{ env.REGISTRY }}/${{ github.repository }}-backend:${{ env.TAG_NAME }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}-backend:${{ env.TAG_NAME }}
+      - name: Build & push docker image ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
 
-      - name: Tag docker image ${{ env.REGISTRY }}/${{ github.repository }}-backend:latest
-        run: docker tag ${{ env.REGISTRY }}/${{ github.repository }}-backend:${{ env.TAG_NAME }} ${{ env.REGISTRY }}/${{ github.repository }}-backend:latest
+      - name: Tag docker image ${{ env.REGISTRY }}/${{ github.repository }}:latest
+        run: docker tag ${{ env.REGISTRY }}/${{ github.repository }}-backend:${{ env.TAG_NAME }} ${{ env.REGISTRY }}/${{ github.repository }}:latest
 
-      - name: Push docker image ${{ env.REGISTRY }}/${{ github.repository }}-backend:latest
-        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}-backend:latest
+      - name: Push docker image ${{ env.REGISTRY }}/${{ github.repository }}:latest
+        run: docker push ${{ env.REGISTRY }}/${{ github.repository }}:latest
