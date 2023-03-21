@@ -1,0 +1,47 @@
+= Glossary
+
+|===
+|Term |Description
+
+|Aspect
+|Collection of various aspects from the Digital Twin. An aspect can, for example, bundle all information about a specific part.
+
+|AAS
+|**A**sset **A**dministration **S**hell (Industry 4.0). Is the implementation of the digital twin for Industry 4.0 and enables interoperability between different companies.
+
+|BoM
+|**B**ill **o**f **M**aterial. BoM is a list of parts and materials that a product contains. Without them, manufacturing would not be possible.
+
+|BoM AsBuilt
+|Bill of material lifecycle of the built entity
+
+|BPN
+|**B**usiness **P**artner **N**umber. A BPN is used to identify a partner in the Catena-X network
+
+|CX
+|Abbreviation for Catena-X
+
+|Data Sovereignty
+|Ability to keep control over own data, that is shared with other participants
+
+|EDC
+|**E**clipse **D**ataspace **C**onnector. The connector version used in Catena-X
+
+|FOSS
+|**F**ree and **O**pen **S**ource **S**oftware
+
+|Interoperability
+|Communication and interaction with other components or Catena-X partners/players
+
+|IRS
+|**I**tem **R**elationship **S**ervice. Component to provide data chains. https://eclipse-tractusx.github.io/item-relationship-service/docs/arc42/[IRS architecture documentation (arc42)]
+
+|SME
+|**S**mall / **M**edium **E**nterprise
+
+|Trace-X
+|Proper name of open-source software application of Catena-X Use Case Traceability
+
+|UI
+|**U**ser **I**nterface
+|===

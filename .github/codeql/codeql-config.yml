@@ -1,0 +1,6 @@
+name: "TraceX CodeQL config"
+
+# Exclude "Unused classes and interfaces"
+query-filters:
+  - exclude:
+      id: java/unused-reference-type

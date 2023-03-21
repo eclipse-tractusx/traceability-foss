@@ -4,7 +4,43 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased - x.x.x]
+
+## [3.0.0] - 2023-03-21
+
+### Added
+- Added functionality to update & close notifications – Quality Investigations
+- Included a guide for connecting sonarcloud to IntelliJ -> Contribution.md
+- Added properties targetDate and severity to the Quality Investigations
+- Included reason for accept, decline and closure of a Quality Investigation
+- Added additional information to be displayed on the Quality Investigation detail page
+- Added native datetime component to be used for Quality Investigation
+- Merged the backend repository into this repository within /backend
+- Added beta environment
+
+### Changed
+- Changed github action docker-release to have maven cache instead of previously used gradle
+- Fixed a bug which caused the wrong bpn sender was set
+- Added the default param to the irs/jobs api lookupBPNs and set it to true
+- Added targetdate to the notification creation.
+- Removed duplicated dependencies / Added version numbers for all dependencies for better managing
+- Moved the frontend application to /frontend
+- Updated to spring boot 3
+- Fixed jersey-client cve
+- Fixed spring-web cve
+- Fixed spring-security-oauth-client cve
+- Some minor updates on dependencies
+- Restructured pom to use properties for all versions
+
+
+## [2.0.0] - 2023-03-06
+
+### Added
+- Added functionality to close notifications – Quality Investigations
+
+### Changed
+- Fixed Sending and saving quality investigation closure reason
+- Added connector lookup dataspace discovery service functionality for finding EDC url
 
 ## [1.1.0] - 2023-02-06
 
@@ -21,6 +57,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 - Email Feature from application for security reasons
+
+## [1.0.1] - 2022-12-19
+
+### Added
+
+Using the "relationships" structure instead of "AssemblyPartRelationship" in the IRS response.
 
 ## [1.0.0] - 2022-12-12
 

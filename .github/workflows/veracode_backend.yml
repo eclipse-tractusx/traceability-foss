@@ -1,0 +1,46 @@
+name: "Veracode upload and scan"
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+  schedule:
+    # Once a day 0 am
+    - cron: "0 0 * * *"
+env:
+  JAVA_VERSION: 17
+
+jobs:
+  analyze-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build app
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true package
+
+      - name: Run Veracode Upload And Scan
+        uses: veracode/veracode-uploadandscan-action@0.2.5
+        with:
+          appname: 'Traceability-Foss-Backend'
+          createprofile: false
+          filepath: "./backend/target/traceability-app-*.jar"
+          vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
+          vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'

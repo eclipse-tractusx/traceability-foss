@@ -1,3 +1,5 @@
+root = true
+
 [*]
 charset = utf-8
 end_of_line = lf
@@ -648,7 +650,7 @@ ij_html_keep_whitespaces_inside = span,pre,textarea
 ij_html_line_comment_at_first_column = true
 ij_html_new_line_after_last_attribute = never
 ij_html_new_line_before_first_attribute = never
-ij_html_quote_style = single
+ij_html_quote_style = double
 ij_html_remove_new_line_before_tags = br
 ij_html_space_after_tag_name = false
 ij_html_space_around_equality_in_attribute = false
@@ -687,6 +689,7 @@ ij_markdown_wrap_text_inside_blockquotes = true
 
 [{*.yaml,*.yml}]
 indent_size = 2
+indent_style = space
 ij_yaml_align_values_properties = do_not_align
 ij_yaml_autoinsert_sequence_marker = true
 ij_yaml_block_mapping_on_new_line = false
@@ -697,3 +700,15 @@ ij_yaml_sequence_on_new_line = false
 ij_yaml_space_before_colon = false
 ij_yaml_spaces_within_braces = true
 ij_yaml_spaces_within_brackets = true
+
+# .editorconfig keeps breaking helmchart templating braces
+# thus we need to exclude the folder from formatting
+[/chart/**]
+ij_formatter_enabled = false
+
+[{*.kt, *.kts}]
+ij_kotlin_code_style_defaults = KOTLIN_OFFICIAL
+ij_continuation_indent_size = 8
+
+[*.md]
+max_line_length = 999

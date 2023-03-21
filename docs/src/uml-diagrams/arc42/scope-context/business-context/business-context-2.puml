@@ -1,0 +1,13 @@
+@startuml
+actor "User" as User
+component [**Trace-X**] <<system>> as Trace
+component [**IRS**] <<system>> as IRS
+node "Catena-X Network" as CX
+component [**Any other Traceability App**] <<system>> as Traceapp
+
+User --> Trace
+Trace --> IRS
+Trace --> CX
+IRS --> CX
+Trace <--> Traceapp
+@enduml

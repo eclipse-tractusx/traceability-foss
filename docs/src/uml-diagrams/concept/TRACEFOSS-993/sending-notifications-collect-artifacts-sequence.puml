@@ -1,0 +1,41 @@
+@startuml
+title
+    ==Send notification over EDC & collect ContractOffer and ContractNegotationAgreement)
+end title
+
+
+skinparam monochrome true
+skinparam shadowing false
+skinparam spacing 50
+
+
+actor "TraceX User" as TraceX_User
+
+participant Trace_X_BE
+participant InvestigationReceiverService
+
+participant ContractAuditorCollector
+participant PushMetricsGateway
+participant EDC_Consumer
+participant EDC_Provider
+
+
+
+InvestigationReceiverService -> EDC_Consumer: GET /data/catalog
+InvestigationReceiverService <-- EDC_Consumer: 200 EDC catalog offer
+InvestigationReceiverService -> InvestigationReceiverService: getContractOfferForAsset(assetId)
+InvestigationReceiverService -> InvestigationReceiverService: getAsset
+InvestigationReceiverService -> ContractAuditorCollector: sendContractOffer(contractOffer)
+ContractAuditorCollector -> PushMetricsGateway : push to feedIn API
+ContractAuditorCollector <-- PushMetricsGateway : 201
+InvestigationReceiverService <-- ContractAuditorCollector: 201
+InvestigationReceiverService -> EDC_Consumer: POST /data/contractnegotations (negotation)
+InvestigationReceiverService <-- EDC_Consumer: 200 (createdAt, nego_id)
+InvestigationReceiverService -> EDC_Consumer: /data/contractnegotiations/{nego_id}/agreement
+InvestigationReceiverService <-- EDC_Consumer: 200 contract negotation agreement
+InvestigationReceiverService -> ContractAuditorCollector: sendContractNegotationAgreement(contractNegotationAggreemment)
+ContractAuditorCollector -> PushMetricsGateway : push to feedIn API
+ContractAuditorCollector <-- PushMetricsGateway : 201
+InvestigationReceiverService <-- ContractAuditorCollector: 201
+ref over InvestigationReceiverService,  EDC_Consumer : send and receive notification
+@enduml
