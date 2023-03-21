@@ -97,7 +97,7 @@
 
       &.selected,
       &:hover {
-        color: #252525;
+        @apply text-primary;
 
         &::before {
           content: ' ';
@@ -105,7 +105,7 @@
           padding-top: 10px;
           border: none;
           position: absolute;
-          border-bottom: 2px solid #252525;
+          border-bottom: 2px solid #0f71cb;
         }
       }
     }

@@ -74,20 +74,20 @@ module.exports = {
     },
     colors: {
       // Theme colors
-      primary: '#ffa600',
-      secondary: '#b3cb2d',
+      primary: '#0f71cb',
+      secondary: '#eaf1fe',
 
-      primaryLight: '#ffd74a',
-      primaryDark: '#c67700',
+      primaryLight: '#9fc6ea',
+      primaryDark: '#0d55af',
 
       secondaryLight: '#e8fe63',
-      secondaryDark: '#809a00',
+      secondaryDark: '#d4e3fe',
 
       danger: '#D91E18',
       dangerLight: '#E5231D',
 
-      interactive: '#046B99',
-      interactiveLight: '#017AB0',
+      interactive: '#0F71CB',
+      interactiveLight: '#EAF1FE',
 
       // Basic colors
       cararra: '#eeefea',
@@ -115,13 +115,13 @@ module.exports = {
       dustyGray: '#999999',
       dustyGrayShadeAlto: '#d9d9d9',
       dustyGrayShadeGallery: '#efefef',
-      dustyGrayShadeWildSand: '#f6f6f6',
+      dustyGrayShadeWildSand: '#F2F3FB',
 
       // Dark blue primary accent color
-      blueBayoux: '#fc8a00',
-      blueBayouxShadeWaikawaGray: '#ff9600',
-      blueBayouxShadeLynch: '#ffa600',
-      blueBayouxShadePigeonPost: '#ffb640',
+      blueBayoux: '#526482',
+      blueBayouxShadeWaikawaGray: '#5b708f',
+      blueBayouxShadeLynch: '#617899',
+      blueBayouxShadePigeonPost: '#acbcd7',
 
       selectionBlue: '#e9ebf1',
       investigationBlue: '#3f7bfe',

@@ -22,16 +22,16 @@
 @use '@angular/material' as mat;
 
 $primary-palette: (
-  50: #fff3de,
-  100: #ffe0ae,
-  200: #ffcb78,
-  300: #ffb640,
-  400: #ffa600,
-  500: #ff9600,
-  600: #fc8a00,
-  700: #f77900,
-  800: #f26800,
-  900: #e94b00,
+  50: #e4f2ff,
+  100: #bfddff,
+  200: #96c8ff,
+  300: #6fb3fe,
+  400: #55a2fe,
+  500: #4592fc,
+  600: #4d73d5,
+  700: #0f71cb,
+  800: #3e60c6,
+  900: #3740a6,
   contrast: (
     50: rgba(black, 0.87),
     100: rgba(black, 0.87),
@@ -47,16 +47,16 @@ $primary-palette: (
 );
 
 $accent-palette: (
-  50: #f7fbe7,
-  100: #ebf4c2,
-  200: #deef9b,
-  300: #d2e873,
-  400: #c8e254,
-  500: #bfdd34,
-  600: #b3cb2d,
-  700: #a4b524,
-  800: #949e1b,
-  900: #7a7709,
+  50: #eaf1fe,
+  100: #bfddff,
+  200: #96c8ff,
+  300: #6fb3fe,
+  400: #55a2fe,
+  500: #4592fc,
+  600: #4d73d5,
+  700: #4171d9,
+  800: #3e60c6,
+  900: #3740a6,
   contrast: (
     50: rgba(black, 0.87),
     100: rgba(black, 0.87),
@@ -96,8 +96,8 @@ $warn-palette: (
   ),
 );
 
-$my-primary: mat.define-palette($primary-palette, 400);
-$my-accent: mat.define-palette($accent-palette, 600);
+$my-primary: mat.define-palette($primary-palette, 700);
+$my-accent: mat.define-palette($accent-palette, 50);
 $my-warn: mat.define-palette($warn-palette, 700);
 
 $tracefoss-theme: mat.define-light-theme(
