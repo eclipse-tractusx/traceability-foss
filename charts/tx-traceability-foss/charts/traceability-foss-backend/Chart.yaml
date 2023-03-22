@@ -2,9 +2,8 @@ apiVersion: v2
 name: traceability-foss-backend
 description: A Helm chart for Traceability backend application
 type: application
-version: 1.1.4
-appVersion: "3.0.0"
-# Update for 3.0.0
+version: 1.1.5
+appVersion: "3.0.1"
 dependencies:
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
@@ -22,4 +21,3 @@ dependencies:
     repository: https://catenax-ng.github.io/tx-item-relationship-service
     version: 1.0.2
     condition: irs-edc-consumer.enabled
-

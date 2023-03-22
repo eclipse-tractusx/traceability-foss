@@ -26,9 +26,6 @@ imagePullSecret:
 nameOverride: "traceability-foss-frontend"
 fullnameOverride: "traceability-foss-frontend"
 
-autoscaling:
-  enabled: false
-
 serviceAccount:
   ##
   ## Specifies whether a service account should be created per release
@@ -44,11 +41,14 @@ serviceAccount:
   ##
   name: ""
 
-
 podAnnotations: { }
+
+
 
 podSecurityContext: { }
 # fsGroup: 2000
+
+
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
@@ -58,10 +58,16 @@ securityContext:
   runAsUser: 101
   # runAsGroup: 3000
 
+
+
+
+
 service:
   type: ClusterIP
   port: 8080
 
+autoscaling:
+  enabled: false
 
 # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
@@ -111,3 +117,33 @@ readinessProbe:
   periodSeconds: 10
   successThreshold: 1
   timeoutSeconds: 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
