@@ -43,7 +43,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     env:
-      RELEASE_VERSION: "${{needs.Get-BE-helm-charts-versions.outputs.current_version}}"
+      RELEASE_VERSION: "${{needs.Get-helm-charts-versions.outputs.current_version}}"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -67,7 +67,7 @@ jobs:
           helm repo add item-relationship-service https://eclipse-tractusx.github.io/item-relationship-service
           helm repo add tx-item-relationship-service https://catenax-ng.github.io/tx-item-relationship-service
 
-      - name: Run chart-releaser for the backend
+      - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
