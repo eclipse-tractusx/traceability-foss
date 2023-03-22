@@ -39,32 +39,32 @@ import java.util.List;
 @Service
 public class IrsService implements IrsRepository {
 
-	private static final Logger logger = LoggerFactory.getLogger(IrsService.class);
+    private static final Logger logger = LoggerFactory.getLogger(IrsService.class);
 
-	private final IRSApiClient irsClient;
-	private final AssetsConverter assetsConverter;
-	private final BpnRepository bpnRepository;
+    private final IRSApiClient irsClient;
+    private final AssetsConverter assetsConverter;
+    private final BpnRepository bpnRepository;
 
-	public IrsService(IRSApiClient irsClient, AssetsConverter assetsConverter, BpnRepository bpnRepository) {
-		this.irsClient = irsClient;
-		this.assetsConverter = assetsConverter;
-		this.bpnRepository = bpnRepository;
-	}
+    public IrsService(IRSApiClient irsClient, AssetsConverter assetsConverter, BpnRepository bpnRepository) {
+        this.irsClient = irsClient;
+        this.assetsConverter = assetsConverter;
+        this.bpnRepository = bpnRepository;
+    }
 
-	@Override
-	public List<Asset> findAssets(String globalAssetId) {
-		StartJobResponse job = irsClient.registerJob(StartJobRequest.forGlobalAssetId(globalAssetId));
-		JobResponse jobDetails = irsClient.getJobDetails(job.id());
+    @Override
+    public List<Asset> findAssets(String globalAssetId) {
+        StartJobResponse startJobResponse = irsClient.registerJob(StartJobRequest.forGlobalAssetId(globalAssetId));
+        JobResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
 
-		JobStatus jobStatus = jobDetails.jobStatus();
-		long runtime = (jobStatus.lastModifiedOn().getTime() - jobStatus.startedOn().getTime()) / 1000;
-		logger.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.state(), runtime);
+        JobStatus jobStatus = jobResponse.jobStatus();
+        long runtime = (jobStatus.lastModifiedOn().getTime() - jobStatus.startedOn().getTime()) / 1000;
+        logger.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.state(), runtime);
 
-		if (jobDetails.isCompleted()) {
-			bpnRepository.updateManufacturers(jobDetails.bpns());
-			return assetsConverter.convertAssets(jobDetails);
-		}
+        if (jobResponse.isCompleted()) {
+            bpnRepository.updateManufacturers(jobResponse.bpns());
+            return assetsConverter.convertAssets(jobResponse);
+        }
 
-		return Collections.emptyList();
-	}
+        return Collections.emptyList();
+    }
 }
