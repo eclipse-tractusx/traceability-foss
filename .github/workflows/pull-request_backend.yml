@@ -10,9 +10,7 @@ env:
   COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
 jobs:
-
   Publish-docker-image:
-    needs: ["Test-and-Sonar"]
     runs-on: ubuntu-latest
     defaults:
       run:
