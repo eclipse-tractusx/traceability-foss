@@ -115,26 +115,11 @@ mat-card {
   }
 }
 
+mat-card {
+  height: unset;
+}
+
 .card-list {
-  min-height: 100%;
-
-  &--row {
-    display: table-row;
-  }
-
-  &--cell {
-    display: table-cell;
-  }
-
-  &--key {
-    padding-right: 10px;
-    font-weight: bold;
-  }
-
-  &--value {
-    text-overflow: ellipsis;
-  }
-
   &--icon {
     display: flex;
 
@@ -145,6 +130,7 @@ mat-card {
   }
 
   &--qualityType {
+    grid-area: c;
     display: flex;
     align-items: center;
     width: 100%;
