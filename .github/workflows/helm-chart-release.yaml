@@ -9,16 +9,13 @@ on:
       - 'charts/**'
 
 jobs:
-  Get-BE-helm-charts-versions:
+  Get-helm-charts-versions:
     outputs:
       latest_version: ${{ steps.step1.outputs.latest_version }}
       current_version: ${{ steps.step2.outputs.current_version }}
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -35,21 +32,18 @@ jobs:
       - name: Get backend helm charts current version
         id: step2
         run: |
-          chartVersion=helm-charts-$(cat ./charts/traceability-foss-backend/Chart.yaml | grep "version:" | head -1 | cut -d ":" -d " " -f2)
+          chartVersion=helm-charts-$(cat ./charts/tx-traceability-foss/Chart.yaml | grep "version:" | head -1 | cut -d ":" -d " " -f2)
           echo "::set-output name=current_version::$chartVersion"
           echo "Exported $chartVersion backend helm charts version"
 
-  Release-BE-helm-charts:
-    needs: "Get-BE-helm-charts-versions"
-    if: needs.Get-BE-helm-charts-versions.outputs.latest_version != needs.Get-BE-helm-charts-versions.outputs.current_version
+  Release-helm-charts:
+    needs: "Get-helm-charts-versions"
+    if: needs.Get-helm-charts-versions.outputs.latest_version != needs.Get-helm-charts-versions.outputs.current_version
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: backend
     env:
-      RELEASE_VERSION: "${{needs.Get-BE-helm-charts-versions.outputs.current_version}}"
+      RELEASE_VERSION: "${{needs.Get-helm-charts-versions.outputs.current_version}}"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -73,48 +67,8 @@ jobs:
           helm repo add item-relationship-service https://eclipse-tractusx.github.io/item-relationship-service
           helm repo add tx-item-relationship-service https://catenax-ng.github.io/tx-item-relationship-service
 
-      - name: Run chart-releaser for the backend
+      - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: backend/charts
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_RELEASE_NAME_TEMPLATE: "${{ env.RELEASE_VERSION }}"
-
-  Release-FE-helm-charts:
-    # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
-    # see: https://docs.github.com/en/actions/security-guides/automatic-token-authentication#modifying-the-permissions-for-the-github_token
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Configure Git
-        run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Update helm dependencies for trace-x
-        run: |
-          cd charts/traceability-foss-frontend
-          helm repo add bitnami https://charts.bitnami.com/bitnami
-          helm dependency update
-
-      - name: Run chart-releaser for the frontend
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: frontend/charts
-        env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"

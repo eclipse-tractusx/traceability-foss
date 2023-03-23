@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.global.backend.namespace | default .Release.Namespace }}
+  name: {{ include "traceability-foss-backend.fullname" . }}
+  labels:
+    {{- include "traceability-foss-backend.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.global.backend.autoscaling.enabled }}
+  replicas: {{ .Values.global.backend.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "traceability-foss-backend.selectorLabels" . | nindent 6 }}
+  revisionHistoryLimit: 2
+  template:
+    metadata:
+      namespace: {{ .Values.global.backend.namespace | default .Release.Namespace }}
+      {{- with .Values.global.backend.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "traceability-foss-backend.selectorLabels" . | nindent 8 }}
+    spec:
+      automountServiceAccountToken: false
+      {{- if .Values.global.backend.imagePullSecret.dockerconfigjson }}
+      imagePullSecrets:
+        - name: {{ include "traceability-foss-backend.fullname" . }}-imagepullsecret
+      {{- else }}
+      {{- with .Values.global.backend.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
+      serviceAccountName: {{ include "traceability-foss-backend.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.global.backend.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.global.backend.securityContext | nindent 12 }}
+          image: "{{ .Values.global.backend.image.repository }}:{{ .Values.global.backend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.global.backend.image.pullPolicy }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.global.backend.springprofile | quote }}
+            - name: TRACEABILITY_BPN
+              value: {{ .Values.global.backend.traceability.bpn | quote }}
+            - name: TRACEABILITY_URL
+              value: {{ .Values.global.backend.traceability.url | quote }}
+            - name: OAUTH2_CLIENT_ID
+              value: {{ .Values.global.backend.oauth2.clientId | quote }}
+            - name: OAUTH2_CLIENT_SECRET
+              value: {{ .Values.global.backend.oauth2.clientSecret | quote }}
+            - name: OAUTH2_PROVIDER_TOKEN_URI
+              value: {{ .Values.global.backend.oauth2.clientTokenUri | quote }}
+            - name: OAUTH2_JWK_SET_URI
+              value: {{ .Values.global.backend.oauth2.jwkSetUri | quote }}
+            - name: EDC_API_KEY
+              value: {{ .Values.global.backend.edc.apiKey | quote }}
+            - name: EDC_PROVIDER_URL
+              value: {{ .Values.global.backend.edc.providerUrl | quote }}
+            - name: JWT_RESOURCE_CLIENT
+              value: {{ .Values.global.backend.oauth2.resourceClient | quote }}
+            - name: SPRING_DATASOURCE_URL
+              value: {{ .Values.global.backend.datasource.url | quote }}
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.global.backend.datasource.username | quote }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.global.backend.datasource.password | quote }}
+            - name: JAVA_TOOL_OPTIONS
+              value: {{ .Values.global.backend.javaToolOptions | default "" | quote }}
+            {{- range $key, $val := .Values.global.backend.env }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
+        {{- if .Values.global.backend.healthCheck.enabled }}
+          livenessProbe:
+            httpGet:
+              path: "/actuator/health/liveness"
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: {{ .Values.global.backend.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.global.backend.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.global.backend.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.global.backend.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.global.backend.livenessProbe.failureThreshold }}
+          # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
+          readinessProbe:
+            httpGet:
+              path: "/actuator/health/readiness"
+              port: 8081
+              scheme: HTTP
+            initialDelaySeconds: {{ .Values.global.backend.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.global.backend.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.global.backend.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.global.backend.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.global.backend.readinessProbe.failureThreshold }}
+        {{- end }}
+          resources:
+            {{- toYaml .Values.global.backend.resources | nindent 12 }}
+      {{- with .Values.global.backend.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.backend.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.global.backend.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

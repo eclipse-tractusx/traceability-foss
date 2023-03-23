@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "traceability-foss-frontend.fullname" . }}
+  labels:
+    {{- include "traceability-foss-frontend.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.global.frontend.service.type }}
+  ports:
+    - port: {{ .Values.global.frontend.service.port }}
+      targetPort: {{ .Values.global.frontend.service.port }}
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "traceability-foss-frontend.selectorLabels" . | nindent 4 }}
