@@ -22,4 +22,4 @@ version: 1.1.6
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
 # Update for 3.0.0
-appVersion: "3.0.3"
+appVersion: "3.0.4"
