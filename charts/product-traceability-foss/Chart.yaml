@@ -1,5 +1,5 @@
 apiVersion: v2
-name: tx-traceability-foss
+name: product-traceability-foss
 description: An umbrella Helm chart for Kubernetes
 type: application
 version: 1.1.6
