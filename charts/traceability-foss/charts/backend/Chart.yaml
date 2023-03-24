@@ -29,17 +29,17 @@ dependencies:
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x
-    condition: postgresql.enabled
+    condition: global.backend.postgresql.enabled
   - name: pgadmin4
     repository: https://helm.runix.net
     version: 1.13.6
-    condition: pgadmin4.enabled
+    condition: global.backend.pgadmin4.enabled
   - name: irs-helm
     repository: https://eclipse-tractusx.github.io/item-relationship-service
     version: 4.2.1
-    condition: irs-helm.enabled
+    condition: global.backend.irs-helm.enabled
   - name: irs-edc-consumer
     repository: https://catenax-ng.github.io/tx-item-relationship-service
     version: 1.0.2
-    condition: irs-edc-consumer.enabled
+    condition: global.backend.irs-edc-consumer.enabled
 
