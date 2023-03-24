@@ -26,14 +26,14 @@ jobs:
         id: step1
         run: |
           latestVersion=$(git tag | grep -e "^helm-charts-" | tail -1)
-          echo "::set-output name=latest_version::$latestVersion"
+          echo "latest_version=$latestVersion" >> $GITHUB_OUTPUT
           echo "Exported $latestVersion latest backend helm charts version"
 
       - name: Get backend helm charts current version
         id: step2
         run: |
           chartVersion=helm-charts-$(cat ./charts/traceability-foss/Chart.yaml | grep "version:" | head -1 | cut -d ":" -d " " -f2)
-          echo "::set-output name=current_version::$chartVersion"
+          echo "current_version=$chartVersion" >> $GITHUB_OUTPUT
           echo "Exported $chartVersion backend helm charts version"
 
   Release-helm-charts:
