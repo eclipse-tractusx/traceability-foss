@@ -29,7 +29,7 @@ dependencies:
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x
-    condition: global.backend.postgresql.enabled
+    condition: "true"
   - name: pgadmin4
     repository: https://helm.runix.net
     version: 1.13.6
