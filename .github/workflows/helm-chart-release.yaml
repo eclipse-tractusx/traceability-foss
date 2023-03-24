@@ -26,6 +26,8 @@ jobs:
         id: step1
         run: |
           git tag | grep -e "^helm-charts-"
+          echo "-------"
+          git tag | grep -e "^helm-charts-" | tail -1
           latestVersion=$(git tag | grep -e "^helm-charts-" | tail -1)
           echo "latest_version=$latestVersion" >> $GITHUB_OUTPUT
           echo "Exported $latestVersion latest backend helm charts version"
