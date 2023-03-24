@@ -18,7 +18,40 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability;
 
-.app-tab-as-panel .mat-mdc-tab-body-wrapper {
-  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
-}
+
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+    public class TestStepDefinition {
+        private Integer int1;
+        private Integer int2;
+        private Integer result;
+
+        @Given("I have entered {int} into the calculator")
+        public void iHaveEnteredIntoTheCalculator(Integer int1) {
+            this.int2 = this.int1;
+            this.int1 = int1;
+        }
+
+        @When("I press add")
+        public void iPressAdd() {
+            this.result = this.int1 + this.int2;
+        }
+
+        @When("I press multiply")
+        public void iPressMultiply() {
+            this.result = this.int1 * this.int2;
+        }
+
+        @Then("the result should be {int} on the screen")
+        public void theResultShouldBeOnTheScreen(Integer value) {
+            assertThat(this.result).isEqualTo(value);
+        }
+    }
+

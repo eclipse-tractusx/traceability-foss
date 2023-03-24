@@ -12,6 +12,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
 
 
+### Fixed
+- Used same shadow for other parts table than we use for my parts table
+
 ## [3.0.0] - 2023-03-21
 
 ### Added
