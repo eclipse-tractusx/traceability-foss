@@ -2,7 +2,7 @@
 Expand the name of the chart.
 */}}
 {{- define "traceability-foss-backend.name" -}}
-{{- default .Chart.Name .Values.global.backend.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- default .Chart.Name .Values.backend.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
@@ -11,10 +11,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "traceability-foss-backend.fullname" -}}
-{{- if .Values.global.backend.fullnameOverride }}
-{{- .Values.global.backend.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- if .Values.backend.fullnameOverride }}
+{{- .Values.backend.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
-{{- $name := default .Chart.Name .Values.global.backend.nameOverride }}
+{{- $name := default .Chart.Name .Values.backend.nameOverride }}
 {{- if contains $name .Release.Name }}
 {{- .Release.Name | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -54,9 +54,9 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the name of the service account to use
 */}}
 {{- define "traceability-foss-backend.serviceAccountName" -}}
-{{- if .Values.global.backend.serviceAccount.create }}
-{{- default (include "traceability-foss-backend.fullname" .) .Values.global.backend.serviceAccount.name }}
+{{- if .Values.backend.serviceAccount.create }}
+{{- default (include "traceability-foss-backend.fullname" .) .Values.backend.serviceAccount.name }}
 {{- else }}
-{{- default "default" .Values.global.backend.serviceAccount.name }}
+{{- default "default" .Values.backend.serviceAccount.name }}
 {{- end }}
 {{- end }}

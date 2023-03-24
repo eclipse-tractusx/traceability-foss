@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.global.frontend.namespace | default .Release.Namespace }}
+  namespace: {{ .Values.frontend.namespace | default .Release.Namespace }}
   name: {{ include "traceability-foss-frontend.fullname" . }}
   labels:
     {{- include "traceability-foss-frontend.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.global.frontend.autoscaling.enabled }}
-  replicas: {{ .Values.global.frontend.replicaCount }}
+  {{- if not .Values.frontend.autoscaling.enabled }}
+  replicas: {{ .Values.frontend.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -15,8 +15,8 @@ spec:
   revisionHistoryLimit: 2
   template:
     metadata:
-      namespace: {{ .Values.global.frontend.namespace | default .Release.Namespace }}
-      {{- with .Values.global.frontend.podAnnotations }}
+      namespace: {{ .Values.frontend.namespace | default .Release.Namespace }}
+      {{- with .Values.frontend.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -24,40 +24,40 @@ spec:
         {{- include "traceability-foss-frontend.selectorLabels" . | nindent 8 }}
     spec:
       automountServiceAccountToken: false
-      {{- if .Values.global.frontend.imagePullSecret.dockerconfigjson }}
+      {{- if .Values.frontend.imagePullSecret.dockerconfigjson }}
       imagePullSecrets:
         - name: {{ include "traceability-foss-frontend.fullname" . }}-imagepullsecret
       {{- else }}
-      {{- with .Values.global.frontend.imagePullSecrets }}
+      {{- with .Values.frontend.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}
       serviceAccountName: {{ include "traceability-foss-frontend.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.global.frontend.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.frontend.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.global.frontend.securityContext | nindent 12 }}
-          image: "{{ .Values.global.frontend.image.repository }}-frontend:{{ .Values.global.frontend.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.global.frontend.image.pullPolicy }}
+            {{- toYaml .Values.frontend.securityContext | nindent 12 }}
+          image: "{{ .Values.frontend.image.repository }}-frontend:{{ .Values.frontend.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.frontend.image.pullPolicy }}
           env:
             - name: CATENAX_PORTAL_API_URL
-              value: "{{ .Values.global.frontend.image.CATENAX_PORTAL_API_URL }}"
+              value: "{{ .Values.frontend.image.CATENAX_PORTAL_API_URL }}"
             - name: CATENAX_PORTAL_KEYCLOAK_URL
-              value: "{{ .Values.global.frontend.image.CATENAX_PORTAL_KEYCLOAK_URL }}"
+              value: "{{ .Values.frontend.image.CATENAX_PORTAL_KEYCLOAK_URL }}"
             - name: CATENAX_PORTAL_CLIENT_ID
-              value: "{{ .Values.global.frontend.image.CATENAX_PORTAL_CLIENT_ID }}"
+              value: "{{ .Values.frontend.image.CATENAX_PORTAL_CLIENT_ID }}"
             - name: CATENAX_PORTAL_BASE_URL
-              value: "{{ .Values.global.frontend.image.CATENAX_PORTAL_BASE_URL }}"
+              value: "{{ .Values.frontend.image.CATENAX_PORTAL_BASE_URL }}"
             - name: CATENAX_PORTAL_BACKEND_DOMAIN
-              value: "{{ .Values.global.frontend.image.CATENAX_PORTAL_BACKEND_DOMAIN }}"
+              value: "{{ .Values.frontend.image.CATENAX_PORTAL_BACKEND_DOMAIN }}"
             - name: CATENAX_PORTAL_URL
-              value: "{{ .Values.global.frontend.image.CATENAX_PORTAL_URL }}"
+              value: "{{ .Values.frontend.image.CATENAX_PORTAL_URL }}"
           ports:
             - name: http
-              containerPort: {{ .Values.global.frontend.service.port }}
+              containerPort: {{ .Values.frontend.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -68,16 +68,16 @@ spec:
               path: /
               port: http
           resources:
-            {{- toYaml .Values.global.frontend.resources | nindent 12 }}
-      {{- with .Values.global.frontend.nodeSelector }}
+            {{- toYaml .Values.frontend.resources | nindent 12 }}
+      {{- with .Values.frontend.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.global.frontend.affinity }}
+      {{- with .Values.frontend.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.global.frontend.tolerations }}
+      {{- with .Values.frontend.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}

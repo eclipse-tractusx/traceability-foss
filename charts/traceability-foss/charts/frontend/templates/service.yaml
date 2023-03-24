@@ -5,10 +5,10 @@ metadata:
   labels:
     {{- include "traceability-foss-frontend.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.global.frontend.service.type }}
+  type: {{ .Values.frontend.service.type }}
   ports:
-    - port: {{ .Values.global.frontend.service.port }}
-      targetPort: {{ .Values.global.frontend.service.port }}
+    - port: {{ .Values.frontend.service.port }}
+      targetPort: {{ .Values.frontend.service.port }}
       protocol: TCP
       name: http
   selector:
