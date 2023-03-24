@@ -38,7 +38,7 @@ public record StartJobRequest(
         return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT, true, DEFAULT_DEPTH);
     }
 
-    public static int DEFAULT_DEPTH = 2;
+    public static final int DEFAULT_DEPTH = 2;
 }
 
 
