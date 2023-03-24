@@ -108,4 +108,17 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 				.body("otherParts", equalTo(12))
 				.body("investigations", equalTo(1))
 	}
+
+    def "should not return when user is not authenticated "() {
+        given:
+        defaultAssetsStored()
+
+        expect:
+            given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/dashboard")
+                .then()
+                .statusCode(401)
+    }
 }
