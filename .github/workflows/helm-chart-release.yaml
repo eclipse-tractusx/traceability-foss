@@ -46,7 +46,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     env:
-      RELEASE_VERSION: "${{needs.Get-helm-charts-versions.outputs.current_version}}"
+      RELEASE_VERSION: "${{needs.Get-helm-charts-versions.outputs.latest_version}}"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
