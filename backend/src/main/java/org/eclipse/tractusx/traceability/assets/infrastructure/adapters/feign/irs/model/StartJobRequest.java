@@ -35,9 +35,12 @@ public record StartJobRequest(
         int depth
 ) {
     public static StartJobRequest forGlobalAssetId(String globalAssetId) {
-        return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT, true, 2);
+        return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT, true, DEFAULT_DEPTH);
     }
+
+    public static int DEFAULT_DEPTH = 2;
 }
+
 
 enum Aspect {
     BATCH("Batch"),
