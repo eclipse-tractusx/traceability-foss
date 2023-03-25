@@ -1,13 +1,13 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: {{ .Values.backend.namespace | default .Release.Namespace }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
   name: {{ include "traceability-foss-backend.fullname" . }}
   labels:
     {{- include "traceability-foss-backend.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.backend.autoscaling.enabled }}
-  replicas: {{ .Values.backend.replicaCount }}
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
@@ -15,8 +15,8 @@ spec:
   revisionHistoryLimit: 2
   template:
     metadata:
-      namespace: {{ .Values.backend.namespace | default .Release.Namespace }}
-      {{- with .Values.backend.podAnnotations }}
+      namespace: {{ .Values.namespace | default .Release.Namespace }}
+      {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -24,54 +24,54 @@ spec:
         {{- include "traceability-foss-backend.selectorLabels" . | nindent 8 }}
     spec:
       automountServiceAccountToken: false
-      {{- if .Values.backend.imagePullSecret.dockerconfigjson }}
+      {{- if .Values.imagePullSecret.dockerconfigjson }}
       imagePullSecrets:
         - name: {{ include "traceability-foss-backend.fullname" . }}-imagepullsecret
       {{- else }}
-      {{- with .Values.backend.imagePullSecrets }}
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- end }}
       serviceAccountName: {{ include "traceability-foss-backend.serviceAccountName" . }}
       securityContext:
-        {{- toYaml .Values.backend.podSecurityContext | nindent 8 }}
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
-            {{- toYaml .Values.backend.securityContext | nindent 12 }}
-          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: {{ .Values.backend.springprofile | quote }}
+              value: {{ .Values.springprofile | quote }}
             - name: TRACEABILITY_BPN
-              value: {{ .Values.backend.traceability.bpn | quote }}
+              value: {{ .Values.traceability.bpn | quote }}
             - name: TRACEABILITY_URL
-              value: {{ .Values.backend.traceability.url | quote }}
+              value: {{ .Values.traceability.url | quote }}
             - name: OAUTH2_CLIENT_ID
-              value: {{ .Values.backend.oauth2.clientId | quote }}
+              value: {{ .Values.oauth2.clientId | quote }}
             - name: OAUTH2_CLIENT_SECRET
-              value: {{ .Values.backend.oauth2.clientSecret | quote }}
+              value: {{ .Values.oauth2.clientSecret | quote }}
             - name: OAUTH2_PROVIDER_TOKEN_URI
-              value: {{ .Values.backend.oauth2.clientTokenUri | quote }}
+              value: {{ .Values.oauth2.clientTokenUri | quote }}
             - name: OAUTH2_JWK_SET_URI
-              value: {{ .Values.backend.oauth2.jwkSetUri | quote }}
+              value: {{ .Values.oauth2.jwkSetUri | quote }}
             - name: EDC_API_KEY
-              value: {{ .Values.backend.edc.apiKey | quote }}
+              value: {{ .Values.edc.apiKey | quote }}
             - name: EDC_PROVIDER_URL
-              value: {{ .Values.backend.edc.providerUrl | quote }}
+              value: {{ .Values.edc.providerUrl | quote }}
             - name: JWT_RESOURCE_CLIENT
-              value: {{ .Values.backend.oauth2.resourceClient | quote }}
+              value: {{ .Values.oauth2.resourceClient | quote }}
             - name: SPRING_DATASOURCE_URL
-              value: {{ .Values.backend.datasource.url | quote }}
+              value: {{ .Values.datasource.url | quote }}
             - name: SPRING_DATASOURCE_USERNAME
-              value: {{ .Values.backend.datasource.username | quote }}
+              value: {{ .Values.datasource.username | quote }}
             - name: SPRING_DATASOURCE_PASSWORD
-              value: {{ .Values.backend.datasource.password | quote }}
+              value: {{ .Values.datasource.password | quote }}
             - name: JAVA_TOOL_OPTIONS
-              value: {{ .Values.backend.javaToolOptions | default "" | quote }}
-            {{- range $key, $val := .Values.backend.env }}
+              value: {{ .Values.javaToolOptions | default "" | quote }}
+            {{- range $key, $val := .Values.env }}
             - name: {{ $key }}
               value: {{ $val | quote }}
             {{- end }}
@@ -80,40 +80,40 @@ spec:
               containerPort: 8080
               protocol: TCP
           # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
-        {{- if .Values.backend.healthCheck.enabled }}
+        {{- if .Values.healthCheck.enabled }}
           livenessProbe:
             httpGet:
               path: "/actuator/health/liveness"
               port: 8081
               scheme: HTTP
-            initialDelaySeconds: {{ .Values.backend.livenessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.backend.livenessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.backend.livenessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.backend.livenessProbe.successThreshold }}
-            failureThreshold: {{ .Values.backend.livenessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-setting-up-health-checks-with-readiness-and-liveness-probes
           readinessProbe:
             httpGet:
               path: "/actuator/health/readiness"
               port: 8081
               scheme: HTTP
-            initialDelaySeconds: {{ .Values.backend.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.backend.readinessProbe.periodSeconds }}
-            timeoutSeconds: {{ .Values.backend.readinessProbe.timeoutSeconds }}
-            successThreshold: {{ .Values.backend.readinessProbe.successThreshold }}
-            failureThreshold: {{ .Values.backend.readinessProbe.failureThreshold }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
         {{- end }}
           resources:
-            {{- toYaml .Values.backend.resources | nindent 12 }}
-      {{- with .Values.backend.nodeSelector }}
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.backend.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.backend.tolerations }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
