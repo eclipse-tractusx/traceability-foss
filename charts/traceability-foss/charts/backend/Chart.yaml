@@ -25,5 +25,16 @@ description: A Helm chart for Traceability backend application
 type: application
 version: 1.2.4
 appVersion: "3.0.4"
-
-
+dependencies:
+  - name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 11.x.x
+  - name: pgadmin4
+    repository: https://helm.runix.net
+    version: 1.13.6
+  - name: irs-helm
+    repository: https://eclipse-tractusx.github.io/item-relationship-service
+    version: 4.2.1
+  - name: irs-edc-consumer
+    repository: https://catenax-ng.github.io/tx-item-relationship-service
+    version: 1.0.2
