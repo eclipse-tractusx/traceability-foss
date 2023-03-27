@@ -95,8 +95,8 @@ backend:
     postgresql:
       enabled: true
 
-      nameOverride: "traceability-foss-backend-postgresql"
-      fullnameOverride: "traceability-foss-backend-postgresql"
+      nameOverride: "traceability-foss-postgresql"
+      fullnameOverride: "traceability-foss-postgresql"
 
       auth:
         postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"

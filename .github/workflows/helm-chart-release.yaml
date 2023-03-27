@@ -66,8 +66,6 @@ jobs:
           helm repo add runix https://helm.runix.net
           helm repo add item-relationship-service https://eclipse-tractusx.github.io/item-relationship-service
           helm repo add tx-item-relationship-service https://catenax-ng.github.io/tx-item-relationship-service
-          cd charts
-          helm dependency update
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
