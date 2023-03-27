@@ -74,7 +74,7 @@ backend:
     traceability:
       bpn: "BPNL00000003AYRE"
       url: "https://traceability.dev.demo.catena-x.net"
-
+tra
     datasource:
       url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
       username: trace
