@@ -177,7 +177,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .post("/api/investigations/1/update")
                 .then()
                 .statusCode(400)
-                .body(Matchers.containsString("Accept or Decline reasons should have at least 15 characters and at most 1000 characters"))
+                .body(Matchers.containsString("Reason should have at least 15 characters and at most 1000 characters"))
     }
 
     // will be fixed in: https://jira.catena-x.net/browse/TRACEFOSS-1063
