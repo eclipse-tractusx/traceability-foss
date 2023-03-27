@@ -23,7 +23,6 @@ frontend:
 backend:
     image:
       repository: ghcr.io/catenax-ng/tx-traceability-foss
-      tag: $ARGOCD_APP_REVISION
 
     nameOverride: "traceability-foss-backend"
     fullnameOverride: "traceability-foss-backend"
