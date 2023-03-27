@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Component, Input, Self } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 
@@ -32,10 +32,11 @@ export type DateTimeString = `${DateString}T${TimeString}`;
   selector: 'app-date-time',
   templateUrl: './dateTime.component.html',
 })
-export class DateTimeComponent extends BaseInputComponent {
+export class DateTimeComponent extends BaseInputComponent<Date> implements ControlValueAccessor {
   @Input() set min(date: Date) {
     this.minDate = date.toISOString().substring(0, 16) as DateTimeString;
   }
+
   @Input() set max(date: Date) {
     this.maxDate = date.toISOString().substring(0, 16) as DateTimeString;
   }
@@ -43,7 +44,7 @@ export class DateTimeComponent extends BaseInputComponent {
   public minDate: DateTimeString;
   public maxDate: DateTimeString;
 
-  constructor(@Self() ngControl: NgControl, staticIdService: StaticIdService) {
-    super(ngControl, staticIdService);
+  constructor(@Self() ngControl: NgControl, formGroupDirective: FormGroupDirective, staticIdService: StaticIdService) {
+    super(ngControl, formGroupDirective, staticIdService);
   }
 }

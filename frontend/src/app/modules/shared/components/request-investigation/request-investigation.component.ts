@@ -25,12 +25,11 @@ import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
-import { SelectOption } from '@shared/components/select/select.component';
 import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { BehaviorSubject } from 'rxjs';
-import { Severity } from '@shared/model/severity.model';
 
 @Component({
   selector: 'app-request-investigation',

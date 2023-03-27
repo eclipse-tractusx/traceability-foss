@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { FormControl, Validators } from '@angular/forms';
+import { MyErrorStateMatcher } from '@shared/abstraction/baseInput/baseInput.component';
 import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
 import { FormErrorMessageComponent } from '@shared/components/formErrorMessage/formErrorMessage.component';
 import { screen } from '@testing-library/angular';
@@ -28,10 +29,12 @@ import { renderComponent } from '@tests/test-render.utils';
 describe('FormErrorMessageComponent', () => {
   const renderErrorMessage = async (value, validators) => {
     const control = new FormControl(value, validators);
+    const matcher = new MyErrorStateMatcher();
+
     control.markAsTouched();
     control.updateValueAndValidity();
 
-    return await renderComponent(FormErrorMessageComponent, { componentProperties: { control } });
+    return await renderComponent(FormErrorMessageComponent, { componentProperties: { control, matcher } });
   };
 
   it('should render required error message', async () => {

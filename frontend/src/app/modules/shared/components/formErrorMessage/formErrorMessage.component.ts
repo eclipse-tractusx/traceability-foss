@@ -21,6 +21,7 @@
 
 import { Component, Input } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
+import { MyErrorStateMatcher } from '@shared/abstraction/baseInput/baseInput.component';
 
 @Component({
   selector: 'app-form-error-message',
@@ -28,4 +29,5 @@ import { AbstractControl } from '@angular/forms';
 })
 export class FormErrorMessageComponent {
   @Input() control: AbstractControl;
+  @Input() matcher: MyErrorStateMatcher;
 }
