@@ -77,7 +77,7 @@ backend:
       url: "https://traceability.dev.demo.catena-x.net"
 
     datasource:
-      url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
+      url: jdbc:postgresql://traceability-foss-postgresql:5432/trace
       username: trace
       password: <path:traceability-foss/data/dev/database#tracePassword>
 
