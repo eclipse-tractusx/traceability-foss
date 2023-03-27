@@ -84,7 +84,7 @@ describe('PartsAssembler', () => {
           name: nameAtManufacturer,
           manufacturer: manufacturerName,
           serialNumber: partInstanceId,
-          partNumber: customerPartId,
+          partNumber: manufacturerPartId,
           batchNumber: batchId,
           productionCountry: manufacturingCountry,
           nameAtCustomer: nameAtCustomer,
