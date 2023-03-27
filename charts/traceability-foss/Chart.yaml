@@ -38,9 +38,4 @@ dependencies:
   - name: irs-edc-consumer
     repository: https://catenax-ng.github.io/tx-item-relationship-service
     version: 1.0.2
-  - name: backend
-    version: 1.2.4
-    repository: "file://./charts/backend"
-  - name: frontend
-    version: 1.2.4
-    repository: "file://./charts/frontend"
+

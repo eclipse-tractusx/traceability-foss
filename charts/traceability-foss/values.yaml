@@ -114,7 +114,6 @@ frontend:
     successThreshold: 1
     timeoutSeconds: 1
 
-
 backend:
   # Default values for k8s-helm-example.
   # This is a YAML-formatted file.
@@ -256,29 +255,29 @@ backend:
     apiKey: "" #<edc.apiKey>
     providerUrl: "" #<edc.providerUrl>
 
-  postgresql:
-    enabled: true
+postgresql:
+  enabled: true
 
-    nameOverride: "tracex-backend-postgresql"
-    fullnameOverride: "tracex-backend-postgresql"
+  nameOverride: "tracex-backend-postgresql"
+  fullnameOverride: "tracex-backend-postgresql"
 
-    auth:
-      postgresPassword: "CHANGEME" #<postgresql.auth.postgresPassword>
-      password: "CHANGEME" #postgresql.auth.password>
-      database: "trace"
-      username: "trace"
+  auth:
+    postgresPassword: "CHANGEME" #<postgresql.auth.postgresPassword>
+    password: "CHANGEME" #postgresql.auth.password>
+    database: "trace"
+    username: "trace"
 
-  pgadmin4:
-    enabled: false #<pgadmin4.enabled>
-    ingress:
-      enabled: false  #<pgadmin4.ingress.enabled>
+pgadmin4:
+  enabled: false #<pgadmin4.enabled>
+  ingress:
+    enabled: false  #<pgadmin4.ingress.enabled>
 
-  global:
-    enablePrometheus: false  #<global.enablePrometheus>
-    enableGrafana: false  #<global.enableGrafana>
+global:
+  enablePrometheus: false  #<global.enablePrometheus>
+  enableGrafana: false  #<global.enableGrafana>
 
-  irs-helm:
-    enabled: false #<irs-helm.enabled>
+irs-helm:
+  enabled: false #<irs-helm.enabled>
 
-  irs-edc-consumer:
-    enabled: false #<irs-edc-consumer.enabled>
+irs-edc-consumer:
+  enabled: false #<irs-edc-consumer.enabled>
