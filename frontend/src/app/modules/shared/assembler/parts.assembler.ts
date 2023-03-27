@@ -46,7 +46,7 @@ export class PartsAssembler {
       name: part.nameAtManufacturer,
       manufacturer: part.manufacturerName,
       serialNumber: part.partInstanceId,
-      partNumber: part.customerPartId,
+      partNumber: part.manufacturerPartId,
       batchNumber: part.batchId || '--',
       productionCountry: part.manufacturingCountry,
       nameAtCustomer: part.nameAtCustomer,
@@ -92,8 +92,8 @@ export class PartsAssembler {
     if (!viewData || !viewData.data) {
       return viewData;
     }
-    const { name, productionDate, qualityType, serialNumber } = viewData.data;
-    return { data: { name, productionDate, qualityType, serialNumber } as Part };
+    const { name, productionDate, serialNumber } = viewData.data;
+    return { data: { name, productionDate, serialNumber } as Part };
   }
 
   public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {

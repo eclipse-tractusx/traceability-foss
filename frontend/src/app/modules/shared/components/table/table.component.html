@@ -27,7 +27,7 @@ SPDX-License-Identifier: Apache-2.0
         *ngIf="this.selection?.selected?.length"
         (click)="clickSelectAction.emit()"
         [variant]="'raised'"
-        [color]="'primary'"
+        [color]="'accent'"
       >
         <div class="flex justify-between items-center text-dark p-0.5">
           <mat-icon class="mr-2">announcement</mat-icon>
@@ -102,6 +102,7 @@ SPDX-License-Identifier: Apache-2.0
               [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
               (change)="$event ? toggleAllRows() : null"
               data-testid="select-all--test-id"
+              color="primary"
             >
             </mat-checkbox>
           </th>
@@ -111,6 +112,7 @@ SPDX-License-Identifier: Apache-2.0
               (click)="$event.stopPropagation()"
               (change)="this.toggleSelection(row)"
               data-testid="select-one--test-id"
+              color="primary"
             >
             </mat-checkbox>
           </td>
