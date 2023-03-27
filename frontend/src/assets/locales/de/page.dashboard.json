@@ -1,7 +1,7 @@
 {
   "pageDashboard": {
     "totalInvestigations": {
-      "label": "Anzahl Untersuchungen"
+      "label": "Anzahl offener Untersuchungen"
     },
     "totalOfParts": {
       "label": "Anzahl Produkte"
