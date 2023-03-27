@@ -33,7 +33,7 @@ import { filter, tap } from 'rxjs/operators';
 @Component({
   selector: 'app-part-detail',
   templateUrl: './part-detail.component.html',
-  styleUrls: ['./part-detail.component.scss'],
+  styleUrls: ['../../../components/card-list/card-list.component.scss', './part-detail.component.scss'],
 })
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;

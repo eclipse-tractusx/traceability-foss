@@ -20,15 +20,24 @@
  ********************************************************************************/
 
 .card-list--container {
-  display: table;
 }
 
 .card-list--row {
-  display: table-row;
-}
+  display: grid;
+  grid-template-columns: 35% 65%;
+  grid-template-rows: minmax(20px, auto);
 
-.card-list--cell {
-  display: table-cell;
+  @media (max-width: 1440px) {
+    grid-template-columns: 40% 60%;
+  }
+
+  @media (max-width: 1280px) {
+    grid-template-columns: 50% 50%;
+  }
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 30% 70%;
+  }
 }
 
 .card-list--key {
@@ -38,6 +47,8 @@
 
 .card-list--value {
   text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 mat-card {
