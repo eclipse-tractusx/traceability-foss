@@ -26,8 +26,9 @@ import { Notification } from '@shared/model/notification.model';
   selector: 'app-notification-overview',
   templateUrl: './notification-overview.component.html',
   styleUrls: [
-    './notification-overview.component.scss',
+    '../card-list/card-list.component.scss',
     '../../modules/notification/notification-tab/notification-tab.component.scss',
+    './notification-overview.component.scss',
   ],
 })
 export class NotificationOverviewComponent {
