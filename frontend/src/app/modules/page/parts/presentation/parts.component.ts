@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterViewInit, Component, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
@@ -35,8 +35,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild('qualityTypeTmp') qualityTypeTmp: TemplateRef<unknown>;
-
   public readonly displayedColumns: string[] = [
     'id',
     'name',
@@ -44,7 +42,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     'partNumber',
     'serialNumber',
     'batchNumber',
-    'qualityType',
     'productionDate',
     'productionCountry',
   ];
@@ -56,7 +53,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     partNumber: true,
     serialNumber: true,
     batchNumber: true,
-    qualityType: true,
     productionDate: true,
     productionCountry: true,
   };
@@ -86,9 +82,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       displayedColumns: this.displayedColumns,
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
       sortableColumns: this.sortableColumns,
-      cellRenderers: {
-        qualityType: this.qualityTypeTmp,
-      },
     };
   }
 
