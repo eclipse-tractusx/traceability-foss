@@ -25,7 +25,7 @@
 .card-list--row {
   display: grid;
   grid-template-columns: 35% 65%;
-  grid-template-rows: minmax(20px, auto);
+  grid-template-rows: minmax(23px, auto);
 
   @media (max-width: 1440px) {
     grid-template-columns: 40% 60%;

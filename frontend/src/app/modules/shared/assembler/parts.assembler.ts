@@ -46,7 +46,7 @@ export class PartsAssembler {
       name: part.nameAtManufacturer,
       manufacturer: part.manufacturerName,
       serialNumber: part.partInstanceId,
-      partNumber: part.customerPartId,
+      partNumber: part.manufacturerPartId,
       batchNumber: part.batchId || '--',
       productionCountry: part.manufacturingCountry,
       nameAtCustomer: part.nameAtCustomer,
