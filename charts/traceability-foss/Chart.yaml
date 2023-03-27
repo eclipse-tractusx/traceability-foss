@@ -21,7 +21,7 @@
 
 apiVersion: v2
 name: traceability-foss
-description: An umbrella Helm chart for Kubernetes
+description: An umbrella Helm chart for eclipse-tractusx/traceability-foss project
 type: application
 version: 1.2.2
 appVersion: "3.0.3"
