@@ -14,6 +14,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Used same shadow for other parts table than we use for my parts table
 - Improved visibility of text that might be too large.
 - Changed mapping of partNumber from customerPartId to manufacturerPartId
+- Adapted catena style guide for colors
+- Removed quality type from ui but kept base functionality for future use
 
 ## [3.0.0] - 2023-03-21
 
