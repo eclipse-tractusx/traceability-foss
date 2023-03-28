@@ -237,7 +237,7 @@ irs-edc-consumer:
       # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
       properties: |-
         .level=INFO
-        org.eclipse.edc.level=INFO
+        org.eclipse.dataspaceconnector.level=INFO
         net.catenax.edc.hashicorpvault.level=INFO
         handlers=java.util.logging.ConsoleHandler
         java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
@@ -255,9 +255,6 @@ irs-edc-consumer:
         edc.ids.endpoint=https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/api/v1/ids
         edc.ids.endpoint.audience=https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/api/v1/ids/data
 
-        web.http.management=8181
-        web.http.control=9999
-
         edc.receiver.http.endpoint=https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference
 
         edc.transfer.dataplane.sync.endpoint=http://tracex-test-consumer-dataplane:8185/api/public
@@ -265,14 +262,13 @@ irs-edc-consumer:
         edc.transfer.proxy.token.signer.privatekey.alias=token-signer-cert-key-dev
         edc.transfer.proxy.token.verifier.publickey.alias=token-signer-cert-dev
 
-
         edc.dataplane.selector.consumer.url=http://tracex-test-consumer-dataplane:9999/api/dataplane/control
         edc.dataplane.selector.consumer.sourcetypes=HttpData
         edc.dataplane.selector.consumer.destinationtypes=HttpProxy
         edc.dataplane.selector.consumer.properties={ "publicApiUrl": "https://tracex-test-consumer-dataplane.dev.demo.catena-x.net/api/public/" }
 
         edc.oauth.client.id=3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62:keyid:3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62
-        edc.oauth.certificate.alias=daps-cert-edc-test-provider-dev
+        edc.oauth.public.key.alias=daps-cert-edc-test-provider-dev
         edc.oauth.private.key.alias=daps-cert-key-edc-test-provider-dev
         edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
@@ -350,7 +346,7 @@ irs-edc-consumer:
       # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
       properties: |-
         .level=INFO
-        org.eclipse.edc.level=INFO
+        org.eclipse.dataspaceconnector.level=INFO
         net.catenax.edc.hashicorpvault.level=INFO
         handlers=java.util.logging.ConsoleHandler
         java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
