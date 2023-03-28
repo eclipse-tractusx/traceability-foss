@@ -79,9 +79,9 @@ tr.loading td {
 }
 
 tr.highlighted {
-  @apply bg-primaryLight bg-opacity-50;
+  @apply bg-warning bg-opacity-50;
   &:hover {
-    @apply bg-primaryLight bg-opacity-50;
+    @apply bg-warning bg-opacity-50;
   }
 }
 
