@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Changed
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
+- Improved and separated *.md documentation, especially README.md
 
 
 ### Added

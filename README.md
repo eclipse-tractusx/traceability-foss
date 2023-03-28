@@ -92,11 +92,11 @@ Start application with``yarn start`` and navigate to ``http://localhost:4200``.
 
 ### Application authentication
 
-Please find [here](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/AUTHENTICATION.md) some important information about the app authentication.
+Please find [here](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/AUTHENTICATION.md) some important information about the app authentication.
 
 ### Application architecture & patterns
 
-This [architecture](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/FRONTEND_ARCHITECTURE.md) gives you a roadmap and best practices to follow when building an application
+This [architecture](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/ARCHITECTURE.md) gives you a roadmap and best practices to follow when building an application
 so that you end up with a well-structured app.
 
 ### User guide

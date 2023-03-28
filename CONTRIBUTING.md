@@ -117,7 +117,7 @@ By following these steps, you can connect your remote SonarCloud instance with y
 ### Frontend coding guidelines
 These guidelines are defined to maintain homogeneous code quality and style. It can be adapted as the need arises.
 
-New and old developers should regularly review this [guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/FRONTEND_GUIDELINES.md) to update it as new points emerge and to sync themselves with the latest changes.
+New and old developers should regularly review this [guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/GUIDELINES.md) to update it as new points emerge and to sync themselves with the latest changes.
 
 #### Angular Template Attribute Convention
 

@@ -151,7 +151,7 @@ Please read the [docs](http://getbem.com/naming/);
 
 ### CSS Framework
 
-We use a mixture of [Angular Material](https://material.angular.io/) and  [tailwind css](https://tailwindcss.com/docs) to style our app.
+We use a mixture of [Angular Material](https://material.angular.io/) and [tailwind css](https://tailwindcss.com/docs) to style our app.
 Tailwind is a utility-first CSS framework which comes with a lot of built-in CSS classes.
 
 Tailwind is well documented, but you could also check this cheat sheet [here](https://github.com/LeCoupa/awesome-cheatsheets/blob/master/frontend/tailwind.css), if you prefer.
