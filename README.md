@@ -16,6 +16,7 @@
 - [Trace-X](https://github.com/eclipse-tractusx/traceability-foss/#trace-x-is-a-system-for-tracking-parts-along-the-supply-chain)
   - [How to contribute](https://github.com/eclipse-tractusx/traceability-foss/#how-to-contribute)
   - [Releasing](https://github.com/eclipse-tractusx/traceability-foss/#releasing)
+  - [Environments](https://github.com/eclipse-tractusx/traceability-foss/#environments)
   - [The frontend application](https://github.com/eclipse-tractusx/traceability-foss/#the-frontend-application)
     - [Challenges and solutions](https://github.com/eclipse-tractusx/traceability-foss/#challenges-and-solutions)
     - [Prerequisites](https://github.com/eclipse-tractusx/traceability-foss/#frontend-prerequisites)
@@ -41,6 +42,19 @@ A detailed guide on how to contribute can be found [here](https://github.com/ecl
 ## Releasing
 Here is our [Releasing guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/RELEASE.md).
 
+## Environments
+### Frontend
+- https://traceability-portal.dev.demo.catena-x.net
+- https://traceability-portal-test.dev.demo.catena-x.net
+- https://traceability-portal.int.demo.catena-x.net
+- https://traceability-portal.beta.demo.catena-x.net
+- https://traceability-pen.dev.demo.catena-x.net
+### Backend
+- https://traceability.dev.demo.catena-x.net/api/swagger-ui/index.html#
+- https://traceability-test.dev.demo.catena-x.net/api/swagger-ui/index.html#
+- https://traceability.int.demo.catena-x.net/api/swagger-ui/index.html#
+- https://traceability.beta.demo.catena-x.net/api/swagger-ui/index.html#
+- https://traceability-pen.dev.demo.catena-x.net/api/swagger-ui/index.html#
 ## The frontend application
 
 This application serves as a user entry point to the Catena-X network.
