@@ -9,4 +9,4 @@
 7) Fill in all sensitive data for desired environments
    1) Currently client_id & client_secret
 8) Then you can simply request the api (auth will be automatically done by insomnia)
-![](Insomnia.png)
+![](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/backend/collection/Insomnia.png)

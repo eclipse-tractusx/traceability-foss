@@ -2,19 +2,6 @@
 
 We follow the recommended guidelines from the [angular framework](https://angular.io/guide/styleguide).
 
-## Commit Convention
-
-The project uses a slightly modified version of the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) with some minor changes regarding the name of the types. Furthermore, each commit should contain the Jira issue ID within the body. The following types are used to categorize commits:
-
-- `chr:` Chore
-- `doc:` Documentation
-- `fix:` Fixes
-- `ftr:` Features
-- `rfr:` Refactoring
-- `rev:` Revert
-- `tst:` Testing Code
-- `wip:` Work In Progress (should be used sparsely)
-
 ## Code Conventions
 
 ### Coding Style
@@ -25,8 +12,6 @@ This helps make the app cleaner, easier to read, maintainable and more testable.
 
 Classes should be named upper camel case followed by the specific suffix.
 Depending on the usage of components, services and so on.
-
-For example: `AssetListComponent` or `AssetService`.
 
 Properties and methods should be lower camel cases.
 
@@ -166,7 +151,7 @@ Please read the [docs](http://getbem.com/naming/);
 
 ### CSS Framework
 
-We use [tailwind css](https://tailwindcss.com/docs) to style our app.
+We use a mixture of [Angular Material](https://material.angular.io/) and [tailwind css](https://tailwindcss.com/docs) to style our app.
 Tailwind is a utility-first CSS framework which comes with a lot of built-in CSS classes.
 
 Tailwind is well documented, but you could also check this cheat sheet [here](https://github.com/LeCoupa/awesome-cheatsheets/blob/master/frontend/tailwind.css), if you prefer.
@@ -185,7 +170,7 @@ E.g:
 <div class="assets-grid"></div>
 ```
 
-```css
+```scss
 .assets-grid {
   @apply grid grid-cols-12 gap-2 w-full h-full sm:pl-4 md:pl-4 lg:pl-8 relative;
 }
@@ -279,3 +264,35 @@ We also provide some scripts to verify the tests before deploying the code:
     "test": "ng test --code-coverage --watch=true --browsers=Chrome",
     "test:ci": "ng test --code-coverage --watch=false --browsers=ChromeHeadless"
 ```
+
+## Bonus: VSCode extensions
+
+Some VSCode extensions that might improve your coding experience :)
+
+- Angular files
+- Angular language service
+- Angular schematics
+- Auto rename tag
+- Color info
+- Color picker
+- CSS peek
+- Code spell checker
+- Debugger for firefox
+- Document this
+- ESlint
+- HTML CSS support
+- Import cost
+- Indent-rainbow
+- JavaScript code snippets
+- Material icon theme
+- npm
+- Open browser preview
+- Path intellisense
+- Prettier
+- Stylelint
+- Tailwind CSS intellisense
+- TODO highlight
+- TODO tree
+- Version lens
+- Visual Studio IntelliCode
+- Yaml

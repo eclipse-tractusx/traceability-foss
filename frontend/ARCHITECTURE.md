@@ -6,7 +6,7 @@ Modular code is essentially the ability to arrange information in a categorical 
 
 This is the basic idea of how our modules are separated.
 
-<img alt="Modular design" src="images/modular_design.png">
+<img alt="Modular design" src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/modular_design.png">
 
 The `Core Module` is designed for the all basic and core functionalities of the application.
 The singleton services, the universal components and other features where there’s only one instance per application must be stored in the
@@ -52,7 +52,7 @@ The system is decomposed into three different layers. The idea is to place prope
 - Abstraction layer
 - Presentation layer
 
-<img alt="Layers" src="images/architecture.png">
+<img alt="Layers" src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/architecture.png">
 
 This division of the system also dictates communication rules. For example, the presentation layer can talk to the core layer only through the abstraction layer.
 
@@ -162,18 +162,6 @@ In this example, we had to "transform" the data received from the API, so we ext
   }
 ```
 
-### Page Routes
-
-Each page should export function which allow to get an URL to the page, including internal
-routing. For example, in `page/dashboard` there is `dashboard-route.ts`, which exports `getDashboardRoute`.
-Such function should be used whenever we want to link different pages.
-
-Motivation for this to have explicit dependencies on URLs instead of implicit, which should improve
-maintability.
-
-`PAGE-route.ts` should also export top route const which should be used for registering page
-under it route in `layout.routing.ts`.
-
 ## View selector pattern
 
 To ease up some common application states, we've implemented the view selector pattern.
@@ -260,7 +248,7 @@ On the other hand, the on push strategy only depends on "@inputs()" and needs to
 
 ## Unidirectional data flow
 
-<img alt="Unidirectional Data Flow" src="images/data_flow.png">
+<img alt="Unidirectional Data Flow" src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/data_flow.png">
 
 We intend to impose a similar restriction on the application layer as angular uses on the presentation layer (via input binding).
 Whenever there's a change in the model, angular will detect it and propagated it.
