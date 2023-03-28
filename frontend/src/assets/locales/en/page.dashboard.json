@@ -1,7 +1,7 @@
 {
   "pageDashboard": {
     "totalInvestigations": {
-      "label": "Total investigations"
+      "label": "Total of open investigations"
     },
     "totalOfParts": {
       "label": "Total of parts"

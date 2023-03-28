@@ -195,7 +195,7 @@ public class InvestigationsController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{investigationId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateInvestigationRequest updateInvestigationRequest) {
+    public void updateInvestigation(@PathVariable Long investigationId, @RequestBody UpdateInvestigationRequest updateInvestigationRequest) {
         validate(updateInvestigationRequest);
         logger.info(API_LOG_START + "/{}/update with params {}", investigationId, updateInvestigationRequest);
         investigationsPublisherService.updateInvestigationPublisher(traceabilityProperties.getBpn(), investigationId, updateInvestigationRequest.status(), updateInvestigationRequest.reason());

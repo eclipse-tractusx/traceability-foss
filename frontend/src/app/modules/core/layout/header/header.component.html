@@ -32,7 +32,7 @@ SPDX-License-Identifier: Apache-2.0
     </div>
 
     <div class="header--user">
-      <app-button variant="flat" color="primary" (click)="openDocumentation()">
+      <app-button variant="flat" color="accent" (click)="openDocumentation()">
         <app-text-with-icon iconName="help">{{ 'actions.help' | i18n }}</app-text-with-icon>
       </app-button>
 
@@ -52,7 +52,12 @@ SPDX-License-Identifier: Apache-2.0
 </div>
 
 <ng-template let-type="value" #menuItem>
-  <a class="header--menu__item" [routerLink]="type" [class.selected]="type === activeMenu">
+  <a
+    class="header--menu__item"
+    *appHasRole="['user']"
+    [routerLink]="['/' + type]"
+    [class.selected]="type === activeMenu"
+  >
     <app-text-with-icon [iconName]="iconMapping[type]" class="header--menu__item-iconText">
       <p>{{ 'routing.' + type | i18n }}</p>
     </app-text-with-icon>
