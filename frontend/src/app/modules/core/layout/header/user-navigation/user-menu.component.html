@@ -81,7 +81,7 @@ SPDX-License-Identifier: Apache-2.0
   <div
     class="user-menu-items"
     *appHasRole="[role ?? 'user']"
-    [routerLink]="route"
+    [routerLink]="['/' + route]"
     [class.user-menu-items--selected]="route === activeItem"
   >
     <p class="regular-text user-menu-items__label" role="menuitem">

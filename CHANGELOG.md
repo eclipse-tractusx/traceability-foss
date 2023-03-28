@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Adapted catena style guide for colors
 - Removed quality type from ui but kept base functionality for future use
 - Improved and separated *.md documentation, especially README.md
+- Improved error page styles and fixed menu urls in terms of 404 pages
 
 ## [3.0.0] - 2023-03-21
 
