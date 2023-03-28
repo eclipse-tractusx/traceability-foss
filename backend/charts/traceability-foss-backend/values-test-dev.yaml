@@ -258,6 +258,7 @@ irs-edc-consumer:
         web.http.management=8181
         web.http.control=9999
         web.http.protocol=https
+        web.http.public=
 
         edc.negotiation.state-machine.iteration-wait-millis=1000
         edc.negotiation.consumer.state-machine.batch-size=20
