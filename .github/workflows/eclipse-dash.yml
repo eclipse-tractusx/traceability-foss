@@ -8,7 +8,8 @@ on:
       - '**/*.md'
       - '**/*.txt'
   pull_request:
-    branches: main
+# TODO: remove it - JUST FOR TESTING!
+#    branches: main
     paths:
       - '**/pom.xml'
       - 'pom.xml'
@@ -37,7 +38,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v3
         with:
-          path: DASH_SUMMARY
+          path: DEPENDENCIES
 
   build-backend:
     runs-on: ubuntu-latest
