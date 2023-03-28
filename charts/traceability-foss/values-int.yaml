@@ -1,73 +1,96 @@
-image:
-  repository: ghcr.io/catenax-ng/tx-traceability-foss
-  tag: $ARGOCD_APP_REVISION
+frontend:
+  image:
+    tag: $ARGOCD_APP_REVISION
+    CATENAX_PORTAL_API_URL: 'https://traceability.int.demo.catena-x.net/api'
+    CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.int.demo.catena-x.net/auth'
+    CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
+    CATENAX_PORTAL_URL: 'https://portal.int.demo.catena-x.net/'
 
-nameOverride: "traceability-foss-backend"
-fullnameOverride: "traceability-foss-backend"
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: "traceability-portal.int.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - "traceability-portal.int.demo.catena-x.net"
+        secretName: "traceability-portal.int.demo.catena-x.net-tls"
+backend:
+  image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    tag: $ARGOCD_APP_REVISION
 
-podSecurityContext:
-  runAsUser: 10001
-  seccompProfile:
-    type: RuntimeDefault
+  nameOverride: "traceability-foss-backend"
+  fullnameOverride: "traceability-foss-backend"
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-securityContext:
-  allowPrivilegeEscalation: false
-  runAsNonRoot: true
-  runAsUser: 10001
-  runAsGroup: 3000
-  capabilities:
-    drop:
-      - ALL
-  readOnlyRootFilesystem: false
+  podSecurityContext:
+    runAsUser: 10001
+    seccompProfile:
+      type: RuntimeDefault
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
-resources:
-  limits:
-    cpu: 500m
-    memory: 512Mi
-  requests:
-    cpu: 500m
-    memory: 512Mi
+  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+  # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 3000
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
 
-springprofile: int
+  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+  # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
 
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-  hosts:
-    - host: "traceability.int.demo.catena-x.net"
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls:
-    - hosts:
-      - "traceability.int.demo.catena-x.net"
-      secretName: tls-secret
+  springprofile: int
 
-traceability:
-  bpn: "BPNL00000003B2OM"
-  url: "https://traceability.int.demo.catena-x.net"
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    hosts:
+      - host: "traceability.int.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+        - "traceability.int.demo.catena-x.net"
+        secretName: tls-secret
 
-datasource:
-  url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
-  username: trace
-  password: <path:traceability-foss/data/int/database#tracePassword>
+  traceability:
+    bpn: "BPNL00000003B2OM"
+    url: "https://traceability.int.demo.catena-x.net"
 
-oauth2:
-  clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
-  clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
-  clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-  jwkSetUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
-  resourceClient: "Cl17-CX-Part"
+  datasource:
+    url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
+    username: trace
+    password: <path:traceability-foss/data/int/database#tracePassword>
 
-edc:
-  apiKey: "<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>"
-  providerUrl: "https://tracex-consumer-controlplane.int.demo.catena-x.net"
+  oauth2:
+    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+    clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+    clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+    jwkSetUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+    resourceClient: "Cl17-CX-Part"
+
+  edc:
+    apiKey: "<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>"
+    providerUrl: "https://tracex-consumer-controlplane.int.demo.catena-x.net"
 
 postgresql:
   enabled: true

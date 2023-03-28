@@ -1,73 +1,95 @@
-image:
-  repository: ghcr.io/catenax-ng/tx-traceability-foss
-  tag: $ARGOCD_APP_REVISION
+frontend:
+  image:
+    tag: $ARGOCD_APP_REVISION
+    CATENAX_PORTAL_API_URL: 'https://traceability.dev.demo.catena-x.net/api'
+    CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.dev.demo.catena-x.net/auth'
+    CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
+    CATENAX_PORTAL_URL: 'https://portal.dev.demo.catena-x.net/'
 
-nameOverride: "traceability-foss-backend"
-fullnameOverride: "traceability-foss-backend"
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - host: "traceability-portal.dev.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - "traceability-portal.dev.demo.catena-x.net"
+        secretName: "traceability-portal.dev.demo.catena-x.net-tls"
+backend:
+  image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
 
-podSecurityContext:
-  runAsUser: 10001
-  seccompProfile:
-    type: RuntimeDefault
+  nameOverride: "traceability-foss-backend"
+  fullnameOverride: "traceability-foss-backend"
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-securityContext:
-  allowPrivilegeEscalation: false
-  runAsNonRoot: true
-  runAsUser: 10001
-  runAsGroup: 3000
-  capabilities:
-    drop:
-      - ALL
-  readOnlyRootFilesystem: false
+  podSecurityContext:
+    runAsUser: 10001
+    seccompProfile:
+      type: RuntimeDefault
 
-# Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
-# @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
-resources:
-  limits:
-    cpu: 500m
-    memory: 512Mi
-  requests:
-    cpu: 500m
-    memory: 512Mi
+  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+  # @url: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+  securityContext:
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    runAsUser: 10001
+    runAsGroup: 3000
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
 
-springprofile: dev
+  # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
+  # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 500m
+      memory: 512Mi
 
-ingress:
-  enabled: true
-  className: "nginx"
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-  hosts:
-    - host: "traceability.dev.demo.catena-x.net"
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls:
-    - hosts:
-      - "traceability.dev.demo.catena-x.net"
-      secretName: tls-secret
+  springprofile: dev
 
-traceability:
-  bpn: "BPNL00000003AYRE"
-  url: "https://traceability.dev.demo.catena-x.net"
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    hosts:
+      - host: "traceability.dev.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+        - "traceability.dev.demo.catena-x.net"
+        secretName: tls-secret
 
-datasource:
-  url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
-  username: trace
-  password: <path:traceability-foss/data/dev/database#tracePassword>
+  traceability:
+    bpn: "BPNL00000003AYRE"
+    url: "https://traceability.dev.demo.catena-x.net"
 
-oauth2:
-  clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
-  clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
-  clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
-  jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
-  resourceClient: "Cl17-CX-Part"
+  datasource:
+    url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
+    username: trace
+    password: <path:traceability-foss/data/dev/database#tracePassword>
 
-edc:
-  apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
-  providerUrl: "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
+  oauth2:
+    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+    clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+    clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+    jwkSetUri: "https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+    resourceClient: "Cl17-CX-Part"
+
+  edc:
+    apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
+    providerUrl: "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
 
 postgresql:
   enabled: true
@@ -81,109 +103,10 @@ postgresql:
     database: "trace"
     username: "trace"
 
-pgadmin4:
-  enabled: true
-  strategy:
-    type: Recreate
-  networkPolicy:
-    enabled: false
-  ingress:
-    enabled: true
-    annotations:
-      kubernetes.io/ingress.class: nginx
-      nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    hosts:
-      - host: tracex-pgadmin4.dev.demo.catena-x.net
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - hosts:
-          - tracex-pgadmin4.dev.demo.catena-x.net
-        secretName: tls-secret
-  env:
-    email: pgadmin4@trace.foss
-    password: "<path:traceability-foss/data/dev/database#pgadminPassword>"
-    variables:
-      - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
-        value: "False"
-      - name: MAX_LOGIN_ATTEMPTS
-        value: 15
-  resources:
-    limits:
-      cpu: 1000m
-      memory: 1Gi
-    requests:
-      cpu: 256m
-      memory: 512Mi
-
 global:
   enablePrometheus: false
   enableGrafana: false
 
-#########################
-# IRS configuration     #
-#########################
-irs-helm:
-  enabled: true
-
-  nameOverride: "tracex-irs"
-  fullnameOverride: "tracex-irs"
-
-  namespace: product-traceability-foss
-
-  springprofile: dev
-
-  irsUrl: "https://tracex-irs.dev.demo.catena-x.net"
-
-  ingress:
-    enabled: true
-    hosts:
-      - host: "tracex-irs.dev.demo.catena-x.net"
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-    tls:
-      - hosts:
-          - "tracex-irs.dev.demo.catena-x.net"
-        secretName: tls-secret
-
-  digitalTwinRegistry:
-    url: https://trace-x-registry.dev.demo.catena-x.net
-  semanticsHub:
-    url: https://semantics.int.demo.catena-x.net/hub/api/v1
-  bpdm:
-    url: https://partners-pool.int.demo.catena-x.net
-
-  minioUser: <path:traceability-foss/data/dev/minio#user>
-  minioPassword: <path:traceability-foss/data/dev/minio#password>
-  minioUrl: http://tracex-irs-minio:9000
-
-  keycloak:
-    oauth2:
-      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
-      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
-      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
-      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
-
-  edc:
-    controlplane:
-      endpoint:
-        data: http://tracex-consumer-controlplane:8181/data
-      apikey:
-        secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
-
-  minio:
-    nameOverride: "tracex-irs-minio"
-    fullnameOverride: "tracex-irs-minio"
-    serviceAccount:
-      create: false
-    rootUser: <path:traceability-foss/data/dev/minio#user>
-    rootPassword: <path:traceability-foss/data/dev/minio#password>
-
-###################################
-# IRS EDC Consumer configuration  #
-###################################
 irs-edc-consumer:
   enabled: true
 
@@ -377,3 +300,102 @@ irs-edc-consumer:
         edc.vault.hashicorp.health.check.enabled=true
         edc.vault.hashicorp.health.check.standby.ok=true
         edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+
+pgadmin4:
+  enabled: true
+  strategy:
+    type: Recreate
+  networkPolicy:
+    enabled: false
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      nginx.ingress.kubernetes.io/backend-protocol: HTTP
+    hosts:
+      - host: tracex-pgadmin4.dev.demo.catena-x.net
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - tracex-pgadmin4.dev.demo.catena-x.net
+        secretName: tls-secret
+  env:
+    email: pgadmin4@trace.foss
+    password: "<path:traceability-foss/data/dev/database#pgadminPassword>"
+    variables:
+      - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
+        value: "False"
+      - name: MAX_LOGIN_ATTEMPTS
+        value: 15
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 256m
+      memory: 512Mi
+    #########################
+    # IRS configuration     #
+    #########################
+irs-helm:
+  enabled: true
+
+  nameOverride: "tracex-irs"
+  fullnameOverride: "tracex-irs"
+
+  namespace: product-traceability-foss
+
+  springprofile: dev
+
+  irsUrl: "https://tracex-irs.dev.demo.catena-x.net"
+
+  ingress:
+    enabled: true
+    hosts:
+      - host: "tracex-irs.dev.demo.catena-x.net"
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls:
+      - hosts:
+          - "tracex-irs.dev.demo.catena-x.net"
+        secretName: tls-secret
+
+  digitalTwinRegistry:
+    url: https://trace-x-registry.dev.demo.catena-x.net
+  semanticsHub:
+    url: https://semantics.int.demo.catena-x.net/hub/api/v1
+  bpdm:
+    url: https://partners-pool.int.demo.catena-x.net
+
+  minioUser: <path:traceability-foss/data/dev/minio#user>
+  minioPassword: <path:traceability-foss/data/dev/minio#password>
+  minioUrl: http://tracex-irs-minio:9000
+
+  keycloak:
+    oauth2:
+      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
+      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+      clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
+      jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
+
+  edc:
+    controlplane:
+      endpoint:
+        data: http://tracex-consumer-controlplane:8181/data
+      apikey:
+        secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+
+  minio:
+    nameOverride: "tracex-irs-minio"
+    fullnameOverride: "tracex-irs-minio"
+    serviceAccount:
+      create: false
+    rootUser: <path:traceability-foss/data/dev/minio#user>
+    rootPassword: <path:traceability-foss/data/dev/minio#password>
+
+    ###################################
+    # IRS EDC Consumer configuration  #
+    ###################################

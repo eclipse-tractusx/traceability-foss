@@ -27,8 +27,6 @@ on:
       - 'charts/**'
       - 'dev/**'
       - 'docs/**'
-      - 'frontend/charts/**'
-      - 'backend/charts/**'
       - 'backend/ci/**'
       - 'backend/collection/**'
       - 'backend/openapi/**'

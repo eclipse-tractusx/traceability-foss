@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added Title to sections that might be cut of with three dots (...)
 
 ### Changed
+- Restructured helm charts to an parent helm chart which includes frontend and backend
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
 - Used same shadow for other parts table than we use for my parts table
 - Improved visibility of text that might be too large.
