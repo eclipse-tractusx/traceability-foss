@@ -39,7 +39,7 @@ SPDX-License-Identifier: Apache-2.0
       <section class="flex flex-row px-4 py-2">
         <section class="flex flex-col p-1">
           <p class="regular-text">{{ this.userDetails.name }}</p>
-          <p class="component-headline text-primary break-words">{{ this.userDetails.role }}</p>
+          <p class="component-headline text-doveGray break-words">{{ this.userDetails.role }}</p>
         </section>
       </section>
 
@@ -81,7 +81,7 @@ SPDX-License-Identifier: Apache-2.0
   <div
     class="user-menu-items"
     *appHasRole="[role ?? 'user']"
-    [routerLink]="route"
+    [routerLink]="['/' + route]"
     [class.user-menu-items--selected]="route === activeItem"
   >
     <p class="regular-text user-menu-items__label" role="menuitem">

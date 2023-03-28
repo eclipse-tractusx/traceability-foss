@@ -22,8 +22,10 @@
 package org.eclipse.tractusx.traceability.investigations.adapters.rest
 
 import io.restassured.http.ContentType
+import org.apache.commons.lang3.RandomStringUtils
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset
+import org.eclipse.tractusx.traceability.common.security.JwtRole
 import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
@@ -117,6 +119,65 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .post("/api/investigations")
                 .then()
                 .statusCode(400)
+    }
+
+    def "should throw bad request on start investigation description exceeds maximum length"() {
+        given:
+        List<String> partIds = [
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        ]
+
+        String description = RandomStringUtils.random(1001);
+
+        expect:
+        given()
+                .contentType(ContentType.JSON)
+                .body(
+                        asJson(
+                                [
+                                        partIds    : partIds,
+                                        description: description,
+                                        severity: "MINOR"
+                                ]
+                        )
+                )
+                .header(jwtAuthorization(ADMIN))
+                .when()
+                .post("/api/investigations")
+                .then()
+                .statusCode(400)
+                .body(Matchers.containsString("Description should have at least 15 characters and at most 1000 characters"))
+    }
+
+
+    def "should throw bad request on update investigation reason too long"() {
+        given:
+        List<String> partIds = [
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        ]
+        String description = RandomStringUtils.random(1001);
+
+        expect:
+        given()
+                .contentType(ContentType.JSON)
+                .body(
+                        asJson(
+                                [
+                                        status    : "ACCEPTED",
+                                        reason: description
+                                ]
+                        )
+                )
+                .header(jwtAuthorization(JwtRole.SUPERVISOR))
+                .when()
+                .post("/api/investigations/1/update")
+                .then()
+                .statusCode(400)
+                .body(Matchers.containsString("Reason should have at least 15 characters and at most 1000 characters"))
     }
 
     // will be fixed in: https://jira.catena-x.net/browse/TRACEFOSS-1063
@@ -288,14 +349,14 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .statusCode(204)
 
 
-		then:
-		eventually {
-			assertNotificationsSize(2)
-			assertNotifications { NotificationEntity notification ->
-				assert notification.edcUrl != null
-				assert notification.contractAgreementId != null
-			}
-		}
+        then:
+        eventually {
+            assertNotificationsSize(2)
+            assertNotifications { NotificationEntity notification ->
+                assert notification.edcUrl != null
+                assert notification.contractAgreementId != null
+            }
+        }
 
         when:
         given()

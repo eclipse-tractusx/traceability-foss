@@ -20,5 +20,6 @@
  ********************************************************************************/
 
 .error-page-container {
-  @apply flex flex-row h-screen justify-center items-center;
+  @apply flex justify-center items-center;
+  height: 70vh;
 }

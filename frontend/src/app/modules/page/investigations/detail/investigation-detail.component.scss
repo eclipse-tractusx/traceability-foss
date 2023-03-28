@@ -25,23 +25,11 @@
 }
 
 .detail--wrapper {
-  display: flex;
-  justify-content: space-between;
-  height: max-content;
+  display: grid;
+  grid-template-columns: 30% 70%;
 
   @media (max-width: 1024px) {
-    flex-flow: column;
-    & > mat-card {
-      width: 100% !important;
-    }
-  }
-
-  & mat-card:nth-child(1) {
-    width: 30%;
-  }
-
-  & mat-card:nth-child(2) {
-    width: 67%;
+    grid-template-columns: 100%;
   }
 }
 

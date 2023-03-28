@@ -27,41 +27,45 @@ import java.util.Arrays;
 import java.util.List;
 
 public record StartJobRequest(
-	List<String> aspects,
-	String globalAssetId,
-	boolean collectAspects,
-	BomLifecycle bomLifecycle,
-	boolean lookupBPNs
+        List<String> aspects,
+        String globalAssetId,
+        boolean collectAspects,
+        BomLifecycle bomLifecycle,
+        boolean lookupBPNs,
+        int depth
 ) {
-	public static StartJobRequest forGlobalAssetId(String globalAssetId) {
-		return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT, true);
-	}
+    public static StartJobRequest forGlobalAssetId(String globalAssetId) {
+        return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT, true, DEFAULT_DEPTH);
+    }
+
+    public static final int DEFAULT_DEPTH = 2;
 }
 
+
 enum Aspect {
-	BATCH("Batch"),
-	SERIAL_PART_TYPIZATION("SerialPartTypization");
+    BATCH("Batch"),
+    SERIAL_PART_TYPIZATION("SerialPartTypization");
 
-	private final String aspectName;
+    private final String aspectName;
 
-	Aspect(String aspectName) {
-		this.aspectName = aspectName;
-	}
+    Aspect(String aspectName) {
+        this.aspectName = aspectName;
+    }
 
-	public String getAspectName() {
-		return aspectName;
-	}
+    public String getAspectName() {
+        return aspectName;
+    }
 
-	public static List<String> allAspects() {
-		return Arrays.stream(Aspect.values())
-			.map(Aspect::getAspectName)
-			.toList();
-	}
+    public static List<String> allAspects() {
+        return Arrays.stream(Aspect.values())
+                .map(Aspect::getAspectName)
+                .toList();
+    }
 }
 
 enum BomLifecycle {
-	@JsonProperty("asBuilt")
-	AS_BUILT,
-	@JsonProperty("asPlanned")
-	AS_PLANNED
+    @JsonProperty("asBuilt")
+    AS_BUILT,
+    @JsonProperty("asPlanned")
+    AS_PLANNED
 }

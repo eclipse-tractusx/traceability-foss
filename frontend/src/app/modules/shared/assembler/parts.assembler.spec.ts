@@ -84,7 +84,7 @@ describe('PartsAssembler', () => {
           name: nameAtManufacturer,
           manufacturer: manufacturerName,
           serialNumber: partInstanceId,
-          partNumber: customerPartId,
+          partNumber: manufacturerPartId,
           batchNumber: batchId,
           productionCountry: manufacturingCountry,
           nameAtCustomer: nameAtCustomer,
@@ -109,7 +109,7 @@ describe('PartsAssembler', () => {
     it('should clean up data for part view', () => {
       const data = { productionDate, qualityType, serialNumber, test: '' } as unknown as Part;
       expect(PartsAssembler.filterPartForView({ data })).toEqual({
-        data: { name: undefined, productionDate, qualityType, serialNumber } as unknown as Part,
+        data: { name: undefined, productionDate, serialNumber } as unknown as Part,
       });
     });
 

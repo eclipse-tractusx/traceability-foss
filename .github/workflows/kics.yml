@@ -2,10 +2,15 @@ name: "KICS"
 
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
   pull_request:
-    branches: [ main ]
+    branches: main
+    paths-ignore:
+      - '**/*.md'
+      - '**/*.txt'
   schedule:
     - cron: "0 0 * * *"
 
