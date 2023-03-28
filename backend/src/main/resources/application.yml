@@ -28,7 +28,7 @@ edc:
   ids: "/api/v1/ids/data"
   negotiation: "/data/contractnegotiations"
   transfer: "/data/transferprocess"
-  catalog: "/data/catalog?providerUrl="
+  catalog: "/data/catalog/request"
   api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings:
     {}

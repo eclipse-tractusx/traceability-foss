@@ -21,78 +21,25 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.message.RemoteMessage;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
-
 /**
  * A request for a participant's {@link Catalog}.
  */
-@JsonDeserialize(builder = CatalogRequest.Builder.class)
-public class CatalogRequest implements RemoteMessage {
+public class CatalogRequest {
 
-	private final String protocol;
-	private final String connectorId;
-	private final String connectorAddress;
+    private final String providerUrl;
 
-	private CatalogRequest(@NotNull String protocol, @NotNull String connectorId, @NotNull String connectorAddress) {
-		this.protocol = protocol;
-		this.connectorId = connectorId;
-		this.connectorAddress = connectorAddress;
-	}
+    public CatalogRequest(String providerUrl) {
+        this.providerUrl = providerUrl;
+    }
 
-	@NotNull
-	public String getProtocol() {
-		return protocol;
-	}
+    public String getProviderUrl() {
+        return providerUrl;
+    }
 
-	@NotNull
-	public String getConnectorId() {
-		return connectorId;
-	}
-
-	@NotNull
-	public String getConnectorAddress() {
-		return connectorAddress;
-	}
-
-	public static class Builder {
-		private String protocol;
-		private String connectorId;
-		private String connectorAddress;
-
-		private Builder() {
-		}
-
-		@JsonCreator
-		public static Builder newInstance() {
-			return new Builder();
-		}
-
-		public Builder protocol(String protocol) {
-			this.protocol = protocol;
-			return this;
-		}
-
-		public Builder connectorId(String connectorId) {
-			this.connectorId = connectorId;
-			return this;
-		}
-
-		public Builder connectorAddress(String connectorAddress) {
-			this.connectorAddress = connectorAddress;
-			return this;
-		}
-
-		public CatalogRequest build() {
-			Objects.requireNonNull(protocol, "protocol");
-			Objects.requireNonNull(connectorId, "connectorId");
-			Objects.requireNonNull(connectorAddress, "connectorAddress");
-
-			return new CatalogRequest(protocol, connectorId, connectorAddress);
-		}
-	}
+    @Override
+    public String toString() {
+        return "CatalogRequest{" +
+                "providerUrl='" + providerUrl + '\'' +
+                '}';
+    }
 }
