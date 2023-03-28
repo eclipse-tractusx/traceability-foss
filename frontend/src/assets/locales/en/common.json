@@ -105,8 +105,8 @@
     "TouchPanBlocker.Message": "Use two fingers to move the map"
   },
   "input": {
-    "minMaxLengthHint": "{{current}} Characters. (Minimum {{min}} and Maximum {{max}} characters)",
-    "minLengthHint": "{{current}} Characters. (Minimum {{min}} characters)",
+    "minMaxLengthHint": "{{current}} Characters. (Min. {{min}} and max. {{max}} characters)",
+    "minLengthHint": "{{current}} Characters. (Min. {{min}} characters)",
     "maxLengthHint": "{{rest}} Characters left."
   },
   "errorMessage": {

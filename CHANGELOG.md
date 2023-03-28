@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added validation for UpdateInvestigationRequest, reason for (decline, accepted, close)
 - Added Title to sections that might be cut of with three dots (...)
+- Added hint to input field with additional information for max and min length validation
 
 ### Changed
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
@@ -16,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Changed mapping of partNumber from customerPartId to manufacturerPartId
 - Adapted catena style guide for colors
 - Removed quality type from ui but kept base functionality for future use
+- Improved visibility for field validation and added * to required fields
+- Improved validation error message for max and min length
 
 ## [3.0.0] - 2023-03-21
 

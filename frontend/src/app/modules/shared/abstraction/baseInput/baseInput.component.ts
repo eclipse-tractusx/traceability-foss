@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   ControlValueAccessor,
@@ -58,12 +58,7 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
 
   protected readonly destroy = new Subject<void>();
 
-  constructor(
-    @Self() private ngControl: NgControl,
-    private formGroupDirective: FormGroupDirective,
-    staticIdService: StaticIdService,
-  ) {
-    this.ngControl.valueAccessor = this;
+  constructor(@Inject(Injector) private injector: Injector, staticIdService: StaticIdService) {
     this.htmlId = staticIdService.generateId(this.htmlIdBase);
   }
 
@@ -75,13 +70,8 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
     const minLengthErrors = new FormControl('#', this.control.validator).errors;
     const maxLengthErrors = new FormControl('#'.repeat(oneMillion), this.control.validator).errors;
 
-    console.log(minLengthErrors, maxLengthErrors);
     this.minLength = minLengthErrors?.minlength?.requiredLength || 0;
     this.maxLength = maxLengthErrors?.maxlength?.requiredLength || 0;
-  }
-
-  public changeValueTo(value: number): void {
-    this.control.patchValue((this.control.value ?? 0) + value);
   }
 
   public writeValue(value: T): void {
@@ -106,7 +96,8 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
 
   private setComponentControl(): void {
     try {
-      const formControl = this.ngControl;
+      const formControl = this.injector.get(NgControl);
+      formControl.valueAccessor = this;
 
       switch (formControl.constructor) {
         case NgModel: {
@@ -123,7 +114,7 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
           break;
         }
         case FormControlName: {
-          this.control = this.formGroupDirective.getControl(formControl as FormControlName);
+          this.control = this.injector.get(FormGroupDirective).getControl(formControl as FormControlName);
           break;
         }
         default: {
@@ -132,7 +123,6 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
         }
       }
     } catch (error) {
-      console.log(error);
       this.control = new FormControl();
     }
   }

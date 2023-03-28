@@ -19,24 +19,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, Inject, Injector, Input, TemplateRef } from '@angular/core';
+import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
+import { StaticIdService } from '@shared/service/staticId.service';
 
 export interface SelectOption {
-  lable: string;
+  label: string;
   value?: string;
 }
 
-// ToDo: use ControlValueAccessor
 @Component({
   selector: 'app-select',
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss'],
 })
-export class SelectComponent {
-  @Input() lable: string;
-  @Input() selectedValue: string;
+export class SelectComponent extends BaseInputComponent<string> {
   @Input() options: SelectOption[];
   @Input() optionsRenderer: TemplateRef<unknown>;
 
-  @Output() selected: EventEmitter<string> = new EventEmitter<string>();
+  constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
+    super(injector, staticIdService);
+  }
 }

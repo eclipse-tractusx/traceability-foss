@@ -66,11 +66,7 @@ SPDX-License-Identifier: Apache-2.0
     </div>
     <div>
       <p class="regular-text mb-2">{{ 'requestInvestigations.severityDescription' | i18n }}</p>
-      <app-severity-select
-        [translationContext]="'requestInvestigations'"
-        (selectedEvent)="onSeveritySelected($event)"
-        [selectedValue]="selectedSeverity"
-      >
+      <app-severity-select [translationContext]="'requestInvestigations'" formControlName="severity">
       </app-severity-select>
     </div>
   </div>

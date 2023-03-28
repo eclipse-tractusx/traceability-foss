@@ -19,8 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input, Self } from '@angular/core';
-import { ControlValueAccessor, FormGroupDirective, NgControl } from '@angular/forms';
+import { Component, Inject, Injector, Input } from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 
@@ -32,7 +31,7 @@ export type DateTimeString = `${DateString}T${TimeString}`;
   selector: 'app-date-time',
   templateUrl: './dateTime.component.html',
 })
-export class DateTimeComponent extends BaseInputComponent<Date> implements ControlValueAccessor {
+export class DateTimeComponent extends BaseInputComponent<Date> {
   @Input() set min(date: Date) {
     this.minDate = date.toISOString().substring(0, 16) as DateTimeString;
   }
@@ -44,7 +43,7 @@ export class DateTimeComponent extends BaseInputComponent<Date> implements Contr
   public minDate: DateTimeString;
   public maxDate: DateTimeString;
 
-  constructor(@Self() ngControl: NgControl, formGroupDirective: FormGroupDirective, staticIdService: StaticIdService) {
-    super(ngControl, formGroupDirective, staticIdService);
+  constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
+    super(injector, staticIdService);
   }
 }

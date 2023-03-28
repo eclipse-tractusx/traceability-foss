@@ -19,8 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { forwardRef, NgModule } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { DateTimeComponent } from '@shared/components/dateTime/dateTime.component';
@@ -148,16 +147,6 @@ import { TemplateModule } from './template.module';
     StaticIdService,
     PartsService,
     ErrorMessagePipe,
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => TextareaComponent),
-      multi: true,
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DateTimeComponent),
-      multi: true,
-    },
     {
       provide: MatPaginatorIntl,
       useClass: PaginatorIntlService,

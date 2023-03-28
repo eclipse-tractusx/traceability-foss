@@ -20,11 +20,12 @@
  ********************************************************************************/
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
+import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
 import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
@@ -56,37 +57,34 @@ export class RequestInvestigationComponent {
     private readonly ctaSnackbarService: CtaSnackbarService,
   ) {}
 
-  private readonly textAreaControl = new UntypedFormControl(undefined, [
-    Validators.required,
-    Validators.maxLength(1000),
-    Validators.minLength(15),
-  ]);
-
-  private readonly targetDateControl = new UntypedFormControl(undefined, [DateValidators.atLeastNow()]);
-
-  public readonly investigationFormGroup = new UntypedFormGroup({
-    description: this.textAreaControl,
-    targetDate: this.targetDateControl,
+  public readonly investigationFormGroup = new FormGroup<{
+    description: FormControl<string>;
+    targetDate: FormControl<DateTimeString>;
+    severity: FormControl<Severity>;
+  }>({
+    description: new FormControl('', [Validators.required, Validators.maxLength(1000), Validators.minLength(15)]),
+    targetDate: new FormControl(null, [DateValidators.atLeastNow()]),
+    severity: new FormControl(Severity.MINOR, [Validators.required]),
   });
 
   public submitInvestigation(): void {
     this.investigationFormGroup.markAllAsTouched();
     this.investigationFormGroup.updateValueAndValidity();
-    this.targetDateControl.updateValueAndValidity();
+
+    // this.targetDateControl.updateValueAndValidity();
 
     if (this.investigationFormGroup.invalid) {
       return;
     }
 
     this.isLoading$.next(true);
-    this.textAreaControl.disable();
+    this.investigationFormGroup.disable();
 
     const partIds = this.selectedItems.map(part => part.id);
     const amountOfItems = this.selectedItems.length;
 
-    const description = this.textAreaControl.value;
-    const targetDate = this.targetDateControl.value;
-    this.investigationsService.postInvestigation(partIds, description, this.selectedSeverity, targetDate).subscribe({
+    const { description, targetDate, severity } = this.investigationFormGroup.value;
+    this.investigationsService.postInvestigation(partIds, description, severity, targetDate).subscribe({
       next: () => {
         this.isLoading$.next(false);
         this.resetForm();
@@ -97,7 +95,7 @@ export class RequestInvestigationComponent {
       },
       error: () => {
         this.isLoading$.next(false);
-        this.textAreaControl.enable();
+        this.investigationFormGroup.enable();
       },
     });
   }
@@ -131,7 +129,7 @@ export class RequestInvestigationComponent {
   }
 
   public resetForm(): void {
-    this.textAreaControl.enable();
+    this.investigationFormGroup.enable();
     this.removedItemsHistory = [];
 
     this.clearSelected.emit();
@@ -140,8 +138,8 @@ export class RequestInvestigationComponent {
     this.investigationFormGroup.markAsUntouched();
     this.investigationFormGroup.reset();
 
-    this.textAreaControl.markAsUntouched();
-    this.textAreaControl.reset();
+    this.investigationFormGroup.markAsUntouched();
+    this.investigationFormGroup.reset();
   }
 
   public onSeveritySelected(selectedSeverity: Severity) {

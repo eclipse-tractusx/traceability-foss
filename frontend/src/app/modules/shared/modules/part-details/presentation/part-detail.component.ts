@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
@@ -46,8 +47,8 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
   public showQualityTypeDropdown = false;
   public qualityTypeOptions: SelectOption[];
 
+  public qualityTypeControl = new FormControl<QualityType>(null);
   public readonly isOpen$: Observable<boolean>;
-  public selectedValue: QualityType;
 
   private readonly isOpenState: State<boolean> = new State<boolean>(false);
 
@@ -57,14 +58,16 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     this.selectedPartDetails$ = this.partDetailsFacade.selectedPart$;
     this.shortenPartDetails$ = this.partDetailsFacade.selectedPart$.pipe(
       PartsAssembler.mapPartForView(),
-      tap(_ => (this.selectedValue = null)),
+      tap(({ data }) => this.qualityTypeControl.patchValue(data.qualityType, { emitEvent: false, onlySelf: true })),
     );
+
+    this.qualityTypeControl.valueChanges.subscribe(value => this.updateQualityType(value));
 
     this.manufacturerDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForManufacturerView());
     this.customerDetails$ = this.partDetailsFacade.selectedPart$.pipe(PartsAssembler.mapPartForCustomerView());
 
     this.qualityTypeOptions = Object.values(QualityType).map(value => ({
-      lable: value,
+      label: value,
       value: value,
     }));
   }
@@ -90,8 +93,7 @@ export class PartDetailComponent implements AfterViewInit, OnDestroy {
     this.router.navigate([`parts/relations/${part.id}`]).then(_ => window.location.reload());
   }
 
-  public updateQualityType(newQualityType: string): void {
-    this.selectedValue = newQualityType as QualityType;
+  public updateQualityType(newQualityType: QualityType): void {
     this.partDetailsFacade.updateQualityType(newQualityType as QualityType).subscribe();
   }
 }

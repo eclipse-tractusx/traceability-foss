@@ -20,16 +20,19 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <mat-form-field class="select--container">
-  <mat-label>{{ this.lable }}</mat-label>
-  <mat-select [value]="this.selectedValue" (selectionChange)="this.selected.emit($event.value)">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select [formControl]="control">
     <mat-select-trigger>
-      <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: this.selectedValue }"></ng-container>
+      <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: control.value }"></ng-container>
     </mat-select-trigger>
 
-    <mat-option *ngFor="let option of this.options" [value]="option.value || option.lable">
-      <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: option.lable }"></ng-container>
+    <mat-option *ngFor="let option of options" [value]="option.value || option.label">
+      <ng-container *ngTemplateOutlet="renderWithRenderer; context: { value: option.label }"></ng-container>
     </mat-option>
   </mat-select>
+  <mat-error>
+    <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
+  </mat-error>
 </mat-form-field>
 
 <ng-template let-value="value" #renderWithRenderer>
@@ -39,6 +42,6 @@ SPDX-License-Identifier: Apache-2.0
   ></ng-container>
 </ng-template>
 
-<ng-template let-lable="value" #normalOption>
-  {{ lable | valueToLable : options | i18n }}
+<ng-template let-label="value" #normalOption>
+  {{ label | valueToLable : options | i18n }}
 </ng-template>

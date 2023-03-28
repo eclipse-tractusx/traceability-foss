@@ -34,6 +34,6 @@ export class ValueToLablePipe implements PipeTransform {
       return currentValue;
     }
 
-    return options.find(({ value }) => value === currentValue)?.lable || '';
+    return options.find(({ value }) => value === currentValue)?.label || '';
   }
 }
