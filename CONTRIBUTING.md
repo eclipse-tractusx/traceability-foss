@@ -53,6 +53,23 @@ For more information, please see the Eclipse Committer Handbook:
 https://www.eclipse.org/projects/handbook/#resources-commit
 
 ## Developer Hints
+
+### Coding styles
+
+To maintain coding styles we utilize [EditorConfig](https://editorconfig.org/) tool, see [configuration](.editorconfig)
+file for the details.
+
+### Branching system and release workflow
+
+We are using the [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow) for our branching system.
+
+The general idea behind this approach is that you keep the main code in a constant deployable state.
+You start off with the main branch, then a developer creates a feature branch directly from main.
+After the feature is developed the code is reviewed and tested on the branch.
+Only after the code is stable it can be merged to main.
+
+<img src="https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/images/github-flow-branching-model.jpeg" height="60%" width="60%"/>
+
 ### Commit messages
 - The commit messages have to match a pattern in the form of:
 `<type>(optional scope): <Ticket_ID> <description>`
@@ -62,7 +79,7 @@ Examples:
 - `feature(users): TRACEFOSS-XXX description`
 - `fix: TRACEFOSS-123 make X work again`
 
-The detailed pattern can be found here: [commit-msg](../dev/commit-msg)
+The detailed pattern can be found here: [commit-msg](https://github.com/eclipse-tractusx/traceability-foss/blob/main/dev/commit-msg)
 
 #### How to use
 ```shell
@@ -96,6 +113,26 @@ To connect your remote SonarCloud instance with your IntelliJ IDE, follow these 
     * Right-click on your project folder in the Project Explorer and select "SonarLint > Analyze <project_name>"
 
 By following these steps, you can connect your remote SonarCloud instance with your IntelliJ IDE and analyze your code with SonarLint.
+
+### Frontend coding guidelines
+These guidelines are defined to maintain homogeneous code quality and style. It can be adapted as the need arises.
+
+New and old developers should regularly review this [guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/GUIDELINES.md) to update it as new points emerge and to sync themselves with the latest changes.
+
+#### Angular Template Attribute Convention
+
+Attributes in Angular template should be properly ordered by groups:
+
+1. `*` - Structural Directives
+2. `[]` - Attribute Directives or Input parameters
+3. `()` - Event listeners
+4. All other attributes
+
+### IDE plugins
+
+* IntelliJ IDEA ships with built-in support for .editorconfig files
+* [Eclipse plugin](https://github.com/ncjones/editorconfig-eclipse#readme)
+* [Visual studio code plugin](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
 ## Contact
 

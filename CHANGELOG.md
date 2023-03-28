@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Changed mapping of partNumber from customerPartId to manufacturerPartId
 - Adapted catena style guide for colors
 - Removed quality type from ui but kept base functionality for future use
+- Improved and separated *.md documentation, especially README.md
 
 ## [3.0.0] - 2023-03-21
 
