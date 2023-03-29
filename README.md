@@ -152,16 +152,19 @@ or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swa
 
 ## Container image
 
-This application provides container images for demonstration purposes.
-The base image used, to build this demo application image is `eclipse-temurin:17-jre-alpine`
+This application provides container images for demonstration purposes.Here you can finde the [BE Images](https://github.com/catenax-ng/tx-traceability-foss/pkgs/container/tx-traceability-foss) and the [FE Images](https://github.com/catenax-ng/tx-traceability-foss/pkgs/container/tx-traceability-foss-frontend).
+The base images used, to build these demo application images are `eclipse-temurin:17-jre-alpine` and `node:18-alpine`
 
 Docker Hub:
 - [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin)
 - [17-jre-alpine image](https://hub.docker.com/layers/library/eclipse-temurin/17-jre-alpine/images/sha256-2b33ef284e6dc43a61903cef6d36dbce13414a9e5444e2c96cdd5e35123f9903?context=explore)
+- [node](https://hub.docker.com/_/node)
+- [18-alpine image](https://hub.docker.com/layers/library/node/18-alpine/images/sha256-19eaf41f3b8c2ac2f609ac8103f9246a6a6d46716cdbe49103fdb116e55ff0cc?context=explore)
 
 Source:
 - [temurin-build](https://github.com/adoptium/temurin-build)
 - [temurin docker repo info](https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin)
+- [node-build](https://github.com/nodejs/docker-node)
 
 ## License
 
