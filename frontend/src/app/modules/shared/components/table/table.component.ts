@@ -109,6 +109,7 @@ export class TableComponent {
   public pageIndex: number;
   public isDataLoading: boolean;
   public selectedRow: Record<string, unknown>;
+  public isMenuOpen: boolean;
 
   private pageSize: number;
   private sorting: TableHeaderSort;
@@ -118,11 +119,24 @@ export class TableComponent {
   constructor(private readonly roleService: RoleService) {}
 
   public areAllRowsSelected(): boolean {
-    return this.selection.selected.length === this.dataSource.data.length;
+    return this.dataSource.data.every(data => this.isSelected(data));
+  }
+
+  public clearAllRows(): void {
+    this.selection.clear();
+    this.emitMultiSelect();
+  }
+
+  public clearCurrentRows(): void {
+    this.removeSelectedValues(this.dataSource.data);
+    this.emitMultiSelect();
   }
 
   public toggleAllRows(): void {
-    this.areAllRowsSelected() ? this.selection.clear() : this.selection.select(...this.dataSource.data);
+    this.areAllRowsSelected()
+      ? this.removeSelectedValues(this.dataSource.data)
+      : this.addSelectedValues(this.dataSource.data);
+
     this.emitMultiSelect();
   }
 
@@ -155,5 +169,21 @@ export class TableComponent {
 
   private emitMultiSelect(): void {
     this.multiSelect.emit(this.selection.selected);
+  }
+
+  public isSelected(row: unknown): boolean {
+    return !!this.selection.selected.find(data => JSON.stringify(data) === JSON.stringify(row));
+  }
+
+  private addSelectedValues(newData: unknown[]): void {
+    const newValues = newData.filter(data => !this.isSelected(data));
+    this.selection.select(...newValues);
+  }
+
+  private removeSelectedValues(itemsToRemove: unknown[]): void {
+    const shouldDelete = (row: unknown) => !!itemsToRemove.find(data => JSON.stringify(data) === JSON.stringify(row));
+    const rowsToDelete = this.selection.selected.filter(data => shouldDelete(data));
+
+    this.selection.deselect(...rowsToDelete);
   }
 }

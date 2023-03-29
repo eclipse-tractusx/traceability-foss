@@ -24,6 +24,28 @@ table {
   @apply font-light;
 }
 
+.table--select-all {
+  display: inline-flex;
+  align-items: center;
+
+  &__menu {
+    background: rgba(0, 0, 0, 0.04);
+
+    & > .table--select-all__dropdown:hover {
+      background: none;
+    }
+  }
+}
+
+.table--select-all__dropdown {
+  margin-left: -5px;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+  }
+}
+
 .mat-mdc-row .mat-mdc-cell {
   cursor: pointer;
 }

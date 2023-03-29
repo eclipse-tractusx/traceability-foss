@@ -96,19 +96,32 @@ SPDX-License-Identifier: Apache-2.0
       <ng-template #SelectColumn>
         <ng-container matColumnDef="select">
           <th *matHeaderCellDef mat-header-cell>
-            <!-- ToDo: Remove function call in HTML attribute -->
-            <mat-checkbox
-              [checked]="selection.hasValue() && areAllRowsSelected()"
-              [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
-              (change)="$event ? toggleAllRows() : null"
-              data-testid="select-all--test-id"
-              color="primary"
-            >
-            </mat-checkbox>
+            <div class="table--select-all" [class.table--select-all__menu]="isMenuOpen">
+              <mat-checkbox
+                [checked]="selection.hasValue() && areAllRowsSelected()"
+                [indeterminate]="selection.hasValue() && !areAllRowsSelected()"
+                (change)="$event ? toggleAllRows() : null"
+                data-testid="select-all--test-id"
+                color="primary"
+              >
+              </mat-checkbox>
+              <mat-icon
+                [matMenuTriggerFor]="selectMenu"
+                (menuOpened)="isMenuOpen = true"
+                (menuClosed)="isMenuOpen = false"
+                class="table--select-all__dropdown"
+              >
+                keyboard_arrow_down
+              </mat-icon>
+            </div>
+            <mat-menu #selectMenu="matMenu" xPosition="before" class="ml-10">
+              <button mat-menu-item (click)="clearCurrentRows()">{{ 'table.clearPage' | i18n }}</button>
+              <button mat-menu-item (click)="clearAllRows()">{{ 'table.clearAll' | i18n }}</button>
+            </mat-menu>
           </th>
           <td *matCellDef="let row" mat-cell>
             <mat-checkbox
-              [checked]="selection.isSelected(row)"
+              [checked]="isSelected(row)"
               (click)="$event.stopPropagation()"
               (change)="this.toggleSelection(row)"
               data-testid="select-one--test-id"
