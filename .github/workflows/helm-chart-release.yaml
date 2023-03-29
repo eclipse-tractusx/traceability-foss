@@ -32,7 +32,7 @@ jobs:
       - name: Get backend helm charts current version
         id: step2
         run: |
-          chartVersion=helm-charts-$(cat ./charts/product-traceability-foss/Chart.yaml | grep "version:" | head -1 | cut -d ":" -d " " -f2)
+          chartVersion=helm-charts-$(cat ./charts/traceability-foss/Chart.yaml | grep "version:" | head -1 | cut -d ":" -d " " -f2)
           echo "current_version=$chartVersion" >> $GITHUB_OUTPUT
           echo "Exported $chartVersion backend helm charts version"
 
