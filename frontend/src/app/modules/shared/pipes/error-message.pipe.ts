@@ -46,8 +46,8 @@ export class ErrorMessagePipe implements PipeTransform {
       return '';
     }
 
-    const getErrorMapping = (key: string, value?: any): ParameterizedMessage => {
-      return { id: `errorMessage.${key}`, values: { [key]: value } };
+    const getErrorMapping = (key: string, value?: any, options: Record<string, unknown> = {}): ParameterizedMessage => {
+      return { id: `errorMessage.${key}`, values: { [key]: value, ...options } };
     };
 
     const formatDate = (date: Date): string => {
@@ -59,8 +59,16 @@ export class ErrorMessagePipe implements PipeTransform {
     const errorMessageMapping = new Map<string, any>([
       ['min', ({ min }: MinError) => getErrorMapping('min', min)],
       ['max', ({ max }: MaxError) => getErrorMapping('max', max)],
-      ['minlength', ({ requiredLength }: MinLengthError) => getErrorMapping('minLength', requiredLength)],
-      ['maxlength', ({ requiredLength }: MaxLengthError) => getErrorMapping('maxLength', requiredLength)],
+      [
+        'minlength',
+        ({ requiredLength, actualLength }: MinLengthError) =>
+          getErrorMapping('minLength', requiredLength, { current: actualLength }),
+      ],
+      [
+        'maxlength',
+        ({ requiredLength, actualLength }: MaxLengthError) =>
+          getErrorMapping('maxLength', requiredLength, { current: actualLength }),
+      ],
       ['pattern', ({ requiredPattern }: PatternError) => getErrorMapping('pattern', requiredPattern)],
       ['maxDate', ({ date }: DateError) => getErrorMapping('maxDate', formatDate(date))],
       ['minDate', ({ date }: DateError) => getErrorMapping('minDate', formatDate(date))],

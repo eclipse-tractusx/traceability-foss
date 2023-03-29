@@ -19,30 +19,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Inject, Injector, Input } from '@angular/core';
+import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { SelectOption } from '@shared/components/select/select.component';
 import { Severity } from '@shared/model/severity.model';
+import { StaticIdService } from '@shared/service/staticId.service';
 
 @Component({
   selector: 'app-severity-select',
   templateUrl: './severity-select.component.html',
 })
-export class SeveritySelectComponent {
-  public options: SelectOption[];
-
-  @Input() selectedValue: Severity;
+export class SeveritySelectComponent extends BaseInputComponent<Severity> {
   @Input() translationContext: string;
-  @Output() selectedEvent = new EventEmitter<Severity>();
 
-  constructor() {
-    this.options = Object.values(Severity).map(value => ({
-      lable: value,
-      value: value,
-    }));
-  }
+  public options: SelectOption[] = Object.values(Severity).map(value => ({ label: value, value }));
 
-  public selectValue(selectedSeverity: string) {
-    this.selectedValue = selectedSeverity as Severity;
-    this.selectedEvent.emit(this.selectedValue);
+  constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
+    super(injector, staticIdService);
   }
 }

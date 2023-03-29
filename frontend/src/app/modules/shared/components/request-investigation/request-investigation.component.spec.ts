@@ -97,7 +97,7 @@ describe('requestInvestigationComponent', () => {
     await renderRequestInvestigationComponent();
 
     const testText = 'This is for a testing purpose.';
-    const textArea = (await waitFor(() => screen.getByTestId('BaseInputElement-1'))) as HTMLTextAreaElement;
+    const textArea = (await waitFor(() => screen.getByTestId('BaseInputElement-2'))) as HTMLTextAreaElement;
     fireEvent.input(textArea, { target: { value: testText } });
 
     const submit = await waitFor(() => screen.getByText('requestInvestigations.submit'));
