@@ -34,7 +34,12 @@ public class Notification {
 	private final String id;
 	private String notificationReferenceId;
 	private final String senderBpnNumber;
+
+    private final String senderManufacturerName;
+
 	private final String receiverBpnNumber;
+
+    private final String receiverManufacturerName;
 	private String edcUrl;
 	private String contractAgreementId;
 	private final List<AffectedPart> affectedParts;
@@ -46,21 +51,25 @@ public class Notification {
 	private Severity severity;
 
 	public Notification(String id,
-						String notificationReferenceId,
-						String senderBpnNumber,
-						String receiverBpnNumber,
-						String edcUrl,
-						String contractAgreementId,
-						String description,
-						InvestigationStatus investigationStatus,
-						List<AffectedPart> affectedParts,
-						Instant targetDate,
-						Severity severity) {
+                        String notificationReferenceId,
+                        String senderBpnNumber,
+                        String senderManufacturerName,
+                        String receiverBpnNumber,
+                        String receiverManufacturerName,
+                        String edcUrl,
+                        String contractAgreementId,
+                        String description,
+                        InvestigationStatus investigationStatus,
+                        List<AffectedPart> affectedParts,
+                        Instant targetDate,
+                        Severity severity) {
 		this.id = id;
 		this.notificationReferenceId = notificationReferenceId;
 		this.senderBpnNumber = senderBpnNumber;
-		this.receiverBpnNumber = receiverBpnNumber;
-		this.edcUrl = edcUrl;
+        this.senderManufacturerName = senderManufacturerName;
+        this.receiverBpnNumber = receiverBpnNumber;
+        this.receiverManufacturerName = receiverManufacturerName;
+        this.edcUrl = edcUrl;
 		this.contractAgreementId = contractAgreementId;
 		this.description = description;
 		this.investigationStatus = investigationStatus;
@@ -110,11 +119,19 @@ public class Notification {
 		return senderBpnNumber;
 	}
 
-	public String getReceiverBpnNumber() {
+    public String getSenderManufacturerName() {
+        return senderManufacturerName;
+    }
+
+    public String getReceiverBpnNumber() {
 		return receiverBpnNumber;
 	}
 
-	public void setEdcUrl(String edcUrl) {
+    public String getReceiverManufacturerName() {
+        return receiverManufacturerName;
+    }
+
+    public void setEdcUrl(String edcUrl) {
 		this.edcUrl = edcUrl;
 	}
 
@@ -159,8 +176,8 @@ public class Notification {
 			id,
 			notificationReferenceId,
 			senderBpnNumber,
-			receiverBpnNumber,
-			edcUrl,
+                senderManufacturerName, receiverBpnNumber,
+                receiverManufacturerName, edcUrl,
 			contractAgreementId,
 			description,
 			investigationStatus,

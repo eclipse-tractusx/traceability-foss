@@ -3,13 +3,9 @@ package org.eclipse.tractusx.traceability.investigations.domain.service;
 import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.investigations.domain.model.*;
-import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
-import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationStatusTransitionNotAllowed;
-import org.eclipse.tractusx.traceability.investigations.domain.model.exception.NotificationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
@@ -22,7 +18,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -53,19 +48,21 @@ class InvestigationsReceiverServiceTest {
 
 		// Given
 		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-		Notification notification = new Notification(
-			"123",
-			"id123",
-			"senderBPN",
-			"recipientBPN",
-			"senderAddress",
-			"agreement",
-			"information",
-			InvestigationStatus.SENT,
-			affectedParts,
-			Instant.now(),
-			Severity.MINOR
-		);
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.SENT,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR
+        );
 
 		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
 		Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();

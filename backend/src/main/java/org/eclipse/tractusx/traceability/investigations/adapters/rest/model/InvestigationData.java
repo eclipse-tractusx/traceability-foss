@@ -30,11 +30,15 @@ public record InvestigationData(@ApiModelProperty(example = "66") Long id,
 								@ApiModelProperty(example = "CREATED") String status,
 								@ApiModelProperty(example = "DescriptionText") String description,
 								@ApiModelProperty(example = "BPNL00000003AYRE") String createdBy,
+
+                                @ApiModelProperty(example = "Tier C") String createdByName,
 								@ApiModelProperty(example = "2023-02-21T21:27:10.734950Z") String createdDate,
 								@ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]") List<String> assetIds,
 								@ApiModelProperty(example = "SENDER") InvestigationSide channel,
 								InvestigationReason reason,
 								@ApiModelProperty(example = "BPNL00000003AYRE") String sendTo,
+
+                                @ApiModelProperty(example = "Tier C") String sendToName,
 								@ApiModelProperty(example = "MINOR") String severity,
                                 @ApiModelProperty(example = "2099-02-21T21:27:10.734950Z") String targetDate
 ) {

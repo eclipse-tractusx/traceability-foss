@@ -24,17 +24,19 @@ SPDX-License-Identifier: Apache-2.0
     <mat-label>{{ label }}</mat-label>
     <input
       #inputElement
-      [disabled]="disabled"
-      [value]="value"
       [attr.data-testId]="htmlId"
       [attr.min]="minDate || null"
       [attr.max]="maxDate || null"
-      (input)="onChange?.(getElementFromEvent($event).value)"
-      (blur)="markAsTouched()"
+      [formControl]="control"
+      [errorStateMatcher]="matcher"
       matInput
       type="datetime-local"
       placeholder="start date"
     />
+    <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
+
+    <mat-error>
+      <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
+    </mat-error>
   </mat-form-field>
-  <app-form-error-message [control]="ngControl.control"></app-form-error-message>
 </div>

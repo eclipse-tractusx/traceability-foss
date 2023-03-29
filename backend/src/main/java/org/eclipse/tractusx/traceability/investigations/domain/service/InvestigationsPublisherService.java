@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.service;
 import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
@@ -35,6 +36,7 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -54,15 +56,23 @@ public class InvestigationsPublisherService {
     private final InvestigationsRepository repository;
     private final InvestigationsReadService investigationsReadService;
     private final AssetRepository assetRepository;
+
+    private final BpnRepository bpnRepository;
     private final Clock clock;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 
-    public InvestigationsPublisherService(NotificationsService notificationsService, InvestigationsRepository repository, InvestigationsReadService investigationsReadService, AssetRepository assetRepository, Clock clock) {
+    public InvestigationsPublisherService(NotificationsService notificationsService,
+                                          InvestigationsRepository repository,
+                                          InvestigationsReadService investigationsReadService,
+                                          AssetRepository assetRepository,
+                                          BpnRepository bpnRepository,
+                                          Clock clock) {
         this.notificationsService = notificationsService;
         this.repository = repository;
         this.investigationsReadService = investigationsReadService;
         this.assetRepository = assetRepository;
+        this.bpnRepository = bpnRepository;
         this.clock = clock;
     }
 
@@ -86,7 +96,9 @@ public class InvestigationsPublisherService {
                         UUID.randomUUID().toString(),
                         null,
                         applicationBpn.value(),
+                        getManufacturerName(applicationBpn.value()),
                         it.getKey(),
+                        getManufacturerName(it.getKey()),
                         null,
                         null,
                         description,
@@ -97,6 +109,11 @@ public class InvestigationsPublisherService {
                 )).forEach(investigation::addNotification);
         logger.info("Start Investigation {}", investigation);
         return repository.save(investigation);
+    }
+
+    private String getManufacturerName(String bpn) {
+        return bpnRepository.findManufacturerName(bpn)
+                .orElse(null);
     }
 
     /**

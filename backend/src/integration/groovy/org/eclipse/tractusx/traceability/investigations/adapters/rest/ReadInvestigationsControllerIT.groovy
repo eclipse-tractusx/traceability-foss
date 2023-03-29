@@ -89,8 +89,10 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 		given:
 			Instant now = Instant.now()
 			String testBpn = testBpn()
-			String senderBPN = "BPN0001"
-			String receiverBPN = "BPN0002"
+            String senderBPN = "BPN0001"
+            String senderName = "Sender name"
+            String receiverBPN = "BPN0002"
+            String receiverName = "Receiver name"
 
 		and:
 			InvestigationEntity firstInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.CREATED, InvestigationSide.SENDER, "", "1", now.minusSeconds(10L))
@@ -101,11 +103,11 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 
 		and:
 			storedNotifications(
-				new NotificationEntity(firstInvestigation, senderBPN, receiverBPN, [], null, null, null),
-				new NotificationEntity(secondInvestigation, senderBPN, receiverBPN, [], null, null, null),
-				new NotificationEntity(thirdInvestigation, senderBPN, receiverBPN, [], null, null, null),
-				new NotificationEntity(fourthInvestigation, senderBPN, receiverBPN, [], null, null, null),
-				new NotificationEntity(fifthInvestigation, senderBPN, receiverBPN, [], null, null, null)
+				new NotificationEntity(firstInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null),
+				new NotificationEntity(secondInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null),
+				new NotificationEntity(thirdInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null),
+				new NotificationEntity(fourthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null),
+				new NotificationEntity(fifthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null)
 			)
 
 		expect:
@@ -124,6 +126,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 				.body("totalItems", Matchers.is(4))
 				.body("content.description", Matchers.containsInRelativeOrder("2", "4", "3", "1"))
 				.body("content.createdBy", Matchers.hasItems(senderBPN))
+                .body("content.createdByName", Matchers.hasItems(senderName))
 				.body("content.createdDate", Matchers.hasItems(isIso8601DateTime()))
 	}
 
@@ -157,8 +160,10 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 		given:
 			Instant now = Instant.now()
 			String testBpn = testBpn()
-			String senderBPN = "BPN0001"
-			String receiverBPN = "BPN0002"
+            String senderBPN = "BPN0001"
+            String senderName = "Sender name"
+            String receiverBPN = "BPN0002"
+            String receiverName = "Receiver name"
 
 		and:
 			(101..200).each { it ->
@@ -166,7 +171,9 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 					new NotificationEntity(
 						new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "", now),
 						senderBPN,
+                        senderName,
 						receiverBPN,
+                        receiverName,
 						[],
 						null,
 						null,
@@ -186,7 +193,9 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 				.then()
 				.statusCode(200)
 				.body("content.createdBy", Matchers.hasItems(senderBPN))
+                .body("content.createdByName", Matchers.hasItems(senderName))
 				.body("content.sendTo", Matchers.hasItems(receiverBPN))
+                .body("content.sendToName", Matchers.hasItems(receiverName))
 				.body("page", Matchers.is(2))
 				.body("pageSize", Matchers.is(10))
 				.body("content", Matchers.hasSize(10))
@@ -197,8 +206,10 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 		given:
 			Instant now = Instant.now()
 			String testBpn = testBpn()
-			String senderBPN = "BPN0001"
-			String receiverBPN = "BPN0002"
+            String senderBPN = "BPN0001"
+            String senderName = "Sender name"
+            String receiverBPN = "BPN0002"
+            String receiverName = "Receiver name"
 
 		and:
 			InvestigationEntity firstInvestigation = new InvestigationEntity([], testBpn, InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "1", now.minusSeconds(5L))
@@ -209,11 +220,11 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 
 		and:
 			storedNotifications(
-				new NotificationEntity(firstInvestigation, senderBPN, receiverBPN, [], null, null, null),
-				new NotificationEntity(secondInvestigation, senderBPN, receiverBPN, [], null, null, null),
-				new NotificationEntity(thirdInvestigation, senderBPN, receiverBPN, [], null, null, null),
-				new NotificationEntity(fourthInvestigation, senderBPN, receiverBPN, [], null, null, null),
-				new NotificationEntity(fifthInvestigation, senderBPN, receiverBPN, [], null, null, null)
+				new NotificationEntity(firstInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null),
+				new NotificationEntity(secondInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null),
+				new NotificationEntity(thirdInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null),
+				new NotificationEntity(fourthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null),
+				new NotificationEntity(fifthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null)
 			)
 
 		expect:
@@ -232,7 +243,9 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 				.body("totalItems", Matchers.is(4))
 				.body("content.description", Matchers.containsInRelativeOrder("4", "2", "3", "1"))
 				.body("content.createdBy", Matchers.hasItems(senderBPN))
+                .body("content.createdByName", Matchers.hasItems(senderName))
 				.body("content.sendTo", Matchers.hasItems(receiverBPN))
+                .body("content.sendToName", Matchers.hasItems(receiverName))
 				.body("content.createdDate", Matchers.hasItems(isIso8601DateTime()))
 	}
 
@@ -252,13 +265,15 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 		given:
 			String testBpn = testBpn()
 			String senderBPN = "BPN0001"
+            String senderName = "Sender name"
 			String receiverBPN = "BPN0002"
+            String receiverName = "Receiver name"
 
 		and:
 			InvestigationEntity investigationEntity = new InvestigationEntity([], testBpn, "1", InvestigationStatus.RECEIVED, InvestigationSide.SENDER, Instant.now())
 
 		and:
-			storedNotification(new NotificationEntity(investigationEntity, senderBPN, receiverBPN, [], null, null, null))
+			storedNotification(new NotificationEntity(investigationEntity, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null))
 
 		and:
 			Long investigationId = investigationEntity.getId()
@@ -276,7 +291,9 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 				.body("description", Matchers.is("1"))
 				.body("assetIds", Matchers.empty())
 				.body("createdBy", Matchers.is(senderBPN))
+                .body("createdByName", Matchers.is(senderName))
 				.body("sendTo", Matchers.is(receiverBPN))
+                .body("sendToName", Matchers.is(receiverName))
 				.body("createdDate", isIso8601DateTime())
 	}
 }

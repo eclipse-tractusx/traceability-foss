@@ -24,17 +24,27 @@ SPDX-License-Identifier: Apache-2.0
     <mat-label>{{ label }}</mat-label>
     <textarea
       #inputElement
-      [disabled]="disabled"
-      [value]="value"
+      [formControl]="control"
       [attr.data-testId]="htmlId"
-      (input)="onChange?.(getElementFromEvent($event).value)"
-      (blur)="markAsTouched()"
+      [errorStateMatcher]="matcher"
       matInput
       cdkTextareaAutosize
       #autosize="cdkTextareaAutosize"
       cdkAutosizeMinRows="1"
       cdkAutosizeMaxRows="5"
     ></textarea>
+    <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
+    <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{
+      'input.minMaxLengthHint' | i18n : { current: control?.value?.length || 0, max: maxLength, min: minLength }
+    }}</mat-hint>
+    <mat-hint align="end" *ngIf="!maxLength && !minLength">{{
+      'input.minLengthHint' | i18n : { current: control?.value?.length || 0, min: minLength }
+    }}</mat-hint>
+    <mat-hint align="end" *ngIf="!!maxLength && !minLength">{{
+      'input.maxLengthHint' | i18n : { rest: maxLength - (control?.value?.length || 0) }
+    }}</mat-hint>
+    <mat-error>
+      <app-form-error-message [control]="control" [matcher]="matcher"></app-form-error-message>
+    </mat-error>
   </mat-form-field>
-  <app-form-error-message [control]="ngControl.control"></app-form-error-message>
 </div>
