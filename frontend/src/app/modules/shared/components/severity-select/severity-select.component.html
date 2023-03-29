@@ -20,13 +20,12 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <app-select
-  [lable]="translationContext + '.severity' | i18n"
+  [label]="translationContext + '.severity' | i18n"
   [options]="options"
   [optionsRenderer]="severityOptionTmp"
-  [selectedValue]="selectedValue"
-  (selected)="selectValue($event)"
+  [formControl]="control"
 ></app-select>
 
-<ng-template let-lable="value" #severityOptionTmp>
-  <app-severity [severity]="lable"></app-severity>
+<ng-template let-label="value" #severityOptionTmp>
+  <app-severity [severity]="label"></app-severity>
 </ng-template>

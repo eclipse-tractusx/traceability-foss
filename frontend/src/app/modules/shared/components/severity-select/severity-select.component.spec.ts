@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { FormControl } from '@angular/forms';
 import { Severity } from '@shared/model/severity.model';
 import { SharedModule } from '@shared/shared.module';
 import { screen, waitFor } from '@testing-library/angular';
@@ -28,8 +29,11 @@ import { SeveritySelectComponent } from './severity-select.component';
 
 describe('SeveritySelectComponent', () => {
   const renderSeveritySelect = (selectedValue?: Severity) => {
-    return renderComponent(`<app-severity-select [selectedValue]="'${selectedValue}'">Test</app-severity-select>`, {
+    const formControl = new FormControl(selectedValue);
+
+    return renderComponent(`<app-severity-select [formControl]="formControl">Test</app-severity-select>`, {
       imports: [SharedModule],
+      componentProperties: { formControl },
     });
   };
 

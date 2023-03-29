@@ -19,64 +19,111 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Component, ElementRef, Inject, Injector, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  FormControl,
+  FormControlDirective,
+  FormControlName,
+  FormGroupDirective,
+  NgControl,
+  NgModel,
+} from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 import { StaticIdService } from '@shared/service/staticId.service';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | AbstractControl | null): boolean {
+    return !!(control && control.invalid && control.touched);
+  }
+}
 
 @Component({ selector: 'app-baseInput', template: '' })
-export class BaseInputComponent implements ControlValueAccessor, OnInit {
+export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
   @ViewChild('inputElement') inputElement: ElementRef<HTMLInputElement>;
-
   @Input() label = '';
-  public value: string;
-  public disabled = false;
 
-  public onChange: ((_value: string) => {}) | null = null;
-  public onTouched: (() => void) | null = null;
+  public control!: FormControl;
+  public matcher = new MyErrorStateMatcher();
+
+  public maxLength: number;
+  public minLength: number;
+
   public htmlId: string;
-
   private htmlIdBase = 'BaseInputElement-';
 
-  constructor(@Self() public readonly ngControl: NgControl, staticIdService: StaticIdService) {
-    // we cannot provide this component in NG_VALUE_ACCESSOR, as we want to have access to the ngControl,
-    // so we have to set up valueAccessor manually
-    this.ngControl.valueAccessor = this;
+  protected readonly destroy = new Subject<void>();
+
+  constructor(@Inject(Injector) private injector: Injector, staticIdService: StaticIdService) {
     this.htmlId = staticIdService.generateId(this.htmlIdBase);
   }
 
   public ngOnInit(): void {
-    // finish ngControl setup
-    this.ngControl.control.updateValueAndValidity();
+    this.setComponentControl();
+
+    // Check validators for length validators
+    const oneMillion = 1000000;
+    const minLengthErrors = new FormControl('#', this.control.validator).errors;
+    const maxLengthErrors = new FormControl('#'.repeat(oneMillion), this.control.validator).errors;
+
+    this.minLength = minLengthErrors?.minlength?.requiredLength || 0;
+    this.maxLength = maxLengthErrors?.maxlength?.requiredLength || 0;
   }
 
-  public writeValue(value: string): void {
-    /* TODO: improve this to more straightforward solution
-        by some reason Angular does not update the input value if rely on data-binding
-        as workaround we update it directly after the input get created */
-    if (this.inputElement?.nativeElement) {
-      this.inputElement.nativeElement.value = value ?? '';
-    } else {
-      this.value = value;
+  public writeValue(value: T): void {
+    this.onChange(value);
+  }
+
+  public registerOnChange(fn: (value: T | null) => T): void {
+    this.onChange = fn;
+  }
+
+  public registerOnTouched(fn: () => void): void {
+    this.onTouch = fn;
+  }
+  public onChange = (value: T | null): T | null => value;
+
+  public onTouch = (): void => {};
+
+  public ngOnDestroy(): void {
+    this.destroy.next();
+    this.destroy.complete();
+  }
+
+  private setComponentControl(): void {
+    try {
+      const formControl = this.injector.get(NgControl);
+      formControl.valueAccessor = this;
+
+      switch (formControl.constructor) {
+        case NgModel: {
+          const { control, update } = formControl as NgModel;
+
+          this.control = control;
+
+          this.control.valueChanges
+            .pipe(
+              tap((value: T) => update.emit(value)),
+              takeUntil(this.destroy),
+            )
+            .subscribe();
+          break;
+        }
+        case FormControlName: {
+          this.control = this.injector.get(FormGroupDirective).getControl(formControl as FormControlName);
+          break;
+        }
+        default: {
+          this.control = (formControl as FormControlDirective).form as FormControl;
+          break;
+        }
+      }
+    } catch (error) {
+      this.control = new FormControl();
     }
-  }
-
-  public registerOnChange(onChange: any): void {
-    this.onChange = onChange;
-  }
-
-  public registerOnTouched(onTouched: any): void {
-    this.onTouched = onTouched;
-  }
-
-  public markAsTouched(): void {
-    this.ngControl.control.markAsTouched();
-  }
-
-  public setDisabledState(disabled: boolean): void {
-    this.disabled = disabled;
-  }
-
-  public getElementFromEvent(event: Event): HTMLInputElement {
-    return event.target as HTMLInputElement;
   }
 }

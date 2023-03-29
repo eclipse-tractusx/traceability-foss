@@ -99,14 +99,19 @@
     "ScrollZoomBlocker.CmdMessage": "Verwenden Sie ⌘ + Scrollen, um die Karte zu vergrößern.",
     "TouchPanBlocker.Message": "Verwenden Sie zwei Finger, um die Karte zu bewegen"
   },
+  "input": {
+    "minMaxLengthHint": "{{current}} Zeichen. (Min. {{min}} und max {{max}} Zeichen)",
+    "minLengthHint": "{{current}} Zeichen. (Min. {{min}} Zeichen)",
+    "maxLengthHint": "{{rest}} verbleibende Zeichen."
+  },
   "errorMessage": {
     "min": "Bitte geben Sie eine Zahl größer {{min}} ein.",
     "max": "Bitte geben Sie eine Zahl kleiner {{max}} ein.",
     "required": "Pflichtfeld!",
     "requiredTrue": "Bitte Checkbox bestätigen.",
     "email": "Die E-Mail Adresse ist ungültig.",
-    "minLength": "Bitte geben Sie mindestens {{minLength}} Zeichen ein.",
-    "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein.",
+    "minLength": "Bitte geben Sie mindestens {{minLength}} Zeichen ein. Momentan: {{current}}",
+    "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein. Momentan: {{current}}",
     "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{pattern}}.",
     "maxDate": "Bitte wählen Sie ein Datum vor dem {{- maxDate}}.",
     "minDate": "Bitte wählen Sie ein Datum nach dem {{- minDate}}.",

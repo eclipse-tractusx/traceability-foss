@@ -19,4 +19,4 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<span *ngIf="control?.touched && control?.errors" class="errorMessage">{{ control.errors | errorMessage | i18n }}</span>
+<ng-container *ngIf="matcher.isErrorState(control)">{{ control.errors | errorMessage | i18n }}</ng-container>

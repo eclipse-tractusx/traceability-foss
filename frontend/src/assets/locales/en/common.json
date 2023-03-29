@@ -104,14 +104,19 @@
     "ScrollZoomBlocker.CmdMessage": "Use ⌘ + scroll to zoom the map",
     "TouchPanBlocker.Message": "Use two fingers to move the map"
   },
+  "input": {
+    "minMaxLengthHint": "{{current}} Characters. (Min. {{min}} and max. {{max}} characters)",
+    "minLengthHint": "{{current}} Characters. (Min. {{min}} characters)",
+    "maxLengthHint": "{{rest}} Characters left."
+  },
   "errorMessage": {
     "min": "Please enter a number that is larger than: {{min}}.",
     "max": "Please enter a number that is smaller than: {{max}}.",
     "required": "This field is required!",
     "requiredTrue": "This checkbox must be checked!",
     "email": "Please enter a valid E-Mail.",
-    "minLength": "Please enter a text that is larger than: {{minLength}}.",
-    "maxLength": "Please enter a text that is smaller than: {{maxLength}}.",
+    "minLength": "Please enter a text that is larger than: {{minLength}}. Current: {{current}}",
+    "maxLength": "Please enter a text that is smaller than: {{maxLength}}. Current: {{current}}",
     "pattern": "Please enter data that matches this pattern: {{pattern}}.",
     "maxDate": "Please select a date that is before {{- maxDate}}.",
     "minDate": "Please select a date that is after {{- minDate}}.",

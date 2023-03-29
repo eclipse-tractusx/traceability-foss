@@ -33,6 +33,7 @@
       - [Integration tests](https://github.com/eclipse-tractusx/traceability-foss/#integration-tests)
       - [Running all tests](https://github.com/eclipse-tractusx/traceability-foss/#running-all-tests)
   - [API documentation](https://github.com/eclipse-tractusx/traceability-foss/#api-documentation)
+  - [Container Image](https://github.com/eclipse-tractusx/traceability-foss/#container-image)
   - [License](https://github.com/eclipse-tractusx/traceability-foss/#license)
 
 ## How to contribute
@@ -162,6 +163,19 @@ mvn -DskipTests=false clean verify -PiT
 ## API documentation
 The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](./backend/openapi/traceability-foss-backend.json)
 or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swagger-ui/index.html`
+
+## Container image
+
+This application provides container images for demonstration purposes.
+The base image used, to build this demo application image is `eclipse-temurin:17-jre-alpine`
+
+Docker Hub:
+- [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin)
+- [17-jre-alpine image](https://hub.docker.com/layers/library/eclipse-temurin/17-jre-alpine/images/sha256-2b33ef284e6dc43a61903cef6d36dbce13414a9e5444e2c96cdd5e35123f9903?context=explore)
+
+Source:
+- [temurin-build](https://github.com/adoptium/temurin-build)
+- [temurin docker repo info](https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin)
 
 ## License
 

@@ -155,18 +155,18 @@ SPDX-License-Identifier: Apache-2.0
         class="card-list--value card-list--icon"
         tabindex="0"
       >
-        <app-quality-type [type]="selectedValue || item.value"></app-quality-type>
+        <app-quality-type [type]="qualityTypeControl.value"></app-quality-type>
         <mat-icon class="ml-2" inline>edit</mat-icon>
       </div>
     </ng-container>
 
     <div *ngIf="showQualityTypeDropdown" class="card-list--qualityType">
+      <!--[selectedValue]="selectedValue || item.value"-->
       <app-select
-        [lable]="'partDetail.' + item.key | i18n"
+        [label]="'partDetail.' + item.key | i18n"
         [options]="qualityTypeOptions"
-        [selectedValue]="selectedValue || item.value"
+        [formControl]="qualityTypeControl"
         [optionsRenderer]="qualityTypeOptionTmp"
-        (selected)="updateQualityType($event)"
       ></app-select>
       <mat-icon
         (click)="showQualityTypeDropdown = false"
@@ -179,6 +179,6 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </ng-template>
 
-<ng-template let-lable="value" #qualityTypeOptionTmp>
-  <app-quality-type [type]="lable"></app-quality-type>
+<ng-template let-label="value" #qualityTypeOptionTmp>
+  <app-quality-type [type]="label"></app-quality-type>
 </ng-template>

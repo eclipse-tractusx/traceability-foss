@@ -19,8 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ElementRef, Input, OnInit, Self, ViewChild } from '@angular/core';
-import { ControlValueAccessor, NgControl } from '@angular/forms';
+import { Component, Inject, Injector } from '@angular/core';
 import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 
@@ -29,8 +28,8 @@ import { StaticIdService } from '@shared/service/staticId.service';
   templateUrl: './textarea.component.html',
   styleUrls: ['./textarea.component.scss'],
 })
-export class TextareaComponent extends BaseInputComponent {
-  constructor(@Self() ngControl: NgControl, staticIdService: StaticIdService) {
-    super(ngControl, staticIdService);
+export class TextareaComponent extends BaseInputComponent<string> {
+  constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
+    super(injector, staticIdService);
   }
 }
