@@ -71,7 +71,9 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         NotificationEntity notification = new NotificationEntity(
                 null,
                 "senderBpnNumber",
+                "senderManufacturerName",
                 "receiverBpnNumber",
+                "receiverManufacturerName",
                 null,
                 null,
                 Instant.parse("2022-03-01T12:00:00Z"),

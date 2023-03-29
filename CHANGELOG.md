@@ -22,6 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved error page styles and fixed menu urls in terms of 404 pages
 - Improved visibility for field validation and added * to required fields
 - Improved validation error message for max and min length
+- Updated Investigation model with `createdByName` and `sendToName` fields
 
 ## [3.0.0] - 2023-03-21
 

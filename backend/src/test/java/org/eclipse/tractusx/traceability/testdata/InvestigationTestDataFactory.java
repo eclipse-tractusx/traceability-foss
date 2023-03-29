@@ -18,17 +18,19 @@ public class InvestigationTestDataFactory {
 		Instant createdAt = Instant.now();
 		List<String> assetIds = List.of("asset123", "asset456");
 		List<Notification> notifications = List.of(new Notification(
-			"1",
-			"notificationId",
-			"senderBPN",
-			"recipientBPN",
-			"senderAddress",
-			"agreement",
-			"Test Notification",
-			notificationInvestigationStatus,
-			List.of(new AffectedPart("part123")),
-			Instant.now(),
-			Severity.MINOR
+                "1",
+                "notificationId",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "Test Notification",
+                notificationInvestigationStatus,
+                List.of(new AffectedPart("part123")),
+                Instant.now(),
+                Severity.MINOR
 		));
 
 		return new Investigation(
@@ -84,17 +86,19 @@ public class InvestigationTestDataFactory {
 		Instant createdAt = Instant.now();
 		List<String> assetIds = List.of("asset123", "asset456");
 		List<Notification> notifications = List.of(new Notification(
-			"1",
-			"notificationId",
-			"senderBPN",
-			"recipientBPN",
-			"senderAddress",
-			"agreement",
-			"Test Notification",
-			notificationInvestigationStatus,
-			List.of(new AffectedPart("part123")),
-			Instant.now(),
-			Severity.MINOR
+                "1",
+                "notificationId",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "Test Notification",
+                notificationInvestigationStatus,
+                List.of(new AffectedPart("part123")),
+                Instant.now(),
+                Severity.MINOR
 		));
 
 		return new Investigation(

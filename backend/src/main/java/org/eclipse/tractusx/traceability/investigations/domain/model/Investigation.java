@@ -129,6 +129,7 @@ public class Investigation {
                 investigationStatus.name(),
                 description,
                 getSenderBPN(notifications.values()),
+                getSenderName(notifications.values()),
                 createdAt.toString(),
                 Collections.unmodifiableList(assetIds),
                 investigationSide,
@@ -138,6 +139,7 @@ public class Investigation {
                         declineReason
                 ),
                 getReceiverBPN(notifications.values()),
+                getReceiverName(notifications.values()),
                 notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getSeverity).orElse(Severity.MINOR).getRealName(),
                 notifications.entrySet().stream().findFirst().map(Map.Entry::getValue).map(Notification::getTargetDate).map(Instant::toString).orElse(null));
     }
@@ -290,12 +292,6 @@ public class Investigation {
 			'}';
 	}
 
-	private Long getInvestigationId() {
-		return Optional.ofNullable(investigationId)
-			.map(InvestigationId::value)
-			.orElse(null);
-	}
-
 	private static String getSenderBPN(Collection<Notification> notifications) {
 		return notifications.stream()
 			.findFirst()
@@ -303,10 +299,24 @@ public class Investigation {
 			.orElse(null);
 	}
 
+    private static String getSenderName(Collection<Notification> notifications) {
+        return notifications.stream()
+                .findFirst()
+                .map(Notification::getSenderManufacturerName)
+                .orElse(null);
+    }
+
 	private static String getReceiverBPN(Collection<Notification> notifications) {
 		return notifications.stream()
 			.findFirst()
 			.map(Notification::getReceiverBpnNumber)
 			.orElse(null);
 	}
+
+    private static String getReceiverName(Collection<Notification> notifications) {
+        return notifications.stream()
+                .findFirst()
+                .map(Notification::getReceiverManufacturerName)
+                .orElse(null);
+    }
 }
