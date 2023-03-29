@@ -11,12 +11,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added hint to input field with additional information for max and min length validation
 
 ### Changed
+- Restructured helm charts to an parent helm chart which includes frontend and backend
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
 - Used same shadow for other parts table than we use for my parts table
 - Improved visibility of text that might be too large.
 - Changed mapping of partNumber from customerPartId to manufacturerPartId
 - Adapted catena style guide for colors
 - Removed quality type from ui but kept base functionality for future use
+- Improved and separated *.md documentation, especially README.md
+- Improved error page styles and fixed menu urls in terms of 404 pages
 - Improved visibility for field validation and added * to required fields
 - Improved validation error message for max and min length
 

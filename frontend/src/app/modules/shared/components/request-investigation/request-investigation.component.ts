@@ -71,8 +71,6 @@ export class RequestInvestigationComponent {
     this.investigationFormGroup.markAllAsTouched();
     this.investigationFormGroup.updateValueAndValidity();
 
-    // this.targetDateControl.updateValueAndValidity();
-
     if (this.investigationFormGroup.invalid) {
       return;
     }

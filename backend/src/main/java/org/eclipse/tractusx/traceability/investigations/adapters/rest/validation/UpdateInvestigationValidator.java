@@ -61,7 +61,7 @@ public class UpdateInvestigationValidator {
 			}
 
 			if (reason.length() < MINIMUM_REASON_CHARACTERS_SIZE || reason.length() > MAXIMUM_REASON_CHARACTERS_SIZE) {
-				throw new UpdateInvestigationValidationException("Close reason should have at least %d characters and at most %d characters".formatted(MINIMUM_REASON_CHARACTERS_SIZE, MAXIMUM_REASON_CHARACTERS_SIZE));
+				throw new UpdateInvestigationValidationException("Reason should have at least %d characters and at most %d characters".formatted(MINIMUM_REASON_CHARACTERS_SIZE, MAXIMUM_REASON_CHARACTERS_SIZE));
 			}
 		}
 	}
