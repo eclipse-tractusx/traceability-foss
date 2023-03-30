@@ -41,8 +41,8 @@ Then(/^should be visible "TOTAL OF OTHER PARTS" section$/, () => {
   cy.get('section').contains('Total of other parts').should('be.visible');
 });
 
-Then(/^should be visible "TOTAL INVESTIGATIONS" section$/, () => {
-  cy.get('section').contains('Total investigations').should('be.visible');
+Then(/^should be visible "TOTAL OF OPEN INVESTIGATIONS" section$/, () => {
+  cy.get('section').contains('Total of open investigations').should('be.visible');
 });
 
 Then(/^should be visible "Quality Investigations" section$/, () => {
