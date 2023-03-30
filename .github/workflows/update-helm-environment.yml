@@ -1,0 +1,25 @@
+name: Update helm environments branch
+on:
+  push:
+    branches: main
+  pull_request:
+
+jobs:
+  update:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v3
+        with:
+          # check out all branches
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update Git branch helm-environments
+        run: |
+          git config user.name "Update branch"
+          git config user.email github-actions@github.com
+          git checkout helm-environments
+          git merge origin/main --no-edit -m "Merged main branch on $(date +%F)"
+      - name: Push the updated branch helm-environments
+        run: |
+          git push origin helm-environments
