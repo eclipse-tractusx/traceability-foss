@@ -32,6 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated all environment specific helm chart files to follow same structure
 - Upgraded all environments to use most recent release of irs including edc charts 0.3.0
 - Removed unnecessary properties on irs charts
+- Removed catena specific value files
 
 ## [3.0.0] - 2023-03-21
 
