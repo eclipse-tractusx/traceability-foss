@@ -33,8 +33,8 @@ dependencies:
     repository: https://helm.runix.net
     version: 1.13.6
   - name: irs-helm
-    repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 4.2.1
+    repository: https://catenax-ng.github.io/tx-item-relationship-service
+    version: 5.0.6
   - name: irs-edc-consumer
     repository: https://catenax-ng.github.io/tx-item-relationship-service
-    version: 1.0.2
+    version: 1.1.1

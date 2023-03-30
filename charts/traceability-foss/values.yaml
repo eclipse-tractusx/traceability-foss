@@ -18,6 +18,17 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 #
+
+#########################
+# Global Values configuration     #
+#########################
+global:
+  enablePrometheus: false  #<global.enablePrometheus>
+  enableGrafana: false  #<global.enableGrafana>
+
+#########################
+# Frontend Chart Values configuration     #
+#########################
 frontend:
   # Default values for k8s-helm-example.
   # This is a YAML-formatted file.
@@ -133,6 +144,9 @@ frontend:
     successThreshold: 1
     timeoutSeconds: 1
 
+#########################
+# Backend Chart Values configuration     #
+#########################
 backend:
   # Default values for k8s-helm-example.
   # This is a YAML-formatted file.
@@ -274,6 +288,17 @@ backend:
     apiKey: "" #<edc.apiKey>
     providerUrl: "" #<edc.providerUrl>
 
+#########################
+# PG Admin configuration     #
+#########################
+pgadmin4:
+  enabled: false #<pgadmin4.enabled>
+  ingress:
+    enabled: false  #<pgadmin4.ingress.enabled>
+
+#########################
+# Postgres configuration     #
+#########################
 postgresql:
   enabled: true
 
@@ -286,17 +311,14 @@ postgresql:
     database: "trace"
     username: "trace"
 
-pgadmin4:
-  enabled: false #<pgadmin4.enabled>
-  ingress:
-    enabled: false  #<pgadmin4.ingress.enabled>
-
-global:
-  enablePrometheus: false  #<global.enablePrometheus>
-  enableGrafana: false  #<global.enableGrafana>
-
+#########################
+# IRS configuration     #
+#########################
 irs-helm:
   enabled: false #<irs-helm.enabled>
 
+###################################
+# IRS EDC Consumer configuration  #
+###################################
 irs-edc-consumer:
   enabled: false #<irs-edc-consumer.enabled>

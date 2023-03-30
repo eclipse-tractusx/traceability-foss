@@ -5,12 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - x.x.0]
+
 ### Added
 - Added validation for UpdateInvestigationRequest, reason for (decline, accepted, close)
 - Added Title to sections that might be cut of with three dots (...)
 - Added documentation regarding base docker image and prepared for future QG updates
 - Added hint to input field with additional information for max and min length validation
-
+- Added feature to table to be able to clear all selections or only the current page
+- Added license headers to all chart specific files
+- Added information about the specific base image used by our docker images
+-
 ### Changed
 - Restructured helm charts to an parent helm chart which includes frontend and backend
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
@@ -24,6 +28,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved visibility for field validation and added * to required fields
 - Improved validation error message for max and min length
 - Updated Investigation model with `createdByName` and `sendToName` fields
+- Improved UX for table selection
+- Updated all environment specific helm chart files to follow same structure
+- Upgraded all environments to use most recent release of irs including edc charts 0.3.0
+- Removed unnecessary properties on irs charts
 
 ## [3.0.0] - 2023-03-21
 
@@ -50,7 +58,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Fixed spring-security-oauth-client cve
 - Some minor updates on dependencies
 - Restructured pom to use properties for all versions
-
 
 ## [2.0.0] - 2023-03-06
 
