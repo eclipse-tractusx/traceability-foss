@@ -1,7 +1,8 @@
 name: Backend Build&Push Docker image on main
+
 on:
   push:
-    branches: main
+    branches: [ main, helm-environments ]
 
 env:
   REGISTRY: ghcr.io
