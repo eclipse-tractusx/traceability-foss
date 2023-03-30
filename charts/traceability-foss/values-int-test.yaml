@@ -18,6 +18,10 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 #
+
+#########################
+# Frontend Chart Values configuration     #
+#########################
 frontend:
   image:
     tag: $ARGOCD_APP_REVISION

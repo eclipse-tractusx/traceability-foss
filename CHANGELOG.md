@@ -12,7 +12,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added documentation regarding base docker image and prepared for future QG updates
 - Added hint to input field with additional information for max and min length validation
 - Added feature to table to be able to clear all selections or only the current page
-
+- Added license headers to all chart specific files
+- Added information about the specific base image used by our docker images
+-
 ### Changed
 - Restructured helm charts to an parent helm chart which includes frontend and backend
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
@@ -27,6 +29,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved validation error message for max and min length
 - Updated Investigation model with `createdByName` and `sendToName` fields
 - Improved UX for table selection
+- Updated all environment specific helm chart files to follow same structure
+- Upgraded all environments to use most recent release of irs including edc charts 0.3.0
+- Removed unnecessary properties on irs charts
 
 ## [3.0.0] - 2023-03-21
 

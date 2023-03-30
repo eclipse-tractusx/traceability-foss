@@ -18,6 +18,17 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 #
+
+#########################
+# Global Values configuration     #
+#########################
+global:
+  enablePrometheus: false
+  enableGrafana: false
+
+#########################
+# Frontend Chart Values configuration     #
+#########################
 frontend:
   image:
     tag: $ARGOCD_APP_REVISION
@@ -46,6 +57,10 @@ frontend:
       - hosts:
           - "traceability-portal-pen.dev.demo.catena-x.net"
         secretName: "traceability-portal-pen.dev.demo.catena-x.net-tls"
+
+#########################
+# Backend Chart Values configuration     #
+#########################
 backend:
   image:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
@@ -120,18 +135,9 @@ backend:
     apiKey:
     providerUrl: "https://trace-x-pen.dev.demo.catena-x.net"
 
-postgresql:
-  enabled: true
-
-  nameOverride: "tracex-backend-pen-postgresql"
-  fullnameOverride: "tracex-backend-pen-postgresql"
-
-  auth:
-    postgresPassword: <path:traceability-foss/data/pen/database#postgresPassword>
-    password: <path:traceability-foss/data/pen/database#tracePassword>
-    database: "trace"
-    username: "trace"
-
+#########################
+# PG Admin configuration     #
+#########################
 pgadmin4:
   enabled: true
   strategy:
@@ -166,8 +172,29 @@ pgadmin4:
       cpu: 500m
       memory: 512Mi
 
+#########################
+# Postgres configuration     #
+#########################
+postgresql:
+  enabled: true
+
+  nameOverride: "tracex-backend-pen-postgresql"
+  fullnameOverride: "tracex-backend-pen-postgresql"
+
+  auth:
+    postgresPassword: <path:traceability-foss/data/pen/database#postgresPassword>
+    password: <path:traceability-foss/data/pen/database#tracePassword>
+    database: "trace"
+    username: "trace"
+
+#########################
+# IRS configuration     #
+#########################
 irs-helm:
   enabled: false
 
+###################################
+# IRS EDC Consumer configuration  #
+###################################
 irs-edc-consumer:
   enabled: false
