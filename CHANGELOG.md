@@ -4,13 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - x.x.x]
+## [Unreleased - x.x.0]
 ### Added
 - Added validation for UpdateInvestigationRequest, reason for (decline, accepted, close)
 - Added Title to sections that might be cut of with three dots (...)
 - Added documentation regarding base docker image and prepared for future QG updates
 - Added hint to input field with additional information for max and min length validation
-- Added documentation of base images used in the docker images
 
 ### Changed
 - Restructured helm charts to an parent helm chart which includes frontend and backend
