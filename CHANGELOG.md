@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added Title to sections that might be cut of with three dots (...)
 - Added documentation regarding base docker image and prepared for future QG updates
 - Added hint to input field with additional information for max and min length validation
+- Added documentation of base images used in the docker images
 
 ### Changed
 - Restructured helm charts to an parent helm chart which includes frontend and backend
