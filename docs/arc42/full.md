@@ -24,6 +24,10 @@ Table of Contents
     -   [Level 1](#level-1)
 -   [Runtime view](#runtime-view)
     -   [Overall](#overall)
+    -   [Scenario 1: Return all Assets](#scenario-1-return-all-assets)
+    -   [Scenario 2: Return specific Assets](#scenario-2-return-specific-assets)
+    -   [Scenario 3: Get country information for assets](#scenario-3-get-country-information-for-assets)
+    -   [Scenario 4: Get specific information for assets](#scenario-4-get-specific-information-for-assets)
 -   [Deployment view](#deployment-view)
 -   [Cross-cutting concepts](#cross-cutting-concepts)
     -   [Domain concepts](#domain-concepts)
@@ -547,6 +551,58 @@ Runtime view
 
 ### Overall
 
+This section describes the overall flow of the TraceX-FOSS application
+
+### Scenario 1: Return all Assets
+
+This section describes what happens when user lists all stored assets.
+
+<img src="architecture-constraints/return-all-assets.svg" width="1129" height="542" alt="return all assets" />
+
+###### Overview
+
+When a user requests all stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE\_ADMIN', 'ROLE\_SUPERVISOR', 'ROLE\_USER'). If yes, then the endpoint returns a pageable result of assets.
+
+The returned pageable result can be empty if no suitable asset has been found.
+
+### Scenario 2: Return specific Assets
+
+This section describes what happens when user searches for a specific asset.
+
+<img src="architecture-constraints/return-specific-assets.svg" width="1258" height="542" alt="return specific assets" />
+
+###### Overview
+
+When a user requests a specific asset, TraceX-FOSS checks if the user has an adequate role ('ROLE\_ADMIN', 'ROLE\_SUPERVISOR', 'ROLE\_USER'). If yes, then the endpoint returns a precise Asset for the given assetId, if it is found.
+
+If no asset has been found for the given ID, an AssetNotFoundException is thrown.
+
+### Scenario 3: Get country information for assets
+
+This section describes what happens when user lists the map of assets.
+
+<img src="architecture-constraints/get-country-information-for-assets.svg" width="1642" height="658" alt="get country information for assets" />
+
+###### Overview
+
+When a user requests the map of assets, TraceX-FOSS checks if the user has an adequate role ('ROLE\_ADMIN', 'ROLE\_SUPERVISOR', 'ROLE\_USER'). If yes, then the endpoint returns a JAVA map containing a country names as keys and the number of assets stored for each country and for the given assetId, if they are found.
+
+If no asset has been found, an empty JAVA map will be returned.
+
+### Scenario 4: Get specific information for assets
+
+This section describes what happens when user lists detailed information for assets.
+
+<img src="architecture-constraints/get-specific-information-for-assets.svg" width="1583" height="542" alt="get specific information for assets" />
+
+###### Overview
+
+When a user requests detailed information for assets, TraceX-FOSS checks if the user has an adequate role ('ROLE\_ADMIN', 'ROLE\_SUPERVISOR', 'ROLE\_USER'). If yes, then the endpoint returns a list containing all the stored information for the given assetId, if they are found.
+
+If no asset has been found, an empty list will be returned.
+
+This information for an asset can contain the name of the manufacturer, the manufacturer part ID, the manufacturer name, the manufacturing country, etc.
+
 Deployment view
 ---------------
 
@@ -711,4 +767,4 @@ Glossary
 </tbody>
 </table>
 
-Last updated 2023-03-31 08:25:38 UTC
+Last updated 2023-03-31 11:31:01 UTC
