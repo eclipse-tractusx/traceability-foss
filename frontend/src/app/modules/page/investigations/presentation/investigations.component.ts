@@ -50,6 +50,8 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   public readonly investigationsReceived$;
   public readonly investigationsQueuedAndRequested$;
 
+  private pagination: TablePaginationEventConfig = { page: 0, pageSize: 5 };
+
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
   constructor(
@@ -63,8 +65,8 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   }
 
   public ngOnInit(): void {
-    this.investigationsFacade.setReceivedInvestigation();
-    this.investigationsFacade.setQueuedAndRequestedInvestigations();
+    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize);
+    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize);
   }
 
   public ngAfterContentInit(): void {
@@ -113,11 +115,13 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   }
 
   public onReceivedPagination(pagination: TablePaginationEventConfig) {
-    this.investigationsFacade.setReceivedInvestigation(pagination.page, pagination.pageSize);
+    this.pagination = pagination;
+    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize);
   }
 
   public onQueuedAndRequestedPagination(pagination: TablePaginationEventConfig) {
-    this.investigationsFacade.setQueuedAndRequestedInvestigations(pagination.page, pagination.pageSize);
+    this.pagination = pagination;
+    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize);
   }
 
   public openDetailPage(notification: Notification): void {
