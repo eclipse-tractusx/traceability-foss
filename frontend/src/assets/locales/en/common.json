@@ -44,6 +44,8 @@
     "tryAgain": "Please try again later.",
     "selectPageSize": "Select page of periodic elements",
     "menuDescription": "Action menu",
+    "clearPage": "Clear page selections",
+    "clearAll": "Clear all selections",
     "adminColumn": {
       "startDate": "Start date",
       "registryLookupStatus": "Status",

@@ -44,6 +44,8 @@
     "tryAgain": "Bitte versuchen Sie es später noch einmal.",
     "selectPageSize": "Seite für segmentierte Elemente auswählen",
     "menuDescription": "Aktionsmenü",
+    "clearPage": "Markierungen auf dieser Seite aufheben",
+    "clearAll": "Alle Markierungen aufheben",
     "adminColumn": {
       "startDate": "Startdatum",
       "registryLookupStatus": "Status",

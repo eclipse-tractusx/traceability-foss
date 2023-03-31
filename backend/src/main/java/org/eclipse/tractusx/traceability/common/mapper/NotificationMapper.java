@@ -20,10 +20,12 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.mapper;
 
+import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -31,7 +33,14 @@ import java.util.UUID;
 @Component
 public class NotificationMapper {
 
-	/**
+    private final BpnRepository bpnRepository;
+
+    @Autowired
+    public NotificationMapper(BpnRepository bpnRepository) {
+        this.bpnRepository = bpnRepository;
+    }
+
+    /**
 	 * Creates a Notification object representing the notification received by the receiver for a given EDCNotification.
 	 *
 	 * @param edcNotification the EDCNotification received by the receiver
@@ -42,8 +51,10 @@ public class NotificationMapper {
 			UUID.randomUUID().toString(),
 			edcNotification.getNotificationId(),
 			edcNotification.getSenderBPN(),
-			edcNotification.getRecipientBPN(),
-			edcNotification.getSenderAddress(),
+            getManufacturerName(edcNotification.getSenderBPN()),
+            edcNotification.getRecipientBPN(),
+            getManufacturerName(edcNotification.getRecipientBPN()),
+            edcNotification.getSenderAddress(),
 			null,
 			edcNotification.getInformation(),
 			investigationStatus,
@@ -52,4 +63,9 @@ public class NotificationMapper {
 			Severity.valueOf(edcNotification.getSeverity())
 		);
 	}
+
+    private String getManufacturerName(String senderBPN) {
+        return bpnRepository.findManufacturerName(senderBPN)
+                .orElse(null);
+    }
 }

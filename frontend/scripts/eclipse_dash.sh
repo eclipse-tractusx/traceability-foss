@@ -1,2 +1,14 @@
-java -jar org.eclipse.dash.licenses-0.0.1-20221105.055038-599.jar yarn.lock -project automotive.tractusx -summary DASH_SUMMARY
-grep -E '(restricted, #)|(restricted$)' DASH_SUMMARY | if test $(wc -l) -gt 0; then exit 1; fi
+#!/bin/bash
+
+version=${1:-LATEST}
+
+
+echo "Using version = ${version}..."
+
+if [ -o summary ]
+  then
+    java -jar ./scripts/download/org.eclipse.dash.${version}.jar yarn.lock -project automotive.tractusx -summary ../DEPENDENCIES_FRONTEND
+    grep -E '(restricted, #)|(restricted$)' ../DEPENDENCIES_FRONTEND | if test $(wc -l) -gt 0; then exit 1; fi
+  else
+    java -jar ./scripts/download/org.eclipse.dash.licenses-${version}.jar yarn.lock -project automotive.tractusx
+fi

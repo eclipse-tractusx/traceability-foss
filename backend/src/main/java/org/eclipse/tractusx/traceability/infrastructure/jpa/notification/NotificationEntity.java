@@ -60,7 +60,11 @@ public class NotificationEntity {
 	private List<AssetEntity> assets;
 
 	private String senderBpnNumber;
+
+    private String senderManufacturerName;
 	private String receiverBpnNumber;
+
+    private String receiverManufacturerName;
 	private String edcUrl;
 	private String contractAgreementId;
 	private String notificationReferenceId;
@@ -70,12 +74,20 @@ public class NotificationEntity {
 	public NotificationEntity() {
 	}
 
-	public NotificationEntity(InvestigationEntity investigation, String senderBpnNumber,
-							  String receiverBpnNumber, List<AssetEntity> assets, String notificationReferenceId,
-							  Instant targetDate, Severity severity) {
+	public NotificationEntity(InvestigationEntity investigation,
+                              String senderBpnNumber,
+                              String senderManufacturerName,
+							  String receiverBpnNumber,
+                              String receiverManufacturerName,
+                              List<AssetEntity> assets,
+                              String notificationReferenceId,
+							  Instant targetDate,
+                              Severity severity) {
 		this.investigation = investigation;
 		this.senderBpnNumber = senderBpnNumber;
+        this.senderManufacturerName = senderManufacturerName;
 		this.receiverBpnNumber = receiverBpnNumber;
+        this.receiverManufacturerName = receiverManufacturerName;
 		this.assets = assets;
 		this.notificationReferenceId = notificationReferenceId;
 		this.targetDate = targetDate;
@@ -106,7 +118,15 @@ public class NotificationEntity {
 		this.senderBpnNumber = senderBpnNumber;
 	}
 
-	public String getReceiverBpnNumber() {
+    public String getSenderManufacturerName() {
+        return senderManufacturerName;
+    }
+
+    public void setSenderManufacturerName(String senderManufacturerName) {
+        this.senderManufacturerName = senderManufacturerName;
+    }
+
+    public String getReceiverBpnNumber() {
 		return receiverBpnNumber;
 	}
 
@@ -114,7 +134,15 @@ public class NotificationEntity {
 		this.receiverBpnNumber = bpnNumber;
 	}
 
-	public String getEdcUrl() {
+    public String getReceiverManufacturerName() {
+        return receiverManufacturerName;
+    }
+
+    public void setReceiverManufacturerName(String receiverManufacturerName) {
+        this.receiverManufacturerName = receiverManufacturerName;
+    }
+
+    public String getEdcUrl() {
 		return edcUrl;
 	}
 

@@ -35,7 +35,7 @@ in the GitHub organization https://github.com/eclipse-tractusx:
 
 This project leverages the following third party content.
 
-See DEPENDENCIES file.
+See DEPENDENCIES_BACKEND and DEPENDENCIES_FRONTEND file.
 
 ## Cryptography
 

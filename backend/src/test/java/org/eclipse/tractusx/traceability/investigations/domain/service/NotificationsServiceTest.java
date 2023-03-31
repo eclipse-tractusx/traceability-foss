@@ -46,18 +46,20 @@ class NotificationsServiceTest {
 		when(edcUrlProvider.getSenderUrl()).thenReturn(edcSenderUrl);
 
 		// and
-		Notification notification = new Notification(
-			null,
-			null,
-			null,
-			bpn,
-			null,
-			null,
-			null,
-			null,
-			null,
-			Instant.now(),
-			Severity.MINOR
+        Notification notification = new Notification(
+                null,
+                null,
+                null,
+                null,
+                bpn,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                Instant.now(),
+                Severity.MINOR
 		);
 
 		// when

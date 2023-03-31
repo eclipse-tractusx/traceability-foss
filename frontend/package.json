@@ -1,6 +1,6 @@
 {
   "name": "trace-x",
-  "version": "2.0.0",
+  "version": "3.1.0",
   "scripts": {
     "analyze": "ng build --configuration=production --stats-json && webpack-bundle-analyzer dist/stats.json",
     "build:prod": "ng build --configuration=debugProd --base-href /{baseHrefPlaceholder}/ --deploy-url /{baseHrefPlaceholder}/",
@@ -23,9 +23,9 @@
     "test": "ng test",
     "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
     "add-license-header": "node ./scripts/add-license-header.js --src=src",
-    "dependencies:download-tool": "mkdir -p ./scripts/download && curl -L --output ./scripts/download/org.eclipse.dash.licenses.jar 'https://repo.eclipse.org/service/local/artifact/maven/redirect?r=dash-licenses&g=org.eclipse.dash&a=org.eclipse.dash.licenses&v=LATEST'",
-    "dependencies:generate": "java -jar ./scripts/download/org.eclipse.dash.licenses.jar yarn.lock -project automotive.tractusx -summary DEPENDENCIES",
-    "dependencies:validate": "java -jar ./scripts/download/org.eclipse.dash.licenses.jar yarn.lock -project automotive.tractusx",
+    "dependencies:download-tool": "mkdir -p ./scripts/download && curl -L --output ./scripts/download/org.eclipse.dash.licenses-0.0.1-SNAPSHOT.jar 'https://repo.eclipse.org/service/local/artifact/maven/redirect?r=dash-licenses&g=org.eclipse.dash&a=org.eclipse.dash.licenses&v=0.0.1-SNAPSHOT'",
+    "dependencies:generate": "./scripts/eclipse_dash.sh 0.0.1-SNAPSHOT --summary ",
+    "dependencies:validate": "./scripts/eclipse_dash.sh 0.0.1-SNAPSHOT",
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"

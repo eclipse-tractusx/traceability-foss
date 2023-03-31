@@ -1,6 +1,7 @@
 package org.eclipse.tractusx.traceability.investigations.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.domain.model.*;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
@@ -21,6 +22,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,12 +47,16 @@ class InvestigationsPublisherServiceTest {
     @Mock
     private NotificationsService notificationsService;
 
+    @Mock
+    private BpnRepository bpnRepository;
+
     @Test
     void testStartInvestigationSuccessful() {
         // Given
         Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.CLOSED, "bpn123");
         when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
         when(repository.save(any(Investigation.class))).thenReturn(investigation.getId());
+        when(bpnRepository.findManufacturerName(anyString())).thenReturn(Optional.empty());
 
         // When
         investigationsPublisherService.startInvestigation(
@@ -132,32 +138,36 @@ class InvestigationsPublisherServiceTest {
 		String reason = "the update reason";
 
 		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-		Notification notification = new Notification(
-			"123",
-			"id123",
-			"senderBPN",
-			"recipientBPN",
-			"senderAddress",
-			"agreement",
-			"information",
-			InvestigationStatus.RECEIVED,
-			affectedParts,
-			Instant.now(),
-			Severity.MINOR
-		);
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.RECEIVED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR
+        );
 
 		Notification notification2 = new Notification(
-			"456",
-			"id123",
-			"senderBPN",
-			"recipientBPN",
-			"senderAddress",
-			"agreement",
-			"information",
-			InvestigationStatus.RECEIVED,
-			affectedParts,
-			Instant.now(),
-			Severity.MINOR
+                "456",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.RECEIVED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR
 		);
 		List<Notification> notifications = new ArrayList<>();
 		notifications.add(notification);
@@ -187,17 +197,19 @@ class InvestigationsPublisherServiceTest {
 
 		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
 		Notification notification = new Notification(
-			"123",
-			"id123",
-			"senderBPN",
-			"recipientBPN",
-			"senderAddress",
-			"agreement",
-			"information",
-			InvestigationStatus.CREATED,
-			affectedParts,
-			Instant.now(),
-			Severity.MINOR
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.CREATED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR
 		);
 
 		List<Notification> notifications = new ArrayList<>();
@@ -229,17 +241,19 @@ class InvestigationsPublisherServiceTest {
 
 		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
 		Notification notification = new Notification(
-			"123",
-			"id123",
-			"senderBPN",
-			"recipientBPN",
-			"senderAddress",
-			"agreement",
-			"information",
-			InvestigationStatus.CREATED,
-			affectedParts,
-			Instant.now(),
-			Severity.MINOR
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.CREATED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR
 		);
 
 		List<Notification> notifications = new ArrayList<>();

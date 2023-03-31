@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.mapper;
 
+import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationHeader;
@@ -29,11 +30,15 @@ import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class NotificationMapperTest {
@@ -41,10 +46,12 @@ class NotificationMapperTest {
 	@InjectMocks
 	private NotificationMapper notificationMapper;
 
+    @Mock
+    private BpnRepository bpnRepository;
+
 	@Test
 	void testToReceiverNotification() {
-
-		EDCNotificationHeader header = new EDCNotificationHeader("id123",
+        EDCNotificationHeader header = new EDCNotificationHeader("id123",
 			"senderBPN", "senderAddress", "recipientBPN", "classification",
 			"MINOR", "relatedNotificationId", "ACKNOWLEDGED", "2022-03-01T12:00:00Z");
 		EDCNotificationContent content = new EDCNotificationContent("information", List.of("partId"));
@@ -52,11 +59,17 @@ class NotificationMapperTest {
 
 		Notification expectedNotification = NotificationTestDataFactory.createNotificationTestData();
 
+        when(bpnRepository.findManufacturerName(eq(expectedNotification.getSenderBpnNumber()))).thenReturn(Optional.of(expectedNotification.getSenderManufacturerName()));
+        when(bpnRepository.findManufacturerName(eq(expectedNotification.getReceiverBpnNumber()))).thenReturn(Optional.of(expectedNotification.getReceiverManufacturerName()));
+
+
 		Notification actualNotification = notificationMapper.toReceiverNotification(edcNotification, InvestigationStatus.ACKNOWLEDGED);
 		assertNotNull(actualNotification.getId());
 		assertEquals(expectedNotification.getNotificationReferenceId(), actualNotification.getNotificationReferenceId());
 		assertEquals(expectedNotification.getSenderBpnNumber(), actualNotification.getSenderBpnNumber());
+        assertEquals(expectedNotification.getSenderManufacturerName(), actualNotification.getSenderManufacturerName());
 		assertEquals(expectedNotification.getReceiverBpnNumber(), actualNotification.getReceiverBpnNumber());
+        assertEquals(expectedNotification.getReceiverManufacturerName(), actualNotification.getReceiverManufacturerName());
 		assertEquals(expectedNotification.getEdcUrl(), actualNotification.getEdcUrl());
 		assertNull(actualNotification.getContractAgreementId());
 		assertEquals(expectedNotification.getDescription(), actualNotification.getDescription());

@@ -10,20 +10,22 @@ import java.util.List;
 
 public class NotificationTestDataFactory {
 
-	public static Notification createNotificationTestData() {
-		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-		return new Notification(
-			"123",
-			"id123",
-			"senderBPN",
-			"recipientBPN",
-			"senderAddress",
-			"agreement",
-			"information",
-			InvestigationStatus.ACKNOWLEDGED,
-			affectedParts,
-			Instant.parse("2022-03-01T12:00:00Z"),
-			Severity.MINOR
-		);
-	}
+    public static Notification createNotificationTestData() {
+        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
+        return new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.ACKNOWLEDGED,
+                affectedParts,
+                Instant.parse("2022-03-01T12:00:00Z"),
+                Severity.MINOR
+        );
+    }
 }

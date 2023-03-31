@@ -44,6 +44,7 @@ public class CatalogRequest implements RemoteMessage {
 		this.connectorAddress = connectorAddress;
 	}
 
+    @Override
 	@NotNull
 	public String getProtocol() {
 		return protocol;

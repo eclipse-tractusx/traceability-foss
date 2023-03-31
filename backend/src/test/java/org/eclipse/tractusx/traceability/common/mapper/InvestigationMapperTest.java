@@ -50,12 +50,18 @@ class InvestigationMapperTest {
 		String sender ="BPNL000000000001";
 		String receiver = "BPNL000000000002";
 		String description = "Test investigation";
-		Notification notification = new Notification("1",
-			"Test notification",
-			sender, receiver, "", "",
-			"", InvestigationStatus.RECEIVED, List.of(new AffectedPart("123")),
-			Instant.parse("2022-03-01T12:00:00Z"), Severity.MINOR
-		);
+        Notification notification = new Notification("1",
+                "Test notification",
+                sender, "senderManufacturerName",
+                receiver,
+                "receiverManufacturerName",
+                "",
+                "",
+                "",
+                InvestigationStatus.RECEIVED,
+                List.of(new AffectedPart("123")),
+                Instant.parse("2022-03-01T12:00:00Z"), Severity.MINOR
+        );
 		when(clock.instant()).thenReturn(Instant.parse("2022-03-01T12:00:00Z"));
 
 		// When
