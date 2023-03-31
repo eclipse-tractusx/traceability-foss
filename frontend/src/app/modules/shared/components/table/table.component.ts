@@ -86,7 +86,7 @@ export class TableComponent {
       return;
     }
 
-    this.selection.deselect(...deselectItem);
+    this.removeSelectedValues(deselectItem);
   }
 
   @Input() set addTrigger(newItem: unknown) {
@@ -155,7 +155,7 @@ export class TableComponent {
   }
 
   public toggleSelection(row: unknown): void {
-    this.selection.toggle(row);
+    this.isSelected(row) ? this.removeSelectedValues([row]) : this.addSelectedValues([row]);
     this.emitMultiSelect();
   }
 
