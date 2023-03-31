@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - x.x.0]
+## [Unreleased - x.x.x]
+
+### Added
+
+### Changed
+
+## [3.1.0] - 2023-04-03
 
 ### Added
 - Added validation for UpdateInvestigationRequest, reason for (decline, accepted, close)
@@ -14,7 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added feature to table to be able to clear all selections or only the current page
 - Added license headers to all chart specific files
 - Added information about the specific base image used by our docker images
--
+
 ### Changed
 - Restructured helm charts to an parent helm chart which includes frontend and backend
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)

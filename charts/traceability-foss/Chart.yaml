@@ -2,8 +2,8 @@ apiVersion: v2
 name: traceability-foss
 description: An umbrella Helm chart for eclipse-tractusx/traceability-foss project
 type: application
-version: 1.2.4
-appVersion: "3.0.0"
+version: 1.3.0
+appVersion: "3.1.0"
 dependencies:
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
@@ -12,9 +12,9 @@ dependencies:
     repository: https://helm.runix.net
     version: 1.13.6
   - name: irs-helm
-    repository: https://catenax-ng.github.io/tx-item-relationship-service
+    repository: https://eclipse-tractusx.github.io/item-relationship-service
     version: 5.0.9
   - name: irs-edc-consumer
-    repository: https://catenax-ng.github.io/tx-item-relationship-service
+    repository: https://eclipse-tractusx.github.io/item-relationship-service
     version: 1.1.2
 
