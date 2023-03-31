@@ -1,0 +1,14 @@
+= Scenario 3: Get country information for assets
+
+This section describes what happens when user lists the map of assets.
+
+[plantuml, target=get-country-information-for-assets, format=svg]
+....
+include::../../../uml-diagrams/arc42/runtime-view/assets/get-country-information-for-assets.puml[]
+....
+
+==== Overview
+
+When a user requests the map of assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a JAVA map containing a country names as keys and the number of assets stored for each country and for the given assetId, if they are found.
+
+If no asset has been found, an empty JAVA map will be returned.
