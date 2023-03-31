@@ -24,7 +24,7 @@ SPDX-License-Identifier: Apache-2.0
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
       <p class="regular-text">{{ selectedPartsInfoLabel | i18n : { count: selection?.selected?.length || 0 } }}</p>
       <app-button
-        *ngIf="this.selection?.selected?.length"
+        *ngIf="selection?.selected?.length"
         (click)="clickSelectAction.emit()"
         [variant]="'raised'"
         [color]="'accent'"
@@ -52,8 +52,8 @@ SPDX-License-Identifier: Apache-2.0
 
       <tr
         *matRowDef="let row; columns: tableConfig.displayedColumns"
-        [class.loading]="this.isDataLoading"
-        [class.no-hover]="!this.showHover"
+        [class.loading]="isDataLoading"
+        [class.no-hover]="!showHover"
         [class.highlighted]="row?.shouldHighlight"
         (click)="selectElement(row)"
         mat-row
@@ -123,7 +123,7 @@ SPDX-License-Identifier: Apache-2.0
             <mat-checkbox
               [checked]="isSelected(row)"
               (click)="$event.stopPropagation()"
-              (change)="this.toggleSelection(row)"
+              (change)="toggleSelection(row)"
               data-testid="select-one--test-id"
               color="primary"
             >
@@ -209,8 +209,8 @@ SPDX-License-Identifier: Apache-2.0
 
   <mat-paginator
     *ngIf="tableConfig.hasPagination"
-    [length]="this.totalItems"
-    [pageIndex]="this.pageIndex"
+    [length]="totalItems"
+    [pageIndex]="pageIndex"
     [pageSizeOptions]="[5, 10, 20]"
     [attr.aria-label]="'table.selectPageSize' | i18n"
     [attr.data-testId]="'table.selectPageSize' | i18n"
