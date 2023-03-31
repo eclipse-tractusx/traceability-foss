@@ -22,14 +22,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
-import { AdminComponent } from './presentation/admin.component';
+import { ScheduledRegistryProcessesComponent } from '@page/admin/presentation/scheduled-registry-processes/scheduled-registry-processes.component';
+import { KnownAdminRouts } from '@page/admin/core/admin.model';
 
 export /** @type {*} */
 const ADMIN_ROUTING: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: AdminComponent,
+    redirectTo: KnownAdminRouts.REGISTRY,
+  },
+  {
+    path: KnownAdminRouts.REGISTRY,
+    pathMatch: 'full',
+    component: ScheduledRegistryProcessesComponent,
+    data: { i18nextNamespaces: ['page.admin'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+  {
+    path: KnownAdminRouts.BPN,
+    pathMatch: 'full',
+    component: ScheduledRegistryProcessesComponent,
     data: { i18nextNamespaces: ['page.admin'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },

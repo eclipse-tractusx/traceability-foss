@@ -19,13 +19,39 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component } from '@angular/core';
+.sidenav {
+  height: 100%;
+  border-radius: 0 20px 20px 0;
+  border-color: gray;
+  overflow: visible;
 
-@Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'],
-})
-export class AdminComponent {
-  public showFiller = false;
+  &:hover::before {
+    content: ' ';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+
+    border-right: 3px solid;
+    @apply border-primary;
+    border-radius: 20px;
+  }
+}
+
+.sidenav-toggle {
+  width: 10px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -2px;
+  cursor: ew-resize;
+}
+
+.sidenav-toggle-button {
+  position: absolute;
+  bottom: 30px;
+  right: -20px;
+}
+
+.sidenav-content {
+  margin-left: 20px;
 }

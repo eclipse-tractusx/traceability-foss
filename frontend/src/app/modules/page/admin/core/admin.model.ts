@@ -21,6 +21,11 @@
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 
+export enum KnownAdminRouts {
+  REGISTRY = 'registry-lookups',
+  BPN = 'configure-bpn',
+}
+
 export interface RegistryProcess {
   startDate: CalendarDateModel;
   registryLookupStatus: RegistryLookupStatus;

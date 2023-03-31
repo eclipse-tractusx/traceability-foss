@@ -32,6 +32,7 @@ import {
 } from '@core/known-route';
 import { RoleGuard } from '@core/user/role.guard';
 import { ErrorPageType } from '@page/error-page/model/error-page.model';
+import { AdminComponent } from '@page/admin/presentation/admin.component';
 
 export /** @type {*} */
 // every page (except error pages) require at least "user" role
@@ -99,6 +100,7 @@ const routes: Routes = [
   {
     path: ADMIN_BASE_ROUTE,
     loadChildren: () => import('../../page/admin/admin.module').then(m => m.AdminModule),
+    component: AdminComponent,
     data: {
       breadcrumb: 'admin',
       roles: ['admin'],
