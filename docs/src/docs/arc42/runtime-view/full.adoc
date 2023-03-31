@@ -2,3 +2,7 @@
 
 include::overall.adoc[leveloffset=+1]
 
+include::return-all-assets.adoc[leveloffset=+1]
+include::return-specific-assets.adoc[leveloffset=+1]
+include::get-country-information-for-assets.adoc[leveloffset=+1]
+include::get-specific-information-for-assets.adoc[leveloffset=+1]

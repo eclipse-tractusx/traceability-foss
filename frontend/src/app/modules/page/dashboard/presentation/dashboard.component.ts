@@ -22,7 +22,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
-import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { Notification, Notifications, NotificationStatusGroup } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
@@ -47,11 +46,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly investigationLink: string;
   public readonly investigationParams: Record<string, string>;
 
-  constructor(
-    private readonly dashboardFacade: DashboardFacade,
-    private readonly investigationsFacade: InvestigationsFacade,
-    private readonly router: Router,
-  ) {
+  constructor(private readonly dashboardFacade: DashboardFacade, private readonly router: Router) {
     this.numberOfMyParts$ = this.dashboardFacade.numberOfMyParts$;
     this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;

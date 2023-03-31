@@ -9,6 +9,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 ### Changed
+- Updated deck.gl/core from 8.8.25 to 8.9.2
+- Updated angular/language-service from 15.1.5 to 15.2.2
+- Updated veracode action from 0.2.4 to 0.2.5
+- Updated trivy-action to use version instead of sha and set to 0.9.2
+- Updated cypress action from 5.0.7 to 5.6.0
+
 
 ## [3.1.0] - 2023-04-03
 

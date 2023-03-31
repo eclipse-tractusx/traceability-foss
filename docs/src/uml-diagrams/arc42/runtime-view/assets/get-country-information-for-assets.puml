@@ -1,0 +1,47 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+autonumber "<b>[000]"
+
+actor TraceXApiConsumer
+activate TraceXApiConsumer
+
+
+box "Trace-X FOSS" #LightGrey
+participant TraceXAPI
+activate TraceXAPI
+participant AssetsController
+activate AssetsController
+participant AssetFacade
+activate AssetFacade
+participant AssetService
+activate AssetService
+participant AssetRepository
+activate AssetRepository
+participant PersistentAssetsRepository
+activate PersistentAssetsRepository
+participant JpaAssetsRepository
+activate JpaAssetsRepository
+database Database
+
+TraceXApiConsumer -> TraceXAPI : GET /assets/countries
+TraceXAPI -> AssetsController :  assetsCountryMap()
+AssetsController -> AssetFacade :  getAssetsCountryMap()
+AssetFacade -> AssetService: getAssetsCountryMap()
+AssetService -> AssetRepository: getAssets()
+AssetRepository -> PersistentAssetsRepository: getAssets()
+PersistentAssetsRepository -> JpaAssetsRepository: findAll()
+JpaAssetsRepository -> Database : success
+
+
+
+JpaAssetsRepository <-- Database
+PersistentAssetsRepository <-- JpaAssetsRepository
+AssetRepository <-- PersistentAssetsRepository
+AssetService <-- AssetRepository
+AssetFacade <-- AssetService
+AssetsController <-- AssetFacade
+TraceXAPI <-- AssetsController
+TraceXApiConsumer <-- TraceXAPI
+
+@enduml
