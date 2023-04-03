@@ -50,9 +50,9 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   public readonly investigationsReceived$;
   public readonly investigationsQueuedAndRequested$;
 
-  private pagination: TablePaginationEventConfig = { page: 0, pageSize: 5 };
-
   public menuActionsConfig: MenuActionConfig<Notification>[];
+
+  private pagination: TablePaginationEventConfig = { page: 0, pageSize: 5 };
 
   constructor(
     public readonly helperService: InvestigationHelperService,
