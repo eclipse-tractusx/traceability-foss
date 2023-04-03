@@ -25,32 +25,34 @@ import com.nimbusds.oauth2.sdk.util.StringUtils;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.NotificationStatusTransitionNotAllowed;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static java.util.Objects.requireNonNullElseGet;
 
 public class Notification {
-	private final String id;
-	private String notificationReferenceId;
-	private final String senderBpnNumber;
-
+    private final String id;
+    private String notificationReferenceId;
+    private String senderBpnNumber;
     private final String senderManufacturerName;
-
-	private final String receiverBpnNumber;
-
+    private String receiverBpnNumber;
     private final String receiverManufacturerName;
-	private String edcUrl;
-	private String contractAgreementId;
-	private final List<AffectedPart> affectedParts;
-	private String description;
-	private InvestigationStatus investigationStatus;
+    private String edcUrl;
+    private String contractAgreementId;
+    private final List<AffectedPart> affectedParts;
+    private String description;
+    private InvestigationStatus investigationStatus;
+    private String edcNotificationId;
+    private LocalDateTime created;
+    private LocalDateTime updated;
 
-	private Instant targetDate;
+    private Instant targetDate;
 
-	private Severity severity;
+    private Severity severity;
 
-	public Notification(String id,
+    public Notification(String id,
                         String notificationReferenceId,
                         String senderBpnNumber,
                         String senderManufacturerName,
@@ -62,145 +64,199 @@ public class Notification {
                         InvestigationStatus investigationStatus,
                         List<AffectedPart> affectedParts,
                         Instant targetDate,
-                        Severity severity) {
-		this.id = id;
-		this.notificationReferenceId = notificationReferenceId;
-		this.senderBpnNumber = senderBpnNumber;
+                        Severity severity,
+                        String edcNotificationId,
+                        LocalDateTime created,
+                        LocalDateTime updated) {
+        this.id = id;
+        this.notificationReferenceId = notificationReferenceId;
+        this.senderBpnNumber = senderBpnNumber;
         this.senderManufacturerName = senderManufacturerName;
         this.receiverBpnNumber = receiverBpnNumber;
         this.receiverManufacturerName = receiverManufacturerName;
         this.edcUrl = edcUrl;
-		this.contractAgreementId = contractAgreementId;
-		this.description = description;
-		this.investigationStatus = investigationStatus;
-		this.affectedParts = requireNonNullElseGet(affectedParts, ArrayList::new);
-		this.targetDate = targetDate;
-		this.severity = severity;
-	}
+        this.contractAgreementId = contractAgreementId;
+        this.description = description;
+        this.investigationStatus = investigationStatus;
+        this.affectedParts = requireNonNullElseGet(affectedParts, ArrayList::new);
+        this.targetDate = targetDate;
+        this.severity = severity;
+        this.edcNotificationId = edcNotificationId;
+        this.created = created;
+        this.updated = updated;
+    }
 
-	void changeStatusTo(InvestigationStatus to) {
-		boolean transitionAllowed = investigationStatus.transitionAllowed(to);
+    void changeStatusTo(InvestigationStatus to) {
+        boolean transitionAllowed = investigationStatus.transitionAllowed(to);
 
-		if (!transitionAllowed) {
-			throw new NotificationStatusTransitionNotAllowed(id, investigationStatus, to);
-		}
-		this.investigationStatus = to;
-	}
+        if (!transitionAllowed) {
+            throw new NotificationStatusTransitionNotAllowed(id, investigationStatus, to);
+        }
+        this.investigationStatus = to;
+    }
 
     public void updateNotificationReferenceId(String notificationReferenceId) {
         this.notificationReferenceId = notificationReferenceId;
     }
 
-    public boolean existOnReceiverSide(){
-       return StringUtils.isNotBlank(this.getNotificationReferenceId());
+    public boolean existOnReceiverSide() {
+        return StringUtils.isNotBlank(this.getNotificationReferenceId());
     }
 
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getNotificationReferenceId() {
-		return notificationReferenceId;
-	}
+    public String getNotificationReferenceId() {
+        return notificationReferenceId;
+    }
 
-	public String getContractAgreementId() {
-		return contractAgreementId;
-	}
+    public String getContractAgreementId() {
+        return contractAgreementId;
+    }
 
-	public void setContractAgreementId(String contractAgreementId) {
-		this.contractAgreementId = contractAgreementId;
-	}
+    public void setContractAgreementId(String contractAgreementId) {
+        this.contractAgreementId = contractAgreementId;
+    }
 
-	public List<AffectedPart> getAffectedParts() {
-		return affectedParts;
-	}
+    public List<AffectedPart> getAffectedParts() {
+        return affectedParts;
+    }
 
-	public String getSenderBpnNumber() {
-		return senderBpnNumber;
-	}
+    public String getSenderBpnNumber() {
+        return senderBpnNumber;
+    }
+
+    public void setSenderBpnNumber(String senderBpnNumber) {
+        this.senderBpnNumber = senderBpnNumber;
+    }
+
+    public void setReceiverBpnNumber(String receiverBpnNumber) {
+        this.receiverBpnNumber = receiverBpnNumber;
+    }
 
     public String getSenderManufacturerName() {
         return senderManufacturerName;
     }
 
     public String getReceiverBpnNumber() {
-		return receiverBpnNumber;
-	}
+        return receiverBpnNumber;
+    }
 
     public String getReceiverManufacturerName() {
         return receiverManufacturerName;
     }
 
     public void setEdcUrl(String edcUrl) {
-		this.edcUrl = edcUrl;
-	}
+        this.edcUrl = edcUrl;
+    }
 
-	public String getEdcUrl() {
-		return edcUrl;
-	}
+    public String getEdcUrl() {
+        return edcUrl;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public InvestigationStatus getInvestigationStatus() {
-		return investigationStatus;
-	}
+    public InvestigationStatus getInvestigationStatus() {
+        return investigationStatus;
+    }
 
-	public Instant getTargetDate() {
-		return this.targetDate;
-	}
+    public Instant getTargetDate() {
+        return this.targetDate;
+    }
 
-	public void setInvestigationStatus(InvestigationStatus investigationStatus) {
-		this.investigationStatus = investigationStatus;
-	}
+    public void setInvestigationStatus(InvestigationStatus investigationStatus) {
+        this.investigationStatus = investigationStatus;
+    }
 
-	public Severity getSeverity() {
-		return severity;
-	}
+    public Severity getSeverity() {
+        return severity;
+    }
 
-	public void setSeverity(Severity severity) {
-		this.severity = severity;
-	}
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
+    }
 
-	public void setTargetDate(Instant targetDate) {
-		this.targetDate = targetDate;
-	}
+    public void setTargetDate(Instant targetDate) {
+        this.targetDate = targetDate;
+    }
 
-	public Notification copy(String senderBpnNumber, String receiverBpnNumber) {
-		return new Notification(
-			id,
-			notificationReferenceId,
-			senderBpnNumber,
-                senderManufacturerName, receiverBpnNumber,
-                receiverManufacturerName, edcUrl,
-			contractAgreementId,
-			description,
-			investigationStatus,
-			affectedParts,
-			targetDate,
-			severity
-		);
-	}
+    public void setNotificationReferenceId(String notificationReferenceId) {
+        this.notificationReferenceId = notificationReferenceId;
+    }
 
-	@Override
-	public String toString() {
-		return "Notification{" +
-			"id='" + id + '\'' +
-			", notificationReferenceId='" + notificationReferenceId + '\'' +
-			", senderBpnNumber='" + senderBpnNumber + '\'' +
-			", receiverBpnNumber='" + receiverBpnNumber + '\'' +
-			", edcUrl='" + edcUrl + '\'' +
-			", contractAgreementId='" + contractAgreementId + '\'' +
-			", affectedParts=" + affectedParts +
-			", description='" + description + '\'' +
-			", investigationStatus=" + investigationStatus +
-			", targetDate=" + targetDate +
-			", severity=" + severity +
-			'}';
-	}
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(LocalDateTime updated) {
+        this.updated = updated;
+    }
+
+    public String getEdcNotificationId() {
+        return edcNotificationId;
+    }
+
+    public void setEdcNotificationId(String edcNotificationId) {
+        this.edcNotificationId = edcNotificationId;
+    }
+
+
+    public Notification copy() {
+        final String notificationId = UUID.randomUUID().toString();
+        return new Notification(
+                notificationId,
+                notificationReferenceId,
+                senderBpnNumber,
+                senderManufacturerName,
+                receiverBpnNumber,
+                receiverManufacturerName,
+                edcUrl,
+                contractAgreementId,
+                description,
+                investigationStatus,
+                affectedParts,
+                targetDate,
+                severity,
+                edcNotificationId,
+                created,
+                updated
+        );
+    }
+
+    @Override
+    public String toString() {
+        return "Notification{" +
+                "id='" + id + '\'' +
+                ", notificationReferenceId='" + notificationReferenceId + '\'' +
+                ", senderBpnNumber='" + senderBpnNumber + '\'' +
+                ", senderManufacturerName='" + senderManufacturerName + '\'' +
+                ", receiverBpnNumber='" + receiverBpnNumber + '\'' +
+                ", receiverManufacturerName='" + receiverManufacturerName + '\'' +
+                ", edcUrl='" + edcUrl + '\'' +
+                ", contractAgreementId='" + contractAgreementId + '\'' +
+                ", affectedParts=" + affectedParts +
+                ", description='" + description + '\'' +
+                ", investigationStatus=" + investigationStatus +
+                ", edcNotificationId='" + edcNotificationId + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", targetDate=" + targetDate +
+                ", severity=" + severity +
+                '}';
+    }
 }

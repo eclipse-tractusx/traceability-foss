@@ -30,7 +30,10 @@ public class InvestigationTestDataFactory {
                 notificationInvestigationStatus,
                 List.of(new AffectedPart("part123")),
                 Instant.now(),
-                Severity.MINOR
+                Severity.MINOR,
+                "1",
+                null,
+                null
 		));
 
 		return new Investigation(
@@ -98,7 +101,10 @@ public class InvestigationTestDataFactory {
                 notificationInvestigationStatus,
                 List.of(new AffectedPart("part123")),
                 Instant.now(),
-                Severity.MINOR
+                Severity.MINOR,
+                "123",
+                null,
+                null
 		));
 
 		return new Investigation(
@@ -115,4 +121,47 @@ public class InvestigationTestDataFactory {
 			notifications
 		);
 	}
+
+    public static Investigation createInvestigationTestData(InvestigationSide investigationSide) {
+        InvestigationId investigationId = new InvestigationId(1L);
+        BPN bpn = new BPN("bpn123");
+        String closeReason = null;
+        String acceptReason = null;
+        String declineReason = null;
+        String description = "Test Investigation";
+        Instant createdAt = Instant.now();
+        List<String> assetIds = List.of("asset123", "asset456");
+        List<Notification> notifications = List.of(new Notification(
+                "1",
+                "notificationId",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "Test Notification",
+                InvestigationStatus.ACKNOWLEDGED,
+                List.of(new AffectedPart("part123")),
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                null,
+                null
+        ));
+
+        return new Investigation(
+                investigationId,
+                bpn,
+                InvestigationStatus.ACKNOWLEDGED,
+                investigationSide,
+                closeReason,
+                acceptReason,
+                declineReason,
+                description,
+                createdAt,
+                assetIds,
+                notifications
+        );
+    }
 }

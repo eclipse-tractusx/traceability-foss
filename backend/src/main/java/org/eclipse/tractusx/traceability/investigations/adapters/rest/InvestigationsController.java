@@ -35,6 +35,7 @@ import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.Star
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.StartInvestigationResponse;
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.UpdateInvestigationRequest;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsPublisherService;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReadService;
@@ -150,7 +151,7 @@ public class InvestigationsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approveInvestigation(@PathVariable Long investigationId) {
         logger.info(API_LOG_START + "/{}/approve", investigationId);
-        investigationsPublisherService.sendInvestigation(traceabilityProperties.getBpn(), investigationId);
+        investigationsPublisherService.approveInvestigation(traceabilityProperties.getBpn(), investigationId);
     }
 
     @Operation(operationId = "cancelInvestigation",
@@ -181,7 +182,7 @@ public class InvestigationsController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseInvestigationRequest closeInvestigationRequest) {
         logger.info(API_LOG_START + "/{}/close with params {}", investigationId, closeInvestigationRequest);
-        investigationsPublisherService.closeInvestigation(traceabilityProperties.getBpn(), investigationId, closeInvestigationRequest.reason());
+        investigationsPublisherService.updateInvestigationPublisher(traceabilityProperties.getBpn(), investigationId, InvestigationStatus.CLOSED, closeInvestigationRequest.reason());
     }
 
     @Operation(operationId = "updateInvestigation",

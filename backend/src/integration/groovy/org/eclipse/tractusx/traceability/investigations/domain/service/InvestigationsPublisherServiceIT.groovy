@@ -65,7 +65,10 @@ class InvestigationsPublisherServiceIT extends IntegrationSpecification implemen
 					InvestigationStatus.SENT,
 					[new AffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")],
 					Instant.parse("2018-11-30T18:35:24.00Z"),
-					Severity.MINOR
+					Severity.MINOR,
+                        "some-id",
+                        null,
+                        null
 				)
 			)
 

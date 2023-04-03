@@ -242,7 +242,6 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .body("content", Matchers.hasSize(1))
     }
 
-    @Ignore
     def "should approve investigation status"() {
         given:
         List<String> partIds = [

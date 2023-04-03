@@ -22,8 +22,8 @@
 package org.eclipse.tractusx.traceability.investigations.domain.model;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationStatusTransitionNotAllowed;
+import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,11 +46,12 @@ class InvestigationReceiverTest {
 	void forbidAcknowledgeInvestigationWithDisallowedStatus() {
 
 		// Given
-		InvestigationStatus status = CREATED;
+        Notification notification = testNotification();
+        InvestigationStatus status = CREATED;
 		investigation = receiverInvestigationWithStatus(status);
 
 		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigation.acknowledge();
+			investigation.acknowledge(notification);
 		});
 
 		assertEquals(status, investigation.getInvestigationStatus());
@@ -60,13 +61,14 @@ class InvestigationReceiverTest {
 	@Test
 	@DisplayName("Forbid Accept Investigation with disallowed status")
 	void forbidAcceptInvestigationWithDisallowedStatus() {
+        Notification notification = testNotification();
 
 		InvestigationStatus status = CREATED;
 
 		investigation = receiverInvestigationWithStatus(status);
 
 		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigation.accept("some reason");
+			investigation.accept("some reason", notification);
 		});
 
 		assertEquals(status, investigation.getInvestigationStatus());
@@ -76,13 +78,14 @@ class InvestigationReceiverTest {
 	@Test
 	@DisplayName("Forbid Decline Investigation with disallowed status")
 	void forbidDeclineInvestigationWithDisallowedStatus() {
+        Notification notification = testNotification();
 
 		InvestigationStatus status = CREATED;
 
 		investigation = receiverInvestigationWithStatus(status);
 
 		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigation.decline("some-reason");
+			investigation.decline("some-reason", notification);
 		});
 
 		assertEquals(status, investigation.getInvestigationStatus());
@@ -92,8 +95,9 @@ class InvestigationReceiverTest {
 	@Test
 	@DisplayName("Acknowledge Investigation successfully")
 	void acknowledgeInvestigationSuccessfully() {
-		investigation = receiverInvestigationWithStatus(RECEIVED);
-		investigation.acknowledge();
+        Notification notification = testNotification();
+        investigation = receiverInvestigationWithStatus(RECEIVED);
+		investigation.acknowledge(notification);
 		assertEquals(ACKNOWLEDGED, investigation.getInvestigationStatus());
 
 	}
@@ -101,22 +105,22 @@ class InvestigationReceiverTest {
 	@Test
 	@DisplayName("Accept Investigation successfully")
 	void acceptInvestigationSuccessfully() {
+        Notification notification = testNotification();
 		investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
-		investigation.accept("some reason");
+		investigation.accept("some reason", notification);
 		assertEquals(ACCEPTED, investigation.getInvestigationStatus());
-
+        assertEquals(ACCEPTED, notification.getInvestigationStatus());
 	}
 
 	@Test
 	@DisplayName("Decline Investigation successfully")
 	void declineInvestigationSuccessfully() {
-
+        Notification notification = testNotification();
 		investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
-		investigation.decline("some reason");
+		investigation.decline("some reason", notification);
 		assertEquals(DECLINED, investigation.getInvestigationStatus());
-
+        assertEquals(DECLINED, notification.getInvestigationStatus());
 	}
-
 
 	//util functions
 	private Investigation receiverInvestigationWithStatus(InvestigationStatus status) {
@@ -127,4 +131,8 @@ class InvestigationReceiverTest {
 		BPN bpn = new BPN("BPNL000000000001");
 		return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", "", "", Instant.now(), new ArrayList<>(), new ArrayList<>());
 	}
+
+    private Notification testNotification() {
+        return NotificationTestDataFactory.createNotificationTestData();
+    }
 }

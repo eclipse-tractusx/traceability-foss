@@ -83,7 +83,8 @@ class EdcNotificationModelIT extends IntegrationSpecification implements TestDat
 				"CRITICAL",
 				null,
 				"SENT",
-				"2018-11-30T18:35:24.00Z"
+				"2018-11-30T18:35:24.00Z",
+                    "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
 			)
 
 		and:

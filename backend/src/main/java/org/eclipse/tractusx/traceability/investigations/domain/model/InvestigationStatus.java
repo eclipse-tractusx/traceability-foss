@@ -30,6 +30,10 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptySet;
 import static java.util.Set.of;
 
+// One approve notification should set InvestigationStatus to SENT
+// Currently investigation already initialized with SENT
+// We need to update the receiver and sender on each new created notification to make sure that the notification will be adressed correctly
+
 
 public enum InvestigationStatus {
 	CREATED(InvestigationSide.SENDER, emptySet()),
@@ -57,7 +61,7 @@ public enum InvestigationStatus {
 
 	static {
 		STATE_MACHINE = Map.of(
-			CREATED, of(SENT, CANCELED, CLOSED),
+			CREATED, of(SENT, CANCELED),
 			SENT, of(RECEIVED, CLOSED, ACKNOWLEDGED),
 			RECEIVED, of(ACKNOWLEDGED, CLOSED),
 			ACKNOWLEDGED, of(DECLINED, ACCEPTED, CLOSED),
