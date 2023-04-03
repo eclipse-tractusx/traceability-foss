@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 100
+skinparam ranksep 20
+
+actor "User" as User
+component [**Trace-X**] <<System>> as Trace
+
+node "Digital Twin Registry" {
+    [**AAS Registry**] <<Component>> as AASR
+}
+
+node "IAM" {
+    [**Keycloak**] <<Component>> as KIAM
+}
+
+interface "TRACE API" as TAPI
+interface "OIDC" as IAMAPI
+interface "Registry API" as IRAPI
+
+User -( TAPI
+TAPI - Trace
+Trace --( IRAPI
+IRAPI -- AASR
+Trace --down( IAMAPI
+AASR --( IAMAPI
+KIAM -- IAMAPI
+@enduml
