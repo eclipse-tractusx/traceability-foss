@@ -15,6 +15,7 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Investigati
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity
 import org.springframework.beans.factory.annotation.Autowired
+import spock.lang.Ignore
 
 import java.time.Instant
 
@@ -77,7 +78,9 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
                 null,
                 null,
                 Instant.parse("2022-03-01T12:00:00Z"),
-                Severity.CRITICAL
+                Severity.CRITICAL,
+                "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
+                null
         )
 
         InvestigationEntity investigation = new InvestigationEntity(
@@ -91,7 +94,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         storedNotification(notificationEntity)
         String notificationId = notificationEntity.getId()
 
-        String notificationJson = readFile("edc_notification_okay_update.json").replaceAll("REPLACE_ME", notificationId)
+        String notificationJson = readFile("edc_notification_okay_update.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId())
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
         notificationEntities.add(notificationEntity)

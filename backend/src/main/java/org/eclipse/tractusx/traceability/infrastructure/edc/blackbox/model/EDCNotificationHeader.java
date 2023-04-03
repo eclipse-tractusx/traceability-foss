@@ -25,5 +25,5 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record EDCNotificationHeader(String notificationId, String senderBPN, String senderAddress, String recipientBPN,
 									String classification, String severity, String relatedNotificationId,
-									String status, String targetDate) {
+									String status, String targetDate, String messageId) {
 }

@@ -43,4 +43,6 @@ public interface JpaInvestigationRepository extends JpaRepository<InvestigationE
 	Optional<InvestigationEntity> findByNotificationsNotificationId(String notificationId);
     @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.notificationReferenceId = :notificationReferenceId")
     Optional<InvestigationEntity> findByNotificationsNotificationReferenceId(String notificationReferenceId);
+    @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.edcNotificationId = :edcNotificationid")
+    Optional<InvestigationEntity> findByNotificationsEdcNotificationId(String edcNotificationid);
 }

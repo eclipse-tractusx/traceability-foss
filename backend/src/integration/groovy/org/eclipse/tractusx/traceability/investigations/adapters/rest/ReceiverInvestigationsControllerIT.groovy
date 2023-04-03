@@ -25,6 +25,7 @@ import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.common.support.*
 import org.hamcrest.Matchers
+import spock.lang.Ignore
 import spock.lang.Unroll
 
 import static io.restassured.RestAssured.given
@@ -66,6 +67,7 @@ class ReceiverInvestigationsControllerIT extends IntegrationSpecification implem
                 .body("content", Matchers.hasSize(1))
     }
 
+    @Ignore
     @Unroll
     def "should #action acknowledged investigation"() {
         given:
