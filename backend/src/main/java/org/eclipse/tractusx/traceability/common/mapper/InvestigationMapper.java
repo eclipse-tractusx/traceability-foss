@@ -44,7 +44,7 @@ public class InvestigationMapper {
 	 * @param notification the notification associated with the investigation
 	 * @return an Investigation object representing the investigation received by the receiver
 	 */
-	public Investigation toReceiverInvestigation(BPN bpn, String description, Notification notification) {
+	public Investigation toInvestigation(BPN bpn, String description, Notification notification) {
 
 		List<String> assetIds = new ArrayList<>();
 		notification.getAffectedParts().stream()

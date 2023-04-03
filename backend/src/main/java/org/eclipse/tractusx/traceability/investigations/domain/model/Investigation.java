@@ -62,10 +62,6 @@ public class Investigation {
 	private String acceptReason;
 	private String declineReason;
 
-
-	public Investigation() {
-	}
-
 	public Investigation(InvestigationId investigationId,
 						 BPN bpn,
 						 InvestigationStatus investigationStatus,
@@ -167,45 +163,47 @@ public class Investigation {
 		changeStatusTo(InvestigationStatus.SENT);
 	}
 
-	public void acknowledge() {
-		changeStatusTo(InvestigationStatus.ACKNOWLEDGED);
-	}
 
-	public void acknowledge(Notification notification) {
-		changeStatusToWithoutNotifications(InvestigationStatus.ACKNOWLEDGED);
-		notification.setInvestigationStatus(InvestigationStatus.ACKNOWLEDGED);
-	}
 
-	public void accept(String reason) {
-		changeStatusTo(InvestigationStatus.ACCEPTED);
-		this.acceptReason = reason;
-        this.notifications.values()
-                .forEach(noti -> noti.setDescription(acceptReason));
-	}
 
-	public void accept(Notification notification) {
-		changeStatusToWithoutNotifications(InvestigationStatus.ACCEPTED);
+    private void setInvestigationStatusAndReasonForNotification(Notification notificationDomain, InvestigationStatus investigationStatus, String reason) {
+        for (Notification notification : this.notifications.values()) {
+                if (notification.getId().equals(notificationDomain.getId())) {
+                    if (reason != null){
+                        notification.setDescription(reason);
+                    }
+                    notification.setInvestigationStatus(investigationStatus);
+                    break;
+                }
+        }
+    }
+
+    public void acknowledge(Notification notification) {
+        changeStatusToWithoutNotifications(InvestigationStatus.ACKNOWLEDGED);
+        setInvestigationStatusAndReasonForNotification(notification, InvestigationStatus.ACKNOWLEDGED, null);
+        notification.setInvestigationStatus(InvestigationStatus.ACKNOWLEDGED);
+    }
+
+    public void accept(String reason, Notification notification) {
+        changeStatusToWithoutNotifications(InvestigationStatus.ACCEPTED);
+        this.acceptReason = reason;
+        setInvestigationStatusAndReasonForNotification(notification, InvestigationStatus.ACCEPTED, reason);
         notification.setInvestigationStatus(InvestigationStatus.ACCEPTED);
-		this.acceptReason = notification.getDescription();
-        this.notifications.values()
-                .forEach(noti -> noti.setDescription(acceptReason));
-	}
+    }
 
-	public void decline(Notification notification) {
-		changeStatusTo(InvestigationStatus.DECLINED);
-		notification.setInvestigationStatus(InvestigationStatus.DECLINED);
-		this.declineReason = notification.getDescription();
-        this.notifications.values()
-                .forEach(noti -> noti.setDescription(declineReason));
+    public void decline(String reason, Notification notification) {
+        changeStatusToWithoutNotifications(InvestigationStatus.DECLINED);
+        this.declineReason = reason;
+        setInvestigationStatusAndReasonForNotification(notification, InvestigationStatus.DECLINED, reason);
+        notification.setInvestigationStatus(InvestigationStatus.DECLINED);
+    }
 
-	}
-
-	public void decline(String reason) {
-		changeStatusTo(InvestigationStatus.DECLINED);
-		this.declineReason = reason;
-        this.notifications.values()
-                .forEach(noti -> noti.setDescription(declineReason));
-	}
+    public void close(String reason, Notification notification) {
+        changeStatusToWithoutNotifications(InvestigationStatus.CLOSED);
+        this.closeReason = reason;
+        setInvestigationStatusAndReasonForNotification(notification, InvestigationStatus.CLOSED, reason);
+        notification.setInvestigationStatus(InvestigationStatus.CLOSED);
+    }
 
 	private void validateBPN(BPN applicationBpn) {
 		if (!applicationBpn.equals(this.bpn)) {
@@ -246,10 +244,6 @@ public class Investigation {
 
 	public List<Notification> getNotifications() {
 		return new ArrayList<>(notifications.values());
-	}
-
-	public Optional<Notification> getNotification(String notificationId) {
-		return Optional.ofNullable(notifications.get(notificationId));
 	}
 
 	public String getCloseReason() {

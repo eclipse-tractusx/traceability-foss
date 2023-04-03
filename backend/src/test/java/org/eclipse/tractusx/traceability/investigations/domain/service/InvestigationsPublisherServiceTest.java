@@ -4,6 +4,7 @@ import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.domain.model.*;
+import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
@@ -19,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,27 +90,6 @@ class InvestigationsPublisherServiceTest {
 	}
 
 	@Test
-	void testCloseInvestigationSuccessful() {
-
-		// Given
-		final long id = 1L;
-		final String reason = "TEST_REASON";
-		final BPN bpn = new BPN("bpn123");
-		InvestigationId investigationId = new InvestigationId(id);
-		Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.RECEIVED);
-		when(investigationsReadService.loadInvestigation(investigationId)).thenReturn(investigation);
-		when(repository.update(investigation)).thenReturn(investigationId);
-
-		// When
-		investigationsPublisherService.closeInvestigation(bpn, id, reason);
-
-		// Then
-		verify(investigationsReadService).loadInvestigation(investigationId);
-		verify(repository).update(investigation);
-		verify(notificationsService).updateAsync(any());
-	}
-
-	@Test
 	void testSendInvestigationSuccessful() {
 		// Given
 		final long id = 1L;
@@ -119,12 +100,12 @@ class InvestigationsPublisherServiceTest {
 		when(repository.update(investigation)).thenReturn(investigationId);
 
 		// When
-		investigationsPublisherService.sendInvestigation(bpn, id);
+		investigationsPublisherService.approveInvestigation(bpn, id);
 
 		// Then
 		verify(investigationsReadService).loadInvestigation(investigationId);
 		verify(repository).update(investigation);
-		verify(notificationsService).updateAsync(any(), anyBoolean());
+		verify(notificationsService).updateAsync(any());
 	}
 
 	@Test
@@ -132,7 +113,7 @@ class InvestigationsPublisherServiceTest {
 	void testUpdateInvestigation() {
 
 		// Given
-		BPN bpn = BPN.of("recipientBPN");
+		BPN bpn = BPN.of("senderBPN");
 		Long investigationIdRaw = 1L;
 		InvestigationStatus status = InvestigationStatus.ACKNOWLEDGED;
 		String reason = "the update reason";
@@ -148,10 +129,13 @@ class InvestigationsPublisherServiceTest {
                 "senderAddress",
                 "agreement",
                 "information",
-                InvestigationStatus.RECEIVED,
+                InvestigationStatus.CREATED,
                 affectedParts,
                 Instant.now(),
-                Severity.MINOR
+                Severity.MINOR,
+                "123",
+                LocalDateTime.now(),
+                null
         );
 
 		Notification notification2 = new Notification(
@@ -164,10 +148,13 @@ class InvestigationsPublisherServiceTest {
                 "senderAddress",
                 "agreement",
                 "information",
-                InvestigationStatus.RECEIVED,
+                InvestigationStatus.SENT,
                 affectedParts,
                 Instant.now(),
-                Severity.MINOR
+                Severity.MINOR,
+                "123",
+                LocalDateTime.now().plusSeconds(10),
+                null
 		);
 		List<Notification> notifications = new ArrayList<>();
 		notifications.add(notification);
@@ -182,7 +169,7 @@ class InvestigationsPublisherServiceTest {
 
 		// Then
 		Mockito.verify(repository).update(investigationTestData);
-		Mockito.verify(notificationsService, times(2)).updateAsync(any(Notification.class), anyBoolean());
+		Mockito.verify(notificationsService, times(1)).updateAsync(any(Notification.class));
 	}
 
 	@Test
@@ -192,7 +179,7 @@ class InvestigationsPublisherServiceTest {
 		// Given
 		BPN bpn = BPN.of("recipientBPN");
 		Long investigationIdRaw = 1L;
-		InvestigationStatus status = InvestigationStatus.ACCEPTED;
+		InvestigationStatus status = InvestigationStatus.CREATED;
 		String reason = "the update reason";
 
 		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
@@ -209,7 +196,10 @@ class InvestigationsPublisherServiceTest {
                 InvestigationStatus.CREATED,
                 affectedParts,
                 Instant.now(),
-                Severity.MINOR
+                Severity.MINOR,
+                "123",
+                null,
+                null
 		);
 
 		List<Notification> notifications = new ArrayList<>();
@@ -220,51 +210,7 @@ class InvestigationsPublisherServiceTest {
 		when(investigationsReadService.loadInvestigation(any(InvestigationId.class))).thenReturn(investigationTestData);
 
 		// When
-		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigationsPublisherService.updateInvestigationPublisher(bpn, investigationIdRaw, status, reason);
-		});
-
-		// Then
-		Mockito.verify(repository, never()).update(investigationTestData);
-		Mockito.verify(notificationsService, never()).updateAsync(any(Notification.class));
-	}
-
-	@Test
-	@DisplayName("Test updateInvestigation is invalid because notification receiverbpn is not same as application bpn")
-	void testUpdateInvestigationInvalidBpnMismatch() {
-
-		// Given
-		BPN bpn = BPN.of("applicationBPN");
-		Long investigationIdRaw = 1L;
-		InvestigationStatus status = InvestigationStatus.ACKNOWLEDGED;
-		String reason = "the update reason";
-
-		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-		Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.CREATED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR
-		);
-
-		List<Notification> notifications = new ArrayList<>();
-		notifications.add(notification);
-
-		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.RECEIVED, "recipientBPN", notifications);
-
-		when(investigationsReadService.loadInvestigation(any(InvestigationId.class))).thenReturn(investigationTestData);
-
-		// When
-		assertThrows(InvestigationReceiverBpnMismatchException.class, () -> {
+		assertThrows(InvestigationIllegalUpdate.class, () -> {
 			investigationsPublisherService.updateInvestigationPublisher(bpn, investigationIdRaw, status, reason);
 		});
 

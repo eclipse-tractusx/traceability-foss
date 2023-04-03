@@ -76,13 +76,8 @@ public class InvestigationsReadService {
 			.orElseThrow(() -> new InvestigationNotFoundException(investigationId));
 	}
 
-	public Investigation loadInvestigationByNotificationId(String notificationId) {
-		return repository.findByNotificationId(notificationId)
-			.orElseThrow(() -> new InvestigationNotFoundException(notificationId));
-	}
-
-    public Investigation loadInvestigationByNotificationReferenceId(String notificationReferenceId) {
-        return repository.findByNotificationReferenceId(notificationReferenceId)
-                .orElseThrow(() -> new InvestigationNotFoundException(notificationReferenceId));
+    public Investigation loadInvestigationByEdcNotificationId(String edcNotificationId) {
+        return repository.findByEdcNotificationId(edcNotificationId)
+                .orElseThrow(() -> new InvestigationNotFoundException(edcNotificationId));
     }
 }

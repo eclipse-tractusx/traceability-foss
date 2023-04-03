@@ -49,30 +49,16 @@ public class NotificationsService {
 	}
 
 	@Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
-	public void updateAsync(Notification notification, boolean isReceiver) {
+	public void updateAsync(Notification notification) {
+        logger.info("::updateAsync::notification {}", notification);
 		String senderEdcUrl = edcUrlProvider.getSenderUrl();
-		String receiverBpn;
-		String senderBpn;
-		if (isReceiver) {
-			receiverBpn = notification.getSenderBpnNumber();
-			senderBpn = notification.getReceiverBpnNumber();
 
-		} else {
-			receiverBpn = notification.getReceiverBpnNumber();
-			senderBpn = notification.getSenderBpnNumber();
-		}
-
-		List<String> receiverEdcUrls = edcUrlProvider.getEdcUrls(receiverBpn);
+		List<String> receiverEdcUrls = edcUrlProvider.getEdcUrls(notification.getReceiverBpnNumber());
 
 		for (String receiverEdcUrl : receiverEdcUrls) {
-			Notification notificationToSend = notification.copy(senderBpn, receiverBpn);
-			logger.info("NotificationUpdate (NotificationService) id: {}, refId: {}", notificationToSend.getId(), notificationToSend.getNotificationReferenceId());
-			edcFacade.startEDCTransfer(notificationToSend, receiverEdcUrl, senderEdcUrl);
-			repository.update(notificationToSend);
+            logger.info("::updateAsync::notificationToSend {}", notification);
+			edcFacade.startEDCTransfer(notification, receiverEdcUrl, senderEdcUrl);
+			repository.update(notification);
 		}
-	}
-    @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)
-	public void updateAsync(Notification notification) {
-		updateAsync(notification, false);
 	}
 }

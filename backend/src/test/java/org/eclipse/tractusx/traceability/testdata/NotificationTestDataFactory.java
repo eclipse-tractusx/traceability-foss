@@ -25,7 +25,10 @@ public class NotificationTestDataFactory {
                 InvestigationStatus.ACKNOWLEDGED,
                 affectedParts,
                 Instant.parse("2022-03-01T12:00:00Z"),
-                Severity.MINOR
+                Severity.MINOR,
+                "123",
+                null,
+                null
         );
     }
 }

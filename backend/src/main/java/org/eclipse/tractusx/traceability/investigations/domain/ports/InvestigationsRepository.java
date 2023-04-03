@@ -35,12 +35,12 @@ import java.util.Set;
 public interface InvestigationsRepository {
 	InvestigationId save(Investigation investigation);
 	InvestigationId update(Investigation investigation);
-	PageResult<Investigation> getInvestigations(Set<InvestigationStatus> investigationStatuses, Pageable pageable);
 	PageResult<Investigation> getInvestigations(InvestigationSide investigationSide, Pageable pageable);
 	Optional<Investigation> findById(InvestigationId investigationId);
 	void update(Notification notification);
 	long countPendingInvestigations();
 	Optional<Investigation> findByNotificationId(String notificationId);
+    Optional<Investigation> findByEdcNotificationId(String edcNotificationId);
     Optional<Investigation> findByNotificationReferenceId(String notificationReferenceId);
 	long countInvestigations(Set<InvestigationStatus> statuses);
 	long countInvestigations(InvestigationSide investigationSide);

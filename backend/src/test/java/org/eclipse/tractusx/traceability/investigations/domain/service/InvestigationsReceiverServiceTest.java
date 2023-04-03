@@ -20,7 +20,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.Instant;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -61,7 +60,10 @@ class InvestigationsReceiverServiceTest {
                 InvestigationStatus.SENT,
                 affectedParts,
                 Instant.now(),
-                Severity.MINOR
+                Severity.MINOR,
+                "123",
+                null,
+                null
         );
 
 		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
@@ -69,8 +71,8 @@ class InvestigationsReceiverServiceTest {
 		EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
 			"it", notification);
 
-		when(mockNotificationMapper.toReceiverNotification(edcNotification, InvestigationStatus.SENT)).thenReturn(notificationTestData);
-		when(mockInvestigationMapper.toReceiverInvestigation(any(BPN.class), anyString(), any(Notification.class))).thenReturn(investigationTestData);
+		when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+		when(mockInvestigationMapper.toInvestigation(any(BPN.class), anyString(), any(Notification.class))).thenReturn(investigationTestData);
 
 		// When
 		service.handleNotificationReceiverCallback(edcNotification);

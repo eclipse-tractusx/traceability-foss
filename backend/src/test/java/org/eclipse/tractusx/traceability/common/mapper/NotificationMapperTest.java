@@ -53,7 +53,7 @@ class NotificationMapperTest {
 	void testToReceiverNotification() {
         EDCNotificationHeader header = new EDCNotificationHeader("id123",
 			"senderBPN", "senderAddress", "recipientBPN", "classification",
-			"MINOR", "relatedNotificationId", "ACKNOWLEDGED", "2022-03-01T12:00:00Z");
+			"MINOR", "relatedNotificationId", "ACKNOWLEDGED", "2022-03-01T12:00:00Z", "id123");
 		EDCNotificationContent content = new EDCNotificationContent("information", List.of("partId"));
 		EDCNotification edcNotification = new EDCNotification(header, content);
 
@@ -63,7 +63,7 @@ class NotificationMapperTest {
         when(bpnRepository.findManufacturerName(eq(expectedNotification.getReceiverBpnNumber()))).thenReturn(Optional.of(expectedNotification.getReceiverManufacturerName()));
 
 
-		Notification actualNotification = notificationMapper.toReceiverNotification(edcNotification, InvestigationStatus.ACKNOWLEDGED);
+		Notification actualNotification = notificationMapper.toNotification(edcNotification);
 		assertNotNull(actualNotification.getId());
 		assertEquals(expectedNotification.getNotificationReferenceId(), actualNotification.getNotificationReferenceId());
 		assertEquals(expectedNotification.getSenderBpnNumber(), actualNotification.getSenderBpnNumber());

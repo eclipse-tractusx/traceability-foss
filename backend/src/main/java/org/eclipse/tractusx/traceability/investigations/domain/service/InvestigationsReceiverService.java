@@ -24,7 +24,6 @@ package org.eclipse.tractusx.traceability.investigations.domain.service;
 import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
@@ -46,77 +45,59 @@ public class InvestigationsReceiverService {
     private final InvestigationsReadService investigationsReadService;
     private final NotificationMapper notificationMapper;
     private final InvestigationMapper investigationMapper;
-    private final TraceabilityProperties traceabilityProperties;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public InvestigationsReceiverService(InvestigationsRepository repository,
                                          InvestigationsReadService investigationsReadService,
-                                         NotificationMapper notificationMapper, InvestigationMapper investigationMapper, TraceabilityProperties traceabilityProperties) {
+                                         NotificationMapper notificationMapper, InvestigationMapper investigationMapper) {
 
         this.repository = repository;
         this.investigationsReadService = investigationsReadService;
         this.notificationMapper = notificationMapper;
         this.investigationMapper = investigationMapper;
-        this.traceabilityProperties = traceabilityProperties;
     }
 
     public void handleNotificationReceiverCallback(EDCNotification edcNotification) {
-        logger.info("Received notification response with id {}", edcNotification.getNotificationId());
-
-        BPN recipientBPN = BPN.of(edcNotification.getRecipientBPN());
-
         validateNotificationReceiverCallback(edcNotification);
-
-        InvestigationStatus investigationStatus = edcNotification.convertInvestigationStatus();
-
-        switch (investigationStatus) {
-            case SENT -> receiveInvestigation(edcNotification, recipientBPN, investigationStatus);
-            case ACKNOWLEDGED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACKNOWLEDGED);
-            case ACCEPTED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.ACCEPTED);
-            case DECLINED -> receiveUpdateInvestigation(edcNotification, InvestigationStatus.DECLINED);
-            case CLOSED -> closeInvestigation(edcNotification);
-            default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(investigationStatus));
+        InvestigationId investigationId;
+        if (isInitialNotification(edcNotification)) {
+            investigationId = createInvestigation(edcNotification);
+        } else {
+            investigationId = updateInvestigation(edcNotification);
         }
+        logger.info("Stored received edcNotification in investigation with id {}", investigationId);
+    }
+
+    private boolean isInitialNotification(EDCNotification edcNotification) {
+        return InvestigationStatus.SENT.equals(edcNotification.convertInvestigationStatus());
     }
 
     private void validateNotificationReceiverCallback(EDCNotification edcNotification) {
         NotificationType notificationType = edcNotification.convertNotificationType();
-
         if (!notificationType.equals(NotificationType.QMINVESTIGATION)) {
             throw new InvestigationIllegalUpdate("Received %s classified edc notification which is not an investigation".formatted(notificationType));
         }
     }
 
-    private void receiveInvestigation(EDCNotification edcNotification, BPN bpn, InvestigationStatus investigationStatus) {
-        logger.info("receiveInvestigation with status {}", investigationStatus);
-        Notification notification = notificationMapper.toReceiverNotification(edcNotification, investigationStatus);
-        Investigation investigation = investigationMapper.toReceiverInvestigation(bpn, edcNotification.getInformation(), notification);
-        repository.save(investigation);
-        logger.info("Stored received notification in investigation {}", investigation);
+    private InvestigationId createInvestigation(EDCNotification edcNotification) {
+        BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
+        Notification notification = notificationMapper.toNotification(edcNotification);
+        Investigation investigation = investigationMapper.toInvestigation(investigationCreatorBPN, edcNotification.getInformation(), notification);
+        return repository.save(investigation);
     }
 
-    private void receiveUpdateInvestigation(EDCNotification edcNotification, InvestigationStatus investigationStatus) {
-        logger.info("receiveUpdateInvestigation with status {}", investigationStatus);
-        Notification notification = notificationMapper.toReceiverNotification(edcNotification, investigationStatus);
-        Investigation investigation = investigationsReadService.loadInvestigationByNotificationId(edcNotification.getRelatedNotificationId());
-
-        switch (investigationStatus) {
+    private InvestigationId updateInvestigation(EDCNotification edcNotification) {
+        Notification notification = notificationMapper.toNotification(edcNotification);
+        Investigation investigation = investigationsReadService.loadInvestigationByEdcNotificationId(edcNotification.getNotificationId());
+        switch (edcNotification.convertInvestigationStatus()) {
             case ACKNOWLEDGED -> investigation.acknowledge(notification);
-            case ACCEPTED -> investigation.accept(notification);
-            case DECLINED -> investigation.decline(notification);
-            default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(investigationStatus));
+            case ACCEPTED -> investigation.accept(edcNotification.getInformation(), notification);
+            case DECLINED -> investigation.decline(edcNotification.getInformation(), notification);
+            case CLOSED -> investigation.close(BPN.of(investigation.getBpn()), edcNotification.getInformation());
+            default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertInvestigationStatus()));
         }
         investigation.addNotification(notification);
-        InvestigationId savedInvestigation = repository.update(investigation);
-
-        logger.info("Stored received notification in investigation {}", savedInvestigation);
-    }
-
-    private void closeInvestigation(EDCNotification edcNotification) {
-            logger.info("InvestigationReceiverService#closeInvestigation incoming");
-            Investigation investigation = investigationsReadService.loadInvestigationByNotificationReferenceId(edcNotification.getRelatedNotificationId());
-            investigation.close(traceabilityProperties.getBpn(), edcNotification.getInformation());
-            repository.update(investigation);
+        return repository.update(investigation);
     }
 
 }
