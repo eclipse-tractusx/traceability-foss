@@ -9,16 +9,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 ### Changed
-- Updated deck.gl/core from 8.8.25 to 8.9.2
-- Updated angular/language-service from 15.1.5 to 15.2.2
-- Updated veracode action from 0.2.4 to 0.2.5
-- Updated trivy-action to use version instead of sha and set to 0.9.2
-- Updated cypress action from 5.0.7 to 5.6.0
-
 
 ## [3.1.0] - 2023-04-03
 
 ### Added
+- Added persistent history of EDC Notifications
 - Added validation for UpdateInvestigationRequest, reason for (decline, accepted, close)
 - Added Title to sections that might be cut of with three dots (...)
 - Added documentation regarding base docker image and prepared for future QG updates
@@ -28,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added information about the specific base image used by our docker images
 
 ### Changed
+- Validation logic of edc notification flow
 - Restructured helm charts to an parent helm chart which includes frontend and backend
 - Updated database fields within Investigation table (accept_reason, decline_reason, close_reason)
 - Used same shadow for other parts table than we use for my parts table
@@ -45,6 +41,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded all environments to use most recent release of irs including edc charts 0.3.0
 - Removed unnecessary properties on irs charts
 - Removed catena specific value files
+- Updated deck.gl/core from 8.8.25 to 8.9.2
+- Updated angular/language-service from 15.1.5 to 15.2.2
+- Updated veracode action from 0.2.4 to 0.2.5
+- Updated trivy-action to use version instead of sha and set to 0.9.2
+- Updated cypress action from 5.0.7 to 5.6.0
 
 ## [3.0.0] - 2023-03-21
 
