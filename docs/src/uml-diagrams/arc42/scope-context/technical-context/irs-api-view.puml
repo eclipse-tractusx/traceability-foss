@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 100
+skinparam ranksep 20
+
+actor "User" as User
+component [**Trace-X**] <<System>> as Trace
+
+node "Item relationship service" {
+    [**Item relationship**] <<Component>> as ITEM_RELATIONSHIP
+}
+
+node "IAM" {
+    [**Keycloak**] <<Component>> as KIAM
+}
+
+interface "TRACE API" as TAPI
+interface "OIDC" as IAMAPI
+interface "IRS API" as IAPI
+
+User -( TAPI
+TAPI - Trace
+Trace --( IAPI
+IAPI -- ITEM_RELATIONSHIP
+Trace --down( IAMAPI
+ITEM_RELATIONSHIP --( IAMAPI
+KIAM -- IAMAPI
+@enduml
