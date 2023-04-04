@@ -189,6 +189,7 @@ public class Investigation {
         this.acceptReason = reason;
         setInvestigationStatusAndReasonForNotification(notification, InvestigationStatus.ACCEPTED, reason);
         notification.setInvestigationStatus(InvestigationStatus.ACCEPTED);
+        notification.setDescription(reason);
     }
 
     public void decline(String reason, Notification notification) {
@@ -196,6 +197,7 @@ public class Investigation {
         this.declineReason = reason;
         setInvestigationStatusAndReasonForNotification(notification, InvestigationStatus.DECLINED, reason);
         notification.setInvestigationStatus(InvestigationStatus.DECLINED);
+        notification.setDescription(reason);
     }
 
     public void close(String reason, Notification notification) {
@@ -203,6 +205,7 @@ public class Investigation {
         this.closeReason = reason;
         setInvestigationStatusAndReasonForNotification(notification, InvestigationStatus.CLOSED, reason);
         notification.setInvestigationStatus(InvestigationStatus.CLOSED);
+        notification.setDescription(reason);
     }
 
 	private void validateBPN(BPN applicationBpn) {

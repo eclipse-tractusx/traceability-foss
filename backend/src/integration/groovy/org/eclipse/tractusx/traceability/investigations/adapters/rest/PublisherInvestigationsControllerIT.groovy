@@ -139,7 +139,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                                 [
                                         partIds    : partIds,
                                         description: description,
-                                        severity: "MINOR"
+                                        severity   : "MINOR"
                                 ]
                         )
                 )
@@ -167,7 +167,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .body(
                         asJson(
                                 [
-                                        status    : "ACCEPTED",
+                                        status: "ACCEPTED",
                                         reason: description
                                 ]
                         )
@@ -180,8 +180,6 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .body(Matchers.containsString("Reason should have at least 15 characters and at most 1000 characters"))
     }
 
-    // will be fixed in: https://jira.catena-x.net/browse/TRACEFOSS-1063
-    @Ignore
     def "should cancel investigation"() {
         given:
         defaultAssetsStored()
@@ -193,7 +191,8 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                         asJson(
                                 [
                                         partIds    : ["urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"],
-                                        description: "at least 15 characters long investigation description"
+                                        description: "at least 15 characters long investigation description",
+                                        severity   : "MAJOR"
                                 ]
                         )
                 )
