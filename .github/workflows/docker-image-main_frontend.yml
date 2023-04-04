@@ -1,4 +1,4 @@
-name: Backend Build&Push Docker image on main
+name: Frontend Build&Push Docker image on main
 
 on:
   push:

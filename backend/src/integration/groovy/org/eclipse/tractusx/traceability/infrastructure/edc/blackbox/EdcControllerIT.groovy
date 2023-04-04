@@ -15,7 +15,6 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Investigati
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity
 import org.springframework.beans.factory.annotation.Autowired
-import spock.lang.Ignore
 
 import java.time.Instant
 
@@ -70,6 +69,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         given:
         defaultAssetsStored()
         NotificationEntity notification = new NotificationEntity(
+                "1",
                 null,
                 "senderBpnNumber",
                 "senderManufacturerName",
@@ -85,22 +85,21 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 
         InvestigationEntity investigation = new InvestigationEntity(
                 [], "BPNL00000003AXS3", InvestigationStatus.SENT, InvestigationSide.SENDER, "", "some-description", Instant.now())
-        List<NotificationEntity> notificationEntities = new ArrayList<>()
+
         InvestigationEntity persistedInvestigation = storedInvestigationFullObject(investigation)
 
-
         NotificationEntity notificationEntity = storedNotification(notification)
-        notification.setInvestigation(persistedInvestigation);
-        storedNotification(notificationEntity)
-        String notificationId = notificationEntity.getId()
+        notificationEntity.setInvestigation(persistedInvestigation);
+        NotificationEntity persistedNotification = storedNotification(notificationEntity)
+
+        investigation.setNotifications(List.of(persistedNotification))
+
+        storedInvestigationFullObject(investigation)
+
 
         String notificationJson = readFile("edc_notification_okay_update.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId())
         EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
 
-        notificationEntities.add(notificationEntity)
-        investigation.setNotifications(notificationEntities)
-
-        storedInvestigationFullObject(investigation)
 
         when:
         given()

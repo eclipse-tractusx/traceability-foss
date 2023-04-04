@@ -46,8 +46,6 @@ import java.util.List;
 public class NotificationEntity {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -81,7 +79,8 @@ public class NotificationEntity {
     public NotificationEntity() {
     }
 
-    public NotificationEntity(InvestigationEntity investigation,
+    public NotificationEntity(String id,
+                              InvestigationEntity investigation,
                               String senderBpnNumber,
                               String senderManufacturerName,
                               String receiverBpnNumber,
@@ -92,6 +91,7 @@ public class NotificationEntity {
                               Severity severity,
                               String edcNotificationId,
                               InvestigationStatus status) {
+        this.id = id;
         this.investigation = investigation;
         this.senderBpnNumber = senderBpnNumber;
         this.senderManufacturerName = senderManufacturerName;
