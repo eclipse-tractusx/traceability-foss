@@ -82,12 +82,9 @@
             org/eclipse/tractusx/traceability/generated/**,
             org/eclipse/tractusx/traceability/TraceabilityApplication.java,
             org/eclipse/tractusx/traceability/common/docs/SwaggerPageable.java,
-            org/eclipse/tractusx/traceability/infrastructure/**,
-            org/eclipse/tractusx/traceability/assets/domain/model/**,
-            org/eclipse/tractusx/traceability/assets/infrastructure/**,
-            org/eclipse/tractusx/traceability/assets/config/**,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**,
-            org/eclipse/tractusx/traceability/infrastructure/jpa/notification/**
+            org/eclipse/tractusx/traceability/assets/domain/model/PagedAsset.java,
+            org/eclipse/tractusx/traceability/assets/domain/model/ShellDescriptor.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**
         </sonar.exclusions>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
