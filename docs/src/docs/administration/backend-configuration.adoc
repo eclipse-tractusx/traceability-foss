@@ -13,7 +13,7 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 
 [source,yaml]
 ----
-include::../../../../charts/traceability-foss-backend/values.yaml[lines=121..-1]
+include::../../../../charts/traceability-foss/values.yaml[lines=121..-1]
 ----
 
 === Values explained

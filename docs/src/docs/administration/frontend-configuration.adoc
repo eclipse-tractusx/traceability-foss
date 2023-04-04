@@ -12,13 +12,7 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 
 == Helm configuration Trace-X Frontend (values.yaml)
 
-// TODO enable url include of values.yaml file
-// [source,yaml]
-// ----
-// include::https://github.com/eclipse-tractusx/traceability-foss-frontend/blob/main/charts/traceability-foss-frontend/values.yaml[lines=91..-1]
-// ----
-
-values.yaml https://github.com/eclipse-tractusx/traceability-foss-frontend/blob/main/charts/traceability-foss-frontend/values.yaml
+values.yaml https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/values.yaml
 
 === Values explained
 
@@ -38,7 +32,7 @@ The hostname of the app.
 The tls settings of the app.
 
 ==== <livenessProbe>
-Following Catena-X Helm Best Practices https://catenax-ng.github.io/docs/kubernetes-basics/helm
+Following Tractus-X Helm Best Practices https://eclipse-tractusx.github.io/docs/release/
 
 ==== <readinessProbe>
-Following Catena-X Helm Best Practices https://catenax-ng.github.io/docs/kubernetes-basics/helm
+Following Tractus-X Helm Best Practices https://eclipse-tractusx.github.io/docs/release/

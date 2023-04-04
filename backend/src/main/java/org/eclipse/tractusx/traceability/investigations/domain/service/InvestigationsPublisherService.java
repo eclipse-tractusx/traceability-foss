@@ -149,11 +149,10 @@ public class InvestigationsPublisherService {
     public void approveInvestigation(BPN applicationBpn, Long id) {
         InvestigationId investigationId = new InvestigationId(id);
         Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
-        // TODO create a new notification
         investigation.send(applicationBpn);
         repository.update(investigation);
         // For each asset within investigation a notification was created before
-        investigation.getNotifications().forEach(notification -> notificationsService.updateAsync(notification));
+        investigation.getNotifications().forEach(notificationsService::updateAsync);
     }
 
     /**
@@ -170,16 +169,10 @@ public class InvestigationsPublisherService {
         validate(applicationBpn, status, investigation);
 
         List<Notification> allLatestNotificationForEdcNotificationId = getAllLatestNotificationForEdcNotificationId(investigation);
-
+        List<Notification> notificationsToSend = new ArrayList<>();
         logger.info("::updateInvestigationPublisher::allLatestNotificationForEdcNotificationId {}", allLatestNotificationForEdcNotificationId);
         allLatestNotificationForEdcNotificationId.forEach(notification -> {
-            // the receiverBPNNumber of a notification must not be the same as the application. Example BPN A closes investigation and the notification would be go to BPN A (would not make sense)
-            if (notification.getReceiverBpnNumber().equals(applicationBpn.value())){
-                notification.setReceiverBpnNumber(notification.getSenderBpnNumber());
-                notification.setSenderBpnNumber(notification.getReceiverBpnNumber());
-            }
-
-            Notification notificationToSend = notification.copy();
+            Notification notificationToSend = notification.copyAndSwitchSenderAndReceiver(applicationBpn);
             switch (status) {
                 case ACKNOWLEDGED -> investigation.acknowledge(notificationToSend);
                 case ACCEPTED -> investigation.accept(reason, notificationToSend);
@@ -189,9 +182,10 @@ public class InvestigationsPublisherService {
             }
             logger.info("::updateInvestigationPublisher::notificationToSend {}", notificationToSend);
             investigation.addNotification(notificationToSend);
-            notificationsService.updateAsync(notificationToSend);
+            notificationsToSend.add(notificationToSend);
         });
         repository.update(investigation);
+        notificationsToSend.forEach(notificationsService::updateAsync);
     }
 
     private void validate(BPN applicationBpn, InvestigationStatus status, Investigation investigation) {
@@ -223,10 +217,6 @@ public class InvestigationsPublisherService {
                 notificationGroup.add(notification);
             } else {
                 Notification latestNotification = notificationGroup.stream().max(Comparator.comparing(Notification::getCreated)).orElse(null);
-
-                if (latestNotification == null){
-                    throw new IllegalArgumentException("Two notifications with same edcNotificationId have the same status. This can be happen on old datasets.");
-                }
 
                 if (notification.getCreated().isAfter(latestNotification.getCreated())) {
                     notificationGroup.clear();

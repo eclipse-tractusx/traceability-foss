@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.investigations.domain.model;
 
 import com.nimbusds.oauth2.sdk.util.StringUtils;
+import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.NotificationStatusTransitionNotAllowed;
 
 import java.time.Instant;
@@ -216,15 +217,28 @@ public class Notification {
     }
 
 
-    public Notification copy() {
+    // Important - receiver and sender will be saved in switched order
+    public Notification copyAndSwitchSenderAndReceiver(BPN applicationBpn) {
         final String notificationId = UUID.randomUUID().toString();
+        String receiver = receiverBpnNumber;
+        String sender = senderBpnNumber;
+        String receiverManufactureName = receiverManufacturerName;
+        String senderManufactureName = senderManufacturerName;
+
+        // This is needed to make sure that the app can send a message to the receiver and not addresses itself
+        if (applicationBpn.value().equals(receiverBpnNumber)){
+            receiver = senderBpnNumber;
+            sender = receiverBpnNumber;
+            receiverManufactureName = senderManufacturerName;
+            senderManufactureName = receiverManufacturerName;
+        }
         return new Notification(
                 notificationId,
-                notificationReferenceId,
-                senderBpnNumber,
-                senderManufacturerName,
-                receiverBpnNumber,
-                receiverManufacturerName,
+                null,
+                sender,
+                senderManufactureName,
+                receiver,
+                receiverManufactureName,
                 edcUrl,
                 contractAgreementId,
                 description,

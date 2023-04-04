@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
@@ -30,41 +29,41 @@ import java.time.Instant
 
 trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
-	Long defaultReceivedInvestigationStored() {
-		InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "some-description", Instant.now())
+    Long defaultReceivedInvestigationStored() {
+        InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "some-description", Instant.now())
 
-		return storedInvestigation(entity)
-	}
+        return storedInvestigation(entity)
+    }
 
-	Long defaultAcknowledgedInvestigationStored() {
-		InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.ACKNOWLEDGED, InvestigationSide.RECEIVER, "", "", Instant.now())
+    Long defaultAcknowledgedInvestigationStored() {
+        InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.ACKNOWLEDGED, InvestigationSide.RECEIVER, "", "", Instant.now())
 
-		return storedInvestigation(entity)
-	}
+        return storedInvestigation(entity)
+    }
 
-	void assertInvestigationsSize(int size) {
-		List<InvestigationEntity> investigations = jpaInvestigationRepository().findAll()
+    void assertInvestigationsSize(int size) {
+        List<InvestigationEntity> investigations = jpaInvestigationRepository().findAll()
 
-		assert investigations.size() == size
-	}
+        assert investigations.size() == size
+    }
 
-	void assertInvestigationStatus(InvestigationStatus investigationStatus) {
-		jpaInvestigationRepository().findAll().each {
-			assert it.status == investigationStatus
-		}
-	}
+    void assertInvestigationStatus(InvestigationStatus investigationStatus) {
+        jpaInvestigationRepository().findAll().each {
+            assert it.status == investigationStatus
+        }
+    }
 
-	void storedInvestigations(InvestigationEntity... investigations) {
-		investigations.each {
-			jpaInvestigationRepository().save(it)
-		}
-	}
+    void storedInvestigations(InvestigationEntity... investigations) {
+        investigations.each {
+            jpaInvestigationRepository().save(it)
+        }
+    }
 
-	Long storedInvestigation(InvestigationEntity investigation) {
-		return jpaInvestigationRepository().save(investigation).id
-	}
+    Long storedInvestigation(InvestigationEntity investigation) {
+        return jpaInvestigationRepository().save(investigation).id
+    }
 
-	InvestigationEntity storedInvestigationFullObject(InvestigationEntity investigation) {
-		return jpaInvestigationRepository().save(investigation);
-	}
+    InvestigationEntity storedInvestigationFullObject(InvestigationEntity investigation) {
+        return jpaInvestigationRepository().save(investigation);
+    }
 }

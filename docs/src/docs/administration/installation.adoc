@@ -1,12 +1,8 @@
 = Installation
 
-The Trace-X Helm Backend repository can be found here:
+The Trace-X Helm repository can be found here:
 
-https://eclipse-tractusx.github.io/traceability-foss-backend/index.yaml
-
-The Trace-X Helm Frontend repository can be found here:
-
-https://eclipse-tractusx.github.io/traceability-foss-frontend/index.yaml
+https://eclipse-tractusx.github.io/traceability-foss/index.yaml
 
 Use the latest release of the "trace-x-helm" chart.
 It contains all required dependencies.
@@ -15,17 +11,16 @@ Supply the required configuration properties (see chapter xref:configuration.ado
 
 == Deployment using Helm
 
-Add the Trace-X Backend Helm repository:
+Add the Trace-X Helm repository:
 
 [listing]
-$ helm repo add traceability-foss-backend https://eclipse-tractusx.github.io/traceability-foss-backend
-$ helm repo add traceability-foss-frontend https://eclipse-tractusx.github.io/traceability-foss-frontend
+$ helm repo add traceability-foss https://eclipse-tractusx.github.io/traceability-foss
 
 Then install the Helm chart into your cluster:
 
 [listing]
-$ helm install -f your-values.yaml traceability-foss-backend traceability-foss-backend/traceability-foss-backend
-$ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-frontend/traceability-foss-frontend
+$ helm install -f your-values.yaml traceability-foss traceability-foss/traceability-foss
+
 
 == Dependent values
 
@@ -46,14 +41,10 @@ Create a new Helm chart and use Trace-X as a dependency.
 
 [source,yaml]
 dependencies:
-  - name: traceability-foss-frontend
-    alias: frontend
+  - name: traceability-foss
+    alias: traceability-foss
     version: x.x.x
-    repository: "https://eclipse-tractusx.github.io/traceability-foss-frontend/"
-  - name: traceability-foss-backend
-    alias: backend
-    version: x.x.x
-    repository: "https://eclipse-tractusx.github.io/traceability-foss-backend/"
+    repository: "https://eclipse-tractusx.github.io/traceability-foss/"
 
 Then provide your configuration as the values.yaml of that chart.
 
