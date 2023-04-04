@@ -668,16 +668,10 @@ pre.rouge {
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>The Trace-X Helm Backend repository can be found here:</p>
+<p>The Trace-X Helm repository can be found here:</p>
 </div>
 <div class="paragraph">
-<p><a href="https://eclipse-tractusx.github.io/traceability-foss-backend/index.yaml" class="bare">https://eclipse-tractusx.github.io/traceability-foss-backend/index.yaml</a></p>
-</div>
-<div class="paragraph">
-<p>The Trace-X Helm Frontend repository can be found here:</p>
-</div>
-<div class="paragraph">
-<p><a href="https://eclipse-tractusx.github.io/traceability-foss-frontend/index.yaml" class="bare">https://eclipse-tractusx.github.io/traceability-foss-frontend/index.yaml</a></p>
+<p><a href="https://eclipse-tractusx.github.io/traceability-foss/index.yaml" class="bare">https://eclipse-tractusx.github.io/traceability-foss/index.yaml</a></p>
 </div>
 <div class="paragraph">
 <p>Use the latest release of the "trace-x-helm" chart.
@@ -692,12 +686,11 @@ It contains all required dependencies.</p>
 <h2 id="_deployment_using_helm">Deployment using Helm</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Add the Trace-X Backend Helm repository:</p>
+<p>Add the Trace-X Helm repository:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>$ helm repo add traceability-foss-backend https://eclipse-tractusx.github.io/traceability-foss-backend
-$ helm repo add traceability-foss-frontend https://eclipse-tractusx.github.io/traceability-foss-frontend</pre>
+<pre>$ helm repo add traceability-foss https://eclipse-tractusx.github.io/traceability-foss</pre>
 </div>
 </div>
 <div class="paragraph">
@@ -705,8 +698,7 @@ $ helm repo add traceability-foss-frontend https://eclipse-tractusx.github.io/tr
 </div>
 <div class="listingblock">
 <div class="content">
-<pre>$ helm install -f your-values.yaml traceability-foss-backend traceability-foss-backend/traceability-foss-backend
-$ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-frontend/traceability-foss-frontend</pre>
+<pre>$ helm install -f your-values.yaml traceability-foss traceability-foss/traceability-foss</pre>
 </div>
 </div>
 </div>
@@ -741,14 +733,10 @@ $ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="na">dependencies</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">traceability-foss-frontend</span>
-    <span class="na">alias</span><span class="pi">:</span> <span class="s">frontend</span>
+  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">traceability-foss</span>
+    <span class="na">alias</span><span class="pi">:</span> <span class="s">traceability-foss</span>
     <span class="na">version</span><span class="pi">:</span> <span class="s">x.x.x</span>
-    <span class="na">repository</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://eclipse-tractusx.github.io/traceability-foss-frontend/"</span>
-  <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">traceability-foss-backend</span>
-    <span class="na">alias</span><span class="pi">:</span> <span class="s">backend</span>
-    <span class="na">version</span><span class="pi">:</span> <span class="s">x.x.x</span>
-    <span class="na">repository</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://eclipse-tractusx.github.io/traceability-foss-backend/"</span></code></pre>
+    <span class="na">repository</span><span class="pi">:</span> <span class="s2">"</span><span class="s">https://eclipse-tractusx.github.io/traceability-foss/"</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
@@ -762,7 +750,7 @@ $ helm install -f your-values.yaml traceability-foss-frontend traceability-foss-
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-04-03 07:14:52 UTC
+Last updated 2023-04-04 11:50:36 UTC
 </div>
 </div>
 </body>
