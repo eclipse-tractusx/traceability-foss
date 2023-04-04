@@ -90,7 +90,7 @@ jobs:
     defaults:
       run:
         working-directory: backend
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: always()
     needs: [prepare-env-backend]
     permissions:
       actions: read
@@ -125,7 +125,7 @@ jobs:
     defaults:
       run:
         working-directory: backend
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: always()
     needs: [prepare-env-backend]
     permissions:
       actions: read
@@ -133,15 +133,22 @@ jobs:
       security-events: write
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
         with:
-          ref: ${{needs.prepare-env.outputs.check_sha}}
+          java-version: '${{ env.JAVA_VERSION }}'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Locally build docker image
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:dockerBuild -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:trivy
 
       - name: Run Trivy vulnerability scanner
-        if: always()
         uses: aquasecurity/trivy-action@0.9.2
         with:
-          image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:be_${{needs.prepare-env.outputs.check_sha}}
+          image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:trivy
           trivyignores: "./.github/workflows/.trivyignore"
           format: "sarif"
           output: "trivy-results2.sarif"
