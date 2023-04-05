@@ -53,9 +53,7 @@ class InvestigationPublisherTest {
 		BPN bpn = new BPN("BPNL000000000001");
 		investigation = senderInvestigationWithStatus(bpn, status);
 
-		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigation.cancel(bpn);
-		});
+		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.cancel(bpn));
 
 		assertEquals(status, investigation.getInvestigationStatus());
 
@@ -69,9 +67,7 @@ class InvestigationPublisherTest {
 		BPN bpn = new BPN("BPNL000000000001");
 		investigation = senderInvestigationWithStatus(bpn, status);
 
-		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> {
-			investigation.send(bpn);
-		});
+		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.send(bpn));
 
 		assertEquals(status, investigation.getInvestigationStatus());
 
@@ -86,9 +82,7 @@ class InvestigationPublisherTest {
         BPN bpnOther = new BPN("BPNL12321321321");
 		investigation = senderInvestigationWithStatus(bpnOther, status);
 
-		assertThrows(InvestigationIllegalUpdate.class, () -> {
-			investigation.close(bpn, "some-reason");
-		});
+		assertThrows(InvestigationIllegalUpdate.class, () -> investigation.close(bpn, "some-reason"));
 
 		assertEquals(status, investigation.getInvestigationStatus());
 
@@ -105,9 +99,7 @@ class InvestigationPublisherTest {
 
 		BPN bpn2 = new BPN("BPNL000000000002");
 
-		assertThrows(InvestigationIllegalUpdate.class, () -> {
-			investigation.cancel(bpn2);
-		});
+		assertThrows(InvestigationIllegalUpdate.class, () -> investigation.cancel(bpn2));
 
 		assertEquals(status, investigation.getInvestigationStatus());
 
@@ -122,9 +114,7 @@ class InvestigationPublisherTest {
 		BPN bpn = new BPN("BPNL000000000001");
 		investigation = senderInvestigationWithStatus(bpn, status);
 
-		assertThrows(InvestigationIllegalUpdate.class, () -> {
-			investigation.send(new BPN("BPNL000000000002"));
-		});
+		assertThrows(InvestigationIllegalUpdate.class, () -> investigation.send(new BPN("BPNL000000000002")));
 
 		assertEquals(status, investigation.getInvestigationStatus());
 
@@ -138,9 +128,7 @@ class InvestigationPublisherTest {
 		BPN bpn = new BPN("BPNL000000000001");
 		investigation = senderInvestigationWithStatus(bpn, status);
 
-		assertThrows(InvestigationIllegalUpdate.class, () -> {
-			investigation.close(new BPN("BPNL000000000002"), "some reason");
-		});
+		assertThrows(InvestigationIllegalUpdate.class, () -> investigation.close(new BPN("BPNL000000000002"), "some reason"));
 
 		assertEquals(status, investigation.getInvestigationStatus());
 
