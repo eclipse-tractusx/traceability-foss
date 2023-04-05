@@ -30,10 +30,13 @@ import { TemplateModule } from '@shared/template.module';
 import { AdminRoutingModule } from './admin.routing';
 import { AdminComponent } from './presentation/admin.component';
 import { ScheduledRegistryProcessesComponent } from './presentation/scheduled-registry-processes/scheduled-registry-processes.component';
+import { BpnConfigurationComponent } from './presentation/bpn-configuration/bpn-configuration.component';
+import { SaveBpnConfigModal } from './presentation/bpn-configuration/save-modal/save-modal.component';
+import { ModalModule } from '@shared/modules/modal/modal.module';
 
 @NgModule({
-  declarations: [AdminComponent, ScheduledRegistryProcessesComponent],
-  imports: [CommonModule, TemplateModule, SharedModule, AdminRoutingModule],
+  declarations: [AdminComponent, ScheduledRegistryProcessesComponent, BpnConfigurationComponent, SaveBpnConfigModal],
+  imports: [CommonModule, TemplateModule, SharedModule, AdminRoutingModule, ModalModule],
   providers: [...getI18nPageProvider('page.admin'), AdminService, AdminFacade, AdminState],
 })
 export class AdminModule {}

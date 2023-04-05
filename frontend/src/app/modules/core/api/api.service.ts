@@ -93,8 +93,9 @@ export class ApiService {
     });
   }
 
-  public delete<T>(url: string, withCredentials = false, headers?: HttpHeaders): Observable<T> {
+  public delete<T>(url: string, params?: HttpParams, withCredentials = false, headers?: HttpHeaders): Observable<T> {
     return this.httpClient.delete<T>(url, {
+      params,
       headers: headers ? headers : this.buildHeaders(),
       withCredentials,
     });

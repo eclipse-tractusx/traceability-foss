@@ -22,7 +22,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
-import { RegistryProcess, RegistryProcessResponse } from '@page/admin/core/admin.model';
+import { BpnConfig, BpnConfigResponse, RegistryProcess, RegistryProcessResponse } from '@page/admin/core/admin.model';
 import _deepClone from 'lodash-es/cloneDeep';
 
 export class AdminAssembler {
@@ -36,5 +36,9 @@ export class AdminAssembler {
     data: PaginationResponse<RegistryProcessResponse>,
   ): Pagination<RegistryProcess> {
     return PaginationAssembler.assemblePagination(AdminAssembler.AssembleRegistryProcess, data);
+  }
+
+  public static assembleBpnConfig(data: BpnConfigResponse[]): BpnConfig[] {
+    return data.map(({ bpn, url }) => ({ bpn, url }));
   }
 }

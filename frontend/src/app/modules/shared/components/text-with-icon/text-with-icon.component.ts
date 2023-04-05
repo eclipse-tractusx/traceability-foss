@@ -30,4 +30,5 @@ export class TextWithIconComponent {
   @Input() color: ThemePalette;
   @Input() iconName: string;
   @Input() isTextLeft: false;
+  @Input() testId: string;
 }

@@ -19,39 +19,76 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+.sidenav--container {
+  display: grid;
+  grid-template-columns: 52px auto;
+  grid-template-rows: 100%;
+  position: relative;
+  transition: all 0.5s;
+  max-height: calc(100vh - 220px - 4.5rem);
+  overflow: hidden;
+}
+
+.sidenav--expanded {
+  grid-template-columns: 220px auto;
+  word-wrap: break-word;
+}
+
 .sidenav {
-  height: 100%;
-  border-radius: 0 20px 20px 0;
-  border-color: gray;
+  border: none;
   overflow: visible;
+  position: relative;
+}
 
-  &:hover::before {
-    content: ' ';
-    position: absolute;
-    height: 100%;
-    width: 100%;
+.sidenav--item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  overflow: hidden;
+  white-space: nowrap;
 
-    border-right: 3px solid;
-    @apply border-primary;
-    border-radius: 20px;
+  &:hover {
+    @apply bg-primaryLight cursor-pointer;
   }
 }
 
-.sidenav-toggle {
-  width: 10px;
+.sidenav--expanded .active::before {
+  width: 90%;
+}
+
+.active::before {
+  content: ' ';
+  width: 50%;
+  padding-top: 30px;
+  border: none;
+  position: absolute;
+  border-bottom: 2px solid #0f71cb;
+}
+
+.sidenav--toggle {
+  width: 5px;
   height: 100%;
   position: absolute;
   top: 0;
   right: -2px;
   cursor: ew-resize;
+  @apply bg-primaryLight;
+
+  &:hover {
+    @apply bg-primary;
+  }
 }
 
-.sidenav-toggle-button {
+.sidenav--toggle-button {
   position: absolute;
   bottom: 30px;
   right: -20px;
+  z-index: 1;
 }
 
-.sidenav-content {
+.sidenav--content {
   margin-left: 20px;
+  min-height: 300px;
+  overflow: scroll;
 }

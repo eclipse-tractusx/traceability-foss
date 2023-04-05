@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 export enum KnownAdminRouts {
   REGISTRY = 'registry-lookups',
@@ -49,3 +50,18 @@ export enum RegistryLookupStatus {
   PARTIALLY_SUCCESS = 'PARTIALLY_SUCCESS',
   ERROR = 'ERROR',
 }
+
+export interface BpnConfigResponse {
+  organization?: string;
+  edcType?: string;
+  providedBy?: string;
+  bpn: string;
+  url: string;
+}
+
+export interface BpnConfig {
+  bpn: string;
+  url: string;
+}
+
+export type BpnConfigFormGroup = FormGroup<{ bpnConfig: FormArray<FormControl<BpnConfig>> }>;

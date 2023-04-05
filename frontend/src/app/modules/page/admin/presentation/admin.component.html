@@ -19,34 +19,30 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<mat-drawer-container autosize hasBackdrop="false">
-  <mat-drawer class="sidenav" mode="side" opened="true">
-    <div>
-      <app-button routerLink="/admin/registry-lookups">
-        <app-text-with-icon iconName="alarm">
-          <ng-container *ngIf="showFiller">Registry lookups</ng-container>
-        </app-text-with-icon>
-      </app-button>
-    </div>
-
-    <div>
-      <app-button routerLink="/admin/configure-bpn">
-        <app-text-with-icon iconName="android">
-          <ng-container *ngIf="showFiller">Lorem, ipsum dolor sit amet consectetur.</ng-container>
-        </app-text-with-icon>
-      </app-button>
+<div [class.sidenav--expanded]="showFullText" class="sidenav--container">
+  <div class="sidenav">
+    <div
+      *ngFor="let item of menuConfig"
+      [routerLink]="item.link"
+      [class.active]="this.activeUrl === item.link"
+      class="sidenav--item"
+    >
+      <app-text-with-icon [iconName]="item.icon" [color]="this.activeUrl === item.link ? 'primary' : undefined">
+        <ng-container *ngIf="showFullText">{{ item.name | i18n }}</ng-container>
+      </app-text-with-icon>
     </div>
 
     <app-button
-      (click)="showFiller = !showFiller"
-      class="sidenav-toggle-button"
+      (click)="showFullText = !showFullText"
+      class="sidenav--toggle-button"
       variant="miniFab"
-      iconName="keyboard_arrow_right"
+      [iconName]="showFullText ? 'keyboard_arrow_left' : 'keyboard_arrow_right'"
     ></app-button>
-    <div (click)="showFiller = !showFiller" class="sidenav-toggle"></div>
-  </mat-drawer>
 
-  <div class="sidenav-content">
+    <div (click)="showFullText = !showFullText" class="sidenav--toggle"></div>
+  </div>
+
+  <div class="sidenav--content">
     <router-outlet></router-outlet>
   </div>
-</mat-drawer-container>
+</div>

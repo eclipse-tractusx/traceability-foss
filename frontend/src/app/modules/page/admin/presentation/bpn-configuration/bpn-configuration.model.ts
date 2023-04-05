@@ -19,19 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { SharedModule } from '@shared/shared.module';
-import { TemplateModule } from '@shared/template.module';
-import { LayoutRoutingModule } from './layout.routing';
-import { LayoutComponent } from './layout/layout.component';
-import { HeaderComponent } from './header/header.component';
-import { SidenavComponent } from './sidenav/sidenav.component';
-import { SpinnerOverlayComponent } from './spinner-overlay/spinner-overlay.component';
-import { UserMenuComponent } from './header/user-navigation/user-menu.component';
+import { BpnConfig } from '@page/admin/core/admin.model';
+import { FormControl } from '@angular/forms';
 
-@NgModule({
-  declarations: [LayoutComponent, HeaderComponent, SpinnerOverlayComponent, SidenavComponent, UserMenuComponent],
-  imports: [CommonModule, LayoutRoutingModule, TemplateModule, SharedModule],
-})
-export class LayoutModule {}
+export interface ChangedInformation {
+  changed: BpnConfig[];
+  deleted: BpnConfig[];
+  added: BpnConfig[];
+}
+
+export interface BpnConfigEntry {
+  bpn: FormControl<string>;
+  url: FormControl<string>;
+}
