@@ -25,7 +25,6 @@ import feign.QueryMap;
 import feign.RequestLine;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.cloud.openfeign.SpringQueryMap;
 
 import java.util.List;
 import java.util.Map;

@@ -11,7 +11,7 @@ public enum Severity {
     @ApiModelProperty(name = "LIFE-THREATENING")
     LIFE_THREATENING("LIFE-THREATENING");
 
-    private Severity(String realName) {
+    Severity(String realName) {
         this.realName = realName;
     }
 

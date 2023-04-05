@@ -81,9 +81,7 @@ class EDCNotificationValidatorTest {
 		when(edcNotification.getRecipientBPN()).thenReturn("OTHER");
 		// When
 		// Then
-		assertThrows(InvestigationReceiverBpnMismatchException.class, () -> {
-			validator.isValid(edcNotification, context);
-		});
+		assertThrows(InvestigationReceiverBpnMismatchException.class, () -> validator.isValid(edcNotification, context));
 	}
 
 }
