@@ -101,12 +101,7 @@ class AssetFacadeTest {
 
 		for(Asset asset : assets) {
 			String countryCode = asset.getManufacturingCountry();
-			if(occurrences.get(countryCode) == null) {
-				occurrences.put(countryCode, 1L);
-			} else {
-				occurrences.put(countryCode, Long.sum(occurrences.get(countryCode), 1L));
-			}
-
+            occurrences.merge(countryCode, 1L, Long::sum);
 		}
 
 		return occurrences;

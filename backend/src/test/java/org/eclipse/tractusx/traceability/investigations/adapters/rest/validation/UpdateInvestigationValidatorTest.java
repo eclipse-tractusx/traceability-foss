@@ -55,9 +55,7 @@ class UpdateInvestigationValidatorTest {
 		UpdateInvestigationRequest request = new UpdateInvestigationRequest(status, "some-reason");
 
 
-		UpdateInvestigationValidationException exception = org.junit.jupiter.api.Assertions.assertThrows(UpdateInvestigationValidationException.class, () -> {
-			UpdateInvestigationValidator.validate(request);
-		});
+		UpdateInvestigationValidationException exception = org.junit.jupiter.api.Assertions.assertThrows(UpdateInvestigationValidationException.class, () -> UpdateInvestigationValidator.validate(request));
 	}
 
 	@Test
@@ -69,9 +67,7 @@ class UpdateInvestigationValidatorTest {
 		String errorMessage = "Update investigation reason can't be present for ACKNOWLEDGED status";
 
 		UpdateInvestigationRequest request = new UpdateInvestigationRequest(status, reason);
-		UpdateInvestigationValidationException exception = assertThrows(UpdateInvestigationValidationException.class, () -> {
-			UpdateInvestigationValidator.validate(request);
-		});
+		UpdateInvestigationValidationException exception = assertThrows(UpdateInvestigationValidationException.class, () -> UpdateInvestigationValidator.validate(request));
 		assertEquals(errorMessage, exception.getMessage());
 
 	}
@@ -83,43 +79,5 @@ class UpdateInvestigationValidatorTest {
 		UpdateInvestigationRequest request = new UpdateInvestigationRequest(ACKNOWLEDGED, null);
 		UpdateInvestigationValidator.validate(request);
 
-	}
-
-
-	// testdata provider classes
-	static class UnsuccessfulValidationForInvalidReasonProvider implements ArgumentsProvider {
-
-		@Override
-		public Stream<? extends Arguments> provideArguments(ExtensionContext context) throws Exception {
-			return Stream.of(
-				Arguments.of(ACKNOWLEDGED, "some-reason-for-update", "Update investigation reason can't be present for ACKNOWLEDGED status"),
-				Arguments.of(ACCEPTED, null, "Update investigation reason must be present"),
-				Arguments.of(ACCEPTED, "", "Update investigation reason must be present"),
-				Arguments.of(ACCEPTED, "     ", "Update investigation reason must be present"),
-				Arguments.of(ACCEPTED, generateString(14), "Close reason should have at least 15 characters and at most 1000 characters"),
-				Arguments.of(DECLINED, generateString(1001), "Close reason should have at least 15 characters and at most 1000 characters")
-			);
-		}
-	}
-
-	static class SuccessfulValidationProvider implements ArgumentsProvider {
-
-		@Override
-		public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
-
-			return Stream.of(
-				Arguments.of(ACKNOWLEDGED, null),
-				Arguments.of(ACKNOWLEDGED, ""),
-				Arguments.of(ACCEPTED, generateString(15)),
-				Arguments.of(DECLINED, generateString(1000)),
-				Arguments.of(ACCEPTED, generateString(16)),
-				Arguments.of(DECLINED, generateString(999))
-			);
-		}
-	}
-
-	// util function
-	static String generateString(int length) {
-		return "*".repeat(length);
 	}
 }
