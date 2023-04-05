@@ -167,6 +167,198 @@ class InvestigationsPublisherServiceTest {
 		Mockito.verify(notificationsService, times(1)).updateAsync(any(Notification.class));
 	}
 
+    @Test
+    @DisplayName("Test updateInvestigation accepted is valid")
+    void testUpdateInvestigationAccepted() {
+
+        // Given
+        BPN bpn = BPN.of("senderBPN");
+        Long investigationIdRaw = 1L;
+        InvestigationStatus status = InvestigationStatus.ACCEPTED;
+        String reason = "the update reason";
+
+        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.CREATED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                LocalDateTime.now(),
+                null
+        );
+
+        Notification notification2 = new Notification(
+                "456",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.SENT,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                LocalDateTime.now().plusSeconds(10),
+                null
+        );
+        List<Notification> notifications = new ArrayList<>();
+        notifications.add(notification);
+        notifications.add(notification2);
+
+        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
+
+        when(investigationsReadService.loadInvestigation(any(InvestigationId.class))).thenReturn(investigationTestData);
+
+        // When
+        investigationsPublisherService.updateInvestigationPublisher(bpn, investigationIdRaw, status, reason);
+
+        // Then
+        Mockito.verify(repository).update(investigationTestData);
+        Mockito.verify(notificationsService, times(1)).updateAsync(any(Notification.class));
+    }
+
+    @Test
+    @DisplayName("Test updateInvestigation declined is valid")
+    void testUpdateInvestigationDeclined() {
+
+        // Given
+        BPN bpn = BPN.of("senderBPN");
+        Long investigationIdRaw = 1L;
+        InvestigationStatus status = InvestigationStatus.DECLINED;
+        String reason = "the update reason";
+
+        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.CREATED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                LocalDateTime.now(),
+                null
+        );
+
+        Notification notification2 = new Notification(
+                "456",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.SENT,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                LocalDateTime.now().plusSeconds(10),
+                null
+        );
+        List<Notification> notifications = new ArrayList<>();
+        notifications.add(notification);
+        notifications.add(notification2);
+
+        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
+
+        when(investigationsReadService.loadInvestigation(any(InvestigationId.class))).thenReturn(investigationTestData);
+
+        // When
+        investigationsPublisherService.updateInvestigationPublisher(bpn, investigationIdRaw, status, reason);
+
+        // Then
+        Mockito.verify(repository).update(investigationTestData);
+        Mockito.verify(notificationsService, times(1)).updateAsync(any(Notification.class));
+    }
+
+    @Test
+    @DisplayName("Test updateInvestigation close is valid")
+    void testUpdateInvestigationClose() {
+
+        // Given
+        BPN bpn = BPN.of("senderBPN");
+        Long investigationIdRaw = 1L;
+        InvestigationStatus status = InvestigationStatus.CLOSED;
+        String reason = "the update reason";
+
+        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.CREATED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                LocalDateTime.now(),
+                null
+        );
+
+        Notification notification2 = new Notification(
+                "456",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.SENT,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                LocalDateTime.now().plusSeconds(10),
+                null
+        );
+        List<Notification> notifications = new ArrayList<>();
+        notifications.add(notification);
+        notifications.add(notification2);
+
+        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.ACCEPTED, "senderBPN", notifications);
+
+        when(investigationsReadService.loadInvestigation(any(InvestigationId.class))).thenReturn(investigationTestData);
+
+        // When
+        investigationsPublisherService.updateInvestigationPublisher(bpn, investigationIdRaw, status, reason);
+
+        // Then
+        Mockito.verify(repository).update(investigationTestData);
+        Mockito.verify(notificationsService, times(1)).updateAsync(any(Notification.class));
+    }
+
 	@Test
 	@DisplayName("Test updateInvestigation is invalid because investigation status transition not allowed")
 	void testUpdateInvestigationInvalid() {
