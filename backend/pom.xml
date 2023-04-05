@@ -72,41 +72,34 @@
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.build.directory}/target/site/jacoco-unittest/jacoco.xml,
             ${project.build.directory}/target/site/jacoco-integration/jacoco.xml,
+            ${project.build.directory}/site/jacoco/jacoco.xml
         </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.jacoco.reportsPaths>${project.build.directory}/jacoco.exec</sonar.jacoco.reportsPaths>
-        <sonar.tests>src/test/java</sonar.tests>
-        <sonar.projectKey>catenax-ng_product-traceability-foss-backend</sonar.projectKey>
+        <sonar.jacoco.reportsPaths>
+            ${project.build.directory}/jacoco.exec,
+            /target/jacoco-ut.exec
+        </sonar.jacoco.reportsPaths>
+        <sonar.tests>
+            src/test/java,
+            src/integration/groovy
+        </sonar.tests>
+        <sonar.organization>eclipse-tractusx</sonar.organization>
+        <sonar.projectKey>eclipse-tractusx_traceability-foss-backend</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.organization>catenax-ng</sonar.organization>
+
         <sonar.exclusions>
-            org/eclipse/tractusx/traceability/generated/**,
             org/eclipse/tractusx/traceability/TraceabilityApplication.java,
             org/eclipse/tractusx/traceability/common/docs/SwaggerPageable.java,
-            org/eclipse/tractusx/traceability/assets/domain/model/PagedAsset.java,
-            org/eclipse/tractusx/traceability/assets/domain/model/ShellDescriptor.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreement.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreementRequest.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/model/**/*.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/negotiation/**/*.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/policy/**/*.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/BadRequestException.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/Constants.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/EdcService.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/InvestigationsEDCFacade.java
         </sonar.exclusions>
-        <!-- Sonar related properties -->
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.jacoco.reportsPaths>/target/jacoco-ut.exec</sonar.jacoco.reportsPaths>
-        <sonar.tests>src/test/java</sonar.tests>
-        <sonar.projectKey>catenax-ng_product-traceability-foss-backend</sonar.projectKey>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-        <sonar.organization>catenax-ng</sonar.organization>
-        <sonar.exclusions>org/eclipse/tractusx/traceability/generated/**, org/eclipse/tractusx/traceability/openapi/**,
-            org/eclipse/tractusx/traceability/TraceabilityApplication.java,
-            org/eclipse/tractusx/traceability/common/**,org/eclipse/tractusx/traceability/infrastructure/**,
-            org/eclipse/tractusx/traceability/assets/domain/model/**,
-            org/eclipse/tractusx/traceability/assets/infrastructure/**,
-            org/eclipse/tractusx/traceability/assets/config/**,
-            org/eclipse/tractusx/traceability/investigations/domain/model/**,
-            org/eclipse/tractusx/traceability/investigations/adapters/**,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/**
-        </sonar.exclusions>
-
     </properties>
 
     <dependencyManagement>
