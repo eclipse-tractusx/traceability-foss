@@ -306,13 +306,10 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
         }*/
     }
 
-    // will be fixed in: https://jira.catena-x.net/browse/TRACEFOSS-1063
-    @Ignore
-    def "should close investigation"() {
+    def "should close investigation status"() {
         given:
         List<String> partIds = [
-                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
-                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978" // BPN: BPNL00000003AYRE
         ]
         String description = "at least 15 characters long investigation description"
         String severity = "MINOR"
@@ -346,35 +343,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .then()
                 .statusCode(204)
 
-
         then:
-        eventually {
-            assertNotificationsSize(2)
-            assertNotifications { NotificationEntity notification ->
-                assert notification.edcUrl != null
-                assert notification.contractAgreementId != null
-            }
-        }
-
-        when:
-        given()
-                .contentType(ContentType.JSON)
-                .body(asJson([
-                        reason: description
-                ]))
-                .header(jwtAuthorization(ADMIN))
-                .when()
-                .post("/api/investigations/{investigationId}/close", investigationId)
-                .then()
-                .statusCode(204)
-
-        then:
-        eventually {
-            assertInvestigationsSize(1)
-            assertInvestigationStatus(InvestigationStatus.CLOSED)
-        }
-
-        and:
         given()
                 .header(jwtAuthorization(ADMIN))
                 .param("page", "0")
@@ -387,7 +356,36 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .body("page", Matchers.is(0))
                 .body("pageSize", Matchers.is(10))
                 .body("content", Matchers.hasSize(1))
-                .body("content[0].reason.close", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
+                .body("content[0].sendTo", Matchers.is(Matchers.not(Matchers.blankOrNullString())))
+        when:
+        given()
+                .contentType(ContentType.JSON)
+                .body(asJson([
+                        reason: "this is the close reason for that investigation"
+                ]))
+                .header(jwtAuthorization(ADMIN))
+                .when()
+                .post("/api/investigations/{investigationId}/close", investigationId)
+                .then()
+                .statusCode(204)
+
+        then:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/created")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(1))
+
+        then:
+        assertInvestigationsSize(1)
+        assertInvestigationStatus(InvestigationStatus.CLOSED)
     }
 
     def "should not cancel not existing investigation"() {

@@ -23,7 +23,6 @@ package org.eclipse.tractusx.traceability.infrastructure.jpa.notification;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -35,7 +34,6 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asse
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

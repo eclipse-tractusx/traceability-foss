@@ -31,8 +31,8 @@ import java.util.UUID;
  * Please take note of the following guidelines:
  * <ul>
  * <li>Commands are simple POJOs, that must be (JSON-)serializable and can therefore not have references to other services.</li>
- * <li>Commands must contain all the information that a {@link CommandHandler} requires to do its job.</li>
- * <li>Commands do not have results. Any results that an operation may produce are to be handled by the {@link CommandHandler}</li>
+ * <li>Commands must contain all the information that a {@link Command} requires to do its job.</li>
+ * <li>Commands do not have results. Any results that an operation may produce are to be handled by the {@link Command}</li>
  * </ul>
  */
 public abstract class Command {
