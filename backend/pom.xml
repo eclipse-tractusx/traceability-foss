@@ -70,9 +70,8 @@
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.build.directory}/target/site/jacoco-unittest/jacoco.xml,
-            ${project.build.directory}/target/site/jacoco-integration/jacoco.xml,
-            ${project.build.directory}/site/jacoco/jacoco.xml
+            ${project.build.directory}/site/jacoco-unittest/jacoco.xml,
+            ${project.build.directory}/site/jacoco-integration/jacoco.xml,
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.jacoco.reportsPaths>
             ${project.build.directory}/jacoco.exec,
@@ -88,16 +87,18 @@
         <sonar.exclusions>
             org/eclipse/tractusx/traceability/TraceabilityApplication.java,
             org/eclipse/tractusx/traceability/common/docs/SwaggerPageable.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreement.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreementRequest.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/model/**/*.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/negotiation/**/*.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/policy/**/*.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/BadRequestException.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/Constants.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/EdcService.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/InvestigationsEDCFacade.java
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreement.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreementRequest.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/model/**/*.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/negotiation/**/*.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/policy/**/*.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/BadRequestException.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/Constants.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/EdcService.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java,
+            org/eclipse/tractusx/traceability/infrastructure/jpa/notification/NotificationEntity.java,
+            org/eclipse/tractusx/traceability/investigations/domain/model/Investigation.java,
+            org/eclipse/tractusx/traceability/investigations/domain/model/Notification.java
         </sonar.exclusions>
     </properties>
 
