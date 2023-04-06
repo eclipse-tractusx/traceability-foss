@@ -68,12 +68,13 @@ class InvestigationsPublisherServiceIT extends IntegrationSpecification implemen
 					Severity.MINOR,
                         "some-id",
                         null,
-                        null
+                        null,
+                        "messageid"
 				)
 			)
 
 		when:
-			investigationsReceiverService.handleNotificationReceiverCallback(notification)
+			investigationsReceiverService.handleNotificationReceive(notification)
 
 		then:
 			assertInvestigationsSize(1)

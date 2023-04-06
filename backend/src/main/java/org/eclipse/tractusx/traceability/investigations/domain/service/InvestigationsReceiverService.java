@@ -25,10 +25,8 @@ import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationId;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
@@ -50,43 +48,21 @@ public class InvestigationsReceiverService {
     public InvestigationsReceiverService(InvestigationsRepository repository,
                                          InvestigationsReadService investigationsReadService,
                                          NotificationMapper notificationMapper, InvestigationMapper investigationMapper) {
-
         this.repository = repository;
         this.investigationsReadService = investigationsReadService;
         this.notificationMapper = notificationMapper;
         this.investigationMapper = investigationMapper;
     }
 
-    public void handleNotificationReceiverCallback(EDCNotification edcNotification) {
-        validateNotificationReceiverCallback(edcNotification);
-        InvestigationId investigationId;
-        if (isInitialNotification(edcNotification)) {
-            investigationId = createInvestigation(edcNotification);
-        } else {
-            investigationId = updateInvestigation(edcNotification);
-        }
-        logger.info("Stored received edcNotification in investigation with id {}", investigationId);
-    }
-
-    private boolean isInitialNotification(EDCNotification edcNotification) {
-        return InvestigationStatus.SENT.equals(edcNotification.convertInvestigationStatus());
-    }
-
-    private void validateNotificationReceiverCallback(EDCNotification edcNotification) {
-        NotificationType notificationType = edcNotification.convertNotificationType();
-        if (!notificationType.equals(NotificationType.QMINVESTIGATION)) {
-            throw new InvestigationIllegalUpdate("Received %s classified edc notification which is not an investigation".formatted(notificationType));
-        }
-    }
-
-    private InvestigationId createInvestigation(EDCNotification edcNotification) {
+    public void handleNotificationReceive(EDCNotification edcNotification) {
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
         Notification notification = notificationMapper.toNotification(edcNotification);
         Investigation investigation = investigationMapper.toInvestigation(investigationCreatorBPN, edcNotification.getInformation(), notification);
-        return repository.save(investigation);
+        InvestigationId investigationId = repository.save(investigation);
+        logger.info("Stored received edcNotification in investigation with id {}", investigationId);
     }
 
-    private InvestigationId updateInvestigation(EDCNotification edcNotification) {
+    public void handleNotificationUpdate(EDCNotification edcNotification) {
         Notification notification = notificationMapper.toNotification(edcNotification);
         Investigation investigation = investigationsReadService.loadInvestigationByEdcNotificationId(edcNotification.getNotificationId());
         switch (edcNotification.convertInvestigationStatus()) {
@@ -97,7 +73,7 @@ public class InvestigationsReceiverService {
             default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertInvestigationStatus()));
         }
         investigation.addNotification(notification);
-        return repository.update(investigation);
+        InvestigationId investigationId = repository.update(investigation);
+        logger.info("Stored update edcNotification in investigation with id {}", investigationId);
     }
-
 }

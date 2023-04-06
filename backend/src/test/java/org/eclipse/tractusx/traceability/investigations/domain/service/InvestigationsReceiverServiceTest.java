@@ -35,13 +35,16 @@ class InvestigationsReceiverServiceTest {
 	@Mock
 	private InvestigationMapper mockInvestigationMapper;
 
+    @Mock
+    private InvestigationsReadService investigationsReadService;
+
 	@InjectMocks
 	private InvestigationsReceiverService service;
 
 
 	@Test
-	@DisplayName("Test handleNotificationReceiverCallback sent is valid")
-	void testHandleNotificationReceiverCallbackValidSentNotification() {
+	@DisplayName("Test testHandleNotificationReceiveValidSentNotification sent is valid")
+	void testHandleNotificationReceiveValidSentNotification() {
 
 		// Given
 		List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
@@ -61,7 +64,8 @@ class InvestigationsReceiverServiceTest {
                 Severity.MINOR,
                 "123",
                 null,
-                null
+                null,
+                "messageId"
         );
 
 		Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
@@ -73,10 +77,178 @@ class InvestigationsReceiverServiceTest {
 		when(mockInvestigationMapper.toInvestigation(any(BPN.class), anyString(), any(Notification.class))).thenReturn(investigationTestData);
 
 		// When
-		service.handleNotificationReceiverCallback(edcNotification);
+		service.handleNotificationReceive(edcNotification);
 		// Then
 		Mockito.verify(mockRepository).save(investigationTestData);
 	}
+
+    @Test
+    @DisplayName("Test testHandleNotificationUpdateValidAcknowledgeNotificationTransition is valid")
+    void testHandleNotificationUpdateValidAcknowledgeNotificationTransition() {
+
+        // Given
+        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.ACKNOWLEDGED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                null,
+                null,
+                "messageId"
+        );
+
+
+
+        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
+        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+                "it", notification);
+
+        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+        when(investigationsReadService.loadInvestigationByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(investigationTestData);
+
+        // When
+        service.handleNotificationUpdate(edcNotification);
+        // Then
+        Mockito.verify(mockRepository).update(investigationTestData);
+    }
+
+    @Test
+    @DisplayName("Test testHandleNotificationUpdateValidDeclineNotificationTransition is valid")
+    void testHandleNotificationUpdateValidDeclineNotificationTransition() {
+
+        // Given
+        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.DECLINED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                null,
+                null,
+                "messageId"
+        );
+
+
+
+        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.ACKNOWLEDGED, "recipientBPN");
+        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+                "it", notification);
+
+        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+        when(investigationsReadService.loadInvestigationByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(investigationTestData);
+
+        // When
+        service.handleNotificationUpdate(edcNotification);
+        // Then
+        Mockito.verify(mockRepository).update(investigationTestData);
+    }
+
+    @Test
+    @DisplayName("Test testHandleNotificationUpdateValidAcknowledgeNotification is valid")
+    void testHandleNotificationUpdateValidAcceptedNotificationTransition() {
+
+        // Given
+        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.ACCEPTED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                null,
+                null,
+                "messageId"
+        );
+
+
+
+        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.ACKNOWLEDGED, "recipientBPN");
+        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+                "it", notification);
+
+        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+        when(investigationsReadService.loadInvestigationByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(investigationTestData);
+
+        // When
+        service.handleNotificationUpdate(edcNotification);
+        // Then
+        Mockito.verify(mockRepository).update(investigationTestData);
+    }
+
+    @Test
+    @DisplayName("Test testHandleNotificationUpdateValidAcknowledgeNotification is valid")
+    void testHandleNotificationUpdateValidCloseNotificationTransition() {
+
+        // Given
+        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
+        Notification notification = new Notification(
+                "123",
+                "id123",
+                "senderBPN",
+                "senderManufacturerName",
+                "recipientBPN",
+                "receiverManufacturerName",
+                "senderAddress",
+                "agreement",
+                "information",
+                InvestigationStatus.CLOSED,
+                affectedParts,
+                Instant.now(),
+                Severity.MINOR,
+                "123",
+                null,
+                null,
+                "messageId"
+        );
+
+
+
+        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.ACKNOWLEDGED, "senderBPN");
+        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+                "it", notification);
+
+        when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
+        when(investigationsReadService.loadInvestigationByEdcNotificationId(edcNotification.getNotificationId())).thenReturn(investigationTestData);
+
+        // When
+        service.handleNotificationUpdate(edcNotification);
+        // Then
+        Mockito.verify(mockRepository).update(investigationTestData);
+    }
 
 }
 

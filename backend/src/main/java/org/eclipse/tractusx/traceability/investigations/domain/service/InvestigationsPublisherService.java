@@ -46,6 +46,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -102,6 +103,7 @@ public class InvestigationsPublisherService {
 
     private Notification createNotification(BPN applicationBpn, String description, Instant targetDate, Severity severity, Map.Entry<String, List<Asset>> asset, InvestigationStatus investigationStatus) {
         final String notificationId = UUID.randomUUID().toString();
+        final String messageId = UUID.randomUUID().toString();
         return new Notification(
                 notificationId,
                 null,
@@ -118,7 +120,8 @@ public class InvestigationsPublisherService {
                 severity,
                 notificationId,
                 null,
-                null
+                null,
+                messageId
         );
     }
 
@@ -152,7 +155,8 @@ public class InvestigationsPublisherService {
         investigation.send(applicationBpn);
         repository.update(investigation);
         // For each asset within investigation a notification was created before
-        investigation.getNotifications().forEach(notificationsService::updateAsync);
+        final boolean isInitialNotification = true;
+        investigation.getNotifications().forEach(notification -> notificationsService.asyncNotificationExecutor(notification, isInitialNotification));
     }
 
     /**
@@ -185,7 +189,8 @@ public class InvestigationsPublisherService {
             notificationsToSend.add(notificationToSend);
         });
         repository.update(investigation);
-        notificationsToSend.forEach(notificationsService::updateAsync);
+        final boolean isInitialNotification = false;
+        notificationsToSend.forEach(notification -> notificationsService.asyncNotificationExecutor(notification, isInitialNotification));
     }
 
     private void validate(BPN applicationBpn, InvestigationStatus status, Investigation investigation) {
@@ -216,13 +221,12 @@ public class InvestigationsPublisherService {
             if (notificationGroup.isEmpty()) {
                 notificationGroup.add(notification);
             } else {
-                Notification latestNotification = notificationGroup.stream().max(Comparator.comparing(Notification::getCreated)).orElse(null);
-
-                if (notification.getCreated().isAfter(latestNotification.getCreated())) {
+                Optional<Notification> latestNotification = notificationGroup.stream().max(Comparator.comparing(Notification::getCreated));
+                if (latestNotification.isEmpty() || notification.getCreated().isAfter(latestNotification.get().getCreated())) {
                     notificationGroup.clear();
                     notificationGroup.add(notification);
-                } else if (notification.getCreated().isEqual(latestNotification.getCreated())) {
-                    throw new IllegalArgumentException("Two notifications with same edcNotificationId have the same status. This can be happen on old datasets.");
+                } else if (notification.getCreated().isEqual(latestNotification.get().getCreated())) {
+                    throw new IllegalArgumentException("Two notifications with same edcNotificationId have the same status. This can happen on old datasets.");
                 }
             }
             notificationMap.put(edcNotificationId, notificationGroup);

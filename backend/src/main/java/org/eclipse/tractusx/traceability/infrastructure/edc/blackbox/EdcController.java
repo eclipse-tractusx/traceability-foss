@@ -23,7 +23,9 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 import io.swagger.v3.oas.annotations.Hidden;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.ValidEDCNotification;
+import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReceiverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,16 +57,26 @@ public class EdcController {
 	@PostMapping("/qualitynotifications/receive")
 	public void qualityNotificationReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
 		logger.info("EdcController [qualityNotificationReceive] notificationId:{}", edcNotification);
-		investigationsReceiverService.handleNotificationReceiverCallback(edcNotification);
+        validateIsQualityInvestigation(edcNotification);
+		investigationsReceiverService.handleNotificationReceive(edcNotification);
 	}
 
 	/**
-	 * Receiver API call for EDC Transfer
+	 * Update API call for EDC Transfer
 	 */
 	@PostMapping("/qualitynotifications/update")
 	public void qualityNotificationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
 		logger.info("EdcController [qualityNotificationUpdate] notificationId:{}", edcNotification);
-		investigationsReceiverService.handleNotificationReceiverCallback(edcNotification);
+        validateIsQualityInvestigation(edcNotification);
+		investigationsReceiverService.handleNotificationUpdate(edcNotification);
 	}
+
+
+    private void validateIsQualityInvestigation(EDCNotification edcNotification) {
+        NotificationType notificationType = edcNotification.convertNotificationType();
+        if (!notificationType.equals(NotificationType.QMINVESTIGATION)) {
+            throw new InvestigationIllegalUpdate("Received %s classified edc notification which is not an investigation".formatted(notificationType));
+        }
+    }
 }
 
