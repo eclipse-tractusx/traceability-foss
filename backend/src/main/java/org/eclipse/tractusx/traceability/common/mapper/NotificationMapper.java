@@ -63,7 +63,8 @@ public class NotificationMapper {
                 Severity.valueOf(edcNotification.getSeverity()),
                 edcNotification.getNotificationId(),
                 null,
-                null
+                null,
+                edcNotification.getMessageId()
         );
     }
 

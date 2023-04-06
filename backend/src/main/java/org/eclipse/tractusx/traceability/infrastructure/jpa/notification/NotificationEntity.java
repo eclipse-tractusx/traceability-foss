@@ -73,6 +73,7 @@ public class NotificationEntity {
     private LocalDateTime created;
     private LocalDateTime updated;
     private InvestigationStatus status;
+    private String messageId;
 
     public NotificationEntity() {
     }
@@ -88,7 +89,8 @@ public class NotificationEntity {
                               Instant targetDate,
                               Severity severity,
                               String edcNotificationId,
-                              InvestigationStatus status) {
+                              InvestigationStatus status,
+                              String messageId) {
         this.id = id;
         this.investigation = investigation;
         this.senderBpnNumber = senderBpnNumber;
@@ -102,6 +104,7 @@ public class NotificationEntity {
         this.edcNotificationId = edcNotificationId;
         this.created = LocalDateTime.now();
         this.status = status;
+        this.messageId = messageId;
     }
 
     @PreUpdate
@@ -235,5 +238,13 @@ public class NotificationEntity {
 
     public void setStatus(InvestigationStatus status) {
         this.status = status;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
+
+    public String getMessageId() {
+        return messageId;
     }
 }

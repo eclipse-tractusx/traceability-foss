@@ -46,7 +46,7 @@ public class EDCNotificationFactory {
                 notification.getNotificationReferenceId(),
                 notification.getInvestigationStatus().name(),
                 targetDate,
-                notification.getId()
+                notification.getMessageId()
         );
 
         EDCNotificationContent content = new EDCNotificationContent(

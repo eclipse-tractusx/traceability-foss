@@ -71,7 +71,7 @@ public class InvestigationsEDCFacade {
 		this.edcProperties = edcProperties;
 	}
 
-	public void startEDCTransfer(Notification notification, String receiverEdcUrl, String senderEdcUrl) {
+	public void startEDCTransfer(Notification notification, String receiverEdcUrl, String senderEdcUrl, boolean isInitialNotification) {
 		Map<String, String> header = new HashMap<>();
 		header.put("x-api-key", edcProperties.getApiAuthKey());
 		try {
@@ -81,7 +81,8 @@ public class InvestigationsEDCFacade {
 			Optional<ContractOffer> contractOffer = edcService.findNotificationContractOffer(
 				senderEdcUrl,
 				receiverEdcUrl + edcProperties.getIdsPath(),
-				header
+				header,
+                    isInitialNotification
 			);
 
 			if (contractOffer.isEmpty()) {

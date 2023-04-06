@@ -33,7 +33,8 @@ public class InvestigationTestDataFactory {
                 Severity.MINOR,
                 "1",
                 null,
-                null
+                null,
+                "messageId"
 		));
 
 		return new Investigation(
@@ -104,7 +105,8 @@ public class InvestigationTestDataFactory {
                 Severity.MINOR,
                 "123",
                 null,
-                null
+                null,
+                "messageId"
 		));
 
 		return new Investigation(
@@ -147,7 +149,8 @@ public class InvestigationTestDataFactory {
                 Severity.MINOR,
                 "123",
                 null,
-                null
+                null,
+                "messageId"
         ));
 
         return new Investigation(
