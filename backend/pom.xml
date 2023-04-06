@@ -694,7 +694,7 @@
                 <configuration>
                     <from>
                         <image>
-                            eclipse-temurin:17-jre-alpine@sha256:2b33ef284e6dc43a61903cef6d36dbce13414a9e5444e2c96cdd5e35123f9903
+                            eclipse-temurin:17-jre-alpine@sha256:c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f
                         </image>
                     </from>
                     <container>

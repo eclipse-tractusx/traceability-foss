@@ -171,7 +171,7 @@ The base images used, to build these demo application images are `eclipse-temuri
 
 Docker Hub:
 - [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin)
-- [17-jre-alpine image](https://hub.docker.com/layers/library/eclipse-temurin/17-jre-alpine/images/sha256-2b33ef284e6dc43a61903cef6d36dbce13414a9e5444e2c96cdd5e35123f9903?context=explore)
+- [17-jre-alpine image](https://hub.docker.com/layers/library/eclipse-temurin/17-jre-alpine/images/sha256-c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f?context=explore)
 - [node](https://hub.docker.com/_/node)
 - [18-alpine image](https://hub.docker.com/layers/library/node/18-alpine/images/sha256-19eaf41f3b8c2ac2f609ac8103f9246a6a6d46716cdbe49103fdb116e55ff0cc?context=explore)
 
