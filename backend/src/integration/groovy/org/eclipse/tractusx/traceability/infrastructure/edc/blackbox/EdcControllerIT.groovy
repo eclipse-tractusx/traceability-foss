@@ -80,7 +80,8 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
                 Instant.parse("2022-03-01T12:00:00Z"),
                 Severity.CRITICAL,
                 "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
-                null
+                null,
+                "messageId"
         )
 
         InvestigationEntity investigation = new InvestigationEntity(
@@ -116,6 +117,58 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         assertInvestigationsSize(1)
 
         assertInvestigationStatus(InvestigationStatus.ACKNOWLEDGED)
+    }
+
+    def "should throw bad request because edcNotification Method is not supported /qualitynotifications/receive"() {
+        given:
+        defaultAssetsStored()
+        NotificationEntity notification = new NotificationEntity(
+                "1",
+                null,
+                "senderBpnNumber",
+                "senderManufacturerName",
+                "receiverBpnNumber",
+                "receiverManufacturerName",
+                null,
+                null,
+                Instant.parse("2022-03-01T12:00:00Z"),
+                Severity.CRITICAL,
+                "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
+                null,
+                "messageId"
+        )
+
+        InvestigationEntity investigation = new InvestigationEntity(
+                [], "BPNL00000003AXS3", InvestigationStatus.SENT, InvestigationSide.SENDER, "", "some-description", Instant.now())
+
+        InvestigationEntity persistedInvestigation = storedInvestigationFullObject(investigation)
+
+        NotificationEntity notificationEntity = storedNotification(notification)
+        notificationEntity.setInvestigation(persistedInvestigation);
+        NotificationEntity persistedNotification = storedNotification(notificationEntity)
+
+        investigation.setNotifications(List.of(persistedNotification))
+
+        storedInvestigationFullObject(investigation)
+
+
+        String notificationJson = readFile("edc_notification_classification_unsupported.json").replaceAll("REPLACE_ME", notificationEntity.getEdcNotificationId())
+        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class);
+
+
+        when:
+        given()
+                .contentType(ContentType.JSON)
+                .body(edcNotification)
+                .header(jwtAuthorization(JwtRole.ADMIN))
+                .when()
+                .post("/api/qualitynotifications/receive")
+                .then()
+                .statusCode(400)
+
+        then:
+        assertNotificationsSize(1)
+
     }
 
     def "should call the /qualitynotifications/update api with wrong requestobject "() {

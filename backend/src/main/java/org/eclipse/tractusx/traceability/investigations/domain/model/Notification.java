@@ -48,10 +48,9 @@ public class Notification {
     private String edcNotificationId;
     private LocalDateTime created;
     private LocalDateTime updated;
-
     private Instant targetDate;
-
     private Severity severity;
+    private String messageId;
 
     public Notification(String id,
                         String notificationReferenceId,
@@ -68,7 +67,8 @@ public class Notification {
                         Severity severity,
                         String edcNotificationId,
                         LocalDateTime created,
-                        LocalDateTime updated) {
+                        LocalDateTime updated,
+                        String messageId) {
         this.id = id;
         this.notificationReferenceId = notificationReferenceId;
         this.senderBpnNumber = senderBpnNumber;
@@ -85,6 +85,7 @@ public class Notification {
         this.edcNotificationId = edcNotificationId;
         this.created = created;
         this.updated = updated;
+        this.messageId = messageId;
     }
 
     void changeStatusTo(InvestigationStatus to) {
@@ -216,6 +217,13 @@ public class Notification {
         this.edcNotificationId = edcNotificationId;
     }
 
+    public String getMessageId() {
+        return messageId;
+    }
+
+    public void setMessageId(String messageId) {
+        this.messageId = messageId;
+    }
 
     // Important - receiver and sender will be saved in switched order
     public Notification copyAndSwitchSenderAndReceiver(BPN applicationBpn) {
@@ -226,7 +234,7 @@ public class Notification {
         String senderManufactureName = senderManufacturerName;
 
         // This is needed to make sure that the app can send a message to the receiver and not addresses itself
-        if (applicationBpn.value().equals(receiverBpnNumber)){
+        if (applicationBpn.value().equals(receiverBpnNumber)) {
             receiver = senderBpnNumber;
             sender = receiverBpnNumber;
             receiverManufactureName = senderManufacturerName;
@@ -248,7 +256,8 @@ public class Notification {
                 severity,
                 edcNotificationId,
                 created,
-                updated
+                updated,
+                UUID.randomUUID().toString()
         );
     }
 
@@ -271,6 +280,7 @@ public class Notification {
                 ", updated=" + updated +
                 ", targetDate=" + targetDate +
                 ", severity=" + severity +
+                ", messageId='" + messageId + '\'' +
                 '}';
     }
 }

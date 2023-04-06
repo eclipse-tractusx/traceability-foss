@@ -38,6 +38,7 @@ public class Constants {
 	public static final String ASSET_KEY_NOTIFICATION_TYPE = "asset:prop:notificationtype";
 	public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
 	public static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
+    public static final String ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE = "receive";
 	public static final MediaType JSON = MediaType.get("application/json");
 
 

@@ -28,7 +28,8 @@ public class NotificationTestDataFactory {
                 Severity.MINOR,
                 "123",
                 null,
-                null
+                null,
+                "messageId"
         );
     }
 }

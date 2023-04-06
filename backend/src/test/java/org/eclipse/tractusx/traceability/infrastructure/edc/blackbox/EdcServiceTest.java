@@ -4,6 +4,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.asset.Asset
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Policy;
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.asset.Asset.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -31,6 +33,9 @@ class EdcServiceTest {
 	@Mock
 	private ObjectMapper objectMapper;
 
+    @Mock
+    private EdcProperties edcProperties;
+
 	@InjectMocks
 	private EdcService edcService;
 
@@ -38,36 +43,7 @@ class EdcServiceTest {
 	private static final String PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL = "http://provider-connector-control-plane-ids.com";
 
 	@Test
-	void testFindNotificationContractOffer() throws IOException {
-		// given
-		Map<String, Object> properties = new HashMap<>();
-		properties.put(PROPERTY_ID, 123);
-		properties.put(PROPERTY_NAME, "My Asset");
-		properties.put(PROPERTY_DESCRIPTION, "This is a description of my asset.");
-		properties.put(PROPERTY_VERSION, 1.0);
-		properties.put(PROPERTY_CONTENT_TYPE, "image/jpeg");
-		properties.put(PROPERTY_NOTIFICATION_TYPE, "qualityinvestigation");
-		properties.put(PROPERTY_NOTIFICATION_METHOD, "update");
-
-		Policy policy = Policy.Builder.newInstance().build();
-		Asset asset = Builder.newInstance().properties(properties).build();
-		ContractOffer expectedContractOffer = ContractOffer.Builder.newInstance().id("123").policy(policy).asset(asset).build();
-		Catalog catalog = Catalog.Builder.newInstance().id("234").contractOffers(List.of(expectedContractOffer)).build();
-
-
-		Map<String, String> header = new HashMap<>();
-		when(httpCallService.getCatalogFromProvider(CONSUMER_EDC_DATA_MANAGEMENT_URL, PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header)).thenReturn(catalog);
-
-		// when
-		Optional<ContractOffer> contractOfferResult = edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL, PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header);
-
-		// then
-		assertTrue(contractOfferResult.isPresent());
-		assertEquals(expectedContractOffer, contractOfferResult.get());
-	}
-
-	@Test
-	void testFindNotificationContractOfferWrongNotificationType() throws IOException {
+	void testFindNotificationContractOfferForInitialNotification() throws IOException {
 		// given
 		Map<String, Object> properties = new HashMap<>();
 		properties.put(PROPERTY_ID, 123);
@@ -88,7 +64,70 @@ class EdcServiceTest {
 		when(httpCallService.getCatalogFromProvider(CONSUMER_EDC_DATA_MANAGEMENT_URL, PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header)).thenReturn(catalog);
 
 		// when
-		Optional<ContractOffer> contractOfferResult = edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL, PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header);
+		Optional<ContractOffer> contractOfferResult = edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL,
+                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, true);
+
+		// then
+		assertTrue(contractOfferResult.isPresent());
+		assertEquals(expectedContractOffer, contractOfferResult.get());
+	}
+
+    @Test
+    void testFindNotificationContractOfferForUpdateNotification() throws IOException {
+        // given
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(PROPERTY_ID, 123);
+        properties.put(PROPERTY_NAME, "My Asset");
+        properties.put(PROPERTY_DESCRIPTION, "This is a description of my asset.");
+        properties.put(PROPERTY_VERSION, 1.0);
+        properties.put(PROPERTY_CONTENT_TYPE, "image/jpeg");
+        properties.put(PROPERTY_NOTIFICATION_TYPE, "qualityinvestigation");
+        properties.put(PROPERTY_NOTIFICATION_METHOD, "update");
+
+        Policy policy = Policy.Builder.newInstance().build();
+        Asset asset = Builder.newInstance().properties(properties).build();
+        ContractOffer expectedContractOffer = ContractOffer.Builder.newInstance().id("123").policy(policy).asset(asset).build();
+        Catalog catalog = Catalog.Builder.newInstance().id("234").contractOffers(List.of(expectedContractOffer)).build();
+
+
+        Map<String, String> header = new HashMap<>();
+        when(httpCallService.getCatalogFromProvider(CONSUMER_EDC_DATA_MANAGEMENT_URL, PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header)).thenReturn(catalog);
+
+        // when
+        Optional<ContractOffer> contractOfferResult = edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL,
+                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, false);
+
+        // then
+        assertTrue(contractOfferResult.isPresent());
+        assertEquals(expectedContractOffer, contractOfferResult.get());
+    }
+
+	@Test
+	void testFindNotificationContractOfferWrongNotificationType() throws IOException {
+		// given
+		Map<String, Object> properties = new HashMap<>();
+		properties.put(PROPERTY_ID, 123);
+		properties.put(PROPERTY_NAME, "My Asset");
+		properties.put(PROPERTY_DESCRIPTION, "This is a description of my asset.");
+		properties.put(PROPERTY_VERSION, 1.0);
+		properties.put(PROPERTY_CONTENT_TYPE, "image/jpeg");
+		properties.put(PROPERTY_NOTIFICATION_TYPE, "asfd");
+		properties.put(PROPERTY_NOTIFICATION_METHOD, "receive");
+
+		Policy policy = Policy.Builder.newInstance().build();
+		Asset asset = Builder.newInstance().properties(properties).build();
+		ContractOffer expectedContractOffer = ContractOffer.Builder.newInstance().id("123").policy(policy).asset(asset).build();
+		Catalog catalog = Catalog.Builder.newInstance().id("234").contractOffers(List.of(expectedContractOffer)).build();
+
+
+		Map<String, String> header = new HashMap<>();
+		when(httpCallService.getCatalogFromProvider(CONSUMER_EDC_DATA_MANAGEMENT_URL,
+                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header)).thenReturn(catalog);
+
+		// when
+		Optional<ContractOffer> contractOfferResult =
+                edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL,
+                        PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, false);
 
 		// then
 		assertTrue(contractOfferResult.isEmpty());

@@ -50,7 +50,6 @@ public class NegotiationInitiateRequestDto {
 		return offer;
 	}
 
-
 	public static final class Builder {
 		private final NegotiationInitiateRequestDto dto;
 
