@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, Input, ViewChild } from '@angular/core';
 
 type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' | 'miniFab';
 
@@ -28,6 +28,10 @@ type ButtonVariant = 'button' | 'raised' | 'flat' | 'stroked' | 'icon' | 'fab' |
   templateUrl: './button.component.html',
 })
 export class ButtonComponent {
+  @HostBinding('style.pointer-events') get pEvents(): string {
+    return this.isDisabled ? 'none' : 'auto';
+  }
+
   @ViewChild('ButtonElement') buttonElement: ElementRef;
   @Input() color: 'primary' | 'accent' | 'warn';
   @Input() variant: ButtonVariant = 'button';

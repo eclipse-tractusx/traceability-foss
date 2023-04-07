@@ -8,7 +8,9 @@
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "investigations": "Quality investigation"
+    "investigations": "Quality investigation",
+    "adminRegistry": "Registry lookups",
+    "adminBpn": "BPN - EDC configuration"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -37,7 +39,12 @@
     "close": "Close",
     "decline": "Decline",
     "viewDetails": "View details",
-    "help": "Help"
+    "help": "Help",
+    "add": "Add",
+    "saveChanges": "Save changes",
+    "save": "Save",
+    "remove": "Remove",
+    "delete": "Delete"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
@@ -119,7 +126,9 @@
     "email": "Please enter a valid E-Mail.",
     "minLength": "Please enter a text that is larger than: {{minLength}}. Current: {{current}}",
     "maxLength": "Please enter a text that is smaller than: {{maxLength}}. Current: {{current}}",
-    "pattern": "Please enter data that matches this pattern: {{pattern}}.",
+    "pattern": "Please enter data that matches this pattern: {{- pattern}}.",
+    "url": "Please enter a valid URL.",
+    "bpn": "Please enter a valid BPN.",
     "maxDate": "Please select a date that is before {{- maxDate}}.",
     "minDate": "Please select a date that is after {{- minDate}}.",
     "currentDate": "Please select a date that is after {{- currentDate}}.",

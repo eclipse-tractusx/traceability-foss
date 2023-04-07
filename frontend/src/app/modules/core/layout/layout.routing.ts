@@ -32,6 +32,8 @@ import {
 } from '@core/known-route';
 import { RoleGuard } from '@core/user/role.guard';
 import { ErrorPageType } from '@page/error-page/model/error-page.model';
+import { AdminComponent } from '@page/admin/presentation/admin.component';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
 // every page (except error pages) require at least "user" role
@@ -99,10 +101,13 @@ const routes: Routes = [
   {
     path: ADMIN_BASE_ROUTE,
     loadChildren: () => import('../../page/admin/admin.module').then(m => m.AdminModule),
+    component: AdminComponent,
     data: {
+      i18nextNamespaces: ['page.admin'],
       breadcrumb: 'admin',
       roles: ['admin'],
     },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
     canActivate: [RoleGuard],
   },
 ];

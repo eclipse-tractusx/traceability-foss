@@ -115,9 +115,9 @@ export const investigationsHandlers = [
     return res(ctx.status(200), ctx.json({ id: InvestigationIdPrefix + 1 }));
   }),
 
-  rest.put(`*${environment.apiUrl}/investigations/:investigationId/status`, (req, res, ctx) => {
+  rest.put(`*${environment.apiUrl}/investigations/:investigationId/status`, async (req, res, ctx) => {
     const { investigationId } = req.params;
-    const { status } = req.body as Record<string, unknown>;
+    const { status } = await req.json();
 
     const investigation = getInvestigationById(investigationId as string);
     return res(ctx.status(200), ctx.json({ ...investigation, status }));
@@ -178,9 +178,9 @@ export const investigationsTestHandlers = [
     return res(ctx.status(200), ctx.json({ id: testInvestigationIdPrefix + 1 }));
   }),
 
-  rest.put(`*${environment.apiUrl}/investigations/:investigationId/status`, (req, res, ctx) => {
+  rest.put(`*${environment.apiUrl}/investigations/:investigationId/status`, async (req, res, ctx) => {
     const { investigationId } = req.params;
-    const { status } = req.body as Record<string, unknown>;
+    const { status } = await req.json();
 
     const investigation = testGetInvestigationById(investigationId as string);
     return res(ctx.status(200), ctx.json({ ...investigation, status }));

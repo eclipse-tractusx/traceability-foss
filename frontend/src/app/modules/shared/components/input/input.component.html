@@ -22,18 +22,18 @@ SPDX-License-Identifier: Apache-2.0
 <div class="textarea--container">
   <mat-form-field [style.fontSize]="'16'" appearance="fill">
     <mat-label>{{ label }}</mat-label>
-    <textarea
-      #inputElement
-      [formControl]="control"
-      [attr.data-testId]="htmlId"
-      [errorStateMatcher]="matcher"
-      matInput
-      cdkTextareaAutosize
-      #autosize="cdkTextareaAutosize"
-      cdkAutosizeMinRows="1"
-      cdkAutosizeMaxRows="5"
-    ></textarea>
+    <input #inputElement [formControl]="control" [attr.data-testId]="htmlId" [errorStateMatcher]="matcher" matInput />
     <mat-icon *ngIf="matcher.isErrorState(control)" color="warn" matSuffix>error_outline</mat-icon>
+    <mat-icon
+      *ngIf="!matcher.isErrorState(control) && suffixIcon"
+      [color]="suffixIconColor"
+      [class.cursor-pointer]="suffixIconHover"
+      [attr.data-testId]="htmlId + '-icon'"
+      (click)="suffixIconClick.emit()"
+      matSuffix
+      >{{ suffixIcon }}</mat-icon
+    >
+
     <mat-hint align="end" *ngIf="!!maxLength && !!minLength">{{
       'input.minMaxLengthHint' | i18n : { current: control?.value?.length || 0, max: maxLength, min: minLength }
     }}</mat-hint>

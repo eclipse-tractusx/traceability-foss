@@ -22,7 +22,7 @@
 import { environment } from '@env';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../pagination.helper';
-import { buildMockRegistryProcesses } from './admin.model';
+import { buildMockRegistryProcesses, getBpnConfig } from './admin.model';
 
 export const adminHandler = (_ => {
   const mockRegistryProcesses = buildMockRegistryProcesses();
@@ -31,6 +31,22 @@ export const adminHandler = (_ => {
       const pagination = extractPagination(req);
 
       return res(ctx.status(200), ctx.json(applyPagination(mockRegistryProcesses, pagination)));
+    }),
+
+    rest.post(`*${environment.apiUrl}/bpn-config`, (req, res, ctx) => {
+      return res(ctx.status(204));
+    }),
+
+    rest.get(`*${environment.apiUrl}/bpn-config`, (req, res, ctx) => {
+      return res(ctx.status(200), ctx.json(getBpnConfig()));
+    }),
+
+    rest.put(`*${environment.apiUrl}/bpn-config`, (req, res, ctx) => {
+      return res(ctx.status(204));
+    }),
+
+    rest.delete(`*${environment.apiUrl}/bpn-config`, (req, res, ctx) => {
+      return res(ctx.status(204));
     }),
   ];
 })();
