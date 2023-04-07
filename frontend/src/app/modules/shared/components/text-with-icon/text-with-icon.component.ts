@@ -20,12 +20,15 @@
  ********************************************************************************/
 
 import { Component, Input } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-text-with-icon',
   templateUrl: './text-with-icon.component.html',
 })
 export class TextWithIconComponent {
+  @Input() color: ThemePalette;
   @Input() iconName: string;
   @Input() isTextLeft: false;
+  @Input() testId: string;
 }

@@ -19,13 +19,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Inject, Injector, Input, Output } from '@angular/core';
+import { BaseInputComponent } from '@shared/abstraction/baseInput/baseInput.component';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
-  selector: 'app-resizer',
-  templateUrl: './resizer.component.html',
-  styleUrls: ['./resizer.component.scss'],
+  selector: 'app-input',
+  templateUrl: './input.component.html',
+  styleUrls: ['./input.component.scss'],
 })
-export class ResizerComponent {
-  @Input() isExpanded: boolean;
+export class InputComponent extends BaseInputComponent<string> {
+  @Input() suffixIcon: string;
+  @Input() suffixIconColor: ThemePalette;
+  @Input() suffixIconHover: boolean = false;
+  @Output() suffixIconClick = new EventEmitter<void>();
+
+  constructor(@Inject(Injector) injector: Injector, staticIdService: StaticIdService) {
+    super(injector, staticIdService);
+  }
 }

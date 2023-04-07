@@ -21,7 +21,7 @@
 
 import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
-import { RegistryProcess } from '@page/admin/core/admin.model';
+import { BpnConfig, RegistryProcess } from '@page/admin/core/admin.model';
 import { AdminService } from '@page/admin/core/admin.service';
 import { AdminState } from '@page/admin/core/admin.state';
 import { TableHeaderSort } from '@shared/components/table/table.model';
@@ -32,6 +32,7 @@ import { Observable, Subscription } from 'rxjs';
 @Injectable()
 export class AdminFacade {
   private scheduledRegistryProcessesSubscription: Subscription;
+
   constructor(private readonly adminState: AdminState, private readonly adminService: AdminService) {}
 
   public get scheduledRegistryProcesses$(): Observable<View<Pagination<RegistryProcess>>> {
@@ -50,5 +51,21 @@ export class AdminFacade {
         next: data => (this.adminState.scheduledRegistryProcesses = { data }),
         error: error => (this.adminState.scheduledRegistryProcesses = { error }),
       });
+  }
+
+  public createBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
+    return this.adminService.createBpnFallbackConfig(bpnConfig);
+  }
+
+  public readBpnFallbackConfig(): Observable<BpnConfig[]> {
+    return this.adminService.readBpnFallbackConfig();
+  }
+
+  public updateBpnFallbackConfig(bpnConfig: BpnConfig[]): Observable<BpnConfig[]> {
+    return this.adminService.updateBpnFallbackConfig(bpnConfig);
+  }
+
+  public deleteBpnFallbackConfig(bpnId: string): Observable<void> {
+    return this.adminService.deleteBpnFallbackConfig(bpnId);
   }
 }

@@ -38,9 +38,11 @@ type DateError = { date: Date; actualValue: string };
 })
 export class ErrorMessagePipe implements PipeTransform {
   private datePipe: FormatDatePipe;
+
   constructor(@Inject(I18NEXT_SERVICE) translationService: ITranslationService) {
     this.datePipe = new FormatDatePipe(translationService);
   }
+
   public transform(errors: ValidationErrors): string {
     if (!errors) {
       return '';
@@ -75,6 +77,8 @@ export class ErrorMessagePipe implements PipeTransform {
       ['currentDate', ({ date }: DateError) => getErrorMapping('currentDate', formatDate(date))],
 
       ['required', _ => getErrorMapping('required')],
+      ['url', _ => getErrorMapping('url')],
+      ['bpn', _ => getErrorMapping('bpn')],
       ['email', _ => getErrorMapping('email')],
       ['generic', _ => getErrorMapping('generic')],
     ]);

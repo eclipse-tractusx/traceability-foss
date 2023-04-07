@@ -20,9 +20,36 @@
  ********************************************************************************/
 
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.scss'],
 })
-export class AdminComponent {}
+export class AdminComponent {
+  public activeUrl: string;
+  public menuConfig = [
+    {
+      name: 'routing.adminRegistry',
+      icon: 'storage',
+      link: '/admin/registry-lookups',
+    },
+    {
+      name: 'routing.adminBpn',
+      icon: 'edit',
+      link: '/admin/configure-bpn',
+    },
+  ];
+
+  constructor(router: Router) {
+    this.activeUrl = router.url;
+
+    router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(({ urlAfterRedirects, url }: NavigationEnd) => (this.activeUrl = urlAfterRedirects ?? url));
+  }
+
+  public showFullText = false;
+}
