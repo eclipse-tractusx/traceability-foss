@@ -221,8 +221,14 @@ public class AssetEntity {
     }
 
     public boolean isOnInvestigation() {
-        return getInvestigations().stream()
-                .anyMatch(investigation -> investigation.getStatus() == InvestigationStatus.CREATED);
+        List<InvestigationEntity> investigationEntities = getInvestigations();
+
+        if (investigationEntities == null || investigationEntities.isEmpty()) {
+            return false;
+        }
+
+        return investigationEntities.stream()
+                .allMatch(investigation -> investigation.getStatus() != InvestigationStatus.CLOSED);
     }
 
     public String getVan() {
