@@ -21,14 +21,55 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity
+import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 
-trait AssetsSupport implements AssetRepositoryProvider {
+import java.time.Instant
+
+trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepositoryProvider {
 
 	void defaultAssetsStored() {
 		assetRepository().saveAll(assetsConverter().readAndConvertAssets())
 	}
+
+    void defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus investigationStatus) {
+        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssets().collect {asset ->
+            new AssetEntity(
+                    asset.getId(), asset.getIdShort(),
+                    asset.getNameAtManufacturer(),
+                    asset.getManufacturerPartId(),
+                    asset.getPartInstanceId(),
+                    asset.getManufacturerId(),
+                    asset.getBatchId(),
+                    asset.getManufacturerName(),
+                    asset.getNameAtCustomer(),
+                    asset.getCustomerPartId(),
+                    asset.getManufacturingDate(),
+                    asset.getManufacturingCountry(),
+                    asset.isSupplierPart(),
+                    asset.getChildDescriptions().stream()
+                            .map(child -> new AssetEntity.ChildDescription(child.id(), child.idShort()))
+                            .toList(),
+                    asset.getQualityType(),
+                    asset.getVan()
+            )
+        }
+
+        assetEntities.collect { it ->
+            new InvestigationEntity(
+                    [it],
+                    it.getManufacturerId(),
+                    investigationStatus,
+                    InvestigationSide.SENDER,
+                    "",
+                    "some long description",
+                    Instant.now()
+            )
+        }.each { jpaInvestigationRepository().save(it) }
+    }
 
 	void assertAssetsSize(int size) {
 		assert assetRepository().countAssets() == size
