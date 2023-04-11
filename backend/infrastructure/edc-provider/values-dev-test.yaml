@@ -23,7 +23,7 @@ postgresql:
 edc-controlplane:
   image:
     repository: "ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault"
-    tag: "0.1.2"
+    tag: "0.3.0"
 
   securityContext:
     readOnlyRootFilesystem: false
@@ -36,8 +36,8 @@ edc-controlplane:
         nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       endpoints:
-        - ids
-        - data
+        - protocol
+        - management
       className: "nginx"
       tls:
         secretName: "tls-secret"
@@ -71,7 +71,7 @@ edc-controlplane:
       edc.dataplane.selector.consumer.properties={ "publicApiUrl": "http://tracex-test-edc-provider-edc-dataplane:8185/api/public" }
 
       edc.oauth.client.id=3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62:keyid:3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62
-      edc.oauth.public.key.alias=daps-cert-edc-test-provider-dev
+      edc.oauth.certificate.alias=daps-cert-edc-test-provider-dev
       edc.oauth.private.key.alias=daps-cert-key-edc-test-provider-dev
       edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
       edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
@@ -115,7 +115,7 @@ edc-controlplane:
 edc-dataplane:
   image:
     repository: "ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault"
-    tag: "0.1.2"
+    tag: "0.3.0"
 
   securityContext:
     readOnlyRootFilesystem: false
@@ -143,10 +143,10 @@ edc-dataplane:
       edc.dataplane.token.validation.endpoint=http://tracex-test-edc-provider-edc-controlplane:8182/validation/token
 
       # TODO: check backend url
-      edc.receiver.http.endpoint=http://tracex-irs-aaswrapper:9192/callback/endpoint-data-reference
+      edc.receiver.http.dynamic.endpoint=http://tracex-irs-aaswrapper:9192/callback/endpoint-data-reference
 
       edc.oauth.client.id=3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62:keyid:3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62
-      edc.oauth.public.key.alias=daps-cert-edc-test-provider-dev
+      edc.oauth.certificate.alias=daps-cert-edc-test-provider-dev
       edc.oauth.private.key.alias=daps-cert-key-edc-test-provider-dev
       edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
       edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json

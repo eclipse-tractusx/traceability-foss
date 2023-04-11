@@ -5,8 +5,8 @@ postgresql:
   image:
     tag: "14.4.0-debian-11-r21"
   auth:
-    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
-    password: <path:traceability-foss/data/dev/edc/database#password>
+    postgresPassword:
+    password:
     username: edc
     database: edc
   primary:
@@ -50,7 +50,7 @@ edc-controlplane:
 
   configuration:
     properties: |-
-      edc.api.auth.key=<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+      edc.api.auth.key=
 
       ids.webhook.address=https://trace-x-edc.dev.demo.catena-x.net
       edc.ids.id=urn:connector:edc-provider-controlplane
@@ -78,7 +78,7 @@ edc-controlplane:
       edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
 
       edc.vault.hashicorp.url=https://vault.demo.catena-x.net
-      edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+      edc.vault.hashicorp.token=
       edc.vault.hashicorp.timeout.seconds=30
       edc.vault.hashicorp.health.check.enabled=true
       edc.vault.hashicorp.health.check.standby.ok=true
@@ -91,23 +91,23 @@ edc-controlplane:
       edc.datasource.asset.name=asset
       edc.datasource.asset.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc
       edc.datasource.asset.user=edc
-      edc.datasource.asset.password=<path:traceability-foss/data/dev/edc/database#password>
+      edc.datasource.asset.password=
       edc.datasource.contractdefinition.name=contractdefinition
       edc.datasource.contractdefinition.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc
       edc.datasource.contractdefinition.user=edc
-      edc.datasource.contractdefinition.password=<path:traceability-foss/data/dev/edc/database#password>
+      edc.datasource.contractdefinition.password=
       edc.datasource.contractnegotiation.name=contractnegotiation
       edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc
       edc.datasource.contractnegotiation.user=edc
-      edc.datasource.contractnegotiation.password=<path:traceability-foss/data/dev/edc/database#password>
+      edc.datasource.contractnegotiation.password=
       edc.datasource.policy.name=policy
       edc.datasource.policy.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc
       edc.datasource.policy.user=edc
-      edc.datasource.policy.password=<path:traceability-foss/data/dev/edc/database#password>
+      edc.datasource.policy.password=
       edc.datasource.transferprocess.name=transferprocess
       edc.datasource.transferprocess.url=jdbc:postgresql://tracex-edc-provider-postgresql-hl:5432/edc
       edc.datasource.transferprocess.user=edc
-      edc.datasource.transferprocess.password=<path:traceability-foss/data/dev/edc/database#password>
+      edc.datasource.transferprocess.password=
 
 ###############################
 # EDC Dataplane Configuration #
@@ -153,7 +153,7 @@ edc-dataplane:
       edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
 
       edc.vault.hashicorp.url=https://vault.demo.catena-x.net
-      edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+      edc.vault.hashicorp.token=
       edc.vault.hashicorp.timeout.seconds=30
       edc.vault.hashicorp.health.check.enabled=true
       edc.vault.hashicorp.health.check.standby.ok=true
