@@ -230,6 +230,7 @@ irs-helm:
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
+
   minio:
     nameOverride: "tracex-irs-minio"
     fullnameOverride: "tracex-irs-minio"
