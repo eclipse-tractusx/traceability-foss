@@ -42,7 +42,7 @@ public class EDCNotificationFactory {
                 senderEDC,
                 notification.getReceiverBpnNumber(),
                 NotificationType.QMINVESTIGATION.getValue(),
-                notification.getSeverity() != null ? notification.getSeverity().name() : Severity.MINOR.name(),
+                notification.getSeverity() != null ? notification.getSeverity().getRealName() : Severity.MINOR.getRealName(),
                 notification.getNotificationReferenceId(),
                 notification.getInvestigationStatus().name(),
                 targetDate,
