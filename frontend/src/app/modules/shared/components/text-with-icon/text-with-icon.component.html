@@ -19,8 +19,8 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div class="flex items-center">
-  <mat-icon *ngIf="!isTextLeft" class="pr-8">{{ iconName }}</mat-icon>
+<div [attr.data-testid]="testId" class="flex items-center">
+  <mat-icon *ngIf="!isTextLeft" class="pr-8" [color]="color">{{ iconName }}</mat-icon>
   <ng-content></ng-content>
-  <mat-icon *ngIf="isTextLeft" class="pl-8">{{ iconName }}</mat-icon>
+  <mat-icon *ngIf="isTextLeft" class="pl-8" [color]="color">{{ iconName }}</mat-icon>
 </div>

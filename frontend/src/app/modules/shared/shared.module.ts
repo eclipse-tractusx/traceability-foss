@@ -64,6 +64,7 @@ import { I18nPipe } from './pipes/i18n.pipe';
 import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
+import { InputComponent } from '@shared/components/input/input.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +105,7 @@ import { TemplateModule } from './template.module';
     SeverityComponent,
     SeveritySelectComponent,
     NotificationUserComponent,
+    InputComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
   exports: [
@@ -141,6 +143,7 @@ import { TemplateModule } from './template.module';
     SeverityComponent,
     SeveritySelectComponent,
     NotificationUserComponent,
+    InputComponent,
   ],
   providers: [
     FormatDatePipe,

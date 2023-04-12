@@ -8,7 +8,9 @@
     "about": "Über uns",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
-    "investigations": "Quality Investigation"
+    "investigations": "Quality Investigation",
+    "adminRegistry": "Registry-Abfragen",
+    "adminBpn": "BPN - EDC Konfiguration"
   },
   "pageTitle": {
     "dashboard": "Dashboard",
@@ -37,7 +39,12 @@
     "acknowledge": "Bestätigen",
     "confirm": "Genehmigen",
     "decline": "Ablehnen",
-    "help": "Hilfe"
+    "help": "Hilfe",
+    "add": "Hinzufügen",
+    "saveChanges": "Änderungen speicher",
+    "save": "Speicher",
+    "remove": "Entfernen",
+    "delete": "Löschen"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
@@ -114,7 +121,9 @@
     "email": "Die E-Mail Adresse ist ungültig.",
     "minLength": "Bitte geben Sie mindestens {{minLength}} Zeichen ein. Momentan: {{current}}",
     "maxLength": "Bitte geben Sie maximal {{maxLength}} Zeichen ein. Momentan: {{current}}",
-    "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{pattern}}.",
+    "pattern": "Bitte geben Sie die Daten in folgendem Format ein: {{- pattern}}.",
+    "url": "Bitte geben Sie eine valide URL ein.",
+    "bpn": "Bitte geben Sie eine valide BPN ein.",
     "maxDate": "Bitte wählen Sie ein Datum vor dem {{- maxDate}}.",
     "minDate": "Bitte wählen Sie ein Datum nach dem {{- minDate}}.",
     "currentDate": "Bitte wählen Sie ein Datum nach dem {{- currentDate}}.",

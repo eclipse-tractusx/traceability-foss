@@ -26,6 +26,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -53,7 +54,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
 import java.lang.invoke.MethodHandles;
 
 import static org.eclipse.tractusx.traceability.investigations.adapters.rest.validation.UpdateInvestigationValidator.validate;
@@ -107,7 +107,7 @@ public class InvestigationsController {
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @GetMapping("/created")
     public PageResult<InvestigationData> getCreatedInvestigations(Pageable pageable) {
-        logger.info(API_LOG_START + "/created with params: {}", pageable);
+        logger.info(API_LOG_START + "/created");
         return investigationsReadService.getCreatedInvestigations(pageable);
     }
 
@@ -121,7 +121,7 @@ public class InvestigationsController {
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @GetMapping("/received")
     public PageResult<InvestigationData> getReceivedInvestigations(Pageable pageable) {
-        logger.info(API_LOG_START + "/received with params: {}", pageable);
+        logger.info(API_LOG_START + "/received");
         return investigationsReadService.getReceivedInvestigations(pageable);
     }
 

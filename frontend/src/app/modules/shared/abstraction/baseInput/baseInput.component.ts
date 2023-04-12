@@ -21,7 +21,6 @@
 
 import { Component, ElementRef, Inject, Injector, Input, OnInit, ViewChild } from '@angular/core';
 import {
-  AbstractControl,
   ControlValueAccessor,
   FormControl,
   FormControlDirective,
@@ -30,17 +29,10 @@ import {
   NgControl,
   NgModel,
 } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { Subject } from 'rxjs';
 import { takeUntil, tap } from 'rxjs/operators';
-
-/** Error when invalid control is dirty, touched, or submitted. */
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | AbstractControl | null): boolean {
-    return !!(control && control.invalid && control.touched);
-  }
-}
+import { MyErrorStateMatcher } from '@shared/abstraction/baseInput/baseInput.helper';
 
 @Component({ selector: 'app-baseInput', template: '' })
 export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
@@ -85,6 +77,7 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
   public registerOnTouched(fn: () => void): void {
     this.onTouch = fn;
   }
+
   public onChange = (value: T | null): T | null => value;
 
   public onTouch = (): void => {};
