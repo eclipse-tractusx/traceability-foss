@@ -208,7 +208,7 @@ irs-helm:
 
   digitalTwinRegistry:
     url: https://semantics.int.demo.catena-x.net/registry
-  semanticsHub:
+  semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1
   bpdm:
     url: https://partners-pool.int.demo.catena-x.net
