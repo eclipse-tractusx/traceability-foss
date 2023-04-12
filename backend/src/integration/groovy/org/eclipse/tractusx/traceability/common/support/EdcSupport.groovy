@@ -40,17 +40,17 @@ trait EdcSupport implements RestitoProvider {
 
 	void edcWillCreateNotificationAsset() {
 		whenHttp(stubServer()).match(
-			post("/data/assets"),
+			post("/api/v1/management/assets"),
 			EDC_API_KEY_HEADER
 		).then(
-			status(HttpStatus.NO_CONTENT_204)
+			status(HttpStatus.OK_200)
 		)
 	}
 
 	void edcWillRemoveNotificationAsset() {
 		whenHttp(stubServer()).match(
 			method(DELETE),
-			startsWithUri("/data/assets/"),
+			startsWithUri("/api/v1/management/assets/"),
 			EDC_API_KEY_HEADER
 		).then(
 			noContent()
@@ -59,7 +59,7 @@ trait EdcSupport implements RestitoProvider {
 
 	void edcWillFailToCreateNotificationAsset() {
 		whenHttp(stubServer()).match(
-			post("/data/assets"),
+			post("/api/v1/management/assets"),
 			EDC_API_KEY_HEADER
 		).then(
 			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
@@ -68,20 +68,20 @@ trait EdcSupport implements RestitoProvider {
 
 	void edcNotificationAssetAlreadyExist() {
 		whenHttp(stubServer()).match(
-			post("/data/assets"),
+			post("/api/v1/management/assets"),
 			EDC_API_KEY_HEADER
 		).then(
 			status(HttpStatus.CONFLICT_409),
-			jsonResponseFromFile("./stubs/edc/post/data/assets/response_409.json")
+			jsonResponseFromFile("./stubs/edc/post/api/v1/management/assets/response_409.json")
 		)
 	}
 
 	void edcWillCreatePolicyDefinition() {
 		whenHttp(stubServer()).match(
-			post("/data/policydefinitions"),
+			post("/api/v1/management/policydefinitions"),
 			EDC_API_KEY_HEADER
 		).then(
-			status(HttpStatus.NO_CONTENT_204)
+			status(HttpStatus.OK_200)
 		)
 	}
 
@@ -89,7 +89,7 @@ trait EdcSupport implements RestitoProvider {
 		whenHttp(stubServer()).match(
 			composite(
 				method(DELETE),
-				startsWithUri("/data/policydefinitions/")
+				startsWithUri("/api/v1/management/policydefinitions/")
 			),
 			EDC_API_KEY_HEADER
 		).then(
@@ -99,7 +99,7 @@ trait EdcSupport implements RestitoProvider {
 
 	void edcWillFailToCreatePolicyDefinition() {
 		whenHttp(stubServer()).match(
-			post("/data/policydefinitions"),
+			post("/api/v1/management/policydefinitions"),
 			EDC_API_KEY_HEADER
 		).then(
 			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
@@ -108,16 +108,16 @@ trait EdcSupport implements RestitoProvider {
 
 	void edcWillCreateContractDefinition() {
 		whenHttp(stubServer()).match(
-			post("/data/contractdefinitions"),
+			post("/api/v1/management/contractdefinitions"),
 			EDC_API_KEY_HEADER
 		).then(
-			status(HttpStatus.NO_CONTENT_204)
+			status(HttpStatus.OK_200)
 		)
 	}
 
 	void edcWillFailToCreateContractDefinition() {
 		whenHttp(stubServer()).match(
-			post("/data/contractdefinitions"),
+			post("/api/v1/management/contractdefinitions"),
 			EDC_API_KEY_HEADER
 		).then(
 			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
@@ -126,40 +126,40 @@ trait EdcSupport implements RestitoProvider {
 
 	void verifyCreateNotificationAssetEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
-			post("/data/assets")
+			post("/api/v1/management/assets")
 		)
 	}
 
 	void verifyDeleteNotificationAssetEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-			startsWithUri("/data/assets/")
+			startsWithUri("/api/v1/management/assets")
 		)
 	}
 
 	void verifyCreatePolicyDefinitionEndpointCalledTimes(int times) {
 			verifyHttp(stubServer()).times(times,
-			post("/data/policydefinitions")
+			post("/api/v1/management/policydefinitions")
 		)
 	}
 
 	void verifyDeletePolicyDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-			startsWithUri("/data/policydefinitions/")
+			startsWithUri("/api/v1/management/policydefinitions")
 		)
 	}
 
 	void verifyCreateContractDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
-			post("/data/contractdefinitions")
+			post("/api/v1/management/contractdefinitions")
 		)
 	}
 
 	void verifyDeleteContractDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-			startsWithUri("/data/contractdefinitions/")
+			startsWithUri("/api/v1/management/contractdefinitions")
 		)
 	}
 }

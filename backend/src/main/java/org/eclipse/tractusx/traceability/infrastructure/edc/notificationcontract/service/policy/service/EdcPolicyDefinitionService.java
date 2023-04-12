@@ -48,7 +48,7 @@ public class EdcPolicyDefinitionService {
 
     private static final Logger logger = LoggerFactory.getLogger(EdcNotitifcationAssetService.class);
 
-    private static final String CREATE_POLICY_DEFINION_PATH = "/data/policydefinitions";
+    private static final String CREATE_POLICY_DEFINION_PATH = "/api/v1/management/policydefinitions";
     private static final String DATA_SPACE_CONNECTOR_PERMISSION = "dataspaceconnector:permission";
     private static final String USE_ACTION = "USE";
 
@@ -89,7 +89,7 @@ public class EdcPolicyDefinitionService {
             throw new CreateEdcPolicyDefinitionException("Notification asset policy definition already exists in the EDC");
         }
 
-        if (responseCode.value() == 204) {
+        if (responseCode.value() == 200) {
             return accessPolicyId;
         }
 
