@@ -131,7 +131,7 @@ public class InvestigationsEDCFacade {
             }
 
             Request notificationRequest = buildNotificationRequest(notification, senderEdcUrl, dataReference);
-            logger.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", notificationRequest.body(), dataReference.getEndpoint());
+
             httpCallService.sendRequest(notificationRequest);
 
             logger.info(":::: EDC Data Transfer Completed :::::");
@@ -150,6 +150,7 @@ public class InvestigationsEDCFacade {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);
         HttpUrl url = httpCallService.getUrl(dataReference.getEndpoint(), null, null);
+        logger.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
         return new Request.Builder()
                 .url(url)
                 .addHeader(dataReference.getAuthKey(), dataReference.getAuthCode())
