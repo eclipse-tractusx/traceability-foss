@@ -29,19 +29,7 @@ edc-controlplane:
     readOnlyRootFilesystem: false
 
   ingresses:
-    - enabled: true
-      hostname: "trace-x-edc.dev.demo.catena-x.net"
-      annotations:
-        nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      endpoints:
-        - protocol
-        - management
-      className: "nginx"
-      tls:
-        secretName: "tls-secret"
-        enabled: true
+    - enabled: false
 
   opentelemetry:
     properties: |-
@@ -121,18 +109,7 @@ edc-dataplane:
     readOnlyRootFilesystem: false
 
   ingresses:
-    - enabled: true
-      hostname: "trace-x-edc-dataplane.dev.demo.catena-x.net"
-      annotations:
-        nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      endpoints:
-        - public
-      className: "nginx"
-      tls:
-        enabled: true
-        secretName: "tls-secret"
+    - enabled: false
 
   opentelemetry:
     properties: |-

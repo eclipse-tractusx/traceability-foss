@@ -38,6 +38,8 @@ edc-controlplane:
       endpoints:
         - protocol
         - management
+        - data
+        - ids
       className: "nginx"
       tls:
         secretName: "tls-secret"
