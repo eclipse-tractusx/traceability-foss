@@ -238,6 +238,9 @@ irs-helm:
       create: false
     rootUser: <path:traceability-foss/data/dev/minio#user>
     rootPassword: <path:traceability-foss/data/dev/minio#password>
+  config:
+    content:
+      apiAllowedBpn: BPNL00000003CML1
 
 ###################################
 # IRS EDC Consumer configuration  #
