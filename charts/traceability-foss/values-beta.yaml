@@ -210,7 +210,7 @@ irs-helm:
         secretName: tls-secret
   digitalTwinRegistry:
     url: https://semantics.beta.demo.catena-x.net/registry
-  semanticsHub:
+  semanticshub:
     url: https://semantics.beta.demo.catena-x.net/hub/api/v1
   bpdm:
     url: https://partners-pool.beta.demo.catena-x.net
