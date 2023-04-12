@@ -239,7 +239,7 @@ irs-helm:
     rootPassword: <path:traceability-foss/data/dev/minio#password>
 
   env:
-   - name: API_ALLOWED_BPN
+     name: API_ALLOWED_BPN
      value: BPNL00000003CML1
 
 ###################################
