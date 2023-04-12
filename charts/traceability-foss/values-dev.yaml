@@ -239,7 +239,8 @@ irs-helm:
     rootPassword: <path:traceability-foss/data/dev/minio#password>
 
   env:
-    API_ALLOWED_BPN: BPNL00000003CML1
+   - name: API_ALLOWED_BPN
+     value: BPNL00000003CML1
 
 ###################################
 # IRS EDC Consumer configuration  #
