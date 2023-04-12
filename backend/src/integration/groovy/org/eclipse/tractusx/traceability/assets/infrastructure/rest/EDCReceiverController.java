@@ -68,7 +68,7 @@ public class EDCReceiverController {
 		this.endpointDataReferenceCache = endpointDataReferenceCache;
 	}
 
-	@GetMapping("/data/catalog")
+	@GetMapping("/api/v1/management/catalog")
 	public Catalog getDataCatalog(@RequestParam String providerUrl) {
 		logger.info("Returning data catalog for provider {}", providerUrl);
 		return Catalog.Builder.newInstance()
@@ -85,7 +85,7 @@ public class EDCReceiverController {
 			).build();
 	}
 
-	@PostMapping("/data/contractnegotiations")
+	@PostMapping("/api/v1/management/contractnegotiations")
 	public TransferId contractNegotiations(@RequestBody NegotiationInitiateRequestDto request) {
 		logger.info("Initializing contract negotiations");
 		return TransferId.Builder.newInstance()
@@ -93,7 +93,7 @@ public class EDCReceiverController {
 			.build();
 	}
 
-	@PostMapping("/data/transferprocess")
+	@PostMapping("/api/v1/management/transferprocess")
 	public TransferId transferProcess(@RequestBody TransferRequestDto transferRequest) {
 		logger.info("Processing transfer");
 		return TransferId.Builder.newInstance()
@@ -111,7 +111,7 @@ public class EDCReceiverController {
 		logger.info("Callback received");
 	}
 
-	@GetMapping("/data/contractnegotiations/{transferId}")
+	@GetMapping("/api/v1/management/contractnegotiations/{transferId}")
 	public ContractNegotiationDto getContractNegotiations(@PathVariable String transferId) {
 		logger.info("Returning contract negotiations");
 		String contractAgreementId = "contract-agreement-id";
