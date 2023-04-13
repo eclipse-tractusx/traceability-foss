@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.env.Environment;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,115 +20,120 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class EDCUrlProviderDispatcherTest {
+class EDCUrlProviderDispatcherTest {
 
-	private EDCUrlProviderDispatcher edcUrlProviderDispatcher;
+    private EDCUrlProviderDispatcher edcUrlProviderDispatcher;
 
-	@Mock
-	private PortalAdministrationApiClient portalAdministrationApiClient;
+    @Mock
+    private PortalAdministrationApiClient portalAdministrationApiClient;
 
-	@Mock
-	private Environment environment;
+    @Mock
+    private Environment environment;
 
-	@Mock
-	private EdcProperties edcProperties;
+    @Mock
+    private EdcProperties edcProperties;
 
-	@BeforeEach
-	void setup() {
-		when(environment.getActiveProfiles()).thenReturn(new String[]{"test"});
+    private static final String FALLBACK_URL = "https://trace-x-test-edc.test.demo.catena-x.net";
 
-		edcUrlProviderDispatcher = new EDCUrlProviderDispatcher(portalAdministrationApiClient, environment, edcProperties);
-	}
+    @BeforeEach
+    void setup() {
+        when(environment.getActiveProfiles()).thenReturn(new String[]{"test"});
 
-	@Test
-	void testEdcUrlProviderDispatcherGetSenderUrl() {
-		// given
-		String senderUrl = "https://some-edc-url.com";
+        edcUrlProviderDispatcher = new EDCUrlProviderDispatcher(portalAdministrationApiClient, environment, edcProperties);
+    }
 
-		// and
-		when(edcProperties.getProviderEdcUrl()).thenReturn(senderUrl);
+    @Test
+    void testEdcUrlProviderDispatcherGetSenderUrl() {
+        // given
+        String senderUrl = "https://some-edc-url.com";
 
-		// when
-		String result = edcUrlProviderDispatcher.getSenderUrl();
+        // and
+        when(edcProperties.getProviderEdcUrl()).thenReturn(senderUrl);
 
-		// then
-		assertThat(result).isEqualTo(senderUrl);
-	}
+        // when
+        String result = edcUrlProviderDispatcher.getSenderUrl();
 
-	@Test
-	void testEdcUrlProviderDispatcherGetEdcUrlsFromPortal() {
-		// given
-		String bpn = "BPN1234";
-		String connectorEndpoint = "https://some-edc-url.com";
+        // then
+        assertThat(result).isEqualTo(senderUrl);
+    }
 
-		// and
-		when(portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn)))
-			.thenReturn(List.of(new ConnectorDiscoveryMappingResponse(bpn, List.of(connectorEndpoint))));
+    @Test
+    void testEdcUrlProviderDispatcherGetEdcUrlsFromPortalAndFallback() {
+        // given
+        String bpn = "BPN1234";
+        String connectorEndpoint = "https://some-edc-url.com";
 
-		// when
-		List<String> edcUrls = edcUrlProviderDispatcher.getEdcUrls(bpn);
+        // and
+        when(portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn)))
+                .thenReturn(List.of(new ConnectorDiscoveryMappingResponse(bpn, List.of(connectorEndpoint))));
 
-		// then
-		assertThat(edcUrls).isEqualTo(List.of(connectorEndpoint));
-	}
+        // when
+        List<String> edcUrls = edcUrlProviderDispatcher.getEdcUrls(bpn);
 
-	@Test
-	void testEdcUrlProviderDispatcherGetEdcUrlsFromFallbackMappingOnServiceUnavailable() {
-		// given
-		String bpn = "BPN1234";
-		String connectorEndpoint = "https://some-edc-url.com";
+        // then
+        List<String> expectedEdcUrls = new ArrayList<>(List.of(connectorEndpoint));
+        expectedEdcUrls.add(FALLBACK_URL);
+        assertThat(edcUrls).isEqualTo(expectedEdcUrls);
+        assertThat(edcUrls).hasSize(2);
+    }
 
-		when(edcProperties.getBpnProviderUrlMappings()).thenReturn(Map.of(bpn, connectorEndpoint));
+    @Test
+    void testEdcUrlProviderDispatcherGetEdcUrlsFromFallbackMappingOnServiceUnavailable() {
+        // given
+        String bpn = "BPN1234";
+        String connectorEndpoint = "https://some-edc-url.com";
 
-		// and
-		when(portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn)))
-			.thenThrow(serviceUnavailable());
+        when(edcProperties.getBpnProviderUrlMappings()).thenReturn(Map.of(bpn, connectorEndpoint));
 
-		// when
-		List<String> edcUrls = edcUrlProviderDispatcher.getEdcUrls(bpn);
+        // and
+        when(portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn)))
+                .thenThrow(serviceUnavailable());
 
-		// then
-		assertThat(edcUrls).isEqualTo(List.of(connectorEndpoint));
-	}
+        // when
+        List<String> edcUrls = edcUrlProviderDispatcher.getEdcUrls(bpn);
 
-	@Test
-	void testEdcUrlProviderDispatcherGetEdcUrlsFromFallbackMappingOnNullResponse() {
-		// given
-		String bpn = "BPN1234";
-		String connectorEndpoint = "https://some-edc-url.com";
+        // then
+        assertThat(edcUrls).isEqualTo(List.of(connectorEndpoint));
+    }
 
-		when(edcProperties.getBpnProviderUrlMappings()).thenReturn(Map.of(bpn, connectorEndpoint));
+    @Test
+    void testEdcUrlProviderDispatcherGetEdcUrlsFromFallbackMappingOnNullResponse() {
+        // given
+        String bpn = "BPN1234";
+        String connectorEndpoint = "https://some-edc-url.com";
 
-		// and
-		when(portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn))).thenReturn(null);
+        when(edcProperties.getBpnProviderUrlMappings()).thenReturn(Map.of(bpn, connectorEndpoint));
 
-		// when
-		List<String> edcUrls = edcUrlProviderDispatcher.getEdcUrls(bpn);
+        // and
+        when(portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn))).thenReturn(null);
 
-		// then
-		assertThat(edcUrls).isEqualTo(List.of(connectorEndpoint));
-	}
+        // when
+        List<String> edcUrls = edcUrlProviderDispatcher.getEdcUrls(bpn);
 
-	@Test
-	void testEdcUrlProviderDispatcherGetEdcUrlsFromFallbackDefaultMapping() {
-		// given
-		String bpn = "BPN1234";
+        // then
+        assertThat(edcUrls).isEqualTo(List.of(connectorEndpoint));
+    }
 
-		// and
-		when(portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn)))
-			.thenThrow(new RuntimeException("unit-tests"));
+    @Test
+    void testEdcUrlProviderDispatcherGetEdcUrlsFromFallbackDefaultMapping() {
+        // given
+        String bpn = "BPN1234";
 
-		// when
-		List<String> edcUrls = edcUrlProviderDispatcher.getEdcUrls(bpn);
+        // and
+        when(portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn)))
+                .thenThrow(new RuntimeException("unit-tests"));
 
-		// then
-		assertThat(edcUrls).isEqualTo(List.of("https://trace-x-test-edc.test.demo.catena-x.net"));
-	}
+        // when
+        List<String> edcUrls = edcUrlProviderDispatcher.getEdcUrls(bpn);
 
-	private FeignException.ServiceUnavailable serviceUnavailable() {
-		return new FeignException.ServiceUnavailable(
-			"unit-tests",
-			Request.create(Request.HttpMethod.POST, "", Map.of(), new byte[]{}, null, null),
-			null, null);
-	}
+        // then
+        assertThat(edcUrls).isEqualTo(List.of("https://trace-x-test-edc.test.demo.catena-x.net"));
+    }
+
+    private FeignException.ServiceUnavailable serviceUnavailable() {
+        return new FeignException.ServiceUnavailable(
+                "unit-tests",
+                Request.create(Request.HttpMethod.POST, "", Map.of(), new byte[]{}, null, null),
+                null, null);
+    }
 }
