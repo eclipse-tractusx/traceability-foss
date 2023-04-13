@@ -41,6 +41,7 @@ edc-controlplane:
         - data
         - ids
         - api
+        - default
       className: "nginx"
       tls:
         secretName: "tls-secret"
