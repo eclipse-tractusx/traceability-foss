@@ -56,6 +56,12 @@ edc-controlplane:
     properties: |-
       edc.api.auth.key=<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
+      web.http.data.port=8183
+      web.http.data.path=/data-deprecated
+
+      web.http.management.path=/data
+      web.http.management.port=8181
+
       ids.webhook.address=https://trace-x-edc.dev.demo.catena-x.net
       edc.ids.id=urn:connector:edc-provider-controlplane
       edc.ids.catalog.id=urn:catalog:default
