@@ -57,7 +57,7 @@ public class EnvironmentAwareMockEDCUrlProvider implements EDCUrlProvider {
 	public List<String> getEdcUrls(String bpn) {
 		String edcUrl = edcProperties.getBpnProviderUrlMappings().getOrDefault(bpn, defaultProviderUrl());
 
-		logger.info("Resolved {} url for {} bpn", edcUrl, bpn);
+		logger.info("Resolved MOCK: {} url for {} bpn", edcUrl, bpn);
 
 		return List.of(edcUrl);
 	}

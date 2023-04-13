@@ -21,56 +21,60 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters.feign.portal;
 
-import feign.FeignException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DataspaceDiscoveryService implements EDCUrlProvider {
 
-	private static final Logger logger = LoggerFactory.getLogger(DataspaceDiscoveryService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DataspaceDiscoveryService.class);
 
-	private final PortalAdministrationApiClient portalAdministrationApiClient;
+    private final PortalAdministrationApiClient portalAdministrationApiClient;
 
-	private final EdcProperties edcProperties;
+    private final EdcProperties edcProperties;
 
-	public DataspaceDiscoveryService(PortalAdministrationApiClient portalAdministrationApiClient, EdcProperties edcProperties) {
-		this.portalAdministrationApiClient = portalAdministrationApiClient;
-		this.edcProperties = edcProperties;
-	}
+    public DataspaceDiscoveryService(PortalAdministrationApiClient portalAdministrationApiClient, EdcProperties edcProperties) {
+        this.portalAdministrationApiClient = portalAdministrationApiClient;
+        this.edcProperties = edcProperties;
+    }
 
-	@Override
-	public List<String> getEdcUrls(String bpn) {
-		final List<ConnectorDiscoveryMappingResponse> response;
-		try {
-			response = portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn));
-		} catch (FeignException e) {
-			logger.error("Exception during fetching connector endpoints for {} bpn", bpn, e);
+    @Override
+    public List<String> getEdcUrls(String bpn) {
+        final List<ConnectorDiscoveryMappingResponse> response;
+        try {
+            response = portalAdministrationApiClient.getConnectorEndpointMappings(List.of(bpn));
+            if (response == null) {
+                return Collections.emptyList();
+            }
+        } catch (Exception e) {
+            logger.warn("Exception during fetching connector endpoints for {} bpn. Http Message: {} " +
+                    "This is okay if the discovery service is not reachable from the specific environment", bpn, e.getMessage());
+            return Collections.emptyList();
+        }
 
-			throw e;
-		}
 
-		Map<String, List<String>> bpnToEndpointMappings = response.stream()
-			.collect(Collectors.toMap(ConnectorDiscoveryMappingResponse::bpn, ConnectorDiscoveryMappingResponse::connectorEndpoint));
+        Map<String, List<String>> bpnToEndpointMappings = response.stream()
+                .collect(Collectors.toMap(ConnectorDiscoveryMappingResponse::bpn, ConnectorDiscoveryMappingResponse::connectorEndpoint));
 
-		List<String> endpoints = bpnToEndpointMappings.get(bpn);
+        List<String> endpoints = bpnToEndpointMappings.get(bpn);
 
-		if (endpoints == null) {
-			logger.warn("No connector endpoint registered for {} bpn", bpn);
+        if (endpoints == null) {
+            logger.warn("No connector endpoint registered for {} bpn", bpn);
 
-			throw new IllegalStateException("No connector endpoint registered for %s bpn".formatted(bpn));
-		}
+            throw new IllegalStateException("No connector endpoint registered for %s bpn".formatted(bpn));
+        }
 
-		return endpoints;
-	}
+        return endpoints;
+    }
 
-	@Override
-	public String getSenderUrl() {
-		return edcProperties.getProviderEdcUrl();
-	}
+    @Override
+    public String getSenderUrl() {
+        return edcProperties.getProviderEdcUrl();
+    }
 }
