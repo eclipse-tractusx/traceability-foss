@@ -60,7 +60,7 @@ public class NotificationMapper {
                 edcNotification.convertInvestigationStatus(),
                 edcNotification.getListOfAffectedItems(),
                 edcNotification.getTargetDate(),
-                Severity.valueOf(edcNotification.getSeverity()),
+                Severity.fromString(edcNotification.getSeverity()),
                 edcNotification.getNotificationId(),
                 null,
                 null,

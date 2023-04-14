@@ -32,67 +32,63 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class EDCUrlProviderDispatcher implements EDCUrlProvider {
 
-	private static final Logger logger = LoggerFactory.getLogger(EDCUrlProviderDispatcher.class);
+    private static final Logger logger = LoggerFactory.getLogger(EDCUrlProviderDispatcher.class);
 
-	private final DataspaceDiscoveryService dataspaceDiscoveryService;
+    private final DataspaceDiscoveryService dataspaceDiscoveryService;
 
-	private final EnvironmentAwareMockEDCUrlProvider environmentAwareMockEDCUrlProvider;
+    private final EnvironmentAwareMockEDCUrlProvider environmentAwareMockEDCUrlProvider;
 
-	private final EdcProperties edcProperties;
+    private final EdcProperties edcProperties;
 
-	public EDCUrlProviderDispatcher(PortalAdministrationApiClient portalAdministrationApiClient,
-									Environment environment,
-									EdcProperties edcProperties) {
-		this.dataspaceDiscoveryService = new DataspaceDiscoveryService(portalAdministrationApiClient, edcProperties);
+    public EDCUrlProviderDispatcher(PortalAdministrationApiClient portalAdministrationApiClient,
+                                    Environment environment,
+                                    EdcProperties edcProperties) {
+        this.dataspaceDiscoveryService = new DataspaceDiscoveryService(portalAdministrationApiClient, edcProperties);
 
-		if (ApplicationProfiles.doesNotContainTestProfile(environment)) {
-			this.environmentAwareMockEDCUrlProvider = new EnvironmentAwareMockEDCUrlProvider(environment, edcProperties);
-		} else {
-			this.environmentAwareMockEDCUrlProvider = null;
-		}
+        if (ApplicationProfiles.doesNotContainTestProfile(environment)) {
+            this.environmentAwareMockEDCUrlProvider = new EnvironmentAwareMockEDCUrlProvider(environment, edcProperties);
+        } else {
+            this.environmentAwareMockEDCUrlProvider = null;
+        }
 
-		this.edcProperties = edcProperties;
-	}
+        this.edcProperties = edcProperties;
+    }
 
-	@Override
-	public List<String> getEdcUrls(String bpn) {
-		final List<String> edcUrls;
+    @Override
+    public List<String> getEdcUrls(String bpn) {
+        final List<String> edcUrls = dataspaceDiscoveryService.getEdcUrls(bpn);
+        final List<String> fallbackEdcUrls = getEdcUrlsFallback(bpn);
+        return combineDiscoveredUrlsAndFallbackUrls(edcUrls, fallbackEdcUrls);
+    }
 
-		try {
-			edcUrls = dataspaceDiscoveryService.getEdcUrls(bpn);
-		} catch (Exception e) {
-			logger.warn("Exception during fetching edc urls for {} bpn. Using fallback method if available", bpn);
+    private List<String> combineDiscoveredUrlsAndFallbackUrls(List<String> discoveredUrls, List<String> fallbackUrls) {
+        Set<String> combinedUrlSet = new HashSet<>();
+        combinedUrlSet.addAll(discoveredUrls);
+        combinedUrlSet.addAll(fallbackUrls);
+        return new ArrayList<>(combinedUrlSet);
+    }
 
-			return getEdcUrlsFallback(bpn);
-		}
+    private List<String> getEdcUrlsFallback(String bpn) {
+        if (environmentAwareMockEDCUrlProvider != null) {
+            return environmentAwareMockEDCUrlProvider.getEdcUrls(bpn);
+        } else {
+            logger.warn("No fallback method available for getting edc urls");
 
-		if (!edcUrls.isEmpty()) {
-			return edcUrls;
-		} else {
-			logger.warn("No edc urls present for {} bpn. Using fallback method if available", bpn);
+            return Collections.emptyList();
+        }
+    }
 
-			return getEdcUrlsFallback(bpn);
-		}
-	}
-
-	private List<String> getEdcUrlsFallback(String bpn) {
-		if (environmentAwareMockEDCUrlProvider != null) {
-			return environmentAwareMockEDCUrlProvider.getEdcUrls(bpn);
-		} else {
-			logger.warn("No fallback method available for getting edc urls");
-
-			return Collections.emptyList();
-		}
-	}
-
-	@Override
-	public String getSenderUrl() {
-		return edcProperties.getProviderEdcUrl();
-	}
+    @Override
+    public String getSenderUrl() {
+        return edcProperties.getProviderEdcUrl();
+    }
 }
