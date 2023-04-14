@@ -1,0 +1,58 @@
+###################################################
+# EDC Postgres Configuration for EDC Controlplane #
+###################################################
+postgresql:
+  image:
+    tag: "14.4.0-debian-11-r21"
+  auth:
+    postgresPassword:
+    password: ""
+    username: edc
+    database: edc
+  primary:
+    resources:
+      limits:
+        cpu: 1.5
+        memory: 1.5Gi
+    persistence:
+      size: 8Gi
+
+##################################
+# EDC Controlplane Configuration #
+##################################
+edc-controlplane:
+  image:
+    repository: "ghcr.io/catenax-ng/product-edc/edc-controlplane-postgresql-hashicorp-vault"
+    tag: "0.3.0"
+
+  securityContext:
+    readOnlyRootFilesystem: false
+
+  ingresses:
+    - enabled: false
+
+  opentelemetry:
+    properties: |-
+
+  configuration:
+    properties: |-
+
+###############################
+# EDC Dataplane Configuration #
+###############################
+edc-dataplane:
+  image:
+    repository: "ghcr.io/catenax-ng/product-edc/edc-dataplane-hashicorp-vault"
+    tag: "0.3.0"
+
+  securityContext:
+    readOnlyRootFilesystem: false
+
+  ingresses:
+    - enabled: false
+
+  opentelemetry:
+    properties: |-
+
+  configuration:
+    properties: |-

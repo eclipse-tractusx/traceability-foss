@@ -20,6 +20,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Adapt notification receiver side to accept severity by real name instead of enum constant
 - Improved admin page navigation (as a left side menu)
 - Combined results of discovery service and fallback mock service to provide bpn url mappings
+- Updated EDC Provider to 0.3.0 version
 
 ## [3.1.1] - 2023-04-04
 
