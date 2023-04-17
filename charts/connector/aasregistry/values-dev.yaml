@@ -1,4 +1,4 @@
-registryPostgresql:
+postgresql:
   enabled: true
 
   nameOverride: "tracex-registry-postgresql"
