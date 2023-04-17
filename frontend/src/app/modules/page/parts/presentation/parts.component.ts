@@ -27,7 +27,7 @@ import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-parts',
@@ -36,6 +36,7 @@ import { Observable } from 'rxjs';
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly displayedColumns: string[] = [
+    'select',
     'id',
     'name',
     'manufacturer',
@@ -58,11 +59,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
-
-  public tableConfig: TableConfig;
-
   public readonly parts$: Observable<View<Pagination<Part>>>;
   public readonly currentSelectedItems$: Observable<Part[]>;
+
+  public readonly deselectPartTrigger$ = new Subject<Part[]>();
+  public readonly addPartTrigger$ = new Subject<Part>();
+
+  public tableConfig: TableConfig;
 
   constructor(
     private readonly partsFacade: PartsFacade,
@@ -96,4 +99,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
     this.partsFacade.setMyParts(page, pageSize, sorting);
   }
+
+  public onMultiSelect(parts: unknown[]): void {}
 }

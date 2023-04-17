@@ -26,8 +26,13 @@ SPDX-License-Identifier: Apache-2.0
       [paginationData]="parts.data"
       [labelId]="titleId"
       [tableConfig]="tableConfig"
+      [selectedPartsInfoLabel]="'page.selectedParts.info'"
+      [selectedPartsActionLabel]="'page.selectedParts.action'"
+      [deselectTrigger]="deselectPartTrigger$ | async"
+      [addTrigger]="addPartTrigger$ | async"
       (selected)="onSelectItem($event)"
       (configChanged)="onTableConfigChange($event)"
+      (multiSelect)="onMultiSelect($event)"
     ></app-table>
     <app-part-detail></app-part-detail>
   </ng-template>

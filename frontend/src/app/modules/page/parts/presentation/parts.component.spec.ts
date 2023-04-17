@@ -60,4 +60,12 @@ describe('Parts', () => {
     expect(sideNavElement).toBeInTheDocument();
     expect(sideNavElement).not.toHaveClass('sidenav--container__open');
   });
+
+  it('should render selected parts information', async () => {
+    await renderParts();
+    await screen.findByTestId('table-component--test-id');
+    const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
+
+    expect(selectedPartsInfo).toBeInTheDocument();
+  });
 });

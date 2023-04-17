@@ -4,6 +4,11 @@
     "decrease": "Hiermit verkleinern Sie den Baum"
   },
   "page": {
+    "selectedParts": {
+      "info_one": "{{count}} Produkt für diese Seite ausgewählt.",
+      "info_other": "{{count}} Produkte für diese Seite ausgewählt.",
+      "action": "Warnung erstellen"
+    },
     "childInvestigation": {
       "action": "Untersuchung starten"
     },
