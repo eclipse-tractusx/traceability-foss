@@ -18,7 +18,7 @@ irs-edc-provider:
   edc-controlplane:
     ingresses:
       - enabled: true
-        hostname: "irs-provider-controlplane2.dev.demo.catena-x.net"
+        hostname: "irs-provider-controlplane.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -29,7 +29,7 @@ irs-edc-provider:
         className: ""
         tls:
           - hosts:
-              - "irs-provider-controlplane2.dev.demo.catena-x.net"
+              - "irs-provider-controlplane.dev.demo.catena-x.net"
             secretName: tls-secret
         certManager:
           issuer: ""
@@ -54,9 +54,9 @@ irs-edc-provider:
         auth:
           key: "123456"
       controlplane:
-        url: "https://irs-provider-controlplane2.dev.demo.catena-x.net"
+        url: "https://irs-provider-controlplane.dev.demo.catena-x.net"
       dataplane:
-        url: "https://irs-provider-dataplane2.dev.demo.catena-x.net"
+        url: "https://irs-provider-dataplane.dev.demo.catena-x.net"
     configuration:
       properties: |-
         edc.oauth.client.id=B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A:keyid:B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A
@@ -83,7 +83,7 @@ irs-edc-provider:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "irs-provider-dataplane2.dev.demo.catena-x.net"
+        hostname: "irs-provider-dataplane.dev.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
@@ -97,7 +97,7 @@ irs-edc-provider:
         # -- Enables TLS on the ingress resource
         tls:
           - hosts:
-              - "irs-provider-dataplane2.dev.demo.catena-x.net"
+              - "irs-provider-dataplane.dev.demo.catena-x.net"
             # Default secret for certificate creation already provided to your namespace
             secretName: tls-secret
         ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
