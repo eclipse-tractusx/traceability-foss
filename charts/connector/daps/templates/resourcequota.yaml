@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ResourceQuota
-metadata:
-  name: {{ include "omejdn-server.fullname" . }}
-spec:
-  hard:
-    cpu: {{ .Values.resources.limits.cpu }}
-    memory: {{ .Values.resources.limits.memory }}
