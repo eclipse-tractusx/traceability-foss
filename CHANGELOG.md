@@ -6,8 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - x.x.x]
 
-### Added
--  Created BPN - BPN - EDC configuration page with mappings for notification flow
+### Wip
+- Created BPN - BPN - EDC configuration page with mappings for notification flow
+  - Added in FE with `wip` flag 
 
 ### Changed
 - Refactored messageId of a notification to have own uuid instead of reusing notificationId
