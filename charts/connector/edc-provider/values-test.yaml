@@ -52,7 +52,7 @@ irs-edc-provider:
                 alias: token-signer-cert-key-dev
       api:
         auth:
-          key: "123456"
+          key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
       controlplane:
         url: "https://trace-x-edc-provider-test-controlplane.dev.demo.catena-x.net"
       dataplane:
