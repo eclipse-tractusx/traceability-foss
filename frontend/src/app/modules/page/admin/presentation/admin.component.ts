@@ -22,6 +22,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { Role } from '@core/user/role.model';
 
 @Component({
   selector: 'app-admin',
@@ -40,6 +41,7 @@ export class AdminComponent {
       name: 'routing.adminBpn',
       icon: 'edit',
       link: '/admin/configure-bpn',
+      role: 'wip' as Role,
     },
   ];
 
