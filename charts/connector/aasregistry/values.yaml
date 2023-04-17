@@ -27,7 +27,7 @@ registry:
   imagePullSecrets:
     - name: dockerpullsecret
   containerPort: 4243
-  host: irs-aas-registry.dev.demo.catena-x.net
+  host: trace-x-registry.dev.demo.catena-x.net
   ## If 'authentication' is set to false, no OAuth authentication is enforced
   authentication: false
   idpIssuerUri: https://centralidp.dev.demo.catena-x.net/auth/realms/CX-Central
@@ -44,14 +44,14 @@ registry:
     password: password
   ingress:
     hosts:
-      - host: "irs-aas-registry.dev.demo.catena-x.net"
+      - host: "trace-x-registry.dev.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     enabled: true
     tls:
       - hosts:
-          - "irs-aas-registry.dev.demo.catena-x.net"
+          - "trace-x-registry.dev.demo.catena-x.net"
         # Default secret for certificate creation already provided to your namespace
         secretName: tls-secret
     className: nginx
