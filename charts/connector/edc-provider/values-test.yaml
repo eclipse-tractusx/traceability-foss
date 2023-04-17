@@ -77,7 +77,7 @@ irs-edc-provider:
     edc:
       api:
         auth:
-          key: "123456"
+          key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
     ## Ingress declaration to expose the network service.
     ingresses:
       ## Public / Internet facing Ingress
