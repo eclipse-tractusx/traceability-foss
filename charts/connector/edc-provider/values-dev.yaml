@@ -60,9 +60,9 @@ irs-edc-provider:
     configuration:
       properties: |-
         edc.oauth.client.id=B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A:keyid:B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A
-        edc.oauth.private.key.alias=daps-cert-key-edc-provider-dev
+        edc.oauth.private.key.alias=daps-cert-edc-dev-provider-private
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
-        edc.oauth.certificate.alias=daps-cert-edc-provider-dev
+        edc.oauth.certificate.alias=daps-cert-edc-dev-provider-public
         edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
         edc.vault.hashicorp.url=https://vault.demo.catena-x.net
         edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
@@ -110,10 +110,10 @@ irs-edc-provider:
     configuration:
       properties: |-
         edc.oauth.client.id=B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A:keyid:B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A
-        edc.oauth.private.key.alias=daps-cert-key-dev
+        edc.oauth.private.key.alias=daps-cert-edc-dev-provider-private
         edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
-        edc.oauth.certificate.alias=daps-cert-dev
+        edc.oauth.certificate.alias=daps-cert-edc-dev-provider-public
         edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
         edc.vault.hashicorp.url=https://vault.demo.catena-x.net
         edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
