@@ -21,7 +21,7 @@
 
 import { LayoutModule } from '@layout/layout.module';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
-import { RequestInvestigationComponent } from '@shared/components/request-investigation/request-investigation.component';
+import { RequestNotificationBase } from '@shared/components/request-notification/request-notification.base';
 import { SharedModule } from '@shared/shared.module';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
@@ -42,7 +42,7 @@ describe('requestInvestigationComponent', () => {
   [selectedItems]='currentSelectedItems'
 ></app-request-investigation>`,
       {
-        declarations: [RequestInvestigationComponent],
+        declarations: [RequestNotificationBase],
         imports: [SharedModule, LayoutModule, OtherPartsModule],
         translations: ['page.otherParts', 'partDetail'],
         componentProperties: {

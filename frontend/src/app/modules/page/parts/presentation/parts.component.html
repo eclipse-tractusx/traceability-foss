@@ -32,9 +32,21 @@ SPDX-License-Identifier: Apache-2.0
       [addTrigger]="addPartTrigger$ | async"
       (selected)="onSelectItem($event)"
       (configChanged)="onTableConfigChange($event)"
-      (multiSelect)="onMultiSelect($event)"
+      (multiSelect)="currentSelectedItems$.next($event)"
+      (clickSelectAction)="isInvestigationOpen$.next(true)"
     ></app-table>
     <app-part-detail></app-part-detail>
+
+    <app-sidenav-wrapper [isOpen]="isInvestigationOpen$ | async" (sidenavAction)="isInvestigationOpen$.next($event)">
+      <app-request-investigation
+        *ngIf="isInvestigationOpen$ | async"
+        [selectedItems]="currentSelectedItems$ | async"
+        (deselectPart)="deselectPartTrigger$.next([$event])"
+        (restorePart)="addPartTrigger$.next($event)"
+        (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
+        (submitted)="isInvestigationOpen$.next(false)"
+      ></app-request-investigation>
+    </app-sidenav-wrapper>
   </ng-template>
 
   <ng-template #errorTmp let-parts="view">

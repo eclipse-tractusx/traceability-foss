@@ -11,9 +11,6 @@
     },
     "childInvestigation": {
       "action": "Untersuchung starten"
-    },
-    "requestInvestigations": {
-      "partDescription": "Es kann eine Weile dauern, bis der Name der Produkte geladen ist."
     }
   }
 }

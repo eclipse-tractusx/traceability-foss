@@ -87,6 +87,7 @@ export class TableComponent {
     }
 
     this.removeSelectedValues(deselectItem);
+    this.emitMultiSelect();
   }
 
   @Input() set addTrigger(newItem: unknown) {
@@ -95,11 +96,12 @@ export class TableComponent {
     }
 
     this.selection.select(newItem);
+    this.emitMultiSelect();
   }
 
   @Output() selected = new EventEmitter<Record<string, unknown>>();
   @Output() configChanged = new EventEmitter<TableEventConfig>();
-  @Output() multiSelect = new EventEmitter<unknown[]>();
+  @Output() multiSelect = new EventEmitter<any[]>();
   @Output() clickSelectAction = new EventEmitter<void>();
 
   public readonly dataSource = new MatTableDataSource<unknown>();

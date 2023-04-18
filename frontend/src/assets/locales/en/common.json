@@ -44,7 +44,8 @@
     "saveChanges": "Save changes",
     "save": "Save",
     "remove": "Remove",
-    "delete": "Delete"
+    "delete": "Delete",
+    "goToQueue": "Go to Queue"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
@@ -138,18 +139,24 @@
     "test01": "This is for unit tests purposes.",
     "test02": "This is for unit tests purposes. {{test}}"
   },
-  "qualityInvestigation": {
-    "success_one": "You queued an investigation for {{count}} Part",
-    "success_other": "You queued an investigation for {{count}} Parts",
-    "goToQueue": "Go to Queue"
+  "requestAlert": {
+    "headline": "Request quality alert",
+    "textAreaDescription": "Add a description about the alert.",
+    "success_one": "You queued an alert for {{count}} Part",
+    "success_other": "You queued an alert for {{count}} Parts"
   },
   "requestInvestigations": {
     "headline": "Request quality investigation",
     "textAreaDescription": "Add a description about the investigation.",
+    "success_one": "You queued an investigation for {{count}} Part",
+    "success_other": "You queued an investigation for {{count}} Parts"
+  },
+  "requestNotification": {
+    "partDescription": "You selected the following parts:",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
+    "targetDateLabel": "Deadline",
     "restoreItem": "Do you want to restore your last item?",
     "textAreaLabel": "Description",
-    "targetDateLabel": "Deadline",
     "cancel": "CANCEL",
     "submit": "ADD TO QUEUE",
     "severity": "Severity",
