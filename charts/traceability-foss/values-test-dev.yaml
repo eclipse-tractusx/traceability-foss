@@ -319,10 +319,10 @@ irs-edc-consumer:
           token:
             verifier:
               publickey:
-                alias: daps-cert-edc-test-consumer-private
+                alias: daps-cert-edc-test-consumer-public
             signer:
               privatekey:
-                alias: daps-cert-edc-test-consumer-public
+                alias: daps-cert-edc-test-consumer-private
       api:
         auth:
           key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
