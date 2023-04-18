@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
@@ -29,20 +29,15 @@ import { BehaviorSubject } from 'rxjs';
 
 export type RequestContext = 'requestInvestigations' | 'requestAlert';
 
-@Component({
-  template: ``,
-})
-export class RequestNotificationDirective {
-  @Input() selectedItems: Part[];
-  @Input() showHeadline = true;
+export abstract class RequestNotificationBase {
+  public abstract readonly selectedItems: Part[];
+  public abstract readonly showHeadline: boolean;
 
-  @Output() deselectPart = new EventEmitter<Part>();
-  @Output() restorePart = new EventEmitter<Part>();
-  @Output() clearSelected = new EventEmitter<void>();
-  @Output() submitted = new EventEmitter<void>();
-}
+  public abstract readonly deselectPart: EventEmitter<Part>;
+  public abstract readonly restorePart: EventEmitter<Part>;
+  public abstract readonly clearSelected: EventEmitter<void>;
+  public abstract readonly submitted: EventEmitter<void>;
 
-export abstract class RequestNotificationBase extends RequestNotificationDirective {
   public abstract readonly context: RequestContext;
   public abstract readonly formGroup:
     | FormGroup<{
@@ -61,9 +56,7 @@ export abstract class RequestNotificationBase extends RequestNotificationDirecti
 
   public removedItemsHistory: Part[] = [];
 
-  protected constructor(private readonly ctaSnackbarService: CtaSnackbarService) {
-    super();
-  }
+  protected constructor(private readonly ctaSnackbarService: CtaSnackbarService) {}
 
   protected abstract submit(): void;
 

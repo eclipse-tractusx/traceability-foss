@@ -131,10 +131,10 @@
     "generic": "Die Eingabe ist ungültig."
   },
   "requestAlert": {
-    "headline": "Qualitätswarnung anfordern",
+    "headline": "Qualitätswarnung erstellen",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
-    "success_one": "Sie haben eine Warnung für {{count}} Produkt erstellt.",
-    "success_other": "Sie haben eine Warnung für {{count}} Produkte erstellt."
+    "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
+    "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt."
   },
   "requestInvestigations": {
     "headline": "Qualitätsprüfung anfordern",
@@ -145,6 +145,8 @@
   "requestNotification": {
     "partDescription": "Sie haben folgende Produkte ausgewählt:",
     "targetDateDescription": "Bitte geben Sie das Datum an, bis wann Sie eine Antwort erwarten.",
+    "bpnLabel": "BPN",
+    "bpnDescription": "Bitte geben Sie die Empfänger BPN an.",
     "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",

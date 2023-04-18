@@ -38,14 +38,14 @@ SPDX-License-Identifier: Apache-2.0
     <app-part-detail></app-part-detail>
 
     <app-sidenav-wrapper [isOpen]="isInvestigationOpen$ | async" (sidenavAction)="isInvestigationOpen$.next($event)">
-      <app-request-investigation
+      <app-request-alert
         *ngIf="isInvestigationOpen$ | async"
         [selectedItems]="currentSelectedItems$ | async"
         (deselectPart)="deselectPartTrigger$.next([$event])"
         (restorePart)="addPartTrigger$.next($event)"
         (clearSelected)="deselectPartTrigger$.next(currentSelectedItems$.value)"
         (submitted)="isInvestigationOpen$.next(false)"
-      ></app-request-investigation>
+      ></app-request-alert>
     </app-sidenav-wrapper>
   </ng-template>
 

@@ -140,7 +140,7 @@
     "test02": "This is for unit tests purposes. {{test}}"
   },
   "requestAlert": {
-    "headline": "Request quality alert",
+    "headline": "Create quality alert",
     "textAreaDescription": "Add a description about the alert.",
     "success_one": "You queued an alert for {{count}} Part",
     "success_other": "You queued an alert for {{count}} Parts"
@@ -155,6 +155,8 @@
     "partDescription": "You selected the following parts:",
     "targetDateDescription": "Please specify the deadline by which you expect a response.",
     "targetDateLabel": "Deadline",
+    "bpnLabel": "BPN",
+    "bpnDescription": "Please specify the receiver BPN.",
     "restoreItem": "Do you want to restore your last item?",
     "textAreaLabel": "Description",
     "cancel": "CANCEL",

@@ -65,7 +65,7 @@ import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
 import { InputComponent } from '@shared/components/input/input.component';
-import { RequestNotificationDirective } from '@shared/components/request-notification/request-notification.base';
+import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +93,7 @@ import { RequestNotificationDirective } from '@shared/components/request-notific
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,
-    RequestNotificationDirective,
+    RequestAlertComponent,
     CtaSnackbarComponent,
     ScrollWithShadowComponent,
     QualityTypeComponent,
@@ -136,7 +136,7 @@ import { RequestNotificationDirective } from '@shared/components/request-notific
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,
-    RequestNotificationDirective,
+    RequestAlertComponent,
     QualityTypeComponent,
     NotificationOverviewComponent,
     NotificationReasonComponent,

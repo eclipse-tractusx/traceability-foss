@@ -22,23 +22,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
-import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
-import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
 import { Severity } from '@shared/model/severity.model';
 import {
   RequestContext,
   RequestNotificationBase,
 } from '@shared/components/request-notification/request-notification.base';
-import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
+import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
-import { InvestigationsService } from '@shared/service/investigations.service';
 import { Part } from '@page/parts/model/parts.model';
+import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
+import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
+import { AlertsService } from '@shared/service/alert.service';
 
 @Component({
-  selector: 'app-request-investigation',
+  selector: 'app-request-alert',
   templateUrl: './request-notification.base.html',
 })
-export class RequestInvestigationComponent extends RequestNotificationBase {
+export class RequestAlertComponent extends RequestNotificationBase {
   @Input() selectedItems: Part[];
   @Input() showHeadline = true;
 
@@ -47,20 +47,16 @@ export class RequestInvestigationComponent extends RequestNotificationBase {
   @Output() clearSelected = new EventEmitter<void>();
   @Output() submitted = new EventEmitter<void>();
 
-  public readonly context: RequestContext = 'requestInvestigations';
+  public readonly context: RequestContext = 'requestAlert';
 
-  constructor(ctaSnackbarService: CtaSnackbarService, private readonly investigationsService: InvestigationsService) {
+  constructor(ctaSnackbarService: CtaSnackbarService, private readonly alertsService: AlertsService) {
     super(ctaSnackbarService);
   }
 
-  public readonly formGroup = new FormGroup<{
-    description: FormControl<string>;
-    targetDate: FormControl<DateTimeString>;
-    severity: FormControl<Severity>;
-  }>({
+  public readonly formGroup = new FormGroup({
     description: new FormControl('', [Validators.required, Validators.maxLength(1000), Validators.minLength(15)]),
-    targetDate: new FormControl(null, [DateValidators.atLeastNow()]),
     severity: new FormControl(Severity.MINOR, [Validators.required]),
+    bpn: new FormControl(null, [Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn')]),
   });
 
   public submit(): void {
@@ -68,10 +64,10 @@ export class RequestInvestigationComponent extends RequestNotificationBase {
     if (this.formGroup.invalid) return;
 
     const partIds = this.selectedItems.map(part => part.id);
-    const { description, targetDate, severity } = this.formGroup.value;
-    const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
+    const { description, bpn, severity } = this.formGroup.value;
+    const { link, queryParams } = getRoute(ALERT_BASE_ROUTE, NotificationStatusGroup.QUEUED_AND_REQUESTED);
 
-    this.investigationsService.postInvestigation(partIds, description, severity, targetDate).subscribe({
+    this.alertsService.postAlert(partIds, description, severity, bpn).subscribe({
       next: () => this.onSuccessfulSubmit(link, queryParams),
       error: () => this.onUnsuccessfulSubmit(),
     });

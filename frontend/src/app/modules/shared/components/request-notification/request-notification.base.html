@@ -56,25 +56,40 @@ SPDX-License-Identifier: Apache-2.0
 
 <form [formGroup]="formGroup" (submit)="submit()">
   <div class="flex flex-row justify-start mb-7">
-    <div *ngIf="!!formGroup.controls?.targetDate" class="mr-5">
-      <p class="regular-text mb-2">{{ 'requestNotification.targetDateDescription' | i18n }}</p>
+    <div *ngIf="!!formGroup.controls?.['targetDate']" class="mr-5 w-full">
       <app-date-time
         [label]="'requestNotification.targetDateLabel' | i18n"
+        [hint]="'requestNotification.targetDateDescription' | i18n"
         [min]="minDate"
         formControlName="targetDate"
       ></app-date-time>
     </div>
-    <div>
-      <p class="regular-text mb-2">{{ 'requestNotification.severityDescription' | i18n }}</p>
-      <app-severity-select [translationContext]="'requestNotification'" formControlName="severity">
+
+    <div *ngIf="!!formGroup.controls?.['bpn']" class="mr-5 w-full">
+      <app-input
+        [label]="'requestNotification.bpnLabel' | i18n"
+        [hint]="'requestNotification.bpnDescription' | i18n"
+        class="bpn-config--input"
+        formControlName="bpn"
+      ></app-input>
+    </div>
+    <div class="w-full">
+      <app-severity-select
+        [translationContext]="'requestNotification'"
+        [hint]="'requestNotification.severityDescription' | i18n"
+        formControlName="severity"
+      >
       </app-severity-select>
     </div>
   </div>
 
-  <p class="regular-text mb-2">{{ this.context + '.textAreaDescription' | i18n }}</p>
-  <app-textarea [label]="'requestNotification.textAreaLabel' | i18n" formControlName="description"></app-textarea>
+  <app-textarea
+    [label]="'requestNotification.textAreaLabel' | i18n"
+    [hint]="this.context + '.textAreaDescription' | i18n"
+    formControlName="description"
+  ></app-textarea>
 
-  <div class="flex flex-col justify-end mb-6 md:flex-row">
+  <div class="flex flex-row justify-end mt-10 md:mt-6">
     <app-button [variant]="'raised'" [isDisabled]="isLoading$ | async" (click)="resetForm()" class="mr-4"
       >{{ 'requestNotification.cancel' | i18n }}</app-button
     >

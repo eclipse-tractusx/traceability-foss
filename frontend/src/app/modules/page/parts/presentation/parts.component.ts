@@ -75,8 +75,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     private readonly staticIdService: StaticIdService,
   ) {
     this.parts$ = this.partsFacade.parts$;
-    // ToDo: Remove
-    // this.currentSelectedItems$ = this.partsFacade.selectedParts$;
   }
 
   public ngOnInit(): void {
