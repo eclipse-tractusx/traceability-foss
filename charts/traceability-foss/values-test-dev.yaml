@@ -319,10 +319,10 @@ irs-edc-consumer:
           token:
             verifier:
               publickey:
-                alias: daps-cert-edc-test-provider-dev
+                alias: daps-cert-edc-test-consumer-private
             signer:
               privatekey:
-                alias: daps-cert-key-edc-test-provider-dev
+                alias: daps-cert-edc-test-consumer-public
       api:
         auth:
           key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
@@ -339,8 +339,8 @@ irs-edc-consumer:
         edc.receiver.http.dynamic.endpoint=https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference
         edc.dataplane.selector.consumer.url=http://tracex-test-consumer-dataplane:9999/api/dataplane/control
         edc.oauth.client.id=3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62:keyid:3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62
-        edc.oauth.certificate.alias=daps-cert-edc-test-provider-dev
-        edc.oauth.private.key.alias=daps-cert-key-edc-test-provider-dev
+        edc.oauth.certificate.alias=daps-cert-edc-test-consumer-private
+        edc.oauth.private.key.alias=daps-cert-edc-test-consumer-public
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
         edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
         edc.vault.hashicorp.url=https://vault.demo.catena-x.net
@@ -423,8 +423,8 @@ irs-edc-consumer:
         edc.receiver.http.dynamic.endpoint=http://product-traceability-foss-backend-test-irs-aaswrapper:9192/callback/endpoint-data-reference
 
         edc.oauth.client.id=3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62:keyid:3A:F4:B9:17:B7:01:BC:4D:A7:8B:58:19:18:30:7F:65:30:BB:90:62
-        edc.oauth.certificate.alias=daps-cert-edc-test-provider-dev
-        edc.oauth.private.key.alias=daps-cert-key-edc-test-provider-dev
+        edc.oauth.certificate.alias=daps-cert-edc-test-consumer-private
+        edc.oauth.private.key.alias=daps-cert-edc-test-consumer-public
 
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
         edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
