@@ -335,7 +335,7 @@ irs-edc-consumer:
 
         edc.receiver.http.dynamic.endpoint=https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference
         edc.dataplane.selector.consumer.url=http://tracex-consumer-dataplane:9999/api/dataplane/control
-        edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+        edc.oauth.client.id=91:8F:4D:2A:E2:96:79:DC:9A:8C:DD:78:90:2E:8B:11:F7:C8:C3:B6:keyid:91:8F:4D:2A:E2:96:79:DC:9A:8C:DD:78:90:2E:8B:11:F7:C8:C3:B6
         edc.oauth.certificate.alias=daps-cert-edc-dev-consumer-public
         edc.oauth.private.key.alias=daps-cert-edc-dev-consumer-private
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
@@ -420,7 +420,7 @@ irs-edc-consumer:
         edc.dataplane.token.validation.endpoint=http://tracex-consumer-controlplane:8182/validation/token
         edc.receiver.http.dynamic.endpoint=http://product-traceability-foss-backend-irs-aaswrapper:9192/callback/endpoint-data-reference
 
-        edc.oauth.client.id=60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3:keyid:60:99:BC:FC:9B:F9:5D:58:C4:94:1D:02:65:3E:88:B6:F9:C7:23:B3
+        edc.oauth.client.id=91:8F:4D:2A:E2:96:79:DC:9A:8C:DD:78:90:2E:8B:11:F7:C8:C3:B6:keyid:91:8F:4D:2A:E2:96:79:DC:9A:8C:DD:78:90:2E:8B:11:F7:C8:C3:B6
         edc.oauth.certificate.alias=daps-cert-edc-dev-consumer-public
         edc.oauth.private.key.alias=daps-cert-edc-dev-consumer-private
 
