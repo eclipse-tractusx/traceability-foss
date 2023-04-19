@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'backend/**'
+      - 'tx-backend/**'
     branches:
       - main
 
@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: tx-backend
     steps:
       - uses: actions/checkout@v3
         with:

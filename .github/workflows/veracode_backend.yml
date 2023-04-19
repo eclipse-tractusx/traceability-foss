@@ -5,7 +5,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'backend/**'
+      - 'tx-backend/**'
   schedule:
     # Once a day 0 am
     - cron: "0 0 * * *"
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: tx-backend
     permissions:
       actions: read
       contents: read
@@ -41,6 +41,6 @@ jobs:
         with:
           appname: 'Traceability-Foss-Backend'
           createprofile: false
-          filepath: "./backend/target/traceability-app-*.jar"
+          filepath: "./tx-backend/target/traceability-app-*.jar"
           vid: '${{ secrets.VERACODE_API_ID || secrets.ORG_VERACODE_API_ID }}'
           vkey: '${{ secrets.VERACODE_API_KEY || secrets.ORG_VERACODE_API_KEY }}'

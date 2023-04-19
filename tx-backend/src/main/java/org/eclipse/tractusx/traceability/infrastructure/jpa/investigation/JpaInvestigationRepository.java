@@ -27,6 +27,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -40,9 +41,9 @@ public interface JpaInvestigationRepository extends JpaRepository<InvestigationE
 	long countAllBySideEquals(InvestigationSide investigationSide);
 	long countAllByStatusIn(Set<InvestigationStatus> status);
 	@Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.id = :notificationId")
-	Optional<InvestigationEntity> findByNotificationsNotificationId(String notificationId);
+	Optional<InvestigationEntity> findByNotificationsNotificationId(@Param("notificationId") String notificationId);
     @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.notificationReferenceId = :notificationReferenceId")
-    Optional<InvestigationEntity> findByNotificationsNotificationReferenceId(String notificationReferenceId);
-    @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.edcNotificationId = :edcNotificationid")
-    Optional<InvestigationEntity> findByNotificationsEdcNotificationId(String edcNotificationid);
+    Optional<InvestigationEntity> findByNotificationsNotificationReferenceId(@Param("notificationReferenceId")  String notificationReferenceId);
+    @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.edcNotificationId = :edcNotificationId")
+    Optional<InvestigationEntity> findByNotificationsEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
 }
