@@ -3,11 +3,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.eclipse.tractusx.traceability</groupId>
+        <artifactId>tx-root</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
     <groupId>org.eclipse.tractusx.tracex</groupId>
-    <artifactId>traceability-foss-backend-cucumber-tests</artifactId>
+    <artifactId>tx-cucumber-tests</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Trace-X Cucumber</name>
+    <name>TX Cucumber</name>
 
     <properties>
         <java.version>17</java.version>

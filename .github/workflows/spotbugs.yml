@@ -6,15 +6,15 @@ on:
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
-      - 'backend/openapi/**'
-      - 'docs/**'
+      - 'tx-backend/openapi/**'
+      - 'tx-docs/**'
   pull_request:
     branches: main
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
-      - 'backend/openapi/**'
-      - 'docs/**'
+      - 'tx-backend/openapi/**'
+      - 'tx-docs/**'
   schedule:
     - cron: '0 0 * * *' # Once a day
 
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: tx-backend
     permissions:
       actions: read
       contents: read

@@ -6,10 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - x.x.x]
 ### Added
--
+- Added tx-root pom for maven multi module project
+- Added tx-parent-spring-boot for using spring boot dependencies
+- Added tx-models
 
 ### Changed
 - Updated spring-boot:core from 6.0.6 to 6.0.8 for cve-2023-20863
+- backend directory and module to tx-backend
+- backend/cucumber-tests directory to tx-cucumber-tests
+- docs directory to tx-docs
 
 ### Removed
 - Removed usage of add-license-header script in FE hook

@@ -4,132 +4,25 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.5</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <groupId>org.eclipse.tractusx.traceability</groupId>
+        <artifactId>tx-parent-spring-boot</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../tx-parent-spring-boot/pom.xml</relativePath>
     </parent>
 
-    <groupId>org.eclipse.tractusx.traceability</groupId>
-    <artifactId>product-traceability-foss-backend-root</artifactId>
+    <artifactId>tx-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>Traceability FOSS Backend</name>
-
-    <properties>
-        <java.version>17</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <start-class>org.eclipse.tractusx.traceability.TraceabilityApplication</start-class>
-
-        <!-- versions for Maven plugin -->
-        <ascii-doctor.maven.plugin.version>2.2.2</ascii-doctor.maven.plugin.version>
-        <checkstyle-plugin.version>3.2.1</checkstyle-plugin.version>
-        <compiler-plugin.version>3.10.1</compiler-plugin.version>
-        <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
-        <gmavenplus-plugin.version>2.1.0</gmavenplus-plugin.version>
-        <install-plugin.version>3.0.1</install-plugin.version>
-        <jacoco-plugin.version>0.8.8</jacoco-plugin.version>
-        <jar-plugin.version>3.3.0</jar-plugin.version>
-        <owasp-plugin.version>8.1.0</owasp-plugin.version>
-        <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
-        <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
-        <surefire-plugin.version>3.0.0-M9</surefire-plugin.version>
-        <apache-groovy.version>4.0.10</apache-groovy.version>
-
-        <!-- versions for 3rd party dependecies -->
-        <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
-        <ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
-        <ascii-dcotor-j.version>2.5.7</ascii-dcotor-j.version>
-        <auth-0-java-jwt.version>4.3.0</auth-0-java-jwt.version>
-        <eclipse-license-tool.version>0.0.1-SNAPSHOT</eclipse-license-tool.version>
-        <feign.version>12.1</feign.version>
-        <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
-        <jruby.version>9.3.9.0</jruby.version>
-        <resilience4j.version>2.0.2</resilience4j.version>
-        <schedlock.version>4.42.0</schedlock.version>
-        <spring-cloud.version>2022.0.1</spring-cloud.version>
-        <jetbrains-annotation.version>24.0.1</jetbrains-annotation.version>
-        <feign-form.version>3.8.0</feign-form.version>
-        <feign-slf4j.version>12.1</feign-slf4j.version>
-        <scribe-java.version>8.3.3</scribe-java.version>
-        <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
-        <swagger-annotation.version>1.5.20</swagger-annotation.version>
-        <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <commons-io.version>2.11.0</commons-io.version>
-        <jose4j.version>0.9.3</jose4j.version>
-        <restito.version>1.1.0</restito.version>
-        <testcontainer-postgresql.version>1.17.6</testcontainer-postgresql.version>
-        <testcontainer-spock.version>1.17.6</testcontainer-spock.version>
-        <rest-assured.version>5.3.0</rest-assured.version>
-        <spock-core.version>2.4-M1-groovy-4.0</spock-core.version>
-        <springdoc.version>2.0.4</springdoc.version>
-
-        <!-- Sonar related properties -->
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.build.directory}/site/jacoco-unittest/jacoco.xml,
-            ${project.build.directory}/site/jacoco-integration/jacoco.xml,
-        </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.jacoco.reportsPaths>
-            ${project.build.directory}/jacoco.exec,
-            /target/jacoco-ut.exec
-        </sonar.jacoco.reportsPaths>
-        <sonar.tests>
-            src/test/java
-        </sonar.tests>
-        <sonar.organization>eclipse-tractusx</sonar.organization>
-        <sonar.projectKey>eclipse-tractusx_traceability-foss-backend</sonar.projectKey>
-        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
-        <sonar.exclusions>
-            org/eclipse/tractusx/traceability/TraceabilityApplication.java,
-            org/eclipse/tractusx/traceability/common/docs/SwaggerPageable.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreement.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreementRequest.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/model/**/*.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/negotiation/**/*.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/policy/**/*.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/BadRequestException.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/Constants.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/EdcService.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java,
-            org/eclipse/tractusx/traceability/infrastructure/jpa/notification/NotificationEntity.java,
-            org/eclipse/tractusx/traceability/infrastructure/jpa/notification/InvestigationEntity.java,
-            org/eclipse/tractusx/traceability/investigations/domain/model/Investigation.java,
-            org/eclipse/tractusx/traceability/investigations/domain/model/Notification.java
-        </sonar.exclusions>
-    </properties>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.github.resilience4j</groupId>
-                <artifactId>resilience4j-bom</artifactId>
-                <version>${resilience4j.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-                <exclusions>
-                    <!--Fix CVE-2023-24998 -->
-                    <exclusion>
-                        <groupId>commons-fileupload</groupId>
-                        <artifactId>commons-fileupload</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <name>TX Backend</name>
 
     <dependencies>
+        <!-- tx-application modules -->
+    <!--    <dependency>
+            <groupId>org.eclipse.tractusx.traceability</groupId>
+            <artifactId>tx-models</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>-->
+
         <!-- managed by spring boot -->
         <dependency>
             <groupId>org.flywaydb</groupId>
