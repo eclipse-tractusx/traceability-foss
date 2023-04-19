@@ -58,7 +58,7 @@ irs-edc-provider:
         url: "https://trace-x-test-edc-dataplane.dev.demo.catena-x.net"
     configuration:
       properties: |-
-        edc.oauth.client.id=B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A:keyid:B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A
+        edc.oauth.client.id=35:CA:B1:DD:B2:1C:0B:4F:87:CE:CD:6D:18:F4:E7:66:7D:1B:85:10:keyid:35:CA:B1:DD:B2:1C:0B:4F:87:CE:CD:6D:18:F4:E7:66:7D:1B:85:10
         edc.oauth.private.key.alias=daps-cert-edc-test-provider-private
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
         edc.oauth.certificate.alias=daps-cert-edc-test-provider-public
@@ -108,7 +108,7 @@ irs-edc-provider:
 
     configuration:
       properties: |-
-        edc.oauth.client.id=B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A:keyid:B9:7B:1A:54:74:DC:C7:45:6E:A2:24:DC:3F:6D:A7:4A:DD:D2:26:6A
+        edc.oauth.client.id=35:CA:B1:DD:B2:1C:0B:4F:87:CE:CD:6D:18:F4:E7:66:7D:1B:85:10:keyid:35:CA:B1:DD:B2:1C:0B:4F:87:CE:CD:6D:18:F4:E7:66:7D:1B:85:10
         edc.oauth.private.key.alias=daps-cert-edc-test-provider-private
         edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
