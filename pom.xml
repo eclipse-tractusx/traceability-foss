@@ -15,6 +15,7 @@
         <module>tx-backend</module>
         <module>tx-parent-spring-boot</module>
         <module>tx-models</module>
+        <module>tx-docs</module>
     </modules>
 
     <properties>
