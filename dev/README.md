@@ -1,5 +1,5 @@
 # Full reset of environment (dev,test)
-##1) Clean up
+## 1) Clean up
 
 - Open Argo specific env
 - Delete all pvc (not pgadmin, not minio)
@@ -10,7 +10,7 @@
 
 Repeat those steps for registry, submodelserver, trace-x-provider-edcs, tracex-instances
 
-##2) Data upload of assets
+## 2) Data upload of assets
 In order to upload data to EDC Provider, please use [IRS project script](https://github.com/catenax-ng/tx-item-relationship-service/blob/main/testdata-transform/transform-and-upload.py)
 Sample invocation:
 
