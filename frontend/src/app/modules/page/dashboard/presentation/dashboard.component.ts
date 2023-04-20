@@ -40,7 +40,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public readonly numberOfOtherParts$: Observable<View<number>>;
   public readonly numberOfInvestigations$: Observable<View<number>>;
 
-  public readonly assetsPerCountry$: Observable<View<any>>;
   public readonly investigations$: Observable<View<Notifications>>;
 
   public readonly investigationLink: string;
@@ -51,7 +50,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.numberOfOtherParts$ = this.dashboardFacade.numberOfOtherParts$;
     this.numberOfInvestigations$ = this.dashboardFacade.numberOfInvestigations$;
 
-    this.assetsPerCountry$ = this.dashboardFacade.assetsPerCountry$;
     this.investigations$ = this.dashboardFacade.investigations$;
 
     const { link, queryParams } = getRoute(INVESTIGATION_BASE_ROUTE, NotificationStatusGroup.RECEIVED);

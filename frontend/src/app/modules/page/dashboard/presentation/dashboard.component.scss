@@ -30,34 +30,3 @@
 .dashboard--investigation {
   @apply col-span-12;
 }
-
-.parts-per-country-section {
-  @apply col-span-12;
-  min-height: 30rem;
-}
-
-.dashboard--map {
-  display: block;
-}
-
-/* ---------------------------------------------------------- */
-/* SKELETON */
-/* ---------------------------------------------------------- */
-.map-skeleton:empty {
-  animation: loading 1.7s infinite linear;
-  background: #dedfe1 linear-gradient(to right, #dedfe1 0%, #f2f3f5 20%, #dedfe1 40%, #dedfe1 100%) no-repeat;
-}
-
-.map-skeleton {
-  @apply w-full h-96;
-}
-
-@keyframes loading {
-  0% {
-    background-position: -100px;
-  }
-
-  100% {
-    background-position: 200px;
-  }
-}

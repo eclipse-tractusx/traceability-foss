@@ -335,19 +335,6 @@ export const mockBmwAssets = [
   },
 ] as PartResponse[];
 
-export const mockAssetsCountriesMap: Record<string, number> = {
-  NZL: 16,
-  DEU: 9,
-  PNG: 24,
-  STP: 25,
-  MHL: 12,
-  USA: 13,
-  SDN: 17,
-  GMB: 14,
-  MYS: 16,
-  POL: 16,
-};
-
 const MockEmptyPart: PartResponse = {
   id: 'urn:uuid:a000a0aa-00a0-0000-000a-0a0000a0a000',
   idShort: '--',

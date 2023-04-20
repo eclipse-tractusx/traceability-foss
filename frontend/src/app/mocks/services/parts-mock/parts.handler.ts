@@ -22,7 +22,7 @@
 import { environment } from '@env';
 import { rest } from 'msw';
 import { applyPagination, extractPagination } from '../pagination.helper';
-import { getAssetById, mockAssetsCountriesMap, mockBmwAssets } from './parts.model';
+import { getAssetById, mockBmwAssets } from './parts.model';
 import { mockAssetList, mockAssets } from './parts.test.model';
 
 export const partsHandlers = [
@@ -30,10 +30,6 @@ export const partsHandlers = [
     const pagination = extractPagination(req);
 
     return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
-  }),
-
-  rest.get(`*${environment.apiUrl}/assets/countries`, (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockAssetsCountriesMap));
   }),
 
   rest.get(`*${environment.apiUrl}/assets/my`, (req, res, ctx) => {
@@ -71,10 +67,6 @@ export const partsHandlers = [
 export const partsHandlersTest = [
   rest.get(`*${environment.apiUrl}/assets`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockAssets));
-  }),
-
-  rest.get(`*${environment.apiUrl}/assets/countries`, (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockAssetsCountriesMap));
   }),
 
   rest.get(`*${environment.apiUrl}/assets/my`, (req, res, ctx) => {

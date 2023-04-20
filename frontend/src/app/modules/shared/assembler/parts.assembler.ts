@@ -22,14 +22,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
-import {
-  Part,
-  PartResponse,
-  PartsCountriesMap,
-  PartsCountriesMapResponse,
-  QualityType,
-  SortableHeaders,
-} from '@page/parts/model/parts.model';
+import { Part, PartResponse, QualityType, SortableHeaders } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { OperatorFunction } from 'rxjs';
@@ -65,14 +58,6 @@ export class PartsAssembler {
     }
 
     return { ...PartsAssembler.assemblePart(part), qualityType: part.qualityType };
-  }
-
-  public static assembleAssetsCountryMap(partsCountriesMap: PartsCountriesMapResponse): PartsCountriesMap {
-    if (!partsCountriesMap || typeof partsCountriesMap !== 'object') {
-      return null;
-    }
-
-    return partsCountriesMap;
   }
 
   public static assembleParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {

@@ -49,10 +49,6 @@ Then(/^should be visible "Quality Investigations" section$/, () => {
   cy.get('section').contains('Quality Investigations').should('be.visible');
 });
 
-Then(/^should be visible "Number of parts per country" section$/, () => {
-  cy.get('section').contains('Number of parts per country').should('be.visible');
-});
-
 Then(
   /^in "Quality Investigations" section should be able to click on "View all" button and go to integrations page$/,
   () => {
