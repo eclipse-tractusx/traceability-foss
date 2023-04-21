@@ -951,7 +951,7 @@ You can define the URLs as well as most of the secrets yourself.</p>
   <span class="na">fullnameOverride</span><span class="pi">:</span> <span class="s2">"</span><span class="s">traceability-foss-backend"</span>
 
   <span class="na">podSecurityContext</span><span class="pi">:</span>
-    <span class="na">runAsUser</span><span class="pi">:</span> <span class="m">10001</span>
+    <span class="na">runAsUser</span><span class="pi">:</span> <span class="m">10000</span>
     <span class="na">seccompProfile</span><span class="pi">:</span>
       <span class="na">type</span><span class="pi">:</span> <span class="s">RuntimeDefault</span>
 
@@ -960,8 +960,8 @@ You can define the URLs as well as most of the secrets yourself.</p>
   <span class="na">securityContext</span><span class="pi">:</span>
     <span class="na">allowPrivilegeEscalation</span><span class="pi">:</span> <span class="no">false</span>
     <span class="na">runAsNonRoot</span><span class="pi">:</span> <span class="no">true</span>
-    <span class="na">runAsUser</span><span class="pi">:</span> <span class="m">10001</span>
-    <span class="na">runAsGroup</span><span class="pi">:</span> <span class="m">3000</span>
+    <span class="na">runAsUser</span><span class="pi">:</span> <span class="m">10000</span>
+    <span class="na">runAsGroup</span><span class="pi">:</span> <span class="m">1000</span>
     <span class="na">capabilities</span><span class="pi">:</span>
       <span class="na">drop</span><span class="pi">:</span>
         <span class="pi">-</span> <span class="s">ALL</span>
@@ -1263,7 +1263,7 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-04-14 12:44:08 UTC
+Last updated 2023-04-21 09:51:10 UTC
 </div>
 </div>
 </body>
