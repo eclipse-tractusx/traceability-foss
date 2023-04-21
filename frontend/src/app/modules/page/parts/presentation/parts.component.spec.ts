@@ -35,7 +35,7 @@ describe('Parts', () => {
       declarations: [SidenavComponent, PartsComponent],
       imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
       providers: [{ provide: SidenavService }],
-      roles: ['admin'],
+      roles: ['admin', 'wip'],
     });
   };
 
