@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added tx-root pom for maven multi module project
 - Added tx-parent-spring-boot for using spring boot dependencies
 - Added tx-models
+- Added possibility to configure realm in FE
 
 ### Changed
 - Updated spring-boot:core from 6.0.6 to 6.0.8 for cve-2023-20863

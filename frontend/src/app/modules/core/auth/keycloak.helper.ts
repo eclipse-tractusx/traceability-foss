@@ -26,7 +26,7 @@ export function KeycloakHelper(keycloak: KeycloakService): () => Promise<boolean
   return (): Promise<boolean> =>
     keycloak.init({
       config: {
-        realm: environment.defaultRealm,
+        realm: environment.realm,
         url: environment.keycloakUrl,
         clientId: environment.clientId,
       },
