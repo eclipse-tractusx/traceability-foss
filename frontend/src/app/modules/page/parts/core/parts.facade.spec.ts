@@ -28,13 +28,7 @@ import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
 import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import {
-  MOCK_part_1,
-  MOCK_part_2,
-  MOCK_part_3,
-  mockAssetList,
-  mockAssets,
-} from '../../../../mocks/services/parts-mock/parts.test.model';
+import { mockAssetList, mockAssets } from '../../../../mocks/services/parts-mock/parts.test.model';
 
 describe('Parts facade', () => {
   let partsFacade: PartsFacade, partsState: PartsState, partsServiceMok: PartsService;
@@ -62,7 +56,11 @@ describe('Parts facade', () => {
 
       const parts = await firstValueFrom(partsState.myParts$);
       await waitFor(() =>
-        expect(parts).toEqual({ error: undefined, loader: undefined, data: PartsAssembler.assembleParts(mockAssets) }),
+        expect(parts).toEqual({
+          error: undefined,
+          loader: undefined,
+          data: PartsAssembler.assembleParts(mockAssets),
+        }),
       );
     });
 
@@ -74,52 +72,6 @@ describe('Parts facade', () => {
 
       const parts = await firstValueFrom(partsState.myParts$);
       await waitFor(() => expect(parts).toEqual({ data: undefined, loader: undefined, error: new Error('error') }));
-    });
-  });
-
-  describe('setSelectedParts', () => {
-    it('should set and update selected Parts', async () => {
-      partsFacade.setSelectedParts(PartsAssembler.assemblePart(MOCK_part_1).children);
-      const childPart_1 = PartsAssembler.assemblePart(MOCK_part_2);
-      const childPart_2 = PartsAssembler.assemblePart(MOCK_part_3);
-
-      await waitFor(() => expect(partsState.selectedParts).toEqual([childPart_1, childPart_2]));
-    });
-
-    it('should set and update selected Parts even if it fails', async () => {
-      const spyData = new BehaviorSubject(null).pipe(switchMap(_ => throwError(() => new Error('error'))));
-      const serviceSpy = spyOn(partsServiceMok, 'getPart').and.returnValue(spyData);
-
-      partsFacade.setSelectedParts(PartsAssembler.assemblePart(MOCK_part_1).children);
-      await waitFor(() =>
-        expect(partsState.selectedParts).toEqual([
-          { id: 'MOCK_part_2', error: true },
-          { id: 'MOCK_part_3', error: true },
-        ] as Part[]),
-      );
-    });
-  });
-
-  describe('removeSelectedPart', () => {
-    it('should remove item from selected list', async () => {
-      partsFacade.setSelectedParts([MOCK_part_2.id]);
-      await waitFor(() => expect(partsState.selectedParts).toEqual([PartsAssembler.assemblePart(MOCK_part_2)]));
-
-      partsFacade.removeSelectedPart({ id: MOCK_part_2.id } as Part);
-      await waitFor(() => expect(partsState.selectedParts).toEqual([]));
-    });
-  });
-
-  describe('addItemToSelection', () => {
-    it('should add item to existing list', async () => {
-      const part_2 = PartsAssembler.assemblePart(MOCK_part_2);
-      const part_3 = PartsAssembler.assemblePart(MOCK_part_3);
-
-      partsFacade.setSelectedParts([MOCK_part_2.id]);
-      await waitFor(() => expect(partsState.selectedParts).toEqual([part_2]));
-
-      partsFacade.addItemToSelection({ id: MOCK_part_3.id } as Part);
-      await waitFor(() => expect(partsState.selectedParts).toEqual([part_2, part_3]));
     });
   });
 });

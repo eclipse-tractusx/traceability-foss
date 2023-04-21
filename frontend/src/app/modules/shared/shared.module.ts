@@ -44,7 +44,7 @@ import { DataLoadingErrorComponent } from './components/data-loading-error/data-
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { PaginatorIntlService } from './components/pagination/paginator-intl.service';
 import { QualityTypeComponent } from './components/quality-type/quality-type.component';
-import { RequestInvestigationComponent } from './components/request-investigation/request-investigation.component';
+import { RequestInvestigationComponent } from '@shared/components/request-notification';
 import { ScrollWithShadowComponent } from './components/scroll-with-shadow/scroll-with-shadow.component';
 import { SelectComponent } from './components/select/select.component';
 import { ValueToLablePipe } from './components/select/valueToLable.pipe';
@@ -65,6 +65,7 @@ import { PartsService } from './service/parts.service';
 import { StaticIdService } from './service/staticId.service';
 import { TemplateModule } from './template.module';
 import { InputComponent } from '@shared/components/input/input.component';
+import { RequestAlertComponent } from '@shared/components/request-notification/request-alert.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +93,7 @@ import { InputComponent } from '@shared/components/input/input.component';
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,
+    RequestAlertComponent,
     CtaSnackbarComponent,
     ScrollWithShadowComponent,
     QualityTypeComponent,
@@ -134,6 +136,7 @@ import { InputComponent } from '@shared/components/input/input.component';
     TextareaComponent,
     ErrorMessagePipe,
     RequestInvestigationComponent,
+    RequestAlertComponent,
     QualityTypeComponent,
     NotificationOverviewComponent,
     NotificationReasonComponent,

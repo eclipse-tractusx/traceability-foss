@@ -137,4 +137,9 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
     this.addPartTrigger$.next(part);
     this.currentSelectedItems = [...this.currentSelectedItems, part];
   }
+
+  public submit(): void {
+    this.otherPartsFacade.setActiveInvestigationForParts(this.currentSelectedItems);
+    this.isInvestigationOpen$.next(false);
+  }
 }

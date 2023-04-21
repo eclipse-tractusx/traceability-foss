@@ -44,7 +44,8 @@
     "saveChanges": "Änderungen speicher",
     "save": "Speicher",
     "remove": "Entfernen",
-    "delete": "Löschen"
+    "delete": "Löschen",
+    "goToQueue": "Zur Warteschlange"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",
@@ -129,15 +130,23 @@
     "currentDate": "Bitte wählen Sie ein Datum nach dem {{- currentDate}}.",
     "generic": "Die Eingabe ist ungültig."
   },
-  "qualityInvestigation": {
-    "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
-    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet.",
-    "goToQueue": "Zur Warteschlange"
+  "requestAlert": {
+    "headline": "Qualitätswarnung erstellen",
+    "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
+    "success_one": "Sie haben eine Qualitätswarnung für {{count}} Produkt erstellt.",
+    "success_other": "Sie haben eine Qualitätswarnung für {{count}} Produkte erstellt."
   },
   "requestInvestigations": {
     "headline": "Qualitätsprüfung anfordern",
     "textAreaDescription": "Fügen sie eine Beschreibung hinzu.",
+    "success_one": "Sie haben eine Untersuchung für {{count}} Produkt gestartet.",
+    "success_other": "Sie haben eine Untersuchung für {{count}} Produkte gestartet."
+  },
+  "requestNotification": {
+    "partDescription": "Sie haben folgende Produkte ausgewählt:",
     "targetDateDescription": "Bitte geben Sie das Datum an, bis wann Sie eine Antwort erwarten.",
+    "bpnLabel": "BPN",
+    "bpnDescription": "Bitte geben Sie die Empfänger BPN an.",
     "restoreItem": "Zuletzt gelöschtes Produkt wiederherstellen?",
     "textAreaLabel": "Beschreibung",
     "targetDateLabel": "Rückmeldedatum",

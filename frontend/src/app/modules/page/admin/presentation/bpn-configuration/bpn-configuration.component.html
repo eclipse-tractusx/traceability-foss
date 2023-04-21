@@ -100,7 +100,12 @@ SPDX-License-Identifier: Apache-2.0
                     formControlName="url"
                   ></app-input>
 
-                  <app-button class="bpn-config--button" color="accent" variant="raised">
+                  <app-button
+                    [attr.data-testid]="'bpn-url--remove-button_' + i"
+                    class="bpn-config--button"
+                    color="accent"
+                    variant="raised"
+                  >
                     <app-text-with-icon (click)="onBpnRemove(i)" iconName="delete"
                       >{{ 'actions.remove' | i18n }}
                     </app-text-with-icon>
@@ -140,10 +145,15 @@ SPDX-License-Identifier: Apache-2.0
                     suffixIconColor="warn"
                   ></app-input>
 
-                  <app-button class="bpn-config--button" color="warn" variant="raised">
-                    <app-text-with-icon (click)="onBpnDelete(i, bpnConfig)" iconName="delete">
-                      {{ 'actions.delete' | i18n }}
-                    </app-text-with-icon>
+                  <app-button
+                    [attr.data-testid]="'bpn-url--delete-button_' + i"
+                    class="bpn-config--button"
+                    color="warn"
+                    variant="raised"
+                  >
+                    <app-text-with-icon (click)="onBpnDelete(i, bpnConfig)" iconName="delete">{{
+                      'actions.delete' | i18n
+                    }}</app-text-with-icon>
                   </app-button>
                 </div>
               </ng-container>

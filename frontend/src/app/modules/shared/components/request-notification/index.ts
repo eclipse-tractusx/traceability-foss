@@ -19,35 +19,4 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.changed-info {
-  display: grid;
-  grid-template-columns: 5% 25% 70%;
-  word-break: break-all;
-  border: 0.5px solid black;
-  padding: 5px;
-  align-items: center;
-}
-
-.indicator {
-  @apply font-bold;
-}
-
-.deleted {
-  @apply bg-warning bg-opacity-50;
-}
-
-.added {
-  @apply bg-primary bg-opacity-50;
-}
-
-.changed-top {
-  border-bottom: none;
-}
-
-.changed-bottom {
-  border-top: none;
-}
-
-.save-modal--container {
-  min-width: 70vw;
-}
+export { RequestInvestigationComponent } from '@shared/components/request-notification/request-investigation.component';
