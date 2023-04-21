@@ -86,6 +86,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       displayedColumns: this.displayedColumns,
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
       sortableColumns: this.sortableColumns,
+      columnRoles: { select: 'wip' },
     };
   }
 
