@@ -193,7 +193,7 @@ backend:
   fullnameOverride: "traceability-foss-backend"
 
   podSecurityContext:
-    runAsUser: 10001
+    runAsUser: 10000
     seccompProfile:
       type: RuntimeDefault
 
@@ -202,8 +202,8 @@ backend:
   securityContext:
     allowPrivilegeEscalation: false
     runAsNonRoot: true
-    runAsUser: 10001
-    runAsGroup: 3000
+    runAsUser: 10000
+    runAsGroup: 1000
     capabilities:
       drop:
         - ALL

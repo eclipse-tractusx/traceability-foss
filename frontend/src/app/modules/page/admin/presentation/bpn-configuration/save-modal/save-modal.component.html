@@ -21,7 +21,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #Modal>
   <p class="mb-2">{{ 'pageAdmin.bpnConfig.modal.description' | i18n }}</p>
-  <div *ngIf="changedInformation$ | async as changedInfo">
+  <div *ngIf="changedInformation$ | async as changedInfo" class="save-modal--container">
     <div *ngFor="let deleted of changedInfo.deleted" class="changed-info deleted">
       <p class="indicator">-</p>
       <p>{{ deleted.bpn }}</p>

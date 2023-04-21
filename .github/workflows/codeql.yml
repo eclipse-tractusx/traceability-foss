@@ -26,7 +26,7 @@ on:
       - 'cypress/**'
       - 'charts/**'
       - 'dev/**'
-      - 'tx-docs/**'
+      - 'docs/**'
       - 'tx-backend/ci/**'
       - 'tx-backend/collection/**'
       - 'tx-backend/openapi/**'

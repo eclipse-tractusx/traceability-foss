@@ -5,11 +5,13 @@
     "decrease": "Used to zoom out of the tree"
   },
   "page": {
+    "selectedParts": {
+      "info_one": "{{count}} Part selected for this page.",
+      "info_other": "{{count}} Parts selected for this page.",
+      "action": "Create alert"
+    },
     "childInvestigation": {
       "action": "Start investigation"
-    },
-    "requestInvestigations": {
-      "partDescription": "It may take a while to load the name of your selected parts."
     }
   }
 }

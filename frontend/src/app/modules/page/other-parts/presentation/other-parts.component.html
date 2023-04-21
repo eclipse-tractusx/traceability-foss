@@ -93,6 +93,6 @@ SPDX-License-Identifier: Apache-2.0
     (deselectPart)="removeItemFromSelection($event)"
     (restorePart)="addItemToSelection($event)"
     (clearSelected)="clearSelected()"
-    (submitted)="isInvestigationOpen$.next(false)"
+    (submitted)="submit()"
   ></app-request-investigation>
 </app-sidenav-wrapper>
