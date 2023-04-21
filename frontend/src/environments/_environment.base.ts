@@ -25,7 +25,7 @@ export const _environment = {
   authDisabled: true,
   keycloakUrl: 'http://localhost:8080/',
   clientId: 'Cl17-CX-Part',
-  defaultRealm: 'CX-Central',
+  realm: 'CX-Central',
   apiUrl: '/api',
   baseUrl: '/',
   portalUrl: 'https://portal.dev.demo.catena-x.net/',

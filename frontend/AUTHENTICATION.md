@@ -26,7 +26,7 @@ which is used to set up the Keycloak configurations.
 keycloak.init({
   config: {
     url: environment.keycloakUrl,
-    realm: environment.defaultRealm,
+    realm: environment.realm,
     clientId: environment.clientId,
   },
   initOptions: {
