@@ -7,14 +7,14 @@ on:
       - '**/*.md'
       - '**/*.txt'
       - 'tx-backend/openapi/**'
-      - 'tx-docs/**'
+      - 'docs/**'
   pull_request:
     branches: main
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
       - 'tx-backend/openapi/**'
-      - 'tx-docs/**'
+      - 'docs/**'
   schedule:
     - cron: '0 0 * * *' # Once a day
 

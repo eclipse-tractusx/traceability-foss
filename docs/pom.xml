@@ -10,7 +10,7 @@
     </parent>
 
 	<groupId>org.eclipse.tractusx.tracex</groupId>
-	<artifactId>tx-docs</artifactId>
+	<artifactId>docs</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
     <name>TX Documentation</name>
