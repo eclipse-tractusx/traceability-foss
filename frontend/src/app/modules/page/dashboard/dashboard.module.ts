@@ -22,7 +22,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
-import { MapComponent } from '@page/dashboard/presentation/map/map.component';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -33,7 +32,7 @@ import { DashboardRoutingModule } from './dashboard.routing';
 import { DashboardComponent } from './presentation/dashboard.component';
 
 @NgModule({
-  declarations: [DashboardComponent, MapComponent],
+  declarations: [DashboardComponent],
   imports: [CommonModule, TemplateModule, SharedModule, DashboardRoutingModule, NotificationModule],
   providers: [DashboardService, DashboardFacade, DashboardState, ...getI18nPageProvider('page.dashboard')],
 })

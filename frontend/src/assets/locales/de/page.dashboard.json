@@ -9,8 +9,5 @@
     "totalOfOtherParts": {
       "label": "Anzahl anderer Produkte"
     }
-  },
-  "map": {
-    "headline": "Anzahl Produkte pro Land"
   }
 }

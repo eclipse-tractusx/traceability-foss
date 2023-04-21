@@ -55,7 +55,7 @@
     bottom: 0;
     // this is to match our BG color
     // color matcher used from https://codepen.io/sosuke/pen/Pjoqqp
-    filter: sepia(3%) saturate(462%) hue-rotate(201deg) brightness(113%) contrast(93%);
+    filter: invert(7%) sepia(16%) saturate(53%) hue-rotate(168deg) brightness(97%) contrast(105%);
   }
 
   &--menu-container {

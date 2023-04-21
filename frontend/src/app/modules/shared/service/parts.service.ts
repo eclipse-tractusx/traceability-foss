@@ -24,13 +24,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
-import {
-  Part,
-  PartResponse,
-  PartsCountriesMap,
-  PartsCountriesMapResponse,
-  PartsResponse,
-} from '@page/parts/model/parts.model';
+import { Part, PartResponse, PartsResponse } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import _deepClone from 'lodash-es/cloneDeep';
@@ -41,6 +35,7 @@ import { SortDirection } from '../../../mocks/services/pagination.helper';
 @Injectable()
 export class PartsService {
   private readonly url = environment.apiUrl;
+
   constructor(private readonly apiService: ApiService) {}
 
   public getMyParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
@@ -50,12 +45,6 @@ export class PartsService {
     return this.apiService
       .getBy<PartsResponse>(`${this.url}/assets/my`, params)
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));
-  }
-
-  public getPartsPerCountry(): Observable<PartsCountriesMap> {
-    return this.apiService
-      .getBy<PartsCountriesMapResponse>(`${this.url}/assets/countries`)
-      .pipe(map(partsCountriesMap => PartsAssembler.assembleAssetsCountryMap(partsCountriesMap)));
   }
 
   public getPart(id: string): Observable<Part> {

@@ -94,39 +94,6 @@ SPDX-License-Identifier: Apache-2.0
       </mat-card-content>
     </mat-card>
   </section>
-
-  <section class="parts-per-country-section">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title
-          ><h3 class="mb-4">{{ 'map.headline' | i18n }}</h3></mat-card-title
-        >
-      </mat-card-header>
-      <mat-card-content>
-        <ng-container
-          *viewContainer="
-            assetsPerCountry$ | async;
-            main: mainPerCountryTmp;
-            error: errorPerCountryTmp;
-            loading: loaderPerCountryTmp
-          "
-        >
-        </ng-container>
-      </mat-card-content>
-    </mat-card>
-
-    <ng-template #mainPerCountryTmp let-assets="view">
-      <app-map [mapData]="assets.data" class="dashboard--map"></app-map>
-    </ng-template>
-
-    <ng-template #loaderPerCountryTmp let-v="view">
-      <div class="map-skeleton"></div>
-    </ng-template>
-
-    <ng-template #errorPerCountryTmp let-v="view">
-      <app-map [mapData]="[]"></app-map>
-    </ng-template>
-  </section>
 </div>
 
 <ng-template #numbersMainTmp let-numbers="view" let-context="customContext">

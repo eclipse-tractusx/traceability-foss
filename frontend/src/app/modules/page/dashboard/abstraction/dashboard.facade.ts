@@ -20,13 +20,11 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { CountryLocationMap, PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
 import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { DashboardService } from '../core/dashboard.service';
 import { DashboardState } from '../core/dashboard.state';
 import { DashboardStats } from '../model/dashboard.model';
@@ -34,7 +32,6 @@ import { DashboardStats } from '../model/dashboard.model';
 @Injectable()
 export class DashboardFacade {
   private assetNumbersSubscription: Subscription;
-  private assetsPerCountrySubscription: Subscription;
   private investigationSubscription: Subscription;
 
   constructor(
@@ -56,17 +53,12 @@ export class DashboardFacade {
     return this.dashboardState.numberOfInvestigations$;
   }
 
-  public get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
-    return this.dashboardState.assetsPerCountry$;
-  }
-
   public get investigations$(): Observable<View<Notifications>> {
     return this.dashboardState.investigations$;
   }
 
   public setDashboardData(): void {
     this.setAssetNumbers();
-    this.setAssetsPerCountry();
     this.setInvestigations();
   }
 
@@ -90,29 +82,8 @@ export class DashboardFacade {
     });
   }
 
-  private setAssetsPerCountry(): void {
-    this.dashboardState.setNumberOfOtherParts({ loader: true });
-    this.assetsPerCountrySubscription?.unsubscribe();
-
-    this.assetsPerCountrySubscription = this.partsService
-      .getPartsPerCountry()
-      .pipe(
-        map(partsCountriesMap => {
-          return Object.keys(partsCountriesMap).map(key => ({
-            coordinates: CountryLocationMap[key.toUpperCase()].coordinates,
-            numberOfParts: partsCountriesMap[key],
-          }));
-        }),
-      )
-      .subscribe({
-        next: data => this.dashboardState.setAssetsPerCountry({ data }),
-        error: error => this.dashboardState.setAssetsPerCountry({ error }),
-      });
-  }
-
   public stopDataLoading(): void {
     this.assetNumbersSubscription?.unsubscribe();
-    this.assetsPerCountrySubscription?.unsubscribe();
     this.investigationSubscription?.unsubscribe();
   }
 
