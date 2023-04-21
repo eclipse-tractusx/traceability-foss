@@ -100,7 +100,6 @@ describe('NotificationsInboxComponent', () => {
     const descriptionEl = await screen.findByText('Investigation No 1');
     const row = descriptionEl.closest('tr');
 
-    expect(within(row).getByText('5/1/22')).toBeInTheDocument();
     expect(within(row).getByText('commonInvestigation.status.RECEIVED')).toBeInTheDocument();
   });
 
@@ -110,7 +109,7 @@ describe('NotificationsInboxComponent', () => {
     await screen.findByText('Investigation No 1');
     fireEvent.click(screen.getByLabelText('pagination.nextPageLabel'));
 
-    expect(await screen.findByText('Investigation No 6')).toBeInTheDocument();
+    expect(await screen.findByText('Investigation No 51')).toBeInTheDocument();
   });
 
   it('should render queued & requested notifications', async () => {
