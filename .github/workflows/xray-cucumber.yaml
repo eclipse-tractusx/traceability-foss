@@ -13,7 +13,7 @@ on:
       - '**/*.md'
       - '**/*.txt'
       - 'dev/**'
-      - 'tx-docs/**'
+      - 'docs/**'
       - 'tx-backend/charts/**'
       - 'tx-backend/ci/**'
       - 'tx-backend/collection/**'
@@ -54,7 +54,7 @@ jobs:
           # JIRA filter 11349: project = "[TR] FOSS - Open Source (Impl.)" AND issuetype = Test AND "Test Type" = Cucumber AND status = Ready AND labels = INTEGRATION_TEST AND (environment ~ DEV OR environment ~ "INT")
           # Downloads all feature files of cucumber tests inside TRI project
         run: |
-          export HTTP_RESULT=$(curl -s --show-error -w "%{http_code}" -u $JIRA_USERNAME:$JIRA_PASSWORD "https://jira.catena-x.net/rest/raven/1.0/export/test?filter=11711&fz=true" -o tx-backend/cucumber-tests/features.zip)
+          export HTTP_RESULT=$(curl -s --show-error -w "%{http_code}" -u $JIRA_USERNAME:$JIRA_PASSWORD "https://jira.catena-x.net/rest/raven/1.0/export/test?filter=11711&fz=true" -o tx-cucumber-tests/features.zip)
           [[ $HTTP_RESULT == 200 || $HTTP_RESULT == 400 ]]
           echo "::set-output name=http_response::$HTTP_RESULT"
 
@@ -64,7 +64,7 @@ jobs:
           KEYCLOAK_HOST: #${{ secrets.KEYCLOAK_OAUTH2_CLIENT_TOKEN_URI }}
           KEYCLOAK_CLIENT_ID: #${{ secrets.KEYCLOAK_OAUTH2_CLIENT_ID }}
           KEYCLOAK_CLIENT_SECRET: #${{ secrets.KEYCLOAK_OAUTH2_CLIENT_SECRET }}
-        working-directory: tx-backend/cucumber-tests
+        working-directory: tx-cucumber-tests
         run: |
           unzip -o features.zip -d src/test/resources/features
           mvn --batch-mode clean install  -D"cucumber.filter.tags"="not @Ignore and not @INTEGRATION_TEST"
