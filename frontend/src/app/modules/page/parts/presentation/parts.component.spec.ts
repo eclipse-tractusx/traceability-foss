@@ -35,7 +35,7 @@ describe('Parts', () => {
       declarations: [SidenavComponent, PartsComponent],
       imports: [PartsModule, SharedModule, LayoutModule, OtherPartsModule],
       providers: [{ provide: SidenavService }],
-      roles: ['admin'],
+      roles: ['admin', 'wip'],
     });
   };
 
@@ -59,5 +59,13 @@ describe('Parts', () => {
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
     expect(sideNavElement).toBeInTheDocument();
     expect(sideNavElement).not.toHaveClass('sidenav--container__open');
+  });
+
+  it('should render selected parts information', async () => {
+    await renderParts();
+    await screen.findByTestId('table-component--test-id');
+    const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
+
+    expect(selectedPartsInfo).toBeInTheDocument();
   });
 });

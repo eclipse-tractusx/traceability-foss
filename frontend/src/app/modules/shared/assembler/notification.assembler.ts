@@ -30,19 +30,20 @@ import {
 } from '../model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 
-export class InvestigationsAssembler {
-  public static assembleInvestigations(response: NotificationsResponse): Notifications {
-    return PaginationAssembler.assemblePagination(InvestigationsAssembler.assembleInvestigation, response);
+export class NotificationAssembler {
+  public static assembleNotifications(response: NotificationsResponse): Notifications {
+    return PaginationAssembler.assemblePagination(NotificationAssembler.assembleNotification, response);
   }
 
-  public static assembleInvestigation(response: NotificationResponse): Notification {
+  public static assembleNotification(response: NotificationResponse): Notification {
     const {
-      id,
-      assetIds,
-      channel,
+      id = null,
+      assetIds = null,
+      channel = null,
 
       reason = { accept: '', close: '', decline: '' },
       description = '',
+      bpn = '',
       status: _status,
       severity: _severity,
       createdDate: _createdDate = '',
@@ -55,7 +56,7 @@ export class InvestigationsAssembler {
 
     const isFromSender = channel === 'SENDER';
     const status = NotificationStatus[_status] ?? null;
-    const severity = Object.values(Severity).find(element => element == _severity);
+    const severity = Object.values(Severity).find(element => element == _severity) ?? null;
     const createdDate = new CalendarDateModel(_createdDate);
     const targetDate = new CalendarDateModel(_targetDate);
     const createdBy = { bpn: _createdBy, name: _createdByName };
@@ -73,6 +74,7 @@ export class InvestigationsAssembler {
       severity,
       createdDate,
       targetDate,
+      bpn,
     };
   }
 }

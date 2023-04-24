@@ -26,7 +26,7 @@ import { environment } from '@env';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { InvestigationsAssembler } from '../assembler/investigations.assembler';
+import { NotificationAssembler } from '../assembler/notification.assembler';
 import {
   Notification,
   NotificationCreateResponse,
@@ -50,7 +50,7 @@ export class InvestigationsService {
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/created`, params)
-      .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
+      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations)));
   }
 
   public getReceivedInvestigations(page: number, pageSize: number): Observable<Notifications> {
@@ -58,13 +58,13 @@ export class InvestigationsService {
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/received`, params)
-      .pipe(map(investigations => InvestigationsAssembler.assembleInvestigations(investigations)));
+      .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations)));
   }
 
   public getInvestigation(id: string): Observable<Notification> {
     return this.apiService
       .get<NotificationResponse>(`${this.url}/investigations/${id}`)
-      .pipe(map(notification => InvestigationsAssembler.assembleInvestigation(notification)));
+      .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
   }
 
   public postInvestigation(

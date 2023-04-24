@@ -110,6 +110,12 @@ describe('BpnConfigurationComponent', () => {
     const addedCount = await waitFor(() => screen.getByTestId('text-with-icon--added'));
     expect(addedCount).toBeInTheDocument();
     expect(addedCount.innerText).toContain('pageAdmin.bpnConfig.added: 1');
+
+    const removeButton = (await waitFor(() => screen.getByText('actions.remove'))) as HTMLButtonElement;
+    fireEvent.click(removeButton);
+
+    expect(await waitFor(() => screen.queryByTestId('BaseInputElement-27'))).not.toBeInTheDocument();
+    expect(await waitFor(() => screen.queryByTestId('BaseInputElement-28'))).not.toBeInTheDocument();
   });
 
   it('should edit correctly', async () => {
@@ -183,6 +189,25 @@ describe('BpnConfigurationComponent', () => {
     expect(changedCount.innerText).toContain('pageAdmin.bpnConfig.changed: 0');
     expect(containerElement).not.toHaveClass('bpn-config__edit');
     expect(urlInputElement.value).toEqual(originalUrl);
+  });
+
+  it('should delete correctly', async () => {
+    const { fixture } = await renderBpnConfigurationComponent();
+    const bpnInputElement = (await waitFor(() => screen.getByTestId('BaseInputElement-3'))) as HTMLInputElement;
+    expect(bpnInputElement).toBeInTheDocument();
+    const baseValue = bpnInputElement.value;
+
+    const deletedCount = await waitFor(() => screen.getByTestId('text-with-icon--deleted'));
+    expect(deletedCount.innerText).toContain('pageAdmin.bpnConfig.deleted: 0');
+
+    const deleteButton = (await waitFor(() => screen.getAllByText('actions.delete')))[0];
+    fireEvent.click(deleteButton);
+
+    // wait for animation
+    await sleepForTests(1000);
+    fixture.detectChanges();
+    expect(await waitFor(() => screen.queryByTestId('BaseInputElement-3'))).not.toBeInTheDocument();
+    expect(deletedCount.innerText).toContain('pageAdmin.bpnConfig.deleted: 1');
   });
 
   it('should search', async () => {

@@ -19,32 +19,25 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { DashboardModule } from '@page/dashboard/dashboard.module';
-import { MapComponent } from '@page/dashboard/presentation/map/map.component';
-import { renderComponent } from '@tests/test-render.utils';
+import { Injectable } from '@angular/core';
+import { ApiService } from '@core/api/api.service';
+import { environment } from '@env';
+import type { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { NotificationCreateResponse } from '../model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 
-describe('Map', () => {
-  const renderMap = mapData =>
-    renderComponent(MapComponent, {
-      declarations: [MapComponent],
-      imports: [DashboardModule],
-      componentProperties: {
-        mapData,
-      },
-    });
+@Injectable({
+  providedIn: 'root',
+})
+export class AlertsService {
+  private readonly url = environment.apiUrl;
 
-  it('should render map', async () => {
-    const { fixture } = await renderMap([]);
-    expect(fixture.componentInstance.map).toBeDefined();
-  });
+  constructor(private readonly apiService: ApiService) {}
 
-  /*it('should handle zoom', async () => {
-    const { fixture } = await renderMap([]);
+  public postAlert(partIds: string[], description: string, severity: Severity, bpn: string): Observable<string> {
+    const body = { partIds, description, severity, bpn };
 
-    // TODO: find a way to use spyOn inside MapComponent
-    // spyOn(fixture.componentInstance.map, 'resize');
-    // spyOn(fixture.componentInstance.map, 'addLayer');
-    // expect(fixture.componentInstance.map.resize).toHaveBeenCalled();
-    // expect(fixture.componentInstance.map.addLayer).toHaveBeenCalled();
-  });*/
-});
+    return this.apiService.post<NotificationCreateResponse>(`${this.url}/alerts`, body).pipe(map(({ id }) => id));
+  }
+}

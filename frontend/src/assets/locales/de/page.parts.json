@@ -4,11 +4,13 @@
     "decrease": "Hiermit verkleinern Sie den Baum"
   },
   "page": {
+    "selectedParts": {
+      "info_one": "{{count}} Produkt für diese Seite ausgewählt.",
+      "info_other": "{{count}} Produkte für diese Seite ausgewählt.",
+      "action": "Qualitätswarnung erstellen"
+    },
     "childInvestigation": {
       "action": "Untersuchung starten"
-    },
-    "requestInvestigations": {
-      "partDescription": "Es kann eine Weile dauern, bis der Name der Produkte geladen ist."
     }
   }
 }

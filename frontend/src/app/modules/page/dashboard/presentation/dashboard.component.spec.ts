@@ -61,11 +61,6 @@ describe('Dashboard', () => {
     expect(await screen.findByText('pageDashboard.totalOfParts.label')).toBeInTheDocument();
   });
 
-  it('should render map', async () => {
-    const { fixture } = await renderDashboard();
-    expect(await screen.findByText('map.headline')).toBeInTheDocument();
-  });
-
   describe('investigations', () => {
     it('should render count for investigations', async () => {
       await renderDashboard();

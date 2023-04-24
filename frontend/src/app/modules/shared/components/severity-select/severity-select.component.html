@@ -21,6 +21,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <app-select
   [label]="translationContext + '.severity' | i18n"
+  [hint]="hint"
   [options]="options"
   [optionsRenderer]="severityOptionTmp"
   [formControl]="control"

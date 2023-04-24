@@ -19,21 +19,4 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.map-container {
-  @apply w-full h-full relative;
-  min-height: 30rem;
-}
-
-.map-content {
-  @apply absolute w-full h-full top-0 bottom-0;
-}
-
-.map-resize {
-  @apply bg-white rounded shadow flex flex-col items-center p-1 cursor-pointer absolute z-10 max-w-xs;
-  right: 9px;
-  bottom: 10px;
-}
-
-.auto {
-  height: auto;
-}
+export { RequestInvestigationComponent } from '@shared/components/request-notification/request-investigation.component';

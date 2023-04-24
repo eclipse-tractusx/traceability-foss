@@ -61,7 +61,7 @@ describe('StartInvestigationComponent', () => {
     fireEvent.click(await getTableCheckbox(screen, 0));
 
     await sleepForTests(2000);
-    expect(await waitFor(() => screen.getByText('page.requestInvestigations.partDescription'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('requestNotification.partDescription'))).toBeInTheDocument();
   });
 
   it('should render selected items and remove them again', async () => {

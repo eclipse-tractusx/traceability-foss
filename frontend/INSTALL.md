@@ -6,6 +6,7 @@ Support environment variables are:
 const ENV_VARS_MAPPING = {
   CATENAX_PORTAL_KEYCLOAK_URL: 'keycloakUrl',
   CATENAX_PORTAL_CLIENT_ID: 'clientId',
+  CATENAX_PORTAL_REALM: 'realm',
   CATENAX_PORTAL_API_URL: 'apiUrl',
   CATENAX_PORTAL_BASE_URL: 'baseUrl',
   CATENAX_PORTAL_BACKEND_DOMAIN,
@@ -18,6 +19,9 @@ This variable is used to set up and use keycloak
 
 `CATENAX_PORTAL_CLIENT_ID`
 This variable is used to identify the client on keycloak
+
+`CATENAX_PORTAL_REALM`
+This variable is used to define the realm for keycloak. Default realm for the portal is "CX-Central".
 
 `CATENAX_PORTAL_API_URL`
 This variable points to the desired api

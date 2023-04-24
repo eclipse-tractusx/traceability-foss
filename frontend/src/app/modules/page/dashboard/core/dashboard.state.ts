@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
-import { PartsCoordinates } from '@page/dashboard/presentation/map/map.model';
+
 import { Notifications } from '@shared/model/notification.model';
 import { State } from '@shared/model/state';
 import { Observable } from 'rxjs';
@@ -33,9 +33,6 @@ export class DashboardState {
   private readonly _numberOfInvestigations$: State<View<number>> = new State<View<number>>({ loader: true });
 
   private readonly _investigations$: State<View<Notifications>> = new State<View<Notifications>>({ loader: true });
-  private readonly _assetsPerCountry$: State<View<PartsCoordinates[]>> = new State<View<PartsCoordinates[]>>({
-    loader: true,
-  });
 
   public get numberOfMyParts$(): Observable<View<number>> {
     return this._numberOfMyParts$.observable;
@@ -59,14 +56,6 @@ export class DashboardState {
 
   public setNumberOfInvestigations(count: View<number>): void {
     this._numberOfInvestigations$.update(count);
-  }
-
-  public get assetsPerCountry$(): Observable<View<PartsCoordinates[]>> {
-    return this._assetsPerCountry$.observable;
-  }
-
-  public setAssetsPerCountry(coordinates: View<PartsCoordinates[]>): void {
-    this._assetsPerCountry$.update(coordinates);
   }
 
   public get investigations$(): Observable<View<Notifications>> {

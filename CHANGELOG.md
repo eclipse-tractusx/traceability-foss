@@ -9,7 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added tx-root pom for maven multi module project
 - Added tx-parent-spring-boot for using spring boot dependencies
 - Added tx-models
+- Added possibility to configure realm in FE
 - Added license headers to helm chart files
+- Added possibility to create an alert within my parts page, marked with WIP
 
 ### Changed
 - Updated spring-boot:core from 6.0.6 to 6.0.8 for cve-2023-20863
@@ -21,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 - Removed usage of add-license-header script in FE hook
+- Removed usage of map and map component 
 
 ## [3.2.0] - 2023-04-17
 
