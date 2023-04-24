@@ -21,15 +21,19 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
+import net.bytebuddy.build.BuildLogger
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import java.time.Instant
 
 trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepositoryProvider {
+    private static final Logger logger = LoggerFactory.getLogger(AssetsSupport.class);
 
 	void defaultAssetsStored() {
 		assetRepository().saveAll(assetsConverter().readAndConvertAssets())
@@ -49,9 +53,12 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
                     asset.getCustomerPartId(),
                     asset.getManufacturingDate(),
                     asset.getManufacturingCountry(),
-                    asset.isSupplierPart(),
+                    asset.getOwner(),
                     asset.getChildDescriptions().stream()
                             .map(child -> new AssetEntity.ChildDescription(child.id(), child.idShort()))
+                            .toList(),
+                    asset.getParentDescriptions().stream()
+                            .map(parent -> new AssetEntity.ParentDescription(parent.id(), parent.idShort()))
                             .toList(),
                     asset.getQualityType(),
                     asset.getVan()
@@ -72,6 +79,7 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
     }
 
 	void assertAssetsSize(int size) {
+        logger.info("Assetsize: " + assetRepository().countAssets());
 		assert assetRepository().countAssets() == size
 	}
 

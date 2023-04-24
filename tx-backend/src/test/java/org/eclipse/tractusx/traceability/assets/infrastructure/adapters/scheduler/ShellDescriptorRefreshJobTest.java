@@ -42,7 +42,7 @@ class ShellDescriptorRefreshJobTest {
     void refresh_shouldCallLoadShellDescriptors() {
         ShellDescriptorRefreshJob job = new ShellDescriptorRefreshJob(registryFacade);
         job.refresh();
-        verify(registryFacade).loadShellDescriptors();
+        verify(registryFacade).updateShellDescriptorAndSynchronizeAssets();
     }
 
     @Test

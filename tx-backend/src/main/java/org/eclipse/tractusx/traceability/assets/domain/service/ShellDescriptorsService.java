@@ -46,14 +46,14 @@ public class ShellDescriptorsService {
 	}
 
 	@Transactional
-	public List<ShellDescriptor> update(List<ShellDescriptor> descriptors) {
-		logger.info("Starting update of {} shell descriptors.", descriptors.size());
+	public List<ShellDescriptor> update(List<ShellDescriptor> ownShellDescriptors) {
+		logger.info("Starting update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
 		Map<String, ShellDescriptor> existingDescriptors = shellDescriptorRepository.findAll().stream()
 			.collect(Collectors.toMap(ShellDescriptor::globalAssetId, Function.identity()));
 		List<ShellDescriptor> descriptorsToSync = new ArrayList<>();
 		ZonedDateTime now = ZonedDateTime.now();
 
-		for (ShellDescriptor descriptor : descriptors) {
+		for (ShellDescriptor descriptor : ownShellDescriptors) {
 			if (existingDescriptors.containsKey(descriptor.globalAssetId())) {
 				shellDescriptorRepository.update(existingDescriptors.get(descriptor.globalAssetId()));
 			} else {
@@ -62,10 +62,10 @@ public class ShellDescriptorsService {
 		}
 
 		shellDescriptorRepository.saveAll(descriptorsToSync);
-		shellDescriptorRepository.removeOldDescriptors(now);
+		shellDescriptorRepository.removeDescriptorsByUpdatedBefore(now);
 
-		logger.info("Finished update of {} shell descriptors.", descriptors.size());
-		logger.info("Updated needed for {} descriptors.", descriptorsToSync.size());
+		logger.info("Finished update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
+		logger.info("Updated needed for {} ownShellDescriptors.", descriptorsToSync.size());
 
 		return descriptorsToSync;
 	}

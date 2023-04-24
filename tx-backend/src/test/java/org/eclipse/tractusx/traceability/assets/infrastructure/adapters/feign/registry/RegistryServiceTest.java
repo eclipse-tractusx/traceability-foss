@@ -80,7 +80,7 @@ class RegistryServiceTest {
         when(registryApiClient.fetchShellDescriptors(any())).thenReturn(registryShellDescriptorResponse);
 
         // When
-        List<ShellDescriptor> shellDescriptors = registryService.findAssets();
+        List<ShellDescriptor> shellDescriptors = registryService.findOwnShellDescriptors();
 
         // Then
         assertEquals(1, shellDescriptors.size());

@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
 import org.eclipse.tractusx.traceability.common.security.JwtAuthentication;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.InvestigationsRepository;
 import org.springframework.stereotype.Component;
@@ -39,9 +40,11 @@ public class DashboardService {
 	}
 
 	public Dashboard getDashboard(JwtAuthentication jwtAuthentication) {
-		long totalAssets = assetRepository.countAssets();
-		long myParts = assetRepository.countMyAssets();
+        long customerParts = assetRepository.countAssetsByOwner(Owner.CUSTOMER);
+        long ownParts = assetRepository.countAssetsByOwner(Owner.OWN);
+        long supplierParts = assetRepository.countAssetsByOwner(Owner.SUPPLIER);
+		long totalAssets = customerParts + ownParts + supplierParts;
 		long pendingInvestigations = investigationsRepository.countPendingInvestigations();
-		return new Dashboard(myParts, totalAssets - myParts, pendingInvestigations);
+		return new Dashboard(ownParts, totalAssets, pendingInvestigations);
 	}
 }

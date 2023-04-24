@@ -49,135 +49,137 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.f
 @Component
 public class RegistryService {
 
-	private static final Logger logger = LoggerFactory.getLogger(RegistryService.class);
+    private static final Logger logger = LoggerFactory.getLogger(RegistryService.class);
 
-	private final ObjectMapper objectMapper;
-	private final RegistryApiClient registryApiClient;
-	private final String bpn;
-	private final String manufacturerIdKey;
-	private final RegistryLookupMeterRegistry registryLookupMeterRegistry;
-	private final Clock clock;
+    private final ObjectMapper objectMapper;
+    private final RegistryApiClient registryApiClient;
+    private final String applicationBPN;
+    private final String manufacturerIdKey;
+    private final RegistryLookupMeterRegistry registryLookupMeterRegistry;
+    private final Clock clock;
 
-	enum AssetIdType {
-		MANUFACTURER_PART_ID("manufacturerPartId"),
-		PART_INSTANCE_ID("partInstanceId"),
-		MANUFACTURER_ID("manufacturerId"),
-		BATCH_ID("batchId");
+    enum AssetIdType {
+        MANUFACTURER_PART_ID("manufacturerPartId"),
+        PART_INSTANCE_ID("partInstanceId"),
+        MANUFACTURER_ID("manufacturerId"),
+        BATCH_ID("batchId");
 
-		private final String value;
+        private final String value;
 
-		AssetIdType(String value) {
-			this.value = value;
-		}
+        AssetIdType(String value) {
+            this.value = value;
+        }
 
-		public String asKey() {
-			return this.value.toLowerCase();
-		}
-	}
+        public String asKey() {
+            return this.value.toLowerCase();
+        }
+    }
 
-	public RegistryService(ObjectMapper objectMapper,
-						   RegistryApiClient registryApiClient,
-						   @Value("${traceability.bpn}") String bpn,
-						   @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey,
-						   RegistryLookupMeterRegistry registryLookupMeterRegistry, Clock clock) {
-		this.objectMapper = objectMapper;
-		this.registryApiClient = registryApiClient;
-		this.bpn = bpn;
-		this.manufacturerIdKey = manufacturerIdKey;
-		this.registryLookupMeterRegistry = registryLookupMeterRegistry;
-		this.clock = clock;
-	}
+    public RegistryService(ObjectMapper objectMapper,
+                           RegistryApiClient registryApiClient,
+                           @Value("${traceability.bpn}") String applicationBPN,
+                           @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey,
+                           RegistryLookupMeterRegistry registryLookupMeterRegistry, Clock clock) {
+        this.objectMapper = objectMapper;
+        this.registryApiClient = registryApiClient;
+        this.applicationBPN = applicationBPN;
+        this.manufacturerIdKey = manufacturerIdKey;
+        this.registryLookupMeterRegistry = registryLookupMeterRegistry;
+        this.clock = clock;
+    }
 
-	public List<ShellDescriptor> findAssets() {
-		RegistryLookupMetric registryLookupMetric = RegistryLookupMetric.start(clock);
+    public List<ShellDescriptor> findOwnShellDescriptors() {
+        RegistryLookupMetric registryLookupMetric = RegistryLookupMetric.start(clock);
 
-		logger.info("Fetching all shell descriptor IDs for BPN {}.", bpn);
+        logger.info("Fetching all shell descriptor IDs for BPN {}.", applicationBPN);
 
-		Map<String, Object> filter = new HashMap<>();
-		filter.put("assetIds", getFilterValue(manufacturerIdKey, bpn));
+        Map<String, Object> ownManufacturerIdBPNMap = new HashMap<>();
 
-		final List<String> assetIds;
-		try {
-			assetIds = registryApiClient.getShells(filter);
-		} catch (FeignException e) {
-			endMetric(registryLookupMetric);
+        // TODO check why manufacturerIdKey is here as profile variable
+        ownManufacturerIdBPNMap.put("assetIds", getFilterValue(manufacturerIdKey, applicationBPN));
+        logger.info("ownManufacturerIdBPNMap {}.", ownManufacturerIdBPNMap);
+        logger.info("filtervalue {}.", getFilterValue(manufacturerIdKey, applicationBPN));
+        logger.info("manufacturerIdKey {}.", manufacturerIdKey);
+        final List<String> ownAssetIds;
+        try {
+            ownAssetIds = registryApiClient.getShellsByAssetIds(ownManufacturerIdBPNMap);
+        } catch (FeignException e) {
+            endMetric(registryLookupMetric);
+            logger.error("Fetching shell ownShellsRegistryResponse failed", e);
+            throw e;
+        }
+        logger.info("Received {} shell descriptor IDs.", ownAssetIds.size());
 
-			logger.error("Fetching shell descriptors failed", e);
+        logger.info("Fetching shell ownShellsRegistryResponse.");
 
-			throw e;
-		}
-		logger.info("Received {} shell descriptor IDs.", assetIds.size());
+        final RegistryShellDescriptorResponse ownShellsRegistryResponse;
+        try {
+            ownShellsRegistryResponse = registryApiClient.fetchShellDescriptors(ownAssetIds);
+        } catch (FeignException e) {
+            endMetric(registryLookupMetric);
 
-		logger.info("Fetching shell descriptors.");
+            logger.error("Fetching shell ownShellsRegistryResponse failed", e);
 
-		final RegistryShellDescriptorResponse descriptors;
-		try {
-			descriptors = registryApiClient.fetchShellDescriptors(assetIds);
-		} catch (FeignException e) {
-			endMetric(registryLookupMetric);
+            throw e;
+        }
 
-			logger.error("Fetching shell descriptors failed", e);
+        logger.info("Received {} shell ownShellsRegistryResponse for {} IDs.", ownShellsRegistryResponse.items().size(), ownAssetIds.size());
 
-			throw e;
-		}
+        List<ShellDescriptor> ownShellDescriptors = ownShellsRegistryResponse.items().stream()
+                .filter(it -> Objects.nonNull(it.globalAssetId()))
+                .map(aasDescriptor -> toShellDescriptor(aasDescriptor, registryLookupMetric))
+                .peek(it -> registryLookupMetric.incrementSuccessShellDescriptorsFetchCount())
+                .toList();
 
-		logger.info("Received {} shell descriptors for {} IDs.", descriptors.items().size(), assetIds.size());
+        logger.info("Found {} shell ownShellsRegistryResponse containing a global asset ID.", ownShellDescriptors.size());
 
-		List<ShellDescriptor> shellDescriptors = descriptors.items().stream()
-			.filter(it -> Objects.nonNull(it.globalAssetId()))
-			.map(aasDescriptor -> toShellDescriptor(aasDescriptor, registryLookupMetric))
-			.peek(it -> registryLookupMetric.incrementSuccessShellDescriptorsFetchCount())
-			.toList();
+        registryLookupMetric.end(clock);
 
-		logger.info("Found {} shell descriptors containing a global asset ID.", shellDescriptors.size());
+        registryLookupMeterRegistry.save(registryLookupMetric);
 
-		registryLookupMetric.end(clock);
+        return ownShellDescriptors;
+    }
 
-		registryLookupMeterRegistry.save(registryLookupMetric);
+    private ShellDescriptor toShellDescriptor(RegistryShellDescriptor aasDescriptor, RegistryLookupMetric registryLookupMetric) {
+        logIncomingDescriptor(aasDescriptor, registryLookupMetric);
 
-		return shellDescriptors;
-	}
+        String shellDescriptorId = aasDescriptor.identification();
+        String globalAssetId = aasDescriptor.globalAssetId().value().stream()
+                .findFirst()
+                .orElse(null);
+        Map<String, String> assetIdsMap = aasDescriptor.specificAssetIds().stream()
+                .collect(Collectors.toMap(entry -> entry.key().toLowerCase(), SpecificAssetId::value));
 
-	private ShellDescriptor toShellDescriptor(RegistryShellDescriptor aasDescriptor, RegistryLookupMetric registryLookupMetric) {
-		logIncomingDescriptor(aasDescriptor, registryLookupMetric);
+        String manufacturerPartId = assetIdsMap.get(MANUFACTURER_PART_ID.asKey());
+        String partInstanceId = assetIdsMap.get(PART_INSTANCE_ID.asKey());
+        String manufacturerId = assetIdsMap.get(MANUFACTURER_ID.asKey());
+        String batchId = assetIdsMap.get(BATCH_ID.asKey());
 
-		String shellDescriptorId = aasDescriptor.identification();
-		String globalAssetId = aasDescriptor.globalAssetId().value().stream()
-			.findFirst()
-			.orElse(null);
-		Map<String, String> assetIdsMap = aasDescriptor.specificAssetIds().stream()
-			.collect(Collectors.toMap(entry -> entry.key().toLowerCase(), SpecificAssetId::value));
+        return new ShellDescriptor(shellDescriptorId, globalAssetId, aasDescriptor.idShort(), partInstanceId, manufacturerPartId, manufacturerId, batchId);
+    }
 
-		String manufacturerPartId = assetIdsMap.get(MANUFACTURER_PART_ID.asKey());
-		String partInstanceId = assetIdsMap.get(PART_INSTANCE_ID.asKey());
-		String manufacturerId = assetIdsMap.get(MANUFACTURER_ID.asKey());
-		String batchId = assetIdsMap.get(BATCH_ID.asKey());
+    private void endMetric(RegistryLookupMetric registryLookupMetric) {
+        registryLookupMetric.incrementFailedShellDescriptorsFetchCount();
+        registryLookupMetric.end(clock);
 
-		return new ShellDescriptor(shellDescriptorId, globalAssetId, aasDescriptor.idShort(), partInstanceId, manufacturerPartId, manufacturerId, batchId);
-	}
+        registryLookupMeterRegistry.save(registryLookupMetric);
+    }
 
-	private void endMetric(RegistryLookupMetric registryLookupMetric) {
-		registryLookupMetric.incrementFailedShellDescriptorsFetchCount();
-		registryLookupMetric.end(clock);
+    private RegistryShellDescriptor logIncomingDescriptor(RegistryShellDescriptor descriptor, RegistryLookupMetric registryLookupMetric) {
+        if (logger.isDebugEnabled()) {
+            try {
+                String rawDescriptor = objectMapper.writeValueAsString(descriptor);
+                logger.debug("Received shell descriptor: {}", rawDescriptor);
+            } catch (JsonProcessingException e) {
+                logger.warn("Failed to write rawDescriptor {} as string", descriptor, e);
 
-		registryLookupMeterRegistry.save(registryLookupMetric);
-	}
+                registryLookupMetric.incrementFailedShellDescriptorsFetchCount();
+            }
+        }
+        return descriptor;
+    }
 
-	private RegistryShellDescriptor logIncomingDescriptor(RegistryShellDescriptor descriptor, RegistryLookupMetric registryLookupMetric) {
-		if (logger.isDebugEnabled()) {
-			try {
-				String rawDescriptor = objectMapper.writeValueAsString(descriptor);
-				logger.debug("Received shell descriptor: {}", rawDescriptor);
-			} catch (JsonProcessingException e) {
-				logger.warn("Failed to write rawDescriptor {} as string", descriptor, e);
-
-				registryLookupMetric.incrementFailedShellDescriptorsFetchCount();
-			}
-		}
-		return descriptor;
-	}
-
-	private String getFilterValue(String key, String value) {
-		return URLEncoder.encode(String.format("{\"key\":\"%s\",\"value\":\"%s\"}", key, value), StandardCharsets.UTF_8);
-	}
+    private String getFilterValue(String key, String value) {
+        return URLEncoder.encode(String.format("{\"key\":\"%s\",\"value\":\"%s\"}", key, value), StandardCharsets.UTF_8);
+    }
 }

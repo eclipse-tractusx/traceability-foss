@@ -19,31 +19,36 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.ports;
+package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.springframework.data.domain.Pageable;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
-public interface AssetRepository {
-	Asset getAssetById(String assetId);
-
-	List<Asset> getAssetsById(List<String> assetIds);
-
-	Asset getAssetByChildId(String assetId, String childId);
-
-	PageResult<Asset> getAssets(Pageable pageable, Owner owner);
-
-	List<Asset> getAssets();
-
-	Asset save(Asset asset);
-
-	List<Asset> saveAll(List<Asset> assets);
-
-    long countAssets();
-
-    long countAssetsByOwner(Owner owner);
+record SingleLevelUsageAsBuilt(
+        String catenaXId,
+        List<ParentPart> parentParts
+) {
+    SingleLevelUsageAsBuilt(String catenaXId, List<ParentPart> parentParts) {
+        this.catenaXId = catenaXId;
+        this.parentParts = Objects.requireNonNullElse(parentParts, Collections.emptyList());
+    }
 }
+
+record Quantity(
+        Double quantityNumber,
+        String measurementUnit
+) {
+}
+
+record ParentPart(
+        String parentCatenaXId,
+        Quantity quantity,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") Date createdOn,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") Date lastModifiedOn
+) {
+}
+

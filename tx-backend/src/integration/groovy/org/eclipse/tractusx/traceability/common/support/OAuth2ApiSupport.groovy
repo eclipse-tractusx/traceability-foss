@@ -77,6 +77,12 @@ trait OAuth2ApiSupport implements RestitoProvider {
 		)
 	}
 
+    void verifyOAuth2ApiCalledTimesForTechnicalUserToken(int times) {
+        verifyHttp(stubServer()).times(times,
+                startsWithUri(RestitoConfig.OAUTH2_TOKEN_PATH)
+        )
+    }
+
 	void verifyOAuth2ApiNotCalledForTechnicalUserToken() {
 		verifyHttp(stubServer()).never(
 			startsWithUri(RestitoConfig.OAUTH2_TOKEN_PATH)

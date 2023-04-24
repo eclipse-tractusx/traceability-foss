@@ -28,15 +28,23 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.QueryParam;
 import org.eclipse.tractusx.traceability.assets.application.AssetFacade;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -46,138 +54,112 @@ import java.util.Map;
 @RequestMapping(path = "/assets", produces = "application/json", consumes = "application/json")
 public class AssetsController {
 
-	private final AssetRepository assetRepository;
-	private final AssetFacade assetFacade;
+    private final AssetRepository assetRepository;
+    private final AssetFacade assetFacade;
 
-	public AssetsController(AssetRepository assetRepository, AssetFacade assetFacade) {
-		this.assetRepository = assetRepository;
-		this.assetFacade = assetFacade;
-	}
+    public AssetsController(AssetRepository assetRepository, AssetFacade assetFacade) {
+        this.assetRepository = assetRepository;
+        this.assetFacade = assetFacade;
+    }
 
-	@Operation(operationId = "sync",
-		summary = "Synchronizes assets from IRS",
-		tags = {"Assets"},
-		description = "The endpoint synchronizes the assets from irs.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@PostMapping("/sync")
-	public void sync(@Valid @RequestBody SyncAssets syncAssets) {
-		assetFacade.synchronizeAssetsAsync(syncAssets.globalAssetIds());
-	}
+    @Operation(operationId = "sync",
+            summary = "Synchronizes assets from IRS",
+            tags = {"Assets"},
+            description = "The endpoint synchronizes the assets from irs.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
+            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+    @PostMapping("/sync")
+    public void sync(@Valid @RequestBody SyncAssets syncAssets) {
+        assetFacade.synchronizeAssetsAsync(syncAssets.globalAssetIds());
+    }
 
-	@Operation(operationId = "assets",
-		summary = "Get assets by pagination",
-		tags = {"Assets"},
-		description = "The endpoint returns a paged result of assets.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found"),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@GetMapping("")
-	public PageResult<Asset> assets(Pageable pageable) {
-		return assetRepository.getAssets(pageable);
-	}
-
-
-	@Operation(operationId = "supplierAssets",
-		summary = "Get supplier assets by pagination",
-		tags = {"Assets"},
-		description = "The endpoint returns a paged result of supplier assets.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found"),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@GetMapping("/supplier")
-	public PageResult<Asset> supplierAssets(Pageable pageable) {
-		return assetRepository.getSupplierAssets(pageable);
-	}
-
-	@Operation(operationId = "ownAssets",
-		summary = "Get own assets by pagination",
-		tags = {"Assets"},
-		description = "The endpoint returns a paged result of own assets.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found"),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@GetMapping("/my")
-	public PageResult<Asset> ownAssets(Pageable pageable) {
-		return assetRepository.getOwnAssets(pageable);
-	}
-
-	@Operation(operationId = "assetsCountryMap",
-		summary = "Get map of assets",
-		tags = {"Assets"},
-		description = "The endpoint returns a map for assets consumed by the map.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found"),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@GetMapping("/countries")
-	public Map<String, Long> assetsCountryMap() {
-		return assetFacade.getAssetsCountryMap();
-	}
+    @Operation(operationId = "assets",
+            summary = "Get assets by pagination",
+            tags = {"Assets"},
+            description = "The endpoint returns a paged result of assets.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found"),
+            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+    @GetMapping("")
+    public PageResult<Asset> assets(Pageable pageable, @QueryParam("owner") Owner owner) {
+        return assetRepository.getAssets(pageable, owner);
+    }
 
 
-	@Operation(operationId = "asset",
-		summary = "Get asset by id",
-		tags = {"Assets"},
-		description = "The endpoint returns an asset filtered by id .",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",
-		content = {@Content(schema = @Schema(implementation = Asset.class))}),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@GetMapping("/{assetId}")
-	public Asset asset(@PathVariable String assetId) {
-		return assetRepository.getAssetById(assetId);
-	}
+    @Operation(operationId = "assetsCountryMap",
+            summary = "Get map of assets",
+            tags = {"Assets"},
+            description = "The endpoint returns a map for assets consumed by the map.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found"),
+            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+    @GetMapping("/countries")
+    public Map<String, Long> assetsCountryMap() {
+        return assetFacade.getAssetsCountryMap();
+    }
 
 
-	@Operation(operationId = "asset",
-		summary = "Get asset by child id",
-		tags = {"Assets"},
-		description = "The endpoint returns an asset filtered by child id.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the asset by childId",
-		content = {@Content(schema = @Schema(implementation = Asset.class))}),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@GetMapping("/{assetId}/children/{childId}")
-	public Asset asset(@PathVariable String assetId, @PathVariable String childId) {
-		return assetRepository.getAssetByChildId(assetId, childId);
-	}
+    @Operation(operationId = "asset",
+            summary = "Get asset by id",
+            tags = {"Assets"},
+            description = "The endpoint returns an asset filtered by id .",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",
+            content = {@Content(schema = @Schema(implementation = Asset.class))}),
+            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+    @GetMapping("/{assetId}")
+    public Asset asset(@PathVariable String assetId) {
+        return assetRepository.getAssetById(assetId);
+    }
 
-	@Operation(operationId = "updateAsset",
-		summary = "Updates asset",
-		tags = {"Assets"},
-		description = "The endpoint updates asset by provided quality type.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the updated asset",
-		content = {@Content(schema = @Schema(implementation = Asset.class))}),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@PatchMapping("/{assetId}")
-	public Asset updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAsset updateAsset) {
-		return assetFacade.updateAsset(assetId, updateAsset);
-	}
 
-	@Operation(operationId = "getDetailInformation",
-		summary = "Searches for assets by ids.",
-		tags = {"Assets"},
-		description = "The endpoint searchs for assets by id and returns a list of them.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns list of found assets",
-		content = {@Content(schema = @Schema(
-			type = "array",
-			implementation = Asset.class
-		))}),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@PostMapping("/detail-information")
-	public List<Asset> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
-		return assetRepository.getAssetsById(getDetailInformationRequest.assetIds());
-	}
+    @Operation(operationId = "asset",
+            summary = "Get asset by child id",
+            tags = {"Assets"},
+            description = "The endpoint returns an asset filtered by child id.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the asset by childId",
+            content = {@Content(schema = @Schema(implementation = Asset.class))}),
+            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+    @GetMapping("/{assetId}/children/{childId}")
+    public Asset asset(@PathVariable String assetId, @PathVariable String childId) {
+        return assetRepository.getAssetByChildId(assetId, childId);
+    }
+
+    @Operation(operationId = "updateAsset",
+            summary = "Updates asset",
+            tags = {"Assets"},
+            description = "The endpoint updates asset by provided quality type.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the updated asset",
+            content = {@Content(schema = @Schema(implementation = Asset.class))}),
+            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+    @PatchMapping("/{assetId}")
+    public Asset updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAsset updateAsset) {
+        return assetFacade.updateAsset(assetId, updateAsset);
+    }
+
+    @Operation(operationId = "getDetailInformation",
+            summary = "Searches for assets by ids.",
+            tags = {"Assets"},
+            description = "The endpoint searchs for assets by id and returns a list of them.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns list of found assets",
+            content = {@Content(schema = @Schema(
+                    type = "array",
+                    implementation = Asset.class
+            ))}),
+            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+    @PostMapping("/detail-information")
+    public List<Asset> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
+        return assetRepository.getAssetsById(getDetailInformationRequest.assetIds());
+    }
 }

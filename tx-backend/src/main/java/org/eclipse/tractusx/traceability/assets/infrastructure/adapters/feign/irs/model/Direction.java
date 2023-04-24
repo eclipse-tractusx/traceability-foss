@@ -18,32 +18,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model;
 
-package org.eclipse.tractusx.traceability.assets.domain.ports;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-
-public interface AssetRepository {
-	Asset getAssetById(String assetId);
-
-	List<Asset> getAssetsById(List<String> assetIds);
-
-	Asset getAssetByChildId(String assetId, String childId);
-
-	PageResult<Asset> getAssets(Pageable pageable, Owner owner);
-
-	List<Asset> getAssets();
-
-	Asset save(Asset asset);
-
-	List<Asset> saveAll(List<Asset> assets);
-
-    long countAssets();
-
-    long countAssetsByOwner(Owner owner);
+public enum Direction {
+    @JsonProperty("downward")
+    DOWNWARD,
+    @JsonProperty("upward")
+    UPWARD
 }

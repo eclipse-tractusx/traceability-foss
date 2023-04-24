@@ -23,11 +23,17 @@ package org.eclipse.tractusx.traceability.assets.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 
 public final class Asset {
+    private static final Logger logger = LoggerFactory.getLogger(Asset.class);
 	@ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
 	private final String id;
 	@ApiModelProperty(example = "--")
@@ -53,10 +59,11 @@ public final class Asset {
 	private final Instant manufacturingDate;
 	@ApiModelProperty(example = "DEU")
 	private final String manufacturingCountry;
-	@ApiModelProperty(example = "true")
-	private final boolean supplierPart;
+	@ApiModelProperty(example = "CUSTOMER")
+	private final Owner owner;
 
-	private List<ChildDescriptions> childDescriptions;
+	private List<Descriptions> childDescriptions;
+    private List<Descriptions> parentDescriptions;
 	@ApiModelProperty(example = "false")
 	private boolean underInvestigation;
 	@ApiModelProperty(example = "Ok")
@@ -77,8 +84,9 @@ public final class Asset {
 		String customerPartId,
 		Instant manufacturingDate,
 		String manufacturingCountry,
-		boolean supplierPart,
-		List<ChildDescriptions> childDescriptions,
+		Owner owner,
+		List<Descriptions> childDescriptions,
+        List<Descriptions> parentDescriptions,
 		boolean underInvestigation,
 		QualityType qualityType,
 		String van
@@ -95,8 +103,9 @@ public final class Asset {
 		this.customerPartId = customerPartId;
 		this.manufacturingDate = manufacturingDate;
 		this.manufacturingCountry = manufacturingCountry;
-		this.supplierPart = supplierPart;
+		this.owner = owner;
 		this.childDescriptions = childDescriptions;
+        this.parentDescriptions = parentDescriptions;
 		this.underInvestigation = underInvestigation;
 		this.qualityType = qualityType;
 		this.van = van;
@@ -150,17 +159,26 @@ public final class Asset {
 		return manufacturingCountry;
 	}
 
-	public boolean isSupplierPart() {
-		return supplierPart;
-	}
+    public Owner getOwner() {
+        return owner;
+    }
 
-	public String getPartInstanceId() {
+    public String getPartInstanceId() {
 		return partInstanceId;
 	}
 
-	public List<ChildDescriptions> getChildDescriptions() {
+	public List<Descriptions> getChildDescriptions() {
 		return childDescriptions;
 	}
+
+    public List<Descriptions> getParentDescriptions() {
+        return parentDescriptions;
+    }
+
+    public void setParentDescriptions(List<Descriptions> descriptions) {
+        this.parentDescriptions = Collections.unmodifiableList(descriptions);
+        logger.info("Asset: setParentDescriptions {}", this.parentDescriptions);
+    }
 
 	public QualityType getQualityType() {
 		return qualityType;
@@ -170,7 +188,7 @@ public final class Asset {
 		return underInvestigation;
 	}
 
-	public record ChildDescriptions(
+	public record Descriptions(
 		@ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0") String id,
 		@ApiModelProperty(example = "null") String idShort) {
 	}
@@ -178,4 +196,28 @@ public final class Asset {
 	public String getVan() {
 		return van;
 	}
+
+    @Override
+    public String toString() {
+        return "Asset{" +
+                "id='" + id + '\'' +
+                ", idShort='" + idShort + '\'' +
+                ", nameAtManufacturer='" + nameAtManufacturer + '\'' +
+                ", manufacturerPartId='" + manufacturerPartId + '\'' +
+                ", partInstanceId='" + partInstanceId + '\'' +
+                ", manufacturerId='" + manufacturerId + '\'' +
+                ", batchId='" + batchId + '\'' +
+                ", manufacturerName='" + manufacturerName + '\'' +
+                ", nameAtCustomer='" + nameAtCustomer + '\'' +
+                ", customerPartId='" + customerPartId + '\'' +
+                ", manufacturingDate=" + manufacturingDate +
+                ", manufacturingCountry='" + manufacturingCountry + '\'' +
+                ", owner=" + owner +
+                ", childDescriptions=" + childDescriptions +
+                ", parentDescriptions=" + parentDescriptions +
+                ", underInvestigation=" + underInvestigation +
+                ", qualityType=" + qualityType +
+                ", van='" + van + '\'' +
+                '}';
+    }
 }
