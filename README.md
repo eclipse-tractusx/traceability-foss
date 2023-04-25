@@ -127,7 +127,7 @@ A detailed [explanation](https://github.com/eclipse-tractusx/traceability-foss/b
 
 ### Backend Installation
 
-* see [Installation guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/backend/INSTALL.md)
+* see [Installation guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/INSTALL.md)
 
 ### Running tests
 
@@ -161,7 +161,7 @@ mvn -DskipTests=false clean verify -PiT
 *Please note that this task depends on `integrationTest` task, so it's required to have [Docker Engine](https://docs.docker.com/engine/) running.*
 
 ## API documentation
-The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](./backend/openapi/traceability-foss-backend.json)
+The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/openapi/traceability-foss-backend.json)
 or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swagger-ui/index.html`
 
 ## Container image

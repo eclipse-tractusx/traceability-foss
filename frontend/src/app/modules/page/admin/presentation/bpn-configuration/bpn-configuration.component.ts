@@ -29,6 +29,8 @@ import { BpnConfigEntry, ChangedInformation } from './bpn-configuration.model';
 import { SaveBpnConfigModal } from '@page/admin/presentation/bpn-configuration/save-modal/save-modal.component';
 import { takeUntil } from 'rxjs/operators';
 
+export const bpnRegex = /^BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2}$/;
+
 @Component({
   selector: 'app-bpn-configuration',
   templateUrl: './bpn-configuration.component.html',
@@ -103,6 +105,7 @@ export class BpnConfigurationComponent implements OnInit, OnDestroy {
 
   public onBpnRemove(formGroupIndex: number): void {
     this.newBpnConfig.removeAt(formGroupIndex);
+    this.changeInformation$.next({ ...this.changeInformation$.value, added: this.newBpnConfig.getRawValue() });
   }
 
   public getStylingClass(bpnConfig: FormGroup<BpnConfigEntry>): Record<string, boolean> {
@@ -145,6 +148,7 @@ export class BpnConfigurationComponent implements OnInit, OnDestroy {
     return combineLatest([addCall, updateCall, ...deleteCalls]).pipe(
       tap(_ => {
         this.resetPageTrigger$.next(null);
+        while (this.newBpnConfig.length !== 0) this.newBpnConfig.removeAt(0, { emitEvent: false });
         while (this.editBpnConfig.length !== 0) this.editBpnConfig.removeAt(0, { emitEvent: false });
         this.changeInformation$.next({ changed: [], deleted: [], added: [] });
         this.initBpnConfiguration();
@@ -161,15 +165,14 @@ export class BpnConfigurationComponent implements OnInit, OnDestroy {
 
     const urlRegex = new RegExp(
       '^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$', // fragment locator
+        '((?:[a-z\\d](?:[a-z\\d-]*[a-z\\d])?\\.)+[a-z]{2,}|' + // domain name
+        '(?:\\d{1,3}\\.){3}\\d{1,3})' + // OR ip (v4) address
+        '(?::\\d+)?' + // port
+        '(?:\\/[-a-z\\d%_.~+]*)*' + // path
+        '(?:\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(?:#[-a-z\\d_]*)?$', // fragment locator
       'i',
     );
-
-    const bpnRegex = /^BPN[ALS][0-9A-Za-z]{10}[0-9A-Za-z]{2}$/;
 
     return new FormGroup({
       bpn: new FormControl(bpn, [Validators.required, BaseInputHelper.getCustomPatternValidator(bpnRegex, 'bpn')]),

@@ -38,6 +38,7 @@ import { MyErrorStateMatcher } from '@shared/abstraction/baseInput/baseInput.hel
 export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
   @ViewChild('inputElement') inputElement: ElementRef<HTMLInputElement>;
   @Input() label = '';
+  @Input() hint = '';
 
   public control!: FormControl;
   public matcher = new MyErrorStateMatcher();
@@ -111,7 +112,7 @@ export class BaseInputComponent<T> implements ControlValueAccessor, OnInit {
           break;
         }
         default: {
-          this.control = (formControl as FormControlDirective).form as FormControl;
+          this.control = (formControl as FormControlDirective).form;
           break;
         }
       }

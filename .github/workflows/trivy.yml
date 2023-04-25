@@ -67,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: tx-backend
     outputs:
       check_sha: ${{ steps.step1.outputs.check_sha }}
     steps:
@@ -89,7 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: tx-backend
     if: always()
     needs: [prepare-env-backend]
     permissions:
@@ -124,7 +124,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: tx-backend
     if: always()
     needs: [prepare-env-backend]
     permissions:

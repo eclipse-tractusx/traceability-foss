@@ -28,12 +28,14 @@ import {
   otherPartsHandlers,
   partsHandlers,
 } from './services';
+import { alertsHandlers } from './services/alerts-mock/alerts.handler';
 
 const handlers = [
   ...dashboardHandler,
   ...otherPartsHandlers,
   ...partsHandlers,
   ...investigationsHandlers,
+  ...alertsHandlers,
   ...adminHandler,
   ...errorHandler,
 ];

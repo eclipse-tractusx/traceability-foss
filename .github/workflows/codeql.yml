@@ -27,9 +27,9 @@ on:
       - 'charts/**'
       - 'dev/**'
       - 'docs/**'
-      - 'backend/ci/**'
-      - 'backend/collection/**'
-      - 'backend/openapi/**'
+      - 'tx-backend/ci/**'
+      - 'tx-backend/collection/**'
+      - 'tx-backend/openapi/**'
       - 'README.md'
       - 'CHANGELOG.md'
   schedule:
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: tx-backend
     permissions:
       actions: read
       contents: read

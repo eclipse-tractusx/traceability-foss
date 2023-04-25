@@ -35,4 +35,4 @@ jobs:
         with:
           context: frontend/
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository }}-frontend:latest , ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ github.sha }}

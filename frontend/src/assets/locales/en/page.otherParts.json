@@ -23,9 +23,6 @@
       "info_one": "{{count}} Part selected for this page.",
       "info_other": "{{count}} Parts selected for this page.",
       "action": "Start investigation"
-    },
-    "requestInvestigations": {
-      "partDescription": "You selected the following parts:"
     }
   }
 }

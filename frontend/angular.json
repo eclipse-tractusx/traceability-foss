@@ -19,13 +19,9 @@
           "options": {
             "allowedCommonJsDependencies": [
               "hammerjs",
-              "earcut",
-              "@mapbox/tiny-sdf",
               "base64-js",
               "js-sha256",
               "msw",
-              "@mapbox/mapbox-gl-language",
-              "maplibre-gl",
               "zone.js/dist/zone"
             ],
             "customWebpackConfig": {
@@ -46,7 +42,9 @@
               "src/mockServiceWorker.js",
               "src/favicon"
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -194,7 +192,9 @@
               "src/mockServiceWorker.js",
               "src/favicon"
             ],
-            "styles": ["src/styles.scss"],
+            "styles": [
+              "src/styles.scss"
+            ],
             "customWebpackConfig": {
               "path": "./webpack.config.js",
               "replaceDuplicatePlugins": true
@@ -205,8 +205,13 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.component.html"],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.component.html"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
           }
         },
         "cypress-run": {
