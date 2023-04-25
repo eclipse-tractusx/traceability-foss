@@ -23,7 +23,6 @@ import { TestBed } from '@angular/core/testing';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { SharedModule } from '@shared/shared.module';
 import { renderComponent } from '@tests/test-render.utils';
-import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 
 describe('PaginatorIntlService', () => {
   const instantiatePaginationService = async () => {
@@ -57,7 +56,7 @@ describe('PaginatorIntlService', () => {
     it('should return pagination info', async () => {
       const paginatorIntlService = await instantiatePaginationService();
       const page = 1;
-      const pageSize = 5;
+      const pageSize = 50;
       const length = 10;
 
       expect(paginatorIntlService.getRangeLabel(page, pageSize, length)).toEqual('pagination.range');

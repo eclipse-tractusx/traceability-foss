@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Alignment of user and groups between helmchart and application
 - Updated readme links
 - Container labelling refactored
+- Increased table size tenfold. From 5, 10, 25 to 50, 100, 250
 
 ### Removed
 - Removed usage of add-license-header script in FE hook

@@ -49,7 +49,7 @@ describe('InvestigationsComponent', () => {
     await renderInvestigations();
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Investigation No 6'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Investigation No 10'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Investigation No 51'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Investigation No 90'))).toBeInTheDocument();
   });
 });

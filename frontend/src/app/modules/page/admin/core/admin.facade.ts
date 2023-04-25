@@ -43,7 +43,7 @@ export class AdminFacade {
     this.adminState.scheduledRegistryProcesses = _deepClone(view);
   }
 
-  public setScheduledRegistryProcesses(page = 0, pageSize = 10, sorting: TableHeaderSort = null) {
+  public setScheduledRegistryProcesses(page = 0, pageSize = 50, sorting: TableHeaderSort = null) {
     this.scheduledRegistryProcessesSubscription?.unsubscribe();
     this.scheduledRegistryProcessesSubscription = this.adminService
       .getScheduledRegistryProcesses(page, pageSize, sorting)

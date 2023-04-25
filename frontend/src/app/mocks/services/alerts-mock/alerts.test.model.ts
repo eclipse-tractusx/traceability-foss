@@ -24,18 +24,23 @@ import { NotificationStatus } from '@shared/model/notification.model';
 import { getRandomAsset } from '../parts-mock/parts.model';
 import { MOCK_part_1 } from '../parts-mock/parts.test.model';
 import { Severity } from '@shared/model/severity.model';
+import { getRandomIntFromInterval } from '../text-generator.helper';
 
 export const AlertIdPrefix = 'id-';
 
-// TODO: rethink this approach
 const severities = [Severity.MINOR, Severity.MAJOR, Severity.CRITICAL, Severity.LIFE_THREATENING];
 export const buildMockAlerts = (
   statuses: NotificationStatus[],
   channel: 'SENDER' | 'RECEIVER',
 ): NotificationResponse[] =>
-  new Array(25).fill(null).map((_, index) => {
+  new Array(101).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
     const severity = severities[index % severities.length];
+
+    const numberToString = (i: number) => i.toString().padStart(2, '0');
+    const month = getRandomIntFromInterval(1, 12);
+    const day = getRandomIntFromInterval(1, 28);
+
     return {
       id: `${AlertIdPrefix}${index + 1}`,
       description: `Alert No ${index + 1}`,
@@ -47,7 +52,7 @@ export const buildMockAlerts = (
       sendTo: 'BPN20000000OEM0B',
       sendToName: 'OEM xxxxxxxxxxxxxxx B',
       reason: { close: '', accept: '', decline: '' },
-      createdDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
+      createdDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
       assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
     };
   });
