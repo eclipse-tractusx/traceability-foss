@@ -21,7 +21,7 @@
 enablePostgres: true
 
 registry:
-  image: ghcr.io/catenax-ng/registry@sha256:d171ff49f5daa77631829915f3f02a6ffa2ce05995df1d604ea808d8f3ba55ed
+  image: ghcr.io/catenax-ng/registry@sha256:508522b6f17199a888246e2e4a768ba703042a21a7309ac107e7d639e20c7356
   replicaCount: 1
   imagePullPolicy: IfNotPresent
   imagePullSecrets:
