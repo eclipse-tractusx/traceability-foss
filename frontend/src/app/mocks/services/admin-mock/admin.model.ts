@@ -20,19 +20,24 @@
  ********************************************************************************/
 
 import { BpnConfigResponse, RegistryLookupStatus, RegistryProcessResponse } from '@page/admin/core/admin.model';
+import { getRandomIntFromInterval } from '../text-generator.helper';
 
 export const buildMockRegistryProcesses = (): RegistryProcessResponse[] =>
-  new Array(25).fill(null).map((_, index) => {
+  new Array(101).fill(null).map((_, index) => {
     const status = Object.keys(RegistryLookupStatus) as RegistryLookupStatus[];
     const registryLookupStatus = status[index % 3];
 
     const failedCount = registryLookupStatus === RegistryLookupStatus.SUCCESSFUL ? 0 : Math.floor(Math.random() * 100);
     const successCount = registryLookupStatus === RegistryLookupStatus.ERROR ? 0 : Math.floor(Math.random() * 100);
 
+    const numberToString = (i: number) => i.toString().padStart(2, '0');
+    const month = index === 0 ? 1 : getRandomIntFromInterval(1, 11);
+    const day = index === 0 ? 1 : getRandomIntFromInterval(1, 28);
+
     return {
       registryLookupStatus,
-      startDate: `2022-05-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
-      endDate: `2022-06-${(index + 1).toString().padStart(2, '0')}T12:34:12`,
+      startDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
+      endDate: `2022-${numberToString(month + 1)}-${numberToString(day)}T12:34:12`,
 
       successShellDescriptorsFetchCount: failedCount,
       failedShellDescriptorsFetchCount: successCount,

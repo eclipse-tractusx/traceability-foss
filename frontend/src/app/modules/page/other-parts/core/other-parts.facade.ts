@@ -49,7 +49,7 @@ export class OtherPartsFacade {
     return this.otherPartsState.supplierParts$;
   }
 
-  public setCustomerParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
+  public setCustomerParts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
     this.customerPartsSubscription?.unsubscribe();
     this.customerPartsSubscription = this.otherPartsService.getCustomerParts(page, pageSize, sorting).subscribe({
       next: data => (this.otherPartsState.customerParts = { data }),
@@ -57,7 +57,7 @@ export class OtherPartsFacade {
     });
   }
 
-  public setSupplierParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
+  public setSupplierParts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
     this.supplierPartsSubscription?.unsubscribe();
     this.supplierPartsSubscription = this.otherPartsService.getSupplierParts(page, pageSize, sorting).subscribe({
       next: data => (this.otherPartsState.supplierParts = { data }),

@@ -48,7 +48,7 @@ export class InvestigationsFacade {
     return this.investigationsService.getInvestigation(id);
   }
 
-  public setReceivedInvestigation(page = 0, pageSize = 5): void {
+  public setReceivedInvestigation(page = 0, pageSize = 50): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.investigationsService
       .getReceivedInvestigations(page, pageSize)
@@ -58,7 +58,7 @@ export class InvestigationsFacade {
       });
   }
 
-  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 5): void {
+  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
       .getCreatedInvestigations(page, pageSize)
