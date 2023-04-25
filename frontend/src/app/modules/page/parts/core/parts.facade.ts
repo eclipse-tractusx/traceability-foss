@@ -39,7 +39,7 @@ export class PartsFacade {
     return this.partsState.myParts$;
   }
 
-  public setMyParts(page = 0, pageSize = 5, sorting: TableHeaderSort = null): void {
+  public setMyParts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
     this.myPartsSubscription?.unsubscribe();
     this.myPartsSubscription = this.partsService.getMyParts(page, pageSize, sorting).subscribe({
       next: data => (this.partsState.myParts = { data }),

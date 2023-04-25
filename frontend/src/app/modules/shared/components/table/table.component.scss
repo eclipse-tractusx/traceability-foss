@@ -89,15 +89,20 @@ table {
   @apply bg-primaryLight border-r-2;
 }
 
-tr.loading {
+.loading-table {
   background-image: linear-gradient(to right, transparent 50%, rgba(0, 0, 0, 0.05) 50%);
   background-size: 200% 100%;
   animation: loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-tr.loading td {
-  opacity: 0.45;
-  pointer-events: none;
+.loading {
+  background: none;
+
+  td {
+    opacity: 0.45;
+    pointer-events: none;
+    background: none;
+  }
 }
 
 tr.highlighted {
