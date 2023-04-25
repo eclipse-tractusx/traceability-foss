@@ -45,6 +45,6 @@ public class ShellDescriptorRefreshJob {
 		lockAtMostFor = "PT15M"
 	)
 	public void refresh() {
-		registryFacade.loadShellDescriptors();
+		registryFacade.updateShellDescriptorAndSynchronizeAssets();
 	}
 }

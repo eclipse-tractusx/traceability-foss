@@ -77,7 +77,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
         }
 
         and:
-        assertNotificationsSize(3)
+        assertNotificationsSize(2)
 
         and:
         given()
@@ -452,7 +452,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
             assert asset.isUnderInvestigation()
         }
         and:
-        assertNotificationsSize(3)
+        assertNotificationsSize(2)
         and:
         given()
                 .header(jwtAuthorization(ADMIN))

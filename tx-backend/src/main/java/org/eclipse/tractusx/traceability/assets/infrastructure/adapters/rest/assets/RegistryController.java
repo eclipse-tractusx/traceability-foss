@@ -52,6 +52,6 @@ public class RegistryController {
 		@ApiResponse(responseCode = "403", description = "Forbidden.")})
 	@GetMapping("/reload")
 	public void reload() {
-		registryFacade.loadShellDescriptors();
+		registryFacade.updateShellDescriptorAndSynchronizeAssets();
 	}
 }

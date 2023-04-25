@@ -37,7 +37,7 @@ import java.util.Map;
 public interface RegistryApiClient {
 
 	@RequestLine("GET /lookup/shells?assetIds={assetIds}")
-	List<String> getShells(@QueryMap Map<String, Object> queryParams);
+	List<String> getShellsByAssetIds(@QueryMap Map<String, Object> queryParams);
 
 	@RequestLine("POST /registry/shell-descriptors/fetch")
 	RegistryShellDescriptorResponse fetchShellDescriptors(List<String> requestBody);

@@ -34,31 +34,35 @@ import java.util.List;
 
 @Component
 public class RegistryFacade {
-	private final ShellDescriptorsService shellDescriptiorsService;
+	private final ShellDescriptorsService shellDescriptorsService;
 	private final RegistryService registryService;
 	private final AssetsConverter assetsConverter;
 	private final AssetService assetService;
 
-	public RegistryFacade(ShellDescriptorsService shellDescriptiorsService, RegistryService registryService, AssetsConverter assetsConverter, AssetService assetService) {
-		this.shellDescriptiorsService = shellDescriptiorsService;
+	public RegistryFacade(ShellDescriptorsService shellDescriptorsService, RegistryService registryService, AssetsConverter assetsConverter, AssetService assetService) {
+		this.shellDescriptorsService = shellDescriptorsService;
 		this.registryService = registryService;
 		this.assetsConverter = assetsConverter;
 		this.assetService = assetService;
 	}
 
-	public List<ShellDescriptor> updateShellDescriptors() {
-		List<ShellDescriptor> descriptors = registryService.findAssets();
-		return shellDescriptiorsService.update(descriptors);
-	}
-
 	@Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
-	public void loadShellDescriptors() {
-		List<ShellDescriptor> descriptors = updateShellDescriptors();
+	public void updateShellDescriptorAndSynchronizeAssets() {
+		List<ShellDescriptor> ownShellDescriptors = updateOwnShellDescriptors();
 
-		assetService.saveAssets(assetsConverter.convertAssets(descriptors));
+		assetService.saveAssets(assetsConverter.convertAssets(ownShellDescriptors));
 
-		descriptors.stream()
-			.map(ShellDescriptor::globalAssetId)
-			.forEach(assetService::synchronizeAssets);
-	}
+        synchronizeAssetsByDescriptors(ownShellDescriptors);
+    }
+
+    private void synchronizeAssetsByDescriptors(List<ShellDescriptor> descriptors) {
+        descriptors.stream()
+            .map(ShellDescriptor::globalAssetId)
+            .forEach(assetService::synchronizeAssets);
+    }
+
+    private List<ShellDescriptor> updateOwnShellDescriptors() {
+        List<ShellDescriptor> ownShellDescriptors = registryService.findOwnShellDescriptors();
+        return shellDescriptorsService.update(ownShellDescriptors);
+    }
 }

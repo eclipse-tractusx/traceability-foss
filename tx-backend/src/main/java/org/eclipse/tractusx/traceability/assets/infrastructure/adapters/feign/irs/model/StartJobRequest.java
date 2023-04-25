@@ -22,8 +22,8 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-import java.util.Arrays;
 import java.util.List;
 
 public record StartJobRequest(
@@ -32,36 +32,16 @@ public record StartJobRequest(
         boolean collectAspects,
         BomLifecycle bomLifecycle,
         boolean lookupBPNs,
-        int depth
+        int depth,
+        Direction direction
 ) {
-    public static StartJobRequest forGlobalAssetId(String globalAssetId) {
-        return new StartJobRequest(Aspect.allAspects(), globalAssetId, true, BomLifecycle.AS_BUILT, true, DEFAULT_DEPTH);
+    public static StartJobRequest buildJobRequest(String globalAssetId, Direction direction, List<String> aspects) {
+        return new StartJobRequest(aspects, globalAssetId, true, BomLifecycle.AS_BUILT, true, DEFAULT_DEPTH, direction);
     }
 
     public static final int DEFAULT_DEPTH = 2;
 }
 
-
-enum Aspect {
-    BATCH("Batch"),
-    SERIAL_PART_TYPIZATION("SerialPartTypization");
-
-    private final String aspectName;
-
-    Aspect(String aspectName) {
-        this.aspectName = aspectName;
-    }
-
-    public String getAspectName() {
-        return aspectName;
-    }
-
-    public static List<String> allAspects() {
-        return Arrays.stream(Aspect.values())
-                .map(Aspect::getAspectName)
-                .toList();
-    }
-}
 
 enum BomLifecycle {
     @JsonProperty("asBuilt")
@@ -69,3 +49,4 @@ enum BomLifecycle {
     @JsonProperty("asPlanned")
     AS_PLANNED
 }
+

@@ -20,7 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model;
 
-record Relationship(String catenaXId, LinkedItem linkedItem) {
+record Relationship(String catenaXId, LinkedItem linkedItem, Aspect aspectType) {
 	String childCatenaXId() {
 		return linkedItem.childCatenaXId();
 	}
@@ -29,3 +29,5 @@ record Relationship(String catenaXId, LinkedItem linkedItem) {
 record LinkedItem(
 	String childCatenaXId
 ) {}
+
+

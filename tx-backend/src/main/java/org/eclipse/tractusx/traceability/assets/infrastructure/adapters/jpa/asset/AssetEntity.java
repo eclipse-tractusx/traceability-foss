@@ -29,6 +29,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
 import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
@@ -52,13 +53,17 @@ public class AssetEntity {
     private String customerPartId;
     private Instant manufacturingDate;
     private String manufacturingCountry;
-    private boolean supplierPart;
+    private Owner owner;
     private QualityType qualityType;
     private String van;
 
     @ElementCollection
     @CollectionTable(name = "asset_child_descriptors")
     private List<ChildDescription> childDescriptors;
+
+    @ElementCollection
+    @CollectionTable(name = "asset_parent_descriptors")
+    private List<ParentDescription> parentDescriptors;
 
     @ManyToMany(mappedBy = "assets")
     private List<InvestigationEntity> investigations = new ArrayList<>();
@@ -68,8 +73,10 @@ public class AssetEntity {
                        String manufacturerId, String batchId,
                        String manufacturerName, String nameAtCustomer,
                        String customerPartId, Instant manufacturingDate,
-                       String manufacturingCountry, boolean supplierPart,
-                       List<ChildDescription> childDescriptors, QualityType qualityType,
+                       String manufacturingCountry, Owner owner,
+                       List<ChildDescription> childDescriptors,
+                       List<ParentDescription> parentDescriptors,
+                       QualityType qualityType,
                        String van) {
         this.id = id;
         this.idShort = idShort;
@@ -83,8 +90,9 @@ public class AssetEntity {
         this.customerPartId = customerPartId;
         this.manufacturingDate = manufacturingDate;
         this.manufacturingCountry = manufacturingCountry;
-        this.supplierPart = supplierPart;
+        this.owner = owner;
         this.childDescriptors = childDescriptors;
+        this.parentDescriptors = parentDescriptors;
         this.qualityType = qualityType;
         this.van = van;
     }
@@ -104,8 +112,16 @@ public class AssetEntity {
         return childDescriptors;
     }
 
+    public List<ParentDescription> getParentDescriptors() {
+        return parentDescriptors;
+    }
+
     public void setChildDescriptors(List<ChildDescription> specificAssetIds) {
         this.childDescriptors = specificAssetIds;
+    }
+
+    public void setParentDescriptors(List<ParentDescription> specificAssetIds) {
+        this.parentDescriptors = specificAssetIds;
     }
 
     public String getIdShort() {
@@ -196,12 +212,12 @@ public class AssetEntity {
         this.manufacturingCountry = manufacturingCountry;
     }
 
-    public boolean isSupplierPart() {
-        return supplierPart;
+    public Owner getOwner() {
+        return owner;
     }
 
-    public void setSupplierPart(boolean supplierPart) {
-        this.supplierPart = supplierPart;
+    public void setOwner(Owner owner) {
+        this.owner = owner;
     }
 
     public QualityType getQualityType() {
@@ -248,6 +264,37 @@ public class AssetEntity {
         }
 
         public ChildDescription(String id, String idShort) {
+            this.id = id;
+            this.idShort = idShort;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public void setIdShort(String idShort) {
+            this.idShort = idShort;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public String getIdShort() {
+            return idShort;
+        }
+
+    }
+
+    @Embeddable
+    public static class ParentDescription {
+        private String id;
+        private String idShort;
+
+        public ParentDescription() {
+        }
+
+        public ParentDescription(String id, String idShort) {
             this.id = id;
             this.idShort = idShort;
         }

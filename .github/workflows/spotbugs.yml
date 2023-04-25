@@ -46,4 +46,4 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: run maven spotbugs plugin
-        run: mvn clean package -DskipTests=true spotbugs:check
+        run: mvn clean validate -DskipTests=true -Pspotbugs-check spotbugs:check

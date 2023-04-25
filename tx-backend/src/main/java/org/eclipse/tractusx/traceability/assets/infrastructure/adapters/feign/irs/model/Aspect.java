@@ -1,6 +1,4 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
  * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
@@ -19,31 +17,35 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.ports;
+package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.springframework.data.domain.Pageable;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.List;
 
-public interface AssetRepository {
-	Asset getAssetById(String assetId);
+public enum Aspect {
+    BATCH("Batch"),
+    SERIAL_PART_TYPIZATION("SerialPartTypization"),
+    ASSEMBLY_PART_RELATIONSHIP("AssemblyPartRelationship"),
+    SINGLE_LEVEL_USAGE_AS_BUILT("SingleLevelUsageAsBuilt");
 
-	List<Asset> getAssetsById(List<String> assetIds);
 
-	Asset getAssetByChildId(String assetId, String childId);
+    private final String aspectName;
 
-	PageResult<Asset> getAssets(Pageable pageable, Owner owner);
+    Aspect(String aspectName) {
+        this.aspectName = aspectName;
+    }
 
-	List<Asset> getAssets();
+    @JsonValue
+    public String getAspectName() {
+        return aspectName;
+    }
 
-	Asset save(Asset asset);
+    public static List<String> downwardAspects() {
+        return List.of(BATCH.getAspectName(), SERIAL_PART_TYPIZATION.getAspectName(), ASSEMBLY_PART_RELATIONSHIP.getAspectName());
+    }
 
-	List<Asset> saveAll(List<Asset> assets);
-
-    long countAssets();
-
-    long countAssetsByOwner(Owner owner);
+    public static List<String> upwardAspects() {
+        return List.of(BATCH.getAspectName(), SERIAL_PART_TYPIZATION.getAspectName(), SINGLE_LEVEL_USAGE_AS_BUILT.getAspectName());
+    }
 }

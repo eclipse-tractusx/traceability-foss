@@ -44,9 +44,9 @@ record SerialPartTypization(
 		this.localIdentifiers = Objects.requireNonNullElse(localIdentifiers, Collections.emptyList());
 	}
 
-	public Optional<String> getLocalId(LocalIdType type) {
+	public Optional<String> getLocalId(LocalIdKey key) {
 		return localIdentifiers.stream()
-			.filter(localId -> localId.type() == type)
+			.filter(localId -> localId.key() == key)
 			.findFirst()
 			.map(LocalId::value);
 	}
@@ -65,14 +65,15 @@ record PartTypeInformation(
 ) {}
 
 record LocalId(
-	@JsonProperty("key") LocalIdType type,
+	@JsonProperty("key") LocalIdKey key,
 	String value
 ) {}
 
-enum LocalIdType {
-	@JsonProperty("ManufacturerID") MANUFACTURER_ID,
-	@JsonProperty("PartInstanceID") PART_INSTANCE_ID,
-	@JsonProperty("BatchID") BATCH_ID,
+enum LocalIdKey {
+	@JsonProperty("manufacturerId") MANUFACTURER_ID,
+    @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID,
+	@JsonProperty("partInstanceId") PART_INSTANCE_ID,
+	@JsonProperty("batchId") BATCH_ID,
 	@JsonEnumDefaultValue UNKNOWN,
-	@JsonProperty("VAN") VAN,
+	@JsonProperty("van") VAN,
 }

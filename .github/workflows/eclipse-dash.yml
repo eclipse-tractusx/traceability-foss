@@ -57,7 +57,7 @@ jobs:
       - name: Build with Maven and check dependencies
         run: |
           cd tx-backend
-          mvn --batch-mode --update-snapshots verify -Ddash.summary=../DEPENDENCIES_BACKEND -DskipTests -Pdependency-check -Ddash.fail=true
+          mvn --batch-mode --update-snapshots verify -Ddash.summary=../DEPENDENCIES_BACKEND -DskipTests -Pdependency-check,license-check -Ddash.fail=true
 
       - name: upload results
         if: always()

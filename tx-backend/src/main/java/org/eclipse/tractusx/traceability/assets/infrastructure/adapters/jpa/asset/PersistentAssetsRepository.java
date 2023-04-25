@@ -22,9 +22,9 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset.ChildDescriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -37,130 +37,129 @@ import static org.eclipse.tractusx.traceability.assets.infrastructure.adapters.j
 @Component
 public class PersistentAssetsRepository implements AssetRepository {
 
-	private final JpaAssetsRepository assetsRepository;
+    private final JpaAssetsRepository assetsRepository;
 
-	public PersistentAssetsRepository(JpaAssetsRepository assetsRepository) {
-		this.assetsRepository = assetsRepository;
-	}
+    public PersistentAssetsRepository(JpaAssetsRepository assetsRepository) {
+        this.assetsRepository = assetsRepository;
+    }
 
-	@Override
-	@Transactional
-	public Asset getAssetById(String assetId) {
-		return assetsRepository.findById(assetId)
-			.map(this::toAsset)
-			.orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
-	}
+    @Override
+    @Transactional
+    public Asset getAssetById(String assetId) {
+        return assetsRepository.findById(assetId)
+                .map(this::toAsset)
+                .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
+    }
 
-	@Override
-	public List<Asset> getAssetsById(List<String> assetIds) {
-		return assetsRepository.findByIdIn(assetIds).stream()
-			.map(this::toAsset)
-			.toList();
-	}
+    @Override
+    public List<Asset> getAssetsById(List<String> assetIds) {
+        return assetsRepository.findByIdIn(assetIds).stream()
+                .map(this::toAsset)
+                .toList();
+    }
 
-	@Override
-	public Asset getAssetByChildId(String assetId, String childId) {
-		return assetsRepository.findById(childId)
-			.map(this::toAsset)
-			.orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
-	}
+    @Override
+    public Asset getAssetByChildId(String assetId, String childId) {
+        return assetsRepository.findById(childId)
+                .map(this::toAsset)
+                .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
+    }
 
-	@Override
-	public PageResult<Asset> getAssets(Pageable pageable) {
-		return new PageResult<>(assetsRepository.findAll(pageable), this::toAsset);
-	}
+    @Override
+    public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
+        if (owner != null) {
+            return new PageResult<>(assetsRepository.findByOwner(pageable, owner), this::toAsset);
+        }
+        return new PageResult<>(assetsRepository.findAll(pageable), this::toAsset);
+    }
 
-	@Override
-	public PageResult<Asset> getSupplierAssets(Pageable pageable) {
-		return new PageResult<>(assetsRepository.findBySupplierPartIsTrue(pageable), this::toAsset);
-	}
+    @Override
+    @Transactional
+    public List<Asset> getAssets() {
+        return toAssets(assetsRepository.findAll());
+    }
 
-	@Override
-	public PageResult<Asset> getOwnAssets(Pageable pageable) {
-		return new PageResult<>(assetsRepository.findBySupplierPartIsFalse(pageable), this::toAsset);
-	}
+    @Override
+    public Asset save(Asset asset) {
+        return toAsset(assetsRepository.save(toEntity(asset)));
+    }
 
-	@Override
-	@Transactional
-	public List<Asset> getAssets() {
-		return toAssets(assetsRepository.findAll());
-	}
+    @Override
+    @Transactional
+    public List<Asset> saveAll(List<Asset> assets) {
+        return toAssets(assetsRepository.saveAll(toEntities(assets)));
+    }
 
-	@Override
-	public Asset save(Asset asset) {
-		return toAsset(assetsRepository.save(toEntity(asset)));
-	}
+    @Override
+    public long countAssets() {
+        return assetsRepository.count();
+    }
 
-	@Override
-	@Transactional
-	public List<Asset> saveAll(List<Asset> assets) {
-		return toAssets(assetsRepository.saveAll(toEntities(assets)));
-	}
+    @Override
+    public long countAssetsByOwner(Owner owner) {
+        return assetsRepository.countAssetsByOwner(owner);
+    }
 
-	@Override
-	public long countAssets() {
-		return assetsRepository.count();
-	}
+    private List<Asset> toAssets(List<AssetEntity> entities) {
+        return entities.stream()
+                .map(this::toAsset)
+                .toList();
+    }
 
-	@Override
-	public long countMyAssets() {
-		return assetsRepository.countBySupplierPartIsFalse();
-	}
+    private List<AssetEntity> toEntities(List<Asset> assets) {
+        return assets.stream()
+                .map(this::toEntity)
+                .toList();
+    }
 
-	private List<Asset> toAssets(List<AssetEntity> entities) {
-		return entities.stream()
-			.map(this::toAsset)
-			.toList();
-	}
+    private AssetEntity toEntity(Asset asset) {
+        return new AssetEntity(
+                asset.getId(), asset.getIdShort(),
+                asset.getNameAtManufacturer(),
+                asset.getManufacturerPartId(),
+                asset.getPartInstanceId(),
+                asset.getManufacturerId(),
+                asset.getBatchId(),
+                asset.getManufacturerName(),
+                asset.getNameAtCustomer(),
+                asset.getCustomerPartId(),
+                asset.getManufacturingDate(),
+                asset.getManufacturingCountry(),
+                asset.getOwner(),
+                asset.getChildDescriptions().stream()
+                        .map(child -> new ChildDescription(child.id(), child.idShort()))
+                        .toList(),
+                asset.getParentDescriptions().stream()
+                        .map(child -> new AssetEntity.ParentDescription(child.id(), child.idShort()))
+                        .toList(),
+                asset.getQualityType(),
+                asset.getVan()
+        );
+    }
 
-	private List<AssetEntity> toEntities(List<Asset> assets) {
-		return assets.stream()
-			.map(this::toEntity)
-			.toList();
-	}
-
-	private AssetEntity toEntity(Asset asset) {
-		return new AssetEntity(
-			asset.getId(), asset.getIdShort(),
-			asset.getNameAtManufacturer(),
-			asset.getManufacturerPartId(),
-			asset.getPartInstanceId(),
-			asset.getManufacturerId(),
-			asset.getBatchId(),
-			asset.getManufacturerName(),
-			asset.getNameAtCustomer(),
-			asset.getCustomerPartId(),
-			asset.getManufacturingDate(),
-			asset.getManufacturingCountry(),
-			asset.isSupplierPart(),
-			asset.getChildDescriptions().stream()
-				.map(child -> new ChildDescription(child.id(), child.idShort()))
-				.toList(),
-			asset.getQualityType(),
-			asset.getVan()
-		);
-	}
-
-	private Asset toAsset(AssetEntity entity) {
-		return new Asset(
-			entity.getId(), entity.getIdShort(),
-			entity.getNameAtManufacturer(),
-			entity.getManufacturerPartId(),
-			entity.getPartInstanceId(),
-			entity.getManufacturerId(),
-			entity.getBatchId(),
-			entity.getManufacturerName(),
-			entity.getNameAtCustomer(),
-			entity.getCustomerPartId(),
-			entity.getManufacturingDate(),
-			entity.getManufacturingCountry(),
-			entity.isSupplierPart(),
-			entity.getChildDescriptors().stream()
-					.map(child -> new ChildDescriptions(child.getId(), child.getIdShort()))
-					.toList(),
-			entity.isOnInvestigation(),
-			entity.getQualityType(),
-			entity.getVan()
-		);
-	}
+    public Asset toAsset(AssetEntity entity) {
+        return new Asset(
+                entity.getId(), entity.getIdShort(),
+                entity.getNameAtManufacturer(),
+                entity.getManufacturerPartId(),
+                entity.getPartInstanceId(),
+                entity.getManufacturerId(),
+                entity.getBatchId(),
+                entity.getManufacturerName(),
+                entity.getNameAtCustomer(),
+                entity.getCustomerPartId(),
+                entity.getManufacturingDate(),
+                entity.getManufacturingCountry(),
+                entity.getOwner(),
+                entity.getChildDescriptors().stream()
+                        .map(child -> new Asset.Descriptions(child.getId(), child.getIdShort()))
+                        .toList(),
+                entity.getParentDescriptors().stream()
+                        .map(parent -> new Asset.Descriptions(parent.getId(), parent.getIdShort()))
+                        .toList(),
+                entity.isOnInvestigation(),
+                entity.getQualityType(),
+                entity.getVan()
+        );
+    }
 }

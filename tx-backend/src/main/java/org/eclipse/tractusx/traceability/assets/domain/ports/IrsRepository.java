@@ -22,9 +22,18 @@
 package org.eclipse.tractusx.traceability.assets.domain.ports;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Direction;
 
 import java.util.List;
 
 public interface IrsRepository {
-	List<Asset> findAssets(String globalAssetId);
+    /**
+     * Finds a list of assets with the given global asset ID and direction.
+     *
+     * @param globalAssetId the global asset ID to search for
+     * @param direction     the direction of the search
+     * @param aspects the list of aspects
+     * @return a list of assets that match the given global asset ID and direction, or an empty list if no assets are found
+     */
+    List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects);
 }

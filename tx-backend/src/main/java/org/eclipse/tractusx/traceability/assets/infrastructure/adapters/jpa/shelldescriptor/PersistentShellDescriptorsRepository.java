@@ -63,7 +63,7 @@ public class PersistentShellDescriptorsRepository implements ShellDescriptorRepo
 	}
 
 	@Override
-	public void removeOldDescriptors(ZonedDateTime now) {
+	public void removeDescriptorsByUpdatedBefore(ZonedDateTime now) {
 		repository.deleteAllByUpdatedBefore(now);
 	}
 
