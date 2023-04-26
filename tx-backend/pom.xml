@@ -221,12 +221,6 @@
             <version>${commons-io.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
-        </dependency>
-
         <dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
             <groupId>org.apache.groovy</groupId>
             <artifactId>groovy</artifactId>
@@ -337,9 +331,68 @@
         </dependency>
     </dependencies>
 
+    <pluginRepositories>
+        <pluginRepository>
+            <id>dash-licenses-snapshots</id>
+            <url>https://repo.eclipse.org/content/repositories/dash-licenses-snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <finalName>traceability-app-${project.version}</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.eclipse.dash</groupId>
+                <artifactId>license-tool-plugin</artifactId>
+                <version>${eclipse-license-tool.version}</version>
+                <executions>
+                    <execution>
+                        <id>license-check</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>license-check</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>install-license</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>license-check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <version>${spotbugs-plugin.version}</version>
+                <configuration>
+                    <effort>Max</effort>
+                    <threshold>Low</threshold>
+                    <xmlOutput>true</xmlOutput>
+                    <failThreshold>High</failThreshold>
+                    <excludeFilterFile>ci/spotbugs-excludes.xml</excludeFilterFile>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.h3xstream.findsecbugs</groupId>
+                            <artifactId>findsecbugs-plugin</artifactId>
+                            <version>${findsecbugs-plugin.version}</version>
+                        </plugin>
+                    </plugins>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -615,6 +668,7 @@
                     <plugin>
                         <groupId>org.eclipse.dash</groupId>
                         <artifactId>license-tool-plugin</artifactId>
+                        <version>${eclipse-license-tool.version}</version>
                         <executions>
                             <execution>
                                 <id>check-license</id>
