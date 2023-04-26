@@ -54,10 +54,10 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: Build with Maven and check dependencies
+      - name: Check dependencies
         run: |
           cd tx-backend
-          mvn --batch-mode --update-snapshots verify -Ddash.summary=../DEPENDENCIES_BACKEND -DskipTests -Pdependency-check,license-check -Ddash.fail=true
+          mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=../DEPENDENCIES_BACKEND -Ddash.fail=true
 
       - name: upload results
         if: always()

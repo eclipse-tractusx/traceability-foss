@@ -82,7 +82,6 @@ jobs:
           # Scanning directory .
           path: "./tx-backend"
 
-          exclude_paths: "tx-backend/openapi/traceability-foss-backend.json"
           # Fail on HIGH severity results
           fail_on: high
           # Disable secrets detection - we use GitGuardian
