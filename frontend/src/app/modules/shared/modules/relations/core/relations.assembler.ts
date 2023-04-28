@@ -21,26 +21,30 @@
 
 import { Part, QualityType } from '@page/parts/model/parts.model';
 import { TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
+import _deepClone from 'lodash-es/cloneDeep';
 
 export class RelationsAssembler {
   public static assemblePartForRelation(part: Part, idFallback?: string): TreeElement {
-    const { id, name = idFallback, serialNumber, children, qualityType } = part || {};
+    const { id, name: text = idFallback, serialNumber, qualityType, children, parents } = part || {};
 
     const mapQualityTypeToState = (type: QualityType) => (type === QualityType.Ok ? 'done' : type || 'error');
     const loadingOrErrorStatus = id ? 'loading' : 'error';
     const mappedOrFallbackStatus = mapQualityTypeToState(qualityType) || 'done';
-
     const state = !!children ? mappedOrFallbackStatus : loadingOrErrorStatus;
-    return { id: id || idFallback, text: name, title: `${name || '--'} | ${serialNumber || id}`, state, children };
+
+    const title = `${text || '--'} | ${serialNumber || id}`;
+
+    return { id: id || idFallback, text, title, state, children, parents };
   }
 
-  public static elementToTreeStructure(element: TreeElement): TreeStructure {
-    if (!element) {
-      return null;
-    }
+  public static elementToTreeStructure(element: TreeElement, isParentDirection = false): TreeStructure {
+    if (!element) return null;
+    const clonedElement = _deepClone(element);
+    const nodes = isParentDirection ? clonedElement.parents : clonedElement.children;
+    delete clonedElement.parents;
 
-    const children: TreeStructure[] = element.children
-      ? element.children.map(childId => ({
+    const children: TreeStructure[] = nodes
+      ? nodes.map(childId => ({
           id: childId,
           title: childId,
           state: 'loading',
@@ -48,7 +52,7 @@ export class RelationsAssembler {
         }))
       : null;
 
-    return { ...element, state: element.state || 'done', children };
+    return { ...clonedElement, state: clonedElement.state || 'done', children };
   }
 
   public static createLoadingElement(id: string): TreeElement {

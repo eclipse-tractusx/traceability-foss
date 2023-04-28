@@ -70,7 +70,7 @@ describe('Other Parts', () => {
     await renderOtherParts();
     const tabElements = await screen.findAllByRole('tab');
 
-    expect(tabElements.length).toEqual(1);
+    expect(tabElements.length).toEqual(2);
   });
 
   it('should render selected parts information', async () => {

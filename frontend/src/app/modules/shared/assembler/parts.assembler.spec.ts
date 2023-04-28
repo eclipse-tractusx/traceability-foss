@@ -92,6 +92,7 @@ describe('PartsAssembler', () => {
           qualityType: QualityType.Ok,
           productionDate: new CalendarDateModel(manufacturingDate),
           children: childDescriptions.map(child => child.id),
+          parents: [],
           shouldHighlight: false,
           van,
         });

@@ -40,7 +40,7 @@
 }
 
 .part-relation--minimap {
-  position: absolute;
+  position: fixed;
   width: 10%;
   min-width: 150px;
   min-height: 30%;
@@ -334,6 +334,7 @@
     transform: rotate(420deg);
   }
 }
+
 @keyframes MinimapElementLoading {
   0% {
     @apply fill-primary;
