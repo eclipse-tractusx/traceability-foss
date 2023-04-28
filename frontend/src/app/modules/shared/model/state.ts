@@ -34,6 +34,7 @@ export class State<T> {
   }
 
   public get observable(): Observable<T> {
+    // "delay(0)" is added to remove a race condition with the ngZone and the rendering engine.
     return this.store$.asObservable().pipe(distinctUntilChanged(), delay(0));
   }
 

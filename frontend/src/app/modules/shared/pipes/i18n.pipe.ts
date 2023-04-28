@@ -23,23 +23,21 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { I18nMessage } from '@shared/model/i18n-message';
 import { I18NextPipe, PipeOptions } from 'angular-i18next';
 
-@Pipe({ name: 'i18n', pure: false })
+// To make this pipe pure, reload the page after the language was changed.
+// Keeping it "impure" leads to a lot of unnecessary renders
+@Pipe({ name: 'i18n', pure: true })
 export class I18nPipe implements PipeTransform {
   constructor(private readonly i18NextPipe: I18NextPipe) {}
 
   public transform(key: I18nMessage, options?: PipeOptions): string {
-    if (!key) {
-      return '';
-    }
+    if (!key) return '';
 
     if (typeof key !== 'string') {
       options = key.values;
       key = key.id;
     }
 
-    if (key.indexOf(':') !== -1) {
-      return key;
-    }
+    if (key.indexOf(':') !== -1) return key;
 
     return this.i18NextPipe.transform(key, options);
   }

@@ -34,6 +34,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       retry(1),
       catchError((errorResponse: HttpErrorResponse) => {
+        // Possible ToDos:
+        // Add error code for specific errors "AUTH0" => Unauthorized, etc.
+        // Add logging server to store errors from the FE
+        // Intercept "console.error" and send to logging server for further analysis
         const { error, message } = errorResponse;
         const errorMessage = !error.message ? message : `Backend returned code ${error.status}: ${error.message}`;
 
