@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,28 +17,23 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.support
+package org.eclipse.tractusx.traceability.bpn.mapping.domain.ports;
 
-import org.springframework.test.jdbc.JdbcTestUtils
+import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMapping;
+import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest.BpnEdcMappingRequest;
 
-trait DatabaseSupport implements DatabaseProvider {
+import java.util.List;
 
-	private static final List<String> TABLES = [
-		"asset_child_descriptors",
-		"assets_investigations",
-		"assets_notifications",
-		"asset",
-		"shell_descriptor",
-		"bpn_storage",
-		"notification",
-		"investigation",
-		"registry_lookup_metrics",
-        "bpn_edc_mappings"
-	]
+public interface BpnEdcMappingRepository {
 
-	void clearAllTables() {
-		TABLES.each {
-			JdbcTestUtils.deleteFromTables(jdbcTemplate(), it)
-		}
-	}
+    BpnEdcMapping findById(String bpn);
+
+    List<BpnEdcMapping> findAll();
+
+    boolean exists(String bpn);
+
+    List<BpnEdcMapping> saveAll(List<BpnEdcMappingRequest> bpnEdcMappings);
+
+    void deleteById(String bpn);
+
 }

@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,26 +19,13 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.springframework.test.jdbc.JdbcTestUtils
 
-trait DatabaseSupport implements DatabaseProvider {
+import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest.BpnEdcMappingRequest
 
-	private static final List<String> TABLES = [
-		"asset_child_descriptors",
-		"assets_investigations",
-		"assets_notifications",
-		"asset",
-		"shell_descriptor",
-		"bpn_storage",
-		"notification",
-		"investigation",
-		"registry_lookup_metrics",
-        "bpn_edc_mappings"
-	]
+trait BpnEdcMappingSupport implements BpnEdcRepositoryProvider {
 
-	void clearAllTables() {
-		TABLES.each {
-			JdbcTestUtils.deleteFromTables(jdbcTemplate(), it)
-		}
-	}
+    void defaultBpnEdcMappingStored() {
+        def bpnEdcMappingRequests = List.of(new BpnEdcMappingRequest("BPN123", "https://test123.de"), new BpnEdcMappingRequest("BPN456", "https://test456.de"))
+        bpnEdcRepository().saveAll(bpnEdcMappingRequests)
+    }
 }
