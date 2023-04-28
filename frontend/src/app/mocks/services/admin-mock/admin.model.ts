@@ -33,11 +33,12 @@ export const buildMockRegistryProcesses = (): RegistryProcessResponse[] =>
     const numberToString = (i: number) => i.toString().padStart(2, '0');
     const month = index === 0 ? 1 : getRandomIntFromInterval(1, 11);
     const day = index === 0 ? 1 : getRandomIntFromInterval(1, 28);
+    const year = index === 0 ? '2000' : '2022';
 
     return {
       registryLookupStatus,
-      startDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
-      endDate: `2022-${numberToString(month + 1)}-${numberToString(day)}T12:34:12`,
+      startDate: `${year}-${numberToString(month)}-${numberToString(day)}T12:34:12`,
+      endDate: `${year}-${numberToString(month + 1)}-${numberToString(day)}T12:34:12`,
 
       successShellDescriptorsFetchCount: failedCount,
       failedShellDescriptorsFetchCount: successCount,

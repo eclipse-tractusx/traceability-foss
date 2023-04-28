@@ -31,17 +31,33 @@ SPDX-License-Identifier: Apache-2.0
       [label]="'relation.decrease' | i18n"
       data-testid="tree--zoom__increase"
       color="primary"
-      >+</app-button
-    >
+      >+
+    </app-button>
     <app-button
       (click)="increaseSize()"
       [label]="'relation.increase' | i18n"
       data-testid="tree--zoom__decrease"
       color="primary"
-      >-</app-button
-    >
+      >-
+    </app-button>
   </div>
   <figure class="part-relation--container" data-testId="part-relation--test-id" [id]="htmlId"></figure>
+  <app-tree
+    [rootPart]="rootPart$ | async"
+    [resizeTrigger$]="resizeTrigger$"
+    [showMiniMap]="showMiniMap"
+    [shouldRenderParents]="true"
+    [isStandalone]="isStandalone"
+    [htmlId]="htmlId"
+    [direction]="'RIGHT'"
+  ></app-tree>
+  <app-tree
+    [rootPart]="rootPart$ | async"
+    [resizeTrigger$]="resizeTrigger$"
+    [isStandalone]="isStandalone"
+    [htmlId]="htmlId"
+    [direction]="'LEFT'"
+  ></app-tree>
   <figure
     *ngIf="this.showMiniMap"
     class="part-relation--minimap"
@@ -55,4 +71,6 @@ SPDX-License-Identifier: Apache-2.0
   <p>{{ partDetails.error.message }}</p>
 </ng-template>
 
-<ng-template #loaderTmp><mat-spinner></mat-spinner></ng-template>
+<ng-template #loaderTmp>
+  <mat-spinner></mat-spinner>
+</ng-template>

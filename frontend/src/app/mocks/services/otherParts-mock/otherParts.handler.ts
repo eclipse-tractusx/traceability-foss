@@ -26,22 +26,32 @@ import { otherPartsAssets } from './otherParts.model';
 import { mockCustomerAssets, mockSupplierAssets } from './otherParts.test.model';
 
 export const otherPartsHandlers = [
-  rest.get(`*${environment.apiUrl}/assets/supplier`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets`, (req, res, ctx) => {
     const pagination = extractPagination(req);
-    return res(ctx.status(200), ctx.json(applyPagination(otherPartsAssets, pagination)));
-  }),
+    const owner = req.url.searchParams.get('owner');
 
-  rest.get(`*${environment.apiUrl}/assets/customer`, (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockCustomerAssets));
+    switch (owner) {
+      case 'SUPPLIER':
+        return res(ctx.status(200), ctx.json(applyPagination(otherPartsAssets, pagination)));
+
+      case 'CUSTOMER':
+        return res(ctx.status(200), ctx.json(mockCustomerAssets));
+    }
+
   }),
 ];
 
 export const otherPartsHandlersTest = [
-  rest.get(`*${environment.apiUrl}/assets/supplier`, (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockSupplierAssets));
-  }),
+  rest.get(`*${environment.apiUrl}/assets`, (req, res, ctx) => {
+    const owner = req.url.searchParams.get('owner');
 
-  rest.get(`*${environment.apiUrl}/assets/customer`, (_req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(mockCustomerAssets));
+    switch (owner) {
+      case 'SUPPLIER':
+        return res(ctx.status(200), ctx.json(mockSupplierAssets));
+
+      case 'CUSTOMER':
+        return res(ctx.status(200), ctx.json(mockCustomerAssets));
+    }
+
   }),
 ];

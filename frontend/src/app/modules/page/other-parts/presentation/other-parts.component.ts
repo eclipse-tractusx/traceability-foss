@@ -93,8 +93,7 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    // Flagging it as WIP would take to much effort, disabling it until endpoint is implemented by BE.
-    // this.otherPartsFacade.setCustomerParts();
+    this.otherPartsFacade.setCustomerParts();
     this.otherPartsFacade.setSupplierParts();
   }
 

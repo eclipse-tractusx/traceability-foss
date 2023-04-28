@@ -21,29 +21,26 @@
 
 import { Injectable } from '@angular/core';
 import { Part } from '@page/parts/model/parts.model';
-import { View } from '@shared/model/view.model';
 import { RelationComponentState } from '@shared/modules/relations/core/component.state';
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
 import { RelationsAssembler } from '@shared/modules/relations/core/relations.assembler';
 import { OpenElements, TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
 import _deepClone from 'lodash-es/cloneDeep';
-import { Observable, of, Subject, Subscription } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { bufferTime, catchError, debounceTime, filter, first, map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class RelationsFacade {
   private readonly requestPartDetailsQueue = new Subject<string[]>();
   private readonly requestPartDetailsStream = new Subject<TreeElement[]>();
-  private requestPartDetailsQueueSubscription: Subscription;
+  private _isParentRelationTree = false;
 
   constructor(
     private readonly partsService: PartsService,
     private readonly loadedElementsFacade: LoadedElementsFacade,
     private readonly relationComponentState: RelationComponentState,
-  ) {
-    this.requestPartDetailsQueueSubscription = this.initRequestPartDetailQueue().subscribe();
-  }
+  ) {}
 
   public get openElements$(): Observable<OpenElements> {
     return this.relationComponentState.openElements$.pipe(debounceTime(100));
@@ -53,33 +50,40 @@ export class RelationsFacade {
     return this.relationComponentState.openElements;
   }
 
+  public get isParentRelationTree(): boolean {
+    return this._isParentRelationTree;
+  }
+
+  public set isParentRelationTree(value: boolean) {
+    this._isParentRelationTree = value;
+  }
+
   // This is used to add an element with its children to the opened list
-  public openElementWithChildren({ id, children }: TreeElement): void {
+  public openElementWithChildren({ id, children, parents }: TreeElement): void {
     const emptyChildren: OpenElements = {};
+    const nodes = this.isParentRelationTree ? parents : children;
     const childElements =
-      children?.reduce((p: OpenElements, c: string) => ({ ...p, [c]: null }), emptyChildren) || emptyChildren;
+      nodes?.reduce((p: OpenElements, c: string) => ({ ...p, [c]: null }), emptyChildren) || emptyChildren;
 
     this.relationComponentState.openElements = {
-      ...this.relationComponentState.openElements,
-      [id]: children,
+      ...this.openElements,
+      [id]: nodes,
       ...childElements,
     };
-
-    this.loadChildrenInformation(children).subscribe();
+    this.loadNodesInformation(nodes).subscribe();
   }
 
   // This is only to update already opened elements.
-  public updateOpenElement({ id, children }: TreeElement): void {
-    if (this.openElements[id] === undefined) {
-      return;
-    }
+  public updateOpenElement({ id, children, parents }: TreeElement): void {
+    if (this.openElements[id] === undefined) return;
+    const nodes = this.isParentRelationTree ? parents : children;
 
-    this.relationComponentState.openElements = { ...this.relationComponentState.openElements, [id]: children };
-    this.loadChildrenInformation(children).subscribe();
+    this.relationComponentState.openElements = { ...this.openElements, [id]: nodes };
+    this.loadNodesInformation(nodes).subscribe();
   }
 
   public deleteOpenElement(id: string): void {
-    this.relationComponentState.openElements = this._deleteOpenElement(id, this.relationComponentState.openElements);
+    this.relationComponentState.openElements = this._deleteOpenElement(id, this.openElements);
   }
 
   public formatOpenElementsToTreeData(openElements: OpenElements): TreeStructure {
@@ -88,10 +92,8 @@ export class RelationsFacade {
     const mappedData: Record<string, TreeStructure> = {};
 
     return keyList.reduce((p, key) => {
-      const structure = RelationsAssembler.elementToTreeStructure(loadedData[key]);
-      if (!structure) {
-        return p;
-      }
+      const structure = RelationsAssembler.elementToTreeStructure(loadedData[key], this.isParentRelationTree);
+      if (!structure) return p;
 
       structure.relations = structure.children?.length > 0 ? structure.children : null;
       structure.children = openElements[key]?.map(id => mappedData[id] || null).filter(child => !!child) || null;
@@ -103,9 +105,7 @@ export class RelationsFacade {
 
   public isElementOpen(id: string): boolean {
     const currentElement = this.openElements[id];
-    if (!currentElement) {
-      return false;
-    }
+    if (!currentElement) return false;
 
     // Checks if the children, of the current element, are open
     return currentElement.some(childId => Object.keys(this.openElements).includes(childId));
@@ -124,14 +124,24 @@ export class RelationsFacade {
   }
 
   public closeElementById(elementId: string): void {
-    const elementToClose = this.loadedElementsFacade.loadedElements[elementId];
-    elementToClose.children.forEach(childId => this.deleteOpenElement(childId));
+    this.getNodesOfLoadedElement(elementId).forEach(childId => this.deleteOpenElement(childId));
   }
 
-  public getRootPart(id: string): Observable<View<Part>> {
-    return this.partsService.getPart(id).pipe(
-      map((part: Part) => ({ data: part })),
-      catchError((error: Error) => of({ error })),
+  public initRequestPartDetailQueue(): Observable<TreeElement[]> {
+    const empty = { children: [], parents: [] };
+    let nodes;
+    return this.requestPartDetailsQueue.pipe(
+      bufferTime(500),
+      filter(nodeList => !!nodeList.length),
+      switchMap(nodeList => {
+        nodes = nodeList.reduce((p, c) => [...p, ...c], []);
+        return this.partsService.getPartDetailOfIds(nodes);
+      }),
+      catchError(_ => of(nodes.map(id => ({ id, ...empty } as Part)))),
+      map(nodesDetail => nodes.map(id => nodesDetail.find(data => data.id === id) || ({ id, ...empty } as Part))),
+      map(nodesDetail => nodesDetail.map(child => RelationsAssembler.assemblePartForRelation(child, null))),
+      tap(nodesDetail => this.addLoadedElements(nodesDetail)),
+      tap(nodesDetail => this.requestPartDetailsStream.next(nodesDetail)),
     );
   }
 
@@ -145,41 +155,25 @@ export class RelationsFacade {
     return clonedElements;
   }
 
-  private loadChildrenInformation(children: string[]): Observable<TreeElement[]> {
-    if (!children) {
-      return of(null).pipe(first());
-    }
+  private getNodesOfLoadedElement(id: string): string[] {
+    const { children, parents } = this.loadedElementsFacade.loadedElements[id];
+    return this.isParentRelationTree ? parents : children;
+  }
 
-    const getLoadedElement = (id: string) => this.loadedElementsFacade.loadedElements[id];
-    const isNoChildLoading = children.every(id => getLoadedElement(id) && getLoadedElement(id)?.state != 'loading');
+  private loadNodesInformation(nodeList: string[]): Observable<TreeElement[]> {
+    if (!nodeList) return of(null).pipe(first());
+
+    const loadedElements = this.loadedElementsFacade.loadedElements;
+    const isNoChildLoading = nodeList.every(id => loadedElements[id] && loadedElements[id]?.state != 'loading');
 
     if (isNoChildLoading) {
-      const mappedChildren = children.map(childId => this.loadedElementsFacade.loadedElements[childId]);
+      const mappedChildren = nodeList.map(childId => loadedElements[childId]);
       this.addLoadedElements(mappedChildren);
       return of(mappedChildren).pipe(first());
     }
 
-    this.requestPartDetailsQueue.next(children);
+    this.requestPartDetailsQueue.next(nodeList);
     return this.requestPartDetailsStream.asObservable();
-  }
-
-  private initRequestPartDetailQueue(): Observable<TreeElement[]> {
-    let children;
-    return this.requestPartDetailsQueue.pipe(
-      bufferTime(500),
-      filter(childList => !!childList.length),
-      switchMap(childList => {
-        children = childList.reduce((p, c) => [...p, ...c], []);
-        return this.partsService.getPartDetailOfIds(children);
-      }),
-      catchError(_ => of(children.map(id => ({ id, children: [] } as Part)))),
-      map(childrenData =>
-        children.map(id => childrenData.find(data => data.id === id) || ({ id, children: [] } as Part)),
-      ),
-      map(childrenData => childrenData.map(child => RelationsAssembler.assemblePartForRelation(child))),
-      tap(childrenData => this.addLoadedElements(childrenData)),
-      tap(childrenData => this.requestPartDetailsStream.next(childrenData)),
-    );
   }
 
   private addLoadedElements(elements: TreeElement[]): void {

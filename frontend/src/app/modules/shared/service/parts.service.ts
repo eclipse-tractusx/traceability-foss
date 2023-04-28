@@ -40,10 +40,14 @@ export class PartsService {
 
   public getMyParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
     const sort = PartsAssembler.mapSortToApiSort(sorting);
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('sort', sort)
+      .set('owner', 'OWN');
 
     return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets/my`, params)
+      .getBy<PartsResponse>(`${this.url}/assets`, params)
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));
   }
 

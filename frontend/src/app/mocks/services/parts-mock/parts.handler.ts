@@ -32,11 +32,6 @@ export const partsHandlers = [
     return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
   }),
 
-  rest.get(`*${environment.apiUrl}/assets/my`, (req, res, ctx) => {
-    const pagination = extractPagination(req);
-
-    return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
-  }),
 
   rest.post(`*${environment.apiUrl}/assets/detail-information`, async (req, res, ctx) => {
     const { assetIds } = await req.json();

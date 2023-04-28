@@ -56,6 +56,7 @@ export interface Part {
   qualityType: QualityType;
   productionDate: CalendarDateModel;
   children: string[];
+  parents?: string[];
   nameAtCustomer?: string;
   customerPartId?: string;
   error?: boolean;
@@ -79,6 +80,7 @@ export interface PartResponse {
   qualityType: QualityType;
   specificAssetIds: Record<string, string>;
   childDescriptions: Array<{ id: string; idShort: string }>;
+  parentDescriptions?: Array<{ id: string; idShort: string }>;
   underInvestigation?: boolean;
   van?: string;
 }

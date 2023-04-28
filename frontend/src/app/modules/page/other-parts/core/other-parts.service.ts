@@ -38,17 +38,27 @@ export class OtherPartsService {
 
   public getSupplierParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
     const sort = PartsAssembler.mapSortToApiSort(sorting);
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('sort', sort)
+      .set('owner', 'SUPPLIER');
+
     return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets/supplier`, params)
+      .getBy<PartsResponse>(`${this.url}/assets`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts)));
   }
 
   public getCustomerParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
     const sort = PartsAssembler.mapSortToApiSort(sorting);
-    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('sort', sort)
+      .set('owner', 'CUSTOMER');
+
     return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets/customer`, params)
+      .getBy<PartsResponse>(`${this.url}/assets`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts)));
   }
 }

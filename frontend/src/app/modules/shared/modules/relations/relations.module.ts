@@ -25,9 +25,10 @@ import { getI18nPageProvider } from '@core/i18n';
 import { SharedModule } from '../../shared.module';
 import { TemplateModule } from '../../template.module';
 import { PartRelationComponent } from './presentation/part-relation.component';
+import { TreeComponent } from './presentation/tree.component';
 
 @NgModule({
-  declarations: [PartRelationComponent],
+  declarations: [PartRelationComponent, TreeComponent],
   imports: [CommonModule, TemplateModule, SharedModule],
   providers: [...getI18nPageProvider(['page.parts', 'partDetail'])],
   exports: [PartRelationComponent],
