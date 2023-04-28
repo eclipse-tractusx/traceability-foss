@@ -45,7 +45,7 @@ const ADMIN_ROUTING: Routes = [
     path: KnownAdminRouts.BPN,
     pathMatch: 'full',
     component: BpnConfigurationComponent,
-    data: { i18nextNamespaces: ['page.admin'], roles: ['wip'] },
+    data: { i18nextNamespaces: ['page.admin'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
     canActivate: [RoleGuard],
   },

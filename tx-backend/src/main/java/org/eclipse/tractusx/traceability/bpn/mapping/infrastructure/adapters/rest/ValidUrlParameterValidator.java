@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,37 +17,37 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.investigations.adapters.rest.validation;
+package org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
+import org.apache.commons.lang3.StringUtils;
 
-public class SeverityValidatorImpl implements ConstraintValidator<ValidSeverity, String> {
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+public class ValidUrlParameterValidator implements ConstraintValidator<ValidUrlParameter, String> {
 
     @Override
-    public void initialize(ValidSeverity constraintAnnotation) {
+    public void initialize(ValidUrlParameter constraintAnnotation) {
         // nothing to do
     }
 
     @Override
-    public boolean isValid(String value, ConstraintValidatorContext context) {
+    public boolean isValid(String url, ConstraintValidatorContext context) {
+
         // do not validate notNull
-        if (value == null) {
+        if (StringUtils.isBlank(url)) {
             return true;
         }
 
         try {
-            Severity[] severities = Severity.values();
-            for (Severity severity : severities) {
-                if (severity.getRealName().equals(value)) {
-                    return true;
-                }
-            }
-            Severity.valueOf(value);
+            new URL(url).toURI();
             return true;
-        } catch (IllegalArgumentException e) {
+        } catch (MalformedURLException | URISyntaxException e) {
             return false;
         }
     }
+
 }

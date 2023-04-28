@@ -54,7 +54,6 @@ public class NotificationsService {
 		String senderEdcUrl = edcUrlProvider.getSenderUrl();
 
 		List<String> receiverEdcUrls = edcUrlProvider.getEdcUrls(notification.getReceiverBpnNumber());
-
 		for (String receiverEdcUrl : receiverEdcUrls) {
             logger.info("::asyncNotificationExecutor::notificationToSend {}", notification);
 			edcFacade.startEDCTransfer(notification, receiverEdcUrl, senderEdcUrl, isInitialNotification);

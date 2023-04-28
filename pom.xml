@@ -102,7 +102,9 @@
             org/eclipse/tractusx/traceability/infrastructure/jpa/notification/NotificationEntity.java,
             org/eclipse/tractusx/traceability/infrastructure/jpa/notification/InvestigationEntity.java,
             org/eclipse/tractusx/traceability/investigations/domain/model/Investigation.java,
-            org/eclipse/tractusx/traceability/investigations/domain/model/Notification.java
+            org/eclipse/tractusx/traceability/investigations/domain/model/Notification.java,
+            org/eclipse/tractusx/traceability/infrastructure/jpa/bpn_edc/BpnEdcMappingEntity.java,
+            org/eclipse/tractusx/traceability/common/config/ErrorHandlingConfig.java
         </sonar.exclusions>
     </properties>
 

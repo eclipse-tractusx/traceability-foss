@@ -31,7 +31,12 @@ import { Role } from '@core/user/role.model';
 })
 export class AdminComponent {
   public activeUrl: string;
-  public menuConfig = [
+  public menuConfig: {
+    name: string;
+    icon: string;
+    link: string;
+    role?: Role;
+  }[] = [
     {
       name: 'routing.adminRegistry',
       icon: 'storage',
@@ -41,7 +46,6 @@ export class AdminComponent {
       name: 'routing.adminBpn',
       icon: 'edit',
       link: '/admin/configure-bpn',
-      role: 'wip' as Role,
     },
   ];
 
