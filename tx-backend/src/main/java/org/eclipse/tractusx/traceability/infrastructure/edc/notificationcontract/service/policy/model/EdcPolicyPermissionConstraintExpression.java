@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021,2022 Contributors to the CatenaX (ng) GitHub Organisation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,12 +17,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.jpa.notification;
+package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@Repository
-public interface JpaNotificationRepository extends JpaRepository<NotificationEntity, String> {
+public class EdcPolicyPermissionConstraintExpression {
 
+    @JsonProperty("edctype")
+    private final String edcType;
+
+    @JsonProperty("value")
+    private final String value;
+
+    public EdcPolicyPermissionConstraintExpression(String edcType, String value) {
+        this.edcType = edcType;
+        this.value = value;
+    }
+
+    public String getEdcType() {
+        return edcType;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

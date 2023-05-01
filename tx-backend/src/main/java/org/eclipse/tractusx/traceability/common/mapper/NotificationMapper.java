@@ -64,7 +64,8 @@ public class NotificationMapper {
                 edcNotification.getNotificationId(),
                 null,
                 null,
-                edcNotification.getMessageId()
+                edcNotification.getMessageId(),
+                false
         );
     }
 

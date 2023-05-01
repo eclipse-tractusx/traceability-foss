@@ -126,6 +126,11 @@
 
         <!-- 3rd party dependecies - NOT managed by spring boot -->
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
             <version>${auth-0-java-jwt.version}</version>

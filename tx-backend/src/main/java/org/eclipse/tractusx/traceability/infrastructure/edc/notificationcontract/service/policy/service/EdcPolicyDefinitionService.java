@@ -22,11 +22,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.service.EdcNotitifcationAssetService;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.CreateEdcPolicyDefinitionException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcCreatePolicyDefinitionRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicy;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermission;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionAction;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +46,17 @@ public class EdcPolicyDefinitionService {
 
     private static final String CREATE_POLICY_DEFINION_PATH = "/data/policydefinitions";
     private static final String DATA_SPACE_CONNECTOR_PERMISSION = "dataspaceconnector:permission";
+    public static final String DATA_SPACE_LITERAL_EXPRESSION = "dataspaceconnector:literalexpression";
     private static final String USE_ACTION = "USE";
+
+    private static final List<EdcPolicyPermissionConstraint> DEFAULT_EDC_POLICY_PERMISSION_CONSTRAINTS = List.of(
+            new EdcPolicyPermissionConstraint(
+                    "AtomicConstraint",
+                    new EdcPolicyPermissionConstraintExpression(DATA_SPACE_LITERAL_EXPRESSION, "idsc:PURPOSE"),
+                    new EdcPolicyPermissionConstraintExpression(DATA_SPACE_LITERAL_EXPRESSION, "ID 3.0 Trace"),
+                    "EQ"
+            )
+    );
 
     private final RestTemplate restTemplate;
 
@@ -63,7 +69,8 @@ public class EdcPolicyDefinitionService {
         EdcPolicyPermission edcPolicyPermission = new EdcPolicyPermission(
                 DATA_SPACE_CONNECTOR_PERMISSION,
                 new EdcPolicyPermissionAction(USE_ACTION),
-                notificationAssetId
+                notificationAssetId,
+                DEFAULT_EDC_POLICY_PERMISSION_CONSTRAINTS
         );
 
         EdcPolicy edcPolicy = new EdcPolicy(List.of(edcPolicyPermission));

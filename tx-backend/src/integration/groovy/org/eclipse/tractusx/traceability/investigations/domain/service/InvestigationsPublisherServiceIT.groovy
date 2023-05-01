@@ -69,7 +69,8 @@ class InvestigationsPublisherServiceIT extends IntegrationSpecification implemen
                         "some-id",
                         null,
                         null,
-                        "messageid"
+                        "messageid",
+                        false
 				)
 			)
 

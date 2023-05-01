@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 
