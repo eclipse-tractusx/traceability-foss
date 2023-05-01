@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,12 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model;
 
-package org.eclipse.tractusx.traceability.common.support
+public class CatalogRequestException extends RuntimeException {
 
+    public CatalogRequestException(String message) {
+        super(message);
+    }
 
-import org.eclipse.tractusx.traceability.investigations.adapters.jpa.JpaInvestigationRepository
-
-interface InvestigationsRepositoryProvider {
-	JpaInvestigationRepository jpaInvestigationRepository()
+    public CatalogRequestException(Throwable cause) {
+        super(cause);
+    }
 }

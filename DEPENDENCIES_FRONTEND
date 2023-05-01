@@ -324,7 +324,7 @@ npm/npmjs/-/eslint-config-prettier/8.8.0, MIT, approved, #7543
 npm/npmjs/-/eslint-import-resolver-node/0.3.7, MIT, approved, clearlydefined
 npm/npmjs/-/eslint-module-utils/2.7.4, MIT, approved, #2500
 npm/npmjs/-/eslint-plugin-import/2.27.5, MIT, approved, #6937
-npm/npmjs/-/eslint-plugin-jsdoc/43.1.1, BSD-3-Clause AND (GPL-2.0-only AND GPL-3.0-only AND MIT) AND (GPL-3.0-only AND MIT) AND MIT, restricted, #8059
+npm/npmjs/-/eslint-plugin-jsdoc/43.1.1, BSD-3-Clause, approved, #8059
 npm/npmjs/-/eslint-plugin-prefer-arrow/1.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/eslint-scope/5.1.1, BSD-2-Clause, approved, clearlydefined
 npm/npmjs/-/eslint-scope/7.1.1, BSD-2-Clause, approved, clearlydefined

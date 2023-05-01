@@ -18,7 +18,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.jpa.notification;
+package org.eclipse.tractusx.traceability.investigations.adapters.jpa;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -31,7 +31,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
-import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity;
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 
@@ -74,6 +74,7 @@ public class NotificationEntity {
     private LocalDateTime updated;
     private InvestigationStatus status;
     private String messageId;
+    private Boolean isInitial;
 
     public NotificationEntity() {
     }
@@ -90,7 +91,8 @@ public class NotificationEntity {
                               Severity severity,
                               String edcNotificationId,
                               InvestigationStatus status,
-                              String messageId) {
+                              String messageId,
+                              Boolean isInitial) {
         this.id = id;
         this.investigation = investigation;
         this.senderBpnNumber = senderBpnNumber;
@@ -105,6 +107,7 @@ public class NotificationEntity {
         this.created = LocalDateTime.now();
         this.status = status;
         this.messageId = messageId;
+        this.isInitial = isInitial;
     }
 
     @PreUpdate
@@ -246,5 +249,13 @@ public class NotificationEntity {
 
     public String getMessageId() {
         return messageId;
+    }
+
+    public Boolean isInitial() {
+        return isInitial;
+    }
+
+    public void setInitial(Boolean initial) {
+        isInitial = initial;
     }
 }

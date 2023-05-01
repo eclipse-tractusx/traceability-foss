@@ -19,8 +19,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.jpa.investigation;
+package org.eclipse.tractusx.traceability.investigations.adapters.jpa;
 
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.springframework.data.domain.Page;

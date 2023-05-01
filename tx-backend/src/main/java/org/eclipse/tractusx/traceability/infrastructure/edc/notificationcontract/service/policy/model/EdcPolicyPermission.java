@@ -22,6 +22,8 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class EdcPolicyPermission {
 
 	@JsonProperty("edctype")
@@ -33,13 +35,20 @@ public class EdcPolicyPermission {
 	@JsonProperty("target")
 	private final String target;
 
-	public EdcPolicyPermission(String edcType, EdcPolicyPermissionAction policyPermissionAction, String target) {
-		this.edcType = edcType;
-		this.policyPermissionAction = policyPermissionAction;
-		this.target = target;
-	}
+    @JsonProperty("constraints")
+    private final List<EdcPolicyPermissionConstraint> edcPolicyPermissionConstraints;
 
-	public String getEdcType() {
+    public EdcPolicyPermission(String edcType,
+                               EdcPolicyPermissionAction policyPermissionAction,
+                               String target,
+                               List<EdcPolicyPermissionConstraint> edcPolicyPermissionConstraints) {
+        this.edcType = edcType;
+        this.policyPermissionAction = policyPermissionAction;
+        this.target = target;
+        this.edcPolicyPermissionConstraints = edcPolicyPermissionConstraints;
+    }
+
+    public String getEdcType() {
 		return edcType;
 	}
 
@@ -50,4 +59,8 @@ public class EdcPolicyPermission {
 	public String getTarget() {
 		return target;
 	}
+
+    public List<EdcPolicyPermissionConstraint> getEdcPolicyPermissionConstraints() {
+        return edcPolicyPermissionConstraints;
+    }
 }

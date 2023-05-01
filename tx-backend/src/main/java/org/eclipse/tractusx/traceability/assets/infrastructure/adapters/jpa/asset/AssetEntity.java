@@ -30,7 +30,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
-import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity;
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 
 import java.time.Instant;
@@ -237,13 +237,11 @@ public class AssetEntity {
     }
 
     public boolean isOnInvestigation() {
-        List<InvestigationEntity> investigationEntities = getInvestigations();
-
-        if (investigationEntities == null || investigationEntities.isEmpty()) {
+        if (investigations == null || investigations.isEmpty()) {
             return false;
         }
 
-        return investigationEntities.stream()
+        return investigations.stream()
                 .allMatch(investigation -> investigation.getStatus() != InvestigationStatus.CLOSED);
     }
 

@@ -27,10 +27,8 @@ import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset
 import org.eclipse.tractusx.traceability.common.security.JwtRole
 import org.eclipse.tractusx.traceability.common.support.*
-import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.hamcrest.Matchers
-import spock.lang.Ignore
 import spock.lang.Unroll
 
 import static io.restassured.RestAssured.given

@@ -33,8 +33,8 @@ import org.eclipse.tractusx.traceability.common.config.RestAssuredConfig
 import org.eclipse.tractusx.traceability.common.config.RestitoConfig
 import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
-import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.JpaInvestigationRepository
-import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.JpaNotificationRepository
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.JpaInvestigationRepository
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.JpaNotificationRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate

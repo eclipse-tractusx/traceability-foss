@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.common.support
 
 
-import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.NotificationEntity
 
 trait NotificationsSupport implements NotificationsRepositoryProvider {
 
