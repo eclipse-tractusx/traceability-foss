@@ -22,7 +22,8 @@ ARG BUILD_TARGET=backend
 WORKDIR /build
 
 # Copy to Working Directory
-COPY backend backend
+COPY backend .
+COPY .github .github
 
 
 # the --mount option requires BuildKit.
@@ -31,7 +32,7 @@ COPY backend backend
 # -pl specify project to build
 # :Variable specifies an artifact ID of project to build
 # -am build all dependencies of a project
-RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests
+RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -am -DskipTests
 
 # Copy the jar and build image
 FROM eclipse-temurin:17-jre-alpine AS traceability-app
@@ -43,7 +44,7 @@ ARG GID=1000
 
 WORKDIR /app
 
-COPY --chmod=755 --from=maven /build/backend/target/traceability-app-*-exec.jar app.jar
+COPY --chmod=755 --from=maven /build/target/traceability-app-*-exec.jar app.jar
 
 USER ${UID}:${GID}
 
