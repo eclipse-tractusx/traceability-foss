@@ -56,6 +56,7 @@ public class AssetEntity {
     private Owner owner;
     private QualityType qualityType;
     private String van;
+    private boolean inInvestigation;
 
     @ElementCollection
     @CollectionTable(name = "asset_child_descriptors")
@@ -77,7 +78,7 @@ public class AssetEntity {
                        List<ChildDescription> childDescriptors,
                        List<ParentDescription> parentDescriptors,
                        QualityType qualityType,
-                       String van) {
+                       String van, boolean inInvestigation) {
         this.id = id;
         this.idShort = idShort;
         this.nameAtManufacturer = nameAtManufacturer;
@@ -95,6 +96,7 @@ public class AssetEntity {
         this.parentDescriptors = parentDescriptors;
         this.qualityType = qualityType;
         this.van = van;
+        this.inInvestigation = inInvestigation;
     }
 
     public AssetEntity() {
@@ -106,6 +108,14 @@ public class AssetEntity {
 
     public void setId(String assetId) {
         this.id = assetId;
+    }
+
+    public boolean isInInvestigation() {
+        return inInvestigation;
+    }
+
+    public void setInInvestigation(boolean inInvestigation) {
+        this.inInvestigation = inInvestigation;
     }
 
     public List<ChildDescription> getChildDescriptors() {
@@ -234,15 +244,6 @@ public class AssetEntity {
 
     public void setInvestigations(List<InvestigationEntity> investigations) {
         this.investigations = investigations;
-    }
-
-    public boolean isOnInvestigation() {
-        if (investigations == null || investigations.isEmpty()) {
-            return false;
-        }
-
-        return investigations.stream()
-                .allMatch(investigation -> investigation.getStatus() != InvestigationStatus.CLOSED);
     }
 
     public String getVan() {

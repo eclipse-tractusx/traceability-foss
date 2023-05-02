@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.investigations.domain.service;
 
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
@@ -42,15 +43,17 @@ public class InvestigationsReceiverService {
     private final InvestigationsRepository repository;
     private final InvestigationsReadService investigationsReadService;
     private final NotificationMapper notificationMapper;
+    private final AssetService assetService;
     private final InvestigationMapper investigationMapper;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public InvestigationsReceiverService(InvestigationsRepository repository,
                                          InvestigationsReadService investigationsReadService,
-                                         NotificationMapper notificationMapper, InvestigationMapper investigationMapper) {
+                                         NotificationMapper notificationMapper, AssetService assetService, InvestigationMapper investigationMapper) {
         this.repository = repository;
         this.investigationsReadService = investigationsReadService;
         this.notificationMapper = notificationMapper;
+        this.assetService = assetService;
         this.investigationMapper = investigationMapper;
     }
 
@@ -59,6 +62,7 @@ public class InvestigationsReceiverService {
         Notification notification = notificationMapper.toNotification(edcNotification);
         Investigation investigation = investigationMapper.toInvestigation(investigationCreatorBPN, edcNotification.getInformation(), notification);
         InvestigationId investigationId = repository.save(investigation);
+        assetService.setAssetsInvestigationStatus(investigation);
         logger.info("Stored received edcNotification in investigation with id {}", investigationId);
     }
 
@@ -73,6 +77,7 @@ public class InvestigationsReceiverService {
             default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertInvestigationStatus()));
         }
         investigation.addNotification(notification);
+        assetService.setAssetsInvestigationStatus(investigation);
         InvestigationId investigationId = repository.update(investigation);
         logger.info("Stored update edcNotification in investigation with id {}", investigationId);
     }

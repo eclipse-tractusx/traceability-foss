@@ -35,12 +35,12 @@ import java.time.Instant
 trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepositoryProvider {
     private static final Logger logger = LoggerFactory.getLogger(AssetsSupport.class);
 
-	void defaultAssetsStored() {
-		assetRepository().saveAll(assetsConverter().readAndConvertAssets())
-	}
+    void defaultAssetsStored() {
+        assetRepository().saveAll(assetsConverter().readAndConvertAssets())
+    }
 
-    void defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus investigationStatus) {
-        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssets().collect {asset ->
+    void defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus investigationStatus, boolean inInvestigation) {
+        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssets().collect { asset ->
             new AssetEntity(
                     asset.getId(), asset.getIdShort(),
                     asset.getNameAtManufacturer(),
@@ -61,7 +61,8 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
                             .map(parent -> new AssetEntity.ParentDescription(parent.id(), parent.idShort()))
                             .toList(),
                     asset.getQualityType(),
-                    asset.getVan()
+                    asset.getVan(),
+                    inInvestigation
             )
         }
 
@@ -78,24 +79,24 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
         }.each { jpaInvestigationRepository().save(it) }
     }
 
-	void assertAssetsSize(int size) {
+    void assertAssetsSize(int size) {
         logger.info("Assetsize: " + assetRepository().countAssets());
-		assert assetRepository().countAssets() == size
-	}
+        assert assetRepository().countAssets() == size
+    }
 
-	void assertHasRequiredIdentifiers() {
-		assetRepository().getAssets().each {asset ->
-			assert asset.manufacturerId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
-			assert asset.partInstanceId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
-			assert asset.idShort != null
-		}
-	}
+    void assertHasRequiredIdentifiers() {
+        assetRepository().getAssets().each { asset ->
+            assert asset.manufacturerId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
+            assert asset.partInstanceId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
+            assert asset.idShort != null
+        }
+    }
 
-	void assertHasChildCount(String assetId, int count) {
-		assetRepository().getAssetById(assetId).childDescriptions.size() == count
-	}
+    void assertHasChildCount(String assetId, int count) {
+        assetRepository().getAssetById(assetId).childDescriptions.size() == count
+    }
 
-	void assertNoAssetsStored() {
-		assertAssetsSize(0)
-	}
+    void assertNoAssetsStored() {
+        assertAssetsSize(0)
+    }
 }

@@ -28,19 +28,18 @@ import org.eclipse.tractusx.traceability.assets.domain.ports.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.async.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
+import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
@@ -105,6 +104,15 @@ public class AssetService {
                     }
                 })
                 .collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public void setAssetsInvestigationStatus(Investigation investigation) {
+        assetRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {
+            // Assets in status closed will be false, others true
+            asset.setUnderInvestigation(!investigation.getInvestigationStatus().equals(InvestigationStatus.CLOSED));
+            assetRepository.save(asset);
+        });
+
     }
 
     public Asset updateQualityType(String assetId, QualityType qualityType) {

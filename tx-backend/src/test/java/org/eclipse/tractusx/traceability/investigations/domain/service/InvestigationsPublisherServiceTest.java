@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
@@ -51,7 +52,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyBoolean;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -68,12 +68,13 @@ class InvestigationsPublisherServiceTest {
     @Mock
     private AssetRepository assetRepository;
     @Mock
+    private AssetService assetsService;
+    @Mock
     private Clock clock;
     @Mock
     private InvestigationsReadService investigationsReadService;
     @Mock
     private NotificationsService notificationsService;
-
     @Mock
     private BpnRepository bpnRepository;
 

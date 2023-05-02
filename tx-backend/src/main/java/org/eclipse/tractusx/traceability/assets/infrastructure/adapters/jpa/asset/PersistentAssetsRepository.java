@@ -133,7 +133,8 @@ public class PersistentAssetsRepository implements AssetRepository {
                         .map(child -> new AssetEntity.ParentDescription(child.id(), child.idShort()))
                         .toList(),
                 asset.getQualityType(),
-                asset.getVan()
+                asset.getVan(),
+                asset.isUnderInvestigation()
         );
     }
 
@@ -157,7 +158,7 @@ public class PersistentAssetsRepository implements AssetRepository {
                 entity.getParentDescriptors().stream()
                         .map(parent -> new Asset.Descriptions(parent.getId(), parent.getIdShort()))
                         .toList(),
-                entity.isOnInvestigation(),
+                entity.isInInvestigation(),
                 entity.getQualityType(),
                 entity.getVan()
         );

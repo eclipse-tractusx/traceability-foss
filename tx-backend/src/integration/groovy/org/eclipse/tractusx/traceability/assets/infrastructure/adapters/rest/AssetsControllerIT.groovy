@@ -265,7 +265,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 
     def "should return asset without under investigation mark"() {
         given:
-        defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus.CLOSED)
+        defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus.CLOSED, false)
 
         expect:
         given()
@@ -280,7 +280,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 
     def "should return asset with under investigation mark"() {
         given:
-        defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus.SENT)
+        defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus.SENT, true)
 
         expect:
         given()
