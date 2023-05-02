@@ -25,10 +25,10 @@ appVersion: "3.3.0"
 dependencies:
   - name: frontend
     repository: "file://charts/frontend"
-    version: 1.3.3
+    version: 1.3.4
   - name: backend
     repository: "file://charts/backend"
-    version: 1.3.3
+    version: 1.3.4
   - name: postgresql
     repository: https://charts.bitnami.com/bitnami
     version: 11.x.x
