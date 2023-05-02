@@ -6,9 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - x.x.x]
 
-### Added
+## [3.1.2] - 2023-05-02
 
-### Changed
+### Added
+- Helm lint, test and install action workflow
+- Updated frontend and backend dependency file and requested review for open license issues
+- Updated broken links in readme
+- Refactored github action workflow to isolate latest and release version tags
+- Added missing license headers to files
+- Synchronized configuration for runAsUser for container images
+- Adapt default values.yaml to allow installation of helm charts in any environment
 
 ## [3.1.1] - 2023-04-04
 
