@@ -16,18 +16,13 @@
 
 # Dependencies
 FROM maven:3-openjdk-17-slim AS maven
-ARG BUILD_TARGET=tx-backend
+ARG BUILD_TARGET=backend
 
 # Create Working Directory
 WORKDIR /build
 
 # Copy to Working Directory
-COPY pom.xml .
-COPY tx-parent-spring-boot tx-parent-spring-boot
-COPY tx-cucumber-tests tx-cucumber-tests
-COPY tx-models tx-models
-COPY docs docs
-COPY tx-backend tx-backend
+COPY backend backend
 
 
 # the --mount option requires BuildKit.
@@ -48,7 +43,7 @@ ARG GID=1000
 
 WORKDIR /app
 
-COPY --chmod=755 --from=maven /build/tx-backend/target/traceability-app-*-exec.jar app.jar
+COPY --chmod=755 --from=maven /build/backend/target/traceability-app-*-exec.jar app.jar
 
 USER ${UID}:${GID}
 
