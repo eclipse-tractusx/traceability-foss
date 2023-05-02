@@ -19,7 +19,7 @@
     </modules>
 
     <properties>
-        <springboot.version>3.0.5</springboot.version>
+        <springboot.version>3.0.6</springboot.version>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -39,7 +39,7 @@
         <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
         <surefire-plugin.version>3.0.0-M9</surefire-plugin.version>
-        <apache-groovy.version>4.0.10</apache-groovy.version>
+        <apache-groovy.version>4.0.11</apache-groovy.version>
 
         <!-- versions for 3rd party dependecies -->
         <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
@@ -47,7 +47,7 @@
         <ascii-dcotor-j.version>2.5.7</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.3.0</auth-0-java-jwt.version>
         <eclipse-license-tool.version>0.0.1-SNAPSHOT</eclipse-license-tool.version>
-        <feign.version>12.1</feign.version>
+        <feign.version>12.3</feign.version>
         <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
         <jruby.version>9.3.9.0</jruby.version>
         <resilience4j.version>2.0.2</resilience4j.version>
@@ -58,13 +58,13 @@
         <feign-slf4j.version>12.1</feign-slf4j.version>
         <scribe-java.version>8.3.3</scribe-java.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
-        <swagger-annotation.version>1.5.20</swagger-annotation.version>
+        <swagger-annotation.version>1.6.10</swagger-annotation.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <commons-io.version>2.11.0</commons-io.version>
         <jose4j.version>0.9.3</jose4j.version>
         <restito.version>1.1.0</restito.version>
         <testcontainer-postgresql.version>1.17.6</testcontainer-postgresql.version>
-        <testcontainer-spock.version>1.17.6</testcontainer-spock.version>
+        <testcontainer-spock.version>1.18.0</testcontainer-spock.version>
         <rest-assured.version>5.3.0</rest-assured.version>
         <spock-core.version>2.4-M1-groovy-4.0</spock-core.version>
         <springdoc.version>2.0.4</springdoc.version>

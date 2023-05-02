@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.investigations.domain.service;
 
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
@@ -56,6 +57,9 @@ class InvestigationsReceiverServiceTest {
 
     @Mock
     private InvestigationsReadService investigationsReadService;
+
+    @Mock
+    private AssetService assetService;
 
 	@InjectMocks
 	private InvestigationsReceiverService service;
