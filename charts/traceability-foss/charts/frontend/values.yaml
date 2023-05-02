@@ -17,8 +17,6 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 #
-namespace: product-traceability-foss
-
 replicaCount: 1
 
 image:

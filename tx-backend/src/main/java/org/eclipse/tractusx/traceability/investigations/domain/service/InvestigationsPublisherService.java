@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.investigations.domain.service;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
 import org.eclipse.tractusx.traceability.investigations.domain.model.Investigation;
@@ -57,7 +58,7 @@ public class InvestigationsPublisherService {
     private final InvestigationsRepository repository;
     private final InvestigationsReadService investigationsReadService;
     private final AssetRepository assetRepository;
-
+    private final AssetService assetService;
     private final BpnRepository bpnRepository;
     private final Clock clock;
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
@@ -67,12 +68,13 @@ public class InvestigationsPublisherService {
                                           InvestigationsRepository repository,
                                           InvestigationsReadService investigationsReadService,
                                           AssetRepository assetRepository,
-                                          BpnRepository bpnRepository,
+                                          AssetService assetService, BpnRepository bpnRepository,
                                           Clock clock) {
         this.notificationsService = notificationsService;
         this.repository = repository;
         this.investigationsReadService = investigationsReadService;
         this.assetRepository = assetRepository;
+        this.assetService = assetService;
         this.bpnRepository = bpnRepository;
         this.clock = clock;
     }
@@ -97,6 +99,8 @@ public class InvestigationsPublisherService {
                 .stream()
                 .map(it -> createNotification(applicationBpn, description, targetDate, severity, it, InvestigationStatus.CREATED))
                 .forEach(investigation::addNotification);
+
+        assetService.setAssetsInvestigationStatus(investigation);
         logger.info("Start Investigation {}", investigation);
         return repository.save(investigation);
     }
@@ -141,6 +145,7 @@ public class InvestigationsPublisherService {
         InvestigationId investigationId = new InvestigationId(id);
         Investigation investigation = investigationsReadService.loadInvestigation(investigationId);
         investigation.cancel(applicationBpn);
+        assetService.setAssetsInvestigationStatus(investigation);
         repository.update(investigation);
     }
 
@@ -188,14 +193,15 @@ public class InvestigationsPublisherService {
             investigation.addNotification(notificationToSend);
             notificationsToSend.add(notificationToSend);
         });
+        assetService.setAssetsInvestigationStatus(investigation);
         repository.update(investigation);
         notificationsToSend.forEach(notificationsService::asyncNotificationExecutor);
     }
 
     private void validate(BPN applicationBpn, InvestigationStatus status, Investigation investigation) {
 
-       final boolean isInvalidAcknowledgeOrAcceptOrDecline = !InvestigationSide.RECEIVER.equals(investigation.getInvestigationSide()) && applicationBpn.value().equals(investigation.getBpn());
-       final boolean isInvalidClose = InvestigationStatus.CLOSED.equals(status) && !applicationBpn.value().equals(investigation.getBpn());
+        final boolean isInvalidAcknowledgeOrAcceptOrDecline = !InvestigationSide.RECEIVER.equals(investigation.getInvestigationSide()) && applicationBpn.value().equals(investigation.getBpn());
+        final boolean isInvalidClose = InvestigationStatus.CLOSED.equals(status) && !applicationBpn.value().equals(investigation.getBpn());
         switch (status) {
             case ACKNOWLEDGED, ACCEPTED, DECLINED -> {
                 if (isInvalidAcknowledgeOrAcceptOrDecline) {
