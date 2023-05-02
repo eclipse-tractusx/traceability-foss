@@ -87,6 +87,7 @@ maven/mavencentral/org.jetbrains/annotations/24.0.1, Apache-2.0, approved, #7417
 maven/mavencentral/org.openapitools/jackson-databind-nullable/0.2.6, Apache-2.0, approved, #3294
 maven/mavencentral/org.ow2.asm/asm/9.3, BSD-3-Clause, approved, clearlydefined
 maven/mavencentral/org.postgresql/postgresql/42.5.4, BSD-2-Clause, approved, #3416
+maven/mavencentral/org.projectlombok/lombok/1.18.26, MIT AND LicenseRef-Public-Domain, approved, CQ23907
 maven/mavencentral/org.slf4j/jul-to-slf4j/2.0.7, MIT, approved, #7698
 maven/mavencentral/org.slf4j/slf4j-api/2.0.7, MIT, approved, #5915
 maven/mavencentral/org.springdoc/springdoc-openapi-starter-common/2.0.4, Apache-2.0, approved, #5920

@@ -21,15 +21,14 @@
 
 package org.eclipse.tractusx.traceability.investigations.adapters;
 
-import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
+import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.investigations.adapters.bpn.mapping.BpnMappingProvider;
 import org.eclipse.tractusx.traceability.investigations.adapters.feign.portal.DataspaceDiscoveryService;
 import org.eclipse.tractusx.traceability.investigations.adapters.feign.portal.PortalAdministrationApiClient;
-import org.eclipse.tractusx.traceability.investigations.adapters.mock.EnvironmentAwareMockEDCUrlProvider;
 import org.eclipse.tractusx.traceability.investigations.domain.ports.EDCUrlProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -45,21 +44,17 @@ public class EDCUrlProviderDispatcher implements EDCUrlProvider {
 
     private final DataspaceDiscoveryService dataspaceDiscoveryService;
 
-    private final EnvironmentAwareMockEDCUrlProvider environmentAwareMockEDCUrlProvider;
+    private final BpnEdcMappingRepository bpnEdcMappingRepository;
+
+    private final BpnMappingProvider bpnMappingProvider;
 
     private final EdcProperties edcProperties;
 
     public EDCUrlProviderDispatcher(PortalAdministrationApiClient portalAdministrationApiClient,
-                                    Environment environment,
-                                    EdcProperties edcProperties) {
+                                    EdcProperties edcProperties, BpnEdcMappingRepository bpnEdcMappingRepository) {
+        this.bpnEdcMappingRepository = bpnEdcMappingRepository;
+        this.bpnMappingProvider = new BpnMappingProvider(bpnEdcMappingRepository, edcProperties);
         this.dataspaceDiscoveryService = new DataspaceDiscoveryService(portalAdministrationApiClient, edcProperties);
-
-        if (ApplicationProfiles.doesNotContainTestProfile(environment)) {
-            this.environmentAwareMockEDCUrlProvider = new EnvironmentAwareMockEDCUrlProvider(environment, edcProperties);
-        } else {
-            this.environmentAwareMockEDCUrlProvider = null;
-        }
-
         this.edcProperties = edcProperties;
     }
 
@@ -78,11 +73,10 @@ public class EDCUrlProviderDispatcher implements EDCUrlProvider {
     }
 
     private List<String> getEdcUrlsFallback(String bpn) {
-        if (environmentAwareMockEDCUrlProvider != null) {
-            return environmentAwareMockEDCUrlProvider.getEdcUrls(bpn);
+        if (bpnMappingProvider != null) {
+            return bpnMappingProvider.getEdcUrls(bpn);
         } else {
             logger.warn("No fallback method available for getting edc urls");
-
             return Collections.emptyList();
         }
     }

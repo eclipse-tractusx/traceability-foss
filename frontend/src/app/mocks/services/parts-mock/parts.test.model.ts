@@ -36,6 +36,7 @@ export const MOCK_part_5 = {
   manufacturingCountry: 'DEU',
   specificAssetIds: { key: 'value' },
   childDescriptions: [],
+  parentDescriptions: [],
 };
 
 export const MOCK_part_4 = {
@@ -53,6 +54,7 @@ export const MOCK_part_4 = {
   manufacturingCountry: 'DEU',
   specificAssetIds: { key: 'value' },
   childDescriptions: [],
+  parentDescriptions: [],
 };
 
 export const MOCK_part_3 = {
@@ -70,6 +72,7 @@ export const MOCK_part_3 = {
   manufacturingCountry: 'DEU',
   specificAssetIds: { key: 'value' },
   childDescriptions: [{ id: MOCK_part_5.id, idShort: MOCK_part_5.idShort }],
+  parentDescriptions: [],
 };
 
 export const MOCK_part_2 = {
@@ -87,6 +90,7 @@ export const MOCK_part_2 = {
   manufacturingCountry: 'POL',
   specificAssetIds: { key: 'value' },
   childDescriptions: [{ id: MOCK_part_4.id, idShort: MOCK_part_4.idShort }],
+  parentDescriptions: [],
 };
 
 export const MOCK_part_1 = {
@@ -107,6 +111,7 @@ export const MOCK_part_1 = {
     { id: MOCK_part_2.id, idShort: MOCK_part_2.idShort },
     { id: MOCK_part_3.id, idShort: MOCK_part_3.idShort },
   ],
+  parentDescriptions: [{ id: MOCK_part_4.id, idShort: MOCK_part_4.idShort }],
 };
 
 export const mockAssets: PartsResponse = {

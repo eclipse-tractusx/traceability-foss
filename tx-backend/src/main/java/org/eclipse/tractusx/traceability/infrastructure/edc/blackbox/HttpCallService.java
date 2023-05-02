@@ -22,12 +22,15 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.ws.rs.core.MultivaluedMap;
+import okhttp3.HttpUrl;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CatalogRequestDTO;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,88 +47,90 @@ import static java.lang.String.format;
 @Component
 public class HttpCallService {
 
-	private static final Logger logger = LoggerFactory.getLogger(HttpCallService.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpCallService.class);
 
-	private final OkHttpClient httpClient;
-	private final ObjectMapper objectMapper;
-	private final EdcProperties edcProperties;
+    private final OkHttpClient httpClient;
+    private final ObjectMapper objectMapper;
+    private final EdcProperties edcProperties;
 
-	public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties) {
-		this.httpClient = withIncreasedTimeout(httpClient);
-		this.objectMapper = objectMapper;
-		this.edcProperties = edcProperties;
-		objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
-	}
+    public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties) {
+        this.httpClient = withIncreasedTimeout(httpClient);
+        this.objectMapper = objectMapper;
+        this.edcProperties = edcProperties;
+        objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
+    }
 
-	private static OkHttpClient withIncreasedTimeout(OkHttpClient httpClient) {
-		return httpClient.newBuilder()
-			.connectTimeout(10, TimeUnit.SECONDS)
-			.readTimeout(25, TimeUnit.SECONDS)
-			.writeTimeout(50, TimeUnit.SECONDS)
-			.build();
-	}
-
-
-	public Catalog getCatalogFromProvider(
-		String consumerEdcDataManagementUrl,
-		String providerConnectorControlPlaneIDSUrl,
-		Map<String, String> headers
-	) throws IOException {
-		var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath() + providerConnectorControlPlaneIDSUrl;
-		var request = new Request.Builder().url(url);
-		headers.forEach(request::addHeader);
-
-		return (Catalog) sendRequest(request.build(), Catalog.class);
-	}
+    private static OkHttpClient withIncreasedTimeout(OkHttpClient httpClient) {
+        return httpClient.newBuilder()
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .readTimeout(25, TimeUnit.SECONDS)
+                .writeTimeout(50, TimeUnit.SECONDS)
+                .build();
+    }
 
 
-	public Object sendRequest(Request request, Class<?> responseObject) throws IOException {
-		logger.info("Requesting {} {}...", request.method(), request.url());
-		try (var response = httpClient.newCall(request).execute()) {
-			var body = response.body();
+    public Catalog getCatalogFromProvider(
+            String consumerEdcDataManagementUrl,
+            String providerConnectorControlPlaneIDSUrl,
+            Map<String, String> headers
+    ) throws IOException {
+        var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
+        MediaType mediaType = MediaType.parse("application/json");
+        CatalogRequestDTO catalogRequestDTO = new CatalogRequestDTO(providerConnectorControlPlaneIDSUrl);
+        var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, objectMapper.writeValueAsString(catalogRequestDTO)));
+        headers.forEach(request::addHeader);
 
-			if (!response.isSuccessful() || body == null) {
-				throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
-			}
-
-			String res = body.string();
-			return objectMapper.readValue(res, responseObject);
-		} catch (Exception e) {
-			throw e;
-		}
-	}
-
-	public void sendRequest(Request request) throws IOException {
-		try (var response = httpClient.newCall(request).execute()) {
-			var body = response.body();
-			if (!response.isSuccessful() || body == null) {
-				throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
-			}
-		} catch (Exception e) {
-			throw e;
-		}
-	}
+        return (Catalog) sendRequest(request.build(), Catalog.class);
+    }
 
 
-	public HttpUrl getUrl(String connectorUrl, String subUrl, MultivaluedMap<String, String> parameters) {
-		var url = connectorUrl;
+    public Object sendRequest(Request request, Class<?> responseObject) throws IOException {
+        logger.info("Requesting {} {}...", request.method(), request.url());
+        try (var response = httpClient.newCall(request).execute()) {
+            var body = response.body();
 
-		if (subUrl != null && !subUrl.isEmpty()) {
-			url = url + "/" + subUrl;
-		}
+            if (!response.isSuccessful() || body == null) {
+                throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+            }
 
-		HttpUrl.Builder httpBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
+            String res = body.string();
+            return objectMapper.readValue(res, responseObject);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
-		if (parameters == null) {
-			return httpBuilder.build();
-		}
+    public void sendRequest(Request request) throws IOException {
+        try (var response = httpClient.newCall(request).execute()) {
+            var body = response.body();
+            if (!response.isSuccessful() || body == null) {
+                throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
-		for (Map.Entry<String, List<String>> param : parameters.entrySet()) {
-			for (String value : param.getValue()) {
-				httpBuilder = httpBuilder.addQueryParameter(param.getKey(), value);
-			}
-		}
 
-		return httpBuilder.build();
-	}
+    public HttpUrl getUrl(String connectorUrl, String subUrl, MultivaluedMap<String, String> parameters) {
+        var url = connectorUrl;
+
+        if (subUrl != null && !subUrl.isEmpty()) {
+            url = url + "/" + subUrl;
+        }
+
+        HttpUrl.Builder httpBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
+
+        if (parameters == null) {
+            return httpBuilder.build();
+        }
+
+        for (Map.Entry<String, List<String>> param : parameters.entrySet()) {
+            for (String value : param.getValue()) {
+                httpBuilder = httpBuilder.addQueryParameter(param.getKey(), value);
+            }
+        }
+
+        return httpBuilder.build();
+    }
 }

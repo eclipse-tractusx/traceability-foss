@@ -34,7 +34,8 @@ trait DatabaseSupport implements DatabaseProvider {
 		"bpn_storage",
 		"notification",
 		"investigation",
-		"registry_lookup_metrics"
+		"registry_lookup_metrics",
+        "bpn_edc_mappings"
 	]
 
 	void clearAllTables() {

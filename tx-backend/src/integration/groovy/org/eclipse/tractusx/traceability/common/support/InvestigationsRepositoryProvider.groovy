@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.common.support
 
 
-import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.JpaInvestigationRepository
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.JpaInvestigationRepository
 
 interface InvestigationsRepositoryProvider {
 	JpaInvestigationRepository jpaInvestigationRepository()

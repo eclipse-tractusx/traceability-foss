@@ -29,6 +29,7 @@ public class SeverityValidatorImpl implements ConstraintValidator<ValidSeverity,
 
     @Override
     public void initialize(ValidSeverity constraintAnnotation) {
+        // nothing to do
     }
 
     @Override

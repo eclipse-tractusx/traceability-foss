@@ -134,6 +134,30 @@ Attributes in Angular template should be properly ordered by groups:
 * [Eclipse plugin](https://github.com/ncjones/editorconfig-eclipse#readme)
 * [Visual studio code plugin](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
+### Dash IP
+Prerequisites:
+1) Create access token
+https://gitlab.eclipse.org/-/profile/personal_access_tokens
+
+#### Backend
+##### Generate Dependencies
+
+`mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCIES_BACKEND`
+
+##### Request Review
+
+`mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.iplab.token=<token> -Ddash.projectId=automotive.tractusx`
+
+#### Frontend
+##### Generate Dependencies
+`cd frontend`
+`yarn install`
+`yarn run dependencies:generate`
+
+##### Request Review
+
+`java -jar scripts/download/org.eclipse.dash.licenses-0.0.1-SNAPSHOT.jar yarn.lock -review -token <token> -project automotive.tractusx`
+
 ## Contact
 
 Contact the project developers via the project's "dev" list.

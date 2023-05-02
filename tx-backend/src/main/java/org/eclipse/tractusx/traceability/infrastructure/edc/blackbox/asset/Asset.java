@@ -31,6 +31,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants.ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants.ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants.ASSET_VALUE_QUALITY_INVESTIGATION;
+
 
 /**
  * The {@link Asset} contains the metadata and describes the data itself or a collection of data.
@@ -38,121 +42,131 @@ import java.util.UUID;
 @JsonDeserialize(builder = Asset.Builder.class)
 public class Asset {
 
-	public static final String PROPERTY_ID = "asset:prop:id";
-	public static final String PROPERTY_NAME = "asset:prop:name";
-	public static final String PROPERTY_DESCRIPTION = "asset:prop:description";
-	public static final String PROPERTY_VERSION = "asset:prop:version";
-	public static final String PROPERTY_CONTENT_TYPE = "asset:prop:contenttype";
-	public static final String PROPERTY_NOTIFICATION_METHOD = "asset:prop:notificationmethod";
-	public static final String PROPERTY_NOTIFICATION_TYPE = "asset:prop:notificationtype";
+    public static final String PROPERTY_ID = "asset:prop:id";
+    public static final String PROPERTY_NAME = "asset:prop:name";
+    public static final String PROPERTY_DESCRIPTION = "asset:prop:description";
+    public static final String PROPERTY_VERSION = "asset:prop:version";
+    public static final String PROPERTY_CONTENT_TYPE = "asset:prop:contenttype";
+    public static final String PROPERTY_NOTIFICATION_METHOD = "asset:prop:notificationmethod";
+    public static final String PROPERTY_NOTIFICATION_TYPE = "asset:prop:notificationtype";
 
-	private Map<String, Object> properties;
+    private Map<String, Object> properties;
 
-	protected Asset() {
-		properties = new HashMap<>();
-	}
+    protected Asset() {
+        properties = new HashMap<>();
+    }
 
-	@JsonIgnore
-	public String getId() {
-		return getPropertyAsString(PROPERTY_ID);
-	}
+    @JsonIgnore
+    public String getId() {
+        return getPropertyAsString(PROPERTY_ID);
+    }
 
-	@JsonIgnore
-	public String getName() {
-		return getPropertyAsString(PROPERTY_NAME);
-	}
+    @JsonIgnore
+    public String getName() {
+        return getPropertyAsString(PROPERTY_NAME);
+    }
 
-	@JsonIgnore
-	public String getDescription() {
-		return getPropertyAsString(PROPERTY_DESCRIPTION);
-	}
+    @JsonIgnore
+    public String getDescription() {
+        return getPropertyAsString(PROPERTY_DESCRIPTION);
+    }
 
-	@JsonIgnore
-	public String getVersion() {
-		return getPropertyAsString(PROPERTY_VERSION);
-	}
+    @JsonIgnore
+    public String getVersion() {
+        return getPropertyAsString(PROPERTY_VERSION);
+    }
 
-	@JsonIgnore
-	public String getContentType() {
-		return getPropertyAsString(PROPERTY_CONTENT_TYPE);
-	}
+    @JsonIgnore
+    public String getContentType() {
+        return getPropertyAsString(PROPERTY_CONTENT_TYPE);
+    }
 
-	@JsonIgnore
-	public String getPropertyNotificationMethod() {
-		return getPropertyAsString(PROPERTY_NOTIFICATION_METHOD);
-	}
+    @JsonIgnore
+    public String getPropertyNotificationMethod() {
+        return getPropertyAsString(PROPERTY_NOTIFICATION_METHOD);
+    }
 
-	@JsonIgnore
-	public String getPropertyNotificationType() {
-		return getPropertyAsString(PROPERTY_NOTIFICATION_TYPE);
-	}
+    @JsonIgnore
+    public String getPropertyNotificationType() {
+        return getPropertyAsString(PROPERTY_NOTIFICATION_TYPE);
+    }
 
-	public Map<String, Object> getProperties() {
-		return properties;
-	}
+    @JsonIgnore
+    public boolean isQualityInvestigationReceive() {
+        return ASSET_VALUE_QUALITY_INVESTIGATION.equals(this.getPropertyNotificationType()) && ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE.equals(this.getPropertyNotificationMethod());
+    }
 
-	@JsonIgnore
-	public Object getProperty(String key) {
-		return properties.get(key);
-	}
+    @JsonIgnore
+    public boolean isQualityInvestigationUpdate() {
+        return ASSET_VALUE_QUALITY_INVESTIGATION.equals(this.getPropertyNotificationType()) && ASSET_VALUE_NOTIFICATION_METHOD_UPDATE.equals(this.getPropertyNotificationMethod());
+    }
 
-	private String getPropertyAsString(String key) {
-		var val = getProperty(key);
-		return val != null ? val.toString() : null;
-	}
+    public Map<String, Object> getProperties() {
+        return properties;
+    }
 
-	@JsonPOJOBuilder(withPrefix = "")
-	public static class Builder<B extends Builder<B>> {
-		protected final Asset asset;
+    @JsonIgnore
+    public Object getProperty(String key) {
+        return properties.get(key);
+    }
 
-		protected Builder(Asset asset) {
-			this.asset = asset;
-			asset.properties.put(PROPERTY_ID, UUID.randomUUID().toString()); //must always have an ID
-		}
+    private String getPropertyAsString(String key) {
+        var val = getProperty(key);
+        return val != null ? val.toString() : null;
+    }
 
-		@JsonCreator
-		public static Builder newInstance() {
-			return new Builder(new Asset());
-		}
+    @JsonPOJOBuilder(withPrefix = "")
+    public static class Builder<B extends Builder<B>> {
+        protected final Asset asset;
 
-		public B id(String id) {
-			asset.properties.put(PROPERTY_ID, id);
-			return (B) this;
-		}
+        protected Builder(Asset asset) {
+            this.asset = asset;
+            asset.properties.put(PROPERTY_ID, UUID.randomUUID().toString()); //must always have an ID
+        }
 
-		public B name(String title) {
-			asset.properties.put(PROPERTY_NAME, title);
-			return (B) this;
-		}
+        @JsonCreator
+        public static Builder newInstance() {
+            return new Builder(new Asset());
+        }
 
-		public B description(String description) {
-			asset.properties.put(PROPERTY_DESCRIPTION, description);
-			return (B) this;
-		}
+        public B id(String id) {
+            asset.properties.put(PROPERTY_ID, id);
+            return (B) this;
+        }
 
-		public B version(String version) {
-			asset.properties.put(PROPERTY_VERSION, version);
-			return (B) this;
-		}
+        public B name(String title) {
+            asset.properties.put(PROPERTY_NAME, title);
+            return (B) this;
+        }
 
-		public B contentType(String contentType) {
-			asset.properties.put(PROPERTY_CONTENT_TYPE, contentType);
-			return (B) this;
-		}
+        public B description(String description) {
+            asset.properties.put(PROPERTY_DESCRIPTION, description);
+            return (B) this;
+        }
 
-		public B properties(Map<String, Object> properties) {
-			asset.properties = Objects.requireNonNull(properties);
-			return (B) this;
-		}
+        public B version(String version) {
+            asset.properties.put(PROPERTY_VERSION, version);
+            return (B) this;
+        }
 
-		public B property(String key, Object value) {
-			asset.properties.put(key, value);
-			return (B) this;
-		}
+        public B contentType(String contentType) {
+            asset.properties.put(PROPERTY_CONTENT_TYPE, contentType);
+            return (B) this;
+        }
 
-		public Asset build() {
-			return asset;
-		}
-	}
+        public B properties(Map<String, Object> properties) {
+            asset.properties = Objects.requireNonNull(properties);
+            return (B) this;
+        }
+
+        public B property(String key, Object value) {
+            asset.properties.put(key, value);
+            return (B) this;
+        }
+
+        public Asset build() {
+            return asset;
+        }
+    }
 
 }

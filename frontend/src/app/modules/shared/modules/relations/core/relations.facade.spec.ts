@@ -27,7 +27,7 @@ import { RelationsFacade } from '@shared/modules/relations/core/relations.facade
 import { TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
-import { firstValueFrom, of } from 'rxjs';
+import { firstValueFrom, of, Subscription } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import {
   MOCK_part_1,
@@ -38,6 +38,7 @@ import {
 
 describe('Relations facade', () => {
   const childDescriptionsToChild = children => children.map(({ id }) => id);
+  let sub: Subscription;
   let relationsFacade: RelationsFacade,
     loadedElementsFacade: LoadedElementsFacade,
     componentStateMock: RelationComponentState;
@@ -52,6 +53,10 @@ describe('Relations facade', () => {
     loadedElementsFacade = new LoadedElementsFacade(new LoadedElementsState());
     componentStateMock = new RelationComponentState();
     relationsFacade = new RelationsFacade(partsServiceMok, loadedElementsFacade, componentStateMock);
+
+    relationsFacade.isParentRelationTree = false;
+    sub?.unsubscribe();
+    sub = relationsFacade.initRequestPartDetailQueue().subscribe();
   });
 
   const getOpenElements = async () => await firstValueFrom(componentStateMock.openElements$.pipe(debounceTime(700)));

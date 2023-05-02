@@ -26,9 +26,10 @@ import { TreeElement, TreeStructure } from '@shared/modules/relations/model/rela
 describe('Relations assembler', () => {
   describe('assemblePartForRelation', () => {
     it('should assemble loading part', () => {
-      const part = { id: 'id', name: 'name', serialNumber: 'serialNumber', children: null } as Part;
+      const part = { id: 'id', name: 'name', serialNumber: 'serialNumber', children: null, parents: null } as Part;
       const expected = {
         children: null,
+        parents: null,
         id: 'id',
         state: 'loading',
         text: 'name',
@@ -37,9 +38,10 @@ describe('Relations assembler', () => {
       expect(RelationsAssembler.assemblePartForRelation(part)).toEqual(expected);
     });
     it('should assemble finished loading part', () => {
-      const part = { id: 'id', name: 'name', serialNumber: 'serialNumber', children: [] } as Part;
+      const part = { id: 'id', name: 'name', serialNumber: 'serialNumber', children: [], parents: [] } as Part;
       const expected = {
         children: [],
+        parents: [],
         id: 'id',
         state: 'error',
         text: 'name',

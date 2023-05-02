@@ -24,6 +24,8 @@ import { Observable, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 export class ApiInterceptor implements HttpInterceptor {
+  // Added this interceptor to avoid a cve security Risk.
+  // Request URL from the request has to match the request URL from the response.
   public intercept(req: HttpRequest<string>, next: HttpHandler): Observable<HttpEvent<string>> {
     const requestUrl = req.url;
     req = req.clone({ url: requestUrl });

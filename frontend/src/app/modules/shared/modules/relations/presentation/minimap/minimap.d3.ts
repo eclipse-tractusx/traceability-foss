@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { TreeStructure } from '@shared/modules/relations/model/relations.model';
+import { TreeDirection, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { D3RenderHelper } from '@shared/modules/relations/presentation/helper/d3.render.helper';
 import { HelperD3 } from '@shared/modules/relations/presentation/helper/helper.d3';
 import { MinimapIds, TreeSvg } from '@shared/modules/relations/presentation/model.d3';
@@ -48,7 +48,7 @@ export class Minimap {
   private nextTreeUpdateAt = 0;
   private zoomChangeStore: ZoomTransform;
 
-  constructor(private readonly treeInstance: Tree) {
+  constructor(private readonly treeInstance: Tree, private readonly direction: TreeDirection) {
     this.treeInstance.minimapConnector = {
       onZoom: this.onExternalZoomChange.bind(this),
     };
@@ -69,7 +69,7 @@ export class Minimap {
   }
 
   private setIds(): void {
-    const minimap = this.treeInstance.id + '--minimap';
+    const minimap = this.treeInstance.mainId + '--minimap';
     const main = `${minimap}--main`;
     const closeButton = `${minimap}--closing`;
     const viewport = `${minimap}--rect`;
@@ -77,6 +77,7 @@ export class Minimap {
     const circle = `${minimap}--Circle`;
     const closing = `${minimap}--closing`;
     const icon = `${minimap}--icon`;
+
     this.ids = { minimap, main, closeButton, viewport, viewportContainer, circle, closing, icon };
   }
 
@@ -88,7 +89,7 @@ export class Minimap {
     if (svg.empty()) svg = this.creatMainSvg(root);
 
     // First draw paths so paths are behind circles.
-    D3RenderHelper.renderTreePaths(svg, root, this.r, this.ids.minimap, true);
+    D3RenderHelper.renderTreePaths(this.direction, svg, root, this.r, this.ids.minimap, true);
     D3RenderHelper.renderMinimapNodes(svg, root, this.r, this.ids.minimap);
     // Recalculate height after circles are drawn because of uneven distribution.
     this.setMapHeight();

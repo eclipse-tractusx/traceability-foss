@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,12 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.jpa.notification;
+package org.eclipse.tractusx.traceability.bpn.mapping.domain.model;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import io.swagger.annotations.ApiModelProperty;
 
-@Repository
-public interface JpaNotificationRepository extends JpaRepository<NotificationEntity, String> {
+public record BpnEdcMapping(@ApiModelProperty(example = "BPNL00000003CSGV") String bpn,
+                            @ApiModelProperty(example = "https://trace-x-test-edc.dev.demo.catena-x.net/a1") String url) {
+
+    public String getBpn() {
+        return bpn;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 
 }

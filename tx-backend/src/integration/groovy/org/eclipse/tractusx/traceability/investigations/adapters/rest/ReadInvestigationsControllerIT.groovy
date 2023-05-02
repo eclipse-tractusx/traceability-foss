@@ -26,8 +26,8 @@ import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.common.support.BpnSupport
 import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
 import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
-import org.eclipse.tractusx.traceability.infrastructure.jpa.investigation.InvestigationEntity
-import org.eclipse.tractusx.traceability.infrastructure.jpa.notification.NotificationEntity
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity
+import org.eclipse.tractusx.traceability.investigations.adapters.jpa.NotificationEntity
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
 import org.hamcrest.Matchers
@@ -103,11 +103,11 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 
         and:
         storedNotifications(
-                new NotificationEntity("1", firstInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId"),
-                new NotificationEntity("2", secondInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId"),
-                new NotificationEntity("3", thirdInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId"),
-                new NotificationEntity("4", fourthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId"),
-                new NotificationEntity("5", fifthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId")
+                new NotificationEntity("1", firstInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false),
+                new NotificationEntity("2", secondInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId",false),
+                new NotificationEntity("3", thirdInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false),
+                new NotificationEntity("4", fourthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false),
+                new NotificationEntity("5", fifthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false)
         )
 
         expect:
@@ -180,7 +180,8 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                     null,
                     null,
                     null,
-                    "messageId"
+                    "messageId",
+                    false
             )
             NotificationEntity persistedNotification = storedNotification(notificationEntity)
             persistedNotification.setInvestigation(investigation);
@@ -225,11 +226,11 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 
         and:
         storedNotifications(
-                new NotificationEntity("1", firstInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId"),
-                new NotificationEntity("2", secondInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId"),
-                new NotificationEntity("3", thirdInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId"),
-                new NotificationEntity("4", fourthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId"),
-                new NotificationEntity("5", fifthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId")
+                new NotificationEntity("1", firstInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false),
+                new NotificationEntity("2", secondInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false),
+                new NotificationEntity("3", thirdInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false),
+                new NotificationEntity("4", fourthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false),
+                new NotificationEntity("5", fifthInvestigation, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageId", false)
         )
 
         expect:
@@ -278,7 +279,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
         InvestigationEntity investigationEntity = new InvestigationEntity([], testBpn, "1", InvestigationStatus.RECEIVED, InvestigationSide.SENDER, Instant.now())
         InvestigationEntity persistedInvestigation = storedInvestigationFullObject(investigationEntity)
         and:
-        NotificationEntity notificationEntity = storedNotification(new NotificationEntity("1", investigationEntity, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageid"))
+        NotificationEntity notificationEntity = storedNotification(new NotificationEntity("1", investigationEntity, senderBPN, senderName, receiverBPN, receiverName, [], null, null, null, null, null, "messageid", false))
         notificationEntity.setInvestigation(persistedInvestigation)
         storedNotification(notificationEntity)
         and:

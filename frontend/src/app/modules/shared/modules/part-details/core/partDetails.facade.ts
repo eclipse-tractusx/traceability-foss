@@ -29,7 +29,7 @@ import { RelationsAssembler } from '@shared/modules/relations/core/relations.ass
 import { PartsService } from '@shared/service/parts.service';
 import { cloneDeep as _cloneDeep } from 'lodash-es';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { SortDirection } from '../../../../../mocks/services/pagination.helper';
 
 @Injectable()
@@ -65,6 +65,14 @@ export class PartDetailsFacade {
     );
   }
 
+  public getRootPart(id: string): Observable<View<Part>> {
+    return this.partsService.getPart(id).pipe(
+      map((part: Part) => ({ data: part })),
+      catchError((error: Error) => of({ error })),
+    );
+  }
+
+  // TODO: still need quality type?
   public updateQualityType(qualityType: QualityType): Observable<Part> {
     const part = { ...this.selectedPart, qualityType };
 

@@ -25,6 +25,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.traceability.assets.domain.model.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
+import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
+import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.validation.UpdateInvestigationValidationException;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationNotFoundException;
@@ -37,6 +39,7 @@ import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.AuthenticationException;
@@ -74,6 +77,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(errorMessage));
     }
 
+    @ExceptionHandler(JpaSystemException.class)
+    ResponseEntity<ErrorResponse> handleJpaSystemException(JpaSystemException exception) {
+        logger.warn("handleJpaSystemException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse("Failed to deserialize request body."));
+    }
+
     @ExceptionHandler(HttpMessageNotReadableException.class)
     ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
         logger.warn("handleHttpMessageNotReadableException", exception);
@@ -99,6 +109,20 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     ResponseEntity<ErrorResponse> handleInvestigationStatusTransitionNotAllowed(InvestigationStatusTransitionNotAllowed exception) {
         logger.warn("handleInvestigationStatusTransitionNotAllowed", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(BpnEdcMappingException.class)
+    ResponseEntity<ErrorResponse> handleBpnEdcMappingException(BpnEdcMappingException exception) {
+        logger.warn("BpnEdcMappingException", exception);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(BpnEdcMappingNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleBpnEdcMappingNotFoundException(BpnEdcMappingNotFoundException exception) {
+        logger.warn("handleBpnEdcMappingNotFoundException", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 

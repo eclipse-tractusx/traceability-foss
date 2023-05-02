@@ -64,7 +64,6 @@ export class AdminService {
   }
 
   public deleteBpnFallbackConfig(bpn: string): Observable<void> {
-    const params = new HttpParams().set('bpn', bpn);
-    return this.apiService.delete<void>(`${this.url}/bpn-config`, params);
+    return this.apiService.delete<void>(`${this.url}/bpn-config/${bpn}`);
   }
 }
