@@ -139,9 +139,9 @@ traceability:
   url: "" #<traceability.url>
 
 datasource:
-  url: jdbc:postgresql://tracex-backend-postgresql:5432/trace
-  username: trace
-  password: "CHANGEME" #<datasource.password>
+  url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
+  username: "traceuser"
+  password: "CHANGEME"  # <datasource.password>
 
 oauth2:
   clientId: "CHANGEME" #<oauth2.clientId>
