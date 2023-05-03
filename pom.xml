@@ -38,7 +38,7 @@
         <owasp-plugin.version>8.1.0</owasp-plugin.version>
         <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
-        <surefire-plugin.version>3.0.0-M9</surefire-plugin.version>
+        <surefire-plugin.version>3.0.0</surefire-plugin.version>
         <apache-groovy.version>4.0.11</apache-groovy.version>
 
         <!-- versions for 3rd party dependecies -->
