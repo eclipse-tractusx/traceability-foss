@@ -44,7 +44,7 @@ ARG GID=1000
 
 WORKDIR /app
 
-COPY --chmod=755 --from=maven /build/target/traceability-app-*-exec.jar app.jar
+COPY --chmod=755 --from=maven /build/target/traceability-app-*.jar app.jar
 
 USER ${UID}:${GID}
 
