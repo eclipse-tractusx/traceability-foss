@@ -42,7 +42,7 @@ fs.readdirSync(PATH_TO_MD_FILES).forEach((file) => {
         }
 
         // when line contains https without marks around we need to add <> before and after (MD034 - Bare URL used)
-        if (!isYaml && lines[i].includes(" https://") || lines[i].startsWith("https://")) {
+        if (!isYaml && lines[i].includes(" https://") || lines[i].startsWith("https://") || lines[i].includes("\"https://")) {
           const firstIndex = lines[i].indexOf("https://");
           const lastIndex = lines[i].indexOf(" ", firstIndex + 1);
           const fixFirst = lines[i].replace("https://", "<https://");
