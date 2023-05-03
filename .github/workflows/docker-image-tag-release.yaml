@@ -28,17 +28,49 @@ jobs:
 
       - name: Login to Docker Registry
         uses: docker/login-action@v2
+        if: env.DOCKER_HUB_USER == ''
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }} and :latest
+        if: env.DOCKER_HUB_USER == ''
         uses: docker/build-push-action@v4
         with:
           context: frontend
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }}, ${{ env.REGISTRY }}/${{ github.repository }}-frontend:latest
+
+    - name: Login to Docker Hub
+      env:
+        DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+        if: env.DOCKER_HUB_USER != ''
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Build and push ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }} and :latest
+      if: env.DOCKER_HUB_USER != ''
+      uses: docker/build-push-action@v4
+      with:
+        context: frontend
+        push: true
+        tags: ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }}, ${{ env.REGISTRY }}/${{ github.repository }}-frontend:latest
+
+    - name: Update Docker Hub description
+      env:
+        DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+        IMAGE_NAMESPACE: tractusx
+        IMAGE_NAME: traceability-foss
+
+      if: env.DOCKER_HUB_USER != ''
+      uses: peter-evans/dockerhub-description@v3
+      with:
+          username: ${{ secrets.DOCKER_HUB_USER }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+          repository: ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
 
   Release-docker-image-backend:
     runs-on: ubuntu-latest
@@ -65,12 +97,26 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Login to Docker Registry
+        if: env.DOCKER_HUB_USER == ''
         uses: docker/login-action@v2
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & push docker image ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
+      - name: Build & push docker image for GHCR ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
+        if: env.DOCKER_HUB_USER == ''
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.REGISTRY }}/${{ github.repository }} -Djib.to.tags=${{ env.TAG_NAME }},latest
 
+      - name: Login to Docker Hub
+        env:
+          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+          if: env.DOCKER_HUB_USER != ''
+          uses: docker/login-action@v2
+          with:
+            username: ${{ secrets.DOCKER_HUB_USER }}
+            password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build & push docker image for Docker Hub ${{ env.REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
+        if: env.DOCKER_HUB_USER != ''
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.IMAGE_NAMESPACE }}/traceability-foss -Djib.to.tags=${{ env.TAG_NAME }},latest
