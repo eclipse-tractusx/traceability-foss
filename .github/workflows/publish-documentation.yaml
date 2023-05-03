@@ -84,11 +84,11 @@ jobs:
           node fix_no_emphasis.js
           node fix_https_links.js
           node fix_relative_links.js https://$GITHUB_REPOSITORY_OWNER.github.io/$REPO/docs
- #     - name: MD linting
- #       run: |
- #         npm install markdownlint-cli2
- #         npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
- #         npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
+      - name: MD linting
+        run: |
+          npm install markdownlint-cli2
+          npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
+          npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
       - name: Move assets to target directory
         run: |
           mv docs/src/diagram-replacer/assets/ docs/target/generated-docs/assets/
