@@ -55,7 +55,6 @@ jobs:
       - name: Build and push ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }} and :latest
         uses: docker/build-push-action@v4
         if: env.DOCKER_HUB_USER != ''
-
         with:
           context: frontend
           push: true
@@ -68,7 +67,6 @@ jobs:
           IMAGE_NAMESPACE: tractusx
           IMAGE_NAME: traceability-foss
         if: env.DOCKER_HUB_USER != ''
-
         with:
             username: ${{ secrets.DOCKER_HUB_USER }}
             password: ${{ secrets.DOCKER_HUB_TOKEN }}
