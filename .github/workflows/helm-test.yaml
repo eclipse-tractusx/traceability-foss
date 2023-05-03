@@ -81,5 +81,5 @@ jobs:
           helm repo add irs-edc-consumer https://eclipse-tractusx.github.io/item-relationship-service
           helm repo add postgresql https://charts.bitnami.com/bitnami
           helm repo add runix https://helm.runix.net
-          ct install --charts charts/traceability-foss --helm-extra-set-args "--set backend.image.repository=${{ env.REGISTRY }}/${{ env.APP_NAME}} --set backend.image.tag=${{ env.TAG }} --set frontend.image.repository=${{ env.REGISTRY }}/traceability-foss --set frontend.image.tag=${{ env.TAG }}"
+          ct install --charts charts/traceability-foss --helm-extra-set-args "--set backend.image.repository=${{ env.REGISTRY }}/${{ env.APP_NAME}} --set backend.image.tag=${{ env.TAG }} --set frontend.image.repository=${{ env.REGISTRY }}/traceability-foss --set frontend.image.tag=${{ env.TAG }} --set postgresql.enabled=false"
         if: steps.list-changed.outputs.changed == 'true'
