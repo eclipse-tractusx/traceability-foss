@@ -64,6 +64,12 @@ jobs:
             sed -i 's/](#_/](#/' "${file}.md"; \
             sed -i -E '/\[.*\]\(#.*\)/ s/_/-/g' "${file}.md"; done
 
+      - name: MD linting
+        run: |
+          npm install markdownlint-cli2
+          npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
+          npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
+
       - name: GitHub Pages action
         uses: peaceiris/actions-gh-pages@v3.9.3
         with:
