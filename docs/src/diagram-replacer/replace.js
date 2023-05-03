@@ -53,7 +53,7 @@ fs.readdirSync(SOURCE_PATH).forEach((file) => {
           } else {
             imageList.push(image);
           }
-          
+
         }
       );
 
@@ -61,12 +61,12 @@ fs.readdirSync(SOURCE_PATH).forEach((file) => {
 
       const lines = data.split("\n");
       let insidePlantUmlBlock = false;
+      let insideMindMapBlock = false;
       const output = [];
 
       for (let i = 0; i < lines.length; i++) {
         // when line starts with plantuml tag replace with corresponding .PNG
         if (lines[i].startsWith("[plantuml, target=")) {
-          const filename = lines[i].match(/target=(.*), format=svg/)[1];
           output.push(
             `image::${ImageDirectoryPathForAdoc + imageList.shift()}[]`
           );
@@ -76,6 +76,13 @@ fs.readdirSync(SOURCE_PATH).forEach((file) => {
           insidePlantUmlBlock = false;
           continue;
         } else if (insidePlantUmlBlock) {
+          continue;
+        } else if (lines[i].startsWith("@startmindmap")) {
+          insideMindMapBlock = true;
+        } else if (lines[i].startsWith("@endmindmap")) {
+          insideMindMapBlock = false;
+          continue;
+        } else if (insideMindMapBlock) {
           continue;
         } else if (lines[i].startsWith(":imagesdir:")) {
           continue;
