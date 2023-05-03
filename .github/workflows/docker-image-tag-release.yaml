@@ -11,6 +11,7 @@ env:
   REGISTRY: ghcr.io
   JAVA_VERSION: 17
   COMMIT_SHA: ${{ github.sha }}
+  DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
 
 jobs:
   Release-docker-image-frontend:
@@ -35,8 +36,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push ${{ env.REGISTRY }}/${{ github.repository }}-frontend:${{ env.TAG_NAME }} and :latest
-        if: env.DOCKER_HUB_USER == ''
         uses: docker/build-push-action@v4
+        if: env.DOCKER_HUB_USER == ''
         with:
           context: frontend
           push: true
