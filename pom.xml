@@ -52,7 +52,7 @@
         <jruby.version>9.3.9.0</jruby.version>
         <resilience4j.version>2.0.2</resilience4j.version>
         <schedlock.version>4.42.0</schedlock.version>
-        <spring-cloud.version>2022.0.1</spring-cloud.version>
+        <spring-cloud.version>2022.0.2</spring-cloud.version>
         <jetbrains-annotation.version>24.0.1</jetbrains-annotation.version>
         <feign-form.version>3.8.0</feign-form.version>
         <feign-slf4j.version>12.1</feign-slf4j.version>
