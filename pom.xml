@@ -44,7 +44,7 @@
         <!-- versions for 3rd party dependecies -->
         <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
-        <ascii-dcotor-j.version>2.5.7</ascii-dcotor-j.version>
+        <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.3.0</auth-0-java-jwt.version>
         <eclipse-license-tool.version>0.0.1-SNAPSHOT</eclipse-license-tool.version>
         <feign.version>12.3</feign.version>
