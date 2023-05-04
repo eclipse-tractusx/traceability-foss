@@ -10,7 +10,6 @@ env:
   TAG_NAME: "${{ github.ref_name }}"
   GHCR_REGISTRY: ghcr.io
   JAVA_VERSION: 17
-  DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
   DOCKER_HUB_REGISTRY_NAMESPACE: tractusx
   BACKEND_IMAGE_DOCKER_HUB: traceability-foss
   FRONTEND_IMAGE_DOCKER_HUB: traceability-foss-frontend
@@ -55,7 +54,7 @@ jobs:
         if: env.DOCKER_HUB_USER != ''
         uses: docker/login-action@v2
         with:
-          username: ${{ env.DOCKER_HUB_USER }}
+          username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: Build and push for Docker Hub ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{ env.FRONTEND_IMAGE_DOCKER_HUB }}:${{ env.TAG_NAME }} and :latest
@@ -74,9 +73,10 @@ jobs:
         if: env.DOCKER_HUB_USER != ''
         uses: peter-evans/dockerhub-description@v3
         with:
-          username: ${{ env.DOCKER_HUB_USER }}
+          username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
           repository: ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{ env.FRONTEND_IMAGE_DOCKER_HUB }}
+          readme-filepath: DOCKER_NOTICE.md
 
   Release-docker-image-backend:
     runs-on: ubuntu-latest
@@ -103,7 +103,9 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: Login to GHCR Registry
-        if: ${{env.DOCKER_HUB_AVAILABLE}} == false
+        env:
+          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+        if: env.DOCKER_HUB_USER == ''
         uses: docker/login-action@v2
         with:
           registry: ${{ env.GHCR_REGISTRY }}
@@ -111,25 +113,34 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & push docker image for GHCR Registry ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}
-        if: ${{env.DOCKER_HUB_AVAILABLE}} == false
+        env:
+          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+        if: env.DOCKER_HUB_USER == ''
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.GHCR_REGISTRY }}/${{ github.repository }} -Djib.to.tags=${{ env.TAG_NAME }},latest
 
       - name: Login to Docker Hub
-        if: ${{env.DOCKER_HUB_AVAILABLE}} == true
+        env:
+          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+        if: env.DOCKER_HUB_USER != ''
         uses: docker/login-action@v2
         with:
-          username: ${{ env.DOCKER_HUB_USER }}
+          username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: Build & push docker image for Docker Hub ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{ env.BACKEND_IMAGE_DOCKER_HUB }}:${{ env.TAG_NAME }}
-        if: ${{env.DOCKER_HUB_AVAILABLE}} == true
+        env:
+          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+        if: env.DOCKER_HUB_USER != ''
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{env.BACKEND_IMAGE_DOCKER_HUB}} -Djib.to.tags=${{ env.TAG_NAME }},latest
 
       - name: Update Docker Hub description
-        if: ${{env.DOCKER_HUB_AVAILABLE}} == true
+        env:
+          DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
+        if: env.DOCKER_HUB_USER != ''
         uses: peter-evans/dockerhub-description@v3
         with:
-          username: ${{ env.DOCKER_HUB_USER }}
+          username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
           repository: ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{env.BACKEND_IMAGE_DOCKER_HUB}}
+          readme-filepath: DOCKER_NOTICE.md
 

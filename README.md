@@ -43,19 +43,6 @@ A detailed guide on how to contribute can be found [here](https://github.com/ecl
 ## Releasing
 Here is our [Releasing guide](https://github.com/eclipse-tractusx/traceability-foss/blob/main/docs/RELEASE.md).
 
-## Environments
-### Frontend
-- https://traceability-portal.dev.demo.catena-x.net
-- https://traceability-portal-test.dev.demo.catena-x.net
-- https://traceability-portal.int.demo.catena-x.net
-- https://traceability-portal.beta.demo.catena-x.net
-- https://traceability-pen.dev.demo.catena-x.net
-### Backend
-- https://traceability.dev.demo.catena-x.net/api/swagger-ui/index.html#
-- https://traceability-test.dev.demo.catena-x.net/api/swagger-ui/index.html#
-- https://traceability.int.demo.catena-x.net/api/swagger-ui/index.html#
-- https://traceability.beta.demo.catena-x.net/api/swagger-ui/index.html#
-- https://traceability-pen.dev.demo.catena-x.net/api/swagger-ui/index.html#
 ## The frontend application
 
 This application serves as a user entry point to the Catena-X network.
@@ -179,30 +166,6 @@ Source:
 - [temurin-build](https://github.com/adoptium/temurin-build)
 - [temurin docker repo info](https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin)
 - [node-build](https://github.com/nodejs/docker-node)
-
-## Notice for Docker image
-
-This application provides container images for demonstration purposes.
-
-DockerHub Backend: https://hub.docker.com/r/tractusx/traceability-foss
-DockerHub Frontend : https://hub.docker.com/r/tractusx/traceability-foss-frontend
-
-Eclipse Tractus-X product(s) installed within the image:
-
-- GitHub: https://github.com/eclipse-tractusx/traceability-foss
-- Project home: https://projects.eclipse.org/projects/automotive.tractusx
-- Dockerfile: https://github.com/eclipse-tractusx/traceability-foss/blob/main/Dockerfile
-- Project license: [Apache License, Version 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
-
-**Used base image**
-- [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin)
-- Official Eclipse Temurin DockerHub page: https://hub.docker.com/_/eclipse-temurin
-- Eclipse Temurin Project: https://projects.eclipse.org/projects/adoptium.temurin
-- Additional information about the Eclipse Temurin images: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
-
-As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
-
-As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
 
 ## License
 
