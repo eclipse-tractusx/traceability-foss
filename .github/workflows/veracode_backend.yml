@@ -37,7 +37,7 @@ jobs:
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true package
 
       - name: Run Veracode Upload And Scan
-        uses: veracode/veracode-uploadandscan-action@0.2.5
+        uses: veracode/veracode-uploadandscan-action@0.2.6
         with:
           appname: 'Traceability-Foss-Backend'
           createprofile: false
