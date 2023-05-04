@@ -84,7 +84,6 @@ jobs:
           node fix_no_emphasis.js
           node fix_https_links.js
           node fix_relative_links.js https://$GITHUB_REPOSITORY_OWNER.github.io/$REPO/docs
-          node fix_list_bullets.js
       - name: MD linting
         run: |
           npm install markdownlint-cli2
