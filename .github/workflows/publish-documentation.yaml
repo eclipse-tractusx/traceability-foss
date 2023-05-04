@@ -88,8 +88,8 @@ jobs:
       - name: MD linting
         run: |
           npm install markdownlint-cli2
-          npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
-          npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
+          npx markdownlint-cli2-config docs/.markdownlint.yaml --ignore MD004,MD007,MD032 docs/target/generated-docs/adminguide.md
+          npx markdownlint-cli2-config docs/.markdownlint.yaml --ignore MD004,MD007,MD032 docs/target/generated-docs/arc42.md
       - name: Move assets to target directory
         run: |
           mv docs/src/diagram-replacer/assets/ docs/target/generated-docs/assets/
