@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - x.x.x]
 ### Changed
+- Updated Publish documentation workflow to convert and deploy documentation as markdown (.md)
 - Added logic to push image to docker hub for eclipse-tractusx repository
+
 ## [3.3.0] - 2023-05-02
 ### Added
 - Added tx-root pom for maven multi module project
