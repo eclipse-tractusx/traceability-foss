@@ -23,3 +23,9 @@
 # Allow same content on headlines on siblings: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#MD024
 "MD024":
   "siblings_only": true
+
+"MD004": false
+
+"MD007": false
+
+"MD032": false
