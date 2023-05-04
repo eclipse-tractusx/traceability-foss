@@ -19,15 +19,14 @@
 ###############################################################
 
 apiVersion: v2
-name: registry
+name: digital-twin-registry
 description: A Helm chart for Kubernetes
 
 type: application
-version: 0.1.0
-appVersion: 0.0.1-M1
+version: 0.0.1
+appVersion: 0.0.1
 
 dependencies:
-  - repository: https://charts.bitnami.com/bitnami
-    name: postgresql
-    version: 11.6.25
-    condition: enablePostgres
+  - name: registry
+    version: 0.2.14
+    repository: https://eclipse-tractusx.github.io/charts/dev
