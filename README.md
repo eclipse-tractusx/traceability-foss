@@ -78,7 +78,7 @@ Because it uses SVGs, we knew it will perform great. And we are able to have pin
 Clone the source locally:
 
 ```sh
-$ git clone git@github.com:catenax-ng/tx-traceability-foss.git
+$ git clone git@github.com:eclipse-tractusx/traceability-foss.git
 $ cd tx-traceability-foss/frontend
 ```
 
@@ -153,7 +153,7 @@ or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swa
 
 ## Container image
 
-This application provides container images for demonstration purposes.Here you can finde the [BE Images](https://github.com/catenax-ng/tx-traceability-foss/pkgs/container/tx-traceability-foss) and the [FE Images](https://github.com/catenax-ng/tx-traceability-foss/pkgs/container/tx-traceability-foss-frontend).
+This application provides container images for demonstration purposes.Here you can finde the [BE Images](https://hub.docker.com/r/tractusx/traceability-foss) and the [FE Images](https://hub.docker.com/r/tractusx/traceability-foss-frontend).
 The base images used, to build these demo application images are `eclipse-temurin:17-jre-alpine` and `node:18-alpine`
 
 Docker Hub:
