@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased - x.x.x]
 ### Changed
 - Added logic to push image to docker hub for eclipse-tractusx repository
+- Downgraded webpack to 5.75.0 and angular-devkit/build-angular to 15.2.3 to fix unit test pipeline
+
+
 ## [3.3.0] - 2023-05-02
 ### Added
 - Added tx-root pom for maven multi module project
