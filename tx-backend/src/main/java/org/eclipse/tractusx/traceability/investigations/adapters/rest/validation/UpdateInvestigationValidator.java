@@ -32,37 +32,37 @@ import static org.eclipse.tractusx.traceability.investigations.domain.model.Inve
 
 public class UpdateInvestigationValidator {
 
-	private static final Set<InvestigationStatus> ALLOWED_STATUSES = Set.of(ACKNOWLEDGED, ACCEPTED, DECLINED);
+    private static final Set<InvestigationStatus> ALLOWED_STATUSES = Set.of(ACKNOWLEDGED, ACCEPTED, DECLINED);
 
-	private static final int MINIMUM_REASON_CHARACTERS_SIZE = 15;
-	private static final int MAXIMUM_REASON_CHARACTERS_SIZE = 1000;
+    private static final int MINIMUM_REASON_CHARACTERS_SIZE = 15;
+    private static final int MAXIMUM_REASON_CHARACTERS_SIZE = 1000;
 
-	private UpdateInvestigationValidator() {
-	}
+    private UpdateInvestigationValidator() {
+    }
 
-	public static void validate(UpdateInvestigationRequest updateInvestigationRequest) {
-		InvestigationStatus status = updateInvestigationRequest.status();
+    public static void validate(UpdateInvestigationRequest updateInvestigationRequest) {
+        InvestigationStatus status = InvestigationStatus.fromStringValue(updateInvestigationRequest.status().name());
 
-		if (!ALLOWED_STATUSES.contains(status)) {
-			throw new UpdateInvestigationValidationException("%s not allowed for update investigation with".formatted(status));
-		}
+        if (!ALLOWED_STATUSES.contains(status)) {
+            throw new UpdateInvestigationValidationException("%s not allowed for update investigation with".formatted(status));
+        }
 
-		String reason = updateInvestigationRequest.reason();
+        String reason = updateInvestigationRequest.reason();
 
-		if (status == ACKNOWLEDGED) {
-			if (reason != null && !reason.isBlank()) {
-				throw new UpdateInvestigationValidationException("Update investigation reason can't be present for %s status".formatted(ACKNOWLEDGED));
-			}
-		}
+        if (status == ACKNOWLEDGED) {
+            if (reason != null && !reason.isBlank()) {
+                throw new UpdateInvestigationValidationException("Update investigation reason can't be present for %s status".formatted(ACKNOWLEDGED));
+            }
+        }
 
-		if (status != ACKNOWLEDGED) {
-			if (reason == null || reason.isBlank()) {
-				throw new UpdateInvestigationValidationException("Update investigation reason must be present");
-			}
+        if (status != ACKNOWLEDGED) {
+            if (reason == null || reason.isBlank()) {
+                throw new UpdateInvestigationValidationException("Update investigation reason must be present");
+            }
 
-			if (reason.length() < MINIMUM_REASON_CHARACTERS_SIZE || reason.length() > MAXIMUM_REASON_CHARACTERS_SIZE) {
-				throw new UpdateInvestigationValidationException("Reason should have at least %d characters and at most %d characters".formatted(MINIMUM_REASON_CHARACTERS_SIZE, MAXIMUM_REASON_CHARACTERS_SIZE));
-			}
-		}
-	}
+            if (reason.length() < MINIMUM_REASON_CHARACTERS_SIZE || reason.length() > MAXIMUM_REASON_CHARACTERS_SIZE) {
+                throw new UpdateInvestigationValidationException("Reason should have at least %d characters and at most %d characters".formatted(MINIMUM_REASON_CHARACTERS_SIZE, MAXIMUM_REASON_CHARACTERS_SIZE));
+            }
+        }
+    }
 }
