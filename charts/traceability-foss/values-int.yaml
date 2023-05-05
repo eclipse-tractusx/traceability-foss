@@ -184,6 +184,7 @@ postgresql:
 #########################
 irs-helm:
   enabled: true
+  bpn: BPNL00000003CML1
 
   nameOverride: "tracex-irs"
   fullnameOverride: "tracex-irs"
