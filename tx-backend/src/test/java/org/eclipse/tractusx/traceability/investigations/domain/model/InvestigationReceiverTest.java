@@ -32,29 +32,36 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.Instant;
 import java.util.ArrayList;
 
-import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.*;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.ACCEPTED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.ACKNOWLEDGED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CANCELED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CLOSED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.CREATED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.DECLINED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.RECEIVED;
+import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.SENT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class InvestigationReceiverTest {
 
-	Investigation investigation;
+    Investigation investigation;
 
-	@Test
-	@DisplayName("Forbid Acknowledge Investigation with disallowed status")
-	void forbidAcknowledgeInvestigationWithStatusCreated() {
+    @Test
+    @DisplayName("Forbid Acknowledge Investigation with disallowed status")
+    void forbidAcknowledgeInvestigationWithStatusCreated() {
 
-		// Given
+        // Given
         Notification notification = testNotification();
         InvestigationStatus status = CREATED;
-		investigation = receiverInvestigationWithStatus(status);
+        investigation = receiverInvestigationWithStatus(status);
 
-		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.acknowledge(notification));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.acknowledge(notification));
 
-		assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getInvestigationStatus());
 
-	}
+    }
 
     @Test
     @DisplayName("Forbid Acknowledge Investigation with status canceled")
@@ -183,36 +190,35 @@ class InvestigationReceiverTest {
     }
 
 
-
-	@Test
-	@DisplayName("Forbid Accept Investigation with disallowed status")
-	void forbidAcceptInvestigationWithDisallowedStatus() {
+    @Test
+    @DisplayName("Forbid Accept Investigation with disallowed status")
+    void forbidAcceptInvestigationWithDisallowedStatus() {
         Notification notification = testNotification();
 
-		InvestigationStatus status = CREATED;
+        InvestigationStatus status = CREATED;
 
-		investigation = receiverInvestigationWithStatus(status);
+        investigation = receiverInvestigationWithStatus(status);
 
-		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.accept("some reason", notification));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.accept("some reason", notification));
 
-		assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getInvestigationStatus());
 
-	}
+    }
 
-	@Test
-	@DisplayName("Forbid Decline Investigation with disallowed status")
-	void forbidDeclineInvestigationWithDisallowedStatus() {
+    @Test
+    @DisplayName("Forbid Decline Investigation with disallowed status")
+    void forbidDeclineInvestigationWithDisallowedStatus() {
         Notification notification = testNotification();
 
-		InvestigationStatus status = CREATED;
+        InvestigationStatus status = CREATED;
 
-		investigation = receiverInvestigationWithStatus(status);
+        investigation = receiverInvestigationWithStatus(status);
 
-		assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.decline("some-reason", notification));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.decline("some-reason", notification));
 
-		assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getInvestigationStatus());
 
-	}
+    }
 
     @Test
     @DisplayName("Forbid Decline Investigation with status sent")
@@ -306,7 +312,7 @@ class InvestigationReceiverTest {
 
         investigation = receiverInvestigationWithStatus(status);
 
-        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.close(new BPN("BPNL000000000001"),"some-reason"));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.close(new BPN("BPNL000000000001"), "some-reason"));
 
         assertEquals(status, investigation.getInvestigationStatus());
 
@@ -320,7 +326,7 @@ class InvestigationReceiverTest {
 
         investigation = receiverInvestigationWithStatus(status);
 
-        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.close(new BPN("BPNL000000000001"),"some-reason"));
+        assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.close(new BPN("BPNL000000000001"), "some-reason"));
 
         assertEquals(status, investigation.getInvestigationStatus());
 
@@ -523,47 +529,45 @@ class InvestigationReceiverTest {
     }
 
 
-
-
-	@Test
-	@DisplayName("Acknowledge Investigation successfully")
-	void acknowledgeInvestigationSuccessfully() {
+    @Test
+    @DisplayName("Acknowledge Investigation successfully")
+    void acknowledgeInvestigationSuccessfully() {
         Notification notification = testNotification();
         investigation = receiverInvestigationWithStatus(RECEIVED);
-		investigation.acknowledge(notification);
-		assertEquals(ACKNOWLEDGED, investigation.getInvestigationStatus());
+        investigation.acknowledge(notification);
+        assertEquals(ACKNOWLEDGED, investigation.getInvestigationStatus());
 
-	}
+    }
 
-	@Test
-	@DisplayName("Accept Investigation successfully")
-	void acceptInvestigationSuccessfully() {
+    @Test
+    @DisplayName("Accept Investigation successfully")
+    void acceptInvestigationSuccessfully() {
         Notification notification = testNotification();
-		investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
-		investigation.accept("some reason", notification);
-		assertEquals(ACCEPTED, investigation.getInvestigationStatus());
+        investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
+        investigation.accept("some reason", notification);
+        assertEquals(ACCEPTED, investigation.getInvestigationStatus());
         assertEquals(ACCEPTED, notification.getInvestigationStatus());
-	}
+    }
 
-	@Test
-	@DisplayName("Decline Investigation successfully")
-	void declineInvestigationSuccessfully() {
+    @Test
+    @DisplayName("Decline Investigation successfully")
+    void declineInvestigationSuccessfully() {
         Notification notification = testNotification();
-		investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
-		investigation.decline("some reason", notification);
-		assertEquals(DECLINED, investigation.getInvestigationStatus());
+        investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
+        investigation.decline("some reason", notification);
+        assertEquals(DECLINED, investigation.getInvestigationStatus());
         assertEquals(DECLINED, notification.getInvestigationStatus());
-	}
+    }
 
-	//util functions
-	private Investigation receiverInvestigationWithStatus(InvestigationStatus status) {
-		return investigationWithStatus(status, InvestigationSide.RECEIVER);
-	}
+    //util functions
+    private Investigation receiverInvestigationWithStatus(InvestigationStatus status) {
+        return investigationWithStatus(status, InvestigationSide.RECEIVER);
+    }
 
-	private Investigation investigationWithStatus(InvestigationStatus status, InvestigationSide side) {
-		BPN bpn = new BPN("BPNL000000000001");
-		return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", "", "", Instant.now(), new ArrayList<>(), new ArrayList<>());
-	}
+    private Investigation investigationWithStatus(InvestigationStatus status, InvestigationSide side) {
+        BPN bpn = new BPN("BPNL000000000001");
+        return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", "", "", Instant.now(), new ArrayList<>(), new ArrayList<>());
+    }
 
     private Notification testNotification() {
         return NotificationTestDataFactory.createNotificationTestData();
