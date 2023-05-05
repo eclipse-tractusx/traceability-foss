@@ -23,7 +23,7 @@ feign:
   irsApi:
     url: https://tracex-irs.dev.demo.catena-x.net
   registryApi:
-    url: https://trace-x-registry.dev.demo.catena-x.net
+    url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry
   portalApi:
     url: https://portal-backend.dev.demo.catena-x.net/api
 

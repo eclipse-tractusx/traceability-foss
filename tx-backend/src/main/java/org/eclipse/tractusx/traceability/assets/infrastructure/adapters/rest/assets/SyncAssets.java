@@ -23,9 +23,11 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest.as
 
 import io.swagger.annotations.ApiModelProperty;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 
 public record SyncAssets(
-	@Size(min = 1, max = 100, message = "Specify at least 1 and at most 100 globalAssetIds") @ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]") List<String> globalAssetIds) {
+        @ArraySchema(arraySchema = @Schema(description = "Assets"), maxItems = Integer.MAX_VALUE) @Size(min = 1, max = 100, message = "Specify at least 1 and at most 100 globalAssetIds") @ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]") List<String> globalAssetIds) {
 }
