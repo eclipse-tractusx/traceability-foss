@@ -95,7 +95,6 @@ public class RegistryService {
 
         Map<String, Object> ownManufacturerIdBPNMap = new HashMap<>();
 
-        // TODO check why manufacturerIdKey is here as profile variable
         ownManufacturerIdBPNMap.put("assetIds", getFilterValue(manufacturerIdKey, applicationBPN));
         logger.info("ownManufacturerIdBPNMap {}.", ownManufacturerIdBPNMap);
         logger.info("filtervalue {}.", getFilterValue(manufacturerIdKey, applicationBPN));
