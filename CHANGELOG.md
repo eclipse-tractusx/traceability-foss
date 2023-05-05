@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Added logic to push image to docker hub for eclipse-tractusx repository
+- Added testdata to database to ensure working notification flow
 ### Changed
 - Updated Publish documentation workflow to convert and deploy documentation as markdown (.md)
 - Bumped cypress-io/github-action from 5.6.1 to 5.6.2
@@ -15,6 +16,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated catena links from readme to reflext tractusx links
 - Updated path of digital twin registry for dev environment
 - Updated swagger api doc and added collection
+- Updated dev setup documentation
+- Upgraded irs from 5.0.9 to 5.3.0
+
+### Removed
+- Not needed enum params in UpdateInvestigationRequest
 
 ## [3.3.0] - 2023-05-02
 ### Added

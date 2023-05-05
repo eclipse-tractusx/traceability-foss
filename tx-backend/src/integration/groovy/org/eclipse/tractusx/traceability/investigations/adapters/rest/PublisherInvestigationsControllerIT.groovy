@@ -178,6 +178,34 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .body(Matchers.containsString("Reason should have at least 15 characters and at most 1000 characters"))
     }
 
+    def "should throw bad request on update investigation wrong status"() {
+        given:
+        List<String> partIds = [
+                "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978", // BPN: BPNL00000003AYRE
+                "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", // BPN: BPNL00000003AYRE
+                "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"  // BPN: BPNL00000003AXS3
+        ]
+        String description = RandomStringUtils.random(15);
+
+        expect:
+        given()
+                .contentType(ContentType.JSON)
+                .body(
+                        asJson(
+                                [
+                                        status: "anything",
+                                        reason: description
+                                ]
+                        )
+                )
+                .header(jwtAuthorization(JwtRole.SUPERVISOR))
+                .when()
+                .post("/api/investigations/1/update")
+                .then()
+                .statusCode(400)
+                .body(Matchers.containsString("message\":\"NoSuchElementException: Unsupported UpdateInvestigationStatus: anything. Must be one of: ACKNOWLEDGED, ACCEPTED, DECLINED"))
+    }
+
     def "should cancel investigation"() {
         given:
         defaultAssetsStored()

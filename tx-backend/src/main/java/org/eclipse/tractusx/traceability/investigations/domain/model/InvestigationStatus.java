@@ -36,61 +36,65 @@ import static java.util.Set.of;
 
 
 public enum InvestigationStatus {
-	CREATED(InvestigationSide.SENDER, emptySet()),
-	SENT(InvestigationSide.SENDER, Set.of(InvestigationSide.SENDER)),
-	RECEIVED(InvestigationSide.RECEIVER, emptySet()),
-	ACKNOWLEDGED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER, InvestigationSide.SENDER)),
-	ACCEPTED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER)),
-	DECLINED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER)),
-	CANCELED(InvestigationSide.SENDER, Set.of(InvestigationSide.SENDER)),
-	CLOSED(InvestigationSide.SENDER, of(InvestigationSide.SENDER, InvestigationSide.RECEIVER));
+    CREATED(InvestigationSide.SENDER, emptySet()),
+    SENT(InvestigationSide.SENDER, Set.of(InvestigationSide.SENDER)),
+    RECEIVED(InvestigationSide.RECEIVER, emptySet()),
+    ACKNOWLEDGED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER, InvestigationSide.SENDER)),
+    ACCEPTED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER)),
+    DECLINED(InvestigationSide.RECEIVER, Set.of(InvestigationSide.RECEIVER)),
+    CANCELED(InvestigationSide.SENDER, Set.of(InvestigationSide.SENDER)),
+    CLOSED(InvestigationSide.SENDER, of(InvestigationSide.SENDER, InvestigationSide.RECEIVER));
 
-	private final InvestigationSide investigationSide;
-	private final Set<InvestigationSide> allowedTransitionFromSide;
+    private final InvestigationSide investigationSide;
+    private final Set<InvestigationSide> allowedTransitionFromSide;
 
-	InvestigationStatus(InvestigationSide investigationSide, Set<InvestigationSide> allowedTransitionFromSide) {
-		this.investigationSide = investigationSide;
-		this.allowedTransitionFromSide = allowedTransitionFromSide;
-	}
+    InvestigationStatus(InvestigationSide investigationSide, Set<InvestigationSide> allowedTransitionFromSide) {
+        this.investigationSide = investigationSide;
+        this.allowedTransitionFromSide = allowedTransitionFromSide;
+    }
 
-	private static final Map<InvestigationStatus, Set<InvestigationStatus>> STATE_MACHINE;
+    private static final Map<InvestigationStatus, Set<InvestigationStatus>> STATE_MACHINE;
 
-	private static final Set<InvestigationStatus> NO_TRANSITION_ALLOWED = emptySet();
+    private static final Set<InvestigationStatus> NO_TRANSITION_ALLOWED = emptySet();
 
-	private static final Map<String, InvestigationStatus> MAPPINGS;
+    private static final Map<String, InvestigationStatus> MAPPINGS;
 
-	static {
-		STATE_MACHINE = Map.of(
-			CREATED, of(SENT, CANCELED),
-			SENT, of(RECEIVED, CLOSED, ACKNOWLEDGED),
-			RECEIVED, of(ACKNOWLEDGED, CLOSED),
-			ACKNOWLEDGED, of(DECLINED, ACCEPTED, CLOSED),
-			ACCEPTED, of(CLOSED),
-			DECLINED, of(CLOSED),
-			CLOSED, NO_TRANSITION_ALLOWED,
-			CANCELED, NO_TRANSITION_ALLOWED
-		);
+    static {
+        STATE_MACHINE = Map.of(
+                CREATED, of(SENT, CANCELED),
+                SENT, of(RECEIVED, CLOSED, ACKNOWLEDGED),
+                RECEIVED, of(ACKNOWLEDGED, CLOSED),
+                ACKNOWLEDGED, of(DECLINED, ACCEPTED, CLOSED),
+                ACCEPTED, of(CLOSED),
+                DECLINED, of(CLOSED),
+                CLOSED, NO_TRANSITION_ALLOWED,
+                CANCELED, NO_TRANSITION_ALLOWED
+        );
 
-		MAPPINGS = Arrays.stream(InvestigationStatus.values())
-			.collect(Collectors.toMap(Enum::name, investigationStatus -> investigationStatus));
-	}
+        MAPPINGS = Arrays.stream(InvestigationStatus.values())
+                .collect(Collectors.toMap(Enum::name, investigationStatus -> investigationStatus));
+    }
 
-	public boolean transitionAllowed(InvestigationStatus to) {
+    public boolean transitionAllowed(InvestigationStatus to) {
 
-		Set<InvestigationStatus> allowedStatusesToTransition = STATE_MACHINE.get(this);
+        Set<InvestigationStatus> allowedStatusesToTransition = STATE_MACHINE.get(this);
 
-		if (!allowedStatusesToTransition.contains(to)) {
-			return false;
-		}
+        if (!allowedStatusesToTransition.contains(to)) {
+            return false;
+        }
 
-		return isSideEligibleForTransition(this, to);
-	}
+        return isSideEligibleForTransition(this, to);
+    }
 
-	private boolean isSideEligibleForTransition(InvestigationStatus from, InvestigationStatus to) {
-		return to.allowedTransitionFromSide.contains(from.investigationSide);
-	}
+    private boolean isSideEligibleForTransition(InvestigationStatus from, InvestigationStatus to) {
+        return to.allowedTransitionFromSide.contains(from.investigationSide);
+    }
 
-	public static Optional<InvestigationStatus> fromValue(String value) {
-		return Optional.ofNullable(MAPPINGS.get(value));
-	}
+    public static Optional<InvestigationStatus> fromValue(String value) {
+        return Optional.ofNullable(MAPPINGS.get(value));
+    }
+
+    public static InvestigationStatus fromStringValue(String value) {
+        return MAPPINGS.get(value);
+    }
 }

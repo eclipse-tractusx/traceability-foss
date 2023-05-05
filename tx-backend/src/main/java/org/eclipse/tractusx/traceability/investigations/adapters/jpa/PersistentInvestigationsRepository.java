@@ -125,7 +125,6 @@ public class PersistentInvestigationsRepository implements InvestigationsReposit
     @Override
     public PageResult<Investigation> getInvestigations(InvestigationSide investigationSide, Pageable pageable) {
         Page<InvestigationEntity> entities = investigationRepository.findAllBySideEqualsOrderByCreatedDesc(investigationSide, pageable);
-
         return new PageResult<>(entities, this::toInvestigation);
     }
 

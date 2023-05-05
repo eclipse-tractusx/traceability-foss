@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SeverityValidatorImplTest {
 
-    private SeverityValidatorImpl validator = new SeverityValidatorImpl();
+    private final SeverityValidatorImpl validator = new SeverityValidatorImpl();
 
     @Test
     void testSeveritySuccess() {
