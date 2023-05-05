@@ -29,6 +29,11 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.security.OAuthFlow;
+import io.swagger.v3.oas.models.security.OAuthFlows;
+import io.swagger.v3.oas.models.security.Scopes;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -56,8 +61,14 @@ public class OpenApiConfig {
         Components components = new Components();
         components.addResponses("badRequestAPI", badRequestAPI);
         components.addResponses("internalServerErrorAPI", internalServerErrorAPI);
+        components.addSecuritySchemes("oAuth2", new SecurityScheme().type(SecurityScheme.Type.OAUTH2)
+                .flows(new OAuthFlows().clientCredentials(
+                        new OAuthFlow().scopes(
+                                        new Scopes().addString(
+                                                "profile email", "")))));
         return new OpenAPI()
                 .components(components)
+                .addSecurityItem(new SecurityRequirement().addList("oAuth2", "profile email"))
                 .info(new Info()
                         .title("Trace-FOSS - OpenAPI Documentation")
                         .version("1.0.0")

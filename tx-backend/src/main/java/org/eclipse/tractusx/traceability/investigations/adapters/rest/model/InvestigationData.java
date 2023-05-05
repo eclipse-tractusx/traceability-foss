@@ -22,10 +22,13 @@
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide;
 
 import java.util.List;
-
+@ArraySchema(arraySchema = @Schema(description = "Investigations"), maxItems = Integer.MAX_VALUE)
 public record InvestigationData(@ApiModelProperty(example = "66") Long id,
 								@ApiModelProperty(example = "CREATED") String status,
 								@ApiModelProperty(example = "DescriptionText") String description,
@@ -33,7 +36,7 @@ public record InvestigationData(@ApiModelProperty(example = "66") Long id,
 
                                 @ApiModelProperty(example = "Tier C") String createdByName,
 								@ApiModelProperty(example = "2023-02-21T21:27:10.734950Z") String createdDate,
-								@ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]") List<String> assetIds,
+								@ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]") @ArraySchema(arraySchema = @Schema(description = "assetIds"), maxItems = Integer.MAX_VALUE) @Size(max = 1000) List<String> assetIds,
 								@ApiModelProperty(example = "SENDER") InvestigationSide channel,
 								InvestigationReason reason,
 								@ApiModelProperty(example = "BPNL00000003AYRE") String sendTo,

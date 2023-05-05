@@ -24,11 +24,13 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.metrics
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.metrics.registrylookup.RegistryLookupMetricEntity;
 
 import java.time.Clock;
 import java.time.Instant;
-
+@ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class), maxItems = Integer.MAX_VALUE)
 public class RegistryLookupMetric {
 
 	private final Instant startDate;
@@ -44,7 +46,7 @@ public class RegistryLookupMetric {
 	private Instant endDate;
 
 	@JsonCreator
-	public RegistryLookupMetric(@JsonFormat(shape = JsonFormat.Shape.STRING) @JsonProperty("startDate") Instant startDate,
+    public RegistryLookupMetric(@JsonFormat(shape = JsonFormat.Shape.STRING) @JsonProperty("startDate") Instant startDate,
 								@JsonProperty("registryLookupStatus") RegistryLookupStatus registryLookupStatus,
 								@JsonProperty("successShellDescriptorsFetchCount") Long successShellDescriptorsFetchCount,
 								@JsonProperty("failedShellDescriptorsFetchCount") Long failedShellDescriptorsFetchCount,
