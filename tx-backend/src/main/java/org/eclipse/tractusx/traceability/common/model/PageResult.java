@@ -21,12 +21,15 @@
 
 package org.eclipse.tractusx.traceability.common.model;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.function.Function;
 
+@ArraySchema(arraySchema = @Schema(description = "PageResults"), maxItems = Integer.MAX_VALUE)
 public record PageResult<T>(
 	List<T> content,
 	Integer page,
