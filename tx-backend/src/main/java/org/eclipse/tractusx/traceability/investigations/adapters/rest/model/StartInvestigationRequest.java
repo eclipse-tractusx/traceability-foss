@@ -22,11 +22,11 @@
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.investigations.adapters.rest.validation.ValidSeverity;
-
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.validation.ValidSeverity;
+
 import java.time.Instant;
 import java.util.List;
 

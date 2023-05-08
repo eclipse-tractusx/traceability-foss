@@ -28,11 +28,6 @@ import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
 public class SeverityValidatorImpl implements ConstraintValidator<ValidSeverity, String> {
 
     @Override
-    public void initialize(ValidSeverity constraintAnnotation) {
-        // nothing to do
-    }
-
-    @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         // do not validate notNull
         if (value == null) {

@@ -23,6 +23,9 @@ package org.eclipse.tractusx.traceability.assets.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
 import org.slf4j.Logger;
@@ -31,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
-
+@ArraySchema(arraySchema = @Schema(description = "Assets"), maxItems = Integer.MAX_VALUE)
 public final class Asset {
     private static final Logger logger = LoggerFactory.getLogger(Asset.class);
 	@ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
@@ -62,7 +65,9 @@ public final class Asset {
 	@ApiModelProperty(example = "CUSTOMER")
 	private final Owner owner;
 
+    @ArraySchema(arraySchema = @Schema(description = "Child relationships"), maxItems = Integer.MAX_VALUE)
 	private List<Descriptions> childDescriptions;
+    @ArraySchema(arraySchema = @Schema(description = "Parent relationships"), maxItems = Integer.MAX_VALUE)
     private List<Descriptions> parentDescriptions;
 	@ApiModelProperty(example = "false")
 	private boolean underInvestigation;

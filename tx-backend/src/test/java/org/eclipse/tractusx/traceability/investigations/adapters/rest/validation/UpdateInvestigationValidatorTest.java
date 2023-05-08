@@ -22,62 +22,47 @@
 package org.eclipse.tractusx.traceability.investigations.adapters.rest.validation;
 
 import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.UpdateInvestigationRequest;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.investigations.adapters.rest.model.UpdateInvestigationStatus;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.stream.Stream;
-
-import static org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class UpdateInvestigationValidatorTest {
 
-	@InjectMocks
-	UpdateInvestigationValidator updateInvestigationValidator;
+    @InjectMocks
+    UpdateInvestigationValidator updateInvestigationValidator;
 
-	@Mock
-	UpdateInvestigationRequest mockRequest;
-
-	@Test
-	@DisplayName("No Validation Success for unsupported Status")
-	void testUnsuccessfulValidationForUnsupportedStatus() {
-
-		InvestigationStatus status = CREATED;
-		UpdateInvestigationRequest request = new UpdateInvestigationRequest(status, "some-reason");
+    @Mock
+    UpdateInvestigationRequest mockRequest;
 
 
-		UpdateInvestigationValidationException exception = org.junit.jupiter.api.Assertions.assertThrows(UpdateInvestigationValidationException.class, () -> UpdateInvestigationValidator.validate(request));
-	}
+    @Test
+    @DisplayName("No Validation Success for invalid Reason")
+    void testUnsuccessfulValidationForInvalidReason() {
 
-	@Test
-	@DisplayName("No Validation Success for invalid Reason")
-	void testUnsuccessfulValidationForInvalidReason() {
+        UpdateInvestigationStatus acknowledged = UpdateInvestigationStatus.ACKNOWLEDGED;
+        String reason = "some-reason-for-update";
+        String errorMessage = "Update investigation reason can't be present for ACKNOWLEDGED status";
 
-		InvestigationStatus status = ACKNOWLEDGED;
-		String reason = "some-reason-for-update";
-		String errorMessage = "Update investigation reason can't be present for ACKNOWLEDGED status";
+        UpdateInvestigationRequest request = new UpdateInvestigationRequest(acknowledged, reason);
+        UpdateInvestigationValidationException exception = assertThrows(UpdateInvestigationValidationException.class, () -> UpdateInvestigationValidator.validate(request));
+        assertEquals(errorMessage, exception.getMessage());
 
-		UpdateInvestigationRequest request = new UpdateInvestigationRequest(status, reason);
-		UpdateInvestigationValidationException exception = assertThrows(UpdateInvestigationValidationException.class, () -> UpdateInvestigationValidator.validate(request));
-		assertEquals(errorMessage, exception.getMessage());
+    }
 
-	}
+    @Test
+    @DisplayName("Execute Validation successfully")
+    void testSuccessfulValidation() {
+        UpdateInvestigationStatus accepted = UpdateInvestigationStatus.ACCEPTED;
+        UpdateInvestigationRequest request = new UpdateInvestigationRequest(accepted, "abcdefg12313212321123");
+        UpdateInvestigationValidator.validate(request);
 
-	@Test
-	@DisplayName("Execute Validation successfully")
-	void testSuccessfulValidation() {
-
-		UpdateInvestigationRequest request = new UpdateInvestigationRequest(ACKNOWLEDGED, null);
-		UpdateInvestigationValidator.validate(request);
-
-	}
+    }
 }
