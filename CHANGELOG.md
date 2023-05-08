@@ -15,7 +15,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bumped veracode/veracode-uploadandscan-action@0.2.5 to 0.2.6
 - Updated catena links from readme to reflext tractusx links
 - Updated path of digital twin registry for dev environment
-- Downgraded webpack to 5.75.0 and angular-devkit/build-angular to 15.2.3 to fix unit test pipeline
 
 ## [3.3.0] - 2023-05-02
 ### Added
