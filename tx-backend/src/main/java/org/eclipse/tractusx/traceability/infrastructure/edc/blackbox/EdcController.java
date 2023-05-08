@@ -21,55 +21,52 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.ValidEDCNotification;
-import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.investigations.domain.service.InvestigationsReceiverService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
-import java.lang.invoke.MethodHandles;
-
+@Slf4j
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @Hidden
 @RestController
 @Validated
 public class EdcController {
-	private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private final InvestigationsReceiverService investigationsReceiverService;
+    private final InvestigationsReceiverService investigationsReceiverService;
 
-	public EdcController(InvestigationsReceiverService investigationsReceiverService) {
-		this.investigationsReceiverService = investigationsReceiverService;
-	}
+    public EdcController(InvestigationsReceiverService investigationsReceiverService) {
+        this.investigationsReceiverService = investigationsReceiverService;
+    }
 
-	/**
-	 * Receiver API call for EDC Transfer
-	 */
-	@PostMapping("/qualitynotifications/receive")
-	public void qualityNotificationReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
-		logger.info("EdcController [qualityNotificationReceive] notificationId:{}", edcNotification);
+    /**
+     * Receiver API call for EDC Transfer
+     */
+    @PostMapping("/qualitynotifications/receive")
+    public void qualityNotificationReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
+        log.info("EdcController [qualityNotificationReceive] notificationId:{}", edcNotification);
         validateIsQualityInvestigation(edcNotification);
-		investigationsReceiverService.handleNotificationReceive(edcNotification);
-	}
+        investigationsReceiverService.handleNotificationReceive(edcNotification);
+    }
 
-	/**
-	 * Update API call for EDC Transfer
-	 */
-	@PostMapping("/qualitynotifications/update")
-	public void qualityNotificationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
-		logger.info("EdcController [qualityNotificationUpdate] notificationId:{}", edcNotification);
+    /**
+     * Update API call for EDC Transfer
+     */
+    @PostMapping("/qualitynotifications/update")
+    public void qualityNotificationUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
+        log.info("EdcController [qualityNotificationUpdate] notificationId:{}", edcNotification);
         validateIsQualityInvestigation(edcNotification);
-		investigationsReceiverService.handleNotificationUpdate(edcNotification);
-	}
+        investigationsReceiverService.handleNotificationUpdate(edcNotification);
+    }
 
 
     private void validateIsQualityInvestigation(EDCNotification edcNotification) {

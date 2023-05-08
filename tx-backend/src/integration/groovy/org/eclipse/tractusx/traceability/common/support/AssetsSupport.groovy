@@ -21,12 +21,11 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity
-import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationSide
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -67,15 +66,14 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
         }
 
         assetEntities.collect { it ->
-            new InvestigationEntity(
-                    [it],
-                    it.getManufacturerId(),
-                    investigationStatus,
-                    InvestigationSide.SENDER,
-                    "",
-                    "some long description",
-                    Instant.now()
-            )
+            InvestigationEntity.builder()
+                    .assets(List.of(it))
+                    .bpn(it.getManufacturerId())
+                    .status(investigationStatus)
+                    .side(InvestigationSide.SENDER)
+                    .description("some long description")
+                    .created(Instant.now())
+                    .build();
         }.each { jpaInvestigationRepository().save(it) }
     }
 

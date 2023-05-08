@@ -22,8 +22,8 @@ package org.eclipse.tractusx.traceability.common.mapper;
 
 import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Severity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

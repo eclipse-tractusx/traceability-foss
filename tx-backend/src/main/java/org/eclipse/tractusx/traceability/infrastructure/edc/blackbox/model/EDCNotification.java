@@ -26,8 +26,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.AffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
 
 import java.time.Instant;
 import java.util.List;
@@ -71,7 +71,9 @@ public record EDCNotification(@Valid
     }
 
     @JsonIgnore
-    public String getMessageId() { return header.messageId(); }
+    public String getMessageId() {
+        return header.messageId();
+    }
 
     @JsonIgnore
     public String getRelatedNotificationId() {
