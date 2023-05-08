@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.ws.rs.core.MultivaluedMap;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -32,8 +33,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Atom
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CatalogRequestDTO;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -44,10 +43,9 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
+@Slf4j
 @Component
 public class HttpCallService {
-
-    private static final Logger logger = LoggerFactory.getLogger(HttpCallService.class);
 
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
@@ -85,7 +83,7 @@ public class HttpCallService {
 
 
     public Object sendRequest(Request request, Class<?> responseObject) throws IOException {
-        logger.info("Requesting {} {}...", request.method(), request.url());
+        log.info("Requesting {} {}...", request.method(), request.url());
         try (var response = httpClient.newCall(request).execute()) {
             var body = response.body();
 

@@ -21,22 +21,35 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationSide
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 
 import java.time.Instant
 
 trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
     Long defaultReceivedInvestigationStored() {
-        InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "some-description", Instant.now())
+        InvestigationEntity entity = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(InvestigationStatus.RECEIVED)
+                .side(InvestigationSide.RECEIVER)
+                .description("some description")
+                .created(Instant.now())
+                .build();
 
         return storedInvestigation(entity)
     }
 
     Long defaultAcknowledgedInvestigationStored() {
-        InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.ACKNOWLEDGED, InvestigationSide.RECEIVER, "", "", Instant.now())
+        InvestigationEntity entity = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(InvestigationStatus.ACKNOWLEDGED)
+                .side(InvestigationSide.RECEIVER)
+                .created(Instant.now())
+                .build();
 
         return storedInvestigation(entity)
     }
