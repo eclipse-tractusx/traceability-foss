@@ -72,7 +72,6 @@ export class PartDetailsFacade {
     );
   }
 
-  // TODO: still need quality type?
   public updateQualityType(qualityType: QualityType): Observable<Part> {
     const part = { ...this.selectedPart, qualityType };
 

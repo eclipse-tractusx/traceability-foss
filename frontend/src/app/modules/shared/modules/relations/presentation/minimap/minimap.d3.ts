@@ -243,19 +243,23 @@ export class Minimap {
     event?.stopPropagation();
 
     d3.select(`#${this.ids.minimap}`).classed('tree--minimap__closed', true);
-    d3.xml('/assets/images/layer-icon.svg').then(data => {
-      const closeIcon = this.mainElement.node().appendChild(data.documentElement);
-      closeIcon.setAttribute('id', this.ids.icon);
-      closeIcon.setAttribute('data-testid', this.ids.icon);
-      closeIcon.addEventListener(
-        'click',
-        () => {
-          d3.select(`#${this.ids.minimap}`).classed('tree--minimap__closed', false);
-          d3.select(`#${this.ids.icon}`).remove();
-        },
-        { passive: true },
-      );
-    });
+    d3.xml('/assets/images/layer-icon.svg')
+      .then(data => {
+        const closeIcon = this.mainElement.node().appendChild(data.documentElement);
+        closeIcon.setAttribute('id', this.ids.icon);
+        closeIcon.setAttribute('data-testid', this.ids.icon);
+        closeIcon.addEventListener(
+          'click',
+          () => {
+            d3.select(`#${this.ids.minimap}`).classed('tree--minimap__closed', false);
+            d3.select(`#${this.ids.icon}`).remove();
+          },
+          { passive: true },
+        );
+      })
+      .catch(error => {
+        console.error(error);
+      });
   }
 }
 
