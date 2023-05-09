@@ -21,7 +21,11 @@
 package org.eclipse.tractusx.traceability.common.mapper;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.investigations.domain.model.*;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.AffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Investigation;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
 import org.springframework.stereotype.Component;
 
 import java.time.Clock;
@@ -30,38 +34,38 @@ import java.util.List;
 
 @Component
 public class InvestigationMapper {
-	private final Clock clock;
+    private final Clock clock;
 
-	public InvestigationMapper(Clock clock) {
-		this.clock = clock;
-	}
+    public InvestigationMapper(Clock clock) {
+        this.clock = clock;
+    }
 
-	/**
-	 * Creates an Investigation object representing the investigation received by the receiver for a given notification.
-	 *
-	 * @param bpn          the BPN of the investigation
-	 * @param description  the description of the investigation
-	 * @param notification the notification associated with the investigation
-	 * @return an Investigation object representing the investigation received by the receiver
-	 */
-	public Investigation toInvestigation(BPN bpn, String description, Notification notification) {
+    /**
+     * Creates an Investigation object representing the investigation received by the receiver for a given notification.
+     *
+     * @param bpn          the BPN of the investigation
+     * @param description  the description of the investigation
+     * @param notification the notification associated with the investigation
+     * @return an Investigation object representing the investigation received by the receiver
+     */
+    public Investigation toInvestigation(BPN bpn, String description, Notification notification) {
 
-		List<String> assetIds = new ArrayList<>();
-		notification.getAffectedParts().stream()
-			.map(AffectedPart::assetId)
-			.forEach(assetIds::add);
-		return new Investigation(
-			null,
-			bpn,
-			InvestigationStatus.RECEIVED,
-			InvestigationSide.RECEIVER,
-			null,
-			null,
-			null,
-			description,
-			clock.instant(),
-			assetIds,
-			List.of(notification)
-		);
-	}
+        List<String> assetIds = new ArrayList<>();
+        notification.getAffectedParts().stream()
+                .map(AffectedPart::assetId)
+                .forEach(assetIds::add);
+        return new Investigation(
+                null,
+                bpn,
+                InvestigationStatus.RECEIVED,
+                InvestigationSide.RECEIVER,
+                null,
+                null,
+                null,
+                description,
+                clock.instant(),
+                assetIds,
+                List.of(notification)
+        );
+    }
 }

@@ -29,10 +29,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.service.BpnEdcMappingService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -46,17 +45,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.lang.invoke.MethodHandles;
 import java.util.List;
 
+@Slf4j
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 @Tag(name = "BpnEdcMapping")
 @RequestMapping(path = "/bpn-config")
 @Validated
 public class BpnEdcMappingController {
-
-    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private final BpnEdcMappingService service;
 
@@ -94,7 +91,7 @@ public class BpnEdcMappingController {
     @PostMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public List<BpnEdcMapping> createBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnEdcMappingRequest> bpnEdcMappings) {
-        logger.info("BpnEdcController [createBpnEdcUrlMappings]");
+        log.info("BpnEdcController [createBpnEdcUrlMappings]");
         return service.saveAllBpnEdcMappings(bpnEdcMappings);
     }
 
@@ -111,7 +108,7 @@ public class BpnEdcMappingController {
     @PutMapping("")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public List<BpnEdcMapping> updateBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnEdcMappingRequest> bpnEdcMappings) {
-        logger.info("BpnEdcController [createBpnEdcUrlMappings]");
+        log.info("BpnEdcController [createBpnEdcUrlMappings]");
         return service.updateAllBpnEdcMappings(bpnEdcMappings);
     }
 
@@ -126,7 +123,7 @@ public class BpnEdcMappingController {
     @DeleteMapping("/{bpn}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBpnEdcUrlMapping(@PathVariable String bpn) {
-        logger.info("BpnEdcController [deleteBpnEdcUrlMapping]");
+        log.info("BpnEdcController [deleteBpnEdcUrlMapping]");
         service.deleteBpnEdcMapping(bpn);
     }
 

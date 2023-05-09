@@ -20,7 +20,13 @@
 package org.eclipse.tractusx.traceability.testdata;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.investigations.domain.model.*;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.AffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Investigation;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Severity;
 
 import java.time.Instant;
 import java.util.List;

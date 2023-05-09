@@ -21,7 +21,12 @@
 package org.eclipse.tractusx.traceability.common.mapper;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.investigations.domain.model.*;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.AffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Investigation;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Severity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,18 +43,18 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class InvestigationMapperTest {
 
-	@InjectMocks
-	private InvestigationMapper mapper;
+    @InjectMocks
+    private InvestigationMapper mapper;
 
-	@Mock
-	private Clock clock;
+    @Mock
+    private Clock clock;
 
-	@Test
-	void testToReceiverInvestigation() {
-		// Given
-		String sender ="BPNL000000000001";
-		String receiver = "BPNL000000000002";
-		String description = "Test investigation";
+    @Test
+    void testToReceiverInvestigation() {
+        // Given
+        String sender = "BPNL000000000001";
+        String receiver = "BPNL000000000002";
+        String description = "Test investigation";
         Notification notification = new Notification("1",
                 "Test notification",
                 sender, "senderManufacturerName",
@@ -68,19 +73,19 @@ class InvestigationMapperTest {
                 "messageId",
                 false
         );
-		when(clock.instant()).thenReturn(Instant.parse("2022-03-01T12:00:00Z"));
+        when(clock.instant()).thenReturn(Instant.parse("2022-03-01T12:00:00Z"));
 
-		// When
-		Investigation result = mapper.toInvestigation(new BPN(receiver), description, notification);
+        // When
+        Investigation result = mapper.toInvestigation(new BPN(receiver), description, notification);
 
-		// Then
-		assertEquals(InvestigationStatus.RECEIVED, result.getInvestigationStatus());
-		assertEquals(InvestigationSide.RECEIVER, result.getInvestigationSide());
-		assertEquals(description, result.getDescription());
-		assertEquals(Instant.parse("2022-03-01T12:00:00Z"), result.getCreationTime());
-		assertEquals(List.of("123"), result.getAssetIds());
-		assertEquals(List.of(notification), result.getNotifications());
-	}
+        // Then
+        assertEquals(InvestigationStatus.RECEIVED, result.getInvestigationStatus());
+        assertEquals(InvestigationSide.RECEIVER, result.getInvestigationSide());
+        assertEquals(description, result.getDescription());
+        assertEquals(Instant.parse("2022-03-01T12:00:00Z"), result.getCreatedAt());
+        assertEquals(List.of("123"), result.getAssetIds());
+        assertEquals(List.of(notification), result.getNotifications());
+    }
 }
 
 

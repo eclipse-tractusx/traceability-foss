@@ -68,10 +68,10 @@ jobs:
           node extract.js
           node replace.js
       - name: Convert to Markdown
-        # currently only specified for adminguide + arc42
         run: |
           npx downdoc -o docs/target/generated-docs/adminguide.md docs/src/diagram-replacer/generated-adocs/adminguide.adoc
           npx downdoc -o docs/target/generated-docs/arc42.md docs/src/diagram-replacer/generated-adocs/arc42.adoc
+          npx downdoc -o docs/target/generated-docs/user-manual.md docs/src/docs/user/user-manual.adoc
       - name: MD files post-processing
         working-directory: docs/src/post-processing/
         run: |
@@ -85,6 +85,7 @@ jobs:
           npm install markdownlint-cli2
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/adminguide.md
           npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/arc42.md
+          npx markdownlint-cli2-config docs/.markdownlint.yaml docs/target/generated-docs/user-manual.md
       - name: Move assets to target directory
         run: |
           mv docs/src/diagram-replacer/assets/ docs/target/generated-docs/assets/

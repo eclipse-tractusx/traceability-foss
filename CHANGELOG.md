@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated path of digital twin registry for dev environment
 - Updated swagger api doc and added collection
 - Updated dev setup documentation
+- Changed logic of investigations to be more extensible for alerts
 - Upgraded irs from 5.0.9 to 5.3.0
 - Upgraded @angular-devkit/build-angular to ^15.0.0 (to have the same dependency as @angular-builders/custom-webpack has)
 - Fix sonar bug in minimap.d3.ts
