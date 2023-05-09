@@ -135,7 +135,7 @@ export class TreeComponent implements OnDestroy, AfterViewInit {
     if (!openElements) return;
 
     const treeData = this.relationsFacade.formatOpenElementsToTreeData(openElements);
-    if (!treeData || !treeData.id) return;
+    if (!treeData?.id) return;
 
     this.initTree();
     this.renderTree(treeData);

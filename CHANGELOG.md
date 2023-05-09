@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added logic to push image to docker hub for eclipse-tractusx repository
 - Added testdata to database to ensure working notification flow
+
 ### Changed
 - Updated Publish documentation workflow to convert and deploy documentation as markdown (.md)
 - Bumped cypress-io/github-action from 5.6.1 to 5.6.2
@@ -19,6 +20,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated dev setup documentation
 - Changed logic of investigations to be more extensible for alerts
 - Upgraded irs from 5.0.9 to 5.3.0
+- Upgraded @angular-devkit/build-angular to ^15.0.0 (to have the same dependency as @angular-builders/custom-webpack has)
+- Fix sonar bug in minimap.d3.ts
+- Upgraded karma dependencies (use engine.io@^6.4.2 to solve Uncaught Exception vulnerability)
 
 ### Removed
 - Not needed enum params in UpdateInvestigationRequest

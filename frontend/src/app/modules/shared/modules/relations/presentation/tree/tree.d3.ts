@@ -70,7 +70,6 @@ export class Tree {
   public renderTree(data: TreeStructure, direction: TreeDirection): TreeSvg {
     const root = d3.hierarchy(data);
 
-    // TODO: createMainSvg returns --camera element, not svg in fact
     let svg = d3.select(`#${this.mainId}--camera`) as TreeSvg;
     if (svg.empty()) svg = this.creatMainSvg();
 

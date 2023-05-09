@@ -45,7 +45,7 @@ export const adminHandler = (_ => {
       return res(ctx.status(204));
     }),
 
-    rest.delete(`*${environment.apiUrl}/bpn-config`, (req, res, ctx) => {
+    rest.delete(`*${environment.apiUrl}/bpn-config/:bpn`, (req, res, ctx) => {
       return res(ctx.status(204));
     }),
   ];
