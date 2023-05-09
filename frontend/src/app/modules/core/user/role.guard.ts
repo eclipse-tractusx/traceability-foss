@@ -40,7 +40,6 @@ type GuardValue = Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | b
   providedIn: 'root',
 })
 export class RoleGuard implements CanActivate, CanActivateChild, CanDeactivate<unknown>, CanMatch {
-  // ToDo: Do we need auth.guard.ts? Might be able to delete
   constructor(private readonly roleService: RoleService, private readonly router: Router) {}
 
   public canActivate(next: ActivatedRouteSnapshot, _state: RouterStateSnapshot): GuardValue {
