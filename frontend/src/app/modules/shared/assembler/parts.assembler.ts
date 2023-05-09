@@ -75,7 +75,7 @@ export class PartsAssembler {
   }
 
   public static filterPartForView(viewData: View<Part>): View<Part> {
-    if (!viewData || !viewData.data) {
+    if (!viewData?.data) {
       return viewData;
     }
     const { name, productionDate, serialNumber } = viewData.data;
