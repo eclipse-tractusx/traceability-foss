@@ -36,8 +36,17 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   styleUrls: ['./other-parts.component.scss'],
 })
 export class OtherPartsComponent implements OnInit, OnDestroy {
-  public readonly displayedColumns: string[] = [
+  public readonly displayedColumnsTabSupplier: string[] = [
     'select',
+    'name',
+    'manufacturer',
+    'partNumber',
+    'serialNumber',
+    'batchNumber',
+    'productionDate',
+  ];
+
+  public readonly displayedColumnsTabCustomer: string[] = [
     'name',
     'manufacturer',
     'partNumber',
@@ -55,9 +64,15 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
     productionDate: true,
   };
 
-  public readonly tableConfig: TableConfig = {
-    displayedColumns: this.displayedColumns,
-    header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
+  public readonly tableConfigTabSupplier: TableConfig = {
+    displayedColumns: this.displayedColumnsTabSupplier,
+    header: CreateHeaderFromColumns(this.displayedColumnsTabSupplier, 'table.column'),
+    sortableColumns: this.sortableColumns,
+  };
+
+  public readonly tableConfigTabCustomer: TableConfig = {
+    displayedColumns: this.displayedColumnsTabCustomer,
+    header: CreateHeaderFromColumns(this.displayedColumnsTabCustomer, 'table.column'),
     sortableColumns: this.sortableColumns,
   };
 

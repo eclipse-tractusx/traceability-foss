@@ -34,7 +34,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container
         *viewContainer="
           supplierParts$ | async;
-          main: mainTmp;
+          main: mainTabSupplierTmp;
           error: errorTmp;
           loading: loaderTmp;
           customContext: { labelId: supplierTabLabelId }
@@ -50,7 +50,7 @@ SPDX-License-Identifier: Apache-2.0
       <ng-container
         *viewContainer="
           customerParts$ | async;
-          main: mainTmp;
+          main: mainTabCustomerTmp;
           error: errorTmp;
           loading: loaderTmp;
           customContext: { labelId: customerTabLabelId }
@@ -61,10 +61,10 @@ SPDX-License-Identifier: Apache-2.0
   <app-part-detail [showRelation]="false"></app-part-detail>
 </div>
 
-<ng-template #mainTmp let-parts="view" let-customContext="customContext">
+<ng-template #mainTabSupplierTmp let-parts="view" let-customContext="customContext">
   <app-table
     [paginationData]="parts.data"
-    [tableConfig]="tableConfig"
+    [tableConfig]="tableConfigTabSupplier"
     [selectedPartsInfoLabel]="'page.selectedParts.info'"
     [selectedPartsActionLabel]="'page.selectedParts.action'"
     [deselectTrigger]="deselectPartTrigger$ | async"
@@ -75,6 +75,17 @@ SPDX-License-Identifier: Apache-2.0
     (configChanged)="onTableConfigChange($event)"
     (multiSelect)="onMultiSelect($event)"
     (clickSelectAction)="isInvestigationOpen$.next(true)"
+  ></app-table>
+</ng-template>
+
+<ng-template #mainTabCustomerTmp let-parts="view" let-customContext="customContext">
+  <app-table
+    [paginationData]="parts.data"
+    [tableConfig]="tableConfigTabCustomer"
+    [noShadow]="true"
+    [labelId]="customContext.labelId"
+    (selected)="onSelectItem($event)"
+    (configChanged)="onTableConfigChange($event)"
   ></app-table>
 </ng-template>
 
