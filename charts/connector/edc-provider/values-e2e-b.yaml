@@ -36,7 +36,7 @@ irs-edc-provider:
   edc-controlplane:
     ingresses:
       - enabled: true
-        hostname: "trace-x-edc.dev.demo.catena-x.net"
+        hostname: "trace-x-edc-e2e-b.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -47,7 +47,7 @@ irs-edc-provider:
         className: ""
         tls:
           - hosts:
-              - "trace-x-edc.dev.demo.catena-x.net"
+              - "trace-x-edc-e2e-b.dev.demo.catena-x.net"
             secretName: tls-secret
         certManager:
           issuer: ""
@@ -56,7 +56,7 @@ irs-edc-provider:
     edc:
       receiver:
         callback:
-          url: http://trace-x-edc.dev.demo.catena-x.net:8080/api/service/pull
+          url: http://trace-x-edc-e2e-b.dev.demo.catena-x.net:8080/api/service/pull
       postgresql:
         password: <path:traceability-foss/data/dev/edc/database#password>
       transfer:
@@ -72,15 +72,15 @@ irs-edc-provider:
         auth:
           key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
       controlplane:
-        url: "https://trace-x-edc.dev.demo.catena-x.net"
+        url: "https://trace-x-edc-e2e-b.dev.demo.catena-x.net"
       dataplane:
-        url: "https://trace-x-edc-dataplane.dev.demo.catena-x.net"
+        url: "https://trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net"
     configuration:
       properties: |-
-        edc.oauth.client.id=35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88:keyid:35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88
-        edc.oauth.private.key.alias=daps-cert-edc-dev-provider-private
+        edc.oauth.client.id=60:A5:97:5E:00:1D:BD:21:F3:7B:6A:2C:5C:3E:74:C9:B0:04:7D:BD:keyid:60:A5:97:5E:00:1D:BD:21:F3:7B:6A:2C:5C:3E:74:C9:B0:04:7D:BD
+        edc.oauth.private.key.alias=daps-cert-edc-e2e-b-provider-private
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
-        edc.oauth.certificate.alias=daps-cert-edc-dev-provider-public
+        edc.oauth.certificate.alias=daps-cert-edc-e2e-b-provider-public
         edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
         edc.vault.hashicorp.url=https://vault.demo.catena-x.net
         edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
@@ -101,7 +101,7 @@ irs-edc-provider:
       ## Public / Internet facing Ingress
       - enabled: true
         # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
-        hostname: "trace-x-edc-dataplane.dev.demo.catena-x.net"
+        hostname: "trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net"
         # -- Additional ingress annotations to add
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
@@ -115,7 +115,7 @@ irs-edc-provider:
         # -- Enables TLS on the ingress resource
         tls:
           - hosts:
-              - "trace-x-edc-dataplane.dev.demo.catena-x.net"
+              - "trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net"
             # Default secret for certificate creation already provided to your namespace
             secretName: tls-secret
         ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
@@ -128,10 +128,10 @@ irs-edc-provider:
     configuration:
       properties: |-
         edc.oauth.client.id=35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88:keyid:35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88
-        edc.oauth.private.key.alias=daps-cert-edc-dev-provider-private
+        edc.oauth.private.key.alias=daps-cert-edc-e2e-b-provider-private
         edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
         edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
-        edc.oauth.certificate.alias=daps-cert-edc-dev-provider-public
+        edc.oauth.certificate.alias=daps-cert-edc-e2e-b-provider-public
         edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
         edc.vault.hashicorp.url=https://vault.demo.catena-x.net
         edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
