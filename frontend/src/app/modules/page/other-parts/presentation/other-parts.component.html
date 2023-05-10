@@ -58,7 +58,9 @@ SPDX-License-Identifier: Apache-2.0
       ></ng-container>
     </mat-tab>
   </mat-tab-group>
-  <app-part-detail [showRelation]="false"></app-part-detail>
+<!--  TODO: need to split it to 2 app-part-detail sections, for each tab -->
+  <app-part-detail [showRelation]="false" [showStartInvestigation]="true"></app-part-detail>
+<!--  <app-part-detail [showRelation]="false" [showStartInvestigation]="false"></app-part-detail>-->
 </div>
 
 <ng-template #mainTabSupplierTmp let-parts="view" let-customContext="customContext">
