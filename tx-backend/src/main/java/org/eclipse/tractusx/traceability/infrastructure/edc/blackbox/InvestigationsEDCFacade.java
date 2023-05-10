@@ -33,7 +33,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNo
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -73,7 +73,7 @@ public class InvestigationsEDCFacade {
         this.edcProperties = edcProperties;
     }
 
-    public void startEDCTransfer(Notification notification, String receiverEdcUrl, String senderEdcUrl) {
+    public void startEDCTransfer(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
         Map<String, String> header = new HashMap<>();
         header.put("x-api-key", edcProperties.getApiAuthKey());
         try {
@@ -142,7 +142,7 @@ public class InvestigationsEDCFacade {
         }
     }
 
-    private Request buildNotificationRequest(Notification notification, String senderEdcUrl, EndpointDataReference dataReference) throws JsonProcessingException {
+    private Request buildNotificationRequest(QualityNotificationMessage notification, String senderEdcUrl, EndpointDataReference dataReference) throws JsonProcessingException {
         EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(senderEdcUrl, notification);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);

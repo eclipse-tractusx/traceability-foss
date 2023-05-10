@@ -26,17 +26,17 @@ import org.springframework.test.jdbc.JdbcTestUtils
 trait DatabaseSupport implements DatabaseProvider {
 
 	private static final List<String> TABLES = [
-		"asset_child_descriptors",
-		"assets_investigations",
-		"assets_notifications",
-		"asset",
-		"shell_descriptor",
-		"bpn_storage",
-		"notification",
-		"investigation",
-		"registry_lookup_metrics",
-        "bpn_edc_mappings"
-	]
+            "asset_child_descriptors",
+            "assets_investigations",
+            "assets_notifications",
+            "asset",
+            "shell_descriptor",
+            "bpn_storage",
+            "investigation_notification",
+            "investigation",
+            "registry_lookup_metrics",
+            "bpn_edc_mappings"
+    ]
 
 	void clearAllTables() {
 		TABLES.each {

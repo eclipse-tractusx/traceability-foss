@@ -21,7 +21,6 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.model;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.Test;
 
@@ -32,13 +31,13 @@ class NotificationTest {
     @Test
     void testCopyAndSwitchSenderAndReceiverIsAppBpn() {
         // Given
-        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
 
         BPN applicationBPN = new BPN("recipientBPN");
         String senderBPN = "senderBPN";
         String receiverBPN = applicationBPN.value();
         // When
-        Notification switchedNotification = notificationTestData.copyAndSwitchSenderAndReceiver(applicationBPN);
+        QualityNotificationMessage switchedNotification = notificationTestData.copyAndSwitchSenderAndReceiver(applicationBPN);
 
         // Then
         assertThat(switchedNotification.getReceiverBpnNumber()).isEqualTo(senderBPN);
@@ -48,14 +47,14 @@ class NotificationTest {
     @Test
     void testCopyAndSwitchSenderAndReceiverIsNotAppBpn() {
         // Given
-        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
 
         BPN applicationBPN = new BPN("senderBPN");
         String senderBPN = applicationBPN.value();
         String receiverBPN = "recipientBPN";
 
         // When
-        Notification switchedNotification = notificationTestData.copyAndSwitchSenderAndReceiver(applicationBPN);
+        QualityNotificationMessage switchedNotification = notificationTestData.copyAndSwitchSenderAndReceiver(applicationBPN);
 
         // Then
         assertThat(switchedNotification.getReceiverBpnNumber()).isEqualTo(receiverBPN);

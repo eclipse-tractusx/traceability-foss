@@ -22,8 +22,8 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
 import jakarta.validation.constraints.NotNull;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 
 public record UpdateQualityInvestigationStatus(
-	@NotNull(message = Constants.STATUS_MUST_BE_PRESENT) InvestigationStatus status) {
+        @NotNull(message = Constants.STATUS_MUST_BE_PRESENT) QualityNotificationStatus status) {
 }

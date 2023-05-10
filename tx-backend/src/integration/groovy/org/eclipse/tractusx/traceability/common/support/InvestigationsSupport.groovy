@@ -21,9 +21,10 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationSide
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
 
 import java.time.Instant
 
@@ -33,8 +34,8 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
         InvestigationEntity entity = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(InvestigationStatus.RECEIVED)
-                .side(InvestigationSide.RECEIVER)
+                .status(QualityNotificationStatusBaseEntity.RECEIVED)
+                .side(QualityNotificationSideBaseEntity.RECEIVER)
                 .description("some description")
                 .created(Instant.now())
                 .build();
@@ -46,8 +47,8 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
         InvestigationEntity entity = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(InvestigationStatus.ACKNOWLEDGED)
-                .side(InvestigationSide.RECEIVER)
+                .status(QualityNotificationStatusBaseEntity.ACKNOWLEDGED)
+                .side(QualityNotificationSideBaseEntity.RECEIVER)
                 .created(Instant.now())
                 .build();
 
@@ -60,9 +61,9 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
         assert investigations.size() == size
     }
 
-    void assertInvestigationStatus(InvestigationStatus investigationStatus) {
+    void assertInvestigationStatus(QualityNotificationStatus investigationStatus) {
         jpaInvestigationRepository().findAll().each {
-            assert it.status == investigationStatus
+            assert it.status.name() == investigationStatus.name()
         }
     }
 

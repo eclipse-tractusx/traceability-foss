@@ -35,13 +35,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.request.CloseInvestigationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.request.StartInvestigationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.request.UpdateInvestigationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.response.InvestigationDTO;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.response.StartInvestigationResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.response.InvestigationResponse;
+import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -55,7 +56,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import static org.eclipse.tractusx.traceability.qualitynotification.application.investigation.validation.UpdateInvestigationValidator.validate;
+import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
@@ -81,10 +82,10 @@ public class InvestigationsController {
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public StartInvestigationResponse investigateAssets(@RequestBody @Valid StartInvestigationRequest request) {
+    public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
-        return new StartInvestigationResponse(investigationService.startInvestigation(
-                request.partIds(), request.description(), request.targetDate(), request.severity()).value());
+        return new QualityNotificationIdResponse(investigationService.startInvestigation(
+                request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity()).value());
     }
 
     @Operation(operationId = "getCreatedInvestigations",
@@ -94,14 +95,14 @@ public class InvestigationsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationDTO.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/created")
-    public PageResult<InvestigationDTO> getCreatedInvestigations(Pageable pageable) {
+    public PageResult<InvestigationResponse> getCreatedInvestigations(Pageable pageable) {
         log.info(API_LOG_START + "/created");
-        return investigationService.getCreatedInvestigations(pageable);
+        return InvestigationResponse.fromAsPageResult(investigationService.getCreatedInvestigations(pageable));
     }
 
     @Operation(operationId = "getReceivedInvestigations",
@@ -111,14 +112,14 @@ public class InvestigationsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationDTO.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/received")
-    public PageResult<InvestigationDTO> getReceivedInvestigations(Pageable pageable) {
+    public PageResult<InvestigationResponse> getReceivedInvestigations(Pageable pageable) {
         log.info(API_LOG_START + "/received");
-        return investigationService.getReceivedInvestigations(pageable);
+        return InvestigationResponse.fromAsPageResult(investigationService.getReceivedInvestigations(pageable));
     }
 
     @Operation(operationId = "getInvestigation",
@@ -130,9 +131,9 @@ public class InvestigationsController {
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @GetMapping("/{investigationId}")
-    public InvestigationDTO getInvestigation(@PathVariable Long investigationId) {
+    public InvestigationResponse getInvestigation(@PathVariable Long investigationId) {
         log.info(API_LOG_START + "/{}", investigationId);
-        return investigationService.findInvestigation(investigationId);
+        return InvestigationResponse.from(investigationService.findInvestigation(investigationId));
     }
 
     @Operation(operationId = "approveInvestigation",
@@ -176,9 +177,9 @@ public class InvestigationsController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @PostMapping("/{investigationId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseInvestigationRequest closeInvestigationRequest) {
+    public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseQualityNotificationRequest closeInvestigationRequest) {
         log.info(API_LOG_START + "/{}/close with params {}", investigationId, closeInvestigationRequest);
-        investigationService.updateInvestigation(investigationId, InvestigationStatus.CLOSED, closeInvestigationRequest.reason());
+        investigationService.updateInvestigation(investigationId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), closeInvestigationRequest.getReason());
     }
 
     @Operation(operationId = "updateInvestigation",
@@ -192,10 +193,10 @@ public class InvestigationsController {
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{investigationId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateInvestigationRequest updateInvestigationRequest) {
+    public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateQualityNotificationRequest updateInvestigationRequest) {
         validate(updateInvestigationRequest);
         log.info(API_LOG_START + "/{}/update with params {}", investigationId, updateInvestigationRequest);
-        investigationService.updateInvestigation(investigationId, InvestigationStatus.fromStringValue(updateInvestigationRequest.status().name()), updateInvestigationRequest.reason());
+        investigationService.updateInvestigation(investigationId, UpdateQualityNotificationStatusRequest.toDomain(updateInvestigationRequest.getStatus()), updateInvestigationRequest.getReason());
     }
 }
 

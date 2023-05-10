@@ -33,9 +33,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationSide;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.base.QualityNotificationBaseEntity;
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
 
 import java.util.List;
 
@@ -56,8 +62,41 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
     private List<AssetEntity> assets;
 
     @OneToMany(mappedBy = "investigation")
-    private List<NotificationEntity> notifications;
-    private InvestigationStatus status;
-    private InvestigationSide side;
+    private List<InvestigationNotificationEntity> notifications;
+
+    public static QualityNotification toDomain(InvestigationEntity investigationNotificationEntity) {
+        List<QualityNotificationMessage> notifications = investigationNotificationEntity.getNotifications().stream()
+                .map(InvestigationNotificationEntity::toDomain)
+                .toList();
+
+        List<String> assetIds = investigationNotificationEntity.getAssets().stream()
+                .map(AssetEntity::getId)
+                .toList();
+
+        return QualityNotification.builder()
+                .investigationId(new QualityNotificationId(investigationNotificationEntity.getId()))
+                .bpn(BPN.of(investigationNotificationEntity.getBpn()))
+                .investigationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
+                .investigationSide(QualityNotificationSide.valueOf(investigationNotificationEntity.getSide().name()))
+                .closeReason(investigationNotificationEntity.getCloseReason())
+                .acceptReason(investigationNotificationEntity.getAcceptReason())
+                .declineReason(investigationNotificationEntity.getDeclineReason())
+                .createdAt(investigationNotificationEntity.getCreated())
+                .description(investigationNotificationEntity.getDescription())
+                .assetIds(assetIds)
+                .notifications(notifications)
+                .build();
+    }
+
+    public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetEntity> assetEntities) {
+        return InvestigationEntity.builder()
+                .assets(assetEntities)
+                .bpn(qualityNotification.getBpn())
+                .description(qualityNotification.getDescription())
+                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getInvestigationStatus().name()))
+                .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getInvestigationSide().name()))
+                .created(qualityNotification.getCreatedAt())
+                .build();
+    }
 
 }

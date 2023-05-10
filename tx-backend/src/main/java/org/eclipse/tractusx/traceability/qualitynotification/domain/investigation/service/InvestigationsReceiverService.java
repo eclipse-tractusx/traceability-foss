@@ -28,12 +28,12 @@ import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Investigation;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationsRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -41,23 +41,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class InvestigationsReceiverService {
 
-    private final InvestigationsRepository investigationsRepository;
+    private final InvestigationRepository investigationsRepository;
     private final NotificationMapper notificationMapper;
     private final AssetService assetService;
     private final InvestigationMapper investigationMapper;
 
     public void handleNotificationReceive(EDCNotification edcNotification) {
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
-        Notification notification = notificationMapper.toNotification(edcNotification);
-        Investigation investigation = investigationMapper.toInvestigation(investigationCreatorBPN, edcNotification.getInformation(), notification);
-        InvestigationId investigationId = investigationsRepository.save(investigation);
+        QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
+        QualityNotification investigation = investigationMapper.toInvestigation(investigationCreatorBPN, edcNotification.getInformation(), notification);
+        QualityNotificationId investigationId = investigationsRepository.saveQualityNotificationEntity(investigation);
         assetService.setAssetsInvestigationStatus(investigation);
         log.info("Stored received edcNotification in investigation with id {}", investigationId);
     }
 
     public void handleNotificationUpdate(EDCNotification edcNotification) {
-        Notification notification = notificationMapper.toNotification(edcNotification);
-        Investigation investigation = investigationsRepository.findByEdcNotificationId(edcNotification.getNotificationId())
+        QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
+        QualityNotification investigation = investigationsRepository.findByEdcNotificationId(edcNotification.getNotificationId())
                 .orElseThrow(() -> new InvestigationNotFoundException(edcNotification.getNotificationId()));
 
         switch (edcNotification.convertInvestigationStatus()) {
@@ -69,7 +69,7 @@ public class InvestigationsReceiverService {
         }
         investigation.addNotification(notification);
         assetService.setAssetsInvestigationStatus(investigation);
-        InvestigationId investigationId = investigationsRepository.update(investigation);
+        QualityNotificationId investigationId = investigationsRepository.updateQualityNotificationEntity(investigation);
         log.info("Stored update edcNotification in investigation with id {}", investigationId);
     }
 }

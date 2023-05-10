@@ -168,7 +168,7 @@ npm/npmjs/-/cookie/0.4.2, MIT, approved, clearlydefined
 npm/npmjs/-/cookie/0.5.0, MIT, approved, clearlydefined
 npm/npmjs/-/copy-anything/2.0.6, 0BSD AND MIT, approved, #1819
 npm/npmjs/-/copy-webpack-plugin/11.0.0, MIT, approved, clearlydefined
-npm/npmjs/-/core-js-compat/3.30.2, MIT AND LicenseRef-scancode-free-unknown AND JSON AND BSD-3-Clause, restricted, #8245
+npm/npmjs/-/core-js-compat/3.30.2, MIT AND BSD-3-Clause, approved, #8418
 npm/npmjs/-/core-util-is/1.0.2, MIT, approved, #5898
 npm/npmjs/-/core-util-is/1.0.3, MIT, approved, #5898
 npm/npmjs/-/cors/2.8.5, MIT, approved, clearlydefined
@@ -229,7 +229,7 @@ npm/npmjs/-/debug/4.3.4, MIT, approved, clearlydefined
 npm/npmjs/-/decamelize-keys/1.1.0, MIT, approved, #4601
 npm/npmjs/-/decamelize/1.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/decode-uri-component/0.2.2, MIT, approved, #5322
-npm/npmjs/-/deep-equal/2.2.0, MIT, approved, clearlydefined
+npm/npmjs/-/deep-equal/2.2.0, MIT, approved, #8406
 npm/npmjs/-/deep-is/0.1.4, MIT, approved, #2130
 npm/npmjs/-/default-gateway/6.0.3, BSD-2-Clause AND BSD-3-Clause, approved, #2956
 npm/npmjs/-/defaults/1.0.4, MIT, approved, clearlydefined
@@ -1486,7 +1486,7 @@ npm/npmjs/@types/express-serve-static-core/4.17.34, MIT, approved, #6020
 npm/npmjs/@types/express/4.17.17, MIT, approved, #5760
 npm/npmjs/@types/geojson/7946.0.8, MIT, approved, clearlydefined
 npm/npmjs/@types/glob/7.2.0, MIT, approved, clearlydefined
-npm/npmjs/@types/http-proxy/1.17.11, , restricted, clearlydefined
+npm/npmjs/@types/http-proxy/1.17.11, MIT, approved, #8414
 npm/npmjs/@types/jasmine/4.3.1, MIT, approved, clearlydefined
 npm/npmjs/@types/js-levenshtein/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/@types/json-schema/7.0.11, MIT, approved, clearlydefined
