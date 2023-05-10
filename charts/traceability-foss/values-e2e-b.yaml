@@ -345,23 +345,23 @@ irs-edc-consumer:
         edc.data.encryption.keys.alias=edc-data-encryption-keys-alias
         edc.data.encryption.algorithm=NONE
 
-        edc.datasource.asset.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b-hl:5432/edc
+        edc.datasource.asset.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b:5432/edc
         edc.datasource.asset.user=<path:traceability-foss/data/dev/edc/database#user>
         edc.datasource.asset.password=<path:traceability-foss/data/dev/edc/database#password>
 
-        edc.datasource.contractdefinition.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b-hl:5432/edc
+        edc.datasource.contractdefinition.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b:5432/edc
         edc.datasource.contractdefinition.user=<path:traceability-foss/data/dev/edc/database#user>
         edc.datasource.contractdefinition.password=<path:traceability-foss/data/dev/edc/database#password>
 
-        edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b-hl:5432/edc
+        edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b:5432/edc
         edc.datasource.contractnegotiation.user=<path:traceability-foss/data/dev/edc/database#user>
         edc.datasource.contractnegotiation.password=<path:traceability-foss/data/dev/edc/database#password>
 
-        edc.datasource.policy.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b-hl:5432/edc
+        edc.datasource.policy.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b:5432/edc
         edc.datasource.policy.user=<path:traceability-foss/data/dev/edc/database#user>
         edc.datasource.policy.password=<path:traceability-foss/data/dev/edc/database#password>
 
-        edc.datasource.transferprocess.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b-hl:5432/edc
+        edc.datasource.transferprocess.url=jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b:5432/edc
         edc.datasource.transferprocess.user=<path:traceability-foss/data/dev/edc/database#user>
         edc.datasource.transferprocess.password=<path:traceability-foss/data/dev/edc/database#password>
 
