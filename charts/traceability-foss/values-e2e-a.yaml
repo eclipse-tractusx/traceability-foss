@@ -194,18 +194,18 @@ irs-helm:
 
   springprofile: dev
 
-  irsUrl: "https://tracex-irs-e2e.dev.demo.catena-x.net"
+  irsUrl: "https://tracex-irs-e2e-a.dev.demo.catena-x.net"
 
   ingress:
     enabled: true
     hosts:
-      - host: "tracex-irs-e2e.dev.demo.catena-x.net"
+      - host: "tracex-irs-e2e-a.dev.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "tracex-irs-e2e.dev.demo.catena-x.net"
+          - "tracex-irs-e2e-a.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
     url: https://trace-x-registry-e2e.dev.demo.catena-x.net/semantics/registry
