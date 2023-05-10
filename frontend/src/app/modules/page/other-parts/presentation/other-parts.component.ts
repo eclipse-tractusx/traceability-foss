@@ -19,16 +19,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { Part } from '@page/parts/model/parts.model';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
-import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-other-parts',
