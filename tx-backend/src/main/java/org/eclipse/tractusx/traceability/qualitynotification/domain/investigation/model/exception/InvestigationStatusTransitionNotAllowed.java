@@ -21,12 +21,12 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 
 public class InvestigationStatusTransitionNotAllowed extends RuntimeException {
 
-	public InvestigationStatusTransitionNotAllowed(InvestigationId investigationId, InvestigationStatus from, InvestigationStatus to) {
-		super("Can't transit from %s status to %s status for %s investigation id".formatted(from.name(), to.name(), investigationId.value()));
-	}
+    public InvestigationStatusTransitionNotAllowed(QualityNotificationId investigationId, QualityNotificationStatus from, QualityNotificationStatus to) {
+        super("Can't transit from %s status to %s status for %s investigation id".formatted(from.name(), to.name(), investigationId.value()));
+    }
 }

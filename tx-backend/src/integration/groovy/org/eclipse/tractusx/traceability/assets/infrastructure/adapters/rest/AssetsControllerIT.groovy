@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest
 
-
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset
@@ -29,7 +28,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.ir
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
 import org.eclipse.tractusx.traceability.common.support.BpnSupport
 import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
 import org.hamcrest.Matchers
 import spock.util.concurrent.PollingConditions
 
@@ -264,7 +263,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 
     def "should return asset without under investigation mark"() {
         given:
-        defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus.CLOSED, false)
+        defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity.CLOSED, false)
 
         expect:
         given()
@@ -279,7 +278,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 
     def "should return asset with under investigation mark"() {
         given:
-        defaultAssetsStoredWithOnGoingInvestigation(InvestigationStatus.SENT, true)
+        defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity.SENT, true)
 
         expect:
         given()
@@ -609,7 +608,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .post("/api/assets/detail-information")
                 .then()
                 .statusCode(200)
-                .body("", Matchers.hasSize(3))
+                .body("", hasSize(3))
     }
 
 }

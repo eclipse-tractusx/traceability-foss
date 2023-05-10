@@ -24,17 +24,16 @@ import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.AffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Investigation;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Severity;
+import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationsRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsPublisherService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.NotificationsService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -68,7 +67,7 @@ class InvestigationsPublisherServiceTest {
     private InvestigationsPublisherService investigationsPublisherService;
 
     @Mock
-    private InvestigationsRepository repository;
+    private InvestigationRepository repository;
     @Mock
     private AssetRepository assetRepository;
     @Mock
@@ -78,27 +77,26 @@ class InvestigationsPublisherServiceTest {
     @Mock
     private InvestigationService investigationService;
     @Mock
-    private NotificationsService notificationsService;
+    private EdcNotificationService notificationsService;
     @Mock
     private BpnRepository bpnRepository;
-
     @Mock
     private TraceabilityProperties traceabilityProperties;
 
     @Test
     void testStartInvestigationSuccessful() {
         // Given
-        Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.CLOSED, "bpn123");
+        QualityNotification investigation = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "bpn123");
         when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
-        when(repository.save(any(Investigation.class))).thenReturn(investigation.getInvestigationId());
+        when(repository.saveQualityNotificationEntity(any(QualityNotification.class))).thenReturn(investigation.getInvestigationId());
         when(bpnRepository.findManufacturerName(anyString())).thenReturn(Optional.empty());
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
         // When
-        investigationsPublisherService.startInvestigation(Arrays.asList("asset-1", "asset-2"), "Test investigation", Instant.parse("2022-03-01T12:00:00Z"), Severity.MINOR);
+        investigationsPublisherService.startInvestigation(Arrays.asList("asset-1", "asset-2"), "Test investigation", Instant.parse("2022-03-01T12:00:00Z"), QualityNotificationSeverity.MINOR);
 
         // Then
         verify(assetRepository).getAssetsById(Arrays.asList("asset-1", "asset-2"));
-        verify(repository).save(any(Investigation.class));
+        verify(repository).saveQualityNotificationEntity(any(QualityNotification.class));
 
     }
 
@@ -107,31 +105,31 @@ class InvestigationsPublisherServiceTest {
         // Given
         BPN bpn = new BPN("bpn123");
         Long id = 1L;
-        Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.CREATED, InvestigationStatus.CREATED);
-        when(repository.update(investigation)).thenReturn(new InvestigationId(id));
+        QualityNotification investigation = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.CREATED, QualityNotificationStatus.CREATED);
+        when(repository.updateQualityNotificationEntity(investigation)).thenReturn(new QualityNotificationId(id));
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
         // When
         investigationsPublisherService.cancelInvestigation(investigation);
 
         // Then
-        verify(repository).update(investigation);
-        assertEquals(InvestigationStatus.CANCELED, investigation.getInvestigationStatus());
+        verify(repository).updateQualityNotificationEntity(investigation);
+        assertEquals(QualityNotificationStatus.CANCELED, investigation.getInvestigationStatus());
     }
 
     @Test
     void testSendInvestigationSuccessful() {
         // Given
-        final long id = 1L;
         final BPN bpn = new BPN("bpn123");
-        InvestigationId investigationId = new InvestigationId(1L);
-        Investigation investigation = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.CREATED, InvestigationStatus.CREATED);
-        when(repository.update(investigation)).thenReturn(investigationId);
+        QualityNotificationId investigationId = new QualityNotificationId(1L);
+        QualityNotification investigation = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.CREATED, QualityNotificationStatus.CREATED);
+        when(repository.updateQualityNotificationEntity(investigation)).thenReturn(investigationId);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+
         // When
         investigationsPublisherService.approveInvestigation(investigation);
 
         // Then
-        verify(repository).update(investigation);
+        verify(repository).updateQualityNotificationEntity(investigation);
         verify(notificationsService).asyncNotificationExecutor(any());
     }
 
@@ -141,64 +139,39 @@ class InvestigationsPublisherServiceTest {
 
         // Given
         BPN bpn = BPN.of("senderBPN");
-        Long investigationIdRaw = 1L;
-        InvestigationStatus status = InvestigationStatus.ACKNOWLEDGED;
+        QualityNotificationStatus status = QualityNotificationStatus.ACKNOWLEDGED;
         String reason = "the update reason";
 
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.CREATED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                LocalDateTime.now(),
-                null,
-                "messageId",
-                false
-        );
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .created(LocalDateTime.now())
+                .targetDate(Instant.now())
+                .investigationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(affectedParts)
+                .build();
 
-        Notification notification2 = new Notification(
-                "456",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.SENT,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                LocalDateTime.now().plusSeconds(10),
-                null,
-                "messageId",
-                false
-        );
-        List<Notification> notifications = new ArrayList<>();
+        QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
+                .id("456")
+                .notificationReferenceId("id123")
+                .created(LocalDateTime.now().plusSeconds(10))
+                .targetDate(Instant.now())
+                .isInitial(false)
+                .build();
+
+        List<QualityNotificationMessage> notifications = new ArrayList<>();
         notifications.add(notification);
         notifications.add(notification2);
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.RECEIVED, "recipientBPN", notifications);
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.RECEIVED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
         // When
         investigationsPublisherService.updateInvestigationPublisher(investigationTestData, status, reason);
 
         // Then
-        Mockito.verify(repository).update(investigationTestData);
-        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(Notification.class));
+        Mockito.verify(repository).updateQualityNotificationEntity(investigationTestData);
+        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(QualityNotificationMessage.class));
     }
 
     @Test
@@ -207,64 +180,40 @@ class InvestigationsPublisherServiceTest {
 
         // Given
         BPN bpn = BPN.of("senderBPN");
-        Long investigationIdRaw = 1L;
-        InvestigationStatus status = InvestigationStatus.ACCEPTED;
+        QualityNotificationStatus status = QualityNotificationStatus.ACCEPTED;
         String reason = "the update reason";
 
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.CREATED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                LocalDateTime.now(),
-                null,
-                "messageId",
-                false
-        );
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .created(LocalDateTime.now())
+                .targetDate(Instant.now())
+                .investigationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(affectedParts)
+                .build();
 
-        Notification notification2 = new Notification(
-                "456",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.SENT,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                LocalDateTime.now().plusSeconds(10),
-                null,
-                "messageId",
-                false
-        );
-        List<Notification> notifications = new ArrayList<>();
+        QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
+                .id("456")
+                .notificationReferenceId("id123")
+                .created(LocalDateTime.now().plusSeconds(10))
+                .targetDate(Instant.now())
+                .investigationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(affectedParts)
+                .build();
+
+        List<QualityNotificationMessage> notifications = new ArrayList<>();
         notifications.add(notification);
         notifications.add(notification2);
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
         // When
         investigationsPublisherService.updateInvestigationPublisher(investigationTestData, status, reason);
 
         // Then
-        Mockito.verify(repository).update(investigationTestData);
-        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(Notification.class));
+        Mockito.verify(repository).updateQualityNotificationEntity(investigationTestData);
+        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(QualityNotificationMessage.class));
     }
 
     @Test
@@ -273,64 +222,41 @@ class InvestigationsPublisherServiceTest {
 
         // Given
         BPN bpn = BPN.of("senderBPN");
-        Long investigationIdRaw = 1L;
-        InvestigationStatus status = InvestigationStatus.DECLINED;
+        QualityNotificationStatus status = QualityNotificationStatus.DECLINED;
         String reason = "the update reason";
 
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.CREATED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                LocalDateTime.now(),
-                null,
-                "messageId",
-                false
-        );
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .created(LocalDateTime.now())
+                .targetDate(Instant.now())
+                .investigationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(affectedParts)
+                .build();
 
-        Notification notification2 = new Notification(
-                "456",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.SENT,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                LocalDateTime.now().plusSeconds(10),
-                null,
-                "messageId",
-                false
-        );
-        List<Notification> notifications = new ArrayList<>();
+        QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
+                .id("456")
+                .notificationReferenceId("id123")
+                .investigationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(affectedParts)
+                .created(LocalDateTime.now().plusSeconds(10))
+                .targetDate(Instant.now())
+                .build();
+
+        List<QualityNotificationMessage> notifications = new ArrayList<>();
         notifications.add(notification);
         notifications.add(notification2);
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
+
         // When
         investigationsPublisherService.updateInvestigationPublisher(investigationTestData, status, reason);
 
         // Then
-        Mockito.verify(repository).update(investigationTestData);
-        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(Notification.class));
+        Mockito.verify(repository).updateQualityNotificationEntity(investigationTestData);
+        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(QualityNotificationMessage.class));
     }
 
     @Test
@@ -340,63 +266,38 @@ class InvestigationsPublisherServiceTest {
         // Given
         BPN bpn = BPN.of("senderBPN");
         Long investigationIdRaw = 1L;
-        InvestigationStatus status = InvestigationStatus.CLOSED;
+        QualityNotificationStatus status = QualityNotificationStatus.CLOSED;
         String reason = "the update reason";
 
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.CREATED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                LocalDateTime.now(),
-                null,
-                "messageId",
-                false
-        );
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .created(LocalDateTime.now())
+                .investigationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(affectedParts)
+                .build();
 
-        Notification notification2 = new Notification(
-                "456",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.SENT,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                LocalDateTime.now().plusSeconds(10),
-                null,
-                "messageId",
-                false
-        );
-        List<Notification> notifications = new ArrayList<>();
+        QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
+                .id("456")
+                .notificationReferenceId("id123")
+                .created(LocalDateTime.now().plusSeconds(10))
+                .investigationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(affectedParts)
+                .build();
+
+        List<QualityNotificationMessage> notifications = new ArrayList<>();
         notifications.add(notification);
         notifications.add(notification2);
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.ACCEPTED, "senderBPN", notifications);
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.ACCEPTED, "senderBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
         // When
         investigationsPublisherService.updateInvestigationPublisher(investigationTestData, status, reason);
 
         // Then
-        Mockito.verify(repository).update(investigationTestData);
-        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(Notification.class));
+        Mockito.verify(repository).updateQualityNotificationEntity(investigationTestData);
+        Mockito.verify(notificationsService, times(1)).asyncNotificationExecutor(any(QualityNotificationMessage.class));
     }
 
     @Test
@@ -406,42 +307,28 @@ class InvestigationsPublisherServiceTest {
         // Given
         BPN bpn = BPN.of("recipientBPN");
         Long investigationIdRaw = 1L;
-        InvestigationStatus status = InvestigationStatus.CREATED;
+        QualityNotificationStatus status = QualityNotificationStatus.CREATED;
         String reason = "the update reason";
 
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.CREATED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                null,
-                null,
-                "messageId",
-                false
-        );
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .investigationStatus(QualityNotificationStatus.CREATED)
+                .affectedParts(affectedParts)
+                .build();
 
-        List<Notification> notifications = new ArrayList<>();
+        List<QualityNotificationMessage> notifications = new ArrayList<>();
         notifications.add(notification);
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(InvestigationStatus.SENT, "recipientBPN", notifications);
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestDataWithNotificationList(QualityNotificationStatus.SENT, "recipientBPN", notifications);
         when(traceabilityProperties.getBpn()).thenReturn(bpn);
         // When
         assertThrows(InvestigationIllegalUpdate.class, () -> investigationsPublisherService.updateInvestigationPublisher(investigationTestData, status, reason));
 
         // Then
-        Mockito.verify(repository, never()).update(investigationTestData);
-        Mockito.verify(notificationsService, never()).asyncNotificationExecutor(any(Notification.class));
+        Mockito.verify(repository, never()).updateQualityNotificationEntity(investigationTestData);
+        Mockito.verify(notificationsService, never()).asyncNotificationExecutor(any(QualityNotificationMessage.class));
     }
 
 }

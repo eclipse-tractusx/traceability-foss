@@ -20,25 +20,22 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.mapper;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.BPN;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.AffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Investigation;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationSide;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.springframework.stereotype.Component;
 
-import java.time.Clock;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Component
 public class InvestigationMapper {
-    private final Clock clock;
-
-    public InvestigationMapper(Clock clock) {
-        this.clock = clock;
-    }
 
     /**
      * Creates an Investigation object representing the investigation received by the receiver for a given notification.
@@ -48,24 +45,20 @@ public class InvestigationMapper {
      * @param notification the notification associated with the investigation
      * @return an Investigation object representing the investigation received by the receiver
      */
-    public Investigation toInvestigation(BPN bpn, String description, Notification notification) {
+    public QualityNotification toInvestigation(BPN bpn, String description, QualityNotificationMessage notification) {
 
         List<String> assetIds = new ArrayList<>();
         notification.getAffectedParts().stream()
-                .map(AffectedPart::assetId)
+                .map(QualityNotificationAffectedPart::assetId)
                 .forEach(assetIds::add);
-        return new Investigation(
-                null,
-                bpn,
-                InvestigationStatus.RECEIVED,
-                InvestigationSide.RECEIVER,
-                null,
-                null,
-                null,
-                description,
-                clock.instant(),
-                assetIds,
-                List.of(notification)
-        );
+        return QualityNotification.builder()
+                .bpn(bpn)
+                .investigationStatus(QualityNotificationStatus.RECEIVED)
+                .investigationSide(QualityNotificationSide.RECEIVER)
+                .description(description)
+                .createdAt(Instant.now())
+                .assetIds(assetIds)
+                .notifications(List.of(notification))
+                .build();
     }
 }

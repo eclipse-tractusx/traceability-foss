@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added logic to push image to docker hub for eclipse-tractusx repository
 - Added testdata to database to ensure working notification flow
+- Added base implementation for quality notifications which can be used for alerts and investigations
 
 ### Changed
 - Updated Publish documentation workflow to convert and deploy documentation as markdown (.md)
@@ -23,7 +24,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded @angular-devkit/build-angular to ^15.0.0 (to have the same dependency as @angular-builders/custom-webpack has)
 - Fix sonar bug in minimap.d3.ts
 - Upgraded karma dependencies (use engine.io@^6.4.2 to solve Uncaught Exception vulnerability)
-
+- Refactored investigation class to be qualitynotification to reflect a base class for future extensions
+- Renamed notification table to investigation_notification to be able to understand the difference of notification source
 ### Removed
 - Not needed enum params in UpdateInvestigationRequest
 

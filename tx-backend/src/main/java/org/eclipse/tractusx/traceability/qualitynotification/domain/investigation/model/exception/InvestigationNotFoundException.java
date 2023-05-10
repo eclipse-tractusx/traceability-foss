@@ -21,13 +21,13 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 
 public class InvestigationNotFoundException extends RuntimeException {
 
-	public InvestigationNotFoundException(InvestigationId investigationId) {
-		super("Investigation not found for %s id".formatted(investigationId.value()));
-	}
+    public InvestigationNotFoundException(QualityNotificationId investigationId) {
+        super("Investigation not found for %s id".formatted(investigationId.value()));
+    }
 
 	public InvestigationNotFoundException(String notificationId) {
 		super("Investigation not found for %s notification id".formatted(notificationId));
