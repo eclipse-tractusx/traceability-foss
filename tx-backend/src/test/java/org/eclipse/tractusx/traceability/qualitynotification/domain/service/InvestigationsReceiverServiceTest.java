@@ -25,13 +25,13 @@ import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.AffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Investigation;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Severity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationsRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -55,7 +55,7 @@ import static org.mockito.Mockito.when;
 class InvestigationsReceiverServiceTest {
 
     @Mock
-    private InvestigationsRepository mockRepository;
+    private InvestigationRepository mockRepository;
 
     @Mock
     private NotificationMapper mockNotificationMapper;
@@ -75,8 +75,26 @@ class InvestigationsReceiverServiceTest {
     void testHandleNotificationReceiveValidSentNotification() {
 
         // Given
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .senderBpnNumber("senderBPN")
+                .senderManufacturerName("senderManufacturerName")
+                .receiverBpnNumber("recipientBPN")
+                .receiverManufacturerName("receiverManufacturerName")
+                .edcUrl("senderAddress")
+                .contractAgreementId("agreement")
+                .description("123")
+                .investigationStatus(QualityNotificationStatus.SENT)
+                .affectedParts(affectedParts)
+                .severity(QualityNotificationSeverity.MINOR)
+                .edcNotificationId("123")
+                .targetDate(Instant.now())
+                .messageId("messageId")
+                .isInitial(true)
+                .build();
+      /*  Notification notification = new Notification(
                 "123",
                 "id123",
                 "senderBPN",
@@ -95,20 +113,20 @@ class InvestigationsReceiverServiceTest {
                 null,
                 "messageId",
                 true
-        );
+        );*/
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
-        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.RECEIVED, "recipientBPN");
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
                 "it", notification);
 
         when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
-        when(mockInvestigationMapper.toInvestigation(any(BPN.class), anyString(), any(Notification.class))).thenReturn(investigationTestData);
+        when(mockInvestigationMapper.toInvestigation(any(BPN.class), anyString(), any(QualityNotificationMessage.class))).thenReturn(investigationTestData);
 
         // When
         service.handleNotificationReceive(edcNotification);
         // Then
-        Mockito.verify(mockRepository).save(investigationTestData);
+        Mockito.verify(mockRepository).saveQualityNotificationEntity(investigationTestData);
     }
 
     @Test
@@ -116,8 +134,8 @@ class InvestigationsReceiverServiceTest {
     void testHandleNotificationUpdateValidAcknowledgeNotificationTransition() {
 
         // Given
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+       /* Notification notification = new Notification(
                 "123",
                 "id123",
                 "senderBPN",
@@ -136,11 +154,30 @@ class InvestigationsReceiverServiceTest {
                 null,
                 "messageId",
                 false
-        );
+        );*/
+
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .senderBpnNumber("senderBPN")
+                .senderManufacturerName("senderManufacturerName")
+                .receiverBpnNumber("recipientBPN")
+                .receiverManufacturerName("receiverManufacturerName")
+                .edcUrl("senderAddress")
+                .contractAgreementId("agreement")
+                .description("123")
+                .investigationStatus(QualityNotificationStatus.ACKNOWLEDGED)
+                .affectedParts(affectedParts)
+                .severity(QualityNotificationSeverity.MINOR)
+                .edcNotificationId("123")
+                .targetDate(Instant.now())
+                .messageId("messageId")
+                .isInitial(false)
+                .build();
 
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.RECEIVED, InvestigationStatus.RECEIVED, "recipientBPN");
-        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.RECEIVED, "recipientBPN");
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
                 "it", notification);
 
@@ -150,7 +187,7 @@ class InvestigationsReceiverServiceTest {
         // When
         service.handleNotificationUpdate(edcNotification);
         // Then
-        Mockito.verify(mockRepository).update(investigationTestData);
+        Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
     @Test
@@ -158,8 +195,8 @@ class InvestigationsReceiverServiceTest {
     void testHandleNotificationUpdateValidDeclineNotificationTransition() {
 
         // Given
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+ /*       Notification notification = new Notification(
                 "123",
                 "id123",
                 "senderBPN",
@@ -178,11 +215,29 @@ class InvestigationsReceiverServiceTest {
                 null,
                 "messageId",
                 false
-        );
+        );*/
 
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .senderBpnNumber("senderBPN")
+                .senderManufacturerName("senderManufacturerName")
+                .receiverBpnNumber("recipientBPN")
+                .receiverManufacturerName("receiverManufacturerName")
+                .edcUrl("senderAddress")
+                .contractAgreementId("agreement")
+                .description("123")
+                .investigationStatus(QualityNotificationStatus.DECLINED)
+                .affectedParts(affectedParts)
+                .severity(QualityNotificationSeverity.MINOR)
+                .edcNotificationId("123")
+                .targetDate(Instant.now())
+                .messageId("messageId")
+                .isInitial(false)
+                .build();
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.ACKNOWLEDGED, "recipientBPN");
-        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN");
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
                 "it", notification);
 
@@ -192,7 +247,7 @@ class InvestigationsReceiverServiceTest {
         // When
         service.handleNotificationUpdate(edcNotification);
         // Then
-        Mockito.verify(mockRepository).update(investigationTestData);
+        Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
     @Test
@@ -200,8 +255,8 @@ class InvestigationsReceiverServiceTest {
     void testHandleNotificationUpdateValidAcceptedNotificationTransition() {
 
         // Given
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+/*        Notification notification = new Notification(
                 "123",
                 "id123",
                 "senderBPN",
@@ -220,11 +275,29 @@ class InvestigationsReceiverServiceTest {
                 null,
                 "messageId",
                 false
-        );
+        );*/
 
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .senderBpnNumber("senderBPN")
+                .senderManufacturerName("senderManufacturerName")
+                .receiverBpnNumber("recipientBPN")
+                .receiverManufacturerName("receiverManufacturerName")
+                .edcUrl("senderAddress")
+                .contractAgreementId("agreement")
+                .description("123")
+                .investigationStatus(QualityNotificationStatus.ACCEPTED)
+                .affectedParts(affectedParts)
+                .severity(QualityNotificationSeverity.MINOR)
+                .edcNotificationId("123")
+                .targetDate(Instant.now())
+                .messageId("messageId")
+                .isInitial(false)
+                .build();
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.ACKNOWLEDGED, "recipientBPN");
-        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN");
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
                 "it", notification);
 
@@ -234,7 +307,7 @@ class InvestigationsReceiverServiceTest {
         // When
         service.handleNotificationUpdate(edcNotification);
         // Then
-        Mockito.verify(mockRepository).update(investigationTestData);
+        Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
     @Test
@@ -242,8 +315,8 @@ class InvestigationsReceiverServiceTest {
     void testHandleNotificationUpdateValidCloseNotificationTransition() {
 
         // Given
-        List<AffectedPart> affectedParts = List.of(new AffectedPart("partId"));
-        Notification notification = new Notification(
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+ /*       Notification notification = new Notification(
                 "123",
                 "id123",
                 "senderBPN",
@@ -262,11 +335,29 @@ class InvestigationsReceiverServiceTest {
                 null,
                 "messageId",
                 false
-        );
+        );*/
 
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .senderBpnNumber("senderBPN")
+                .senderManufacturerName("senderManufacturerName")
+                .receiverBpnNumber("recipientBPN")
+                .receiverManufacturerName("receiverManufacturerName")
+                .edcUrl("senderAddress")
+                .contractAgreementId("agreement")
+                .description("123")
+                .investigationStatus(QualityNotificationStatus.CLOSED)
+                .affectedParts(affectedParts)
+                .severity(QualityNotificationSeverity.MINOR)
+                .edcNotificationId("123")
+                .targetDate(Instant.now())
+                .messageId("messageId")
+                .isInitial(false)
+                .build();
 
-        Investigation investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(InvestigationStatus.ACKNOWLEDGED, InvestigationStatus.ACKNOWLEDGED, "senderBPN");
-        Notification notificationTestData = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "senderBPN");
+        QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
         EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
                 "it", notification);
 
@@ -276,7 +367,7 @@ class InvestigationsReceiverServiceTest {
         // When
         service.handleNotificationUpdate(edcNotification);
         // Then
-        Mockito.verify(mockRepository).update(investigationTestData);
+        Mockito.verify(mockRepository).updateQualityNotificationEntity(investigationTestData);
     }
 
 }

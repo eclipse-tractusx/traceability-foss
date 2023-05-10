@@ -29,11 +29,11 @@ import org.eclipse.tractusx.traceability.common.security.JwtRole
 import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.AffectedPart
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Notification
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.Severity
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
 import org.hamcrest.Matchers
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional
@@ -54,29 +54,22 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
         defaultAssetsStored()
 
         and:
+        QualityNotificationMessage notificationBuild = QualityNotificationMessage.builder()
+                .id("some-id")
+                .investigationStatus(QualityNotificationStatus.SENT)
+                .affectedParts(List.of(new QualityNotificationAffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")))
+                .senderManufacturerName("bpn-a")
+                .senderBpnNumber("Sender Manufacturer name")
+                .receiverBpnNumber("BPNL00000003AXS3")
+                .receiverManufacturerName("Receiver manufacturer name")
+                .severity(QualityNotificationSeverity.MINOR)
+                .isInitial(false)
+                .targetDate(Instant.parse("2018-11-30T18:35:24.00Z"))
+                .isInitial(false)
+                .messageId("messageId")
+                .build();
         EDCNotification notification = EDCNotificationFactory.createQualityInvestigation(
-                "it",
-                new Notification(
-                        "some-id",
-                        null,
-                        "bpn-a",
-                        "Sender Manufacturer name",
-                        "BPNL00000003AXS3",
-                        "Receiver manufacturer name",
-                        "edcUrl",
-                        null,
-                        "description",
-                        InvestigationStatus.SENT,
-                        [new AffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")],
-                        Instant.parse("2018-11-30T18:35:24.00Z"),
-                        Severity.MINOR,
-                        "some-id",
-                        null,
-                        null,
-                        "messageid",
-                        false
-                )
-        )
+                "it", notificationBuild)
 
         when:
         investigationsReceiverService.handleNotificationReceive(notification)
@@ -460,7 +453,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 
         then:
         assertInvestigationsSize(1)
-        assertInvestigationStatus(InvestigationStatus.CLOSED)
+        assertInvestigationStatus(QualityNotificationStatus.CLOSED)
     }
 
     def "should not cancel not existing investigation"() {

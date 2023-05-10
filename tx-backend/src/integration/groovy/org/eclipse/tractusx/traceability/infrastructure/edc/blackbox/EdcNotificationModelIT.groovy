@@ -28,7 +28,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNo
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationContent
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationHeader
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
 import org.springframework.beans.factory.annotation.Autowired
 
 class EdcNotificationModelIT extends IntegrationSpecification implements TestDataSupport {
@@ -66,7 +66,7 @@ class EdcNotificationModelIT extends IntegrationSpecification implements TestDat
         }
 
         and:
-        edcNotification.convertInvestigationStatus() == InvestigationStatus.SENT
+        edcNotification.convertInvestigationStatus() == QualityNotificationStatus.SENT
         edcNotification.convertNotificationType() == NotificationType.QMINVESTIGATION
     }
 

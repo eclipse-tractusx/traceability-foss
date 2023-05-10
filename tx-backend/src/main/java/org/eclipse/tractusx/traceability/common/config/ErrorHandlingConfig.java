@@ -31,7 +31,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.Te
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.validation.UpdateInvestigationValidationException;
+import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationReceiverBpnMismatchException;
@@ -189,9 +189,9 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
-    @ExceptionHandler(UpdateInvestigationValidationException.class)
-    ResponseEntity<ErrorResponse> handleUpdateInvestigationValidationException(UpdateInvestigationValidationException exception) {
-        logger.warn("handleUpdateInvestigationValidationException", exception);
+    @ExceptionHandler(UpdateQualityNotificationValidationException.class)
+    ResponseEntity<ErrorResponse> handleUpdateQualityNotificationValidationException(UpdateQualityNotificationValidationException exception) {
+        logger.warn("handleUpdateQualityNotificationValidationException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }

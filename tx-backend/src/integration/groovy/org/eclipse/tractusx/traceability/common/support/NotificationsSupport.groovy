@@ -22,22 +22,22 @@
 package org.eclipse.tractusx.traceability.common.support
 
 
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.NotificationEntity
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity
 
 trait NotificationsSupport implements NotificationsRepositoryProvider {
 
-    NotificationEntity storedNotification(NotificationEntity notification) {
+    InvestigationNotificationEntity storedNotification(InvestigationNotificationEntity notification) {
         return jpaNotificationRepository().save(notification)
     }
 
-    void storedNotifications(NotificationEntity... notifications) {
+    void storedNotifications(InvestigationNotificationEntity... notifications) {
         notifications.each {
             storedNotification(it)
         }
     }
 
     void assertNotificationsSize(int size) {
-        List<NotificationEntity> notifications = jpaNotificationRepository().findAll()
+        List<InvestigationNotificationEntity> notifications = jpaNotificationRepository().findAll()
 
         assert notifications.size() == size
     }
