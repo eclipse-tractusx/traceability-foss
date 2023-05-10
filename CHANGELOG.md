@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added project lombok
 - Added Dockerfile to root directory
 - Added helm-test workflow
+- Added new testdata set for bom lifecycle "asBuilt" 
 
 ### Changed
 - Updated spring-boot:core from 6.0.6 to 6.0.8 for cve-2023-20863
@@ -61,6 +62,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Moved Investigation JPA implementation to the correct folder structure
 - Moved Notification JPA implementation to the correct folder structure
 - Fixed bug to reflect investigation status on assets
+- Added documentation on the usage of testdata
 
 ### Removed
 - Removed usage of add-license-header script in FE hook
