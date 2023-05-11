@@ -21,10 +21,9 @@
 
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { PartsState } from '@page/parts/core/parts.state';
-import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
-import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
+import { renderComponent } from '@tests/test-render.utils';
 import { firstValueFrom } from 'rxjs';
 import {
   OTHER_PARTS_MOCK_1,
@@ -125,14 +124,13 @@ describe('Other Parts', () => {
       );
     });
 
-    // Disabled until BE catches up WIP
-    xit('should request customer parts if second tab is selected', async () => {
+    it('should request customer parts if second tab is selected', async () => {
       const fixture = await renderOtherParts({ roles: ['user'] });
 
       fireEvent.click(screen.getByText('pageOtherParts.tab.customer'));
 
-      await waitFor(() => expect(screen.getByText('partDetail.manufacturer')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('partDetail.manufacturer'));
+      await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturer'));
 
       const customerParts = await firstValueFrom(otherPartsState.customerParts$);
       await waitFor(() =>
