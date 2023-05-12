@@ -6,13 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - x.x.x]
 
+## [3.4.0] - 2023-05-11
+
 ### Added
+
 - Added logic to push image to docker hub for eclipse-tractusx repository
 - Added testdata to database to ensure working notification flow
 - Added base implementation for quality notifications which can be used for alerts and investigations
 - Added option to hide "Investigation for components" in part-detail.component.html
 
 ### Changed
+
 - Updated Publish documentation workflow to convert and deploy documentation as markdown (.md)
 - Bumped cypress-io/github-action from 5.6.1 to 5.6.2
 - Bumped veracode/veracode-uploadandscan-action@0.2.5 to 0.2.6
