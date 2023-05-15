@@ -31,15 +31,7 @@ SPDX-License-Identifier: Apache-2.0
         <span [id]="supplierTabLabelId">{{ 'pageOtherParts.tab.supplier' | i18n }} </span>
       </ng-template>
 
-      <ng-container
-        *viewContainer="
-          supplierParts$ | async;
-          main: mainTmp;
-          error: errorTmp;
-          loading: loaderTmp;
-          customContext: { labelId: supplierTabLabelId }
-        "
-      ></ng-container>
+      <app-supplier-parts></app-supplier-parts>
     </mat-tab>
 
     <mat-tab>
@@ -47,52 +39,9 @@ SPDX-License-Identifier: Apache-2.0
         <span [id]="customerTabLabelId">{{ 'pageOtherParts.tab.customer' | i18n }} </span>
       </ng-template>
 
-      <ng-container
-        *viewContainer="
-          customerParts$ | async;
-          main: mainTmp;
-          error: errorTmp;
-          loading: loaderTmp;
-          customContext: { labelId: customerTabLabelId }
-        "
-      ></ng-container>
+      <app-customer-parts></app-customer-parts>
     </mat-tab>
   </mat-tab-group>
-  <app-part-detail [showRelation]="false"></app-part-detail>
+
+  <app-part-detail [showRelation]="false" [showStartInvestigation]="showStartInvestigationArray[selectedTab]"></app-part-detail>
 </div>
-
-<ng-template #mainTmp let-parts="view" let-customContext="customContext">
-  <app-table
-    [paginationData]="parts.data"
-    [tableConfig]="tableConfig"
-    [selectedPartsInfoLabel]="'page.selectedParts.info'"
-    [selectedPartsActionLabel]="'page.selectedParts.action'"
-    [deselectTrigger]="deselectPartTrigger$ | async"
-    [addTrigger]="addPartTrigger$ | async"
-    [noShadow]="true"
-    [labelId]="customContext.labelId"
-    (selected)="onSelectItem($event)"
-    (configChanged)="onTableConfigChange($event)"
-    (multiSelect)="onMultiSelect($event)"
-    (clickSelectAction)="isInvestigationOpen$.next(true)"
-  ></app-table>
-</ng-template>
-
-<ng-template #errorTmp let-parts="view">
-  <app-data-loading-error [error]="parts.error"></app-data-loading-error>
-</ng-template>
-
-<ng-template #loaderTmp let-parts="view">
-  <mat-spinner></mat-spinner>
-</ng-template>
-
-<app-sidenav-wrapper [isOpen]="isInvestigationOpen$ | async" (sidenavAction)="isInvestigationOpen$.next($event)">
-  <app-request-investigation
-    *ngIf="isInvestigationOpen$ | async"
-    [selectedItems]="currentSelectedItems"
-    (deselectPart)="removeItemFromSelection($event)"
-    (restorePart)="addItemToSelection($event)"
-    (clearSelected)="clearSelected()"
-    (submitted)="submit()"
-  ></app-request-investigation>
-</app-sidenav-wrapper>
