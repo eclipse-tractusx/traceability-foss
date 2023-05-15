@@ -1,12 +1,9 @@
 name: "Dependencies Backend Update"
 
-#on:
-#  push:
-#    paths:
-#      - DEPENDENCIES_BACKEND
-
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - chore/TRACEFOSS-1336-dependencies-github-action
 
 jobs:
   build:
