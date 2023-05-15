@@ -27,8 +27,10 @@ jobs:
         run: |
           if git diff --name-only ${{ github.base_ref }}...${{ github.sha }} | grep -q '^DEPENDENCIES_BACKEND$'; then
             echo "The file was changed"
+            echo "::set-output name=wasFileChanged::true"
           else
             echo "The file was not changed"
+            echo "::set-output name=wasFileChanged::false"
           fi
 
       - name: Create pull request
@@ -41,3 +43,4 @@ jobs:
           body: |
             Updates Dependencies
           labels: feature, enhancement
+        if: steps.step1.outputs.wasFileChanged == 'true'
