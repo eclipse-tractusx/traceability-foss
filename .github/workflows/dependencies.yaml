@@ -27,17 +27,17 @@ jobs:
         run: |
           if git diff --name-only ${{ github.base_ref }}...${{ github.sha }} | grep -q '^DEPENDENCIES_BACKEND$'; then
             echo "The file was changed"
-            echo "::set-output name=wasFileChanged::true"
+            echo "was_file_changed=true" >> "$GITHUB_ENV"
           else
             echo "The file was not changed"
-            echo "::set-output name=wasFileChanged::true"
+            echo "was_file_changed=true" >> "$GITHUB_ENV"
           fi
 
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-        if: steps.step1.outputs.wasFileChanged == 'true'
+        if: "${{ env.was_file_changed }}" == 'true'
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v5
@@ -49,4 +49,4 @@ jobs:
           body: |
             Updates Dependencies
           labels: feature, enhancement
-        if: steps.step1.outputs.wasFileChanged == 'true'
+        if: "${{ env.was_file_changed }}" == 'true'
