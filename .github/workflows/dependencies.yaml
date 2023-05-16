@@ -37,7 +37,7 @@ jobs:
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-        if: "${{ env.was_file_changed }}" == 'true'
+        if: ${{ env.was_file_changed }} == 'true'
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v5
@@ -49,4 +49,4 @@ jobs:
           body: |
             Updates Dependencies
           labels: feature, enhancement
-        if: "${{ env.was_file_changed }}" == 'true'
+        if: ${{ env.was_file_changed }} == 'true'
