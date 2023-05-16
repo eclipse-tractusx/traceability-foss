@@ -44,6 +44,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: update/dependency
+          base: ${{ github.ref }}
           commit-message: Update Dependencies Backend Action
           title: Update Dependencies Backend
           body: |
