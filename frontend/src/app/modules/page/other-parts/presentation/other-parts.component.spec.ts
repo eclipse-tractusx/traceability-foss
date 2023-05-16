@@ -21,10 +21,9 @@
 
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { PartsState } from '@page/parts/core/parts.state';
-import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
-import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
+import { renderComponent } from '@tests/test-render.utils';
 import { firstValueFrom } from 'rxjs';
 import {
   OTHER_PARTS_MOCK_1,
@@ -81,49 +80,20 @@ describe('Other Parts', () => {
     expect(selectedPartsInfo).toBeInTheDocument();
   });
 
-  it('should set currentSelectedParts correctly', async () => {
-    const renderedComponent = await renderOtherParts();
-    const expected = ['test', 'test2'] as unknown as Part[];
 
-    renderedComponent.fixture.componentInstance.onMultiSelect(expected);
-    expect(renderedComponent.fixture.componentInstance.selectedItems).toEqual([expected]);
-
-    renderedComponent.fixture.componentInstance.onTabChange({ index: 1 } as any);
-    renderedComponent.fixture.componentInstance.onMultiSelect(expected);
-    expect(renderedComponent.fixture.componentInstance.selectedItems).toEqual([expected, expected]);
-  });
-
-  it('should clear currentSelectedParts', async () => {
+  it('should set selectedTab correctly', async () => {
     const { fixture } = await renderOtherParts();
     const { componentInstance } = fixture;
 
-    const expected = ['test', 'test2'] as unknown as Part[];
+    expect(componentInstance.selectedTab).toEqual(0);
 
-    componentInstance.onMultiSelect(expected);
     componentInstance.onTabChange({ index: 1 } as any);
-    componentInstance.onMultiSelect(expected);
-    expect(componentInstance.selectedItems).toEqual([expected, expected]);
+    expect(componentInstance.selectedTab).toEqual(1);
 
     componentInstance.onTabChange({ index: 0 } as any);
-    componentInstance.clearSelected();
-    expect(componentInstance.selectedItems).toEqual([[], expected]);
+    expect(componentInstance.selectedTab).toEqual(0);
   });
 
-  it('should remove only one item from current selection', async () => {
-    const { fixture } = await renderOtherParts();
-    const { componentInstance } = fixture;
-
-    const expected = [{ id: 'test' }, { id: 'test2' }] as Part[];
-
-    componentInstance.onMultiSelect(expected);
-    componentInstance.onTabChange({ index: 1 } as any);
-    componentInstance.onMultiSelect(expected);
-    expect(componentInstance.selectedItems).toEqual([expected, expected]);
-
-    componentInstance.onTabChange({ index: 0 } as any);
-    componentInstance.removeItemFromSelection({ id: 'test' } as any);
-    expect(componentInstance.selectedItems).toEqual([[{ id: 'test2' }] as Part[], expected]);
-  });
 
   describe('onTableConfigChange', () => {
     it('should request supplier parts if first tab is selected', async () => {
@@ -154,14 +124,13 @@ describe('Other Parts', () => {
       );
     });
 
-    // Disabled until BE catches up WIP
-    xit('should request customer parts if second tab is selected', async () => {
+    it('should request customer parts if second tab is selected', async () => {
       const fixture = await renderOtherParts({ roles: ['user'] });
 
       fireEvent.click(screen.getByText('pageOtherParts.tab.customer'));
 
-      await waitFor(() => expect(screen.getByText('partDetail.manufacturer')).toBeInTheDocument());
-      fireEvent.click(screen.getByText('partDetail.manufacturer'));
+      await waitFor(() => expect(screen.getByText('table.column.manufacturer')).toBeInTheDocument());
+      fireEvent.click(screen.getByText('table.column.manufacturer'));
 
       const customerParts = await firstValueFrom(otherPartsState.customerParts$);
       await waitFor(() =>
@@ -184,25 +153,5 @@ describe('Other Parts', () => {
         }),
       );
     });
-  });
-
-  it('should add item to current list', async () => {
-    const { fixture } = await renderOtherParts({ roles: ['user'] });
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
-
-    fireEvent.click(screen.getByText('pageOtherParts.tab.supplier'));
-    fireEvent.click(await getTableCheckbox(screen, 0));
-
-    const selectedText_1 = await waitFor(() => screen.getByText('page.selectedParts.info'));
-    expect(selectedText_1).toBeInTheDocument();
-    expect(fixture.componentInstance.currentSelectedItems).toEqual([expectedPart]);
-
-    // Disabled until BE catches up WIP
-    /* fireEvent.click(screen.getByText('pageOtherParts.tab.customer'));
-
-    const selectedText_2 = await waitFor(() => screen.getByText('page.selectedParts.info'));
-    expect(selectedText_2).toBeInTheDocument();
-    fixture.componentInstance.clearSelected();
-    await waitFor(() => expect(fixture.componentInstance.currentSelectedItems).toEqual([]));*/
   });
 });

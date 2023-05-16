@@ -38,6 +38,7 @@ import { filter, tap } from 'rxjs/operators';
 })
 export class PartDetailComponent implements AfterViewInit, OnDestroy {
   @Input() showRelation = true;
+  @Input() showStartInvestigation = true;
 
   public readonly shortenPartDetails$: Observable<View<Part>>;
   public readonly selectedPartDetails$: Observable<View<Part>>;

@@ -63,7 +63,7 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "15.0.0",
-    "@angular-devkit/build-angular": "^15.0.0",
+    "@angular-devkit/build-angular": "15.2.8",
     "@angular-eslint/builder": "15.2.1",
     "@angular-eslint/eslint-plugin": "15.2.1",
     "@angular-eslint/eslint-plugin-template": "15.2.1",
@@ -111,6 +111,9 @@
     "ts-node": "10.9.1",
     "typescript": "4.9.5",
     "webpack-bundle-analyzer": "4.8.0"
+  },
+  "resolutions": {
+    "@angular-devkit/build-angular": "15.2.8"
   },
   "msw": {
     "workerDirectory": "src"
