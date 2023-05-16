@@ -484,7 +484,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
-                <version>${surefire-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>surefire_report</id>
@@ -811,7 +810,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
-                        <version>3.0.0-M9</version>
                         <configuration>
                             <includes>
                                 <include>**/*Spec.java</include>
@@ -825,7 +823,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-report-plugin</artifactId>
-                        <version>3.0.0-M9</version>
                         <executions>
                             <execution>
                                 <id>failsafe_report</id>

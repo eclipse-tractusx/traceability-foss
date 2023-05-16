@@ -11,11 +11,18 @@
 Repeat those steps for registry, submodelserver, trace-x-provider-edcs, tracex-instances
 
 ## 2) Data upload of assets
+
 In order to upload data to EDC Provider, please use [IRS project script](https://github.com/catenax-ng/tx-item-relationship-service/blob/main/local/testing/testdata/transform-and-upload.py)
-Sample invocation:
+Sample invocation (DEV & TEST)
 
 ```
 python transform-and-upload.py -f CX_Testdata_v1.4.1-AsBuilt-reduced-with-asPlanned.json -s https://tracex-submodel-server.dev.demo.catena-x.net https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry -k apiKey
+```
+
+Sample invocation (E2E A & E2E B)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server-e2e.dev.demo.catena-x.net https://tracex-submodel-server-e2e.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e.dev.demo.catena-x.net/semantics/registry -k apiKey
 ```
 
 where:
