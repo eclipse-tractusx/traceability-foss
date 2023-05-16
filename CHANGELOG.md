@@ -5,28 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - x.x.x]
-
 ### Added
-
 - Added option to hide "Investigation for components" in part-detail.component.html
+- E2E A & B env profile configuration
 
 ### Changed
-
 - Refactored other-parts.component.html - split into new components: supplier-parts.component.html and customer-parts.component.html
-
+- Bump cypress-io/github-action from 5.6.2 to 5.7.1
+- Bump surefire-plugin.version from 3.0.0-M8 to 3.0.0
+- Bump java-jwt from 4.3.0 to 4.4.0
+- Bump asciidoctor-maven-plugin from 2.2.2 to 2.2.3
+- Bump spring-cloud-dependencies from 2022.0.1 to 2022.0.2
+- Bump asciidoctorj from 2.5.7 to 2.5.8
 ### Removed
 - Removed selection column on Customer Parts page
 
 ## [3.4.0] - 2023-05-11
 
 ### Added
-
 - Added logic to push image to docker hub for eclipse-tractusx repository
 - Added testdata to database to ensure working notification flow
 - Added base implementation for quality notifications which can be used for alerts and investigations
 
 ### Changed
-
 - Updated Publish documentation workflow to convert and deploy documentation as markdown (.md)
 - Bumped cypress-io/github-action from 5.6.1 to 5.6.2
 - Bumped veracode/veracode-uploadandscan-action@0.2.5 to 0.2.6
@@ -41,7 +42,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Upgraded karma dependencies (use engine.io@^6.4.2 to solve Uncaught Exception vulnerability)
 - Refactored investigation class to be qualitynotification to reflect a base class for future extensions
 - Renamed notification table to investigation_notification to be able to understand the difference of notification source
-
 ### Removed
 - Not needed enum params in UpdateInvestigationRequest
 

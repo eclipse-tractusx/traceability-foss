@@ -1,0 +1,1749 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2023-05-15T20:31:26.477Z",
+  "__export_source": "insomnia.desktop.app:v2023.2.0",
+  "resources": [
+    {
+      "_id": "req_64a607c50c3640438d0dd59501948ff6",
+      "parentId": "fld_3391241be1ec4b5dbf810925cf7139ca",
+      "modified": 1683225883762,
+      "created": 1679986644580,
+      "url": "{{ _.baseUrl }}/api/edc/notification/contract",
+      "name": "CreateNotificationContract Receive",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\"notificationType\": \"QUALITY_INVESTIGATION\", \"notificationMethod\": \"RECEIVE\"\n}\n"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_e91fcc496b5744beb35d556b287863c3",
+          "name": "Content-Type",
+          "value": "application/json",
+          "description": "",
+          "disabled": false
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678423983844.7969,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_3391241be1ec4b5dbf810925cf7139ca",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1683225816817,
+      "created": 1683225816817,
+      "name": "Trace-X Contracts",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1683225816817,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_68149bd7f1b049478b987da824737944",
+      "parentId": null,
+      "modified": 1678372641671,
+      "created": 1678372423780,
+      "name": "Catena-X",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_39ffb01549da42c691bc2a41cfbb7dbc",
+      "parentId": "fld_3391241be1ec4b5dbf810925cf7139ca",
+      "modified": 1683225892005,
+      "created": 1679986727449,
+      "url": "{{ _.baseUrl }}/api/edc/notification/contract",
+      "name": "CreateNotificationContract Update",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"notificationType\" : \"QUALITY_INVESTIGATION\", \"notificationMethod\" : \"UPDATE\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_7751eec7ba734c80930d24c87da5d114",
+          "name": "Content-Type",
+          "value": "application/json",
+          "description": ""
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678423983794.7969,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_a0e8b56625d74dbf825d57982465f337",
+      "parentId": "fld_7d4fb6d0cb67465da67d049a26904f27",
+      "modified": 1682686487577,
+      "created": 1682514812813,
+      "url": "{{ _.baseUrl }}/api/bpn-config",
+      "name": "FindAll",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1682514812813,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_7d4fb6d0cb67465da67d049a26904f27",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1682514811574,
+      "created": 1681728488551,
+      "name": "BPN-Mapping",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1681728488551,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_87ebb1a8e52544e294c35ea8dc8df46c",
+      "parentId": "fld_7d4fb6d0cb67465da67d049a26904f27",
+      "modified": 1684091157994,
+      "created": 1682686509302,
+      "url": "{{ _.baseUrl }}/api/bpn-config/BPNL00000003B2OM",
+      "name": "DeleteById",
+      "description": "",
+      "method": "DELETE",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1682473292686.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_32342d1e563d465d87fd9561b67940a1",
+      "parentId": "fld_7d4fb6d0cb67465da67d049a26904f27",
+      "modified": 1684162791176,
+      "created": 1682686495654,
+      "url": "{{ _.baseUrl }}/api/bpn-config",
+      "name": "SaveAll",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "[\n\t{\n\t\t\"bpn\": \"BPNL00000003CML1\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net\"\n\t},\n\t{\n\t\t\"bpn\": \"BPNL00000003CNKC\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net\"\n\t}\n]"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1682431772559.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_4640326dda3a4b9c853e2e37b5a70b09",
+      "parentId": "fld_7d4fb6d0cb67465da67d049a26904f27",
+      "modified": 1684162906101,
+      "created": 1682686503749,
+      "url": "{{ _.baseUrl }}/api/bpn-config",
+      "name": "UpdateAll",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "[\n\t{\n\t\t\"bpn\": \"BPNL00000003CML1\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net\"\n\t},\n\t{\n\t\t\"bpn\": \"BPNL00000003CNKC\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net\"\n\t}\n]"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1682390252432.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_07226819782a43b2984ded19901f6664",
+      "parentId": "fld_e25ae0ca1743468dadb7679397eff170",
+      "modified": 1684089987502,
+      "created": 1681385637898,
+      "url": "{{ _.registry }}/semantics/registry/registry/shell-descriptors",
+      "name": "RetrieveShellDescriptors",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1681385637898,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_e25ae0ca1743468dadb7679397eff170",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1683225918972,
+      "created": 1681385636476,
+      "name": "DT-Registry",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1681385636476,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_941d7c241ea14530830a7db4d763c2fa",
+      "parentId": "fld_0a2df17ec8ed4717a9fb632c5edfb938",
+      "modified": 1684095037067,
+      "created": 1682348732306,
+      "url": "{{ _.baseUrlEdcConsumerDev }}/api/v1/management/catalog/request",
+      "name": "Catalog",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"providerUrl\": \"https://trace-x-test-edc.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n\t\n}\n\n\n"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "x-api-key",
+          "value": "{{ _.edc_api_auth_key_dev }}",
+          "id": "pair_6838a24d992a44e4bad61636766ca65d"
+        },
+        {
+          "id": "pair_fb11ac85a34246c5b6a8988b9ec55a71",
+          "name": "content-type",
+          "value": "application/json",
+          "description": ""
+        },
+        {
+          "id": "pair_b9a20d0b01584ebe911b160d8b375edc",
+          "name": "accept",
+          "value": "\"/\"",
+          "description": "",
+          "disabled": true
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1682348732306,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_0a2df17ec8ed4717a9fb632c5edfb938",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1681306081567,
+      "created": 1681306081567,
+      "name": "EDC",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1681306081567,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_b38a8bdb63a043609d567ca9ff794434",
+      "parentId": "fld_0a2df17ec8ed4717a9fb632c5edfb938",
+      "modified": 1684161564403,
+      "created": 1683225997187,
+      "url": "https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net/api/v1/management/catalog/request",
+      "name": "Catalog_with_filter_assetId",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"providerUrl\": \"https://trace-x-edc-e2e-b.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n\t\n}\n\n\n"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "x-api-key",
+          "value": "{{ _.edc_api_auth_key_dev }}",
+          "id": "pair_6838a24d992a44e4bad61636766ca65d"
+        },
+        {
+          "id": "pair_fb11ac85a34246c5b6a8988b9ec55a71",
+          "name": "content-type",
+          "value": "application/json",
+          "description": ""
+        },
+        {
+          "id": "pair_b9a20d0b01584ebe911b160d8b375edc",
+          "name": "accept",
+          "value": "\"/\"",
+          "description": "",
+          "disabled": true
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1682107958704,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ef787a43b6ba479db5c9b7441c81ac9f",
+      "parentId": "fld_0a2df17ec8ed4717a9fb632c5edfb938",
+      "modified": 1684160009183,
+      "created": 1683553577783,
+      "url": "https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net/api/v1/management/catalog/request",
+      "name": "Catalog_E2E-A-to-E2E-B",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"providerUrl\": \"https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n}\n\n\n"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "x-api-key",
+          "value": "{{ _.edc_api_auth_key_dev }}",
+          "id": "pair_6838a24d992a44e4bad61636766ca65d"
+        },
+        {
+          "id": "pair_fb11ac85a34246c5b6a8988b9ec55a71",
+          "name": "content-type",
+          "value": "application/json",
+          "description": ""
+        },
+        {
+          "id": "pair_b9a20d0b01584ebe911b160d8b375edc",
+          "name": "accept",
+          "value": "\"/\"",
+          "description": "",
+          "disabled": true
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1681626411500,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_147f721750aa43bf950f957b30fd69d0",
+      "parentId": "fld_0a2df17ec8ed4717a9fb632c5edfb938",
+      "modified": 1684153406585,
+      "created": 1684149834854,
+      "url": "https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net/api/v1/management/catalog/request",
+      "name": "Catalog_E2E-B-to-E2E-A",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"providerUrl\": \"https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n}\n\n\n"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "x-api-key",
+          "value": "{{ _.edc_api_auth_key_dev }}",
+          "id": "pair_6838a24d992a44e4bad61636766ca65d"
+        },
+        {
+          "id": "pair_fb11ac85a34246c5b6a8988b9ec55a71",
+          "name": "content-type",
+          "value": "application/json",
+          "description": ""
+        },
+        {
+          "id": "pair_b9a20d0b01584ebe911b160d8b375edc",
+          "name": "accept",
+          "value": "\"/\"",
+          "description": "",
+          "disabled": true
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1681506024699,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_230d0874b99e4da194743bab65c1b95f",
+      "parentId": "fld_0e105fe882ec4e1588f9529bc5c3cc99",
+      "modified": 1683727280404,
+      "created": 1681302844788,
+      "url": "{{ _.base_url_portal_int }}/api/administration/connectors/discovery",
+      "name": "DiscoveryService",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "[\"BPNL00000003CNKC\"]\n\n\n"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "oauth2",
+        "grantType": "client_credentials",
+        "accessTokenUrl": "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token",
+        "clientId": "{{ _.portal_client_int }}",
+        "clientSecret": "{{ _.portal_secret_int }}"
+      },
+      "metaSortKey": -1681302844788,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_0e105fe882ec4e1588f9529bc5c3cc99",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1681302843541,
+      "created": 1681302843541,
+      "name": "Portal",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1681302843541,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_9033837f116e41ad8ec8039ccd637cde",
+      "parentId": "fld_e0b39cd773954ef3af394098641c316d",
+      "modified": 1683611878770,
+      "created": 1681279818545,
+      "url": "{{ _.irsBaseUrl }}/irs/jobs",
+      "name": "RegisterJob",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n     \"aspects\": [\n         \"AssemblyPartRelationship\",\n\t\t\t \"SerialPartTypization\",\n\t\t\t  \"Batch\"\n     ],\n     \"bomLifecycle\":\"asBuilt\",\n     \"collectAspects\": true,\n     \"direction\":\"downward\",\n     \"depth\":2,\n     \"globalAssetId\": \"urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22\"\n} "
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_8345d381d2b244d9b948fd1245052bcd",
+          "name": "Content-Type",
+          "value": "application/json",
+          "description": ""
+        }
+      ],
+      "authentication": {
+        "type": "oauth2",
+        "grantType": "client_credentials",
+        "accessTokenUrl": "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token",
+        "clientSecret": "{{ _.irs_client_secret_int }}",
+        "clientId": "{{ _.client_id }}"
+      },
+      "metaSortKey": -1681279818545,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_e0b39cd773954ef3af394098641c316d",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1681225712903,
+      "created": 1681225712903,
+      "name": "IRS",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1681225712903,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_20fd42e195b7454688678be451e1307b",
+      "parentId": "fld_e0b39cd773954ef3af394098641c316d",
+      "modified": 1683611888223,
+      "created": 1681279913018,
+      "url": "{{ _.irsBaseUrl }}/irs/jobs/{% response 'body', 'req_9033837f116e41ad8ec8039ccd637cde', 'b64::JC5pZA==::46b', 'never', 60 %}",
+      "name": "GetJobDetails",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_cc52c379ff4b470e95f46be30ecf8a34",
+          "name": "Content-Type",
+          "value": "application/json",
+          "description": ""
+        }
+      ],
+      "authentication": {
+        "type": "oauth2",
+        "grantType": "client_credentials",
+        "accessTokenUrl": "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token",
+        "clientId": "{{ _.client_id }}",
+        "clientSecret": "{{ _.irs_client_secret_int }}"
+      },
+      "metaSortKey": -1680373302447.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_4f48b1420a984c6aaaac528be6d6b83d",
+      "parentId": "fld_e0b39cd773954ef3af394098641c316d",
+      "modified": 1683611896756,
+      "created": 1681295746698,
+      "url": "{{ _.irsBaseUrl }}/irs/aspectmodels",
+      "name": "Aspectmodels",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "id": "pair_cc52c379ff4b470e95f46be30ecf8a34",
+          "name": "Content-Type",
+          "value": "application/json",
+          "description": ""
+        }
+      ],
+      "authentication": {
+        "type": "oauth2",
+        "grantType": "client_credentials",
+        "accessTokenUrl": "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token",
+        "clientId": "{{ _.client_id }}",
+        "clientSecret": "{{ _.irs_client_secret_int }}"
+      },
+      "metaSortKey": -1679920044398.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_14fe7a99385f4bc9bf4cfb9c7c53d3a1",
+      "parentId": "fld_c398c2e9533d4463ad7d9251b26405f2",
+      "modified": 1683608136590,
+      "created": 1678889920351,
+      "url": "{{ _.base_url_central_idp}}/auth/realms/CX-Central/protocol/openid-connect/token",
+      "name": "RetrieveAccessToken",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/x-www-form-urlencoded",
+        "params": [
+          {
+            "id": "pair_56879c89b0034ed181ea9b12c85bac06",
+            "name": "grant_type",
+            "value": "client_credentials",
+            "description": ""
+          },
+          {
+            "id": "pair_9ca0b1ecf7e3466ea400f90537950e0e",
+            "name": "client_id",
+            "value": "{{ _.client_id }}",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_762b17f59d874af2a53a7e7afbe319f0",
+            "name": "client_secret",
+            "value": "{{ _.client_secret }}",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/x-www-form-urlencoded"
+        }
+      ],
+      "authentication": {
+        "type": "apikey",
+        "disabled": true,
+        "key": "",
+        "value": "",
+        "addTo": "header"
+      },
+      "metaSortKey": -1678372717854.875,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_c398c2e9533d4463ad7d9251b26405f2",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1678891513163,
+      "created": 1678891506121,
+      "name": "Authentication",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1678891506121,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_b805cb68282348728c2d788a2886c26d",
+      "parentId": "fld_c398c2e9533d4463ad7d9251b26405f2",
+      "modified": 1683226750664,
+      "created": 1681225716310,
+      "url": "{{ _.base_url_central_idp_int }}/auth/realms/CX-Central/protocol/openid-connect/certs",
+      "name": "Cert (Int)",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1678372717804.875,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_52a0d24879db45a69d185e0c67b9f433",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1683036929214,
+      "created": 1678443692900,
+      "url": "{{ _.baseUrl }}/api/investigations",
+      "name": "Create",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"partIds\": {{ _.assetId }},\n  \"description\":\"{% now 'iso-8601', '' %}-requested-by-max\",\n\t\"severity\": \"LIFE-THREATENING\",\n  \"targetDate\": \"2024-02-04T13:48:54Z\" \n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "authority",
+          "value": "traceability.dev.demo.catena-x.net",
+          "id": "pair_dc7bb20cc17c4f7fb50fa286d6d657e8"
+        },
+        {
+          "name": "accept",
+          "value": "application/json, text/plain, */*",
+          "id": "pair_d9d500857d164605903cbd2d2a277971"
+        },
+        {
+          "name": "accept-language",
+          "value": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+          "id": "pair_d32282df29524f8fad00dbfbc96e48e2"
+        },
+        {
+          "name": "access",
+          "value": "application/json",
+          "id": "pair_cc17f507446943c48b486380cd749238"
+        },
+        {
+          "name": "content-type",
+          "value": "application/json",
+          "id": "pair_d6cbe8ea35de4df285bbfedb6fd1e564"
+        },
+        {
+          "name": "origin",
+          "value": "https://traceability-portal.dev.demo.catena-x.net",
+          "id": "pair_4aefeb69f30443a0adf9e010794ccf1b"
+        },
+        {
+          "name": "referer",
+          "value": "https://traceability-portal.dev.demo.catena-x.net/",
+          "id": "pair_a53c45fdeb1941e3bbc349bcea22e82c"
+        },
+        {
+          "name": "sec-ch-ua",
+          "value": "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"",
+          "id": "pair_6b261299b5cc400ab58c3769aa7d019e"
+        },
+        {
+          "name": "sec-ch-ua-mobile",
+          "value": "?0",
+          "id": "pair_1545e26232144e8d90e266475d839866"
+        },
+        {
+          "name": "sec-ch-ua-platform",
+          "value": "\"Windows\"",
+          "id": "pair_03bff76c5bc74e51a8dd942d50cf6007"
+        },
+        {
+          "name": "sec-fetch-dest",
+          "value": "empty",
+          "id": "pair_534ac4a137d64410b39436125a79ad43"
+        },
+        {
+          "name": "sec-fetch-mode",
+          "value": "cors",
+          "id": "pair_1e734755f88d45e4bbac284ed7a25b1b"
+        },
+        {
+          "name": "sec-fetch-site",
+          "value": "same-site",
+          "id": "pair_c5394aea2dbb428ea723b97faa54d467"
+        },
+        {
+          "name": "user-agent",
+          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+          "id": "pair_f1ac2ccd605a406ca21ed6fcb2171af2"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678426183021.625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1678443502032,
+      "created": 1678443494124,
+      "name": "Investigations",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1678408018961.5,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_c1bc417e889d49bc81bfa611b1d7eb31",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1680534726183,
+      "created": 1678994885972,
+      "url": "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/close",
+      "name": "Close",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"reason\":\"This is the close reason by max.\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b3b659435cf14b77bded0cc87474005c"
+        },
+        {
+          "id": "pair_36d23ffc465a4cc28982c48f0440d8c3",
+          "name": "Accept",
+          "value": "application/json, text/plain, */*",
+          "description": ""
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678421784717.9688,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_419f4465f1db459a99919caa1b6f54c7",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1679131686163,
+      "created": 1678443523796,
+      "url": "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/approve",
+      "name": "Approve",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"partIds\": {{ _.assetId }},\n\"description\":\"test\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_b3b659435cf14b77bded0cc87474005c"
+        },
+        {
+          "id": "pair_36d23ffc465a4cc28982c48f0440d8c3",
+          "name": "Accept",
+          "value": "application/json, text/plain, */*",
+          "description": ""
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678417386414.3125,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_5a892acf8c654d9b855cd5b88c63e182",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1678954712888,
+      "created": 1678372844863,
+      "url": "{{ _.baseUrl }}/api/investigations/received?page=0&size=5",
+      "name": "Received",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "application/json",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678408589807,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_3f15b6718d3a4995a4e1ccebe05c746e",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1678954718656,
+      "created": 1678444754820,
+      "url": "{{ _.baseUrl }}/api/investigations/created?page=0&size=20",
+      "name": "Created",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "application/json",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678390691884.375,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_a7029126fa794e13a91c274c72e9ae68",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1678954727074,
+      "created": 1678456288470,
+      "url": "{{ _.baseUrl }}/api/investigations/80",
+      "name": "InvestigationById",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "application/json",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678381742923.0625,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_a612fc0297e04c278da4a621a1df7095",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1683233378922,
+      "created": 1678444421749,
+      "url": "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name": "Acknowledge (Takes Id from Received)",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{ \n\t\"reason\": \"\",  \n\t\"status\": \"ACKNOWLEDGED\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678372793961.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_8c45d94904784e57887c6d3359540719",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1683294270125,
+      "created": 1678893031171,
+      "url": "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name": "Accepted (Takes Id from Received)",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{ \n  \"reason\":\"{% now 'iso-8601', '' %}-accepted-by-max\",\n\t\"status\": \"ACCEPTED\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678372755908.3125,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ce7a575e61874e7692bdebfadd5db645",
+      "parentId": "fld_e1256f3a13794c4faa70f3dbe141f521",
+      "modified": 1678893251921,
+      "created": 1678893088697,
+      "url": "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name": "Declined (Takes Id from Received)",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{ \n  \"reason\":\"{% now 'iso-8601', '' %}-declined-by-max\",\n\t\"status\": \"DECLINED\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678372736881.5938,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_9be917a3ef2c4697b9521b161ded3299",
+      "parentId": "fld_8c8a7e309e994b878f676456fda5ddbc",
+      "modified": 1681989921035,
+      "created": 1679496545738,
+      "url": "{{ _.baseUrl }}/api/assets/sync",
+      "name": "Sync",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"globalAssetIds\": [\"urn:uuid:6d9be5cc-6eff-47f8-bcc6-f6c639c932cf\"]\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "authority",
+          "value": "traceability.dev.demo.catena-x.net",
+          "id": "pair_dc7bb20cc17c4f7fb50fa286d6d657e8"
+        },
+        {
+          "name": "accept",
+          "value": "application/json, text/plain, */*",
+          "id": "pair_d9d500857d164605903cbd2d2a277971"
+        },
+        {
+          "name": "accept-language",
+          "value": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+          "id": "pair_d32282df29524f8fad00dbfbc96e48e2"
+        },
+        {
+          "name": "access",
+          "value": "application/json",
+          "id": "pair_cc17f507446943c48b486380cd749238"
+        },
+        {
+          "name": "content-type",
+          "value": "application/json",
+          "id": "pair_d6cbe8ea35de4df285bbfedb6fd1e564"
+        },
+        {
+          "name": "origin",
+          "value": "https://traceability-portal.dev.demo.catena-x.net",
+          "id": "pair_4aefeb69f30443a0adf9e010794ccf1b"
+        },
+        {
+          "name": "referer",
+          "value": "https://traceability-portal.dev.demo.catena-x.net/",
+          "id": "pair_a53c45fdeb1941e3bbc349bcea22e82c"
+        },
+        {
+          "name": "sec-ch-ua",
+          "value": "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"",
+          "id": "pair_6b261299b5cc400ab58c3769aa7d019e"
+        },
+        {
+          "name": "sec-ch-ua-mobile",
+          "value": "?0",
+          "id": "pair_1545e26232144e8d90e266475d839866"
+        },
+        {
+          "name": "sec-ch-ua-platform",
+          "value": "\"Windows\"",
+          "id": "pair_03bff76c5bc74e51a8dd942d50cf6007"
+        },
+        {
+          "name": "sec-fetch-dest",
+          "value": "empty",
+          "id": "pair_534ac4a137d64410b39436125a79ad43"
+        },
+        {
+          "name": "sec-fetch-mode",
+          "value": "cors",
+          "id": "pair_1e734755f88d45e4bbac284ed7a25b1b"
+        },
+        {
+          "name": "sec-fetch-site",
+          "value": "same-site",
+          "id": "pair_c5394aea2dbb428ea723b97faa54d467"
+        },
+        {
+          "name": "user-agent",
+          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+          "id": "pair_f1ac2ccd605a406ca21ed6fcb2171af2"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678423983869.7969,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_8c8a7e309e994b878f676456fda5ddbc",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1679496536706,
+      "created": 1679496529516,
+      "name": "Assets",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1678408018911.5,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_b3de0b8ebc4b44069b00a16529785850",
+      "parentId": "fld_8c8a7e309e994b878f676456fda5ddbc",
+      "modified": 1679980740925,
+      "created": 1679980717650,
+      "url": "{{ _.baseUrl }}/api/registry/reload",
+      "name": "RegistryReload",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [
+        {
+          "name": "authority",
+          "value": "traceability.dev.demo.catena-x.net",
+          "id": "pair_dc7bb20cc17c4f7fb50fa286d6d657e8"
+        },
+        {
+          "name": "accept",
+          "value": "application/json, text/plain, */*",
+          "id": "pair_d9d500857d164605903cbd2d2a277971"
+        },
+        {
+          "name": "accept-language",
+          "value": "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+          "id": "pair_d32282df29524f8fad00dbfbc96e48e2"
+        },
+        {
+          "name": "access",
+          "value": "application/json",
+          "id": "pair_cc17f507446943c48b486380cd749238"
+        },
+        {
+          "name": "origin",
+          "value": "https://traceability-portal.dev.demo.catena-x.net",
+          "id": "pair_4aefeb69f30443a0adf9e010794ccf1b"
+        },
+        {
+          "name": "referer",
+          "value": "https://traceability-portal.dev.demo.catena-x.net/",
+          "id": "pair_a53c45fdeb1941e3bbc349bcea22e82c"
+        },
+        {
+          "name": "sec-ch-ua",
+          "value": "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"",
+          "id": "pair_6b261299b5cc400ab58c3769aa7d019e"
+        },
+        {
+          "name": "sec-ch-ua-mobile",
+          "value": "?0",
+          "id": "pair_1545e26232144e8d90e266475d839866"
+        },
+        {
+          "name": "sec-ch-ua-platform",
+          "value": "\"Windows\"",
+          "id": "pair_03bff76c5bc74e51a8dd942d50cf6007"
+        },
+        {
+          "name": "sec-fetch-dest",
+          "value": "empty",
+          "id": "pair_534ac4a137d64410b39436125a79ad43"
+        },
+        {
+          "name": "sec-fetch-mode",
+          "value": "cors",
+          "id": "pair_1e734755f88d45e4bbac284ed7a25b1b"
+        },
+        {
+          "name": "sec-fetch-site",
+          "value": "same-site",
+          "id": "pair_c5394aea2dbb428ea723b97faa54d467"
+        },
+        {
+          "name": "user-agent",
+          "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+          "id": "pair_f1ac2ccd605a406ca21ed6fcb2171af2"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678423983819.7969,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_bc8209842d0e489fb4497dc307d1754c",
+      "parentId": "fld_8c8a7e309e994b878f676456fda5ddbc",
+      "modified": 1680068416030,
+      "created": 1680068383064,
+      "url": "{{ _.baseUrl }}/api/assets",
+      "name": "Assets",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "application/json",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678423983769.7969,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_bc8a1f499e0f49ea892c3bf2bc4ef850",
+      "parentId": "fld_8c8a7e309e994b878f676456fda5ddbc",
+      "modified": 1683641610447,
+      "created": 1680068435216,
+      "url": "{{ _.baseUrl }}/api/assets?owner=SUPPLIER",
+      "name": "SupplierAssets",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "application/json",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678423434006.8398,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_0b6215afc081421682edbf1d6bd61b2c",
+      "parentId": "fld_8c8a7e309e994b878f676456fda5ddbc",
+      "modified": 1683395203600,
+      "created": 1680068475581,
+      "url": "{{ _.baseUrl }}/api/assets/urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpna",
+      "name": "AssetById",
+      "description": "",
+      "method": "GET",
+      "body": {
+        "mimeType": "application/json",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {
+        "type": "bearer",
+        "token": "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix": "Bearer"
+      },
+      "metaSortKey": -1678423159125.3613,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_aac0b4507f60ebb4c4d7f7e5912428f1f3ff6097",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1684093859296,
+      "created": 1678372423794,
+      "name": "Base Environment",
+      "data": {
+        "base_url_portal_int": "https://portal-backend.int.demo.catena-x.net",
+        "irs_client_secret_int": "",
+        "portal_client_int": "",
+        "portal_secret_int": "",
+        "baseUrlEdcConsumerTest": "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net",
+        "baseUrlEdcConsumerDev": "https://tracex-consumer-controlplane.dev.demo.catena-x.net",
+        "registryBaseDevTest": "https://trace-x-registry.dev.demo.catena-x.net",
+        "base_url_central_idp_global": "https://centralidp.int.demo.catena-x.net",
+        "base_url_registry_e2e": "https://trace-x-registry-e2e.dev.demo.catena-x.net"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url_portal_int",
+          "irs_client_secret_int",
+          "portal_client_int",
+          "portal_secret_int",
+          "baseUrlEdcConsumerTest",
+          "baseUrlEdcConsumerDev",
+          "registryBaseDevTest",
+          "base_url_central_idp_global",
+          "base_url_registry_e2e"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1678372423794,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_aac0b4507f60ebb4c4d7f7e5912428f1f3ff6097",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1684179881919,
+      "created": 1678372423801,
+      "name": "Default Jar",
+      "cookies": [
+        {
+          "key": "KC_RESTART",
+          "expires": "1970-01-01T00:00:10.000Z",
+          "maxAge": 0,
+          "domain": "centralidp.dev.demo.catena-x.net",
+          "path": "/auth/realms/CX-Central/",
+          "httpOnly": true,
+          "extensions": [
+            "Version=1"
+          ],
+          "hostOnly": true,
+          "creation": "2023-03-28T07:01:57.266Z",
+          "lastAccessed": "2023-05-15T19:44:41.919Z",
+          "id": "009239313880831546"
+        },
+        {
+          "key": "KC_RESTART",
+          "expires": "1970-01-01T00:00:10.000Z",
+          "maxAge": 0,
+          "domain": "centralidp.int.demo.catena-x.net",
+          "path": "/auth/realms/CX-Central/",
+          "httpOnly": true,
+          "extensions": [
+            "Version=1"
+          ],
+          "hostOnly": true,
+          "creation": "2023-04-04T08:16:29.897Z",
+          "lastAccessed": "2023-05-15T12:36:34.016Z",
+          "id": "08705279542047939"
+        },
+        {
+          "key": "rack.session",
+          "value": "8ebba2ae37dff827f137b1674408ce3cc715cde1161922859ae23b0858f925f5",
+          "domain": "daps1.int.demo.catena-x.net",
+          "path": "/",
+          "secure": true,
+          "httpOnly": true,
+          "hostOnly": true,
+          "creation": "2023-04-17T11:58:39.065Z",
+          "lastAccessed": "2023-05-04T18:43:59.102Z",
+          "id": "20882736383137823"
+        }
+      ],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_d285bb29861849eb86b7087a55fde374",
+      "parentId": "wrk_68149bd7f1b049478b987da824737944",
+      "modified": 1678372423782,
+      "created": 1678372423782,
+      "fileName": "Catena-X",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    },
+    {
+      "_id": "env_dcad2f0be413463d8faf6169d0573d0a",
+      "parentId": "env_aac0b4507f60ebb4c4d7f7e5912428f1f3ff6097",
+      "modified": 1684089894346,
+      "created": 1678785087392,
+      "name": "Int",
+      "data": {
+        "baseUrl": "https://traceability.int.demo.catena-x.net",
+        "base_url_central_idp": "https://centralidp.int.demo.catena-x.net",
+        "client_id": "",
+        "client_secret": "",
+        "assetId": "[\"urn:uuid:10e78a62-1728-423f-ae23-e063d321268d\"]",
+        "irsBaseUrl": "https://tracex-irs.int.demo.catena-x.net",
+        "irs_client_secret": "",
+        "registry": "",
+        "edc_api_auth_key": "",
+        "baseUrlEdc": "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl",
+          "base_url_central_idp",
+          "client_id",
+          "client_secret",
+          "assetId",
+          "irsBaseUrl",
+          "irs_client_secret",
+          "registry",
+          "edc_api_auth_key",
+          "baseUrlEdc"
+        ]
+      },
+      "color": "#ed0202",
+      "isPrivate": false,
+      "metaSortKey": 1678785087393,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_09e8ec33341e4ca1b91da4470fbc6ea2",
+      "parentId": "env_aac0b4507f60ebb4c4d7f7e5912428f1f3ff6097",
+      "modified": 1684090005008,
+      "created": 1678785132947,
+      "name": "dev",
+      "data": {
+        "baseUrl": "https://traceability.dev.demo.catena-x.net",
+        "base_url_central_idp": "https://centralidp.dev.demo.catena-x.net",
+        "client_id": "",
+        "client_secret": "",
+        "assetId": "[\"urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpnb\"]",
+        "irsBaseUrl": "https://tracex-irs.dev.demo.catena-x.net",
+        "registry": "https://trace-x-registry.dev.demo.catena-x.net",
+        "edc_api_auth_key_dev": ""
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl",
+          "base_url_central_idp",
+          "client_id",
+          "client_secret",
+          "assetId",
+          "irsBaseUrl",
+          "registry",
+          "edc_api_auth_key_dev"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1678785132947,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_c654574bb74444ccb9243b8241d3e187",
+      "parentId": "env_aac0b4507f60ebb4c4d7f7e5912428f1f3ff6097",
+      "modified": 1684090008403,
+      "created": 1678785140494,
+      "name": "test",
+      "data": {
+        "baseUrl": "https://traceability-test.dev.demo.catena-x.net",
+        "base_url_central_idp": "https://centralidp.dev.demo.catena-x.net",
+        "client_id": "",
+        "client_secret": "",
+        "assetId": "[\"urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpna\"]",
+        "irsBaseUrl": "https://tracex-irs-test.dev.demo.catena-x.net",
+        "registry": "https://trace-x-registry.dev.demo.catena-x.net",
+        "edc_api_auth_key_dev": ""
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl",
+          "base_url_central_idp",
+          "client_id",
+          "client_secret",
+          "assetId",
+          "irsBaseUrl",
+          "registry",
+          "edc_api_auth_key_dev"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1678785140494,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_b0d5bb29e17e4524a060faeebe8138bf",
+      "parentId": "env_aac0b4507f60ebb4c4d7f7e5912428f1f3ff6097",
+      "modified": 1684089950064,
+      "created": 1678953706593,
+      "name": "Int with GEC",
+      "data": {
+        "baseUrl": "https://traceability.int.demo.catena-x.net",
+        "central_idp": "https://centralidp.int.demo.catena-x.net",
+        "iamUrl": "https://centralidp.int.demo.catena-x.net",
+        "client_id": "",
+        "client_secret": "",
+        "assetId": "[\"urn:uuid:171fed54-26aa-4848-a025-81aaca557f37\"]",
+        "registry": "",
+        "irsBaseUrl": "https://tracex-irs.int.demo.catena-x.net"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl",
+          "central_idp",
+          "iamUrl",
+          "client_id",
+          "client_secret",
+          "assetId",
+          "registry",
+          "irsBaseUrl"
+        ]
+      },
+      "color": "#e9fa00",
+      "isPrivate": false,
+      "metaSortKey": 1678953706593,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_aaee5f802f184f139f12bfdeeb55d3e9",
+      "parentId": "env_aac0b4507f60ebb4c4d7f7e5912428f1f3ff6097",
+      "modified": 1684090025459,
+      "created": 1684084366450,
+      "name": "E2E-A",
+      "data": {
+        "baseUrl": "https://traceability-e2e-a.dev.demo.catena-x.net",
+        "base_url_central_idp": "https://centralidp.dev.demo.catena-x.net",
+        "client_id": "",
+        "client_secret": "",
+        "assetId": "[\"urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpnb\"]",
+        "irsBaseUrl": "https://tracex-irs-e2e-a.dev.demo.catena-x.net",
+        "registry": "https://trace-x-registry-e2e.dev.demo.catena-x.net",
+        "edc_api_auth_key_dev": ""
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl",
+          "base_url_central_idp",
+          "client_id",
+          "client_secret",
+          "assetId",
+          "irsBaseUrl",
+          "registry",
+          "edc_api_auth_key_dev"
+        ]
+      },
+      "color": "#8267cb",
+      "isPrivate": false,
+      "metaSortKey": 1684084366450,
+      "_type": "environment"
+    },
+    {
+      "_id": "env_00cd60d1c5f94f9eabecd31d25b4a0ba",
+      "parentId": "env_aac0b4507f60ebb4c4d7f7e5912428f1f3ff6097",
+      "modified": 1684179806970,
+      "created": 1684089676382,
+      "name": "E2E-B",
+      "data": {
+        "baseUrl": "https://traceability-e2e-b.dev.demo.catena-x.net",
+        "base_url_central_idp": "https://centralidp.dev.demo.catena-x.net",
+        "client_id": "",
+        "client_secret": "",
+        "assetId": "[\"urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpna\"]",
+        "irsBaseUrl": "https://tracex-irs-e2e-b.dev.demo.catena-x.net",
+        "registry": "https://trace-x-registry-e2e.dev.demo.catena-x.net",
+        "edc_api_auth_key_dev": ""
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "baseUrl",
+          "base_url_central_idp",
+          "client_id",
+          "client_secret",
+          "assetId",
+          "irsBaseUrl",
+          "registry",
+          "edc_api_auth_key_dev"
+        ]
+      },
+      "color": "#8267cb",
+      "isPrivate": false,
+      "metaSortKey": 1684084366500,
+      "_type": "environment"
+    }
+  ]
+}
