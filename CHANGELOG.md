@@ -17,6 +17,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump asciidoctor-maven-plugin from 2.2.2 to 2.2.3
 - Bump spring-cloud-dependencies from 2022.0.1 to 2022.0.2
 - Bump asciidoctorj from 2.5.7 to 2.5.8
+- Use Selective dependency resolutions for @angular-devkit/build-angular to keep 15.2.8 version locked (so @angular-builders/custom-webpack uses the same version as well)
+
 ### Removed
 - Removed selection column on Customer Parts page
 

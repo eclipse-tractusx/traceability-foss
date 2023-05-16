@@ -55,7 +55,7 @@
     "@angular-devkit/core" "15.1.6"
     rxjs "6.6.7"
 
-"@angular-devkit/build-angular@^15.0.0":
+"@angular-devkit/build-angular@15.2.8", "@angular-devkit/build-angular@^15.0.0":
   version "15.2.8"
   resolved "https://registry.yarnpkg.com/@angular-devkit/build-angular/-/build-angular-15.2.8.tgz#5412125b810fee084eb8afc20b9911606ad66170"
   integrity sha512-TGDnXhhOG6h6TOrWWzfnkha7wYBOXi7iJc1o1w1VKCayE3T6TZZdF847aK66vL9KG7AKYVdGhWEGw2WBHUBUpg==
