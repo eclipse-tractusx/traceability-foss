@@ -28,6 +28,7 @@ jobs:
           if git diff --name-only ${{ github.base_ref }}...${{ github.sha }} | grep -q '^DEPENDENCIES_BACKEND$'; then
             echo "The file was changed"
             echo "was_file_changed=true" >> "$GITHUB_ENV"
+            git
           else
             echo "The file was not changed"
             echo "was_file_changed=true" >> "$GITHUB_ENV"
@@ -42,6 +43,8 @@ jobs:
       - name: Create pull request
         uses: peter-evans/create-pull-request@v5
         with:
+          add-paths: |
+            DEPENDENCIES_BACKEND
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: action/dependencies
           base: ${{ github.ref }}
