@@ -43,7 +43,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: update/dependency
+          branch: ${{ github.ref }}
           base: ${{ github.ref }}
           commit-message: Update Dependencies Backend Action
           title: Update Dependencies Backend
