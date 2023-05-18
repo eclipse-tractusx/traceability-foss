@@ -89,6 +89,14 @@
     @apply focus:outline-none;
   }
 
+  .mat-mdc-unelevated-button {
+    border-radius: 50px !important;
+  }
+
+  .mat-mdc-unelevated-button > .mdc-button__label {
+    @apply text-interactive;
+  }
+
   .mat-mdc-form-field {
     @apply font-light lg:text-base sm:text-sm text-dark ml-0 !important;
   }
