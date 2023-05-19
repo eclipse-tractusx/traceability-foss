@@ -19,13 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
+import { NotificationAssembler } from '@shared/assembler/notification.assembler';
+import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NotificationCreateResponse } from '../model/notification.model';
-import { Severity } from '@shared/model/severity.model';
+import { NotificationCreateResponse, Notifications, NotificationsResponse } from '../model/notification.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +36,22 @@ export class AlertsService {
   private readonly url = environment.apiUrl;
 
   constructor(private readonly apiService: ApiService) {}
+
+  public getCreatedAlerts(page: number, pageSize: number): Observable<Notifications> {
+    const params = new HttpParams().set('page', page).set('size', pageSize);
+
+    return this.apiService
+      .getBy<NotificationsResponse>(`${this.url}/alerts/created`, params)
+      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts)));
+  }
+
+  public getReceivedAlerts(page: number, pageSize: number): Observable<Notifications> {
+    const params = new HttpParams().set('page', page).set('size', pageSize);
+
+    return this.apiService
+      .getBy<NotificationsResponse>(`${this.url}/alerts/received`, params)
+      .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts)));
+  }
 
   public postAlert(partIds: string[], description: string, severity: Severity, bpn: string): Observable<string> {
     const body = { partIds, description, severity, bpn };
