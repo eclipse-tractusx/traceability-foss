@@ -47,53 +47,53 @@ public class InvestigationServiceImpl implements InvestigationService {
 
 
     @Override
-    public QualityNotificationId startInvestigation(List<String> partIds, String description, Instant targetDate, String severity) {
+    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, String severity) {
         return investigationsPublisherService.startInvestigation(partIds, description, targetDate, QualityNotificationSeverity.fromString(severity));
     }
 
     @Override
-    public PageResult<QualityNotification> getCreatedInvestigations(Pageable pageable) {
+    public PageResult<QualityNotification> getCreated(Pageable pageable) {
         return getInvestigationsPageResult(pageable, QualityNotificationSide.SENDER);
     }
 
     @Override
-    public PageResult<QualityNotification> getReceivedInvestigations(Pageable pageable) {
+    public PageResult<QualityNotification> getReceived(Pageable pageable) {
         return getInvestigationsPageResult(pageable, QualityNotificationSide.RECEIVER);
     }
 
     @Override
-    public QualityNotification findInvestigation(Long id) {
+    public QualityNotification find(Long id) {
         QualityNotificationId investigationId = new QualityNotificationId(id);
-        return loadInvestigationOrNotFoundException(investigationId);
+        return loadOrNotFoundException(investigationId);
     }
 
     @Override
-    public QualityNotification loadInvestigationOrNotFoundException(QualityNotificationId investigationId) {
+    public QualityNotification loadOrNotFoundException(QualityNotificationId investigationId) {
         return investigationsRepository.findOptionalQualityNotificationById(investigationId)
                 .orElseThrow(() -> new InvestigationNotFoundException(investigationId));
     }
 
     @Override
-    public QualityNotification loadInvestigationByEdcNotificationIdOrNotFoundException(String edcNotificationId) {
+    public QualityNotification loadByEdcNotificationIdOrNotFoundException(String edcNotificationId) {
         return investigationsRepository.findByEdcNotificationId(edcNotificationId)
                 .orElseThrow(() -> new InvestigationNotFoundException(edcNotificationId));
     }
 
     @Override
-    public void approveInvestigation(Long investigationId) {
-        QualityNotification investigation = loadInvestigationOrNotFoundException(new QualityNotificationId(investigationId));
+    public void approve(Long notificationId) {
+        QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
         investigationsPublisherService.approveInvestigation(investigation);
     }
 
     @Override
-    public void cancelInvestigation(Long investigationId) {
-        QualityNotification investigation = loadInvestigationOrNotFoundException(new QualityNotificationId(investigationId));
+    public void cancel(Long notificationId) {
+        QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
         investigationsPublisherService.cancelInvestigation(investigation);
     }
 
     @Override
-    public void updateInvestigation(Long investigationId, QualityNotificationStatus status, String reason) {
-        QualityNotification investigation = loadInvestigationOrNotFoundException(new QualityNotificationId(investigationId));
+    public void update(Long investigationId, QualityNotificationStatus status, String reason) {
+        QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(investigationId));
         investigationsPublisherService.updateInvestigationPublisher(investigation, status, reason);
     }
 
