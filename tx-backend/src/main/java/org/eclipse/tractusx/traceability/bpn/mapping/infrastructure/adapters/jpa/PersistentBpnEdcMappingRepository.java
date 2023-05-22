@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.jpa;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMapping;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
@@ -28,16 +29,13 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class PersistentBpnEdcMappingRepository implements BpnEdcMappingRepository {
 
     private final JpaBpnEdcRepository jpaBpnEdcRepository;
 
-    public PersistentBpnEdcMappingRepository(JpaBpnEdcRepository jpaBpnEdcRepository) {
-        this.jpaBpnEdcRepository = jpaBpnEdcRepository;
-    }
-
     @Override
-    public BpnEdcMapping findById(String bpn) {
+    public BpnEdcMapping findByIdOrThrowNotFoundException(String bpn) {
         return jpaBpnEdcRepository.findById(bpn)
                 .map(this::toDTO)
                 .orElseThrow(() -> new BpnEdcMappingNotFoundException("EDC URL mapping with BPN %s was not found."
@@ -73,10 +71,10 @@ public class PersistentBpnEdcMappingRepository implements BpnEdcMappingRepositor
     }
 
     private BpnEdcMappingEntity toEntity(BpnEdcMappingRequest bpnEdcMappings) {
-        return new BpnEdcMappingEntity(
-                bpnEdcMappings.bpn(),
-                bpnEdcMappings.url()
-        );
+        return BpnEdcMappingEntity.builder()
+                .bpn(bpnEdcMappings.bpn())
+                .url(bpnEdcMappings.url())
+                .build();
     }
 
 }

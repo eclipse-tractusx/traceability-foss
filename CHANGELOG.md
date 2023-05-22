@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added option to hide "Investigation for components" in part-detail.component.html
 - E2E A & B env profile configuration
+- Added tests for SonarQube exclusions
 
 ### Changed
 - Refactored other-parts.component.html - split into new components: supplier-parts.component.html and customer-parts.component.html
@@ -18,9 +19,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump spring-cloud-dependencies from 2022.0.1 to 2022.0.2
 - Bump asciidoctorj from 2.5.7 to 2.5.8
 - Use Selective dependency resolutions for @angular-devkit/build-angular to keep 15.2.8 version locked (so @angular-builders/custom-webpack uses the same version as well)
+- Aligned help button and user icon in the header to official C-X styleguide
 
 ### Removed
 - Removed selection column on Customer Parts page
+- Removed classes: AssetFacade, Constants, Command, ContractAgreementRequest, ContractOfferRequest, AssetFacadeTest
 
 ## [3.4.0] - 2023-05-11
 

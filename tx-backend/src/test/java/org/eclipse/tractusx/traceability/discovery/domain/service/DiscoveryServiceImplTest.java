@@ -58,7 +58,7 @@ class DiscoveryServiceImplTest {
         Discovery discoveryByService = Discovery.builder().receiverUrls(List.of("receiver2.de")).senderUrl("sender2.de").build();
         BpnEdcMapping bpnEdcMapping = new BpnEdcMapping("bpn", "receiver.de");
         when(bpnEdcMappingRepository.exists(any())).thenReturn(true);
-        when(bpnEdcMappingRepository.findById(any())).thenReturn(bpnEdcMapping);
+        when(bpnEdcMappingRepository.findByIdOrThrowNotFoundException(any())).thenReturn(bpnEdcMapping);
         when(discoveryRepository.getDiscoveryByBpnFromConnectorEndpoint(any())).thenReturn(Optional.of(discoveryByService));
         when(edcProperties.getProviderEdcUrl()).thenReturn("sender2.de");
         // when

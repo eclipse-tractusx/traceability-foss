@@ -26,10 +26,20 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
+
 import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "shell_descriptor")
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 public class ShellDescriptorEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,107 +54,31 @@ public class ShellDescriptorEntity {
 	private String batchId;
 	private String manufacturerId;
 
-	public ShellDescriptorEntity() {}
+    public ShellDescriptor toShellDescriptor() {
+        return new ShellDescriptor(
+                this.getShellDescriptorId(),
+                this.getGlobalAssetId(),
+                this.getIdShort(),
+                this.getPartInstanceId(),
+                this.getManufacturerPartId(),
+                this.getManufacturerId(),
+                this.getBatchId()
+        );
+    }
 
-	public ShellDescriptorEntity(Long id, String shellDescriptorId, String globalAssetId, String idShort,
-								 String partInstanceId, String manufacturerPartId, String manufacturerId,
-								 String batchId, ZonedDateTime created, ZonedDateTime updated) {
-		this.id = id;
-		this.created = created;
-		this.updated = updated;
-		this.shellDescriptorId = shellDescriptorId;
-		this.globalAssetId = globalAssetId;
-		this.idShort = idShort;
-		this.partInstanceId = partInstanceId;
-		this.manufacturerPartId = manufacturerPartId;
-		this.batchId = batchId;
-		this.manufacturerId = manufacturerId;
-	}
-
-	public static ShellDescriptorEntity newEntity(String shellDescriptorId, String globalAssetId, String idShort,
-												  String partInstanceId, String manufacturerId,
-												  String manufacturerPartId, String batchId) {
-		ZonedDateTime now = ZonedDateTime.now();
-		return new ShellDescriptorEntity(null, shellDescriptorId, globalAssetId, idShort, partInstanceId, manufacturerPartId, manufacturerId, batchId, now, now);
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getShellDescriptorId() {
-		return shellDescriptorId;
-	}
-
-	public void setShellDescriptorId(String shellDescriptorId) {
-		this.shellDescriptorId = shellDescriptorId;
-	}
-
-	public String getGlobalAssetId() {
-		return globalAssetId;
-	}
-
-	public void setGlobalAssetId(String globalAssetId) {
-		this.globalAssetId = globalAssetId;
-	}
-
-	public ZonedDateTime getCreated() {
-		return created;
-	}
-
-	public void setCreated(ZonedDateTime created) {
-		this.created = created;
-	}
-
-	public ZonedDateTime getUpdated() {
-		return updated;
-	}
-
-	public void setUpdated(ZonedDateTime updated) {
-		this.updated = updated;
-	}
-
-	public String getIdShort() {
-		return idShort;
-	}
-
-	public void setIdShort(String idShort) {
-		this.idShort = idShort;
-	}
-
-	public String getPartInstanceId() {
-		return partInstanceId;
-	}
-
-	public void setPartInstanceId(String partInstanceId) {
-		this.partInstanceId = partInstanceId;
-	}
-
-	public String getManufacturerPartId() {
-		return manufacturerPartId;
-	}
-
-	public void setManufacturerPartId(String manufacturerPartId) {
-		this.manufacturerPartId = manufacturerPartId;
-	}
-
-	public String getBatchId() {
-		return batchId;
-	}
-
-	public void setBatchId(String batchId) {
-		this.batchId = batchId;
-	}
-
-	public String getManufacturerId() {
-		return manufacturerId;
-	}
-
-	public void setManufacturerId(String manufacturerId) {
-		this.manufacturerId = manufacturerId;
-	}
+    public static ShellDescriptorEntity newEntityFrom(final ShellDescriptor descriptor) {
+        ZonedDateTime now = ZonedDateTime.now();
+        return ShellDescriptorEntity.builder()
+                .id(null)
+                .created(now)
+                .updated(now)
+                .shellDescriptorId(descriptor.shellDescriptorId())
+                .globalAssetId(descriptor.globalAssetId())
+                .idShort(descriptor.idShort())
+                .partInstanceId(descriptor.partInstanceId())
+                .manufacturerPartId(descriptor.manufacturerPartId())
+                .batchId(descriptor.batchId())
+                .manufacturerId(descriptor.manufacturerId())
+                .build();
+    }
 }

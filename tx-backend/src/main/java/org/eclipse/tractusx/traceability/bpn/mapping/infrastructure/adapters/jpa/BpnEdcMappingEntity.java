@@ -24,11 +24,21 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bpn_edc_mappings")
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class BpnEdcMappingEntity {
 
     @Id
@@ -39,56 +49,13 @@ public class BpnEdcMappingEntity {
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    public BpnEdcMappingEntity() {
-    }
-
-    public BpnEdcMappingEntity(String bpn, String url) {
-        this.bpn = bpn;
-        this.url = url;
-    }
-
-    public String getBpn() {
-        return bpn;
-    }
-
-    public void setBpn(String bpn) {
-        this.bpn = bpn;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-
     @PreUpdate
     public void preUpdate() {
         this.updated = LocalDateTime.now();
     }
 
-
     @PrePersist
     public void preCreate() {
         this.created = LocalDateTime.now();
-    }
-
-
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(LocalDateTime updated) {
-        this.updated = updated;
     }
 }

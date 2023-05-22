@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.agreement;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.EqualsAndHashCode;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Policy;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,6 +33,7 @@ import java.util.Objects;
 /**
  * {@link ContractAgreement} to regulate data transfer between two parties.
  */
+@EqualsAndHashCode
 @JsonDeserialize(builder = ContractAgreement.Builder.class)
 public class ContractAgreement {
 
@@ -148,25 +150,6 @@ public class ContractAgreement {
 	 */
 	public Policy getPolicy() {
 		return policy;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id, providerAgentId, consumerAgentId, contractSigningDate, contractStartDate, contractEndDate, assetId, policy);
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (o == null || getClass() != o.getClass()) {
-			return false;
-		}
-		ContractAgreement that = (ContractAgreement) o;
-		return contractSigningDate == that.contractSigningDate && contractStartDate == that.contractStartDate && contractEndDate == that.contractEndDate &&
-			Objects.equals(id, that.id) && Objects.equals(providerAgentId, that.providerAgentId) && Objects.equals(consumerAgentId, that.consumerAgentId) &&
-			Objects.equals(assetId, that.assetId) && Objects.equals(policy, that.policy);
 	}
 
 	@JsonPOJOBuilder(withPrefix = "")
