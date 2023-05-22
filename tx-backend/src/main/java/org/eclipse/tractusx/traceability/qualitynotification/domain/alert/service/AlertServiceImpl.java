@@ -6,10 +6,12 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.model.Qualit
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
 
+@Service
 public class AlertServiceImpl implements AlertService {
 
     @Override

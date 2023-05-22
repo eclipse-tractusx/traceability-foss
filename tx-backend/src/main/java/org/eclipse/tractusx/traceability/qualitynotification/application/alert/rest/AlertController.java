@@ -34,7 +34,6 @@ import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.response.InvestigationResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
@@ -70,8 +69,8 @@ public class AlertController {
 
     private static final String API_LOG_START = "Received API call on /alerts";
 
-    @Operation(operationId = "alertAssets",// ??
-            summary = "Start alert by part ids", // part or other name??
+    @Operation(operationId = "alertAssets",
+            summary = "Start alert by part ids",
             tags = {"Alerts"},
             description = "The endpoint starts alert based on part ids provided.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
@@ -93,12 +92,12 @@ public class AlertController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/created")
-    public PageResult<AlertResponse> getCreatedAlerts(Pageable pageable) { // ? do we need alertResponse ?
+    public PageResult<AlertResponse> getCreatedAlerts(Pageable pageable) {
         log.info(API_LOG_START + "/created");
         return AlertResponse.fromAsPageResult(alertService.getCreated(pageable));
     }
@@ -110,7 +109,7 @@ public class AlertController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
@@ -177,9 +176,9 @@ public class AlertController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeAlert(
             @PathVariable Long alertId,
-            @Valid @RequestBody CloseQualityNotificationRequest closeInvestigationRequest) {
-        log.info(API_LOG_START + "/{}/close with params {}", alertId, closeInvestigationRequest);
-        alertService.update(alertId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), closeInvestigationRequest.getReason());
+            @Valid @RequestBody CloseQualityNotificationRequest closeAlertRequest) {
+        log.info(API_LOG_START + "/{}/close with params {}", alertId, closeAlertRequest);
+        alertService.update(alertId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), closeAlertRequest.getReason());
     }
 
     @Operation(operationId = "updateAlert",
@@ -195,10 +194,10 @@ public class AlertController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateAlert(
             @PathVariable Long alertId,
-            @Valid @RequestBody UpdateQualityNotificationRequest updateInvestigationRequest) {
-        validate(updateInvestigationRequest);
-        log.info(API_LOG_START + "/{}/update with params {}", alertId, updateInvestigationRequest);
-        alertService.update(alertId, UpdateQualityNotificationStatusRequest.toDomain(updateInvestigationRequest.getStatus()), updateInvestigationRequest.getReason());
+            @Valid @RequestBody UpdateQualityNotificationRequest updateAlertRequest) {
+        validate(updateAlertRequest);
+        log.info(API_LOG_START + "/{}/update with params {}", alertId, updateAlertRequest);
+        alertService.update(alertId, UpdateQualityNotificationStatusRequest.toDomain(updateAlertRequest.getStatus()), updateAlertRequest.getReason());
     }
 }
 
