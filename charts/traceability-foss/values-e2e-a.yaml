@@ -109,7 +109,7 @@ backend:
         secretName: tls-secret
 
   traceability:
-    bpn: "BPNL00000003CML1"
+    bpn: "BPNL00000003AYRE"
     url: "https://traceability-e2e-a.dev.demo.catena-x.net"
 
   datasource:
