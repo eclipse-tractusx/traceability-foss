@@ -25,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import org.jetbrains.annotations.Nullable;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * A collection of permissions, prohibitions, and obligations. Subtypes are defined by
@@ -41,6 +40,7 @@ import java.util.stream.Collectors;
  * This is a value object. In order to have it identifiable and individually addressable, consider the use of PolicyDefinition.
  */
 @JsonDeserialize(builder = Policy.Builder.class)
+@Getter
 public class Policy {
 
     private final List<Permission> permissions = new ArrayList<>();
@@ -53,46 +53,6 @@ public class Policy {
     private String target;
     @JsonProperty("@type")
     private PolicyType type = PolicyType.SET;
-
-    private Policy() {
-    }
-
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public List<Prohibition> getProhibitions() {
-        return prohibitions;
-    }
-
-    public List<Duty> getObligations() {
-        return obligations;
-    }
-
-    @Nullable
-    public String getInheritsFrom() {
-        return inheritsFrom;
-    }
-
-    public String getAssigner() {
-        return assigner;
-    }
-
-    public String getAssignee() {
-        return assignee;
-    }
-
-    public String getTarget() {
-        return target;
-    }
-
-    public PolicyType getType() {
-        return type;
-    }
-
-    public Map<String, Object> getExtensibleProperties() {
-        return extensibleProperties;
-    }
 
     @JsonIgnore
     public boolean hasTracePolicy() {
@@ -165,27 +125,6 @@ public class Policy {
         Policy policy = (Policy) o;
         return permissions.equals(policy.permissions) && prohibitions.equals(policy.prohibitions) && obligations.equals(policy.obligations) && extensibleProperties.equals(policy.extensibleProperties) &&
                 Objects.equals(inheritsFrom, policy.inheritsFrom) && Objects.equals(assigner, policy.assigner) && Objects.equals(assignee, policy.assignee) && Objects.equals(target, policy.target) && type == policy.type;
-    }
-
-
-    /**
-     * Returns a copy of this policy with the specified target.
-     *
-     * @param target the target.
-     * @return a copy with the specified target.
-     */
-    public Policy withTarget(String target) {
-        return Builder.newInstance()
-                .prohibitions(prohibitions.stream().map(p -> p.withTarget(target)).collect(Collectors.toList()))
-                .permissions(permissions.stream().map(p -> p.withTarget(target)).collect(Collectors.toList()))
-                .duties(obligations.stream().map(o -> o.withTarget(target)).collect(Collectors.toList()))
-                .assigner(assigner)
-                .assignee(assignee)
-                .inheritsFrom(inheritsFrom)
-                .type(type)
-                .extensibleProperties(extensibleProperties)
-                .target(target)
-                .build();
     }
 
     public interface Visitor<R> {

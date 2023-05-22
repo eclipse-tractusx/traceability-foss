@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

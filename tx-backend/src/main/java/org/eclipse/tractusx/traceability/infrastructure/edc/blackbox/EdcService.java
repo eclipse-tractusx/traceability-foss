@@ -21,7 +21,9 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
@@ -48,20 +50,14 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class EdcService {
+
+    public static final MediaType JSON = MediaType.get("application/json");
 
     private final HttpCallService httpCallService;
     private final ObjectMapper objectMapper;
     private final EdcProperties edcProperties;
-
-    public EdcService(HttpCallService httpCallService,
-                      ObjectMapper objectMapper,
-                      EdcProperties edcProperties) {
-        this.httpCallService = httpCallService;
-        this.objectMapper = objectMapper;
-        this.edcProperties = edcProperties;
-    }
-
 
     /**
      * Rest call to get all contract offer and filter notification type contract
@@ -149,11 +145,10 @@ public class EdcService {
     private String initiateNegotiation(NegotiationInitiateRequestDto contractOfferRequest, String consumerEdcDataManagementUrl,
                                        Map<String, String> headers) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getNegotiationPath();
-        var requestBody = RequestBody.create(objectMapper.writeValueAsString(contractOfferRequest), Constants.JSON);
+        var requestBody = RequestBody.create(objectMapper.writeValueAsString(contractOfferRequest), JSON);
         var request = new Request.Builder().url(url).post(requestBody);
 
         headers.forEach(request::addHeader);
-        request.build();
         TransferId negotiationId = (TransferId) httpCallService.sendRequest(request.build(), TransferId.class);
         log.info(":::: Method [initiateNegotiation] Negotiation Id :{}", negotiationId.getId());
         return negotiationId.getId();
@@ -174,7 +169,7 @@ public class EdcService {
                 .protocol("ids-multipart").dataDestination(dataDestination).managedResources(false).transferType(transferType)
                 .build();
 
-        var requestBody = RequestBody.create(objectMapper.writeValueAsString(transferRequest), Constants.JSON);
+        var requestBody = RequestBody.create(objectMapper.writeValueAsString(transferRequest), JSON);
         var request = new Request.Builder().url(url).post(requestBody);
 
         headers.forEach(request::addHeader);

@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added option to hide "Investigation for components" in part-detail.component.html
 - E2E A & B env profile configuration
+- Added tests for SonarQube exclusions
 
 ### Changed
 - Refactored other-parts.component.html - split into new components: supplier-parts.component.html and customer-parts.component.html
@@ -22,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 - Removed selection column on Customer Parts page
+- Removed classes: AssetFacade, Constants, Command, ContractAgreementRequest, ContractOfferRequest, AssetFacadeTest
 
 ## [3.4.0] - 2023-05-11
 

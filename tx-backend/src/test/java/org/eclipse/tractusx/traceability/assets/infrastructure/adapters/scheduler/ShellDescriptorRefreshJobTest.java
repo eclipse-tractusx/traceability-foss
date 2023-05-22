@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.eclipse.tractusx.traceability.assets.application.RegistryFacade;
+import org.eclipse.tractusx.traceability.assets.application.service.RegistryFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
