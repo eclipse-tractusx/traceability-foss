@@ -21,32 +21,10 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-
-@ApiModel(description = "Quality types")
 public enum QualityType {
-	@ApiModelProperty("Ok")
-	OK("Ok"),
-	@ApiModelProperty("Minor")
-	MINOR("Minor"),
-	@ApiModelProperty("Major")
-	MAJOR("Major"),
-	@ApiModelProperty("Critical")
-	CRITICAL("Critical"),
-	@ApiModelProperty("Life-threatening")
-	LIFE_THREATENING("LifeThreatening");
-
-	private final String description;
-
-	QualityType(String description) {
-		this.description = description;
-	}
-
-	@JsonValue
-	public String getDescription() {
-		return description;
-	}
-
+    OK,
+    MINOR,
+    MAJOR,
+    CRITICAL,
+    LIFE_THREATENING;
 }

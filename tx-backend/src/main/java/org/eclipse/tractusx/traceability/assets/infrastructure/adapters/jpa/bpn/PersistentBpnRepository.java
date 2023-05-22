@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.bpn;
 
-import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

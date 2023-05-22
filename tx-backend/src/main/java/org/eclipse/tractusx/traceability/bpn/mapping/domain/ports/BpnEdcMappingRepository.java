@@ -26,7 +26,7 @@ import java.util.List;
 
 public interface BpnEdcMappingRepository {
 
-    BpnEdcMapping findById(String bpn);
+    BpnEdcMapping findByIdOrThrowNotFoundException(String bpn);
 
     List<BpnEdcMapping> findAll();
 

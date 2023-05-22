@@ -21,8 +21,9 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.shelldescriptor;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.assets.domain.ports.ShellDescriptorRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.ShellDescriptorRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,18 +32,15 @@ import java.util.Collection;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class PersistentShellDescriptorsRepository implements ShellDescriptorRepository {
 
 	private final JpaShellDescriptorRepository repository;
 
-	public PersistentShellDescriptorsRepository(JpaShellDescriptorRepository repository) {
-		this.repository = repository;
-	}
-
 	@Override
 	public List<ShellDescriptor> findAll() {
 		return repository.findAll().stream()
-			.map(this::toShellDescriptor)
+			.map(ShellDescriptorEntity::toShellDescriptor)
 			.toList();
 	}
 
@@ -58,7 +56,7 @@ public class PersistentShellDescriptorsRepository implements ShellDescriptorRepo
 	@Override
 	public void saveAll(Collection<ShellDescriptor> values) {
 		repository.saveAll(values.stream()
-			.map(this::toNewEntity)
+			.map(ShellDescriptorEntity::newEntityFrom)
 			.toList());
 	}
 
@@ -66,27 +64,4 @@ public class PersistentShellDescriptorsRepository implements ShellDescriptorRepo
 	public void removeDescriptorsByUpdatedBefore(ZonedDateTime now) {
 		repository.deleteAllByUpdatedBefore(now);
 	}
-
-	private ShellDescriptor toShellDescriptor(ShellDescriptorEntity descriptor) {
-		return new ShellDescriptor(
-			descriptor.getShellDescriptorId(),
-			descriptor.getGlobalAssetId(),
-			descriptor.getIdShort(),
-			descriptor.getPartInstanceId(),
-			descriptor.getManufacturerPartId(),
-			descriptor.getManufacturerId(),
-			descriptor.getBatchId()
-		);
-	}
-
-	private ShellDescriptorEntity toNewEntity(ShellDescriptor descriptor) {
-		return ShellDescriptorEntity.newEntity(
-			descriptor.shellDescriptorId(),
-			descriptor.globalAssetId(),
-			descriptor.idShort(),
-			descriptor.partInstanceId(), descriptor.manufacturerId(), descriptor.manufacturerPartId(),
-			descriptor.batchId()
-		);
-	}
-
 }

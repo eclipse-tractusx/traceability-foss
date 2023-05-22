@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.scheduler;
 
-import org.eclipse.tractusx.traceability.assets.application.RegistryFacade;
+import org.eclipse.tractusx.traceability.assets.application.service.RegistryFacade;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
 import org.springframework.context.annotation.Profile;

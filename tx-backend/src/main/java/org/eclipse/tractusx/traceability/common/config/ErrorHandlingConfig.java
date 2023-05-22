@@ -25,8 +25,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ValidationException;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.eclipse.tractusx.traceability.assets.domain.model.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
@@ -56,16 +58,12 @@ import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(ErrorHandlingConfig.class);
-
     private final ObjectMapper objectMapper;
-
-    public ErrorHandlingConfig(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
@@ -74,21 +72,21 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
                 .getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .collect(Collectors.joining(", "));
-        logger.warn("handleMethodArgumentNotValidException", exception);
+        log.warn("handleMethodArgumentNotValidException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(errorMessage));
     }
 
     @ExceptionHandler(JpaSystemException.class)
     ResponseEntity<ErrorResponse> handleJpaSystemException(JpaSystemException exception) {
-        logger.warn("handleJpaSystemException", exception);
+        log.warn("handleJpaSystemException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse("Failed to deserialize request body."));
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     ResponseEntity<ErrorResponse> handleHttpMessageNotReadableException(HttpMessageNotReadableException exception) {
-        logger.warn("handleHttpMessageNotReadableException", exception);
+        log.warn("handleHttpMessageNotReadableException", exception);
         String message = "Failed to deserialize request body.";
 
         if (exception.getRootCause() instanceof NoSuchElementException) {
@@ -100,112 +98,112 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @ExceptionHandler(AssetNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException exception) {
-        logger.warn("handleAssetNotFoundException", exception);
+        log.warn("handleAssetNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationNotFoundException.class)
     ResponseEntity<ErrorResponse> handleInvestigationNotFoundException(InvestigationNotFoundException exception) {
-        logger.warn("handleInvestigationNotFoundException", exception);
+        log.warn("handleInvestigationNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationStatusTransitionNotAllowed.class)
     ResponseEntity<ErrorResponse> handleInvestigationStatusTransitionNotAllowed(InvestigationStatusTransitionNotAllowed exception) {
-        logger.warn("handleInvestigationStatusTransitionNotAllowed", exception);
+        log.warn("handleInvestigationStatusTransitionNotAllowed", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(BpnEdcMappingException.class)
     ResponseEntity<ErrorResponse> handleBpnEdcMappingException(BpnEdcMappingException exception) {
-        logger.warn("BpnEdcMappingException", exception);
+        log.warn("BpnEdcMappingException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(BpnEdcMappingNotFoundException.class)
     ResponseEntity<ErrorResponse> handleBpnEdcMappingNotFoundException(BpnEdcMappingNotFoundException exception) {
-        logger.warn("handleBpnEdcMappingNotFoundException", exception);
+        log.warn("handleBpnEdcMappingNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationReceiverBpnMismatchException.class)
     ResponseEntity<ErrorResponse> handleInvestigationReceiverBpnMismatchException(InvestigationReceiverBpnMismatchException exception) {
-        logger.warn("handleInvestigationReceiverBpnMismatchException", exception);
+        log.warn("handleInvestigationReceiverBpnMismatchException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(ValidationException.class)
     ResponseEntity<ErrorResponse> handleValidationException(ValidationException exception) {
-        logger.warn("handleValidationExceptionexception", exception);
+        log.warn("handleValidationExceptionexception", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(InvestigationIllegalUpdate.class)
     ResponseEntity<ErrorResponse> handleInvestigationIllegalUpdate(InvestigationIllegalUpdate exception) {
-        logger.warn("handleInvestigationIllegalUpdate", exception);
+        log.warn("handleInvestigationIllegalUpdate", exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException exception) {
-        logger.warn("handleIllegalArgumentException", exception);
+        log.warn("handleIllegalArgumentException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException exception) {
-        logger.warn("handleAccessDeniedException", exception);
+        log.warn("handleAccessDeniedException", exception);
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(TechnicalUserAuthorizationException.class)
     ResponseEntity<ErrorResponse> handleTechnicalUserAuthorizationException(TechnicalUserAuthorizationException exception) {
-        logger.error("Couldn't retrieve token for technical user", exception);
+        log.error("Couldn't retrieve token for technical user", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Please try again later."));
     }
 
     @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException exception) {
-        logger.warn("Couldn't find authentication for the request", exception);
+        log.warn("Couldn't find authentication for the request", exception);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(new ErrorResponse("Authentication not found."));
     }
 
     @ExceptionHandler(NotificationStatusTransitionNotAllowed.class)
     ResponseEntity<ErrorResponse> handleNotificationStatusTransitionNotAllowed(NotificationStatusTransitionNotAllowed exception) {
-        logger.warn("handleNotificationStatusTransitionNotAllowed", exception);
+        log.warn("handleNotificationStatusTransitionNotAllowed", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(UpdateQualityNotificationValidationException.class)
     ResponseEntity<ErrorResponse> handleUpdateQualityNotificationValidationException(UpdateQualityNotificationValidationException exception) {
-        logger.warn("handleUpdateQualityNotificationValidationException", exception);
+        log.warn("handleUpdateQualityNotificationValidationException", exception);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
     }
 
     @ExceptionHandler(CreateNotificationContractException.class)
     ResponseEntity<ErrorResponse> handleCreateNotificationContractException(CreateNotificationContractException exception) {
-        logger.warn("handleCreateNotificationContractException", exception);
+        log.warn("handleCreateNotificationContractException", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Failed to create notification contract."));
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> unhandledException(Exception exception) {
-        logger.error("Unhandled exception", exception);
+        log.error("Unhandled exception", exception);
 
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new ErrorResponse("Please try again later."));

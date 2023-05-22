@@ -20,12 +20,13 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.domain.ports.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -59,8 +60,8 @@ class AssetServiceTest {
     void combineAssetsAndMergeParentDescriptionIntoDownwardAssets() {
 
         // given
-        List<Asset.Descriptions> parentDescriptionsList = provideParentDescriptions();
-        List<Asset.Descriptions> childDescriptionList = provideChildDescriptions();
+        List<Descriptions> parentDescriptionsList = provideParentDescriptions();
+        List<Descriptions> childDescriptionList = provideChildDescriptions();
         Asset asset = provideTestAsset(childDescriptionList, Collections.emptyList());
         Asset asset2 = provideTestAsset(Collections.emptyList(), parentDescriptionsList);
 
@@ -76,8 +77,8 @@ class AssetServiceTest {
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
         // given
-        List<Asset.Descriptions> parentDescriptionsList = provideParentDescriptions();
-        List<Asset.Descriptions> childDescriptionList = provideChildDescriptions();
+        List<Descriptions> parentDescriptionsList = provideParentDescriptions();
+        List<Descriptions> childDescriptionList = provideChildDescriptions();
         String globalAssetId = "123";
         List<Asset> downwardAssets = List.of(provideTestAsset(childDescriptionList, Collections.emptyList()));
         List<Asset> upwardAssets = List.of(provideTestAsset(Collections.emptyList(), parentDescriptionsList));
@@ -91,7 +92,7 @@ class AssetServiceTest {
                 .thenReturn(combinedAssetList);
 
         // when
-        assetService.synchronizeAssets(globalAssetId);
+        assetService.synchronizeAssetsAsync(globalAssetId);
 
         // then
         verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects());
@@ -101,22 +102,22 @@ class AssetServiceTest {
     }
 
 
-    private List<Asset.Descriptions> provideChildDescriptions() {
-        List<Asset.Descriptions> childDescriptionList = new ArrayList<>();
-        childDescriptionList.add(new Asset.Descriptions("childId", "idshort"));
-        childDescriptionList.add(new Asset.Descriptions("childId2", "idshort"));
+    private List<Descriptions> provideChildDescriptions() {
+        List<Descriptions> childDescriptionList = new ArrayList<>();
+        childDescriptionList.add(new Descriptions("childId", "idshort"));
+        childDescriptionList.add(new Descriptions("childId2", "idshort"));
         return childDescriptionList;
     }
 
 
-    private List<Asset.Descriptions> provideParentDescriptions() {
-        List<Asset.Descriptions> parentDescriptionsList = new ArrayList<>();
-        parentDescriptionsList.add(new Asset.Descriptions("parentId", "idshort"));
-        parentDescriptionsList.add(new Asset.Descriptions("parentId2", "idshort"));
+    private List<Descriptions> provideParentDescriptions() {
+        List<Descriptions> parentDescriptionsList = new ArrayList<>();
+        parentDescriptionsList.add(new Descriptions("parentId", "idshort"));
+        parentDescriptionsList.add(new Descriptions("parentId2", "idshort"));
         return parentDescriptionsList;
     }
 
-    private Asset provideTestAsset(List<Asset.Descriptions> childDescriptions, List<Asset.Descriptions> parentDescriptions) {
+    private Asset provideTestAsset(List<Descriptions> childDescriptions, List<Descriptions> parentDescriptions) {
         String id = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd";
         String idShort = "--";
         String nameAtManufacturer = "1";

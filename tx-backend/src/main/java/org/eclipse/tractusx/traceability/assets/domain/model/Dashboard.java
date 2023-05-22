@@ -21,8 +21,8 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.model;
 
-
-import io.swagger.annotations.ApiModelProperty;
-
-public record Dashboard(@ApiModelProperty(example = "5") Long myItems, @ApiModelProperty(example = "10") Long otherParts, @ApiModelProperty(example = "15") Long investigations) {
+public record Dashboard(
+        Long myItems,
+        Long otherParts,
+        Long investigations) {
 }

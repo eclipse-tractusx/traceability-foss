@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.metrics;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.metrics.registrylookup.JpaRegistryLookupMetricRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.metrics.registrylookup.RegistryLookupMetricEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -32,13 +33,10 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class PersistentRegistryLookupMeterRegistry implements RegistryLookupMeterRegistry {
 
 	private final JpaRegistryLookupMetricRepository jpaRegistryLookupMetricRepository;
-
-	public PersistentRegistryLookupMeterRegistry(JpaRegistryLookupMetricRepository jpaRegistryLookupMetricRepository) {
-		this.jpaRegistryLookupMetricRepository = jpaRegistryLookupMetricRepository;
-	}
 
 	@Override
 	public void save(RegistryLookupMetric registryLookupMetric) {
@@ -52,7 +50,7 @@ public class PersistentRegistryLookupMeterRegistry implements RegistryLookupMete
 		Pageable pageableWithSorting = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by(Sort.Direction.DESC, "startDate"));
 
 		List<RegistryLookupMetric> registryLookupMetrics = jpaRegistryLookupMetricRepository.findAll(pageableWithSorting).stream()
-			.map(this::toDTO)
+			.map(this::toDomain)
 			.toList();
 
 		for (int i = 0; i < registryLookupMetrics.size(); i++) {
@@ -74,7 +72,7 @@ public class PersistentRegistryLookupMeterRegistry implements RegistryLookupMete
 		return index == registryLookupMetrics.size() - 1;
 	}
 
-	private RegistryLookupMetric toDTO(RegistryLookupMetricEntity entity) {
+	private RegistryLookupMetric toDomain(final RegistryLookupMetricEntity entity) {
 		return new RegistryLookupMetric(
 			entity.getStartDate(),
 			entity.getStatus(),

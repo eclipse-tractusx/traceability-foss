@@ -21,8 +21,8 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-
 import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor
+
 
 trait ShellDescriptorSupport implements ShellDescriptorStoreProvider {
 

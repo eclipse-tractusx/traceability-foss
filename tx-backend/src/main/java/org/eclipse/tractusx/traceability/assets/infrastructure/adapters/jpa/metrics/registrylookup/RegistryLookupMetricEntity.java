@@ -21,17 +21,27 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.metrics.registrylookup;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.metrics.RegistryLookupStatus;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.metrics.RegistryLookupStatus;
+
 import java.time.Instant;
 
 @Entity
 @Table(name = "registry_lookup_metrics")
+@Setter
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RegistryLookupMetricEntity {
 
 	@Id
@@ -47,67 +57,4 @@ public class RegistryLookupMetricEntity {
 	private Long failedShellDescriptorsFetchCount;
 
 	private Instant endDate;
-
-	public RegistryLookupMetricEntity() {
-	}
-
-	public RegistryLookupMetricEntity(Instant startDate,
-									  RegistryLookupStatus status,
-									  Long successShellDescriptorsFetchCount,
-									  Long failedShellDescriptorsFetchCount,
-									  Instant endDate) {
-		this.startDate = startDate;
-		this.status = status;
-		this.successShellDescriptorsFetchCount = successShellDescriptorsFetchCount;
-		this.failedShellDescriptorsFetchCount = failedShellDescriptorsFetchCount;
-		this.endDate = endDate;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Instant getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Instant startDate) {
-		this.startDate = startDate;
-	}
-
-	public RegistryLookupStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(RegistryLookupStatus registryLookupStatus) {
-		this.status = registryLookupStatus;
-	}
-
-	public Long getSuccessShellDescriptorsFetchCount() {
-		return successShellDescriptorsFetchCount;
-	}
-
-	public void setSuccessShellDescriptorsFetchCount(Long successShellDescriptorsFetchCount) {
-		this.successShellDescriptorsFetchCount = successShellDescriptorsFetchCount;
-	}
-
-	public Long getFailedShellDescriptorsFetchCount() {
-		return failedShellDescriptorsFetchCount;
-	}
-
-	public void setFailedShellDescriptorsFetchCount(Long failedShellDescriptorsFetchCount) {
-		this.failedShellDescriptorsFetchCount = failedShellDescriptorsFetchCount;
-	}
-
-	public Instant getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Instant endDate) {
-		this.endDate = endDate;
-	}
 }
