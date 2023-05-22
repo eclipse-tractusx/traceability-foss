@@ -19,7 +19,7 @@
 
 import { Component } from '@angular/core';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
-import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { MenuActionConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
 
 @Component({
@@ -33,7 +33,7 @@ export class AlertsComponent {
 
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
-  private pagination: TablePaginationEventConfig = { page: 0, pageSize: 5 };
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc'] };
 
   constructor(
     private readonly alertsFacade: AlertsFacade
@@ -43,8 +43,8 @@ export class AlertsComponent {
   }
 
   public ngOnInit(): void {
-    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize);
-    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize);
+    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
 
   public ngAfterContentInit(): void {
@@ -55,13 +55,13 @@ export class AlertsComponent {
     this.alertsFacade.stopAlerts();
   }
 
-  public onReceivedPagination(pagination: TablePaginationEventConfig) {
+  public onReceivedTableConfigChange(pagination: TableEventConfig) {
     this.pagination = pagination;
-    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize);
+    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
 
-  public onQueuedAndRequestedPagination(pagination: TablePaginationEventConfig) {
+  public onQueuedAndRequestedTableConfigChange(pagination: TableEventConfig) {
     this.pagination = pagination;
-    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize);
+    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
 }

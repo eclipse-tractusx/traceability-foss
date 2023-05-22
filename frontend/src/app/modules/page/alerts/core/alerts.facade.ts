@@ -19,6 +19,7 @@
 
 import { Injectable } from '@angular/core';
 import { AlertsState } from '@page/alerts/core/alerts.state';
+import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { AlertsService } from '@shared/service/alerts.service';
@@ -42,20 +43,20 @@ export class AlertsFacade {
     return this.alertsState.alertsQueuedAndRequested$;
   }
 
-  public setReceivedAlerts(page = 0, pageSize = 50): void {
+  public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
     this.alertReceivedSubscription?.unsubscribe();
     this.alertReceivedSubscription = this.alertsService
-      .getReceivedAlerts(page, pageSize)
+      .getReceivedAlerts(page, pageSize, sorting)
       .subscribe({
         next: data => (this.alertsState.alertsReceived = { data }),
         error: (error: Error) => (this.alertsState.alertsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50): void {
+  public setQueuedAndRequestedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
     this.alertQueuedAndRequestedSubscription?.unsubscribe();
     this.alertQueuedAndRequestedSubscription = this.alertsService
-      .getCreatedAlerts(page, pageSize)
+      .getCreatedAlerts(page, pageSize, sorting)
       .subscribe({
         next: data => (this.alertsState.alertsQueuedAndRequested = { data }),
         error: (error: Error) => (this.alertsState.alertsQueuedAndRequested = { error }),

@@ -24,6 +24,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { NotificationAssembler } from '@shared/assembler/notification.assembler';
+import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -37,16 +38,18 @@ export class AlertsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getCreatedAlerts(page: number, pageSize: number): Observable<Notifications> {
-    const params = new HttpParams().set('page', page).set('size', pageSize);
+  public getCreatedAlerts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
+    const sort = NotificationAssembler.mapSortToApiSort(sorting);
+    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/created`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts)));
   }
 
-  public getReceivedAlerts(page: number, pageSize: number): Observable<Notifications> {
-    const params = new HttpParams().set('page', page).set('size', pageSize);
+  public getReceivedAlerts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
+    const sort = NotificationAssembler.mapSortToApiSort(sorting);
+    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/received`, params)

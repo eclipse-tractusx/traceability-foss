@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added option to hide "Investigation for components" in part-detail.component.html
 - E2E A & B env profile configuration
 - Inbox for quality alerts
+- Sortable columns in notification.component.ts and related components
 
 ### Changed
 - Refactored other-parts.component.html - split into new components: supplier-parts.component.html and customer-parts.component.html

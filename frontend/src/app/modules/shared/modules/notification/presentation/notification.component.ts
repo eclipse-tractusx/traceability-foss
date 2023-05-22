@@ -21,7 +21,7 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { MenuActionConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -38,10 +38,12 @@ export class NotificationComponent {
   @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
   @Input() receivedOptionalColumns: Array<'targetDate' | 'severity' | 'createdBy'> = [];
+  @Input() receivedSortableColumns: Record<string, boolean> = {};
   @Input() queuedAndRequestedOptionalColumns: Array<'targetDate' | 'severity' | 'sendTo'> = [];
+  @Input() queuedAndRequestedSortableColumns: Record<string, boolean> = {};
 
-  @Output() onReceivedPagination = new EventEmitter<TablePaginationEventConfig>();
-  @Output() onQueuedAndRequestedPagination = new EventEmitter<TablePaginationEventConfig>();
+  @Output() onReceivedTableConfigChanged = new EventEmitter<TableEventConfig>();
+  @Output() onQueuedAndRequestedTableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
 
   public readonly tabIndex$ = this.route.queryParams.pipe(map(params => parseInt(params.tabIndex, 10) || 0));

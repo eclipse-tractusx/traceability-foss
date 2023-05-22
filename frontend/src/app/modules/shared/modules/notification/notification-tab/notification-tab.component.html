@@ -30,7 +30,7 @@ SPDX-License-Identifier: Apache-2.0
     [labelId]="labelId"
     [showHover]="false"
     (selected)="selectNotification($event)"
-    (configChanged)="pagination.emit($event)"
+    (configChanged)="onTableConfigChange($event)"
   ></app-table>
 </ng-template>
 

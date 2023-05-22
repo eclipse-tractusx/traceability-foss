@@ -21,6 +21,8 @@
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { Severity } from '@shared/model/severity.model';
 import {
   Notification,
   NotificationResponse,
@@ -28,7 +30,6 @@ import {
   NotificationsResponse,
   NotificationStatus,
 } from '../model/notification.model';
-import { Severity } from '@shared/model/severity.model';
 
 export class NotificationAssembler {
   public static assembleNotifications(response: NotificationsResponse): Notifications {
@@ -76,5 +77,25 @@ export class NotificationAssembler {
       targetDate,
       bpn,
     };
+  }
+
+  public static mapSortToApiSort(sorting: TableHeaderSort) {
+    if (!sorting) {
+      return '';
+    }
+
+    // TODO: need to refactor SortableHeaders - use from notification.model.ts ?
+    // TODO: do we need this mapping ??
+    const localToApiMapping = new Map<string, string>([
+      ['id', 'id'],
+      ['description', 'description'],
+      ['status', 'status'],
+      ['severity', 'severity'],
+      ['createdDate', 'createdDate'],
+      ['createdBy', 'createdBy'],
+      ['sendTo', 'sendTo'],
+    ]);
+
+    return `${localToApiMapping.get(sorting[0]) || sorting},${sorting[1]}`;
   }
 }

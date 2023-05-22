@@ -24,6 +24,8 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { environment } from '@env';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
+import { TableHeaderSort } from '@shared/components/table/table.model';
+import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { NotificationAssembler } from '../assembler/notification.assembler';
@@ -35,7 +37,6 @@ import {
   NotificationsResponse,
   NotificationStatus,
 } from '../model/notification.model';
-import { Severity } from '@shared/model/severity.model';
 
 @Injectable({
   providedIn: 'root',
@@ -45,16 +46,18 @@ export class InvestigationsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getCreatedInvestigations(page: number, pageSize: number): Observable<Notifications> {
-    const params = new HttpParams().set('page', page).set('size', pageSize);
+  public getCreatedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
+    const sort = NotificationAssembler.mapSortToApiSort(sorting);
+    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/created`, params)
       .pipe(map(investigations => NotificationAssembler.assembleNotifications(investigations)));
   }
 
-  public getReceivedInvestigations(page: number, pageSize: number): Observable<Notifications> {
-    const params = new HttpParams().set('page', page).set('size', pageSize);
+  public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
+    const sort = NotificationAssembler.mapSortToApiSort(sorting);
+    const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
 
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/investigations/received`, params)
