@@ -109,12 +109,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Combined results of discovery service and fallback mock service to provide bpn url mappings
 - Updated EDC Provider to 0.3.0 version
 
+## [3.1.2] - 2023-05-02
+
+### Added
+
+- Helm lint, test and install action workflow
+- Updated frontend and backend dependency file and requested review for open license issues
+- Updated broken links in readme
+- Refactored github action workflow to isolate latest and release version tags
+- Added missing license headers to files
+- Synchronized configuration for runAsUser for container images
+- Adapt default values.yaml to allow installation of helm charts in any environment
+
 ## [3.1.1] - 2023-04-04
 
 ### Added
+
 - Some unit tests for better code quality
 
 ### Changed
+
 - Fixed edc notification flow bug
 - Updated org.springframework/spring-expression from 6.0.6 to 6.0.7
 - Updated net.minidev/json-smart from 2.4.8 to 2.4.10
