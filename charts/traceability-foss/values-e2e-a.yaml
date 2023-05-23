@@ -331,7 +331,7 @@ irs-edc-consumer:
     configuration:
       # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
       properties: |-
-#
+
         edc.receiver.http.dynamic.endpoint=https://traceability-e2e-a.dev.demo.catena-x.net/api/callback/endpoint-data-reference
         edc.dataplane.selector.consumer.url=http://tracex-consumer-dataplane-e2e-a:9999/api/dataplane/control
         edc.oauth.client.id=7B:F7:4E:EC:60:5C:36:7D:24:72:EE:AC:EC:31:1C:28:BC:C3:2E:0B:keyid:7B:F7:4E:EC:60:5C:36:7D:24:72:EE:AC:EC:31:1C:28:BC:C3:2E:0B
