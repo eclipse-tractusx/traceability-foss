@@ -25,8 +25,10 @@ import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.ValidSeverity;
 
 import java.time.Instant;
@@ -34,6 +36,8 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class StartQualityNotificationRequest {
     @Size(min = 1, max = 100, message = "Specify at least 1 and at most 100 partIds")
     @ApiModelProperty(example = "[\"urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978\"]")
@@ -48,5 +52,4 @@ public class StartQualityNotificationRequest {
     @ValidSeverity
     @ApiModelProperty(example = "MINOR")
     private String severity;
-
 }
