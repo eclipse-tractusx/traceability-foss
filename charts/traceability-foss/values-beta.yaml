@@ -415,7 +415,6 @@ irs-edc-consumer:
       properties: |-
         edc.api.auth.key=<path:traceability-foss/data/beta/edc/controlplane#edc.api.control.auth.apikey.value>
         edc.dataplane.token.validation.endpoint=http://tracex-consumer-controlplane:8182/validation/token
-        edc.receiver.http.dynamic.endpoint=http://product-traceability-foss-backend-irs-aaswrapper:9192/callback/endpoint-data-reference
 
         edc.oauth.client.id=D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F:keyid:D6:DC:B8:0E:8E:A0:DD:EC:03:F9:80:49:88:75:28:72:3C:AE:93:1F
         edc.oauth.certificate.alias=daps-cert-beta
