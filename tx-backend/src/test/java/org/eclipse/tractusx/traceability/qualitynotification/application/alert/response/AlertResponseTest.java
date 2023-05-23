@@ -84,10 +84,7 @@ class AlertResponseTest {
         final Integer pageSize1 = 1;
         final Long totalItems1 = 1L;
         final PageResult<QualityNotification> pagedNotification = new PageResult<>(List.of(notification), page1, pageCount1, pageSize1, totalItems1);
-        int pageNumber = pagedNotification.page();
-        int pageSize = pagedNotification.pageSize();
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<AlertResponse> page = new PageImpl<>(List.of(AlertResponse.from(notification)), pageable, pagedNotification.totalItems());
+        
         // when
         final PageResult<AlertResponse> result = AlertResponse.fromAsPageResult(pagedNotification);
 

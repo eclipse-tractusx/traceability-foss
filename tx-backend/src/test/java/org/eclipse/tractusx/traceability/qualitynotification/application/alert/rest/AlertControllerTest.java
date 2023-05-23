@@ -53,7 +53,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AlertControlślerTest {
+class AlertControllerTest {
 
     @Mock
     private AlertService alertService;
