@@ -15,9 +15,9 @@ abstract Asset {
         underInvestigation : boolean
         qualityType : QualityType
         van : String
-        aspectType: enum
+        semanticDataModel: enum
 
-        abstract AspectType : aspectType()
+        abstract SemanticDataModel : getSemanticDataModel()
 }
 note left
     Rename Descriptions to Relations
@@ -45,7 +45,7 @@ note right
     SerialPartTypization and Batch
 end note
 
-enum AspectType {
+enum SemanticDataModel {
     BATCH,
     SERIALPARTTYPIZATION
 }
@@ -54,7 +54,7 @@ entity AsPlannedAsset {
 
 }
 
-Asset --> AspectType
+Asset --> SemanticDataModel
 Asset <|.. AsBuiltAsset
 Asset <|.. AsPlannedAsset
 Asset }o--- Relation : childRelations
