@@ -41,7 +41,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.request
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
@@ -85,7 +84,7 @@ public class InvestigationsController {
     public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
         return new QualityNotificationIdResponse(investigationService.start(
-                request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity()).value());
+                request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity().toDomain()).value());
     }
 
     @Operation(operationId = "getCreatedInvestigations",
@@ -196,7 +195,7 @@ public class InvestigationsController {
     public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateQualityNotificationRequest updateInvestigationRequest) {
         validate(updateInvestigationRequest);
         log.info(API_LOG_START + "/{}/update with params {}", investigationId, updateInvestigationRequest);
-        investigationService.update(investigationId, UpdateQualityNotificationStatusRequest.toDomain(updateInvestigationRequest.getStatus()), updateInvestigationRequest.getReason());
+        investigationService.update(investigationId, updateInvestigationRequest.getStatus().toDomain(), updateInvestigationRequest.getReason());
     }
 }
 

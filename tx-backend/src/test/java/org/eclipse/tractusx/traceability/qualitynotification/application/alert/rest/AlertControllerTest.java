@@ -23,6 +23,7 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationSeverityRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
@@ -71,13 +72,13 @@ class AlertControllerTest {
                 .partIds(partIds)
                 .description("description")
                 .targetDate(targetDate)
-                .severity("MINOR")
+                .severity(QualityNotificationSeverityRequest.MINOR)
                 .build();
         when(alertService.start(
                 request.getPartIds(),
                 request.getDescription(),
                 request.getTargetDate(),
-                request.getSeverity()
+                request.getSeverity().toDomain()
         )).thenReturn(notificationId);
 
         // when

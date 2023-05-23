@@ -47,8 +47,8 @@ public class InvestigationServiceImpl implements InvestigationService {
 
 
     @Override
-    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, String severity) {
-        return investigationsPublisherService.startInvestigation(partIds, description, targetDate, QualityNotificationSeverity.fromString(severity));
+    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
+        return investigationsPublisherService.startInvestigation(partIds, description, targetDate, severity);
     }
 
     @Override

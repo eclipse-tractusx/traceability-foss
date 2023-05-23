@@ -29,7 +29,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.eclipse.tractusx.traceability.qualitynotification.application.validation.ValidSeverity;
 
 import java.time.Instant;
 import java.util.List;
@@ -49,7 +48,6 @@ public class StartQualityNotificationRequest {
     @Future(message = "Specify at least the current day or a date in future")
     private Instant targetDate;
     @NotNull
-    @ValidSeverity
     @ApiModelProperty(example = "MINOR")
-    private String severity;
+    private QualityNotificationSeverityRequest severity;
 }

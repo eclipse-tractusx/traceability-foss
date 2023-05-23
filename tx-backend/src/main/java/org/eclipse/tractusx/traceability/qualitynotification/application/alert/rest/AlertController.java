@@ -38,7 +38,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.request
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
@@ -82,7 +81,7 @@ public class AlertController {
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
         return new QualityNotificationIdResponse(alertService.start(
-                request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity()).value());
+                request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity().toDomain()).value());
     }
 
     @Operation(operationId = "getCreatedAlerts",
@@ -197,7 +196,7 @@ public class AlertController {
             @Valid @RequestBody UpdateQualityNotificationRequest updateAlertRequest) {
         validate(updateAlertRequest);
         log.info(API_LOG_START + "/{}/update with params {}", alertId, updateAlertRequest);
-        alertService.update(alertId, UpdateQualityNotificationStatusRequest.toDomain(updateAlertRequest.getStatus()), updateAlertRequest.getReason());
+        alertService.update(alertId, updateAlertRequest.getStatus().toDomain(), updateAlertRequest.getReason());
     }
 }
 
