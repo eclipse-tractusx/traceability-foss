@@ -332,7 +332,7 @@ irs-edc-consumer:
       # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
       properties: |-
 
-        edc.receiver.http.dynamic.endpoint=https://tracex-irs-e2e-a.dev.demo.catena-x.net/internal/endpoint-data-reference
+        edc.receiver.http.dynamic.endpoint=http://tracex-irs-e2e-a:8181/internal/endpoint-data-reference
         edc.dataplane.selector.consumer.url=http://tracex-consumer-dataplane-e2e-a:9999/api/dataplane/control
         edc.oauth.client.id=7B:F7:4E:EC:60:5C:36:7D:24:72:EE:AC:EC:31:1C:28:BC:C3:2E:0B:keyid:7B:F7:4E:EC:60:5C:36:7D:24:72:EE:AC:EC:31:1C:28:BC:C3:2E:0B
         edc.oauth.certificate.alias=daps-cert-edc-e2e-a-consumer-public
@@ -417,7 +417,6 @@ irs-edc-consumer:
       properties: |-
         edc.api.auth.key=<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
         edc.dataplane.token.validation.endpoint=http://tracex-consumer-controlplane-e2e-a:8182/validation/token
-        edc.receiver.http.dynamic.endpoint=http://product-traceability-foss-backend-irs-aaswrapper:9192/callback/endpoint-data-reference
 
         edc.oauth.client.id=7B:F7:4E:EC:60:5C:36:7D:24:72:EE:AC:EC:31:1C:28:BC:C3:2E:0B:keyid:7B:F7:4E:EC:60:5C:36:7D:24:72:EE:AC:EC:31:1C:28:BC:C3:2E:0B
         edc.oauth.certificate.alias=daps-cert-edc-e2e-a-consumer-public
