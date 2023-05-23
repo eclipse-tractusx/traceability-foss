@@ -1,13 +1,12 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
-import org.eclipse.tractusx.traceability.investigations.domain.model.exception.InvestigationReceiverBpnMismatchException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationReceiverBpnMismatchException;
 import org.springframework.stereotype.Component;
-
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * A validator for {@link EDCNotification} objects annotated with {@link ValidEDCNotification}.
@@ -17,22 +16,22 @@ import jakarta.validation.ConstraintValidatorContext;
  */
 @Component
 public class EDCNotificationValidator implements ConstraintValidator<ValidEDCNotification, EDCNotification> {
-	private final TraceabilityProperties traceabilityProperties;
+    private final TraceabilityProperties traceabilityProperties;
 
 
-	public EDCNotificationValidator(TraceabilityProperties traceabilityProperties) {
-		this.traceabilityProperties = traceabilityProperties;
-	}
+    public EDCNotificationValidator(TraceabilityProperties traceabilityProperties) {
+        this.traceabilityProperties = traceabilityProperties;
+    }
 
-	/**
-	 * Initializes the validator.
-	 *
-	 * @param constraintAnnotation the annotation that this validator is validating
-	 */
-	@Override
-	public void initialize(ValidEDCNotification constraintAnnotation) {
-		// No initialization needed
-	}
+    /**
+     * Initializes the validator.
+     *
+     * @param constraintAnnotation the annotation that this validator is validating
+     */
+    @Override
+    public void initialize(ValidEDCNotification constraintAnnotation) {
+        // No initialization needed
+    }
 
     /**
      * Validates the specified {@link EDCNotification} object.

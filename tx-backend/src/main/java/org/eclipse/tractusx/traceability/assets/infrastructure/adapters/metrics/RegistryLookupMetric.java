@@ -122,13 +122,13 @@ public class RegistryLookupMetric {
 	}
 
 	public RegistryLookupMetricEntity toEntity() {
-		return new RegistryLookupMetricEntity(
-			startDate,
-			registryLookupStatus,
-			successShellDescriptorsFetchCount,
-			failedShellDescriptorsFetchCount,
-			endDate
-		);
+        return RegistryLookupMetricEntity.builder()
+                .startDate(startDate)
+                .status(registryLookupStatus)
+                .successShellDescriptorsFetchCount(successShellDescriptorsFetchCount)
+                .failedShellDescriptorsFetchCount(failedShellDescriptorsFetchCount)
+                .endDate(endDate)
+                .build();
 	}
 
 	public void firstElementDelta() {

@@ -23,18 +23,18 @@ package org.eclipse.tractusx.traceability
 
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
-import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository
-import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository
-import org.eclipse.tractusx.traceability.assets.domain.ports.ShellDescriptorRepository
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.ShellDescriptorRepository
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
 import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
 import org.eclipse.tractusx.traceability.common.config.RestAssuredConfig
 import org.eclipse.tractusx.traceability.common.config.RestitoConfig
 import org.eclipse.tractusx.traceability.common.support.*
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
-import org.eclipse.tractusx.traceability.investigations.adapters.jpa.JpaInvestigationRepository
-import org.eclipse.tractusx.traceability.investigations.adapters.jpa.JpaNotificationRepository
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaNotificationRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -47,102 +47,102 @@ import spock.util.concurrent.PollingConditions
 @ActiveProfiles(profiles = [ApplicationProfiles.TESTS])
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @ContextConfiguration(
-	classes = [RestAssuredConfig.class, RestitoConfig.class, PostgreSQLConfig.class],
-	initializers = [RestitoConfig.Initializer.class, PostgreSQLConfig.Initializer.class]
+        classes = [RestAssuredConfig.class, RestitoConfig.class, PostgreSQLConfig.class],
+        initializers = [RestitoConfig.Initializer.class, PostgreSQLConfig.Initializer.class]
 )
 @Testcontainers
 abstract class IntegrationSpecification extends Specification
-	implements OAuth2Support, OAuth2ApiSupport, DatabaseSupport, AssetRepositoryProvider, ShellDescriptorStoreProvider,
-		BpnRepositoryProvider, InvestigationsRepositoryProvider, NotificationsRepositoryProvider, BpnEdcRepositoryProvider {
+        implements OAuth2Support, OAuth2ApiSupport, DatabaseSupport, AssetRepositoryProvider, ShellDescriptorStoreProvider,
+                BpnRepositoryProvider, InvestigationsRepositoryProvider, NotificationsRepositoryProvider, BpnEdcRepositoryProvider {
 
-	@Autowired
-	private AssetRepository assetRepository
+    @Autowired
+    private AssetRepository assetRepository
 
-	@Autowired
-	private AssetsConverter assetsConverter
+    @Autowired
+    private AssetsConverter assetsConverter
 
-	@Autowired
-	private ShellDescriptorRepository shellDescriptorRepository
+    @Autowired
+    private ShellDescriptorRepository shellDescriptorRepository
 
-	@Autowired
-	private BpnRepository bpnRepository
+    @Autowired
+    private BpnRepository bpnRepository
 
     @Autowired
     private BpnEdcMappingRepository bpnEdcRepository
 
-	@Autowired
-	private JpaInvestigationRepository jpaInvestigationRepository
+    @Autowired
+    private JpaInvestigationRepository jpaInvestigationRepository
 
-	@Autowired
-	private JpaNotificationRepository jpaNotificationRepository
+    @Autowired
+    private JpaNotificationRepository jpaNotificationRepository
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate
+    @Autowired
+    private JdbcTemplate jdbcTemplate
 
-	def setup() {
-		oauth2ApiReturnsJwkCerts(jwk())
-	}
+    def setup() {
+        oauth2ApiReturnsJwkCerts(jwk())
+    }
 
-	def cleanup() {
-		RestitoConfig.clear()
-		clearOAuth2Client()
-		clearAllTables()
-	}
+    def cleanup() {
+        RestitoConfig.clear()
+        clearOAuth2Client()
+        clearAllTables()
+    }
 
-	@Override
-	StubServer stubServer() {
-		return RestitoConfig.getStubServer()
-	}
+    @Override
+    StubServer stubServer() {
+        return RestitoConfig.getStubServer()
+    }
 
-	@Override
-	AssetRepository assetRepository() {
-		return assetRepository
-	}
+    @Override
+    AssetRepository assetRepository() {
+        return assetRepository
+    }
 
-	@Override
-	AssetsConverter assetsConverter() {
-		return assetsConverter
-	}
+    @Override
+    AssetsConverter assetsConverter() {
+        return assetsConverter
+    }
 
-	@Override
-	ShellDescriptorRepository shellDescriptorRepository() {
-		return shellDescriptorRepository
-	}
+    @Override
+    ShellDescriptorRepository shellDescriptorRepository() {
+        return shellDescriptorRepository
+    }
 
-	@Override
-	BpnRepository bpnRepository() {
-		return bpnRepository
-	}
+    @Override
+    BpnRepository bpnRepository() {
+        return bpnRepository
+    }
 
     @Override
     BpnEdcMappingRepository bpnEdcRepository() {
         return bpnEdcRepository
     }
 
-	@Override
-	JpaInvestigationRepository jpaInvestigationRepository() {
-		return jpaInvestigationRepository
-	}
+    @Override
+    JpaInvestigationRepository jpaInvestigationRepository() {
+        return jpaInvestigationRepository
+    }
 
-	@Override
-	JpaNotificationRepository jpaNotificationRepository() {
-		return jpaNotificationRepository
-	}
+    @Override
+    JpaNotificationRepository jpaNotificationRepository() {
+        return jpaNotificationRepository
+    }
 
-	@Override
-	JdbcTemplate jdbcTemplate() {
-		return jdbcTemplate
-	}
+    @Override
+    JdbcTemplate jdbcTemplate() {
+        return jdbcTemplate
+    }
 
-	protected void eventually(Closure<?> conditions) {
-		new PollingConditions(timeout: 15, initialDelay: 0.5).eventually(conditions)
-	}
+    protected void eventually(Closure<?> conditions) {
+        new PollingConditions(timeout: 15, initialDelay: 0.5).eventually(conditions)
+    }
 
-	protected String asJson(Object object) {
-		return new JsonBuilder(object).toPrettyString()
-	}
+    protected String asJson(Object object) {
+        return new JsonBuilder(object).toPrettyString()
+    }
 
-	protected String asJson(Map map) {
-		return new JsonBuilder(map).toPrettyString()
-	}
+    protected String asJson(Map map) {
+        return new JsonBuilder(map).toPrettyString()
+    }
 }

@@ -20,13 +20,14 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.mapper;
 
-import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
@@ -45,28 +46,27 @@ public class NotificationMapper {
      * @param edcNotification the EDCNotification received by the receiver
      * @return a Notification object representing the notification received by the receiver
      */
-    public Notification toNotification(EDCNotification edcNotification) {
+    public QualityNotificationMessage toNotification(EDCNotification edcNotification) {
         String notificationId = UUID.randomUUID().toString();
-        return new Notification(
-                notificationId,
-                edcNotification.getNotificationId(),
-                edcNotification.getSenderBPN(),
-                getManufacturerName(edcNotification.getSenderBPN()),
-                edcNotification.getRecipientBPN(),
-                getManufacturerName(edcNotification.getRecipientBPN()),
-                edcNotification.getSenderAddress(),
-                null,
-                edcNotification.getInformation(),
-                edcNotification.convertInvestigationStatus(),
-                edcNotification.getListOfAffectedItems(),
-                edcNotification.getTargetDate(),
-                Severity.valueOf(edcNotification.getSeverity()),
-                edcNotification.getNotificationId(),
-                null,
-                null,
-                edcNotification.getMessageId(),
-                false
-        );
+        return QualityNotificationMessage.builder()
+                .id(notificationId)
+                .created(LocalDateTime.now())
+                .notificationReferenceId(edcNotification.getNotificationId())
+                .senderBpnNumber(edcNotification.getSenderBPN())
+                .senderManufacturerName(getManufacturerName(edcNotification.getSenderBPN()))
+                .receiverBpnNumber(edcNotification.getRecipientBPN())
+                .receiverManufacturerName(getManufacturerName(edcNotification.getRecipientBPN()))
+                .edcUrl(edcNotification.getSenderAddress())
+                .description(edcNotification.getInformation())
+                .investigationStatus(edcNotification.convertInvestigationStatus())
+                .affectedParts(edcNotification.getListOfAffectedItems())
+                .targetDate(edcNotification.getTargetDate())
+                .severity(QualityNotificationSeverity.fromString(edcNotification.getSeverity()))
+                .edcNotificationId(edcNotification.getNotificationId())
+                .messageId(edcNotification.getMessageId())
+                .isInitial(false)
+                .build();
+
     }
 
     private String getManufacturerName(String senderBPN) {

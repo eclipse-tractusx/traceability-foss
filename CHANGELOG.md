@@ -5,10 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased - x.x.x]
+### Added
+- Added option to hide "Investigation for components" in part-detail.component.html
+- E2E A & B env profile configuration
+- Added tests for SonarQube exclusions
+
+### Changed
+- Refactored other-parts.component.html - split into new components: supplier-parts.component.html and customer-parts.component.html
+- Bump cypress-io/github-action from 5.6.2 to 5.7.1
+- Bump surefire-plugin.version from 3.0.0-M8 to 3.0.0
+- Bump java-jwt from 4.3.0 to 4.4.0
+- Bump asciidoctor-maven-plugin from 2.2.2 to 2.2.3
+- Bump spring-cloud-dependencies from 2022.0.1 to 2022.0.2
+- Bump asciidoctorj from 2.5.7 to 2.5.8
+- Use Selective dependency resolutions for @angular-devkit/build-angular to keep 15.2.8 version locked (so @angular-builders/custom-webpack uses the same version as well)
+- Aligned help button and user icon in the header to official C-X styleguide
+
+### Removed
+- Removed selection column on Customer Parts page
+- Removed classes: AssetFacade, Constants, Command, ContractAgreementRequest, ContractOfferRequest, AssetFacadeTest
+
+## [3.4.0] - 2023-05-11
 
 ### Added
 - Added logic to push image to docker hub for eclipse-tractusx repository
 - Added testdata to database to ensure working notification flow
+- Added base implementation for quality notifications which can be used for alerts and investigations
+
 ### Changed
 - Updated Publish documentation workflow to convert and deploy documentation as markdown (.md)
 - Bumped cypress-io/github-action from 5.6.1 to 5.6.2
@@ -17,8 +40,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated path of digital twin registry for dev environment
 - Updated swagger api doc and added collection
 - Updated dev setup documentation
+- Changed logic of investigations to be more extensible for alerts
 - Upgraded irs from 5.0.9 to 5.3.0
-
+- Upgraded @angular-devkit/build-angular to ^15.0.0 (to have the same dependency as @angular-builders/custom-webpack has)
+- Fix sonar bug in minimap.d3.ts
+- Upgraded karma dependencies (use engine.io@^6.4.2 to solve Uncaught Exception vulnerability)
+- Refactored investigation class to be qualitynotification to reflect a base class for future extensions
+- Renamed notification table to investigation_notification to be able to understand the difference of notification source
 ### Removed
 - Not needed enum params in UpdateInvestigationRequest
 
@@ -37,6 +65,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added project lombok
 - Added Dockerfile to root directory
 - Added helm-test workflow
+- Added new testdata set for bom lifecycle "asBuilt"
 
 ### Changed
 - Updated spring-boot:core from 6.0.6 to 6.0.8 for cve-2023-20863
@@ -54,6 +83,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Moved Investigation JPA implementation to the correct folder structure
 - Moved Notification JPA implementation to the correct folder structure
 - Fixed bug to reflect investigation status on assets
+- Added documentation on the usage of testdata
 
 ### Removed
 - Removed usage of add-license-header script in FE hook
@@ -79,12 +109,26 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Combined results of discovery service and fallback mock service to provide bpn url mappings
 - Updated EDC Provider to 0.3.0 version
 
+## [3.1.2] - 2023-05-02
+
+### Added
+
+- Helm lint, test and install action workflow
+- Updated frontend and backend dependency file and requested review for open license issues
+- Updated broken links in readme
+- Refactored github action workflow to isolate latest and release version tags
+- Added missing license headers to files
+- Synchronized configuration for runAsUser for container images
+- Adapt default values.yaml to allow installation of helm charts in any environment
+
 ## [3.1.1] - 2023-04-04
 
 ### Added
+
 - Some unit tests for better code quality
 
 ### Changed
+
 - Fixed edc notification flow bug
 - Updated org.springframework/spring-expression from 6.0.6 to 6.0.7
 - Updated net.minidev/json-smart from 2.4.8 to 2.4.10

@@ -20,8 +20,9 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,8 +32,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 class PersistentAssetsRepositoryTest {
@@ -82,8 +81,8 @@ class PersistentAssetsRepositoryTest {
                 null, "AS01", "Asset 1", "MP001", "PI001", "M01",
                 "B001", "Manufacturer 1", "Customer Asset 1", "CP001",
                 Instant.ofEpochSecond(11111111L), "USA", Owner.OWN,
-                List.of(new Asset.Descriptions("C001", "CD01")),
-                List.of(new Asset.Descriptions("P001", "PD01")),
+                List.of(new Descriptions("C001", "CD01")),
+                List.of(new Descriptions("P001", "PD01")),
                 false, QualityType.OK, "V001");
         Assertions.assertEquals(asset.getId(), expected.getId());
         Assertions.assertEquals(asset.getIdShort(), expected.getIdShort());

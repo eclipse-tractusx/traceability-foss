@@ -29,18 +29,18 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableFeignClients(basePackages = {
-	"org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.*",
-	"org.eclipse.tractusx.traceability.investigations.adapters.feign.*",
+        "org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.*",
+        "org.eclipse.tractusx.traceability.discovery.infrastructure.repository",
 })
 public class FeignGlobalConfig {
 
-	@Bean
-	public Logger.Level feignLoggerLevel() {
-		return Logger.Level.FULL;
-	}
+    @Bean
+    public Logger.Level feignLoggerLevel() {
+        return Logger.Level.FULL;
+    }
 
-	@Bean
-	public Contract useFeignAnnotations() {
-		return new Contract.Default();
-	}
+    @Bean
+    public Contract useFeignAnnotations() {
+        return new Contract.Default();
+    }
 }

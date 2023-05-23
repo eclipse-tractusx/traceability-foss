@@ -18,7 +18,7 @@
     <properties>
         <java.version>17</java.version>
         <cucumber.version>7.11.1</cucumber.version>
-        <json-unit-assertj.version>2.36.1</json-unit-assertj.version>
+        <json-unit-assertj.version>2.37.0</json-unit-assertj.version>
         <lombok.version>1.18.26</lombok.version>
         <compiler-plugin.version>3.11.0</compiler-plugin.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
@@ -37,7 +37,7 @@
             <dependency>
                 <groupId>org.junit</groupId>
                 <artifactId>junit-bom</artifactId>
-                <version>5.9.2</version>
+                <version>5.9.3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -112,7 +112,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M8</version>
                 <configuration>
                     <properties>
                         <configurationParameters>

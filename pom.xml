@@ -11,10 +11,10 @@
     <description>Root module containing other modules.</description>
 
     <modules>
+        <module>tx-models</module>
         <module>tx-cucumber-tests</module>
         <module>tx-backend</module>
         <module>tx-parent-spring-boot</module>
-        <module>tx-models</module>
         <module>docs</module>
     </modules>
 
@@ -27,7 +27,7 @@
         <start-class>org.eclipse.tractusx.traceability.TraceabilityApplication</start-class>
 
         <!-- versions for Maven plugin -->
-        <ascii-doctor.maven.plugin.version>2.2.2</ascii-doctor.maven.plugin.version>
+        <ascii-doctor.maven.plugin.version>2.2.3</ascii-doctor.maven.plugin.version>
         <checkstyle-plugin.version>3.2.1</checkstyle-plugin.version>
         <compiler-plugin.version>3.10.1</compiler-plugin.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
@@ -38,21 +38,21 @@
         <owasp-plugin.version>8.1.0</owasp-plugin.version>
         <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
-        <surefire-plugin.version>3.0.0-M9</surefire-plugin.version>
+        <surefire-plugin.version>3.1.0</surefire-plugin.version>
         <apache-groovy.version>4.0.11</apache-groovy.version>
 
         <!-- versions for 3rd party dependecies -->
         <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
-        <ascii-dcotor-j.version>2.5.7</ascii-dcotor-j.version>
-        <auth-0-java-jwt.version>4.3.0</auth-0-java-jwt.version>
+        <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
+        <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
         <eclipse-license-tool.version>0.0.1-SNAPSHOT</eclipse-license-tool.version>
         <feign.version>12.3</feign.version>
         <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
         <jruby.version>9.3.9.0</jruby.version>
         <resilience4j.version>2.0.2</resilience4j.version>
         <schedlock.version>4.42.0</schedlock.version>
-        <spring-cloud.version>2022.0.1</spring-cloud.version>
+        <spring-cloud.version>2022.0.2</spring-cloud.version>
         <jetbrains-annotation.version>24.0.1</jetbrains-annotation.version>
         <feign-form.version>3.8.0</feign-form.version>
         <feign-slf4j.version>12.1</feign-slf4j.version>
@@ -89,22 +89,7 @@
 
         <sonar.exclusions>
             org/eclipse/tractusx/traceability/TraceabilityApplication.java,
-            org/eclipse/tractusx/traceability/common/docs/SwaggerPageable.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreement.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/agreement/ContractAgreementRequest.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/model/**/*.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/negotiation/**/*.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/policy/**/*.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/BadRequestException.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/Constants.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/EdcService.java,
             org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java,
-            org/eclipse/tractusx/traceability/infrastructure/jpa/notification/NotificationEntity.java,
-            org/eclipse/tractusx/traceability/infrastructure/jpa/notification/InvestigationEntity.java,
-            org/eclipse/tractusx/traceability/investigations/domain/model/Investigation.java,
-            org/eclipse/tractusx/traceability/investigations/domain/model/Notification.java,
-            org/eclipse/tractusx/traceability/infrastructure/jpa/bpn_edc/BpnEdcMappingEntity.java,
-            org/eclipse/tractusx/traceability/common/config/ErrorHandlingConfig.java
         </sonar.exclusions>
     </properties>
 
@@ -160,6 +145,16 @@
                     </execution>
                 </executions>
             </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefire-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-report-plugin</artifactId>
+                    <version>${surefire-plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
     </build>

@@ -25,23 +25,27 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants.ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants.ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants.ASSET_VALUE_QUALITY_INVESTIGATION;
-
 
 /**
  * The {@link Asset} contains the metadata and describes the data itself or a collection of data.
  */
+@Slf4j
+@ToString
 @JsonDeserialize(builder = Asset.Builder.class)
 public class Asset {
 
+    private static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
+    private static final String ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE = "receive";
+    public static final String ASSET_KEY_NOTIFICATION_TYPE = "asset:prop:notificationtype";
+    public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
     public static final String PROPERTY_ID = "asset:prop:id";
     public static final String PROPERTY_NAME = "asset:prop:name";
     public static final String PROPERTY_DESCRIPTION = "asset:prop:description";

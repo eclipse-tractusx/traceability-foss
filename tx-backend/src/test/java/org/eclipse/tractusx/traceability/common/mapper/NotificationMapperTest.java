@@ -20,11 +20,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.mapper;
 
-import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationHeader;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,45 +35,47 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class NotificationMapperTest {
 
-	@InjectMocks
-	private NotificationMapper notificationMapper;
+    @InjectMocks
+    private NotificationMapper notificationMapper;
 
     @Mock
     private BpnRepository bpnRepository;
 
-	@Test
-	void testToReceiverNotification() {
+    @Test
+    void testToReceiverNotification() {
         EDCNotificationHeader header = new EDCNotificationHeader("id123",
-			"senderBPN", "senderAddress", "recipientBPN", "classification",
-			"MINOR", "relatedNotificationId", "ACKNOWLEDGED", "2022-03-01T12:00:00Z", "id123");
-		EDCNotificationContent content = new EDCNotificationContent("information", List.of("partId"));
-		EDCNotification edcNotification = new EDCNotification(header, content);
+                "senderBPN", "senderAddress", "recipientBPN", "classification",
+                "MINOR", "relatedNotificationId", "ACKNOWLEDGED", "2022-03-01T12:00:00Z", "id123");
+        EDCNotificationContent content = new EDCNotificationContent("information", List.of("partId"));
+        EDCNotification edcNotification = new EDCNotification(header, content);
 
-		Notification expectedNotification = NotificationTestDataFactory.createNotificationTestData();
+        QualityNotificationMessage expectedNotification = NotificationTestDataFactory.createNotificationTestData();
 
         when(bpnRepository.findManufacturerName(eq(expectedNotification.getSenderBpnNumber()))).thenReturn(Optional.of(expectedNotification.getSenderManufacturerName()));
         when(bpnRepository.findManufacturerName(eq(expectedNotification.getReceiverBpnNumber()))).thenReturn(Optional.of(expectedNotification.getReceiverManufacturerName()));
 
 
-		Notification actualNotification = notificationMapper.toNotification(edcNotification);
-		assertNotNull(actualNotification.getId());
-		assertEquals(expectedNotification.getNotificationReferenceId(), actualNotification.getNotificationReferenceId());
-		assertEquals(expectedNotification.getSenderBpnNumber(), actualNotification.getSenderBpnNumber());
+        QualityNotificationMessage actualNotification = notificationMapper.toNotification(edcNotification);
+        assertNotNull(actualNotification.getId());
+        assertEquals(expectedNotification.getNotificationReferenceId(), actualNotification.getNotificationReferenceId());
+        assertEquals(expectedNotification.getSenderBpnNumber(), actualNotification.getSenderBpnNumber());
         assertEquals(expectedNotification.getSenderManufacturerName(), actualNotification.getSenderManufacturerName());
-		assertEquals(expectedNotification.getReceiverBpnNumber(), actualNotification.getReceiverBpnNumber());
+        assertEquals(expectedNotification.getReceiverBpnNumber(), actualNotification.getReceiverBpnNumber());
         assertEquals(expectedNotification.getReceiverManufacturerName(), actualNotification.getReceiverManufacturerName());
-		assertEquals(expectedNotification.getEdcUrl(), actualNotification.getEdcUrl());
-		assertNull(actualNotification.getContractAgreementId());
-		assertEquals(expectedNotification.getDescription(), actualNotification.getDescription());
-		assertEquals(expectedNotification.getInvestigationStatus(), actualNotification.getInvestigationStatus());
-		assertEquals(expectedNotification.getAffectedParts(), actualNotification.getAffectedParts());
-		assertEquals(expectedNotification.getSeverity(), actualNotification.getSeverity());
-	}
+        assertEquals(expectedNotification.getEdcUrl(), actualNotification.getEdcUrl());
+        assertNull(actualNotification.getContractAgreementId());
+        assertEquals("information", actualNotification.getDescription());
+        assertEquals(expectedNotification.getInvestigationStatus(), actualNotification.getInvestigationStatus());
+        assertEquals(expectedNotification.getAffectedParts(), actualNotification.getAffectedParts());
+        assertEquals(expectedNotification.getSeverity(), actualNotification.getSeverity());
+    }
 }

@@ -28,97 +28,95 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNo
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationContent
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationHeader
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
 import org.springframework.beans.factory.annotation.Autowired
-
-import java.time.Instant
 
 class EdcNotificationModelIT extends IntegrationSpecification implements TestDataSupport {
 
-	@Autowired
-	private ObjectMapper objectMapper
+    @Autowired
+    private ObjectMapper objectMapper
 
-	def "should be able to deserialize edc notification object with unknown fields"() {
-		given:
-			String notificationJson = readFile("edc_notification_with_unknown_fields.json")
+    def "should be able to deserialize edc notification object with unknown fields"() {
+        given:
+        String notificationJson = readFile("edc_notification_with_unknown_fields.json")
 
-		when:
-			EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class)
+        when:
+        EDCNotification edcNotification = objectMapper.readValue(notificationJson, EDCNotification.class)
 
-		then:
-			edcNotification != null
+        then:
+        edcNotification != null
 
-		and:
-			with(edcNotification) { it ->
-				it.header().notificationId() == "cda2d956-fa91-4a75-bb4a-8e5ba39b268a"
-				it.header().senderBPN() == "BPNL00000003AXS3"
-				it.header().senderAddress() == "https://some-url.com"
-				it.header().recipientBPN() == "BPNL00000003AXS3"
-				it.header().classification() == "QM-Investigation"
-				it.header().severity() == "CRITICAL"
-				it.header().relatedNotificationId() == ""
-				it.header().status() == "SENT"
-				it.header().targetDate() == ""
+        and:
+        with(edcNotification) { it ->
+            it.header().notificationId() == "cda2d956-fa91-4a75-bb4a-8e5ba39b268a"
+            it.header().senderBPN() == "BPNL00000003AXS3"
+            it.header().senderAddress() == "https://some-url.com"
+            it.header().recipientBPN() == "BPNL00000003AXS3"
+            it.header().classification() == "QM-Investigation"
+            it.header().severity() == "CRITICAL"
+            it.header().relatedNotificationId() == ""
+            it.header().status() == "SENT"
+            it.header().targetDate() == ""
 
-				it.content().information() == "Some long description"
+            it.content().information() == "Some long description"
 
-				List<String> listOfAffectedItems = it.content().listOfAffectedItems()
-				listOfAffectedItems.size() == 1
-				listOfAffectedItems.first() == "urn:uuid:171fed54-26aa-4848-a025-81aaca557f37"
-			}
+            List<String> listOfAffectedItems = it.content().listOfAffectedItems()
+            listOfAffectedItems.size() == 1
+            listOfAffectedItems.first() == "urn:uuid:171fed54-26aa-4848-a025-81aaca557f37"
+        }
 
-		and:
-			edcNotification.convertInvestigationStatus() == InvestigationStatus.SENT
-			edcNotification.convertNotificationType() == NotificationType.QMINVESTIGATION
-	}
+        and:
+        edcNotification.convertInvestigationStatus() == QualityNotificationStatus.SENT
+        edcNotification.convertNotificationType() == NotificationType.QMINVESTIGATION
+    }
 
-	def "should be able to serialize edc notification object"() {
-		given:
-			EDCNotificationHeader header = new EDCNotificationHeader(
-				"cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
-				"BPNL00000003AXS3",
-				"https://some-url.com",
-				"BPNL00000003AXS3",
-				"QM-Investigation",
-				"CRITICAL",
-				null,
-				"SENT",
-				"2018-11-30T18:35:24.00Z",
-                    "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
-			)
+    def "should be able to serialize edc notification object"() {
+        given:
+        EDCNotificationHeader header = new EDCNotificationHeader(
+                "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
+                "BPNL00000003AXS3",
+                "https://some-url.com",
+                "BPNL00000003AXS3",
+                "QM-Investigation",
+                "CRITICAL",
+                null,
+                "SENT",
+                "2018-11-30T18:35:24.00Z",
+                "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
+        )
 
-		and:
-			EDCNotificationContent content = new EDCNotificationContent(
-				"Some long description",
-				["urn:uuid:171fed54-26aa-4848-a025-81aaca557f37"]
-			)
+        and:
+        EDCNotificationContent content = new EDCNotificationContent(
+                "Some long description",
+                ["urn:uuid:171fed54-26aa-4848-a025-81aaca557f37"]
+        )
 
-		and:
-			EDCNotification edcNotification = new EDCNotification(header, content)
+        and:
+        EDCNotification edcNotification = new EDCNotification(header, content)
 
-		when:
-			String edcNotificationJson = objectMapper.writeValueAsString(edcNotification)
+        when:
+        String edcNotificationJson = objectMapper.writeValueAsString(edcNotification)
 
-		then:
-			def json = new JsonSlurper().parseText(edcNotificationJson)
-			json instanceof Map
+        then:
+        def json = new JsonSlurper().parseText(edcNotificationJson)
+        json instanceof Map
 
-		and:
-			json["header"]["notificationId"] == header.notificationId()
-			json["header"]["senderBPN"] == header.senderBPN()
-			json["header"]["senderAddress"] == header.senderAddress()
-			json["header"]["recipientBPN"] == header.recipientBPN()
-			json["header"]["classification"] == header.classification()
-			json["header"]["severity"] == header.severity()
-			json["header"]["status"] == header.status()
-			json["header"]["targetDate"] == header.targetDate()
+        and:
+        json["header"]["notificationId"] == header.notificationId()
+        json["header"]["senderBPN"] == header.senderBPN()
+        json["header"]["senderAddress"] == header.senderAddress()
+        json["header"]["recipientBPN"] == header.recipientBPN()
+        json["header"]["classification"] == header.classification()
+        json["header"]["severity"] == header.severity()
+        json["header"]["status"] == header.status()
+        json["header"]["targetDate"] == header.targetDate()
 
-		and:
-			def headerObject = json["header"] as Map
-			!headerObject.containsKey("relatedNotificationId")
+        and:
+        def headerObject = json["header"] as Map
+        !headerObject.containsKey("relatedNotificationId")
 
-		and:
-			json["content"]["information"] == content.information()
-			json["content"]["listOfAffectedItems"] == content.listOfAffectedItems()
-	}
+        and:
+        json["content"]["information"] == content.information()
+        json["content"]["listOfAffectedItems"] == content.listOfAffectedItems()
+    }
 }

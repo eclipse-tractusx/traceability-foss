@@ -314,12 +314,15 @@ export class D3RenderHelper {
       .classed('tree--element__arrow-container', true)
       .on('click', () => callback(data, direction));
 
+    const startAngleFactor = direction === TreeDirection.LEFT ? 1.3 : 0.3;
+    const endAngleFactor = direction === TreeDirection.LEFT ? 1.7 : 0.7;
+
     const arc = d3
       .arc<HierarchyNode<TreeStructure>>()
       .innerRadius(r + 5)
       .outerRadius(r + 15)
-      .startAngle(({ data }) => (data.children?.length ? 0 : direction === TreeDirection.LEFT ? 1.3 : 0.3) * Math.PI)
-      .endAngle(({ data }) => (data.children?.length ? 0 : direction === TreeDirection.LEFT ? 1.7 : 0.7) * Math.PI);
+      .startAngle(({ data }) => (data.children?.length ? 0 : startAngleFactor) * Math.PI)
+      .endAngle(({ data }) => (data.children?.length ? 0 : endAngleFactor) * Math.PI);
 
     el.append('path')
       .attr('transform', () => `translate(${D3RenderHelper.modifyYByDirection(direction, y)},${x})`)

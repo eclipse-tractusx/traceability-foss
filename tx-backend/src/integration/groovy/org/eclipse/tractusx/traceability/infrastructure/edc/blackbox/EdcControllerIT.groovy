@@ -28,11 +28,11 @@ import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
 import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
 import org.eclipse.tractusx.traceability.common.support.TestDataSupport
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification
-import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity
-import org.eclipse.tractusx.traceability.investigations.adapters.jpa.NotificationEntity
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
-import org.eclipse.tractusx.traceability.investigations.domain.model.Severity
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
 import org.springframework.beans.factory.annotation.Autowired
 
 import java.time.Instant
@@ -62,7 +62,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         then:
         assertNotificationsSize(1)
         assertInvestigationsSize(1)
-        assertInvestigationStatus(InvestigationStatus.RECEIVED)
+        assertInvestigationStatus(QualityNotificationStatus.RECEIVED)
     }
 
     def "should not create an investigation on API callback /qualitynotifications/receive bad request bpn of notification does not match app bpn"() {
@@ -87,31 +87,26 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
     def "should add a notification to an existing investigation on API callback /qualitynotifications/update success"() {
         given:
         defaultAssetsStored()
-        NotificationEntity notification = new NotificationEntity(
-                "1",
-                null,
-                "senderBpnNumber",
-                "senderManufacturerName",
-                "receiverBpnNumber",
-                "receiverManufacturerName",
-                null,
-                null,
-                Instant.parse("2022-03-01T12:00:00Z"),
-                Severity.CRITICAL,
-                "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
-                null,
-                "messageId",
-                false
-        )
+        InvestigationNotificationEntity notification = InvestigationNotificationEntity
+                .builder()
+                .id("1")
+                .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .build()
 
-        InvestigationEntity investigation = new InvestigationEntity(
-                [], "BPNL00000003AXS3", InvestigationStatus.SENT, InvestigationSide.SENDER, "", "some-description", Instant.now())
+        InvestigationEntity investigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(QualityNotificationStatusBaseEntity.SENT)
+                .side(QualityNotificationSideBaseEntity.SENDER)
+                .created(Instant.now())
+                .build();
 
         InvestigationEntity persistedInvestigation = storedInvestigationFullObject(investigation)
 
-        NotificationEntity notificationEntity = storedNotification(notification)
+        InvestigationNotificationEntity notificationEntity = storedNotification(notification)
         notificationEntity.setInvestigation(persistedInvestigation);
-        NotificationEntity persistedNotification = storedNotification(notificationEntity)
+        InvestigationNotificationEntity persistedNotification = storedNotification(notificationEntity)
 
         investigation.setNotifications(List.of(persistedNotification))
 
@@ -136,37 +131,32 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         assertNotificationsSize(2)
         assertInvestigationsSize(1)
 
-        assertInvestigationStatus(InvestigationStatus.ACKNOWLEDGED)
+        assertInvestigationStatus(QualityNotificationStatus.ACKNOWLEDGED)
     }
 
     def "should throw bad request because edcNotification Method is not supported /qualitynotifications/receive"() {
         given:
         defaultAssetsStored()
-        NotificationEntity notification = new NotificationEntity(
-                "1",
-                null,
-                "senderBpnNumber",
-                "senderManufacturerName",
-                "receiverBpnNumber",
-                "receiverManufacturerName",
-                null,
-                null,
-                Instant.parse("2022-03-01T12:00:00Z"),
-                Severity.CRITICAL,
-                "cda2d956-fa91-4a75-bb4a-8e5ba39b268a",
-                null,
-                "messageId",
-                false
-        )
+        InvestigationNotificationEntity notification = InvestigationNotificationEntity
+                .builder()
+                .id("1")
+                .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                .build()
 
-        InvestigationEntity investigation = new InvestigationEntity(
-                [], "BPNL00000003AXS3", InvestigationStatus.SENT, InvestigationSide.SENDER, "", "some-description", Instant.now())
+
+        InvestigationEntity investigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(QualityNotificationStatusBaseEntity.SENT)
+                .side(QualityNotificationSideBaseEntity.SENDER)
+                .created(Instant.now())
+                .build();
 
         InvestigationEntity persistedInvestigation = storedInvestigationFullObject(investigation)
 
-        NotificationEntity notificationEntity = storedNotification(notification)
+        InvestigationNotificationEntity notificationEntity = storedNotification(notification)
         notificationEntity.setInvestigation(persistedInvestigation);
-        NotificationEntity persistedNotification = storedNotification(notificationEntity)
+        InvestigationNotificationEntity persistedNotification = storedNotification(notificationEntity)
 
         investigation.setNotifications(List.of(persistedNotification))
 
@@ -195,8 +185,13 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
     def "should call the /qualitynotifications/update api with wrong requestobject "() {
         given:
 
-        InvestigationEntity investigation = new InvestigationEntity(
-                [], "BPNL00000003AXS3", InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "some-description", Instant.now())
+        InvestigationEntity investigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(QualityNotificationStatusBaseEntity.RECEIVED)
+                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .created(Instant.now())
+                .build();
 
         storedInvestigationFullObject(investigation)
 
@@ -231,7 +226,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         then:
         assertNotificationsSize(0)
         assertInvestigationsSize(1)
-        assertInvestigationStatus(InvestigationStatus.RECEIVED)
+        assertInvestigationStatus(QualityNotificationStatus.RECEIVED)
 
     }
 }

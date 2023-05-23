@@ -21,22 +21,36 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.investigations.adapters.jpa.InvestigationEntity
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationSide
-import org.eclipse.tractusx.traceability.investigations.domain.model.InvestigationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
 
 import java.time.Instant
 
 trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
     Long defaultReceivedInvestigationStored() {
-        InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.RECEIVED, InvestigationSide.RECEIVER, "", "some-description", Instant.now())
+        InvestigationEntity entity = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(QualityNotificationStatusBaseEntity.RECEIVED)
+                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .description("some description")
+                .created(Instant.now())
+                .build();
 
         return storedInvestigation(entity)
     }
 
     Long defaultAcknowledgedInvestigationStored() {
-        InvestigationEntity entity = new InvestigationEntity([], "BPNL00000003AXS3", InvestigationStatus.ACKNOWLEDGED, InvestigationSide.RECEIVER, "", "", Instant.now())
+        InvestigationEntity entity = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(QualityNotificationStatusBaseEntity.ACKNOWLEDGED)
+                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .created(Instant.now())
+                .build();
 
         return storedInvestigation(entity)
     }
@@ -47,9 +61,9 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
         assert investigations.size() == size
     }
 
-    void assertInvestigationStatus(InvestigationStatus investigationStatus) {
+    void assertInvestigationStatus(QualityNotificationStatus investigationStatus) {
         jpaInvestigationRepository().findAll().each {
-            assert it.status == investigationStatus
+            assert it.status.name() == investigationStatus.name()
         }
     }
 

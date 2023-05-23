@@ -20,9 +20,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
-import org.eclipse.tractusx.traceability.investigations.domain.model.AffectedPart;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Notification;
-import org.eclipse.tractusx.traceability.investigations.domain.model.Severity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class EDCNotificationFactory {
     private EDCNotificationFactory() {
     }
 
-    public static EDCNotification createQualityInvestigation(String senderEDC, Notification notification) {
+    public static EDCNotification createQualityInvestigation(String senderEDC, QualityNotificationMessage notification) {
         String targetDate = null;
         if (notification.getTargetDate() != null) {
             targetDate = notification.getTargetDate().toString();
@@ -42,7 +42,7 @@ public class EDCNotificationFactory {
                 senderEDC,
                 notification.getReceiverBpnNumber(),
                 NotificationType.QMINVESTIGATION.getValue(),
-                notification.getSeverity() != null ? notification.getSeverity().getRealName() : Severity.MINOR.getRealName(),
+                notification.getSeverity() != null ? notification.getSeverity().getRealName() : QualityNotificationSeverity.MINOR.getRealName(),
                 notification.getNotificationReferenceId(),
                 notification.getInvestigationStatus().name(),
                 targetDate,
@@ -57,9 +57,9 @@ public class EDCNotificationFactory {
         return new EDCNotification(header, content);
     }
 
-    private static List<String> extractAssetIds(Notification notification) {
+    private static List<String> extractAssetIds(QualityNotificationMessage notification) {
         return notification.getAffectedParts().stream()
-                .map(AffectedPart::assetId).toList();
+                .map(QualityNotificationAffectedPart::assetId).toList();
     }
 }
 
