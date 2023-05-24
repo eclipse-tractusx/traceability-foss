@@ -2,6 +2,7 @@
 
 title: Domain Model
 
+
 abstract AspectModel {
         *   id : String
         idShort : String
@@ -11,6 +12,7 @@ abstract AspectModel {
         childRelations : List<Relation>
         parentRelations : List<Relation>
         underInvestigation : boolean
+        activeAlert: boolean 
         qualityType : QualityType
         van : String
         abstract SemanticDataModel : getSemanticDataModel()
@@ -26,7 +28,7 @@ entity Relation {
 }
 
 
-entity AsBuiltAspectModel {
+abstract AsBuiltAspectModel {
         manufacturingDate : Instant
         manufacturingCountry : String
         manufacturerPartId : String
@@ -37,22 +39,25 @@ entity AsBuiltAspectModel {
 
 entity SerialPartTypization {
      partInstanceId : String
-      getSemanticDataModel()
+     getSemanticDataModel()
 }
 
 entity Batch {
      batchId : String
-      getSemanticDataModel()
+     getSemanticDataModel()
 }
 
-entity AsPlannedAspectModel {
+abstract AsPlannedAspectModel {
 
 }
+
 
 AspectModel <|.. AsBuiltAspectModel
 AspectModel <|.. AsPlannedAspectModel
 AsBuiltAspectModel <|.. Batch
 AsBuiltAspectModel <|.. SerialPartTypization
+AsPlannedAspectModel <|.. Batch
+AsPlannedAspectModel <|.. SerialPartTypization
 AspectModel }o--- Relation : childRelations
 AspectModel }o---  Relation : parentRelations
 
