@@ -26,7 +26,7 @@ import groovy.json.JsonBuilder
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.ShellDescriptorRepository
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
 import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
