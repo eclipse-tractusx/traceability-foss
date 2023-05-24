@@ -20,7 +20,7 @@
     "relations": "Beziehungen",
     "admin": "Verwaltung Catena-X",
     "investigations": "Qualitätsuntersuchung",
-    "alerts": "TBD: Quality Alerts"
+    "alerts": "Qualitätswarnung"
   },
   "layout": {
     "nav": {
@@ -206,7 +206,7 @@
     "viewAll": "Alle anzeigen",
     "tabs": {
       "received": "Zugewiesene",
-      "queuedAndRequested": "Erstellte und Angefragte"
+      "queuedAndRequested": "Erstellte und Versendete"
     },
     "status": {
       "RECEIVED": "Erhalten",
