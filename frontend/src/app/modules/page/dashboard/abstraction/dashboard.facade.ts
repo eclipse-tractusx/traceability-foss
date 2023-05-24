@@ -89,8 +89,7 @@ export class DashboardFacade {
 
   private setInvestigations(): void {
     this.investigationSubscription?.unsubscribe();
-    // TODO: maybe default sorting keep in getReceivedInvestigations ?
-    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, ['createdDate', 'desc']).subscribe({
+    this.investigationSubscription = this.investigationsService.getReceivedInvestigations(0, 5, null).subscribe({
       next: data => this.dashboardState.setInvestigation({ data }),
       error: (error: Error) => this.dashboardState.setInvestigation({ error }),
     });

@@ -47,7 +47,7 @@ export class InvestigationsService {
   constructor(private readonly apiService: ApiService) {}
 
   public getCreatedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
-    const sort = NotificationAssembler.mapSortToApiSort(sorting);
+    const sort = sorting ? `${sorting[0]},${sorting[1]}` : 'createdDate,desc';
     const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
 
     return this.apiService
@@ -56,7 +56,7 @@ export class InvestigationsService {
   }
 
   public getReceivedInvestigations(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Notifications> {
-    const sort = NotificationAssembler.mapSortToApiSort(sorting);
+    const sort = sorting ? `${sorting[0]},${sorting[1]}` : 'createdDate,desc';
     const params = new HttpParams().set('page', page).set('size', pageSize).set('sort', sort);
 
     return this.apiService
