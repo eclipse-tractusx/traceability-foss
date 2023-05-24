@@ -22,7 +22,9 @@
 package org.eclipse.tractusx.traceability.assets.domain.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Instant;
@@ -31,6 +33,7 @@ import java.util.List;
 @Slf4j
 @AllArgsConstructor
 @Data
+@Builder
 public final class Asset {
     private final String id;
     private final String idShort;
@@ -46,7 +49,9 @@ public final class Asset {
     private final String manufacturingCountry;
     private final Owner owner;
 
+    @Singular
     private List<Descriptions> childDescriptions;
+    @Singular
     private List<Descriptions> parentDescriptions;
     private boolean underInvestigation;
     private QualityType qualityType;

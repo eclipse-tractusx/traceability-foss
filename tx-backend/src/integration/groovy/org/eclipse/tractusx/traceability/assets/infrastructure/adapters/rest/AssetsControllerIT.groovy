@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
 import org.eclipse.tractusx.traceability.common.support.BpnSupport
 import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
@@ -323,7 +323,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .get("/api/assets")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(10))
+                .body("totalItems", equalTo(6))
     }
 
     // Deprecated please remove once controller has been removed
@@ -340,7 +340,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .get("/api/assets")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(3))
+                .body("totalItems", equalTo(2))
     }
 
     def "should return all assets"() {
@@ -368,7 +368,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .body("content[0]", hasEntry("customerPartId", "--"))
                 .body("content[0]", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
                 .body("content[0]", hasEntry("manufacturingCountry", "DEU"))
-                .body("content[0]", hasEntry("owner", "OWN"))
+                .body("content[0]", hasEntry("owner", "SUPPLIER"))
                 .body("content[0]", hasEntry("underInvestigation", false))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
@@ -392,9 +392,10 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 
         where:
         ownerValue || totalItemsValue
-        "OWN"      || 3
+        "OWN"      || 2
         "CUSTOMER" || 0
-        "SUPPLIER" || 10
+        "SUPPLIER" || 6
+        "UNKNOWN"  || 5
     }
 
     def "should return assets country map"() {
