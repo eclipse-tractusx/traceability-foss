@@ -21,17 +21,19 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.domain.ports.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.async.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -43,9 +45,9 @@ import java.util.stream.Collectors;
 
 import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
+@Slf4j
 @Component
 public class AssetService {
-    private static final Logger logger = LoggerFactory.getLogger(AssetService.class);
 
     private final AssetRepository assetRepository;
     private final IrsRepository irsRepository;
@@ -55,27 +57,28 @@ public class AssetService {
         this.irsRepository = irsRepository;
     }
 
-    public void synchronizeAssets(List<String> globalAssetIds) {
+    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
+    public void synchronizeAssetsAsync(List<String> globalAssetIds) {
         for (String globalAssetId : globalAssetIds) {
             try {
-                synchronizeAssets(globalAssetId);
+                synchronizeAssetsAsync(globalAssetId);
             } catch (Exception e) {
-                logger.warn("Cannot fetch assets for id: {}. Error: {}", globalAssetId, e.getMessage());
+                log.warn("Cannot fetch assets for id: {}. Error: {}", globalAssetId, e.getMessage());
             }
         }
     }
 
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void synchronizeAssets(String globalAssetId) {
-        logger.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
+    public void synchronizeAssetsAsync(String globalAssetId) {
+        log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
         try {
             List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects());
             List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspects());
             List<Asset> combinedAssetList = combineAssetsAndMergeParentDescriptionIntoDownwardAssets(downwardAssets, upwardAssets);
             assetRepository.saveAll(combinedAssetList);
-            logger.info("Assets {} for globalAssetId {} successfully saved.", combinedAssetList, globalAssetId);
+            log.info("Assets {} for globalAssetId {} successfully saved.", combinedAssetList, globalAssetId);
         } catch (Exception e) {
-            logger.warn("Exception during assets synchronization for globalAssetId: {}. Message: {}.", globalAssetId, e.getMessage(), e);
+            log.warn("Exception during assets synchronization for globalAssetId: {}. Message: {}.", globalAssetId, e.getMessage(), e);
         }
     }
 
@@ -117,7 +120,7 @@ public class AssetService {
 
     public Asset updateQualityType(String assetId, QualityType qualityType) {
         Asset foundAsset = assetRepository.getAssetById(assetId);
-        foundAsset.updateQualityType(qualityType);
+        foundAsset.setQualityType(qualityType);
         return assetRepository.save(foundAsset);
     }
 
@@ -128,5 +131,21 @@ public class AssetService {
 
     public void saveAssets(List<Asset> assets) {
         assetRepository.saveAll(assets);
+    }
+
+    public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
+        return assetRepository.getAssets(pageable, owner);
+    }
+
+    public Asset getAssetById(String assetId) {
+        return assetRepository.getAssetById(assetId);
+    }
+
+    public List<Asset> getAssetsById(List<String> assetIds) {
+        return assetRepository.getAssetsById(assetIds);
+    }
+
+    public Asset getAssetByChildId(String assetId, String childId) {
+        return assetRepository.getAssetByChildId(assetId, childId);
     }
 }

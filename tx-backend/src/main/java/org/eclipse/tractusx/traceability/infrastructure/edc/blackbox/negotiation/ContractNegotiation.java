@@ -28,32 +28,14 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.agreement.ContractAgreement;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.joining;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.CONFIRMED;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.CONFIRMING;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.CONSUMER_APPROVED;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.CONSUMER_APPROVING;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.CONSUMER_OFFERED;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.CONSUMER_OFFERING;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.DECLINED;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.DECLINING;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.INITIAL;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.PROVIDER_OFFERED;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.PROVIDER_OFFERING;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.REQUESTED;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.REQUESTING;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractNegotiationStates.UNSAVED;
 
 /**
@@ -212,164 +194,6 @@ public class ContractNegotiation implements TraceCarrier {
 		contractAgreement = agreement;
 	}
 
-	/**
-	 * Transition to state INITIAL.
-	 */
-	public void transitionInitial() {
-		transition(INITIAL, REQUESTING, UNSAVED);
-	}
-
-	/**
-	 * Transition to state REQUESTING (type consumer only).
-	 */
-	public void transitionRequesting() {
-		if (Type.PROVIDER == type) {
-			throw new IllegalStateException("Provider processes have no REQUESTING state");
-		}
-		transition(REQUESTING, REQUESTING, INITIAL);
-	}
-
-	/**
-	 * Transition to state REQUESTED.
-	 */
-	public void transitionRequested() {
-		if (Type.PROVIDER == type) {
-			transition(REQUESTED, UNSAVED);
-		} else {
-			transition(REQUESTED, REQUESTED, REQUESTING);
-		}
-	}
-
-	/**
-	 * Transition to state REQUESTED.
-	 */
-	public void transitionOffering() {
-		if (Type.CONSUMER == type) {
-			transition(CONSUMER_OFFERING, CONSUMER_OFFERING, REQUESTED);
-		} else {
-			transition(PROVIDER_OFFERING, PROVIDER_OFFERING, PROVIDER_OFFERED, REQUESTED);
-		}
-	}
-
-	/**
-	 * Transition to state CONSUMER_OFFERED for type consumer and PROVIDER_OFFERED for type
-	 * provider.
-	 */
-	public void transitionOffered() {
-		if (Type.CONSUMER == type) {
-			transition(CONSUMER_OFFERED, PROVIDER_OFFERED, CONSUMER_OFFERING);
-		} else {
-			transition(PROVIDER_OFFERED, PROVIDER_OFFERED, PROVIDER_OFFERING);
-		}
-	}
-
-	/**
-	 * Transition to state CONSUMER_APPROVING (type consumer only).
-	 */
-	public void transitionApproving() {
-		if (Type.PROVIDER == type) {
-			throw new IllegalStateException("Provider processes have no CONSUMER_APPROVING state");
-		}
-		transition(CONSUMER_APPROVING, CONSUMER_APPROVING, CONSUMER_OFFERED, REQUESTED);
-	}
-
-	/**
-	 * Transition to state CONSUMER_APPROVED (type consumer only).
-	 */
-	public void transitionApproved() {
-		if (Type.PROVIDER == type) {
-			throw new IllegalStateException("Provider processes have no CONSUMER_APPROVED state");
-		}
-		transition(CONSUMER_APPROVED, CONSUMER_APPROVED, CONSUMER_APPROVING, PROVIDER_OFFERED);
-	}
-
-	/**
-	 * Transition to state DECLINING.
-	 */
-	public void transitionDeclining() {
-		if (Type.CONSUMER == type) {
-			transition(DECLINING, DECLINING, REQUESTED, CONSUMER_OFFERED, CONSUMER_APPROVED);
-		} else {
-			transition(DECLINING, DECLINING, REQUESTED, PROVIDER_OFFERED, CONSUMER_APPROVED);
-		}
-	}
-
-	/**
-	 * Transition to state DECLINED.
-	 */
-	public void transitionDeclined() {
-		if (Type.CONSUMER == type) {
-			transition(DECLINED, DECLINING, CONSUMER_OFFERED, REQUESTED);
-		} else {
-			transition(DECLINED, DECLINING, PROVIDER_OFFERED, CONFIRMED, REQUESTED);
-		}
-
-	}
-
-	/**
-	 * Transition to state CONFIRMING (type provider only).
-	 */
-	public void transitionConfirming() {
-		if (Type.CONSUMER == type) {
-			throw new IllegalStateException("Consumer processes have no CONFIRMING state");
-		}
-		transition(CONFIRMING, CONFIRMING, REQUESTED, PROVIDER_OFFERED);
-	}
-
-	/**
-	 * Transition to state CONFIRMED.
-	 */
-	public void transitionConfirmed() {
-		if (Type.CONSUMER == type) {
-			transition(CONFIRMED, CONFIRMING, CONSUMER_APPROVED, REQUESTED, CONSUMER_OFFERED, CONFIRMED);
-		} else {
-			transition(CONFIRMED, CONFIRMING);
-		}
-
-	}
-
-	/**
-	 * Transition to state ERROR.
-	 *
-	 * @param errorDetail Message describing the error.
-	 */
-	public void transitionError(@Nullable String errorDetail) {
-		state = ContractNegotiationStates.ERROR.code();
-		this.errorDetail = errorDetail;
-		stateCount = 1;
-		updateStateTimestamp();
-	}
-
-	/**
-	 * Reset to an arbitrary state.
-	 *
-	 * @param state The desired state.
-	 */
-	public void rollbackState(ContractNegotiationStates state) {
-		this.state = state.code();
-		stateCount = 1;
-		updateStateTimestamp();
-	}
-
-	/**
-	 * Create a copy of this negotiation.
-	 *
-	 * @return The copy.
-	 */
-	public ContractNegotiation copy() {
-		return Builder.newInstance().id(id).correlationId(correlationId).counterPartyId(counterPartyId)
-			.counterPartyAddress(counterPartyAddress).protocol(protocol).type(type).state(state).stateCount(stateCount)
-			.stateTimestamp(stateTimestamp).errorDetail(errorDetail).contractAgreement(contractAgreement)
-			.contractOffers(contractOffers).traceContext(traceContext).build();
-	}
-
-	/**
-	 * Sets the state timestamp to the current time.
-	 */
-	public void updateStateTimestamp() {
-		stateTimestamp = Instant.now().toEpochMilli();
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -388,32 +212,6 @@ public class ContractNegotiation implements TraceCarrier {
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, correlationId, counterPartyId, protocol, traceContext, type, state, stateCount, stateTimestamp, contractAgreement, contractOffers);
-	}
-
-	private void checkState(int... legalStates) {
-		for (var legalState : legalStates) {
-			if (state == legalState) {
-				return;
-			}
-		}
-		var values = Arrays.stream(legalStates).mapToObj(String::valueOf).collect(joining(","));
-		throw new IllegalStateException(format("Illegal state: %s. Expected one of: %s.", state, values));
-	}
-
-	/**
-	 * Transition to a given end state from an allowed number of previous states. Increases the
-	 * state count if transitioned to the same state and updates the state timestamp.
-	 *
-	 * @param end    The desired state.
-	 * @param starts The allowed previous states.
-	 */
-	private void transition(ContractNegotiationStates end, ContractNegotiationStates... starts) {
-		if (Arrays.stream(starts).noneMatch(s -> s.code() == state)) {
-			throw new IllegalStateException(format("Cannot transition from state %s to %s", ContractNegotiationStates.from(state), ContractNegotiationStates.from(end.code())));
-		}
-		stateCount = state == end.code() ? stateCount + 1 : 1;
-		state = end.code();
-		updateStateTimestamp();
 	}
 
 	public enum Type {

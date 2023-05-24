@@ -22,9 +22,10 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -153,10 +154,10 @@ public class PersistentAssetsRepository implements AssetRepository {
                 entity.getManufacturingCountry(),
                 entity.getOwner(),
                 entity.getChildDescriptors().stream()
-                        .map(child -> new Asset.Descriptions(child.getId(), child.getIdShort()))
+                        .map(child -> new Descriptions(child.getId(), child.getIdShort()))
                         .toList(),
                 entity.getParentDescriptors().stream()
-                        .map(parent -> new Asset.Descriptions(parent.getId(), parent.getIdShort()))
+                        .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList(),
                 entity.isInInvestigation(),
                 entity.getQualityType(),

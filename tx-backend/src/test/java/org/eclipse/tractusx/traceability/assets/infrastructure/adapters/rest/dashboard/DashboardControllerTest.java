@@ -40,10 +40,9 @@ class DashboardControllerTest {
 
     @Test
     void dashboard() {
-        JwtAuthentication jwtAuthentication = null;
         Dashboard dashboard = new Dashboard(9L, 99L, 999L);
-        Mockito.when(dashboardService.getDashboard(jwtAuthentication)).thenReturn(dashboard);
-        Dashboard testDashboard = dashboardService.getDashboard(jwtAuthentication);
+        Mockito.when(dashboardService.getDashboard()).thenReturn(dashboard);
+        Dashboard testDashboard = dashboardService.getDashboard();
 
         assertEquals(9, testDashboard.myItems());
         assertEquals(99, testDashboard.otherParts());

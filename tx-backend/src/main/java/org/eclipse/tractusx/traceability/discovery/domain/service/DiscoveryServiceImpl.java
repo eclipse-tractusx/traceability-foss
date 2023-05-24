@@ -62,7 +62,7 @@ public class DiscoveryServiceImpl implements DiscoveryService {
     @NotNull
     private Optional<Discovery> getOptionalDiscoveryFromBpnDatabase(String bpn) {
         if (bpnEdcMappingRepository.exists(bpn)) {
-            String receiverUrl = bpnEdcMappingRepository.findById(bpn).url();
+            String receiverUrl = bpnEdcMappingRepository.findByIdOrThrowNotFoundException(bpn).url();
             Discovery discovery = toDiscovery(receiverUrl, edcProperties.getProviderEdcUrl());
             return Optional.of(discovery);
         }

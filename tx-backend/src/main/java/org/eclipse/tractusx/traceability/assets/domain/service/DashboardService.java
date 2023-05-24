@@ -21,26 +21,22 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
-import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Owner;
-import org.eclipse.tractusx.traceability.common.security.JwtAuthentication;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class DashboardService {
 
     private final AssetRepository assetRepository;
     private final InvestigationRepository investigationsRepository;
 
-    public DashboardService(AssetRepository assetRepository, InvestigationRepository investigationsRepository) {
-        this.assetRepository = assetRepository;
-        this.investigationsRepository = investigationsRepository;
-    }
-
-    public Dashboard getDashboard(JwtAuthentication jwtAuthentication) {
+	public Dashboard getDashboard() {
         long customerParts = assetRepository.countAssetsByOwner(Owner.CUSTOMER);
         long ownParts = assetRepository.countAssetsByOwner(Owner.OWN);
         long supplierParts = assetRepository.countAssetsByOwner(Owner.SUPPLIER);

@@ -23,9 +23,9 @@ package org.eclipse.tractusx.traceability
 
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
-import org.eclipse.tractusx.traceability.assets.domain.ports.AssetRepository
-import org.eclipse.tractusx.traceability.assets.domain.ports.BpnRepository
-import org.eclipse.tractusx.traceability.assets.domain.ports.ShellDescriptorRepository
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.ShellDescriptorRepository
 import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles

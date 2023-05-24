@@ -23,8 +23,10 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.HttpUrl;
+import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
@@ -49,7 +51,10 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class InvestigationsEDCFacade {
+
+    private static final MediaType JSON = MediaType.get("application/json");
 
     private final EdcService edcService;
 
@@ -60,18 +65,6 @@ public class InvestigationsEDCFacade {
     private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
     private final EdcProperties edcProperties;
-
-    public InvestigationsEDCFacade(EdcService edcService,
-                                   HttpCallService httpCallService,
-                                   ObjectMapper objectMapper,
-                                   InMemoryEndpointDataReferenceCache endpointDataReferenceCache,
-                                   EdcProperties edcProperties) {
-        this.edcService = edcService;
-        this.httpCallService = httpCallService;
-        this.objectMapper = objectMapper;
-        this.endpointDataReferenceCache = endpointDataReferenceCache;
-        this.edcProperties = edcProperties;
-    }
 
     public void startEDCTransfer(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
         Map<String, String> header = new HashMap<>();
@@ -151,8 +144,8 @@ public class InvestigationsEDCFacade {
         return new Request.Builder()
                 .url(url)
                 .addHeader(dataReference.getAuthKey(), dataReference.getAuthCode())
-                .addHeader("Content-Type", Constants.JSON.type())
-                .post(RequestBody.create(body, Constants.JSON))
+                .addHeader("Content-Type", JSON.type())
+                .post(RequestBody.create(body, JSON))
                 .build();
     }
 
