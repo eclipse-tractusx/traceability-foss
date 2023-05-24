@@ -28,10 +28,10 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class QualityNotificationSeverityRequestTest {
 
@@ -60,7 +60,13 @@ class QualityNotificationSeverityRequestTest {
         final String input = "\"NON_EXISTENT\"";
 
         // when/then
-        assertThrows(ValueInstantiationException.class, () -> objectMapper.readValue(input, QualityNotificationSeverityRequest.class));
+        try{
+            objectMapper.readValue(input, QualityNotificationSeverityRequest.class);
+        } catch(ValueInstantiationException exception){
+            assertThat(exception.getCause()).isExactlyInstanceOf(NoSuchElementException.class);
+            assertThat(exception.getCause().getMessage())
+                    .isEqualTo("Unsupported QualityNotificationSeverityRequest: NON_EXISTENT. Must be one of: MINOR, MAJOR, CRITICAL, LIFE-THREATENING");
+        }
     }
 
     private static Stream<Arguments> validValues() {
