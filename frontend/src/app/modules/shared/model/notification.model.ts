@@ -23,17 +23,6 @@ import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { Severity } from '@shared/model/severity.model';
 
-// TODO: do we need it?
-export type SortableHeaders =
-  | 'id'
-  | 'description'
-  | 'status'
-  | 'severity'
-  | 'createdDate'
-  | 'createdBy'
-  | 'sendTo'
-  ;
-
 export enum NotificationStatus {
   ACCEPTED = 'ACCEPTED',
   ACKNOWLEDGED = 'ACKNOWLEDGED',
