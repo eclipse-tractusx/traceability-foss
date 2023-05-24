@@ -184,7 +184,7 @@ postgresql:
 # IRS configuration     #
 #########################
 irs-helm:
-  bpn: BPNL00000003CNKC
+  bpn: BPNL00000003CML1
   enabled: true
 
   nameOverride: "tracex-irs-e2e-b"
