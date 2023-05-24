@@ -2,12 +2,10 @@
 
 title: Domain Model
 
-abstract Asset {
+abstract AspectModel {
         *   id : String
         idShort : String
-        partInstanceId : String
         manufacturerId : String
-        batchId : String
         * private final Owner owner;
         manufacturerName : String
         childRelations : List<Relation>
@@ -15,8 +13,6 @@ abstract Asset {
         underInvestigation : boolean
         qualityType : QualityType
         van : String
-        semanticDataModel: enum
-
         abstract SemanticDataModel : getSemanticDataModel()
 }
 note left
@@ -30,34 +26,34 @@ entity Relation {
 }
 
 
-entity AsBuiltAsset {
+entity AsBuiltAspectModel {
         manufacturingDate : Instant
         manufacturingCountry : String
         manufacturerPartId : String
         customerPartId : String
         nameAtManufacturer : String
         nameAtCustomer : String
-
-        AspectType : aspectType()
 }
 
-note right
-    SerialPartTypization and Batch
-end note
-
-enum SemanticDataModel {
-    BATCH,
-    SERIALPARTTYPIZATION
+entity SerialPartTypization {
+     partInstanceId : String
+      getSemanticDataModel()
 }
 
-entity AsPlannedAsset {
+entity Batch {
+     batchId : String
+      getSemanticDataModel()
+}
+
+entity AsPlannedAspectModel {
 
 }
 
-Asset --> SemanticDataModel
-Asset <|.. AsBuiltAsset
-Asset <|.. AsPlannedAsset
-Asset }o--- Relation : childRelations
-Asset }o---  Relation : parentRelations
+AspectModel <|.. AsBuiltAspectModel
+AspectModel <|.. AsPlannedAspectModel
+AsBuiltAspectModel <|.. Batch
+AsBuiltAspectModel <|.. SerialPartTypization
+AspectModel }o--- Relation : childRelations
+AspectModel }o---  Relation : parentRelations
 
 @enduml
