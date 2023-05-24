@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.common.support
 
 
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter
 
 interface AssetRepositoryProvider {
 	AssetRepository assetRepository()

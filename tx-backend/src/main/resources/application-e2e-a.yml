@@ -24,3 +24,5 @@ feign:
     url: https://trace-x-registry-e2e.dev.demo.catena-x.net/semantics/registry
   portalApi:
     url: https://portal-backend.dev.demo.catena-x.net/api
+edc:
+  callback-urls: http://tracex-irs-e2e-a:8181/internal/endpoint-data-reference

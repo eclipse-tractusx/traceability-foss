@@ -27,9 +27,9 @@ import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Aspect;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.async.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Aspect;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Direction;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
@@ -92,21 +92,24 @@ public class AssetService {
      * @return a new list of {@link Asset} objects that contains the combined assets with merged parent descriptions
      */
     public List<Asset> combineAssetsAndMergeParentDescriptionIntoDownwardAssets(List<Asset> downwardAssets, List<Asset> upwardAssets) {
+        List<Asset> combinedList = new ArrayList<>(downwardAssets);
 
         Map<String, Asset> downwardAssetsMap = emptyIfNull(downwardAssets).stream()
                 .collect(Collectors.toMap(Asset::getId, Function.identity()));
 
-        return emptyIfNull(upwardAssets).stream()
-                .map(parentAsset -> {
-                    Asset matchingChildAsset = downwardAssetsMap.get(parentAsset.getId());
-                    if (matchingChildAsset == null) {
-                        return parentAsset;
-                    } else {
-                        matchingChildAsset.setParentDescriptions(parentAsset.getParentDescriptions());
-                        return matchingChildAsset;
+        for (Asset upwardAsset : upwardAssets) {
+            if (downwardAssetsMap.get(upwardAsset.getId()) != null) {
+                for (Asset byId : combinedList) {
+                    if (byId.getId().equals(upwardAsset.getId())) {
+                        byId.setParentDescriptions(upwardAsset.getParentDescriptions());
+                        byId.setChildDescriptions(downwardAssetsMap.get(upwardAsset.getId()).getChildDescriptions());
                     }
-                })
-                .collect(Collectors.toCollection(ArrayList::new));
+                }
+            } else {
+                combinedList.add(upwardAsset);
+            }
+        }
+        return combinedList;
     }
 
     public void setAssetsInvestigationStatus(QualityNotification investigation) {

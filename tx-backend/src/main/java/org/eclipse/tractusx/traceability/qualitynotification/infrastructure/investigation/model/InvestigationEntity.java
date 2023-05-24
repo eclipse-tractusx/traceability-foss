@@ -32,7 +32,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
