@@ -20,11 +20,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump asciidoctorj from 2.5.7 to 2.5.8
 - Use Selective dependency resolutions for @angular-devkit/build-angular to keep 15.2.8 version locked (so @angular-builders/custom-webpack uses the same version as well)
 - Aligned help button and user icon in the header to official C-X styleguide
+- Changed logic of merging response from irs to match the correct ids of the relationships
+- Updated open api collection to detect security issues on rest api
 - Upgraded karma package dependency: socket.io-parser to 4.2.3 (to solve Insufficient validation when decoding a Socket.IO packet)
 
 ### Removed
 - Removed selection column on Customer Parts page
 - Removed classes: AssetFacade, Constants, Command, ContractAgreementRequest, ContractOfferRequest, AssetFacadeTest
+- Removed log flooding in asset sync process
 
 ## [3.4.0] - 2023-05-11
 

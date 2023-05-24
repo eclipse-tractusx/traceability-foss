@@ -21,8 +21,8 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
@@ -40,29 +40,9 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
 
     void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
         List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssets().collect { asset ->
-            new AssetEntity(
-                    asset.getId(), asset.getIdShort(),
-                    asset.getNameAtManufacturer(),
-                    asset.getManufacturerPartId(),
-                    asset.getPartInstanceId(),
-                    asset.getManufacturerId(),
-                    asset.getBatchId(),
-                    asset.getManufacturerName(),
-                    asset.getNameAtCustomer(),
-                    asset.getCustomerPartId(),
-                    asset.getManufacturingDate(),
-                    asset.getManufacturingCountry(),
-                    asset.getOwner(),
-                    asset.getChildDescriptions().stream()
-                            .map(child -> new AssetEntity.ChildDescription(child.id(), child.idShort()))
-                            .toList(),
-                    asset.getParentDescriptions().stream()
-                            .map(parent -> new AssetEntity.ParentDescription(parent.id(), parent.idShort()))
-                            .toList(),
-                    asset.getQualityType(),
-                    asset.getVan(),
-                    inInvestigation
-            )
+            def assetEntity = AssetEntity.from(asset)
+            assetEntity.setInInvestigation(inInvestigation);
+            return assetEntity;
         }
 
         assetEntities.collect { it ->

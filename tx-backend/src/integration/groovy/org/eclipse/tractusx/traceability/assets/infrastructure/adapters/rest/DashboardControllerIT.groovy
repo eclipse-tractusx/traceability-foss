@@ -22,17 +22,14 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest
 
 import io.restassured.http.ContentType
+import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
 import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
-import org.eclipse.tractusx.traceability.IntegrationSpecification
 import spock.lang.Unroll
 
 import static io.restassured.RestAssured.given
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR
-import static org.eclipse.tractusx.traceability.common.security.JwtRole.USER
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.*
 import static org.hamcrest.Matchers.equalTo
-import static org.hamcrest.Matchers.nullValue
 
 class DashboardControllerIT extends IntegrationSpecification implements AssetsSupport, InvestigationsSupport {
 
@@ -42,15 +39,15 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 			defaultAssetsStored()
 
 		expect:
-			given()
-				.header(jwtAuthorization(role))
-				.contentType(ContentType.JSON)
-				.when()
-				.get("/api/dashboard")
-				.then()
-				.statusCode(200)
-				.body("myItems", equalTo(3))
-				.body("otherParts", equalTo(13))
+        given()
+                .header(jwtAuthorization(role))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/dashboard")
+                .then()
+                .statusCode(200)
+                .body("myItems", equalTo(2))
+                .body("otherParts", equalTo(8))
 
 		where:
 			role << [SUPERVISOR, ADMIN]
@@ -61,15 +58,15 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 			defaultAssetsStored()
 
 		expect:
-			given()
-				.header(jwtAuthorization(USER, ADMIN))
-				.contentType(ContentType.JSON)
-				.when()
-				.get("/api/dashboard")
-				.then()
-				.statusCode(200)
-				.body("myItems", equalTo(3))
-				.body("otherParts", equalTo(13))
+        given()
+                .header(jwtAuthorization(USER, ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/dashboard")
+                .then()
+                .statusCode(200)
+                .body("myItems", equalTo(2))
+                .body("otherParts", equalTo(8))
 	}
 
 	def "should return dashboard information for pending investigation"() {
@@ -97,15 +94,15 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
 				.statusCode(201)
 
 		then:
-			given()
-				.header(jwtAuthorization(ADMIN))
-				.contentType(ContentType.JSON)
-				.when()
-				.get("/api/dashboard")
-				.then()
-				.statusCode(200)
-				.body("myItems", equalTo(3))
-				.body("otherParts", equalTo(13))
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/dashboard")
+                .then()
+                .statusCode(200)
+                .body("myItems", equalTo(2))
+                .body("otherParts", equalTo(8))
 				.body("investigations", equalTo(1))
 	}
 
