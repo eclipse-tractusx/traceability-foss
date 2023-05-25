@@ -22,5 +22,5 @@
 package org.eclipse.tractusx.traceability.assets.domain.model;
 
 public enum Owner {
-    SUPPLIER, CUSTOMER, OWN
+    SUPPLIER, CUSTOMER, OWN, UNKNOWN
 }

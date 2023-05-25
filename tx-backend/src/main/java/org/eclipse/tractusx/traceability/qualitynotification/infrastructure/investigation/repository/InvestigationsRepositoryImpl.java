@@ -23,8 +23,8 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inv
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.JpaAssetsRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.JpaAssetsRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;

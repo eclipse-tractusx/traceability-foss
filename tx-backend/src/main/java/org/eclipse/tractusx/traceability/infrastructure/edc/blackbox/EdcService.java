@@ -163,7 +163,6 @@ public class EdcService {
 
         DataAddress dataDestination = DataAddress.Builder.newInstance().type("HttpProxy").build();
         TransferType transferType = TransferType.Builder.transferType().contentType("application/octet-stream").isFinite(true).build();
-
         TransferRequestDto transferRequest = TransferRequestDto.Builder.newInstance()
                 .assetId(assetId).contractId(agreementId).connectorId("provider").connectorAddress(providerConnectorControlPlaneIDSUrl)
                 .protocol("ids-multipart").dataDestination(dataDestination).managedResources(false).transferType(transferType)

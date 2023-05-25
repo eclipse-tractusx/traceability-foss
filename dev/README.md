@@ -48,6 +48,7 @@ curl --request POST \
    "notificationType": "QUALITY_INVESTIGATION", "notificationMethod": "RECEIVE"
    }
 ```
+
 ```
 curl --request POST \
 --url https://traceability.dev.demo.catena-x.net/api/edc/notification/contract \
@@ -56,30 +57,25 @@ curl --request POST \
 --data '{"notificationType" : "QUALITY_INVESTIGATION", "notificationMethod" : "UPDATE"}'
 -
 ```
-## 4) Manual adaption for notification flow
-- Open pgadmin on test
-- select asset which relates to dev
-```
-UPDATE asset
-SET owner = 0 where id = 'urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpna';
 
-UPDATE asset
-SET owner = 2 where id = 'urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpnb';;
-```
+## Testdata
 
-- Now you should be able to send notifications for that assetId from BPN:BPNL00000003B2OM to BPN:BPNL00000003AYRE
-
+https://confluence.catena-x.net/display/BDPQ/%28TRF%29+%5BTRACEFOSS-1278%5D+%3A+Setup+Trace-X+Instances+as+own+virtual+companies+in+DEV+and+INT+environment
 
 ## Structure of a Testdata
+
 Consists of a List of the following entries:
+
 ```json
 {
-    "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
-    "bpnl" : "BPNL00000003CML1",
-    "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship" : [ {
-      "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
-      "childParts" : [ {
-        "quantity" : {
+    "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+    "bpnl": "BPNL00000003CML1",
+    "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship": [
+        {
+            "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+            "childParts": [
+                {
+                    "quantity": {
           "quantityNumber" : 1,
           "measurementUnit" : {
             "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#curie",
