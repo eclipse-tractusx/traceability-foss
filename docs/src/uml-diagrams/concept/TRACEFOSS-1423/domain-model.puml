@@ -3,7 +3,7 @@
 title: Domain Model
 
 
-abstract AspectModel {
+abstract Asset {
         *   id : String
         idShort : String
         manufacturerId : String
@@ -12,9 +12,10 @@ abstract AspectModel {
         childRelations : List<Relation>
         parentRelations : List<Relation>
         underInvestigation : boolean
-        activeAlert: boolean 
+        activeAlert: boolean
         qualityType : QualityType
         van : String
+        abstract String : getSemanticDataModelId()
         abstract SemanticDataModel : getSemanticDataModel()
 }
 note left
@@ -27,8 +28,13 @@ entity Relation {
        idShort : String
 }
 
+enum SemanticModelType {
+    SERIALPARTTYPIZATION,
+    BATCH
+}
 
-abstract AsBuiltAspectModel {
+
+entity AsBuiltAspectModel {
         manufacturingDate : Instant
         manufacturingCountry : String
         manufacturerPartId : String
@@ -39,26 +45,34 @@ abstract AsBuiltAspectModel {
 
 entity SerialPartTypization {
      partInstanceId : String
-     getSemanticDataModel()
+     String: getSemanticDataModelId() return partInstanceId
+     SemanticModelType: getSemanticDataModel()
 }
 
 entity Batch {
      batchId : String
-     getSemanticDataModel()
+     String: getSemanticDataModelId() return batchId
+     SemanticModelType: getSemanticDataModel()
 }
 
-abstract AsPlannedAspectModel {
-
+entity AsPlannedAspectModel {
+        manufacturingDate : Instant
+        manufacturingCountry : String
+        manufacturerPartId : String
+        customerPartId : String
+        nameAtManufacturer : String
+        nameAtCustomer : String
 }
 
 
-AspectModel <|.. AsBuiltAspectModel
-AspectModel <|.. AsPlannedAspectModel
+SemanticModelType --> Asset
+Asset <|.. AsBuiltAspectModel
+Asset <|.. AsPlannedAspectModel
 AsBuiltAspectModel <|.. Batch
 AsBuiltAspectModel <|.. SerialPartTypization
 AsPlannedAspectModel <|.. Batch
 AsPlannedAspectModel <|.. SerialPartTypization
-AspectModel }o--- Relation : childRelations
-AspectModel }o---  Relation : parentRelations
+Asset }o--- Relation : childRelations
+Asset }o---  Relation : parentRelations
 
 @enduml
