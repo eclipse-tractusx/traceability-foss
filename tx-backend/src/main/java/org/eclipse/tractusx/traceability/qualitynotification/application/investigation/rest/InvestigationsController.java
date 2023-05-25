@@ -33,6 +33,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.rest.request.OwnInvestigationsPageable;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.response.InvestigationResponse;
@@ -100,9 +101,9 @@ public class InvestigationsController {
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/created")
-    public PageResult<InvestigationResponse> getCreatedInvestigations(Pageable pageable) {
+    public PageResult<InvestigationResponse> getCreatedInvestigations(OwnInvestigationsPageable pageable) {
         log.info(API_LOG_START + "/created");
-        return InvestigationResponse.fromAsPageResult(investigationService.getCreatedInvestigations(pageable));
+        return InvestigationResponse.fromAsPageResult(investigationService.getCreatedInvestigations(OwnInvestigationsPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getReceivedInvestigations",
@@ -117,9 +118,9 @@ public class InvestigationsController {
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/received")
-    public PageResult<InvestigationResponse> getReceivedInvestigations(Pageable pageable) {
+    public PageResult<InvestigationResponse> getReceivedInvestigations(OwnInvestigationsPageable pageable) {
         log.info(API_LOG_START + "/received");
-        return InvestigationResponse.fromAsPageResult(investigationService.getReceivedInvestigations(pageable));
+        return InvestigationResponse.fromAsPageResult(investigationService.getReceivedInvestigations(OwnInvestigationsPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getInvestigation",

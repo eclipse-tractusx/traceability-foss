@@ -1,114 +1,114 @@
 {
-  "openapi": "3.0.1",
-  "info": {
-    "title": "Trace-FOSS - OpenAPI Documentation",
-    "description": "Trace-FOSS is a system for tracking parts along the supply chain. A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain. This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.",
-    "license": {
-      "name": "License: Apache 2.0"
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Trace-FOSS - OpenAPI Documentation",
+    "description" : "Trace-FOSS is a system for tracking parts along the supply chain. A high level of transparency across the supplier network enables faster intervention based on a recorded event in the supply chain. This saves costs by seamlessly tracking parts and creates trust through clearly defined and secure data access by the companies and persons involved in the process.",
+    "license" : {
+      "name" : "License: Apache 2.0"
     },
-    "version": "1.0.0"
+    "version" : "1.0.0"
   },
-  "servers": [
+  "servers" : [
     {
-      "url": "http://localhost:9999/api",
-      "description": "Generated server url"
+      "url" : "http://localhost:9999/api",
+      "description" : "Generated server url"
     }
   ],
-  "security": [
+  "security" : [
     {
-      "oAuth2": [
+      "oAuth2" : [
         "profile email"
       ]
     }
   ],
-  "paths": {
-    "/bpn-config": {
-      "get": {
-        "tags": [
+  "paths" : {
+    "/bpn-config" : {
+      "get" : {
+        "tags" : [
           "BpnEdcMapping"
         ],
-        "summary": "Get BPN EDC URL mappings",
-        "description": "The endpoint returns a result of BPN EDC URL mappings.",
-        "operationId": "getBpnEdcs",
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "summary" : "Get BPN EDC URL mappings",
+        "description" : "The endpoint returns a result of BPN EDC URL mappings.",
+        "operationId" : "getBpnEdcs",
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "200": {
-            "description": "Returns the paged result found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array"
+          "200" : {
+            "description" : "Returns the paged result found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       },
-      "put": {
-        "tags": [
+      "put" : {
+        "tags" : [
           "BpnEdcMapping"
         ],
-        "summary": "Updates BPN EDC URL mappings",
-        "description": "The endpoint updates BPN EDC URL mappings",
-        "operationId": "updateBpnEdcMappings",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "maxItems": 1000,
-                "minItems": 0,
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/BpnEdcMappingRequest"
+        "summary" : "Updates BPN EDC URL mappings",
+        "description" : "The endpoint updates BPN EDC URL mappings",
+        "operationId" : "updateBpnEdcMappings",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "maxItems" : 1000,
+                "minItems" : 0,
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/BpnEdcMappingRequest"
                 }
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
-          },
-          "403": {
-            "description": "Forbidden."
-          },
-          "200": {
-            "description": "Returns the paged result found for BpnEdcMapping",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array"
+        "responses" : {
+          "200" : {
+            "description" : "Returns the paged result found for BpnEdcMapping",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
                 }
               }
             }
           },
-          "204": {
-            "description": "No Content",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "maxItems": 2147483647,
-                    "type": "array",
-                    "description": "BPN Mappings",
-                    "items": {
-                      "$ref": "#/components/schemas/BpnEdcMapping"
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
+          },
+          "204" : {
+            "description" : "No Content",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "maxItems" : 2147483647,
+                    "type" : "array",
+                    "description" : "BPN Mappings",
+                    "items" : {
+                      "$ref" : "#/components/schemas/BpnEdcMapping"
                     }
                   }
                 }
@@ -116,66 +116,66 @@
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       },
-      "post": {
-        "tags": [
+      "post" : {
+        "tags" : [
           "BpnEdcMapping"
         ],
-        "summary": "Creates BPN EDC URL mappings",
-        "description": "The endpoint creates BPN EDC URL mappings",
-        "operationId": "createBpnEdcUrlMappings",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "maxItems": 1000,
-                "minItems": 0,
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/BpnEdcMappingRequest"
+        "summary" : "Creates BPN EDC URL mappings",
+        "description" : "The endpoint creates BPN EDC URL mappings",
+        "operationId" : "createBpnEdcUrlMappings",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "maxItems" : 1000,
+                "minItems" : 0,
+                "type" : "array",
+                "items" : {
+                  "$ref" : "#/components/schemas/BpnEdcMappingRequest"
                 }
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
-          },
-          "403": {
-            "description": "Forbidden."
-          },
-          "200": {
-            "description": "Returns the paged result found for BpnEdcMapping",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array"
+        "responses" : {
+          "200" : {
+            "description" : "Returns the paged result found for BpnEdcMapping",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
                 }
               }
             }
           },
-          "204": {
-            "description": "No Content",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "maxItems": 2147483647,
-                    "type": "array",
-                    "description": "BPN Mappings",
-                    "items": {
-                      "$ref": "#/components/schemas/BpnEdcMapping"
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
+          },
+          "204" : {
+            "description" : "No Content",
+            "content" : {
+              "*/*" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "maxItems" : 2147483647,
+                    "type" : "array",
+                    "description" : "BPN Mappings",
+                    "items" : {
+                      "$ref" : "#/components/schemas/BpnEdcMapping"
                     }
                   }
                 }
@@ -183,506 +183,521 @@
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/investigations": {
-      "post": {
-        "tags": [
+    "/investigations" : {
+      "post" : {
+        "tags" : [
           "Investigations"
         ],
-        "summary": "Start investigations by part ids",
-        "description": "The endpoint starts investigations based on part ids provided.",
-        "operationId": "investigateAssets",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StartQualityNotificationRequest"
+        "summary" : "Start investigations by part ids",
+        "description" : "The endpoint starts investigations based on part ids provided.",
+        "operationId" : "investigateAssets",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StartQualityNotificationRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/QualityNotificationIdResponse"
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QualityNotificationIdResponse"
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/QualityNotificationIdResponse"
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QualityNotificationIdResponse"
                 }
               }
             }
           },
-          "201": {
-            "description": "Created.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/QualityNotificationIdResponse"
+          "201" : {
+            "description" : "Created.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QualityNotificationIdResponse"
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/investigations/{investigationId}/update": {
-      "post": {
-        "tags": [
+    "/investigations/{investigationId}/update" : {
+      "post" : {
+        "tags" : [
           "Investigations"
         ],
-        "summary": "Update investigations by id",
-        "description": "The endpoint updates investigations by their id.",
-        "operationId": "updateInvestigation",
-        "parameters": [
+        "summary" : "Update investigations by id",
+        "description" : "The endpoint updates investigations by their id.",
+        "operationId" : "updateInvestigation",
+        "parameters" : [
           {
-            "name": "investigationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+            "name" : "investigationId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateQualityNotificationRequest"
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateQualityNotificationRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "204": {
-            "description": "No content."
+          "204" : {
+            "description" : "No content."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/investigations/{investigationId}/close": {
-      "post": {
-        "tags": [
+    "/investigations/{investigationId}/close" : {
+      "post" : {
+        "tags" : [
           "Investigations"
         ],
-        "summary": "Close investigations by id",
-        "description": "The endpoint closes investigations by their id.",
-        "operationId": "closeInvestigation",
-        "parameters": [
+        "summary" : "Close investigations by id",
+        "description" : "The endpoint closes investigations by their id.",
+        "operationId" : "closeInvestigation",
+        "parameters" : [
           {
-            "name": "investigationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+            "name" : "investigationId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CloseQualityNotificationRequest"
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CloseQualityNotificationRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "204": {
-            "description": "No content."
+          "204" : {
+            "description" : "No content."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/investigations/{investigationId}/cancel": {
-      "post": {
-        "tags": [
+    "/investigations/{investigationId}/cancel" : {
+      "post" : {
+        "tags" : [
           "Investigations"
         ],
-        "summary": "Cancles investigations by id",
-        "description": "The endpoint cancles investigations by their id.",
-        "operationId": "cancelInvestigation",
-        "parameters": [
+        "summary" : "Cancles investigations by id",
+        "description" : "The endpoint cancles investigations by their id.",
+        "operationId" : "cancelInvestigation",
+        "parameters" : [
           {
-            "name": "investigationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+            "name" : "investigationId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "204": {
-            "description": "No content."
+          "204" : {
+            "description" : "No content."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/investigations/{investigationId}/approve": {
-      "post": {
-        "tags": [
+    "/investigations/{investigationId}/approve" : {
+      "post" : {
+        "tags" : [
           "Investigations"
         ],
-        "summary": "Approves investigations by id",
-        "description": "The endpoint approves investigations by their id.",
-        "operationId": "approveInvestigation",
-        "parameters": [
+        "summary" : "Approves investigations by id",
+        "description" : "The endpoint approves investigations by their id.",
+        "operationId" : "approveInvestigation",
+        "parameters" : [
           {
-            "name": "investigationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+            "name" : "investigationId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "204": {
-            "description": "No content."
+          "204" : {
+            "description" : "No content."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/edc/notification/contract": {
-      "post": {
-        "tags": [
+    "/edc/notification/contract" : {
+      "post" : {
+        "tags" : [
           "Notifications"
         ],
-        "summary": "Triggers EDC notification contract",
-        "description": "The endpoint Triggers EDC notification contract based on notification type and method",
-        "operationId": "createNotificationContract",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateNotificationContractRequest"
+        "summary" : "Triggers EDC notification contract",
+        "description" : "The endpoint Triggers EDC notification contract based on notification type and method",
+        "operationId" : "createNotificationContract",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreateNotificationContractRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateNotificationContractResponse"
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationContractResponse"
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateNotificationContractResponse"
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationContractResponse"
                 }
               }
             }
           },
-          "201": {
-            "description": "Created.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateNotificationContractResponse"
+          "201" : {
+            "description" : "Created.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CreateNotificationContractResponse"
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/assets/sync": {
-      "post": {
-        "tags": [
+    "/assets/sync" : {
+      "post" : {
+        "tags" : [
           "Assets"
         ],
-        "summary": "Synchronizes assets from IRS",
-        "description": "The endpoint synchronizes the assets from irs.",
-        "operationId": "sync",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SyncAssetsRequest"
+        "summary" : "Synchronizes assets from IRS",
+        "description" : "The endpoint synchronizes the assets from irs.",
+        "operationId" : "sync",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/SyncAssetsRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "201": {
-            "description": "Created."
+          "201" : {
+            "description" : "Created."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/assets/detail-information": {
-      "post": {
-        "tags": [
+    "/assets/detail-information" : {
+      "post" : {
+        "tags" : [
           "Assets"
         ],
-        "summary": "Searches for assets by ids.",
-        "description": "The endpoint searchs for assets by id and returns a list of them.",
-        "operationId": "getDetailInformation",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/GetDetailInformationRequest"
+        "summary" : "Searches for assets by ids.",
+        "description" : "The endpoint searchs for assets by id and returns a list of them.",
+        "operationId" : "getDetailInformation",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GetDetailInformationRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "200": {
-            "description": "Returns the paged result found for Asset",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array"
+        "responses" : {
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
                 }
               }
             }
           },
-          "401": {
-            "description": "Authorization failed."
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/assets/{assetId}": {
-      "get": {
-        "tags": [
+    "/assets/{assetId}" : {
+      "get" : {
+        "tags" : [
           "Assets"
         ],
-        "summary": "Get asset by id",
-        "description": "The endpoint returns an asset filtered by id .",
-        "operationId": "asset",
-        "parameters": [
+        "summary" : "Get asset by id",
+        "description" : "The endpoint returns an asset filtered by id .",
+        "operationId" : "asset",
+        "parameters" : [
           {
-            "name": "assetId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+            "name" : "assetId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "$ref": "#/components/schemas/AssetResponse"
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
                   }
                 }
               }
             }
           },
-          "200": {
-            "description": "Returns the assets found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Returns the assets found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string"
                       },
-                      "idShort": {
-                        "type": "string"
+                      "idShort" : {
+                        "type" : "string"
                       },
-                      "nameAtManufacturer": {
-                        "type": "string"
+                      "nameAtManufacturer" : {
+                        "type" : "string"
                       },
-                      "manufacturerPartId": {
-                        "type": "string"
+                      "manufacturerPartId" : {
+                        "type" : "string"
                       },
-                      "partInstanceId": {
-                        "type": "string"
+                      "partInstanceId" : {
+                        "type" : "string"
                       },
-                      "manufacturerId": {
-                        "type": "string"
+                      "manufacturerId" : {
+                        "type" : "string"
                       },
-                      "batchId": {
-                        "type": "string"
+                      "batchId" : {
+                        "type" : "string"
                       },
-                      "manufacturerName": {
-                        "type": "string"
+                      "manufacturerName" : {
+                        "type" : "string"
                       },
-                      "nameAtCustomer": {
-                        "type": "string"
+                      "nameAtCustomer" : {
+                        "type" : "string"
                       },
-                      "customerPartId": {
-                        "type": "string"
+                      "customerPartId" : {
+                        "type" : "string"
                       },
-                      "manufacturingDate": {
-                        "type": "string",
-                        "format": "date-time"
+                      "manufacturingDate" : {
+                        "type" : "string",
+                        "format" : "date-time"
                       },
-                      "manufacturingCountry": {
-                        "type": "string"
+                      "manufacturingCountry" : {
+                        "type" : "string"
                       },
-                      "owner": {
-                        "type": "string",
-                        "enum": [
+                      "owner" : {
+                        "type" : "string",
+                        "enum" : [
                           "SUPPLIER",
                           "CUSTOMER",
                           "OWN",
                           "UNKNOWN"
                         ]
                       },
-                      "childDescriptions": {
-                        "maxItems": 2147483647,
-                        "type": "array",
-                        "description": "Child relationships",
-                        "items": {
-                          "$ref": "#/components/schemas/DescriptionsResponse"
+                      "childDescriptions" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Child relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
                       },
-                      "parentDescriptions": {
-                        "maxItems": 2147483647,
-                        "type": "array",
-                        "description": "Parent relationships",
-                        "items": {
-                          "$ref": "#/components/schemas/DescriptionsResponse"
+                      "parentDescriptions" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Parent relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
                       },
-                      "underInvestigation": {
-                        "type": "boolean"
+                      "underInvestigation" : {
+                        "type" : "boolean"
                       },
-                      "qualityType": {
-                        "type": "string",
-                        "enum": [
+                      "qualityType" : {
+                        "type" : "string",
+                        "enum" : [
                           "Ok",
                           "Minor",
                           "Major",
@@ -690,176 +705,161 @@
                           "LifeThreatening"
                         ]
                       },
-                      "van": {
-                        "type": "string"
+                      "van" : {
+                        "type" : "string"
                       }
                     }
                   }
                 }
               }
             }
-          },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "$ref": "#/components/schemas/AssetResponse"
-                  }
-                }
-              }
-            }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       },
-      "patch": {
-        "tags": [
+      "patch" : {
+        "tags" : [
           "Assets"
         ],
-        "summary": "Updates asset",
-        "description": "The endpoint updates asset by provided quality type.",
-        "operationId": "updateAsset",
-        "parameters": [
+        "summary" : "Updates asset",
+        "description" : "The endpoint updates asset by provided quality type.",
+        "operationId" : "updateAsset",
+        "parameters" : [
           {
-            "name": "assetId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+            "name" : "assetId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
             }
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateAssetRequest"
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateAssetRequest"
               }
             }
           },
-          "required": true
+          "required" : true
         },
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "$ref": "#/components/schemas/AssetResponse"
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
                   }
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "$ref": "#/components/schemas/AssetResponse"
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
                   }
                 }
               }
             }
           },
-          "200": {
-            "description": "Returns the updated asset",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
+          "200" : {
+            "description" : "Returns the updated asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string"
                       },
-                      "idShort": {
-                        "type": "string"
+                      "idShort" : {
+                        "type" : "string"
                       },
-                      "nameAtManufacturer": {
-                        "type": "string"
+                      "nameAtManufacturer" : {
+                        "type" : "string"
                       },
-                      "manufacturerPartId": {
-                        "type": "string"
+                      "manufacturerPartId" : {
+                        "type" : "string"
                       },
-                      "partInstanceId": {
-                        "type": "string"
+                      "partInstanceId" : {
+                        "type" : "string"
                       },
-                      "manufacturerId": {
-                        "type": "string"
+                      "manufacturerId" : {
+                        "type" : "string"
                       },
-                      "batchId": {
-                        "type": "string"
+                      "batchId" : {
+                        "type" : "string"
                       },
-                      "manufacturerName": {
-                        "type": "string"
+                      "manufacturerName" : {
+                        "type" : "string"
                       },
-                      "nameAtCustomer": {
-                        "type": "string"
+                      "nameAtCustomer" : {
+                        "type" : "string"
                       },
-                      "customerPartId": {
-                        "type": "string"
+                      "customerPartId" : {
+                        "type" : "string"
                       },
-                      "manufacturingDate": {
-                        "type": "string",
-                        "format": "date-time"
+                      "manufacturingDate" : {
+                        "type" : "string",
+                        "format" : "date-time"
                       },
-                      "manufacturingCountry": {
-                        "type": "string"
+                      "manufacturingCountry" : {
+                        "type" : "string"
                       },
-                      "owner": {
-                        "type": "string",
-                        "enum": [
+                      "owner" : {
+                        "type" : "string",
+                        "enum" : [
                           "SUPPLIER",
                           "CUSTOMER",
                           "OWN",
                           "UNKNOWN"
                         ]
                       },
-                      "childDescriptions": {
-                        "maxItems": 2147483647,
-                        "type": "array",
-                        "description": "Child relationships",
-                        "items": {
-                          "$ref": "#/components/schemas/DescriptionsResponse"
+                      "childDescriptions" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Child relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
                       },
-                      "parentDescriptions": {
-                        "maxItems": 2147483647,
-                        "type": "array",
-                        "description": "Parent relationships",
-                        "items": {
-                          "$ref": "#/components/schemas/DescriptionsResponse"
+                      "parentDescriptions" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Parent relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
                       },
-                      "underInvestigation": {
-                        "type": "boolean"
+                      "underInvestigation" : {
+                        "type" : "boolean"
                       },
-                      "qualityType": {
-                        "type": "string",
-                        "enum": [
+                      "qualityType" : {
+                        "type" : "string",
+                        "enum" : [
                           "Ok",
                           "Minor",
                           "Major",
@@ -867,8 +867,8 @@
                           "LifeThreatening"
                         ]
                       },
-                      "van": {
-                        "type": "string"
+                      "van" : {
+                        "type" : "string"
                       }
                     }
                   }
@@ -877,631 +877,505 @@
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/registry/reload": {
-      "get": {
-        "tags": [
+    "/registry/reload" : {
+      "get" : {
+        "tags" : [
           "Registry"
         ],
-        "summary": "Triggers reload of shell descriptors",
-        "description": "The endpoint Triggers reload of shell descriptors.",
-        "operationId": "reload",
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "summary" : "Triggers reload of shell descriptors",
+        "description" : "The endpoint Triggers reload of shell descriptors.",
+        "operationId" : "reload",
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "201": {
-            "description": "Created."
+          "201" : {
+            "description" : "Created."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/metrics/registry-lookup": {
-      "get": {
-        "tags": [
+    "/metrics/registry-lookup" : {
+      "get" : {
+        "tags" : [
           "Registry"
         ],
-        "summary": "Gets Metrics",
-        "description": "The endpoint gets metrics for database.",
-        "operationId": "metrics",
-        "parameters": [
+        "summary" : "Gets Metrics",
+        "description" : "The endpoint gets metrics for database.",
+        "operationId" : "metrics",
+        "parameters" : [
           {
-            "name": "pageable",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Pageable"
+            "name" : "ownRegistryLookUpMetricsPageable",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/OwnRegistryLookUpMetricsPageable"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "PageResults",
-                  "items": {
-                    "$ref": "#/components/schemas/PageResultRegistryLookupMetric"
+        "responses" : {
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "PageResults",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PageResultRegistryLookupMetric"
                   }
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "PageResults",
-                  "items": {
-                    "$ref": "#/components/schemas/PageResultRegistryLookupMetric"
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "PageResults",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PageResultRegistryLookupMetric"
                   }
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Returns the paged result found for Asset",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array"
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/investigations/{investigationId}": {
-      "get": {
-        "tags": [
+    "/investigations/{investigationId}" : {
+      "get" : {
+        "tags" : [
           "Investigations"
         ],
-        "summary": "Gets investigations by id",
-        "description": "The endpoint returns investigations as paged result by their id.",
-        "operationId": "getInvestigation",
-        "parameters": [
+        "summary" : "Gets investigations by id",
+        "description" : "The endpoint returns investigations as paged result by their id.",
+        "operationId" : "getInvestigation",
+        "parameters" : [
           {
-            "name": "investigationId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
+            "name" : "investigationId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Investigations",
-                  "items": {
-                    "$ref": "#/components/schemas/InvestigationResponse"
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Investigations",
+                  "items" : {
+                    "$ref" : "#/components/schemas/InvestigationResponse"
                   }
                 }
               }
             }
           },
-          "200": {
-            "description": "OK.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Investigations",
-                  "items": {
-                    "$ref": "#/components/schemas/InvestigationResponse"
+          "200" : {
+            "description" : "OK.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Investigations",
+                  "items" : {
+                    "$ref" : "#/components/schemas/InvestigationResponse"
                   }
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Investigations",
-                  "items": {
-                    "$ref": "#/components/schemas/InvestigationResponse"
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Investigations",
+                  "items" : {
+                    "$ref" : "#/components/schemas/InvestigationResponse"
                   }
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/investigations/received": {
-      "get": {
-        "tags": [
+    "/investigations/received" : {
+      "get" : {
+        "tags" : [
           "Investigations"
         ],
-        "summary": "Gets received investigations",
-        "description": "The endpoint returns received investigations as paged result.",
-        "operationId": "getReceivedInvestigations",
-        "parameters": [
+        "summary" : "Gets received investigations",
+        "description" : "The endpoint returns received investigations as paged result.",
+        "operationId" : "getReceivedInvestigations",
+        "parameters" : [
           {
-            "name": "pageable",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Pageable"
+            "name" : "pageable",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/OwnInvestigationsPageable"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "200": {
-            "description": "Returns the paged result found for Asset",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array"
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/investigations/created": {
-      "get": {
-        "tags": [
+    "/investigations/created" : {
+      "get" : {
+        "tags" : [
           "Investigations"
         ],
-        "summary": "Gets created investigations",
-        "description": "The endpoint returns created investigations as paged result.",
-        "operationId": "getCreatedInvestigations",
-        "parameters": [
+        "summary" : "Gets created investigations",
+        "description" : "The endpoint returns created investigations as paged result.",
+        "operationId" : "getCreatedInvestigations",
+        "parameters" : [
           {
-            "name": "pageable",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Pageable"
+            "name" : "pageable",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/OwnInvestigationsPageable"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           },
-          "200": {
-            "description": "Returns the paged result found for Asset",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array"
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/dashboard": {
-      "get": {
-        "tags": [
+    "/dashboard" : {
+      "get" : {
+        "tags" : [
           "Dashboard"
         ],
-        "summary": "Returns dashboard related data",
-        "description": "The endpoint can return limited data based on the user role",
-        "operationId": "dashboard",
-        "parameters": [
+        "summary" : "Returns dashboard related data",
+        "description" : "The endpoint can return limited data based on the user role",
+        "operationId" : "dashboard",
+        "parameters" : [
           {
-            "name": "jwtAuthentication",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/JwtAuthentication"
+            "name" : "jwtAuthentication",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/JwtAuthentication"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DashboardResponse"
+        "responses" : {
+          "200" : {
+            "description" : "Returns dashboard data",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DashboardResponse"
                 }
               }
             }
           },
-          "200": {
-            "description": "Returns dashboard data",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DashboardResponse"
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DashboardResponse"
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DashboardResponse"
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DashboardResponse"
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/assets": {
-      "get": {
-        "tags": [
+    "/assets" : {
+      "get" : {
+        "tags" : [
           "Assets"
         ],
-        "summary": "Get assets by pagination",
-        "description": "The endpoint returns a paged result of assets.",
-        "operationId": "assets",
-        "parameters": [
+        "summary" : "Get assets by pagination",
+        "description" : "The endpoint returns a paged result of assets.",
+        "operationId" : "assets",
+        "parameters" : [
           {
-            "name": "pageable",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/Pageable"
+            "name" : "pageable",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/OwnAssetsPageable"
             }
           },
           {
-            "name": "owner",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "enum": [
+            "name" : "owner",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "type" : "string",
+              "enum" : [
                 "SUPPLIER",
                 "CUSTOMER",
                 "OWN",
                 "UNKNOWN"
               ]
             }
-          },
-          {
-            "in": "query",
-            "description": "Pageable",
-            "schema": {
-              "maxItems": 2147483647,
-              "type": "array",
-              "items": {
-                "maxItems": 2147483647,
-                "type": "array",
-                "description": "Assets",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "id": {
-                      "type": "string"
-                    },
-                    "idShort": {
-                      "type": "string"
-                    },
-                    "nameAtManufacturer": {
-                      "type": "string"
-                    },
-                    "manufacturerPartId": {
-                      "type": "string"
-                    },
-                    "partInstanceId": {
-                      "type": "string"
-                    },
-                    "manufacturerId": {
-                      "type": "string"
-                    },
-                    "batchId": {
-                      "type": "string"
-                    },
-                    "manufacturerName": {
-                      "type": "string"
-                    },
-                    "nameAtCustomer": {
-                      "type": "string"
-                    },
-                    "customerPartId": {
-                      "type": "string"
-                    },
-                    "manufacturingDate": {
-                      "type": "string",
-                      "format": "date-time"
-                    },
-                    "manufacturingCountry": {
-                      "type": "string"
-                    },
-                    "owner": {
-                      "type": "string",
-                      "enum": [
-                        "SUPPLIER",
-                        "CUSTOMER",
-                        "OWN",
-                        "UNKNOWN"
-                      ]
-                    },
-                    "childDescriptions": {
-                      "maxItems": 2147483647,
-                      "type": "array",
-                      "description": "Child relationships",
-                      "items": {
-                        "$ref": "#/components/schemas/DescriptionsResponse"
-                      }
-                    },
-                    "parentDescriptions": {
-                      "maxItems": 2147483647,
-                      "type": "array",
-                      "description": "Parent relationships",
-                      "items": {
-                        "$ref": "#/components/schemas/DescriptionsResponse"
-                      }
-                    },
-                    "underInvestigation": {
-                      "type": "boolean"
-                    },
-                    "qualityType": {
-                      "type": "string",
-                      "enum": [
-                        "Ok",
-                        "Minor",
-                        "Major",
-                        "Critical",
-                        "LifeThreatening"
-                      ]
-                    },
-                    "van": {
-                      "type": "string"
-                    }
-                  }
-                }
-              }
-            }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Returns the paged result found for Asset",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array"
+        "responses" : {
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
                 }
               }
             }
           },
-          "401": {
-            "description": "Authorization failed."
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/assets/{assetId}/children/{childId}": {
-      "get": {
-        "tags": [
+    "/assets/{assetId}/children/{childId}" : {
+      "get" : {
+        "tags" : [
           "Assets"
         ],
-        "summary": "Get asset by child id",
-        "description": "The endpoint returns an asset filtered by child id.",
-        "operationId": "asset_1",
-        "parameters": [
+        "summary" : "Get asset by child id",
+        "description" : "The endpoint returns an asset filtered by child id.",
+        "operationId" : "asset_1",
+        "parameters" : [
           {
-            "name": "assetId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+            "name" : "assetId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
             }
           },
           {
-            "name": "childId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+            "name" : "childId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "$ref": "#/components/schemas/AssetResponse"
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "$ref": "#/components/schemas/AssetResponse"
-                  }
-                }
-              }
-            }
-          },
-          "200": {
-            "description": "Returns the asset by childId",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "maxItems": 2147483647,
-                  "type": "array",
-                  "description": "Assets",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "id": {
-                        "type": "string"
+        "responses" : {
+          "200" : {
+            "description" : "Returns the asset by childId",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string"
                       },
-                      "idShort": {
-                        "type": "string"
+                      "idShort" : {
+                        "type" : "string"
                       },
-                      "nameAtManufacturer": {
-                        "type": "string"
+                      "nameAtManufacturer" : {
+                        "type" : "string"
                       },
-                      "manufacturerPartId": {
-                        "type": "string"
+                      "manufacturerPartId" : {
+                        "type" : "string"
                       },
-                      "partInstanceId": {
-                        "type": "string"
+                      "partInstanceId" : {
+                        "type" : "string"
                       },
-                      "manufacturerId": {
-                        "type": "string"
+                      "manufacturerId" : {
+                        "type" : "string"
                       },
-                      "batchId": {
-                        "type": "string"
+                      "batchId" : {
+                        "type" : "string"
                       },
-                      "manufacturerName": {
-                        "type": "string"
+                      "manufacturerName" : {
+                        "type" : "string"
                       },
-                      "nameAtCustomer": {
-                        "type": "string"
+                      "nameAtCustomer" : {
+                        "type" : "string"
                       },
-                      "customerPartId": {
-                        "type": "string"
+                      "customerPartId" : {
+                        "type" : "string"
                       },
-                      "manufacturingDate": {
-                        "type": "string",
-                        "format": "date-time"
+                      "manufacturingDate" : {
+                        "type" : "string",
+                        "format" : "date-time"
                       },
-                      "manufacturingCountry": {
-                        "type": "string"
+                      "manufacturingCountry" : {
+                        "type" : "string"
                       },
-                      "owner": {
-                        "type": "string",
-                        "enum": [
+                      "owner" : {
+                        "type" : "string",
+                        "enum" : [
                           "SUPPLIER",
                           "CUSTOMER",
                           "OWN",
                           "UNKNOWN"
                         ]
                       },
-                      "childDescriptions": {
-                        "maxItems": 2147483647,
-                        "type": "array",
-                        "description": "Child relationships",
-                        "items": {
-                          "$ref": "#/components/schemas/DescriptionsResponse"
+                      "childDescriptions" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Child relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
                       },
-                      "parentDescriptions": {
-                        "maxItems": 2147483647,
-                        "type": "array",
-                        "description": "Parent relationships",
-                        "items": {
-                          "$ref": "#/components/schemas/DescriptionsResponse"
+                      "parentDescriptions" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Parent relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
                       },
-                      "underInvestigation": {
-                        "type": "boolean"
+                      "underInvestigation" : {
+                        "type" : "boolean"
                       },
-                      "qualityType": {
-                        "type": "string",
-                        "enum": [
+                      "qualityType" : {
+                        "type" : "string",
+                        "enum" : [
                           "Ok",
                           "Minor",
                           "Major",
@@ -1509,118 +1383,148 @@
                           "LifeThreatening"
                         ]
                       },
-                      "van": {
-                        "type": "string"
+                      "van" : {
+                        "type" : "string"
                       }
                     }
                   }
                 }
               }
             }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/assets/countries": {
-      "get": {
-        "tags": [
+    "/assets/countries" : {
+      "get" : {
+        "tags" : [
           "Assets"
         ],
-        "summary": "Get map of assets",
-        "description": "The endpoint returns a map for assets consumed by the map.",
-        "operationId": "assetsCountryMap",
-        "responses": {
-          "401": {
-            "description": "Authorization failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "integer",
-                    "format": "int64"
+        "summary" : "Get map of assets",
+        "description" : "The endpoint returns a map for assets consumed by the map.",
+        "operationId" : "assetsCountryMap",
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "integer",
+                    "format" : "int64"
                   }
                 }
               }
             }
           },
-          "200": {
-            "description": "Returns the assets found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "integer",
-                    "format": "int64"
+          "200" : {
+            "description" : "Returns the assets found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "integer",
+                    "format" : "int64"
                   }
                 }
               }
             }
           },
-          "403": {
-            "description": "Forbidden.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "integer",
-                    "format": "int64"
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object",
+                  "additionalProperties" : {
+                    "type" : "integer",
+                    "format" : "int64"
                   }
                 }
               }
             }
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
         ]
       }
     },
-    "/bpn-config/{bpn}": {
-      "delete": {
-        "tags": [
+    "/bpn-config/{bpn}" : {
+      "delete" : {
+        "tags" : [
           "BpnEdcMapping"
         ],
-        "summary": "Deletes BPN EDC URL mappings",
-        "description": "The endpoint deletes BPN EDC URL mappings",
-        "operationId": "deleteBpnEdcUrlMappings",
-        "parameters": [
+        "summary" : "Deletes BPN EDC URL mappings",
+        "description" : "The endpoint deletes BPN EDC URL mappings",
+        "operationId" : "deleteBpnEdcUrlMappings",
+        "parameters" : [
           {
-            "name": "bpn",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+            "name" : "bpn",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "string"
             }
           }
         ],
-        "responses": {
-          "401": {
-            "description": "Authorization failed."
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
           },
-          "204": {
-            "description": "Deleted."
+          "204" : {
+            "description" : "Deleted."
           },
-          "403": {
-            "description": "Forbidden."
+          "403" : {
+            "description" : "Forbidden."
           }
         },
-        "security": [
+        "security" : [
           {
-            "oAuth2": [
+            "oAuth2" : [
               "profile email"
             ]
           }
@@ -1628,118 +1532,118 @@
       }
     }
   },
-  "components": {
-    "schemas": {
-      "BpnEdcMappingRequest": {
-        "required": [
+  "components" : {
+    "schemas" : {
+      "BpnEdcMappingRequest" : {
+        "required" : [
           "bpn",
           "url"
         ],
-        "type": "object",
-        "properties": {
-          "bpn": {
-            "type": "string"
+        "type" : "object",
+        "properties" : {
+          "bpn" : {
+            "type" : "string"
           },
-          "url": {
-            "type": "string"
+          "url" : {
+            "type" : "string"
           }
         }
       },
-      "BpnEdcMapping": {
-        "type": "object",
-        "properties": {
-          "bpn": {
-            "type": "string"
+      "BpnEdcMapping" : {
+        "type" : "object",
+        "properties" : {
+          "bpn" : {
+            "type" : "string"
           },
-          "url": {
-            "type": "string"
+          "url" : {
+            "type" : "string"
           }
         }
       },
-      "StartQualityNotificationRequest": {
-        "required": [
+      "StartQualityNotificationRequest" : {
+        "required" : [
           "severity"
         ],
-        "type": "object",
-        "properties": {
-          "partIds": {
-            "maxItems": 100,
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
+        "type" : "object",
+        "properties" : {
+          "partIds" : {
+            "maxItems" : 100,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
             }
           },
-          "description": {
-            "maxLength": 1000,
-            "minLength": 15,
-            "type": "string"
+          "description" : {
+            "maxLength" : 1000,
+            "minLength" : 15,
+            "type" : "string"
           },
-          "targetDate": {
-            "type": "string",
-            "format": "date-time"
+          "targetDate" : {
+            "type" : "string",
+            "format" : "date-time"
           },
-          "severity": {
-            "type": "string"
+          "severity" : {
+            "type" : "string"
           }
         }
       },
-      "QualityNotificationIdResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
+      "QualityNotificationIdResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
-      "UpdateQualityNotificationRequest": {
-        "required": [
+      "UpdateQualityNotificationRequest" : {
+        "required" : [
           "status"
         ],
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "description": "The UpdateInvestigationStatus",
-            "enum": [
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "description" : "The UpdateInvestigationStatus",
+            "enum" : [
               "ACKNOWLEDGED",
               "ACCEPTED",
               "DECLINED"
             ]
           },
-          "reason": {
-            "type": "string"
+          "reason" : {
+            "type" : "string"
           }
         }
       },
-      "CloseQualityNotificationRequest": {
-        "type": "object",
-        "properties": {
-          "reason": {
-            "maxLength": 1000,
-            "minLength": 15,
-            "type": "string"
+      "CloseQualityNotificationRequest" : {
+        "type" : "object",
+        "properties" : {
+          "reason" : {
+            "maxLength" : 1000,
+            "minLength" : 15,
+            "type" : "string"
           }
         }
       },
-      "CreateNotificationContractRequest": {
-        "required": [
+      "CreateNotificationContractRequest" : {
+        "required" : [
           "notificationMethod",
           "notificationType"
         ],
-        "type": "object",
-        "properties": {
-          "notificationType": {
-            "type": "string",
-            "enum": [
+        "type" : "object",
+        "properties" : {
+          "notificationType" : {
+            "type" : "string",
+            "enum" : [
               "QUALITY_INVESTIGATION",
               "QUALITY_ALERT"
             ]
           },
-          "notificationMethod": {
-            "type": "string",
-            "enum": [
+          "notificationMethod" : {
+            "type" : "string",
+            "enum" : [
               "RECEIVE",
               "UPDATE",
               "RESOLVE"
@@ -1747,56 +1651,56 @@
           }
         }
       },
-      "CreateNotificationContractResponse": {
-        "type": "object",
-        "properties": {
-          "notificationAssetId": {
-            "type": "string"
+      "CreateNotificationContractResponse" : {
+        "type" : "object",
+        "properties" : {
+          "notificationAssetId" : {
+            "type" : "string"
           },
-          "accessPolicyId": {
-            "type": "string"
+          "accessPolicyId" : {
+            "type" : "string"
           },
-          "contractDefinitionId": {
-            "type": "string"
+          "contractDefinitionId" : {
+            "type" : "string"
           }
         }
       },
-      "SyncAssetsRequest": {
-        "type": "object",
-        "properties": {
-          "globalAssetIds": {
-            "maxItems": 100,
-            "minItems": 1,
-            "type": "array",
-            "description": "Assets",
-            "items": {
-              "type": "string"
+      "SyncAssetsRequest" : {
+        "type" : "object",
+        "properties" : {
+          "globalAssetIds" : {
+            "maxItems" : 100,
+            "minItems" : 1,
+            "type" : "array",
+            "description" : "Assets",
+            "items" : {
+              "type" : "string"
             }
           }
         }
       },
-      "GetDetailInformationRequest": {
-        "type": "object",
-        "properties": {
-          "assetIds": {
-            "maxItems": 50,
-            "minItems": 1,
-            "type": "array",
-            "items": {
-              "type": "string"
+      "GetDetailInformationRequest" : {
+        "type" : "object",
+        "properties" : {
+          "assetIds" : {
+            "maxItems" : 50,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
             }
           }
         }
       },
-      "UpdateAssetRequest": {
-        "required": [
+      "UpdateAssetRequest" : {
+        "required" : [
           "qualityType"
         ],
-        "type": "object",
-        "properties": {
-          "qualityType": {
-            "type": "string",
-            "enum": [
+        "type" : "object",
+        "properties" : {
+          "qualityType" : {
+            "type" : "string",
+            "enum" : [
               "Ok",
               "Minor",
               "Major",
@@ -1806,77 +1710,77 @@
           }
         }
       },
-      "AssetResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
+      "AssetResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
           },
-          "idShort": {
-            "type": "string"
+          "idShort" : {
+            "type" : "string"
           },
-          "nameAtManufacturer": {
-            "type": "string"
+          "nameAtManufacturer" : {
+            "type" : "string"
           },
-          "manufacturerPartId": {
-            "type": "string"
+          "manufacturerPartId" : {
+            "type" : "string"
           },
-          "partInstanceId": {
-            "type": "string"
+          "partInstanceId" : {
+            "type" : "string"
           },
-          "manufacturerId": {
-            "type": "string"
+          "manufacturerId" : {
+            "type" : "string"
           },
-          "batchId": {
-            "type": "string"
+          "batchId" : {
+            "type" : "string"
           },
-          "manufacturerName": {
-            "type": "string"
+          "manufacturerName" : {
+            "type" : "string"
           },
-          "nameAtCustomer": {
-            "type": "string"
+          "nameAtCustomer" : {
+            "type" : "string"
           },
-          "customerPartId": {
-            "type": "string"
+          "customerPartId" : {
+            "type" : "string"
           },
-          "manufacturingDate": {
-            "type": "string",
-            "format": "date-time"
+          "manufacturingDate" : {
+            "type" : "string",
+            "format" : "date-time"
           },
-          "manufacturingCountry": {
-            "type": "string"
+          "manufacturingCountry" : {
+            "type" : "string"
           },
-          "owner": {
-            "type": "string",
-            "enum": [
+          "owner" : {
+            "type" : "string",
+            "enum" : [
               "SUPPLIER",
               "CUSTOMER",
               "OWN",
               "UNKNOWN"
             ]
           },
-          "childDescriptions": {
-            "maxItems": 2147483647,
-            "type": "array",
-            "description": "Child relationships",
-            "items": {
-              "$ref": "#/components/schemas/DescriptionsResponse"
+          "childDescriptions" : {
+            "maxItems" : 2147483647,
+            "type" : "array",
+            "description" : "Child relationships",
+            "items" : {
+              "$ref" : "#/components/schemas/DescriptionsResponse"
             }
           },
-          "parentDescriptions": {
-            "maxItems": 2147483647,
-            "type": "array",
-            "description": "Parent relationships",
-            "items": {
-              "$ref": "#/components/schemas/DescriptionsResponse"
+          "parentDescriptions" : {
+            "maxItems" : 2147483647,
+            "type" : "array",
+            "description" : "Parent relationships",
+            "items" : {
+              "$ref" : "#/components/schemas/DescriptionsResponse"
             }
           },
-          "underInvestigation": {
-            "type": "boolean"
+          "underInvestigation" : {
+            "type" : "boolean"
           },
-          "qualityType": {
-            "type": "string",
-            "enum": [
+          "qualityType" : {
+            "type" : "string",
+            "enum" : [
               "Ok",
               "Minor",
               "Major",
@@ -1884,118 +1788,134 @@
               "LifeThreatening"
             ]
           },
-          "van": {
-            "type": "string"
+          "van" : {
+            "type" : "string"
           }
         }
       },
-      "DescriptionsResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
+      "DescriptionsResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
           },
-          "idShort": {
-            "type": "string"
+          "idShort" : {
+            "type" : "string"
           }
         }
       },
-      "Pageable": {
-        "type": "object",
-        "properties": {
-          "page": {
-            "minimum": 0,
-            "type": "integer",
-            "format": "int32"
+      "OwnRegistryLookUpMetricsPageable" : {
+        "type" : "object",
+        "properties" : {
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
           },
-          "size": {
-            "minimum": 1,
-            "type": "integer",
-            "format": "int32"
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
           },
-          "sort": {
-            "type": "array",
-            "items": {
-              "type": "string"
+          "sort" : {
+            "maxItems" : 2147483647,
+            "type" : "array",
+            "description" : "Content of Registry Look Up Metrics PageResults",
+            "items" : {
+              "$ref" : "#/components/schemas/SortObject"
             }
           }
         }
       },
-      "PageResultRegistryLookupMetric": {
-        "type": "object",
-        "properties": {
-          "content": {
-            "type": "array",
-            "items": {
-              "maxItems": 2147483647,
-              "type": "array",
-              "description": "RegistryLookupMetric",
-              "items": {
-                "$ref": "#/components/schemas/RegistryLookupMetric"
+      "SortObject" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          },
+          "sorted" : {
+            "type" : "boolean"
+          },
+          "unsorted" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "PageResultRegistryLookupMetric" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "maxItems" : 2147483647,
+            "type" : "array",
+            "description" : "Content of PageResults",
+            "items" : {
+              "maxItems" : 2147483647,
+              "type" : "array",
+              "description" : "RegistryLookupMetric",
+              "items" : {
+                "$ref" : "#/components/schemas/RegistryLookupMetric"
               }
             }
           },
-          "page": {
-            "type": "integer",
-            "format": "int32"
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
           },
-          "pageCount": {
-            "type": "integer",
-            "format": "int32"
+          "pageCount" : {
+            "type" : "integer",
+            "format" : "int32"
           },
-          "pageSize": {
-            "type": "integer",
-            "format": "int32"
+          "pageSize" : {
+            "type" : "integer",
+            "format" : "int32"
           },
-          "totalItems": {
-            "type": "integer",
-            "format": "int64"
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
           }
         }
       },
-      "RegistryLookupMetric": {
-        "type": "object",
-        "properties": {
-          "startDate": {
-            "type": "string",
-            "format": "date-time"
+      "RegistryLookupMetric" : {
+        "type" : "object",
+        "properties" : {
+          "startDate" : {
+            "type" : "string",
+            "format" : "date-time"
           },
-          "registryLookupStatus": {
-            "type": "string",
-            "enum": [
+          "registryLookupStatus" : {
+            "type" : "string",
+            "enum" : [
               "SUCCESSFUL",
               "PARTIALLY_SUCCESS",
               "ERROR"
             ]
           },
-          "successShellDescriptorsFetchCount": {
-            "type": "integer",
-            "format": "int64"
+          "successShellDescriptorsFetchCount" : {
+            "type" : "integer",
+            "format" : "int64"
           },
-          "failedShellDescriptorsFetchCount": {
-            "type": "integer",
-            "format": "int64"
+          "failedShellDescriptorsFetchCount" : {
+            "type" : "integer",
+            "format" : "int64"
           },
-          "shellDescriptorsFetchDelta": {
-            "type": "integer",
-            "format": "int64"
+          "shellDescriptorsFetchDelta" : {
+            "type" : "integer",
+            "format" : "int64"
           },
-          "endDate": {
-            "type": "string",
-            "format": "date-time"
+          "endDate" : {
+            "type" : "string",
+            "format" : "date-time"
           }
         }
       },
-      "InvestigationResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
+      "InvestigationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
           },
-          "status": {
-            "type": "string",
-            "enum": [
+          "status" : {
+            "type" : "string",
+            "enum" : [
               "CREATED",
               "SENT",
               "RECEIVED",
@@ -2006,125 +1926,167 @@
               "CLOSED"
             ]
           },
-          "description": {
-            "type": "string"
+          "description" : {
+            "type" : "string"
           },
-          "createdBy": {
-            "type": "string"
+          "createdBy" : {
+            "type" : "string"
           },
-          "createdByName": {
-            "type": "string"
+          "createdByName" : {
+            "type" : "string"
           },
-          "createdDate": {
-            "type": "string"
+          "createdDate" : {
+            "type" : "string"
           },
-          "assetIds": {
-            "maxItems": 1000,
-            "minItems": 0,
-            "type": "array",
-            "description": "assetIds",
-            "items": {
-              "type": "string"
+          "assetIds" : {
+            "maxItems" : 1000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "assetIds",
+            "items" : {
+              "type" : "string"
             }
           },
-          "channel": {
-            "type": "string",
-            "enum": [
+          "channel" : {
+            "type" : "string",
+            "enum" : [
               "SENDER",
               "RECEIVER"
             ]
           },
-          "reason": {
-            "$ref": "#/components/schemas/QualityNotificationReasonResponse"
+          "reason" : {
+            "$ref" : "#/components/schemas/QualityNotificationReasonResponse"
           },
-          "sendTo": {
-            "type": "string"
+          "sendTo" : {
+            "type" : "string"
           },
-          "sendToName": {
-            "type": "string"
+          "sendToName" : {
+            "type" : "string"
           },
-          "severity": {
-            "type": "string",
-            "enum": [
+          "severity" : {
+            "type" : "string",
+            "enum" : [
               "MINOR",
               "MAJOR",
               "CRITICAL",
               "LIFE_THREATENING"
             ]
           },
-          "targetDate": {
-            "type": "string"
+          "targetDate" : {
+            "type" : "string"
           }
         }
       },
-      "QualityNotificationReasonResponse": {
-        "type": "object",
-        "properties": {
-          "close": {
-            "type": "string"
+      "QualityNotificationReasonResponse" : {
+        "type" : "object",
+        "properties" : {
+          "close" : {
+            "type" : "string"
           },
-          "accept": {
-            "type": "string"
+          "accept" : {
+            "type" : "string"
           },
-          "decline": {
-            "type": "string"
+          "decline" : {
+            "type" : "string"
           }
         }
       },
-      "JwtAuthentication": {
-        "type": "object"
+      "OwnInvestigationsPageable" : {
+        "type" : "object",
+        "properties" : {
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "maxItems" : 2147483647,
+            "type" : "array",
+            "description" : "Content of Investigations PageResults",
+            "items" : {
+              "$ref" : "#/components/schemas/SortObject"
+            }
+          }
+        }
       },
-      "DashboardResponse": {
-        "type": "object",
-        "properties": {
-          "myItems": {
-            "type": "integer",
-            "format": "int64"
+      "JwtAuthentication" : {
+        "type" : "object"
+      },
+      "DashboardResponse" : {
+        "type" : "object",
+        "properties" : {
+          "myItems" : {
+            "type" : "integer",
+            "format" : "int64"
           },
-          "otherParts": {
-            "type": "integer",
-            "format": "int64"
+          "otherParts" : {
+            "type" : "integer",
+            "format" : "int64"
           },
-          "investigations": {
-            "type": "integer",
-            "format": "int64"
+          "investigations" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "OwnAssetsPageable" : {
+        "type" : "object",
+        "properties" : {
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "maxItems" : 2147483647,
+            "type" : "array",
+            "description" : "Content of Assets PageResults",
+            "items" : {
+              "$ref" : "#/components/schemas/SortObject"
+            }
           }
         }
       }
     },
-    "responses": {
-      "badRequestAPI": {
-        "description": "Bad request",
-        "content": {
-          "application/json": {
-            "examples": {
-              "default": {
-                "value": "{\"code\" : 400, \"Status\" : \"Bad request\", \"Message\" : \"Bad request\"}"
+    "responses" : {
+      "badRequestAPI" : {
+        "description" : "Bad request",
+        "content" : {
+          "application/json" : {
+            "examples" : {
+              "default" : {
+                "value" : "{\"code\" : 400, \"Status\" : \"Bad request\", \"Message\" : \"Bad request\"}"
               }
             }
           }
         }
       },
-      "internalServerErrorAPI": {
-        "description": "Internal server error",
-        "content": {
-          "application/json": {
-            "examples": {
-              "default": {
-                "value": "{\"code\" : 500, \"Status\" : \"Internal server error\", \"Message\" : \"Internal server error\"}"
+      "internalServerErrorAPI" : {
+        "description" : "Internal server error",
+        "content" : {
+          "application/json" : {
+            "examples" : {
+              "default" : {
+                "value" : "{\"code\" : 500, \"Status\" : \"Internal server error\", \"Message\" : \"Internal server error\"}"
               }
             }
           }
         }
       }
     },
-    "securitySchemes": {
-      "oAuth2": {
-        "type": "oauth2",
-        "flows": {
-          "clientCredentials": {
-            "scopes": {
-              "profile email": ""
+    "securitySchemes" : {
+      "oAuth2" : {
+        "type" : "oauth2",
+        "flows" : {
+          "clientCredentials" : {
+            "scopes" : {
+              "profile email" : ""
             }
           }
         }

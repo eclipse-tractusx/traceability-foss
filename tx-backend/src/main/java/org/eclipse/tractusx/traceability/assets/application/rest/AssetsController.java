@@ -33,13 +33,13 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.application.rest.request.GetDetailInformationRequest;
+import org.eclipse.tractusx.traceability.assets.application.rest.request.OwnAssetsPageable;
 import org.eclipse.tractusx.traceability.assets.application.rest.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.rest.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.rest.response.AssetResponse;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -86,8 +86,8 @@ public class AssetsController {
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("")
-    public PageResult<AssetResponse> assets(Pageable pageable, @QueryParam("owner") Owner owner) {
-        return AssetResponse.from(assetService.getAssets(pageable, owner));
+    public PageResult<AssetResponse> assets(OwnAssetsPageable pageable, @QueryParam("owner") Owner owner) {
+        return AssetResponse.from(assetService.getAssets(OwnAssetsPageable.toPageable(pageable), owner));
     }
 
 
