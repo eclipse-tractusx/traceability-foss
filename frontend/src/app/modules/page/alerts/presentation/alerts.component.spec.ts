@@ -34,8 +34,19 @@ describe('AlertsComponent', () => {
   };
 
 
-  it('should call change pagination of received notification', async () => {
+  it('should call change pagination of received alerts', async () => {
     await renderAlerts();
+    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
+
+    expect(await waitFor(() => screen.getByText('Alert No 18'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 5'))).toBeInTheDocument();
+  });
+
+  it('should call change pagination of queued & requested alerts', async () => {
+    await renderAlerts();
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonAlert.tabs.queuedAndRequested')));
+
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
     expect(await waitFor(() => screen.getByText('Alert No 18'))).toBeInTheDocument();

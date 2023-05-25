@@ -45,8 +45,19 @@ describe('InvestigationsComponent', () => {
     expect(spy).toHaveBeenCalledWith(['/investigations/id-84']);
   });
 
-  it('should call change pagination of received notification', async () => {
+  it('should call change pagination of received investigations', async () => {
     await renderInvestigations();
+    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
+
+    expect(await waitFor(() => screen.getByText('Investigation No 84'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Investigation No 11'))).toBeInTheDocument();
+  });
+
+  it('should call change pagination of queued & requested investigations', async () => {
+    await renderInvestigations();
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonInvestigation.tabs.queuedAndRequested')));
+
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
     expect(await waitFor(() => screen.getByText('Investigation No 84'))).toBeInTheDocument();
