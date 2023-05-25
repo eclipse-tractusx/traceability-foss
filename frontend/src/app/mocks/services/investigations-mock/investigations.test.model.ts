@@ -21,10 +21,9 @@
 
 import type { NotificationResponse } from '@shared/model/notification.model';
 import { NotificationStatus } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 import { getRandomAsset } from '../parts-mock/parts.model';
 import { MOCK_part_1 } from '../parts-mock/parts.test.model';
-import { Severity } from '@shared/model/severity.model';
-import { getRandomIntFromInterval } from '../text-generator.helper';
 
 export const InvestigationIdPrefix = 'id-';
 
@@ -38,8 +37,9 @@ export const buildMockInvestigations = (
     const status = statuses[index % statuses.length];
     const severity = severities[index % severities.length];
     const numberToString = (i: number) => i.toString().padStart(2, '0');
-    const month = getRandomIntFromInterval(1, 12);
-    const day = getRandomIntFromInterval(1, 27);
+    const month = (index % 12) + 1;
+    const day = (index % 28) + 1;
+
     return {
       id: `${InvestigationIdPrefix}${index + 1}`,
       description: `Investigation No ${index + 1}`,

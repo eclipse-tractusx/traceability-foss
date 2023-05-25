@@ -38,7 +38,7 @@ describe('AlertsComponent', () => {
     await renderAlerts();
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Alert No 51'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 90'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 18'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 5'))).toBeInTheDocument();
   });
 });
