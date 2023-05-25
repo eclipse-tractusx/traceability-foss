@@ -23,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Use Selective dependency resolutions for @angular-devkit/build-angular to keep 15.2.8 version locked (so @angular-builders/custom-webpack uses the same version as well)
 - Aligned help button and user icon in the header to official C-X styleguide
 - Upgraded karma package dependency: socket.io-parser to 4.2.3 (to solve Insufficient validation when decoding a Socket.IO packet)
+- Changed trivy.yml settings for frontend (use "--format sarif" instead of "--template sarif.tpl")
 
 ### Removed
 - Removed selection column on Customer Parts page
