@@ -79,7 +79,7 @@ Clone the source locally:
 
 ```sh
 $ git clone git@github.com:eclipse-tractusx/traceability-foss.git
-$ cd tx-traceability-foss/frontend
+$ cd traceability-foss/frontend
 ```
 
 Install prerequisites:
