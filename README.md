@@ -78,7 +78,7 @@ Because it uses SVGs, we knew it will perform great. And we are able to have pin
 Clone the source locally:
 
 ```sh
-$ git clone git@github.com:eclipse-tractusx/traceability-foss.git
+$ git clone https://github.com/eclipse-tractusx/traceability-foss.git
 $ cd tx-traceability-foss/frontend
 ```
 
