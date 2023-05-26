@@ -25,7 +25,7 @@ import {
   DisplayColumns,
   MenuActionConfig,
   TableConfig,
-  TablePaginationEventConfig,
+  TableEventConfig,
 } from '@shared/components/table/table.model';
 import { Notification, Notifications } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
@@ -43,8 +43,9 @@ export class NotificationTabComponent implements AfterViewInit {
   @Input() translationContext: 'commonInvestigation' | 'pageAlerts';
   @Input() menuActionsConfig: MenuActionConfig<Notification>[];
   @Input() optionalColumns: Array<'targetDate' | 'severity' | 'createdBy' | 'sendTo'> = [];
+  @Input() sortableColumns: Record<string, boolean> = {};
 
-  @Output() pagination = new EventEmitter<TablePaginationEventConfig>();
+  @Output() tableConfigChanged = new EventEmitter<TableEventConfig>();
   @Output() selected = new EventEmitter<Notification>();
 
   @ViewChild('statusTmp') statusTemplate: TemplateRef<unknown>;
@@ -58,9 +59,11 @@ export class NotificationTabComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     const defaultColumns: DisplayColumns<keyof Notification>[] = ['description', 'status', 'createdDate'];
     const displayedColumns: DisplayColumns<keyof Notification>[] = [...defaultColumns, ...this.optionalColumns, 'menu'];
+    const sortableColumns: Record<string, boolean> = this.sortableColumns;
 
     this.tableConfig = {
       displayedColumns,
+      sortableColumns,
       header: CreateHeaderFromColumns(displayedColumns, 'table.column'),
       hasPagination: this.hasPagination,
       menuActionsConfig: this.menuActionsConfig || [],
@@ -77,5 +80,9 @@ export class NotificationTabComponent implements AfterViewInit {
 
   public selectNotification(notification: Record<string, unknown>): void {
     this.selected.emit(notification as unknown as Notification);
+  }
+
+  public onTableConfigChange(tableEventConfig: TableEventConfig): void {
+    this.tableConfigChanged.emit(tableEventConfig);
   }
 }
