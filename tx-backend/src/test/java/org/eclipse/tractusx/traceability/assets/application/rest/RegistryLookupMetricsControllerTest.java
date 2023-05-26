@@ -46,11 +46,12 @@ class RegistryLookupMetricsControllerTest {
     void givenRequest_whenMetrics_thenCallRegistry() {
         // given
         final Pageable request = Pageable.ofSize(1);
+        OwnPageable ownPageable = OwnPageable.toOwnPageable(request);
 
         // when
-        controller.metrics(OwnPageable.toOwnPageable(request));
+        controller.metrics(ownPageable);
 
         // then
-        verify(registryLookupMeterRegistry, times(1)).getMetrics(request);
+        verify(registryLookupMeterRegistry, times(1)).getMetrics(OwnPageable.toPageable(ownPageable));
     }
 }
