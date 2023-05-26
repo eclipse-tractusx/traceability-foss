@@ -15,14 +15,22 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Data
 @AllArgsConstructor
 public class OwnPageable {
-    private int page;
-    private int size;
+    private Integer page;
+    private Integer size;
     @ArraySchema(arraySchema = @Schema(description = "Content of Assets PageResults"), maxItems = Integer.MAX_VALUE)
     private List<Sort> sort;
 
     public static Pageable toPageable(OwnPageable ownPageable) {
-        Sort sort = emptyIfNull(ownPageable.getSort()).stream().findFirst().orElse(Sort.unsorted()) ;
-        return PageRequest.of(ownPageable.getPage(), ownPageable.getSize(), sort);
+        int usedPage = 1;
+        int usedPageSize = 50;
+
+        if(ownPageable.page != null && ownPageable.size != null) {
+            usedPage = ownPageable.getPage();
+            usedPageSize = ownPageable.getSize();
+        }
+
+        Sort sort = emptyIfNull(ownPageable.getSort()).stream().findFirst().orElse(Sort.unsorted());
+        return PageRequest.of(usedPage, usedPageSize, sort);
     }
 
     public static OwnPageable toOwnPageable(Pageable pageable) {
