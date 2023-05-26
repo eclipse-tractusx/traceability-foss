@@ -33,8 +33,10 @@ import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
 import org.eclipse.tractusx.traceability.common.config.RestAssuredConfig
 import org.eclipse.tractusx.traceability.common.config.RestitoConfig
 import org.eclipse.tractusx.traceability.common.support.*
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaNotificationRepository
+import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -78,6 +80,10 @@ abstract class IntegrationSpecification extends Specification
 
     @Autowired
     private JdbcTemplate jdbcTemplate
+
+    @SpringBean
+    public
+    AlertService alertService = Mock()
 
     def setup() {
         oauth2ApiReturnsJwkCerts(jwk())

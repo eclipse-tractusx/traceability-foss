@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,28 +21,17 @@ package org.eclipse.tractusx.traceability.qualitynotification.alert.rest
 
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
-import org.eclipse.tractusx.traceability.common.support.BpnSupport
-import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
-import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService
+import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId
-import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.junit.jupiter.MockitoExtension
-import org.spockframework.spring.SpringBean
 import org.springframework.http.HttpStatus
 
 import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 
-@ExtendWith(MockitoExtension.class)
-class AlertAssetAlertControllerIT extends IntegrationSpecification implements InvestigationsSupport, NotificationsSupport, BpnSupport {
-
-    @SpringBean
-    protected
-    AlertService alertService = Mock()
+class AlertAssetAlertControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
 
 
-    def "alert asset should return bad request when non existent severity is provided"() {
+    def "alert asset should return 400 when non existent severity is provided"() {
         given:
         String requestWithNotValidSeverity = asJson(
                 [
@@ -68,7 +55,7 @@ class AlertAssetAlertControllerIT extends IntegrationSpecification implements In
                 .statusCode(HttpStatus.BAD_REQUEST.value())
     }
 
-    def "alert asset should return  when non existent severity is provided"() {
+    def "alert asset should return 201 whenValid severity is provided"() {
         given:
         String requestWithNotValidSeverity = asJson(
                 [
