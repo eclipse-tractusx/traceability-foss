@@ -35,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.response.InvestigationResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
@@ -44,7 +45,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.request
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -100,9 +100,9 @@ public class InvestigationsController {
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/created")
-    public PageResult<InvestigationResponse> getCreatedInvestigations(Pageable pageable) {
+    public PageResult<InvestigationResponse> getCreatedInvestigations(OwnPageable pageable) {
         log.info(API_LOG_START + "/created");
-        return InvestigationResponse.fromAsPageResult(investigationService.getCreatedInvestigations(pageable));
+        return InvestigationResponse.fromAsPageResult(investigationService.getCreatedInvestigations(OwnPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getReceivedInvestigations",
@@ -117,9 +117,9 @@ public class InvestigationsController {
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/received")
-    public PageResult<InvestigationResponse> getReceivedInvestigations(Pageable pageable) {
+    public PageResult<InvestigationResponse> getReceivedInvestigations(OwnPageable pageable) {
         log.info(API_LOG_START + "/received");
-        return InvestigationResponse.fromAsPageResult(investigationService.getReceivedInvestigations(pageable));
+        return InvestigationResponse.fromAsPageResult(investigationService.getReceivedInvestigations(OwnPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getInvestigation",
