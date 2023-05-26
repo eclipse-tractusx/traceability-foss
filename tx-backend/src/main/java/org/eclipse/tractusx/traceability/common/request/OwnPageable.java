@@ -24,8 +24,11 @@ public class OwnPageable {
         int usedPage = 1;
         int usedPageSize = 50;
 
-        if(ownPageable.page != null && ownPageable.size != null) {
+        if(ownPageable.page != null) {
             usedPage = ownPageable.getPage();
+        }
+
+        if(ownPageable.size != null) {
             usedPageSize = ownPageable.getSize();
         }
 
