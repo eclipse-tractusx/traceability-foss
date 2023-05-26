@@ -8,7 +8,8 @@
     "about": "Über uns",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
-    "investigations": "Quality Investigation",
+    "investigations": "Qualitätsuntersuchung",
+    "alerts": "Qualitätswarnung",
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration"
   },
