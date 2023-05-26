@@ -20,6 +20,7 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
+import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { InvestigationsService } from '@shared/service/investigations.service';
@@ -48,20 +49,20 @@ export class InvestigationsFacade {
     return this.investigationsService.getInvestigation(id);
   }
 
-  public setReceivedInvestigation(page = 0, pageSize = 50): void {
+  public setReceivedInvestigation(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
     this.investigationReceivedSubscription?.unsubscribe();
     this.investigationReceivedSubscription = this.investigationsService
-      .getReceivedInvestigations(page, pageSize)
+      .getReceivedInvestigations(page, pageSize, sorting)
       .subscribe({
         next: data => (this.investigationsState.investigationsReceived = { data }),
         error: (error: Error) => (this.investigationsState.investigationsReceived = { error }),
       });
   }
 
-  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50): void {
+  public setQueuedAndRequestedInvestigations(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
     this.investigationQueuedAndRequestedSubscription?.unsubscribe();
     this.investigationQueuedAndRequestedSubscription = this.investigationsService
-      .getCreatedInvestigations(page, pageSize)
+      .getCreatedInvestigations(page, pageSize, sorting)
       .subscribe({
         next: data => (this.investigationsState.investigationsQueuedAndRequested = { data }),
         error: (error: Error) => (this.investigationsState.investigationsQueuedAndRequested = { error }),

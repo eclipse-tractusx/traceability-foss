@@ -35,7 +35,6 @@ import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMet
 import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMetric;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,10 +64,6 @@ public class RegistryLookupMetricsController {
     public @Size(max = 1000)
     @ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class), maxItems = Integer.MAX_VALUE)
     PageResult<RegistryLookupMetric> metrics(OwnPageable ownPageable) {
-        if (ownPageable instanceof Pageable pageable) {
-            return registryLookupMeterRegistry.getMetrics(pageable);
-        } else {
             return registryLookupMeterRegistry.getMetrics(OwnPageable.toPageable(ownPageable));
-        }
     }
 }

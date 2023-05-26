@@ -8,7 +8,8 @@
     "about": "Über uns",
     "relations": "Beziehungen",
     "admin": "Verwaltung",
-    "investigations": "Quality Investigation",
+    "investigations": "Qualitätsuntersuchung",
+    "alerts": "Qualitätswarnung",
     "adminRegistry": "Registry-Abfragen",
     "adminBpn": "BPN - EDC Konfiguration"
   },
@@ -19,7 +20,8 @@
     "about": "Über Catena-X Open-Source Rückverfolgbarkeit",
     "relations": "Beziehungen",
     "admin": "Verwaltung Catena-X",
-    "investigations": "Qualitätsuntersuchung"
+    "investigations": "Qualitätsuntersuchung",
+    "alerts": "Qualitätswarnung"
   },
   "layout": {
     "nav": {
@@ -199,6 +201,23 @@
       "failedCancel": "Die Untersuchung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
       "failedClose": "Die Untersuchung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
       "failedDecline": "Untersuchung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
+    }
+  },
+  "commonAlert": {
+    "viewAll": "Alle anzeigen",
+    "tabs": {
+      "received": "Zugewiesene",
+      "queuedAndRequested": "Erstellte und Versendete"
+    },
+    "status": {
+      "RECEIVED": "Erhalten",
+      "CREATED": "Erstellt",
+      "SENT": "Zugestellt",
+      "CANCELED": "Abgebrochen",
+      "CLOSED": "Abgeschlossen",
+      "ACCEPTED": "Akzeptiert",
+      "ACKNOWLEDGED": "Bestätigt",
+      "DECLINED": "Abgelehnt"
     }
   }
 }
