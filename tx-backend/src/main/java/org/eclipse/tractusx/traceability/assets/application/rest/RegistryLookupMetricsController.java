@@ -31,10 +31,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.application.rest.request.OwnRegistryLookUpMetricsPageable;
 import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMeterRegistry;
 import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMetric;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,11 +64,11 @@ public class RegistryLookupMetricsController {
     @GetMapping("/registry-lookup")
     public @Size(max = 1000)
     @ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class), maxItems = Integer.MAX_VALUE)
-    PageResult<RegistryLookupMetric> metrics(OwnRegistryLookUpMetricsPageable ownRegistryLookUpMetricsPageable) {
-        if (ownRegistryLookUpMetricsPageable instanceof Pageable pageable) {
+    PageResult<RegistryLookupMetric> metrics(OwnPageable ownPageable) {
+        if (ownPageable instanceof Pageable pageable) {
             return registryLookupMeterRegistry.getMetrics(pageable);
         } else {
-            return registryLookupMeterRegistry.getMetrics(OwnRegistryLookUpMetricsPageable.toPageable(ownRegistryLookUpMetricsPageable));
+            return registryLookupMeterRegistry.getMetrics(OwnPageable.toPageable(ownPageable));
         }
     }
 }

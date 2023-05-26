@@ -31,12 +31,6 @@
         "description" : "The endpoint returns a result of BPN EDC URL mappings.",
         "operationId" : "getBpnEdcs",
         "responses" : {
-          "401" : {
-            "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
-          },
           "200" : {
             "description" : "Returns the paged result found",
             "content" : {
@@ -47,6 +41,12 @@
                 }
               }
             }
+          },
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -80,6 +80,9 @@
           "required" : true
         },
         "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
+          },
           "200" : {
             "description" : "Returns the paged result found for BpnEdcMapping",
             "content" : {
@@ -90,9 +93,6 @@
                 }
               }
             }
-          },
-          "401" : {
-            "description" : "Authorization failed."
           },
           "403" : {
             "description" : "Forbidden."
@@ -147,6 +147,9 @@
           "required" : true
         },
         "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
+          },
           "200" : {
             "description" : "Returns the paged result found for BpnEdcMapping",
             "content" : {
@@ -157,9 +160,6 @@
                 }
               }
             }
-          },
-          "401" : {
-            "description" : "Authorization failed."
           },
           "403" : {
             "description" : "Forbidden."
@@ -589,36 +589,6 @@
           }
         ],
         "responses" : {
-          "401" : {
-            "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssetResponse"
-                  }
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssetResponse"
-                  }
-                }
-              }
-            }
-          },
           "200" : {
             "description" : "Returns the assets found",
             "content" : {
@@ -709,6 +679,36 @@
                         "type" : "string"
                       }
                     }
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
                   }
                 }
               }
@@ -924,11 +924,11 @@
         "operationId" : "metrics",
         "parameters" : [
           {
-            "name" : "ownRegistryLookUpMetricsPageable",
+            "name" : "ownPageable",
             "in" : "query",
             "required" : true,
             "schema" : {
-              "$ref" : "#/components/schemas/OwnRegistryLookUpMetricsPageable"
+              "$ref" : "#/components/schemas/OwnPageable"
             }
           }
         ],
@@ -1073,16 +1073,13 @@
             "in" : "query",
             "required" : true,
             "schema" : {
-              "$ref" : "#/components/schemas/OwnInvestigationsPageable"
+              "$ref" : "#/components/schemas/OwnPageable"
             }
           }
         ],
         "responses" : {
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           },
           "200" : {
             "description" : "Returns the paged result found for Asset",
@@ -1094,6 +1091,9 @@
                 }
               }
             }
+          },
+          "403" : {
+            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -1119,16 +1119,13 @@
             "in" : "query",
             "required" : true,
             "schema" : {
-              "$ref" : "#/components/schemas/OwnInvestigationsPageable"
+              "$ref" : "#/components/schemas/OwnPageable"
             }
           }
         ],
         "responses" : {
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           },
           "200" : {
             "description" : "Returns the paged result found for Asset",
@@ -1140,6 +1137,9 @@
                 }
               }
             }
+          },
+          "403" : {
+            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -1224,7 +1224,7 @@
             "in" : "query",
             "required" : true,
             "schema" : {
-              "$ref" : "#/components/schemas/OwnAssetsPageable"
+              "$ref" : "#/components/schemas/OwnPageable"
             }
           },
           {
@@ -1297,6 +1297,21 @@
           }
         ],
         "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
+          },
           "200" : {
             "description" : "Returns the asset by childId",
             "content" : {
@@ -1387,21 +1402,6 @@
                         "type" : "string"
                       }
                     }
-                  }
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssetResponse"
                   }
                 }
               }
@@ -1804,7 +1804,7 @@
           }
         }
       },
-      "OwnRegistryLookUpMetricsPageable" : {
+      "OwnPageable" : {
         "type" : "object",
         "properties" : {
           "page" : {
@@ -1818,7 +1818,7 @@
           "sort" : {
             "maxItems" : 2147483647,
             "type" : "array",
-            "description" : "Content of Registry Look Up Metrics PageResults",
+            "description" : "Content of Assets PageResults",
             "items" : {
               "$ref" : "#/components/schemas/SortObject"
             }
@@ -1831,10 +1831,10 @@
           "empty" : {
             "type" : "boolean"
           },
-          "sorted" : {
+          "unsorted" : {
             "type" : "boolean"
           },
-          "unsorted" : {
+          "sorted" : {
             "type" : "boolean"
           }
         }
@@ -1991,27 +1991,6 @@
           }
         }
       },
-      "OwnInvestigationsPageable" : {
-        "type" : "object",
-        "properties" : {
-          "page" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "size" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "sort" : {
-            "maxItems" : 2147483647,
-            "type" : "array",
-            "description" : "Content of Investigations PageResults",
-            "items" : {
-              "$ref" : "#/components/schemas/SortObject"
-            }
-          }
-        }
-      },
       "JwtAuthentication" : {
         "type" : "object"
       },
@@ -2029,27 +2008,6 @@
           "investigations" : {
             "type" : "integer",
             "format" : "int64"
-          }
-        }
-      },
-      "OwnAssetsPageable" : {
-        "type" : "object",
-        "properties" : {
-          "page" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "size" : {
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "sort" : {
-            "maxItems" : 2147483647,
-            "type" : "array",
-            "description" : "Content of Assets PageResults",
-            "items" : {
-              "$ref" : "#/components/schemas/SortObject"
-            }
           }
         }
       }
