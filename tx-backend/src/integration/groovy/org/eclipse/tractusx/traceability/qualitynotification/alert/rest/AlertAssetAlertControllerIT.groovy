@@ -21,15 +21,23 @@ package org.eclipse.tractusx.traceability.qualitynotification.alert.rest
 
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
+import org.eclipse.tractusx.traceability.common.model.PageResult
 import org.eclipse.tractusx.traceability.common.support.*
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest
+import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide
+import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 
 import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
+import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR
 
 class AlertAssetAlertControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
-
 
     def "alert asset should return 400 when non existent severity is provided"() {
         given:
@@ -81,7 +89,176 @@ class AlertAssetAlertControllerIT extends IntegrationSpecification implements Ir
 
         where:
         severity << ["MINOR", "MAJOR", "CRITICAL", "LIFE-THREATENING"]
+    }
 
+    def "getCreatedAlerts should return 200 whenValid pageable is provided"() {
+        given:
+        String request = asJson(
+                Pageable.ofSize(1)
+        )
+        1 * alertService.getCreated(_) >> new PageResult<QualityNotification>(List.of())
+
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .get("/api/alerts/created")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+    }
+
+    def "getReceivedAlerts should return 200 whenValid pageable is provided"() {
+        given:
+        String request = asJson(
+                Pageable.ofSize(1)
+        )
+        1 * alertService.getReceived(_) >> new PageResult<QualityNotification>(List.of())
+
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .get("/api/alerts/received")
+                .then()
+                .statusCode(HttpStatus.OK.value())
+    }
+
+    def "getAlert should return 200 whenAlertId provided"() {
+        given:
+        Long alertId = 1L
+        1 * alertService.find(_) >> InvestigationTestDataFactory
+                .createInvestigationTestData(QualityNotificationSide.RECEIVER)
+
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts/{alertId}"
+                        .replace("{alertId}", alertId.toString()))
+                .then()
+                .statusCode(HttpStatus.OK.value())
+    }
+
+    def "approveAlert should return 204 whenAlertId provided"() {
+        given:
+        Long alertId = 1L
+
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/{alertId}/approve"
+                        .replace("{alertId}", alertId.toString()))
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+    }
+
+    def "cancelAlert should return 204 whenAlertId provided"() {
+        given:
+        Long alertId = 1L
+
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .post("/api/alerts/{alertId}/cancel"
+                        .replace("{alertId}", alertId.toString()))
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+    }
+
+    def "close should return 400 whenAlertId provided but reason is under min size"() {
+        given:
+        Long alertId = 1L
+        String request = asJson(
+                [
+                        reason: "invalid reason"
+                ]
+        )
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+        .body(request)
+                .when()
+                .post("/api/alerts/{alertId}/close"
+                        .replace("{alertId}", alertId.toString()))
+                .then()
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+    }
+    def "close should return 204 whenAlertId provided "() {
+        given:
+        Long alertId = 1L
+        String request = asJson(
+                [
+                        reason: "very valid reason provided"
+                ]
+        )
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .post("/api/alerts/{alertId}/close"
+                        .replace("{alertId}", alertId.toString()))
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+    }
+
+    def "updateAlert should return 204 whenAlertId provided"() {
+        given:
+        Long alertId = 1L
+        String request = asJson(
+                [
+                        status: "ACCEPTED",
+                        reason: "some reason description"
+                ]
+        )
+        UpdateQualityNotificationRequest t = new UpdateQualityNotificationRequest()
+        t.setStatus(UpdateQualityNotificationStatusRequest.ACCEPTED)
+        t.setReason("because I can")
+        String request2 = asJson(t)
+
+        expect:
+        given()
+                .header(jwtAuthorization(SUPERVISOR))
+                .contentType(ContentType.JSON)
+                .when()
+        .body(request)
+                .post("/api/alerts/{alertId}/update"
+                        .replace("{alertId}", alertId.toString()))
+                .then()
+                .statusCode(HttpStatus.NO_CONTENT.value())
+    }
+
+    def "updateAlert should return 403 Admin user"() {
+        given:
+        Long alertId = 1L
+        String request = asJson(
+                [
+                        status: "ACKNOWLEDGED",
+                        reason: "some reason"
+                ]
+        )
+
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .when()
+                .body(request)
+                .post("/api/alerts/{alertId}/update"
+                        .replace("{alertId}", alertId.toString()))
+                .then()
+                .statusCode(HttpStatus.FORBIDDEN.value())
     }
 
 }
