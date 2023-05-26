@@ -21,6 +21,7 @@
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
+import { Severity } from '@shared/model/severity.model';
 import {
   Notification,
   NotificationResponse,
@@ -28,7 +29,6 @@ import {
   NotificationsResponse,
   NotificationStatus,
 } from '../model/notification.model';
-import { Severity } from '@shared/model/severity.model';
 
 export class NotificationAssembler {
   public static assembleNotifications(response: NotificationsResponse): Notifications {
