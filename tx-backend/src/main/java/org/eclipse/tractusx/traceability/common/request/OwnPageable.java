@@ -21,7 +21,7 @@ public class OwnPageable {
     private List<Sort> sort;
 
     public static Pageable toPageable(OwnPageable ownPageable) {
-        int usedPage = 1;
+        int usedPage = 0;
         int usedPageSize = 50;
 
         if(ownPageable.page != null) {
