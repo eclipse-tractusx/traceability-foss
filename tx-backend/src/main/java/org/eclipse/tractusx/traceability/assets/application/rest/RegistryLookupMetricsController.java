@@ -34,8 +34,7 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMeterRegistry;
 import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMetric;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +63,7 @@ public class RegistryLookupMetricsController {
     @GetMapping("/registry-lookup")
     public @Size(max = 1000)
     @ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class), maxItems = Integer.MAX_VALUE)
-    PageResult<RegistryLookupMetric> metrics(@PageableDefault(value = Integer.MAX_VALUE) Pageable pageable) {
-        return registryLookupMeterRegistry.getMetrics(pageable);
+    PageResult<RegistryLookupMetric> metrics(OwnPageable ownPageable) {
+            return registryLookupMeterRegistry.getMetrics(OwnPageable.toPageable(ownPageable));
     }
 }
