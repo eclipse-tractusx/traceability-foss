@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Data
 @AllArgsConstructor
 public class OwnPageable {
@@ -19,7 +21,7 @@ public class OwnPageable {
     private List<Sort> sort;
 
     public static Pageable toPageable(OwnPageable ownPageable) {
-        Sort sort = ownPageable.getSort() == null ? Sort.unsorted() : ownPageable.getSort().stream().findFirst().orElse(Sort.unsorted()) ;
+        Sort sort = emptyIfNull(ownPageable.getSort()).stream().findFirst().orElse(Sort.unsorted()) ;
         return PageRequest.of(ownPageable.getPage(), ownPageable.getSize(), sort);
     }
 
