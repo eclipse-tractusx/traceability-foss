@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated open api collection to detect security issues on rest api
 - Upgraded karma package dependency: socket.io-parser to 4.2.3 (to solve Insufficient validation when decoding a Socket.IO packet)
 - Corrected alignment for severity and other fields in section "Overview" in quality investigation detail page
+- Upgraded cypress-io/github-action from 5.7.1 to 5.8.0
 
 ### Removed
 - Removed selection column on Customer Parts page
