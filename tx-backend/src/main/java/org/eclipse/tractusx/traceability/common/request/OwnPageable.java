@@ -19,9 +19,8 @@ public class OwnPageable {
     private List<Sort> sort;
 
     public static Pageable toPageable(OwnPageable ownPageable) {
-        Object sort = ownPageable.getSort() == null ? Sort.unsorted() : ownPageable.getSort().stream().findFirst() ;
-        assert sort instanceof Sort;
-        return PageRequest.of(ownPageable.getPage(), ownPageable.getSize(), (Sort) sort);
+        Sort sort = ownPageable.getSort() == null ? Sort.unsorted() : ownPageable.getSort().stream().findFirst().orElse(Sort.unsorted()) ;
+        return PageRequest.of(ownPageable.getPage(), ownPageable.getSize(), sort);
     }
 
     public static OwnPageable toOwnPageable(Pageable pageable) {
