@@ -59,7 +59,7 @@ public enum QualityNotificationSeverityRequest {
     }
 
     public QualityNotificationSeverity toDomain() {
-        return QualityNotificationSeverity.fromString(this.name());
+        return QualityNotificationSeverity.fromString(this.getRealName());
     }
 
     public String getRealName() {
