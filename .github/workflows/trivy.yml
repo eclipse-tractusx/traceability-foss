@@ -52,9 +52,8 @@ jobs:
         uses: aquasecurity/trivy-action@0.10.0
         with:
           image-ref: 'docker.io${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ github.sha }}'
-          format: 'template'
+          format: "sarif"
           exit-code: "1"
-          template: '@/contrib/sarif.tpl'
           output: 'trivy-results.sarif'
           severity: 'CRITICAL,HIGH'
 

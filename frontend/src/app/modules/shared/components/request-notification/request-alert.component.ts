@@ -21,18 +21,18 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
+import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
+import { Part } from '@page/parts/model/parts.model';
+import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
-import { Severity } from '@shared/model/severity.model';
 import {
   RequestContext,
   RequestNotificationBase,
 } from '@shared/components/request-notification/request-notification.base';
-import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
-import { Part } from '@page/parts/model/parts.model';
-import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
-import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
-import { AlertsService } from '@shared/service/alert.service';
+import { Severity } from '@shared/model/severity.model';
+import { AlertsService } from '@shared/service/alerts.service';
 
 @Component({
   selector: 'app-request-alert',
