@@ -24,11 +24,12 @@ SPDX-License-Identifier: Apache-2.0
     <img src="/assets/images/logo.svg" alt="Trace-x" class="header--logo cursor-pointer" routerLink="dashboard" />
 
     <div class="header--menu">
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'parts' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'otherParts' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'investigations' }"></ng-container>
-      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'about' }"></ng-container>
+      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'dashboard', role: 'user' }"></ng-container>
+      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'parts', role: 'user' }"></ng-container>
+      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'otherParts', role: 'user' }"></ng-container>
+      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'investigations', role: 'user' }"></ng-container>
+      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'alerts', role: 'wip' }"></ng-container>
+      <ng-container *ngTemplateOutlet="menuItem; context: { value: 'about', role: 'user' }"></ng-container>
     </div>
 
     <div class="header--user">
@@ -51,10 +52,10 @@ SPDX-License-Identifier: Apache-2.0
   <img src="/assets/images/header-subtract.png" class="header--stylish-curve" alt="" />
 </div>
 
-<ng-template let-type="value" #menuItem>
+<ng-template let-type="value" let-role="role" #menuItem>
   <a
     class="header--menu__item"
-    *appHasRole="['user']"
+    *appHasRole="[role]"
     [routerLink]="['/' + type]"
     [class.selected]="type === activeMenu"
   >

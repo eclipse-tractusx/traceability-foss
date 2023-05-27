@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMeterRegistry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,11 +46,12 @@ class RegistryLookupMetricsControllerTest {
     void givenRequest_whenMetrics_thenCallRegistry() {
         // given
         final Pageable request = Pageable.ofSize(1);
+        OwnPageable ownPageable = OwnPageable.toOwnPageable(request);
 
         // when
-        controller.metrics(request);
+        controller.metrics(ownPageable);
 
         // then
-        verify(registryLookupMeterRegistry, times(1)).getMetrics(request);
+        verify(registryLookupMeterRegistry, times(1)).getMetrics(OwnPageable.toPageable(ownPageable));
     }
 }

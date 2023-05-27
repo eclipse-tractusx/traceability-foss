@@ -38,7 +38,8 @@ SPDX-License-Identifier: Apache-2.0
       [translationContext]="'commonInvestigation'"
       [menuActionsConfig]="menuActionsConfig"
       [optionalColumns]="receivedOptionalColumns"
-      (pagination)="onReceivedPagination.emit($event)"
+      [sortableColumns]="receivedSortableColumns"
+      (tableConfigChanged)="onReceivedTableConfigChanged.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>
   </mat-tab>
@@ -55,7 +56,8 @@ SPDX-License-Identifier: Apache-2.0
       [translationContext]="'commonInvestigation'"
       [menuActionsConfig]="menuActionsConfig"
       [optionalColumns]="queuedAndRequestedOptionalColumns"
-      (pagination)="onQueuedAndRequestedPagination.emit($event)"
+      [sortableColumns]="queuedAndRequestedSortableColumns"
+      (tableConfigChanged)="onQueuedAndRequestedTableConfigChanged.emit($event)"
       (selected)="selected.emit($event)"
     ></app-notifications-tab>
   </mat-tab>

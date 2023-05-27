@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,43 +17,24 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-.card-list--container {
-}
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AlertsComponent } from '@page/alerts/presentation/alerts.component';
+import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
-.card-list--row {
-  display: grid;
-  grid-template-columns: 35% 65%;
-  grid-template-rows: minmax(23px, auto);
-  align-items: center;
+export /** @type {*} */
+const ALERTS_ROUTING: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: AlertsComponent,
+    data: { i18nextNamespaces: ['page.alerts'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+];
 
-  > span {
-    line-height: 1.25rem;
-  }
-
-  @media (max-width: 1440px) {
-    grid-template-columns: 40% 60%;
-  }
-
-  @media (max-width: 1280px) {
-    grid-template-columns: 50% 50%;
-  }
-
-  @media (max-width: 1024px) {
-    grid-template-columns: 30% 70%;
-  }
-}
-
-.card-list--key {
-  padding-right: 10px;
-  font-weight: bold;
-}
-
-.card-list--value {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-mat-card {
-  height: 100%;
-}
+@NgModule({
+  imports: [RouterModule.forChild(ALERTS_ROUTING)],
+  exports: [RouterModule],
+})
+export class AlertsRoutingModule {}

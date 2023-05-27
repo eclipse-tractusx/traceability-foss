@@ -37,7 +37,7 @@ import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR
 
-class AlertAssetAlertControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
+class AlertControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
 
     def "alert asset should return 400 when non existent severity is provided"() {
         given:
