@@ -47,8 +47,8 @@ public enum UpdateQualityNotificationStatusRequest {
         return Stream.of(UpdateQualityNotificationStatusRequest.values()).map(Enum::name).collect(Collectors.joining(", "));
     }
 
-    public static QualityNotificationStatus toDomain(UpdateQualityNotificationStatusRequest qualityNotificationStatusRequest) {
-        return QualityNotificationStatus.fromStringValue(qualityNotificationStatusRequest.name());
+    public QualityNotificationStatus toDomain() {
+        return QualityNotificationStatus.fromStringValue(this.name());
     }
 
 }

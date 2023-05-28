@@ -56,7 +56,7 @@ class InvestigationServiceImplTest {
         when(investigationsRepositoryMock.findOptionalQualityNotificationById(any(QualityNotificationId.class))).thenReturn(Optional.empty());
 
         // expect
-        assertThrows(InvestigationNotFoundException.class, () -> investigationService.findInvestigation(0L));
+        assertThrows(InvestigationNotFoundException.class, () -> investigationService.find(0L));
     }
 
     @Test
@@ -67,7 +67,7 @@ class InvestigationServiceImplTest {
         ));
 
         // expect
-        QualityNotification investigation = investigationService.findInvestigation(0L);
+        QualityNotification investigation = investigationService.find(0L);
 
         // then
         assertThat(investigation).isNotNull();
@@ -83,7 +83,7 @@ class InvestigationServiceImplTest {
                 )));
 
         // expect
-        PageResult<QualityNotification> result = investigationService.getCreatedInvestigations(PageRequest.of(0, 5));
+        PageResult<QualityNotification> result = investigationService.getCreated(PageRequest.of(0, 5));
 
         // then
         assertThat(result).isNotNull();
@@ -99,7 +99,7 @@ class InvestigationServiceImplTest {
                 )));
 
         // expect
-        PageResult<QualityNotification> result = investigationService.getReceivedInvestigations(PageRequest.of(0, 5));
+        PageResult<QualityNotification> result = investigationService.getReceived(PageRequest.of(0, 5));
 
         // then
         assertThat(result).isNotNull();
@@ -113,7 +113,7 @@ class InvestigationServiceImplTest {
 
         // expect
         QualityNotificationId investigationId = new QualityNotificationId(0L);
-        assertThrows(InvestigationNotFoundException.class, () -> investigationService.loadInvestigationOrNotFoundException(investigationId));
+        assertThrows(InvestigationNotFoundException.class, () -> investigationService.loadOrNotFoundException(investigationId));
     }
 
     @Test
@@ -124,7 +124,7 @@ class InvestigationServiceImplTest {
         ));
 
         // expect
-        QualityNotification investigation = investigationService.loadInvestigationOrNotFoundException(new QualityNotificationId(0L));
+        QualityNotification investigation = investigationService.loadOrNotFoundException(new QualityNotificationId(0L));
 
         // then
         assertThat(investigation).isNotNull();
@@ -136,7 +136,7 @@ class InvestigationServiceImplTest {
         when(investigationsRepositoryMock.findByEdcNotificationId(any())).thenReturn(Optional.empty());
 
         // expect
-        assertThrows(InvestigationNotFoundException.class, () -> investigationService.loadInvestigationByEdcNotificationIdOrNotFoundException("0"));
+        assertThrows(InvestigationNotFoundException.class, () -> investigationService.loadByEdcNotificationIdOrNotFoundException("0"));
     }
 
     @Test
@@ -148,7 +148,7 @@ class InvestigationServiceImplTest {
         );
 
         // when
-        QualityNotification investigation = investigationService.loadInvestigationByEdcNotificationIdOrNotFoundException("0");
+        QualityNotification investigation = investigationService.loadByEdcNotificationIdOrNotFoundException("0");
 
         // then
         assertThat(investigation).isNotNull();
