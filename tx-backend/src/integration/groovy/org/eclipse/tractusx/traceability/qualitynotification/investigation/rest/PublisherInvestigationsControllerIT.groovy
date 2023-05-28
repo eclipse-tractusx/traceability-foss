@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.adapters.rest
+package org.eclipse.tractusx.traceability.qualitynotification.investigation.rest
 
 import io.restassured.http.ContentType
 import org.apache.commons.lang3.RandomStringUtils
