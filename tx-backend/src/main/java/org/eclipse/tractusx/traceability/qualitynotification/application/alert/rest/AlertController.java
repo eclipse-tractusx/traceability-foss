@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,8 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.investigation.rest;
-
+package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -35,15 +32,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.common.request.OwnPageable;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.response.InvestigationResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -59,143 +56,147 @@ import static org.eclipse.tractusx.traceability.qualitynotification.application.
 
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
-@RequestMapping(value = "/investigations", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "/alerts", consumes = "application/json", produces = "application/json")
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
-@Tag(name = "Investigations")
+@Tag(name = "Alerts")
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-public class InvestigationsController {
+public class AlertController {
 
-    private final InvestigationService investigationService;
+    private final AlertService alertService;
 
-    private static final String API_LOG_START = "Received API call on /investigations";
+    private static final String API_LOG_START = "Received API call on /alerts";
 
-    @Operation(operationId = "investigateAssets",
-            summary = "Start investigations by part ids",
-            tags = {"Investigations"},
-            description = "The endpoint starts investigations based on part ids provided.",
+    @Operation(operationId = "alertAssets",
+            summary = "Start alert by part ids",
+            tags = {"Alerts"},
+            description = "The endpoint starts alert based on part ids provided.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
+    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
-        return new QualityNotificationIdResponse(investigationService.start(
+        return new QualityNotificationIdResponse(alertService.start(
                 request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity().toDomain()).value());
     }
 
-    @Operation(operationId = "getCreatedInvestigations",
-            summary = "Gets created investigations",
-            tags = {"Investigations"},
-            description = "The endpoint returns created investigations as paged result.",
+    @Operation(operationId = "getCreatedAlerts",
+            summary = "Gets created alerts",
+            tags = {"Alerts"},
+            description = "The endpoint returns created alerts as paged result.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/created")
-    public PageResult<InvestigationResponse> getCreatedInvestigations(OwnPageable pageable) {
+    public PageResult<AlertResponse> getCreatedAlerts(Pageable pageable) {
         log.info(API_LOG_START + "/created");
-        return InvestigationResponse.fromAsPageResult(investigationService.getCreated(OwnPageable.toPageable(pageable)));
+        return AlertResponse.fromAsPageResult(alertService.getCreated(pageable));
     }
 
-    @Operation(operationId = "getReceivedInvestigations",
-            summary = "Gets received investigations",
-            tags = {"Investigations"},
-            description = "The endpoint returns received investigations as paged result.",
+    @Operation(operationId = "getReceivedAlerts",
+            summary = "Gets received alerts",
+            tags = {"Alerts"},
+            description = "The endpoint returns received alerts as paged result.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/received")
-    public PageResult<InvestigationResponse> getReceivedInvestigations(OwnPageable pageable) {
+    public PageResult<AlertResponse> getReceivedAlerts(Pageable pageable) {
         log.info(API_LOG_START + "/received");
-        return InvestigationResponse.fromAsPageResult(investigationService.getReceived(OwnPageable.toPageable(pageable)));
+        return AlertResponse.fromAsPageResult(alertService.getReceived(pageable));
     }
 
-    @Operation(operationId = "getInvestigation",
-            summary = "Gets investigations by id",
-            tags = {"Investigations"},
-            description = "The endpoint returns investigations as paged result by their id.",
+    @Operation(operationId = "getAlert",
+            summary = "Gets Alert by id",
+            tags = {"Alerts"},
+            description = "The endpoint returns alert by id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
-    @GetMapping("/{investigationId}")
-    public InvestigationResponse getInvestigation(@PathVariable Long investigationId) {
-        log.info(API_LOG_START + "/{}", investigationId);
-        return InvestigationResponse.from(investigationService.find(investigationId));
+    @GetMapping("/{alertId}")
+    public AlertResponse getAlert(@PathVariable Long alertId) {
+        log.info(API_LOG_START + "/{}", alertId);
+        return AlertResponse.from(alertService.find(alertId));
     }
 
-    @Operation(operationId = "approveInvestigation",
-            summary = "Approves investigations by id",
-            tags = {"Investigations"},
-            description = "The endpoint approves investigations by their id.",
+    @Operation(operationId = "approveAlert",
+            summary = "Approves alert by id",
+            tags = {"Alerts"},
+            description = "The endpoint approves alert by id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
-    @PostMapping("/{investigationId}/approve")
+    @PostMapping("/{alertId}/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void approveInvestigation(@PathVariable Long investigationId) {
-        log.info(API_LOG_START + "/{}/approve", investigationId);
-        investigationService.approve(investigationId);
+    public void approveAlert(@PathVariable Long alertId) {
+        log.info(API_LOG_START + "/{}/approve", alertId);
+        alertService.approve(alertId);
     }
 
-    @Operation(operationId = "cancelInvestigation",
-            summary = "Cancles investigations by id",
-            tags = {"Investigations"},
-            description = "The endpoint cancles investigations by their id.",
+    @Operation(operationId = "cancelAlert",
+            summary = "Cancels alert by id",
+            tags = {"Alerts"},
+            description = "The endpoint cancels alert by id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
-    @PostMapping("/{investigationId}/cancel")
+    @PostMapping("/{alertId}/cancel")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelInvestigation(@PathVariable Long investigationId) {
-        log.info(API_LOG_START + "/{}/cancel", investigationId);
-        investigationService.cancel(investigationId);
+    public void cancelAlert(@PathVariable Long alertId) {
+        log.info(API_LOG_START + "/{}/cancel", alertId);
+        alertService.cancel(alertId);
     }
 
-    @Operation(operationId = "closeInvestigation",
-            summary = "Close investigations by id",
-            tags = {"Investigations"},
-            description = "The endpoint closes investigations by their id.",
+    @Operation(operationId = "closeAlert",
+            summary = "Close alert by id",
+            tags = {"Alerts"},
+            description = "The endpoint closes alert by id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
-    @PostMapping("/{investigationId}/close")
+    @PostMapping("/{alertId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void closeInvestigation(@PathVariable Long investigationId, @Valid @RequestBody CloseQualityNotificationRequest closeInvestigationRequest) {
-        log.info(API_LOG_START + "/{}/close with params {}", investigationId, closeInvestigationRequest);
-        investigationService.update(investigationId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), closeInvestigationRequest.getReason());
+    public void closeAlert(
+            @PathVariable Long alertId,
+            @Valid @RequestBody CloseQualityNotificationRequest closeAlertRequest) {
+        log.info(API_LOG_START + "/{}/close with params {}", alertId, closeAlertRequest);
+        alertService.update(alertId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), closeAlertRequest.getReason());
     }
 
-    @Operation(operationId = "updateInvestigation",
-            summary = "Update investigations by id",
-            tags = {"Investigations"},
-            description = "The endpoint updates investigations by their id.",
+    @Operation(operationId = "updateAlert",
+            summary = "Update alert by id",
+            tags = {"Alerts"},
+            description = "The endpoint updates alert by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
-    @PostMapping("/{investigationId}/update")
+    @PostMapping("/{alertId}/update")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateInvestigation(@PathVariable Long investigationId, @Valid @RequestBody UpdateQualityNotificationRequest updateInvestigationRequest) {
-        validate(updateInvestigationRequest);
-        log.info(API_LOG_START + "/{}/update with params {}", investigationId, updateInvestigationRequest);
-        investigationService.update(investigationId, updateInvestigationRequest.getStatus().toDomain(), updateInvestigationRequest.getReason());
+    public void updateAlert(
+            @PathVariable Long alertId,
+            @Valid @RequestBody UpdateQualityNotificationRequest updateAlertRequest) {
+        validate(updateAlertRequest);
+        log.info(API_LOG_START + "/{}/update with params {}", alertId, updateAlertRequest);
+        alertService.update(alertId, updateAlertRequest.getStatus().toDomain(), updateAlertRequest.getReason());
     }
 }
 

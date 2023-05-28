@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.adapters.rest.model;
+package org.eclipse.tractusx.traceability.qualitynotification.investigation.rest.model;
 
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.junit.jupiter.api.Test;
