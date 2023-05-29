@@ -17,6 +17,34 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
+<app-approve-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [approveCall]="helperService.approve.bind(this)"
+></app-approve-notification-modal>
+<app-cancel-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [cancelCall]="helperService.cancel.bind(this)"
+></app-cancel-notification-modal>
+<app-close-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [closeCall]="helperService.close.bind(this)"
+></app-close-notification-modal>
+
+<app-acknowledge-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [acknowledgeCall]="helperService.acknowledge.bind(this)"
+></app-acknowledge-notification-modal>
+
+<app-accept-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [acceptCall]="helperService.accept.bind(this)"
+></app-accept-notification-modal>
+
+<app-decline-notification-modal
+  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
+  [declineCall]="helperService.decline.bind(this)"
+></app-decline-notification-modal>
+
 <app-notification
   [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
   [receivedNotifications$]="alertsReceived$"
