@@ -64,13 +64,13 @@ ingress:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
   hosts:
-    - host: "tracex-submodel-server-e2e.dev.demo.catena-x.net"
+    - host: "tracex-submodel-server-e2e-b.dev.demo.catena-x.net"
       paths:
         - path: /
           pathType: ImplementationSpecific
   tls:
     - hosts:
-        - "tracex-submodel-server-e2e.dev.demo.catena-x.net"
+        - "tracex-submodel-server-e2e-b.dev.demo.catena-x.net"
       # Default secret for certificate creation already provided to your namespace
       secretName: tls-secret
 

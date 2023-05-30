@@ -208,7 +208,7 @@ irs-helm:
           - "tracex-irs-e2e-b.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
-    url: https://trace-x-registry-e2e.dev.demo.catena-x.net/semantics/registry
+    url: https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
