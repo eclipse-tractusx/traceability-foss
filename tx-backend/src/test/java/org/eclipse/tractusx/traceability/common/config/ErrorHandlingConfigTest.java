@@ -77,6 +77,7 @@ class ErrorHandlingConfigTest {
 
     @Test
     void givenMethodArgumentNotValidException_handler_respondsBadRequest() throws Exception {
+
         mockMvc.perform(get("/methodArgumentNotValidException"))
                 .andExpect(status().isBadRequest());
     }

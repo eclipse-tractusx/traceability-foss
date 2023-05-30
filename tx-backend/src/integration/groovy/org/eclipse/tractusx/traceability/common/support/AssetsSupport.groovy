@@ -52,7 +52,7 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
                     .status(investigationStatus)
                     .side(QualityNotificationSideBaseEntity.SENDER)
                     .description("some long description")
-                    .created(Instant.now())
+                    .createdDate(Instant.now())
                     .build();
         }.each { jpaInvestigationRepository().save(it) }
     }
