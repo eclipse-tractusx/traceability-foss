@@ -28,10 +28,10 @@ registry:
       resources:
         limits:
           cpu: 750m
-          memory: 1Gi
-        requests:
-          cpu: 250m
           memory: 512Mi
+        requests:
+          cpu: 125m
+          memory: 256Mi
 
   registry:
     authentication: false
@@ -51,7 +51,7 @@ registry:
     resources:
       limits:
         cpu: 750m
-        memory: 1Gi
-      requests:
-        cpu: 250m
         memory: 512Mi
+      requests:
+        cpu: 125m
+        memory: 256Mi
