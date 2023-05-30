@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added alerts controller
 - Inbox for quality alerts (marked with WIP role)
 - Sortable columns in notification.component.ts and related components
+- Insomnia Collection for Alerts api
 
 ### Changed
 - Refactored other-parts.component.html - split into new components: supplier-parts.component.html and customer-parts.component.html
