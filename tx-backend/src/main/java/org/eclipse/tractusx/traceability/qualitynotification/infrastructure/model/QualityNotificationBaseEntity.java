@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -41,7 +42,8 @@ public class QualityNotificationBaseEntity {
     private String acceptReason;
     private String declineReason;
     private String description;
-    private Instant created;
+    @Column(name = "created")
+    private Instant createdDate;
     private Instant updated;
     private QualityNotificationSideBaseEntity side;
     private QualityNotificationStatusBaseEntity status;
