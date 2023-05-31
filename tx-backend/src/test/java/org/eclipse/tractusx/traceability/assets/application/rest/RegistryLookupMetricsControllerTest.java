@@ -28,7 +28,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -45,8 +47,7 @@ class RegistryLookupMetricsControllerTest {
     @Test
     void givenRequest_whenMetrics_thenCallRegistry() {
         // given
-        final Pageable request = Pageable.ofSize(1);
-        OwnPageable ownPageable = OwnPageable.toOwnPageable(request);
+        OwnPageable ownPageable = new OwnPageable(0, 1, "createDate,desc");
 
         // when
         controller.metrics(ownPageable);

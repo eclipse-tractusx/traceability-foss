@@ -97,7 +97,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .side(QualityNotificationSideBaseEntity.SENDER)
                 .description("1")
-                .created(now.minusSeconds(10L))
+                .createdDate(now.minusSeconds(10L))
                 .build();
         InvestigationEntity secondInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -105,7 +105,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("2")
                 .side(QualityNotificationSideBaseEntity.SENDER)
-                .created(now.plusSeconds(21L))
+                .createdDate(now.plusSeconds(21L))
                 .build();
         InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -113,7 +113,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("3")
                 .side(QualityNotificationSideBaseEntity.SENDER)
-                .created(now)
+                .createdDate(now)
                 .build();
         InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -121,7 +121,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("4")
                 .side(QualityNotificationSideBaseEntity.SENDER)
-                .created(now.plusSeconds(20L))
+                .createdDate(now.plusSeconds(20L))
                 .build();
         InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -129,7 +129,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("5")
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
-                .created(now.plusSeconds(40L))
+                .createdDate(now.plusSeconds(40L))
                 .build();
 
         and:
@@ -188,6 +188,129 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .body("totalItems", Matchers.is(4))
     }
 
+    def "when sort provided should return created investigations sorted by creation time"() {
+        given:
+        String sortString = "createdDate,desc"
+        Instant now = Instant.now()
+        String testBpn = testBpn()
+
+        and:
+        InvestigationEntity firstInvestigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn(testBpn)
+                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .side(QualityNotificationSideBaseEntity.SENDER)
+                .description("1")
+                .createdDate(now.minusSeconds(10L))
+                .build();
+        InvestigationEntity secondInvestigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn(testBpn)
+                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .description("2")
+                .side(QualityNotificationSideBaseEntity.SENDER)
+                .createdDate(now.plusSeconds(21L))
+                .build();
+        InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn(testBpn)
+                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .description("3")
+                .side(QualityNotificationSideBaseEntity.SENDER)
+                .createdDate(now)
+                .build();
+        InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn(testBpn)
+                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .description("4")
+                .side(QualityNotificationSideBaseEntity.SENDER)
+                .createdDate(now.plusSeconds(20L))
+                .build();
+        InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn(testBpn)
+                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .description("5")
+                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .createdDate(now.plusSeconds(40L))
+                .build();
+
+        and:
+
+        storedNotifications(
+                InvestigationNotificationEntity
+                        .builder()
+                        .id("1")
+                        .investigation(firstInvestigation)
+                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                InvestigationNotificationEntity
+                        .builder()
+                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .id("2")
+                        .investigation(secondInvestigation)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                InvestigationNotificationEntity
+                        .builder()
+                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .id("3")
+                        .investigation(thirdInvestigation)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                InvestigationNotificationEntity
+                        .builder()
+                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .id("4")
+                        .investigation(fourthInvestigation)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build(),
+                InvestigationNotificationEntity
+                        .builder()
+                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .id("5")
+                        .investigation(fifthInvestigation)
+                        .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
+                        .build()
+        )
+
+        expect:
+                given()
+                .header(jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/created?page=0&size=10&sort=$sortString")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(4))
+                .body("totalItems", Matchers.is(4))
+    }
+
+    def "when invalid sort type provided should return created investigations sorted by creation time"() {
+        given:
+        String sortString = "createdDate,failure"
+
+        expect:
+        given()
+                .header(jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/investigations/created?page=0&size=10&sort=$sortString")
+                .then()
+                .statusCode(400)
+                .body("message", Matchers.is(
+                        "Invalid sort param provided sort=createdDate,failure expected format is following sort=parameter,order"
+                ))
+    }
+
     def "should return properly paged created investigations"() {
         given:
         Instant now = Instant.now()
@@ -201,7 +324,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                     .bpn(testBpn)
                     .status(QualityNotificationStatusBaseEntity.CREATED)
                     .side(QualityNotificationSideBaseEntity.SENDER)
-                    .created(now)
+                    .createdDate(now)
                     .build();
             storedInvestigation(investigationEntity)
         }
@@ -237,7 +360,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                     .bpn(testBpn)
                     .status(QualityNotificationStatusBaseEntity.CREATED)
                     .side(QualityNotificationSideBaseEntity.RECEIVER)
-                    .created(now)
+                    .createdDate(now)
                     .build();
 
             InvestigationEntity investigation = storedInvestigationFullObject(investigationEntity)
@@ -291,7 +414,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
                 .description("1")
-                .created(now.minusSeconds(5L))
+                .createdDate(now.minusSeconds(5L))
                 .build();
         InvestigationEntity secondInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -299,7 +422,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .description("2")
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
-                .created(now.plusSeconds(2L))
+                .createdDate(now.plusSeconds(2L))
                 .build();
         InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -307,7 +430,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .description("3")
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
-                .created(now)
+                .createdDate(now)
                 .build();
         InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -315,7 +438,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .description("4")
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
-                .created(now.plusSeconds(20L))
+                .createdDate(now.plusSeconds(20L))
                 .build();
         InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
@@ -323,7 +446,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("5")
                 .side(QualityNotificationSideBaseEntity.SENDER)
-                .created(now.plusSeconds(40L))
+                .createdDate(now.plusSeconds(40L))
                 .build();
 
         and:
@@ -413,7 +536,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                         .description("1")
                         .status(QualityNotificationStatusBaseEntity.RECEIVED)
                         .side(QualityNotificationSideBaseEntity.SENDER)
-                        .created(Instant.now())
+                        .createdDate(Instant.now())
                         .build();
 
         InvestigationEntity persistedInvestigation = storedInvestigationFullObject(investigationEntity)

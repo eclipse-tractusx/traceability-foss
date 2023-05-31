@@ -32,7 +32,8 @@ public class OwnPageable {
         Sort usedSort = Sort.unsorted();
 
         if (!StringUtils.isBlank(ownPageable.getSort())) {
-            usedSort = Sort.by(ownPageable.getSort());
+
+            usedSort = toDomainSort(ownPageable.getSort());
         }
 
         return PageRequest.of(usedPage, usedPageSize, usedSort);
@@ -40,6 +41,23 @@ public class OwnPageable {
 
     public static OwnPageable toOwnPageable(Pageable pageable) {
         return new OwnPageable(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString());
+    }
+
+    private static Sort toDomainSort(final String sort) {
+
+        try {
+            String[] sortParams = sort.split(",");
+
+            return Sort.by(
+                    Sort.Direction.valueOf(sortParams[1].toUpperCase()),
+                    sortParams[0]
+            );
+        } catch (Exception exception) {
+            throw new InvalidSortException(
+                    "Invalid sort param provided sort={provided} expected format is following sort=parameter,order"
+                            .replace("{provided}", sort)
+            );
+        }
     }
 
 
