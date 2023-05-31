@@ -37,8 +37,9 @@ public interface JpaAssetsRepository extends JpaRepository<AssetEntity, String> 
 
     @Query("SELECT asset FROM AssetEntity asset WHERE asset.owner = :owner")
     Page<AssetEntity> findByOwner(Pageable pageable, @Param("owner") Owner owner);
-	List<AssetEntity> findByIdIn(List<String> assetIds);
+
+    List<AssetEntity> findByIdIn(List<String> assetIds);
 
     @Query("SELECT COUNT(asset) FROM AssetEntity asset WHERE asset.owner = :owner")
-	long countAssetsByOwner(@Param("owner") Owner owner);
+    long countAssetsByOwner(@Param("owner") Owner owner);
 }

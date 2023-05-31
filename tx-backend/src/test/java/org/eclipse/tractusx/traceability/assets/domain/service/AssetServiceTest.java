@@ -38,10 +38,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -56,23 +54,6 @@ class AssetServiceTest {
     @Mock
     private AssetRepository assetRepository;
 
-    @Test
-    void combineAssetsAndMergeParentDescriptionIntoDownwardAssets() {
-
-        // given
-        List<Descriptions> parentDescriptionsList = provideParentDescriptions();
-        List<Descriptions> childDescriptionList = provideChildDescriptions();
-        Asset asset = provideTestAsset(childDescriptionList, Collections.emptyList());
-        Asset asset2 = provideTestAsset(Collections.emptyList(), parentDescriptionsList);
-
-        // when
-        List<Asset> assets = assetService.combineAssetsAndMergeParentDescriptionIntoDownwardAssets(List.of(asset), List.of(asset2));
-
-        // then
-        assertThat(assets).hasSize(1);
-        assertThat(assets.get(0).getChildDescriptions()).hasSize(2);
-        assertThat(assets.get(0).getParentDescriptions()).hasSize(2);
-    }
 
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
@@ -88,8 +69,7 @@ class AssetServiceTest {
                 .thenReturn(downwardAssets);
         when(irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspects()))
                 .thenReturn(upwardAssets);
-        when(assetRepository.saveAll(combinedAssetList))
-                .thenReturn(combinedAssetList);
+
 
         // when
         assetService.synchronizeAssetsAsync(globalAssetId);
@@ -98,7 +78,6 @@ class AssetServiceTest {
         verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects());
         verify(irsRepository).findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspects());
         verify(assetRepository).saveAll(any());
-        verifyNoMoreInteractions(irsRepository, assetRepository);
     }
 
 

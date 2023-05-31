@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
@@ -37,25 +38,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class AssetService {
 
     private final AssetRepository assetRepository;
     private final IrsRepository irsRepository;
-
-    public AssetService(AssetRepository assetRepository, IrsRepository irsRepository) {
-        this.assetRepository = assetRepository;
-        this.irsRepository = irsRepository;
-    }
 
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
     public void synchronizeAssetsAsync(List<String> globalAssetIds) {
@@ -73,44 +66,22 @@ public class AssetService {
         log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
         try {
             List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects());
+            assetRepository.saveAll(downwardAssets);
+
             List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspects());
-            List<Asset> combinedAssetList = combineAssetsAndMergeParentDescriptionIntoDownwardAssets(downwardAssets, upwardAssets);
-            assetRepository.saveAll(combinedAssetList);
-            log.info("Assets {} for globalAssetId {} successfully saved.", combinedAssetList, globalAssetId);
+            upwardAssets.forEach(asset -> {
+                if (assetRepository.existsById(asset.getId())) {
+                    assetRepository.updateParentDescriptionsAndOwner(asset);
+                } else {
+                    assetRepository.save(asset);
+                }
+            });
+
         } catch (Exception e) {
             log.warn("Exception during assets synchronization for globalAssetId: {}. Message: {}.", globalAssetId, e.getMessage(), e);
         }
     }
 
-    /**
-     * Combines the list of downward assets with the list of upward assets by merging the parent descriptions of
-     * matching child assets into the corresponding downward assets. If an upward asset has no matching downward asset,
-     * it is added to the result list as is.
-     *
-     * @param downwardAssets the list of downward assets to be combined with the upward assets
-     * @param upwardAssets   the list of upward assets to be combined with the downward assets
-     * @return a new list of {@link Asset} objects that contains the combined assets with merged parent descriptions
-     */
-    public List<Asset> combineAssetsAndMergeParentDescriptionIntoDownwardAssets(List<Asset> downwardAssets, List<Asset> upwardAssets) {
-        List<Asset> combinedList = new ArrayList<>(downwardAssets);
-
-        Map<String, Asset> downwardAssetsMap = emptyIfNull(downwardAssets).stream()
-                .collect(Collectors.toMap(Asset::getId, Function.identity()));
-
-        for (Asset upwardAsset : upwardAssets) {
-            if (downwardAssetsMap.get(upwardAsset.getId()) != null) {
-                for (Asset byId : combinedList) {
-                    if (byId.getId().equals(upwardAsset.getId())) {
-                        byId.setParentDescriptions(upwardAsset.getParentDescriptions());
-                        byId.setChildDescriptions(downwardAssetsMap.get(upwardAsset.getId()).getChildDescriptions());
-                    }
-                }
-            } else {
-                combinedList.add(upwardAsset);
-            }
-        }
-        return combinedList;
-    }
 
     public void setAssetsInvestigationStatus(QualityNotification investigation) {
         assetRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {

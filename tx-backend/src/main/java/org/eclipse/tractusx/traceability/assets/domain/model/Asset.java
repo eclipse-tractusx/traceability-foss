@@ -34,7 +34,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public final class Asset {
+public class Asset {
     private final String id;
     private final String idShort;
     private final String nameAtManufacturer;
@@ -47,7 +47,7 @@ public final class Asset {
     private final String customerPartId;
     private final Instant manufacturingDate;
     private final String manufacturingCountry;
-    private final Owner owner;
+    private Owner owner;
 
     @Singular
     private List<Descriptions> childDescriptions;

@@ -6,9 +6,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased - x.x.x]
 
+### Added
+
+- Adapt asset synchronization from IRS
+
+### Changed
+
+- Updated registry urls within env profiles
+
+### Removed
+
+- Bpn Mapping fallback in INT environment profile - has been removed
+
 ## [3.5.0] - 2023-05-30
 
 ### Added
+
 - Added option to hide "Investigation for components" in part-detail.component.html
 - E2E A & B env profile configuration
 - Added tests for SonarQube exclusions

@@ -45,7 +45,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
@@ -79,7 +78,7 @@ class IrsServiceTest {
         when(jobResponse.isCompleted()).thenReturn(true);
         Asset asset = mock(Asset.class);
         List<Asset> expectedAssets = List.of(asset);
-        when(assetsConverter.convertAssetsAndLog(jobResponse, "1")).thenReturn(expectedAssets);
+        when(assetsConverter.convertAssets(jobResponse)).thenReturn(expectedAssets);
 
         // When
         List<Asset> result = irsService.findAssets("1", direction, Aspect.downwardAspects());
@@ -116,7 +115,7 @@ class IrsServiceTest {
 
         // Then
         assertThat(result).isEqualTo(Collections.EMPTY_LIST);
-        Mockito.verify(assetsConverter, never()).convertAssetsAndLog(any(JobResponse.class), anyString());
+        Mockito.verify(assetsConverter, never()).convertAssets(any(JobResponse.class));
 
     }
 
@@ -135,7 +134,7 @@ class IrsServiceTest {
         when(jobResponse.isCompleted()).thenReturn(true);
         Asset asset = mock(Asset.class);
         List<Asset> expectedAssets = List.of(asset);
-        when(assetsConverter.convertAssetsAndLog(jobResponse, "1")).thenReturn(expectedAssets);
+        when(assetsConverter.convertAssets(jobResponse)).thenReturn(expectedAssets);
 
         // When
         List<Asset> result = irsService.findAssets("1", Direction.UPWARD, Aspect.upwardAspects());
@@ -164,7 +163,7 @@ class IrsServiceTest {
 
         // Then
         assertThat(result).isEqualTo(Collections.EMPTY_LIST);
-        Mockito.verify(assetsConverter, never()).convertAssetsAndLog(any(JobResponse.class), anyString());
+        Mockito.verify(assetsConverter, never()).convertAssets(any(JobResponse.class));
 
     }
 
