@@ -33,6 +33,7 @@ import { Observable } from 'rxjs';
 export class AcknowledgeNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() acknowledgeCall: (id: string) => Observable<void>;
+  @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -47,17 +48,17 @@ export class AcknowledgeNotificationModalComponent {
 
       this.acknowledgeCall(notification.id).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyAcknowledged');
+          this.toastService.success(this.translationContext + '.modal.successfullyAcknowledged');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedAcknowledge');
+          this.toastService.error(this.translationContext + '.modal.failedAcknowledge');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.acknowledgeTitle',
+      title: this.translationContext + '.modal.acknowledgeTitle',
       buttonRight: 'actions.acknowledge',
       buttonLeft: 'actions.cancel',
 

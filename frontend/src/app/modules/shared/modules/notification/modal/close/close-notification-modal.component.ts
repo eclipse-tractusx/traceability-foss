@@ -34,6 +34,7 @@ import { Observable } from 'rxjs';
 export class CloseNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() closeCall: (id: string, reason: string) => Observable<void>;
+  @Input() translationContext: 'commonInvestigation' | 'commonAlert';
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -56,17 +57,17 @@ export class CloseNotificationModalComponent {
 
       this.closeCall(notification.id, reason).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyClosed');
+          this.toastService.success(this.translationContext + '.modal.successfullyClosed');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedClose');
+          this.toastService.error(this.translationContext + '.modal.failedClose');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.closeTitle',
+      title: this.translationContext + '.modal.closeTitle',
       buttonRight: 'actions.close',
       buttonLeft: 'actions.cancel',
 

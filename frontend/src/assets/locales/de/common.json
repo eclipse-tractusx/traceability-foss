@@ -218,6 +218,36 @@
       "ACCEPTED": "Akzeptiert",
       "ACKNOWLEDGED": "Bestätigt",
       "DECLINED": "Abgelehnt"
+    },
+    "modal": {
+      "acceptTitle": "Annehmen der Qualitätswarnung",
+      "acceptDescription": "Sind Sie sicher, dass Sie diese Qualitätswarnung annehmen wollen?",
+      "acceptReasonHint": "Geben Sie den Grund für die Annahme dieser Qualitätswarnung ein.",
+      "acknowledgeTitle": "Bestätigung der Qualitätswarnung",
+      "acknowledgeDescription": "Sind Sie sicher, dass Sie diese Qualitätswarnung bestätigen wollen?",
+      "approvalTitle": "Genehmigung der Qualitätswarnung",
+      "approvalDescription": "Sind Sie sicher, dass Sie diese Qualitätswarnung genehmigen wollen?",
+      "closeTitle": "Schließen der Qualitätswarnung",
+      "closeDescription": "Sind Sie sicher, dass Sie diese Qualitätswarnung schließen wollen?",
+      "closeReasonHint": "Geben Sie den Grund für das Schließen ein.",
+      "cancellationTitle": "Abbruch der Qualitätswarnung",
+      "cancellationDescription": "Sind Sie sicher, dass Sie diese Qualitätswarnung abbrechen wollen?",
+      "cancellationHint": "Geben Sie die ID der Qualitätswarnung ein, um Ihre Abbruchanfrage zu bestätigen.",
+      "declineTitle": "Ablehnung der Qualitätswarnung",
+      "declineDescription": "Sind Sie sicher, dass Sie diese Qualitätswarnung ablehnen wollen?",
+      "declineReasonHint": "Geben Sie den Grund für die Ablehnung dieser Qualitätswarnung ein.",
+      "successfullyAccepted": "Qualitätswarnung wurde erfolgreich angenommen.",
+      "successfullyAcknowledged": "Qualitätswarnung wurde erfolgreich bestätigt",
+      "successfullyApproved": "Qualitätswarnung wurde erfolgreich genehmigt.",
+      "successfullyCanceled": "Qualitätswarnung wurde erfolgreich gelöscht.",
+      "successfullyClosed": "Qualitätswarnung wurde erfolgreich geschlossen.",
+      "successfullyDeclined": "Qualitätswarnung wurde erfolgreich abgelehnt.",
+      "failedAccept": "Qualitätswarnung konnte nicht akzeptiert werden, bitte versuchen Sie es erneut.",
+      "failedAcknowledge": "Qualitätswarnung konnte nicht bestätigt werden, bitte versuchen Sie es erneut.",
+      "failedApprove": "Die Qualitätswarnung konnte nicht genehmigt werden, bitte versuchen Sie es erneut.",
+      "failedCancel": "Die Qualitätswarnung konnte nicht gelöscht werden, bitte versuchen Sie es erneut.",
+      "failedClose": "Die Qualitätswarnung konnte nicht abgeschlossen werden, bitte versuchen Sie es erneut.",
+      "failedDecline": "Qualitätswarnung konnte nicht abgelehnt werden, bitte versuchen Sie es erneut."
     }
   }
 }
