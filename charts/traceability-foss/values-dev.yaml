@@ -84,7 +84,7 @@ backend:
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
-      cpu: 500m
+      cpu: 750m
       memory: 512Mi
     requests:
       cpu: 500m
