@@ -72,7 +72,7 @@
         <assertj.version>3.24.2</assertj.version>
         <commons-logging.version>1.2</commons-logging.version>
         <lombok.version>1.18.26</lombok.version>
-        <json-unit-assertj.version>2.37.0</json-unit-assertj.version>
+        <json-unit-assertj.version>2.38.0</json-unit-assertj.version>
         <cucumber.version>7.11.1</cucumber.version>
         <org-snakeyaml.version>2.0</org-snakeyaml.version>
         <jackson.version>2.15.1</jackson.version>
