@@ -1,6 +1,17 @@
 # Full reset of environment (dev,test)
 ## 1) Clean up
 
+### a) Using Insomnia Collection
+
+Here you can find the [Trace-X Insomnia Collection](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/tracex.json).
+Use this [README](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/README.md) to find out how to setup Insomnia with the Trace-X Collection.
+
+In the Collection you will find a directory named 'Argo', in which you can delete & sync all necessary application components. Go through every directory inside the 'Argo' directory and execute every request inside the Directory 'DELETE'. To make this step easier, you can install the Insomnia Plugin ['multiple requests'](https://insomnia.rest/plugins/insomnia-plugin-multiple-requests).
+With this Plugin you can execute all requests inside the 'DELETE' Directory by right-clicking the directory and choosing 'send Requests'.
+
+Wait until pvc and database pods are restored. Underneath all 'DELETE' directories there is another request that syncs the application component. Execute this request for all. The environment begins the sync process. After the sync process you can proceed with Chapter 2.
+### b) Manual steps
+
 - Open Argo specific env
 - Delete all pvc (not pgadmin, not minio)
 - Delete related database pods
@@ -13,16 +24,28 @@ Repeat those steps for registry, submodelserver, trace-x-provider-edcs, tracex-i
 ## 2) Data upload of assets
 
 In order to upload data to EDC Provider, please use [IRS project script](https://github.com/catenax-ng/tx-item-relationship-service/blob/main/local/testing/testdata/transform-and-upload.py)
-Sample invocation (DEV & TEST)
+Sample invocation (DEV)
 
 ```
-python transform-and-upload.py -f CX_Testdata_v1.4.1-AsBuilt-reduced-with-asPlanned.json -s https://tracex-submodel-server.dev.demo.catena-x.net https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry -k apiKey
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
 ```
 
-Sample invocation (E2E A & E2E B)
+Sample invocation (TEST)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server-e2e.dev.demo.catena-x.net https://tracex-submodel-server-e2e.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e.dev.demo.catena-x.net/semantics/registry -k apiKey
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server-test.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
+```
+
+Sample invocation (E2E A)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server-e2e-a.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
+```
+
+Sample invocation (E2E B)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
 ```
 
 where:
@@ -31,7 +54,12 @@ where:
 * -s submodel server url(s)
 * -edc edc url(s) to upload data to
 * -a aas url(s)
+* -p policies to add to the data
 * -k edc api key (value from <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value> vault path)
+
+optional:
+
+* -bpns upload data only from a list of BPN
 
 ## 3) Prepare trace-x
 - Registry reload
@@ -58,13 +86,13 @@ curl --request POST \
 -
 ```
 
-## Testdata
+## Documentation of Testdata
 
 https://confluence.catena-x.net/display/BDPQ/%28TRF%29+%5BTRACEFOSS-1278%5D+%3A+Setup+Trace-X+Instances+as+own+virtual+companies+in+DEV+and+INT+environment
 
-## Structure of a Testdata
+## Structure of Testdata
 
-Consists of a List of the following entries:
+Consists of a List of the following structured entries:
 
 ```json
 {

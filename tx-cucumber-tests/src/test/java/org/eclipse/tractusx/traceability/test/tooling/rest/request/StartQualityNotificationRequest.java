@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,14 +17,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model;
+package org.eclipse.tractusx.traceability.test.tooling.rest.request;
 
-import java.util.Date;
+import lombok.Builder;
+import lombok.Data;
 
-public record JobStatus(
-        String state,
-        Date startedOn,
-        Date lastModifiedOn,
-        String globalAssetId,
-        Parameter parameter
-) {}
+import java.time.Instant;
+import java.util.List;
+
+@Data
+@Builder
+public class StartQualityNotificationRequest {
+    private List<String> partIds;
+    private String description;
+    private Instant targetDate;
+    private String severity;
+}

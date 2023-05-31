@@ -46,7 +46,6 @@ public class IrsService implements IrsRepository {
     private final AssetsConverter assetsConverter;
     private final BpnRepository bpnRepository;
 
-
     @Override
     public List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects) {
         StartJobResponse startJobResponse = irsClient.registerJob(StartJobRequest.buildJobRequest(globalAssetId, direction, aspects));
@@ -58,9 +57,8 @@ public class IrsService implements IrsRepository {
 
         if (jobResponse.isCompleted()) {
             bpnRepository.updateManufacturers(jobResponse.bpns());
-            return assetsConverter.convertAssetsAndLog(jobResponse, globalAssetId);
+            return assetsConverter.convertAssets(jobResponse);
         }
-
         return Collections.emptyList();
     }
 }

@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.bpn;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,29 +30,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Component
 public class PersistentBpnRepository implements BpnRepository {
 
-	private JpaBpnRepository repository;
+    private final JpaBpnRepository repository;
 
-	public PersistentBpnRepository(JpaBpnRepository repository) {
-		this.repository = repository;
-	}
+    @Override
+    public Optional<String> findManufacturerName(String manufacturerId) {
+        return repository.findById(manufacturerId).map(BpnEntity::getManufacturerName);
+    }
 
-	@Override
-	public Optional<String> findManufacturerName(String manufacturerId) {
-		return repository.findById(manufacturerId)
-			.map(BpnEntity::getManufacturerName);
-	}
+    @Override
+    @Transactional
+    public void updateManufacturers(Map<String, String> bpns) {
+        List<BpnEntity> entities = bpns.entrySet().stream()
+                .map(entry -> new BpnEntity(entry.getKey(), entry.getValue()))
+                .toList();
 
-	@Override
-	@Transactional
-	public void updateManufacturers(Map<String, String> bpns) {
-		List<BpnEntity> entities = bpns.entrySet().stream()
-			.map(entry -> new BpnEntity(entry.getKey(), entry.getValue()))
-			.toList();
+        entities.forEach(bpnEntity -> repository.findById(bpnEntity.getManufacturerId()).ifPresentOrElse(persistedBpnEntity -> {
+            persistedBpnEntity.setManufacturerName(bpnEntity.getManufacturerName());
+            repository.save(persistedBpnEntity);
+        }, () -> repository.save(bpnEntity)));
 
-		repository.saveAll(entities);
-	}
+    }
 
 }
