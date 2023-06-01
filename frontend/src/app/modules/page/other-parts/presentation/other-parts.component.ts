@@ -19,58 +19,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { Part } from '@page/parts/model/parts.model';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
-import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-other-parts',
   templateUrl: './other-parts.component.html',
   styleUrls: ['./other-parts.component.scss'],
 })
-export class OtherPartsComponent implements OnInit, OnDestroy {
-  public readonly displayedColumns: string[] = [
-    'select',
-    'name',
-    'manufacturer',
-    'partNumber',
-    'serialNumber',
-    'batchNumber',
-    'productionDate',
-  ];
-
-  public readonly sortableColumns: Record<string, boolean> = {
-    name: true,
-    manufacturer: true,
-    partNumber: true,
-    serialNumber: true,
-    batchNumber: true,
-    productionDate: true,
-  };
-
-  public readonly tableConfig: TableConfig = {
-    displayedColumns: this.displayedColumns,
-    header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
-    sortableColumns: this.sortableColumns,
-  };
-
-  public readonly customerParts$: Observable<View<Pagination<Part>>>;
-  public readonly supplierParts$: Observable<View<Pagination<Part>>>;
-
-  public readonly deselectPartTrigger$ = new Subject<Part[]>();
-  public readonly addPartTrigger$ = new Subject<Part>();
-
-  public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
-  public readonly selectedItems: Array<Array<Part>> = [];
+export class OtherPartsComponent implements OnDestroy {
 
   public selectedTab = 0;
+  public showStartInvestigationArray = [true, false];
 
   public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
   public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
@@ -80,65 +43,14 @@ export class OtherPartsComponent implements OnInit, OnDestroy {
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
   ) {
-    this.customerParts$ = this.otherPartsFacade.customerParts$;
-    this.supplierParts$ = this.otherPartsFacade.supplierParts$;
-  }
-
-  public get currentSelectedItems(): Part[] {
-    return this.selectedItems[this.selectedTab] || [];
-  }
-
-  public set currentSelectedItems(parts: Part[]) {
-    this.selectedItems[this.selectedTab] = parts;
-  }
-
-  public ngOnInit(): void {
-    this.otherPartsFacade.setCustomerParts();
-    this.otherPartsFacade.setSupplierParts();
   }
 
   public ngOnDestroy(): void {
     this.otherPartsFacade.unsubscribeParts();
   }
 
-  public onSelectItem(event: Record<string, unknown>): void {
-    this.partDetailsFacade.selectedPart = event as unknown as Part;
-  }
-
-  public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    if (this.selectedTab === 0) {
-      this.otherPartsFacade.setSupplierParts(page, pageSize, sorting);
-    } else {
-      this.otherPartsFacade.setCustomerParts(page, pageSize, sorting);
-    }
-  }
-
-  public onMultiSelect(event: unknown[]): void {
-    this.currentSelectedItems = event as Part[];
-  }
-
-  public removeItemFromSelection(part: Part): void {
-    this.deselectPartTrigger$.next([part]);
-    this.currentSelectedItems = this.currentSelectedItems.filter(({ id }) => id !== part.id);
-  }
-
   public onTabChange({ index }: MatTabChangeEvent): void {
     this.selectedTab = index;
     this.partDetailsFacade.selectedPart = null;
-  }
-
-  public clearSelected(): void {
-    this.deselectPartTrigger$.next(this.currentSelectedItems);
-    this.currentSelectedItems = [];
-  }
-
-  public addItemToSelection(part: Part): void {
-    this.addPartTrigger$.next(part);
-    this.currentSelectedItems = [...this.currentSelectedItems, part];
-  }
-
-  public submit(): void {
-    this.otherPartsFacade.setActiveInvestigationForParts(this.currentSelectedItems);
-    this.isInvestigationOpen$.next(false);
   }
 }

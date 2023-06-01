@@ -21,19 +21,21 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.agreement.ContractAgreement;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Policy;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class ContractNegotiationTest {
@@ -58,8 +60,8 @@ class ContractNegotiationTest {
     static Map<String, String> traceContext;
     static ContractAgreement contractAgreement;
 
-    @BeforeAll
-    static void beforeAll() {
+    @BeforeEach
+    void beforeEach() {
         Policy policy = Policy.Builder.newInstance().build();
         contractOffer = ContractOffer.Builder.newInstance()
                 .id(id)
@@ -77,12 +79,12 @@ class ContractNegotiationTest {
                 .assetId(assetId)
                 .build();
         contractNegotiation = ContractNegotiation.Builder.newInstance()
-            .type(type)
-            .id(id)
-            .counterPartyId(counterPartyId)
-            .counterPartyAddress(counterPartyAddress)
-            .correlationId(correlationId)
-            .protocol(protocol)
+                .type(type)
+                .id(id)
+                .counterPartyId(counterPartyId)
+                .counterPartyAddress(counterPartyAddress)
+                .correlationId(correlationId)
+                .protocol(protocol)
                 .state(state)
                 .stateCount(stateCount)
                 .stateTimestamp(stateTimestamp)
@@ -90,7 +92,7 @@ class ContractNegotiationTest {
                 .traceContext(traceContext)
                 .contractAgreement(contractAgreement)
                 .errorDetail(errorDetail)
-            .build();
+                .build();
     }
 
     @Test
@@ -161,6 +163,69 @@ class ContractNegotiationTest {
     @Test
     void getContractAgreement() {
         assertEquals(contractAgreement, contractNegotiation.getContractAgreement());
+    }
+
+    @Test
+    void addContractOffer() {
+        // given
+        final ContractOffer offer = ContractOffer.Builder
+                .newInstance()
+                .id("testId")
+                .policy(contractAgreement.getPolicy())
+                .build();
+        assertThat(contractNegotiation.getContractOffers()).hasSize(1);
+
+
+        // when
+        contractNegotiation.addContractOffer(offer);
+
+        // then
+        assertThat(contractNegotiation.getContractOffers()).hasSize(2);
+    }
+
+    @Test
+    void setErrorDetail() {
+        // given
+        final String errorDetail = "this is bad";
+        assertThat(contractNegotiation.getErrorDetail()).isEqualTo("errorDetail");
+
+        // when
+        contractNegotiation.setErrorDetail(errorDetail);
+
+        // then
+        assertThat(contractNegotiation.getErrorDetail()).isEqualTo(errorDetail);
+    }
+
+    @Test
+    void whenNoContractOffers_getLastContractOffer_thenNull() {
+        // given
+        contractNegotiation.getContractOffers().clear();
+        assertThat(contractNegotiation.getContractOffers()).isEmpty();
+
+        // when
+        final ContractOffer result = contractNegotiation.getLastContractOffer();
+
+        // then
+        assertThat(result).isNull();
+    }
+
+    @Test
+    void setContractAgreement() {
+        // given
+        final ContractAgreement agreement = ContractAgreement.Builder.newInstance()
+                .id("someId")
+                .providerAgentId(providerAgentId)
+                .consumerAgentId(consumerAgentId)
+                .policy(contractOffer.getPolicy())
+                .assetId(assetId)
+                .build();
+        assertThat(contractNegotiation.getContractAgreement()).isNotEqualTo(agreement);
+
+        // when
+        contractNegotiation.setContractAgreement(agreement);
+
+        // then
+        assertThat(contractNegotiation.getContractAgreement()).isEqualTo(agreement);
     }
 
 }

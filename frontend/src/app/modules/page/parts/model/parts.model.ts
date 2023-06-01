@@ -22,20 +22,6 @@
 import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { PaginationResponse } from '@core/model/pagination.model';
 
-export type SortableHeaders =
-  | 'id'
-  | 'name'
-  | 'manufacturer'
-  | 'serialNumber'
-  | 'partNumber'
-  | 'batchNumber'
-  | 'productionCountry'
-  | 'nameAtCustomer'
-  | 'customerPartId'
-  | 'qualityType'
-  | 'productionDate'
-  | 'van';
-
 // TODO: needs to be aligned with Severity in the future in terms of coding standards and use
 export enum QualityType {
   Ok = 'Ok',

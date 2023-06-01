@@ -38,23 +38,6 @@ public class Prohibition extends Rule {
 		return "Prohibition constraints: [" + getConstraints().stream().map(Object::toString).collect(joining(",")) + "]";
 	}
 
-	/**
-	 * Returns a copy of this prohibition with the specified target.
-	 *
-	 * @param target the target.
-	 * @return a copy with the specified target.
-	 */
-	public Prohibition withTarget(String target) {
-		return Builder.newInstance()
-			.uid(this.uid)
-			.assigner(this.assigner)
-			.assignee(this.assignee)
-			.action(this.action)
-			.constraints(this.constraints)
-			.target(target)
-			.build();
-	}
-
 	public static class Builder extends Rule.Builder<Prohibition, Builder> {
 
 		private Builder() {

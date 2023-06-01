@@ -24,7 +24,7 @@ import { Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
-import { MenuActionConfig, TablePaginationEventConfig } from '@shared/components/table/table.model';
+import { MenuActionConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
 import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
@@ -52,7 +52,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
-  private pagination: TablePaginationEventConfig = { page: 0, pageSize: 5 };
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc']  };
 
   constructor(
     public readonly helperService: InvestigationHelperService,
@@ -65,8 +65,8 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   }
 
   public ngOnInit(): void {
-    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize);
-    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize);
+    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
 
   public ngAfterContentInit(): void {
@@ -114,14 +114,14 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
     this.investigationsFacade.stopInvestigations();
   }
 
-  public onReceivedPagination(pagination: TablePaginationEventConfig) {
+  public onReceivedTableConfigChanged(pagination: TableEventConfig) {
     this.pagination = pagination;
-    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize);
+    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
 
-  public onQueuedAndRequestedPagination(pagination: TablePaginationEventConfig) {
+  public onQueuedAndRequestedTableConfigChanged(pagination: TableEventConfig) {
     this.pagination = pagination;
-    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize);
+    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
 
   public openDetailPage(notification: Notification): void {

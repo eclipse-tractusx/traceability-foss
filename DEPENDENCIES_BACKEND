@@ -1,6 +1,6 @@
 maven/mavencentral/ch.qos.logback/logback-classic/1.4.7, EPL-1.0 OR LGPL-2.1-only, approved, #3435
 maven/mavencentral/ch.qos.logback/logback-core/1.4.7, EPL-1.0 OR LGPL-2.1-only, approved, #3373
-maven/mavencentral/com.auth0/java-jwt/4.3.0, MIT, approved, #7418
+maven/mavencentral/com.auth0/java-jwt/4.4.0, NOASSERTION, restricted, clearlydefined
 maven/mavencentral/com.electronwill.night-config/core/3.6.6, LGPL-3.0-only, approved, #3767
 maven/mavencentral/com.electronwill.night-config/toml/3.6.6, LGPL-3.0-only, approved, #3766
 maven/mavencentral/com.fasterxml.jackson.core/jackson-annotations/2.14.2, Apache-2.0, approved, #5303
@@ -75,6 +75,7 @@ maven/mavencentral/org.attoparser/attoparser/2.0.6.RELEASE, Apache-2.0, approved
 maven/mavencentral/org.bouncycastle/bcpkix-jdk15on/1.69, MIT, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcprov-jdk15on/1.69, MIT, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcutil-jdk15on/1.69, MIT, approved, clearlydefined
+maven/mavencentral/org.eclipse.tractusx.traceability/tx-models/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.flywaydb/flyway-core/9.5.1, Apache-2.0, approved, #7296
 maven/mavencentral/org.hibernate.orm/hibernate-core/6.1.7.Final, LGPL-2.1-or-later AND (Apache-2.0 AND LGPL-2.1-only) AND (CC-PDDC AND LGPL-2.1-only) AND (EPL-2.0 OR BSD-3-Clause), approved, #5939
 maven/mavencentral/org.hibernate.validator/hibernate-validator/8.0.0.Final, Apache-2.0, approved, clearlydefined
@@ -111,11 +112,11 @@ maven/mavencentral/org.springframework.boot/spring-boot-starter-validation/3.0.6
 maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.0.6, Apache-2.0, approved, #5945
 maven/mavencentral/org.springframework.boot/spring-boot-starter/3.0.6, Apache-2.0, approved, #7330
 maven/mavencentral/org.springframework.boot/spring-boot/3.0.6, Apache-2.0, approved, #7327
-maven/mavencentral/org.springframework.cloud/spring-cloud-commons/4.0.1, Apache-2.0, approved, #7292
-maven/mavencentral/org.springframework.cloud/spring-cloud-context/4.0.1, Apache-2.0, approved, #7306
-maven/mavencentral/org.springframework.cloud/spring-cloud-openfeign-core/4.0.1, Apache-2.0, approved, #7305
-maven/mavencentral/org.springframework.cloud/spring-cloud-starter-openfeign/4.0.1, Apache-2.0, approved, #7302
-maven/mavencentral/org.springframework.cloud/spring-cloud-starter/4.0.1, Apache-2.0, approved, #7299
+maven/mavencentral/org.springframework.cloud/spring-cloud-commons/4.0.2, Apache-2.0, approved, #7292
+maven/mavencentral/org.springframework.cloud/spring-cloud-context/4.0.2, Apache-2.0, approved, #7306
+maven/mavencentral/org.springframework.cloud/spring-cloud-openfeign-core/4.0.2, Apache-2.0, approved, #7305
+maven/mavencentral/org.springframework.cloud/spring-cloud-starter-openfeign/4.0.2, Apache-2.0, approved, #7302
+maven/mavencentral/org.springframework.cloud/spring-cloud-starter/4.0.2, Apache-2.0, approved, #7299
 maven/mavencentral/org.springframework.data/spring-data-commons/3.0.5, Apache-2.0, approved, #5943
 maven/mavencentral/org.springframework.data/spring-data-jpa/3.0.5, Apache-2.0, approved, #5935
 maven/mavencentral/org.springframework.security/spring-security-config/6.0.3, Apache-2.0, approved, #7338

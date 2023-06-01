@@ -22,7 +22,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
-import { Part, PartResponse, QualityType, SortableHeaders } from '@page/parts/model/parts.model';
+import { Part, PartResponse, QualityType } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { OperatorFunction } from 'rxjs';
@@ -113,7 +113,7 @@ export class PartsAssembler {
       return '';
     }
 
-    const localToApiMapping = new Map<SortableHeaders, string>([
+    const localToApiMapping = new Map<string, string>([
       ['id', 'id'],
       ['name', 'nameAtManufacturer'],
       ['manufacturer', 'manufacturerName'],

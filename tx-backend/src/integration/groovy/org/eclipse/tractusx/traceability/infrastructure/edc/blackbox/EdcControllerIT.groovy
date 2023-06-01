@@ -99,7 +99,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.SENT)
                 .side(QualityNotificationSideBaseEntity.SENDER)
-                .created(Instant.now())
+                .createdDate(Instant.now())
                 .build();
 
         InvestigationEntity persistedInvestigation = storedInvestigationFullObject(investigation)
@@ -149,7 +149,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.SENT)
                 .side(QualityNotificationSideBaseEntity.SENDER)
-                .created(Instant.now())
+                .createdDate(Instant.now())
                 .build();
 
         InvestigationEntity persistedInvestigation = storedInvestigationFullObject(investigation)
@@ -190,7 +190,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
-                .created(Instant.now())
+                .createdDate(Instant.now())
                 .build();
 
         storedInvestigationFullObject(investigation)

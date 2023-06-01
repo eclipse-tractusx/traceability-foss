@@ -31,6 +31,7 @@ import java.util.function.Function;
 
 @ArraySchema(arraySchema = @Schema(description = "PageResults"), maxItems = Integer.MAX_VALUE)
 public record PageResult<T>(
+    @ArraySchema(arraySchema = @Schema(description = "Content of PageResults"), maxItems = Integer.MAX_VALUE)
 	List<T> content,
 	Integer page,
 	Integer pageCount,

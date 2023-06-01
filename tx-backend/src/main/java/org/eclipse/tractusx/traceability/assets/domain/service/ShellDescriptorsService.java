@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.assets.domain.ports.ShellDescriptorRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.ShellDescriptorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

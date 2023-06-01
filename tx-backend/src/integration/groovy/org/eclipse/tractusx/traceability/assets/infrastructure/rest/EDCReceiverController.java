@@ -23,8 +23,9 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.rest;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import io.swagger.v3.oas.annotations.Hidden;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.groovy.util.Maps;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Constants;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.asset.Asset;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
@@ -36,25 +37,26 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notificatio
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Policy;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferRequestDto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.web.bind.annotation.*;
-
-import io.swagger.v3.oas.annotations.Hidden;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
+@Slf4j
 @RestController
 @Hidden
 @RequestMapping("/edc/")
 public class EDCReceiverController {
-
-	private static final Logger logger = LoggerFactory.getLogger(EDCReceiverController.class);
 
 	private final TestRestTemplate restTemplate;
 
@@ -70,14 +72,14 @@ public class EDCReceiverController {
 
 	@GetMapping("/api/v1/management/catalog")
 	public Catalog getDataCatalog(@RequestParam String providerUrl) {
-		logger.info("Returning data catalog for provider {}", providerUrl);
+		log.info("Returning data catalog for provider {}", providerUrl);
 		return Catalog.Builder.newInstance()
 			.id("contract-id")
 			.contractOffers(List.of(ContractOffer.Builder.newInstance()
 				.id("contract-id")
 				.asset(Asset.Builder.newInstance()
 					.id("asset-id")
-					.property(Constants.ASSET_KEY_NOTIFICATION_TYPE, Constants.ASSET_VALUE_QUALITY_INVESTIGATION)
+					.property(Asset.ASSET_KEY_NOTIFICATION_TYPE, Asset.ASSET_VALUE_QUALITY_INVESTIGATION)
 					.build()
 				).policy(Policy.Builder.newInstance()
 					.build()
@@ -87,7 +89,7 @@ public class EDCReceiverController {
 
 	@PostMapping("/api/v1/management/contractnegotiations")
 	public TransferId contractNegotiations(@RequestBody NegotiationInitiateRequestDto request) {
-		logger.info("Initializing contract negotiations");
+        log.info("Initializing contract negotiations");
 		return TransferId.Builder.newInstance()
 			.id("transfer-id-1")
 			.build();
@@ -95,7 +97,7 @@ public class EDCReceiverController {
 
 	@PostMapping("/api/v1/management/transferprocess")
 	public TransferId transferProcess(@RequestBody TransferRequestDto transferRequest) {
-		logger.info("Processing transfer");
+        log.info("Processing transfer");
 		return TransferId.Builder.newInstance()
 			.id("transfer-id-2")
 			.build();
@@ -103,17 +105,17 @@ public class EDCReceiverController {
 
 	@PostMapping("/receive-notification")
 	public void receiveNotification(@RequestBody EDCNotification notification) {
-		logger.info("Notification received");
+        log.info("Notification received");
 	}
 
 	@PostMapping("/callback")
 	public void receiveCallback(@RequestBody EndpointDataReference dataReference) {
-		logger.info("Callback received");
+        log.info("Callback received");
 	}
 
 	@GetMapping("/api/v1/management/contractnegotiations/{transferId}")
 	public ContractNegotiationDto getContractNegotiations(@PathVariable String transferId) {
-		logger.info("Returning contract negotiations");
+        log.info("Returning contract negotiations");
 		String contractAgreementId = "contract-agreement-id";
 
 		endpointDataReferenceCache.storeAgreementId(contractAgreementId);

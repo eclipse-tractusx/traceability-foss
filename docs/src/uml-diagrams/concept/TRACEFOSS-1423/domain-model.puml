@@ -1,0 +1,63 @@
+@startuml
+
+title: Domain Model
+
+abstract Asset {
+        *   id : String
+        idShort : String
+        partInstanceId : String
+        manufacturerId : String
+        batchId : String
+        * private final Owner owner;
+        manufacturerName : String
+        childRelations : List<Relation>
+        parentRelations : List<Relation>
+        underInvestigation : boolean
+        qualityType : QualityType
+        van : String
+        semanticDataModel: enum
+
+        abstract SemanticDataModel : getSemanticDataModel()
+}
+note left
+    Rename Descriptions to Relations
+end note
+
+
+entity Relation {
+       *   id : String
+       idShort : String
+}
+
+
+entity AsBuiltAsset {
+        manufacturingDate : Instant
+        manufacturingCountry : String
+        manufacturerPartId : String
+        customerPartId : String
+        nameAtManufacturer : String
+        nameAtCustomer : String
+
+        AspectType : aspectType()
+}
+
+note right
+    SerialPartTypization and Batch
+end note
+
+enum SemanticDataModel {
+    BATCH,
+    SERIALPARTTYPIZATION
+}
+
+entity AsPlannedAsset {
+
+}
+
+Asset --> SemanticDataModel
+Asset <|.. AsBuiltAsset
+Asset <|.. AsPlannedAsset
+Asset }o--- Relation : childRelations
+Asset }o---  Relation : parentRelations
+
+@enduml

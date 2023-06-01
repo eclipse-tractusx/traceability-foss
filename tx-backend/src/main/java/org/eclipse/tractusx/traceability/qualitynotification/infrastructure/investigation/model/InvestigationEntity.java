@@ -32,7 +32,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
@@ -81,7 +81,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .closeReason(investigationNotificationEntity.getCloseReason())
                 .acceptReason(investigationNotificationEntity.getAcceptReason())
                 .declineReason(investigationNotificationEntity.getDeclineReason())
-                .createdAt(investigationNotificationEntity.getCreated())
+                .createdAt(investigationNotificationEntity.getCreatedDate())
                 .description(investigationNotificationEntity.getDescription())
                 .assetIds(assetIds)
                 .notifications(notifications)
@@ -95,7 +95,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .description(qualityNotification.getDescription())
                 .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getInvestigationStatus().name()))
                 .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getInvestigationSide().name()))
-                .created(qualityNotification.getCreatedAt())
+                .createdDate(qualityNotification.getCreatedAt())
                 .build();
     }
 
