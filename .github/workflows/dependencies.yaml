@@ -20,25 +20,43 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Build with Maven
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Generate BE Dependencies file
         run: mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCIES_BACKEND
+
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: 'frontend'
+
+      - name: Generate FE Dependencies file
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: run dependencies:generate
+
+          dir: 'frontend'
 
       - name: Check if file was changed
         run: |
-          if git diff --name-only ${{ github.base_ref }}...${{ github.sha }} | grep -q '^DEPENDENCIES_BACKEND$'; then
-            echo "The file was changed"
-            echo "was_file_changed=true" >> "$GITHUB_ENV"
+          if git diff --name-only ${{ github.base_ref }}...${{ github.sha }} | grep -e 'DEPENDENCIES_BACKEND' -e 'DEPENDENCIES_FRONTEND'; then
+            echo "The files were changed"
+            echo "were_files_changed=true" >> "$GITHUB_ENV"
             git
           else
-            echo "The file was not changed"
-            echo "was_file_changed=true" >> "$GITHUB_ENV"
+            echo "The file were not changed"
+            echo "were_files_changed=true" >> "$GITHUB_ENV"
           fi
 
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-        if: ${{ env.was_file_changed }} == 'true'
+        if: ${{ env.were_files_changed }} == 'true'
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v5
@@ -53,4 +71,4 @@ jobs:
           body: |
             Updates Dependencies
           labels: feature, enhancement
-        if: ${{ env.was_file_changed }} == 'true'
+        if: ${{ were_files_changed }} == 'true'
