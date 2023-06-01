@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Updated registry urls within env profiles
+- Replaced DELETE Pod Requests with StatefulSets
 
 ### Removed
 
@@ -47,7 +48,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Corrected alignment for severity and other fields in section "Overview" in quality investigation detail page
 - Upgraded cypress-io/github-action from 5.7.1 to 5.8.0
 - Changed trivy.yml settings for frontend (use "--format sarif" instead of "--template sarif.tpl")
-- Replaced DELETE Pod Requests with StatefulSets
 
 ### Removed
 - Removed selection column on Customer Parts page
