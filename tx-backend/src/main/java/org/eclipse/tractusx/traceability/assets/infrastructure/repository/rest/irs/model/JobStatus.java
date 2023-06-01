@@ -24,7 +24,9 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.
 import java.util.Date;
 
 public record JobStatus(
-	String state,
-	Date startedOn,
-	Date lastModifiedOn
+        String state,
+        Date startedOn,
+        Date lastModifiedOn,
+        String globalAssetId,
+        Parameter parameter
 ) {}

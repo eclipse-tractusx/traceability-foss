@@ -29,21 +29,25 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface AssetRepository {
-	Asset getAssetById(String assetId);
+    Asset getAssetById(String assetId);
 
-	List<Asset> getAssetsById(List<String> assetIds);
+    boolean existsById(String globalAssetId);
 
-	Asset getAssetByChildId(String assetId, String childId);
+    List<Asset> getAssetsById(List<String> assetIds);
 
-	PageResult<Asset> getAssets(Pageable pageable, Owner owner);
+    Asset getAssetByChildId(String assetId, String childId);
 
-	List<Asset> getAssets();
+    PageResult<Asset> getAssets(Pageable pageable, Owner owner);
 
-	Asset save(Asset asset);
+    List<Asset> getAssets();
 
-	List<Asset> saveAll(List<Asset> assets);
+    Asset save(Asset asset);
+
+    List<Asset> saveAll(List<Asset> assets);
 
     long countAssets();
+
+    void updateParentDescriptionsAndOwner(final Asset asset);
 
     long countAssetsByOwner(Owner owner);
 }

@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
@@ -33,14 +34,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @Component
 public class PersistentAssetsRepository implements AssetRepository {
 
     private final JpaAssetsRepository assetsRepository;
-
-    public PersistentAssetsRepository(JpaAssetsRepository assetsRepository) {
-        this.assetsRepository = assetsRepository;
-    }
 
     @Override
     @Transactional
@@ -48,6 +46,11 @@ public class PersistentAssetsRepository implements AssetRepository {
         return assetsRepository.findById(assetId)
                 .map(AssetEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
+    }
+
+    @Override
+    public boolean existsById(String globalAssetId) {
+        return assetsRepository.existsById(globalAssetId);
     }
 
     @Override
@@ -89,6 +92,18 @@ public class PersistentAssetsRepository implements AssetRepository {
         return AssetEntity.toDomainList(assetsRepository.saveAll(AssetEntity.fromList(assets)));
     }
 
+    @Transactional
+    @Override
+    public void updateParentDescriptionsAndOwner(final Asset asset) {
+        Asset assetById = this.getAssetById(asset.getId());
+        if (assetById.getOwner().equals(Owner.UNKNOWN)) {
+            assetById.setOwner(asset.getOwner());
+        }
+        assetById.setParentDescriptions(asset.getParentDescriptions());
+        save(assetById);
+    }
+
+    @Transactional
     @Override
     public long countAssets() {
         return assetsRepository.count();
@@ -98,5 +113,4 @@ public class PersistentAssetsRepository implements AssetRepository {
     public long countAssetsByOwner(Owner owner) {
         return assetsRepository.countAssetsByOwner(owner);
     }
-
 }

@@ -1,1 +1,3030 @@
-{"_type":"export","__export_format":4,"__export_date":"2023-05-30T08:08:55.026Z","__export_source":"insomnia.desktop.app:v2023.2.2","resources":[{"_id":"req_1be996858f904e8cb7b9d7ba91473510","parentId":"fld_00cb4bba69744f489d5774d28cfa4742","modified":1684742069277,"created":1684742069277,"url":"{{ _.argo_url }}/applications/{{ _.argo_submodelserver }}/resource?group=apps&force=false&orphan=false","name":"Delete Deployment submodelservers","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_submodelserver_deployment_submodelservers }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Deployment","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684251623152.5,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_00cb4bba69744f489d5774d28cfa4742","parentId":"fld_dc717b8519094dd8a7d2d65314c1a0cd","modified":1684742069262,"created":1684742069262,"name":"DELETE","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684251623165,"_type":"request_group"},{"_id":"fld_dc717b8519094dd8a7d2d65314c1a0cd","parentId":"fld_be3758230e674501bc2fa6c61d72620e","modified":1684742069248,"created":1684742069248,"name":"Submodelserver","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684247658657,"_type":"request_group"},{"_id":"fld_be3758230e674501bc2fa6c61d72620e","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1684742068376,"created":1684742068376,"name":"Argo","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684230480867,"_type":"request_group"},{"_id":"wrk_fe9d35ca8e834b788edd23a0f825618a","parentId":null,"modified":1685433372453,"created":1685433372453,"name":"Untitled","description":"","scope":"design","_type":"workspace"},{"_id":"req_4a2751f8bcd545bfbdc8dbc6b5b937b0","parentId":"fld_dc717b8519094dd8a7d2d65314c1a0cd","modified":1684742069321,"created":1684742069321,"url":"{{ _.argo_url }}/applications/{{ _.argo_submodelserver }}/sync","name":"Sync Submodelserver","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"appNamespace\": \"argocd\",\n\t\"revision\": \"helm-environments\",\n\t\"prune\": true,\n\t\"dryRun\": false,\n\t\"strategy\": {\n\t\t\"hook\": {\n\t\t\t\"force\": false\n\t\t}\n\t},\n\t\"resources\": null,\n\t\"syncOptions\": {\n\t\t\"items\": [\n\t\t\t\"Replace=true\"\n\t\t]\n\t}\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684251623115,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_51c039d8b6a3413fa5172894327865bd","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742068887,"created":1684742068887,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?force=false&orphan=false","name":"Delete PVC backend","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_pvc_backend }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"PersistentVolumeClaim","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443484,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_b472697db6e24fc89732eb51ab028168","parentId":"fld_89caedda10254191beb5ac47a72a7c76","modified":1684742068871,"created":1684742068871,"name":"DELETE","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684230581328.5,"_type":"request_group"},{"_id":"fld_89caedda10254191beb5ac47a72a7c76","parentId":"fld_be3758230e674501bc2fa6c61d72620e","modified":1684742068857,"created":1684742068857,"name":"Trace-X Instance (WIP)","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684230585004,"_type":"request_group"},{"_id":"req_90f6d74f3e474823bf3c4d3864eb6667","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742068996,"created":1684742068996,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?force=false&orphan=false","name":"Delete PVC consumer-edc","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_pvc_consumer_edc }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"PersistentVolumeClaim","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443471.5,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_2c69385ad6e34449ba06addecd453aeb","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742069172,"created":1684742069172,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?force=false&orphan=false","name":"Delete PVC consumer-edc-e2e-a","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_pvc_consumer_edc_e2e_a }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"PersistentVolumeClaim","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443468.375,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_27502fdcea1448fd823f17dde97e7228","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742069030,"created":1684742069030,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?force=false&orphan=false","name":"Delete PVC consumer-edc-e2e-b","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_pvc_consumer_edc_e2e_b }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"PersistentVolumeClaim","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443465.25,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_8154c655ce28450ba36488e3cd84ae6b","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742068923,"created":1684742068923,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?force=false&orphan=false","name":"Delete Pod backend","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_pod_backend }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Pod","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443434,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_592715d9037349e38ce95288868c316b","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742069065,"created":1684742069065,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?force=false&orphan=false","name":"Delete Pod consumer-edc","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_pod_consumer_edc }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Pod","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443421.5,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_65ec97f046d74b8d8fff896434ac3b8c","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742068960,"created":1684742068960,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?group=apps&force=false&orphan=false","name":"Delete Deployment backend","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_deployment_backend }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Deployment","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443384,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_4c9968e1934c42c6959afe748eed1e6f","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742069102,"created":1684742069102,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?group=apps&force=false&orphan=false","name":"Delete Deployment consumer-controlplane","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_deployment_consumer_controlplane }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Deployment","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684233534865,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_b7901a54a39a4b78bd46f14d94a32f6b","parentId":"fld_b472697db6e24fc89732eb51ab028168","modified":1684742069139,"created":1684742069139,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?group=apps&force=true&orphan=false","name":"Delete Deployment consumer-dataplane","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_tracex_instance_deployment_consumer_dataplane }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Deployment","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684232080605.5,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_c2b717d9c26645c2a3717489f5ac9967","parentId":"fld_89caedda10254191beb5ac47a72a7c76","modified":1684742069212,"created":1684742069212,"url":"{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/sync","name":"Sync Trace-X Instance","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"appNamespace\": \"argocd\",\n\t\"revision\": \"main\",\n\t\"prune\": true,\n\t\"dryRun\": false,\n\t\"strategy\": {\n\t\t\"hook\": {\n\t\t\t\"force\": false\n\t\t}\n\t},\n\t\"resources\": null,\n\t\"syncOptions\": {\n\t\t\"items\": [\n\t\t\t\"Replace=true\"\n\t\t]\n\t}\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684230581278.5,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_0a55a2dc128343adba03d64d999604db","parentId":"fld_891b1d6329c94e35bd0296488b9154c7","modified":1684742068709,"created":1684742068709,"url":"{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource?force=false&orphan=false","name":"Delete PVC postgresql","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_edc_provider_pvc_postgresql_resourcename }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"PersistentVolumeClaim","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684221919472.6562,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_891b1d6329c94e35bd0296488b9154c7","parentId":"fld_cda8e879cf0942b6a605bf276c4722cc","modified":1684742068621,"created":1684742068621,"name":"DELETE","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684230626396,"_type":"request_group"},{"_id":"fld_cda8e879cf0942b6a605bf276c4722cc","parentId":"fld_be3758230e674501bc2fa6c61d72620e","modified":1684742068599,"created":1684742068599,"name":"EDC Provider","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684230526196,"_type":"request_group"},{"_id":"req_d82a9a352a144373a533f40415899e82","parentId":"fld_891b1d6329c94e35bd0296488b9154c7","modified":1684742068746,"created":1684742068746,"url":"{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource?force=false&orphan=false","name":"Delete Pod postgresql","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_edc_provder_pod_postgresql_resourcename }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Pod","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684215387528.8984,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_ea9ac67404f44b97b37436a014ee9580","parentId":"fld_891b1d6329c94e35bd0296488b9154c7","modified":1684742068636,"created":1684742068636,"url":"{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource?group=apps&force=false&orphan=false","name":"Delete Deployment edc-controlpane","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_edc_provider_controlplane_resourcename }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Deployment","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684208855585.1406,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_4f316e3cb72b407eb6589a948fac19f6","parentId":"fld_891b1d6329c94e35bd0296488b9154c7","modified":1684742068673,"created":1684742068673,"url":"{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource?group=apps&force=false&orphan=false","name":"Delete Deployment edc-dataplane","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_edc_provider_dataplane_resourcename }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Deployment","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684195791697.625,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_0756da7585e241acb29887181ab7f5e7","parentId":"fld_cda8e879cf0942b6a605bf276c4722cc","modified":1684742068819,"created":1684742068819,"url":"{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource-tree","name":"Health Check EDC Provider","description":"### PVCs Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J1BlcnNpc3RlbnRWb2x1bWVDbGFpbScpXS5oZWFsdGguc3RhdHVz::46b', 'never', 60 %}*\n\n### Pods Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J1BvZCcpXS5oZWFsdGguc3RhdHVz::46b', 'never', 60 %}*\n\n### Deployments Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J0RlcGxveW1lbnQnKV0uaGVhbHRoLnN0YXR1cw==::46b', 'never', 60 %}*\n","method":"GET","body":{},"parameters":[],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684230626346,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_6f5c9f52bb0e4184abf0e890da5a40d3","parentId":"fld_cda8e879cf0942b6a605bf276c4722cc","modified":1684742068785,"created":1684742068785,"url":"{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/sync","name":"Sync EDC Provider","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"appNamespace\": \"argocd\",\n\t\"revision\": \"helm-environments\",\n\t\"prune\": true,\n\t\"dryRun\": false,\n\t\"strategy\": {\n\t\t\"hook\": {\n\t\t\t\"force\": false\n\t\t}\n\t},\n\t\"resources\": null,\n\t\"syncOptions\": {\n\t\t\"items\": [\n\t\t\t\"Replace=true\"\n\t\t]\n\t}\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684230626296,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_6cb618587c6a46b28303aa77bdae0acb","parentId":"fld_3a571688a9ac4587a7002694969b1b85","modified":1684742068418,"created":1684742068418,"url":"{{ _.argo_url }}/applications/{{ _.argo_registry }}/resource?force=false&orphan=false","name":"Delete PVC postgresql","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_registry_pvc_postgresql_resourcename }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"PersistentVolumeClaim","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443484,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_3a571688a9ac4587a7002694969b1b85","parentId":"fld_a4b72b43316a4f44ae7dbed931996902","modified":1684742068403,"created":1684742068403,"name":"DELETE","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684236443509,"_type":"request_group"},{"_id":"fld_a4b72b43316a4f44ae7dbed931996902","parentId":"fld_be3758230e674501bc2fa6c61d72620e","modified":1684742068390,"created":1684742068390,"name":"Registry","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1684230502059,"_type":"request_group"},{"_id":"req_18a49b08a82a4548b919905c4dc75555","parentId":"fld_3a571688a9ac4587a7002694969b1b85","modified":1684742068452,"created":1684742068452,"url":"{{ _.argo_url }}/applications/{{ _.argo_registry }}/resource?force=false&orphan=false","name":"Delete Pod postgresql","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_registry_pod_postgresql_resourcename }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Pod","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443434,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_df4e55dc200c48a6a6ef15f6a8241424","parentId":"fld_3a571688a9ac4587a7002694969b1b85","modified":1684742068488,"created":1684742068488,"url":"{{ _.argo_url }}/applications/{{ _.argo_registry }}/resource?group=apps&force=false&orphan=false","name":"Delete Deployment cx-registry","description":"","method":"DELETE","body":{},"parameters":[{"id":"pair_3e8424fd92d84a758c7a6fbbc275e3c9","name":"resourceName","value":"{{ _.argo_registry_deployment_registry_resourcename }}","description":""},{"id":"pair_41bcbeecbc064c53a03abff4162ab5ec","name":"version","value":"v1","description":""},{"id":"pair_fa9af878fc574f27b05f9f3c95804c82","name":"kind","value":"Deployment","description":""},{"id":"pair_2a2765277f564bb48c1d941d4d0b5c73","name":"namespace","value":"product-traceability-foss","description":""}],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443384,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_66882447b45443dc96cd7eb04fe6e5eb","parentId":"fld_a4b72b43316a4f44ae7dbed931996902","modified":1684742068527,"created":1684742068527,"url":"{{ _.argo_url }}/applications/{{ _.argo_registry }}/resource-tree","name":"Health Check Registry","description":"### PVCs Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J1BlcnNpc3RlbnRWb2x1bWVDbGFpbScpXS5oZWFsdGguc3RhdHVz::46b', 'never', 60 %}*\n\n### Pods Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J1BvZCcpXS5oZWFsdGguc3RhdHVz::46b', 'never', 60 %}*\n\n### Deployments Health Status -> *{% response 'body', 'req_a55219333dba47cd867953e88d7f28fd', 'b64::JC5ub2Rlc1s/KEAua2luZD09J0RlcGxveW1lbnQnKV0uaGVhbHRoLnN0YXR1cw==::46b', 'never', 60 %}*\n","method":"GET","body":{},"parameters":[],"headers":[],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443459,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_732b4630701d4d1aa3ad973e2e0ec2ed","parentId":"fld_a4b72b43316a4f44ae7dbed931996902","modified":1684742068563,"created":1684742068563,"url":"{{ _.argo_url }}/applications/{{ _.argo_registry }}/sync","name":"Sync Registry","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"appNamespace\": \"argocd\",\n\t\"revision\": \"helm-environments\",\n\t\"prune\": true,\n\t\"dryRun\": false,\n\t\"strategy\": {\n\t\t\"hook\": {\n\t\t\t\"force\": false\n\t\t}\n\t},\n\t\"resources\": null,\n\t\"syncOptions\": {\n\t\t\"items\": [\n\t\t\t\"Replace=true\"\n\t\t]\n\t}\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{{ _.argo_access_token }}"},"metaSortKey":-1684236443409,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_1ad4c6fb275a4e0dbe65835f7ed20dcd","parentId":"fld_fcb6ab9555354a2b95580ec92e092995","modified":1684742068304,"created":1684742068304,"url":"{{ _.baseUrl }}/api/edc/notification/contract","name":"CreateNotificationContract Receive","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\"notificationType\": \"QUALITY_INVESTIGATION\", \"notificationMethod\": \"RECEIVE\"\n}\n"},"parameters":[],"headers":[{"id":"pair_e91fcc496b5744beb35d556b287863c3","name":"Content-Type","value":"application/json","description":"","disabled":false}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678423983844.7969,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_fcb6ab9555354a2b95580ec92e092995","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1684742068288,"created":1684742068288,"name":"Trace-X Contracts","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1683225816817,"_type":"request_group"},{"_id":"req_6d9ed00f78d94f0aae24bfa97d1ce1c8","parentId":"fld_fcb6ab9555354a2b95580ec92e092995","modified":1684742068339,"created":1684742068339,"url":"{{ _.baseUrl }}/api/edc/notification/contract","name":"CreateNotificationContract Update","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\"notificationType\" : \"QUALITY_INVESTIGATION\", \"notificationMethod\" : \"UPDATE\"}"},"parameters":[],"headers":[{"id":"pair_7751eec7ba734c80930d24c87da5d114","name":"Content-Type","value":"application/json","description":""}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678423983794.7969,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_ccd88438368d4d47a23fa2d5605e5d64","parentId":"fld_e95b406bc02741f59ad6258e1cf21eed","modified":1682686487577,"created":1682514812813,"url":"{{ _.baseUrl }}/api/bpn-config","name":"FindAll","description":"","method":"GET","body":{},"parameters":[],"headers":[],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}","prefix":"Bearer"},"metaSortKey":-1682514812813,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_e95b406bc02741f59ad6258e1cf21eed","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1682514811574,"created":1681728488551,"name":"BPN-Mapping","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1681728488551,"_type":"request_group"},{"_id":"req_3483ce5718bd4e45aff840bbc40f02a5","parentId":"fld_e95b406bc02741f59ad6258e1cf21eed","modified":1684829268483,"created":1682686509302,"url":"{{ _.baseUrl }}/api/bpn-config/BPNL00000003CNKC","name":"DeleteById","description":"","method":"DELETE","body":{},"parameters":[],"headers":[],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}","prefix":"Bearer"},"metaSortKey":-1682473292686.25,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_108437be50a94ec8abfc4e7f08ccc2b3","parentId":"fld_e95b406bc02741f59ad6258e1cf21eed","modified":1684829274393,"created":1682686495654,"url":"{{ _.baseUrl }}/api/bpn-config","name":"SaveAll","description":"","method":"POST","body":{"mimeType":"application/json","text":"[\n\t{\n\t\t\"bpn\": \"BPNL00000003CML1\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net\"\n\t},\n\t{\n\t\t\"bpn\": \"BPNL00000003CNKC\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net\"\n\t}\n]"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}","prefix":"Bearer"},"metaSortKey":-1682431772559.5,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_47bd1ec80f2845c88df4583538697f66","parentId":"fld_e95b406bc02741f59ad6258e1cf21eed","modified":1684828752059,"created":1682686503749,"url":"{{ _.baseUrl }}/api/bpn-config","name":"UpdateAll","description":"","method":"PUT","body":{"mimeType":"application/json","text":"[\n\t{\n\t\t\"bpn\": \"BPNL00000003CML1\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net\"\n\t},\n\t{\n\t\t\"bpn\": \"BPNL00000003CNKC\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net\"\n\t}\n]"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}","prefix":"Bearer"},"metaSortKey":-1682390252432.75,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_a052080473684c2788547dec66485c52","parentId":"fld_03a8d9286f1440c989c64de49ac06b90","modified":1684742068094,"created":1684742068094,"url":"{{ _.registry }}/semantics/registry/registry/shell-descriptors","name":"RetrieveShellDescriptors","description":"","method":"GET","body":{},"parameters":[],"headers":[],"authentication":{},"metaSortKey":-1681385637898,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_03a8d9286f1440c989c64de49ac06b90","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1684742068077,"created":1684742068077,"name":"DT-Registry","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1681385636476,"_type":"request_group"},{"_id":"req_1d0a1732b77f4d51a2cd902dbb1d7ff4","parentId":"fld_bdd9a7b8b0f441039cbcff77a3b39486","modified":1684095037067,"created":1682348732306,"url":"{{ _.baseUrlEdcConsumerDev }}/api/v1/management/catalog/request","name":"Catalog","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"providerUrl\": \"https://trace-x-test-edc.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n\t\n}\n\n\n"},"parameters":[],"headers":[{"name":"x-api-key","value":"{{ _.edc_api_auth_key_dev }}","id":"pair_6838a24d992a44e4bad61636766ca65d"},{"id":"pair_fb11ac85a34246c5b6a8988b9ec55a71","name":"content-type","value":"application/json","description":""},{"id":"pair_b9a20d0b01584ebe911b160d8b375edc","name":"accept","value":"\"/\"","description":"","disabled":true}],"authentication":{},"metaSortKey":-1682348732306,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_bdd9a7b8b0f441039cbcff77a3b39486","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1681306081567,"created":1681306081567,"name":"EDC","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1681306081567,"_type":"request_group"},{"_id":"req_c460888eefec4c0cbd30448c92465aa5","parentId":"fld_bdd9a7b8b0f441039cbcff77a3b39486","modified":1684161564403,"created":1683225997187,"url":"https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net/api/v1/management/catalog/request","name":"Catalog_with_filter_assetId","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"providerUrl\": \"https://trace-x-edc-e2e-b.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n\t\n}\n\n\n"},"parameters":[],"headers":[{"name":"x-api-key","value":"{{ _.edc_api_auth_key_dev }}","id":"pair_6838a24d992a44e4bad61636766ca65d"},{"id":"pair_fb11ac85a34246c5b6a8988b9ec55a71","name":"content-type","value":"application/json","description":""},{"id":"pair_b9a20d0b01584ebe911b160d8b375edc","name":"accept","value":"\"/\"","description":"","disabled":true}],"authentication":{},"metaSortKey":-1682107958704,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_430a7e5833fd4e15b92524a29d20e257","parentId":"fld_bdd9a7b8b0f441039cbcff77a3b39486","modified":1684755758280,"created":1683553577783,"url":"https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net/api/v1/management/catalog/request","name":"Catalog_E2E-A-to-E2E-B","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"providerUrl\": \"https://trace-x-edc-e2e-b.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n}\n\n\n"},"parameters":[],"headers":[{"name":"x-api-key","value":"{{ _.edc_api_auth_key_dev }}","id":"pair_6838a24d992a44e4bad61636766ca65d"},{"id":"pair_fb11ac85a34246c5b6a8988b9ec55a71","name":"content-type","value":"application/json","description":""},{"id":"pair_b9a20d0b01584ebe911b160d8b375edc","name":"accept","value":"\"/\"","description":"","disabled":true}],"authentication":{},"metaSortKey":-1681626411500,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_40831de1cc7f4ec7adf658bcb4d6cc1a","parentId":"fld_bdd9a7b8b0f441039cbcff77a3b39486","modified":1684755922021,"created":1684149834854,"url":"https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net/api/v1/management/catalog/request","name":"Catalog_E2E-B-to-E2E-A","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"providerUrl\": \"https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n}\n\n\n"},"parameters":[],"headers":[{"name":"x-api-key","value":"{{ _.edc_api_auth_key_dev }}","id":"pair_6838a24d992a44e4bad61636766ca65d"},{"id":"pair_fb11ac85a34246c5b6a8988b9ec55a71","name":"content-type","value":"application/json","description":""},{"id":"pair_b9a20d0b01584ebe911b160d8b375edc","name":"accept","value":"\"/\"","description":"","disabled":true}],"authentication":{},"metaSortKey":-1681506024699,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_8eaca2de0b6444c7aa3913cf3608952a","parentId":"fld_d1673e8fc88847ab868afff00e63e1aa","modified":1683727280404,"created":1681302844788,"url":"{{ _.base_url_portal_int }}/api/administration/connectors/discovery","name":"DiscoveryService","description":"","method":"POST","body":{"mimeType":"application/json","text":"[\"BPNL00000003CNKC\"]\n\n\n"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"oauth2","grantType":"client_credentials","accessTokenUrl":"{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token","clientId":"{{ _.portal_client_int }}","clientSecret":"{{ _.portal_secret_int }}"},"metaSortKey":-1681302844788,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_d1673e8fc88847ab868afff00e63e1aa","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1681302843541,"created":1681302843541,"name":"Portal","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1681302843541,"_type":"request_group"},{"_id":"req_a4998a066ded4580a5020ae05081ee66","parentId":"fld_07968e3d57b94bd9b929d08bbe61fd80","modified":1684837543458,"created":1684742067686,"url":"{{ _.irsBaseUrl }}/irs/jobs","name":"RegisterJob","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n     \"aspects\": [\n         \"AssemblyPartRelationship\",\n\t\t\t \"SerialPartTypization\",\n\t\t\t  \"Batch\"\n     ],\n     \"bomLifecycle\":\"asBuilt\",\n     \"collectAspects\": true,\n     \"direction\":\"downward\",\n     \"depth\":2,\n     \"globalAssetId\": \"urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22\"\n} "},"parameters":[],"headers":[{"id":"pair_8345d381d2b244d9b948fd1245052bcd","name":"Content-Type","value":"application/json","description":""}],"authentication":{"type":"oauth2","grantType":"client_credentials","accessTokenUrl":"{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token","clientSecret":"{{ _.irs_client_secret_int }}","clientId":"{{ _.client_id }}"},"metaSortKey":-1681279818545,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_07968e3d57b94bd9b929d08bbe61fd80","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1684742067669,"created":1684742067669,"name":"IRS","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1681225712903,"_type":"request_group"},{"_id":"req_97655071821a4bac89f6de70305cc578","parentId":"fld_07968e3d57b94bd9b929d08bbe61fd80","modified":1684837567110,"created":1684742067728,"url":"{{ _.irsBaseUrl }}/irs/jobs/{% response 'body', 'req_f3c1f403138549708bddd6c0bcba30f9', 'b64::JC5pZA==::46b', 'never', 60 %}","name":"GetJobDetails","description":"","method":"GET","body":{},"parameters":[],"headers":[{"id":"pair_cc52c379ff4b470e95f46be30ecf8a34","name":"Content-Type","value":"application/json","description":""}],"authentication":{"type":"oauth2","grantType":"client_credentials","accessTokenUrl":"{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token","clientId":"{{ _.client_id }}","clientSecret":"{{ _.irs_client_secret_int }}"},"metaSortKey":-1680373302447.5,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_2b0be6508eda4417bdd51e1cc0d74c9c","parentId":"fld_07968e3d57b94bd9b929d08bbe61fd80","modified":1684742067776,"created":1684742067776,"url":"{{ _.irsBaseUrl }}/irs/aspectmodels","name":"Aspectmodels","description":"","method":"GET","body":{},"parameters":[],"headers":[{"id":"pair_cc52c379ff4b470e95f46be30ecf8a34","name":"Content-Type","value":"application/json","description":""}],"authentication":{"type":"oauth2","grantType":"client_credentials","accessTokenUrl":"{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token","clientId":"{{ _.client_id }}","clientSecret":"{{ _.irs_client_secret_int }}"},"metaSortKey":-1679920044398.75,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_dd0175015df84a2599072274e75d0827","parentId":"fld_5a379d2037044e828f1bb2aede3f42f8","modified":1685433634776,"created":1678889920351,"url":"{{ _.base_url_central_idp}}/auth/realms/CX-Central/protocol/openid-connect/token","name":"RetrieveAccessToken","description":"","method":"POST","body":{"mimeType":"application/x-www-form-urlencoded","params":[{"id":"pair_56879c89b0034ed181ea9b12c85bac06","name":"grant_type","value":"client_credentials","description":""},{"id":"pair_9ca0b1ecf7e3466ea400f90537950e0e","name":"client_id","value":"sa-cl6-cx-10","description":"","disabled":false},{"id":"pair_762b17f59d874af2a53a7e7afbe319f0","name":"client_secret","value":"3FzNxv2XOkbAkBhLMtGtervM0pCcsXnK","description":""}]},"parameters":[],"headers":[{"name":"Content-Type","value":"application/x-www-form-urlencoded"}],"authentication":{"type":"apikey","disabled":true,"key":"","value":"","addTo":"header"},"metaSortKey":-1678372717854.875,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_5a379d2037044e828f1bb2aede3f42f8","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1678891513163,"created":1678891506121,"name":"Authentication","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1678891506121,"_type":"request_group"},{"_id":"req_f1e9e4f6908a46078a44fcc0514876ed","parentId":"fld_5a379d2037044e828f1bb2aede3f42f8","modified":1684837637566,"created":1681225716310,"url":"{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/certs","name":"Cert (Int)","description":"","method":"GET","body":{},"parameters":[],"headers":[],"authentication":{},"metaSortKey":-1678372717804.875,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_83fa022c23ce489e84428e9df8c453bd","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1684765851363,"created":1678443692900,"url":"{{ _.baseUrl }}/api/investigations","name":"Create","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"partIds\": {{ _.assetId }},\n  \"description\":\"{% now 'iso-8601', '' %}-requested-by-max\",\n\t\"severity\": \"LIFE-THREATENING\",\n  \"targetDate\": \"2024-02-04T13:48:54Z\" \n}"},"parameters":[],"headers":[{"name":"authority","value":"traceability.dev.demo.catena-x.net","id":"pair_dc7bb20cc17c4f7fb50fa286d6d657e8"},{"name":"accept","value":"application/json, text/plain, */*","id":"pair_d9d500857d164605903cbd2d2a277971"},{"name":"accept-language","value":"de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7","id":"pair_d32282df29524f8fad00dbfbc96e48e2"},{"name":"access","value":"application/json","id":"pair_cc17f507446943c48b486380cd749238"},{"name":"content-type","value":"application/json","id":"pair_d6cbe8ea35de4df285bbfedb6fd1e564"},{"name":"origin","value":"https://traceability-portal.dev.demo.catena-x.net","id":"pair_4aefeb69f30443a0adf9e010794ccf1b"},{"name":"referer","value":"https://traceability-portal.dev.demo.catena-x.net/","id":"pair_a53c45fdeb1941e3bbc349bcea22e82c"},{"name":"sec-ch-ua","value":"\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"","id":"pair_6b261299b5cc400ab58c3769aa7d019e"},{"name":"sec-ch-ua-mobile","value":"?0","id":"pair_1545e26232144e8d90e266475d839866"},{"name":"sec-ch-ua-platform","value":"\"Windows\"","id":"pair_03bff76c5bc74e51a8dd942d50cf6007"},{"name":"sec-fetch-dest","value":"empty","id":"pair_534ac4a137d64410b39436125a79ad43"},{"name":"sec-fetch-mode","value":"cors","id":"pair_1e734755f88d45e4bbac284ed7a25b1b"},{"name":"sec-fetch-site","value":"same-site","id":"pair_c5394aea2dbb428ea723b97faa54d467"},{"name":"user-agent","value":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36","id":"pair_f1ac2ccd605a406ca21ed6fcb2171af2"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678426183021.625,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_64f2e0c1169d4eef83d4d954dc44db63","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1678443502032,"created":1678443494124,"name":"Investigations","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1678408018961.5,"_type":"request_group"},{"_id":"req_ff22d76072a241c3a3d8f7d7ba734743","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1680534726183,"created":1678994885972,"url":"{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/close","name":"Close","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\"reason\":\"This is the close reason by max.\"}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json","id":"pair_b3b659435cf14b77bded0cc87474005c"},{"id":"pair_36d23ffc465a4cc28982c48f0440d8c3","name":"Accept","value":"application/json, text/plain, */*","description":""}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678421784717.9688,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_118147a2e9954bf882384811a99195ab","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1679131686163,"created":1678443523796,"url":"{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/approve","name":"Approve","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"partIds\": {{ _.assetId }},\n\"description\":\"test\"}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json","id":"pair_b3b659435cf14b77bded0cc87474005c"},{"id":"pair_36d23ffc465a4cc28982c48f0440d8c3","name":"Accept","value":"application/json, text/plain, */*","description":""}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678417386414.3125,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_be2698bf2c8b4db69eb002cbe14adf5c","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1678954712888,"created":1678372844863,"url":"{{ _.baseUrl }}/api/investigations/received?page=0&size=5","name":"Received","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678408589807,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_e79c092cb74b43a7a696dae5f745ed67","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1678954718656,"created":1678444754820,"url":"{{ _.baseUrl }}/api/investigations/created?page=0&size=20","name":"Created","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678390691884.375,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_a7be480859434dcf8a9118bca75a0a9a","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1678954727074,"created":1678456288470,"url":"{{ _.baseUrl }}/api/investigations/80","name":"InvestigationById","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678381742923.0625,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_4b2db39ef39d493282d3d2c737fe0111","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1684243804289,"created":1678444421749,"url":"{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update","name":"Acknowledge (Takes Id from Received)","description":"","method":"POST","body":{"mimeType":"application/json","text":"{ \n\t\"reason\": \"\",  \n\t\"status\": \"ACKNOWLEDGED\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678372793961.75,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_a6efb6cfb715412f924719a509c5e428","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1683294270125,"created":1678893031171,"url":"{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update","name":"Accepted (Takes Id from Received)","description":"","method":"POST","body":{"mimeType":"application/json","text":"{ \n  \"reason\":\"{% now 'iso-8601', '' %}-accepted-by-max\",\n\t\"status\": \"ACCEPTED\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678372755908.3125,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_144b57f6ba2c4da1ab606e1322faa765","parentId":"fld_64f2e0c1169d4eef83d4d954dc44db63","modified":1678893251921,"created":1678893088697,"url":"{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update","name":"Declined (Takes Id from Received)","description":"","method":"POST","body":{"mimeType":"application/json","text":"{ \n  \"reason\":\"{% now 'iso-8601', '' %}-declined-by-max\",\n\t\"status\": \"DECLINED\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678372736881.5938,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_805129cf416647eca003e07f41591c1c","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685433959143,"created":1685433509004,"url":"{{ _.baseUrl }}/api/alerts","name":"Create","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"partIds\": {{ _.assetId }},\n  \"description\":\"{% now 'iso-8601', '' %}-requested-by-max\",\n\t\"severity\": \"LIFE-THREATENING\",\n  \"targetDate\": \"2024-02-04T13:48:54Z\" \n}"},"parameters":[],"headers":[{"name":"authority","value":"traceability.dev.demo.catena-x.net","id":"pair_dc7bb20cc17c4f7fb50fa286d6d657e8"},{"name":"accept","value":"application/json, text/plain, */*","id":"pair_d9d500857d164605903cbd2d2a277971"},{"name":"accept-language","value":"de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7","id":"pair_d32282df29524f8fad00dbfbc96e48e2"},{"name":"access","value":"application/json","id":"pair_cc17f507446943c48b486380cd749238"},{"name":"content-type","value":"application/json","id":"pair_d6cbe8ea35de4df285bbfedb6fd1e564"},{"name":"origin","value":"https://traceability-portal.dev.demo.catena-x.net","id":"pair_4aefeb69f30443a0adf9e010794ccf1b"},{"name":"referer","value":"https://traceability-portal.dev.demo.catena-x.net/","id":"pair_a53c45fdeb1941e3bbc349bcea22e82c"},{"name":"sec-ch-ua","value":"\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"","id":"pair_6b261299b5cc400ab58c3769aa7d019e"},{"name":"sec-ch-ua-mobile","value":"?0","id":"pair_1545e26232144e8d90e266475d839866"},{"name":"sec-ch-ua-platform","value":"\"Windows\"","id":"pair_03bff76c5bc74e51a8dd942d50cf6007"},{"name":"sec-fetch-dest","value":"empty","id":"pair_534ac4a137d64410b39436125a79ad43"},{"name":"sec-fetch-mode","value":"cors","id":"pair_1e734755f88d45e4bbac284ed7a25b1b"},{"name":"sec-fetch-site","value":"same-site","id":"pair_c5394aea2dbb428ea723b97faa54d467"},{"name":"user-agent","value":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36","id":"pair_f1ac2ccd605a406ca21ed6fcb2171af2"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678426183021.625,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_aff3652526b24bab9b6af018375bcc19","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1685433508994,"created":1685433508994,"name":"Alerts","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1678408018936.5,"_type":"request_group"},{"_id":"req_cff15bb28adf4b3ba4c558a61c85efd6","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685433968163,"created":1685433509021,"url":"{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/close","name":"Close","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\"reason\":\"This is the close reason by max.\"}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json","id":"pair_b3b659435cf14b77bded0cc87474005c"},{"id":"pair_36d23ffc465a4cc28982c48f0440d8c3","name":"Accept","value":"application/json, text/plain, */*","description":""}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678421784717.9688,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_b6d819ee2e734cd0a4d1b034132095d5","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685433979823,"created":1685433509002,"url":"{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/approve","name":"Approve","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"partIds\": {{ _.assetId }},\n\"description\":\"test\"}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json","id":"pair_b3b659435cf14b77bded0cc87474005c"},{"id":"pair_36d23ffc465a4cc28982c48f0440d8c3","name":"Accept","value":"application/json, text/plain, */*","description":""}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678417386414.3125,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_fd2e663044ef4889bb43e56da4547c3b","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685433986433,"created":1685433508998,"url":"{{ _.baseUrl }}/api/alerts/received?page=0&size=5","name":"Received","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678408589807,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_e733ecbd87e44f23a715d63735018a1d","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685433994217,"created":1685433509009,"url":"{{ _.baseUrl }}/api/alerts/created?page=0&size=20","name":"Created","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678390691884.375,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_ab7db9a22d0a4feead7b64059ffd42bf","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685434016675,"created":1685433509011,"url":"{{ _.baseUrl }}/api/alerts/80","name":"AlertById","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678381742923.0625,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_742b0a32b3f0478988a56209d2693ef8","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685434026411,"created":1685433509007,"url":"{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update","name":"Acknowledge (Takes Id from Received)","description":"","method":"POST","body":{"mimeType":"application/json","text":"{ \n\t\"reason\": \"\",  \n\t\"status\": \"ACKNOWLEDGED\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678372793961.75,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_a60f68eda26f4691b41b22721dd75b60","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685434030696,"created":1685433509014,"url":"{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update","name":"Accepted (Takes Id from Received)","description":"","method":"POST","body":{"mimeType":"application/json","text":"{ \n  \"reason\":\"{% now 'iso-8601', '' %}-accepted-by-max\",\n\t\"status\": \"ACCEPTED\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678372755908.3125,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_3979a51169a14b6582ec236407e14668","parentId":"fld_aff3652526b24bab9b6af018375bcc19","modified":1685434034757,"created":1685433509016,"url":"{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update","name":"Declined (Takes Id from Received)","description":"","method":"POST","body":{"mimeType":"application/json","text":"{ \n  \"reason\":\"{% now 'iso-8601', '' %}-declined-by-max\",\n\t\"status\": \"DECLINED\"\n}"},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678372736881.5938,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_40c2639e54f945ca8b13486f9333c796","parentId":"fld_f22613a6dfad4f4ab9b75cc5e56873a2","modified":1684742067490,"created":1684742067490,"url":"{{ _.baseUrl }}/api/assets/sync","name":"Sync","description":"","method":"POST","body":{"mimeType":"application/json","text":"{\n\t\"globalAssetIds\": [\"urn:uuid:6d9be5cc-6eff-47f8-bcc6-f6c639c932cf\"]\n}"},"parameters":[],"headers":[{"name":"authority","value":"traceability.dev.demo.catena-x.net","id":"pair_dc7bb20cc17c4f7fb50fa286d6d657e8"},{"name":"accept","value":"application/json, text/plain, */*","id":"pair_d9d500857d164605903cbd2d2a277971"},{"name":"accept-language","value":"de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7","id":"pair_d32282df29524f8fad00dbfbc96e48e2"},{"name":"access","value":"application/json","id":"pair_cc17f507446943c48b486380cd749238"},{"name":"content-type","value":"application/json","id":"pair_d6cbe8ea35de4df285bbfedb6fd1e564"},{"name":"origin","value":"https://traceability-portal.dev.demo.catena-x.net","id":"pair_4aefeb69f30443a0adf9e010794ccf1b"},{"name":"referer","value":"https://traceability-portal.dev.demo.catena-x.net/","id":"pair_a53c45fdeb1941e3bbc349bcea22e82c"},{"name":"sec-ch-ua","value":"\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"","id":"pair_6b261299b5cc400ab58c3769aa7d019e"},{"name":"sec-ch-ua-mobile","value":"?0","id":"pair_1545e26232144e8d90e266475d839866"},{"name":"sec-ch-ua-platform","value":"\"Windows\"","id":"pair_03bff76c5bc74e51a8dd942d50cf6007"},{"name":"sec-fetch-dest","value":"empty","id":"pair_534ac4a137d64410b39436125a79ad43"},{"name":"sec-fetch-mode","value":"cors","id":"pair_1e734755f88d45e4bbac284ed7a25b1b"},{"name":"sec-fetch-site","value":"same-site","id":"pair_c5394aea2dbb428ea723b97faa54d467"},{"name":"user-agent","value":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36","id":"pair_f1ac2ccd605a406ca21ed6fcb2171af2"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678423983869.7969,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"fld_f22613a6dfad4f4ab9b75cc5e56873a2","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1684742067475,"created":1684742067475,"name":"Assets","description":"","environment":{},"environmentPropertyOrder":null,"metaSortKey":-1678408018911.5,"_type":"request_group"},{"_id":"req_75d0365d59c148c0adff771040767285","parentId":"fld_f22613a6dfad4f4ab9b75cc5e56873a2","modified":1684837692104,"created":1684742067524,"url":"{{ _.baseUrl }}/api/registry/reload","name":"RegistryReload","description":"","method":"GET","body":{},"parameters":[],"headers":[{"name":"authority","value":"traceability.dev.demo.catena-x.net","id":"pair_dc7bb20cc17c4f7fb50fa286d6d657e8"},{"name":"accept","value":"application/json, text/plain, */*","id":"pair_d9d500857d164605903cbd2d2a277971"},{"name":"accept-language","value":"de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7","id":"pair_d32282df29524f8fad00dbfbc96e48e2"},{"name":"access","value":"application/json","id":"pair_cc17f507446943c48b486380cd749238"},{"name":"origin","value":"https://traceability-portal.dev.demo.catena-x.net","id":"pair_4aefeb69f30443a0adf9e010794ccf1b"},{"name":"referer","value":"https://traceability-portal.dev.demo.catena-x.net/","id":"pair_a53c45fdeb1941e3bbc349bcea22e82c"},{"name":"sec-ch-ua","value":"\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"","id":"pair_6b261299b5cc400ab58c3769aa7d019e"},{"name":"sec-ch-ua-mobile","value":"?0","id":"pair_1545e26232144e8d90e266475d839866"},{"name":"sec-ch-ua-platform","value":"\"Windows\"","id":"pair_03bff76c5bc74e51a8dd942d50cf6007"},{"name":"sec-fetch-dest","value":"empty","id":"pair_534ac4a137d64410b39436125a79ad43"},{"name":"sec-fetch-mode","value":"cors","id":"pair_1e734755f88d45e4bbac284ed7a25b1b"},{"name":"sec-fetch-site","value":"same-site","id":"pair_c5394aea2dbb428ea723b97faa54d467"},{"name":"user-agent","value":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36","id":"pair_f1ac2ccd605a406ca21ed6fcb2171af2"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678423983819.7969,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_12d7fdb2a72e4a8281c887866f369d86","parentId":"fld_f22613a6dfad4f4ab9b75cc5e56873a2","modified":1684742067560,"created":1684742067560,"url":"{{ _.baseUrl }}/api/assets","name":"Assets","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678423983769.7969,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_5d6e8d7a06d2406983dca42e873c8b8b","parentId":"fld_f22613a6dfad4f4ab9b75cc5e56873a2","modified":1684742067595,"created":1684742067595,"url":"{{ _.baseUrl }}/api/assets?owner=SUPPLIER","name":"SupplierAssets","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678423434006.8398,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"req_490678ba4db8416ba0f897bb432b2ee6","parentId":"fld_f22613a6dfad4f4ab9b75cc5e56873a2","modified":1684742067633,"created":1684742067633,"url":"{{ _.baseUrl }}/api/assets/urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpna","name":"AssetById","description":"","method":"GET","body":{"mimeType":"application/json","text":""},"parameters":[],"headers":[{"name":"Content-Type","value":"application/json"}],"authentication":{"type":"bearer","token":"{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}","prefix":"Bearer"},"metaSortKey":-1678423159125.3613,"isPrivate":false,"settingStoreCookies":true,"settingSendCookies":true,"settingDisableRenderRequestBody":false,"settingEncodeUrl":true,"settingRebuildPath":true,"settingFollowRedirects":"global","_type":"request"},{"_id":"env_3fac2e0c4dab42e5a8a1089f92b7afd5","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1685433917125,"created":1678372423794,"name":"Base Environment","data":{"base_url_portal_int":"https://portal-backend.int.demo.catena-x.net","baseUrlEdcConsumerTest":"https://tracex-test-consumer-controlplane.dev.demo.catena-x.net","baseUrlEdcConsumerDev":"https://tracex-consumer-controlplane.dev.demo.catena-x.net","registryBaseDevTest":"https://trace-x-registry.dev.demo.catena-x.net","base_url_central_idp_global":"https://centralidp.int.demo.catena-x.net","base_url_registry_e2e":"https://trace-x-registry-e2e.dev.demo.catena-x.net","baseUrl":"t"},"dataPropertyOrder":{"&":["base_url_portal_int","baseUrlEdcConsumerTest","baseUrlEdcConsumerDev","registryBaseDevTest","base_url_central_idp_global","base_url_registry_e2e","baseUrl"]},"color":null,"isPrivate":false,"metaSortKey":1678372423794,"_type":"environment"},{"_id":"jar_2f36bf59484d4ac18599c7928b851988","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1684837673759,"created":1678372423801,"name":"Default Jar","cookies":[{"key":"KC_RESTART","expires":"1970-01-01T00:00:10.000Z","maxAge":0,"domain":"centralidp.dev.demo.catena-x.net","path":"/auth/realms/CX-Central/","httpOnly":true,"extensions":["Version=1"],"hostOnly":true,"creation":"2023-03-28T07:01:57.266Z","lastAccessed":"2023-05-23T10:27:53.759Z","id":"4448610257045307"},{"key":"KC_RESTART","expires":"1970-01-01T00:00:10.000Z","maxAge":0,"domain":"centralidp.int.demo.catena-x.net","path":"/auth/realms/CX-Central/","httpOnly":true,"extensions":["Version=1"],"hostOnly":true,"creation":"2023-04-04T08:16:29.897Z","lastAccessed":"2023-05-23T10:26:49.953Z","id":"22163554440435917"},{"key":"rack.session","value":"8ebba2ae37dff827f137b1674408ce3cc715cde1161922859ae23b0858f925f5","domain":"daps1.int.demo.catena-x.net","path":"/","secure":true,"httpOnly":true,"hostOnly":true,"creation":"2023-04-17T11:58:39.065Z","lastAccessed":"2023-05-04T18:43:59.102Z","id":"31512619273287923"}],"_type":"cookie_jar"},{"_id":"spc_c9eb5ebc427a44e3be255da3830d9479","parentId":"wrk_fe9d35ca8e834b788edd23a0f825618a","modified":1685433372453,"created":1685433372453,"fileName":"Untitled","contents":"","contentType":"yaml","_type":"api_spec"},{"_id":"env_2e2ba9ac6c7145b68e5afaba28fe486f","parentId":"env_3fac2e0c4dab42e5a8a1089f92b7afd5","modified":1685433871150,"created":1685433851683,"name":"New Environment","data":{"base_Url":"t"},"dataPropertyOrder":{"&":["base_Url"]},"color":null,"isPrivate":false,"metaSortKey":1685433851683,"_type":"environment"}]}
+{
+  "_type" : "export",
+  "__export_format" : 4,
+  "__export_date" : "2023-06-01T14:23:44.016Z",
+  "__export_source" : "insomnia.desktop.app:v2023.2.2",
+  "resources" : [
+    {
+      "_id" : "req_b64549adef2e4d5691db55fe0300777e",
+      "parentId" : "fld_e4c20952b4984d53a6d16a13c9224db8",
+      "modified" : 1684742069277,
+      "created" : 1684742069277,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_submodelserver }}/resource?group=apps&force=false&orphan=false",
+      "name" : "Delete Deployment submodelservers",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_submodelserver_deployment_submodelservers }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "Deployment",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684251623152.5,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_e4c20952b4984d53a6d16a13c9224db8",
+      "parentId" : "fld_0f2e8223d85444d29ef716d4211d05a4",
+      "modified" : 1684742069262,
+      "created" : 1684742069262,
+      "name" : "DELETE",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684251623165,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "fld_0f2e8223d85444d29ef716d4211d05a4",
+      "parentId" : "fld_172d09282f564acba3c08eca5fc80bd1",
+      "modified" : 1684742069248,
+      "created" : 1684742069248,
+      "name" : "Submodelserver",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684247658657,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "fld_172d09282f564acba3c08eca5fc80bd1",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1684742068376,
+      "created" : 1684742068376,
+      "name" : "Argo",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684230480867,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "parentId" : null,
+      "modified" : 1685448305900,
+      "created" : 1685448305900,
+      "name" : "tracex-v2",
+      "description" : "",
+      "scope" : "design",
+      "_type" : "workspace"
+    },
+    {
+      "_id" : "req_9bb317e3eef9460f9257ff5ce4911b23",
+      "parentId" : "fld_0f2e8223d85444d29ef716d4211d05a4",
+      "modified" : 1684742069321,
+      "created" : 1684742069321,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_submodelserver }}/sync",
+      "name" : "Sync Submodelserver",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"appNamespace\": \"argocd\",\n\t\"revision\": \"helm-environments\",\n\t\"prune\": true,\n\t\"dryRun\": false,\n\t\"strategy\": {\n\t\t\"hook\": {\n\t\t\t\"force\": false\n\t\t}\n\t},\n\t\"resources\": null,\n\t\"syncOptions\": {\n\t\t\"items\": [\n\t\t\t\"Replace=true\"\n\t\t]\n\t}\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684251623115,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_68d7cfd5ae4d47dcb7c9c4e516b69e7f",
+      "parentId" : "fld_f554ccf2b02c45559dab553369c3898e",
+      "modified" : 1684742068887,
+      "created" : 1684742068887,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?force=false&orphan=false",
+      "name" : "Delete PVC backend",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_tracex_instance_pvc_backend }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "PersistentVolumeClaim",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443484,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_f554ccf2b02c45559dab553369c3898e",
+      "parentId" : "fld_fa0c277237fd4a50834583ba7e3ced73",
+      "modified" : 1684742068871,
+      "created" : 1684742068871,
+      "name" : "DELETE",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684230581328.5,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "fld_fa0c277237fd4a50834583ba7e3ced73",
+      "parentId" : "fld_172d09282f564acba3c08eca5fc80bd1",
+      "modified" : 1685526235160,
+      "created" : 1684742068857,
+      "name" : "Trace-X Instance",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684230585004,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_50c5dcf1c22947de8d2785fdb546081f",
+      "parentId" : "fld_f554ccf2b02c45559dab553369c3898e",
+      "modified" : 1685618160654,
+      "created" : 1685617832536,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?group=apps&force=true&orphan=false",
+      "name" : "Delete STS backend",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_tracex_instance_sts_backend }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "StatefulSet",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443477.75,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_5e0677cd1f89421f834f94b04d9ec41e",
+      "parentId" : "fld_f554ccf2b02c45559dab553369c3898e",
+      "modified" : 1685620818413,
+      "created" : 1684742068996,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?force=false&orphan=false",
+      "name" : "Delete PVC consumer-edc",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_tracex_instance_pvc_consumer_edc }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "PersistentVolumeClaim",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443476.1875,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_06168dc5b1be4d958875659677ad75d9",
+      "parentId" : "fld_f554ccf2b02c45559dab553369c3898e",
+      "modified" : 1685618307141,
+      "created" : 1685618196329,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?group=apps&force=true&orphan=false",
+      "name" : "Delete STS consumer edc postgresql",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_tracex_instance_sts_edc_consumer_postgresql }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "StatefulSet",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443474.625,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_4c14e436c45e473dab46c1859a5bad23",
+      "parentId" : "fld_f554ccf2b02c45559dab553369c3898e",
+      "modified" : 1684742068960,
+      "created" : 1684742068960,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?group=apps&force=false&orphan=false",
+      "name" : "Delete Deployment backend",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_tracex_instance_deployment_backend }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "Deployment",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443384,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_68120cff7723496985478a8cec8505b2",
+      "parentId" : "fld_f554ccf2b02c45559dab553369c3898e",
+      "modified" : 1684742069102,
+      "created" : 1684742069102,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?group=apps&force=false&orphan=false",
+      "name" : "Delete Deployment consumer-controlplane",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_tracex_instance_deployment_consumer_controlplane }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "Deployment",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684233534865,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_fe2eb89ac95f4be888ed08768d99d038",
+      "parentId" : "fld_f554ccf2b02c45559dab553369c3898e",
+      "modified" : 1684742069139,
+      "created" : 1684742069139,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/resource?group=apps&force=true&orphan=false",
+      "name" : "Delete Deployment consumer-dataplane",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_tracex_instance_deployment_consumer_dataplane }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "Deployment",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684232080605.5,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_b0a7177cce524541b270c037af8b1672",
+      "parentId" : "fld_fa0c277237fd4a50834583ba7e3ced73",
+      "modified" : 1684742069212,
+      "created" : 1684742069212,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_tracex_instance }}/sync",
+      "name" : "Sync Trace-X Instance",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"appNamespace\": \"argocd\",\n\t\"revision\": \"main\",\n\t\"prune\": true,\n\t\"dryRun\": false,\n\t\"strategy\": {\n\t\t\"hook\": {\n\t\t\t\"force\": false\n\t\t}\n\t},\n\t\"resources\": null,\n\t\"syncOptions\": {\n\t\t\"items\": [\n\t\t\t\"Replace=true\"\n\t\t]\n\t}\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684230581278.5,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_940b712a442849c4b6eb90d27125ed44",
+      "parentId" : "fld_4ce7d0602bcf454ca0c07420ce277ade",
+      "modified" : 1685620205482,
+      "created" : 1684742068709,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource?force=false&orphan=false",
+      "name" : "Delete PVC postgresql",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_edc_provider_pvc_postgresql_resourcename }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "PersistentVolumeClaim",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684217020514.838,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_4ce7d0602bcf454ca0c07420ce277ade",
+      "parentId" : "fld_2e299055ad4e486d9aa1ecd77711f287",
+      "modified" : 1684742068621,
+      "created" : 1684742068621,
+      "name" : "DELETE",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684230626396,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "fld_2e299055ad4e486d9aa1ecd77711f287",
+      "parentId" : "fld_172d09282f564acba3c08eca5fc80bd1",
+      "modified" : 1684742068599,
+      "created" : 1684742068599,
+      "name" : "EDC Provider",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684230526196,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_2b31ed276f7e4e26beba96b506e260e6",
+      "parentId" : "fld_4ce7d0602bcf454ca0c07420ce277ade",
+      "modified" : 1685629119893,
+      "created" : 1685620198601,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource?group=apps&force=true&orphan=false",
+      "name" : "Delete STS backend",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_edc_provider_sts }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "StatefulSet",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684212938049.9893,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_c0bf54b04a8646a8b93ec47d180a211f",
+      "parentId" : "fld_4ce7d0602bcf454ca0c07420ce277ade",
+      "modified" : 1684742068636,
+      "created" : 1684742068636,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource?group=apps&force=false&orphan=false",
+      "name" : "Delete Deployment edc-controlpane",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_edc_provider_controlplane_resourcename }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "Deployment",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684208855585.1406,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_51ef141e27314c78b548fe15410bcb03",
+      "parentId" : "fld_4ce7d0602bcf454ca0c07420ce277ade",
+      "modified" : 1684742068673,
+      "created" : 1684742068673,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource?group=apps&force=false&orphan=false",
+      "name" : "Delete Deployment edc-dataplane",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_edc_provider_dataplane_resourcename }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "Deployment",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684195791697.625,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_13dfb2c6a3f1491e87a4ec9834e7cb3b",
+      "parentId" : "fld_2e299055ad4e486d9aa1ecd77711f287",
+      "modified" : 1685449041566,
+      "created" : 1684742068819,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/resource-tree",
+      "name" : "Health Check EDC Provider",
+      "description" : "### PVCs Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J1BlcnNpc3RlbnRWb2x1bWVDbGFpbScpXS5oZWFsdGguc3RhdHVz::46b', 'never', 60 %}*\n\n### Pods Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J1BvZCcpXS5oZWFsdGguc3RhdHVz::46b', 'never', 60 %}*\n\n### Deployments Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J0RlcGxveW1lbnQnKV0uaGVhbHRoLnN0YXR1cw==::46b', 'never', 60 %}*\n",
+      "method" : "GET",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684230626346,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_afe3a19164ca4c86b9a6343289971dde",
+      "parentId" : "fld_2e299055ad4e486d9aa1ecd77711f287",
+      "modified" : 1684742068785,
+      "created" : 1684742068785,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_edc_provider }}/sync",
+      "name" : "Sync EDC Provider",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"appNamespace\": \"argocd\",\n\t\"revision\": \"helm-environments\",\n\t\"prune\": true,\n\t\"dryRun\": false,\n\t\"strategy\": {\n\t\t\"hook\": {\n\t\t\t\"force\": false\n\t\t}\n\t},\n\t\"resources\": null,\n\t\"syncOptions\": {\n\t\t\"items\": [\n\t\t\t\"Replace=true\"\n\t\t]\n\t}\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684230626296,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_f71244bd9ee943b8b42f7228b2f4e69a",
+      "parentId" : "fld_6970951b3fef4025ac4c41654e077d32",
+      "modified" : 1685629115275,
+      "created" : 1684742068418,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_registry }}/resource?force=false&orphan=false",
+      "name" : "Delete PVC postgresql",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_registry_pvc_postgresql_resourcename }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "PersistentVolumeClaim",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443466.8125,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_6970951b3fef4025ac4c41654e077d32",
+      "parentId" : "fld_4b5cea39a9394a19b43fdc516352342d",
+      "modified" : 1684742068403,
+      "created" : 1684742068403,
+      "name" : "DELETE",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684236443509,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "fld_4b5cea39a9394a19b43fdc516352342d",
+      "parentId" : "fld_172d09282f564acba3c08eca5fc80bd1",
+      "modified" : 1684742068390,
+      "created" : 1684742068390,
+      "name" : "Registry",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1684230502059,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_217da56a4d0e45d88a28ae325027e2ff",
+      "parentId" : "fld_6970951b3fef4025ac4c41654e077d32",
+      "modified" : 1685629116857,
+      "created" : 1685618414019,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_registry }}/resource?group=apps&force=true&orphan=false",
+      "name" : "Delete STS backend",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_registry_sts }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "StatefulSet",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443425.4062,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_1ab94f946bd141d8985c1b9afb34f478",
+      "parentId" : "fld_6970951b3fef4025ac4c41654e077d32",
+      "modified" : 1684742068488,
+      "created" : 1684742068488,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_registry }}/resource?group=apps&force=false&orphan=false",
+      "name" : "Delete Deployment cx-registry",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [
+        {
+          "id" : "pair_3e8424fd92d84a758c7a6fbbc275e3c9",
+          "name" : "resourceName",
+          "value" : "{{ _.argo_registry_deployment_registry_resourcename }}",
+          "description" : ""
+        },
+        {
+          "id" : "pair_41bcbeecbc064c53a03abff4162ab5ec",
+          "name" : "version",
+          "value" : "v1",
+          "description" : ""
+        },
+        {
+          "id" : "pair_fa9af878fc574f27b05f9f3c95804c82",
+          "name" : "kind",
+          "value" : "Deployment",
+          "description" : ""
+        },
+        {
+          "id" : "pair_2a2765277f564bb48c1d941d4d0b5c73",
+          "name" : "namespace",
+          "value" : "product-traceability-foss",
+          "description" : ""
+        }
+      ],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443384,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_8e84bc191c7b4b278036437323448247",
+      "parentId" : "fld_4b5cea39a9394a19b43fdc516352342d",
+      "modified" : 1684742068527,
+      "created" : 1684742068527,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_registry }}/resource-tree",
+      "name" : "Health Check Registry",
+      "description" : "### PVCs Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J1BlcnNpc3RlbnRWb2x1bWVDbGFpbScpXS5oZWFsdGguc3RhdHVz::46b', 'never', 60 %}*\n\n### Pods Health Status -> *{% response 'body', 'req_a3a1197b0b0448aa87918ffb87b15d06', 'b64::JC5ub2Rlc1s/KEAua2luZD09J1BvZCcpXS5oZWFsdGguc3RhdHVz::46b', 'never', 60 %}*\n\n### Deployments Health Status -> *{% response 'body', 'req_a55219333dba47cd867953e88d7f28fd', 'b64::JC5ub2Rlc1s/KEAua2luZD09J0RlcGxveW1lbnQnKV0uaGVhbHRoLnN0YXR1cw==::46b', 'never', 60 %}*\n",
+      "method" : "GET",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443459,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_cac4a3ad540c44b3abd4a1bfa37c4f6a",
+      "parentId" : "fld_4b5cea39a9394a19b43fdc516352342d",
+      "modified" : 1684742068563,
+      "created" : 1684742068563,
+      "url" : "{{ _.argo_url }}/applications/{{ _.argo_registry }}/sync",
+      "name" : "Sync Registry",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"appNamespace\": \"argocd\",\n\t\"revision\": \"helm-environments\",\n\t\"prune\": true,\n\t\"dryRun\": false,\n\t\"strategy\": {\n\t\t\"hook\": {\n\t\t\t\"force\": false\n\t\t}\n\t},\n\t\"resources\": null,\n\t\"syncOptions\": {\n\t\t\"items\": [\n\t\t\t\"Replace=true\"\n\t\t]\n\t}\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{{ _.argo_access_token }}"
+      },
+      "metaSortKey" : -1684236443409,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_bd6ee8cced224ee280c4d3241b28143b",
+      "parentId" : "fld_87330fb36e814e25907a9c5f88ea0d74",
+      "modified" : 1684742068304,
+      "created" : 1684742068304,
+      "url" : "{{ _.baseUrl }}/api/edc/notification/contract",
+      "name" : "CreateNotificationContract Receive",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\"notificationType\": \"QUALITY_INVESTIGATION\", \"notificationMethod\": \"RECEIVE\"\n}\n"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "id" : "pair_e91fcc496b5744beb35d556b287863c3",
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "description" : "",
+          "disabled" : false
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678423983844.7969,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_87330fb36e814e25907a9c5f88ea0d74",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1684742068288,
+      "created" : 1684742068288,
+      "name" : "Trace-X Contracts",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1683225816817,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_9229f2ea4dc74ada88c9072c8b4f2b05",
+      "parentId" : "fld_87330fb36e814e25907a9c5f88ea0d74",
+      "modified" : 1684742068339,
+      "created" : 1684742068339,
+      "url" : "{{ _.baseUrl }}/api/edc/notification/contract",
+      "name" : "CreateNotificationContract Update",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\"notificationType\" : \"QUALITY_INVESTIGATION\", \"notificationMethod\" : \"UPDATE\"}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "id" : "pair_7751eec7ba734c80930d24c87da5d114",
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "description" : ""
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678423983794.7969,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_0d2bbc51091f445193989d7eb019f8fd",
+      "parentId" : "fld_0ae28c07dda448cf85f05e821bd98ebc",
+      "modified" : 1682686487577,
+      "created" : 1682514812813,
+      "url" : "{{ _.baseUrl }}/api/bpn-config",
+      "name" : "FindAll",
+      "description" : "",
+      "method" : "GET",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1682514812813,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_0ae28c07dda448cf85f05e821bd98ebc",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1682514811574,
+      "created" : 1681728488551,
+      "name" : "BPN-Mapping",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1681728488551,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_4e80ea406a2a4d36af45e3749fb65554",
+      "parentId" : "fld_0ae28c07dda448cf85f05e821bd98ebc",
+      "modified" : 1684829268483,
+      "created" : 1682686509302,
+      "url" : "{{ _.baseUrl }}/api/bpn-config/BPNL00000003CNKC",
+      "name" : "DeleteById",
+      "description" : "",
+      "method" : "DELETE",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1682473292686.25,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_df4f5f5b44bc49879f1079057d82293c",
+      "parentId" : "fld_0ae28c07dda448cf85f05e821bd98ebc",
+      "modified" : 1684829274393,
+      "created" : 1682686495654,
+      "url" : "{{ _.baseUrl }}/api/bpn-config",
+      "name" : "SaveAll",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "[\n\t{\n\t\t\"bpn\": \"BPNL00000003CML1\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net\"\n\t},\n\t{\n\t\t\"bpn\": \"BPNL00000003CNKC\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net\"\n\t}\n]"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1682431772559.5,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_8c4aa01da3b1453785e308e2b3337449",
+      "parentId" : "fld_0ae28c07dda448cf85f05e821bd98ebc",
+      "modified" : 1684828752059,
+      "created" : 1682686503749,
+      "url" : "{{ _.baseUrl }}/api/bpn-config",
+      "name" : "UpdateAll",
+      "description" : "",
+      "method" : "PUT",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "[\n\t{\n\t\t\"bpn\": \"BPNL00000003CML1\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net\"\n\t},\n\t{\n\t\t\"bpn\": \"BPNL00000003CNKC\",\n\t\t\"url\": \"https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net\"\n\t}\n]"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'always', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1682390252432.75,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_1d793794104d4c0c8c203e18ed1b7272",
+      "parentId" : "fld_85ff4a62f6954f3bb96d63d0422acf49",
+      "modified" : 1684742068094,
+      "created" : 1684742068094,
+      "url" : "{{ _.registry }}/semantics/registry/registry/shell-descriptors",
+      "name" : "RetrieveShellDescriptors",
+      "description" : "",
+      "method" : "GET",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [],
+      "authentication" : {},
+      "metaSortKey" : -1681385637898,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_85ff4a62f6954f3bb96d63d0422acf49",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1684742068077,
+      "created" : 1684742068077,
+      "name" : "DT-Registry",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1681385636476,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_731bd9dd9fe64c0eb66111196bb0749e",
+      "parentId" : "fld_2b146671f9a34eaeabcec303a9b491f1",
+      "modified" : 1684095037067,
+      "created" : 1682348732306,
+      "url" : "{{ _.baseUrlEdcConsumerDev }}/api/v1/management/catalog/request",
+      "name" : "Catalog",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"providerUrl\": \"https://trace-x-test-edc.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n\t\n}\n\n\n"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "x-api-key",
+          "value" : "{{ _.edc_api_auth_key_dev }}",
+          "id" : "pair_6838a24d992a44e4bad61636766ca65d"
+        },
+        {
+          "id" : "pair_fb11ac85a34246c5b6a8988b9ec55a71",
+          "name" : "content-type",
+          "value" : "application/json",
+          "description" : ""
+        },
+        {
+          "id" : "pair_b9a20d0b01584ebe911b160d8b375edc",
+          "name" : "accept",
+          "value" : "\"/\"",
+          "description" : "",
+          "disabled" : true
+        }
+      ],
+      "authentication" : {},
+      "metaSortKey" : -1682348732306,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_2b146671f9a34eaeabcec303a9b491f1",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1681306081567,
+      "created" : 1681306081567,
+      "name" : "EDC",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1681306081567,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_74d45a2d11754712b5a67f851eb722a7",
+      "parentId" : "fld_2b146671f9a34eaeabcec303a9b491f1",
+      "modified" : 1684161564403,
+      "created" : 1683225997187,
+      "url" : "https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net/api/v1/management/catalog/request",
+      "name" : "Catalog_with_filter_assetId",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"providerUrl\": \"https://trace-x-edc-e2e-b.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n\t\n}\n\n\n"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "x-api-key",
+          "value" : "{{ _.edc_api_auth_key_dev }}",
+          "id" : "pair_6838a24d992a44e4bad61636766ca65d"
+        },
+        {
+          "id" : "pair_fb11ac85a34246c5b6a8988b9ec55a71",
+          "name" : "content-type",
+          "value" : "application/json",
+          "description" : ""
+        },
+        {
+          "id" : "pair_b9a20d0b01584ebe911b160d8b375edc",
+          "name" : "accept",
+          "value" : "\"/\"",
+          "description" : "",
+          "disabled" : true
+        }
+      ],
+      "authentication" : {},
+      "metaSortKey" : -1682107958704,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_bc978b35564843be8c8a4efed534192a",
+      "parentId" : "fld_2b146671f9a34eaeabcec303a9b491f1",
+      "modified" : 1684755758280,
+      "created" : 1683553577783,
+      "url" : "https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net/api/v1/management/catalog/request",
+      "name" : "Catalog_E2E-A-to-E2E-B",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"providerUrl\": \"https://trace-x-edc-e2e-b.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n}\n\n\n"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "x-api-key",
+          "value" : "{{ _.edc_api_auth_key_dev }}",
+          "id" : "pair_6838a24d992a44e4bad61636766ca65d"
+        },
+        {
+          "id" : "pair_fb11ac85a34246c5b6a8988b9ec55a71",
+          "name" : "content-type",
+          "value" : "application/json",
+          "description" : ""
+        },
+        {
+          "id" : "pair_b9a20d0b01584ebe911b160d8b375edc",
+          "name" : "accept",
+          "value" : "\"/\"",
+          "description" : "",
+          "disabled" : true
+        }
+      ],
+      "authentication" : {},
+      "metaSortKey" : -1681626411500,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_a3913f21b406474f9603a37fdcf3e966",
+      "parentId" : "fld_2b146671f9a34eaeabcec303a9b491f1",
+      "modified" : 1684755922021,
+      "created" : 1684149834854,
+      "url" : "https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net/api/v1/management/catalog/request",
+      "name" : "Catalog_E2E-B-to-E2E-A",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"providerUrl\": \"https://trace-x-edc-e2e-a.dev.demo.catena-x.net/api/v1/ids/data\",\n\t\"querySpec\": {\n\t\t\"limit\": 1000\n\t}\n}\n\n\n"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "x-api-key",
+          "value" : "{{ _.edc_api_auth_key_dev }}",
+          "id" : "pair_6838a24d992a44e4bad61636766ca65d"
+        },
+        {
+          "id" : "pair_fb11ac85a34246c5b6a8988b9ec55a71",
+          "name" : "content-type",
+          "value" : "application/json",
+          "description" : ""
+        },
+        {
+          "id" : "pair_b9a20d0b01584ebe911b160d8b375edc",
+          "name" : "accept",
+          "value" : "\"/\"",
+          "description" : "",
+          "disabled" : true
+        }
+      ],
+      "authentication" : {},
+      "metaSortKey" : -1681506024699,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_6bac783d1c8f411d98bc448e3a051ebb",
+      "parentId" : "fld_722aeeaceb344fd088d972060909b41f",
+      "modified" : 1683727280404,
+      "created" : 1681302844788,
+      "url" : "{{ _.base_url_portal_int }}/api/administration/connectors/discovery",
+      "name" : "DiscoveryService",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "[\"BPNL00000003CNKC\"]\n\n\n"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "oauth2",
+        "grantType" : "client_credentials",
+        "accessTokenUrl" : "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token",
+        "clientId" : "{{ _.portal_client_int }}",
+        "clientSecret" : "{{ _.portal_secret_int }}"
+      },
+      "metaSortKey" : -1681302844788,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_722aeeaceb344fd088d972060909b41f",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1681302843541,
+      "created" : 1681302843541,
+      "name" : "Portal",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1681302843541,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_8067720d7f974b64802f1e0b23c35b3c",
+      "parentId" : "fld_f8c5028732cf45db9105ccdcc940484c",
+      "modified" : 1684837543458,
+      "created" : 1684742067686,
+      "url" : "{{ _.irsBaseUrl }}/irs/jobs",
+      "name" : "RegisterJob",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n     \"aspects\": [\n         \"AssemblyPartRelationship\",\n\t\t\t \"SerialPartTypization\",\n\t\t\t  \"Batch\"\n     ],\n     \"bomLifecycle\":\"asBuilt\",\n     \"collectAspects\": true,\n     \"direction\":\"downward\",\n     \"depth\":2,\n     \"globalAssetId\": \"urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22\"\n} "
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "id" : "pair_8345d381d2b244d9b948fd1245052bcd",
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "description" : ""
+        }
+      ],
+      "authentication" : {
+        "type" : "oauth2",
+        "grantType" : "client_credentials",
+        "accessTokenUrl" : "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token",
+        "clientSecret" : "{{ _.irs_client_secret_int }}",
+        "clientId" : "{{ _.client_id }}"
+      },
+      "metaSortKey" : -1681279818545,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_f8c5028732cf45db9105ccdcc940484c",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1684742067669,
+      "created" : 1684742067669,
+      "name" : "IRS",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1681225712903,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_3f5b4de679ed4df8b35063f8aec8e9cb",
+      "parentId" : "fld_f8c5028732cf45db9105ccdcc940484c",
+      "modified" : 1685624486065,
+      "created" : 1684742067728,
+      "url" : "{{ _.irsBaseUrl }}/irs/jobs/2d9c4ace-1137-4038-adc5-bbb138ee2301",
+      "name" : "GetJobDetails",
+      "description" : "",
+      "method" : "GET",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [
+        {
+          "id" : "pair_cc52c379ff4b470e95f46be30ecf8a34",
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "description" : ""
+        }
+      ],
+      "authentication" : {
+        "type" : "oauth2",
+        "grantType" : "client_credentials",
+        "clientSecret" : "{{ _.irs_client_secret }}",
+        "accessTokenUrl" : "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token",
+        "clientId" : "{{ _.client_id }}"
+      },
+      "metaSortKey" : -1680373302447.5,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_cea5fdfec453486b85f2eab8f0c45bdf",
+      "parentId" : "fld_f8c5028732cf45db9105ccdcc940484c",
+      "modified" : 1685622649986,
+      "created" : 1684742067776,
+      "url" : "{{ _.irsBaseUrl }}/irs/aspectmodels",
+      "name" : "Aspectmodels",
+      "description" : "",
+      "method" : "GET",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [
+        {
+          "id" : "pair_cc52c379ff4b470e95f46be30ecf8a34",
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "description" : ""
+        }
+      ],
+      "authentication" : {
+        "type" : "oauth2",
+        "grantType" : "client_credentials",
+        "accessTokenUrl" : "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/token",
+        "clientId" : "{{ _.client_id }}",
+        "clientSecret" : "{{ _.irs_client_secret }}"
+      },
+      "metaSortKey" : -1679920044398.75,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_9f8256f417f3410b87cc0872acd4ddd3",
+      "parentId" : "fld_755e13bbdf894d999d1ea90dd93c50e7",
+      "modified" : 1685624278285,
+      "created" : 1678889920351,
+      "url" : "{{ _.base_url_central_idp}}/auth/realms/CX-Central/protocol/openid-connect/token",
+      "name" : "RetrieveAccessToken",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/x-www-form-urlencoded",
+        "params" : [
+          {
+            "id" : "pair_56879c89b0034ed181ea9b12c85bac06",
+            "name" : "grant_type",
+            "value" : "client_credentials",
+            "description" : ""
+          },
+          {
+            "id" : "pair_9ca0b1ecf7e3466ea400f90537950e0e",
+            "name" : "client_id",
+            "value" : "{{ _.client_id }}",
+            "description" : "",
+            "disabled" : false
+          },
+          {
+            "id" : "pair_762b17f59d874af2a53a7e7afbe319f0",
+            "name" : "client_secret",
+            "value" : "{{ _.client_secret }}",
+            "description" : ""
+          }
+        ]
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/x-www-form-urlencoded"
+        }
+      ],
+      "authentication" : {
+        "type" : "apikey",
+        "disabled" : true,
+        "key" : "",
+        "value" : "",
+        "addTo" : "header"
+      },
+      "metaSortKey" : -1678372717854.875,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_755e13bbdf894d999d1ea90dd93c50e7",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1678891513163,
+      "created" : 1678891506121,
+      "name" : "Authentication",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1678891506121,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_48cc72f29ef24ef2806184dc817528d1",
+      "parentId" : "fld_755e13bbdf894d999d1ea90dd93c50e7",
+      "modified" : 1684837637566,
+      "created" : 1681225716310,
+      "url" : "{{ _.base_url_central_idp_global }}/auth/realms/CX-Central/protocol/openid-connect/certs",
+      "name" : "Cert (Int)",
+      "description" : "",
+      "method" : "GET",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [],
+      "authentication" : {},
+      "metaSortKey" : -1678372717804.875,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_32f81e1c1efd483da02d9ea2fdbb9530",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1685622610138,
+      "created" : 1678443692900,
+      "url" : "{{ _.baseUrl }}/api/investigations",
+      "name" : "Create",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"partIds\": {{ _.assetId }},\n  \"description\":\"{% now 'iso-8601', '' %}-requested-by-max\",\n\t\"severity\": \"LIFE-THREATENING\",\n  \"targetDate\": \"2024-02-04T13:48:54Z\" \n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "authority",
+          "value" : "traceability.dev.demo.catena-x.net",
+          "id" : "pair_dc7bb20cc17c4f7fb50fa286d6d657e8"
+        },
+        {
+          "name" : "accept",
+          "value" : "application/json, text/plain, */*",
+          "id" : "pair_d9d500857d164605903cbd2d2a277971"
+        },
+        {
+          "name" : "accept-language",
+          "value" : "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+          "id" : "pair_d32282df29524f8fad00dbfbc96e48e2"
+        },
+        {
+          "name" : "access",
+          "value" : "application/json",
+          "id" : "pair_cc17f507446943c48b486380cd749238"
+        },
+        {
+          "name" : "content-type",
+          "value" : "application/json",
+          "id" : "pair_d6cbe8ea35de4df285bbfedb6fd1e564"
+        },
+        {
+          "name" : "origin",
+          "value" : "https://traceability-portal.dev.demo.catena-x.net",
+          "id" : "pair_4aefeb69f30443a0adf9e010794ccf1b"
+        },
+        {
+          "name" : "referer",
+          "value" : "https://traceability-portal.dev.demo.catena-x.net/",
+          "id" : "pair_a53c45fdeb1941e3bbc349bcea22e82c"
+        },
+        {
+          "name" : "sec-ch-ua",
+          "value" : "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"",
+          "id" : "pair_6b261299b5cc400ab58c3769aa7d019e"
+        },
+        {
+          "name" : "sec-ch-ua-mobile",
+          "value" : "?0",
+          "id" : "pair_1545e26232144e8d90e266475d839866"
+        },
+        {
+          "name" : "sec-ch-ua-platform",
+          "value" : "\"Windows\"",
+          "id" : "pair_03bff76c5bc74e51a8dd942d50cf6007"
+        },
+        {
+          "name" : "sec-fetch-dest",
+          "value" : "empty",
+          "id" : "pair_534ac4a137d64410b39436125a79ad43"
+        },
+        {
+          "name" : "sec-fetch-mode",
+          "value" : "cors",
+          "id" : "pair_1e734755f88d45e4bbac284ed7a25b1b"
+        },
+        {
+          "name" : "sec-fetch-site",
+          "value" : "same-site",
+          "id" : "pair_c5394aea2dbb428ea723b97faa54d467"
+        },
+        {
+          "name" : "user-agent",
+          "value" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+          "id" : "pair_f1ac2ccd605a406ca21ed6fcb2171af2"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_9f8256f417f3410b87cc0872acd4ddd3', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678426183021.625,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1678443502032,
+      "created" : 1678443494124,
+      "name" : "Investigations",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1678408018961.5,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_c06e3658cb6346ca952b906927b0795d",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1680534726183,
+      "created" : 1678994885972,
+      "url" : "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/close",
+      "name" : "Close",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\"reason\":\"This is the close reason by max.\"}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "id" : "pair_b3b659435cf14b77bded0cc87474005c"
+        },
+        {
+          "id" : "pair_36d23ffc465a4cc28982c48f0440d8c3",
+          "name" : "Accept",
+          "value" : "application/json, text/plain, */*",
+          "description" : ""
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678421784717.9688,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_133f2155ab4b44759c0f0d00a8adc987",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1679131686163,
+      "created" : 1678443523796,
+      "url" : "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/approve",
+      "name" : "Approve",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"partIds\": {{ _.assetId }},\n\"description\":\"test\"}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "id" : "pair_b3b659435cf14b77bded0cc87474005c"
+        },
+        {
+          "id" : "pair_36d23ffc465a4cc28982c48f0440d8c3",
+          "name" : "Accept",
+          "value" : "application/json, text/plain, */*",
+          "description" : ""
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678417386414.3125,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_5d9b177576a84979b8f987abf673506d",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1685622236200,
+      "created" : 1678372844863,
+      "url" : "{{ _.baseUrl }}/api/investigations/received?page=0&size=5",
+      "name" : "Received",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_9f8256f417f3410b87cc0872acd4ddd3', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678408589807,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_5151c917f26b4a85a82ca7c88a5862a6",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1678954718656,
+      "created" : 1678444754820,
+      "url" : "{{ _.baseUrl }}/api/investigations/created?page=0&size=20",
+      "name" : "Created",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678390691884.375,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_b25fd6d19cdd48f9aecb30e715afee44",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1678954727074,
+      "created" : 1678456288470,
+      "url" : "{{ _.baseUrl }}/api/investigations/80",
+      "name" : "InvestigationById",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678381742923.0625,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_2502eaadcf2b436abd0befb313e57982",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1684243804289,
+      "created" : 1678444421749,
+      "url" : "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name" : "Acknowledge (Takes Id from Received)",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{ \n\t\"reason\": \"\",  \n\t\"status\": \"ACKNOWLEDGED\"\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678372793961.75,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_fcbeed87865048de86465551bf1bd8d5",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1683294270125,
+      "created" : 1678893031171,
+      "url" : "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name" : "Accepted (Takes Id from Received)",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{ \n  \"reason\":\"{% now 'iso-8601', '' %}-accepted-by-max\",\n\t\"status\": \"ACCEPTED\"\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678372755908.3125,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_047ba64a58b641fdbfebb94fe9d380fc",
+      "parentId" : "fld_954fcedc178b4fc7a8bf0c873a83b134",
+      "modified" : 1678893251921,
+      "created" : 1678893088697,
+      "url" : "{{ _.baseUrl }}/api/investigations/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name" : "Declined (Takes Id from Received)",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{ \n  \"reason\":\"{% now 'iso-8601', '' %}-declined-by-max\",\n\t\"status\": \"DECLINED\"\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678372736881.5938,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_e66a3859263149bb8090a2e47ce2a5b2",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685433959143,
+      "created" : 1685433509004,
+      "url" : "{{ _.baseUrl }}/api/alerts",
+      "name" : "Create",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"partIds\": {{ _.assetId }},\n  \"description\":\"{% now 'iso-8601', '' %}-requested-by-max\",\n\t\"severity\": \"LIFE-THREATENING\",\n  \"targetDate\": \"2024-02-04T13:48:54Z\" \n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "authority",
+          "value" : "traceability.dev.demo.catena-x.net",
+          "id" : "pair_dc7bb20cc17c4f7fb50fa286d6d657e8"
+        },
+        {
+          "name" : "accept",
+          "value" : "application/json, text/plain, */*",
+          "id" : "pair_d9d500857d164605903cbd2d2a277971"
+        },
+        {
+          "name" : "accept-language",
+          "value" : "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+          "id" : "pair_d32282df29524f8fad00dbfbc96e48e2"
+        },
+        {
+          "name" : "access",
+          "value" : "application/json",
+          "id" : "pair_cc17f507446943c48b486380cd749238"
+        },
+        {
+          "name" : "content-type",
+          "value" : "application/json",
+          "id" : "pair_d6cbe8ea35de4df285bbfedb6fd1e564"
+        },
+        {
+          "name" : "origin",
+          "value" : "https://traceability-portal.dev.demo.catena-x.net",
+          "id" : "pair_4aefeb69f30443a0adf9e010794ccf1b"
+        },
+        {
+          "name" : "referer",
+          "value" : "https://traceability-portal.dev.demo.catena-x.net/",
+          "id" : "pair_a53c45fdeb1941e3bbc349bcea22e82c"
+        },
+        {
+          "name" : "sec-ch-ua",
+          "value" : "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"",
+          "id" : "pair_6b261299b5cc400ab58c3769aa7d019e"
+        },
+        {
+          "name" : "sec-ch-ua-mobile",
+          "value" : "?0",
+          "id" : "pair_1545e26232144e8d90e266475d839866"
+        },
+        {
+          "name" : "sec-ch-ua-platform",
+          "value" : "\"Windows\"",
+          "id" : "pair_03bff76c5bc74e51a8dd942d50cf6007"
+        },
+        {
+          "name" : "sec-fetch-dest",
+          "value" : "empty",
+          "id" : "pair_534ac4a137d64410b39436125a79ad43"
+        },
+        {
+          "name" : "sec-fetch-mode",
+          "value" : "cors",
+          "id" : "pair_1e734755f88d45e4bbac284ed7a25b1b"
+        },
+        {
+          "name" : "sec-fetch-site",
+          "value" : "same-site",
+          "id" : "pair_c5394aea2dbb428ea723b97faa54d467"
+        },
+        {
+          "name" : "user-agent",
+          "value" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+          "id" : "pair_f1ac2ccd605a406ca21ed6fcb2171af2"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678426183021.625,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_17575ba956f84873969a1890ab747c4d",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1685433508994,
+      "created" : 1685433508994,
+      "name" : "Alerts",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1678408018936.5,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_a01b7d36d3b048e6be0b13c857b0af98",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685433968163,
+      "created" : 1685433509021,
+      "url" : "{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/close",
+      "name" : "Close",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\"reason\":\"This is the close reason by max.\"}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "id" : "pair_b3b659435cf14b77bded0cc87474005c"
+        },
+        {
+          "id" : "pair_36d23ffc465a4cc28982c48f0440d8c3",
+          "name" : "Accept",
+          "value" : "application/json, text/plain, */*",
+          "description" : ""
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678421784717.9688,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_dd3391c164644b4db7f4611ab1c6c2db",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685433979823,
+      "created" : 1685433509002,
+      "url" : "{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_52a0d24879db45a69d185e0c67b9f433', 'b64::JC5pZA==::46b', 'never', 60 %}/approve",
+      "name" : "Approve",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"partIds\": {{ _.assetId }},\n\"description\":\"test\"}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json",
+          "id" : "pair_b3b659435cf14b77bded0cc87474005c"
+        },
+        {
+          "id" : "pair_36d23ffc465a4cc28982c48f0440d8c3",
+          "name" : "Accept",
+          "value" : "application/json, text/plain, */*",
+          "description" : ""
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678417386414.3125,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_eb9f2ea25429497ea63166c59bcd0034",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685622213083,
+      "created" : 1685433508998,
+      "url" : "{{ _.baseUrl }}/api/alerts/received?page=0",
+      "name" : "Received",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_9f8256f417f3410b87cc0872acd4ddd3', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678408589807,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_114ed59852a84d1bbd5bb352638bebbe",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685433994217,
+      "created" : 1685433509009,
+      "url" : "{{ _.baseUrl }}/api/alerts/created?page=0&size=20",
+      "name" : "Created",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678390691884.375,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_abe70abdb09c4490852d1e8100201cad",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685434016675,
+      "created" : 1685433509011,
+      "url" : "{{ _.baseUrl }}/api/alerts/80",
+      "name" : "AlertById",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678381742923.0625,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_9ae825257b9a4be991b834496c328cec",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685434026411,
+      "created" : 1685433509007,
+      "url" : "{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name" : "Acknowledge (Takes Id from Received)",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{ \n\t\"reason\": \"\",  \n\t\"status\": \"ACKNOWLEDGED\"\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678372793961.75,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_2026774e5f754bf29f8b3871a21cddbf",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685434030696,
+      "created" : 1685433509014,
+      "url" : "{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name" : "Accepted (Takes Id from Received)",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{ \n  \"reason\":\"{% now 'iso-8601', '' %}-accepted-by-max\",\n\t\"status\": \"ACCEPTED\"\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678372755908.3125,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_141d662aa3d14f8887d29ccc1f824b8a",
+      "parentId" : "fld_17575ba956f84873969a1890ab747c4d",
+      "modified" : 1685434034757,
+      "created" : 1685433509016,
+      "url" : "{{ _.baseUrl }}/api/alerts/{% response 'body', 'req_5a892acf8c654d9b855cd5b88c63e182', 'b64::JC5jb250ZW50WzBdLmlk::46b', 'never', 60 %}/update",
+      "name" : "Declined (Takes Id from Received)",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{ \n  \"reason\":\"{% now 'iso-8601', '' %}-declined-by-max\",\n\t\"status\": \"DECLINED\"\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678372736881.5938,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_25d1ae2e4ac04d508a74fb2519e30e62",
+      "parentId" : "fld_93c7b63f3e474b9099758b4e4ad20f19",
+      "modified" : 1684742067490,
+      "created" : 1684742067490,
+      "url" : "{{ _.baseUrl }}/api/assets/sync",
+      "name" : "Sync",
+      "description" : "",
+      "method" : "POST",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : "{\n\t\"globalAssetIds\": [\"urn:uuid:6d9be5cc-6eff-47f8-bcc6-f6c639c932cf\"]\n}"
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "authority",
+          "value" : "traceability.dev.demo.catena-x.net",
+          "id" : "pair_dc7bb20cc17c4f7fb50fa286d6d657e8"
+        },
+        {
+          "name" : "accept",
+          "value" : "application/json, text/plain, */*",
+          "id" : "pair_d9d500857d164605903cbd2d2a277971"
+        },
+        {
+          "name" : "accept-language",
+          "value" : "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+          "id" : "pair_d32282df29524f8fad00dbfbc96e48e2"
+        },
+        {
+          "name" : "access",
+          "value" : "application/json",
+          "id" : "pair_cc17f507446943c48b486380cd749238"
+        },
+        {
+          "name" : "content-type",
+          "value" : "application/json",
+          "id" : "pair_d6cbe8ea35de4df285bbfedb6fd1e564"
+        },
+        {
+          "name" : "origin",
+          "value" : "https://traceability-portal.dev.demo.catena-x.net",
+          "id" : "pair_4aefeb69f30443a0adf9e010794ccf1b"
+        },
+        {
+          "name" : "referer",
+          "value" : "https://traceability-portal.dev.demo.catena-x.net/",
+          "id" : "pair_a53c45fdeb1941e3bbc349bcea22e82c"
+        },
+        {
+          "name" : "sec-ch-ua",
+          "value" : "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"",
+          "id" : "pair_6b261299b5cc400ab58c3769aa7d019e"
+        },
+        {
+          "name" : "sec-ch-ua-mobile",
+          "value" : "?0",
+          "id" : "pair_1545e26232144e8d90e266475d839866"
+        },
+        {
+          "name" : "sec-ch-ua-platform",
+          "value" : "\"Windows\"",
+          "id" : "pair_03bff76c5bc74e51a8dd942d50cf6007"
+        },
+        {
+          "name" : "sec-fetch-dest",
+          "value" : "empty",
+          "id" : "pair_534ac4a137d64410b39436125a79ad43"
+        },
+        {
+          "name" : "sec-fetch-mode",
+          "value" : "cors",
+          "id" : "pair_1e734755f88d45e4bbac284ed7a25b1b"
+        },
+        {
+          "name" : "sec-fetch-site",
+          "value" : "same-site",
+          "id" : "pair_c5394aea2dbb428ea723b97faa54d467"
+        },
+        {
+          "name" : "user-agent",
+          "value" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+          "id" : "pair_f1ac2ccd605a406ca21ed6fcb2171af2"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678423983869.7969,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "fld_93c7b63f3e474b9099758b4e4ad20f19",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1684742067475,
+      "created" : 1684742067475,
+      "name" : "Assets",
+      "description" : "",
+      "environment" : {},
+      "environmentPropertyOrder" : null,
+      "metaSortKey" : -1678408018911.5,
+      "_type" : "request_group"
+    },
+    {
+      "_id" : "req_2e9d6512bf65447b9c69e4f3d66abcfb",
+      "parentId" : "fld_93c7b63f3e474b9099758b4e4ad20f19",
+      "modified" : 1685624071057,
+      "created" : 1684742067524,
+      "url" : "{{ _.baseUrl }}/api/registry/reload",
+      "name" : "RegistryReload",
+      "description" : "",
+      "method" : "GET",
+      "body" : {},
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "authority",
+          "value" : "traceability.dev.demo.catena-x.net",
+          "id" : "pair_dc7bb20cc17c4f7fb50fa286d6d657e8"
+        },
+        {
+          "name" : "accept",
+          "value" : "application/json, text/plain, */*",
+          "id" : "pair_d9d500857d164605903cbd2d2a277971"
+        },
+        {
+          "name" : "accept-language",
+          "value" : "de-DE,de;q=0.9,en-US;q=0.8,en;q=0.7",
+          "id" : "pair_d32282df29524f8fad00dbfbc96e48e2"
+        },
+        {
+          "name" : "access",
+          "value" : "application/json",
+          "id" : "pair_cc17f507446943c48b486380cd749238"
+        },
+        {
+          "name" : "origin",
+          "value" : "https://traceability-portal.dev.demo.catena-x.net",
+          "id" : "pair_4aefeb69f30443a0adf9e010794ccf1b"
+        },
+        {
+          "name" : "referer",
+          "value" : "https://traceability-portal.dev.demo.catena-x.net/",
+          "id" : "pair_a53c45fdeb1941e3bbc349bcea22e82c"
+        },
+        {
+          "name" : "sec-ch-ua",
+          "value" : "\"Google Chrome\";v=\"111\", \"Not(A:Brand\";v=\"8\", \"Chromium\";v=\"111\"",
+          "id" : "pair_6b261299b5cc400ab58c3769aa7d019e"
+        },
+        {
+          "name" : "sec-ch-ua-mobile",
+          "value" : "?0",
+          "id" : "pair_1545e26232144e8d90e266475d839866"
+        },
+        {
+          "name" : "sec-ch-ua-platform",
+          "value" : "\"Windows\"",
+          "id" : "pair_03bff76c5bc74e51a8dd942d50cf6007"
+        },
+        {
+          "name" : "sec-fetch-dest",
+          "value" : "empty",
+          "id" : "pair_534ac4a137d64410b39436125a79ad43"
+        },
+        {
+          "name" : "sec-fetch-mode",
+          "value" : "cors",
+          "id" : "pair_1e734755f88d45e4bbac284ed7a25b1b"
+        },
+        {
+          "name" : "sec-fetch-site",
+          "value" : "same-site",
+          "id" : "pair_c5394aea2dbb428ea723b97faa54d467"
+        },
+        {
+          "name" : "user-agent",
+          "value" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+          "id" : "pair_f1ac2ccd605a406ca21ed6fcb2171af2"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_9f8256f417f3410b87cc0872acd4ddd3', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678423983819.7969,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_4e0c67927c444e20b7c9a9f877acd920",
+      "parentId" : "fld_93c7b63f3e474b9099758b4e4ad20f19",
+      "modified" : 1685623814058,
+      "created" : 1684742067560,
+      "url" : "{{ _.baseUrl }}/api/assets",
+      "name" : "Assets",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_9f8256f417f3410b87cc0872acd4ddd3', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678423983769.7969,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_f1f2c095e4e345f1b05a620f20e6f659",
+      "parentId" : "fld_93c7b63f3e474b9099758b4e4ad20f19",
+      "modified" : 1684742067595,
+      "created" : 1684742067595,
+      "url" : "{{ _.baseUrl }}/api/assets?owner=SUPPLIER",
+      "name" : "SupplierAssets",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678423434006.8398,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "req_fd55878a69b54920a25b92f8f01d98e3",
+      "parentId" : "fld_93c7b63f3e474b9099758b4e4ad20f19",
+      "modified" : 1684742067633,
+      "created" : 1684742067633,
+      "url" : "{{ _.baseUrl }}/api/assets/urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpna",
+      "name" : "AssetById",
+      "description" : "",
+      "method" : "GET",
+      "body" : {
+        "mimeType" : "application/json",
+        "text" : ""
+      },
+      "parameters" : [],
+      "headers" : [
+        {
+          "name" : "Content-Type",
+          "value" : "application/json"
+        }
+      ],
+      "authentication" : {
+        "type" : "bearer",
+        "token" : "{% response 'body', 'req_14fe7a99385f4bc9bf4cfb9c7c53d3a1', 'b64::JC5hY2Nlc3NfdG9rZW4=::46b', 'when-expired', 60 %}",
+        "prefix" : "Bearer"
+      },
+      "metaSortKey" : -1678423159125.3613,
+      "isPrivate" : false,
+      "settingStoreCookies" : true,
+      "settingSendCookies" : true,
+      "settingDisableRenderRequestBody" : false,
+      "settingEncodeUrl" : true,
+      "settingRebuildPath" : true,
+      "settingFollowRedirects" : "global",
+      "_type" : "request"
+    },
+    {
+      "_id" : "env_be9c11bd0b1d4b249c50f1cbcea1084b",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1685433917125,
+      "created" : 1678372423794,
+      "name" : "Base Environment",
+      "data" : {
+        "base_url_portal_int" : "https://portal-backend.int.demo.catena-x.net",
+        "baseUrlEdcConsumerTest" : "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net",
+        "baseUrlEdcConsumerDev" : "https://tracex-consumer-controlplane.dev.demo.catena-x.net",
+        "registryBaseDevTest" : "https://trace-x-registry.dev.demo.catena-x.net",
+        "base_url_central_idp_global" : "https://centralidp.int.demo.catena-x.net",
+        "base_url_registry_e2e" : "https://trace-x-registry-e2e.dev.demo.catena-x.net",
+        "baseUrl" : "t"
+      },
+      "dataPropertyOrder" : {
+        "&" : [
+          "base_url_portal_int",
+          "baseUrlEdcConsumerTest",
+          "baseUrlEdcConsumerDev",
+          "registryBaseDevTest",
+          "base_url_central_idp_global",
+          "base_url_registry_e2e",
+          "baseUrl"
+        ]
+      },
+      "color" : null,
+      "isPrivate" : false,
+      "metaSortKey" : 1678372423794,
+      "_type" : "environment"
+    },
+    {
+      "_id" : "jar_8e02fdf466c241fbacb0bce694bbcd33",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1685624488860,
+      "created" : 1678372423801,
+      "name" : "Default Jar",
+      "cookies" : [
+        {
+          "key" : "KC_RESTART",
+          "expires" : "1970-01-01T00:00:10.000Z",
+          "maxAge" : 0,
+          "domain" : "centralidp.dev.demo.catena-x.net",
+          "path" : "/auth/realms/CX-Central/",
+          "httpOnly" : true,
+          "extensions" : [
+            "Version=1"
+          ],
+          "hostOnly" : true,
+          "creation" : "2023-03-28T07:01:57.266Z",
+          "lastAccessed" : "2023-06-01T12:57:50.180Z",
+          "id" : "8670071459370072"
+        },
+        {
+          "key" : "KC_RESTART",
+          "expires" : "1970-01-01T00:00:10.000Z",
+          "maxAge" : 0,
+          "domain" : "centralidp.int.demo.catena-x.net",
+          "path" : "/auth/realms/CX-Central/",
+          "httpOnly" : true,
+          "extensions" : [
+            "Version=1"
+          ],
+          "hostOnly" : true,
+          "creation" : "2023-04-04T08:16:29.897Z",
+          "lastAccessed" : "2023-06-01T13:01:28.860Z",
+          "id" : "21953480251661905"
+        },
+        {
+          "key" : "rack.session",
+          "value" : "8ebba2ae37dff827f137b1674408ce3cc715cde1161922859ae23b0858f925f5",
+          "domain" : "daps1.int.demo.catena-x.net",
+          "path" : "/",
+          "secure" : true,
+          "httpOnly" : true,
+          "hostOnly" : true,
+          "creation" : "2023-04-17T11:58:39.065Z",
+          "lastAccessed" : "2023-05-04T18:43:59.102Z",
+          "id" : "08889114252568153"
+        }
+      ],
+      "_type" : "cookie_jar"
+    },
+    {
+      "_id" : "spc_dbabaeaa49d74b14acb4f7cc3252af0a",
+      "parentId" : "wrk_f9bd4e398c274e41b35f14904699d120",
+      "modified" : 1685448305901,
+      "created" : 1685448305901,
+      "fileName" : "tracex-v2",
+      "contents" : "",
+      "contentType" : "yaml",
+      "_type" : "api_spec"
+    },
+    {
+      "_id" : "env_ca4e4f9b68da41b9b6c3ca51f59aa47f",
+      "parentId" : "env_be9c11bd0b1d4b249c50f1cbcea1084b",
+      "modified" : 1685448317219,
+      "created" : 1685433851683,
+      "name" : "New Environment",
+      "data" : {
+        "base_Url" : "t"
+      },
+      "dataPropertyOrder" : {
+        "&" : [
+          "base_Url"
+        ]
+      },
+      "color" : null,
+      "isPrivate" : false,
+      "metaSortKey" : 1685433851683,
+      "_type" : "environment"
+    }
+  ]
+}
