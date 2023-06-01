@@ -61,8 +61,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           add-paths: |
-            DEPENDENCIES_BACKEND
-            DEPENDENCIES_FRONTEND
+            DEPENDENCIES_*
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: action/dependencies-update
           commit-message: Update Dependencies BE/FE
