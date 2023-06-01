@@ -38,7 +38,6 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: run dependencies:generate
-
           dir: 'frontend'
 
       - name: Check if file was changed
@@ -63,12 +62,12 @@ jobs:
         with:
           add-paths: |
             DEPENDENCIES_BACKEND
+            DEPENDENCIES_FRONTEND
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: action/dependencies
-#          base: ${{ github.ref }}
-          commit-message: Update Dependencies Backend Action
-          title: Update Dependencies Backend
+          branch: action/dependencies-update
+          commit-message: Update Dependencies BE/FE
+          title: [AUTOMATED] Update Dependencies Backend
           body: |
-            Updates Dependencies
-          labels: feature, enhancement
+            Automated github action PR
+          labels: automated, action
         if: ${{ env.were_files_changed }} == 'true'
