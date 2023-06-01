@@ -63,6 +63,7 @@ jobs:
         with:
           add-paths: |
             DEPENDENCIES_BACKEND
+            DEPENDENCIES_FRONTEND
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: action/dependencies
           #          base: ${{ github.ref }}
