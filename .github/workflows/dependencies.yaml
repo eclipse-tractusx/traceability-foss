@@ -48,6 +48,7 @@ jobs:
             git
           else
             echo "The file were not changed"
+            echo "were_files_changed=true" >> "$GITHUB_ENV"
             echo "were_files_changed=false" >> "$GITHUB_ENV"
           fi
 
@@ -64,9 +65,11 @@ jobs:
             DEPENDENCIES_BACKEND
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: action/dependencies
-          commit-message: Update Dependencies BE/FE
-          title: [AUTOMATED] Update Dependencies Backend
+          #          base: ${{ github.ref }}
+          commit-message: Update Dependencies Backend Action
+          title: Update Dependencies Backend
           body: |
-            Automated github action PR
-          labels: automated, action
+            Updates Dependencies
+          labels: feature, enhancement
         if: ${{ env.were_files_changed }} == 'true'
+
