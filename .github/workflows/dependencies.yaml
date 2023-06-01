@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - chore/TRACEFOSS-1336-dependencies-github-action
-
+# for test purposes it is set to this branch . after PR test is done it should be changed to main
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
             git
           else
             echo "The file were not changed"
-            echo "were_files_changed=true" >> "$GITHUB_ENV"
+            echo "were_files_changed=false" >> "$GITHUB_ENV"
           fi
 
       - name: Configure Git
