@@ -20,33 +20,40 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Aspect;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobStatus;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Parameter;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Shell;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.StartJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.StartJobResponse;
-import org.junit.jupiter.api.Test;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.relationship.LinkedItem;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.relationship.Relationship;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.ManufacturingInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.PartTypeInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.SemanticDataModel;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -59,33 +66,30 @@ class IrsServiceTest {
 
     @Mock
     private BpnRepository bpnRepository;
-    @Mock
-    private AssetsConverter assetsConverter;
+
 
     @ParameterizedTest
     @MethodSource("provideDirections")
-    void testFindAssetsDownward_completedJob_returnsConvertedAssets(Direction direction) {
+    void testFindAssets_completedJob_returnsConvertedAssets(Direction direction) {
 
+        StartJobResponse jobId = new StartJobResponse("123");
         // Given
-        StartJobResponse startJobResponse = mock(StartJobResponse.class);
-        when(irsClient.registerJob(any(StartJobRequest.class))).thenReturn(startJobResponse);
-        JobResponse jobResponse = mock(JobResponse.class);
-        when(irsClient.getJobDetails(startJobResponse.id())).thenReturn(jobResponse);
-        JobStatus jobStatus = mock(JobStatus.class);
-        when(jobResponse.jobStatus()).thenReturn(jobStatus);
-        when(jobStatus.lastModifiedOn()).thenReturn(new Date());
-        when(jobStatus.startedOn()).thenReturn(new Date());
-        when(jobResponse.isCompleted()).thenReturn(true);
-        Asset asset = mock(Asset.class);
-        List<Asset> expectedAssets = List.of(asset);
-        when(assetsConverter.convertAssets(jobResponse)).thenReturn(expectedAssets);
+        when(irsClient.registerJob(any(StartJobRequest.class))).thenReturn(jobId);
+        JobResponse jobResponse = provideTestJobResponse(direction.name());
+        when(irsClient.getJobDetails(jobId.id())).thenReturn(jobResponse);
 
         // When
         List<Asset> result = irsService.findAssets("1", direction, Aspect.downwardAspects());
 
         // Then
-        assertThat(result).isEqualTo(expectedAssets);
-
+        assertThat(result).hasSize(1);
+        Owner expected;
+        if (direction.equals(Direction.DOWNWARD)) {
+            expected = Owner.SUPPLIER;
+        } else {
+            expected = Owner.CUSTOMER;
+        }
+        assertThat(result.get(0).getOwner()).isEqualTo(expected);
     }
 
     private static Stream<Arguments> provideDirections() {
@@ -97,7 +101,7 @@ class IrsServiceTest {
 
     @ParameterizedTest
     @MethodSource("provideDirections")
-    void testFindAssetsDownward_uncompletedJob_returnsEmptyListOfAssets(Direction direction) {
+    void testFindAssets_uncompletedJob_returnsEmptyListOfAssets(Direction direction) {
 
         // Given
         StartJobResponse startJobResponse = mock(StartJobResponse.class);
@@ -115,55 +119,57 @@ class IrsServiceTest {
 
         // Then
         assertThat(result).isEqualTo(Collections.EMPTY_LIST);
-        Mockito.verify(assetsConverter, never()).convertAssets(any(JobResponse.class));
 
     }
 
-    @Test
-    void testFindAssetsUpward_completedJob_returnsConvertedAssets() {
+    private JobResponse provideTestJobResponse(String direction) {
+        JobStatus jobStatus = new JobStatus(
+                "COMPLETED",
+                new Date(),
+                new Date(),
+                "globalAsset123",
+                new Parameter(direction)
+        );
 
-        // Given
-        StartJobResponse startJobResponse = mock(StartJobResponse.class);
-        when(irsClient.registerJob(any(StartJobRequest.class))).thenReturn(startJobResponse);
-        JobResponse jobResponse = mock(JobResponse.class);
-        when(irsClient.getJobDetails(startJobResponse.id())).thenReturn(jobResponse);
-        JobStatus jobStatus = mock(JobStatus.class);
-        when(jobResponse.jobStatus()).thenReturn(jobStatus);
-        when(jobStatus.lastModifiedOn()).thenReturn(new Date());
-        when(jobStatus.startedOn()).thenReturn(new Date());
-        when(jobResponse.isCompleted()).thenReturn(true);
-        Asset asset = mock(Asset.class);
-        List<Asset> expectedAssets = List.of(asset);
-        when(assetsConverter.convertAssets(jobResponse)).thenReturn(expectedAssets);
+        List<Shell> shells = Arrays.asList(
+                new Shell("shell1", "Identification 1"),
+                new Shell("shell2", "Identification 2")
+        );
 
-        // When
-        List<Asset> result = irsService.findAssets("1", Direction.UPWARD, Aspect.upwardAspects());
+        List<SemanticDataModel> semanticDataModels = Collections.singletonList(
+                new SemanticDataModel(
+                        "catenaXId123",
+                        new PartTypeInformation("Name at Manufacturer", "Name at Customer",
+                                "ManufacturerPartId123", "CustomerPartId123"),
+                        new ManufacturingInformation("Country", new Date()),
+                        Collections.emptyList()
+                )
+        );
+        List<Relationship> relationships;
+        if (direction.equals(Direction.DOWNWARD.name())) {
+            relationships = Arrays.asList(
+                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123"), Aspect.ASSEMBLY_PART_RELATIONSHIP),
+                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456"), Aspect.ASSEMBLY_PART_RELATIONSHIP)
+            );
+        } else {
+            relationships = Arrays.asList(
+                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123"), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT),
+                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456"), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT)
+            );
+        }
 
-        // Then
-        assertThat(result).isEqualTo(expectedAssets);
 
-    }
+        Map<String, String> bpns = new HashMap<>();
+        bpns.put("key1", "value1");
+        bpns.put("key2", "value2");
 
-    @Test
-    void testFindAssetsUpward_uncompletedJob_returnsEmptyListOfAssets() {
-
-        // Given
-        StartJobResponse startJobResponse = mock(StartJobResponse.class);
-        when(irsClient.registerJob(any(StartJobRequest.class))).thenReturn(startJobResponse);
-        JobResponse jobResponse = mock(JobResponse.class);
-        when(irsClient.getJobDetails(startJobResponse.id())).thenReturn(jobResponse);
-        JobStatus jobStatus = mock(JobStatus.class);
-        when(jobResponse.jobStatus()).thenReturn(jobStatus);
-        when(jobStatus.lastModifiedOn()).thenReturn(new Date());
-        when(jobStatus.startedOn()).thenReturn(new Date());
-        when(jobResponse.isCompleted()).thenReturn(false);
-
-        // When
-        List<Asset> result = irsService.findAssets("1", Direction.UPWARD, Aspect.upwardAspects());
-
-        // Then
-        assertThat(result).isEqualTo(Collections.EMPTY_LIST);
-        Mockito.verify(assetsConverter, never()).convertAssets(any(JobResponse.class));
+        return new JobResponse(
+                jobStatus,
+                shells,
+                semanticDataModels,
+                relationships,
+                bpns
+        );
 
     }
 

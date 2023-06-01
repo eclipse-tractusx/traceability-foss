@@ -32,11 +32,11 @@ import java.time.Instant
 trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepositoryProvider {
 
     void defaultAssetsStored() {
-        assetRepository().saveAll(assetsConverter().readAndConvertAssets())
+        assetRepository().saveAll(assetsConverter().readAndConvertAssetsForTests())
     }
 
     void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
-        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssets().collect { asset ->
+        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssetsForTests().collect { asset ->
             def assetEntity = AssetEntity.from(asset)
             assetEntity.setInInvestigation(inInvestigation);
             return assetEntity;

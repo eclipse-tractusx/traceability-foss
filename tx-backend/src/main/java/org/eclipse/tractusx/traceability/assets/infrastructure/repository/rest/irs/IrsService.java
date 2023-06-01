@@ -26,7 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobStatus;
@@ -37,13 +36,13 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class IrsService implements IrsRepository {
 
     private final IRSApiClient irsClient;
-    private final AssetsConverter assetsConverter;
     private final BpnRepository bpnRepository;
 
     @Override
@@ -57,7 +56,7 @@ public class IrsService implements IrsRepository {
 
         if (jobResponse.isCompleted()) {
             bpnRepository.updateManufacturers(jobResponse.bpns());
-            return assetsConverter.convertAssets(jobResponse);
+            return jobResponse.convertAssets();
         }
         return Collections.emptyList();
     }

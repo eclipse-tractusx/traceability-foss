@@ -35,33 +35,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PersistentShellDescriptorsRepository implements ShellDescriptorRepository {
 
-	private final JpaShellDescriptorRepository repository;
+    private final JpaShellDescriptorRepository repository;
 
-	@Override
-	public List<ShellDescriptor> findAll() {
-		return repository.findAll().stream()
-			.map(ShellDescriptorEntity::toShellDescriptor)
-			.toList();
-	}
+    @Override
+    public List<ShellDescriptor> findAll() {
+        return repository.findAll().stream()
+                .map(ShellDescriptorEntity::toShellDescriptor)
+                .toList();
+    }
 
-	@Override
-	@Transactional
-	public void update(ShellDescriptor shellDescriptor) {
-		repository.findByShellDescriptorId(shellDescriptor.shellDescriptorId()).ifPresent(entity -> {
-			entity.setUpdated(ZonedDateTime.now());
-			repository.save(entity);
-		});
-	}
+    @Override
+    @Transactional
+    public void update(ShellDescriptor shellDescriptor) {
+        repository.findByShellDescriptorId(shellDescriptor.getShellDescriptorId()).ifPresent(entity -> {
+            entity.setUpdated(ZonedDateTime.now());
+            repository.save(entity);
+        });
+    }
 
-	@Override
-	public void saveAll(Collection<ShellDescriptor> values) {
-		repository.saveAll(values.stream()
-			.map(ShellDescriptorEntity::newEntityFrom)
-			.toList());
-	}
+    @Override
+    public void saveAll(Collection<ShellDescriptor> values) {
+        repository.saveAll(values.stream()
+                .map(ShellDescriptorEntity::newEntityFrom)
+                .toList());
+    }
 
-	@Override
-	public void removeDescriptorsByUpdatedBefore(ZonedDateTime now) {
-		repository.deleteAllByUpdatedBefore(now);
-	}
+    @Override
+    public void removeDescriptorsByUpdatedBefore(ZonedDateTime now) {
+        repository.deleteAllByUpdatedBefore(now);
+    }
 }

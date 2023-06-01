@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,21 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry;
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record RegistryShellDescriptorResponse(
-	List<RegistryShellDescriptor> items
-) {}
-
-record GlobalAssetId(List<String> value) {}
-
-record SpecificAssetId(String key, String value) {}
-
-record RegistryShellDescriptor(
-	GlobalAssetId globalAssetId,
-	String identification,
-	String idShort,
-	List<SpecificAssetId> specificAssetIds
-) {}
+public enum LocalIdKey {
+    @JsonProperty("manufacturerId") MANUFACTURER_ID,
+    @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID,
+    @JsonProperty("partInstanceId") PART_INSTANCE_ID,
+    @JsonProperty("batchId") BATCH_ID,
+    @JsonEnumDefaultValue UNKNOWN,
+    @JsonProperty("van") VAN,
+}

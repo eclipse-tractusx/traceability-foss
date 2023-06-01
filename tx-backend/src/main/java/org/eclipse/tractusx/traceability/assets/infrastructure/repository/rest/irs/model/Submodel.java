@@ -26,34 +26,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.SemanticDataModel;
 
 class Submodel {
-	@JsonTypeInfo(
-		use = JsonTypeInfo.Id.NAME,
-		include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
-		defaultImpl = Void.class,
-		property = "aspectType")
-	@JsonSubTypes({
-		@Type(value = SerialPartTypization.class, names = {
-			"urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization",
-			"urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization",
-			"urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization"
-		}),
-		@Type(value = SerialPartTypization.class, names = {
-			"urn:bamm:com.catenax.batch:1.0.0#Batch",
-			"urn:bamm:io.catenax.batch:1.0.0#Batch"
-		})
-	})
-	private Object payload;
+    @JsonTypeInfo(
+            use = JsonTypeInfo.Id.NAME,
+            include = JsonTypeInfo.As.EXTERNAL_PROPERTY,
+            defaultImpl = Void.class,
+            property = "aspectType")
+    @JsonSubTypes({
+            @Type(value = SemanticDataModel.class, names = {
+                    "urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization",
+                    "urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization",
+                    "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization"
+            }),
+            @Type(value = SemanticDataModel.class, names = {
+                    "urn:bamm:com.catenax.batch:1.0.0#Batch",
+                    "urn:bamm:io.catenax.batch:1.0.0#Batch"
+            })
+    })
+    private Object payload;
 
-	@JsonCreator
-	public Submodel(@JsonProperty("payload") Object payload) {
-		this.payload = payload;
-	}
+    @JsonCreator
+    public Submodel(@JsonProperty("payload") Object payload) {
+        this.payload = payload;
+    }
 
-	public Object getPayload() {
-		return payload;
-	}
+    public Object getPayload() {
+        return payload;
+    }
 }
 
 

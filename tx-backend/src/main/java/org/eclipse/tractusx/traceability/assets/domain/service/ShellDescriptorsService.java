@@ -21,10 +21,9 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.ShellDescriptorRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,38 +34,38 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 public class ShellDescriptorsService {
-	private static final Logger logger = LoggerFactory.getLogger(ShellDescriptorsService.class);
 
-	private final ShellDescriptorRepository shellDescriptorRepository;
+    private final ShellDescriptorRepository shellDescriptorRepository;
 
-	public ShellDescriptorsService(ShellDescriptorRepository shellDescriptorRepository) {
-		this.shellDescriptorRepository = shellDescriptorRepository;
-	}
+    public ShellDescriptorsService(ShellDescriptorRepository shellDescriptorRepository) {
+        this.shellDescriptorRepository = shellDescriptorRepository;
+    }
 
-	@Transactional
-	public List<ShellDescriptor> update(List<ShellDescriptor> ownShellDescriptors) {
-		logger.info("Starting update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
-		Map<String, ShellDescriptor> existingDescriptors = shellDescriptorRepository.findAll().stream()
-			.collect(Collectors.toMap(ShellDescriptor::globalAssetId, Function.identity()));
-		List<ShellDescriptor> descriptorsToSync = new ArrayList<>();
-		ZonedDateTime now = ZonedDateTime.now();
+    @Transactional
+    public List<ShellDescriptor> update(List<ShellDescriptor> ownShellDescriptors) {
+        log.info("Starting update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
+        Map<String, ShellDescriptor> existingDescriptors = shellDescriptorRepository.findAll().stream()
+                .collect(Collectors.toMap(ShellDescriptor::getGlobalAssetId, Function.identity()));
+        List<ShellDescriptor> descriptorsToSync = new ArrayList<>();
+        ZonedDateTime now = ZonedDateTime.now();
 
-		for (ShellDescriptor descriptor : ownShellDescriptors) {
-			if (existingDescriptors.containsKey(descriptor.globalAssetId())) {
-				shellDescriptorRepository.update(existingDescriptors.get(descriptor.globalAssetId()));
-			} else {
-				descriptorsToSync.add((descriptor));
-			}
-		}
+        for (ShellDescriptor descriptor : ownShellDescriptors) {
+            if (existingDescriptors.containsKey(descriptor.getGlobalAssetId())) {
+                shellDescriptorRepository.update(existingDescriptors.get(descriptor.getGlobalAssetId()));
+            } else {
+                descriptorsToSync.add((descriptor));
+            }
+        }
 
-		shellDescriptorRepository.saveAll(descriptorsToSync);
-		shellDescriptorRepository.removeDescriptorsByUpdatedBefore(now);
+        shellDescriptorRepository.saveAll(descriptorsToSync);
+        shellDescriptorRepository.removeDescriptorsByUpdatedBefore(now);
 
-		logger.info("Finished update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
-		logger.info("Updated needed for {} ownShellDescriptors.", descriptorsToSync.size());
+        log.info("Finished update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
+        log.info("Updated needed for {} ownShellDescriptors.", descriptorsToSync.size());
 
-		return descriptorsToSync;
-	}
+        return descriptorsToSync;
+    }
 }

@@ -24,6 +24,9 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMeterRegistry;
 import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry.shelldescriptor.GlobalAssetId;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

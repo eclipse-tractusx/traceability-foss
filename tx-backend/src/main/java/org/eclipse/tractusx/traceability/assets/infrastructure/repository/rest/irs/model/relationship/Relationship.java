@@ -18,29 +18,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.relationship;
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Aspect;
 
-import feign.QueryMap;
-import feign.RequestLine;
-import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
-import org.springframework.cloud.openfeign.FeignClient;
-
-import java.util.List;
-import java.util.Map;
-
-@FeignClient(
-        name = "aasApi",
-        url = "${feign.registryApi.url}",
-        configuration = {CatenaApiConfig.class}
-)
-public interface RegistryApiClient {
-
-    @RequestLine("GET /lookup/shells?assetIds={assetIds}")
-    List<String> getShellsByAssetIds(@QueryMap Map<String, Object> queryParams);
-
-    @RequestLine("POST /registry/shell-descriptors/fetch")
-    RegistryShellDescriptorResponse fetchShellDescriptors(List<String> requestBody);
-
+public record Relationship(String catenaXId, LinkedItem linkedItem, Aspect aspectType) {
+    public String childCatenaXId() {
+        return linkedItem.childCatenaXId();
+    }
 }
+
+

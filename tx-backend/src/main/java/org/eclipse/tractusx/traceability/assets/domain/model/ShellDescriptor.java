@@ -22,14 +22,51 @@
 package org.eclipse.tractusx.traceability.assets.domain.model;
 
 import lombok.Builder;
+import lombok.Data;
+import org.springframework.util.StringUtils;
 
+import java.util.Collections;
+
+
+@Data
 @Builder
-public record ShellDescriptor(
-	String shellDescriptorId,
-	String globalAssetId,
-	String idShort,
-	String partInstanceId,
-	String manufacturerPartId,
-	String manufacturerId,
-	String batchId
-) {}
+public class ShellDescriptor {
+    private String shellDescriptorId;
+    private String globalAssetId;
+    private String idShort;
+    private String partInstanceId;
+    private String manufacturerPartId;
+    private String manufacturerId;
+    private String batchId;
+
+    private static String defaultValue(String value) {
+        final String EMPTY_TEXT = "--";
+        if (!StringUtils.hasText(value)) {
+            return EMPTY_TEXT;
+        }
+        return value;
+    }
+
+    public Asset toAsset(String manufacturerName) {
+        return Asset.builder()
+                .id(getGlobalAssetId())
+                .idShort(getIdShort())
+                .nameAtManufacturer(getIdShort())
+                .manufacturerPartId(defaultValue(getManufacturerPartId()))
+                .partInstanceId(defaultValue(getPartInstanceId()))
+                .manufacturerId(defaultValue(getManufacturerId()))
+                .batchId(defaultValue(getBatchId()))
+                .manufacturerName(manufacturerName)
+                .nameAtCustomer(getIdShort())
+                .customerPartId(getManufacturerPartId())
+                .manufacturingCountry("--")
+                .owner(Owner.OWN)
+                .childDescriptions(Collections.emptyList())
+                .parentDescriptions(Collections.emptyList())
+                .underInvestigation(false)
+                .qualityType(QualityType.OK)
+                .van("--")
+                .build();
+    }
+
+}
