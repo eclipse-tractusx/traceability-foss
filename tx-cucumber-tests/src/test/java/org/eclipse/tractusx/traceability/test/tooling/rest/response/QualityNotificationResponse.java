@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,14 +17,39 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model;
+package org.eclipse.tractusx.traceability.test.tooling.rest.response;
 
-import java.util.Date;
+import lombok.Data;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 
-public record JobStatus(
-        String state,
-        Date startedOn,
-        Date lastModifiedOn,
-        String globalAssetId,
-        Parameter parameter
-) {}
+import java.util.List;
+
+@Data
+@SuperBuilder
+@Jacksonized
+public class QualityNotificationResponse {
+    private Long id;
+
+    private QualityNotificationStatusResponse status;
+
+    private String description;
+    private String createdBy;
+
+    private String createdByName;
+    private String createdDate;
+
+    private List<String> assetIds;
+
+    private QualityNotificationSideResponse channel;
+
+    private QualityNotificationReasonResponse reason;
+
+    private String sendTo;
+
+    private String sendToName;
+
+    private QualityNotificationSeverityResponse severity;
+
+    private String targetDate;
+}

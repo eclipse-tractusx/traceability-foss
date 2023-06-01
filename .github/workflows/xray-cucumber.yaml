@@ -61,9 +61,11 @@ jobs:
       - name: Build with Maven
         if: ${{ steps.download.outputs.http_response == '200' }}
         env:
-          KEYCLOAK_HOST: #${{ secrets.KEYCLOAK_OAUTH2_CLIENT_TOKEN_URI }}
-          KEYCLOAK_CLIENT_ID: #${{ secrets.KEYCLOAK_OAUTH2_CLIENT_ID }}
-          KEYCLOAK_CLIENT_SECRET: #${{ secrets.KEYCLOAK_OAUTH2_CLIENT_SECRET }}
+          KEYCLOAK_HOST: #${{ secrets.KEYCLOAK_HOST }}
+          SUPERVISOR_CLIENT_ID: #${{ secrets.SUPERVISOR_CLIENT_ID }}
+          SUPERVISOR_PASSWORD: #${{ secrets.SUPERVISOR_PASSWORD }}
+          TXA_HOST: #${{ secrets.E2E_TXA_HOST }}
+          TXB_HOST: #${{ secrets.E2E_TXB_HOST }}
         working-directory: tx-cucumber-tests
         run: |
           unzip -o features.zip -d src/test/resources/features
@@ -78,5 +80,5 @@ jobs:
           curl --request POST \
           -u $JIRA_USERNAME:$JIRA_PASSWORD \
           --header 'Content-Type: application/json' \
-          --data-binary '@tx-backend/cucumber-tests/report.json' \
+          --data-binary '@tx-cucumber-tests/report.json' \
           "https://jira.catena-x.net/rest/raven/1.0/import/execution/cucumber"

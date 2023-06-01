@@ -27,7 +27,7 @@ In order to upload data to EDC Provider, please use [IRS project script](https:/
 Sample invocation (DEV)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
 ```
 
 Sample invocation (TEST)

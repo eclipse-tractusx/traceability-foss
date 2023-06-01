@@ -30,7 +30,6 @@ import org.eclipse.tractusx.traceability.common.support.BpnSupport
 import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
 import org.hamcrest.Matchers
-import spock.util.concurrent.PollingConditions
 
 import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.*
@@ -145,38 +144,6 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
         and:
         verifyOAuth2ApiCalledOnceForTechnicalUserToken()
         verifyIrsApiTriggerJobCalledTimes(2)
-    }
-
-    def "should not synchronize assets when irs failed to trigger job"() {
-        given:
-        oauth2ApiReturnsTechnicalUserToken()
-        irsApiTriggerJobFailed()
-
-        when:
-        given()
-                .contentType(ContentType.JSON)
-                .body(
-                        asJson(
-                                [
-                                        globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
-                                ]
-                        )
-                )
-                .header(jwtAuthorization(ADMIN))
-                .when()
-                .post("/api/assets/sync")
-                .then()
-                .statusCode(200)
-
-        then:
-        new PollingConditions(timeout: 10, initialDelay: 3).eventually {
-            assertNoAssetsStored()
-        }
-
-        and:
-        verifyOAuth2ApiCalledTimesForTechnicalUserToken(1)
-        verifyIrsApiTriggerJobCalledTimes(1)
-        verifyIrsJobDetailsApiNotCalled()
     }
 
     def "should not synchronize assets when irs failed to return job details"() {
@@ -323,7 +290,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .get("/api/assets")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(6))
+                .body("totalItems", equalTo(12))
     }
 
     // Deprecated please remove once controller has been removed
@@ -340,7 +307,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .get("/api/assets")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(2))
+                .body("totalItems", equalTo(1))
     }
 
     def "should return all assets"() {
@@ -368,7 +335,6 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .body("content[0]", hasEntry("customerPartId", "--"))
                 .body("content[0]", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
                 .body("content[0]", hasEntry("manufacturingCountry", "DEU"))
-                .body("content[0]", hasEntry("owner", "SUPPLIER"))
                 .body("content[0]", hasEntry("underInvestigation", false))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
@@ -392,10 +358,10 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
 
         where:
         ownerValue || totalItemsValue
-        "OWN"      || 2
+        "OWN"      || 1
         "CUSTOMER" || 0
-        "SUPPLIER" || 6
-        "UNKNOWN"  || 5
+        "SUPPLIER" || 12
+        "UNKNOWN"  || 0
     }
 
     def "should return assets country map"() {

@@ -26,13 +26,10 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.i
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 import java.time.Instant
 
 trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepositoryProvider {
-    private static final Logger logger = LoggerFactory.getLogger(AssetsSupport.class);
 
     void defaultAssetsStored() {
         assetRepository().saveAll(assetsConverter().readAndConvertAssets())
@@ -58,7 +55,6 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
     }
 
     void assertAssetsSize(int size) {
-        logger.info("Assetsize: " + assetRepository().countAssets());
         assert assetRepository().countAssets() == size
     }
 
