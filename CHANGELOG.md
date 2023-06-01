@@ -15,7 +15,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated registry urls within env profiles
 - Changed error message for notification status transitions
 
-
 ### Removed
 
 - Bpn Mapping fallback in INT environment profile - has been removed
