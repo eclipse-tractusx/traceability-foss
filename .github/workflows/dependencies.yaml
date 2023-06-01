@@ -71,4 +71,4 @@ jobs:
           body: |
             Updates Dependencies
           labels: feature, enhancement
-        if: ${{ were_files_changed }} == 'true'
+        if: ${{ env.were_files_changed }} == 'true'
