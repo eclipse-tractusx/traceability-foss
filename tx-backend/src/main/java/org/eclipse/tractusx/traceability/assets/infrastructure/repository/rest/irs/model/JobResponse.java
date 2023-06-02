@@ -106,7 +106,7 @@ public record JobResponse(
     }
 
     private boolean isSupplierDirection() {
-        return jobStatus().parameter().direction().equals(Direction.DOWNWARD.name());
+        return jobStatus().parameter().direction().equalsIgnoreCase(Direction.DOWNWARD.name());
     }
 
     private List<Asset> mapToOtherParts(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
