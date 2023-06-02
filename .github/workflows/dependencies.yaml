@@ -71,6 +71,6 @@ jobs:
           title: Update Dependencies Backend
           body: |
             Updates Dependencies
-          labels: feature, enhancement
+          labels: automated, dependencies-check
         if: ${{ env.were_files_changed }} == 'true'
 
