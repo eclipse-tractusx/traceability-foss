@@ -26,7 +26,6 @@ import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
 import org.eclipse.tractusx.traceability.common.support.BpnSupport
 import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
 import org.hamcrest.Matchers
 
 import static io.restassured.RestAssured.given
@@ -35,49 +34,7 @@ import static org.hamcrest.Matchers.*
 
 class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, BpnSupport {
 
-    def "should return assets for authenticated user with role"() {
-        given:
-        defaultAssetsStored()
 
-        expect:
-        given()
-                .header(jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
-                .then()
-                .statusCode(200)
-    }
-
-    def "should return asset without under investigation mark"() {
-        given:
-        defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity.CLOSED, false)
-
-        expect:
-        given()
-                .header(jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
-                .then()
-                .statusCode(200)
-                .body("underInvestigation", equalTo(false))
-    }
-
-    def "should return asset with under investigation mark"() {
-        given:
-        defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity.SENT, true)
-
-        expect:
-        given()
-                .header(jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
-                .then()
-                .statusCode(200)
-                .body("underInvestigation", equalTo(true))
-    }
 
     def "should return assets with manufacturer name"() {
         given:
