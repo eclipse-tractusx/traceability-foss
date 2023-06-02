@@ -108,7 +108,7 @@ class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSu
                 .body("content[0]", hasEntry("partInstanceId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0]", hasEntry("manufacturerId", "BPNL00000003AYRE"))
                 .body("content[0]", hasEntry("batchId", emptyText()))
-                .body("content[0]", hasEntry("manufacturerName", emptyText()))
+                .body("content[0]", hasEntry("manufacturerName", "Manufacturer Name 1"))
                 .body("content[0]", hasEntry("nameAtCustomer", emptyText()))
                 .body("content[0]", hasEntry("customerPartId", emptyText()))
                 .body("content[0]", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
