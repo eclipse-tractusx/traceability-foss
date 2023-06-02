@@ -60,6 +60,7 @@ public record SemanticDataModel(
     }
 
     public Asset toDomain(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+        final String manufacturerName = bpns.get(manufacturerId());
         return Asset.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
@@ -68,7 +69,7 @@ public record SemanticDataModel(
                 .partInstanceId(partInstanceId())
                 .manufacturerId(manufacturerId())
                 .batchId(batchId())
-                .manufacturerName(defaultValue(bpns.get(partTypeInformation().manufacturerPartId())))
+                .manufacturerName(defaultValue(manufacturerName))
                 .nameAtCustomer(defaultValue(partTypeInformation().nameAtCustomer()))
                 .customerPartId(defaultValue(partTypeInformation().customerPartId()))
                 .manufacturingDate(manufacturingDate())
