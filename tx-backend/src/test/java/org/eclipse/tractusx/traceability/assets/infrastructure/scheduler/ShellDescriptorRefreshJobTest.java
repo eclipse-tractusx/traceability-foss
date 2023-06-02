@@ -22,7 +22,8 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.scheduler;
 
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.eclipse.tractusx.traceability.assets.application.service.RegistryFacade;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.scheduler.ShellDescriptorRefreshJob;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

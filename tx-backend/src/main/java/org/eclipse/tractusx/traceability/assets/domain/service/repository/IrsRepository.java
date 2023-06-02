@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.service.repository;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Direction;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Direction;
 
 import java.util.List;
 

@@ -19,7 +19,8 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.shelldescriptor;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.shelldescriptor.ShellDescriptorEntity;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
