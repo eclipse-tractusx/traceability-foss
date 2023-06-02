@@ -30,6 +30,10 @@ import java.time.Instant
 
 trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepositoryProvider {
 
+    String emptyText() {
+        return "--"
+    }
+
     void defaultAssetsStored() {
         assetRepository().saveAll(assetsConverter().readAndConvertAssetsForTests())
     }

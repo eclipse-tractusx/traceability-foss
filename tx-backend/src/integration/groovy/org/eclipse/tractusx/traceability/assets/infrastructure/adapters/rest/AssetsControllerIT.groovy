@@ -24,7 +24,6 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
 import org.eclipse.tractusx.traceability.common.support.BpnSupport
 import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
@@ -99,11 +98,11 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
         then:
         eventually {
             List<Asset> assets = assetRepository().getAssets().findAll { asset ->
-                asset.manufacturerId != AssetsConverter.EMPTY_TEXT
+                asset.manufacturerId != emptyText()
             }
             assets.size() == 13
             assets.each { asset ->
-                assert asset.manufacturerName != AssetsConverter.EMPTY_TEXT
+                assert asset.manufacturerName != emptyText()
             }
         }
 
@@ -273,7 +272,7 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .get("/api/assets")
                 .then()
                 .statusCode(200)
-                .body("content.manufacturerName", everyItem(not(equalTo(AssetsConverter.EMPTY_TEXT))))
+                .body("content.manufacturerName", everyItem(not(equalTo(emptyText()))))
     }
 
     // Deprecated please remove once controller has been removed
@@ -326,13 +325,13 @@ class AssetsControllerIT extends IntegrationSpecification implements IrsApiSuppo
                 .body("content[0]", hasEntry("id", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
                 .body("content[0]", hasEntry("idShort", "vehicle_hybrid.asm"))
                 .body("content[0]", hasEntry("nameAtManufacturer", "Vehicle Hybrid"))
-                .body("content[0]", hasEntry("manufacturerPartId", "--"))
+                .body("content[0]", hasEntry("manufacturerPartId", emptyText()))
                 .body("content[0]", hasEntry("partInstanceId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0]", hasEntry("manufacturerId", "BPNL00000003AYRE"))
-                .body("content[0]", hasEntry("batchId", "--"))
-                .body("content[0]", hasEntry("manufacturerName", "--"))
-                .body("content[0]", hasEntry("nameAtCustomer", "--"))
-                .body("content[0]", hasEntry("customerPartId", "--"))
+                .body("content[0]", hasEntry("batchId", emptyText()))
+                .body("content[0]", hasEntry("manufacturerName", emptyText()))
+                .body("content[0]", hasEntry("nameAtCustomer", emptyText()))
+                .body("content[0]", hasEntry("customerPartId", emptyText()))
                 .body("content[0]", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
                 .body("content[0]", hasEntry("manufacturingCountry", "DEU"))
                 .body("content[0]", hasEntry("underInvestigation", false))
