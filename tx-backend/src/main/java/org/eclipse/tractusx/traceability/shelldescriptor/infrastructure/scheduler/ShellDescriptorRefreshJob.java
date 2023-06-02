@@ -19,11 +19,32 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.support
+package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.scheduler;
 
+import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository
+@Component
+@Profile(ApplicationProfiles.NOT_TESTS)
+public class ShellDescriptorRefreshJob {
 
-interface ShellDescriptorStoreProvider {
-	ShellDescriptorRepository shellDescriptorRepository()
+	private final RegistryFacade registryFacade;
+
+	public ShellDescriptorRefreshJob(RegistryFacade registryFacade) {
+		this.registryFacade = registryFacade;
+	}
+
+	@Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
+	@SchedulerLock(
+		name = "data-sync-lock",
+		lockAtLeastFor = "PT5M",
+		lockAtMostFor = "PT15M"
+	)
+	public void refresh() {
+		registryFacade.updateShellDescriptorAndSynchronizeAssets();
+	}
 }

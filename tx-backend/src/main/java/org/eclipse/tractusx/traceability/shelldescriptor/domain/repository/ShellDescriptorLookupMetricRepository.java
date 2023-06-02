@@ -19,11 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.support
+package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
 
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.metrics.RegistryLookupMetric;
+import org.springframework.data.domain.Pageable;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository
+public interface ShellDescriptorLookupMetricRepository {
+    void save(RegistryLookupMetric registryLookupMetric);
 
-interface ShellDescriptorStoreProvider {
-	ShellDescriptorRepository shellDescriptorRepository()
+    PageResult<RegistryLookupMetric> getMetrics(Pageable pageable);
 }

@@ -22,11 +22,13 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.tractusx.traceability.assets.domain.metrics.RegistryLookupMeterRegistry;
-import org.eclipse.tractusx.traceability.assets.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry.shelldescriptor.GlobalAssetId;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryApiClient;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.GlobalAssetId;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,7 +55,7 @@ class RegistryServiceTest {
     private RegistryApiClient registryApiClient;
 
     @Mock
-    private RegistryLookupMeterRegistry registryLookupMeterRegistry;
+    private ShellDescriptorLookupMetricRepository registryLookupMeterRegistry;
 
     @Mock
     private RegistryShellDescriptorResponse registryShellDescriptorResponse;

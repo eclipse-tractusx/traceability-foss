@@ -19,11 +19,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.support
+package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.shelldescriptor;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository
+import java.time.ZonedDateTime;
+import java.util.Optional;
 
-interface ShellDescriptorStoreProvider {
-	ShellDescriptorRepository shellDescriptorRepository()
+@Repository
+public interface JpaShellDescriptorRepository extends JpaRepository<ShellDescriptorEntity, Long> {
+	Optional<ShellDescriptorEntity> findByShellDescriptorId(String shellDescriptorId);
+	void deleteAllByUpdatedBefore(ZonedDateTime dateTime);
 }

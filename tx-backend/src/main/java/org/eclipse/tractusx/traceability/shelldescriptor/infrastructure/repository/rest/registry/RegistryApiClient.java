@@ -19,11 +19,28 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.support
+package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry;
 
+import feign.QueryMap;
+import feign.RequestLine;
+import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
+import org.springframework.cloud.openfeign.FeignClient;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository
+import java.util.List;
+import java.util.Map;
 
-interface ShellDescriptorStoreProvider {
-	ShellDescriptorRepository shellDescriptorRepository()
+@FeignClient(
+        name = "aasApi",
+        url = "${feign.registryApi.url}",
+        configuration = {CatenaApiConfig.class}
+)
+public interface RegistryApiClient {
+
+    @RequestLine("GET /lookup/shells?assetIds={assetIds}")
+    List<String> getShellsByAssetIds(@QueryMap Map<String, Object> queryParams);
+
+    @RequestLine("POST /registry/shell-descriptors/fetch")
+    RegistryShellDescriptorResponse fetchShellDescriptors(List<String> requestBody);
+
 }
