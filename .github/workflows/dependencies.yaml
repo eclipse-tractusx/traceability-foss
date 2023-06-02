@@ -3,8 +3,8 @@ name: "Dependencies Backend Update"
 on:
   push:
     branches:
-      - chore/TRACEFOSS-1336-dependencies-github-action
-# for test purposes it is set to this branch . after PR test is done it should be changed to main
+      - main
+
 jobs:
   build:
     runs-on: ubuntu-latest
