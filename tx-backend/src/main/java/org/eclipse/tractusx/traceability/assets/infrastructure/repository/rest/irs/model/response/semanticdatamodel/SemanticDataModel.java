@@ -68,7 +68,7 @@ public record SemanticDataModel(
                 .partInstanceId(partInstanceId())
                 .manufacturerId(manufacturerId())
                 .batchId(batchId())
-                .manufacturerName(bpns.get(partTypeInformation().manufacturerPartId()))
+                .manufacturerName(defaultValue(bpns.get(partTypeInformation().manufacturerPartId())))
                 .nameAtCustomer(defaultValue(partTypeInformation().nameAtCustomer()))
                 .customerPartId(defaultValue(partTypeInformation().customerPartId()))
                 .manufacturingDate(manufacturingDate())
