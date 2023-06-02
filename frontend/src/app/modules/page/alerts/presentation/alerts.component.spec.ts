@@ -18,10 +18,9 @@
  ********************************************************************************/
 
 import { AlertsModule } from '@page/alerts/alerts.module';
+import { AlertsComponent } from './alerts.component';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-
-import { AlertsComponent } from './alerts.component';
 
 
 describe('AlertsComponent', () => {
@@ -38,8 +37,8 @@ describe('AlertsComponent', () => {
     await renderAlerts();
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Alert No 18'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 5'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
   });
 
   it('should call change pagination of queued & requested alerts', async () => {
@@ -49,7 +48,7 @@ describe('AlertsComponent', () => {
 
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Alert No 18'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 5'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
   });
 });
