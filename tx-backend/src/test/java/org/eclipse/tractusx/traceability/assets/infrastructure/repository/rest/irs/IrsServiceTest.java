@@ -22,19 +22,19 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Aspect;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobStatus;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Parameter;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Shell;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.StartJobRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.StartJobResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.relationship.LinkedItem;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.relationship.Relationship;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.ManufacturingInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.PartTypeInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Direction;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobStatus;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Parameter;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.RegisterJobResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Shell;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship.Aspect;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship.LinkedItem;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship.Relationship;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.ManufacturingInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.PartTypeInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.SemanticDataModel;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -72,10 +72,10 @@ class IrsServiceTest {
     @MethodSource("provideDirections")
     void testFindAssets_completedJob_returnsConvertedAssets(Direction direction) {
 
-        StartJobResponse jobId = new StartJobResponse("123");
+        RegisterJobResponse jobId = new RegisterJobResponse("123");
         // Given
-        when(irsClient.registerJob(any(StartJobRequest.class))).thenReturn(jobId);
-        JobResponse jobResponse = provideTestJobResponse(direction.name());
+        when(irsClient.registerJob(any(RegisterJobRequest.class))).thenReturn(jobId);
+        JobDetailResponse jobResponse = provideTestJobResponse(direction.name());
         when(irsClient.getJobDetails(jobId.id())).thenReturn(jobResponse);
 
         // When
@@ -104,9 +104,9 @@ class IrsServiceTest {
     void testFindAssets_uncompletedJob_returnsEmptyListOfAssets(Direction direction) {
 
         // Given
-        StartJobResponse startJobResponse = mock(StartJobResponse.class);
-        when(irsClient.registerJob(any(StartJobRequest.class))).thenReturn(startJobResponse);
-        JobResponse jobResponse = mock(JobResponse.class);
+        RegisterJobResponse startJobResponse = mock(RegisterJobResponse.class);
+        when(irsClient.registerJob(any(RegisterJobRequest.class))).thenReturn(startJobResponse);
+        JobDetailResponse jobResponse = mock(JobDetailResponse.class);
         when(irsClient.getJobDetails(startJobResponse.id())).thenReturn(jobResponse);
         JobStatus jobStatus = mock(JobStatus.class);
         when(jobResponse.jobStatus()).thenReturn(jobStatus);
@@ -122,7 +122,7 @@ class IrsServiceTest {
 
     }
 
-    private JobResponse provideTestJobResponse(String direction) {
+    private JobDetailResponse provideTestJobResponse(String direction) {
         JobStatus jobStatus = new JobStatus(
                 "COMPLETED",
                 new Date(),
@@ -163,7 +163,7 @@ class IrsServiceTest {
         bpns.put("key1", "value1");
         bpns.put("key2", "value2");
 
-        return new JobResponse(
+        return new JobDetailResponse(
                 jobStatus,
                 shells,
                 semanticDataModels,

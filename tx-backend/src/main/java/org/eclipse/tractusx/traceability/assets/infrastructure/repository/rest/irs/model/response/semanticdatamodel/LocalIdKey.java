@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,14 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model;
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record JobStatus(
-        String state,
-        Date startedOn,
-        Date lastModifiedOn,
-        String globalAssetId,
-        Parameter parameter
-) {}
+public enum LocalIdKey {
+    @JsonProperty("manufacturerId") MANUFACTURER_ID,
+    @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID,
+    @JsonProperty("partInstanceId") PART_INSTANCE_ID,
+    @JsonProperty("batchId") BATCH_ID,
+    @JsonEnumDefaultValue UNKNOWN,
+    @JsonProperty("van") VAN,
+}

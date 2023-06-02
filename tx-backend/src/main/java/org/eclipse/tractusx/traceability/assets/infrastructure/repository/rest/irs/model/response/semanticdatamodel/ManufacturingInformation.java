@@ -17,16 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel;
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel;
 
-import com.fasterxml.jackson.annotation.JsonEnumDefaultValue;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-public enum LocalIdKey {
-    @JsonProperty("manufacturerId") MANUFACTURER_ID,
-    @JsonProperty("manufacturerPartId") MANUFACTURER_PART_ID,
-    @JsonProperty("partInstanceId") PART_INSTANCE_ID,
-    @JsonProperty("batchId") BATCH_ID,
-    @JsonEnumDefaultValue UNKNOWN,
-    @JsonProperty("van") VAN,
+import java.util.Date;
+
+public record ManufacturingInformation(
+        String country,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") Date date
+) {
 }

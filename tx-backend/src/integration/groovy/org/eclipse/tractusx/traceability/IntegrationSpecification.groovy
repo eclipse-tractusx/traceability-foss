@@ -26,7 +26,7 @@ import groovy.json.JsonBuilder
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.ShellDescriptorRepository
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.assets.infrastructure.utils.AssetTestData
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
 import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
@@ -60,8 +60,7 @@ abstract class IntegrationSpecification extends Specification
     @Autowired
     private AssetRepository assetRepository
 
-    @Autowired
-    private AssetsConverter assetsConverter
+    private AssetTestData assetTestDataConverter = new AssetTestData()
 
     @Autowired
     private ShellDescriptorRepository shellDescriptorRepository
@@ -106,8 +105,8 @@ abstract class IntegrationSpecification extends Specification
     }
 
     @Override
-    AssetsConverter assetsConverter() {
-        return assetsConverter
+    AssetTestData assetsConverter() {
+        return assetTestDataConverter
     }
 
     @Override

@@ -18,11 +18,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship;
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model;
-
-public record Shell(
-        String idShort,
-        String identification
-) {
+public record Relationship(String catenaXId, LinkedItem linkedItem, Aspect aspectType) {
+    public String childCatenaXId() {
+        return linkedItem.childCatenaXId();
+    }
 }
+
+

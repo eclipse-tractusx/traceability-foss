@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobDetailResponse;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class JobResponseTest {
+class JobDetailResponseTest {
 
     @Test
     void testAssetConverterAddsParentAssets() throws IOException {
@@ -41,8 +42,8 @@ class JobResponseTest {
                 .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        InputStream file = AssetsConverter.class.getResourceAsStream("/data/irs_assets_v2_singleUsageAsBuilt.json");
-        JobResponse response = mapper.readValue(file, JobResponse.class);
+        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_assets_v2_singleUsageAsBuilt.json");
+        JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
         // when
         List<Asset> assets = response.convertAssets();
         Asset ownAsset = assets.get(0);

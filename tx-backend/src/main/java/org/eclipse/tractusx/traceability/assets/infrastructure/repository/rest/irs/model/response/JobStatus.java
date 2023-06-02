@@ -1,5 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,12 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel;
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response;
 
-public record PartTypeInformation(
-        String nameAtManufacturer,
-        String nameAtCustomer,
-        String manufacturerPartId,
-        String customerPartId
-) {
-}
+import java.util.Date;
+
+public record JobStatus(
+        String state,
+        Date startedOn,
+        Date lastModifiedOn,
+        String globalAssetId,
+        Parameter parameter
+) {}

@@ -19,14 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model;
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 class Submodel {
     @JsonTypeInfo(

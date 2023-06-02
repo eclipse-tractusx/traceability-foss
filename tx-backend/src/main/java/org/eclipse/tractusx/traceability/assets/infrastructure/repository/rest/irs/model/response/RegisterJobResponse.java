@@ -19,33 +19,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model;
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.List;
-
-public record StartJobRequest(
-        List<String> aspects,
-        String globalAssetId,
-        boolean collectAspects,
-        BomLifecycle bomLifecycle,
-        boolean lookupBPNs,
-        int depth,
-        Direction direction
+public record RegisterJobResponse(
+        String id
 ) {
-    public static StartJobRequest buildJobRequest(String globalAssetId, Direction direction, List<String> aspects) {
-        return new StartJobRequest(aspects, globalAssetId, true, BomLifecycle.AS_BUILT, true, DEFAULT_DEPTH, direction);
-    }
-
-    public static final int DEFAULT_DEPTH = 2;
 }
-
-
-enum BomLifecycle {
-    @JsonProperty("asBuilt")
-    AS_BUILT,
-    @JsonProperty("asPlanned")
-    AS_PLANNED
-}
-

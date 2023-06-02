@@ -21,13 +21,13 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobDetailResponse;
 
 import java.util.function.Predicate;
 
-public class JobRunning implements Predicate<JobResponse> {
+public class JobRunning implements Predicate<JobDetailResponse> {
 	@Override
-	public boolean test(JobResponse jobResponse) {
+	public boolean test(JobDetailResponse jobResponse) {
 		return jobResponse.isRunning();
 	}
 }

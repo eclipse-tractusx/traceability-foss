@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model;
+package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,8 +28,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.relationship.Relationship;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.semanticdatamodel.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship.Relationship;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public record JobResponse(
+public record JobDetailResponse(
         JobStatus jobStatus,
         List<Shell> shells,
         List<SemanticDataModel> semanticDataModels,
@@ -50,7 +50,7 @@ public record JobResponse(
     private static final String ASSEMBLY_PART_RELATIONSHIP = "AssemblyPartRelationship";
 
     @JsonCreator
-    static JobResponse of(
+    static JobDetailResponse of(
             @JsonProperty("job") JobStatus jobStatus,
             @JsonProperty("relationships") List<Relationship> relationships,
             @JsonProperty("shells") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Shell> shells,
@@ -67,7 +67,7 @@ public record JobResponse(
                 .toList();
 
 
-        return new JobResponse(
+        return new JobDetailResponse(
                 jobStatus,
                 shells,
                 semanticDataModels,
