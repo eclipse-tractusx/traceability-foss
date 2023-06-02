@@ -9,10 +9,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 - Adapt asset synchronization from IRS
+- Cors configuration for environment e2e-a and e2e-b
 
 ### Changed
 
 - Updated registry urls within env profiles
+- Replaced DELETE Pod Requests with StatefulSets
 
 ### Removed
 
