@@ -19,14 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.adapters.rest
+package org.eclipse.tractusx.traceability.shelldescriptor
 
 import io.restassured.http.ContentType
+import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
 import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
 import org.eclipse.tractusx.traceability.common.support.RegistrySupport
 import org.eclipse.tractusx.traceability.common.support.ShellDescriptorSupport
-import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.hamcrest.Matchers
 import spock.lang.Ignore
 
