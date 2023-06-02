@@ -49,6 +49,7 @@ import java.util.List;
 @Builder
 @Table(name = "asset")
 public class AssetEntity {
+
     @Id
     private String id;
     private String idShort;
@@ -133,6 +134,7 @@ public class AssetEntity {
                 .build();
 
     }
+
 
     public static List<Asset> toDomainList(List<AssetEntity> entities) {
         return entities.stream()

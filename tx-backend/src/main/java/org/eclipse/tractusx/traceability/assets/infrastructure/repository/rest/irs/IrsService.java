@@ -26,16 +26,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobStatus;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.StartJobRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.StartJobResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Direction;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobStatus;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.RegisterJobResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+
 
 @Slf4j
 @Service
@@ -43,13 +43,12 @@ import java.util.List;
 public class IrsService implements IrsRepository {
 
     private final IRSApiClient irsClient;
-    private final AssetsConverter assetsConverter;
     private final BpnRepository bpnRepository;
 
     @Override
     public List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects) {
-        StartJobResponse startJobResponse = irsClient.registerJob(StartJobRequest.buildJobRequest(globalAssetId, direction, aspects));
-        JobResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
+        RegisterJobResponse startJobResponse = irsClient.registerJob(RegisterJobRequest.buildJobRequest(globalAssetId, direction, aspects));
+        JobDetailResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
 
         JobStatus jobStatus = jobResponse.jobStatus();
         long runtime = (jobStatus.lastModifiedOn().getTime() - jobStatus.startedOn().getTime()) / 1000;
@@ -57,7 +56,7 @@ public class IrsService implements IrsRepository {
 
         if (jobResponse.isCompleted()) {
             bpnRepository.updateManufacturers(jobResponse.bpns());
-            return assetsConverter.convertAssets(jobResponse);
+            return jobResponse.convertAssets();
         }
         return Collections.emptyList();
     }

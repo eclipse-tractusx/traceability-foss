@@ -19,7 +19,8 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
-import org.eclipse.tractusx.traceability.assets.application.service.RegistryFacade;
+import org.eclipse.tractusx.traceability.shelldescriptor.application.RegistryController;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
