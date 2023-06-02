@@ -18,9 +18,10 @@
  ********************************************************************************/
 
 import { AlertsModule } from '@page/alerts/alerts.module';
-import { AlertsComponent } from './alerts.component';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
+
+import { AlertsComponent } from './alerts.component';
 
 
 describe('AlertsComponent', () => {
