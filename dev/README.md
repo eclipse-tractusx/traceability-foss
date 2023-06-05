@@ -1,15 +1,17 @@
 # Full reset of environment (dev,test)
+
 ## 1) Clean up
 
 ### a) Using Insomnia Collection
 
-Here you can find the [Trace-X Insomnia Collection](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/tracex.json).
-Use this [README](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/README.md) to find out how to setup Insomnia with the Trace-X Collection.
+- Hint you need to copy the access token for argo cd into the specific environment for requests against argo (argocd.token) in insomnia: argo_access_token
 
-In the Collection you will find a directory named 'Argo', in which you can delete & sync all necessary application components. Go through every directory inside the 'Argo' directory and execute every request inside the Directory 'DELETE'. To make this step easier, you can install the Insomnia Plugin ['multiple requests'](https://insomnia.rest/plugins/insomnia-plugin-multiple-requests).
-With this Plugin you can execute all requests inside the 'DELETE' Directory by right-clicking the directory and choosing 'send Requests'.
+Here you can find the [Trace-X Insomnia Collection](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/tracex.json). Use this [README](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/README.md) to find out how to setup Insomnia with the Trace-X Collection.
+
+In the Collection you will find a directory named 'Argo', in which you can delete & sync all necessary application components. Go through every directory inside the 'Argo' directory and execute every request inside the Directory 'DELETE'. To make this step easier, you can install the Insomnia Plugin ['multiple requests'](https://insomnia.rest/plugins/insomnia-plugin-multiple-requests). With this Plugin you can execute all requests inside the 'DELETE' Directory by right-clicking the directory and choosing 'send Requests'.
 
 Wait until pvc and database pods are restored. Underneath all 'DELETE' directories there is another request that syncs the application component. Execute this request for all. The environment begins the sync process. After the sync process you can proceed with Chapter 2.
+
 ### b) Manual steps
 
 - Open Argo specific env
@@ -24,6 +26,7 @@ Repeat those steps for registry, submodelserver, trace-x-provider-edcs, tracex-i
 ## 2) Data upload of assets
 
 In order to upload data to EDC Provider, please use [IRS project script](https://github.com/catenax-ng/tx-item-relationship-service/blob/main/local/testing/testdata/transform-and-upload.py)
+
 Sample invocation (DEV)
 
 ```
@@ -50,7 +53,7 @@ python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https
 
 where:
 
-* -f file to be used for data provisioning
+* -f file to be used for data provisioning /tx-backend/testdata/CX_Testdata_MessagingTest_vx.x.x.json
 * -s submodel server url(s)
 * -edc edc url(s) to upload data to
 * -a aas url(s)
@@ -85,6 +88,30 @@ curl --request POST \
 --data '{"notificationType" : "QUALITY_INVESTIGATION", "notificationMethod" : "UPDATE"}'
 -
 ```
+
+- Make sure bpn mapping for the instances exists:
+
+DEV & Test:
+[
+{
+"bpn": "BPNL00000003AYRE",
+"url": "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
+}, {
+"bpn": "BPNL00000003B2OM",
+"url": "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
+}
+]
+
+E2E A & E2E B:
+[
+{
+"bpn": "BPNL00000003CML1",
+"url": "https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net"
+}, {
+"bpn": "BPNL00000003CNKC",
+"url": "https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net"
+}
+]
 
 ## Documentation of Testdata
 
