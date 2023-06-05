@@ -25,9 +25,9 @@ import feign.Param;
 import feign.RequestLine;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.JobResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.StartJobRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.StartJobResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.RegisterJobResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -38,10 +38,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 )
 public interface IRSApiClient {
 
-	@RequestLine("POST /irs/jobs")
-	StartJobResponse registerJob(@RequestBody StartJobRequest request);
+    @RequestLine("POST /irs/jobs")
+    RegisterJobResponse registerJob(@RequestBody RegisterJobRequest request);
 
     @RequestLine("GET /irs/jobs/{id}")
     @Retry(name = "irs-get")
-    JobResponse getJobDetails(@Param("id") String id);
+    JobDetailResponse getJobDetails(@Param("id") String id);
 }

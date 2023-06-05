@@ -22,7 +22,6 @@
 package org.eclipse.tractusx.traceability.common.support
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.AssetsConverter
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
@@ -31,12 +30,16 @@ import java.time.Instant
 
 trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepositoryProvider {
 
+    String emptyText() {
+        return "--"
+    }
+
     void defaultAssetsStored() {
-        assetRepository().saveAll(assetsConverter().readAndConvertAssets())
+        assetRepository().saveAll(assetsConverter().readAndConvertAssetsForTests())
     }
 
     void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
-        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssets().collect { asset ->
+        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssetsForTests().collect { asset ->
             def assetEntity = AssetEntity.from(asset)
             assetEntity.setInInvestigation(inInvestigation);
             return assetEntity;
@@ -60,8 +63,8 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
 
     void assertHasRequiredIdentifiers() {
         assetRepository().getAssets().each { asset ->
-            assert asset.manufacturerId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
-            assert asset.partInstanceId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
+            assert asset.manufacturerId != "--" || asset.batchId != "--"
+            assert asset.partInstanceId != "--" || asset.batchId != "--"
             assert asset.idShort != null
         }
     }

@@ -18,7 +18,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.domain.metrics;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.registrylookup.RegistryLookupMetricEntity;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.metrics.RegistryLookupMetric;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.metrics.RegistryLookupStatus;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.registrylookup.RegistryLookupMetricEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
