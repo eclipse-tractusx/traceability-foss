@@ -1,0 +1,76 @@
+name: "Dependencies Backend Update"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+
+      - name: Generate BE Dependencies file
+        run: mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=DEPENDENCIES_BACKEND
+
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+          dir: 'frontend'
+
+      - name: Generate FE Dependencies file
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: run dependencies:generate
+          dir: 'frontend'
+
+      - name: Check if file was changed
+        run: |
+          if git diff --name-only ${{ github.base_ref }}...${{ github.sha }} | grep -e 'DEPENDENCIES_BACKEND' -e 'DEPENDENCIES_FRONTEND'; then
+            echo "The files were changed"
+            echo "were_files_changed=true" >> "$GITHUB_ENV"
+            git
+          else
+            echo "The file were not changed"
+            echo "were_files_changed=true" >> "$GITHUB_ENV"
+            echo "were_files_changed=false" >> "$GITHUB_ENV"
+          fi
+
+      - name: Configure Git
+        run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+        if: ${{ env.were_files_changed }} == 'true'
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          add-paths: |
+            DEPENDENCIES_BACKEND
+            DEPENDENCIES_FRONTEND
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: action/dependencies
+          #          base: ${{ github.ref }}
+          commit-message: Update Dependencies Backend Action
+          title: Update Dependencies Backend
+          body: |
+            Updates Dependencies
+          labels: automated, dependencies-check
+        if: ${{ env.were_files_changed }} == 'true'
+
