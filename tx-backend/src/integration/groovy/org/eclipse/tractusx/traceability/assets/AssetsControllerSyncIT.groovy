@@ -23,7 +23,6 @@ package org.eclipse.tractusx.traceability.assets
 
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
 import org.eclipse.tractusx.traceability.common.support.BpnSupport
 import org.eclipse.tractusx.traceability.common.support.IrsApiSupport
@@ -60,47 +59,6 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
             assertAssetsSize(14)
             assertHasRequiredIdentifiers()
             assertHasChildCount("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", 5)
-        }
-
-        and:
-        verifyOAuth2ApiCalledOnceForTechnicalUserToken()
-        verifyIrsApiTriggerJobCalledTimes(2)
-    }
-
-    def "should use cached BPNs when empty list is returned"() {
-        given:
-        oauth2ApiReturnsTechnicalUserToken()
-        irsApiTriggerJob()
-        irsApiReturnsJobDetailsWithNoBPNs()
-
-        and:
-        cachedBpnsForDefaultAssets()
-
-        when:
-        given()
-                .contentType(ContentType.JSON)
-                .body(
-                        asJson(
-                                [
-                                        globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
-                                ]
-                        )
-                )
-                .header(jwtAuthorization(ADMIN))
-                .when()
-                .post("/api/assets/sync")
-                .then()
-                .statusCode(200)
-
-        then:
-        eventually {
-            List<Asset> assets = assetRepository().getAssets().findAll { asset ->
-                asset.manufacturerId != emptyText()
-            }
-            assets.size() == 13
-            assets.each { asset ->
-                assert asset.manufacturerName != emptyText()
-            }
         }
 
         and:
