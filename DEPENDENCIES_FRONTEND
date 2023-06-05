@@ -30,7 +30,7 @@ npm/npmjs/-/any-promise/1.3.0, MIT, approved, clearlydefined
 npm/npmjs/-/anymatch/3.1.3, ISC, approved, #5050
 npm/npmjs/-/aproba/2.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/arch/2.2.0, MIT, approved, clearlydefined
-npm/npmjs/-/are-docs-informative/0.0.2, MIT AND (JSON AND MIT), restricted, #8056
+npm/npmjs/-/are-docs-informative/0.0.2, MIT, approved, #8056
 npm/npmjs/-/are-we-there-yet/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/arg/4.1.3, MIT, approved, clearlydefined
 npm/npmjs/-/arg/5.0.2, MIT, approved, clearlydefined
@@ -188,7 +188,7 @@ npm/npmjs/-/css.escape/1.5.1, MIT, approved, clearlydefined
 npm/npmjs/-/css/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/cssesc/3.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/custom-event/1.0.1, MIT, approved, clearlydefined
-npm/npmjs/-/cypress/12.10.0, MIT AND OFL-1.1 AND BSD-3-Clause AND Apache-2.0 AND (EPL-1.0 AND NTP-0) AND ISC AND JSON AND (BSD-2-Clause AND MIT), restricted, #8055
+npm/npmjs/-/cypress/12.10.0, MIT AND OFL-1.1 AND BSD-3-Clause AND Apache-2.0 AND ISC, approved, #8055
 npm/npmjs/-/d3-array/3.2.1, ISC, approved, clearlydefined
 npm/npmjs/-/d3-axis/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/d3-brush/3.0.0, ISC, approved, clearlydefined
@@ -398,7 +398,7 @@ npm/npmjs/-/gensync/1.0.0-beta.2, MIT, approved, clearlydefined
 npm/npmjs/-/get-caller-file/2.0.5, ISC, approved, clearlydefined
 npm/npmjs/-/get-intrinsic/1.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/get-intrinsic/1.1.3, MIT, approved, clearlydefined
-npm/npmjs/-/get-intrinsic/1.2.0, MIT, approved, #8453
+npm/npmjs/-/get-intrinsic/1.2.1, MIT, approved, #8453
 npm/npmjs/-/get-package-type/0.1.0, MIT, approved, clearlydefined
 npm/npmjs/-/get-stream/5.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/get-stream/6.0.1, MIT, approved, clearlydefined
@@ -772,7 +772,7 @@ npm/npmjs/-/path-is-absolute/1.0.1, MIT, approved, clearlydefined
 npm/npmjs/-/path-key/3.1.1, MIT, approved, clearlydefined
 npm/npmjs/-/path-key/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/path-parse/1.0.7, MIT, approved, clearlydefined
-npm/npmjs/-/path-scurry/1.7.0, BlueOak-1.0.0, restricted, #8028
+npm/npmjs/-/path-scurry/1.7.0, BlueOak-1.0.0, approved, #8028
 npm/npmjs/-/path-to-regexp/0.1.7, MIT, approved, clearlydefined
 npm/npmjs/-/path-to-regexp/6.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/path-type/4.0.0, MIT, approved, clearlydefined
@@ -796,7 +796,7 @@ npm/npmjs/-/postcss-loader/7.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/postcss-loader/7.2.4, MIT, approved, clearlydefined
 npm/npmjs/-/postcss-media-query-parser/0.2.3, MIT, approved, clearlydefined
 npm/npmjs/-/postcss-modules-extract-imports/3.0.0, ISC, approved, clearlydefined
-npm/npmjs/-/postcss-modules-local-by-default/4.0.0, MIT, approved, clearlydefined
+npm/npmjs/-/postcss-modules-local-by-default/4.0.0, MIT, approved, #8508
 npm/npmjs/-/postcss-modules-scope/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/postcss-modules-values/4.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/postcss-nested/6.0.0, MIT, approved, clearlydefined
@@ -922,7 +922,7 @@ npm/npmjs/-/slice-ansi/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/slice-ansi/5.0.0, MIT, approved, clearlydefined
 npm/npmjs/-/smart-buffer/4.2.0, MIT, approved, clearlydefined
 npm/npmjs/-/socket.io-adapter/2.5.2, MIT, approved, clearlydefined
-npm/npmjs/-/socket.io-parser/4.2.2, MIT, approved, clearlydefined
+npm/npmjs/-/socket.io-parser/4.2.3, MIT, approved, #8535
 npm/npmjs/-/socket.io/4.6.1, MIT, approved, #7121
 npm/npmjs/-/sockjs/0.3.24, MIT, approved, #2985
 npm/npmjs/-/socks-proxy-agent/7.0.0, MIT, approved, clearlydefined
@@ -1504,8 +1504,7 @@ npm/npmjs/@types/mkdirp/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/@types/ms/0.7.31, MIT, approved, clearlydefined
 npm/npmjs/@types/node/14.18.34, MIT, approved, #4611
 npm/npmjs/@types/node/18.16.0, MIT, approved, clearlydefined
-npm/npmjs/@types/node/20.1.0, MIT, approved, #8373
-npm/npmjs/@types/node/20.1.1, MIT, approved, #8373
+npm/npmjs/@types/node/20.2.3, MIT, approved, clearlydefined
 npm/npmjs/@types/normalize-package-data/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/@types/parse-json/4.0.0, MIT, approved, clearlydefined
 npm/npmjs/@types/qs/6.9.7, MIT, approved, clearlydefined
