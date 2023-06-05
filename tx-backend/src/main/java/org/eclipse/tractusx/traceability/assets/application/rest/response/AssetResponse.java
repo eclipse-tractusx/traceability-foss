@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 
-import java.time.Instant;
 import java.util.List;
 
 @Slf4j
@@ -38,39 +36,26 @@ import java.util.List;
 @Builder
 @Data
 @ArraySchema(arraySchema = @Schema(description = "Assets"), maxItems = Integer.MAX_VALUE)
-public final class AssetResponse {
+public class AssetResponse {
     @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
-    private final String id;
+    private String id;
     @ApiModelProperty(example = "--")
-    private final String idShort;
-    @ApiModelProperty(example = "Door f-r")
-    private final String nameAtManufacturer;
-    @ApiModelProperty(example = "33740332-54")
-    private final String manufacturerPartId;
-    @ApiModelProperty(example = "NO-297452866581906730261974")
-    private final String partInstanceId;
+    private String idShort;
+    @ApiModelProperty(example = "--")
+    private String semanticModelId;
     @ApiModelProperty(example = "BPNL00000003CSGV")
-    private final String manufacturerId;
-    @ApiModelProperty(example = "--")
-    private final String batchId;
+    private String manufacturerId;
     @ApiModelProperty(example = "Tier C")
     private String manufacturerName;
-    @ApiModelProperty(example = "Door front-right")
-    private final String nameAtCustomer;
-    @ApiModelProperty(example = "33740332-54")
-    private final String customerPartId;
-    @ApiModelProperty(example = "2022-02-04T13:48:54Z")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private final Instant manufacturingDate;
-    @ApiModelProperty(example = "DEU")
-    private final String manufacturingCountry;
     @ApiModelProperty(example = "CUSTOMER")
-    private final OwnerResponse owner;
-
+    private OwnerResponse owner;
     @ArraySchema(arraySchema = @Schema(description = "Child relationships"), maxItems = Integer.MAX_VALUE)
-    private List<DescriptionsResponse> childDescriptions;
+    private List<DescriptionsResponse> childRelations;
     @ArraySchema(arraySchema = @Schema(description = "Parent relationships"), maxItems = Integer.MAX_VALUE)
-    private List<DescriptionsResponse> parentDescriptions;
+    private List<DescriptionsResponse> parentRelations;
+
+    // here latest work - check why there is no activeAlert inside of the response
+
     @ApiModelProperty(example = "false")
     private boolean underInvestigation;
     @ApiModelProperty(example = "Ok")
