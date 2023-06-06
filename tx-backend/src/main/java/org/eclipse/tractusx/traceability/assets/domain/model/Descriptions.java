@@ -19,6 +19,9 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.model;
 
+import lombok.Builder;
+
+@Builder
 public record Descriptions(
         String id,
         String idShort) {

@@ -26,7 +26,7 @@ import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundEx
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -44,7 +44,7 @@ public class PersistentAssetsRepository implements AssetRepository {
     @Transactional
     public Asset getAssetById(String assetId) {
         return assetsRepository.findById(assetId)
-                .map(AssetEntity::toDomain)
+                .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
     }
 
@@ -56,40 +56,40 @@ public class PersistentAssetsRepository implements AssetRepository {
     @Override
     public List<Asset> getAssetsById(List<String> assetIds) {
         return assetsRepository.findByIdIn(assetIds).stream()
-                .map(AssetEntity::toDomain)
+                .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
 
     @Override
     public Asset getAssetByChildId(String assetId, String childId) {
         return assetsRepository.findById(childId)
-                .map(AssetEntity::toDomain)
+                .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
     }
 
     @Override
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
         if (owner != null) {
-            return new PageResult<>(assetsRepository.findByOwner(pageable, owner), AssetEntity::toDomain);
+            return new PageResult<>(assetsRepository.findByOwner(pageable, owner), AssetAsBuiltEntity::toDomain);
         }
-        return new PageResult<>(assetsRepository.findAll(pageable), AssetEntity::toDomain);
+        return new PageResult<>(assetsRepository.findAll(pageable), AssetAsBuiltEntity::toDomain);
     }
 
     @Override
     @Transactional
     public List<Asset> getAssets() {
-        return AssetEntity.toDomainList(assetsRepository.findAll());
+        return AssetAsBuiltEntity.toDomainList(assetsRepository.findAll());
     }
 
     @Override
     public Asset save(Asset asset) {
-        return AssetEntity.toDomain(assetsRepository.save(AssetEntity.from(asset)));
+        return AssetAsBuiltEntity.toDomain(assetsRepository.save(AssetAsBuiltEntity.from(asset)));
     }
 
     @Override
     @Transactional
     public List<Asset> saveAll(List<Asset> assets) {
-        return AssetEntity.toDomainList(assetsRepository.saveAll(AssetEntity.fromList(assets)));
+        return AssetAsBuiltEntity.toDomainList(assetsRepository.saveAll(AssetAsBuiltEntity.fromList(assets)));
     }
 
     @Transactional

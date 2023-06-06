@@ -64,11 +64,14 @@ public record SemanticDataModel(
         final boolean isBatch = getLocalId(LocalIdKey.BATCH_ID).isPresent();
         final boolean isSerialPartTypization = getLocalId(LocalIdKey.PART_INSTANCE_ID).isPresent();
         String semanticModelId = null;
+        org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel semanticDataModel = null;
         if (isBatch) {
             semanticModelId = getLocalId(LocalIdKey.BATCH_ID).get();
+            semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.BATCH;
         }
         if (isSerialPartTypization) {
             semanticModelId = getLocalId(LocalIdKey.PART_INSTANCE_ID).get();
+            semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.SERIAL_PART_TYPIZATION;
         }
 
         return Asset.builder()
@@ -83,7 +86,7 @@ public record SemanticDataModel(
                 .activeAlert(false)
                 .underInvestigation(false)
                 .qualityType(QualityType.OK)
-                .semanticDataModel()
+                .semanticDataModel(semanticDataModel)
                 .van(van())
                 .build();
     }
@@ -93,15 +96,6 @@ public record SemanticDataModel(
                 .orElse("--");
     }
 
-    private String batchId() {
-        return getLocalId(LocalIdKey.BATCH_ID)
-                .orElse("--");
-    }
-
-    private String partInstanceId() {
-        return getLocalId(LocalIdKey.PART_INSTANCE_ID)
-                .orElse("--");
-    }
 
     private String manufacturingCountry() {
         if (manufacturingInformation() == null) {

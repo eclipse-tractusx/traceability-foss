@@ -32,7 +32,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
@@ -59,7 +59,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
             joinColumns = @JoinColumn(name = "investigation_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetEntity> assets;
+    private List<AssetAsBuiltEntity> assets;
 
     @OneToMany(mappedBy = "investigation")
     private List<InvestigationNotificationEntity> notifications;
@@ -70,7 +70,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .toList();
 
         List<String> assetIds = investigationNotificationEntity.getAssets().stream()
-                .map(AssetEntity::getId)
+                .map(AssetAsBuiltEntity::getId)
                 .toList();
 
         return QualityNotification.builder()
@@ -88,7 +88,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .build();
     }
 
-    public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetEntity> assetEntities) {
+    public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return InvestigationEntity.builder()
                 .assets(assetEntities)
                 .bpn(qualityNotification.getBpn())

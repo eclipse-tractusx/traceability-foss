@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
@@ -39,8 +39,8 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
     }
 
     void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
-        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssetsForTests().collect { asset ->
-            def assetEntity = AssetEntity.from(asset)
+        List<AssetAsBuiltEntity> assetEntities = assetsConverter().readAndConvertAssetsForTests().collect { asset ->
+            def assetEntity = AssetAsBuiltEntity.from(asset)
             assetEntity.setInInvestigation(inInvestigation);
             return assetEntity;
         }

@@ -20,10 +20,9 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +32,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
 import java.util.List;
+
+import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.createAssetTestData;
 
 @ExtendWith(MockitoExtension.class)
 class PersistentAssetsRepositoryTest {
@@ -46,57 +47,62 @@ class PersistentAssetsRepositoryTest {
     @Test
     void testToAsset() {
         // Given
-        AssetEntity entity = new AssetEntity();
-        entity.setIdShort("AS01");
-        entity.setNameAtManufacturer("Asset 1");
-        entity.setManufacturerPartId("MP001");
-        entity.setPartInstanceId("PI001");
-        entity.setManufacturerId("M01");
-        entity.setBatchId("B001");
-        entity.setManufacturerName("Manufacturer 1");
-        entity.setNameAtCustomer("Customer Asset 1");
-        entity.setCustomerPartId("CP001");
-        entity.setManufacturingDate(Instant.ofEpochSecond(11111111L));
-        entity.setManufacturingCountry("USA");
-        entity.setOwner(Owner.OWN);
-        entity.setQualityType(QualityType.OK);
-        entity.setVan("V001");
+        AssetAsBuiltEntity entity = AssetAsBuiltEntity.builder()
+                .id("1")
+                .idShort("1234")
+                .nameAtManufacturer("Manufacturer Name")
+                .manufacturerPartId("customer123")
+                .semanticModelId("PI001")
+                .manufacturerId("manuId")
+                .manufacturerName("manuName")
+                .nameAtCustomer("Customer Name")
+                .customerPartId("customerPartId")
+                .manufacturingDate(Instant.ofEpochSecond(11111111L))
+                .manufacturingCountry("manu456")
+                .owner(Owner.OWN)
+                .qualityType(QualityType.CRITICAL)
+                .van("van123")
+                .childDescriptors(List.of(AssetAsBuiltEntity.ChildDescription.builder()
+                                .id("child1")
+                                .idShort("desc1")
+                                .build(),
+                        AssetAsBuiltEntity.ChildDescription.builder()
+                                .id("child2")
+                                .idShort("desc2")
+                                .build())
 
-        // add child and parent descriptors
-        AssetEntity.ChildDescription child1 = new AssetEntity.ChildDescription();
-        child1.setId("C001");
-        child1.setIdShort("CD01");
-        entity.setChildDescriptors(List.of(child1));
+                )
+                .parentDescriptors(List.of(AssetAsBuiltEntity.ParentDescription.builder()
+                                        .id("parent1")
+                                        .idShort("desc1")
+                                        .build(),
+                                AssetAsBuiltEntity.ParentDescription.builder()
+                                        .id("parent2")
+                                        .idShort("desc2")
+                                        .build()
 
-        AssetEntity.ParentDescription parent1 = new AssetEntity.ParentDescription();
-        parent1.setId("P001");
-        parent1.setIdShort("PD01");
-        entity.setParentDescriptors(List.of(parent1));
+                        )
+
+                )
+                .build();
+
 
         // when
-        Asset asset = AssetEntity.toDomain(entity);
+        Asset asset = AssetAsBuiltEntity.toDomain(entity);
 
 
         // then
-        Asset expected = new Asset(
-                null, "AS01", "Asset 1", "MP001", "PI001", "M01",
-                "B001", "Manufacturer 1", "Customer Asset 1", "CP001",
-                Instant.ofEpochSecond(11111111L), "USA", Owner.OWN,
-                List.of(new Descriptions("C001", "CD01")),
-                List.of(new Descriptions("P001", "PD01")),
-                false, QualityType.OK, "V001");
+        Asset expected = createAssetTestData();
+
         Assertions.assertEquals(asset.getId(), expected.getId());
         Assertions.assertEquals(asset.getIdShort(), expected.getIdShort());
-        Assertions.assertEquals(asset.getNameAtManufacturer(), expected.getNameAtManufacturer());
-        Assertions.assertEquals(asset.getManufacturerPartId(), expected.getManufacturerPartId());
-        Assertions.assertEquals(asset.getPartInstanceId(), expected.getPartInstanceId());
+        Assertions.assertEquals(asset.getSemanticModel().getNameAtManufacturer(), expected.getSemanticModel().getNameAtManufacturer());
+        Assertions.assertEquals(asset.getSemanticModel().getManufacturerPartId(), expected.getSemanticModel().getManufacturerPartId());
         Assertions.assertEquals(asset.getManufacturerId(), expected.getManufacturerId());
-        Assertions.assertEquals(asset.getBatchId(), expected.getBatchId());
         Assertions.assertEquals(asset.getManufacturerName(), expected.getManufacturerName());
-        Assertions.assertEquals(asset.getNameAtCustomer(), expected.getNameAtCustomer());
-        Assertions.assertEquals(asset.getCustomerPartId(), expected.getCustomerPartId());
-        Assertions.assertEquals(asset.getManufacturingDate(), expected.getManufacturingDate());
-        Assertions.assertEquals(asset.getManufacturingCountry(), expected.getManufacturingCountry());
+        Assertions.assertEquals(asset.getSemanticModel().getNameAtCustomer(), expected.getSemanticModel().getNameAtCustomer());
+        Assertions.assertEquals(asset.getSemanticModel().getCustomerPartId(), expected.getSemanticModel().getCustomerPartId());
+        Assertions.assertEquals(asset.getSemanticModel().getManufacturingCountry(), expected.getSemanticModel().getManufacturingCountry());
         Assertions.assertEquals(asset.getOwner(), expected.getOwner());
         Assertions.assertEquals(asset.getChildRelations(), expected.getChildRelations());
         Assertions.assertEquals(asset.getParentRelations(), expected.getParentRelations());

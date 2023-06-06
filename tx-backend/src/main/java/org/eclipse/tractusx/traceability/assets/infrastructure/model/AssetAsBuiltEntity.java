@@ -21,78 +21,39 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.model;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
+import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
 
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Table(name = "asset")
-public class AssetEntity {
+@Entity
+@SuperBuilder
+@Table(name = "asset_as_built")
+public class AssetAsBuiltEntity extends AssetBaseEntity {
 
-    @Id
-    private String id;
-    private String idShort;
-    private String nameAtManufacturer;
-    private String manufacturerPartId;
-    private String partInstanceId;
-    private String manufacturerId;
-    private String batchId;
-    private String manufacturerName;
-    private String nameAtCustomer;
-    private String customerPartId;
-    private Instant manufacturingDate;
-    private String manufacturingCountry;
-    private Owner owner;
-    private QualityType qualityType;
-    private String van;
-    private boolean inInvestigation;
-
-    @ElementCollection
-    @CollectionTable(name = "asset_child_descriptors")
-    private List<ChildDescription> childDescriptors;
-
-    @ElementCollection
-    @CollectionTable(name = "asset_parent_descriptors")
-    private List<ParentDescription> parentDescriptors;
-
-    @ManyToMany(mappedBy = "assets")
-    private List<InvestigationEntity> investigations = new ArrayList<>();
-
-    public static AssetEntity from(Asset asset) {
-        return AssetEntity.builder()
+    public static AssetAsBuiltEntity from(Asset asset) {
+        return AssetAsBuiltEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
-                .nameAtManufacturer(asset.getNameAtManufacturer())
-                .manufacturerPartId(asset.getManufacturerPartId())
-                .partInstanceId(asset.getPartInstanceId())
+                .nameAtManufacturer(asset.getSemanticModel().getNameAtManufacturer())
+                .manufacturerPartId(asset.getSemanticModel().getManufacturerPartId())
+                .semanticModelId(asset.getSemanticModelId())
                 .manufacturerId(asset.getManufacturerId())
-                .batchId(asset.getBatchId())
                 .manufacturerName(asset.getManufacturerName())
-                .nameAtCustomer(asset.getNameAtCustomer())
-                .customerPartId(asset.getCustomerPartId())
-                .manufacturingDate(asset.getManufacturingDate())
-                .manufacturingCountry(asset.getManufacturingCountry())
+                .nameAtCustomer(asset.getSemanticModel().getNameAtCustomer())
+                .customerPartId(asset.getSemanticModel().getCustomerPartId())
+                .manufacturingDate(asset.getSemanticModel().getManufacturingDate())
+                .manufacturingCountry(asset.getSemanticModel().getManufacturingCountry())
                 .owner(asset.getOwner())
                 .childDescriptors(asset.getChildRelations().stream()
                         .map(child -> new ChildDescription(child.id(), child.idShort()))
@@ -106,64 +67,60 @@ public class AssetEntity {
                 .build();
     }
 
-    public static Asset toDomain(AssetEntity entity) {
-
+    public static Asset toDomain(AssetAsBuiltEntity entity) {
         return Asset.builder()
                 .id(entity.getId())
                 .idShort(entity.getIdShort())
-                .nameAtManufacturer(entity.getNameAtManufacturer())
-                .manufacturerPartId(entity.getManufacturerPartId())
-                .partInstanceId(entity.getPartInstanceId())
+                .semanticModel(SemanticModel.from(entity))
+                .semanticModelId(entity.getSemanticModelId())
                 .manufacturerId(entity.getManufacturerId())
-                .batchId(entity.getBatchId())
                 .manufacturerName(entity.getManufacturerName())
-                .nameAtCustomer(entity.getNameAtCustomer())
-                .customerPartId(entity.getCustomerPartId())
-                .manufacturingDate(entity.getManufacturingDate())
-                .manufacturingCountry(entity.getManufacturingCountry())
                 .owner(entity.getOwner())
-                .childDescriptions(entity.getChildDescriptors().stream()
+                .childRelations(entity.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
                         .toList())
-                .parentDescriptions(entity.getParentDescriptors().stream()
+                .parentRelations(entity.getParentDescriptors().stream()
                         .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList())
                 .underInvestigation(entity.isInInvestigation())
                 .qualityType(entity.getQualityType())
                 .van(entity.getVan())
                 .build();
-
     }
 
-
-    public static List<Asset> toDomainList(List<AssetEntity> entities) {
+    public static List<Asset> toDomainList(List<AssetAsBuiltEntity> entities) {
         return entities.stream()
-                .map(AssetEntity::toDomain)
+                .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
 
-    public static List<AssetEntity> fromList(List<Asset> assets) {
+    public static List<AssetAsBuiltEntity> fromList(List<Asset> assets) {
         return assets.stream()
-                .map(AssetEntity::from)
+                .map(AssetAsBuiltEntity::from)
                 .toList();
     }
 
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @Data
     @Embeddable
+    @Table(name = "asset_as_built_child")
     public static class ChildDescription {
         private String id;
         private String idShort;
     }
 
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     @Data
     @Embeddable
+    @Table(name = "asset_as_built_parent")
     public static class ParentDescription {
         private String id;
         private String idShort;
     }
+
 
 }
