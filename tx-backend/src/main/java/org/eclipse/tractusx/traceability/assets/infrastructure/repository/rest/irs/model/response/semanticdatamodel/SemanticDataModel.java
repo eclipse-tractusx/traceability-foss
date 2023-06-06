@@ -61,24 +61,29 @@ public record SemanticDataModel(
 
     public Asset toDomain(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
         final String manufacturerName = bpns.get(manufacturerId());
+        final boolean isBatch = getLocalId(LocalIdKey.BATCH_ID).isPresent();
+        final boolean isSerialPartTypization = getLocalId(LocalIdKey.PART_INSTANCE_ID).isPresent();
+        String semanticModelId = null;
+        if (isBatch) {
+            semanticModelId = getLocalId(LocalIdKey.BATCH_ID).get();
+        }
+        if (isSerialPartTypization) {
+            semanticModelId = getLocalId(LocalIdKey.PART_INSTANCE_ID).get();
+        }
+
         return Asset.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
-                .nameAtManufacturer(defaultValue(partTypeInformation().nameAtManufacturer()))
-                .manufacturerPartId(defaultValue(partTypeInformation().manufacturerPartId()))
-                .partInstanceId(partInstanceId())
+                .semanticModelId(semanticModelId)
                 .manufacturerId(manufacturerId())
-                .batchId(batchId())
                 .manufacturerName(defaultValue(manufacturerName))
-                .nameAtCustomer(defaultValue(partTypeInformation().nameAtCustomer()))
-                .customerPartId(defaultValue(partTypeInformation().customerPartId()))
-                .manufacturingDate(manufacturingDate())
-                .manufacturingCountry(manufacturingCountry())
-                .parentDescriptions(parentRelations)
-                .childDescriptions(childRelations)
+                .parentRelations(parentRelations)
+                .childRelations(childRelations)
                 .owner(owner)
+                .activeAlert(false)
                 .underInvestigation(false)
                 .qualityType(QualityType.OK)
+                .semanticDataModel()
                 .van(van())
                 .build();
     }

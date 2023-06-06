@@ -99,7 +99,7 @@ public class PersistentAssetsRepository implements AssetRepository {
         if (assetById.getOwner().equals(Owner.UNKNOWN)) {
             assetById.setOwner(asset.getOwner());
         }
-        assetById.setParentDescriptions(asset.getParentDescriptions());
+        assetById.setParentRelations(asset.getParentRelations());
         save(assetById);
     }
 

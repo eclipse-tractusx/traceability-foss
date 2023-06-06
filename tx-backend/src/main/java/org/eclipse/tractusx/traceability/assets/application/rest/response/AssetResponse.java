@@ -25,13 +25,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 
 import java.util.List;
 
-@Slf4j
 @AllArgsConstructor
 @Builder
 @Data
@@ -47,6 +45,7 @@ public class AssetResponse {
     private String manufacturerId;
     @ApiModelProperty(example = "Tier C")
     private String manufacturerName;
+    private SemanticModelResponse semanticModel;
     @ApiModelProperty(example = "CUSTOMER")
     private OwnerResponse owner;
     @ArraySchema(arraySchema = @Schema(description = "Child relationships"), maxItems = Integer.MAX_VALUE)
@@ -54,43 +53,42 @@ public class AssetResponse {
     @ArraySchema(arraySchema = @Schema(description = "Parent relationships"), maxItems = Integer.MAX_VALUE)
     private List<DescriptionsResponse> parentRelations;
 
-    // here latest work - check why there is no activeAlert inside of the response
-
+    @ApiModelProperty(example = "false")
+    private boolean activeAlert;
     @ApiModelProperty(example = "false")
     private boolean underInvestigation;
     @ApiModelProperty(example = "Ok")
     private QualityTypeResponse qualityType;
     @ApiModelProperty(example = "--")
     private String van;
+    @ApiModelProperty(example = "BATCH")
+    private SemanticDataModelResponse semanticDataModel;
+
 
     public static AssetResponse from(final Asset asset) {
         return AssetResponse.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
-                .nameAtManufacturer(asset.getNameAtManufacturer())
-                .manufacturerPartId(asset.getManufacturerPartId())
-                .partInstanceId(asset.getPartInstanceId())
+                .semanticModelId(asset.getSemanticModelId())
                 .manufacturerId(asset.getManufacturerId())
-                .batchId(asset.getBatchId())
                 .manufacturerName(asset.getManufacturerName())
-                .nameAtCustomer(asset.getNameAtCustomer())
-                .customerPartId(asset.getCustomerPartId())
-                .manufacturingDate(asset.getManufacturingDate())
-                .manufacturingCountry(asset.getManufacturingCountry())
+                .semanticModel(SemanticModelResponse.from(asset.getSemanticModel()))
                 .owner(OwnerResponse.from(asset.getOwner()))
-                .childDescriptions(
-                        asset.getChildDescriptions().stream()
+                .childRelations(
+                        asset.getChildRelations().stream()
                                 .map(DescriptionsResponse::from)
                                 .toList())
-                .parentDescriptions(
-                        asset.getParentDescriptions().stream()
+                .parentRelations(
+                        asset.getParentRelations().stream()
                                 .map(DescriptionsResponse::from)
                                 .toList())
                 .underInvestigation(asset.isUnderInvestigation())
+                .activeAlert(asset.isActiveAlert())
                 .qualityType(
                         QualityTypeResponse.from(asset.getQualityType())
                 )
                 .van(asset.getVan())
+                .semanticDataModel(SemanticDataModelResponse.from(asset.getSemanticDataModel()))
                 .build();
     }
 

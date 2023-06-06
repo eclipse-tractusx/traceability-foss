@@ -70,7 +70,7 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
     }
 
     void assertHasChildCount(String assetId, int count) {
-        assetRepository().getAssetById(assetId).childDescriptions.size() == count
+        assetRepository().getAssetById(assetId).childRelations.size() == count
     }
 
     void assertNoAssetsStored() {

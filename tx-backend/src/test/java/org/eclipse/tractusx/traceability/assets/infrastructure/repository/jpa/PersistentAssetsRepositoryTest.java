@@ -98,8 +98,8 @@ class PersistentAssetsRepositoryTest {
         Assertions.assertEquals(asset.getManufacturingDate(), expected.getManufacturingDate());
         Assertions.assertEquals(asset.getManufacturingCountry(), expected.getManufacturingCountry());
         Assertions.assertEquals(asset.getOwner(), expected.getOwner());
-        Assertions.assertEquals(asset.getChildDescriptions(), expected.getChildDescriptions());
-        Assertions.assertEquals(asset.getParentDescriptions(), expected.getParentDescriptions());
+        Assertions.assertEquals(asset.getChildRelations(), expected.getChildRelations());
+        Assertions.assertEquals(asset.getParentRelations(), expected.getParentRelations());
         Assertions.assertEquals(asset.isUnderInvestigation(), expected.isUnderInvestigation());
         Assertions.assertEquals(asset.getQualityType(), expected.getQualityType());
         Assertions.assertEquals(asset.getVan(), expected.getVan());
