@@ -221,6 +221,36 @@
       "ACCEPTED": "Accepted",
       "ACKNOWLEDGED": "Acknowledged",
       "DECLINED": "Declined"
+    },
+    "modal": {
+      "acceptTitle": "Accept of alert",
+      "acceptDescription": "Are you sure you want to accept this alert?",
+      "acceptReasonHint": "Enter the reason for accepting this alert.",
+      "acknowledgeTitle": "Acknowledgment of alert",
+      "acknowledgeDescription": "Are you sure you want to acknowledge this alert?",
+      "approvalTitle": "Approval of alert",
+      "approvalDescription": "Are you sure you want to approve this alert?",
+      "closeTitle": "Close of alert",
+      "closeDescription": "Are you sure you want to close this alert?",
+      "closeReasonHint": "Enter the reason for close action.",
+      "cancellationTitle": "Cancellation of alert",
+      "cancellationDescription": "Are you sure you want to cancel this alert?",
+      "cancellationHint": "Enter the ID of the alert to confirm your cancellation.",
+      "declineTitle": "Decline of alert",
+      "declineDescription": "Are you sure you want to decline this alert?",
+      "declineReasonHint": "Enter the reason for declining this alert.",
+      "successfullyAccepted": "Alert was accepted successfully.",
+      "successfullyAcknowledged": "Alert was acknowledged successfully.",
+      "successfullyApproved": "Alert was approved successfully.",
+      "successfullyCanceled": "Alert was canceled successfully.",
+      "successfullyClosed": "Alert was closed successfully.",
+      "successfullyDeclined": "Alert was declined successfully.",
+      "failedAccept": "Alert failed to accept, please try again.",
+      "failedAcknowledge": "Alert failed to acknowledge, please try again.",
+      "failedApprove": "Alert failed to approve, please try again.",
+      "failedCancel": "Alert failed to cancel, please try again.",
+      "failedClose": "Alert failed to close, please try again.",
+      "failedDecline": "Alert failed to decline, please try again."
     }
   }
 }

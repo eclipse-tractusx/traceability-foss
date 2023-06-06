@@ -20,11 +20,11 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <ng-template #Modal>
-  <p class="mb-2">{{ 'commonInvestigation.modal.acceptDescription' | i18n }}</p>
+  <p class="mb-2">{{ translationContext + '.modal.acceptDescription' | i18n }}</p>
   <app-notification-modal-content [notification]="notification"></app-notification-modal-content>
 
   <form [formGroup]="formGroup" class="mt-4">
-    <mat-hint>{{ 'commonInvestigation.modal.acceptReasonHint' | i18n }}</mat-hint>
+    <mat-hint>{{ translationContext + '.modal.acceptReasonHint' | i18n }}</mat-hint>
     <app-textarea formControlName="reason"></app-textarea>
   </form>
 </ng-template>

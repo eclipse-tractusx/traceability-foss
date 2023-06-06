@@ -21,6 +21,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { AlertsRoutingModule } from '@page/alerts/alerts.routing';
+import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
 import { AlertsState } from '@page/alerts/core/alerts.state';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
@@ -43,6 +44,7 @@ import { AlertsComponent } from './presentation/alerts.component';
   providers: [
     AlertsFacade,
     AlertsState,
+    AlertHelperService,
     ...getI18nPageProvider('page.alerts'),
   ]
 })

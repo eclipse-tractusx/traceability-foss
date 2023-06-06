@@ -38,7 +38,7 @@ import { of } from 'rxjs';
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-accept-notification-modal [acceptCall]="call"></app-accept-notification-modal>',
+    '<app-toast-container></app-toast-container><app-accept-notification-modal translationContext="commonInvestigation" [acceptCall]="call"></app-accept-notification-modal>',
 })
 class AcceptModalComponent implements AfterViewInit {
   @ViewChild(AcceptNotificationModalComponent) modal: AcceptNotificationModalComponent;
@@ -52,7 +52,7 @@ class AcceptModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-acknowledge-notification-modal [acknowledgeCall]="call"></app-acknowledge-notification-modal>',
+    '<app-toast-container></app-toast-container><app-acknowledge-notification-modal translationContext="commonInvestigation" [acknowledgeCall]="call"></app-acknowledge-notification-modal>',
 })
 class AcknowledgeModalComponent implements AfterViewInit {
   @ViewChild(AcknowledgeNotificationModalComponent) modal: AcknowledgeNotificationModalComponent;
@@ -66,7 +66,7 @@ class AcknowledgeModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-approve-notification-modal [approveCall]="call"></app-approve-notification-modal>',
+    '<app-toast-container></app-toast-container><app-approve-notification-modal translationContext="commonInvestigation" [approveCall]="call"></app-approve-notification-modal>',
 })
 class ApproveModalComponent implements AfterViewInit {
   @ViewChild(ApproveNotificationModalComponent) modal: ApproveNotificationModalComponent;
@@ -80,7 +80,7 @@ class ApproveModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-cancel-notification-modal [cancelCall]="call"></app-cancel-notification-modal>',
+    '<app-toast-container></app-toast-container><app-cancel-notification-modal translationContext="commonInvestigation" [cancelCall]="call"></app-cancel-notification-modal>',
 })
 class CancelModalComponent implements AfterViewInit {
   @ViewChild(CancelNotificationModalComponent) modal: CancelNotificationModalComponent;
@@ -94,7 +94,7 @@ class CancelModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-decline-notification-modal [declineCall]="call"></app-decline-notification-modal>',
+    '<app-toast-container></app-toast-container><app-decline-notification-modal translationContext="commonInvestigation" [declineCall]="call"></app-decline-notification-modal>',
 })
 class DeclineModalComponent implements AfterViewInit {
   @ViewChild(DeclineNotificationModalComponent) modal: DeclineNotificationModalComponent;
@@ -108,7 +108,7 @@ class DeclineModalComponent implements AfterViewInit {
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-close-notification-modal [closeCall]="call"></app-close-notification-modal>',
+    '<app-toast-container></app-toast-container><app-close-notification-modal translationContext="commonInvestigation" [closeCall]="call"></app-close-notification-modal>',
 })
 class CloseModalComponent implements AfterViewInit {
   @ViewChild(CloseNotificationModalComponent) modal: CloseNotificationModalComponent;
