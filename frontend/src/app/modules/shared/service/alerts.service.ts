@@ -28,7 +28,12 @@ import { TableHeaderSort } from '@shared/components/table/table.model';
 import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NotificationCreateResponse, Notifications, NotificationsResponse } from '../model/notification.model';
+import {
+  NotificationCreateResponse,
+  Notifications,
+  NotificationsResponse,
+  NotificationStatus,
+} from '../model/notification.model';
 
 @Injectable({
   providedIn: 'root',
@@ -61,5 +66,28 @@ export class AlertsService {
     const body = { partIds, description, severity, bpn };
 
     return this.apiService.post<NotificationCreateResponse>(`${this.url}/alerts`, body).pipe(map(({ id }) => id));
+  }
+
+  public closeAlert(id: string, reason: string): Observable<void> {
+    const body = { reason };
+
+    return this.apiService.post<void>(`${this.url}/alerts/${id}/close`, body);
+  }
+
+  public approveAlert(id: string): Observable<void> {
+    return this.apiService.post<void>(`${this.url}/alerts/${id}/approve`);
+  }
+
+  public cancelAlert(id: string): Observable<void> {
+    return this.apiService.post<void>(`${this.url}/alerts/${id}/cancel`);
+  }
+
+  public updateAlert(
+    id: string,
+    status: NotificationStatus.ACKNOWLEDGED | NotificationStatus.ACCEPTED | NotificationStatus.DECLINED,
+    reason = '',
+  ): Observable<void> {
+    const body = { reason, status };
+    return this.apiService.post<void>(`${this.url}/alerts/${id}/update`, body);
   }
 }

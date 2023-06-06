@@ -38,8 +38,8 @@ describe('AlertsComponent', () => {
     await renderAlerts();
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Alert No 18'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 5'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
   });
 
   it('should call change pagination of queued & requested alerts', async () => {
@@ -49,7 +49,7 @@ describe('AlertsComponent', () => {
 
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Alert No 18'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Alert No 5'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 20'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Alert No 84'))).toBeInTheDocument();
   });
 });
