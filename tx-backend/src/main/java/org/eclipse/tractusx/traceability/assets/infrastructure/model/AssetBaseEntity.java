@@ -18,25 +18,16 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.model;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embeddable;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MappedSuperclass;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -52,13 +43,7 @@ public class AssetBaseEntity {
     private Owner owner;
     private String manufacturerName;
 
-    @ElementCollection
-    @CollectionTable(name = "asset_child_descriptors")
-    private List<AssetAsBuiltEntity.ChildDescription> childDescriptors;
 
-    @ElementCollection
-    @CollectionTable(name = "asset_parent_descriptors")
-    private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
 
     private boolean inInvestigation;
     private boolean activeAlert;
@@ -72,28 +57,5 @@ public class AssetBaseEntity {
     private String customerPartId;
     private String nameAtManufacturer;
     private String nameAtCustomer;
-
     private String semanticModelId;
-
-    @ManyToMany(mappedBy = "assets")
-    private List<InvestigationEntity> investigations = new ArrayList<>();
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Data
-    @Embeddable
-    public static class ChildDescription {
-        private String id;
-        private String idShort;
-    }
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Data
-    @Embeddable
-    public static class ParentDescription {
-        private String id;
-        private String idShort;
-    }
-
 }

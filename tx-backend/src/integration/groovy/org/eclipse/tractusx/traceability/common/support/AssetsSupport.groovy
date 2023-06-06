@@ -47,7 +47,7 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
 
         assetEntities.collect { it ->
             InvestigationEntity.builder()
-                    .assets(List.of(it))
+                    .assetsAsBuilt(List.of(it))
                     .bpn(it.getManufacturerId())
                     .status(investigationStatus)
                     .side(QualityNotificationSideBaseEntity.SENDER)
