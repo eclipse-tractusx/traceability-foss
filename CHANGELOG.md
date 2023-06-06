@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Cors configuration for environment e2e-a and e2e-b
 - GitHubAction to update dependencies files on merge to main
 - Added testdata with batches
+- Added batch aspect to the asset import process
 
 ### Changed
 
@@ -23,11 +24,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - bump json-unit-assertj from 2.36.1 to 2.38.0
 - bump spring-cloud-dependencies from 2022.0.2 to 2022.0.3
 - bump maven-project-info-reports-plugin from 3.4.3 to 3.4.4 #158
--
+- Refactored logic to save different kind of assets related to their aspect
+
 ### Removed
 
 - Bpn Mapping fallback in INT environment profile - has been removed
-
 
 ## [3.5.0] - 2023-05-30
 
