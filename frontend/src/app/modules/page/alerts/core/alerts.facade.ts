@@ -20,7 +20,7 @@
 import { Injectable } from '@angular/core';
 import { AlertsState } from '@page/alerts/core/alerts.state';
 import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Notifications } from '@shared/model/notification.model';
+import { Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { AlertsService } from '@shared/service/alerts.service';
 import { Observable, Subscription } from 'rxjs';
@@ -66,5 +66,30 @@ export class AlertsFacade {
   public stopAlerts(): void {
     this.alertReceivedSubscription?.unsubscribe();
     this.alertQueuedAndRequestedSubscription?.unsubscribe();
+  }
+
+
+  public closeAlert(alertId: string, reason: string): Observable<void> {
+    return this.alertsService.closeAlert(alertId, reason);
+  }
+
+  public approveAlert(alertId: string): Observable<void> {
+    return this.alertsService.approveAlert(alertId);
+  }
+
+  public cancelAlert(alertId: string): Observable<void> {
+    return this.alertsService.cancelAlert(alertId);
+  }
+
+  public acknowledgeAlert(alertId: string): Observable<void> {
+    return this.alertsService.updateAlert(alertId, NotificationStatus.ACKNOWLEDGED);
+  }
+
+  public acceptAlert(alertId: string, reason: string): Observable<void> {
+    return this.alertsService.updateAlert(alertId, NotificationStatus.ACCEPTED, reason);
+  }
+
+  public declineAlert(alertId: string, reason: string): Observable<void> {
+    return this.alertsService.updateAlert(alertId, NotificationStatus.DECLINED, reason);
   }
 }

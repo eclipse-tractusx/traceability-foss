@@ -22,29 +22,35 @@ SPDX-License-Identifier: Apache-2.0
 <app-approve-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [approveCall]="helperService.approve.bind(this)"
+  [translationContext]="'commonInvestigation'"
 ></app-approve-notification-modal>
 <app-cancel-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [cancelCall]="helperService.cancel.bind(this)"
+  [translationContext]="'commonInvestigation'"
 ></app-cancel-notification-modal>
 <app-close-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [closeCall]="helperService.close.bind(this)"
+  [translationContext]="'commonInvestigation'"
 ></app-close-notification-modal>
 
 <app-acknowledge-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [acknowledgeCall]="helperService.acknowledge.bind(this)"
+  [translationContext]="'commonInvestigation'"
 ></app-acknowledge-notification-modal>
 
 <app-accept-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [acceptCall]="helperService.accept.bind(this)"
+  [translationContext]="'commonInvestigation'"
 ></app-accept-notification-modal>
 
 <app-decline-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [declineCall]="helperService.decline.bind(this)"
+  [translationContext]="'commonInvestigation'"
 ></app-decline-notification-modal>
 
 <app-notification
