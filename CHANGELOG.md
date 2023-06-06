@@ -8,6 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Added translationContext "commonAlert" to all modal components
+- Send quality alert to customer / action on queued items
 - Adapt asset synchronization from IRS
 - Cors configuration for environment e2e-a and e2e-b
 - GitHubAction to update dependencies files on merge to main
@@ -21,6 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 - Bpn Mapping fallback in INT environment profile - has been removed
+
 
 ## [3.5.0] - 2023-05-30
 
