@@ -165,7 +165,7 @@ public class InvestigationsPublisherService {
                 case ACCEPTED -> investigation.accept(reason, notificationToSend);
                 case DECLINED -> investigation.decline(reason, notificationToSend);
                 case CLOSED -> investigation.close(reason, notificationToSend);
-                default -> throw new InvestigationIllegalUpdate("Transition from status \"%s\" to status \"%s\" is not allowed for investigation with id \"%s\"".formatted(investigation.getInvestigationStatus().name(), status, investigation.getInvestigationId()));
+                default -> throw new InvestigationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for investigation with id '%s'".formatted(investigation.getInvestigationStatus().name(), status, investigation.getInvestigationId()));
             }
             log.info("::updateInvestigationPublisher::notificationToSend {}", notificationToSend);
             investigation.addNotification(notificationToSend);
@@ -183,15 +183,15 @@ public class InvestigationsPublisherService {
         switch (status) {
             case ACKNOWLEDGED, ACCEPTED, DECLINED -> {
                 if (isInvalidAcknowledgeOrAcceptOrDecline) {
-                    throw new InvestigationIllegalUpdate("Transition from status \"%s\" to status \"%s\" is not allowed for investigation with BPN \"%s\" and application with BPN \"%s\"".formatted(investigation.getInvestigationStatus().name(), status, investigation.getBpn(), applicationBpn.value()));
+                    throw new InvestigationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for investigation with BPN '%s' and application with BPN '%s'".formatted(investigation.getInvestigationStatus().name(), status, investigation.getBpn(), applicationBpn.value()));
                 }
             }
             case CLOSED -> {
                 if (isInvalidClose) {
-                    throw new InvestigationIllegalUpdate("Transition from status \"%s\" to status \"%s\" is not allowed for investigation with BPN \"%s\" and application with BPN \"%s\"".formatted(investigation.getInvestigationStatus().name(), status, investigation.getBpn(), applicationBpn.value()));
+                    throw new InvestigationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for investigation with BPN '%s' and application with BPN '%s'".formatted(investigation.getInvestigationStatus().name(), status, investigation.getBpn(), applicationBpn.value()));
                 }
             }
-            default -> throw new InvestigationIllegalUpdate("Unknown Transition from status \"%s\" to status \"%s\" is not allowed for investigation with id \"%s\"".formatted(investigation.getInvestigationStatus().name(), status, investigation.getInvestigationId()));
+            default -> throw new InvestigationIllegalUpdate("Unknown Transition from status '%s' to status '%s' is not allowed for investigation with id '%s'".formatted(investigation.getInvestigationStatus().name(), status, investigation.getInvestigationId()));
         }
     }
 
