@@ -55,7 +55,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "assets_investigations",
+            name = "assets_as_built_investigations",
             joinColumns = @JoinColumn(name = "investigation_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )

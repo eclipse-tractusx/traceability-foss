@@ -38,7 +38,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @SuperBuilder
-@Table(name = "asset_as_built")
+@Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     public static AssetAsBuiltEntity from(Asset asset) {
@@ -63,6 +63,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                         .toList())
                 .qualityType(asset.getQualityType())
                 .van(asset.getVan())
+                .activeAlert(asset.isActiveAlert())
                 .inInvestigation(asset.isUnderInvestigation())
                 .build();
     }
@@ -83,6 +84,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                         .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList())
                 .underInvestigation(entity.isInInvestigation())
+                .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
                 .van(entity.getVan())
                 .build();
@@ -105,7 +107,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @AllArgsConstructor
     @Data
     @Embeddable
-    @Table(name = "asset_as_built_child")
+    @Table(name = "assets_as_built_childs")
     public static class ChildDescription {
         private String id;
         private String idShort;
@@ -116,7 +118,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @AllArgsConstructor
     @Data
     @Embeddable
-    @Table(name = "asset_as_built_parent")
+    @Table(name = "assets_as_built_parents")
     public static class ParentDescription {
         private String id;
         private String idShort;

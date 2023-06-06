@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
@@ -78,6 +79,7 @@ public record SemanticDataModel(
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .semanticModelId(semanticModelId)
+                .semanticModel(SemanticModel.from(partTypeInformation))
                 .manufacturerId(manufacturerId())
                 .manufacturerName(defaultValue(manufacturerName))
                 .parentRelations(parentRelations)

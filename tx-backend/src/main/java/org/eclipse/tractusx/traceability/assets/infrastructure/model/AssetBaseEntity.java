@@ -28,6 +28,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
@@ -39,6 +40,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter
+@Setter
 @SuperBuilder
 @MappedSuperclass
 public class AssetBaseEntity {
