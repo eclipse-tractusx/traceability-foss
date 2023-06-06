@@ -681,7 +681,7 @@
     },
 
     {
-      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa01",
+      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
       "bpnl" : "BPNL00000003CML1",
       "urn:bamm:io.catenax.batch:1.0.0#Batch" : [ {
         "localIdentifiers" : [ {
@@ -698,7 +698,7 @@
           "date" : "2022-02-04T14:48:54",
           "country" : "DEU"
         },
-        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa01",
+        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
         "partTypeInformation" : {
           "manufacturerPartId" : "95657762-59",
           "customerPartId" : "95657762-59",
@@ -710,7 +710,7 @@
     },
 
     {
-      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa02",
+      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
       "bpnl" : "BPNL00000003CML1",
       "urn:bamm:io.catenax.batch:1.0.0#Batch" : [ {
         "localIdentifiers" : [ {
@@ -727,7 +727,7 @@
           "date" : "2022-02-04T14:48:54",
           "country" : "DEU"
         },
-        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa02",
+        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
         "partTypeInformation" : {
           "manufacturerPartId" : "95657762-59",
           "customerPartId" : "95657762-59",
@@ -737,7 +737,7 @@
         }
       } ],
       "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship" : [ {
-        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa02",
+        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
         "childParts" : [ {
           "quantity" : {
             "quantityNumber" : 1,
@@ -749,13 +749,13 @@
           "lifecycleContext" : "AsBuilt",
           "assembledOn" : "2022-02-03T14:48:54.709Z",
           "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
-          "childCatenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb01"
+          "childCatenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01"
         } ]
       } ]
     },
 
     {
-      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb01",
+      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
       "bpnl" : "BPNL00000003CNKC",
       "urn:bamm:io.catenax.batch:1.0.0#Batch" : [ {
         "localIdentifiers" : [ {
@@ -772,7 +772,7 @@
           "date" : "2022-02-04T14:48:54",
           "country" : "DEU"
         },
-        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb01",
+        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
         "partTypeInformation" : {
           "manufacturerPartId" : "95657762-59",
           "customerPartId" : "95657762-59",
@@ -785,7 +785,7 @@
         {
           "parentParts": [
             {
-              "parentCatenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa02",
+              "parentCatenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
               "quantity": {
                 "quantityNumber": 1,
                 "measurementUnit": "unit:piece"
@@ -794,13 +794,13 @@
               "lastModifiedOn": "2023-02-03T14:48:54.709Z"
             }
           ],
-          "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb01"
+          "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01"
         }
       ]
     },
 
     {
-      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb02",
+      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
       "bpnl" : "BPNL00000003CNKC",
       "urn:bamm:io.catenax.batch:1.0.0#Batch" : [ {
         "localIdentifiers" : [ {
@@ -817,7 +817,7 @@
           "date" : "2022-02-04T14:48:54",
           "country" : "DEU"
         },
-        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb02",
+        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
         "partTypeInformation" : {
           "manufacturerPartId" : "95657762-59",
           "customerPartId" : "95657762-59",
@@ -827,7 +827,7 @@
         }
       } ],
       "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship" : [ {
-        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb02",
+        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
         "childParts" : [ {
           "quantity" : {
             "quantityNumber" : 1,
@@ -839,13 +839,13 @@
           "lifecycleContext" : "AsBuilt",
           "assembledOn" : "2022-02-03T14:48:54.709Z",
           "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
-          "childCatenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa03"
+          "childCatenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03"
         } ]
       } ]
     },
 
     {
-      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa03",
+      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
       "bpnl" : "BPNL00000003CML1",
       "urn:bamm:io.catenax.batch:1.0.0#Batch" : [ {
         "localIdentifiers" : [ {
@@ -862,7 +862,7 @@
           "date" : "2022-02-04T14:48:54",
           "country" : "DEU"
         },
-        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa03",
+        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
         "partTypeInformation" : {
           "manufacturerPartId" : "95657762-59",
           "customerPartId" : "95657762-59",
@@ -875,7 +875,7 @@
         {
           "parentParts": [
             {
-              "parentCatenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb02",
+              "parentCatenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
               "quantity": {
                 "quantityNumber": 1,
                 "measurementUnit": "unit:piece"
@@ -884,13 +884,13 @@
               "lastModifiedOn": "2023-02-03T14:48:54.709Z"
             }
           ],
-          "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xa03"
+          "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03"
         }
       ]
     },
 
     {
-      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb03",
+      "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03",
       "bpnl" : "BPNL00000003CNKC",
       "urn:bamm:io.catenax.batch:1.0.0#Batch" : [ {
         "localIdentifiers" : [ {
@@ -907,7 +907,7 @@
           "date" : "2022-02-04T14:48:54",
           "country" : "DEU"
         },
-        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284xb03",
+        "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03",
         "partTypeInformation" : {
           "manufacturerPartId" : "95657762-59",
           "customerPartId" : "95657762-59",
