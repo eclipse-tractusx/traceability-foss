@@ -54,6 +54,7 @@ public class Asset {
     @Singular
     private List<Descriptions> parentDescriptions;
     private boolean underInvestigation;
+    private boolean underAlert;
     private QualityType qualityType;
     private String van;
 }

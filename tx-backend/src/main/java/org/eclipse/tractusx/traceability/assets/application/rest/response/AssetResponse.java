@@ -73,6 +73,8 @@ public final class AssetResponse {
     private List<DescriptionsResponse> parentDescriptions;
     @ApiModelProperty(example = "false")
     private boolean underInvestigation;
+    @ApiModelProperty(example = "false")
+    private boolean underAlert;
     @ApiModelProperty(example = "Ok")
     private QualityTypeResponse qualityType;
     @ApiModelProperty(example = "--")
@@ -102,6 +104,7 @@ public final class AssetResponse {
                                 .map(DescriptionsResponse::from)
                                 .toList())
                 .underInvestigation(asset.isUnderInvestigation())
+                .underAlert(asset.isUnderAlert())
                 .qualityType(
                         QualityTypeResponse.from(asset.getQualityType())
                 )

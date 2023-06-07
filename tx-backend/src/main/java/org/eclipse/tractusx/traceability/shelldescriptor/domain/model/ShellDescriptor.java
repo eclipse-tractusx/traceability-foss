@@ -67,6 +67,7 @@ public class ShellDescriptor {
                 .childDescriptions(Collections.emptyList())
                 .parentDescriptions(Collections.emptyList())
                 .underInvestigation(false)
+                .underAlert(false)
                 .qualityType(QualityType.OK)
                 .van("--")
                 .build();

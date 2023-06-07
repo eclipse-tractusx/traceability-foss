@@ -36,6 +36,7 @@ import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
 import java.time.Instant;
@@ -67,6 +68,7 @@ public class AssetEntity {
     private QualityType qualityType;
     private String van;
     private boolean inInvestigation;
+    private boolean inAlert;
 
     @ElementCollection
     @CollectionTable(name = "asset_child_descriptors")
@@ -78,6 +80,9 @@ public class AssetEntity {
 
     @ManyToMany(mappedBy = "assets")
     private List<InvestigationEntity> investigations = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "assets")
+    private List<AlertEntity> alerts = new ArrayList<>();
 
     public static AssetEntity from(Asset asset) {
         return AssetEntity.builder()
@@ -103,6 +108,7 @@ public class AssetEntity {
                 .qualityType(asset.getQualityType())
                 .van(asset.getVan())
                 .inInvestigation(asset.isUnderInvestigation())
+                .inAlert(asset.isUnderAlert())
                 .build();
     }
 
@@ -129,6 +135,7 @@ public class AssetEntity {
                         .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
                         .toList())
                 .underInvestigation(entity.isInInvestigation())
+                .underAlert(entity.isInAlert())
                 .qualityType(entity.getQualityType())
                 .van(entity.getVan())
                 .build();

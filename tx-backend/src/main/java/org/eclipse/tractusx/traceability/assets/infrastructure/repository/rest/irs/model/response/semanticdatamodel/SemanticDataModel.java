@@ -78,6 +78,7 @@ public record SemanticDataModel(
                 .childDescriptions(childRelations)
                 .owner(owner)
                 .underInvestigation(false)
+                .underAlert(false)
                 .qualityType(QualityType.OK)
                 .van(van())
                 .build();
