@@ -19,11 +19,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.support
+package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception;
 
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationNotificationRepository
+public class AlertNotFoundException extends RuntimeException {
 
-interface NotificationsRepositoryProvider {
-    JpaInvestigationNotificationRepository jpaNotificationRepository()
+    public AlertNotFoundException(QualityNotificationId investigationId) {
+        super("Alert not found for %s id".formatted(investigationId.value()));
+    }
+
+	public AlertNotFoundException(String notificationId) {
+		super("Alert not found for %s notification id".formatted(notificationId));
+	}
 }

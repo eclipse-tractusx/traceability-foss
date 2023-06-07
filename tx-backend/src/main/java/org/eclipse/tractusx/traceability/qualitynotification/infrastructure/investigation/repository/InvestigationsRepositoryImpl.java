@@ -58,7 +58,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private final JpaAssetsRepository assetsRepository;
 
-    private final JpaNotificationRepository notificationRepository;
+    private final JpaInvestigationNotificationRepository notificationRepository;
 
     private final Clock clock;
 

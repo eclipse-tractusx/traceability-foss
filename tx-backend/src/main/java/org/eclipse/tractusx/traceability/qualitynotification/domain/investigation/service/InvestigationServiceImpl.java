@@ -101,7 +101,7 @@ public class InvestigationServiceImpl implements InvestigationService {
         List<QualityNotification> investigationData = investigationsRepository.findQualityNotificationsBySide(investigationSide, pageable)
                 .content()
                 .stream()
-                .sorted(QualityNotification.COMPARE_BY_NEWEST_INVESTIGATION_CREATION_TIME)
+                .sorted(QualityNotification.COMPARE_BY_NEWEST_QUALITY_NOTIFICATION_CREATION_TIME)
                 .toList();
         Page<QualityNotification> investigationDataPage = new PageImpl<>(investigationData, pageable, investigationsRepository.countQualityNotificationEntitiesBySide(investigationSide));
         return new PageResult<>(investigationDataPage);

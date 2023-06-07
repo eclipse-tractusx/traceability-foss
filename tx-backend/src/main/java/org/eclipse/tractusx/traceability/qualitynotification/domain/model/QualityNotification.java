@@ -39,7 +39,7 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 @Data
 @Builder
 public class QualityNotification {
-    public static final Comparator<QualityNotification> COMPARE_BY_NEWEST_INVESTIGATION_CREATION_TIME = (o1, o2) -> {
+    public static final Comparator<QualityNotification> COMPARE_BY_NEWEST_QUALITY_NOTIFICATION_CREATION_TIME = (o1, o2) -> { // generic names here
         Instant o1CreationTime = o1.createdAt;
         Instant o2CreationTime = o2.createdAt;
 
@@ -54,11 +54,11 @@ public class QualityNotification {
         return -1;
     };
     private BPN bpn;
-    private QualityNotificationId investigationId;
-    private QualityNotificationStatus investigationStatus;
+    private QualityNotificationId investigationId; // should rename to more generic name "qualityNotificationId", "notificationId"
+    private QualityNotificationStatus investigationStatus; // same as above
     private String description;
     private Instant createdAt;
-    private QualityNotificationSide investigationSide;
+    private QualityNotificationSide investigationSide; // generic name
     @Builder.Default
     private List<String> assetIds = new ArrayList<>();
     private String closeReason;
@@ -66,7 +66,7 @@ public class QualityNotification {
     private String declineReason;
     private Map<String, QualityNotificationMessage> notifications = new HashMap<>();
 
-    public static QualityNotification startInvestigation(Instant createDate, BPN bpn, String description) {
+    public static QualityNotification startInvestigation(Instant createDate, BPN bpn, String description) { // rename to generic
         return QualityNotification.builder()
                 .bpn(bpn)
                 .investigationStatus(QualityNotificationStatus.CREATED)

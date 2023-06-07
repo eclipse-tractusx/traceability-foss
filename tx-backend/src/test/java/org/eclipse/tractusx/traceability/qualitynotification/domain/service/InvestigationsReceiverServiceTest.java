@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
-import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
+import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
@@ -61,7 +61,7 @@ class InvestigationsReceiverServiceTest {
     private NotificationMapper mockNotificationMapper;
 
     @Mock
-    private InvestigationMapper mockInvestigationMapper;
+    private QualityNotificationMapper mockQualityNotificationMapper;
 
     @Mock
     private AssetService assetService;
@@ -121,7 +121,7 @@ class InvestigationsReceiverServiceTest {
                 "it", notification);
 
         when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
-        when(mockInvestigationMapper.toInvestigation(any(BPN.class), anyString(), any(QualityNotificationMessage.class))).thenReturn(investigationTestData);
+        when(mockQualityNotificationMapper.toQualityNotification(any(BPN.class), anyString(), any(QualityNotificationMessage.class))).thenReturn(investigationTestData);
 
         // When
         service.handleNotificationReceive(edcNotification);

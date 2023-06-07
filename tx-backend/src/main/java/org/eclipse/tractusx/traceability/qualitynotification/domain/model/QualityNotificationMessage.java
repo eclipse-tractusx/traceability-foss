@@ -47,7 +47,7 @@ public class QualityNotificationMessage {
     private String edcUrl;
     private String contractAgreementId;
     private String description;
-    private QualityNotificationStatus investigationStatus;
+    private QualityNotificationStatus investigationStatus; // Should add another status or make it generic ? like "notificationStatus"
     private String edcNotificationId;
     private LocalDateTime created;
     private LocalDateTime updated;

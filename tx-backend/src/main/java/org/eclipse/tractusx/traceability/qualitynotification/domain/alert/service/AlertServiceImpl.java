@@ -19,12 +19,18 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -32,50 +38,71 @@ import java.time.Instant;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AlertServiceImpl implements AlertService {
+
+    private final AlertsPublisherService alertsPublisherService;
+
+    private final AlertRepository alertRepository;
 
     @Override
     public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
-        return null;
+        return alertsPublisherService.startAlert(partIds, description, targetDate, severity);
     }
 
     @Override
     public PageResult<QualityNotification> getCreated(Pageable pageable) {
-        return null;
+        return getAlertsPageResult(pageable, QualityNotificationSide.SENDER);
     }
 
     @Override
     public PageResult<QualityNotification> getReceived(Pageable pageable) {
-        return null;
+        return getAlertsPageResult(pageable, QualityNotificationSide.RECEIVER);
     }
 
     @Override
     public QualityNotification find(Long notificationId) {
-        return null;
+        QualityNotificationId alertId = new QualityNotificationId(notificationId);
+        return loadOrNotFoundException(alertId);
     }
 
     @Override
     public QualityNotification loadOrNotFoundException(QualityNotificationId notificationId) {
-        return null;
+        return alertRepository.findOptionalQualityNotificationById(notificationId)
+                .orElseThrow(() -> new AlertNotFoundException(notificationId));
     }
 
     @Override
     public QualityNotification loadByEdcNotificationIdOrNotFoundException(String edcNotificationId) {
-        return null;
+        return alertRepository.findByEdcNotificationId(edcNotificationId)
+                .orElseThrow(() -> new AlertNotFoundException(edcNotificationId));
     }
 
     @Override
     public void approve(Long notificationId) {
-
+        QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
+        alertsPublisherService.approveAlert(investigation);
     }
 
     @Override
     public void cancel(Long notificationId) {
-
+        QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
+        alertsPublisherService.cancelAlert(alert);
     }
 
     @Override
     public void update(Long notificationId, QualityNotificationStatus notificationStatus, String reason) {
+        QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
+        alertsPublisherService.updateAlertPublisher(alert, notificationStatus, reason);
+    }
 
+    private PageResult<QualityNotification> getAlertsPageResult(Pageable pageable, QualityNotificationSide alertSide) {
+        List<QualityNotification> alertData = alertRepository.findQualityNotificationsBySide(alertSide, pageable)
+                .content()
+                .stream()
+                .sorted(QualityNotification.COMPARE_BY_NEWEST_QUALITY_NOTIFICATION_CREATION_TIME)
+                .toList();
+        Page<QualityNotification> alertDataPage = new PageImpl<>(alertData, pageable, alertRepository.countQualityNotificationEntitiesBySide(alertSide));
+        return new PageResult<>(alertDataPage);
     }
 }

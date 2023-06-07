@@ -33,7 +33,7 @@ import org.eclipse.tractusx.traceability.common.config.RestitoConfig
 import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaNotificationRepository
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationNotificationRepository
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository
 import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -74,7 +74,7 @@ abstract class IntegrationSpecification extends Specification
     private JpaInvestigationRepository jpaInvestigationRepository
 
     @Autowired
-    private JpaNotificationRepository jpaNotificationRepository
+    private JpaInvestigationNotificationRepository jpaNotificationRepository
 
     @Autowired
     private JdbcTemplate jdbcTemplate
@@ -129,7 +129,7 @@ abstract class IntegrationSpecification extends Specification
     }
 
     @Override
-    JpaNotificationRepository jpaNotificationRepository() {
+    JpaInvestigationNotificationRepository jpaNotificationRepository() {
         return jpaNotificationRepository
     }
 

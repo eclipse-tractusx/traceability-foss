@@ -37,10 +37,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-class InvestigationMapperTest {
+class QualityNotificationMapperTest {
 
     @InjectMocks
-    private InvestigationMapper mapper;
+    private QualityNotificationMapper mapper;
 
     @Test
     void testToReceiverInvestigation() {
@@ -64,7 +64,7 @@ class InvestigationMapperTest {
 
 
         // When
-        QualityNotification result = mapper.toInvestigation(new BPN(receiver), description, notification);
+        QualityNotification result = mapper.toQualityNotification(new BPN(receiver), description, notification);
 
         // Then
         assertEquals(QualityNotificationStatus.RECEIVED, result.getInvestigationStatus());

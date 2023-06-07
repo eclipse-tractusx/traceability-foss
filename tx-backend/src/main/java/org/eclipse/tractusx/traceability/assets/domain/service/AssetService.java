@@ -89,7 +89,14 @@ public class AssetService {
             asset.setUnderInvestigation(!investigation.getInvestigationStatus().equals(QualityNotificationStatus.CLOSED));
             assetRepository.save(asset);
         });
+    }
 
+    public void setAssetsAlertStatus(QualityNotification alert) {
+        assetRepository.getAssetsById(alert.getAssetIds()).forEach(asset -> {
+            // Assets in status closed will be false, others true
+            //asset.setUnderAlert(!alert.getInvestigationStatus().equals(QualityNotificationStatus.CLOSED)); // TODO: add asset.underAlert field in db and entity
+            assetRepository.save(asset);
+        });
     }
 
     public Asset updateQualityType(String assetId, QualityType qualityType) {

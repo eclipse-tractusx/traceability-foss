@@ -40,8 +40,8 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class EdcNotificationService {
 
     private final InvestigationsEDCFacade edcFacade;
-    private final QualityNotificationRepository repository;
-    private final DiscoveryService discoveryService;
+    private final QualityNotificationRepository repository; // TODO more than one repository with that interface. should change logic or generify it somehow
+    private final DiscoveryService discoveryService;        // TODO here second part starts
 
 
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)

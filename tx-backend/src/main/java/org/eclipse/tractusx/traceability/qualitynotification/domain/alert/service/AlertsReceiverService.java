@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,9 +26,9 @@ import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
@@ -39,37 +37,37 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class InvestigationsReceiverService {
+public class AlertsReceiverService {
 
-    private final InvestigationRepository investigationsRepository;
+    private final AlertRepository alertRepository;
     private final NotificationMapper notificationMapper;
     private final AssetService assetService;
     private final QualityNotificationMapper qualityNotificationMapper;
 
-    public void handleNotificationReceive(EDCNotification edcNotification) {
+    public void handleNotificationReceive(EDCNotification edcNotification) { // TODO should already be mapped to domain in param
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
         QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
         QualityNotification investigation = qualityNotificationMapper.toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
-        QualityNotificationId investigationId = investigationsRepository.saveQualityNotificationEntity(investigation);
+        QualityNotificationId investigationId = alertRepository.saveQualityNotificationEntity(investigation);
         assetService.setAssetsInvestigationStatus(investigation);
-        log.info("Stored received edcNotification in investigation with id {}", investigationId);
+        log.info("Stored received edcNotification in alert with id {}", investigationId);
     }
 
     public void handleNotificationUpdate(EDCNotification edcNotification) {
         QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
-        QualityNotification investigation = investigationsRepository.findByEdcNotificationId(edcNotification.getNotificationId())
-                .orElseThrow(() -> new InvestigationNotFoundException(edcNotification.getNotificationId()));
+        QualityNotification alert = alertRepository.findByEdcNotificationId(edcNotification.getNotificationId())
+                .orElseThrow(() -> new AlertNotFoundException(edcNotification.getNotificationId()));
 
         switch (edcNotification.convertNotificationStatus()) {
-            case ACKNOWLEDGED -> investigation.acknowledge(notification);
-            case ACCEPTED -> investigation.accept(edcNotification.getInformation(), notification);
-            case DECLINED -> investigation.decline(edcNotification.getInformation(), notification);
-            case CLOSED -> investigation.close(BPN.of(investigation.getBpn()), edcNotification.getInformation());
+            case ACKNOWLEDGED -> alert.acknowledge(notification);
+            case ACCEPTED -> alert.accept(edcNotification.getInformation(), notification);
+            case DECLINED -> alert.decline(edcNotification.getInformation(), notification);
+            case CLOSED -> alert.close(BPN.of(alert.getBpn()), edcNotification.getInformation());
             default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }
-        investigation.addNotification(notification);
-        assetService.setAssetsInvestigationStatus(investigation);
-        QualityNotificationId investigationId = investigationsRepository.updateQualityNotificationEntity(investigation);
-        log.info("Stored update edcNotification in investigation with id {}", investigationId);
+        alert.addNotification(notification);
+        assetService.setAssetsAlertStatus(alert);
+        QualityNotificationId notificationId = alertRepository.updateQualityNotificationEntity(alert);
+        log.info("Stored update edcNotification in investigation with id {}", notificationId);
     }
 }
