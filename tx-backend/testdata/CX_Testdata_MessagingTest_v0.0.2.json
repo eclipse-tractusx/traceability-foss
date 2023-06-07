@@ -647,7 +647,7 @@
         "key" : "manufacturerPartId"
       }, {
         "value" : "NO-341449848714937445621543",
-        "key" : "partInstanceId"
+        "key" : "batchId"
       } ],
       "manufacturingInformation" : {
         "date" : "2022-02-04T14:48:54",
@@ -692,7 +692,7 @@
           "key" : "manufacturerPartId"
         }, {
           "value" : "NO-341449848714937445621543",
-          "key" : "partInstanceId"
+          "key" : "batchId"
         } ],
         "manufacturingInformation" : {
           "date" : "2022-02-04T14:48:54",
@@ -721,7 +721,7 @@
           "key" : "manufacturerPartId"
         }, {
           "value" : "NO-341449848714937445621543",
-          "key" : "partInstanceId"
+          "key" : "batchId"
         } ],
         "manufacturingInformation" : {
           "date" : "2022-02-04T14:48:54",
@@ -766,7 +766,7 @@
           "key" : "manufacturerPartId"
         }, {
           "value" : "NO-341449848714937445621543",
-          "key" : "partInstanceId"
+          "key" : "batchId"
         } ],
         "manufacturingInformation" : {
           "date" : "2022-02-04T14:48:54",
@@ -811,7 +811,7 @@
           "key" : "manufacturerPartId"
         }, {
           "value" : "NO-341449848714937445621543",
-          "key" : "partInstanceId"
+          "key" : "batchId"
         } ],
         "manufacturingInformation" : {
           "date" : "2022-02-04T14:48:54",
@@ -856,7 +856,7 @@
           "key" : "manufacturerPartId"
         }, {
           "value" : "NO-341449848714937445621543",
-          "key" : "partInstanceId"
+          "key" : "batchId"
         } ],
         "manufacturingInformation" : {
           "date" : "2022-02-04T14:48:54",
@@ -901,7 +901,7 @@
           "key" : "manufacturerPartId"
         }, {
           "value" : "NO-341449848714937445621543",
-          "key" : "partInstanceId"
+          "key" : "batchId"
         } ],
         "manufacturingInformation" : {
           "date" : "2022-02-04T14:48:54",
