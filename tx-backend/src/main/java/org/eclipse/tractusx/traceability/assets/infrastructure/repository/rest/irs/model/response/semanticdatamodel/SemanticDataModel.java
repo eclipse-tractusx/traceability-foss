@@ -72,7 +72,7 @@ public record SemanticDataModel(
 
         getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.SERIAL_PART_TYPIZATION);
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.SERIALPARTTYPIZATION);
         });
 
         getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {
