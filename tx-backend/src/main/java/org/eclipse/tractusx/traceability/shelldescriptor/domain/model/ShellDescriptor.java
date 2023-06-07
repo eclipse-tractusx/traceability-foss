@@ -62,7 +62,7 @@ public class ShellDescriptor {
         }
         if (getPartInstanceId() != null) {
             semanticModelId = getPartInstanceId();
-            semanticDataModel = SemanticDataModel.SERIAL_PART_TYPIZATION;
+            semanticDataModel = SemanticDataModel.SERIALPARTTYPIZATION;
         }
         return Asset.builder()
                 .id(getGlobalAssetId())
