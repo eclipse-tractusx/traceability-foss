@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
@@ -36,6 +37,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+@Slf4j
 public record SemanticDataModel(
         String catenaXId,
         PartTypeInformation partTypeInformation,
@@ -62,18 +64,22 @@ public record SemanticDataModel(
 
     public Asset toDomain(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
         final String manufacturerName = bpns.get(manufacturerId());
-        final boolean isBatch = getLocalId(LocalIdKey.BATCH_ID).isPresent();
-        final boolean isSerialPartTypization = getLocalId(LocalIdKey.PART_INSTANCE_ID).isPresent();
+        final String batchId = getLocalId(LocalIdKey.BATCH_ID).orElse(null);
+        final String partInstanceId = getLocalId(LocalIdKey.PART_INSTANCE_ID).orElse(null);
         String semanticModelId = null;
         org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel semanticDataModel = null;
-        if (isBatch) {
-            semanticModelId = getLocalId(LocalIdKey.BATCH_ID).get();
+        log.info(batchId, "BATCH ID");
+        log.info(batchId, "PART INSTANCE ID");
+
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(batchId)) {
+            semanticModelId = batchId;
             semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.BATCH;
         }
-        if (isSerialPartTypization) {
-            semanticModelId = getLocalId(LocalIdKey.PART_INSTANCE_ID).get();
+        if (org.apache.commons.lang3.StringUtils.isNotBlank(batchId)) {
+            semanticModelId = partInstanceId;
             semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.SERIAL_PART_TYPIZATION;
         }
+
 
         return Asset.builder()
                 .id(catenaXId())
