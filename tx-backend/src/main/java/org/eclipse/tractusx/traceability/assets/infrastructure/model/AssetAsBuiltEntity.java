@@ -50,11 +50,11 @@ import java.util.List;
 public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     @ElementCollection
-    @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "assets_as_built_id")})
+    @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
     private List<AssetAsBuiltEntity.ChildDescription> childDescriptors;
 
     @ElementCollection
-    @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "assets_as_built_id")})
+    @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
     private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
 
     @ManyToMany(mappedBy = "assetsAsBuilt")
