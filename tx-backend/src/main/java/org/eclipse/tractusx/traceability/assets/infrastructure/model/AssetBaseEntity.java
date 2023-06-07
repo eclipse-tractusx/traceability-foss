@@ -18,7 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.model;
 
-import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,8 +35,6 @@ import java.time.Instant;
 @MappedSuperclass
 public class AssetBaseEntity {
 
-    @Id
-    private String id;
     private String idShort;
     private String manufacturerId;
     private Owner owner;

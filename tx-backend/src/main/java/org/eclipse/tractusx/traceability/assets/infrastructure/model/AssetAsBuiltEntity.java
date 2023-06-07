@@ -22,9 +22,11 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.model;
 
 import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -48,6 +50,9 @@ import java.util.List;
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
 
+    @Id
+    @Column(name = "id")
+    private String id;
 
     @ElementCollection
     @CollectionTable(name = "assets_as_built_childs")
