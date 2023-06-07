@@ -49,7 +49,7 @@ jobs:
         run: docker build -t docker.io${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ github.sha }} .
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.10.0
+        uses: aquasecurity/trivy-action@0.11.0
         with:
           image-ref: 'docker.io${{ env.REGISTRY }}/${{ github.repository }}:fe_${{ github.sha }}'
           format: "sarif"
@@ -103,7 +103,7 @@ jobs:
           ref: ${{needs.prepare-env.outputs.check_sha}}
 
       - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@0.10.0
+        uses: aquasecurity/trivy-action@0.11.0
         with:
           scan-type: "config"
           exit-code: "1"
@@ -145,7 +145,7 @@ jobs:
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:dockerBuild -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:trivy
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.10.0
+        uses: aquasecurity/trivy-action@0.11.0
         with:
           image-ref: ${{ env.REGISTRY }}/${{ github.repository }}:trivy
           trivyignores: "./.github/workflows/.trivyignore"
