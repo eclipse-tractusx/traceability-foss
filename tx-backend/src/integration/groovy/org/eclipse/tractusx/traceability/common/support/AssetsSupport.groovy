@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
@@ -39,15 +39,15 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
     }
 
     void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
-        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssetsForTests().collect { asset ->
-            def assetEntity = AssetEntity.from(asset)
+        List<AssetAsBuiltEntity> assetEntities = assetsConverter().readAndConvertAssetsForTests().collect { asset ->
+            def assetEntity = AssetAsBuiltEntity.from(asset)
             assetEntity.setInInvestigation(inInvestigation);
             return assetEntity;
         }
 
         assetEntities.collect { it ->
             InvestigationEntity.builder()
-                    .assets(List.of(it))
+                    .assetsAsBuilt(List.of(it))
                     .bpn(it.getManufacturerId())
                     .status(investigationStatus)
                     .side(QualityNotificationSideBaseEntity.SENDER)
@@ -63,14 +63,14 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
 
     void assertHasRequiredIdentifiers() {
         assetRepository().getAssets().each { asset ->
-            assert asset.manufacturerId != "--" || asset.batchId != "--"
-            assert asset.partInstanceId != "--" || asset.batchId != "--"
+            assert asset.manufacturerId != "--"
+            assert asset.semanticModelId != "--"
             assert asset.idShort != null
         }
     }
 
     void assertHasChildCount(String assetId, int count) {
-        assetRepository().getAssetById(assetId).childDescriptions.size() == count
+        assetRepository().getAssetById(assetId).childRelations.size() == count
     }
 
     void assertNoAssetsStored() {

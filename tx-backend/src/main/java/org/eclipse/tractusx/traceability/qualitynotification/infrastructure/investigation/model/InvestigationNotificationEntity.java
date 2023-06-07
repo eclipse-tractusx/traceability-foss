@@ -32,7 +32,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
@@ -57,11 +57,11 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "assets_notifications",
+            name = "assets_as_built_notifications",
             joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetEntity> assets;
+    private List<AssetAsBuiltEntity> assets;
 
 
     public static QualityNotificationMessage toDomain(InvestigationNotificationEntity investigationNotificationEntity) {
@@ -91,7 +91,7 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
 
     public static InvestigationNotificationEntity from(InvestigationEntity investigationEntity,
                                                        QualityNotificationMessage qualityNotificationMessage,
-                                                       List<AssetEntity> notificationAssets) {
+                                                       List<AssetAsBuiltEntity> notificationAssets) {
         return InvestigationNotificationEntity
                 .builder()
                 .id(qualityNotificationMessage.getId())

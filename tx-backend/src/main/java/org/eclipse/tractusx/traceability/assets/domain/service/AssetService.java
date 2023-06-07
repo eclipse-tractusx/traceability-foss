@@ -100,7 +100,7 @@ public class AssetService {
 
     public Map<String, Long> getAssetsCountryMap() {
         return assetRepository.getAssets().stream()
-                .collect(Collectors.groupingBy(Asset::getManufacturingCountry, Collectors.counting()));
+                .collect(Collectors.groupingBy(asset -> asset.getSemanticModel().getManufacturingCountry(), Collectors.counting()));
     }
 
     public void saveAssets(List<Asset> assets) {
