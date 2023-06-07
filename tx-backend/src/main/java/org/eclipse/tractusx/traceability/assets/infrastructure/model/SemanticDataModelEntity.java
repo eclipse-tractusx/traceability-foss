@@ -29,6 +29,9 @@ public enum SemanticDataModelEntity {
     }
 
     public static SemanticDataModel toDomain(SemanticDataModelEntity semanticDataModelEntity) {
+        if (semanticDataModelEntity == null) {
+            return SemanticDataModel.UNKNOWN;
+        }
         return SemanticDataModel.valueOf(semanticDataModelEntity.name());
     }
 }
