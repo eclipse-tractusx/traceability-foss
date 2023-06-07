@@ -70,28 +70,17 @@ public record SemanticDataModel(
     }
 
     public Asset toDomain(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
-        localIds.forEach(localId -> {
-            log.info(localId.key() + " " + localId.value(), "localId key + value");
-        });
-
         final String manufacturerName = bpns.get(manufacturerId());
-        final String batchId = getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).orElse(null);
-        final String partInstanceId = getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).orElse(null);
 
-        if (getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).isPresent()) {
-            log.info("IS PRESENT");
-        }
         String semanticModelId = null;
         org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel semanticDataModel = null;
-
-
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(batchId)) {
-            semanticModelId = batchId;
-            semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.BATCH;
-        }
-        if (org.apache.commons.lang3.StringUtils.isNotBlank(batchId)) {
-            semanticModelId = partInstanceId;
+        if (getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).isPresent()) {
+            semanticModelId = getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).get();
             semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.SERIAL_PART_TYPIZATION;
+        }
+        if (getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).isPresent()) {
+            semanticModelId = getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).get();
+            semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.BATCH;
         }
 
 
