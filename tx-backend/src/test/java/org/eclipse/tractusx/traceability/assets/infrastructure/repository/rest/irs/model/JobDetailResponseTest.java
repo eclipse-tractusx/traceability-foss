@@ -55,13 +55,13 @@ class JobDetailResponseTest {
 
         assertThat(ownAsset.getId()).isEqualTo(ownAssetId);
         assertThat(ownAsset.getOwner()).isEqualTo(Owner.OWN);
-        assertThat(ownAsset.getParentDescriptions().get(0).id()).isEqualTo(parentAssetId);
-        assertTrue(ownAsset.getChildDescriptions().isEmpty());
+        assertThat(ownAsset.getParentRelations().get(0).id()).isEqualTo(parentAssetId);
+        assertTrue(ownAsset.getChildRelations().isEmpty());
 
         assertThat(parentAsset.getId()).isEqualTo(parentAssetId);
         assertThat(parentAsset.getOwner()).isEqualTo(Owner.CUSTOMER);
-        assertThat(parentAsset.getParentDescriptions()).isEmpty();
-        assertTrue(parentAsset.getChildDescriptions().isEmpty());
+        assertThat(parentAsset.getParentRelations()).isEmpty();
+        assertTrue(parentAsset.getChildRelations().isEmpty());
     }
 
 }

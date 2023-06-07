@@ -95,7 +95,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
                 .build()
 
         InvestigationEntity investigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
+                .assetsAsBuilt(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.SENT)
                 .side(QualityNotificationSideBaseEntity.SENDER)
@@ -145,7 +145,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 
 
         InvestigationEntity investigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
+                .assetsAsBuilt(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.SENT)
                 .side(QualityNotificationSideBaseEntity.SENDER)
@@ -186,7 +186,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         given:
 
         InvestigationEntity investigation = InvestigationEntity.builder()
-                .assets(Collections.emptyList())
+                .assetsAsBuilt(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
