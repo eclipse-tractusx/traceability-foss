@@ -27,4 +27,8 @@ public enum SemanticDataModelEntity {
     public static SemanticDataModelEntity from(SemanticDataModel semanticDataModel) {
         return SemanticDataModelEntity.valueOf(semanticDataModel.name());
     }
+
+    public static SemanticDataModel toDomain(SemanticDataModelEntity semanticDataModelEntity) {
+        return SemanticDataModel.valueOf(semanticDataModelEntity.name());
+    }
 }

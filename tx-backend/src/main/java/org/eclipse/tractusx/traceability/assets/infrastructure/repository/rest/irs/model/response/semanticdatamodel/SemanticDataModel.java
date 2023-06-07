@@ -83,6 +83,10 @@ public record SemanticDataModel(
             semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.BATCH;
         }
 
+        if (semanticDataModel == null) {
+            semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.UNKNOWN;
+        }
+
         return Asset.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))

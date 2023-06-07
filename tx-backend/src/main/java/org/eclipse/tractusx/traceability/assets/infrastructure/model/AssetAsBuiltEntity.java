@@ -93,6 +93,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
         return Asset.builder()
                 .id(entity.getId())
                 .idShort(entity.getIdShort())
+                .semanticDataModel(SemanticDataModelEntity.toDomain(entity.getSemanticDataModel()))
                 .semanticModel(SemanticModel.from(entity))
                 .semanticModelId(entity.getSemanticModelId())
                 .manufacturerId(entity.getManufacturerId())
