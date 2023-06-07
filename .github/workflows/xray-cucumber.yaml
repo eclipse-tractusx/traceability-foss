@@ -61,11 +61,11 @@ jobs:
       - name: Build with Maven
         if: ${{ steps.download.outputs.http_response == '200' }}
         env:
-          KEYCLOAK_HOST: #${{ secrets.KEYCLOAK_HOST }}
-          SUPERVISOR_CLIENT_ID: #${{ secrets.SUPERVISOR_CLIENT_ID }}
-          SUPERVISOR_PASSWORD: #${{ secrets.SUPERVISOR_PASSWORD }}
-          TXA_HOST: #${{ secrets.E2E_TXA_HOST }}
-          TXB_HOST: #${{ secrets.E2E_TXB_HOST }}
+          KEYCLOAK_HOST: ${{ secrets.KEYCLOAK_HOST }}
+          SUPERVISOR_CLIENT_ID: ${{ secrets.SUPERVISOR_CLIENT_ID }}
+          SUPERVISOR_PASSWORD: ${{ secrets.SUPERVISOR_PASSWORD }}
+          TXA_HOST: ${{ secrets.E2E_TXA_HOST }}
+          TXB_HOST: ${{ secrets.E2E_TXB_HOST }}
         working-directory: tx-cucumber-tests
         run: |
           unzip -o features.zip -d src/test/resources/features
