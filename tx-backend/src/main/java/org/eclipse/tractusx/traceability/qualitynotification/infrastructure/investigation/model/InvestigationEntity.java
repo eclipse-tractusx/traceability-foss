@@ -32,7 +32,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
@@ -55,11 +55,11 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "assets_investigations",
+            name = "assets_as_built_investigations",
             joinColumns = @JoinColumn(name = "investigation_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetEntity> assets;
+    private List<AssetAsBuiltEntity> assetsAsBuilt;
 
     @OneToMany(mappedBy = "investigation")
     private List<InvestigationNotificationEntity> notifications;
@@ -69,8 +69,8 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .map(InvestigationNotificationEntity::toDomain)
                 .toList();
 
-        List<String> assetIds = investigationNotificationEntity.getAssets().stream()
-                .map(AssetEntity::getId)
+        List<String> assetIds = investigationNotificationEntity.getAssetsAsBuilt().stream()
+                .map(AssetAsBuiltEntity::getId)
                 .toList();
 
         return QualityNotification.builder()
@@ -88,9 +88,9 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .build();
     }
 
-    public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetEntity> assetEntities) {
+    public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return InvestigationEntity.builder()
-                .assets(assetEntities)
+                .assetsAsBuilt(assetEntities)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
                 .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))

@@ -33,7 +33,8 @@ class AssetTestData {
         try {
             InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_v2.json")
             JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class)
-            return response.convertAssets()
+            def assets = response.convertAssets()
+            return assets
         } catch (IOException e) {
             return Collections.emptyList()
         }

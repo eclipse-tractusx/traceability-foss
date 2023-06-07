@@ -111,7 +111,13 @@ public record JobDetailResponse(
 
     private List<Asset> mapToOtherParts(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !semanticDataModel.catenaXId().equals(jobStatus().globalAssetId())).toList();
-        return SemanticDataModel.toDomainList(otherParts, shortIds, owner, bpnMapping, Collections.emptyList(), Collections.emptyList());
+        return otherParts
+                .stream()
+                .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
+                        Collections.emptyList(),
+                        Collections.emptyList()))
+                .toList();
+
     }
 
     private List<Asset> mapToOwnParts(Map<String, String> shortIds, Map<String, String> bpnMapping) {
@@ -129,7 +135,7 @@ public record JobDetailResponse(
 
         return ownParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomain(shortIds, Owner.OWN, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),
                         getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId())))
                 .toList();

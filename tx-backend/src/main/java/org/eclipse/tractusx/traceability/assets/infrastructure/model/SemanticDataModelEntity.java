@@ -16,13 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.infrastructure.model;
 
-package org.eclipse.tractusx.traceability.assets.domain.model;
 
-import lombok.Builder;
+import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
 
-@Builder
-public record Descriptions(
-        String id,
-        String idShort) {
+public enum SemanticDataModelEntity {
+    BATCH, SERIALPARTTYPIZATION, UNKNOWN;
+
+    public static SemanticDataModelEntity from(SemanticDataModel semanticDataModel) {
+        return SemanticDataModelEntity.valueOf(semanticDataModel.name());
+    }
+
+    public static SemanticDataModel toDomain(SemanticDataModelEntity semanticDataModelEntity) {
+        if (semanticDataModelEntity == null) {
+            return SemanticDataModel.UNKNOWN;
+        }
+        return SemanticDataModel.valueOf(semanticDataModelEntity.name());
+    }
 }

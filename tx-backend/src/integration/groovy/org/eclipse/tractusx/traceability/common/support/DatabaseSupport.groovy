@@ -26,10 +26,11 @@ import org.springframework.test.jdbc.JdbcTestUtils
 trait DatabaseSupport implements DatabaseProvider {
 
 	private static final List<String> TABLES = [
-            "asset_child_descriptors",
-            "assets_investigations",
-            "assets_notifications",
-            "asset",
+            "assets_as_built_childs",
+            "assets_as_built_parents",
+            "assets_as_built_notifications",
+            "assets_as_built_investigations",
+            "assets_as_built",
             "shell_descriptor",
             "bpn_storage",
             "investigation_notification",

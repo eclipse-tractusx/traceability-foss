@@ -21,20 +21,17 @@ package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship.Aspect;
+import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -58,12 +55,11 @@ class AssetServiceTest {
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
         // given
-        List<Descriptions> parentDescriptionsList = provideParentDescriptions();
-        List<Descriptions> childDescriptionList = provideChildDescriptions();
+        List<Descriptions> parentDescriptionsList = AssetTestDataFactory.provideParentRelations();
+        List<Descriptions> childDescriptionList = AssetTestDataFactory.provideChildRelations();
         String globalAssetId = "123";
-        List<Asset> downwardAssets = List.of(provideTestAsset(childDescriptionList, Collections.emptyList()));
-        List<Asset> upwardAssets = List.of(provideTestAsset(Collections.emptyList(), parentDescriptionsList));
-        List<Asset> combinedAssetList = List.of(provideTestAsset(childDescriptionList, parentDescriptionsList));
+        List<Asset> downwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(Collections.emptyList(), childDescriptionList));
+        List<Asset> upwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(parentDescriptionsList, Collections.emptyList()));
 
         when(irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects()))
                 .thenReturn(downwardAssets);
@@ -80,41 +76,6 @@ class AssetServiceTest {
         verify(assetRepository).saveAll(any());
     }
 
-
-    private List<Descriptions> provideChildDescriptions() {
-        List<Descriptions> childDescriptionList = new ArrayList<>();
-        childDescriptionList.add(new Descriptions("childId", "idshort"));
-        childDescriptionList.add(new Descriptions("childId2", "idshort"));
-        return childDescriptionList;
-    }
-
-
-    private List<Descriptions> provideParentDescriptions() {
-        List<Descriptions> parentDescriptionsList = new ArrayList<>();
-        parentDescriptionsList.add(new Descriptions("parentId", "idshort"));
-        parentDescriptionsList.add(new Descriptions("parentId2", "idshort"));
-        return parentDescriptionsList;
-    }
-
-    private Asset provideTestAsset(List<Descriptions> childDescriptions, List<Descriptions> parentDescriptions) {
-        String id = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd";
-        String idShort = "--";
-        String nameAtManufacturer = "1";
-        String manufacturerPartId = "33740332-54";
-        String partInstanceId = "NO-297452866581906730261974";
-        String manufacturerId = "BPNL00000003CSGV";
-        String batchId = "--";
-        String manufacturerName = "Tier C";
-        String nameAtCustomer = "Door front-right";
-        String customerPartId = "33740332-54";
-        Instant manufacturingDate = Instant.parse("2022-02-04T13:48:54Z");
-        String manufacturingCountry = "DEU";
-        Owner owner = Owner.CUSTOMER;
-        QualityType qualityType = QualityType.OK;
-        String van = "--";
-        return new Asset(id, idShort, nameAtManufacturer, manufacturerPartId, partInstanceId, manufacturerId, batchId, manufacturerName, nameAtCustomer, customerPartId, manufacturingDate, manufacturingCountry, owner, childDescriptions, parentDescriptions, false, false, qualityType, van);
-
-    }
 
 }
 

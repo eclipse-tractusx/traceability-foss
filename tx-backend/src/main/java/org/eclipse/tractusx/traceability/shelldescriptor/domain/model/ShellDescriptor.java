@@ -26,6 +26,8 @@ import lombok.Data;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
 import org.springframework.util.StringUtils;
 
 import java.util.Collections;
@@ -50,26 +52,33 @@ public class ShellDescriptor {
         return value;
     }
 
+
     public Asset toAsset(String manufacturerName) {
+        String semanticModelId = null;
+        SemanticDataModel semanticDataModel = null;
+        if (getBatchId() != null) {
+            semanticModelId = getBatchId();
+            semanticDataModel = SemanticDataModel.BATCH;
+        }
+        if (getPartInstanceId() != null) {
+            semanticModelId = getPartInstanceId();
+            semanticDataModel = SemanticDataModel.SERIALPARTTYPIZATION;
+        }
         return Asset.builder()
                 .id(getGlobalAssetId())
                 .idShort(getIdShort())
-                .nameAtManufacturer(getIdShort())
-                .manufacturerPartId(defaultValue(getManufacturerPartId()))
-                .partInstanceId(defaultValue(getPartInstanceId()))
+                .semanticModel(SemanticModel.from(this))
+                .semanticModelId(semanticModelId)
                 .manufacturerId(defaultValue(getManufacturerId()))
-                .batchId(defaultValue(getBatchId()))
                 .manufacturerName(manufacturerName)
-                .nameAtCustomer(getIdShort())
-                .customerPartId(getManufacturerPartId())
-                .manufacturingCountry("--")
                 .owner(Owner.OWN)
-                .childDescriptions(Collections.emptyList())
-                .parentDescriptions(Collections.emptyList())
+                .childRelations(Collections.emptyList())
+                .parentRelations(Collections.emptyList())
                 .underInvestigation(false)
-                .underAlert(false)
+                .activeAlert(false)
                 .qualityType(QualityType.OK)
                 .van("--")
+                .semanticDataModel(semanticDataModel)
                 .build();
     }
 

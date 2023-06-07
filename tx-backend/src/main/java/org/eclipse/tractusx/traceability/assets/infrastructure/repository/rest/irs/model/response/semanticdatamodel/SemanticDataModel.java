@@ -21,20 +21,22 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
 import org.springframework.util.StringUtils;
 
-import java.time.Instant;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 
+@Slf4j
 public record SemanticDataModel(
         String catenaXId,
         PartTypeInformation partTypeInformation,
@@ -48,10 +50,6 @@ public record SemanticDataModel(
         this.localIdentifiers = Objects.requireNonNullElse(localIdentifiers, Collections.emptyList());
     }
 
-    public static List<Asset> toDomainList(List<SemanticDataModel> parts, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
-        return parts.stream().map(semanticDataModel -> semanticDataModel.toDomain(shortIds, owner, bpns, parentRelations, childRelations)).toList();
-    }
-
     public Optional<String> getLocalId(LocalIdKey key) {
         return localIdentifiers.stream()
                 .filter(localId -> localId.key() == key)
@@ -59,27 +57,48 @@ public record SemanticDataModel(
                 .map(LocalId::value);
     }
 
-    public Asset toDomain(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+    public Optional<String> getLocalIdByInput(LocalIdKey key, List<LocalId> localIds) {
+        return localIds.stream()
+                .filter(localId -> localId.key() == key)
+                .findFirst()
+                .map(LocalId::value);
+    }
+
+    public Asset toDomain(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
         final String manufacturerName = bpns.get(manufacturerId());
+
+        final AtomicReference<String> semanticModelId = new AtomicReference<>();
+        final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
+
+        getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).ifPresent(s -> {
+            semanticModelId.set(s);
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.SERIALPARTTYPIZATION);
+        });
+
+        getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {
+            semanticModelId.set(s);
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.BATCH);
+        });
+
+
+        if (semanticDataModel.get() == null) {
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.UNKNOWN);
+        }
+
         return Asset.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
-                .nameAtManufacturer(defaultValue(partTypeInformation().nameAtManufacturer()))
-                .manufacturerPartId(defaultValue(partTypeInformation().manufacturerPartId()))
-                .partInstanceId(partInstanceId())
+                .semanticModelId(semanticModelId.get())
+                .semanticModel(SemanticModel.from(partTypeInformation, manufacturingInformation))
                 .manufacturerId(manufacturerId())
-                .batchId(batchId())
                 .manufacturerName(defaultValue(manufacturerName))
-                .nameAtCustomer(defaultValue(partTypeInformation().nameAtCustomer()))
-                .customerPartId(defaultValue(partTypeInformation().customerPartId()))
-                .manufacturingDate(manufacturingDate())
-                .manufacturingCountry(manufacturingCountry())
-                .parentDescriptions(parentRelations)
-                .childDescriptions(childRelations)
+                .parentRelations(parentRelations)
+                .childRelations(childRelations)
                 .owner(owner)
+                .activeAlert(false)
                 .underInvestigation(false)
-                .underAlert(false)
                 .qualityType(QualityType.OK)
+                .semanticDataModel(semanticDataModel.get())
                 .van(van())
                 .build();
     }
@@ -89,32 +108,6 @@ public record SemanticDataModel(
                 .orElse("--");
     }
 
-    private String batchId() {
-        return getLocalId(LocalIdKey.BATCH_ID)
-                .orElse("--");
-    }
-
-    private String partInstanceId() {
-        return getLocalId(LocalIdKey.PART_INSTANCE_ID)
-                .orElse("--");
-    }
-
-    private String manufacturingCountry() {
-        if (manufacturingInformation() == null) {
-            return "--";
-        }
-        return manufacturingInformation().country();
-    }
-
-    private Instant manufacturingDate() {
-        if (manufacturingInformation() == null) {
-            return null;
-        }
-
-        return Optional.ofNullable(manufacturingInformation().date())
-                .map(Date::toInstant)
-                .orElse(null);
-    }
 
     private String defaultValue(String value) {
         final String EMPTY_TEXT = "--";

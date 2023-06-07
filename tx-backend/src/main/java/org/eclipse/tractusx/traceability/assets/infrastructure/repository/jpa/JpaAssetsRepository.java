@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,13 +33,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JpaAssetsRepository extends JpaRepository<AssetEntity, String> {
+public interface JpaAssetsRepository extends JpaRepository<AssetAsBuiltEntity, String> {
 
-    @Query("SELECT asset FROM AssetEntity asset WHERE asset.owner = :owner")
-    Page<AssetEntity> findByOwner(Pageable pageable, @Param("owner") Owner owner);
+    @Query("SELECT asset FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
+    Page<AssetAsBuiltEntity> findByOwner(Pageable pageable, @Param("owner") Owner owner);
 
-    List<AssetEntity> findByIdIn(List<String> assetIds);
+    List<AssetAsBuiltEntity> findByIdIn(List<String> assetIds);
 
-    @Query("SELECT COUNT(asset) FROM AssetEntity asset WHERE asset.owner = :owner")
+    @Query("SELECT COUNT(asset) FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
     long countAssetsByOwner(@Param("owner") Owner owner);
 }

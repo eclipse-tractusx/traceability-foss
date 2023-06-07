@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.ale
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.JpaAssetsRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
@@ -87,7 +87,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
     @Override
     public QualityNotificationId saveQualityNotificationEntity(QualityNotification alert) {
 
-        List<AssetEntity> assetEntities = getAssetEntitiesByAlert(alert);
+        List<AssetAsBuiltEntity> assetEntities = getAssetEntitiesByAlert(alert);
 
         if (!assetEntities.isEmpty()) {
             AlertEntity alertEntity = AlertEntity.from(alert, assetEntities);
@@ -141,18 +141,18 @@ public class AlertsRepositoryImpl implements AlertRepository {
                 handleNotificationUpdate(notificationEntityMap.get(notification.getId()), notification);
             } else {
                 log.info("handleNotificationUpdate::new notification with id {} for alert with id {}", notification.getId(), alert.getNotificationId());
-                List<AssetEntity> assetEntitiesByAlert = getAssetEntitiesByAlert(alert);
+                List<AssetAsBuiltEntity> assetEntitiesByAlert = getAssetEntitiesByAlert(alert);
                 handleNotificationCreate(alertEntity, notification, assetEntitiesByAlert);
             }
         }
 
     }
 
-    private List<AssetEntity> getAssetEntitiesByAlert(QualityNotification alert) {
+    private List<AssetAsBuiltEntity> getAssetEntitiesByAlert(QualityNotification alert) {
         return assetsRepository.findByIdIn(alert.getAssetIds());
     }
 
-    private void handleNotificationCreate(AlertEntity alertEntity, QualityNotificationMessage notificationDomain, List<AssetEntity> assetEntities) {
+    private void handleNotificationCreate(AlertEntity alertEntity, QualityNotificationMessage notificationDomain, List<AssetAsBuiltEntity> assetEntities) {
         AlertNotificationEntity notificationEntity = toNotificationEntity(alertEntity, notificationDomain, assetEntities);
         AlertNotificationEntity savedEntity = notificationRepository.save(notificationEntity);
         log.info("Successfully persisted alert notification entity {}", savedEntity);
@@ -172,8 +172,8 @@ public class AlertsRepositoryImpl implements AlertRepository {
     }
 
 
-    private AlertNotificationEntity toNotificationEntity(AlertEntity alertEntity, QualityNotificationMessage notification, List<AssetEntity> alertAssets) {
-        List<AssetEntity> notificationAssets = filterNotificationAssets(notification, alertAssets);
+    private AlertNotificationEntity toNotificationEntity(AlertEntity alertEntity, QualityNotificationMessage notification, List<AssetAsBuiltEntity> alertAssets) {
+        List<AssetAsBuiltEntity> notificationAssets = filterNotificationAssets(notification, alertAssets);
 
         if (notificationAssets.isEmpty()) {
             throw new IllegalStateException(" with id %s has no notification assets".formatted(alertEntity.getId()));
@@ -181,7 +181,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
         return AlertNotificationEntity.from(alertEntity, notification, notificationAssets);
     }
 
-    private List<AssetEntity> filterNotificationAssets(QualityNotificationMessage notification, List<AssetEntity> assets) {
+    private List<AssetAsBuiltEntity> filterNotificationAssets(QualityNotificationMessage notification, List<AssetAsBuiltEntity> assets) {
         Set<String> notificationAffectedAssetIds = notification.getAffectedParts().stream()
                 .map(QualityNotificationAffectedPart::assetId)
                 .collect(Collectors.toSet());

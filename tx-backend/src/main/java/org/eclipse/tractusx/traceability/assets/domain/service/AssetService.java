@@ -94,7 +94,7 @@ public class AssetService {
     public void setAssetsAlertStatus(QualityNotification alert) {
         assetRepository.getAssetsById(alert.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
-            asset.setUnderAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
+            asset.setActiveAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
             assetRepository.save(asset);
         });
     }
@@ -107,7 +107,7 @@ public class AssetService {
 
     public Map<String, Long> getAssetsCountryMap() {
         return assetRepository.getAssets().stream()
-                .collect(Collectors.groupingBy(Asset::getManufacturingCountry, Collectors.counting()));
+                .collect(Collectors.groupingBy(asset -> asset.getSemanticModel().getManufacturingCountry(), Collectors.counting()));
     }
 
     public void saveAssets(List<Asset> assets) {
