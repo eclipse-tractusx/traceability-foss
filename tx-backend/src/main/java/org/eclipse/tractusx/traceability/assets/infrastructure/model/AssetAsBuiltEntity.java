@@ -22,11 +22,11 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.model;
 
 import jakarta.persistence.CollectionTable;
-import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -49,19 +49,15 @@ import java.util.List;
 @SuperBuilder
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
-
     @Id
-    @Column(name = "id")
     private String id;
-
     @ElementCollection
-    @CollectionTable(name = "assets_as_built_childs")
+    @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "assets_as_build_id")})
     private List<AssetAsBuiltEntity.ChildDescription> childDescriptors;
 
     @ElementCollection
-    @CollectionTable(name = "assets_as_built_parents")
+    @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "assets_as_build_id")})
     private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
-
 
     @ManyToMany(mappedBy = "assetsAsBuilt")
     private List<InvestigationEntity> investigations = new ArrayList<>();
