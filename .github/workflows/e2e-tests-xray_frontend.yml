@@ -88,7 +88,7 @@ jobs:
           node-version: 18.x
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v5.8.0 # use the explicit version number
+        uses: cypress-io/github-action@v5.8.1 # use the explicit version number
         with:
           start: npm start
           wait-on: "http://localhost:4200"
@@ -143,7 +143,7 @@ jobs:
           node-version: 18.x
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v5.8.0 # use the explicit version number
+        uses: cypress-io/github-action@v5.8.1 # use the explicit version number
         with:
           start: npm start
           wait-on: "http://localhost:4200"
@@ -206,7 +206,7 @@ jobs:
         run: npx playwright install --with-deps webkit
 
       - name: Cypress run all tests
-        uses: cypress-io/github-action@v5.8.0 # use the explicit version number
+        uses: cypress-io/github-action@v5.8.1 # use the explicit version number
         with:
           start: npm start
           wait-on: "http://localhost:4200"
