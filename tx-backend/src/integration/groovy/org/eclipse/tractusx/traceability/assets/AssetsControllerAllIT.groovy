@@ -117,24 +117,6 @@ class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSu
 
     }
 
-    //         Actual: <{id=urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,
-
-    //         manufacturerName=Manufacturer Name 1,
-    //         semanticModel={manufacturingDate=null,
-    //         manufacturingCountry=--,
-    //         manufacturerPartId=--,
-    //         customerPartId=--,
-    //         nameAtManufacturer=null,
-    //         nameAtCustomer=--},
-    //         owner=OWN,
-    //         childRelations=[{id=urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a, idShort=battery.asm}, {id=urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562, idShort=transmission.asm}, {id=urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc, idShort=ecu.asm}],
-    //         parentRelations=[],
-    //         activeAlert=false,
-    //         underInvestigation=false,
-    //         qualityType=Ok,
-    //         van=OMA-TGFAYUHXFLHHUQQMPLTE,
-    //         semanticDataModel=null}>
-
     def "should return assets by owner filtering"() {
         given:
         defaultAssetsStored()

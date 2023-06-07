@@ -60,7 +60,6 @@ class AssetServiceTest {
         String globalAssetId = "123";
         List<Asset> downwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(Collections.emptyList(), childDescriptionList));
         List<Asset> upwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(parentDescriptionsList, Collections.emptyList()));
-        List<Asset> combinedAssetList = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(parentDescriptionsList, childDescriptionList));
 
         when(irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects()))
                 .thenReturn(downwardAssets);
