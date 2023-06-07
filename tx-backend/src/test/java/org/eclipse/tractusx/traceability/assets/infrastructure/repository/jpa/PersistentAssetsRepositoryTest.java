@@ -84,7 +84,7 @@ class PersistentAssetsRepositoryTest {
                 Instant.ofEpochSecond(11111111L), "USA", Owner.OWN,
                 List.of(new Descriptions("C001", "CD01")),
                 List.of(new Descriptions("P001", "PD01")),
-                false, QualityType.OK, "V001");
+                false, false, QualityType.OK, "V001");
         Assertions.assertEquals(asset.getId(), expected.getId());
         Assertions.assertEquals(asset.getIdShort(), expected.getIdShort());
         Assertions.assertEquals(asset.getNameAtManufacturer(), expected.getNameAtManufacturer());

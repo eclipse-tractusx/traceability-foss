@@ -112,7 +112,7 @@ class AssetServiceTest {
         Owner owner = Owner.CUSTOMER;
         QualityType qualityType = QualityType.OK;
         String van = "--";
-        return new Asset(id, idShort, nameAtManufacturer, manufacturerPartId, partInstanceId, manufacturerId, batchId, manufacturerName, nameAtCustomer, customerPartId, manufacturingDate, manufacturingCountry, owner, childDescriptions, parentDescriptions, false, qualityType, van);
+        return new Asset(id, idShort, nameAtManufacturer, manufacturerPartId, partInstanceId, manufacturerId, batchId, manufacturerName, nameAtCustomer, customerPartId, manufacturingDate, manufacturingCountry, owner, childDescriptions, parentDescriptions, false, false, qualityType, van);
 
     }
 

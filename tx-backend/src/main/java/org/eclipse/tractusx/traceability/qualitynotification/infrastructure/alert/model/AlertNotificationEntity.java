@@ -58,7 +58,7 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "assets_notifications",
-            joinColumns = @JoinColumn(name = "alert_id"),
+            joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
     private List<AssetEntity> assets;

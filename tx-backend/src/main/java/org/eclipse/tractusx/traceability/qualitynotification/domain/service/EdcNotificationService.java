@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.config.async.Asse
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.scheduling.annotation.Async;
@@ -40,8 +41,8 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class EdcNotificationService {
 
     private final InvestigationsEDCFacade edcFacade;
-    private final QualityNotificationRepository repository; // TODO more than one repository with that interface. should change logic or generify it somehow
-    private final DiscoveryService discoveryService;        // TODO here second part starts
+    private final InvestigationRepository repository; // TODO more than one repository with that interface. should change logic or generify it somehow
+    private final DiscoveryService discoveryService;
 
 
     @Async(value = AssetsAsyncConfig.UPDATE_NOTIFICATION_EXECUTOR)

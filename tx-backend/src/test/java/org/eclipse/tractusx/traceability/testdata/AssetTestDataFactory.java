@@ -40,6 +40,7 @@ public class AssetTestDataFactory {
                 childDescriptions,
                 parentDescriptions,
                 false,
+                false,
                 QualityType.CRITICAL,
                 "van123"
         );
