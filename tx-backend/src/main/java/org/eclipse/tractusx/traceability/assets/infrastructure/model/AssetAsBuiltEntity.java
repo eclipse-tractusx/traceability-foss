@@ -85,6 +85,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .van(asset.getVan())
                 .activeAlert(asset.isActiveAlert())
                 .inInvestigation(asset.isUnderInvestigation())
+                .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .build();
     }
 
