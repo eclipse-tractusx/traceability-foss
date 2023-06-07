@@ -34,8 +34,6 @@ import static org.hamcrest.Matchers.*
 
 class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, BpnSupport {
 
-
-
     def "should return assets with manufacturer name"() {
         given:
         cachedBpnsForDefaultAssets()

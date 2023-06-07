@@ -28,9 +28,9 @@ trait DatabaseSupport implements DatabaseProvider {
 	private static final List<String> TABLES = [
             "assets_as_built_childs",
             "assets_as_built_parents",
-            "assets_as_built",
-            "assets_as_built_investigations",
             "assets_as_built_notifications",
+            "assets_as_built_investigations",
+            "assets_as_built",
             "shell_descriptor",
             "bpn_storage",
             "investigation_notification",
