@@ -35,6 +35,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class SupplierPartsComponent implements OnInit, OnDestroy {
   public readonly displayedColumns: string[] = [
     'select',
+    'semanticDataModel',
     'name',
     'manufacturer',
     'partNumber',
@@ -50,6 +51,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     serialNumber: true,
     batchNumber: true,
     productionDate: true,
+    semanticDataModel: true,
   };
 
   public readonly tableConfig: TableConfig = {

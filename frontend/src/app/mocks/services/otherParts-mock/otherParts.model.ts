@@ -38,6 +38,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:38468ac2-9053-4ce7-8d7f-318b247b7f24',
@@ -55,6 +56,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:fccbc75e-6ccd-46e2-ba93-4a3125dfb5a5',
@@ -72,6 +74,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:dad03189-4ce7-47a4-bfc5-e7b77dc6cf68',
@@ -89,6 +92,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'Batch',
   },
   {
     id: 'urn:uuid:6c16b752-da3c-4897-9480-6be60b48e33c',
@@ -118,6 +122,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:aab00d1e-650a-4e3d-a8af-57c7008eadec', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:d411568e-d950-44ff-87c2-492ac6beabe9',
@@ -135,6 +140,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:c8504172-21a7-4b02-9cc7-cfaa0fc29bd8',
@@ -164,6 +170,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:55f4f517-8822-4a89-9167-d0127193779e', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'Batch',
   },
   {
     id: 'urn:uuid:1d7bfc63-6d0a-46ab-8ccb-b766e2365a8e',
@@ -181,6 +188,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'Batch',
   },
   {
     id: 'urn:uuid:1b11d080-51da-4275-aa39-097f0c5d3fd6',
@@ -198,6 +206,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:6599279a-3fe4-479f-bc11-fcd97bb42607',
@@ -227,6 +236,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:dfda7bd8-8625-4def-9825-6a79d0ac802b', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:e32c3097-dd82-4c12-945d-63473bb79131',
@@ -244,6 +254,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:b8f04288-6685-47cd-b38d-67c88ba1b02d',
@@ -273,6 +284,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:24468d86-6718-479a-adc6-f9b65f6ada56', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:09c704a5-c1a7-4b73-9038-e4af72e44dd6',
@@ -290,6 +302,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'Batch',
   },
   {
     id: 'urn:uuid:0ffafb2c-f968-46a9-a1e2-2dd70fd714ae',
@@ -307,6 +320,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:8869d78f-b127-406c-b261-1060e30560f2',
@@ -324,6 +338,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [{ id: 'urn:uuid:a07355df-206e-4d07-8a56-199bffd288cd', idShort: '--' }],
     qualityType: 'Ok',
+    semanticDataModel: 'Batch',
   },
   {
     id: 'urn:uuid:2de737e6-e4e9-4058-aab5-c0984e538dfc',
@@ -341,6 +356,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:0f6b767a-7f8f-4edd-902c-ee563255a5f8',
@@ -370,6 +386,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:440e2c89-6db5-4044-9aa3-c020b276ade9', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:06ce2095-d52d-4ab9-a31f-fa6a6b07f685',
@@ -391,6 +408,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:5f5bba9c-e24b-4c83-86a0-ec7484f57b7b', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:e35abf46-5a66-47b6-b74b-1753287d576d',

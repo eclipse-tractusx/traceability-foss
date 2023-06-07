@@ -31,6 +31,11 @@ export enum QualityType {
   LifeThreatening = 'LifeThreatening',
 }
 
+export enum SemanticDataModel {
+  Batch= 'Batch',
+  SerialPartTypization = 'SerialPartTypization'
+}
+
 export interface Part {
   id: string;
   name: string;
@@ -48,6 +53,7 @@ export interface Part {
   error?: boolean;
   shouldHighlight?: boolean;
   van?: string;
+  semanticDataModel: SemanticDataModel;
 }
 
 export interface PartResponse {
@@ -69,6 +75,7 @@ export interface PartResponse {
   parentDescriptions?: Array<{ id: string; idShort: string }>;
   underInvestigation?: boolean;
   van?: string;
+  semanticDataModel: SemanticDataModel;
 }
 
 export type PartsResponse = PaginationResponse<PartResponse>;

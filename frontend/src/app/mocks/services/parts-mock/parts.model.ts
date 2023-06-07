@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { PartResponse, QualityType } from '@page/parts/model/parts.model';
+import { PartResponse, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { otherPartsAssets } from '../otherParts-mock/otherParts.model';
 
 export const mockBmwAssets = [
@@ -44,6 +44,7 @@ export const mockBmwAssets = [
     ],
     parentDescriptions: [{ id: 'urn:uuid:55c376ed-e39d-4525-96e6-71f3def7ae41', idShort: '--' }],
     qualityType: 'Ok',
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:55c376ed-e39d-4525-96e6-71f3def7ae41',
@@ -64,6 +65,7 @@ export const mockBmwAssets = [
     childDescriptions: [],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:d37d8fe4-5684-4c31-8c03-f9dbaa48d82b',
@@ -86,6 +88,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:ab863676-a37c-41e7-a5f9-efaa071dbbf5',
@@ -108,6 +111,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'Batch',
   },
   {
     id: 'urn:uuid:f4d16a8a-1bff-4d93-9715-2629f3ffa560',
@@ -163,6 +167,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:6853758f-d624-4530-93fb-07487801cb58',
@@ -218,6 +223,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:065fe7fd-010a-4175-8564-7c9d8ce7e57e',
@@ -273,6 +279,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:5e5ce920-95ed-434f-b335-efc91b7ce62d',
@@ -295,6 +302,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:9a80e5ee-6c27-47f5-912a-56945e26b9a6',
@@ -317,6 +325,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:bf5ae91d-02f8-4e33-b130-90ec402ac0db',
@@ -339,6 +348,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'SerialPartTypization',
   },
   {
     id: 'urn:uuid:d261e0fa-36f5-4128-875e-0f5735f5a535',
@@ -361,6 +371,7 @@ export const mockBmwAssets = [
     ],
     qualityType: 'Ok',
     van: null,
+    semanticDataModel: 'Batch',
   },
 ] as PartResponse[];
 
@@ -382,6 +393,7 @@ const MockEmptyPart: PartResponse = {
   childDescriptions: [],
   qualityType: QualityType.Ok,
   van: null,
+  semanticDataModel: SemanticDataModel.Batch
 };
 
 export const getAssetById = (id: string) => {

@@ -16,7 +16,8 @@
     "productionDate": "Production date",
     "manufacturer": "Manufacturer",
     "nameAtCustomer": "Name at customer",
-    "customerPartId": "Customer part ID"
+    "customerPartId": "Customer part ID",
+    "semanticDataModel": "Semantic Data Model"
   },
   "page": {
     "selectedParts": {
