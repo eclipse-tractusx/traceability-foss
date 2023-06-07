@@ -63,6 +63,10 @@ public record SemanticDataModel(
     }
 
     public Asset toDomain(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+        localIdentifiers().forEach(localId -> {
+            log.info(localId.key() + " " + localId.value(), "localId key + value");
+        });
+
         final String manufacturerName = bpns.get(manufacturerId());
         final String batchId = getLocalId(LocalIdKey.BATCH_ID).orElse(null);
         final String partInstanceId = getLocalId(LocalIdKey.PART_INSTANCE_ID).orElse(null);
