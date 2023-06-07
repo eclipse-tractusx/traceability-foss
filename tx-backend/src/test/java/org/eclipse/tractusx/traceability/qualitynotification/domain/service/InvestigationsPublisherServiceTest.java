@@ -88,7 +88,7 @@ class InvestigationsPublisherServiceTest {
         // Given
         QualityNotification investigation = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "bpn123");
         when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
-        when(repository.saveQualityNotificationEntity(any(QualityNotification.class))).thenReturn(investigation.getInvestigationId());
+        when(repository.saveQualityNotificationEntity(any(QualityNotification.class))).thenReturn(investigation.getNotificationId());
         when(bpnRepository.findManufacturerName(anyString())).thenReturn(Optional.empty());
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
         // When
@@ -113,7 +113,7 @@ class InvestigationsPublisherServiceTest {
 
         // Then
         verify(repository).updateQualityNotificationEntity(investigation);
-        assertEquals(QualityNotificationStatus.CANCELED, investigation.getInvestigationStatus());
+        assertEquals(QualityNotificationStatus.CANCELED, investigation.getNotificationStatus());
     }
 
     @Test
@@ -148,7 +148,7 @@ class InvestigationsPublisherServiceTest {
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now())
                 .targetDate(Instant.now())
-                .investigationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
 
@@ -189,7 +189,7 @@ class InvestigationsPublisherServiceTest {
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now())
                 .targetDate(Instant.now())
-                .investigationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
 
@@ -198,7 +198,7 @@ class InvestigationsPublisherServiceTest {
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now().plusSeconds(10))
                 .targetDate(Instant.now())
-                .investigationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
 
@@ -231,14 +231,14 @@ class InvestigationsPublisherServiceTest {
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now())
                 .targetDate(Instant.now())
-                .investigationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
 
         QualityNotificationMessage notification2 = QualityNotificationMessage.builder()
                 .id("456")
                 .notificationReferenceId("id123")
-                .investigationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .created(LocalDateTime.now().plusSeconds(10))
                 .targetDate(Instant.now())
@@ -274,7 +274,7 @@ class InvestigationsPublisherServiceTest {
                 .id("123")
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now())
-                .investigationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
 
@@ -282,7 +282,7 @@ class InvestigationsPublisherServiceTest {
                 .id("456")
                 .notificationReferenceId("id123")
                 .created(LocalDateTime.now().plusSeconds(10))
-                .investigationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
 
@@ -314,7 +314,7 @@ class InvestigationsPublisherServiceTest {
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
                 .notificationReferenceId("id123")
-                .investigationStatus(QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(affectedParts)
                 .build();
 

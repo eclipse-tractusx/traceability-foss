@@ -20,6 +20,8 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
@@ -29,6 +31,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.model.Qualit
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.service.NotificationPublisherService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -37,18 +40,27 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class InvestigationServiceImpl implements InvestigationService {
 
-    private final InvestigationsPublisherService investigationsPublisherService;
+    private final NotificationPublisherService notificationPublisherService;
+
+    private final InvestigationsPublisherService investigationsPublisherService; // delete
 
     private final InvestigationRepository investigationsRepository;
+
+    private final AssetService assetService;
 
 
     @Override
     public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
-        return investigationsPublisherService.startInvestigation(partIds, description, targetDate, severity);
+        final QualityNotification notification = notificationPublisherService.startNotification(partIds, description, targetDate, severity);
+
+        assetService.setAssetsInvestigationStatus(notification);
+        log.info("Start Investigation {}", notification);
+        return investigationsRepository.saveQualityNotificationEntity(notification);
     }
 
     @Override
@@ -81,8 +93,9 @@ public class InvestigationServiceImpl implements InvestigationService {
 
     @Override
     public void approve(Long notificationId) {
-        QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        investigationsPublisherService.approveInvestigation(investigation);
+        QualityNotification notification = loadOrNotFoundException(new QualityNotificationId(notificationId));
+        final QualityNotification approvedNotification = notificationPublisherService.approveNotification(notification);
+        investigationsRepository.updateQualityNotificationEntity(approvedNotification);
     }
 
     @Override

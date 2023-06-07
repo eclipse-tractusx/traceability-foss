@@ -86,7 +86,7 @@ public class AssetService {
     public void setAssetsInvestigationStatus(QualityNotification investigation) {
         assetRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
-            asset.setUnderInvestigation(!investigation.getInvestigationStatus().equals(QualityNotificationStatus.CLOSED));
+            asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
             assetRepository.save(asset);
         });
     }
@@ -94,7 +94,7 @@ public class AssetService {
     public void setAssetsAlertStatus(QualityNotification alert) {
         assetRepository.getAssetsById(alert.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
-            asset.setUnderAlert(!alert.getInvestigationStatus().equals(QualityNotificationStatus.CLOSED));
+            asset.setUnderAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
             assetRepository.save(asset);
         });
     }

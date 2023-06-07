@@ -75,7 +75,7 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .description(investigationNotificationEntity.getInvestigation().getDescription())
                 .edcUrl(investigationNotificationEntity.getEdcUrl())
                 .contractAgreementId(investigationNotificationEntity.getContractAgreementId())
-                .investigationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
+                .notificationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
                 .affectedParts(investigationNotificationEntity.getAssets().stream()
                         .map(asset -> new QualityNotificationAffectedPart(asset.getId()))
                         .toList())
@@ -106,7 +106,7 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .targetDate(qualityNotificationMessage.getTargetDate())
                 .severity(qualityNotificationMessage.getSeverity())
                 .edcNotificationId(qualityNotificationMessage.getEdcNotificationId())
-                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getInvestigationStatus().name()))
+                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
                 .messageId(qualityNotificationMessage.getMessageId())
                 .isInitial(qualityNotificationMessage.getIsInitial())
                 .build();

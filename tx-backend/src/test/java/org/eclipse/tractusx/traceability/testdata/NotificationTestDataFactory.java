@@ -42,7 +42,7 @@ public class NotificationTestDataFactory {
                 .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
-                .investigationStatus(QualityNotificationStatus.ACKNOWLEDGED)
+                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")

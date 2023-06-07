@@ -145,7 +145,7 @@ class AlertControllerTest {
 
         // then
         assertThat(result)
-                .hasFieldOrPropertyWithValue("id", notification.getInvestigationId().value())
+                .hasFieldOrPropertyWithValue("id", notification.getNotificationId().value())
                 .hasFieldOrPropertyWithValue("status", QualityNotificationStatusResponse.ACCEPTED)
                 .hasFieldOrPropertyWithValue("description", notification.getDescription())
                 .hasFieldOrPropertyWithValue("createdBy", notification.getNotifications().stream()

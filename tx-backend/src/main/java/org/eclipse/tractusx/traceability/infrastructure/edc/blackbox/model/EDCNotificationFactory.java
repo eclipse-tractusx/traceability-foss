@@ -44,7 +44,7 @@ public class EDCNotificationFactory {
                 NotificationType.QMINVESTIGATION.getValue(),
                 notification.getSeverity() != null ? notification.getSeverity().getRealName() : QualityNotificationSeverity.MINOR.getRealName(),
                 notification.getNotificationReferenceId(),
-                notification.getInvestigationStatus().name(),
+                notification.getNotificationStatus().name(),
                 targetDate,
                 notification.getMessageId()
         );

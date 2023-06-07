@@ -58,7 +58,7 @@ public class NotificationMapper {
                 .receiverManufacturerName(getManufacturerName(edcNotification.getRecipientBPN()))
                 .edcUrl(edcNotification.getSenderAddress())
                 .description(edcNotification.getInformation())
-                .investigationStatus(edcNotification.convertNotificationStatus())
+                .notificationStatus(edcNotification.convertNotificationStatus())
                 .affectedParts(edcNotification.getListOfAffectedItems())
                 .targetDate(edcNotification.getTargetDate())
                 .severity(QualityNotificationSeverity.fromString(edcNotification.getSeverity()))

@@ -74,10 +74,10 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .toList();
 
         return QualityNotification.builder()
-                .investigationId(new QualityNotificationId(investigationNotificationEntity.getId()))
+                .notificationId(new QualityNotificationId(investigationNotificationEntity.getId()))
                 .bpn(BPN.of(investigationNotificationEntity.getBpn()))
-                .investigationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
-                .investigationSide(QualityNotificationSide.valueOf(investigationNotificationEntity.getSide().name()))
+                .notificationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
+                .notificationSide(QualityNotificationSide.valueOf(investigationNotificationEntity.getSide().name()))
                 .closeReason(investigationNotificationEntity.getCloseReason())
                 .acceptReason(investigationNotificationEntity.getAcceptReason())
                 .declineReason(investigationNotificationEntity.getDeclineReason())
@@ -93,8 +93,8 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .assets(assetEntities)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
-                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getInvestigationStatus().name()))
-                .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getInvestigationSide().name()))
+                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
+                .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getNotificationSide().name()))
                 .createdDate(qualityNotification.getCreatedAt())
                 .build();
     }

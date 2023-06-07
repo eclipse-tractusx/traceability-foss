@@ -50,14 +50,14 @@ public class InvestigationResponse extends QualityNotificationResponse {
     public static InvestigationResponse from(QualityNotification qualityNotification) {
         return InvestigationResponse
                 .builder()
-                .id(qualityNotification.getInvestigationId().value())
-                .status(QualityNotificationStatusResponse.from(qualityNotification.getInvestigationStatus()))
+                .id(qualityNotification.getNotificationId().value())
+                .status(QualityNotificationStatusResponse.from(qualityNotification.getNotificationStatus()))
                 .description(qualityNotification.getDescription())
                 .createdBy(getSenderBPN(qualityNotification.getNotifications()))
                 .createdByName(getSenderName(qualityNotification.getNotifications()))
                 .createdDate(qualityNotification.getCreatedAt().toString())
                 .assetIds(Collections.unmodifiableList(qualityNotification.getAssetIds()))
-                .channel(QualityNotificationSideResponse.from(qualityNotification.getInvestigationSide()))
+                .channel(QualityNotificationSideResponse.from(qualityNotification.getNotificationSide()))
                 .reason(new QualityNotificationReasonResponse(
                         qualityNotification.getCloseReason(),
                         qualityNotification.getAcceptReason(),

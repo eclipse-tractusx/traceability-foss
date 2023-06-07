@@ -1,44 +1,22 @@
-/********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
- *
- * See the NOTICE file(s) distributed with this work for additional
- * information regarding copyright ownership.
- *
- * This program and the accompanying materials are made available under the
- * terms of the Apache License, Version 2.0 which is available at
- * https://www.apache.org/licenses/LICENSE-2.0.
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations
- * under the License.
- *
- * SPDX-License-Identifier: Apache-2.0
- ********************************************************************************/
+package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.service.EdcNotificationService;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -56,7 +34,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class InvestigationsPublisherService {
+public class NotificationPublisherService {
 
     private final TraceabilityProperties traceabilityProperties;
     private final EdcNotificationService notificationsService;
@@ -76,9 +54,9 @@ public class InvestigationsPublisherService {
      * @param severity    the severity of the investigation
      * @return the ID of the newly created investigation
      */
-    public QualityNotificationId startInvestigation(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
+    public QualityNotification startNotification(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        QualityNotification investigation = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
+        QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
 
         Map<String, List<Asset>> assetsByBPN = assetRepository.getAssetsById(assetIds).stream().collect(Collectors.groupingBy(Asset::getManufacturerId));
 
@@ -86,11 +64,9 @@ public class InvestigationsPublisherService {
                 .entrySet()
                 .stream()
                 .map(it -> createNotification(applicationBPN, description, targetDate, severity, it, QualityNotificationStatus.CREATED))
-                .forEach(investigation::addNotification);
+                .forEach(notification::addNotification);
 
-        assetService.setAssetsInvestigationStatus(investigation);
-        log.info("Start Investigation {}", investigation);
-        return investigationsRepository.saveQualityNotificationEntity(investigation);
+        return notification;
     }
 
     private QualityNotificationMessage createNotification(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<Asset>> asset, QualityNotificationStatus investigationStatus) {
@@ -132,16 +108,18 @@ public class InvestigationsPublisherService {
     }
 
     /**
-     * Approves an ongoing investigation with the given BPN and ID to the next stage.
+     * Approves an ongoing notification with the given BPN and ID to the next stage.
      *
-     * @param investigation the Investigation to send
+     * @param notification the Notification to send
      */
-    public void approveInvestigation(QualityNotification investigation) {
+    public QualityNotification approveNotification(QualityNotification notification) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        investigation.send(applicationBPN);
-        investigationsRepository.updateQualityNotificationEntity(investigation);
+        notification.send(applicationBPN);
+
         // For each asset within investigation a notification was created before
-        investigation.getNotifications().forEach(notificationsService::asyncNotificationExecutor);
+        notification.getNotifications().forEach(notificationsService::asyncNotificationExecutor);
+
+        return notification;
     }
 
     /**
@@ -222,3 +200,4 @@ public class InvestigationsPublisherService {
         return latestNotificationElements;
     }
 }
+

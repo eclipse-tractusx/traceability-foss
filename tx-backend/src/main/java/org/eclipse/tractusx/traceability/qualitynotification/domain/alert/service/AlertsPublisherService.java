@@ -76,7 +76,7 @@ public class AlertsPublisherService {
      */
     public QualityNotificationId startAlert(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
         BPN applicationBPN = traceabilityProperties.getBpn();
-        QualityNotification alert = QualityNotification.startInvestigation(clock.instant(), applicationBPN, description);
+        QualityNotification alert = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
 
         Map<String, List<Asset>> assetsByBPN = assetRepository.getAssetsById(assetIds).stream().collect(Collectors.groupingBy(Asset::getManufacturerId));
 
@@ -102,7 +102,7 @@ public class AlertsPublisherService {
                 .receiverBpnNumber(asset.getKey())
                 .receiverManufacturerName(getManufacturerName(asset.getKey()))
                 .description(description)
-                .investigationStatus(alertStatus)
+                .notificationStatus(alertStatus)
                 .affectedParts(asset.getValue().stream().map(Asset::getId).map(QualityNotificationAffectedPart::new).toList())
                 .targetDate(targetDate)
                 .severity(severity)
@@ -163,7 +163,7 @@ public class AlertsPublisherService {
                 case ACCEPTED -> alert.accept(reason, notificationToSend);
                 case DECLINED -> alert.decline(reason, notificationToSend);
                 case CLOSED -> alert.close(reason, notificationToSend);
-                default -> throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for alert with id '%s'".formatted(alert.getInvestigationStatus().name(), status, alert.getInvestigationId()));
+                default -> throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for alert with id '%s'".formatted(alert.getNotificationStatus().name(), status, alert.getNotificationId()));
             }
             log.info("::updateAlertPublisher::notificationToSend {}", notificationToSend);
             alert.addNotification(notificationToSend);
@@ -176,20 +176,20 @@ public class AlertsPublisherService {
 
     private void validate(BPN applicationBpn, QualityNotificationStatus status, QualityNotification alert) {
 
-        final boolean isInvalidAcknowledgeOrAcceptOrDecline = !QualityNotificationSide.RECEIVER.equals(alert.getInvestigationSide()) && applicationBpn.value().equals(alert.getBpn());
+        final boolean isInvalidAcknowledgeOrAcceptOrDecline = !QualityNotificationSide.RECEIVER.equals(alert.getNotificationSide()) && applicationBpn.value().equals(alert.getBpn());
         final boolean isInvalidClose = QualityNotificationStatus.CLOSED.equals(status) && !applicationBpn.value().equals(alert.getBpn());
         switch (status) {
             case ACKNOWLEDGED, ACCEPTED, DECLINED -> {
                 if (isInvalidAcknowledgeOrAcceptOrDecline) {
-                    throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for alert with BPN '%s' and application with BPN '%s'".formatted(alert.getInvestigationStatus().name(), status, alert.getBpn(), applicationBpn.value()));
+                    throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for alert with BPN '%s' and application with BPN '%s'".formatted(alert.getNotificationStatus().name(), status, alert.getBpn(), applicationBpn.value()));
                 }
             }
             case CLOSED -> {
                 if (isInvalidClose) {
-                    throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for investigation with BPN '%s' and application with BPN '%s'".formatted(alert.getInvestigationStatus().name(), status, alert.getBpn(), applicationBpn.value()));
+                    throw new QualityNotificationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for investigation with BPN '%s' and application with BPN '%s'".formatted(alert.getNotificationStatus().name(), status, alert.getBpn(), applicationBpn.value()));
                 }
             }
-            default -> throw new QualityNotificationIllegalUpdate("Unknown Transition from status '%s' to status '%s' is not allowed for investigation with id '%s'".formatted(alert.getInvestigationStatus().name(), status, alert.getInvestigationId()));
+            default -> throw new QualityNotificationIllegalUpdate("Unknown Transition from status '%s' to status '%s' is not allowed for investigation with id '%s'".formatted(alert.getNotificationStatus().name(), status, alert.getNotificationId()));
         }
     }
 

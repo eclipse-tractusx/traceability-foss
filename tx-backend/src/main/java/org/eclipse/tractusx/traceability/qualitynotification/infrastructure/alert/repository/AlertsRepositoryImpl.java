@@ -69,10 +69,10 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
     @Override
     public QualityNotificationId updateQualityNotificationEntity(QualityNotification alert) {
-        AlertEntity alertEntity = jpaAlertRepository.findById(alert.getInvestigationId().value())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Alert with id %s not found!", alert.getInvestigationId().value())));
+        AlertEntity alertEntity = jpaAlertRepository.findById(alert.getNotificationId().value())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Alert with id %s not found!", alert.getNotificationId().value())));
 
-        alertEntity.setStatus(QualityNotificationStatusBaseEntity.fromStringValue(alert.getInvestigationStatus().name()));
+        alertEntity.setStatus(QualityNotificationStatusBaseEntity.fromStringValue(alert.getNotificationStatus().name()));
         alertEntity.setUpdated(clock.instant());
         alertEntity.setCloseReason(alert.getCloseReason());
         alertEntity.setAcceptReason(alert.getAcceptReason());
@@ -81,7 +81,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
         handleNotificationUpdate(alertEntity, alert);
         jpaAlertRepository.save(alertEntity);
 
-        return alert.getInvestigationId();
+        return alert.getNotificationId();
     }
 
     @Override
@@ -137,10 +137,10 @@ public class AlertsRepositoryImpl implements AlertRepository {
         Map<String, AlertNotificationEntity> notificationEntityMap = notificationEntities.stream().collect(Collectors.toMap(AlertNotificationEntity::getId, notificationEntity -> notificationEntity));
         for (QualityNotificationMessage notification : alert.getNotifications()) {
             if (notificationExists(alertEntity, notification.getId())) {
-                log.info("handleNotificationUpdate::notificationExists with id {} for alert with id {}", notification.getId(), alert.getInvestigationId());
+                log.info("handleNotificationUpdate::notificationExists with id {} for alert with id {}", notification.getId(), alert.getNotificationId());
                 handleNotificationUpdate(notificationEntityMap.get(notification.getId()), notification);
             } else {
-                log.info("handleNotificationUpdate::new notification with id {} for alert with id {}", notification.getId(), alert.getInvestigationId());
+                log.info("handleNotificationUpdate::new notification with id {} for alert with id {}", notification.getId(), alert.getNotificationId());
                 List<AssetEntity> assetEntitiesByAlert = getAssetEntitiesByAlert(alert);
                 handleNotificationCreate(alertEntity, notification, assetEntitiesByAlert);
             }

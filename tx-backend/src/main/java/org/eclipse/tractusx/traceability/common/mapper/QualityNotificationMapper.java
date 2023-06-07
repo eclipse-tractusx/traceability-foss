@@ -53,8 +53,8 @@ public class QualityNotificationMapper {
                 .forEach(assetIds::add);
         return QualityNotification.builder()
                 .bpn(bpn)
-                .investigationStatus(QualityNotificationStatus.RECEIVED)
-                .investigationSide(QualityNotificationSide.RECEIVER)
+                .notificationStatus(QualityNotificationStatus.RECEIVED)
+                .notificationSide(QualityNotificationSide.RECEIVER)
                 .description(description)
                 .createdAt(Instant.now())
                 .assetIds(assetIds)

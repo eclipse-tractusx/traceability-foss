@@ -51,7 +51,7 @@ class QualityNotificationMapperTest {
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("1")
                 .notificationReferenceId("Test notification")
-                .investigationStatus(QualityNotificationStatus.RECEIVED)
+                .notificationStatus(QualityNotificationStatus.RECEIVED)
                 .affectedParts(List.of(new QualityNotificationAffectedPart("123")))
                 .senderManufacturerName("senderManufacturerName")
                 .senderBpnNumber(sender)
@@ -67,8 +67,8 @@ class QualityNotificationMapperTest {
         QualityNotification result = mapper.toQualityNotification(new BPN(receiver), description, notification);
 
         // Then
-        assertEquals(QualityNotificationStatus.RECEIVED, result.getInvestigationStatus());
-        assertEquals(QualityNotificationSide.RECEIVER, result.getInvestigationSide());
+        assertEquals(QualityNotificationStatus.RECEIVED, result.getNotificationStatus());
+        assertEquals(QualityNotificationSide.RECEIVER, result.getNotificationSide());
         assertEquals(description, result.getDescription());
         assertEquals(List.of("123"), result.getAssetIds());
         assertEquals(List.of(notification), result.getNotifications());

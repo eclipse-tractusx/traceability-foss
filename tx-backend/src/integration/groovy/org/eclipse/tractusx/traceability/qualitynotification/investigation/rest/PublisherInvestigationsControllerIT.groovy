@@ -56,7 +56,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
         and:
         QualityNotificationMessage notificationBuild = QualityNotificationMessage.builder()
                 .id("some-id")
-                .investigationStatus(QualityNotificationStatus.SENT)
+                .notificationStatus(QualityNotificationStatus.SENT)
                 .affectedParts(List.of(new QualityNotificationAffectedPart("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")))
                 .senderManufacturerName("bpn-a")
                 .senderBpnNumber("Sender Manufacturer name")
