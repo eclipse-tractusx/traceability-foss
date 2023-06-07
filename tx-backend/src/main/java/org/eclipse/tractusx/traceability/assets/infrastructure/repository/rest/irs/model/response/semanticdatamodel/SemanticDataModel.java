@@ -76,15 +76,14 @@ public record SemanticDataModel(
 
         final String manufacturerName = bpns.get(manufacturerId());
         final String batchId = getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).orElse(null);
-        final String partInstanceId = getLocalId(LocalIdKey.PART_INSTANCE_ID).orElse(null);
+        final String partInstanceId = getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).orElse(null);
 
         if (getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).isPresent()) {
             log.info("IS PRESENT");
         }
         String semanticModelId = null;
         org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel semanticDataModel = null;
-        log.info(batchId, "BATCH ID");
-        log.info(batchId, "PART INSTANCE ID");
+
 
         if (org.apache.commons.lang3.StringUtils.isNotBlank(batchId)) {
             semanticModelId = batchId;
