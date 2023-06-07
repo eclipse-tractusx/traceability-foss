@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated registry urls within env profiles
 - Changed error message for notification status transitions
 - Replaced DELETE Pod Requests with StatefulSets
+- Made Quality Alerts Tab visible
 - bump json-unit-assertj from 2.36.1 to 2.38.0
 - bump spring-cloud-dependencies from 2022.0.2 to 2022.0.3
 - bump maven-project-info-reports-plugin from 3.4.3 to 3.4.4 #158
