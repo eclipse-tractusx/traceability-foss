@@ -63,8 +63,8 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
 
     void assertHasRequiredIdentifiers() {
         assetRepository().getAssets().each { asset ->
-            assert asset.manufacturerId != "--";
-            assert asset.semanticModelId != "--";
+            assert asset.manufacturerId != "--"
+            assert asset.semanticModelId != "--"
             assert asset.idShort != null
         }
     }

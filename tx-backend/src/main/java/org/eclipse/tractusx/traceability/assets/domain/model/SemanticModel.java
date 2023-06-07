@@ -44,6 +44,7 @@ public class SemanticModel {
         return SemanticModel.builder()
                 .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
                 .nameAtManufacturer(defaultValue(partTypeInformation.nameAtManufacturer()))
+                .customerPartId(defaultValue(partTypeInformation.customerPartId()))
                 .nameAtCustomer(defaultValue(partTypeInformation.nameAtCustomer()))
                 .manufacturingCountry("--")
                 .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
