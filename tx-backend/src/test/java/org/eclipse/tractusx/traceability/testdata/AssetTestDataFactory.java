@@ -38,7 +38,7 @@ public class AssetTestDataFactory {
                 .idShort("1234")
                 .semanticModelId("456")
                 .semanticModel(semanticModel)
-                .semanticDataModel(SemanticDataModel.SERIAL_PART_TYPIZATION)
+                .semanticDataModel(SemanticDataModel.SERIALPARTTYPIZATION)
                 .activeAlert(false)
                 .parentRelations(AssetTestDataFactory.provideParentRelations())
                 .childRelations(AssetTestDataFactory.provideChildRelations())
