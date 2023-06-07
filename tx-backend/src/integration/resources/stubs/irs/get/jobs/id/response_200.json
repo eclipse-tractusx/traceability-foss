@@ -1180,11 +1180,15 @@
 			"aspectType": "urn:bamm:com.catenax.batch:1.0.0#Batch",
 			"payload": {
 				"localIdentifiers": [
-					{
-						"value": "BID000000004",
-						"key": "batchId"
-					}
-				],
+                  {
+                    "value": "BID000000004",
+                    "key": "batchId"
+                  },
+                  {
+                    "value": "BPNABC",
+                    "key": "manufacturerId"
+                  }
+                ],
 				"manufacturingInformation": {
 					"date": "2022-02-04T14:48:54",
 					"country": "HUR"

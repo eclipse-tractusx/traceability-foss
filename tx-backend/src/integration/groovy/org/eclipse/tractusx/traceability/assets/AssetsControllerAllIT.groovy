@@ -34,8 +34,6 @@ import static org.hamcrest.Matchers.*
 
 class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, BpnSupport {
 
-
-
     def "should return assets with manufacturer name"() {
         given:
         cachedBpnsForDefaultAssets()
@@ -103,19 +101,19 @@ class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSu
                 .body("totalItems", equalTo(13))
                 .body("content[0]", hasEntry("id", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
                 .body("content[0]", hasEntry("idShort", "vehicle_hybrid.asm"))
-                .body("content[0]", hasEntry("nameAtManufacturer", "Vehicle Hybrid"))
-                .body("content[0]", hasEntry("manufacturerPartId", emptyText()))
-                .body("content[0]", hasEntry("partInstanceId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
+                .body("content[0]", hasEntry("semanticModelId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0]", hasEntry("manufacturerId", "BPNL00000003AYRE"))
-                .body("content[0]", hasEntry("batchId", emptyText()))
                 .body("content[0]", hasEntry("manufacturerName", "Manufacturer Name 1"))
-                .body("content[0]", hasEntry("nameAtCustomer", emptyText()))
-                .body("content[0]", hasEntry("customerPartId", emptyText()))
-                .body("content[0]", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
-                .body("content[0]", hasEntry("manufacturingCountry", "DEU"))
+
                 .body("content[0]", hasEntry("underInvestigation", false))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
+                .body("content[0].semanticModel", hasEntry("manufacturingCountry", "DEU"))
+                .body("content[0].semanticModel", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
+                .body("content[0].semanticModel", hasEntry("nameAtManufacturer", "Vehicle Hybrid"))
+                .body("content[0].semanticModel", hasEntry("manufacturerPartId", emptyText()))
+                .body("content[0].semanticModel", hasEntry("nameAtCustomer", emptyText()))
+                .body("content[0].semanticModel", hasEntry("customerPartId", emptyText()))
 
     }
 
