@@ -75,7 +75,7 @@ public record SemanticDataModel(
         String semanticModelId = null;
         org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel semanticDataModel = null;
         if (getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).isPresent()) {
-            semanticModelId = getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).get();
+            semanticModelId = getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).get();
             semanticDataModel = org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.SERIAL_PART_TYPIZATION;
         }
         if (getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).isPresent()) {
