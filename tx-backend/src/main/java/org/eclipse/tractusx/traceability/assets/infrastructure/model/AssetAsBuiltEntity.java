@@ -49,14 +49,15 @@ import java.util.List;
 @SuperBuilder
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
+
     @Id
     private String id;
     @ElementCollection
-    @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "assets_as_build_id")})
+    @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "id")})
     private List<AssetAsBuiltEntity.ChildDescription> childDescriptors;
 
     @ElementCollection
-    @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "assets_as_build_id")})
+    @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "id")})
     private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
 
     @ManyToMany(mappedBy = "assetsAsBuilt")
