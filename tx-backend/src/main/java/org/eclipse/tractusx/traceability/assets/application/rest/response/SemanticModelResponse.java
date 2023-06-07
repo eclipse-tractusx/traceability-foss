@@ -32,6 +32,7 @@ public class SemanticModelResponse {
                 .manufacturingCountry(semanticModel.getManufacturingCountry())
                 .manufacturingDate(semanticModel.getManufacturingDate())
                 .nameAtCustomer(semanticModel.getNameAtCustomer())
+                .nameAtManufacturer(semanticModel.getNameAtManufacturer())
                 .build();
     }
 }

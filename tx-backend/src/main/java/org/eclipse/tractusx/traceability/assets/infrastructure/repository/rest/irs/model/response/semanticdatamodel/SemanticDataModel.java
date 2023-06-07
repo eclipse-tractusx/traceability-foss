@@ -79,7 +79,7 @@ public record SemanticDataModel(
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .semanticModelId(semanticModelId)
-                .semanticModel(SemanticModel.from(partTypeInformation))
+                .semanticModel(SemanticModel.from(partTypeInformation, manufacturingInformation))
                 .manufacturerId(manufacturerId())
                 .manufacturerName(defaultValue(manufacturerName))
                 .parentRelations(parentRelations)

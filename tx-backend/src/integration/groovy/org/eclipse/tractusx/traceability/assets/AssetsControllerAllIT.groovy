@@ -101,21 +101,39 @@ class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSu
                 .body("totalItems", equalTo(13))
                 .body("content[0]", hasEntry("id", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
                 .body("content[0]", hasEntry("idShort", "vehicle_hybrid.asm"))
-                .body("content[0]", hasEntry("nameAtManufacturer", "Vehicle Hybrid"))
-                .body("content[0]", hasEntry("manufacturerPartId", emptyText()))
-                .body("content[0]", hasEntry("partInstanceId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
+                .body("content[0]", hasEntry("semanticModelId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
                 .body("content[0]", hasEntry("manufacturerId", "BPNL00000003AYRE"))
-                .body("content[0]", hasEntry("batchId", emptyText()))
                 .body("content[0]", hasEntry("manufacturerName", "Manufacturer Name 1"))
-                .body("content[0]", hasEntry("nameAtCustomer", emptyText()))
-                .body("content[0]", hasEntry("customerPartId", emptyText()))
-                .body("content[0]", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
-                .body("content[0]", hasEntry("manufacturingCountry", "DEU"))
+
                 .body("content[0]", hasEntry("underInvestigation", false))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
+                .body("content[0].semanticModel", hasEntry("manufacturingCountry", "DEU"))
+                .body("content[0].semanticModel", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
+                .body("content[0].semanticModel", hasEntry("nameAtManufacturer", "Vehicle Hybrid"))
+                .body("content[0].semanticModel", hasEntry("manufacturerPartId", emptyText()))
+                .body("content[0].semanticModel", hasEntry("nameAtCustomer", emptyText()))
+                .body("content[0].semanticModel", hasEntry("customerPartId", emptyText()))
 
     }
+
+    //         Actual: <{id=urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb,
+
+    //         manufacturerName=Manufacturer Name 1,
+    //         semanticModel={manufacturingDate=null,
+    //         manufacturingCountry=--,
+    //         manufacturerPartId=--,
+    //         customerPartId=--,
+    //         nameAtManufacturer=null,
+    //         nameAtCustomer=--},
+    //         owner=OWN,
+    //         childRelations=[{id=urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a, idShort=battery.asm}, {id=urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562, idShort=transmission.asm}, {id=urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc, idShort=ecu.asm}],
+    //         parentRelations=[],
+    //         activeAlert=false,
+    //         underInvestigation=false,
+    //         qualityType=Ok,
+    //         van=OMA-TGFAYUHXFLHHUQQMPLTE,
+    //         semanticDataModel=null}>
 
     def "should return assets by owner filtering"() {
         given:

@@ -2,10 +2,11 @@ package org.eclipse.tractusx.traceability.assets.domain.model;
 
 import lombok.Builder;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetBaseEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.ManufacturingInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.PartTypeInformation;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 
@@ -40,20 +41,21 @@ public class SemanticModel {
                 .build();
     }
 
-    public static SemanticModel from(PartTypeInformation partTypeInformation) {
+    public static SemanticModel from(PartTypeInformation partTypeInformation, ManufacturingInformation manufacturingInformation) {
         return SemanticModel.builder()
                 .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
                 .nameAtManufacturer(defaultValue(partTypeInformation.nameAtManufacturer()))
                 .customerPartId(defaultValue(partTypeInformation.customerPartId()))
                 .nameAtCustomer(defaultValue(partTypeInformation.nameAtCustomer()))
-                .manufacturingCountry("--")
+                .manufacturingCountry(defaultValue(manufacturingInformation.country()))
+                .manufacturingDate(manufacturingInformation.date().toInstant())
                 .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
                 .build();
     }
 
     private static String defaultValue(String value) {
         final String EMPTY_TEXT = "--";
-        if (!StringUtils.hasText(value)) {
+        if (StringUtils.isBlank(value)) {
             return EMPTY_TEXT;
         }
         return value;
