@@ -52,7 +52,7 @@ public record SemanticDataModel(
     }
 
     public static List<Asset> toDomainList(List<SemanticDataModel> parts, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
-        return parts.stream().map(semanticDataModel -> semanticDataModel.toDomain(shortIds, owner, bpns, parentRelations, childRelations)).toList();
+        return parts.stream().map(semanticDataModel -> semanticDataModel.toDomain(Collections.emptyList(), shortIds, owner, bpns, parentRelations, childRelations)).toList();
     }
 
     public Optional<String> getLocalId(LocalIdKey key) {
@@ -62,14 +62,25 @@ public record SemanticDataModel(
                 .map(LocalId::value);
     }
 
-    public Asset toDomain(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
-        localIdentifiers().forEach(localId -> {
+    public Optional<String> getLocalIdByInput(LocalIdKey key, List<LocalId> localIds) {
+        return localIds.stream()
+                .filter(localId -> localId.key() == key)
+                .findFirst()
+                .map(LocalId::value);
+    }
+
+    public Asset toDomain(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+        localIds.forEach(localId -> {
             log.info(localId.key() + " " + localId.value(), "localId key + value");
         });
 
         final String manufacturerName = bpns.get(manufacturerId());
-        final String batchId = getLocalId(LocalIdKey.BATCH_ID).orElse(null);
+        final String batchId = getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).orElse(null);
         final String partInstanceId = getLocalId(LocalIdKey.PART_INSTANCE_ID).orElse(null);
+
+        if (getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).isPresent()) {
+            log.info("IS PRESENT");
+        }
         String semanticModelId = null;
         org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel semanticDataModel = null;
         log.info(batchId, "BATCH ID");

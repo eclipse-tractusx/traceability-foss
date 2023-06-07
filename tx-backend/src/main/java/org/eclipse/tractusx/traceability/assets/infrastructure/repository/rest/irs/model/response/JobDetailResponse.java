@@ -129,7 +129,7 @@ public record JobDetailResponse(
 
         return ownParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomain(shortIds, Owner.OWN, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),
                         getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId())))
                 .toList();
