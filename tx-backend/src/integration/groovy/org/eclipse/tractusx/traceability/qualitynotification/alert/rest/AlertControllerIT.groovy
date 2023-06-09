@@ -49,6 +49,7 @@ class AlertControllerIT extends IntegrationSpecification implements IrsApiSuppor
                         description: "very bad things happened",
                         targetDate : "2099-03-11T22:44:06.333826952Z",
                         severity   : "nonExistentSeverity",
+                        bpn        : "bpn"
                 ]
         )
 
@@ -73,9 +74,10 @@ class AlertControllerIT extends IntegrationSpecification implements IrsApiSuppor
                         description: "very bad things happened",
                         targetDate : "2099-03-11T22:44:06.333826952Z",
                         severity   : "$severity",
+                        bpn        : "bpn",
                 ]
         )
-        1 * alertService.start(_, _, _, _) >> new QualityNotificationId(1L)
+        1 * alertService.start(_, _, _, _, _) >> new QualityNotificationId(1L)
 
         expect:
         given()

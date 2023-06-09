@@ -36,6 +36,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuil
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationMessageBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
 
@@ -86,6 +87,7 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .created(investigationNotificationEntity.getCreated())
                 .updated(investigationNotificationEntity.getUpdated())
                 .isInitial(investigationNotificationEntity.getIsInitial())
+                .type(QualityNotificationType.INVESTIGATION)
                 .build();
     }
 

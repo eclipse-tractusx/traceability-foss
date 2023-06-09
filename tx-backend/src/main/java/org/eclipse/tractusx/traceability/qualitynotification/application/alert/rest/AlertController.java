@@ -32,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
@@ -78,7 +79,7 @@ public class AlertController {
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
+    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityAlertRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
         return new QualityNotificationIdResponse(alertService.start(
                 request.getPartIds(),
