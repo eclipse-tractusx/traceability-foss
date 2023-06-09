@@ -58,7 +58,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
     private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
 
-    @ManyToMany(mappedBy = "assetsAsBuilt")
+    @ManyToMany(mappedBy = "assets")
     private List<InvestigationEntity> investigations = new ArrayList<>();
 
     @ManyToMany(mappedBy = "assets")

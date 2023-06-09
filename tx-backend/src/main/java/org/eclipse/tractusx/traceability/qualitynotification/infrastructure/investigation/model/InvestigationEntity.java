@@ -59,7 +59,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
             joinColumns = @JoinColumn(name = "investigation_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetAsBuiltEntity> assetsAsBuilt;
+    private List<AssetAsBuiltEntity> assets;
 
     @OneToMany(mappedBy = "investigation")
     private List<InvestigationNotificationEntity> notifications;
@@ -69,7 +69,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .map(InvestigationNotificationEntity::toDomain)
                 .toList();
 
-        List<String> assetIds = investigationNotificationEntity.getAssetsAsBuilt().stream()
+        List<String> assetIds = investigationNotificationEntity.getAssets().stream()
                 .map(AssetAsBuiltEntity::getId)
                 .toList();
 
@@ -90,7 +90,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
 
     public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return InvestigationEntity.builder()
-                .assetsAsBuilt(assetEntities)
+                .assets(assetEntities)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
                 .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
