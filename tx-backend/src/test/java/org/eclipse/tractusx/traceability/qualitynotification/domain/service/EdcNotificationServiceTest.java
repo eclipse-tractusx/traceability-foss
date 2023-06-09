@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
@@ -49,7 +50,10 @@ class EdcNotificationServiceTest {
     private InvestigationsEDCFacade edcFacade;
 
     @Mock
-    private InvestigationRepository repository;
+    private InvestigationRepository investigationRepository;
+
+    @Mock
+    private AlertRepository alertRepository;
 
     @Mock
     private DiscoveryService discoveryService;

@@ -37,6 +37,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.Da
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferRequestDto;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 
 @Slf4j
 @Component
@@ -66,7 +68,7 @@ public class EdcService {
             String consumerEdcDataManagementUrl,
             String providerConnectorControlPlaneIDSUrl,
             Map<String, String> header,
-            boolean isInitialNotification
+            QualityNotificationMessage notificationMessage
     ) throws IOException {
 
         Catalog catalog = httpCallService.getCatalogFromProvider(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header);
@@ -76,7 +78,10 @@ public class EdcService {
         }
         log.info(":::: Find Notification contract method[findNotificationContractOffer] total catalog ::{}", catalog.getContractOffers().size());
 
-        if (isInitialNotification) {
+        if (notificationMessage.getIsInitial()) {
+
+            getPredicate(notificationMessage);
+
             return catalog.getContractOffers().stream()
                     .filter(it -> it.getAsset().isQualityInvestigationReceive())
                     .filter(this::hasTracePolicy)
@@ -87,6 +92,23 @@ public class EdcService {
                     .filter(this::hasTracePolicy)
                     .findAny();
         }
+    }
+
+    private Predicate<ContractOffer> getPredicate(QualityNotificationMessage qualityNotificationMessage) {
+
+        Predicate<ContractOffer> receivePredicate = it ->
+                it.getAsset().isQualityInvestigationReceive() && hasTracePolicy(it);
+
+        final boolean isInitial = qualityNotificationMessage.getIsInitial();
+        final QualityNotificationType type = qualityNotificationMessage.getQualityNotificationType();
+
+        if (isInitial) {
+
+        } else {
+
+        }
+
+
     }
 
     private boolean hasTracePolicy(ContractOffer contractOffer) {

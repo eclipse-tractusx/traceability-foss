@@ -77,7 +77,7 @@ public class InvestigationsEDCFacade {
                     senderEdcUrl,
                     receiverEdcUrl + edcProperties.getIdsPath(),
                     header,
-                    notification.getIsInitial()
+                    notification
             );
 
             if (contractOffer.isEmpty()) {

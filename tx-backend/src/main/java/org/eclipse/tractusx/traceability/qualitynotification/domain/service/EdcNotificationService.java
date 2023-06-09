@@ -27,9 +27,9 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.config.async.Asse
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +41,8 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class EdcNotificationService {
 
     private final InvestigationsEDCFacade edcFacade;
-    private final InvestigationRepository repository; // TODO more than one repository with that interface. should change logic or generify it somehow
+    private final InvestigationRepository investigationRepository;
+    private final AlertRepository alertRepository;
     private final DiscoveryService discoveryService;
 
 
@@ -51,10 +52,24 @@ public class EdcNotificationService {
         Discovery discovery = discoveryService.getDiscoveryByBPN(notification.getReceiverBpnNumber());
         String senderEdcUrl = discovery.getSenderUrl();
 
-        emptyIfNull(discovery.getReceiverUrls())
-                .forEach(receiverUrl -> {
-                    edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
-                    repository.updateQualityNotificationMessageEntity(notification);
-                });
+        if (notification.getQualityNotificationType().equals(ALERT)) {
+            log.info("::asyncNotificationExecutor::isQualityAlert");
+            emptyIfNull(discovery.getReceiverUrls())
+                    .forEach(receiverUrl -> {
+                        edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
+                        alertRepository.updateQualityNotificationMessageEntity(notification);
+                    });
+        }
+
+        if (notification.getQualityNotificationType().equals(INVESTIGATION)) {
+            log.info("::asyncNotificationExecutor::isQualityInvestigation");
+            emptyIfNull(discovery.getReceiverUrls())
+                    .forEach(receiverUrl -> {
+                        edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
+                        investigationRepository.updateQualityNotificationMessageEntity(notification);
+                    });
+        }
+
+
     }
 }

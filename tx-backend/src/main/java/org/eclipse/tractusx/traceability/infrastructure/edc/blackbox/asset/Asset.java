@@ -46,6 +46,7 @@ public class Asset {
     private static final String ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE = "receive";
     public static final String ASSET_KEY_NOTIFICATION_TYPE = "asset:prop:notificationtype";
     public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
+    public static final String ASSET_VALUE_QUALITY_ALERT = "qualityalert";
     public static final String PROPERTY_ID = "asset:prop:id";
     public static final String PROPERTY_NAME = "asset:prop:name";
     public static final String PROPERTY_DESCRIPTION = "asset:prop:description";
@@ -96,8 +97,15 @@ public class Asset {
     }
 
     @JsonIgnore
-    public boolean isQualityInvestigationReceive() {
-        return ASSET_VALUE_QUALITY_INVESTIGATION.equals(this.getPropertyNotificationType()) && ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE.equals(this.getPropertyNotificationMethod());
+    public boolean isQualityInvestigationReceive(QualityNotificationType qualityNotificationType) {
+        if (ALERT.equals(qualityNotificationType) {
+            return ASSET_VALUE_QUALITY_INVESTIGATION.equals(this.getPropertyNotificationType()) && ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE.equals(this.getPropertyNotificationMethod());
+
+        }
+        if (INVESTIGATION.equals(qualityNotificationType)) {
+            return ASSET_VALUE_QUALITY_INVESTIGATION.equals(this.getPropertyNotificationType()) && ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE.equals(this.getPropertyNotificationMethod());
+        }
+        return false;
     }
 
     @JsonIgnore
