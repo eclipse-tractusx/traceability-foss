@@ -27,6 +27,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -97,20 +99,10 @@ public class Asset {
     }
 
     @JsonIgnore
-    public boolean isQualityInvestigationReceive(QualityNotificationType qualityNotificationType) {
-        if (ALERT.equals(qualityNotificationType) {
-            return ASSET_VALUE_QUALITY_INVESTIGATION.equals(this.getPropertyNotificationType()) && ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE.equals(this.getPropertyNotificationMethod());
-
-        }
-        if (INVESTIGATION.equals(qualityNotificationType)) {
-            return ASSET_VALUE_QUALITY_INVESTIGATION.equals(this.getPropertyNotificationType()) && ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE.equals(this.getPropertyNotificationMethod());
-        }
-        return false;
-    }
-
-    @JsonIgnore
-    public boolean isQualityInvestigationUpdate() {
-        return ASSET_VALUE_QUALITY_INVESTIGATION.equals(this.getPropertyNotificationType()) && ASSET_VALUE_NOTIFICATION_METHOD_UPDATE.equals(this.getPropertyNotificationMethod());
+    public boolean isQualityNotificationOffer(QualityNotificationMessage qualityNotificationMessage) {
+        final String propertyNotificationTypeValue = QualityNotificationType.ALERT.equals(qualityNotificationMessage.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
+        final String propertyMethodValue = qualityNotificationMessage.getIsInitial() ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
+        return propertyNotificationTypeValue.equals(this.getPropertyNotificationType()) && propertyMethodValue.equals(this.getPropertyNotificationMethod());
     }
 
     public Map<String, Object> getProperties() {

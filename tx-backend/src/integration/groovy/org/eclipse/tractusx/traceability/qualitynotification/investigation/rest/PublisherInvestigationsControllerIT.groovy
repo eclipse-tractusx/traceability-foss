@@ -68,7 +68,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .isInitial(false)
                 .messageId("messageId")
                 .build();
-        EDCNotification notification = EDCNotificationFactory.createQualityInvestigation(
+        EDCNotification notification = EDCNotificationFactory.createEdcNotification(
                 "it", notificationBuild)
 
         when:

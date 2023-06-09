@@ -30,6 +30,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Investigati
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,7 @@ public class EdcNotificationService {
         Discovery discovery = discoveryService.getDiscoveryByBPN(notification.getReceiverBpnNumber());
         String senderEdcUrl = discovery.getSenderUrl();
 
-        if (notification.getQualityNotificationType().equals(ALERT)) {
+        if (notification.getType().equals(QualityNotificationType.ALERT)) {
             log.info("::asyncNotificationExecutor::isQualityAlert");
             emptyIfNull(discovery.getReceiverUrls())
                     .forEach(receiverUrl -> {
@@ -61,7 +62,7 @@ public class EdcNotificationService {
                     });
         }
 
-        if (notification.getQualityNotificationType().equals(INVESTIGATION)) {
+        if (notification.getType().equals(QualityNotificationType.INVESTIGATION)) {
             log.info("::asyncNotificationExecutor::isQualityInvestigation");
             emptyIfNull(discovery.getReceiverUrls())
                     .forEach(receiverUrl -> {

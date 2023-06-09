@@ -20,8 +20,8 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
-import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
+import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.model.Qualit
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.DisplayName;
@@ -90,34 +91,16 @@ class InvestigationsReceiverServiceTest {
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
+                .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .messageId("messageId")
                 .isInitial(true)
                 .build();
-      /*  Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.SENT,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                null,
-                null,
-                "messageId",
-                true
-        );*/
+
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.RECEIVED, "recipientBPN");
         QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
-        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
         when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
@@ -135,26 +118,7 @@ class InvestigationsReceiverServiceTest {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
-       /* Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.ACKNOWLEDGED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                null,
-                null,
-                "messageId",
-                false
-        );*/
+
 
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
@@ -168,6 +132,7 @@ class InvestigationsReceiverServiceTest {
                 .description("123")
                 .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
+                .type(QualityNotificationType.INVESTIGATION)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .targetDate(Instant.now())
@@ -178,7 +143,7 @@ class InvestigationsReceiverServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.RECEIVED, "recipientBPN");
         QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
-        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
         when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
@@ -196,26 +161,6 @@ class InvestigationsReceiverServiceTest {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
- /*       Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.DECLINED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                null,
-                null,
-                "messageId",
-                false
-        );*/
 
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
@@ -231,6 +176,7 @@ class InvestigationsReceiverServiceTest {
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
+                .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .messageId("messageId")
                 .isInitial(false)
@@ -238,7 +184,7 @@ class InvestigationsReceiverServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN");
         QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
-        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
         when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
@@ -256,26 +202,6 @@ class InvestigationsReceiverServiceTest {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
-/*        Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.ACCEPTED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                null,
-                null,
-                "messageId",
-                false
-        );*/
 
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
@@ -291,6 +217,7 @@ class InvestigationsReceiverServiceTest {
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
+                .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .messageId("messageId")
                 .isInitial(false)
@@ -298,7 +225,7 @@ class InvestigationsReceiverServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "recipientBPN");
         QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
-        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
         when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);
@@ -316,26 +243,6 @@ class InvestigationsReceiverServiceTest {
 
         // Given
         List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
- /*       Notification notification = new Notification(
-                "123",
-                "id123",
-                "senderBPN",
-                "senderManufacturerName",
-                "recipientBPN",
-                "receiverManufacturerName",
-                "senderAddress",
-                "agreement",
-                "information",
-                InvestigationStatus.CLOSED,
-                affectedParts,
-                Instant.now(),
-                Severity.MINOR,
-                "123",
-                null,
-                null,
-                "messageId",
-                false
-        );*/
 
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("123")
@@ -351,6 +258,7 @@ class InvestigationsReceiverServiceTest {
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
+                .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .messageId("messageId")
                 .isInitial(false)
@@ -358,7 +266,7 @@ class InvestigationsReceiverServiceTest {
 
         QualityNotification investigationTestData = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, "senderBPN");
         QualityNotificationMessage notificationTestData = NotificationTestDataFactory.createNotificationTestData();
-        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(
                 "it", notification);
 
         when(mockNotificationMapper.toNotification(edcNotification)).thenReturn(notificationTestData);

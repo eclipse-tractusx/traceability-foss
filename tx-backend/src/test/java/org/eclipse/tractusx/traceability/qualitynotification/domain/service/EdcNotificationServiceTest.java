@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.reposi
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -71,6 +72,7 @@ class EdcNotificationServiceTest {
         // and
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .receiverBpnNumber(bpn)
+                .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
                 .isInitial(false)

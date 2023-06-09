@@ -136,7 +136,7 @@ public class InvestigationsEDCFacade {
     }
 
     private Request buildNotificationRequest(QualityNotificationMessage notification, String senderEdcUrl, EndpointDataReference dataReference) throws JsonProcessingException {
-        EDCNotification edcNotification = EDCNotificationFactory.createQualityInvestigation(senderEdcUrl, notification);
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notification);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);
         HttpUrl url = httpCallService.getUrl(dataReference.getEndpoint(), null, null);
