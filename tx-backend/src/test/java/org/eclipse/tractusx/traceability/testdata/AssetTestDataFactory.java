@@ -51,6 +51,36 @@ public class AssetTestDataFactory {
                 .build();
     }
 
+    public static Asset createAssetParentTestData() {
+        Instant manufacturingDate = Instant.now();
+        SemanticModel semanticModel =
+                SemanticModel.builder()
+                        .customerPartId("customerPartParentId")
+                        .manufacturerPartId("customer123")
+                        .manufacturingCountry("manu456")
+                        .manufacturingDate(manufacturingDate)
+                        .nameAtManufacturer("Manufacturer Name")
+                        .nameAtCustomer("Customer Name")
+                        .build();
+
+        return Asset.builder()
+                .id("2")
+                .idShort("23456")
+                .semanticModelId("456")
+                .semanticModel(semanticModel)
+                .semanticDataModel(SemanticDataModel.SERIALPARTTYPIZATION)
+                .activeAlert(false)
+                .parentRelations(AssetTestDataFactory.provideParentRelations())
+                .childRelations(AssetTestDataFactory.provideChildRelations())
+                .van("van123")
+                .qualityType(QualityType.CRITICAL)
+                .underInvestigation(false)
+                .owner(Owner.OWN)
+                .manufacturerName("manuName")
+                .manufacturerId("manuId")
+                .build();
+    }
+
     public static List<Descriptions> provideParentRelations() {
         List<Descriptions> parentDescriptions = new ArrayList<>();
         parentDescriptions.add(new Descriptions("parent1", "desc1"));

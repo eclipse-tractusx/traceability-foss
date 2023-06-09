@@ -29,7 +29,6 @@ import java.time.Instant;
 import java.util.List;
 
 public interface QualityNotificationService {
-    QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity);
 
     PageResult<QualityNotification> getCreated(Pageable pageable);
 

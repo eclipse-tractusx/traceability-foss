@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
@@ -68,17 +69,19 @@ class AlertControllerTest {
         final List<String> partIds = List.of("partId1", "partId2");
         final Instant targetDate = Instant.parse("2099-03-11T22:44:06.333826952Z");
         final QualityNotificationId notificationId = new QualityNotificationId(666L);
-        final StartQualityNotificationRequest request = StartQualityNotificationRequest.builder()
+        final StartQualityAlertRequest request = StartQualityAlertRequest.builder()
                 .partIds(partIds)
                 .description("description")
                 .targetDate(targetDate)
                 .severity(QualityNotificationSeverityRequest.MINOR)
+                .bpn("BPN00001")
                 .build();
         when(alertService.start(
                 request.getPartIds(),
                 request.getDescription(),
                 request.getTargetDate(),
-                request.getSeverity().toDomain()
+                request.getSeverity().toDomain(),
+                request.getBpn()
         )).thenReturn(notificationId);
 
         // when

@@ -66,6 +66,7 @@ public class QualityNotification {
     private String declineReason;
     private Map<String, QualityNotificationMessage> notifications = new HashMap<>();
 
+
     public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
         return QualityNotification.builder()
                 .bpn(bpn)
