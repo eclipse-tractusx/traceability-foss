@@ -33,16 +33,16 @@ create table alert_notification
     sender_manufacturer_name   varchar(255),
     receiver_manufacturer_name varchar(255),
     edc_notification_id        varchar(255),
-    status varchar(255),
-    created timestamp with time zone,
-    updated timestamp with time zone,
-    message_id varchar(255),
-    is_initial boolean,
+    status                     varchar(255),
+    created                    timestamp with time zone,
+    updated                    timestamp with time zone,
+    message_id                 varchar(255),
+    is_initial                 boolean,
     primary key (id)
 );
 
 alter table if exists assets_as_built_alerts
-    add constraint fk_asset_entity foreign key (asset_id) references asset;
+    add constraint fk_asset_entity foreign key (asset_id) references assets_as_built;
 
 alter table if exists assets_as_built_alerts
     add constraint fk_alert foreign key (alert_id) references alert;
