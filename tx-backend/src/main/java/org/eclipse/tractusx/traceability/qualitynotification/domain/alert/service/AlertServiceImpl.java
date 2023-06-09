@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
@@ -39,6 +40,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AlertServiceImpl implements AlertService {
@@ -50,8 +52,12 @@ public class AlertServiceImpl implements AlertService {
     private final AssetService assetService;
 
     @Override
-    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
-        return notificationPublisherService.startAlert(partIds, description, targetDate, severity);
+    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String targetBpn) {
+        QualityNotification notification = notificationPublisherService.startAlert(partIds, description, targetDate, severity, targetBpn);
+
+        QualityNotificationId createdAlertId = alertRepository.saveQualityNotificationEntity(notification);
+        log.info("Start Alert {}", notification);
+        return createdAlertId;
     }
 
     @Override

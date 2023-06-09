@@ -4,18 +4,14 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
@@ -32,11 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toMap;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,8 +38,6 @@ public class NotificationPublisherService {
 
     private final TraceabilityProperties traceabilityProperties;
     private final EdcNotificationService edcNotificationService;
-    private final InvestigationRepository investigationsRepository;
-    private final AlertRepository alertRepository;
     private final AssetRepository assetRepository;
     private final AssetService assetService;
     private final BpnRepository bpnRepository;
@@ -62,7 +53,7 @@ public class NotificationPublisherService {
      * @param severity    the severity of the investigation
      * @return the ID of the newly created investigation
      */
-    public QualityNotificationId startInvestigation(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
+    public QualityNotification startInvestigation(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
 
@@ -75,8 +66,7 @@ public class NotificationPublisherService {
                 .forEach(notification::addNotification);
 
         assetService.setAssetsInvestigationStatus(notification);
-        log.info("Start Investigation {}", notification);
-        return investigationsRepository.saveQualityNotificationEntity(notification);
+        return notification;
     }
 
     /**
@@ -86,27 +76,20 @@ public class NotificationPublisherService {
      * @param description the description of the alert
      * @param targetDate  the targetDate of the alert
      * @param severity    the severity of the alert
+     * @param receiverBpn the bpn of the receiver
      * @return the ID of the newly created alert
      */
-    public QualityNotificationId startAlert(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
+    public QualityNotification startAlert(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
 
         List<Asset> assets = assetRepository.getAssetsById(assetIds);
-        Map<Asset, List<Descriptions>> parentDescriptionsByAsset = assets.stream().collect(toMap(Function.identity(), Asset::getParentRelations));
 
-        Map<Asset, List<Asset>> parentAssetsByAlertedAsset = parentDescriptionsByAsset.entrySet().stream().map(
-                entry -> Map.entry(
-                        entry.getKey(),
-                        assetRepository.getAssetsById(entry.getValue().stream().map(Descriptions::id).toList()))
-        ).collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
-
-        parentAssetsByAlertedAsset.forEach((key, value) -> value.stream().map(it -> createAlert(applicationBPN, description, targetDate, severity, key, it))
-                .forEach(notification::addNotification));
+        assets.stream().map(asset -> createAlert(applicationBPN, description, targetDate, severity, asset, receiverBpn))
+                .forEach(notification::addNotification);
 
         assetService.setAssetsInvestigationStatus(notification);
-        log.info("Start Alert {}", notification);
-        return alertRepository.saveQualityNotificationEntity(notification);
+        return notification;
     }
 
     private QualityNotificationMessage createInvestigation(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<Asset>> asset) {
@@ -120,7 +103,7 @@ public class NotificationPublisherService {
                 .receiverBpnNumber(asset.getKey())
                 .receiverManufacturerName(getManufacturerName(asset.getKey()))
                 .description(description)
-                .notificationStatus( QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(asset.getValue().stream().map(Asset::getId).map(QualityNotificationAffectedPart::new).toList())
                 .targetDate(targetDate)
                 .severity(severity)
@@ -130,7 +113,7 @@ public class NotificationPublisherService {
                 .build();
     }
 
-    private QualityNotificationMessage createAlert(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Asset affectedAsset, Asset parentAsset) {
+    private QualityNotificationMessage createAlert(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Asset affectedAsset, String targetBpn) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
@@ -138,10 +121,10 @@ public class NotificationPublisherService {
                 .created(LocalDateTime.now())
                 .senderBpnNumber(applicationBpn.value())
                 .senderManufacturerName(getManufacturerName(applicationBpn.value()))
-                .receiverBpnNumber(parentAsset.getManufacturerId())
-                .receiverManufacturerName(getManufacturerName(parentAsset.getManufacturerId()))
+                .receiverBpnNumber(targetBpn)
+                .receiverManufacturerName(getManufacturerName(targetBpn))
                 .description(description)
-                .notificationStatus( QualityNotificationStatus.CREATED)
+                .notificationStatus(QualityNotificationStatus.CREATED)
                 .affectedParts(List.of(new QualityNotificationAffectedPart(affectedAsset.getId())))
                 .targetDate(targetDate)
                 .severity(severity)
@@ -186,8 +169,8 @@ public class NotificationPublisherService {
      * Updates an ongoing notification with the given BPN, ID, status and reason.
      *
      * @param notification the Notification to update
-     * @param status        the NotificationStatus of the notification to update
-     * @param reason        the reason for update of the notification
+     * @param status       the NotificationStatus of the notification to update
+     * @param reason       the reason for update of the notification
      */
     public QualityNotification updateNotificationPublisher(QualityNotification notification, QualityNotificationStatus status, String reason) {
         BPN applicationBPN = traceabilityProperties.getBpn();
@@ -203,7 +186,8 @@ public class NotificationPublisherService {
                 case ACCEPTED -> notification.accept(reason, notificationToSend);
                 case DECLINED -> notification.decline(reason, notificationToSend);
                 case CLOSED -> notification.close(reason, notificationToSend);
-                default -> throw new InvestigationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
+                default ->
+                        throw new InvestigationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
             }
             log.info("::updateNotificationPublisher::notificationToSend {}", notificationToSend);
             notification.addNotification(notificationToSend);
@@ -228,7 +212,8 @@ public class NotificationPublisherService {
                     throw new InvestigationIllegalUpdate("Transition from status '%s' to status '%s' is not allowed for notification with BPN '%s' and application with BPN '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getBpn(), applicationBpn.value()));
                 }
             }
-            default -> throw new InvestigationIllegalUpdate("Unknown Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
+            default ->
+                    throw new InvestigationIllegalUpdate("Unknown Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(notification.getNotificationStatus().name(), status, notification.getNotificationId()));
         }
     }
 

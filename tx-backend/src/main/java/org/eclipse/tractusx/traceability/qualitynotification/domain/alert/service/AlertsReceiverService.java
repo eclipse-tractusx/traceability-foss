@@ -49,7 +49,7 @@ public class AlertsReceiverService {
         QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
         QualityNotification investigation = qualityNotificationMapper.toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
         QualityNotificationId investigationId = alertRepository.saveQualityNotificationEntity(investigation);
-        assetService.setAssetsInvestigationStatus(investigation);
+        assetService.setAssetsAlertStatus(investigation);
         log.info("Stored received edcNotification in alert with id {}", investigationId);
     }
 

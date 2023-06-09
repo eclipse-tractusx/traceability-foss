@@ -81,7 +81,12 @@ public class AlertController {
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
         return new QualityNotificationIdResponse(alertService.start(
-                request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity().toDomain()).value());
+                request.getPartIds(),
+                request.getDescription(),
+                request.getTargetDate(),
+                request.getSeverity().toDomain(),
+                request.getBpn()
+        ).value());
     }
 
     @Operation(operationId = "getCreatedAlerts",
