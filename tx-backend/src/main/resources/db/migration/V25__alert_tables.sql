@@ -1,4 +1,4 @@
-create table assets_alerts
+create table assets_as_built_alerts
 (
     alert_id int8         not null,
     asset_id varchar(255) not null
@@ -41,15 +41,12 @@ create table alert_notification
     primary key (id)
 );
 
-alter table if exists assets_alerts
+alter table if exists assets_as_built_alerts
     add constraint fk_asset_entity foreign key (asset_id) references asset;
 
-alter table if exists assets_alerts
+alter table if exists assets_as_built_alerts
     add constraint fk_alert foreign key (alert_id) references alert;
 
 alter table if exists alert_notification
     add constraint fk_alert foreign key (alert_id) references alert;
-
-alter table if exists asset
-    add column in_alert boolean not null default (false);
 

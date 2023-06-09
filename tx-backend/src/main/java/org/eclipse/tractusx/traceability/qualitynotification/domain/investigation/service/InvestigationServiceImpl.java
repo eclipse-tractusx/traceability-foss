@@ -47,8 +47,6 @@ public class InvestigationServiceImpl implements InvestigationService {
 
     private final NotificationPublisherService notificationPublisherService;
 
-    private final InvestigationsPublisherService investigationsPublisherService; // delete
-
     private final InvestigationRepository investigationsRepository;
 
     private final AssetService assetService;
@@ -56,11 +54,7 @@ public class InvestigationServiceImpl implements InvestigationService {
 
     @Override
     public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
-        final QualityNotification notification = notificationPublisherService.startNotification(partIds, description, targetDate, severity);
-
-        assetService.setAssetsInvestigationStatus(notification);
-        log.info("Start Investigation {}", notification);
-        return investigationsRepository.saveQualityNotificationEntity(notification);
+        return notificationPublisherService.startInvestigation(partIds, description, targetDate, severity);
     }
 
     @Override
@@ -94,20 +88,26 @@ public class InvestigationServiceImpl implements InvestigationService {
     @Override
     public void approve(Long notificationId) {
         QualityNotification notification = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        final QualityNotification approvedNotification = notificationPublisherService.approveNotification(notification);
-        investigationsRepository.updateQualityNotificationEntity(approvedNotification);
+        final QualityNotification approvedInvestigation = notificationPublisherService.approveNotification(notification);
+        investigationsRepository.updateQualityNotificationEntity(approvedInvestigation);
     }
 
     @Override
     public void cancel(Long notificationId) {
         QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        investigationsPublisherService.cancelInvestigation(investigation);
+        QualityNotification canceledInvestigation = notificationPublisherService.cancelNotification(investigation);
+
+        assetService.setAssetsInvestigationStatus(canceledInvestigation);
+        investigationsRepository.updateQualityNotificationEntity(canceledInvestigation);
     }
 
     @Override
     public void update(Long investigationId, QualityNotificationStatus status, String reason) {
         QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(investigationId));
-        investigationsPublisherService.updateInvestigationPublisher(investigation, status, reason);
+        QualityNotification updatedInvestigation = notificationPublisherService.updateNotificationPublisher(investigation, status, reason);
+
+        assetService.setAssetsInvestigationStatus(updatedInvestigation);
+        investigationsRepository.updateQualityNotificationEntity(updatedInvestigation);
     }
 
     private PageResult<QualityNotification> getInvestigationsPageResult(Pageable pageable, QualityNotificationSide investigationSide) {

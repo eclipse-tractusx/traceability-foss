@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service;
 
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
@@ -29,6 +30,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.model.Qualit
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.service.NotificationPublisherService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -41,13 +43,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AlertServiceImpl implements AlertService {
 
-    private final AlertsPublisherService alertsPublisherService;
+    private final NotificationPublisherService notificationPublisherService;
 
     private final AlertRepository alertRepository;
 
+    private final AssetService assetService;
+
     @Override
     public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
-        return alertsPublisherService.startAlert(partIds, description, targetDate, severity);
+        return notificationPublisherService.startAlert(partIds, description, targetDate, severity);
     }
 
     @Override
@@ -81,19 +85,26 @@ public class AlertServiceImpl implements AlertService {
     @Override
     public void approve(Long notificationId) {
         QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        alertsPublisherService.approveAlert(investigation);
+        final QualityNotification approvedAlert = notificationPublisherService.approveNotification(investigation);
+        alertRepository.updateQualityNotificationEntity(approvedAlert);
     }
 
     @Override
     public void cancel(Long notificationId) {
         QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        alertsPublisherService.cancelAlert(alert);
+        QualityNotification canceledAlert = notificationPublisherService.cancelNotification(alert);
+
+        assetService.setAssetsAlertStatus(canceledAlert);
+        alertRepository.updateQualityNotificationEntity(canceledAlert);
     }
 
     @Override
     public void update(Long notificationId, QualityNotificationStatus notificationStatus, String reason) {
         QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        alertsPublisherService.updateAlertPublisher(alert, notificationStatus, reason);
+        QualityNotification updatedAlert = notificationPublisherService.updateNotificationPublisher(alert, notificationStatus, reason);
+
+        assetService.setAssetsInvestigationStatus(updatedAlert);
+        alertRepository.updateQualityNotificationEntity(updatedAlert);
     }
 
     private PageResult<QualityNotification> getAlertsPageResult(Pageable pageable, QualityNotificationSide alertSide) {
