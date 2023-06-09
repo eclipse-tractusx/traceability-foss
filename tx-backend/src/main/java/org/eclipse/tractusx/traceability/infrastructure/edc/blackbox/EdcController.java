@@ -71,7 +71,7 @@ public class EdcController {
     /**
      * Receiver API call for EDC Transfer
      */
-    @PostMapping("/qualitynotifications/receive")
+    @PostMapping("/qualityalerts/receive")
     public void qualityNotificationAlertReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
         log.info("EdcController [qualityNotificationReceive] notificationId:{}", edcNotification);
         validateIsAlert(edcNotification);
@@ -81,7 +81,7 @@ public class EdcController {
     /**
      * Update API call for EDC Transfer
      */
-    @PostMapping("/qualitynotifications/update")
+    @PostMapping("/qualityalerts/update")
     public void qualityNotificationAlertUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
         log.info("EdcController [qualityNotificationUpdate] notificationId:{}", edcNotification);
         validateIsAlert(edcNotification);
