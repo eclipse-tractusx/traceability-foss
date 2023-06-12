@@ -63,7 +63,8 @@ public class AlertsReceiverService {
             case ACCEPTED -> alert.accept(edcNotification.getInformation(), notification);
             case DECLINED -> alert.decline(edcNotification.getInformation(), notification);
             case CLOSED -> alert.close(BPN.of(alert.getBpn()), edcNotification.getInformation());
-            default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
+            default ->
+                    throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }
         alert.addNotification(notification);
         assetService.setAssetsAlertStatus(alert);
