@@ -61,7 +61,7 @@ public class SecurityConfig {
     private String resourceClient;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
+    SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.httpBasic().disable()
                 .formLogin()
@@ -75,9 +75,7 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        /*  .requestMatchers(WHITELIST_URLS)
-                           .permitAll()*/
-                        .requestMatchers("/api/v3/api-docs")
+                        .requestMatchers(WHITELIST_URLS)
                         .permitAll()
                         .requestMatchers("/**")
                         .authenticated())
@@ -90,8 +88,9 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
+
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(@Value("${cors.origins}") List<String> origins) {
+    CorsConfigurationSource corsConfigurationSource(@Value("${cors.origins}") List<String> origins) {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(origins);
         configuration.setAllowedMethods(List.of("*"));
