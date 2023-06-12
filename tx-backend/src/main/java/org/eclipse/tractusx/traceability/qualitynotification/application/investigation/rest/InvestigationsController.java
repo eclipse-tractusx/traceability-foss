@@ -44,7 +44,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.application.request
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -78,6 +77,7 @@ public class InvestigationsController {
             description = "The endpoint starts investigations based on part ids provided.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
+            @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PostMapping
@@ -97,6 +97,7 @@ public class InvestigationsController {
             mediaType = "application/json",
             array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), maxItems = Integer.MAX_VALUE)
     )),
+            @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/created")
@@ -172,6 +173,7 @@ public class InvestigationsController {
             description = "The endpoint closes investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
+            @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
@@ -188,6 +190,7 @@ public class InvestigationsController {
             description = "The endpoint updates investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
+            @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
