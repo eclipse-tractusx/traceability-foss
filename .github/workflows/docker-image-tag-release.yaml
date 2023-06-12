@@ -120,7 +120,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }, ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:latest
+          tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }}, ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:latest
 
       - name: Login to Docker Hub
         env:
