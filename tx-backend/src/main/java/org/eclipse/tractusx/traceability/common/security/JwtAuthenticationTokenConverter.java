@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.security;
 
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -34,28 +35,25 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@RequiredArgsConstructor
 public class JwtAuthenticationTokenConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-	private final String resourceClient;
-	private final JwtGrantedAuthoritiesConverter defaultGrantedAuthoritiesConverter;
+    private final String resourceClient;
+    private final JwtGrantedAuthoritiesConverter defaultGrantedAuthoritiesConverter;
 
-	public JwtAuthenticationTokenConverter(String resourceClient) {
-		this.resourceClient = resourceClient;
-		this.defaultGrantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-	}
+    @Override
+    public AbstractAuthenticationToken convert(@NotNull Jwt source) {
+        Collection<GrantedAuthority> grantedAuthorities = defaultGrantedAuthoritiesConverter.convert(source);
+        Collection<GrantedAuthority> authorities =
+                Stream.concat((grantedAuthorities != null ? grantedAuthorities.stream() : Stream.empty()), extractRoles(source, resourceClient).stream()
+                ).collect(Collectors.toSet());
 
-	@Override
-	public AbstractAuthenticationToken convert(@NotNull Jwt source) {
-		Collection<GrantedAuthority> authorities =
-			Stream.concat(defaultGrantedAuthoritiesConverter.convert(source).stream(), extractRoles(source, resourceClient).stream()
-			).collect(Collectors.toSet());
+        return new JwtAuthenticationToken(source, authorities);
+    }
 
-		return new JwtAuthenticationToken(source, authorities);
-	}
-
-	private static Collection<? extends GrantedAuthority> extractRoles(final Jwt jwt, final String resourceId) {
-		return JwtRolesExtractor.extract(jwt, resourceId).stream().map(Enum::name)
-			.map(it -> new SimpleGrantedAuthority("ROLE_%s".formatted(it)))
-			.collect(Collectors.toSet());
-	}
+    private static Collection<? extends GrantedAuthority> extractRoles(final Jwt jwt, final String resourceId) {
+        return JwtRolesExtractor.extract(jwt, resourceId).stream().map(Enum::name)
+                .map(it -> new SimpleGrantedAuthority("ROLE_%s".formatted(it)))
+                .collect(Collectors.toSet());
+    }
 }

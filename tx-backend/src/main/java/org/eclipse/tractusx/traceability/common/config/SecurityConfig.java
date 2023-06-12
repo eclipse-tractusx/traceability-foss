@@ -59,13 +59,13 @@ public class SecurityConfig {
                 .logout().disable()
                 .csrf().disable()
                 .anonymous().disable()
-                .cors();
+                .cors().and()
 
-        httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/callback/endpoint-data-reference").permitAll()
-                .requestMatchers("/api/qualitynotifications/receive").permitAll()
-                .requestMatchers("/api/**")
-                .authenticated());
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/callback/endpoint-data-reference").permitAll()
+                        .requestMatchers("/api/qualitynotifications/receive").permitAll()
+                        .requestMatchers("/api/**")
+                        .authenticated());
 
         httpSecurity
                 .oauth2Client()
