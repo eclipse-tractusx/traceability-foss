@@ -52,27 +52,29 @@ public class SecurityConfig {
     private String resourceClient;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
-        http
-                .httpBasic().disable()
+    public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
+
+        httpSecurity.httpBasic().disable()
                 .formLogin().disable()
                 .logout().disable()
                 .csrf().disable()
-                .cors()
-                .and()
                 .anonymous().disable()
-                .authorizeRequests()
+                .cors();
+
+        httpSecurity.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/callback/endpoint-data-reference").permitAll()
                 .requestMatchers("/api/qualitynotifications/receive").permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .and()
+                .requestMatchers("/api/**")
+                .authenticated());
+
+        httpSecurity
                 .oauth2Client()
                 .and()
                 .oauth2ResourceServer()
                 .jwt()
                 .jwtAuthenticationConverter(new JwtAuthenticationTokenConverter(resourceClient));
 
-        return http.build();
+        return httpSecurity.build();
     }
 
     @Bean
