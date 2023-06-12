@@ -116,7 +116,11 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER == ''
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.GHCR_REGISTRY }}/${{ github.repository }} -Djib.to.tags=${{ env.TAG_NAME }},latest
+        uses: docker/build-push-action@v4
+        with:
+          context: backend
+          push: true
+          tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }, ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:latest
 
       - name: Login to Docker Hub
         env:
@@ -131,7 +135,11 @@ jobs:
         env:
           DOCKER_HUB_USER: ${{ secrets.DOCKER_HUB_USER }}
         if: env.DOCKER_HUB_USER != ''
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{env.BACKEND_IMAGE_DOCKER_HUB}} -Djib.to.tags=${{ env.TAG_NAME }},latest
+        uses: docker/build-push-action@v4
+        with:
+          context: backend
+          push: true
+          tags: ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{env.BACKEND_IMAGE_DOCKER_HUB}}:${{ env.TAG_NAME }}, ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{env.BACKEND_IMAGE_DOCKER_HUB}}:latest
 
       - name: Update Docker Hub description
         env:

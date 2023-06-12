@@ -142,7 +142,11 @@ jobs:
           cache: 'maven'
 
       - name: Locally build docker image
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:dockerBuild -Dimage=${{ env.REGISTRY }}/${{ github.repository }}:trivy
+        uses: docker/build-push-action@v4
+        with:
+          context: backend
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ github.repository }}:trivy
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.10.0
