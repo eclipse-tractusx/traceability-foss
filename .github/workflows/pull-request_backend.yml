@@ -89,7 +89,11 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build & Push docker image for GHCR ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode -DskipTests=true install jib:build -Dimage=${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
 
   Dependency-analysis:
     runs-on: ubuntu-latest
