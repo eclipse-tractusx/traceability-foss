@@ -41,7 +41,7 @@ import java.time.Instant
 import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 
-class PublisherInvestigationsControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
+class PublisherInvestigationsControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, InvestigationNotificationsSupport, BpnSupport {
     @Autowired
     InvestigationsReceiverService investigationsReceiverService
 

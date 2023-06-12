@@ -88,7 +88,7 @@ public class NotificationPublisherService {
         assets.stream().map(asset -> createAlert(applicationBPN, description, targetDate, severity, asset, receiverBpn))
                 .forEach(notification::addNotification);
 
-        assetService.setAssetsInvestigationStatus(notification);
+        assetService.setAssetsAlertStatus(notification);
         return notification;
     }
 

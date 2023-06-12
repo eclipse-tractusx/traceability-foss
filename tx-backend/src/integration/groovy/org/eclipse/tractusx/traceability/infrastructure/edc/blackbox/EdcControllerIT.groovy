@@ -24,8 +24,8 @@ import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.common.security.JwtRole
 import org.eclipse.tractusx.traceability.common.support.AssetsSupport
+import org.eclipse.tractusx.traceability.common.support.InvestigationNotificationsSupport
 import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
-import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
 import org.eclipse.tractusx.traceability.common.support.TestDataSupport
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
@@ -39,7 +39,7 @@ import java.time.Instant
 
 import static io.restassured.RestAssured.given
 
-class EdcControllerIT extends IntegrationSpecification implements TestDataSupport, AssetsSupport, NotificationsSupport, InvestigationsSupport {
+class EdcControllerIT extends IntegrationSpecification implements TestDataSupport, AssetsSupport, InvestigationNotificationsSupport, InvestigationsSupport {
     @Autowired
     private ObjectMapper objectMapper
 
@@ -95,7 +95,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
                 .build()
 
         InvestigationEntity investigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.SENT)
                 .side(QualityNotificationSideBaseEntity.SENDER)
@@ -145,7 +145,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
 
 
         InvestigationEntity investigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.SENT)
                 .side(QualityNotificationSideBaseEntity.SENDER)
@@ -186,7 +186,7 @@ class EdcControllerIT extends IntegrationSpecification implements TestDataSuppor
         given:
 
         InvestigationEntity investigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)

@@ -31,11 +31,11 @@ import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
 import org.eclipse.tractusx.traceability.common.config.RestAssuredConfig
 import org.eclipse.tractusx.traceability.common.config.RestitoConfig
 import org.eclipse.tractusx.traceability.common.support.*
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertNotificationRepository
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationNotificationRepository
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository
-import org.spockframework.spring.SpringBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -54,7 +54,7 @@ import spock.util.concurrent.PollingConditions
 @Testcontainers
 abstract class IntegrationSpecification extends Specification
         implements OAuth2Support, OAuth2ApiSupport, DatabaseSupport, AssetRepositoryProvider, ShellDescriptorStoreProvider,
-                BpnRepositoryProvider, InvestigationsRepositoryProvider, NotificationsRepositoryProvider, BpnEdcRepositoryProvider {
+                BpnRepositoryProvider, InvestigationsRepositoryProvider, AlertsRepositoryProvider, InvestigationNotificationRepositoryProvider, AlertNotificationsRepositoryProvider, BpnEdcRepositoryProvider {
 
     @Autowired
     private AssetRepository assetRepository
@@ -74,14 +74,17 @@ abstract class IntegrationSpecification extends Specification
     private JpaInvestigationRepository jpaInvestigationRepository
 
     @Autowired
-    private JpaInvestigationNotificationRepository jpaNotificationRepository
+    private JpaAlertRepository jpaAlertRepository
+
+    @Autowired
+    private JpaAlertNotificationRepository jpaAlertNotificationRepository
+
+    @Autowired
+    private JpaInvestigationNotificationRepository jpaInvestigationNotificationRepository
 
     @Autowired
     private JdbcTemplate jdbcTemplate
 
-    @SpringBean
-    public
-    AlertService alertService = Mock()
 
     def setup() {
         oauth2ApiReturnsJwkCerts(jwk())
@@ -129,8 +132,18 @@ abstract class IntegrationSpecification extends Specification
     }
 
     @Override
+    JpaAlertRepository jpaAlertRepository() {
+        return jpaAlertRepository
+    }
+
+    @Override
+    JpaAlertNotificationRepository jpaAlertNotificationRepository() {
+        return jpaAlertNotificationRepository
+    }
+
+    @Override
     JpaInvestigationNotificationRepository jpaNotificationRepository() {
-        return jpaNotificationRepository
+        return jpaInvestigationNotificationRepository
     }
 
     @Override

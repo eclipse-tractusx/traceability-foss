@@ -19,13 +19,11 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
-import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
@@ -43,13 +41,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -89,48 +85,6 @@ class AlertControllerTest {
 
         // then
         assertThat(result).hasFieldOrPropertyWithValue("id", notificationId.value());
-    }
-
-    @Test
-    void givenRequest_whenGetCreatedAlerts_thenProperResponse() {
-        // given
-        final Pageable request = mock(Pageable.class);
-        final QualityNotification notification = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACCEPTED, QualityNotificationStatus.CREATED);
-        final Integer page1 = 1;
-        final Integer pageCount1 = 1;
-        final Integer pageSize1 = 1;
-        final Long totalItems1 = 1L;
-        final PageResult<QualityNotification> pagedNotification = new PageResult<>(List.of(notification), page1, pageCount1, pageSize1, totalItems1);
-        final PageResult<AlertResponse> expected = AlertResponse.fromAsPageResult(pagedNotification);
-
-        when(alertService.getCreated(request)).thenReturn(pagedNotification);
-
-        // when
-        final PageResult<AlertResponse> result = controller.getCreatedAlerts(request);
-
-        // then
-        assertThat(result).isEqualTo(expected);
-    }
-
-    @Test
-    void givenRequest_whenGetReceivedAlerts_thenProperResponse() {
-        // given
-        final Pageable request = mock(Pageable.class);
-        final QualityNotification notification = InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACCEPTED, QualityNotificationStatus.CREATED);
-        final Integer page1 = 1;
-        final Integer pageCount1 = 1;
-        final Integer pageSize1 = 1;
-        final Long totalItems1 = 1L;
-        final PageResult<QualityNotification> pagedNotification = new PageResult<>(List.of(notification), page1, pageCount1, pageSize1, totalItems1);
-        final PageResult<AlertResponse> expected = AlertResponse.fromAsPageResult(pagedNotification);
-
-        when(alertService.getReceived(request)).thenReturn(pagedNotification);
-
-        // when
-        final PageResult<AlertResponse> result = controller.getReceivedAlerts(request);
-
-        // then
-        assertThat(result).isEqualTo(expected);
     }
 
     @Test

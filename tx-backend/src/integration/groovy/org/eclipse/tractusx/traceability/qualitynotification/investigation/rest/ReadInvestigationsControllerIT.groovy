@@ -24,8 +24,8 @@ package org.eclipse.tractusx.traceability.qualitynotification.investigation.rest
 import io.restassured.http.ContentType
 import org.eclipse.tractusx.traceability.IntegrationSpecification
 import org.eclipse.tractusx.traceability.common.support.BpnSupport
+import org.eclipse.tractusx.traceability.common.support.InvestigationNotificationsSupport
 import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
-import org.eclipse.tractusx.traceability.common.support.NotificationsSupport
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
@@ -39,7 +39,7 @@ import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 import static org.eclipse.tractusx.traceability.common.support.ISO8601DateTimeMatcher.isIso8601DateTime
 
-class ReadInvestigationsControllerIT extends IntegrationSpecification implements InvestigationsSupport, NotificationsSupport, BpnSupport {
+class ReadInvestigationsControllerIT extends IntegrationSpecification implements InvestigationsSupport, InvestigationNotificationsSupport, BpnSupport {
 
     @Unroll
     def "should not return #type investigations without authentication"() {
@@ -92,7 +92,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 
         and:
         InvestigationEntity firstInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .side(QualityNotificationSideBaseEntity.SENDER)
@@ -100,7 +100,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.minusSeconds(10L))
                 .build();
         InvestigationEntity secondInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("2")
@@ -108,7 +108,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.plusSeconds(21L))
                 .build();
         InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("3")
@@ -116,7 +116,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now)
                 .build();
         InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("4")
@@ -124,7 +124,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.plusSeconds(20L))
                 .build();
         InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("5")
@@ -196,7 +196,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 
         and:
         InvestigationEntity firstInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .side(QualityNotificationSideBaseEntity.SENDER)
@@ -204,7 +204,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.minusSeconds(10L))
                 .build();
         InvestigationEntity secondInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("2")
@@ -212,7 +212,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.plusSeconds(21L))
                 .build();
         InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("3")
@@ -220,7 +220,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now)
                 .build();
         InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("4")
@@ -228,7 +228,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.plusSeconds(20L))
                 .build();
         InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("5")
@@ -320,7 +320,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
         (1..100).each { it ->
 
             InvestigationEntity investigationEntity = InvestigationEntity.builder()
-                    .assetsAsBuilt(Collections.emptyList())
+                    .assets(Collections.emptyList())
                     .bpn(testBpn)
                     .status(QualityNotificationStatusBaseEntity.CREATED)
                     .side(QualityNotificationSideBaseEntity.SENDER)
@@ -356,7 +356,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
         and:
         (101..200).each { it ->
             InvestigationEntity investigationEntity = InvestigationEntity.builder()
-                    .assetsAsBuilt(Collections.emptyList())
+                    .assets(Collections.emptyList())
                     .bpn(testBpn)
                     .status(QualityNotificationStatusBaseEntity.CREATED)
                     .side(QualityNotificationSideBaseEntity.RECEIVER)
@@ -409,7 +409,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
 
         and:
         InvestigationEntity firstInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
@@ -417,7 +417,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.minusSeconds(5L))
                 .build();
         InvestigationEntity secondInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .description("2")
@@ -425,7 +425,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.plusSeconds(2L))
                 .build();
         InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .description("3")
@@ -433,7 +433,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now)
                 .build();
         InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .description("4")
@@ -441,7 +441,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 .createdDate(now.plusSeconds(20L))
                 .build();
         InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn(testBpn)
                 .status(QualityNotificationStatusBaseEntity.CREATED)
                 .description("5")
@@ -531,7 +531,7 @@ class ReadInvestigationsControllerIT extends IntegrationSpecification implements
                 InvestigationEntity
                         .builder()
                         .id(1L)
-                        .assetsAsBuilt([])
+                        .assets([])
                         .bpn(testBpn)
                         .description("1")
                         .status(QualityNotificationStatusBaseEntity.RECEIVED)

@@ -22,8 +22,8 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.servi
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
-import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
+import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
@@ -44,7 +44,7 @@ public class AlertsReceiverService {
     private final AssetService assetService;
     private final QualityNotificationMapper qualityNotificationMapper;
 
-    public void handleNotificationReceive(EDCNotification edcNotification) { // TODO should already be mapped to domain in param
+    public void handleNotificationReceive(EDCNotification edcNotification) {
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
         QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
         QualityNotification investigation = qualityNotificationMapper.toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
