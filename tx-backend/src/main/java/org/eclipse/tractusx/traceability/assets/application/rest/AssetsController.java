@@ -67,6 +67,7 @@ public class AssetsController {
             description = "The endpoint synchronizes the assets from irs.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
+            @ApiResponse(responseCode = "400", description = "Bad request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PostMapping("/sync")

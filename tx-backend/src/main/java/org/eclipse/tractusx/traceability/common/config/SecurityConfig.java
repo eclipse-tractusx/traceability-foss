@@ -42,9 +42,19 @@ public class SecurityConfig {
 
     private static final String[] WHITELIST_URLS = {
             "/api/v3/api-docs/**",
+            "/api/v3/api-docs",
             "/api/swagger-ui/**",
             "/api/swagger-ui.html",
-            "/actuator/**"
+            "/actuator/**",
+            "/actuator/health",
+            "/actuator/health/readiness",
+            "/actuator/health/liveness",
+            "/actuator/prometheus",
+            "/api/swagger-ui/**",
+            "/api/api-docs",
+            "/api/api-docs.yaml",
+            "/api/api-docs/swagger-config",
+            "/api/callback/endpoint-data-reference"
     };
 
     @Value("${jwt.resource-client}")
@@ -54,15 +64,23 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.httpBasic().disable()
-                .formLogin().disable()
-                .logout().disable()
-                .csrf().disable()
-                .anonymous().disable()
-                .cors().and()
-                .authorizeHttpRequests(auth -> auth.requestMatchers(WHITELIST_URLS).permitAll().requestMatchers("/api/callback/endpoint-data-reference").permitAll().requestMatchers("/api/qualitynotifications/receive").permitAll().anyRequest()
-                        .authenticated());
-
-        httpSecurity
+                .formLogin()
+                .disable()
+                .logout()
+                .disable()
+                .csrf()
+                .disable()
+                .anonymous()
+                .disable()
+                .cors()
+                .and()
+                .authorizeHttpRequests(auth -> auth
+                        /*  .requestMatchers(WHITELIST_URLS)
+                           .permitAll()*/
+                        .requestMatchers("/api/v3/api-docs")
+                        .permitAll()
+                        .requestMatchers("/**")
+                        .authenticated())
                 .oauth2Client()
                 .and()
                 .oauth2ResourceServer()
