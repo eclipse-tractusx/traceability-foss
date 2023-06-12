@@ -44,7 +44,7 @@ jobs:
         if: env.DOCKER_HUB_USER == ''
         uses: docker/build-push-action@v4
         with:
-          context: backend
+          context: .
           push: true
           tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ github.sha }}
 
@@ -63,7 +63,7 @@ jobs:
         if: env.DOCKER_HUB_USER != ''
         uses: docker/build-push-action@v4
         with:
-          context: backend
+          context: .
           push: true
           tags: ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{ env.BACKEND_IMAGE_DOCKER_HUB }}:${{ github.sha }}
 

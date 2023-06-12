@@ -118,7 +118,7 @@ jobs:
         if: env.DOCKER_HUB_USER == ''
         uses: docker/build-push-action@v4
         with:
-          context: backend
+          context: .
           push: true
           tags: ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ env.TAG_NAME }, ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:latest
 
@@ -137,7 +137,7 @@ jobs:
         if: env.DOCKER_HUB_USER != ''
         uses: docker/build-push-action@v4
         with:
-          context: backend
+          context: .
           push: true
           tags: ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{env.BACKEND_IMAGE_DOCKER_HUB}}:${{ env.TAG_NAME }}, ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{env.BACKEND_IMAGE_DOCKER_HUB}}:latest
 

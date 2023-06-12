@@ -144,7 +144,7 @@ jobs:
       - name: Locally build docker image
         uses: docker/build-push-action@v4
         with:
-          context: backend
+          context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:trivy
 
