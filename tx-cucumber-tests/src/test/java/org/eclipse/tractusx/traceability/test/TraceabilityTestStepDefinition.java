@@ -24,8 +24,8 @@ import io.cucumber.java.ParameterType;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
-import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
+import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 
@@ -61,7 +61,7 @@ public class TraceabilityTestStepDefinition {
     @And("I create investigation")
     public void iCreateInvestigation() {
         // provide proper asset id from predefined import test data
-        final String assetId = "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22";
+        final String assetId = "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01";
         notificationDescription = "E2E cucumber test at " + Instant.now() ;
         final Instant targetDate = Instant.now().plus(1, ChronoUnit.DAYS);
         final String severity = "LIFE-THREATENING";
