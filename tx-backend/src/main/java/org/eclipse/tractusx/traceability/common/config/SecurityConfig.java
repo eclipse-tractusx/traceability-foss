@@ -27,7 +27,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,9 +36,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@EnableMethodSecurity(
-        securedEnabled = true
-)
+@EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private static final String[] WHITELIST_URLS = {
@@ -60,11 +59,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .anonymous().disable()
                 .cors().and()
-
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/callback/endpoint-data-reference").permitAll()
-                        .requestMatchers("/api/qualitynotifications/receive").permitAll()
-                        .requestMatchers("/api/**")
+                .authorizeHttpRequests(auth -> auth.requestMatchers(WHITELIST_URLS).permitAll().requestMatchers("/api/callback/endpoint-data-reference").permitAll().requestMatchers("/api/qualitynotifications/receive").permitAll().anyRequest()
                         .authenticated());
 
         httpSecurity
@@ -75,11 +70,6 @@ public class SecurityConfig {
                 .jwtAuthenticationConverter(new JwtAuthenticationTokenConverter(resourceClient));
 
         return httpSecurity.build();
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers(WHITELIST_URLS);
     }
 
     @Bean
