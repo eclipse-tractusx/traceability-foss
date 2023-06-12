@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Changed
+
+### Removed
+
+## [4.0.0] - 2023-06-12
+
+### Added
+
 - Added translationContext "commonAlert" to all modal components
 - Send quality alert to customer / action on queued items
 - Adapt asset synchronization from IRS
