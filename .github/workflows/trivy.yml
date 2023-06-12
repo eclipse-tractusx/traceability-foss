@@ -145,7 +145,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: .
-          push: true
+          push: false
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:trivy
 
       - name: Run Trivy vulnerability scanner
