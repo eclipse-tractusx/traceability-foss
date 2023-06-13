@@ -70,6 +70,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELIST_URLS)
                         .permitAll()
+                        .requestMatchers("/api/callback/endpoint-data-reference").permitAll()
+                        .requestMatchers("/api/qualitynotifications/receive").permitAll()
                         .anyRequest()
                         .authenticated())
                 .oauth2Client()
