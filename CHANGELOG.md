@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Changed
+
+### Removed
+
+## [4.0.0] - 2023-06-12
+
+### Added
+
 - Added translationContext "commonAlert" to all modal components
 - Send quality alert to customer / action on queued items
 - Adapt asset synchronization from IRS
@@ -150,6 +158,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved admin page navigation (as a left side menu)
 - Combined results of discovery service and fallback mock service to provide bpn url mappings
 - Updated EDC Provider to 0.3.0 version
+- Replaced jib with docker-build-push action in workflows
 
 ## [3.1.2] - 2023-05-02
 
