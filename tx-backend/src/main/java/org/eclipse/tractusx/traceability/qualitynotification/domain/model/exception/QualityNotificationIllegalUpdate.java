@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.model.exception;
 
-public class QualityNotificationIllegalUpdate extends IllegalArgumentException { // can be generified to quality notifications
+public class QualityNotificationIllegalUpdate extends IllegalArgumentException {
 
     public QualityNotificationIllegalUpdate(String message) {
         super(message);

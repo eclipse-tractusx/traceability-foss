@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.StartQualityAlertRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
