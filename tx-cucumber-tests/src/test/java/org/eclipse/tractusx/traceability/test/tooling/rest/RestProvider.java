@@ -22,14 +22,10 @@ package org.eclipse.tractusx.traceability.test.tooling.rest;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
-import lombok.AccessLevel;
-import lombok.Builder;
 import org.apache.http.HttpStatus;
-import org.apache.http.protocol.HTTP;
 import org.eclipse.tractusx.traceability.test.tooling.EnvVariablesResolver;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.StartQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.test.tooling.rest.response.PageResult;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 
@@ -56,6 +52,7 @@ public class RestProvider {
         } else if (environment.equals(TRACE_X_B)) {
             host = EnvVariablesResolver.getTX_B_Host();
         }
+        System.out.println(host);
     }
 
     public QualityNotificationIdResponse createInvestigation(
@@ -110,6 +107,8 @@ public class RestProvider {
 
     private RequestSpecification getRequestSpecification() {
         final String accessToken = authentication.obtainAccessToken();
+
+        System.out.println(" token is empty = " + accessToken.isEmpty());
 
         final RequestSpecBuilder builder = new RequestSpecBuilder();
         builder.addHeader("Authorization", "Bearer " + accessToken);

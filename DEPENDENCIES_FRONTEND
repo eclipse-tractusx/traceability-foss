@@ -1202,7 +1202,7 @@ npm/npmjs/@babel/plugin-proposal-object-rest-spread/7.20.7, MIT, approved, #4581
 npm/npmjs/@babel/plugin-proposal-optional-catch-binding/7.18.6, MIT, approved, clearlydefined
 npm/npmjs/@babel/plugin-proposal-optional-chaining/7.21.0, MIT, approved, clearlydefined
 npm/npmjs/@babel/plugin-proposal-private-methods/7.18.6, MIT, approved, clearlydefined
-npm/npmjs/@babel/plugin-proposal-private-property-in-object/7.21.0, MIT, approved, clearlydefined
+npm/npmjs/@babel/plugin-proposal-private-property-in-object/7.21.0, MIT, approved, #8768
 npm/npmjs/@babel/plugin-proposal-unicode-property-regex/7.18.6, MIT, approved, clearlydefined
 npm/npmjs/@babel/plugin-syntax-async-generators/7.8.4, MIT, approved, #1973
 npm/npmjs/@babel/plugin-syntax-class-properties/7.12.13, MIT, approved, clearlydefined
