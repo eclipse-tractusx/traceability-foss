@@ -24,6 +24,7 @@ import io.restassured.http.Header;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.test.tooling.EnvVariablesResolver;
 
 import java.util.HashMap;
@@ -51,6 +52,9 @@ public class Authentication {
         oauth2Payload.put("grant_type", "client_credentials");
         oauth2Payload.put("client_id", clientId);
         oauth2Payload.put("client_secret", clientSecret);
+
+        System.out.printf("Obtaining token from %s%n", keycloakHost);
+
         return given()
                 .params(oauth2Payload)
                 .header(new Header("Content-Type", "application/x-www-form-urlencoded"))
