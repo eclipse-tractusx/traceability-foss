@@ -44,7 +44,7 @@ public class SecurityConfig {
 
 
     private static final String[] WHITELIST_PATHS = {
-            "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/webjars/swagger-ui/**", "/qualitynotifications/receive", "/callback/endpoint-data-reference", "actuator/**"
+            "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/webjars/swagger-ui/**", "/qualitynotifications/receive", "/callback/endpoint-data-reference", "/actuator/**"
     };
 
     @Value("${jwt.resource-client}")
