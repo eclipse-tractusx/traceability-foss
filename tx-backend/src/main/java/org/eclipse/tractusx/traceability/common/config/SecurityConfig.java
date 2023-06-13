@@ -21,13 +21,13 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.security.JwtAuthenticationTokenConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -39,16 +39,12 @@ import java.util.List;
 @EnableMethodSecurity(
         securedEnabled = true
 )
-@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] WHITELIST_URLS = {
-            "/api/v3/api-docs/**",
-            "/api/swagger-ui/**",
-            "/api/swagger-ui.html",
-            "/actuator/**",
-            "/api/qualitynotifications/receive",
-            "/api/callback/endpoint-data-reference"
+
+    private static final String[] WHITELIST_PATHS = {
+            "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**", "/webjars/swagger-ui/**", "/qualitynotifications/receive", "/callback/endpoint-data-reference", "actuator/**"
     };
 
     @Value("${jwt.resource-client}")
@@ -64,12 +60,11 @@ public class SecurityConfig {
         httpSecurity.csrf().disable();
         httpSecurity.cors();
 
-        httpSecurity.securityMatcher("/api/**");
 
         httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers(WHITELIST_URLS)
+                .requestMatchers(WHITELIST_PATHS)
                 .permitAll()
-                .anyRequest()
+                .requestMatchers("/api/**")
                 .authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt()
