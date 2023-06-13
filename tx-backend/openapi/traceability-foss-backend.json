@@ -31,6 +31,9 @@
         "description" : "The endpoint returns a result of BPN EDC URL mappings.",
         "operationId" : "getBpnEdcs",
         "responses" : {
+          "403" : {
+            "description" : "Forbidden."
+          },
           "200" : {
             "description" : "Returns the paged result found",
             "content" : {
@@ -44,9 +47,6 @@
           },
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -80,6 +80,9 @@
           "required" : true
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden."
+          },
           "200" : {
             "description" : "Returns the paged result found for BpnEdcMapping",
             "content" : {
@@ -93,9 +96,6 @@
           },
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           },
           "204" : {
             "description" : "No Content",
@@ -147,6 +147,9 @@
           "required" : true
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden."
+          },
           "200" : {
             "description" : "Returns the paged result found for BpnEdcMapping",
             "content" : {
@@ -160,9 +163,6 @@
           },
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           },
           "204" : {
             "description" : "No Content",
@@ -562,6 +562,9 @@
           "required" : true
         },
         "responses" : {
+          "403" : {
+            "description" : "Forbidden."
+          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -575,9 +578,6 @@
           },
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -601,7 +601,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/StartQualityNotificationRequest"
+                "$ref" : "#/components/schemas/StartQualityAlertRequest"
               }
             }
           },
@@ -843,36 +843,6 @@
           }
         ],
         "responses" : {
-          "401" : {
-            "description" : "Authorization failed.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssetResponse"
-                  }
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssetResponse"
-                  }
-                }
-              }
-            }
-          },
           "200" : {
             "description" : "Returns the assets found",
             "content" : {
@@ -959,6 +929,36 @@
                 }
               }
             }
+          },
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
           }
         },
         "security" : [
@@ -999,6 +999,21 @@
         "responses" : {
           "401" : {
             "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1094,21 +1109,6 @@
                         ]
                       }
                     }
-                  }
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssetResponse"
                   }
                 }
               }
@@ -1327,11 +1327,11 @@
               }
             }
           },
-          "401" : {
-            "description" : "Authorization failed."
-          },
           "403" : {
             "description" : "Forbidden."
+          },
+          "401" : {
+            "description" : "Authorization failed."
           }
         },
         "security" : [
@@ -1362,6 +1362,9 @@
           }
         ],
         "responses" : {
+          "403" : {
+            "description" : "Forbidden."
+          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -1390,9 +1393,6 @@
           },
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -1423,8 +1423,8 @@
           }
         ],
         "responses" : {
-          "401" : {
-            "description" : "Authorization failed.",
+          "200" : {
+            "description" : "Returns dashboard data",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1433,8 +1433,8 @@
               }
             }
           },
-          "200" : {
-            "description" : "Returns dashboard data",
+          "401" : {
+            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1496,6 +1496,9 @@
           }
         ],
         "responses" : {
+          "403" : {
+            "description" : "Forbidden."
+          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -1509,9 +1512,6 @@
           },
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -1827,11 +1827,14 @@
             "in" : "query",
             "required" : true,
             "schema" : {
-              "$ref" : "#/components/schemas/Pageable"
+              "$ref" : "#/components/schemas/OwnPageable"
             }
           }
         ],
         "responses" : {
+          "403" : {
+            "description" : "Forbidden."
+          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -1845,9 +1848,6 @@
           },
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -1873,11 +1873,14 @@
             "in" : "query",
             "required" : true,
             "schema" : {
-              "$ref" : "#/components/schemas/Pageable"
+              "$ref" : "#/components/schemas/OwnPageable"
             }
           }
         ],
         "responses" : {
+          "403" : {
+            "description" : "Forbidden."
+          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -1891,9 +1894,6 @@
           },
           "401" : {
             "description" : "Authorization failed."
-          },
-          "403" : {
-            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -2107,6 +2107,44 @@
             "items" : {
               "type" : "string"
             }
+          }
+        }
+      },
+      "StartQualityAlertRequest" : {
+        "required" : [
+          "bpn",
+          "severity"
+        ],
+        "type" : "object",
+        "properties" : {
+          "partIds" : {
+            "maxItems" : 100,
+            "minItems" : 1,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "description" : {
+            "maxLength" : 1000,
+            "minLength" : 15,
+            "type" : "string"
+          },
+          "targetDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "severity" : {
+            "type" : "string",
+            "enum" : [
+              "MINOR",
+              "MAJOR",
+              "CRITICAL",
+              "LIFE_THREATENING"
+            ]
+          },
+          "bpn" : {
+            "type" : "string"
           }
         }
       },
@@ -2533,27 +2571,6 @@
           },
           "targetDate" : {
             "type" : "string"
-          }
-        }
-      },
-      "Pageable" : {
-        "type" : "object",
-        "properties" : {
-          "page" : {
-            "minimum" : 0,
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "size" : {
-            "minimum" : 1,
-            "type" : "integer",
-            "format" : "int32"
-          },
-          "sort" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string"
-            }
           }
         }
       }
