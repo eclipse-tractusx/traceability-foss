@@ -64,7 +64,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(auth -> auth
                 .requestMatchers(WHITELIST_PATHS)
                 .permitAll()
-                .requestMatchers("/api/**")
+                .anyRequest()
                 .authenticated());
 
         httpSecurity.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt()
