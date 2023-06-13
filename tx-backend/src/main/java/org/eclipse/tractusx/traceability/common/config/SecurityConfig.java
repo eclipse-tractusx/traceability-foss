@@ -55,7 +55,8 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.httpBasic().disable()
+        httpSecurity.httpBasic().disable();
+        httpSecurity
                 .formLogin()
                 .disable()
                 .logout()
@@ -76,9 +77,9 @@ public class SecurityConfig {
                         .authenticated())
                 .oauth2Client()
                 .and()
-                .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(new JwtAuthenticationTokenConverter(resourceClient));
+                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt()
+                        .jwtAuthenticationConverter(
+                                new JwtAuthenticationTokenConverter(resourceClient)));
 
         return httpSecurity.build();
     }
