@@ -42,19 +42,8 @@ public class SecurityConfig {
 
     private static final String[] WHITELIST_URLS = {
             "/api/v3/api-docs/**",
-            "/api/v3/api-docs",
             "/api/swagger-ui/**",
-            "/api/swagger-ui.html",
-            "/actuator/**",
-            "/actuator/health",
-            "/actuator/health/readiness",
-            "/actuator/health/liveness",
-            "/actuator/prometheus",
-            "/api/swagger-ui/**",
-            "/api/api-docs",
-            "/api/api-docs.yaml",
-            "/api/api-docs/swagger-config",
-            "/api/callback/endpoint-data-reference"
+            "/api/swagger-ui.html"
     };
 
     @Value("${jwt.resource-client}")
@@ -77,7 +66,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELIST_URLS)
                         .permitAll()
-                        .requestMatchers("/**")
+                        .requestMatchers("/api/**")
                         .authenticated())
                 .oauth2Client()
                 .and()
