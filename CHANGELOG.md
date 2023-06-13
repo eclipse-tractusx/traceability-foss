@@ -9,7 +9,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 
 ### Changed
-
+- Updated authorizeRequests to match with spring boot 3 requirements
+- Updated some response code annotations
+- Updated some schema object annotations
 ### Removed
 
 ## [4.0.0] - 2023-06-12
