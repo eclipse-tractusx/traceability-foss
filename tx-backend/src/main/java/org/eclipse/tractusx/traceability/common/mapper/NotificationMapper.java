@@ -31,7 +31,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Component
-public class NotificationMapper {
+public class NotificationMapper { // rename to QualityNotificationMessageMapper
 
     private final BpnRepository bpnRepository;
 
@@ -58,7 +58,7 @@ public class NotificationMapper {
                 .receiverManufacturerName(getManufacturerName(edcNotification.getRecipientBPN()))
                 .edcUrl(edcNotification.getSenderAddress())
                 .description(edcNotification.getInformation())
-                .investigationStatus(edcNotification.convertInvestigationStatus())
+                .notificationStatus(edcNotification.convertNotificationStatus())
                 .affectedParts(edcNotification.getListOfAffectedItems())
                 .targetDate(edcNotification.getTargetDate())
                 .severity(QualityNotificationSeverity.fromString(edcNotification.getSeverity()))

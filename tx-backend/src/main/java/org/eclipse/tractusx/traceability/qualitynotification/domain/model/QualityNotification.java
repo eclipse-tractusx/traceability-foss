@@ -39,7 +39,7 @@ import static org.apache.commons.collections4.CollectionUtils.emptyIfNull;
 @Data
 @Builder
 public class QualityNotification {
-    public static final Comparator<QualityNotification> COMPARE_BY_NEWEST_INVESTIGATION_CREATION_TIME = (o1, o2) -> {
+    public static final Comparator<QualityNotification> COMPARE_BY_NEWEST_QUALITY_NOTIFICATION_CREATION_TIME = (o1, o2) -> { // generic names here
         Instant o1CreationTime = o1.createdAt;
         Instant o2CreationTime = o2.createdAt;
 
@@ -54,11 +54,11 @@ public class QualityNotification {
         return -1;
     };
     private BPN bpn;
-    private QualityNotificationId investigationId;
-    private QualityNotificationStatus investigationStatus;
+    private QualityNotificationId notificationId;
+    private QualityNotificationStatus notificationStatus;
     private String description;
     private Instant createdAt;
-    private QualityNotificationSide investigationSide;
+    private QualityNotificationSide notificationSide;
     @Builder.Default
     private List<String> assetIds = new ArrayList<>();
     private String closeReason;
@@ -66,18 +66,17 @@ public class QualityNotification {
     private String declineReason;
     private Map<String, QualityNotificationMessage> notifications = new HashMap<>();
 
-    public static QualityNotification startInvestigation(Instant createDate, BPN bpn, String description) {
+
+    public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
         return QualityNotification.builder()
                 .bpn(bpn)
-                .investigationStatus(QualityNotificationStatus.CREATED)
-                .investigationSide(QualityNotificationSide.SENDER)
+                .notificationStatus(QualityNotificationStatus.CREATED)
+                .notificationSide(QualityNotificationSide.SENDER)
                 .description(description)
                 .createdAt(createDate)
                 .assetIds(Collections.emptyList())
                 .notifications(Collections.emptyList())
                 .build();
-
-
     }
 
     public List<String> getAssetIds() {
@@ -107,31 +106,31 @@ public class QualityNotification {
 
     public void acknowledge(QualityNotificationMessage notification) {
         changeStatusToWithoutNotifications(QualityNotificationStatus.ACKNOWLEDGED);
-        setInvestigationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACKNOWLEDGED, null);
-        notification.setInvestigationStatus(QualityNotificationStatus.ACKNOWLEDGED);
+        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACKNOWLEDGED, null);
+        notification.setNotificationStatus(QualityNotificationStatus.ACKNOWLEDGED);
     }
 
     public void accept(String reason, QualityNotificationMessage notification) {
         changeStatusToWithoutNotifications(QualityNotificationStatus.ACCEPTED);
         this.acceptReason = reason;
-        setInvestigationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACCEPTED, reason);
-        notification.setInvestigationStatus(QualityNotificationStatus.ACCEPTED);
+        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.ACCEPTED, reason);
+        notification.setNotificationStatus(QualityNotificationStatus.ACCEPTED);
         notification.setDescription(reason);
     }
 
     public void decline(String reason, QualityNotificationMessage notification) {
         changeStatusToWithoutNotifications(QualityNotificationStatus.DECLINED);
         this.declineReason = reason;
-        setInvestigationStatusAndReasonForNotification(notification, QualityNotificationStatus.DECLINED, reason);
-        notification.setInvestigationStatus(QualityNotificationStatus.DECLINED);
+        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.DECLINED, reason);
+        notification.setNotificationStatus(QualityNotificationStatus.DECLINED);
         notification.setDescription(reason);
     }
 
     public void close(String reason, QualityNotificationMessage notification) {
         changeStatusToWithoutNotifications(QualityNotificationStatus.CLOSED);
         this.closeReason = reason;
-        setInvestigationStatusAndReasonForNotification(notification, QualityNotificationStatus.CLOSED, reason);
-        notification.setInvestigationStatus(QualityNotificationStatus.CLOSED);
+        setNotificationStatusAndReasonForNotification(notification, QualityNotificationStatus.CLOSED, reason);
+        notification.setNotificationStatus(QualityNotificationStatus.CLOSED);
         notification.setDescription(reason);
     }
 
@@ -140,14 +139,14 @@ public class QualityNotification {
         changeStatusTo(QualityNotificationStatus.SENT);
     }
 
-    private void setInvestigationStatusAndReasonForNotification(QualityNotificationMessage notificationDomain, QualityNotificationStatus investigationStatus, String reason) {
+    private void setNotificationStatusAndReasonForNotification(QualityNotificationMessage notificationDomain, QualityNotificationStatus notificationStatus, String reason) {
         if (this.notifications != null) {
             for (QualityNotificationMessage notification : this.notifications.values()) {
                 if (notification.getId().equals(notificationDomain.getId())) {
                     if (reason != null) {
                         notification.setDescription(reason);
                     }
-                    notification.setInvestigationStatus(investigationStatus);
+                    notification.setNotificationStatus(notificationStatus);
                     break;
                 }
             }
@@ -156,15 +155,15 @@ public class QualityNotification {
 
     private void validateBPN(BPN applicationBpn) {
         if (!applicationBpn.equals(this.bpn)) {
-            throw new InvestigationIllegalUpdate("%s bpn has no permissions to update investigation with %s id.".formatted(applicationBpn.value(), investigationId.value()));
+            throw new InvestigationIllegalUpdate("%s bpn has no permissions to update investigation with %s id.".formatted(applicationBpn.value(), notificationId.value()));
         }
     }
 
     private void changeStatusTo(QualityNotificationStatus to) {
-        boolean transitionAllowed = investigationStatus.transitionAllowed(to);
+        boolean transitionAllowed = notificationStatus.transitionAllowed(to);
 
         if (!transitionAllowed) {
-            throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
+            throw new InvestigationStatusTransitionNotAllowed(notificationId, notificationStatus, to);
         }
 
         if (notifications != null) {
@@ -172,17 +171,17 @@ public class QualityNotification {
                     .forEach(notification -> notification.changeStatusTo(to));
         }
 
-        this.investigationStatus = to;
+        this.notificationStatus = to;
     }
 
     private void changeStatusToWithoutNotifications(QualityNotificationStatus to) {
-        boolean transitionAllowed = investigationStatus.transitionAllowed(to);
+        boolean transitionAllowed = notificationStatus.transitionAllowed(to);
 
         if (!transitionAllowed) {
-            throw new InvestigationStatusTransitionNotAllowed(investigationId, investigationStatus, to);
+            throw new InvestigationStatusTransitionNotAllowed(notificationId, notificationStatus, to);
         }
 
-        this.investigationStatus = to;
+        this.notificationStatus = to;
     }
 
     public List<QualityNotificationMessage> getNotifications() {

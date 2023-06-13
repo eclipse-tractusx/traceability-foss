@@ -35,6 +35,8 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.Da
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferRequestDto;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -93,13 +95,14 @@ class EdcServiceTest {
     void givenEmptyCatalogContractOffers_whenFindNotificationContractOffer_thenThrowBadRequestException() throws IOException {
         // given
         Catalog catalog = Catalog.Builder.newInstance().id("234").contractOffers(emptyList()).build();
+        QualityNotificationMessage qualityNotificationMessage = QualityNotificationMessage.builder().type(QualityNotificationType.INVESTIGATION).isInitial(true).build();
 
         Map<String, String> header = new HashMap<>();
         when(httpCallService.getCatalogFromProvider(CONSUMER_EDC_DATA_MANAGEMENT_URL, PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header)).thenReturn(catalog);
 
         // when
         assertThrows(BadRequestException.class, () -> edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL,
-                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, true));
+                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, qualityNotificationMessage));
     }
 
     @Test
@@ -113,6 +116,7 @@ class EdcServiceTest {
         properties.put(PROPERTY_CONTENT_TYPE, "image/jpeg");
         properties.put(PROPERTY_NOTIFICATION_TYPE, "qualityinvestigation");
         properties.put(PROPERTY_NOTIFICATION_METHOD, "receive");
+        QualityNotificationMessage qualityNotificationMessage = QualityNotificationMessage.builder().type(QualityNotificationType.INVESTIGATION).isInitial(true).build();
 
         Permission permission = Permission.Builder.newInstance()
                 .constraint(AtomicConstraint.Builder.newInstance()
@@ -133,7 +137,7 @@ class EdcServiceTest {
 
         // when
         Optional<ContractOffer> contractOfferResult = edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL,
-                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, true);
+                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, qualityNotificationMessage);
 
         // then
         assertTrue(contractOfferResult.isPresent());
@@ -151,6 +155,8 @@ class EdcServiceTest {
         properties.put(PROPERTY_CONTENT_TYPE, "image/jpeg");
         properties.put(PROPERTY_NOTIFICATION_TYPE, "qualityinvestigation");
         properties.put(PROPERTY_NOTIFICATION_METHOD, "update");
+        QualityNotificationMessage qualityNotificationMessage = QualityNotificationMessage.builder().type(QualityNotificationType.INVESTIGATION).isInitial(false).build();
+
 
         Permission permission = Permission.Builder.newInstance()
                 .constraint(AtomicConstraint.Builder.newInstance()
@@ -171,7 +177,7 @@ class EdcServiceTest {
 
         // when
         Optional<ContractOffer> contractOfferResult = edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL,
-                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, false);
+                PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, qualityNotificationMessage);
 
         // then
         assertTrue(contractOfferResult.isPresent());
@@ -189,6 +195,7 @@ class EdcServiceTest {
         properties.put(PROPERTY_CONTENT_TYPE, "image/jpeg");
         properties.put(PROPERTY_NOTIFICATION_TYPE, "asfd");
         properties.put(PROPERTY_NOTIFICATION_METHOD, "receive");
+        QualityNotificationMessage qualityNotificationMessage = QualityNotificationMessage.builder().type(QualityNotificationType.INVESTIGATION).isInitial(false).build();
 
         Policy policy = Policy.Builder.newInstance().build();
         Asset asset = Builder.newInstance().properties(properties).build();
@@ -203,7 +210,7 @@ class EdcServiceTest {
         // when
         Optional<ContractOffer> contractOfferResult =
                 edcService.findNotificationContractOffer(CONSUMER_EDC_DATA_MANAGEMENT_URL,
-                        PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, false);
+                        PROVIDER_CONNECTOR_CONTROL_PLANE_IDS_URL, header, qualityNotificationMessage);
 
         // then
         assertTrue(contractOfferResult.isEmpty());

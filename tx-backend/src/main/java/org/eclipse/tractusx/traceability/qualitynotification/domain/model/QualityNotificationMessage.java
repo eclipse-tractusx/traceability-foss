@@ -47,7 +47,7 @@ public class QualityNotificationMessage {
     private String edcUrl;
     private String contractAgreementId;
     private String description;
-    private QualityNotificationStatus investigationStatus;
+    private QualityNotificationStatus notificationStatus;
     private String edcNotificationId;
     private LocalDateTime created;
     private LocalDateTime updated;
@@ -55,14 +55,15 @@ public class QualityNotificationMessage {
     private QualityNotificationSeverity severity;
     private String messageId;
     private Boolean isInitial;
+    private QualityNotificationType type;
 
     void changeStatusTo(QualityNotificationStatus to) {
-        boolean transitionAllowed = investigationStatus.transitionAllowed(to);
+        boolean transitionAllowed = notificationStatus.transitionAllowed(to);
 
         if (!transitionAllowed) {
-            throw new NotificationStatusTransitionNotAllowed(id, investigationStatus, to);
+            throw new NotificationStatusTransitionNotAllowed(id, notificationStatus, to);
         }
-        this.investigationStatus = to;
+        this.notificationStatus = to;
     }
 
 
@@ -94,13 +95,14 @@ public class QualityNotificationMessage {
                 .edcUrl(edcUrl)
                 .contractAgreementId(contractAgreementId)
                 .description(description)
-                .investigationStatus(investigationStatus)
+                .notificationStatus(notificationStatus)
                 .affectedParts(affectedParts)
                 .targetDate(targetDate)
                 .severity(severity)
                 .edcNotificationId(edcNotificationId)
                 .messageId(UUID.randomUUID().toString())
                 .isInitial(false)
+                .type(type)
                 .build();
     }
 }

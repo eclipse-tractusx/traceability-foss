@@ -32,7 +32,7 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
     Long defaultReceivedInvestigationStored() {
         InvestigationEntity entity = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
@@ -45,7 +45,7 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
 
     Long defaultAcknowledgedInvestigationStored() {
         InvestigationEntity entity = InvestigationEntity.builder()
-                .assetsAsBuilt(Collections.emptyList())
+                .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.ACKNOWLEDGED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)

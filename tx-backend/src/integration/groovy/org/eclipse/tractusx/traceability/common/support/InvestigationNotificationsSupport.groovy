@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.common.support
 
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity
 
-trait NotificationsSupport implements NotificationsRepositoryProvider {
+trait InvestigationNotificationsSupport implements InvestigationNotificationRepositoryProvider {
 
     InvestigationNotificationEntity storedNotification(InvestigationNotificationEntity notification) {
         return jpaNotificationRepository().save(notification)

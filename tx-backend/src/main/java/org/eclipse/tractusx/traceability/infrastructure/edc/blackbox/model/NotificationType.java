@@ -21,33 +21,46 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.BadRequestException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
+
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 public enum NotificationType {
-	QMINVESTIGATION("QM-Investigation"),
-	QMALERT("QM-Alert");
+    QMINVESTIGATION("QM-Investigation"),
+    QMALERT("QM-Alert");
 
-	private static final Map<String, NotificationType> MAPPINGS;
+    private static final Map<String, NotificationType> MAPPINGS;
 
-	static {
-		MAPPINGS = Arrays.stream(NotificationType.values())
-			.collect(Collectors.toMap(NotificationType::getValue, notificationType -> notificationType));
-	}
+    static {
+        MAPPINGS = Arrays.stream(NotificationType.values())
+                .collect(Collectors.toMap(NotificationType::getValue, notificationType -> notificationType));
+    }
 
-	private final String value;
+    private final String value;
 
-	NotificationType(String value) {
-		this.value = value;
-	}
+    NotificationType(String value) {
+        this.value = value;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public static Optional<NotificationType> fromValue(String value) {
+        return Optional.ofNullable(MAPPINGS.get(value));
+    }
 
-	public static Optional<NotificationType> fromValue(String value) {
-		return Optional.ofNullable(MAPPINGS.get(value));
-	}
+    public static NotificationType from(QualityNotificationType qualityNotificationType) {
+        if (qualityNotificationType.equals(QualityNotificationType.ALERT)) {
+            return QMALERT;
+        }
+        if (qualityNotificationType.equals(QualityNotificationType.INVESTIGATION)) {
+            return QMINVESTIGATION;
+        }
+        throw new BadRequestException("Wrong quality notification type wwas provided " + qualityNotificationType);
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

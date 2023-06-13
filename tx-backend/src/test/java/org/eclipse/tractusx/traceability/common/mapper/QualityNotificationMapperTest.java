@@ -37,10 +37,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
-class InvestigationMapperTest {
+class QualityNotificationMapperTest {
 
     @InjectMocks
-    private InvestigationMapper mapper;
+    private QualityNotificationMapper mapper;
 
     @Test
     void testToReceiverInvestigation() {
@@ -51,7 +51,7 @@ class InvestigationMapperTest {
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .id("1")
                 .notificationReferenceId("Test notification")
-                .investigationStatus(QualityNotificationStatus.RECEIVED)
+                .notificationStatus(QualityNotificationStatus.RECEIVED)
                 .affectedParts(List.of(new QualityNotificationAffectedPart("123")))
                 .senderManufacturerName("senderManufacturerName")
                 .senderBpnNumber(sender)
@@ -64,11 +64,11 @@ class InvestigationMapperTest {
 
 
         // When
-        QualityNotification result = mapper.toInvestigation(new BPN(receiver), description, notification);
+        QualityNotification result = mapper.toQualityNotification(new BPN(receiver), description, notification);
 
         // Then
-        assertEquals(QualityNotificationStatus.RECEIVED, result.getInvestigationStatus());
-        assertEquals(QualityNotificationSide.RECEIVER, result.getInvestigationSide());
+        assertEquals(QualityNotificationStatus.RECEIVED, result.getNotificationStatus());
+        assertEquals(QualityNotificationSide.RECEIVER, result.getNotificationSide());
         assertEquals(description, result.getDescription());
         assertEquals(List.of("123"), result.getAssetIds());
         assertEquals(List.of(notification), result.getNotifications());
