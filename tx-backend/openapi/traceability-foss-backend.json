@@ -80,9 +80,6 @@
           "required" : true
         },
         "responses" : {
-          "401" : {
-            "description" : "Authorization failed."
-          },
           "200" : {
             "description" : "Returns the paged result found for BpnEdcMapping",
             "content" : {
@@ -93,6 +90,9 @@
                 }
               }
             }
+          },
+          "401" : {
+            "description" : "Authorization failed."
           },
           "403" : {
             "description" : "Forbidden."
@@ -147,9 +147,6 @@
           "required" : true
         },
         "responses" : {
-          "401" : {
-            "description" : "Authorization failed."
-          },
           "200" : {
             "description" : "Returns the paged result found for BpnEdcMapping",
             "content" : {
@@ -160,6 +157,9 @@
                 }
               }
             }
+          },
+          "401" : {
+            "description" : "Authorization failed."
           },
           "403" : {
             "description" : "Forbidden."
@@ -231,6 +231,16 @@
               }
             }
           },
+          "400" : {
+            "description" : "Bad Request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QualityNotificationIdResponse"
+                }
+              }
+            }
+          },
           "201" : {
             "description" : "Created.",
             "content" : {
@@ -289,6 +299,9 @@
           },
           "204" : {
             "description" : "No content."
+          },
+          "400" : {
+            "description" : "Bad Request."
           }
         },
         "security" : [
@@ -338,6 +351,9 @@
           },
           "204" : {
             "description" : "No content."
+          },
+          "400" : {
+            "description" : "Bad Request."
           }
         },
         "security" : [
@@ -511,6 +527,9 @@
           "403" : {
             "description" : "Forbidden."
           },
+          "400" : {
+            "description" : "Bad request."
+          },
           "201" : {
             "description" : "Created."
           }
@@ -570,6 +589,241 @@
         ]
       }
     },
+    "/alerts" : {
+      "post" : {
+        "tags" : [
+          "Alerts"
+        ],
+        "summary" : "Start alert by part ids",
+        "description" : "The endpoint starts alert based on part ids provided.",
+        "operationId" : "alertAssets",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/StartQualityNotificationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QualityNotificationIdResponse"
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QualityNotificationIdResponse"
+                }
+              }
+            }
+          },
+          "201" : {
+            "description" : "Created.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/QualityNotificationIdResponse"
+                }
+              }
+            }
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/alerts/{alertId}/update" : {
+      "post" : {
+        "tags" : [
+          "Alerts"
+        ],
+        "summary" : "Update alert by id",
+        "description" : "The endpoint updates alert by their id.",
+        "operationId" : "updateAlert",
+        "parameters" : [
+          {
+            "name" : "alertId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UpdateQualityNotificationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
+          },
+          "204" : {
+            "description" : "No content."
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/alerts/{alertId}/close" : {
+      "post" : {
+        "tags" : [
+          "Alerts"
+        ],
+        "summary" : "Close alert by id",
+        "description" : "The endpoint closes alert by id.",
+        "operationId" : "closeAlert",
+        "parameters" : [
+          {
+            "name" : "alertId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CloseQualityNotificationRequest"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
+          },
+          "204" : {
+            "description" : "No content."
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/alerts/{alertId}/cancel" : {
+      "post" : {
+        "tags" : [
+          "Alerts"
+        ],
+        "summary" : "Cancels alert by id",
+        "description" : "The endpoint cancels alert by id.",
+        "operationId" : "cancelAlert",
+        "parameters" : [
+          {
+            "name" : "alertId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        ],
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
+          },
+          "204" : {
+            "description" : "No content."
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/alerts/{alertId}/approve" : {
+      "post" : {
+        "tags" : [
+          "Alerts"
+        ],
+        "summary" : "Approves alert by id",
+        "description" : "The endpoint approves alert by id.",
+        "operationId" : "approveAlert",
+        "parameters" : [
+          {
+            "name" : "alertId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        ],
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
+          },
+          "204" : {
+            "description" : "No content."
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
     "/assets/{assetId}" : {
       "get" : {
         "tags" : [
@@ -589,101 +843,6 @@
           }
         ],
         "responses" : {
-          "200" : {
-            "description" : "Returns the assets found",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "type" : "object",
-                    "properties" : {
-                      "id" : {
-                        "type" : "string"
-                      },
-                      "idShort" : {
-                        "type" : "string"
-                      },
-                      "nameAtManufacturer" : {
-                        "type" : "string"
-                      },
-                      "manufacturerPartId" : {
-                        "type" : "string"
-                      },
-                      "partInstanceId" : {
-                        "type" : "string"
-                      },
-                      "manufacturerId" : {
-                        "type" : "string"
-                      },
-                      "batchId" : {
-                        "type" : "string"
-                      },
-                      "manufacturerName" : {
-                        "type" : "string"
-                      },
-                      "nameAtCustomer" : {
-                        "type" : "string"
-                      },
-                      "customerPartId" : {
-                        "type" : "string"
-                      },
-                      "manufacturingDate" : {
-                        "type" : "string",
-                        "format" : "date-time"
-                      },
-                      "manufacturingCountry" : {
-                        "type" : "string"
-                      },
-                      "owner" : {
-                        "type" : "string",
-                        "enum" : [
-                          "SUPPLIER",
-                          "CUSTOMER",
-                          "OWN",
-                          "UNKNOWN"
-                        ]
-                      },
-                      "childDescriptions" : {
-                        "maxItems" : 2147483647,
-                        "type" : "array",
-                        "description" : "Child relationships",
-                        "items" : {
-                          "$ref" : "#/components/schemas/DescriptionsResponse"
-                        }
-                      },
-                      "parentDescriptions" : {
-                        "maxItems" : 2147483647,
-                        "type" : "array",
-                        "description" : "Parent relationships",
-                        "items" : {
-                          "$ref" : "#/components/schemas/DescriptionsResponse"
-                        }
-                      },
-                      "underInvestigation" : {
-                        "type" : "boolean"
-                      },
-                      "qualityType" : {
-                        "type" : "string",
-                        "enum" : [
-                          "Ok",
-                          "Minor",
-                          "Major",
-                          "Critical",
-                          "LifeThreatening"
-                        ]
-                      },
-                      "van" : {
-                        "type" : "string"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
           "401" : {
             "description" : "Authorization failed.",
             "content" : {
@@ -709,6 +868,93 @@
                   "description" : "Assets",
                   "items" : {
                     "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Returns the assets found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "id" : {
+                        "type" : "string"
+                      },
+                      "idShort" : {
+                        "type" : "string"
+                      },
+                      "semanticModelId" : {
+                        "type" : "string"
+                      },
+                      "manufacturerId" : {
+                        "type" : "string"
+                      },
+                      "manufacturerName" : {
+                        "type" : "string"
+                      },
+                      "semanticModel" : {
+                        "$ref" : "#/components/schemas/SemanticModelResponse"
+                      },
+                      "owner" : {
+                        "type" : "string",
+                        "enum" : [
+                          "SUPPLIER",
+                          "CUSTOMER",
+                          "OWN",
+                          "UNKNOWN"
+                        ]
+                      },
+                      "childRelations" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Child relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
+                        }
+                      },
+                      "parentRelations" : {
+                        "maxItems" : 2147483647,
+                        "type" : "array",
+                        "description" : "Parent relationships",
+                        "items" : {
+                          "$ref" : "#/components/schemas/DescriptionsResponse"
+                        }
+                      },
+                      "activeAlert" : {
+                        "type" : "boolean"
+                      },
+                      "underInvestigation" : {
+                        "type" : "boolean"
+                      },
+                      "qualityType" : {
+                        "type" : "string",
+                        "enum" : [
+                          "Ok",
+                          "Minor",
+                          "Major",
+                          "Critical",
+                          "LifeThreatening"
+                        ]
+                      },
+                      "van" : {
+                        "type" : "string"
+                      },
+                      "semanticDataModel" : {
+                        "type" : "string",
+                        "enum" : [
+                          "BATCH",
+                          "SERIALPARTTYPIZATION",
+                          "UNKNOWN"
+                        ]
+                      }
+                    }
                   }
                 }
               }
@@ -766,21 +1012,6 @@
               }
             }
           },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssetResponse"
-                  }
-                }
-              }
-            }
-          },
           "200" : {
             "description" : "Returns the updated asset",
             "content" : {
@@ -798,36 +1029,17 @@
                       "idShort" : {
                         "type" : "string"
                       },
-                      "nameAtManufacturer" : {
-                        "type" : "string"
-                      },
-                      "manufacturerPartId" : {
-                        "type" : "string"
-                      },
-                      "partInstanceId" : {
+                      "semanticModelId" : {
                         "type" : "string"
                       },
                       "manufacturerId" : {
                         "type" : "string"
                       },
-                      "batchId" : {
-                        "type" : "string"
-                      },
                       "manufacturerName" : {
                         "type" : "string"
                       },
-                      "nameAtCustomer" : {
-                        "type" : "string"
-                      },
-                      "customerPartId" : {
-                        "type" : "string"
-                      },
-                      "manufacturingDate" : {
-                        "type" : "string",
-                        "format" : "date-time"
-                      },
-                      "manufacturingCountry" : {
-                        "type" : "string"
+                      "semanticModel" : {
+                        "$ref" : "#/components/schemas/SemanticModelResponse"
                       },
                       "owner" : {
                         "type" : "string",
@@ -838,7 +1050,7 @@
                           "UNKNOWN"
                         ]
                       },
-                      "childDescriptions" : {
+                      "childRelations" : {
                         "maxItems" : 2147483647,
                         "type" : "array",
                         "description" : "Child relationships",
@@ -846,13 +1058,16 @@
                           "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
                       },
-                      "parentDescriptions" : {
+                      "parentRelations" : {
                         "maxItems" : 2147483647,
                         "type" : "array",
                         "description" : "Parent relationships",
                         "items" : {
                           "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
+                      },
+                      "activeAlert" : {
+                        "type" : "boolean"
                       },
                       "underInvestigation" : {
                         "type" : "boolean"
@@ -869,8 +1084,31 @@
                       },
                       "van" : {
                         "type" : "string"
+                      },
+                      "semanticDataModel" : {
+                        "type" : "string",
+                        "enum" : [
+                          "BATCH",
+                          "SERIALPARTTYPIZATION",
+                          "UNKNOWN"
+                        ]
                       }
                     }
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
                   }
                 }
               }
@@ -933,17 +1171,6 @@
           }
         ],
         "responses" : {
-          "200" : {
-            "description" : "Returns the paged result found for Asset",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array"
-                }
-              }
-            }
-          },
           "401" : {
             "description" : "Authorization failed.",
             "content" : {
@@ -955,6 +1182,17 @@
                   "items" : {
                     "$ref" : "#/components/schemas/PageResultRegistryLookupMetric"
                   }
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
                 }
               }
             }
@@ -1078,9 +1316,6 @@
           }
         ],
         "responses" : {
-          "401" : {
-            "description" : "Authorization failed."
-          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -1091,6 +1326,9 @@
                 }
               }
             }
+          },
+          "401" : {
+            "description" : "Authorization failed."
           },
           "403" : {
             "description" : "Forbidden."
@@ -1124,9 +1362,6 @@
           }
         ],
         "responses" : {
-          "401" : {
-            "description" : "Authorization failed."
-          },
           "200" : {
             "description" : "Returns the paged result found for Asset",
             "content" : {
@@ -1137,6 +1372,24 @@
                 }
               }
             }
+          },
+          "400" : {
+            "description" : "Bad Request.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "PageResults",
+                  "items" : {
+                    "$ref" : "#/components/schemas/PageResultInvestigationResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed."
           },
           "403" : {
             "description" : "Forbidden."
@@ -1170,8 +1423,8 @@
           }
         ],
         "responses" : {
-          "200" : {
-            "description" : "Returns dashboard data",
+          "401" : {
+            "description" : "Authorization failed.",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1180,8 +1433,8 @@
               }
             }
           },
-          "401" : {
-            "description" : "Authorization failed.",
+          "200" : {
+            "description" : "Returns dashboard data",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1312,6 +1565,21 @@
               }
             }
           },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Assets",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AssetResponse"
+                  }
+                }
+              }
+            }
+          },
           "200" : {
             "description" : "Returns the asset by childId",
             "content" : {
@@ -1329,36 +1597,17 @@
                       "idShort" : {
                         "type" : "string"
                       },
-                      "nameAtManufacturer" : {
-                        "type" : "string"
-                      },
-                      "manufacturerPartId" : {
-                        "type" : "string"
-                      },
-                      "partInstanceId" : {
+                      "semanticModelId" : {
                         "type" : "string"
                       },
                       "manufacturerId" : {
                         "type" : "string"
                       },
-                      "batchId" : {
-                        "type" : "string"
-                      },
                       "manufacturerName" : {
                         "type" : "string"
                       },
-                      "nameAtCustomer" : {
-                        "type" : "string"
-                      },
-                      "customerPartId" : {
-                        "type" : "string"
-                      },
-                      "manufacturingDate" : {
-                        "type" : "string",
-                        "format" : "date-time"
-                      },
-                      "manufacturingCountry" : {
-                        "type" : "string"
+                      "semanticModel" : {
+                        "$ref" : "#/components/schemas/SemanticModelResponse"
                       },
                       "owner" : {
                         "type" : "string",
@@ -1369,7 +1618,7 @@
                           "UNKNOWN"
                         ]
                       },
-                      "childDescriptions" : {
+                      "childRelations" : {
                         "maxItems" : 2147483647,
                         "type" : "array",
                         "description" : "Child relationships",
@@ -1377,13 +1626,16 @@
                           "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
                       },
-                      "parentDescriptions" : {
+                      "parentRelations" : {
                         "maxItems" : 2147483647,
                         "type" : "array",
                         "description" : "Parent relationships",
                         "items" : {
                           "$ref" : "#/components/schemas/DescriptionsResponse"
                         }
+                      },
+                      "activeAlert" : {
+                        "type" : "boolean"
                       },
                       "underInvestigation" : {
                         "type" : "boolean"
@@ -1400,23 +1652,16 @@
                       },
                       "van" : {
                         "type" : "string"
+                      },
+                      "semanticDataModel" : {
+                        "type" : "string",
+                        "enum" : [
+                          "BATCH",
+                          "SERIALPARTTYPIZATION",
+                          "UNKNOWN"
+                        ]
                       }
                     }
-                  }
-                }
-              }
-            }
-          },
-          "403" : {
-            "description" : "Forbidden.",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "maxItems" : 2147483647,
-                  "type" : "array",
-                  "description" : "Assets",
-                  "items" : {
-                    "$ref" : "#/components/schemas/AssetResponse"
                   }
                 }
               }
@@ -1482,6 +1727,173 @@
                 }
               }
             }
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/alerts/{alertId}" : {
+      "get" : {
+        "tags" : [
+          "Alerts"
+        ],
+        "summary" : "Gets Alert by id",
+        "description" : "The endpoint returns alert by id.",
+        "operationId" : "getAlert",
+        "parameters" : [
+          {
+            "name" : "alertId",
+            "in" : "path",
+            "required" : true,
+            "schema" : {
+              "type" : "integer",
+              "format" : "int64"
+            }
+          }
+        ],
+        "responses" : {
+          "401" : {
+            "description" : "Authorization failed.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Alerts",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AlertResponse"
+                  }
+                }
+              }
+            }
+          },
+          "200" : {
+            "description" : "OK.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Alerts",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AlertResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Forbidden.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array",
+                  "description" : "Alerts",
+                  "items" : {
+                    "$ref" : "#/components/schemas/AlertResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/alerts/received" : {
+      "get" : {
+        "tags" : [
+          "Alerts"
+        ],
+        "summary" : "Gets received alerts",
+        "description" : "The endpoint returns received alerts as paged result.",
+        "operationId" : "getReceivedAlerts",
+        "parameters" : [
+          {
+            "name" : "pageable",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
+          }
+        },
+        "security" : [
+          {
+            "oAuth2" : [
+              "profile email"
+            ]
+          }
+        ]
+      }
+    },
+    "/alerts/created" : {
+      "get" : {
+        "tags" : [
+          "Alerts"
+        ],
+        "summary" : "Gets created alerts",
+        "description" : "The endpoint returns created alerts as paged result.",
+        "operationId" : "getCreatedAlerts",
+        "parameters" : [
+          {
+            "name" : "pageable",
+            "in" : "query",
+            "required" : true,
+            "schema" : {
+              "$ref" : "#/components/schemas/Pageable"
+            }
+          }
+        ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the paged result found for Asset",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "maxItems" : 2147483647,
+                  "type" : "array"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authorization failed."
+          },
+          "403" : {
+            "description" : "Forbidden."
           }
         },
         "security" : [
@@ -1584,7 +1996,13 @@
             "format" : "date-time"
           },
           "severity" : {
-            "type" : "string"
+            "type" : "string",
+            "enum" : [
+              "MINOR",
+              "MAJOR",
+              "CRITICAL",
+              "LIFE_THREATENING"
+            ]
           }
         }
       },
@@ -1719,36 +2137,17 @@
           "idShort" : {
             "type" : "string"
           },
-          "nameAtManufacturer" : {
-            "type" : "string"
-          },
-          "manufacturerPartId" : {
-            "type" : "string"
-          },
-          "partInstanceId" : {
+          "semanticModelId" : {
             "type" : "string"
           },
           "manufacturerId" : {
             "type" : "string"
           },
-          "batchId" : {
-            "type" : "string"
-          },
           "manufacturerName" : {
             "type" : "string"
           },
-          "nameAtCustomer" : {
-            "type" : "string"
-          },
-          "customerPartId" : {
-            "type" : "string"
-          },
-          "manufacturingDate" : {
-            "type" : "string",
-            "format" : "date-time"
-          },
-          "manufacturingCountry" : {
-            "type" : "string"
+          "semanticModel" : {
+            "$ref" : "#/components/schemas/SemanticModelResponse"
           },
           "owner" : {
             "type" : "string",
@@ -1759,7 +2158,7 @@
               "UNKNOWN"
             ]
           },
-          "childDescriptions" : {
+          "childRelations" : {
             "maxItems" : 2147483647,
             "type" : "array",
             "description" : "Child relationships",
@@ -1767,13 +2166,16 @@
               "$ref" : "#/components/schemas/DescriptionsResponse"
             }
           },
-          "parentDescriptions" : {
+          "parentRelations" : {
             "maxItems" : 2147483647,
             "type" : "array",
             "description" : "Parent relationships",
             "items" : {
               "$ref" : "#/components/schemas/DescriptionsResponse"
             }
+          },
+          "activeAlert" : {
+            "type" : "boolean"
           },
           "underInvestigation" : {
             "type" : "boolean"
@@ -1790,6 +2192,14 @@
           },
           "van" : {
             "type" : "string"
+          },
+          "semanticDataModel" : {
+            "type" : "string",
+            "enum" : [
+              "BATCH",
+              "SERIALPARTTYPIZATION",
+              "UNKNOWN"
+            ]
           }
         }
       },
@@ -1800,6 +2210,30 @@
             "type" : "string"
           },
           "idShort" : {
+            "type" : "string"
+          }
+        }
+      },
+      "SemanticModelResponse" : {
+        "type" : "object",
+        "properties" : {
+          "manufacturingDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "manufacturingCountry" : {
+            "type" : "string"
+          },
+          "manufacturerPartId" : {
+            "type" : "string"
+          },
+          "customerPartId" : {
+            "type" : "string"
+          },
+          "nameAtManufacturer" : {
+            "type" : "string"
+          },
+          "nameAtCustomer" : {
             "type" : "string"
           }
         }
@@ -1820,22 +2254,8 @@
             "type" : "array",
             "description" : "Content of Assets PageResults",
             "items" : {
-              "$ref" : "#/components/schemas/SortObject"
+              "type" : "string"
             }
-          }
-        }
-      },
-      "SortObject" : {
-        "type" : "object",
-        "properties" : {
-          "empty" : {
-            "type" : "boolean"
-          },
-          "unsorted" : {
-            "type" : "boolean"
-          },
-          "sorted" : {
-            "type" : "boolean"
           }
         }
       },
@@ -1991,6 +2411,40 @@
           }
         }
       },
+      "PageResultInvestigationResponse" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "maxItems" : 2147483647,
+            "type" : "array",
+            "description" : "Content of PageResults",
+            "items" : {
+              "maxItems" : 2147483647,
+              "type" : "array",
+              "description" : "Investigations",
+              "items" : {
+                "$ref" : "#/components/schemas/InvestigationResponse"
+              }
+            }
+          },
+          "page" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageCount" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "pageSize" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "totalItems" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
       "JwtAuthentication" : {
         "type" : "object"
       },
@@ -2008,6 +2462,98 @@
           "investigations" : {
             "type" : "integer",
             "format" : "int64"
+          }
+        }
+      },
+      "AlertResponse" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [
+              "CREATED",
+              "SENT",
+              "RECEIVED",
+              "ACKNOWLEDGED",
+              "ACCEPTED",
+              "DECLINED",
+              "CANCELED",
+              "CLOSED"
+            ]
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "createdBy" : {
+            "type" : "string"
+          },
+          "createdByName" : {
+            "type" : "string"
+          },
+          "createdDate" : {
+            "type" : "string"
+          },
+          "assetIds" : {
+            "maxItems" : 1000,
+            "minItems" : 0,
+            "type" : "array",
+            "description" : "assetIds",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "channel" : {
+            "type" : "string",
+            "enum" : [
+              "SENDER",
+              "RECEIVER"
+            ]
+          },
+          "reason" : {
+            "$ref" : "#/components/schemas/QualityNotificationReasonResponse"
+          },
+          "sendTo" : {
+            "type" : "string"
+          },
+          "sendToName" : {
+            "type" : "string"
+          },
+          "severity" : {
+            "type" : "string",
+            "enum" : [
+              "MINOR",
+              "MAJOR",
+              "CRITICAL",
+              "LIFE_THREATENING"
+            ]
+          },
+          "targetDate" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Pageable" : {
+        "type" : "object",
+        "properties" : {
+          "page" : {
+            "minimum" : 0,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "size" : {
+            "minimum" : 1,
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "sort" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
           }
         }
       }
