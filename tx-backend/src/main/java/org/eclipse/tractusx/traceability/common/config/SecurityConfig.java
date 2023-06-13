@@ -46,7 +46,9 @@ public class SecurityConfig {
             "/api/v3/api-docs/**",
             "/api/swagger-ui/**",
             "/api/swagger-ui.html",
-            "/actuator/**"
+            "/actuator/**",
+            "/api/qualitynotifications/receive",
+            "/api/callback/endpoint-data-reference"
     };
 
     @Value("${jwt.resource-client}")
@@ -56,30 +58,24 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.httpBasic().disable();
-        httpSecurity
-                .formLogin()
-                .disable()
-                .logout()
-                .disable()
-                .csrf()
-                .disable()
-                .cors()
-                .and()
-                .anonymous()
-                .disable()
-                .securityMatcher("/api/**")
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITELIST_URLS)
-                        .permitAll()
-                        .requestMatchers("/api/callback/endpoint-data-reference").permitAll()
-                        .requestMatchers("/api/qualitynotifications/receive").permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .oauth2Client()
-                .and()
-                .oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt()
+        httpSecurity.formLogin().disable();
+        httpSecurity.logout().disable();
+        httpSecurity.anonymous().disable();
+        httpSecurity.csrf().disable();
+        httpSecurity.cors();
+
+        httpSecurity.securityMatcher("/api/**");
+
+        httpSecurity.authorizeHttpRequests(auth -> auth
+                .requestMatchers(WHITELIST_URLS)
+                .permitAll()
+                .anyRequest()
+                .authenticated());
+
+        httpSecurity.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt()
                         .jwtAuthenticationConverter(
-                                new JwtAuthenticationTokenConverter(resourceClient)));
+                                new JwtAuthenticationTokenConverter(resourceClient)))
+                .oauth2Client();
 
         return httpSecurity.build();
     }
