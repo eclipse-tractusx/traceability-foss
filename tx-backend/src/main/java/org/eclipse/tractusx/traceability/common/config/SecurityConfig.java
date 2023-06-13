@@ -27,7 +27,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,14 +35,16 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(
+        securedEnabled = true
+)
 public class SecurityConfig {
 
     private static final String[] WHITELIST_URLS = {
             "/api/v3/api-docs/**",
             "/api/swagger-ui/**",
-            "/api/swagger-ui.html"
+            "/api/swagger-ui.html",
+            "/actuator/**"
     };
 
     @Value("${jwt.resource-client}")
@@ -59,14 +60,15 @@ public class SecurityConfig {
                 .disable()
                 .csrf()
                 .disable()
-                .anonymous()
-                .disable()
                 .cors()
                 .and()
+                .anonymous()
+                .disable()
+                .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(WHITELIST_URLS)
                         .permitAll()
-                        .requestMatchers("/api/**")
+                        .anyRequest()
                         .authenticated())
                 .oauth2Client()
                 .and()
