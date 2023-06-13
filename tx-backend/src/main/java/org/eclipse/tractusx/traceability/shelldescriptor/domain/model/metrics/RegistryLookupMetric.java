@@ -33,7 +33,7 @@ import java.time.Clock;
 import java.time.Instant;
 
 @Data
-@ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class), maxItems = Integer.MAX_VALUE)
+@ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
 public class RegistryLookupMetric {
 
     private final Instant startDate;
