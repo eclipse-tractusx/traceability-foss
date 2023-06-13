@@ -21,9 +21,8 @@
 
 package org.eclipse.tractusx.traceability.common.security;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,39 +35,39 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import java.util.Optional;
 import java.util.Set;
 
+@Slf4j
 public class InjectedJwtAuthenticationHandler implements HandlerMethodArgumentResolver {
 
-	private static final Logger logger = LoggerFactory.getLogger(InjectedJwtAuthenticationHandler.class);
 
-	private final String resourceClient;
+    private final String resourceClient;
 
-	public InjectedJwtAuthenticationHandler(String resourceClient) {
-		this.resourceClient = resourceClient;
-	}
+    public InjectedJwtAuthenticationHandler(String resourceClient) {
+        this.resourceClient = resourceClient;
+    }
 
-	@Override
-	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.hasParameterAnnotation(InjectedJwtAuthentication.class);
-	}
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.hasParameterAnnotation(InjectedJwtAuthentication.class);
+    }
 
-	@Override
-	public Object resolveArgument(@NotNull MethodParameter parameter,
-								  ModelAndViewContainer mavContainer,
-								  @NotNull NativeWebRequest webRequest,
-								  WebDataBinderFactory binderFactory) {
-		Object credentials = Optional.ofNullable(SecurityContextHolder.getContext())
-			.flatMap(it -> Optional.ofNullable(it.getAuthentication()))
-			.flatMap(it -> Optional.ofNullable(it.getCredentials()))
-			.orElseThrow(() -> new AuthenticationCredentialsNotFoundException("Authentication not found."));
+    @Override
+    public Object resolveArgument(@NotNull MethodParameter parameter,
+                                  ModelAndViewContainer mavContainer,
+                                  @NotNull NativeWebRequest webRequest,
+                                  WebDataBinderFactory binderFactory) {
+        Object credentials = Optional.ofNullable(SecurityContextHolder.getContext())
+                .flatMap(it -> Optional.ofNullable(it.getAuthentication()))
+                .flatMap(it -> Optional.ofNullable(it.getCredentials()))
+                .orElseThrow(() -> new AuthenticationCredentialsNotFoundException("Authentication not found."));
 
-		if (credentials instanceof Jwt jwtToken) {
-			Set<JwtRole> jwtRoles = JwtRolesExtractor.extract(jwtToken, resourceClient);
+        if (credentials instanceof Jwt jwtToken) {
+            Set<JwtRole> jwtRoles = JwtRolesExtractor.extract(jwtToken, resourceClient);
 
-			return new JwtAuthentication(jwtRoles);
-		}
+            return new JwtAuthentication(jwtRoles);
+        }
 
-		logger.error("Authentication not found for {} resource realm in JWT token", resourceClient);
+        log.error("Authentication not found for {} resource realm in JWT token", resourceClient);
 
-		throw new AuthenticationCredentialsNotFoundException("Authentication not found.");
-	}
+        throw new AuthenticationCredentialsNotFoundException("Authentication not found.");
+    }
 }

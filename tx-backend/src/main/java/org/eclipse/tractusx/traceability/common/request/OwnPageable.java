@@ -14,7 +14,7 @@ import org.springframework.data.domain.Sort;
 public class OwnPageable {
     private Integer page;
     private Integer size;
-    @ArraySchema(arraySchema = @Schema(description = "Content of Assets PageResults"), maxItems = Integer.MAX_VALUE)
+    @ArraySchema(arraySchema = @Schema(description = "Content of Assets PageResults", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     private String sort;
 
     public static Pageable toPageable(OwnPageable ownPageable) {
