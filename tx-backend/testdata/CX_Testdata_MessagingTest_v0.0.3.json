@@ -1075,7 +1075,7 @@
       ]
     },
     {
-      "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4za01",
+      "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
       "bpnl": "BPNL00000003CML1",
       "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned": [
         {
@@ -1083,7 +1083,7 @@
             "validFrom": "2019-04-04T03:19:03.000Z",
             "validTo": "2024-12-29T10:25:12.000Z"
           },
-          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4za01",
+          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
           "partTypeInformation": {
             "manufacturerPartId": "ZX-55",
             "classification": "product",
@@ -1093,7 +1093,7 @@
       ],
       "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned": [
         {
-          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4za01",
+          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
           "sites": [
             {
               "functionValidUntil": "2025-02-08T04:30:48.000Z",
@@ -1106,7 +1106,7 @@
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned": [
         {
-          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4za01",
+          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
           "childParts": [
             {
               "quantity": {
@@ -1118,14 +1118,14 @@
               },
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z",
-              "childCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4zb01"
+              "childCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01"
             }
           ]
         }
       ]
     },
     {
-      "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4zb01",
+      "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
       "bpnl": "BPNL00000003CNKC",
       "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned": [
         {
@@ -1133,7 +1133,7 @@
             "validFrom": "2019-04-04T03:19:03.000Z",
             "validTo": "2024-12-29T10:25:12.000Z"
           },
-          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4zb01",
+          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
           "partTypeInformation": {
             "manufacturerPartId": "ZX-55",
             "classification": "product",
@@ -1143,7 +1143,7 @@
       ],
       "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned": [
         {
-          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4zb01",
+          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
           "sites": [
             {
               "functionValidUntil": "2025-02-08T04:30:48.000Z",
@@ -1156,7 +1156,7 @@
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned": [
         {
-          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4za01",
+          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
           "childParts": [
             {
               "quantity": {
@@ -1168,7 +1168,7 @@
               },
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z",
-              "childCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4zb01"
+              "childCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01"
             }
           ]
         }
