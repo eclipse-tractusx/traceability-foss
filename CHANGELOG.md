@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated testdata to reflect asPlanned assets
 
 ### Changed
+- Updated spring boot to 3.0.7 to fix: CVE-2023-20883
 
 ### Removed
 
