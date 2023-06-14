@@ -118,6 +118,15 @@ public class InvestigationsEDCFacade {
                         header
                 );
                 dataReference = getDataReference(agreementId);
+
+                log.info("DATA REFERENCE USED TO BUILD NOTIFICATION REQUEST");
+                log.info(
+                        "AuthCode : " + dataReference.getAuthCode() +
+                                "  AuthKey: " + dataReference.getAuthKey() +
+                                "  endpoint : " + dataReference.getEndpoint() +
+                                "  id : " + dataReference.getId() +
+                                "  properties : " + dataReference.getProperties()
+                );
             }
 
             Request notificationRequest = buildNotificationRequest(notification, senderEdcUrl, dataReference);
