@@ -49,7 +49,7 @@ public class QualityNotificationResponse {
     private String createdDate;
 
     @ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]")
-    @ArraySchema(arraySchema = @Schema(description = "assetIds"), maxItems = Integer.MAX_VALUE)
+    @ArraySchema(arraySchema = @Schema(description = "assetIds", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     @Size(max = 1000)
     private List<String> assetIds;
 

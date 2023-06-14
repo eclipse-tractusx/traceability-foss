@@ -67,6 +67,7 @@ public class AssetsController {
             description = "The endpoint synchronizes the assets from irs.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
+            @ApiResponse(responseCode = "400", description = "Bad request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PostMapping("/sync")
@@ -81,7 +82,7 @@ public class AssetsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "Assets", implementation = AssetResponse.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "Assets", implementation = AssetResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
@@ -156,7 +157,7 @@ public class AssetsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "Assets", implementation = AssetResponse.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "Assets", implementation = AssetResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})

@@ -24,7 +24,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.service.EdcNotitifcationAssetService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CreateEdcContractDefinitionException;
@@ -53,9 +52,6 @@ public class EdcNotificationContractService {
 	}
 
 	public CreateNotificationContractResponse handle(CreateNotificationContractRequest request) {
-		if (request.notificationType() == NotificationType.QUALITY_ALERT) {
-			throw new CreateNotificationContractException("Quality alert notification type not supported yet");
-		}
 
 		NotificationMethod notificationMethod = request.notificationMethod();
 

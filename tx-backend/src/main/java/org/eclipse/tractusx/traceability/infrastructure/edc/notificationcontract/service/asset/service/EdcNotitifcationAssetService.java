@@ -22,13 +22,13 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcAsset;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcAssetProperties;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcCreateDataAssetRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcDataAddress;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcDataAddressProperties;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcCreateDataAssetRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,36 +47,38 @@ import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationc
 @Component
 public class EdcNotitifcationAssetService {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdcNotitifcationAssetService.class);
+    private static final Logger logger = LoggerFactory.getLogger(EdcNotitifcationAssetService.class);
 
-	private static final String DEFAULT_CONTENT_TYPE = "application/json";
-	private static final String DEFAULT_POLICY_ID = "use-eu";
-	private static final String DEFAULT_METHOD = "POST";
-	private static final String DEFAULT_DATA_ADDRESS_PROPERTY_TYPE = "HttpData";
-	private static final String TRACE_FOSS_QUALITY_NOTIFICATIONS_URL_TEMPLATE = "/api/qualitynotifications/%s";
-	private static final String EDC_CREATE_ASSET_PATH = "/api/v1/management/assets";
+    private static final String DEFAULT_CONTENT_TYPE = "application/json";
+    private static final String DEFAULT_POLICY_ID = "use-eu";
+    private static final String DEFAULT_METHOD = "POST";
+    private static final String DEFAULT_DATA_ADDRESS_PROPERTY_TYPE = "HttpData";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = "/api/qualitynotifications/%s";
+    private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = "/api/qualityalerts/%s";
+    private static final String EDC_CREATE_ASSET_PATH = "/api/v1/management/assets";
 
-	private final TraceabilityProperties traceabilityProperties;
-	private final RestTemplate restTemplate;
+    private final TraceabilityProperties traceabilityProperties;
+    private final RestTemplate restTemplate;
 
-	@Autowired
-	public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate) {
-		this.traceabilityProperties = traceabilityProperties;
-		this.restTemplate = restTemplate;
-	}
+    @Autowired
+    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate) {
+        this.traceabilityProperties = traceabilityProperties;
+        this.restTemplate = restTemplate;
+    }
 
 	public String createNotificationAsset(NotificationMethod notificationMethod, NotificationType notificationType) {
 		String notificationMethodValue = notificationMethod.getValue();
 
-		String notificationAssetId = UUID.randomUUID().toString();
+        final String template = notificationType.equals(NotificationType.QUALITY_ALERT) ? TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE : TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE;
+        String notificationAssetId = UUID.randomUUID().toString();
 
 		EdcDataAddressProperties edcDataAddressProperties = new EdcDataAddressProperties(
-			traceabilityProperties.getUrl() + TRACE_FOSS_QUALITY_NOTIFICATIONS_URL_TEMPLATE.formatted(notificationMethodValue),
-			true,
-			DEFAULT_METHOD,
-			true,
-			DEFAULT_DATA_ADDRESS_PROPERTY_TYPE
-		);
+                traceabilityProperties.getUrl() + template.formatted(notificationMethodValue),
+                true,
+                DEFAULT_METHOD,
+                true,
+                DEFAULT_DATA_ADDRESS_PROPERTY_TYPE
+        );
 
 		EdcDataAddress edcDataAddress = new EdcDataAddress(edcDataAddressProperties);
 

@@ -66,7 +66,7 @@ class EdcNotificationModelIT extends IntegrationSpecification implements TestDat
         }
 
         and:
-        edcNotification.convertInvestigationStatus() == QualityNotificationStatus.SENT
+        edcNotification.convertNotificationStatus() == QualityNotificationStatus.SENT
         edcNotification.convertNotificationType() == NotificationType.QMINVESTIGATION
     }
 

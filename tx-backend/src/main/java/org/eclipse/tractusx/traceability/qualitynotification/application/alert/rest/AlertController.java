@@ -32,15 +32,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -78,10 +78,15 @@ public class AlertController {
             @ApiResponse(responseCode = "403", description = "Forbidden.")})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
+    public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityAlertRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
         return new QualityNotificationIdResponse(alertService.start(
-                request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity().toDomain()).value());
+                request.getPartIds(),
+                request.getDescription(),
+                request.getTargetDate(),
+                request.getSeverity().toDomain(),
+                request.getBpn()
+        ).value());
     }
 
     @Operation(operationId = "getCreatedAlerts",
@@ -91,14 +96,14 @@ public class AlertController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/created")
-    public PageResult<AlertResponse> getCreatedAlerts(Pageable pageable) {
+    public PageResult<AlertResponse> getCreatedAlerts(OwnPageable pageable) {
         log.info(API_LOG_START + "/created");
-        return AlertResponse.fromAsPageResult(alertService.getCreated(pageable));
+        return AlertResponse.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getReceivedAlerts",
@@ -108,14 +113,14 @@ public class AlertController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class), maxItems = Integer.MAX_VALUE)
+            array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
             @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
     @GetMapping("/received")
-    public PageResult<AlertResponse> getReceivedAlerts(Pageable pageable) {
+    public PageResult<AlertResponse> getReceivedAlerts(OwnPageable pageable) {
         log.info(API_LOG_START + "/received");
-        return AlertResponse.fromAsPageResult(alertService.getReceived(pageable));
+        return AlertResponse.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getAlert",

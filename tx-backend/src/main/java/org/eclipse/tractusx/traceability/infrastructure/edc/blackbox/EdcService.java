@@ -37,6 +37,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.Da
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferRequestDto;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -66,7 +67,7 @@ public class EdcService {
             String consumerEdcDataManagementUrl,
             String providerConnectorControlPlaneIDSUrl,
             Map<String, String> header,
-            boolean isInitialNotification
+            QualityNotificationMessage qualityNotificationMessage
     ) throws IOException {
 
         Catalog catalog = httpCallService.getCatalogFromProvider(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header);
@@ -75,18 +76,10 @@ public class EdcService {
             throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
         }
         log.info(":::: Find Notification contract method[findNotificationContractOffer] total catalog ::{}", catalog.getContractOffers().size());
-
-        if (isInitialNotification) {
-            return catalog.getContractOffers().stream()
-                    .filter(it -> it.getAsset().isQualityInvestigationReceive())
-                    .filter(this::hasTracePolicy)
-                    .findAny();
-        } else {
-            return catalog.getContractOffers().stream()
-                    .filter(it -> it.getAsset().isQualityInvestigationUpdate())
-                    .filter(this::hasTracePolicy)
-                    .findAny();
-        }
+        return catalog.getContractOffers().stream()
+                .filter(it -> it.getAsset().isQualityNotificationOffer(qualityNotificationMessage))
+                .filter(this::hasTracePolicy)
+                .findAny();
     }
 
     private boolean hasTracePolicy(ContractOffer contractOffer) {

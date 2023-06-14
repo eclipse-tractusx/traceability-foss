@@ -92,11 +92,11 @@ public record EDCNotification(@Valid
                 .orElseThrow(() -> new IllegalArgumentException("%s not supported notification type".formatted(classification)));
     }
 
-    public QualityNotificationStatus convertInvestigationStatus() {
-        String investigationStatus = header().status();
+    public QualityNotificationStatus convertNotificationStatus() {
+        String notificationStatus = header().status();
 
-        return QualityNotificationStatus.fromValue(investigationStatus)
-                .orElseThrow(() -> new IllegalArgumentException("%s not supported investigation status".formatted(investigationStatus)));
+        return QualityNotificationStatus.fromValue(notificationStatus)
+                .orElseThrow(() -> new IllegalArgumentException("%s not supported investigation status".formatted(notificationStatus)));
     }
 
     @JsonIgnore

@@ -58,7 +58,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private final JpaAssetsRepository assetsRepository;
 
-    private final JpaNotificationRepository notificationRepository;
+    private final JpaInvestigationNotificationRepository notificationRepository;
 
     private final Clock clock;
 
@@ -71,10 +71,10 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     @Override
     public QualityNotificationId updateQualityNotificationEntity(QualityNotification investigation) {
-        InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getInvestigationId().value())
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getInvestigationId().value())));
+        InvestigationEntity investigationEntity = jpaInvestigationRepository.findById(investigation.getNotificationId().value())
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Investigation with id %s not found!", investigation.getNotificationId().value())));
 
-        investigationEntity.setStatus(QualityNotificationStatusBaseEntity.fromStringValue(investigation.getInvestigationStatus().name()));
+        investigationEntity.setStatus(QualityNotificationStatusBaseEntity.fromStringValue(investigation.getNotificationStatus().name()));
         investigationEntity.setUpdated(clock.instant());
         investigationEntity.setCloseReason(investigation.getCloseReason());
         investigationEntity.setAcceptReason(investigation.getAcceptReason());
@@ -83,7 +83,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         handleNotificationUpdate(investigationEntity, investigation);
         jpaInvestigationRepository.save(investigationEntity);
 
-        return investigation.getInvestigationId();
+        return investigation.getNotificationId();
     }
 
     @Override
@@ -139,10 +139,10 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
         Map<String, InvestigationNotificationEntity> notificationEntityMap = notificationEntities.stream().collect(Collectors.toMap(InvestigationNotificationEntity::getId, notificationEntity -> notificationEntity));
         for (QualityNotificationMessage notification : investigation.getNotifications()) {
             if (notificationExists(investigationEntity, notification.getId())) {
-                log.info("handleNotificationUpdate::notificationExists with id {} for investigation with id {}", notification.getId(), investigation.getInvestigationId());
+                log.info("handleNotificationUpdate::notificationExists with id {} for investigation with id {}", notification.getId(), investigation.getNotificationId());
                 handleNotificationUpdate(notificationEntityMap.get(notification.getId()), notification);
             } else {
-                log.info("handleNotificationUpdate::new notification with id {} for investigation with id {}", notification.getId(), investigation.getInvestigationId());
+                log.info("handleNotificationUpdate::new notification with id {} for investigation with id {}", notification.getId(), investigation.getNotificationId());
                 List<AssetAsBuiltEntity> assetEntitiesByInvestigation = getAssetEntitiesByInvestigation(investigation);
                 handleNotificationCreate(investigationEntity, notification, assetEntitiesByInvestigation);
             }

@@ -22,9 +22,11 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -49,7 +51,10 @@ class EdcNotificationServiceTest {
     private InvestigationsEDCFacade edcFacade;
 
     @Mock
-    private InvestigationRepository repository;
+    private InvestigationRepository investigationRepository;
+
+    @Mock
+    private AlertRepository alertRepository;
 
     @Mock
     private DiscoveryService discoveryService;
@@ -67,6 +72,7 @@ class EdcNotificationServiceTest {
         // and
         QualityNotificationMessage notification = QualityNotificationMessage.builder()
                 .receiverBpnNumber(bpn)
+                .type(QualityNotificationType.INVESTIGATION)
                 .targetDate(Instant.now())
                 .severity(QualityNotificationSeverity.MINOR)
                 .isInitial(false)

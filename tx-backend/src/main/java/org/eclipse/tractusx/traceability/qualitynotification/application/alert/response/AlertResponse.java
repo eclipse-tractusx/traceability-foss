@@ -44,21 +44,21 @@ import java.util.List;
 
 @Data
 @SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Alerts"), maxItems = Integer.MAX_VALUE)
+@ArraySchema(arraySchema = @Schema(description = "Alerts", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
 public class AlertResponse extends QualityNotificationResponse {
 
 
     public static AlertResponse from(QualityNotification qualityNotification) {
         return AlertResponse
                 .builder()
-                .id(qualityNotification.getInvestigationId().value())
-                .status(QualityNotificationStatusResponse.from(qualityNotification.getInvestigationStatus()))
+                .id(qualityNotification.getNotificationId().value())
+                .status(QualityNotificationStatusResponse.from(qualityNotification.getNotificationStatus()))
                 .description(qualityNotification.getDescription())
                 .createdBy(getSenderBPN(qualityNotification.getNotifications()))
                 .createdByName(getSenderName(qualityNotification.getNotifications()))
                 .createdDate(qualityNotification.getCreatedAt().toString())
                 .assetIds(Collections.unmodifiableList(qualityNotification.getAssetIds()))
-                .channel(QualityNotificationSideResponse.from(qualityNotification.getInvestigationSide()))
+                .channel(QualityNotificationSideResponse.from(qualityNotification.getNotificationSide()))
                 .reason(new QualityNotificationReasonResponse(
                         qualityNotification.getCloseReason(),
                         qualityNotification.getAcceptReason(),

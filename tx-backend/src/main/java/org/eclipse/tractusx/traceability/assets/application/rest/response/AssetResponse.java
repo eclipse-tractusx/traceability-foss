@@ -33,7 +33,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Data
-@ArraySchema(arraySchema = @Schema(description = "Assets"), maxItems = Integer.MAX_VALUE)
+@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
 public class AssetResponse {
     @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
     private String id;
@@ -48,9 +48,9 @@ public class AssetResponse {
     private SemanticModelResponse semanticModel;
     @ApiModelProperty(example = "CUSTOMER")
     private OwnerResponse owner;
-    @ArraySchema(arraySchema = @Schema(description = "Child relationships"), maxItems = Integer.MAX_VALUE)
+    @ArraySchema(arraySchema = @Schema(description = "Child relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     private List<DescriptionsResponse> childRelations;
-    @ArraySchema(arraySchema = @Schema(description = "Parent relationships"), maxItems = Integer.MAX_VALUE)
+    @ArraySchema(arraySchema = @Schema(description = "Parent relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     private List<DescriptionsResponse> parentRelations;
 
     @ApiModelProperty(example = "false")
