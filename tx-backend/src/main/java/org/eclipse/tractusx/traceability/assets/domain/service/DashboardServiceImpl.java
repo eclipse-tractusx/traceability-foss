@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.traceability.assets.application.rest.DashboardService;
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
@@ -31,17 +32,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class DashboardService {
+public class DashboardServiceImpl implements DashboardService {
 
     private final AssetRepository assetRepository;
     private final InvestigationRepository investigationsRepository;
 
-	public Dashboard getDashboard() {
+    public Dashboard getDashboard() {
         long customerParts = assetRepository.countAssetsByOwner(Owner.CUSTOMER);
-        long ownParts = assetRepository.countAssetsByOwner(Owner.OWN);
         long supplierParts = assetRepository.countAssetsByOwner(Owner.SUPPLIER);
-        long totalAssets = customerParts + ownParts + supplierParts;
+        long otherParts = customerParts + supplierParts;
+        long ownParts = assetRepository.countAssetsByOwner(Owner.OWN);
         long pendingInvestigations = investigationsRepository.countQualityNotificationEntitiesByStatus(QualityNotificationStatus.RECEIVED);
-        return new Dashboard(ownParts, totalAssets, pendingInvestigations);
+        return new Dashboard(ownParts, otherParts, pendingInvestigations);
     }
 }
