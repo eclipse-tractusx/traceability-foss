@@ -25,6 +25,9 @@ public enum SemanticDataModelEntity {
     BATCH, SERIALPARTTYPIZATION, UNKNOWN;
 
     public static SemanticDataModelEntity from(SemanticDataModel semanticDataModel) {
+        if (semanticDataModel == null) {
+            return SemanticDataModelEntity.UNKNOWN;
+        }
         return SemanticDataModelEntity.valueOf(semanticDataModel.name());
     }
 
