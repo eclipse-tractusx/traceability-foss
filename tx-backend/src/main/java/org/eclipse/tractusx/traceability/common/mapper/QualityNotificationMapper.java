@@ -35,17 +35,17 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class InvestigationMapper {
+public class QualityNotificationMapper {
 
     /**
-     * Creates an Investigation object representing the investigation received by the receiver for a given notification.
+     * Creates an QualityNotification object representing the notification received by the receiver for a given notification.
      *
-     * @param bpn          the BPN of the investigation
-     * @param description  the description of the investigation
-     * @param notification the notification associated with the investigation
-     * @return an Investigation object representing the investigation received by the receiver
+     * @param bpn          the BPN of the notification
+     * @param description  the description of the notification
+     * @param notification the notification associated with the alert or investigation
+     * @return an QualityNotification object representing the notification received by the receiver
      */
-    public QualityNotification toInvestigation(BPN bpn, String description, QualityNotificationMessage notification) {
+    public QualityNotification toQualityNotification(BPN bpn, String description, QualityNotificationMessage notification) {
 
         List<String> assetIds = new ArrayList<>();
         notification.getAffectedParts().stream()
@@ -53,8 +53,8 @@ public class InvestigationMapper {
                 .forEach(assetIds::add);
         return QualityNotification.builder()
                 .bpn(bpn)
-                .investigationStatus(QualityNotificationStatus.RECEIVED)
-                .investigationSide(QualityNotificationSide.RECEIVER)
+                .notificationStatus(QualityNotificationStatus.RECEIVED)
+                .notificationSide(QualityNotificationSide.RECEIVER)
                 .description(description)
                 .createdAt(Instant.now())
                 .assetIds(assetIds)

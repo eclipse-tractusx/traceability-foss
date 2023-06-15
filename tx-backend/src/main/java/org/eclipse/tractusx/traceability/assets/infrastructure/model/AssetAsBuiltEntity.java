@@ -37,6 +37,7 @@ import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
 import java.util.ArrayList;
@@ -57,8 +58,11 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @CollectionTable(name = "assets_as_built_parents", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
     private List<AssetAsBuiltEntity.ParentDescription> parentDescriptors;
 
-    @ManyToMany(mappedBy = "assetsAsBuilt")
+    @ManyToMany(mappedBy = "assets")
     private List<InvestigationEntity> investigations = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "assets")
+    private List<AlertNotificationEntity> alertNotificationEntities = new ArrayList<>();
 
 
     public static AssetAsBuiltEntity from(Asset asset) {

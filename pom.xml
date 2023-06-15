@@ -19,7 +19,7 @@
     </modules>
 
     <properties>
-        <springboot.version>3.0.6</springboot.version>
+        <springboot.version>3.0.7</springboot.version>
         <spring-core.version>6.0.8</spring-core.version>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>

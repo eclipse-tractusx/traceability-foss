@@ -29,10 +29,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.model.Qualit
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.Test;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -50,7 +46,7 @@ class AlertResponseTest {
 
         // then
         assertThat(result)
-                .hasFieldOrPropertyWithValue("id", notification.getInvestigationId().value())
+                .hasFieldOrPropertyWithValue("id", notification.getNotificationId().value())
                 .hasFieldOrPropertyWithValue("status", QualityNotificationStatusResponse.ACCEPTED)
                 .hasFieldOrPropertyWithValue("description", notification.getDescription())
                 .hasFieldOrPropertyWithValue("createdBy", notification.getNotifications().stream()

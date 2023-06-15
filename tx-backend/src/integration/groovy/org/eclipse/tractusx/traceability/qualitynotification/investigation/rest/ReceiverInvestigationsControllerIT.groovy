@@ -32,7 +32,7 @@ import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR
 
-class ReceiverInvestigationsControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, NotificationsSupport, BpnSupport {
+class ReceiverInvestigationsControllerIT extends IntegrationSpecification implements IrsApiSupport, AssetsSupport, InvestigationsSupport, InvestigationNotificationsSupport, BpnSupport {
 
     def "should acknowledge received investigation"() {
         given:

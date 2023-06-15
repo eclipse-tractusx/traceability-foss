@@ -8,10 +8,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+- Quality Alert feature
+- Updated testdata to reflect asPlanned assets
+
 ### Changed
 - Updated authorizeRequests to match with spring boot 3 requirements
 - Updated some response code annotations
 - Updated some schema object annotations
+- Updated spring boot to 3.0.7 to fix: CVE-2023-20883
+
 ### Removed
 
 ## [4.0.0] - 2023-06-12

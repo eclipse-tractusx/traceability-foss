@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.investigati
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
-import org.eclipse.tractusx.traceability.common.mapper.InvestigationMapper;
+import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
@@ -44,12 +44,12 @@ public class InvestigationsReceiverService {
     private final InvestigationRepository investigationsRepository;
     private final NotificationMapper notificationMapper;
     private final AssetService assetService;
-    private final InvestigationMapper investigationMapper;
+    private final QualityNotificationMapper qualityNotificationMapper;
 
     public void handleNotificationReceive(EDCNotification edcNotification) {
         BPN investigationCreatorBPN = BPN.of(edcNotification.getSenderBPN());
         QualityNotificationMessage notification = notificationMapper.toNotification(edcNotification);
-        QualityNotification investigation = investigationMapper.toInvestigation(investigationCreatorBPN, edcNotification.getInformation(), notification);
+        QualityNotification investigation = qualityNotificationMapper.toQualityNotification(investigationCreatorBPN, edcNotification.getInformation(), notification);
         QualityNotificationId investigationId = investigationsRepository.saveQualityNotificationEntity(investigation);
         assetService.setAssetsInvestigationStatus(investigation);
         log.info("Stored received edcNotification in investigation with id {}", investigationId);
@@ -60,12 +60,12 @@ public class InvestigationsReceiverService {
         QualityNotification investigation = investigationsRepository.findByEdcNotificationId(edcNotification.getNotificationId())
                 .orElseThrow(() -> new InvestigationNotFoundException(edcNotification.getNotificationId()));
 
-        switch (edcNotification.convertInvestigationStatus()) {
+        switch (edcNotification.convertNotificationStatus()) {
             case ACKNOWLEDGED -> investigation.acknowledge(notification);
             case ACCEPTED -> investigation.accept(edcNotification.getInformation(), notification);
             case DECLINED -> investigation.decline(edcNotification.getInformation(), notification);
             case CLOSED -> investigation.close(BPN.of(investigation.getBpn()), edcNotification.getInformation());
-            default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertInvestigationStatus()));
+            default -> throw new InvestigationIllegalUpdate("Failed to handle notification due to unhandled %s status".formatted(edcNotification.convertNotificationStatus()));
         }
         investigation.addNotification(notification);
         assetService.setAssetsInvestigationStatus(investigation);

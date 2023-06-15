@@ -20,6 +20,8 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
@@ -29,6 +31,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.model.Qualit
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.service.NotificationPublisherService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -37,18 +40,25 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class InvestigationServiceImpl implements InvestigationService {
 
-    private final InvestigationsPublisherService investigationsPublisherService;
+    private final NotificationPublisherService notificationPublisherService;
 
     private final InvestigationRepository investigationsRepository;
+
+    private final AssetService assetService;
 
 
     @Override
     public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
-        return investigationsPublisherService.startInvestigation(partIds, description, targetDate, severity);
+        QualityNotification notification = notificationPublisherService.startInvestigation(partIds, description, targetDate, severity);
+
+        QualityNotificationId createdInvestigationId = investigationsRepository.saveQualityNotificationEntity(notification);
+        log.info("Start Investigation {}", notification);
+        return createdInvestigationId;
     }
 
     @Override
@@ -81,27 +91,34 @@ public class InvestigationServiceImpl implements InvestigationService {
 
     @Override
     public void approve(Long notificationId) {
-        QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        investigationsPublisherService.approveInvestigation(investigation);
+        QualityNotification notification = loadOrNotFoundException(new QualityNotificationId(notificationId));
+        final QualityNotification approvedInvestigation = notificationPublisherService.approveNotification(notification);
+        investigationsRepository.updateQualityNotificationEntity(approvedInvestigation);
     }
 
     @Override
     public void cancel(Long notificationId) {
         QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        investigationsPublisherService.cancelInvestigation(investigation);
+        QualityNotification canceledInvestigation = notificationPublisherService.cancelNotification(investigation);
+
+        assetService.setAssetsInvestigationStatus(canceledInvestigation);
+        investigationsRepository.updateQualityNotificationEntity(canceledInvestigation);
     }
 
     @Override
     public void update(Long investigationId, QualityNotificationStatus status, String reason) {
         QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(investigationId));
-        investigationsPublisherService.updateInvestigationPublisher(investigation, status, reason);
+        QualityNotification updatedInvestigation = notificationPublisherService.updateNotificationPublisher(investigation, status, reason);
+
+        assetService.setAssetsInvestigationStatus(updatedInvestigation);
+        investigationsRepository.updateQualityNotificationEntity(updatedInvestigation);
     }
 
     private PageResult<QualityNotification> getInvestigationsPageResult(Pageable pageable, QualityNotificationSide investigationSide) {
         List<QualityNotification> investigationData = investigationsRepository.findQualityNotificationsBySide(investigationSide, pageable)
                 .content()
                 .stream()
-                .sorted(QualityNotification.COMPARE_BY_NEWEST_INVESTIGATION_CREATION_TIME)
+                .sorted(QualityNotification.COMPARE_BY_NEWEST_QUALITY_NOTIFICATION_CREATION_TIME)
                 .toList();
         Page<QualityNotification> investigationDataPage = new PageImpl<>(investigationData, pageable, investigationsRepository.countQualityNotificationEntitiesBySide(investigationSide));
         return new PageResult<>(investigationDataPage);

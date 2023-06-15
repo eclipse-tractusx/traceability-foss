@@ -59,7 +59,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
             joinColumns = @JoinColumn(name = "investigation_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetAsBuiltEntity> assetsAsBuilt;
+    private List<AssetAsBuiltEntity> assets;
 
     @OneToMany(mappedBy = "investigation")
     private List<InvestigationNotificationEntity> notifications;
@@ -69,15 +69,15 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .map(InvestigationNotificationEntity::toDomain)
                 .toList();
 
-        List<String> assetIds = investigationNotificationEntity.getAssetsAsBuilt().stream()
+        List<String> assetIds = investigationNotificationEntity.getAssets().stream()
                 .map(AssetAsBuiltEntity::getId)
                 .toList();
 
         return QualityNotification.builder()
-                .investigationId(new QualityNotificationId(investigationNotificationEntity.getId()))
+                .notificationId(new QualityNotificationId(investigationNotificationEntity.getId()))
                 .bpn(BPN.of(investigationNotificationEntity.getBpn()))
-                .investigationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
-                .investigationSide(QualityNotificationSide.valueOf(investigationNotificationEntity.getSide().name()))
+                .notificationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
+                .notificationSide(QualityNotificationSide.valueOf(investigationNotificationEntity.getSide().name()))
                 .closeReason(investigationNotificationEntity.getCloseReason())
                 .acceptReason(investigationNotificationEntity.getAcceptReason())
                 .declineReason(investigationNotificationEntity.getDeclineReason())
@@ -90,11 +90,11 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
 
     public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return InvestigationEntity.builder()
-                .assetsAsBuilt(assetEntities)
+                .assets(assetEntities)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
-                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getInvestigationStatus().name()))
-                .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getInvestigationSide().name()))
+                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
+                .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getNotificationSide().name()))
                 .createdDate(qualityNotification.getCreatedAt())
                 .build();
     }

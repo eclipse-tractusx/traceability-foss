@@ -64,7 +64,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         investigation = senderInvestigationWithStatus(bpn, status);
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.cancel(bpn));
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
     }
 
     @Test
@@ -74,7 +74,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         investigation = senderInvestigationWithStatus(bpn, status);
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.send(bpn));
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
     }
 
     @Test
@@ -85,7 +85,7 @@ class InvestigationTest {
         BPN bpnOther = new BPN("BPNL12321321321");
         investigation = senderInvestigationWithStatus(bpnOther, status);
         assertThrows(InvestigationIllegalUpdate.class, () -> investigation.close(bpn, "some-reason"));
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
     }
 
     @Test
@@ -96,7 +96,7 @@ class InvestigationTest {
         investigation = senderInvestigationWithStatus(bpn, status);
         BPN bpn2 = new BPN("BPNL000000000002");
         assertThrows(InvestigationIllegalUpdate.class, () -> investigation.cancel(bpn2));
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
     }
 
     @Test
@@ -107,7 +107,7 @@ class InvestigationTest {
         investigation = senderInvestigationWithStatus(bpn, status);
         BPN bpn2 = new BPN("BPNL000000000002");
         assertThrows(InvestigationIllegalUpdate.class, () -> investigation.send(bpn2));
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
     }
 
     @Test
@@ -118,7 +118,7 @@ class InvestigationTest {
         investigation = senderInvestigationWithStatus(bpn, status);
         BPN bpn2 = new BPN("BPNL000000000002");
         assertThrows(InvestigationIllegalUpdate.class, () -> investigation.close(bpn2, "some reason"));
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
     }
 
     @Test
@@ -127,7 +127,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         investigation = senderInvestigationWithStatus(bpn, CREATED);
         investigation.send(bpn);
-        assertEquals(SENT, investigation.getInvestigationStatus());
+        assertEquals(SENT, investigation.getNotificationStatus());
     }
 
     @Test
@@ -136,7 +136,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         investigation = senderInvestigationWithStatus(bpn, CREATED);
         investigation.cancel(bpn);
-        assertEquals(CANCELED, investigation.getInvestigationStatus());
+        assertEquals(CANCELED, investigation.getNotificationStatus());
     }
 
     @Test
@@ -145,7 +145,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         investigation = senderInvestigationWithStatus(bpn, SENT);
         investigation.close(bpn, "some-reason");
-        assertEquals(CLOSED, investigation.getInvestigationStatus());
+        assertEquals(CLOSED, investigation.getNotificationStatus());
     }
 
 
@@ -222,10 +222,10 @@ class InvestigationTest {
     private QualityNotification investigationWithStatus(BPN bpn, QualityNotificationStatus status, QualityNotificationSide side) {
 
         return QualityNotification.builder()
-                .investigationId(new QualityNotificationId(1L))
+                .notificationId(new QualityNotificationId(1L))
                 .bpn(bpn)
-                .investigationStatus(status)
-                .investigationSide(side)
+                .notificationStatus(status)
+                .notificationSide(side)
                 .createdAt(Instant.now())
                 .build();
 
@@ -241,7 +241,7 @@ class InvestigationTest {
         QualityNotificationMessage notification = testNotification();
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.acknowledge(notification));
 
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
 
     }
 
@@ -255,7 +255,7 @@ class InvestigationTest {
 
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.accept("some reason", notification));
 
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
 
     }
 
@@ -266,7 +266,7 @@ class InvestigationTest {
         investigation = receiverInvestigationWithStatus(status);
         QualityNotificationMessage notification = testNotification();
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.decline("some-reason", notification));
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
     }
 
     @ParameterizedTest
@@ -277,7 +277,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.close(bpn, "some-reason"));
 
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
 
     }
 
@@ -290,7 +290,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
 
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.send(bpn));
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
 
     }
 
@@ -302,7 +302,7 @@ class InvestigationTest {
         BPN bpn = new BPN("BPNL000000000001");
         assertThrows(InvestigationStatusTransitionNotAllowed.class, () -> investigation.cancel(bpn));
 
-        assertEquals(status, investigation.getInvestigationStatus());
+        assertEquals(status, investigation.getNotificationStatus());
     }
 
 
@@ -312,7 +312,7 @@ class InvestigationTest {
         QualityNotificationMessage notification = testNotification();
         investigation = receiverInvestigationWithStatus(RECEIVED);
         investigation.acknowledge(notification);
-        assertEquals(ACKNOWLEDGED, investigation.getInvestigationStatus());
+        assertEquals(ACKNOWLEDGED, investigation.getNotificationStatus());
 
     }
 
@@ -322,8 +322,8 @@ class InvestigationTest {
         QualityNotificationMessage notification = testNotification();
         investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
         investigation.accept("some reason", notification);
-        assertEquals(ACCEPTED, investigation.getInvestigationStatus());
-        assertEquals(ACCEPTED, notification.getInvestigationStatus());
+        assertEquals(ACCEPTED, investigation.getNotificationStatus());
+        assertEquals(ACCEPTED, notification.getNotificationStatus());
     }
 
     @Test
@@ -332,8 +332,8 @@ class InvestigationTest {
         QualityNotificationMessage notification = testNotification();
         investigation = receiverInvestigationWithStatus(ACKNOWLEDGED);
         investigation.decline("some reason", notification);
-        assertEquals(DECLINED, investigation.getInvestigationStatus());
-        assertEquals(DECLINED, notification.getInvestigationStatus());
+        assertEquals(DECLINED, investigation.getNotificationStatus());
+        assertEquals(DECLINED, notification.getNotificationStatus());
     }
 
     //util functions
@@ -344,10 +344,10 @@ class InvestigationTest {
     private QualityNotification investigationWithStatus(QualityNotificationStatus status, QualityNotificationSide side) {
         BPN bpn = new BPN("BPNL000000000001");
         return QualityNotification.builder()
-                .investigationId(new QualityNotificationId(1L))
+                .notificationId(new QualityNotificationId(1L))
                 .bpn(bpn)
-                .investigationStatus(status)
-                .investigationSide(side)
+                .notificationStatus(status)
+                .notificationSide(side)
                 .build();
         // todo check if we need empty lists
         //   return new Investigation(new InvestigationId(1L), bpn, status, side, "", "", "", "", Instant.now(), new ArrayList<>(), new ArrayList<>());
