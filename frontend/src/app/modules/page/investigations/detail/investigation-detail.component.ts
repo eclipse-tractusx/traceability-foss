@@ -155,8 +155,8 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private setTableConfigs(data: Notification): void {
     this.isReceived = !data.isFromSender;
 
-    const displayedColumns = ['id', 'name', 'serialNumber'];
-    const sortableColumns = { id: true, name: true, serialNumber: true };
+    const displayedColumns = ['id', 'semanticDataModel', 'name', 'serialNumber'];
+    const sortableColumns = { id: true, semanticDataModel: true, name: true, serialNumber: true };
 
     const tableConfig = {
       displayedColumns,

@@ -80,7 +80,8 @@
       "createdDate": "Created",
       "createdBy": "Created by",
       "sendTo": "Send to",
-      "severity": "Severity"
+      "severity": "Severity",
+      "semanticDataModel": "Semantic Data Model"
     }
   },
   "dataLoading": {
