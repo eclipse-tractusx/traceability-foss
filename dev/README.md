@@ -89,15 +89,34 @@ curl --request POST \
 -
 ```
 
+```
+curl --request POST \
+   --url <baseUrl>/api/edc/notification/contract \
+   --header 'Authorization: Bearer x' \
+   --header 'Content-Type: application/json' \
+   --data '{
+   "notificationType": "QUALITY_ALERT", "notificationMethod": "RECEIVE"
+   }
+```
+
+```
+curl --request POST \
+--url https://traceability.dev.demo.catena-x.net/api/edc/notification/contract \
+--header 'Authorization: Bearer x' \
+--header 'Content-Type: application/json' \
+--data '{"notificationType" : "QUALITY_ALERT", "notificationMethod" : "UPDATE"}'
+-
+```
+
 - Make sure bpn mapping for the instances exists:
 
 DEV & Test:
 [
 {
-"bpn": "BPNL00000003AYRE",
+"bpn": "BPNL00000003CML1",
 "url": "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
 }, {
-"bpn": "BPNL00000003B2OM",
+"bpn": "BPNL00000003CNKC",
 "url": "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
 }
 ]
