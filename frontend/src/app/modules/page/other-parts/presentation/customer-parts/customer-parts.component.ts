@@ -34,6 +34,7 @@ import { Observable } from 'rxjs';
 })
 export class CustomerPartsComponent implements OnInit, OnDestroy {
   public readonly displayedColumns: string[] = [
+    'semanticDataModel',
     'name',
     'manufacturer',
     'partNumber',
@@ -49,6 +50,7 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
     serialNumber: true,
     batchNumber: true,
     productionDate: true,
+    semanticDataModel: true,
   };
 
   public readonly tableConfig: TableConfig = {

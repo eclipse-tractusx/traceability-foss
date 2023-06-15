@@ -30,6 +30,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Cors configuration for environment e2e-a and e2e-b
 - GitHubAction to update dependencies files on merge to main
 - Added testdata with batches
+- Added Semantic Data Model to frontend to support batches
 - Added batch aspect to the asset import process
 
 ### Changed

@@ -38,6 +38,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly displayedColumns: string[] = [
     'select',
     'id',
+    'semanticDataModel',
     'name',
     'manufacturer',
     'partNumber',
@@ -49,6 +50,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public readonly sortableColumns: Record<string, boolean> = {
     id: true,
+    semanticDataModel: true,
     name: true,
     manufacturer: true,
     partNumber: true,

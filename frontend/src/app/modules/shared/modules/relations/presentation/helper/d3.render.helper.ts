@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { TreeDirection, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import { HelperD3 } from '@shared/modules/relations/presentation/helper/helper.d3';
 import { TreeNode, TreeSvg } from '@shared/modules/relations/presentation/model.d3';
@@ -187,8 +188,9 @@ export class D3RenderHelper {
       borderData.forEach(a => addBorder(r + a.inner, r + a.outer, a.start * Math.PI, a.end * Math.PI));
     }
 
+    const statusBorderColor = data.state === SemanticDataModel.BATCH ? 'Batch' : data.state.toString()
     statusBorder
-      .attr('class', () => `tree--element__border tree--element__border-${data.state}`)
+      .attr('class', () => `tree--element__border tree--element__border-${statusBorderColor}`)
       .attr('transform', () => `translate(${D3RenderHelper.modifyYByDirection(direction, y)},${x})`);
   }
 
