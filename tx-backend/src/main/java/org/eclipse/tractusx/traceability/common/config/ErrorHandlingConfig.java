@@ -218,6 +218,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
+        log.error("AuthenticationException exception", exception);
         ErrorHandlingConfig.ErrorResponse errorResponse = new ErrorHandlingConfig.ErrorResponse(exception.getMessage());
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
