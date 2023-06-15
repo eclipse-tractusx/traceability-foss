@@ -19,21 +19,15 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.discovery.infrastructure.repository;
+package org.eclipse.tractusx.traceability.common.security;
 
-import feign.RequestLine;
-import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
-import org.springframework.cloud.openfeign.FeignClient;
+public class TechnicalUserAuthorizationException extends RuntimeException {
 
-import java.util.List;
+	public TechnicalUserAuthorizationException(String message) {
+		super(message);
+	}
 
-@FeignClient(
-        name = "portalApi",
-        url = "${feign.portalApi.url}",
-        configuration = {CatenaApiConfig.class}
-)
-public interface FeignDiscoveryRepository {
-    @RequestLine("POST /administration/connectors/discovery")
-    List<ConnectorDiscoveryMappingResponse> getConnectorEndpointMappings(List<String> bpns);
+	public TechnicalUserAuthorizationException(Throwable cause) {
+		super(cause);
+	}
 }

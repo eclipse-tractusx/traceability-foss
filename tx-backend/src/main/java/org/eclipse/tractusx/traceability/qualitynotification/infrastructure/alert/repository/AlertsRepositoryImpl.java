@@ -21,8 +21,8 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.ale
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.JpaAssetsRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetsAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
@@ -54,7 +54,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
     private final JpaAlertRepository jpaAlertRepository;
 
-    private final JpaAssetsRepository assetsRepository;
+    private final JpaAssetsAsBuiltRepository assetsRepository;
 
     private final JpaAlertNotificationRepository notificationRepository;
 

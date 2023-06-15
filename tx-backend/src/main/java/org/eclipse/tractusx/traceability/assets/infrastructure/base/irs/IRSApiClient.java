@@ -19,21 +19,29 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.discovery.infrastructure.repository;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import feign.Param;
 import feign.RequestLine;
+import io.github.resilience4j.retry.annotation.Retry;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
 import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(
-        name = "portalApi",
-        url = "${feign.portalApi.url}",
-        configuration = {CatenaApiConfig.class}
+	name = "irsApi",
+	url = "${feign.irsApi.url}",
+	configuration = {CatenaApiConfig.class}
 )
-public interface FeignDiscoveryRepository {
-    @RequestLine("POST /administration/connectors/discovery")
-    List<ConnectorDiscoveryMappingResponse> getConnectorEndpointMappings(List<String> bpns);
+public interface IRSApiClient {
+
+    @RequestLine("POST /irs/jobs")
+    RegisterJobResponse registerJob(@RequestBody RegisterJobRequest request);
+
+    @RequestLine("GET /irs/jobs/{id}")
+    @Retry(name = "irs-get")
+    JobDetailResponse getJobDetails(@Param("id") String id);
 }

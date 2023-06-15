@@ -19,21 +19,34 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.discovery.infrastructure.repository;
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
-import feign.RequestLine;
-import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
-import org.springframework.cloud.openfeign.FeignClient;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 
 import java.util.List;
 
-@FeignClient(
-        name = "portalApi",
-        url = "${feign.portalApi.url}",
-        configuration = {CatenaApiConfig.class}
-)
-public interface FeignDiscoveryRepository {
-    @RequestLine("POST /administration/connectors/discovery")
-    List<ConnectorDiscoveryMappingResponse> getConnectorEndpointMappings(List<String> bpns);
+public record RegisterJobRequest(
+        List<String> aspects,
+        String globalAssetId,
+        boolean collectAspects,
+        BomLifecycle bomLifecycle,
+        boolean lookupBPNs,
+        int depth,
+        Direction direction
+) {
+    public static RegisterJobRequest buildJobRequest(String globalAssetId, Direction direction, List<String> aspects) {
+        return new RegisterJobRequest(aspects, globalAssetId, true, BomLifecycle.AS_BUILT, true, DEFAULT_DEPTH, direction);
+    }
+
+    public static final int DEFAULT_DEPTH = 2;
 }
+
+
+enum BomLifecycle {
+    @JsonProperty("asBuilt")
+    AS_BUILT,
+    @JsonProperty("asPlanned")
+    AS_PLANNED
+}
+

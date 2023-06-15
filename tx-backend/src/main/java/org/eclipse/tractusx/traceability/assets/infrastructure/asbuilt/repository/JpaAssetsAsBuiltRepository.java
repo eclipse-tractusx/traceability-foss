@@ -19,21 +19,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.discovery.infrastructure.repository;
+package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
-import feign.RequestLine;
-import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
-import org.springframework.cloud.openfeign.FeignClient;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@FeignClient(
-        name = "portalApi",
-        url = "${feign.portalApi.url}",
-        configuration = {CatenaApiConfig.class}
-)
-public interface FeignDiscoveryRepository {
-    @RequestLine("POST /administration/connectors/discovery")
-    List<ConnectorDiscoveryMappingResponse> getConnectorEndpointMappings(List<String> bpns);
+@Repository
+public interface JpaAssetsAsBuiltRepository extends JpaRepository<AssetAsBuiltEntity, String> {
+
+    @Query("SELECT asset FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
+    Page<AssetAsBuiltEntity> findByOwner(Pageable pageable, @Param("owner") Owner owner);
+
+    List<AssetAsBuiltEntity> findByIdIn(List<String> assetIds);
+
+    @Query("SELECT COUNT(asset) FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
+    long countAssetsByOwner(@Param("owner") Owner owner);
 }

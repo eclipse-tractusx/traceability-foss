@@ -19,21 +19,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.discovery.infrastructure.repository;
+package org.eclipse.tractusx.traceability.common.properties;
 
-import feign.RequestLine;
-import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
-import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
-import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.List;
+@ConfigurationProperties("feign.default")
+public class FeignDefaultProperties extends FeignProperties {
 
-@FeignClient(
-        name = "portalApi",
-        url = "${feign.portalApi.url}",
-        configuration = {CatenaApiConfig.class}
-)
-public interface FeignDiscoveryRepository {
-    @RequestLine("POST /administration/connectors/discovery")
-    List<ConnectorDiscoveryMappingResponse> getConnectorEndpointMappings(List<String> bpns);
+	public FeignDefaultProperties(Long connectionTimeoutMillis,
+								  Long readTimeoutMillis,
+								  int maxIdleConnections,
+								  Long keepAliveDurationMinutes) {
+		super(connectionTimeoutMillis, readTimeoutMillis, maxIdleConnections, keepAliveDurationMinutes);
+	}
 }
