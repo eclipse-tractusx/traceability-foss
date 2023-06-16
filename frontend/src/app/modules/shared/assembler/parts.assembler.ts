@@ -47,7 +47,7 @@ export class PartsAssembler {
       productionDate: new CalendarDateModel(part.semanticModel.manufacturingDate) ,
       children: part.childRelations.map(child => child.id) || [],
       parents: part.parentRelations?.map(parent => parent.id) || [],
-      shouldHighlight: part.underInvestigation || false,
+      activeInvestigation: part.underInvestigation || false,
       activeAlert: part.activeAlert || false,
       van: part.van || '--',
       semanticDataModel: part.semanticDataModel

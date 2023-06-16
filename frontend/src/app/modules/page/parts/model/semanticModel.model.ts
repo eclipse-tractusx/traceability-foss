@@ -29,5 +29,6 @@ export interface SemanticModel {
 export enum Owner {
   OWN = "OWN",
   SUPPLIER = "SUPPLIER",
-  CUSTOMER = "CUSTOMER"
+  CUSTOMER = "CUSTOMER",
+  UNKNOWN = "UNKNOWN"
 }

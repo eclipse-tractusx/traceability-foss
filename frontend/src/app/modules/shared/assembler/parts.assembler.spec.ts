@@ -90,7 +90,7 @@ describe('PartsAssembler', () => {
           productionDate: new CalendarDateModel(manufacturingDate),
           children: childDescriptions.map(child => child.id),
           parents: [],
-          shouldHighlight: false,
+          activeInvestigation: false,
           van,
         });
       }

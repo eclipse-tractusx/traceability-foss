@@ -51,7 +51,7 @@ export interface Part {
   nameAtCustomer?: string;
   customerPartId?: string;
   error?: boolean;
-  shouldHighlight?: boolean;
+  activeInvestigation?: boolean;
   activeAlert: boolean;
   van?: string;
   semanticDataModel: SemanticDataModel;
