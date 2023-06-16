@@ -19,12 +19,35 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.common.support
+package org.eclipse.tractusx.traceability.assets.domain.service.repository;
 
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetAsBuiltRepository
+import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.springframework.data.domain.Pageable;
 
-interface AssetRepositoryProvider {
-    AssetAsBuiltRepository assetRepository()
+import java.util.List;
 
-    AssetTestData assetsConverter()
+public interface AssetAsBuiltRepository {
+    Asset getAssetById(String assetId);
+
+    boolean existsById(String globalAssetId);
+
+    List<Asset> getAssetsById(List<String> assetIds);
+
+    Asset getAssetByChildId(String assetId, String childId);
+
+    PageResult<Asset> getAssets(Pageable pageable, Owner owner);
+
+    List<Asset> getAssets();
+
+    Asset save(Asset asset);
+
+    List<Asset> saveAll(List<Asset> assets);
+
+    long countAssets();
+
+    void updateParentDescriptionsAndOwner(final Asset asset);
+
+    long countAssetsByOwner(Owner owner);
 }

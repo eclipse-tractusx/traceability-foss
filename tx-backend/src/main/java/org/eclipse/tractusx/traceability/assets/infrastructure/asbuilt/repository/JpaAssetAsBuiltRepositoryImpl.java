@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
+import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +36,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class JpaAssetAsBuiltRepositoryImpl implements AssetRepository {
+public class JpaAssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
 
     private final JpaAssetAsBuiltRepository assetsRepository;
 
