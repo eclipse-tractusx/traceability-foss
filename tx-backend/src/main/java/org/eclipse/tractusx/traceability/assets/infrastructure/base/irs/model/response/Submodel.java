@@ -53,6 +53,7 @@ class Submodel {
     })
     private Object payload;
 
+
     @JsonCreator
     public Submodel(@JsonProperty("payload") Object payload) {
         this.payload = payload;
