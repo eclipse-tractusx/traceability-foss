@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.repository.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsService;
@@ -39,7 +39,7 @@ import java.util.List;
 public class RegistryFacade {
     private final ShellDescriptorsService shellDescriptorsService;
     private final RegistryService registryService;
-    private final AssetService assetService;
+    private final AssetServiceImpl assetService;
     private final BpnRepository bpnRepository;
 
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)

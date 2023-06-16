@@ -41,10 +41,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AssetServiceTest {
+class AssetServiceImplTest {
 
     @InjectMocks
-    private AssetService assetService;
+    private AssetServiceImpl assetService;
 
     @Mock
     private IrsRepository irsRepository;

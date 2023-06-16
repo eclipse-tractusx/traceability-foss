@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.rest.service.AssetService;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
@@ -46,7 +47,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AssetService {
+public class AssetServiceImpl implements AssetService {
 
     private final AssetAsBuiltRepository assetRepository;
     private final IrsRepository irsRepository;

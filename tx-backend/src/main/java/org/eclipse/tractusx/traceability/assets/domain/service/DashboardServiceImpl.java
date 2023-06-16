@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.application.rest.DashboardService;
+import org.eclipse.tractusx.traceability.assets.application.rest.service.DashboardService;
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.repository.AssetAsBuiltRepository;

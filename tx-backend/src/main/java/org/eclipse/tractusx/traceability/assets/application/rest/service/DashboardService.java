@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.rest;
+package org.eclipse.tractusx.traceability.assets.application.rest.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 
