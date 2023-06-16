@@ -1,7 +1,6 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +12,9 @@ import java.util.List;
 
 public interface JpaAssetAsPlannedRepository extends JpaRepository<AssetAsPlannedEntity, String> {
     @Query("SELECT asset FROM AssetAsPlannedEntity asset WHERE asset.owner = :owner")
-    Page<AssetAsBuiltEntity> findByOwner(Pageable pageable, @Param("owner") Owner owner);
+    Page<AssetAsPlannedEntity> findByOwner(Pageable pageable, @Param("owner") Owner owner);
 
-    List<AssetAsBuiltEntity> findByIdIn(List<String> assetIds);
+    List<AssetAsPlannedEntity> findByIdIn(List<String> assetIds);
 
     @Query("SELECT COUNT(asset) FROM AssetAsPlannedEntity asset WHERE asset.owner = :owner")
     long countAssetsByOwner(@Param("owner") Owner owner);
