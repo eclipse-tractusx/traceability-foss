@@ -1,5 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -17,74 +19,77 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository;
+package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.repository.AssetAsPlannedRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.assets.domain.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class JpaAssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
+public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
 
-    private final JpaAssetAsPlannedRepository assetsRepository;
+    private final JpaAssetAsBuiltRepository assetAsBuiltRepository;
 
     @Override
     @Transactional
     public Asset getAssetById(String assetId) {
-        return assetsRepository.findById(assetId).map(AssetAsPlannedEntity::toDomain)
+        return assetAsBuiltRepository.findById(assetId)
+                .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
     }
 
     @Override
     public boolean existsById(String globalAssetId) {
-        return assetsRepository.existsById(globalAssetId);
+        return assetAsBuiltRepository.existsById(globalAssetId);
     }
 
     @Override
     public List<Asset> getAssetsById(List<String> assetIds) {
-        return assetsRepository.findByIdIn(assetIds).stream().map(AssetAsPlannedEntity::toDomain)
+        return assetAsBuiltRepository.findByIdIn(assetIds).stream()
+                .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
 
     @Override
     public Asset getAssetByChildId(String assetId, String childId) {
-        return assetsRepository.findById(childId).map(AssetAsPlannedEntity::toDomain)
+        return assetAsBuiltRepository.findById(childId)
+                .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
     }
 
     @Override
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
         if (owner != null) {
-            return new PageResult<>(assetsRepository.findByOwner(pageable, owner), AssetAsPlannedEntity::toDomain);
+            return new PageResult<>(assetAsBuiltRepository.findByOwner(pageable, owner), AssetAsBuiltEntity::toDomain);
         }
-        return new PageResult<>(assetsRepository.findAll(pageable), AssetAsPlannedEntity::toDomain);
+        return new PageResult<>(assetAsBuiltRepository.findAll(pageable), AssetAsBuiltEntity::toDomain);
     }
 
     @Override
     @Transactional
     public List<Asset> getAssets() {
-        return AssetAsPlannedEntity.toDomainList(assetsRepository.findAll());
+        return AssetAsBuiltEntity.toDomainList(assetAsBuiltRepository.findAll());
     }
 
     @Override
     public Asset save(Asset asset) {
-        return AssetAsPlannedEntity.toDomain(assetsRepository.save(AssetAsPlannedEntity.from(asset)));
+        return AssetAsBuiltEntity.toDomain(assetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)));
     }
 
     @Override
     @Transactional
     public List<Asset> saveAll(List<Asset> assets) {
-        return AssetAsPlannedEntity.toDomainList(assetsRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
+        return AssetAsBuiltEntity.toDomainList(assetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)));
     }
 
     @Transactional
@@ -101,11 +106,11 @@ public class JpaAssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository
     @Transactional
     @Override
     public long countAssets() {
-        return assetsRepository.count();
+        return assetAsBuiltRepository.count();
     }
 
     @Override
     public long countAssetsByOwner(Owner owner) {
-        return assetsRepository.countAssetsByOwner(owner);
+        return assetAsBuiltRepository.countAssetsByOwner(owner);
     }
 }

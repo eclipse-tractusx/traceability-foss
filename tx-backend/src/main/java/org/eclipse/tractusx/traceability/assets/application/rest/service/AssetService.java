@@ -21,21 +21,19 @@ package org.eclipse.tractusx.traceability.assets.application.rest.service;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Async;
 
 import java.util.List;
 import java.util.Map;
 
 public interface AssetService {
 
-    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
+
     void synchronizeAssetsAsync(List<String> globalAssetIds);
 
-    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
+
     void synchronizeAssetsAsync(String globalAssetId);
 
     void setAssetsInvestigationStatus(QualityNotification investigation);
