@@ -36,55 +36,55 @@ import java.util.List;
 @Component
 public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
-    private final JpaAssetAsPlannedRepository assetsRepository;
+    private final JpaAssetAsPlannedRepository jpaAssetAsPlannedRepository;
 
     @Override
     @Transactional
     public Asset getAssetById(String assetId) {
-        return assetsRepository.findById(assetId).map(AssetAsPlannedEntity::toDomain)
+        return jpaAssetAsPlannedRepository.findById(assetId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
     }
 
     @Override
     public boolean existsById(String globalAssetId) {
-        return assetsRepository.existsById(globalAssetId);
+        return jpaAssetAsPlannedRepository.existsById(globalAssetId);
     }
 
     @Override
     public List<Asset> getAssetsById(List<String> assetIds) {
-        return assetsRepository.findByIdIn(assetIds).stream().map(AssetAsPlannedEntity::toDomain)
+        return jpaAssetAsPlannedRepository.findByIdIn(assetIds).stream().map(AssetAsPlannedEntity::toDomain)
                 .toList();
     }
 
     @Override
     public Asset getAssetByChildId(String assetId, String childId) {
-        return assetsRepository.findById(childId).map(AssetAsPlannedEntity::toDomain)
+        return jpaAssetAsPlannedRepository.findById(childId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
     }
 
     @Override
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
         if (owner != null) {
-            return new PageResult<>(assetsRepository.findByOwner(pageable, owner), AssetAsPlannedEntity::toDomain);
+            return new PageResult<>(jpaAssetAsPlannedRepository.findByOwner(pageable, owner), AssetAsPlannedEntity::toDomain);
         }
-        return new PageResult<>(assetsRepository.findAll(pageable), AssetAsPlannedEntity::toDomain);
+        return new PageResult<>(jpaAssetAsPlannedRepository.findAll(pageable), AssetAsPlannedEntity::toDomain);
     }
 
     @Override
     @Transactional
     public List<Asset> getAssets() {
-        return AssetAsPlannedEntity.toDomainList(assetsRepository.findAll());
+        return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.findAll());
     }
 
     @Override
     public Asset save(Asset asset) {
-        return AssetAsPlannedEntity.toDomain(assetsRepository.save(AssetAsPlannedEntity.from(asset)));
+        return AssetAsPlannedEntity.toDomain(jpaAssetAsPlannedRepository.save(AssetAsPlannedEntity.from(asset)));
     }
 
     @Override
     @Transactional
     public List<Asset> saveAll(List<Asset> assets) {
-        return AssetAsPlannedEntity.toDomainList(assetsRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
+        return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
     }
 
     @Transactional
@@ -101,11 +101,11 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     @Transactional
     @Override
     public long countAssets() {
-        return assetsRepository.count();
+        return jpaAssetAsPlannedRepository.count();
     }
 
     @Override
     public long countAssetsByOwner(Owner owner) {
-        return assetsRepository.countAssetsByOwner(owner);
+        return jpaAssetAsPlannedRepository.countAssetsByOwner(owner);
     }
 }
