@@ -88,10 +88,10 @@ public record JobDetailResponse(
     }
 
     public List<Asset> convertAssets() {
-        if (BomLifecycle.AS_BUILT.name().equals(jobStatus().parameter().bomLifecycle())) {
+        if (BomLifecycle.AS_BUILT.getRealName().equals(jobStatus().parameter().bomLifecycle())) {
             return convertAssetsAsBuilt();
         }
-        if (BomLifecycle.AS_PLANNED.name().equals(jobStatus().parameter().bomLifecycle())) {
+        if (BomLifecycle.AS_PLANNED.getRealName().equals(jobStatus().parameter().bomLifecycle())) {
             return convertAssetsAsPlanned();
         }
 
@@ -104,7 +104,7 @@ public record JobDetailResponse(
 
         Map<String, String> bpnMapping = bpns();
 
-        List<Asset> ownParts = mapToOwnParts(shortIds, bpnMapping);
+        List<Asset> ownParts = mapToOwnPartsAsPlanned(shortIds, bpnMapping);
         List<Asset> otherParts = new ArrayList<>();
 
         if (isSupplierDirection()) {
@@ -146,11 +146,27 @@ public record JobDetailResponse(
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !semanticDataModel.catenaXId().equals(jobStatus().globalAssetId())).toList();
         return otherParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
                         Collections.emptyList()))
                 .toList();
 
+    }
+
+    private List<Asset> mapToOwnPartsAsPlanned(Map<String, String> shortIds, Map<String, String> bpnMapping) {
+        List<SemanticDataModel> ownParts = semanticDataModels().stream().filter(semanticDataModel -> semanticDataModel.catenaXId().equals(jobStatus().globalAssetId())).toList();
+
+        Map<String, List<Relationship>> singleLevelBomRelationship = relationships().stream()
+                .filter(relationship -> SINGLE_LEVEL_BOM_AS_PLANNED.equals(relationship.aspectType().getAspectName()))
+                .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
+
+
+        return ownParts
+                .stream()
+                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
+                        Collections.emptyList(),
+                        getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId())))
+                .toList();
     }
 
     private List<Asset> mapToOwnParts(Map<String, String> shortIds, Map<String, String> bpnMapping) {

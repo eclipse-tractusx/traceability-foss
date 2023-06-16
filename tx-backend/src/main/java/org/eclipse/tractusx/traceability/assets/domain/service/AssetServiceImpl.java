@@ -67,21 +67,32 @@ public class AssetServiceImpl implements AssetService {
     public void synchronizeAssetsAsync(String globalAssetId) {
         log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
         try {
-            List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-            assetRepository.saveAll(downwardAssets);
-
-            List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-            upwardAssets.forEach(asset -> {
-                if (assetRepository.existsById(asset.getId())) {
-                    assetRepository.updateParentDescriptionsAndOwner(asset);
-                } else {
-                    assetRepository.save(asset);
-                }
-            });
+            syncAssetsAsBuilt(globalAssetId);
+            syncAssetsAsPlanned(globalAssetId);
 
         } catch (Exception e) {
             log.warn("Exception during assets synchronization for globalAssetId: {}. Message: {}.", globalAssetId, e.getMessage(), e);
         }
+    }
+
+    private void syncAssetsAsPlanned(String globalAssetId) {
+        List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
+        assetRepository.saveAll(downwardAssets);
+    }
+
+    private void syncAssetsAsBuilt(String globalAssetId) {
+        List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        assetRepository.saveAll(downwardAssets);
+
+        List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+
+        upwardAssets.forEach(asset -> {
+            if (assetRepository.existsById(asset.getId())) {
+                assetRepository.updateParentDescriptionsAndOwner(asset);
+            } else {
+                assetRepository.save(asset);
+            }
+        });
     }
 
 

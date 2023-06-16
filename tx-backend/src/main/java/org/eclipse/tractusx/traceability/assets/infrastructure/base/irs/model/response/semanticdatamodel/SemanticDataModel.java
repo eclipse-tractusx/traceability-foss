@@ -106,6 +106,27 @@ public record SemanticDataModel(
                 .build();
     }
 
+    public Asset toDomainAsPlanned(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+        final String manufacturerName = bpns.get(manufacturerId());
+
+
+        return Asset.builder()
+                .id(catenaXId())
+                .idShort(defaultValue(shortIds.get(catenaXId())))
+                .semanticModel(SemanticModel.from(partTypeInformation))
+                .manufacturerId(manufacturerId())
+                .manufacturerName(defaultValue(manufacturerName))
+                .parentRelations(parentRelations)
+                .childRelations(childRelations)
+                .owner(owner)
+                .activeAlert(false)
+                .underInvestigation(false)
+                .qualityType(QualityType.OK)
+                .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.PARTASPLANNED)
+                .van(van())
+                .build();
+    }
+
     private String manufacturerId() {
         return getLocalId(LocalIdKey.MANUFACTURER_ID)
                 .orElse("--");

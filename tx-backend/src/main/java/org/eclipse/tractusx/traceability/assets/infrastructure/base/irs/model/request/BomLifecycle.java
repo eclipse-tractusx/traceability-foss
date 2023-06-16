@@ -22,7 +22,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum BomLifecycle {
     @JsonProperty("asBuilt")
-    AS_BUILT,
+    AS_BUILT("asBuilt"),
     @JsonProperty("asPlanned")
-    AS_PLANNED
+    AS_PLANNED("asPlanned");
+
+    private final String realName;
+
+    BomLifecycle(String realName) {
+        this.realName = realName;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
 }

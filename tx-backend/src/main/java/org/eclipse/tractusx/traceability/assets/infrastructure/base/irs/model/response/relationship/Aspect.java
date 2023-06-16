@@ -28,8 +28,9 @@ public enum Aspect {
     SERIAL_PART_TYPIZATION("SerialPartTypization"),
     ASSEMBLY_PART_RELATIONSHIP("AssemblyPartRelationship"),
     SINGLE_LEVEL_USAGE_AS_BUILT("SingleLevelUsageAsBuilt"),
-    SINGLE_LEVEL_BOM_AS_PLANNED("SingleLevelBomAsPlanned");
-
+    SINGLE_LEVEL_BOM_AS_PLANNED("SingleLevelBomAsPlanned"),
+    PART_SITE_INFORMATION_AS_PLANNED("PartSiteInformationAsPlanned"),
+    PART_AS_PLANNED("PartAsPlanned");
 
     private final String aspectName;
 
@@ -48,5 +49,9 @@ public enum Aspect {
 
     public static List<String> upwardAspectsForAssetsAsBuilt() {
         return List.of(BATCH.getAspectName(), SERIAL_PART_TYPIZATION.getAspectName(), SINGLE_LEVEL_USAGE_AS_BUILT.getAspectName());
+    }
+
+    public static List<String> downwardAspectsForAssetsAsPlanned() {
+        return List.of(PART_AS_PLANNED.getAspectName(), PART_SITE_INFORMATION_AS_PLANNED.getAspectName());
     }
 }
