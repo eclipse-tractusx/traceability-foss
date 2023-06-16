@@ -143,7 +143,7 @@ describe('Relations facade', () => {
             ],
             state: 'SERIALPARTTYPIZATION',
             text: 'BMW 520d Touring',
-            title: 'BMW 520d Touring | 3N1CE2CPXFL392065',
+            title: 'BMW 520d Touring | mysemanticmodelId2',
           },
           {
             children: [],
@@ -158,7 +158,7 @@ describe('Relations facade', () => {
             ],
             state: 'SERIALPARTTYPIZATION',
             text: 'A 180 Limousine',
-            title: 'A 180 Limousine | JF1ZNAA12E8706066',
+            title: 'A 180 Limousine | mysemanticModelId3',
           },
         ],
         relations: [

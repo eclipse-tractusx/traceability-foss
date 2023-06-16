@@ -21,7 +21,7 @@
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination } from '@core/model/pagination.model';
-import { Part, QualityType } from '@page/parts/model/parts.model';
+import { Part, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { of } from 'rxjs';
 
@@ -47,51 +47,60 @@ describe('PartsAssembler', () => {
       for (let i = 0; i < 3; i++) {
         const id = 'id_' + i;
         const idShort = 'idShort_' + i;
-        const nameAtManufacturer = 'nameAtManufacturer';
-        const manufacturerPartId = 'manufacturerPartId';
         const semanticModelId = 'semanticModelId';
         const manufacturerId = 'manufacturerId';
         const manufacturerName = 'manufacturerName';
-        const nameAtCustomer = 'nameAtCustomer';
-        const customerPartId = 'customerPartId';
-        const manufacturingDate = 'manufacturingDate';
-        const manufacturingCountry = 'manufacturingCountry';
-        const specificAssetIds = { id_1: 'id_1' };
-        const childDescriptions = [{ id: 'id', idShort: 'idShort' }];
+        const semanticModel = {
+          manufacturingDate: 'manufacturingDate',
+          manufacturingCountry: 'manufacturingCountry',
+          manufacturerPartId: 'manufacturerPartId',
+          customerPartId: 'customerPartId',
+          nameAtManufacturer: 'nameAtManufacturer',
+          nameAtCustomer: 'nameAtCustomer'
+        }
+        const owner = 'OWN';
+        const activeAlert = false;
+        const underInvestigation = false;
+        const childRelations = [{ id: 'id', idShort: 'idShort' }];
+        const parentRelations = [];
+        const qualityType = 'Ok';
         const van = 'van';
+        const semanticDataModel = 'BATCH';
 
         testData.push({
           id,
           idShort,
-          nameAtManufacturer,
-          manufacturerPartId,
           semanticModelId,
           manufacturerId,
           manufacturerName,
-          nameAtCustomer,
-          customerPartId,
-          manufacturingDate,
-          manufacturingCountry,
-          specificAssetIds,
-          childDescriptions,
+          semanticModel,
+          owner,
+          activeAlert,
+          underInvestigation,
+          childRelations,
+          parentRelations,
+          qualityType,
           van,
+          semanticDataModel
         });
 
         expected.push({
           id,
-          name: nameAtManufacturer,
+          name: semanticModel.nameAtManufacturer,
           manufacturer: manufacturerName,
           semanticModelId: semanticModelId,
-          partNumber: manufacturerPartId,
-          productionCountry: manufacturingCountry,
-          nameAtCustomer: nameAtCustomer,
-          customerPartId: customerPartId,
+          partNumber: semanticModel.manufacturerPartId,
+          productionCountry: semanticModel.manufacturingCountry,
+          nameAtCustomer: semanticModel.nameAtCustomer,
+          customerPartId: semanticModel.customerPartId,
           qualityType: QualityType.Ok,
-          productionDate: new CalendarDateModel(manufacturingDate),
-          children: childDescriptions.map(child => child.id),
+          productionDate: new CalendarDateModel(semanticModel.manufacturingDate),
+          children: childRelations.map(child => child.id),
           parents: [],
           activeInvestigation: false,
-          van,
+          activeAlert: false,
+          van: 'van',
+          semanticDataModel: SemanticDataModel.BATCH
         });
       }
 
