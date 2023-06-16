@@ -90,7 +90,7 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         then:
         eventually {
-            assertAssetsSize(4)
+            assertAssetsSize(2)
             assertHasChildCount("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01", 1)
         }
 
