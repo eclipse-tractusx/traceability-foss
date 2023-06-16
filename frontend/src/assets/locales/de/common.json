@@ -99,7 +99,7 @@
     "MINOR": "Gering",
     "MAJOR": "Schwerwiegend",
     "CRITICAL": "Kritisch",
-    "LIFE-THREATENING": "Lebensgefährlich"
+    "LIFE_THREATENING": "Lebensgefährlich"
   },
   "input": {
     "minMaxLengthHint": "{{current}} Zeichen. (Min. {{min}} und max {{max}} Zeichen)",
