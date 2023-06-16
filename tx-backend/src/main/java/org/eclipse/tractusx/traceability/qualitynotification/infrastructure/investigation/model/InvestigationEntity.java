@@ -100,6 +100,8 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
     public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return InvestigationEntity.builder()
                 .assets(assetEntities)
+                // todo
+                .assetsAsPlanned(null)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
                 .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))

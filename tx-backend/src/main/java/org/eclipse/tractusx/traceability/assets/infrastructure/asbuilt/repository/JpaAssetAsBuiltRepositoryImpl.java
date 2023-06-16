@@ -38,31 +38,31 @@ import java.util.List;
 @Component
 public class JpaAssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
 
-    private final JpaAssetAsBuiltRepository assetsRepository;
+    private final JpaAssetAsBuiltRepository assetAsBuiltRepository;
 
     @Override
     @Transactional
     public Asset getAssetById(String assetId) {
-        return assetsRepository.findById(assetId)
+        return assetAsBuiltRepository.findById(assetId)
                 .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
     }
 
     @Override
     public boolean existsById(String globalAssetId) {
-        return assetsRepository.existsById(globalAssetId);
+        return assetAsBuiltRepository.existsById(globalAssetId);
     }
 
     @Override
     public List<Asset> getAssetsById(List<String> assetIds) {
-        return assetsRepository.findByIdIn(assetIds).stream()
+        return assetAsBuiltRepository.findByIdIn(assetIds).stream()
                 .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
 
     @Override
     public Asset getAssetByChildId(String assetId, String childId) {
-        return assetsRepository.findById(childId)
+        return assetAsBuiltRepository.findById(childId)
                 .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
     }
@@ -70,26 +70,26 @@ public class JpaAssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Override
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
         if (owner != null) {
-            return new PageResult<>(assetsRepository.findByOwner(pageable, owner), AssetAsBuiltEntity::toDomain);
+            return new PageResult<>(assetAsBuiltRepository.findByOwner(pageable, owner), AssetAsBuiltEntity::toDomain);
         }
-        return new PageResult<>(assetsRepository.findAll(pageable), AssetAsBuiltEntity::toDomain);
+        return new PageResult<>(assetAsBuiltRepository.findAll(pageable), AssetAsBuiltEntity::toDomain);
     }
 
     @Override
     @Transactional
     public List<Asset> getAssets() {
-        return AssetAsBuiltEntity.toDomainList(assetsRepository.findAll());
+        return AssetAsBuiltEntity.toDomainList(assetAsBuiltRepository.findAll());
     }
 
     @Override
     public Asset save(Asset asset) {
-        return AssetAsBuiltEntity.toDomain(assetsRepository.save(AssetAsBuiltEntity.from(asset)));
+        return AssetAsBuiltEntity.toDomain(assetAsBuiltRepository.save(AssetAsBuiltEntity.from(asset)));
     }
 
     @Override
     @Transactional
     public List<Asset> saveAll(List<Asset> assets) {
-        return AssetAsBuiltEntity.toDomainList(assetsRepository.saveAll(AssetAsBuiltEntity.fromList(assets)));
+        return AssetAsBuiltEntity.toDomainList(assetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)));
     }
 
     @Transactional
@@ -106,11 +106,11 @@ public class JpaAssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     @Transactional
     @Override
     public long countAssets() {
-        return assetsRepository.count();
+        return assetAsBuiltRepository.count();
     }
 
     @Override
     public long countAssetsByOwner(Owner owner) {
-        return assetsRepository.countAssetsByOwner(owner);
+        return assetAsBuiltRepository.countAssetsByOwner(owner);
     }
 }
