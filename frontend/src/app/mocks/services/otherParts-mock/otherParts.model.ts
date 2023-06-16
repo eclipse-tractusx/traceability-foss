@@ -289,7 +289,7 @@ export const otherPartsAssets = [
     van: 'myvanX',
     semanticDataModel: 'SERIALPARTTYPIZATION'
   },
-  /*
+  /* Commented out for now because of amount of effort to change to new structure
   {
     id: 'urn:uuid:e32c3097-dd82-4c12-945d-63473bb79131',
     idShort: '--',
