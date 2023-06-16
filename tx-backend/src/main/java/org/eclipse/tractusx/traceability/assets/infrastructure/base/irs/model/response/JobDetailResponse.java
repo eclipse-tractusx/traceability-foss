@@ -103,7 +103,7 @@ public record JobDetailResponse(
                 .collect(Collectors.toMap(Shell::identification, Shell::idShort));
 
         Map<String, String> bpnMapping = bpns();
-
+bpnMapping.entrySet();
         List<Asset> ownParts = mapToOwnPartsAsPlanned(shortIds, bpnMapping);
         List<Asset> otherParts = new ArrayList<>();
 
@@ -146,7 +146,7 @@ public record JobDetailResponse(
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !semanticDataModel.catenaXId().equals(jobStatus().globalAssetId())).toList();
         return otherParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, owner, bpnMapping,
                         Collections.emptyList(),
                         Collections.emptyList()))
                 .toList();
@@ -163,7 +163,7 @@ public record JobDetailResponse(
 
         return ownParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, Owner.OWN, bpnMapping,
                         Collections.emptyList(),
                         getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId())))
                 .toList();

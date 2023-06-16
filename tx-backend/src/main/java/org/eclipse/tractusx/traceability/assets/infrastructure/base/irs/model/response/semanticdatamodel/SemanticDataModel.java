@@ -106,15 +106,16 @@ public record SemanticDataModel(
                 .build();
     }
 
-    public Asset toDomainAsPlanned(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+    public Asset toDomainAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
         final String manufacturerName = bpns.get(manufacturerId());
-
+        final String[] manufacturerId = {"--"};
+        bpns.values().stream().filter(s -> s.equals(manufacturerName)).findFirst().ifPresent(s -> manufacturerId[0] = s);
 
         return Asset.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .semanticModel(SemanticModel.from(partTypeInformation))
-                .manufacturerId(manufacturerId())
+                .manufacturerId(manufacturerId[0])
                 .manufacturerName(defaultValue(manufacturerName))
                 .parentRelations(parentRelations)
                 .childRelations(childRelations)

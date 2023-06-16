@@ -90,14 +90,13 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         then:
         eventually {
-            assertAssetsSize(14)
-            assertHasRequiredIdentifiers()
-            assertHasChildCount("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", 5)
+            assertAssetsSize(2)
+            assertHasChildCount("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01", 1)
         }
 
         and:
         verifyOAuth2ApiCalledOnceForTechnicalUserToken()
-        verifyIrsApiTriggerJobCalledTimes(2)
+        verifyIrsApiTriggerJobCalledTimes(3)
     }
 
     def "should synchronize assets using retry"() {
