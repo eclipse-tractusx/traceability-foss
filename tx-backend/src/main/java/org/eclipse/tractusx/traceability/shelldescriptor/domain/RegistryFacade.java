@@ -23,8 +23,8 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsService;

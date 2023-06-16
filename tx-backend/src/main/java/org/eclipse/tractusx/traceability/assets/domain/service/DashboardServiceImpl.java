@@ -25,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.application.rest.DashboardService;
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.springframework.stereotype.Component;

@@ -19,9 +19,9 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
+import org.eclipse.tractusx.traceability.assets.domain.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;

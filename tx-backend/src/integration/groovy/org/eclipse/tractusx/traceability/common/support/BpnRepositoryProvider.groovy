@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.common.support
 
 
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository
+import org.eclipse.tractusx.traceability.assets.domain.repository.BpnRepository
 
 interface BpnRepositoryProvider {
 	BpnRepository bpnRepository()

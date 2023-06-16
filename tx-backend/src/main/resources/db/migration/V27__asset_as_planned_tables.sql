@@ -16,4 +16,3 @@ alter table if exists assets_as_planned_alerts
 alter table if exists assets_as_planned_alerts
     add constraint fk_alert foreign key (alert_id) references alert;
 
-/*todo here we miss currently the assetasplanned tables and check for refs*/

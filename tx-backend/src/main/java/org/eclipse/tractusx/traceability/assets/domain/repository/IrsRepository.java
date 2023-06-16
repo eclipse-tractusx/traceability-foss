@@ -19,12 +19,22 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.service.repository;
+package org.eclipse.tractusx.traceability.assets.domain.repository;
 
-import java.util.Map;
-import java.util.Optional;
+import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 
-public interface BpnRepository {
-	Optional<String> findManufacturerName(String manufacturerId);
-	void updateManufacturers(Map<String, String> bpns);
+import java.util.List;
+
+public interface IrsRepository {
+    /**
+     * Finds a list of assets with the given global asset ID and direction.
+     *
+     * @param globalAssetId the global asset ID to search for
+     * @param direction     the direction of the search
+     * @param aspects       the list of aspects
+     * @return a list of assets that match the given global asset ID and direction, or an empty list if no assets are found
+     */
+    List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
 }
