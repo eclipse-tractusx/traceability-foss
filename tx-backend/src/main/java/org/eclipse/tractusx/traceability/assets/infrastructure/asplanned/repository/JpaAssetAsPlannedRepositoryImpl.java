@@ -24,8 +24,7 @@ import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundEx
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetAsPlannedRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -37,13 +36,12 @@ import java.util.List;
 @Component
 public class JpaAssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
-    private final JpaAssetAsBuiltRepository assetsRepository;
+    private final JpaAssetAsPlannedRepository assetsRepository;
 
     @Override
     @Transactional
     public Asset getAssetById(String assetId) {
-        return assetsRepository.findById(assetId)
-                .map(AssetAsBuiltEntity::toDomain)
+        return assetsRepository.findById(assetId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
     }
 
@@ -54,41 +52,39 @@ public class JpaAssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository
 
     @Override
     public List<Asset> getAssetsById(List<String> assetIds) {
-        return assetsRepository.findByIdIn(assetIds).stream()
-                .map(AssetAsBuiltEntity::toDomain)
+        return assetsRepository.findByIdIn(assetIds).stream().map(AssetAsPlannedEntity::toDomain)
                 .toList();
     }
 
     @Override
     public Asset getAssetByChildId(String assetId, String childId) {
-        return assetsRepository.findById(childId)
-                .map(AssetAsBuiltEntity::toDomain)
+        return assetsRepository.findById(childId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
     }
 
     @Override
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
         if (owner != null) {
-            return new PageResult<>(assetsRepository.findByOwner(pageable, owner), AssetAsBuiltEntity::toDomain);
+            return new PageResult<>(assetsRepository.findByOwner(pageable, owner), AssetAsPlannedEntity::toDomain);
         }
-        return new PageResult<>(assetsRepository.findAll(pageable), AssetAsBuiltEntity::toDomain);
+        return new PageResult<>(assetsRepository.findAll(pageable), AssetAsPlannedEntity::toDomain);
     }
 
     @Override
     @Transactional
     public List<Asset> getAssets() {
-        return AssetAsBuiltEntity.toDomainList(assetsRepository.findAll());
+        return AssetAsPlannedEntity.toDomainList(assetsRepository.findAll());
     }
 
     @Override
     public Asset save(Asset asset) {
-        return AssetAsBuiltEntity.toDomain(assetsRepository.save(AssetAsBuiltEntity.from(asset)));
+        return AssetAsPlannedEntity.toDomain(assetsRepository.save(AssetAsPlannedEntity.from(asset)));
     }
 
     @Override
     @Transactional
     public List<Asset> saveAll(List<Asset> assets) {
-        return AssetAsBuiltEntity.toDomainList(assetsRepository.saveAll(AssetAsBuiltEntity.fromList(assets)));
+        return AssetAsPlannedEntity.toDomainList(assetsRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
     }
 
     @Transactional
