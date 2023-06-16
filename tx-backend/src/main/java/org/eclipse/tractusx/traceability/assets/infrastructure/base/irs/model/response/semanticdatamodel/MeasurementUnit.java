@@ -18,5 +18,5 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
 
-public record Quantity(double quantityNumber, MeasurementUnit measurementUnit) {
+public record MeasurementUnit(String datatypeURI, String lexicalValue) {
 }

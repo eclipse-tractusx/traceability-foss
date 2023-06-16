@@ -32,7 +32,7 @@ import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
 @Setter
 @SuperBuilder
 @MappedSuperclass
-public class AssetBaseEntity {
+public class AssetAsPlannedEntity {
 
     @Id
     private String id;

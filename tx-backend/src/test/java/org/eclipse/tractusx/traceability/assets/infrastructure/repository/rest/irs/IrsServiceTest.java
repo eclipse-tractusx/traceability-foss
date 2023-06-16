@@ -36,6 +36,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.LinkedItem;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.MeasurementUnit;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Quantity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
@@ -157,7 +158,8 @@ class IrsServiceTest {
         );
         List<Relationship> relationships;
 
-        Quantity quantity = new Quantity(1.5, "unit:abc");
+        MeasurementUnit measurementUnit = new MeasurementUnit("uri", "unit:abc");
+        Quantity quantity = new Quantity(1.5, measurementUnit);
         if (direction.equals(Direction.DOWNWARD.name())) {
             relationships = Arrays.asList(
                     new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP),

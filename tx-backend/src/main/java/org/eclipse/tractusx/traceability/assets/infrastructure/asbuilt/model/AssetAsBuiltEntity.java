@@ -37,7 +37,7 @@ import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
@@ -51,7 +51,7 @@ import java.util.List;
 @Entity
 @SuperBuilder
 @Table(name = "assets_as_built")
-public class AssetAsBuiltEntity extends AssetBaseEntity {
+public class AssetAsBuiltEntity extends AssetAsPlannedEntity {
 
     private String van;
 
