@@ -33,7 +33,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface JpaAssetsAsBuiltRepository extends JpaRepository<AssetAsBuiltEntity, String> {
+public interface JpaAssetAsBuiltRepository extends JpaRepository<AssetAsBuiltEntity, String> {
 
     @Query("SELECT asset FROM AssetAsBuiltEntity asset WHERE asset.owner = :owner")
     Page<AssetAsBuiltEntity> findByOwner(Pageable pageable, @Param("owner") Owner owner);

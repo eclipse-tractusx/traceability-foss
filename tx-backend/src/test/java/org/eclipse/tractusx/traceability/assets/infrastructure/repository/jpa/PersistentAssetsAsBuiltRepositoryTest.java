@@ -23,8 +23,8 @@ import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetsAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.PersistentAssetsAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepositoryImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,10 +41,10 @@ import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.cr
 class PersistentAssetsAsBuiltRepositoryTest {
 
     @InjectMocks
-    private PersistentAssetsAsBuiltRepository persistentAssetsRepository;
+    private JpaAssetAsBuiltRepositoryImpl persistentAssetsRepository;
 
     @Mock
-    private JpaAssetsAsBuiltRepository jpaAssetsRepository;
+    private JpaAssetAsBuiltRepository jpaAssetsRepository;
 
     @Test
     void testToAsset() {

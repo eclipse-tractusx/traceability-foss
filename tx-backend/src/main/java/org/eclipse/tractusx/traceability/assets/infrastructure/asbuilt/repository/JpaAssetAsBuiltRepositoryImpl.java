@@ -36,9 +36,9 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Component
-public class PersistentAssetsAsBuiltRepository implements AssetRepository {
+public class JpaAssetAsBuiltRepositoryImpl implements AssetRepository {
 
-    private final JpaAssetsAsBuiltRepository assetsRepository;
+    private final JpaAssetAsBuiltRepository assetsRepository;
 
     @Override
     @Transactional
