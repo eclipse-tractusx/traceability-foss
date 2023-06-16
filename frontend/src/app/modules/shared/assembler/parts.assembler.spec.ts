@@ -46,11 +46,10 @@ describe('PartsAssembler', () => {
       const expected = [];
       for (let i = 0; i < 3; i++) {
         const id = 'id_' + i;
-        const batchId = 'batchId_' + i;
         const idShort = 'idShort_' + i;
         const nameAtManufacturer = 'nameAtManufacturer';
         const manufacturerPartId = 'manufacturerPartId';
-        const partInstanceId = 'partInstanceId';
+        const semanticModelId = 'semanticModelId';
         const manufacturerId = 'manufacturerId';
         const manufacturerName = 'manufacturerName';
         const nameAtCustomer = 'nameAtCustomer';
@@ -66,12 +65,11 @@ describe('PartsAssembler', () => {
           idShort,
           nameAtManufacturer,
           manufacturerPartId,
-          partInstanceId,
+          semanticModelId,
           manufacturerId,
           manufacturerName,
           nameAtCustomer,
           customerPartId,
-          batchId,
           manufacturingDate,
           manufacturingCountry,
           specificAssetIds,
@@ -83,9 +81,8 @@ describe('PartsAssembler', () => {
           id,
           name: nameAtManufacturer,
           manufacturer: manufacturerName,
-          serialNumber: partInstanceId,
+          semanticModelId: semanticModelId,
           partNumber: manufacturerPartId,
-          batchNumber: batchId,
           productionCountry: manufacturingCountry,
           nameAtCustomer: nameAtCustomer,
           customerPartId: customerPartId,
@@ -105,13 +102,13 @@ describe('PartsAssembler', () => {
   describe('filterPartForView', () => {
     const productionDate = 'productionDate';
     const qualityType = 'qualityType';
-    const serialNumber = 'serialNumber';
+    const semanticModelId = 'semanticModelId';
     const semanticDataModel = 'semanticDataModel';
 
     it('should clean up data for part view', () => {
-      const data = { productionDate, qualityType, serialNumber, semanticDataModel, test: '' } as unknown as Part;
+      const data = { productionDate, qualityType, semanticModelId, semanticDataModel, test: '' } as unknown as Part;
       expect(PartsAssembler.filterPartForView({ data })).toEqual({
-        data: { name: undefined, productionDate, serialNumber, semanticDataModel } as unknown as Part,
+        data: { name: undefined, productionDate, semanticModelId, semanticDataModel } as unknown as Part,
       });
     });
 
@@ -126,17 +123,16 @@ describe('PartsAssembler', () => {
     const manufacturer = 'manufacturer';
     const partNumber = 'partNumber';
     const name = 'name';
-    const serialNumber = 'serialNumber';
-    const batchNumber = 'batchNumber';
+    const semanticModelId = 'semanticModelId';
     const van = 'van';
 
     it('should clean up data for manufacturer view', done => {
-      const data = { manufacturer, partNumber, name, serialNumber, batchNumber, test: '', van } as unknown as Part;
+      const data = { manufacturer, partNumber, name, semanticModelId, test: '', van } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
           expect(result).toEqual({
-            data: { manufacturer, partNumber, serialNumber, batchNumber, van } as unknown as Part,
+            data: { manufacturer, partNumber, semanticModelId, van } as unknown as Part,
           });
           done();
         });

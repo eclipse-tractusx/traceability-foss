@@ -39,8 +39,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     'name',
     'manufacturer',
     'partNumber',
-    'serialNumber',
-    'batchNumber',
+    'semanticModelId',
     'productionDate',
   ];
 
@@ -48,8 +47,7 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     name: true,
     manufacturer: true,
     partNumber: true,
-    serialNumber: true,
-    batchNumber: true,
+    semanticModelId: true,
     productionDate: true,
     semanticDataModel: true,
   };
