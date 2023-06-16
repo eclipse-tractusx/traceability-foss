@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.exception.IrsResponseException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
@@ -99,6 +100,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(AssetNotFoundException.class)
     ResponseEntity<ErrorResponse> handleAssetNotFoundException(AssetNotFoundException exception) {
         log.warn("handleAssetNotFoundException", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(IrsResponseException.class)
+    ResponseEntity<ErrorResponse> handleIrsResponseException(IrsResponseException exception) {
+        log.warn("handleIrsResponseException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }

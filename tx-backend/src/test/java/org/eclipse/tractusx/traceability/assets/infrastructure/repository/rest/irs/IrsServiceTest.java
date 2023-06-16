@@ -128,6 +128,7 @@ class IrsServiceTest {
 
     private JobDetailResponse provideTestJobResponse(String direction) {
         JobStatus jobStatus = new JobStatus(
+                "id",
                 "COMPLETED",
                 new Date(),
                 new Date(),

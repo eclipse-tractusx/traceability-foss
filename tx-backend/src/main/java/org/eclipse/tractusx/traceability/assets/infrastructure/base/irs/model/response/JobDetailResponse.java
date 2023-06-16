@@ -28,6 +28,8 @@ import com.fasterxml.jackson.annotation.Nulls;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.exception.IrsResponseException;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
@@ -86,7 +88,37 @@ public record JobDetailResponse(
     }
 
     public List<Asset> convertAssets() {
+        if (BomLifecycle.AS_BUILT.name().equals(jobStatus().parameter().bomLifecycle())) {
+            return convertAssetsAsBuilt();
+        }
+        if (BomLifecycle.AS_PLANNED.name().equals(jobStatus().parameter().bomLifecycle())) {
+            return convertAssetsAsPlanned();
+        }
 
+        throw new IrsResponseException("Could not find supported bomlifecycle in irs response for request with id: " + jobStatus().id());
+    }
+
+    private List<Asset> convertAssetsAsPlanned() {
+        Map<String, String> shortIds = shells().stream()
+                .collect(Collectors.toMap(Shell::identification, Shell::idShort));
+
+        Map<String, String> bpnMapping = bpns();
+
+        List<Asset> ownParts = mapToOwnParts(shortIds, bpnMapping);
+        List<Asset> otherParts = new ArrayList<>();
+
+        if (isSupplierDirection()) {
+            otherParts.addAll(mapToOtherParts(shortIds, Owner.SUPPLIER, bpnMapping));
+        } else {
+            otherParts.addAll(mapToOtherParts(shortIds, Owner.CUSTOMER, bpnMapping));
+        }
+        List<Asset> convertedAssets = new ArrayList<>();
+        convertedAssets.addAll(ownParts);
+        convertedAssets.addAll(otherParts);
+        return convertedAssets;
+    }
+
+    private List<Asset> convertAssetsAsBuilt() {
         Map<String, String> shortIds = shells().stream()
                 .collect(Collectors.toMap(Shell::identification, Shell::idShort));
 

@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import java.util.Date;
 
 public record JobStatus(
+        String id,
         String state,
         Date startedOn,
         Date lastModifiedOn,
