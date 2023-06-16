@@ -37,6 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -67,6 +68,9 @@ class AssetServiceImplTest {
         when(irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT))
                 .thenReturn(upwardAssets);
 
+        when(irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT))
+                .thenReturn(Collections.emptyList());
+
 
         // when
         assetService.synchronizeAssetsAsync(globalAssetId);
@@ -74,7 +78,8 @@ class AssetServiceImplTest {
         // then
         verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
         verify(irsRepository).findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-        verify(assetRepository).saveAll(any());
+        verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
+        verify(assetRepository, times(2)).saveAll(any());
     }
 
 
