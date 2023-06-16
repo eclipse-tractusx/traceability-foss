@@ -125,7 +125,7 @@ export const mockBmwAssets = [
     qualityType: QualityType.Ok,
     van: null,
     semanticDataModel: SemanticDataModel.BATCH,
-  }, //TODO: Mockdaten anpassen
+  },
   {
     id: 'urn:uuid:f4d16a8a-1bff-4d93-9715-2629f3ffa560',
     idShort: '--',
