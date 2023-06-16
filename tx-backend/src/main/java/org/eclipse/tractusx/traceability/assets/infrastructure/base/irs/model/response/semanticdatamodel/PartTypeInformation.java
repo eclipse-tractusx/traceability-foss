@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
 
 public record PartTypeInformation(
+        String classification,
         String nameAtManufacturer,
         String nameAtCustomer,
         String manufacturerPartId,

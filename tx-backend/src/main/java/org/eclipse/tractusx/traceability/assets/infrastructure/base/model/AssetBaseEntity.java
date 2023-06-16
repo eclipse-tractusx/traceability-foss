@@ -27,8 +27,6 @@ import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
 
-import java.time.Instant;
-
 @NoArgsConstructor
 @Getter
 @Setter
@@ -38,26 +36,15 @@ public class AssetBaseEntity {
 
     @Id
     private String id;
-
     private String idShort;
-    private String manufacturerId;
     private Owner owner;
-    private String manufacturerName;
-
-
+    private String classification;
     private boolean inInvestigation;
     private boolean activeAlert;
-
     private QualityType qualityType;
-    private String van;
-
-    private Instant manufacturingDate;
-    private String manufacturingCountry;
     private String manufacturerPartId;
     private String customerPartId;
     private String nameAtManufacturer;
     private String nameAtCustomer;
-    private String semanticModelId;
-
     private SemanticDataModelEntity semanticDataModel;
 }

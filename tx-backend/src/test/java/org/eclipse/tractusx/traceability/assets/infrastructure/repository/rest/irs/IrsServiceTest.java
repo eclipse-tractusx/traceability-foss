@@ -37,7 +37,9 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Quantity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -141,26 +143,30 @@ class IrsServiceTest {
                 new Shell("shell2", "Identification 2")
         );
 
+        ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), new Date());
+        Site site = new Site(new Date(), new Date(), "function", "cxid");
         List<SemanticDataModel> semanticDataModels = Collections.singletonList(
                 new SemanticDataModel(
                         "catenaXId123",
-                        new PartTypeInformation("Name at Manufacturer", "Name at Customer",
+                        new PartTypeInformation("classification", "Name at Manufacturer", "Name at Customer",
                                 "ManufacturerPartId123", "CustomerPartId123"),
                         new ManufacturingInformation("Country", new Date()),
-                        Collections.emptyList(),
-                        new ValidityPeriod(new Date(), new Date())
+                        Collections.emptyList(), validityPeriod, List.of(site)
+
                 )
         );
         List<Relationship> relationships;
+
+        Quantity quantity = new Quantity(1.5, "unit:abc");
         if (direction.equals(Direction.DOWNWARD.name())) {
             relationships = Arrays.asList(
-                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123"), Aspect.ASSEMBLY_PART_RELATIONSHIP),
-                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456"), Aspect.ASSEMBLY_PART_RELATIONSHIP)
+                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP),
+                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP)
             );
         } else {
             relationships = Arrays.asList(
-                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123"), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT),
-                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456"), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT)
+                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT),
+                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT)
             );
         }
 

@@ -50,4 +50,5 @@ public class Asset {
     private QualityType qualityType;
     private String van;
     private SemanticDataModel semanticDataModel;
+    private String classification;
 }

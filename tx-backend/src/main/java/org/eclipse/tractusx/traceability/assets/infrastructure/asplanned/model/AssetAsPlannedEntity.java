@@ -35,10 +35,6 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
     private List<AssetAsPlannedEntity.ChildDescription> childDescriptors;
 
-    @ElementCollection
-    @CollectionTable(name = "assets_as_planned_parents", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
-    private List<AssetAsPlannedEntity.ParentDescription> parentDescriptors;
-
     @ManyToMany(mappedBy = "assetsAsPlanned")
     private List<InvestigationEntity> investigations = new ArrayList<>();
 
@@ -55,38 +51,20 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
         private String idShort;
     }
 
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Data
-    @Embeddable
-    public static class ParentDescription {
-        private String id;
-        private String idShort;
-    }
-
     public static AssetAsPlannedEntity from(Asset asset) {
         return AssetAsPlannedEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
                 .nameAtManufacturer(asset.getSemanticModel().getNameAtManufacturer())
                 .manufacturerPartId(asset.getSemanticModel().getManufacturerPartId())
-                .semanticModelId(asset.getSemanticModelId())
-                .manufacturerId(asset.getManufacturerId())
-                .manufacturerName(asset.getManufacturerName())
                 .nameAtCustomer(asset.getSemanticModel().getNameAtCustomer())
                 .customerPartId(asset.getSemanticModel().getCustomerPartId())
-                .manufacturingDate(asset.getSemanticModel().getManufacturingDate())
-                .manufacturingCountry(asset.getSemanticModel().getManufacturingCountry())
                 .owner(asset.getOwner())
+                .classification(asset.getClassification())
                 .childDescriptors(asset.getChildRelations().stream()
                         .map(child -> new AssetAsPlannedEntity.ChildDescription(child.id(), child.idShort()))
                         .toList())
-                .parentDescriptors(asset.getParentRelations().stream()
-                        .map(parent -> new AssetAsPlannedEntity.ParentDescription(parent.id(), parent.idShort()))
-                        .toList())
                 .qualityType(asset.getQualityType())
-                .van(asset.getVan())
                 .activeAlert(asset.isActiveAlert())
                 .inInvestigation(asset.isUnderInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
@@ -96,23 +74,17 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     public static Asset toDomain(AssetAsPlannedEntity entity) {
         return Asset.builder()
                 .id(entity.getId())
+                .classification(entity.getClassification())
                 .idShort(entity.getIdShort())
                 .semanticDataModel(SemanticDataModelEntity.toDomain(entity.getSemanticDataModel()))
                 .semanticModel(SemanticModel.from(entity))
-                .semanticModelId(entity.getSemanticModelId())
-                .manufacturerId(entity.getManufacturerId())
-                .manufacturerName(entity.getManufacturerName())
                 .owner(entity.getOwner())
                 .childRelations(entity.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
                         .toList())
-                .parentRelations(entity.getParentDescriptors().stream()
-                        .map(parent -> new Descriptions(parent.getId(), parent.getIdShort()))
-                        .toList())
                 .underInvestigation(entity.isInInvestigation())
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
-                .van(entity.getVan())
                 .build();
     }
 

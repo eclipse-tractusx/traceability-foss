@@ -42,6 +42,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.Semant
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,14 @@ import java.util.List;
 @SuperBuilder
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
+
+    private String van;
+
+    private Instant manufacturingDate;
+    private String manufacturingCountry;
+    private String manufacturerId;
+    private String manufacturerName;
+    private String semanticModelId;
 
     @ElementCollection
     @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
@@ -90,6 +99,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .qualityType(asset.getQualityType())
                 .van(asset.getVan())
                 .activeAlert(asset.isActiveAlert())
+                .classification(asset.getClassification())
                 .inInvestigation(asset.isUnderInvestigation())
                 .semanticDataModel(SemanticDataModelEntity.from(asset.getSemanticDataModel()))
                 .build();
@@ -105,6 +115,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .manufacturerId(entity.getManufacturerId())
                 .manufacturerName(entity.getManufacturerName())
                 .owner(entity.getOwner())
+
                 .childRelations(entity.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
                         .toList())
@@ -115,6 +126,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
                 .van(entity.getVan())
+                .classification(entity.getClassification())
                 .build();
     }
 
