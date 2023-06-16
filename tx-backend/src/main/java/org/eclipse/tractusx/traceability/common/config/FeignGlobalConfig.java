@@ -29,7 +29,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableFeignClients(basePackages = {
-        "org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs",
+        "org.eclipse.tractusx.traceability.assets.infrastructure.base.irs",
         "org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry",
         "org.eclipse.tractusx.traceability.discovery.infrastructure.repository",
 })
