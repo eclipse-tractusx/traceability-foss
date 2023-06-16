@@ -24,7 +24,6 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inv
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
@@ -56,7 +55,7 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
 
     private final JpaInvestigationRepository jpaInvestigationRepository;
 
-    private final JpaAssetAsBuiltRepository assetsRepository;
+/*    private final JpaAssetAsBuiltRepository assetsRepository;*/
 
     private final JpaInvestigationNotificationRepository notificationRepository;
 
@@ -151,7 +150,8 @@ public class InvestigationsRepositoryImpl implements InvestigationRepository {
     }
 
     private List<AssetAsBuiltEntity> getAssetEntitiesByInvestigation(QualityNotification investigation) {
-        return assetsRepository.findByIdIn(investigation.getAssetIds());
+        /*   return assetsRepository.findByIdIn(investigation.getAssetIds());*/
+        return null;
     }
 
     private void handleNotificationCreate(InvestigationEntity investigationEntity, QualityNotificationMessage notificationDomain, List<AssetAsBuiltEntity> assetEntities) {

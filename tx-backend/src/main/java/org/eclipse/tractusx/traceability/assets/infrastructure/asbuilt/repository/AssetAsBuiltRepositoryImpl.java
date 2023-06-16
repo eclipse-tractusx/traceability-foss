@@ -92,6 +92,7 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
         return AssetAsBuiltEntity.toDomainList(assetAsBuiltRepository.saveAll(AssetAsBuiltEntity.fromList(assets)));
     }
 
+
     @Transactional
     @Override
     public void updateParentDescriptionsAndOwner(final Asset asset) {

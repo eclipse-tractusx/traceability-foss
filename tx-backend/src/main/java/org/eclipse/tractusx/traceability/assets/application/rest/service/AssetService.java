@@ -30,9 +30,7 @@ import java.util.Map;
 
 public interface AssetService {
 
-
     void synchronizeAssetsAsync(List<String> globalAssetIds);
-
 
     void synchronizeAssetsAsync(String globalAssetId);
 
