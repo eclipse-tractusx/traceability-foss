@@ -103,14 +103,14 @@ public record JobDetailResponse(
                 .collect(Collectors.toMap(Shell::identification, Shell::idShort));
 
         Map<String, String> bpnMapping = bpns();
-bpnMapping.entrySet();
+
         List<Asset> ownParts = mapToOwnPartsAsPlanned(shortIds, bpnMapping);
         List<Asset> otherParts = new ArrayList<>();
 
         if (isSupplierDirection()) {
-            otherParts.addAll(mapToOtherParts(shortIds, Owner.SUPPLIER, bpnMapping));
+            otherParts.addAll(mapToOtherPartsAsPlanned(shortIds, Owner.SUPPLIER, bpnMapping));
         } else {
-            otherParts.addAll(mapToOtherParts(shortIds, Owner.CUSTOMER, bpnMapping));
+            otherParts.addAll(mapToOtherPartsAsPlanned(shortIds, Owner.CUSTOMER, bpnMapping));
         }
         List<Asset> convertedAssets = new ArrayList<>();
         convertedAssets.addAll(ownParts);
@@ -143,6 +143,17 @@ bpnMapping.entrySet();
     }
 
     private List<Asset> mapToOtherParts(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
+        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !semanticDataModel.catenaXId().equals(jobStatus().globalAssetId())).toList();
+        return otherParts
+                .stream()
+                .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
+                        Collections.emptyList(),
+                        Collections.emptyList()))
+                .toList();
+
+    }
+
+    private List<Asset> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !semanticDataModel.catenaXId().equals(jobStatus().globalAssetId())).toList();
         return otherParts
                 .stream()
