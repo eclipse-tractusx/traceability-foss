@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.bpn;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.domain.repository.BpnRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
