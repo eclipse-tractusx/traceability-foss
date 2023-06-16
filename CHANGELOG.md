@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Quality Alert feature
 - Updated testdata to reflect asPlanned assets
+- Added asPlanned lifecycle to the asset domain
 
 ### Changed
 - Updated spring boot to 3.0.7 to fix: CVE-2023-20883
