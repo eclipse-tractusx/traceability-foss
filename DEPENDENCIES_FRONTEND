@@ -446,7 +446,7 @@ npm/npmjs/-/hosted-git-info/2.8.9, ISC, approved, clearlydefined
 npm/npmjs/-/hosted-git-info/4.1.0, ISC, approved, clearlydefined
 npm/npmjs/-/hosted-git-info/6.1.1, ISC, approved, clearlydefined
 npm/npmjs/-/hpack.js/2.1.6, MIT, approved, clearlydefined
-npm/npmjs/-/html-entities/2.3.3, MIT, approved, clearlydefined
+npm/npmjs/-/html-entities/2.3.3, MIT, approved, #9043
 npm/npmjs/-/html-escaper/2.0.2, MIT, approved, clearlydefined
 npm/npmjs/-/html-tags/3.3.1, MIT, approved, clearlydefined
 npm/npmjs/-/http-cache-semantics/4.1.1, BSD-2-Clause, approved, clearlydefined
