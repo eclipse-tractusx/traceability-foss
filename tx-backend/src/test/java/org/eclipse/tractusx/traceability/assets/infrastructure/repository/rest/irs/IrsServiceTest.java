@@ -38,6 +38,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -131,7 +132,7 @@ class IrsServiceTest {
                 new Date(),
                 new Date(),
                 "globalAsset123",
-                new Parameter(direction)
+                new Parameter(direction, "asBuilt")
         );
 
         List<Shell> shells = Arrays.asList(
@@ -145,7 +146,8 @@ class IrsServiceTest {
                         new PartTypeInformation("Name at Manufacturer", "Name at Customer",
                                 "ManufacturerPartId123", "CustomerPartId123"),
                         new ManufacturingInformation("Country", new Date()),
-                        Collections.emptyList()
+                        Collections.emptyList(),
+                        new ValidityPeriod(new Date(), new Date())
                 )
         );
         List<Relationship> relationships;

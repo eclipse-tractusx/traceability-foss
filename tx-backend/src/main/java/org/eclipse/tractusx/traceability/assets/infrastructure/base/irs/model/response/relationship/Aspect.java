@@ -27,7 +27,8 @@ public enum Aspect {
     BATCH("Batch"),
     SERIAL_PART_TYPIZATION("SerialPartTypization"),
     ASSEMBLY_PART_RELATIONSHIP("AssemblyPartRelationship"),
-    SINGLE_LEVEL_USAGE_AS_BUILT("SingleLevelUsageAsBuilt");
+    SINGLE_LEVEL_USAGE_AS_BUILT("SingleLevelUsageAsBuilt"),
+    SINGLE_LEVEL_BOM_AS_PLANNED("SingleLevelBomAsPlanned");
 
 
     private final String aspectName;

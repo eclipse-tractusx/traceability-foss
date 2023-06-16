@@ -21,43 +21,50 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import com.xebialabs.restito.builder.verify.VerifySequenced
+
 import org.glassfish.grizzly.http.util.HttpStatus
 import org.springframework.http.HttpHeaders
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp
 import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp
-import static com.xebialabs.restito.semantics.Action.header
-import static com.xebialabs.restito.semantics.Action.ok
-import static com.xebialabs.restito.semantics.Action.status
-import static com.xebialabs.restito.semantics.Condition.get
-import static com.xebialabs.restito.semantics.Condition.post
-import static com.xebialabs.restito.semantics.Condition.startsWithUri
-import static com.xebialabs.restito.semantics.Condition.withHeader
-import static com.xebialabs.restito.semantics.Condition.withPostBodyContaining
+import static com.xebialabs.restito.semantics.Action.*
+import static com.xebialabs.restito.semantics.Condition.*
 
 trait IrsApiSupport implements RestitoProvider {
 
-	void irsApiTriggerJob() {
-		whenHttp(stubServer()).match(
-			post("/irs/jobs"),
-			withHeader(HttpHeaders.AUTHORIZATION)
-		).then(
-			ok(),
-			header("Content-Type", "application/json"),
-			jsonResponseFromFile("./stubs/irs/post/jobs/response_200.json")
-		)
-	}
+    void irsApiTriggerJob() {
+        whenHttp(stubServer()).match(
+                post("/irs/jobs"),
+                withHeader(HttpHeaders.AUTHORIZATION)
+        ).then(
+                ok(),
+                header("Content-Type", "application/json"),
+                jsonResponseFromFile("./stubs/irs/post/jobs/response_200.json")
+        )
+    }
 
-	void irsApiTriggerJobFailed() {
-		whenHttp(stubServer()).match(
-			post("/irs/jobs"),
-			withHeader(HttpHeaders.AUTHORIZATION)
-		).then(
-			status(HttpStatus.INTERNAL_SERVER_ERROR_500),
-			header("Content-Type", "application/json")
-		)
-	}
+    void irsApiReturnsJobDetailsAsPlannedDownward() {
+        whenHttp(stubServer()).match(
+                get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54"),
+                withHeader(HttpHeaders.AUTHORIZATION)
+        )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_downward_asPlanned.json")
+                )
+    }
+
+
+    void irsApiTriggerJobFailed() {
+        whenHttp(stubServer()).match(
+                post("/irs/jobs"),
+                withHeader(HttpHeaders.AUTHORIZATION)
+        ).then(
+                status(HttpStatus.INTERNAL_SERVER_ERROR_500),
+                header("Content-Type", "application/json")
+        )
+    }
 
 	void irsApiReturnsJobDetailsWithDuplicatedCatenaXId() {
 		whenHttp(stubServer()).match(

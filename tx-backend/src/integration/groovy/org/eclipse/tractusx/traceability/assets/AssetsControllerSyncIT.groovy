@@ -66,6 +66,40 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
         verifyIrsApiTriggerJobCalledTimes(2)
     }
 
+    def "should synchronize assets as planned"() {
+        given:
+        oauth2ApiReturnsTechnicalUserToken()
+        irsApiTriggerJob()
+        irsApiReturnsJobDetailsAsPlannedDownward()
+
+        when:
+        given()
+                .contentType(ContentType.JSON)
+                .body(
+                        asJson(
+                                [
+                                        globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
+                                ]
+                        )
+                )
+                .header(jwtAuthorization(ADMIN))
+                .when()
+                .post("/api/assets/sync")
+                .then()
+                .statusCode(200)
+
+        then:
+        eventually {
+            assertAssetsSize(14)
+            assertHasRequiredIdentifiers()
+            assertHasChildCount("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", 5)
+        }
+
+        and:
+        verifyOAuth2ApiCalledOnceForTechnicalUserToken()
+        verifyIrsApiTriggerJobCalledTimes(2)
+    }
+
     def "should synchronize assets using retry"() {
         given:
         oauth2ApiReturnsTechnicalUserToken()

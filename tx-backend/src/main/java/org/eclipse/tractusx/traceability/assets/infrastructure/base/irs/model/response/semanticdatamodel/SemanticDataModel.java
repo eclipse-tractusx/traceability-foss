@@ -41,13 +41,16 @@ public record SemanticDataModel(
         String catenaXId,
         PartTypeInformation partTypeInformation,
         ManufacturingInformation manufacturingInformation,
-        List<LocalId> localIdentifiers
+        List<LocalId> localIdentifiers,
+        ValidityPeriod validityPeriod
+
 ) {
-    public SemanticDataModel(String catenaXId, PartTypeInformation partTypeInformation, ManufacturingInformation manufacturingInformation, List<LocalId> localIdentifiers) {
+    public SemanticDataModel(String catenaXId, PartTypeInformation partTypeInformation, ManufacturingInformation manufacturingInformation, List<LocalId> localIdentifiers, ValidityPeriod validityPeriod) {
         this.catenaXId = catenaXId;
         this.partTypeInformation = partTypeInformation;
         this.manufacturingInformation = manufacturingInformation;
         this.localIdentifiers = Objects.requireNonNullElse(localIdentifiers, Collections.emptyList());
+        this.validityPeriod = validityPeriod;
     }
 
     public Optional<String> getLocalId(LocalIdKey key) {

@@ -48,6 +48,7 @@ public record JobDetailResponse(
 
     private static final String SINGLE_LEVEL_USAGE_AS_BUILT = "SingleLevelUsageAsBuilt";
     private static final String ASSEMBLY_PART_RELATIONSHIP = "AssemblyPartRelationship";
+    private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
 
     @JsonCreator
     static JobDetailResponse of(
