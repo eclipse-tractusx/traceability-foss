@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.config.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -65,10 +66,10 @@ public class AssetService {
     public void synchronizeAssetsAsync(String globalAssetId) {
         log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
         try {
-            List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects());
+            List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
             assetRepository.saveAll(downwardAssets);
 
-            List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspects());
+            List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
             upwardAssets.forEach(asset -> {
                 if (assetRepository.existsById(asset.getId())) {
                     assetRepository.updateParentDescriptionsAndOwner(asset);

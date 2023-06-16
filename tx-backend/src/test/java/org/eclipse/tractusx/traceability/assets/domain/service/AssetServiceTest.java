@@ -23,6 +23,7 @@ import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory;
@@ -61,9 +62,9 @@ class AssetServiceTest {
         List<Asset> downwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(Collections.emptyList(), childDescriptionList));
         List<Asset> upwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(parentDescriptionsList, Collections.emptyList()));
 
-        when(irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects()))
+        when(irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT))
                 .thenReturn(downwardAssets);
-        when(irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspects()))
+        when(irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT))
                 .thenReturn(upwardAssets);
 
 
@@ -71,8 +72,8 @@ class AssetServiceTest {
         assetService.synchronizeAssetsAsync(globalAssetId);
 
         // then
-        verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspects());
-        verify(irsRepository).findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspects());
+        verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        verify(irsRepository).findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
         verify(assetRepository).saveAll(any());
     }
 

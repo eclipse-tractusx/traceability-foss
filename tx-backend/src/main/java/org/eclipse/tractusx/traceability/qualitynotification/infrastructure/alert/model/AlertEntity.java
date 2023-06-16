@@ -31,6 +31,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
@@ -58,6 +59,14 @@ public class AlertEntity extends QualityNotificationBaseEntity {
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
     private List<AssetAsBuiltEntity> assets;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "assets_as_planned_alerts",
+            joinColumns = @JoinColumn(name = "alert_id"),
+            inverseJoinColumns = @JoinColumn(name = "asset_id")
+    )
+    private List<AssetAsPlannedEntity> assetsAsPlanned;
 
     @OneToMany(mappedBy = "alert")
     private List<AlertNotificationEntity> notifications;

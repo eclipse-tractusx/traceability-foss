@@ -41,11 +41,11 @@ public enum Aspect {
         return aspectName;
     }
 
-    public static List<String> downwardAspects() {
+    public static List<String> downwardAspectsForAssetsAsBuilt() {
         return List.of(BATCH.getAspectName(), SERIAL_PART_TYPIZATION.getAspectName(), ASSEMBLY_PART_RELATIONSHIP.getAspectName());
     }
 
-    public static List<String> upwardAspects() {
+    public static List<String> upwardAspectsForAssetsAsBuilt() {
         return List.of(BATCH.getAspectName(), SERIAL_PART_TYPIZATION.getAspectName(), SINGLE_LEVEL_USAGE_AS_BUILT.getAspectName());
     }
 }
