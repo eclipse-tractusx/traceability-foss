@@ -33,7 +33,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
@@ -71,8 +70,7 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
             joinColumns = @JoinColumn(name = "alert_notification_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetAsPlannedEntity> assetsAsPlanned;
-
+    private List<AssetAsBuiltEntity> assetsAsPlanned;
 
     public static QualityNotificationMessage toDomain(AlertNotificationEntity alertNotificationEntity) {
         return QualityNotificationMessage.builder()

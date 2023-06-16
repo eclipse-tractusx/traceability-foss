@@ -61,6 +61,14 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
     )
     private List<AssetAsBuiltEntity> assets;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "assets_as_planned_investigations",
+            joinColumns = @JoinColumn(name = "investigation_id"),
+            inverseJoinColumns = @JoinColumn(name = "asset_id")
+    )
+    private List<AssetAsBuiltEntity> assetsAsPlanned;
+
     @OneToMany(mappedBy = "investigation")
     private List<InvestigationNotificationEntity> notifications;
 

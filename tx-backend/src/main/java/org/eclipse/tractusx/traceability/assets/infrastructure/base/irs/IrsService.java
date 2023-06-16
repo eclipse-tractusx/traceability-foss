@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.repository.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
@@ -46,7 +47,7 @@ public class IrsService implements IrsRepository {
 
     @Override
     public List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects) {
-        RegisterJobResponse startJobResponse = irsClient.registerJob(RegisterJobRequest.buildJobRequest(globalAssetId, direction, aspects));
+        RegisterJobResponse startJobResponse = irsClient.registerJob(RegisterJobRequest.buildJobRequest(globalAssetId, direction, aspects, BomLifecycle.AS_BUILT));
         JobDetailResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
 
         JobStatus jobStatus = jobResponse.jobStatus();
