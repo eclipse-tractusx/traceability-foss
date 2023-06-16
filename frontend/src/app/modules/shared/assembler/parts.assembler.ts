@@ -50,6 +50,7 @@ export class PartsAssembler {
       parents: part.parentDescriptions?.map(parent => parent.id) || [],
       shouldHighlight: part.underInvestigation || false,
       van: part.van || '--',
+      semanticDataModel: part.semanticDataModel
     };
   }
 
@@ -78,8 +79,8 @@ export class PartsAssembler {
     if (!viewData?.data) {
       return viewData;
     }
-    const { name, productionDate, serialNumber } = viewData.data;
-    return { data: { name, productionDate, serialNumber } as Part };
+    const { name, semanticDataModel, productionDate, serialNumber } = viewData.data;
+    return { data: { name, semanticDataModel, productionDate, serialNumber } as Part };
   }
 
   public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {
@@ -113,8 +114,11 @@ export class PartsAssembler {
       return '';
     }
 
+
+
     const localToApiMapping = new Map<string, string>([
       ['id', 'id'],
+      ['semanticDataModel', 'semanticDataModel'],
       ['name', 'nameAtManufacturer'],
       ['manufacturer', 'manufacturerName'],
       ['serialNumber', 'manufacturerPartId'],

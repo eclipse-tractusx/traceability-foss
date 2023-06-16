@@ -81,7 +81,8 @@
       "createdDate": "Erstelldatum",
       "createdBy": "Erstellt von",
       "sendTo": "Gesendet an",
-      "severity": "Gefahrenstufe"
+      "severity": "Gefahrenstufe",
+      "semanticDataModel": "Semantisches Datenmodell"
     }
   },
   "dataLoading": {

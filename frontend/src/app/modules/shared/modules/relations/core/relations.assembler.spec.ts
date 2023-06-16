@@ -43,7 +43,7 @@ describe('Relations assembler', () => {
         children: [],
         parents: [],
         id: 'id',
-        state: 'error',
+        state: 'done',
         text: 'name',
         title: 'name | serialNumber',
       } as TreeElement;

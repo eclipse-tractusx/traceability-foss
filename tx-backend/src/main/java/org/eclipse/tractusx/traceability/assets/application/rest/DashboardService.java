@@ -16,17 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+package org.eclipse.tractusx.traceability.assets.application.rest;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 
-public enum SemanticDataModelResponse {
-    BATCH, SERIALPARTTYPIZATION, UNKNOWN;
-
-    public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
-        if (semanticDataModel == null) {
-            return SemanticDataModelResponse.UNKNOWN;
-        }
-        return SemanticDataModelResponse.valueOf(semanticDataModel.name());
-    }
+public interface DashboardService {
+    Dashboard getDashboard();
 }

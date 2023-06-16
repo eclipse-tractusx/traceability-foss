@@ -16,17 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
+import { _environment } from './_environment.base';
 
-public enum SemanticDataModelResponse {
-    BATCH, SERIALPARTTYPIZATION, UNKNOWN;
-
-    public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
-        if (semanticDataModel == null) {
-            return SemanticDataModelResponse.UNKNOWN;
-        }
-        return SemanticDataModelResponse.valueOf(semanticDataModel.name());
-    }
-}
+export const environment = {
+  ..._environment,
+  mockService: false,
+  authDisabled: false,
+  apiUrl: 'https://traceability-test.dev.demo.catena-x.net/api',
+  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
+  clientId: 'Cl17-CX-Part',
+  api: '',
+};
