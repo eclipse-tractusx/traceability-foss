@@ -116,7 +116,7 @@ class PublisherAlertsControllerIT extends IntegrationSpecification implements Ir
         }
 
         and:
-        assertAlertNotificationsSize(3)
+        assertAlertNotificationsSize(1)
 
         and:
         given()
@@ -503,7 +503,7 @@ class PublisherAlertsControllerIT extends IntegrationSpecification implements Ir
             assert asset.isActiveAlert()
         }
         and:
-        assertAlertNotificationsSize(3)
+        assertAlertNotificationsSize(1)
         and:
         given()
                 .header(jwtAuthorization(ADMIN))
