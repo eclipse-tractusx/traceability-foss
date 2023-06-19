@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.application.response;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
@@ -49,6 +50,7 @@ public enum QualityNotificationSeverityResponse {
         return QualityNotificationSeverityResponse.fromString(qualityNotificationSeverity.getRealName());
     }
 
+    @JsonValue
     public String getRealName() {
         return realName;
     }
