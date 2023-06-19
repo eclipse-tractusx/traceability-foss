@@ -42,8 +42,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     'name',
     'manufacturer',
     'partNumber',
-    'serialNumber',
-    'batchNumber',
+    'semanticModelId',
     'productionDate',
     'productionCountry',
   ];
@@ -54,8 +53,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     name: true,
     manufacturer: true,
     partNumber: true,
-    serialNumber: true,
-    batchNumber: true,
+    semanticModelId: true,
     productionDate: true,
     productionCountry: true,
   };
@@ -88,7 +86,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       displayedColumns: this.displayedColumns,
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
       sortableColumns: this.sortableColumns,
-      columnRoles: { select: 'wip' },
     };
   }
 

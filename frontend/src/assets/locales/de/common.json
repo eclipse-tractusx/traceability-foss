@@ -69,8 +69,7 @@
       "name": "Name",
       "manufacturer": "Hersteller",
       "partNumber": "Produktnummer",
-      "serialNumber": "Seriennummer",
-      "batchNumber": "Chargennummer",
+      "semanticModelId": "Semantische Modellnummer",
       "qualityType": "Qualitätsstufe",
       "productionDate": "Produktionsdatum",
       "productionCountry": "Produktionsland",
@@ -100,7 +99,7 @@
     "MINOR": "Gering",
     "MAJOR": "Schwerwiegend",
     "CRITICAL": "Kritisch",
-    "LIFE-THREATENING": "Lebensgefährlich"
+    "LIFE_THREATENING": "Lebensgefährlich"
   },
   "input": {
     "minMaxLengthHint": "{{current}} Zeichen. (Min. {{min}} und max {{max}} Zeichen)",

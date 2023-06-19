@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { TitleCasePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
@@ -156,6 +157,7 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     StaticIdService,
     PartsService,
     ErrorMessagePipe,
+    TitleCasePipe,
     {
       provide: MatPaginatorIntl,
       useClass: PaginatorIntlService,
