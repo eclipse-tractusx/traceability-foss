@@ -90,8 +90,8 @@ public class AlertServiceImpl implements AlertService {
 
     @Override
     public void approve(Long notificationId) {
-        QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        final QualityNotification approvedAlert = notificationPublisherService.approveNotification(investigation);
+        QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
+        final QualityNotification approvedAlert = notificationPublisherService.approveNotification(alert);
         alertRepository.updateQualityNotificationEntity(approvedAlert);
     }
 
@@ -109,7 +109,7 @@ public class AlertServiceImpl implements AlertService {
         QualityNotification alert = loadOrNotFoundException(new QualityNotificationId(notificationId));
         QualityNotification updatedAlert = notificationPublisherService.updateNotificationPublisher(alert, notificationStatus, reason);
 
-        assetService.setAssetsInvestigationStatus(updatedAlert);
+        assetService.setAssetsAlertStatus(updatedAlert);
         alertRepository.updateQualityNotificationEntity(updatedAlert);
     }
 
