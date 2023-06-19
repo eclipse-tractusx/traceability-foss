@@ -69,8 +69,7 @@
       "name": "Name",
       "manufacturer": "Manufacturer",
       "partNumber": "Part number",
-      "serialNumber": "Serial number",
-      "batchNumber": "Batch number",
+      "semanticModelId": "Semantic Model ID",
       "productionDate": "Production date",
       "qualityType": "Quality type",
       "productionCountry": "Production country",
@@ -99,7 +98,7 @@
     "MINOR": "Minor",
     "MAJOR": "Major",
     "CRITICAL": "Critical",
-    "LIFE-THREATENING": "Life-Threatening"
+    "LIFE_THREATENING": "Life-Threatening"
   },
   "input": {
     "minMaxLengthHint": "{{current}} Characters. (Min. {{min}} and max. {{max}} characters)",
