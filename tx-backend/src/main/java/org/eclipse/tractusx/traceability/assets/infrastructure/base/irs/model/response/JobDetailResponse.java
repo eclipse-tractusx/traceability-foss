@@ -172,14 +172,15 @@ public record JobDetailResponse(
 
     private List<Asset> mapToOwnPartsAsPlanned(Map<String, String> shortIds, Map<String, String> bpnMapping) {
 
-        List<SemanticDataModel> ownParts = semanticDataModels().stream().filter(semanticDataModel -> semanticDataModel.catenaXId().equals(jobStatus().globalAssetId())).toList();
+        List<SemanticDataModel> ownPartsAsPlanned = semanticDataModels().stream().filter(semanticDataModel -> semanticDataModel.catenaXId().equals(jobStatus().globalAssetId()) && "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned".equals(semanticDataModel.getAspectType())).toList();
+        //List<SemanticDataModel> ownPartsPartSiteInformation = semanticDataModels().stream().filter(semanticDataModel -> semanticDataModel.catenaXId().equals(jobStatus().globalAssetId()) && "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned".equals(semanticDataModel.getAspectType())).toList();
 
         Map<String, List<Relationship>> singleLevelBomRelationship = relationships().stream()
                 .filter(relationship -> SINGLE_LEVEL_BOM_AS_PLANNED.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
 
-        return ownParts
+        return ownPartsAsPlanned
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, Owner.OWN, bpnMapping,
                         Collections.emptyList(),
