@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
-import org.eclipse.tractusx.traceability.assets.domain.service.DashboardService;
+import org.eclipse.tractusx.traceability.assets.domain.service.DashboardServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -35,7 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class DashboardControllerTest {
 
     @Mock
-    DashboardService dashboardService;
+    DashboardServiceImpl dashboardService;
 
     @Test
     void dashboard() {

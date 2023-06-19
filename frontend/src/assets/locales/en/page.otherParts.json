@@ -12,11 +12,12 @@
     "customerData": "Customer data",
     "name": "Name",
     "partNumber": "Part number",
-    "serialNumber": "Serial number",
+    "semanticModelId": "Semantic Model ID",
     "productionDate": "Production date",
     "manufacturer": "Manufacturer",
     "nameAtCustomer": "Name at customer",
-    "customerPartId": "Customer part ID"
+    "customerPartId": "Customer part ID",
+    "semanticDataModel": "Semantic Data Model"
   },
   "page": {
     "selectedParts": {

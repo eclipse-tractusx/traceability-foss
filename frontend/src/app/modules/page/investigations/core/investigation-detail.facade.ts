@@ -19,9 +19,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
-import { Part } from '@page/parts/model/parts.model';
+import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
 import { Notification } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { PartsService } from '@shared/service/parts.service';
@@ -37,7 +38,9 @@ export class InvestigationDetailFacade {
   constructor(
     private readonly partsService: PartsService,
     private readonly investigationDetailState: InvestigationDetailState,
-  ) {}
+    private readonly titleCasePipe: TitleCasePipe,
+  ) {
+  }
 
   public get notificationPartsInformation$(): Observable<View<Part[]>> {
     return this.investigationDetailState.investigationPartsInformation$;
@@ -71,7 +74,12 @@ export class InvestigationDetailFacade {
     this.notificationPartsInformationDescription = this.partsService
       .getPartDetailOfIds(notification.assetIds)
       .subscribe({
-        next: data => (this.investigationDetailState.investigationPartsInformation = { data }),
+        next: data => {
+          data.forEach(part => {
+            part.semanticDataModel = <SemanticDataModel>this.titleCasePipe.transform(part.semanticDataModel);
+          })
+          this.investigationDetailState.investigationPartsInformation = { data };
+        },
         error: error => (this.investigationDetailState.investigationPartsInformation = { error }),
       });
   }
@@ -87,7 +95,12 @@ export class InvestigationDetailFacade {
         switchMap(partIds => (!!partIds && !!partIds.length ? this.partsService.getPartDetailOfIds(partIds) : of([]))),
       )
       .subscribe({
-        next: data => (this.investigationDetailState.supplierPartsInformation = { data }),
+        next: data => {
+          data.forEach(part => {
+            part.semanticDataModel = this.titleCasePipe.transform(part.semanticDataModel);
+          })
+          this.investigationDetailState.supplierPartsInformation = { data };
+        },
         error: error => (this.investigationDetailState.supplierPartsInformation = { error }),
       });
   }
@@ -97,7 +110,7 @@ export class InvestigationDetailFacade {
     if (!data) return;
 
     const sortedData = this.partsService.sortParts(data, key, direction);
-    this.investigationDetailState.investigationPartsInformation = { data: [...sortedData] };
+    this.investigationDetailState.investigationPartsInformation = { data: [ ...sortedData ] };
   }
 
   public sortSupplierParts(key: string, direction: SortDirection): void {
@@ -105,7 +118,7 @@ export class InvestigationDetailFacade {
     if (!data) return;
 
     const sortedData = this.partsService.sortParts(data, key, direction);
-    this.investigationDetailState.supplierPartsInformation = { data: [...sortedData] };
+    this.investigationDetailState.supplierPartsInformation = { data: [ ...sortedData ] };
   }
 
   public unsubscribeSubscriptions(): void {
@@ -114,7 +127,7 @@ export class InvestigationDetailFacade {
   }
 
   private getIdsFromPartList(parts: Part[]): string[] {
-    const childIds = parts.map(part => part.children).reduce((p, c) => [...p, ...c], []);
-    return [...new Set(childIds)];
+    const childIds = parts.map(part => part.children).reduce((p, c) => [ ...p, ...c ], []);
+    return [ ...new Set(childIds) ];
   }
 }

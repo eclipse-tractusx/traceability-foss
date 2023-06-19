@@ -69,8 +69,7 @@
       "name": "Name",
       "manufacturer": "Hersteller",
       "partNumber": "Produktnummer",
-      "serialNumber": "Seriennummer",
-      "batchNumber": "Chargennummer",
+      "semanticModelId": "Semantische Modellnummer",
       "qualityType": "Qualitätsstufe",
       "productionDate": "Produktionsdatum",
       "productionCountry": "Produktionsland",
@@ -81,7 +80,8 @@
       "createdDate": "Erstelldatum",
       "createdBy": "Erstellt von",
       "sendTo": "Gesendet an",
-      "severity": "Gefahrenstufe"
+      "severity": "Gefahrenstufe",
+      "semanticDataModel": "Semantisches Datenmodell"
     }
   },
   "dataLoading": {
@@ -99,7 +99,7 @@
     "MINOR": "Gering",
     "MAJOR": "Schwerwiegend",
     "CRITICAL": "Kritisch",
-    "LIFE-THREATENING": "Lebensgefährlich"
+    "LIFE_THREATENING": "Lebensgefährlich"
   },
   "input": {
     "minMaxLengthHint": "{{current}} Zeichen. (Min. {{min}} und max {{max}} Zeichen)",

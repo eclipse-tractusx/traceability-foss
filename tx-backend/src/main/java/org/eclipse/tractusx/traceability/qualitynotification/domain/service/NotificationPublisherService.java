@@ -104,8 +104,8 @@ public class NotificationPublisherService {
 
         List<Asset> assets = assetRepository.getAssetsById(assetIds);
 
-        assets.stream().map(asset -> createAlert(applicationBPN, description, targetDate, severity, asset, receiverBpn))
-                .forEach(notification::addNotification);
+        QualityNotificationMessage qualityNotificationMessage = createAlert(applicationBPN, description, targetDate, severity, assets, receiverBpn);
+        notification.addNotification(qualityNotificationMessage);
 
         assetService.setAssetsAlertStatus(notification);
         return notification;
@@ -132,7 +132,7 @@ public class NotificationPublisherService {
                 .build();
     }
 
-    private QualityNotificationMessage createAlert(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Asset affectedAsset, String targetBpn) {
+    private QualityNotificationMessage createAlert(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, List<Asset> affectedAssets, String targetBpn) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
@@ -144,7 +144,7 @@ public class NotificationPublisherService {
                 .receiverManufacturerName(getManufacturerName(targetBpn))
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.CREATED)
-                .affectedParts(List.of(new QualityNotificationAffectedPart(affectedAsset.getId())))
+                .affectedParts(affectedAssets.stream().map(Asset::getId).map(QualityNotificationAffectedPart::new).toList())
                 .targetDate(targetDate)
                 .severity(severity)
                 .edcNotificationId(notificationId)

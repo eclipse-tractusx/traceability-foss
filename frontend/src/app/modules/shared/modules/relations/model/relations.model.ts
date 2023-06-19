@@ -19,19 +19,19 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { QualityType } from '@page/parts/model/parts.model';
+import { QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 
 //ToDo: Move to model.d3.ts!!
 export type LoadedElements = Record<string, TreeElement>;
 export type OpenElements = Record<string, string[]>;
-type State = 'done' | 'loading' | 'error' | QualityType;
+type State = 'done' | 'loading' | 'error' | QualityType | SemanticDataModel;
 
 export interface TreeElement {
   id: string;
   title: string;
   text?: string;
 
-  state?: State;
+  state?: State | string;
   children?: string[];
   parents?: string[];
 }
@@ -41,7 +41,7 @@ export interface TreeStructure {
   title: string;
   text?: string;
 
-  state: State;
+  state: State | string;
   children?: TreeStructure[];
   relations?: TreeStructure[];
 }

@@ -62,12 +62,12 @@ describe('Relations facade', () => {
   const getOpenElements = async () => await firstValueFrom(componentStateMock.openElements$.pipe(debounceTime(700)));
   describe('openElementWithChildren', () => {
     it('should set open elements state to new one', async () => {
-      const { id, childDescriptions } = MOCK_part_1;
-      const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
+      const { id, childRelations } = MOCK_part_1;
+      const mockTreeElement = { id, children: childDescriptionsToChild(childRelations) } as TreeElement;
       const expected = {
-        [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childDescriptions),
-        [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childDescriptions),
-        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childDescriptions),
+        [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childRelations),
+        [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childRelations),
+        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childRelations),
       };
 
       relationsFacade.openElementWithChildren(mockTreeElement);
@@ -77,8 +77,8 @@ describe('Relations facade', () => {
 
   describe('updateOpenElement', () => {
     it('should not update open elements if element is not already open', async () => {
-      const { id, childDescriptions } = MOCK_part_1;
-      const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
+      const { id, childRelations } = MOCK_part_1;
+      const mockTreeElement = { id, children: childDescriptionsToChild(childRelations) } as TreeElement;
       const expected = {};
 
       relationsFacade.updateOpenElement(mockTreeElement);
@@ -88,8 +88,8 @@ describe('Relations facade', () => {
 
   describe('deleteOpenElement', () => {
     it('should cancel opened element', async () => {
-      const { id, childDescriptions } = MOCK_part_1;
-      const children = childDescriptionsToChild(childDescriptions);
+      const { id, childRelations } = MOCK_part_1;
+      const children = childDescriptionsToChild(childRelations);
       const mockTreeElement = { id, children } as TreeElement;
       const expected = { MOCK_part_1: ['MOCK_part_2', 'MOCK_part_3'], MOCK_part_3: ['MOCK_part_5'] };
 
@@ -100,12 +100,12 @@ describe('Relations facade', () => {
     });
 
     it('should cancel open element', async () => {
-      const { id, childDescriptions } = MOCK_part_1;
-      const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
+      const { id, childRelations } = MOCK_part_1;
+      const mockTreeElement = { id, children: childDescriptionsToChild(childRelations) } as TreeElement;
       const expected_all = {
-        [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childDescriptions),
-        [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childDescriptions),
-        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childDescriptions),
+        [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childRelations),
+        [MOCK_part_2.id]: childDescriptionsToChild(MOCK_part_2.childRelations),
+        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childRelations),
       };
 
       relationsFacade.openElementWithChildren(mockTreeElement);
@@ -115,8 +115,8 @@ describe('Relations facade', () => {
       relationsFacade.deleteOpenElement(MOCK_part_2.id);
 
       const expected_deleted = {
-        [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childDescriptions),
-        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childDescriptions),
+        [MOCK_part_1.id]: childDescriptionsToChild(MOCK_part_1.childRelations),
+        [MOCK_part_3.id]: childDescriptionsToChild(MOCK_part_3.childRelations),
       };
 
       const deletedOpenElements = await getOpenElements();
@@ -141,9 +141,9 @@ describe('Relations facade', () => {
                 title: 'MOCK_part_4',
               },
             ],
-            state: 'Minor',
+            state: 'SERIALPARTTYPIZATION',
             text: 'BMW 520d Touring',
-            title: 'BMW 520d Touring | 3N1CE2CPXFL392065',
+            title: 'BMW 520d Touring | mysemanticmodelId2',
           },
           {
             children: [],
@@ -156,9 +156,9 @@ describe('Relations facade', () => {
                 title: 'MOCK_part_5',
               },
             ],
-            state: 'Major',
+            state: 'SERIALPARTTYPIZATION',
             text: 'A 180 Limousine',
-            title: 'A 180 Limousine | JF1ZNAA12E8706066',
+            title: 'A 180 Limousine | mysemanticModelId3',
           },
         ],
         relations: [
@@ -177,8 +177,8 @@ describe('Relations facade', () => {
         ],
       } as TreeStructure;
 
-      const { id, childDescriptions } = MOCK_part_1;
-      const mockTreeElement = { id, children: childDescriptionsToChild(childDescriptions) } as TreeElement;
+      const { id, childRelations } = MOCK_part_1;
+      const mockTreeElement = { id, children: childDescriptionsToChild(childRelations) } as TreeElement;
 
       loadedElementsFacade.addLoadedElement(mockTreeElement);
       relationsFacade.openElementWithChildren(mockTreeElement);

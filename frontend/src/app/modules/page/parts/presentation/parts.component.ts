@@ -38,22 +38,22 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly displayedColumns: string[] = [
     'select',
     'id',
+    'semanticDataModel',
     'name',
     'manufacturer',
     'partNumber',
-    'serialNumber',
-    'batchNumber',
+    'semanticModelId',
     'productionDate',
     'productionCountry',
   ];
 
   public readonly sortableColumns: Record<string, boolean> = {
     id: true,
+    semanticDataModel: true,
     name: true,
     manufacturer: true,
     partNumber: true,
-    serialNumber: true,
-    batchNumber: true,
+    semanticModelId: true,
     productionDate: true,
     productionCountry: true,
   };
@@ -86,7 +86,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       displayedColumns: this.displayedColumns,
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
       sortableColumns: this.sortableColumns,
-      columnRoles: { select: 'wip' },
     };
   }
 

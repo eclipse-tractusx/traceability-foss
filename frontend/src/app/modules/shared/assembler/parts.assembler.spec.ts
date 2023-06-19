@@ -21,7 +21,7 @@
 
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination } from '@core/model/pagination.model';
-import { Part, QualityType } from '@page/parts/model/parts.model';
+import { Part, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { of } from 'rxjs';
 
@@ -46,55 +46,61 @@ describe('PartsAssembler', () => {
       const expected = [];
       for (let i = 0; i < 3; i++) {
         const id = 'id_' + i;
-        const batchId = 'batchId_' + i;
         const idShort = 'idShort_' + i;
-        const nameAtManufacturer = 'nameAtManufacturer';
-        const manufacturerPartId = 'manufacturerPartId';
-        const partInstanceId = 'partInstanceId';
+        const semanticModelId = 'semanticModelId';
         const manufacturerId = 'manufacturerId';
         const manufacturerName = 'manufacturerName';
-        const nameAtCustomer = 'nameAtCustomer';
-        const customerPartId = 'customerPartId';
-        const manufacturingDate = 'manufacturingDate';
-        const manufacturingCountry = 'manufacturingCountry';
-        const specificAssetIds = { id_1: 'id_1' };
-        const childDescriptions = [{ id: 'id', idShort: 'idShort' }];
+        const semanticModel = {
+          manufacturingDate: 'manufacturingDate',
+          manufacturingCountry: 'manufacturingCountry',
+          manufacturerPartId: 'manufacturerPartId',
+          customerPartId: 'customerPartId',
+          nameAtManufacturer: 'nameAtManufacturer',
+          nameAtCustomer: 'nameAtCustomer'
+        }
+        const owner = 'OWN';
+        const activeAlert = false;
+        const underInvestigation = false;
+        const childRelations = [{ id: 'id', idShort: 'idShort' }];
+        const parentRelations = [];
+        const qualityType = 'Ok';
         const van = 'van';
+        const semanticDataModel = 'BATCH';
 
         testData.push({
           id,
           idShort,
-          nameAtManufacturer,
-          manufacturerPartId,
-          partInstanceId,
+          semanticModelId,
           manufacturerId,
           manufacturerName,
-          nameAtCustomer,
-          customerPartId,
-          batchId,
-          manufacturingDate,
-          manufacturingCountry,
-          specificAssetIds,
-          childDescriptions,
+          semanticModel,
+          owner,
+          activeAlert,
+          underInvestigation,
+          childRelations,
+          parentRelations,
+          qualityType,
           van,
+          semanticDataModel
         });
 
         expected.push({
           id,
-          name: nameAtManufacturer,
+          name: semanticModel.nameAtManufacturer,
           manufacturer: manufacturerName,
-          serialNumber: partInstanceId,
-          partNumber: manufacturerPartId,
-          batchNumber: batchId,
-          productionCountry: manufacturingCountry,
-          nameAtCustomer: nameAtCustomer,
-          customerPartId: customerPartId,
+          semanticModelId: semanticModelId,
+          partNumber: semanticModel.manufacturerPartId,
+          productionCountry: semanticModel.manufacturingCountry,
+          nameAtCustomer: semanticModel.nameAtCustomer,
+          customerPartId: semanticModel.customerPartId,
           qualityType: QualityType.Ok,
-          productionDate: new CalendarDateModel(manufacturingDate),
-          children: childDescriptions.map(child => child.id),
+          productionDate: new CalendarDateModel(semanticModel.manufacturingDate),
+          children: childRelations.map(child => child.id),
           parents: [],
-          shouldHighlight: false,
-          van,
+          activeInvestigation: false,
+          activeAlert: false,
+          van: 'van',
+          semanticDataModel: SemanticDataModel.BATCH
         });
       }
 
@@ -105,12 +111,13 @@ describe('PartsAssembler', () => {
   describe('filterPartForView', () => {
     const productionDate = 'productionDate';
     const qualityType = 'qualityType';
-    const serialNumber = 'serialNumber';
+    const semanticModelId = 'semanticModelId';
+    const semanticDataModel = 'semanticDataModel';
 
     it('should clean up data for part view', () => {
-      const data = { productionDate, qualityType, serialNumber, test: '' } as unknown as Part;
+      const data = { productionDate, qualityType, semanticModelId, semanticDataModel, test: '' } as unknown as Part;
       expect(PartsAssembler.filterPartForView({ data })).toEqual({
-        data: { name: undefined, productionDate, serialNumber } as unknown as Part,
+        data: { name: undefined, productionDate, semanticModelId, semanticDataModel } as unknown as Part,
       });
     });
 
@@ -125,17 +132,16 @@ describe('PartsAssembler', () => {
     const manufacturer = 'manufacturer';
     const partNumber = 'partNumber';
     const name = 'name';
-    const serialNumber = 'serialNumber';
-    const batchNumber = 'batchNumber';
+    const semanticModelId = 'semanticModelId';
     const van = 'van';
 
     it('should clean up data for manufacturer view', done => {
-      const data = { manufacturer, partNumber, name, serialNumber, batchNumber, test: '', van } as unknown as Part;
+      const data = { manufacturer, partNumber, name, semanticModelId, test: '', van } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
           expect(result).toEqual({
-            data: { manufacturer, partNumber, serialNumber, batchNumber, van } as unknown as Part,
+            data: { manufacturer, partNumber, semanticModelId, van } as unknown as Part,
           });
           done();
         });

@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { TitleCasePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
@@ -31,6 +32,7 @@ import { SeveritySelectComponent } from '@shared/components/severity-select/seve
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
 import { NotificationModalContentComponent } from '@shared/modules/notification/modal/content/notification-modal-content.component';
+import { FormatSemanticDataModelToProperCasePipe } from '@shared/pipes/format-semantic-data-model-to-propercase.pipe';
 import { I18NextModule } from 'angular-i18next';
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
@@ -80,6 +82,7 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     I18nPipe,
     AutoFormatPipe,
     FormatDatePipe,
+    FormatSemanticDataModelToProperCasePipe,
     ViewContainerDirective,
     AvatarComponent,
     LanguageSelectorComponent,
@@ -110,49 +113,51 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     InputComponent,
   ],
   imports: [TemplateModule, RouterModule, I18NextModule],
-  exports: [
-    ToastContainerComponent,
-    ToastMessageComponent,
-    BreadcrumbsComponent,
-    ButtonComponent,
-    TextWithIconComponent,
-    TableComponent,
-    TooltipDirective,
-    RoleDirective,
-    I18nPipe,
-    FormatDatePipe,
-    AutoFormatPipe,
-    ViewContainerDirective,
-    AvatarComponent,
-    I18NextModule,
-    LanguageSelectorComponent,
-    CardIconComponent,
-    CardListComponent,
-    ToKeyValuePipe,
-    SelectComponent,
-    DataLoadingErrorComponent,
-    TabAsPanelDirective,
-    SidenavWrapperComponent,
-    TextareaComponent,
-    ErrorMessagePipe,
-    RequestInvestigationComponent,
-    RequestAlertComponent,
-    QualityTypeComponent,
-    NotificationOverviewComponent,
-    NotificationReasonComponent,
-    NotificationModalContentComponent,
-    DateTimeComponent,
-    BaseInputComponent,
-    SeverityComponent,
-    SeveritySelectComponent,
-    NotificationUserComponent,
-    InputComponent,
-  ],
+    exports: [
+        ToastContainerComponent,
+        ToastMessageComponent,
+        BreadcrumbsComponent,
+        ButtonComponent,
+        TextWithIconComponent,
+        TableComponent,
+        TooltipDirective,
+        RoleDirective,
+        I18nPipe,
+        FormatDatePipe,
+        AutoFormatPipe,
+        ViewContainerDirective,
+        AvatarComponent,
+        I18NextModule,
+        LanguageSelectorComponent,
+        CardIconComponent,
+        CardListComponent,
+        ToKeyValuePipe,
+        SelectComponent,
+        DataLoadingErrorComponent,
+        TabAsPanelDirective,
+        SidenavWrapperComponent,
+        TextareaComponent,
+        ErrorMessagePipe,
+        RequestInvestigationComponent,
+        RequestAlertComponent,
+        QualityTypeComponent,
+        NotificationOverviewComponent,
+        NotificationReasonComponent,
+        NotificationModalContentComponent,
+        DateTimeComponent,
+        BaseInputComponent,
+        SeverityComponent,
+        SeveritySelectComponent,
+        NotificationUserComponent,
+        InputComponent,
+        FormatSemanticDataModelToProperCasePipe,
+    ],
   providers: [
     FormatDatePipe,
     StaticIdService,
     PartsService,
     ErrorMessagePipe,
+    TitleCasePipe,
     {
       provide: MatPaginatorIntl,
       useClass: PaginatorIntlService,

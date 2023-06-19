@@ -24,6 +24,9 @@ public enum SemanticDataModelResponse {
     BATCH, SERIALPARTTYPIZATION, UNKNOWN;
 
     public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
+        if (semanticDataModel == null) {
+            return SemanticDataModelResponse.UNKNOWN;
+        }
         return SemanticDataModelResponse.valueOf(semanticDataModel.name());
     }
 }

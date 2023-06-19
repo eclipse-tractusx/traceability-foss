@@ -15,6 +15,7 @@
     "prepare" : "cd .. && husky install frontend/.husky",
     "start" : "ng serve",
     "start:auth" : "ng serve --configuration=dev,auth",
+    "start:auth:test": "ng serve --configuration=dev,authTest",
     "start:auth:mock" : "ng serve --configuration=authMock",
     "start:auth:local" : "ng serve --configuration=authLocal",
     "start:auth:localBe" : "ng serve --configuration=localBackend",

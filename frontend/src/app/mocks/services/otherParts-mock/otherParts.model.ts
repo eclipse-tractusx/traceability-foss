@@ -22,89 +22,115 @@
 import { PartResponse } from '@page/parts/model/parts.model';
 
 export const otherPartsAssets = [
+
   {
     id: 'urn:uuid:ad893940-4424-44b7-bd13-917feb0dc0c9',
     idShort: '--',
-    batchId: 'NO-961610245865543350976497',
-    nameAtManufacturer: 'ZB ZELLE',
-    manufacturerPartId: '8840838-04',
-    partInstanceId: '8840838-04',
+    semanticModelId: 'semanticModelId1',
     manufacturerId: 'BPNL00000003AYRE',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'ZB ZELLE',
-    customerPartId: '8840838-04',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'BIH',
-    specificAssetIds: {},
-    childDescriptions: [],
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'BIH',
+      manufacturerPartId: '8840838-04',
+      customerPartId: '8840838-04',
+      nameAtManufacturer: 'ZB ZELLE',
+      nameAtCustomer: 'ZB ZELLE'
+    },
+    owner: 'CUSTOMER',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: true,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvan1',
+    semanticDataModel: 'SERIALPARTTYPIZATION'
   },
   {
     id: 'urn:uuid:38468ac2-9053-4ce7-8d7f-318b247b7f24',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'ZB ZELLE',
-    manufacturerPartId: '8840838-04',
-    partInstanceId: '8840838-04',
+    semanticModelId: 'semanticModelid2',
     manufacturerId: 'BPNL00000003AYRE',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'ZB ZELLE',
-    customerPartId: '8840838-04',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'LBR',
-    specificAssetIds: {},
-    childDescriptions: [],
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'LBR',
+      manufacturerPartId: '8840838-04',
+      customerPartId: '8840838-04',
+      nameAtManufacturer: 'ZB ZELLE',
+      nameAtCustomer: 'ZB ZELLE'
+    },
+    owner: 'SUPPLIER',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: true,
     qualityType: 'Ok',
+    van: 'myvan2',
+    semanticDataModel: 'SERIALPARTTYPIZATION'
   },
   {
     id: 'urn:uuid:fccbc75e-6ccd-46e2-ba93-4a3125dfb5a5',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'Differential Gear',
-    manufacturerPartId: '95657362-83',
-    partInstanceId: '95657362-83',
+    semanticModelId: 'semanticModelid3',
     manufacturerId: 'BPNL00000003AVTH',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'Differential Gear',
-    customerPartId: '95657362-83',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'GEO',
-    specificAssetIds: {},
-    childDescriptions: [],
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'GEO',
+      manufacturerPartId: '95657362-83',
+      customerPartId: '95657362-83',
+      nameAtManufacturer: 'Differential Gear',
+      nameAtCustomer: 'Differential Gear'
+    },
+    owner: 'SUPPLIER',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvan3',
+    semanticDataModel: 'SERIALPARTTYPIZATION'
   },
   {
     id: 'urn:uuid:dad03189-4ce7-47a4-bfc5-e7b77dc6cf68',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'ZB ZELLE',
-    manufacturerPartId: '8840838-04',
-    partInstanceId: '8840838-04',
+    semanticModelId: 'semanticModelid4',
     manufacturerId: 'BPNL00000003AYRE',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'ZB ZELLE',
-    customerPartId: '8840838-04',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'COG',
-    specificAssetIds: {},
-    childDescriptions: [],
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'COG',
+      manufacturerPartId: '8840838-04',
+      customerPartId: '8840838-04',
+      nameAtManufacturer: 'ZB ZELLE',
+      nameAtCustomer: 'ZB ZELLE'
+    },
+    owner: 'CUSTOMER',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvan4',
+    semanticDataModel: 'BATCH'
   },
   {
     id: 'urn:uuid:6c16b752-da3c-4897-9480-6be60b48e33c',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'HV MODUL',
-    manufacturerPartId: '8840838-04',
-    partInstanceId: '8840838-04',
+    semanticModelId: 'semanticModelid5',
     manufacturerId: 'BPNL00000003AZQP',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'HV MODUL',
-    customerPartId: '8840838-04',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'TGO',
-    specificAssetIds: {},
-    childDescriptions: [
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'TGO',
+      manufacturerPartId: '8840838-04',
+      customerPartId: '8840838-04',
+      nameAtManufacturer: 'HV MODUL',
+      nameAtCustomer: 'HV MODUL'
+    },
+    owner: 'CUSTOMER',
+    childRelations: [
       { id: 'urn:uuid:7a2efb73-94bd-42ed-8aaa-751eec694694', idShort: '--' },
       { id: 'urn:uuid:4e8601b7-787a-4220-b555-377ba185290c', idShort: '--' },
       { id: 'urn:uuid:00880fd6-5ba6-4e8e-8593-a6376344415c', idShort: '--' },
@@ -115,42 +141,54 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:fea5ef6a-adbf-45e6-bf11-7cbcba1b4b86', idShort: '--' },
       { id: 'urn:uuid:c90a7ca5-7fa0-41de-9550-5733b4af2187', idShort: '--' },
       { id: 'urn:uuid:b1f43962-44d4-4222-9155-3f889bd969d4', idShort: '--' },
-      { id: 'urn:uuid:aab00d1e-650a-4e3d-a8af-57c7008eadec', idShort: '--' },
+      { id: 'urn:uuid:aab00d1e-650a-4e3d-a8af-57c7008eadec', idShort: '--' }
     ],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvan5',
+    semanticDataModel: 'SERIALPARTTYPIZATION'
   },
   {
     id: 'urn:uuid:d411568e-d950-44ff-87c2-492ac6beabe9',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'ZB ZELLE',
-    manufacturerPartId: '8840838-04',
-    partInstanceId: '8840838-04',
+    semanticModelId: 'semanticModelidX',
     manufacturerId: 'BPNL00000003AYRE',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'ZB ZELLE',
-    customerPartId: '8840838-04',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'DJI',
-    specificAssetIds: {},
-    childDescriptions: [],
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'DJI',
+      manufacturerPartId: '8840838-04',
+      customerPartId: '8840838-04',
+      nameAtManufacturer: 'ZB ZELLE',
+      nameAtCustomer: 'ZB ZELLE'
+    },
+    owner: 'SUPPLIER',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvanX',
+    semanticDataModel: 'SERIALPARTTYPIZATION'
   },
   {
     id: 'urn:uuid:c8504172-21a7-4b02-9cc7-cfaa0fc29bd8',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'HV MODUL',
-    manufacturerPartId: '8840838-04',
-    partInstanceId: '8840838-04',
+    semanticModelId: 'semanticModelidX',
     manufacturerId: 'BPNL00000003AZQP',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'HV MODUL',
-    customerPartId: '8840838-04',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'MDV',
-    specificAssetIds: {},
-    childDescriptions: [
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'MDV',
+      manufacturerPartId: '8840838-04',
+      customerPartId: '8840838-04',
+      nameAtManufacturer: 'HV MODUL',
+      nameAtCustomer: 'HV MODUL'
+    },
+    owner: 'SUPPLIER',
+    childRelations: [
       { id: 'urn:uuid:7a2efb73-94bd-42ed-8aaa-751eec694694', idShort: '--' },
       { id: 'urn:uuid:97febf95-9bd8-4a84-b047-a8c24fd35e5b', idShort: '--' },
       { id: 'urn:uuid:769801d0-c3f7-4050-b3f6-ebfe71439082', idShort: '--' },
@@ -161,59 +199,77 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:39d67bc4-f6ee-4f05-a7ad-771cc28c2d8d', idShort: '--' },
       { id: 'urn:uuid:bdf2601c-ae6b-4f0d-aa48-5fd1749b180e', idShort: '--' },
       { id: 'urn:uuid:29fc44ba-b182-4a23-91c5-6c42ae17e6cc', idShort: '--' },
-      { id: 'urn:uuid:55f4f517-8822-4a89-9167-d0127193779e', idShort: '--' },
+      { id: 'urn:uuid:55f4f517-8822-4a89-9167-d0127193779e', idShort: '--' }
     ],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvanX',
+    semanticDataModel: 'BATCH'
   },
   {
     id: 'urn:uuid:1d7bfc63-6d0a-46ab-8ccb-b766e2365a8e',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'Fender left',
-    manufacturerPartId: '95657362-83',
-    partInstanceId: '95657362-83',
+    semanticModelId: 'semanticModelidX',
     manufacturerId: 'BPNL00000003AVTH',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'Fender right',
-    customerPartId: '95657362-83',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'GMB',
-    specificAssetIds: {},
-    childDescriptions: [],
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'GMB',
+      manufacturerPartId: '95657362-83',
+      customerPartId: '95657362-83',
+      nameAtManufacturer: 'Fender left',
+      nameAtCustomer: 'Fender right'
+    },
+    owner: 'CUSTOMER',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvanX',
+    semanticDataModel: 'BATCH'
   },
   {
     id: 'urn:uuid:1b11d080-51da-4275-aa39-097f0c5d3fd6',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'Trailer coupling',
-    manufacturerPartId: '95657362-83',
-    partInstanceId: '95657362-83',
+    semanticModelId: 'semanticModelidX',
     manufacturerId: 'BPNL00000003AVTH',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'Tailer coupling',
-    customerPartId: '95657362-83',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'AFG',
-    specificAssetIds: {},
-    childDescriptions: [],
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'AFG',
+      manufacturerPartId: '95657362-83',
+      customerPartId: '95657362-83',
+      nameAtManufacturer: 'Trailer coupling',
+      nameAtCustomer: 'Tailer coupling'
+    },
+    owner: 'NEWFIELD',
+    childRelations: [],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvanX',
+    semanticDataModel: 'SERIALPARTTYPIZATION'
   },
   {
     id: 'urn:uuid:6599279a-3fe4-479f-bc11-fcd97bb42607',
     idShort: '--',
-    batchId: '--',
-    nameAtManufacturer: 'HV MODUL',
-    manufacturerPartId: '8840838-04',
-    partInstanceId: '8840838-04',
+    semanticModelId: 'semanticModelidX',
     manufacturerId: 'BPNL00000003AZQP',
     manufacturerName: 'OEM A',
-    nameAtCustomer: 'HV MODUL',
-    customerPartId: '8840838-04',
-    manufacturingDate: '2022-02-04T13:48:54Z',
-    manufacturingCountry: 'PRK',
-    specificAssetIds: {},
-    childDescriptions: [
+    semanticModel: {
+      manufacturingDate: '2022-02-04T13:48:54Z',
+      manufacturingCountry: 'PRK',
+      manufacturerPartId: '8840838-04',
+      customerPartId: '8840838-04',
+      nameAtManufacturer: 'HV MODUL',
+      nameAtCustomer: 'HV MODUL'
+    },
+    owner: 'SUPPLIER',
+    childRelations: [
       { id: 'urn:uuid:ba738874-5cf6-4e16-9aa1-0161b1c3b039', idShort: '--' },
       { id: 'urn:uuid:d6719bae-7f04-445a-9163-eda5057cd084', idShort: '--' },
       { id: 'urn:uuid:362fafb0-0b6f-4bd9-b844-559708b007b9', idShort: '--' },
@@ -224,14 +280,20 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:31fd166a-f7ff-4d84-8aec-2755a711a270', idShort: '--' },
       { id: 'urn:uuid:ff4b6e8b-a4ac-4638-ad0f-ab7a91b05dec', idShort: '--' },
       { id: 'urn:uuid:9e2d1f51-e16f-4795-9b1b-1593576ba5ee', idShort: '--' },
-      { id: 'urn:uuid:dfda7bd8-8625-4def-9825-6a79d0ac802b', idShort: '--' },
+      { id: 'urn:uuid:dfda7bd8-8625-4def-9825-6a79d0ac802b', idShort: '--' }
     ],
+    parentRelations: [],
+    activeAlert: false,
+    underInvestigation: false,
     qualityType: 'Ok',
+    van: 'myvanX',
+    semanticDataModel: 'SERIALPARTTYPIZATION'
   },
+  /* Commented out for now because of amount of effort to change to new structure
   {
     id: 'urn:uuid:e32c3097-dd82-4c12-945d-63473bb79131',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -244,11 +306,12 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SERIALPARTTYPIZATION',
   },
   {
     id: 'urn:uuid:b8f04288-6685-47cd-b38d-67c88ba1b02d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -273,11 +336,12 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:24468d86-6718-479a-adc6-f9b65f6ada56', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'SERIALPARTTYPIZATION',
   },
   {
     id: 'urn:uuid:09c704a5-c1a7-4b73-9038-e4af72e44dd6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -290,11 +354,12 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'BATCH',
   },
   {
     id: 'urn:uuid:0ffafb2c-f968-46a9-a1e2-2dd70fd714ae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -307,11 +372,12 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SERIALPARTTYPIZATION',
   },
   {
     id: 'urn:uuid:8869d78f-b127-406c-b261-1060e30560f2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '79583L8-49',
     partInstanceId: '79583L8-49',
@@ -324,11 +390,12 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [{ id: 'urn:uuid:a07355df-206e-4d07-8a56-199bffd288cd', idShort: '--' }],
     qualityType: 'Ok',
+    semanticDataModel: 'BATCH',
   },
   {
     id: 'urn:uuid:2de737e6-e4e9-4058-aab5-c0984e538dfc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -341,11 +408,12 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
+    semanticDataModel: 'SERIALPARTTYPIZATION',
   },
   {
     id: 'urn:uuid:0f6b767a-7f8f-4edd-902c-ee563255a5f8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -370,11 +438,12 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:440e2c89-6db5-4044-9aa3-c020b276ade9', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'SERIALPARTTYPIZATION',
   },
   {
     id: 'urn:uuid:06ce2095-d52d-4ab9-a31f-fa6a6b07f685',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '61947Q7-24',
     partInstanceId: '61947Q7-24',
@@ -391,11 +460,12 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:5f5bba9c-e24b-4c83-86a0-ec7484f57b7b', idShort: '--' },
     ],
     qualityType: 'Ok',
+    semanticDataModel: 'SERIALPARTTYPIZATION',
   },
   {
     id: 'urn:uuid:e35abf46-5a66-47b6-b74b-1753287d576d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -412,7 +482,6 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c49cf67a-9d41-4661-bcaf-67fb8f3bdfe0',
     idShort: '--',
-    batchId: '--',
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '17066K9-58',
     partInstanceId: '17066K9-58',
@@ -429,7 +498,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9a0e2575-1fd5-43a9-b773-b61bfdf8080b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -446,7 +515,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:79b03c18-6397-45ec-9f28-d7d2e66010ea',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -463,7 +532,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c06bf406-323e-4bc0-9bfe-7bd5f19fb2f5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '45542P7-82',
     partInstanceId: '45542P7-82',
@@ -480,7 +549,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8039e25b-6107-4315-be3c-e7b3f5747779',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -497,7 +566,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ae9593c7-89f6-49d5-be6c-bfa330333cf4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '78746T4-39',
     partInstanceId: '78746T4-39',
@@ -514,7 +583,6 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:460a80bd-99da-4ddb-9a27-523fc75889bf',
     idShort: '--',
-    batchId: '--',
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -531,7 +599,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ed357b96-a9f5-431a-ad3a-9586de25670e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -548,7 +616,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9973cd2a-9095-47e6-94f4-343aeb4a65ac',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '32609I7-13',
     partInstanceId: '32609I7-13',
@@ -565,7 +633,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76915f94-bf9c-4f12-bc67-904504d8e419',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -582,7 +650,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:db0cbe47-6dcc-4484-80d6-9403e0e61d24',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -599,7 +667,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:803a0b4c-a8bd-4007-a3bb-15b9fae62656',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -616,7 +684,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:30d8a936-a032-4dac-8674-49762926e84e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -633,7 +701,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2e805f95-7083-418b-8f51-6c82ede79550',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '67905C7-37',
     partInstanceId: '67905C7-37',
@@ -650,7 +718,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:15744c7a-3a63-45f4-a845-a38215472fd6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -679,7 +747,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2943c473-7a96-4b38-a949-7f1efa1fa093',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -696,7 +764,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7bbf8be1-2755-4491-b34d-d036af9f0d77',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -713,7 +781,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b433f7ee-fd62-4dca-804a-c0db62456b14',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -730,7 +798,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8e7346db-0c47-4560-aeae-c482561d307e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -747,7 +815,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8cdc4414-91a5-47af-8c96-da39ccefbab8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -764,7 +832,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bb871007-b646-4281-8ed5-67244edc64d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -781,7 +849,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a0d2b5e5-a704-4f48-8b68-d0e14057a7e5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -798,7 +866,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:98d35e09-1642-4d40-b163-0e028ac4c9a0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -827,7 +895,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c38554e3-53ac-4c96-8a13-5980fe447f25',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -848,7 +916,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:47785a1d-8668-4297-9861-0570c991ad9d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -865,7 +933,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1f92700a-7668-4654-9dd4-ba1ac7226eea',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -882,7 +950,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:48c4de46-8a89-4d04-b091-625389fefdde',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -911,7 +979,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3273fdc3-b547-46c7-b1a6-9d2f8450f83b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -928,7 +996,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:38d24d44-3cc6-4cea-9759-7607006a3340',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -945,7 +1013,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7e1ffd2e-4f4e-49fe-964a-e34df5a93b0d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -962,7 +1030,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:da2bad53-3b13-4775-8f19-79624bee6c1c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -979,7 +1047,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:793dd9df-f403-4668-9ae3-55855c709ed8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -996,7 +1064,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2afdb85e-d1f9-44c0-9601-7024a594eec5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1013,7 +1081,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b4db9890-1532-46f1-9aeb-d5fed84187a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1030,7 +1098,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:984793ae-afad-4d03-bd12-fbb44c16d0f2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1047,7 +1115,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f4407eda-684c-4805-8ebd-952dd5010ac8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1064,7 +1132,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:89516db2-e25f-49cb-af58-00f8cf172e7c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1081,7 +1149,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:34fa837d-8bfb-4331-965a-e4f16376369c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1098,7 +1166,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5fd394e8-8c27-4be6-8190-d3b47cbe4d56',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1115,7 +1183,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ccc78a10-fbf4-405d-853e-66dd1a34dfc4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -1132,7 +1200,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e0d20c24-d304-4bed-8d01-c7a8976a9f08',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1149,7 +1217,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e9985626-0b22-469b-bb50-963bf5bb7990',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'SV-60',
     partInstanceId: 'SV-60',
@@ -1169,7 +1237,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f83bbcfb-8713-4b94-bc9c-93d591df554e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1198,7 +1266,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7a58ee58-f182-4136-9792-3222b4d21b82',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1227,7 +1295,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6eae01f8-ae4a-4b62-8ea3-69e0632657cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1244,7 +1312,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a9118f9c-9f38-4df0-ae9d-4311d00bff81',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1261,7 +1329,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:098555f5-d210-4b0d-b1ab-ed8892be3066',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1278,7 +1346,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76ebee10-9e4b-4876-88ff-ced7ac836a8a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1295,7 +1363,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7155d969-b851-47cd-bdf1-5111b8771476',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1312,7 +1380,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5e9eaf2c-5df3-439f-badc-b55024ac2699',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '89025G9-97',
     partInstanceId: '89025G9-97',
@@ -1329,7 +1397,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:67bcaaa0-7b58-4e6d-9d0e-5707b2680d9f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -1346,7 +1414,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b91e7822-2a00-45ee-b04a-e6304c523b86',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -1363,7 +1431,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0b77423b-310c-41c7-a89b-753484977d8c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1380,7 +1448,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:31140dd1-5312-4aba-bd12-697aec5b3305',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1397,7 +1465,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0a82d615-34c6-4b14-8066-10b051134230',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1414,7 +1482,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c169ddc0-bb12-4abe-8c0f-d238d8a05f32',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1431,7 +1499,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a859894b-ffda-4979-ac20-24e99b945b28',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1448,7 +1516,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:57ddf783-b0f0-4f67-835d-e69426bb7801',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1465,7 +1533,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8fef2454-5ad9-4833-a677-e676287faa8d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1482,7 +1550,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a75283ca-1761-42c4-9eb4-6aefd15e45d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '34635Y5-08',
     partInstanceId: '34635Y5-08',
@@ -1503,7 +1571,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:29fc44ba-b182-4a23-91c5-6c42ae17e6cc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1520,7 +1588,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7477982e-fbcb-4086-84c5-c3b5180fc149',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -1537,7 +1605,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17f354a4-097d-46c2-bee1-f70a36c707ae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -1554,7 +1622,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dd95c69c-dddc-42a3-a6f4-fbb982c1d85f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1571,7 +1639,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:59a6a1cd-38b9-41db-9510-eff411e49ebe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '03636T5-76',
     partInstanceId: '03636T5-76',
@@ -1588,7 +1656,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:64550bb0-eb64-4eb5-b288-64363f0164f7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1605,7 +1673,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3fba3aaa-361d-40ed-a7b4-2e81fd2206d6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1622,7 +1690,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e04415d5-d87e-40b7-ac60-65cbbcadb02e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -1639,7 +1707,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c8863f4d-e6e5-4489-bb87-c3c8fc0380b3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1656,7 +1724,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0d2fc0b6-8a77-4de5-b13d-282712a582b4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1673,7 +1741,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:80372f6e-91f2-44c5-853a-cfd9fcc844f8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '10356T9-95',
     partInstanceId: '10356T9-95',
@@ -1694,7 +1762,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3933c86c-9bcc-4959-9369-229d76d37e11',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1711,7 +1779,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:069d5654-2c72-4a12-ab9c-f7aab06c9e4e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -1728,7 +1796,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:65cd8122-d6e2-4270-a347-dadb53794a5b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1745,7 +1813,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:334db139-3932-4b7d-bd6b-1b28434183fe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1762,7 +1830,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:eb3346d6-2931-4a6a-b69d-4d67c85a6083',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1779,7 +1847,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2df4980d-205e-44ae-b46f-faef731836be',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1796,7 +1864,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:455b1796-5386-4ff3-819f-1283b0af9d50',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '26722X3-33',
     partInstanceId: '26722X3-33',
@@ -1813,7 +1881,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e779258d-deb6-43dc-85e0-0ae252b0c26e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1830,7 +1898,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:37eaa31a-0746-4180-a7ad-8be5d63e96c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1847,7 +1915,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9840c6db-585c-4549-855c-b079cb9bfb01',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '24577D4-62',
     partInstanceId: '24577D4-62',
@@ -1864,7 +1932,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17e59a6a-73f2-4321-b52f-fbb61a29f710',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1881,7 +1949,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3bd2d803-c848-43d2-bdba-1ed728b8389c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1898,7 +1966,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0db67a8f-6b11-454f-9801-83ec0bc53e94',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1915,7 +1983,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aae9ca8b-456e-4311-aab1-bf38217aa37f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1932,7 +2000,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:08c6bf42-2b62-497e-a29a-377ff8c43c48',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1961,7 +2029,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:358a5255-3042-400b-808f-210b9f760679',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -1978,7 +2046,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4bc260d9-5329-4267-a341-7166370c459d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -1995,7 +2063,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:01ade37e-f3f7-4da9-9d52-108331736b14',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2012,7 +2080,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:00a6a5ff-6688-4533-bec3-8e900259040b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2029,7 +2097,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:355a3fe8-a8d6-4b48-9335-58988d152b30',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2046,7 +2114,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d128572f-b7ab-4b34-85ad-ae9522fc71d6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2063,7 +2131,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:df226e89-99ba-470a-93e5-9a9019606fed',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2080,7 +2148,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dfefe8be-14dc-4f6e-ac1b-5c718cbf3385',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2097,7 +2165,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4d1100d5-7d44-4240-bb7d-959219f6b62e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2114,7 +2182,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6a573967-b2b9-48d5-820f-16f21fd6120d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2131,7 +2199,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c90a7ca5-7fa0-41de-9550-5733b4af2187',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2148,7 +2216,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d2402221-0c92-4dbd-a037-8ab4a26c44e5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2165,7 +2233,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1299aa7a-4de6-4ead-bc3f-f8aa3dd59fd2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2182,7 +2250,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a1ccf35c-dc19-4dd7-a39d-6c64533f6930',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2199,7 +2267,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:72c1531a-0788-4290-a486-97e87c700747',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2228,7 +2296,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:eb5822b9-14f4-4c2b-89d1-bbcc93cea7ba',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2245,7 +2313,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7ff70376-fd66-4fd3-9a38-52a0f801d897',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2262,7 +2330,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c01bd26e-8c80-4602-8066-8b0506dcfda3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2279,7 +2347,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f7d5571b-b6fd-4928-9ae0-96cb966a7c9d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -2300,7 +2368,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b2b94360-f3c8-4972-a039-e30d00e324ac',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2317,7 +2385,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3808f484-fdfb-49e0-bd3a-82c7d94893bf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2334,7 +2402,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:50541308-8541-4c15-938c-c74eb50844d6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2351,7 +2419,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:abaa736e-6e7c-441f-ab7a-31906c97ef79',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2368,7 +2436,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e4880160-5782-42fb-ba45-e84eaae9bbd2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2385,7 +2453,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1043f41c-eaba-4fde-87b1-6b8be0d9cd74',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2402,7 +2470,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e2c10bd6-d836-4865-8e20-922a20e59aed',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2419,7 +2487,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:85f5578c-d78e-431d-b6c4-a8ef4fcb1899',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2436,7 +2504,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c9af5330-6b0a-4f48-a6e3-ba1ae28593fa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2453,7 +2521,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6c28a8e2-b567-468d-9932-0cf6d80fa2a6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -2474,7 +2542,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:541cbffe-b600-4426-bce8-5c2129b45be5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2491,7 +2559,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ea84c341-92c9-4080-966f-e7c6d85ef7d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2508,7 +2576,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:67cf4576-f8c9-431f-87f9-56d2044be831',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2525,7 +2593,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0d6f4144-e84f-4758-984e-0c17a6a81816',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2542,7 +2610,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1f5569b4-fbfd-4746-b77e-9d19e1d1a480',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2559,7 +2627,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b4a0eae6-4d11-4c46-9f10-758baf5512cd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2576,7 +2644,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e3147826-59a7-4ed5-a1c2-d6caa0621665',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2593,7 +2661,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0fe8d5a8-5905-4cad-81b3-a2bac34c3ce1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2610,7 +2678,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0f7910c7-7ded-4eb0-b155-faaca3a145a9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2627,7 +2695,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f679e353-f34b-49a1-b86f-edbf9f484bf3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2644,7 +2712,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1b3a2f90-1224-4f5e-ae8a-fda625342ca0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2661,7 +2729,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:90819495-69c4-45e2-9d9f-2b37db56e132',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2678,7 +2746,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e1101293-6978-40a2-8e61-50e0a09b9f1d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2695,7 +2763,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:df011845-ca87-4ef8-947b-b4ab83b33f8f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2712,7 +2780,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bebb5440-1f73-4c63-b8cc-2b5e16715d93',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2729,7 +2797,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0248a844-accb-4de1-bf3f-9b2a2abd5b4b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '90944D0-86',
     partInstanceId: '90944D0-86',
@@ -2746,7 +2814,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f3e2a6a6-b0b9-48d5-a2c4-31d5051aaeb7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2763,7 +2831,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:43a67eaa-9b0b-4161-8017-e57bf0361e7b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2780,7 +2848,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:61477038-c1e1-40e0-a085-04afda3de256',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2797,7 +2865,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2a1a1461-95a2-4d45-942f-fbb30f85cdf6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2814,7 +2882,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6232e6d7-8e21-49b8-a512-c4ebbde0a47d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2831,7 +2899,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aac32e34-cfca-4577-815d-5ed97c5adb3c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2848,7 +2916,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0ded4ce8-91bd-4b34-befc-61286e4ffcf0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2865,7 +2933,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fe9f82df-1b62-4b12-89b9-b8754b20e993',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2882,7 +2950,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:53e9bec5-519e-470b-a93e-660943e1a9b0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2899,7 +2967,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f6a9b483-7490-4b65-ab26-8bdd85bb7c85',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2916,7 +2984,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0f88293e-9a4d-4069-96d1-f27b7d0c95d3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -2933,7 +3001,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:072c4d56-6012-47d3-a356-ecfe13d25168',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2950,7 +3018,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:505eaaee-74dc-46ab-af21-8c26f76abcce',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2967,7 +3035,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3c67946f-5193-4805-a44d-9d1a7a9c394e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -2984,7 +3052,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:920ced05-4546-4361-8da3-38df2e4df3c2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3001,7 +3069,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5901e9c2-2c57-458f-8932-de13602d38b7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3025,7 +3093,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aaf267da-d89d-45af-bcb0-730b0e2524bc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3042,7 +3110,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:89b9da37-92f1-49de-86f9-ae3a13aa30d6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3059,7 +3127,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:61bb7438-0265-484e-9552-6bad964c4338',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3076,7 +3144,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:722cbfc3-8c58-46fe-8759-80f01f1d030d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3093,7 +3161,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:213d1a70-c863-42da-81f0-491085452d25',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3110,7 +3178,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6408bc15-1838-463f-b87a-fe1467500362',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3127,7 +3195,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f444a271-05ee-45d6-a357-b17dfcbc1054',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3144,7 +3212,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bca58849-8710-4b49-a85b-8b6f2bb46bdc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3161,7 +3229,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:118d0f8a-d80d-40e0-9130-ac9efa16b2ae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3178,7 +3246,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c775d2af-44ae-4ccb-b386-6725743742c2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3207,7 +3275,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:27e2208c-3b46-482a-bd66-7c503e0fd5f0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3224,7 +3292,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3f3a1389-4f13-4c54-8780-a49ad61d2a48',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -3245,7 +3313,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:824d0076-0377-4afd-8cb3-7d45d4b6c718',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3262,7 +3330,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:81b6f368-a327-4ee6-9e85-53d301d4b9fa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3279,7 +3347,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e5cf78d1-a552-4d1f-8d43-ec52807b5f7e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3296,7 +3364,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:de640cde-18ce-4735-8b7c-aa5741245ec3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3313,7 +3381,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:de3b75c5-bc1d-4450-b487-c1d35be974c2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3342,7 +3410,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:89e547d6-b3e2-4749-96dc-aead66f666a6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3359,7 +3427,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d04343ce-2046-49e1-8677-3d0732b91c7f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3376,7 +3444,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c9620437-d5a5-4f1d-9763-a13c9c952466',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3393,7 +3461,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:177eb63b-1ee6-423a-a8bf-b70b0f26838a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3410,7 +3478,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4a586656-8d57-4462-9477-6ccd964bd254',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3427,7 +3495,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9975315b-1f2c-477f-82a7-fe6095e5b8f5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3444,7 +3512,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:290840fc-21c9-4385-b69b-7eb196cd3f25',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3461,7 +3529,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2bcd3e66-c87f-4902-b23b-ae234b473c0c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3490,7 +3558,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:15deb4cc-70c6-4024-8219-e8c140174ed9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3507,7 +3575,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d0e099a5-a8ce-464b-b97c-a6b041fed259',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3524,7 +3592,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4d80c6e2-f81e-46ba-a08c-b4ed6790b5d2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3541,7 +3609,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a433670d-e78f-4513-b39d-a841907aabde',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '58375V7-76',
     partInstanceId: '58375V7-76',
@@ -3558,7 +3626,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0a90dd29-edf0-4120-8c45-ffea7d0ca8ca',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3575,7 +3643,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aa06361e-a485-404e-ba77-fdb7d3adb877',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3592,7 +3660,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b9e574e9-78b3-4169-a1e9-460de4904bf8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3621,7 +3689,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:27263755-2a57-466e-be0a-ab9e0014ec43',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3638,7 +3706,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3a4f81ef-696a-4427-9c3a-288c756aaf3c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3655,7 +3723,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:adcc0d0b-6d7b-4af5-b367-c3801b4f01dc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3672,7 +3740,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6e3a11b1-9577-4de0-a4a9-d7ad12335e9d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3701,7 +3769,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:07d82eba-f93a-4304-ab08-a45607efb67a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3718,7 +3786,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f30d4b3a-6387-45ae-a6d2-ae490025aeaf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3735,7 +3803,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:29e24c10-3e3a-482c-b79e-547291763be6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3752,7 +3820,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d478a071-c4e4-4115-9e75-82437a5a7442',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3769,7 +3837,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9dc1b6fb-94e7-4911-9e39-abf06c4941d2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3793,7 +3861,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:77100b03-a05f-4ac4-8b85-dafc0b936e67',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3810,7 +3878,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:21175d8e-d3a3-48f5-9ea9-f77957721695',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3827,7 +3895,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2521b07c-c903-4f04-8c63-51a0bff08a2b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3844,7 +3912,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a27fc017-d3c0-4ed8-95b2-f2c493acb21c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3861,7 +3929,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fad0c859-6a64-4495-a6e5-592ef0720495',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -3878,7 +3946,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f7a3bb5a-1fe3-4cdf-8228-3f893f7f6b5b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3895,7 +3963,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9e479f4a-72e4-4caa-a7fd-e56049103766',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3912,7 +3980,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d5850dd1-72f0-48a9-83d5-c6f94cb32674',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3941,7 +4009,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:244cb57d-3ee9-43fb-a836-ff936179687c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -3958,7 +4026,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:79571804-2e89-452a-a80a-ebff6d94c891',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '85041V1-72',
     partInstanceId: '85041V1-72',
@@ -3979,7 +4047,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:55c376ed-e39d-4525-96e6-71f3def7ae41',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'PC-30',
     partInstanceId: 'PC-30',
@@ -3999,7 +4067,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b52f66b9-9558-42b5-8737-810f1104ce46',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -4016,7 +4084,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dccf482c-8297-4e78-ba2d-f324d3fe220a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4033,7 +4101,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ae6a63ff-9175-4a0e-ac39-52247a2cafc1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4062,7 +4130,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d37d8fe4-5684-4c31-8c03-f9dbaa48d82b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'PS-28',
     partInstanceId: 'PS-28',
@@ -4082,7 +4150,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bedb0326-b60e-45c4-a298-b2d18141b071',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4099,7 +4167,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:37897741-814c-4e84-9e56-dff627ec4bbc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4116,7 +4184,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:db060e80-e66a-4929-b5ed-0e0ab6b0d742',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4133,7 +4201,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0b21ec16-b4b1-43cb-9875-7d6bf584ce83',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4150,7 +4218,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:107a3e2b-154c-49f3-a913-c9b9db3cf2a9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4167,7 +4235,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17e3ee5e-7e0a-42cf-9cad-9473df40dbb2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4184,7 +4252,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6afef039-8760-4d1c-8fce-3dcc30cd4a13',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4201,7 +4269,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5f0d05d0-7d8a-49e7-8298-38ebe78a7d1b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4218,7 +4286,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5d53224f-5f41-47bc-9e47-e95b9b6a17ff',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4235,7 +4303,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ef7584e2-d86f-4c60-a4fc-4b63140c2b76',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4252,7 +4320,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:572bf919-bd51-4783-afe2-801719bec585',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4269,7 +4337,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:363768de-d1a8-4c26-9abc-7758abec406a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4286,7 +4354,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8e441d32-2801-4d7b-ab37-660b4679bfc4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4303,7 +4371,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c8af81e3-9b28-4a61-a00f-61cea2a10a92',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4320,7 +4388,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:19a9af14-1c13-4f45-90a1-a5a742292bae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4337,7 +4405,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e71f70aa-2ff5-4318-9db1-0aecd09fd202',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4354,7 +4422,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c8adaab3-db4c-4a44-aec6-35b8410db9db',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4371,7 +4439,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b792b970-fe51-4479-802e-4cf628a38e57',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4388,7 +4456,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:68409dc2-7b03-4635-acc4-bbf8348eff88',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4405,7 +4473,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1a463c47-91e0-47c9-b44d-fe7d79a064d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4422,7 +4490,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9444e515-b294-4ec3-b075-710cc2a2594f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4446,7 +4514,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d267113f-21b1-4a5f-97f8-67f490c858c0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '33462J3-96',
     partInstanceId: '33462J3-96',
@@ -4463,7 +4531,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:db01b9d1-a2d5-4bfb-8a68-d8040b80d785',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4480,7 +4548,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5b4b184c-faf7-4022-9714-7e919543aa5d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4497,7 +4565,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fd4a7e1a-e4be-4b37-8d7c-daefac046b56',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4514,7 +4582,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fea5ef6a-adbf-45e6-bf11-7cbcba1b4b86',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4531,7 +4599,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b7716f55-1ecd-41fd-bba1-4a29844eba56',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '34154Q1-76',
     partInstanceId: '34154Q1-76',
@@ -4548,7 +4616,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2db71ef9-5eb3-4dcb-b6ed-31e7c4288bd7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4565,7 +4633,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c411791c-5388-4595-baca-5b4cef6e29eb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4582,7 +4650,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63b26a30-52c6-42eb-9b1b-d3b7c61815ee',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4599,7 +4667,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ccfcc8e3-89a2-4fe2-a77d-2765cbd2b931',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4616,7 +4684,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:edb98f62-c4e7-4a5e-87ea-c58e57e9c95b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4633,7 +4701,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ae075db7-622f-4945-9361-aa797fe29027',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4650,7 +4718,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e0d37b44-fbeb-4343-9302-351833b3ded7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4667,7 +4735,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:709d9e90-cb7b-4626-a1c2-ed2638eb401f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4684,7 +4752,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:da22b729-b506-4716-8857-4fbead2109f4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4701,7 +4769,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ef90163f-2433-4b35-9430-5a5c7530c8a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4718,7 +4786,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3cbfd41b-7801-4f30-8896-2c803ec1a544',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4735,7 +4803,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8a45fbfa-138c-45d9-807c-899d2e0f9df6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4752,7 +4820,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2874185e-327d-4302-bb3c-1508e2b9f7bd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4769,7 +4837,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3c4f6816-faac-40fa-bd57-d36a24a0e634',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4786,7 +4854,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5c2ba54d-1d40-45c2-a06d-3a6f88d9425e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4803,7 +4871,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:28034c01-776b-4e94-b723-39c11f8bde90',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -4820,7 +4888,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1f2a655c-663d-4802-a0d1-fe867ef959a4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4849,7 +4917,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:34811bd6-c894-43fa-93b7-719ef20e8852',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4878,7 +4946,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:40dff41a-94da-4f99-85f4-708ede777656',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4895,7 +4963,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cc27ff83-d179-4a25-b9d9-7f3cfc42e4fa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4912,7 +4980,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e389c0f6-d7cd-4928-8f51-dc1bd0e2f77c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4941,7 +5009,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e397aa67-05e4-490b-b957-4d5a1adb3cf7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4958,7 +5026,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9d89bdd2-15fe-4db1-90ee-79fc7da15977',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4975,7 +5043,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:02af88f8-5c04-4e19-ad93-99b6d6858aa9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -4992,7 +5060,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ed6d15be-b020-4804-9854-ce7d68e8bb94',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5009,7 +5077,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9bec10bc-adc7-41c9-a840-d511f3aff0c4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5038,7 +5106,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b1f0d489-4ba9-4012-93da-c175901ed1bd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5055,7 +5123,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:14a57c2a-4a57-4216-b898-4484d0c808a7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -5072,7 +5140,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c31a9dc-e3e5-4c62-833f-5eeed4c24e1f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5089,7 +5157,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f7e02cb5-801f-4673-a48c-49951287fe4f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5106,7 +5174,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:584b4371-fc4f-4497-af94-b05f10ab38f5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5123,7 +5191,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7ef679ed-2be9-4f4c-9043-1fc3835bf749',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5140,7 +5208,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1385cfd9-28d3-427f-b8cf-b5effb952de7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5157,7 +5225,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ce3a262a-b534-47a7-85a7-917992d039b6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5174,7 +5242,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ec34da29-074d-422c-998c-3cbb8a1f4a6d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -5191,7 +5259,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c539ea2d-a285-4a36-a340-a876d577009e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5208,7 +5276,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f4d16a8a-1bff-4d93-9715-2629f3ffa560',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'WL-80',
     partInstanceId: 'WL-80',
@@ -5261,7 +5329,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:397f9d2b-2731-4e49-b149-44da5fd298d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -5278,7 +5346,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e5480fe9-b759-4786-b93c-d10e2a395a05',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5307,7 +5375,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:981d073b-a09f-4382-9c4e-cde6bb5b0218',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5324,7 +5392,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9b795977-fe68-4ec3-9ff7-b06f1d5329b0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5341,7 +5409,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63344d85-7537-4117-9d86-f8f5335a606c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5358,7 +5426,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:43617d48-f0a5-41cf-ba03-47d7e3fe4eed',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5375,7 +5443,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ece5b984-71c6-44c7-83b0-2b24e7bdb2c0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5392,7 +5460,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:66968a33-5d1c-4737-bc93-c499b5e546ac',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5409,7 +5477,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3905612c-11d5-4cdd-ab0a-b4e603c161a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -5426,7 +5494,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dc1e4945-d417-4600-9980-fb6dd38c024a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5443,7 +5511,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4603e82f-3b55-4078-b57d-faa6a6ccce9e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5460,7 +5528,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:00b2a031-eb8d-4b13-a9cf-1253120e2aae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -5477,7 +5545,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7c8190a5-869d-4202-ac72-c4611c8dbacd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5494,7 +5562,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73a732ff-cf05-4f1f-9d00-34f743e5086d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5511,7 +5579,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d4187ed9-4bd5-4b38-affd-d4f75442f730',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5528,7 +5596,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f3ddcdf2-e09a-48c7-8ba6-dfec8b11d9af',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5545,7 +5613,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:860037cc-c065-4c11-934e-6adf83a2f67f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -5566,7 +5634,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4f5aba20-b029-4814-ad02-e2c0e6377c2a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -5583,7 +5651,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7094b7a6-9e47-429b-a9ed-5d4ad3e86dc6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5600,7 +5668,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1165ee85-bebe-4c89-b0ed-99269179be68',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5617,7 +5685,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c4f4b124-cb3a-47d5-b5f1-efb5ce36ec6e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5634,7 +5702,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e2dcae73-e6f1-45a0-8a8a-5ac7bf5ca338',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -5655,7 +5723,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8d2669a0-bb75-4bd4-8b35-c866d4cde6ed',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5672,7 +5740,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73496bd4-cd31-45f0-adfa-93a08883678e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5689,7 +5757,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f069484a-8020-4aea-b92a-503ed7269695',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5706,7 +5774,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3db125c3-fef7-42ac-9865-39de47c86ce8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5723,7 +5791,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fdc89514-9212-4bf3-8c05-e256d4577284',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5740,7 +5808,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b9dbe1d7-990b-4b65-9024-b70476c5e2ec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '41548D3-96',
     partInstanceId: '41548D3-96',
@@ -5757,7 +5825,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fa425abe-5948-4d63-b709-2ab7395ffd22',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -5774,7 +5842,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:77813102-3486-46b2-a251-11a0d86e6d69',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5791,7 +5859,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:db219ec8-d1c7-4554-90ac-84d9d250b4e4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5808,7 +5876,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a4a9c94b-0613-45d0-8acd-a5565e711b07',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '52080C1-31',
     partInstanceId: '52080C1-31',
@@ -5825,7 +5893,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d93f3ffe-b53b-4917-8beb-d7b159cb38c8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5842,7 +5910,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b9702260-2389-4eec-84f4-298b1564ba9e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5859,7 +5927,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c4af2f3b-ff43-463a-911c-0a31005414b0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5876,7 +5944,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1fcc151a-4e54-465c-936b-9c80d604f4f2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '42209J1-59',
     partInstanceId: '42209J1-59',
@@ -5897,7 +5965,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9c6f17ca-40bd-4a5e-8281-0435931acbb6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -5918,7 +5986,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b9fcaacf-072b-43a2-9c5b-d365b6daef8e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5935,7 +6003,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d17bbf68-6cb7-4045-b3ae-67f41403d098',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '66928C1-04',
     partInstanceId: '66928C1-04',
@@ -5956,7 +6024,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:24e61437-87ea-40f4-ae68-dca78ff7ec46',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -5973,7 +6041,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:43ddcd46-ac0c-4a8b-9adc-32dbc1ab436b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -5990,7 +6058,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d314be37-aa18-41cf-9a1d-72e5b607495e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6007,7 +6075,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:48e69ae0-6970-4eb3-b1f8-37ee0543dcd0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6024,7 +6092,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7b93979a-55a7-415d-8ae7-dfead1488f58',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -6041,7 +6109,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8a125128-af4b-4d74-a833-55e9f9b9c863',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6058,7 +6126,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f8a8ad59-dd21-4483-a462-98997e215b58',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6087,7 +6155,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a5630c48-6158-47cd-b828-5c8c498c10e0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6104,7 +6172,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:40104606-481b-433c-a41c-5ce88c9caf40',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6121,7 +6189,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e4eb140-c81c-4602-a56e-a81ad29b0166',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -6138,7 +6206,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:de65d8c7-dbc4-4482-95eb-322e426a4bdb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -6155,7 +6223,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b1ecc91d-666a-4024-b65e-cab940af08e8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6172,7 +6240,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a81497d5-926d-4ade-8533-91ef381bd27b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6189,7 +6257,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2bbf4158-a740-4afe-9db1-432cdf2c0c1d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -6206,7 +6274,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4b541831-562d-4ff6-8962-6f4065202cf1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6223,7 +6291,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e61547fc-6778-4525-acb1-500026e51ef0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -6240,7 +6308,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f00107b0-b19d-498a-aca3-83e2c2f5fddc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6257,7 +6325,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ad84a4d5-ac51-42c6-94e6-bdabeee176f6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -6274,7 +6342,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:718a0aba-5dd2-4701-a1ed-2adfe399daef',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6291,7 +6359,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a9f0b4e2-3a99-462a-adf5-8a8587d4d006',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6308,7 +6376,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c41db491-41da-4314-845d-7cbb079b12ba',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6325,7 +6393,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5ab05c2d-ed44-4fc5-9643-3b311bfcec00',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6342,7 +6410,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:511b6d8b-a338-4f70-9bc6-23367b1ccbb3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6359,7 +6427,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4ddf6176-596d-4e03-a24b-e010ed4a00b7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '19880G2-60',
     partInstanceId: '19880G2-60',
@@ -6376,7 +6444,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dddfd044-2925-4778-8d4d-0c38fa749e4d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -6393,7 +6461,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:776e6855-921b-48de-8c9e-c9517ff5ba94',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6410,7 +6478,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2f472d97-c964-4b67-bd9c-9edb0e0f8de9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6439,7 +6507,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c3d025ed-a46c-485b-8df3-7ac3a8738d8f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6456,7 +6524,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d80152b8-62f0-4f7c-9e61-c482bb896716',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6473,7 +6541,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:862eedf8-b4a7-4b45-81c3-22e72942417d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6490,7 +6558,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:eddc6681-a029-48ba-927d-e94979bca8b3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6507,7 +6575,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a31e15cb-e962-4400-89c7-6d6a2deda8f4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6524,7 +6592,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:86ffe68b-1c34-45a8-bd2c-70ca0caad3ee',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -6541,7 +6609,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f800a5cb-6bcf-4ba2-9b21-ce4b365f1bbe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6558,7 +6626,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:88b6f02c-e309-4a7c-a5ef-b2b8ff92d225',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -6575,7 +6643,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d4e82e62-7250-4a3b-94c3-b7b7a5dc7f8b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6604,7 +6672,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a9df5d3a-3fdf-47c0-ae0d-f09718b959f5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6621,7 +6689,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:80e26e6e-45ed-4a53-8b07-e097dd001139',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6638,7 +6706,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:59d5a8db-f994-4e70-9649-6d4f3d224d4e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6655,7 +6723,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76441696-cf84-490b-b424-b965a1448595',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6672,7 +6740,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:205d321a-b3f6-4a7b-a283-05ada1612e91',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6689,7 +6757,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c3761de3-53c2-4fb3-85e9-0feb926685bb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6706,7 +6774,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d303e4af-87b3-4124-969f-bbacf1f65292',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6723,7 +6791,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:822ee935-9e81-42e2-af57-e9686032f61e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -6747,7 +6815,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4ef2101c-d9ee-491f-8d26-34df95c58309',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6764,7 +6832,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9f6c53c4-47ff-4345-93b3-45cdaabad771',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6793,7 +6861,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5b0f28a3-69ef-41c8-9158-bf82e2d88e28',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6810,7 +6878,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9700ae74-1b31-4ebc-96c1-d8d33bd0c8bc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6827,7 +6895,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d38ce53a-6cd6-4b53-8d06-88ef730c8845',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6844,7 +6912,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:60faf17e-d04f-4929-b0d1-9204097081ad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6861,7 +6929,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3012bc2b-cf03-4dd7-b40c-3af2f54776c7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6878,7 +6946,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:43c0e5d8-0d39-44f5-8291-942ecc74433e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6895,7 +6963,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a24507bf-55b5-42ec-a70e-6aa4b269672a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6912,7 +6980,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bc6af313-0ca6-4d37-b6f0-b105f27eaac7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6929,7 +6997,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:49a6037a-afbd-4069-8271-98a735b9134c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6946,7 +7014,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3e8337ca-7e7c-45d2-a4bc-276180728e98',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6963,7 +7031,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4bd6938d-87be-45ca-97e0-bb278e9a9d95',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6980,7 +7048,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:955ce4f6-86b0-42fe-84b4-eba88a11680f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -6997,7 +7065,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2787ecb6-7fba-4962-8df9-a2e189fe4c20',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7014,7 +7082,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:64d0d567-fd57-4ca8-aa18-ac2d917cce28',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7031,7 +7099,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2db10c01-348a-4c8a-bc4d-8963499ff679',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7048,7 +7116,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8bd86ece-17c3-4e1e-879f-1290ffeb10fe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7077,7 +7145,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1c4ddf76-1710-4de3-9242-177bdcd299cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7094,7 +7162,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d2d9228d-9d86-460d-80ee-6347e99a339f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7111,7 +7179,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8ce518a5-78fa-4cc9-8b56-ce196d539200',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -7128,7 +7196,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0fd87768-d881-403e-8e69-e328a22cfbbb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '84510F0-50',
     partInstanceId: '84510F0-50',
@@ -7145,7 +7213,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8eec0449-62f9-4559-88d4-90de45d2c56f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7162,7 +7230,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5271a9b7-f6a1-4e6f-ab4a-871c32bb3a2d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7191,7 +7259,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:330530ee-f4f4-46e2-b757-381ddbdfe303',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '47485C6-38',
     partInstanceId: '47485C6-38',
@@ -7208,7 +7276,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:36c5f718-5f43-4571-ac4a-a0ad9dab3f5e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7225,7 +7293,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4cd5620a-327d-4ca7-ac21-264f3ed157c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7242,7 +7310,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e58075f1-8fe5-4c07-9a6e-1cd336c915fd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7259,7 +7327,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:15a54b07-315c-4170-8d37-6d3d4f1c6ea6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7276,7 +7344,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c115ecb9-5cc5-4772-93d9-17cbc5d388cc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -7293,7 +7361,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4f943bec-ef09-4160-9d88-ad0f2176ae4f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -7310,7 +7378,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e09c48b-faae-47b2-8096-ae322f8342f4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -7327,7 +7395,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9937dbed-85f3-4c7f-92f0-c66cd005ae81',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7344,7 +7412,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5a14f61c-f7cb-486e-8bb2-1455588ba9de',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7361,7 +7429,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5e1cea72-095e-455b-a2d0-8ff3af1aec76',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -7378,7 +7446,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:54ae3e2f-14b2-4664-bf03-663969806290',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7395,7 +7463,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5ddbaf67-6003-40b0-892c-8a791b3ef584',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7412,7 +7480,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:91afe888-1509-42fc-ad9f-75b9fc8ea276',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7429,7 +7497,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fecf1190-7a6c-4749-915b-de3dd8cf0c71',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7446,7 +7514,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e3031cb9-f360-498e-b42f-11a6b4430859',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7463,7 +7531,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ed146835-4e58-4715-8554-561229390b81',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7480,7 +7548,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:939b8dcf-f42e-417e-a701-96de7ce86be0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7497,7 +7565,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5f9eecf0-4e26-4f60-936b-34893fc65ca1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '80325X0-32',
     partInstanceId: '80325X0-32',
@@ -7518,7 +7586,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f5ba367f-461b-42bc-9e9f-684ae71f1276',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7535,7 +7603,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0384ab79-ee02-4c97-a325-2aad36da57f8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -7552,7 +7620,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:02c37a82-62cd-4c59-8496-43820fc49c97',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7569,7 +7637,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:13c99ba0-2484-4833-bcc3-08e8e192e514',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7586,7 +7654,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:35ea0f9a-d66a-4d7d-9b13-61a430683327',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '26627H4-13',
     partInstanceId: '26627H4-13',
@@ -7607,7 +7675,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:05bbf45e-85bf-4c95-ba6a-66aba47e806f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7636,7 +7704,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:10e08ac1-b3f9-43b5-ad92-6903c9341311',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -7653,7 +7721,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be2cc1c4-b9b2-47eb-ac9e-0ebe3f51d6d7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7670,7 +7738,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cecc10d1-0f62-4320-b790-27108fce42df',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7687,7 +7755,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:14609f48-7098-4fbf-be75-261d9f25ab3a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7704,7 +7772,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2e25171a-e2bd-4291-9621-cb5ec2964750',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -7725,7 +7793,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:957d4b67-249a-43b0-af34-fa77ae4f81bc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7754,7 +7822,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2026158b-4018-41e5-8caa-5a9eb334bf7b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7771,7 +7839,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a4a6352d-ab59-40dd-b7cc-45fc0b5baca6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7800,7 +7868,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1e5dfacf-9ef8-43a6-933f-901757dfb432',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7817,7 +7885,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3c795679-ffaf-4702-a83c-aee9090f2b16',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7834,7 +7902,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7d2e3f47-2ad3-4e89-9619-73597c7f67c1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7851,7 +7919,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3dd4c72e-7109-4f22-874d-d667536db7a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7868,7 +7936,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9b7ec258-b7e7-45e2-9b57-7f1a2f494029',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7885,7 +7953,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3e4e68c4-f09c-4de4-80c8-cc0a3c04f46d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -7902,7 +7970,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6b61d472-e340-4c91-a1ec-765e0c8dc9de',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7919,7 +7987,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:87493ef9-4910-4e3d-b4d7-31d8abee8ac2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7936,7 +8004,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dcb0e52a-0057-404f-9915-c0d7f487585d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7953,7 +8021,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:67ca2986-acf5-4d69-b4b6-516e56204a42',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7970,7 +8038,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f6311a28-ede1-4c9b-9131-ff9e011a3af5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -7987,7 +8055,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5e3e0fa2-34d8-4ae0-97e3-28b5ee938232',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8004,7 +8072,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5b1512bb-3d40-4f46-906b-a5ddfbe18762',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8021,7 +8089,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fea65e1a-bcd1-47bc-8e4c-49905ecb6b86',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8050,7 +8118,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b8cc26cf-e5a1-4cd1-8df6-8b7a29e693e8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8067,7 +8135,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9df9884c-190b-491a-90e8-0ebd0d1ca115',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8084,7 +8152,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1687afd6-42e3-4658-a790-e46022fc5497',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8101,7 +8169,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b95f476d-a797-4360-90e2-3fa95207625c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8118,7 +8186,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6340f983-c0f9-4375-b0d5-312f5c91cd38',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8135,7 +8203,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:93aac1f0-c086-485e-af74-7b0bbd19c8bb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8152,7 +8220,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ad062677-8695-4fd3-b3eb-27717bb3a7b8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8169,7 +8237,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d0146179-6a0b-4558-81a2-8c5f64556b3a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8186,7 +8254,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d2a07dc4-dce9-4b1f-8947-d5ff95cc79b9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8203,7 +8271,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1a57c543-afe8-4bd5-a254-bdf36efc490d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8220,7 +8288,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2303218e-994d-4efe-adc2-04b3d1b89b16',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8237,7 +8305,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ed08a6c1-844b-4244-a5c2-8a54a2cbb243',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8254,7 +8322,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0ef85c2e-4d34-4f58-9f82-26d0455c4882',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8271,7 +8339,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c1094157-8286-4d21-b9ae-e1e9e2fb830d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8288,7 +8356,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:da2625ff-71e6-462b-84fc-689b545d3e3d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8305,7 +8373,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0eaa7f1d-a771-45c7-9c89-1d3631c34930',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8322,7 +8390,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17d1e675-1de8-4c22-8f6b-b35b922300d2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8339,7 +8407,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3436eecf-822f-49dc-a0fc-35ebab6122b0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8363,7 +8431,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5c201174-ddc0-4d57-b23e-df535a8827c0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8380,7 +8448,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:efdd0f24-cad2-4bc7-8958-174707bfb485',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8397,7 +8465,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ed85f17e-29dd-473c-9cb8-d7ad1dc44d2f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8414,7 +8482,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17594742-7e32-4fba-8cc0-211c65e99dc7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8431,7 +8499,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c64b6c09-5878-4951-854a-eeabd39475e8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8448,7 +8516,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f3a1b4d2-2c76-4a94-badf-c93cd369b2ff',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8465,7 +8533,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cd1a0486-ffec-4fba-8cb9-1904fedaa1e2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '53406C1-94',
     partInstanceId: '53406C1-94',
@@ -8482,7 +8550,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63e66a7b-f0a9-4b99-b1f6-001f0c6b843c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8499,7 +8567,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e3be3a06-1ab4-4549-9e77-bf541fe0287c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8516,7 +8584,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:12cce867-957c-4ce5-9d0a-1f68ae87a03a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8533,7 +8601,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7d9deb65-f20d-4829-8072-b074dc85f0f3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8550,7 +8618,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f488fb70-b8f9-43c5-be37-f0bb6a8492ac',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8567,7 +8635,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6d64f6ef-123f-4c73-9748-b7e56a5ba72e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '87894I7-34',
     partInstanceId: '87894I7-34',
@@ -8588,7 +8656,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:292fbe69-45fd-4db3-bfbe-40f2142046bd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8605,7 +8673,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:219ef85c-ce7b-45b5-8590-8dc7c7c911a8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8622,7 +8690,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e5ba40d-89ae-4401-93aa-ad67dd1e9ef1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8639,7 +8707,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bed8f06e-bc4c-478d-b89f-e334d47fd254',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8656,7 +8724,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e364cc13-17fe-45e6-9c5c-836fae6bd8a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8673,7 +8741,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c0d479ab-c355-4b0d-b8b9-2a571f787c7d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8690,7 +8758,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7fe93fa7-1c2c-4698-95fa-10d2975bb3f4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8707,7 +8775,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8183a616-96a9-42ea-8900-28a5d1b75f0a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8724,7 +8792,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4468db72-1699-4cf5-8263-b2dee00dbd5b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8741,7 +8809,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5b3022d5-704b-4469-9646-50f394d46fc3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8758,7 +8826,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:db4d786a-e189-4a7f-8b82-5fef84b3dcd1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8775,7 +8843,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:50f780a6-447f-4ccb-ae9d-e0de0a4862bc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -8792,7 +8860,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:de0613b5-88e4-4dd7-b098-73473786fe40',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'RW-98',
     partInstanceId: 'RW-98',
@@ -8812,7 +8880,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aa00b2e6-0ea2-44e5-b647-3c0bbab2e28b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8829,7 +8897,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c439942f-cae0-43a1-bda4-823fe9b13a62',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8846,7 +8914,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7ed7695d-0510-442d-84d5-7f44399bcfe9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8863,7 +8931,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1cd6ec04-e756-4058-81c8-df06e8a8cf8a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8880,7 +8948,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:23fdeea3-4444-4416-8ba2-f03e7c539b34',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8897,7 +8965,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ca6c79a9-660b-447b-a7a0-4a5f2fd3e000',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8926,7 +8994,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8e7d09bb-c5f8-4637-9b66-7676cfafcfe3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '81616Y8-41',
     partInstanceId: '81616Y8-41',
@@ -8947,7 +9015,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f68dd4d3-f53b-4c36-b731-c83bd087d5f8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '03290F9-99',
     partInstanceId: '03290F9-99',
@@ -8964,7 +9032,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:406526ab-09e4-4580-968d-81b725942aad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8981,7 +9049,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:79e47d65-5e61-46bf-a0ef-220c49594a4a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -8998,7 +9066,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:53e29221-cc2a-44df-a5ca-693655198f25',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9015,7 +9083,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b23eb12e-f068-4c4f-8ffe-4a6ca2b8ddb0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9032,7 +9100,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0ca60ed9-559b-4d3c-83af-84a0d351d32b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -9049,7 +9117,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:19ba99e1-12a9-4563-b8c8-d051f42a9b08',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9066,7 +9134,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3cd006d8-1c49-41b0-8961-6bed9712531e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9083,7 +9151,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:350f3435-a0c3-4f3c-b990-5e75e43a2755',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9100,7 +9168,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:79412ad8-15f8-4c65-a98b-ac2913305132',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '38241T6-19',
     partInstanceId: '38241T6-19',
@@ -9117,7 +9185,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c9fbd1b3-d79c-48ee-922d-5cd8ecbadc5d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9134,7 +9202,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfbdf8a4-185b-4b5a-a7d9-2892fa53724b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '83540K3-16',
     partInstanceId: '83540K3-16',
@@ -9151,7 +9219,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:47d18113-a884-41a9-bf5f-478afc8648b6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9168,7 +9236,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:15fe1038-8d80-4a02-be9c-f112ecead821',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9197,7 +9265,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ba4badf8-80cd-4fc5-a14a-8497bdf50d4b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9214,7 +9282,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6bab477f-63c0-48ae-9e12-278550e9c104',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9231,7 +9299,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6f4cf7a3-bc02-493d-863a-cd0364f003c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '16747P3-72',
     partInstanceId: '16747P3-72',
@@ -9252,7 +9320,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:964380b0-537b-4acc-8d0d-74c6a9783683',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9269,7 +9337,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:61183458-ff43-4e0a-bacb-c441622fbf0b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9286,7 +9354,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ec3b6595-3644-4431-b5b4-850ae0a4a623',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9303,7 +9371,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7a9c6981-d59d-44bf-a62e-8c14944f13f3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9320,7 +9388,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7d705496-791c-4f6e-91a0-2e3b450529da',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9337,7 +9405,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ef2f03a1-00dc-47fe-becc-cda1554c25d6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9354,7 +9422,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63404519-d5e1-486a-871d-851d94c974d5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9383,7 +9451,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fc70908a-a5cf-4775-bd06-320b0c7ae2ee',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '40910C0-87',
     partInstanceId: '40910C0-87',
@@ -9404,7 +9472,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a46289e0-11f3-4c07-b2e0-0d56398fb8cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -9421,7 +9489,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:38e469ff-1174-4cd1-8d76-f8573eccaddd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '15762X4-90',
     partInstanceId: '15762X4-90',
@@ -9438,7 +9506,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ab15a4b1-5b34-4a63-acda-abb1d9cd8b33',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9455,7 +9523,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f5abe887-1607-4f29-ae9f-42c4bc41fba8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9472,7 +9540,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:eddb2776-ef17-479d-8aa3-b3e9d64360b7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9489,7 +9557,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:53dd089e-f13b-45f6-a413-f3a2ecd86e77',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9506,7 +9574,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:440e2c89-6db5-4044-9aa3-c020b276ade9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9523,7 +9591,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d2e9beb8-ee45-41f5-8591-dda855d60bc4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9540,7 +9608,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:818f987d-d209-41ec-878e-7f7ef372fedd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9557,7 +9625,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73aaa890-5949-4236-9413-03831db331f6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9574,7 +9642,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d2bc5692-c0f5-4d97-94d6-3cd1b6567c75',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9591,7 +9659,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:acb903a6-f393-4b3d-94e8-68fbf5a4083a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9608,7 +9676,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:64662156-0daa-429d-8365-da627a51ec1d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9625,7 +9693,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bf9b02e4-4183-43fc-8563-c6a41fc8c1c0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9642,7 +9710,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:578fbb20-e8b5-4aa7-9e7d-d5e791c2b786',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9659,7 +9727,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:66f075a2-32ae-4e0a-868a-313fbbe33dee',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9676,7 +9744,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:71d81a6f-8a83-44f3-90d0-c49c8437a014',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9705,7 +9773,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:78a666b1-4bc8-4532-a723-5fba8b166433',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9722,7 +9790,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:39d67bc4-f6ee-4f05-a7ad-771cc28c2d8d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9739,7 +9807,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8b73f1ec-ace3-4902-9d0f-119d06946aba',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9756,7 +9824,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73974bf5-0b95-403e-9259-0f61010635d5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9773,7 +9841,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:10fc8d80-771e-453b-93a0-20843b0c519b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9790,7 +9858,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2d9d0ae7-5955-4ecb-8385-6e0612f6b047',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -9807,7 +9875,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f1167e5a-8ea2-4066-9ecd-c01b9ec2bc56',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9824,7 +9892,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8f9fedd9-9afd-4ee5-88cb-486ecebb7396',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9841,7 +9909,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:42139984-c010-492b-8406-5e435a638fcd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9858,7 +9926,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:037b9346-a39a-4054-99e3-35db94049fc0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9875,7 +9943,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ca4be79b-fd43-4b65-a02f-ba6fcb332030',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9892,7 +9960,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7710b2cd-b4b4-487e-b119-fe565e75cc24',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -9909,7 +9977,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f32cab24-3d8f-4f2d-a377-20e8079235ea',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9926,7 +9994,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6a5971ee-6321-43be-b73d-b55fc979c97c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9943,7 +10011,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:12f1fcf4-2e9a-44b7-8214-7f67d6f3cc57',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -9960,7 +10028,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:94136066-d9b1-4aa5-b85f-b44c888ce1a9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -9977,7 +10045,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b9955877-0854-4d04-89a5-2fe409eb5f8c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '12508D0-22',
     partInstanceId: '12508D0-22',
@@ -9994,7 +10062,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be38a43a-8fb2-4227-a829-cb6b435e72c3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10011,7 +10079,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6af71b3e-1f9e-4b5c-82ac-84d72b480390',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10028,7 +10096,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5ae5186f-eea6-43d7-87fe-344682586d41',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10045,7 +10113,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b97aaabb-91c2-4df1-9558-d36ed97442e2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '16585Q5-29',
     partInstanceId: '16585Q5-29',
@@ -10062,7 +10130,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d05f68f1-2bb1-4368-bf8a-b27d427577bc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10079,7 +10147,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:278ef05b-1cdc-4bbb-8fea-e8676e0bdefd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10096,7 +10164,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1c1d0844-c364-4273-aae9-5d8d020e8eb5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10113,7 +10181,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c90cd73a-039b-44ba-956e-0bcaef38dce7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10130,7 +10198,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ec45d343-96c5-4efe-80c2-71e0f0fa242d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10147,7 +10215,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:294c80ce-1e2f-4a92-b7e7-2aaa3d114694',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10164,7 +10232,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:71b0d535-9648-4d57-b30b-25a362070229',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10181,7 +10249,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:247517c0-96ea-46e3-8b82-3b5433bdd8fb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10198,7 +10266,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5d8f06ad-ba51-4981-83c9-71b7a43c6953',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10215,7 +10283,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6bdbd13f-3090-43e0-8661-4d5d23405244',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10244,7 +10312,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:54f02bbd-994a-40b3-87da-aab2a3a98bc3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10261,7 +10329,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:31fd166a-f7ff-4d84-8aec-2755a711a270',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10278,7 +10346,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfbf8f08-f392-438d-83de-19855db28320',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10307,7 +10375,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ca76feb9-7e18-4c9a-a555-e1039d0e3e99',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10324,7 +10392,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:37c10ab9-da49-4e63-aea0-d00156da9a56',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10341,7 +10409,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1cebe2e2-6eb1-4112-ab12-59e6542ff6e9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10358,7 +10426,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5e5ce920-95ed-434f-b335-efc91b7ce62d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'WQ-59',
     partInstanceId: 'WQ-59',
@@ -10378,7 +10446,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5032ce21-a00e-440b-9957-669912597544',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10395,7 +10463,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:29a583ed-53de-4ea7-96de-bbc1752d0b3d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10412,7 +10480,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e4e9b8f9-1437-4725-8a2a-1832f9293b77',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10429,7 +10497,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c976005-f9c9-427f-b92e-5829303f99cb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10458,7 +10526,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d01601ac-34d6-42a2-86c9-a3b7a6907013',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10475,7 +10543,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7b58456f-fc06-49fc-91d8-03a709365fce',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10492,7 +10560,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9e38e005-afbd-4fcf-acaa-76abf65a0502',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10509,7 +10577,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e0582613-1b7e-4601-a7c4-172701013170',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10526,7 +10594,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:632eb422-6934-4eb4-8387-c7bc7a48b200',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10555,7 +10623,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fa3c453b-a91e-4faa-a361-168774618c1f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '28430R7-26',
     partInstanceId: '28430R7-26',
@@ -10572,7 +10640,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a1e1be30-5c4c-467f-ba07-6aca45ad942e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10589,7 +10657,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3103ce7a-edcf-45c4-8612-7a80a2ff9195',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10606,7 +10674,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fbedd123-1258-4949-8c77-2a2c5c1b3b36',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10623,7 +10691,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b329c91e-9f1d-4244-b9ab-5e8b6c610eac',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10640,7 +10708,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ecf77f1a-283b-47cc-82c3-8f73efa78911',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10657,7 +10725,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e34b5f90-93d9-44ad-bd65-427cf0385aac',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10674,7 +10742,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2e666a26-f8aa-421c-9195-ee4be5752cd6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10691,7 +10759,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:681931c2-b908-4a73-8710-fa31327cca45',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10708,7 +10776,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9f7ed20c-da14-454b-8698-df0cda4bf51e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10725,7 +10793,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5ed14978-4819-4e59-ab5e-a9aaf4d21da1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -10742,7 +10810,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4655bc30-b802-44b4-bb37-15c918e6ddc9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10759,7 +10827,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b2973796-7401-4c4f-9a3b-dec08fc826cb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10776,7 +10844,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6faa7aa2-42e7-4a66-9310-ad6c66ec2e38',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10793,7 +10861,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b081d638-2931-4f41-bed5-96b09070eaad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -10810,7 +10878,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7e08f1bc-84f6-404a-85f9-5246b6572663',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10827,7 +10895,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8ac7913d-b35c-4217-b1f2-823bb3900488',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10844,7 +10912,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:319e7eae-f3ab-4da1-be06-69452a8dbd5f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10861,7 +10929,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3ea5e193-bd6b-49eb-9a0e-62e4bed581a3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '05248M9-72',
     partInstanceId: '05248M9-72',
@@ -10878,7 +10946,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1347633a-c078-4152-b8a0-3e7f6563b07e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10895,7 +10963,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:53a95dba-3cb7-4484-8117-d6fbf23e11a8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10912,7 +10980,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:72cadb15-1c97-4b86-abc1-ab8c37bbd451',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10929,7 +10997,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ec8c2cfb-ed91-4f57-a5e7-ec06b3759cba',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -10950,7 +11018,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2ac4706f-3a9f-490b-b9b5-3a29bef3b846',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10967,7 +11035,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f545b881-4c35-49df-a28f-42cc39cc38ca',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -10984,7 +11052,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63cbaa71-4e57-4d4c-9bd0-82a0fa99d458',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11001,7 +11069,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9f439448-4456-489a-8feb-175282399992',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11018,7 +11086,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:68281f6f-e67f-4b79-a695-1ea53efca49d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11035,7 +11103,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b53f7932-d501-4c28-a0cd-bc2ba007dec2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11052,7 +11120,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:00880fd6-5ba6-4e8e-8593-a6376344415c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11069,7 +11137,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d0047ad2-2e59-4364-baa8-3d2a48b1cffd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '10963G2-66',
     partInstanceId: '10963G2-66',
@@ -11086,7 +11154,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0017687f-0d72-4567-8257-a9409af6c76a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11103,7 +11171,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:523bb865-39c3-4d0e-bf6d-c3e6e578dd27',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11120,7 +11188,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:04c0e554-c654-44b6-9ab4-286c0977802c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11137,7 +11205,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:69872474-7916-4539-a66a-b2adc667dcfe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11154,7 +11222,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d8054393-cb3e-47d2-ad7e-5725707dfdd9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11171,7 +11239,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a1f8e650-d1ad-4027-8764-d8587a5cba79',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11188,7 +11256,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:10ef4b9d-24a0-4b18-947d-40be0014e227',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'GF-97',
     partInstanceId: 'GF-97',
@@ -11241,7 +11309,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4695c539-7d42-4a37-847f-5fb201b246d1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11258,7 +11326,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f736075a-1170-4054-b2ae-edd2be472ba2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11275,7 +11343,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fc77b5f2-62f9-4893-be7c-769c7540b040',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11292,7 +11360,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d34b6099-f948-417d-933c-4b19ac45e889',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11309,7 +11377,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:652b1b1f-bd46-4583-8489-f54fe975ecec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11326,7 +11394,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5fcc3224-fd74-4a22-b25c-08bb7242b3dd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11343,7 +11411,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:59014f9f-c20e-43cf-9108-1a3a6bae6cc9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11360,7 +11428,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fe55e50c-d523-4f97-9931-1ef1b3a6d76e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11377,7 +11445,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:302cc520-9204-4410-9b39-a43042e8514e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11394,7 +11462,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:eadcf787-137d-4d85-a675-16c6890fb2ab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11411,7 +11479,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:05e6d754-9123-4bb6-ae62-d03a511c1784',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '63173Y5-91',
     partInstanceId: '63173Y5-91',
@@ -11428,7 +11496,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7302d159-ae72-4700-9647-7e54e36bcef4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11445,7 +11513,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7981be41-e476-4ef3-83b3-c702832f02e5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '04810K8-96',
     partInstanceId: '04810K8-96',
@@ -11462,7 +11530,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:82bf449e-fde3-4ad2-b004-07a24196b1d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11491,7 +11559,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c09dc6fb-4cc1-4795-bbf3-c5cf5837d03d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11508,7 +11576,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6aec6d02-0bee-49d4-8151-bd776fe3600f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11525,7 +11593,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:572e2b23-3eb1-4472-825f-318239e65544',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11542,7 +11610,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a352c467-401c-45e0-bbf9-5fce5b061d5d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11559,7 +11627,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:51191c62-c430-423a-b404-7d7e86c58284',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11576,7 +11644,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:38330cf7-4709-4163-90e6-aa0b8410c19d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11593,7 +11661,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c834d09-aa8e-4f53-b5a7-40470b6f7ef3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11610,7 +11678,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ced38557-5f05-45ed-9ce0-10ad62177c0c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11627,7 +11695,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be1755c4-5754-4bc8-b700-a8559c29447a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11644,7 +11712,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3530e592-0ec4-4c16-8936-9e255faab6a8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11661,7 +11729,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e7d74055-3a8f-4698-ba00-f7c85cb370c8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11678,7 +11746,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0117cf70-59ad-4898-8fff-9b267b4e978e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -11699,7 +11767,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d293af87-8fcc-4904-be26-175664ec1926',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '60619D0-62',
     partInstanceId: '60619D0-62',
@@ -11716,7 +11784,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1d28c112-599e-46c8-b61e-10589bdeec93',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11733,7 +11801,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bd3e7c1d-3ae0-4e86-bb4d-f921c68823b0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11750,7 +11818,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:01d0e166-4c21-44b9-b73b-6ce620c6a816',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11767,7 +11835,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:efb54c1c-156e-41dc-9029-5105999aa48e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11784,7 +11852,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:01780069-7244-4a89-b60f-fa9d58b86d17',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11801,7 +11869,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3327bdbc-f8e9-47c6-bad0-b4152c1326d0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11830,7 +11898,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8bb495d6-0c35-45d7-a64d-946e9695d630',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11847,7 +11915,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:23ae422f-5a41-4882-97e0-a43446f58b10',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11876,7 +11944,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0efe006f-10bc-4446-92b9-f748ef8dcef6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11893,7 +11961,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:48f2865d-be10-404f-911f-2d491ae4c187',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'KC-62',
     partInstanceId: 'KC-62',
@@ -11946,7 +12014,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6f7491c9-4101-4524-8d94-46fb4c2247cd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -11963,7 +12031,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:77c0a83d-5b1c-4628-840c-3a47cafaa503',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11980,7 +12048,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d305e070-9734-42a8-bc3f-7c689c08525e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -11997,7 +12065,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:efe83790-aa19-4d9f-add6-632e18ca4309',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12014,7 +12082,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f7b93b53-6a00-4672-9afd-355abe81c0c1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12038,7 +12106,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ab2e0123-0de8-4c68-98ab-bd0edcd170a6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12055,7 +12123,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f88701ce-079e-4c10-b0e3-17133c9e725d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12072,7 +12140,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ca51d59b-ffed-4f62-945f-9c051a3561cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12089,7 +12157,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:84522728-94c1-43f7-93bc-745faea1d27b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12106,7 +12174,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6a0c695c-a041-4a09-be9a-e832e89b860a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12123,7 +12191,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1eb3e916-1da9-401d-897a-40b33b70e7d0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12152,7 +12220,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73bdab32-cea3-467f-a00d-a4f581c1bebf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12169,7 +12237,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:45ccfefd-395d-419b-b27a-7ef2a2da6f51',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12186,7 +12254,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1ff3f721-3fd4-4510-9c68-450d9b23e397',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'KI-85',
     partInstanceId: 'KI-85',
@@ -12206,7 +12274,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e7a772ca-6b9f-49f6-b6a5-308dc3ec0c2e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12223,7 +12291,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0289b508-413c-4a1a-8996-630ad36ff0dc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12240,7 +12308,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9b90a983-2ecf-43b9-8c9d-f7bd33929edc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12257,7 +12325,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c6455441-92e7-48f4-a233-face9fa97bc4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12274,7 +12342,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:05657545-b6a8-4f99-9683-b79f252afbff',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12291,7 +12359,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:383e3889-c882-4fcd-b3c3-e1135444c737',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12308,7 +12376,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:16db6f87-ab2d-4f98-b683-aca6597c0c02',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '72590S4-68',
     partInstanceId: '72590S4-68',
@@ -12325,7 +12393,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:54ed265c-7a2e-4adb-942d-a5f6badb0cd9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12342,7 +12410,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:191a4da7-f16d-44bc-b818-e2ccb3cc03c9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12359,7 +12427,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e19662dc-3db8-49cc-bd90-492f557d0a0b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12388,7 +12456,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8dc94385-a476-4d76-8af8-9a5b1b2882c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12405,7 +12473,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9f5f62e1-4636-4c6a-9134-525ee0e42e9e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12422,7 +12490,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4781c431-2eaa-4280-9ee0-afc502e743a2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12439,7 +12507,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d33faf04-78b5-45b4-9a5c-2f5c1a689495',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12456,7 +12524,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6c64daf2-975d-4a38-8c45-a303d7720207',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12473,7 +12541,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:efa47fe5-1191-4a2b-9f80-700c33175dfd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12490,7 +12558,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f42b1bc8-02f6-4fa9-840d-ce78aa01b22b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12507,7 +12575,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3cd59151-add0-4bb3-83dc-9984f323b784',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12524,7 +12592,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:64a19ef8-70f7-4a39-a857-b3a76a89222a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12553,7 +12621,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8cdbafa1-9090-4d7c-bf20-5d81dbe88ea1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12570,7 +12638,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:20ed5e66-219b-40ec-a56f-8fc18c9422ba',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12587,7 +12655,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:44f6df3e-c285-4dfc-bae7-e48f16ce444f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12604,7 +12672,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:27c877a4-51d0-4cc0-91f1-0d2b134a34bd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12621,7 +12689,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:893e6168-ce23-4db1-baa2-941546ae1898',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12638,7 +12706,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6bcd3ff7-6567-4fdc-9ef8-b7ebf10611ab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12655,7 +12723,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:35f0f41e-fc27-42aa-a997-8a87f0d192d3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12672,7 +12740,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:28b5ffc5-20c9-48ba-8527-98adc55f7ffb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12689,7 +12757,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e1c7b381-5b32-4d9a-93a5-9725134bd0c9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12706,7 +12774,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:70699c4a-0800-4154-a0b3-3393aa3290a6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12723,7 +12791,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:65ad1da1-e8a9-46a0-b90f-a5a87dbce55c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12740,7 +12808,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0d32b96a-a7fd-4931-a4fe-73815e949eea',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12757,7 +12825,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfc7e20c-cdff-4a6c-bef7-6b01dc126984',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12774,7 +12842,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3a16bc6a-8704-4559-a351-7ef1a89f91cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12791,7 +12859,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:996efb79-7394-4708-b787-7286c687a3ef',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12808,7 +12876,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d27b9f17-48ef-4570-8fe9-aeb3bd9e70c8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12825,7 +12893,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:32f11a40-a3e0-45e3-9b36-a145c9983f04',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12842,7 +12910,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:25db119b-acac-4eb4-be66-da11cbeb3578',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12859,7 +12927,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5d4cca10-681f-48c1-b7f3-437614c56680',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12876,7 +12944,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2fd26c97-6bad-4c9f-b880-a37af29acc40',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12893,7 +12961,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63bf7a2a-cb16-4104-8d7e-ebc54e326309',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12910,7 +12978,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5b009e50-fc8f-459a-8149-77246c1be65d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12927,7 +12995,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1fb71855-3299-42bd-9f2a-f60e5cf5013f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12944,7 +13012,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5a6cf411-1461-41bf-84cc-69ef6144bd02',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12961,7 +13029,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:781f206f-34d1-42ff-ae7b-ea08e882691d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -12978,7 +13046,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:883c6b9d-a181-4e04-b369-3422f4025129',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -12995,7 +13063,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4a67f64e-61d8-43a4-afec-a5b239d6ccad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13012,7 +13080,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:41da1ccb-f6b1-4050-8171-241c94e36038',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13029,7 +13097,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3ca9dd21-2dd9-4932-b68c-3c7edd649a21',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13046,7 +13114,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:97febf95-9bd8-4a84-b047-a8c24fd35e5b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13063,7 +13131,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:97e24ccd-3488-4411-b8ad-d082e989c95a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13080,7 +13148,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3f0d0551-4252-4f2b-8818-f1f5dd49f67e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -13097,7 +13165,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3489935a-4be6-4311-b4ff-e4fc9a69dac6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13114,7 +13182,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5c7ad06c-fdf5-4ccd-82d7-06badb167fd7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -13131,7 +13199,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:efba800b-f920-43ed-9753-dd0265657054',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13160,7 +13228,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2e7e1051-f7c5-4a13-aa5d-90d8f56bd6bf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13177,7 +13245,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d80319b6-ce3f-42e6-a0ec-3cc2255866a2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13194,7 +13262,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4a32f6b8-ccf9-4217-b57c-9d8198b2e625',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13211,7 +13279,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:68af3032-a4ef-47a9-9df0-c911344733a3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -13228,7 +13296,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f2c6d492-5eeb-47c2-a600-edbdac8ceaf9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13245,7 +13313,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:785f7309-22cf-4000-9f01-77adc09a8906',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -13262,7 +13330,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ebeda167-8639-4b2e-92d8-22ca6006dbb5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13279,7 +13347,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d8e8ed73-44e7-44a5-b9a4-610bec48a574',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13296,7 +13364,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dee0737d-5423-40cc-80ce-618c5584fcd2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13313,7 +13381,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:86bb0886-ef39-4641-9759-d155628c63e5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13330,7 +13398,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:60b3d35d-383c-4872-abc4-3fd16cf7b35f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13347,7 +13415,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76b0d911-f43f-44cb-a707-d214e5f8aa90',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -13364,7 +13432,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0100d03e-99b2-4f67-a57c-684ee4a68e65',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13381,7 +13449,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:69f2c6f9-8294-42f0-9ba6-418bd4e10308',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '81780V6-59',
     partInstanceId: '81780V6-59',
@@ -13398,7 +13466,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:06895500-9a6d-470f-b0c8-a8214ad8fd9c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13415,7 +13483,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:03f1fc68-fda8-4428-ae6c-6e4465ab9ba3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13432,7 +13500,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1ce57188-8f36-486e-be4d-7ba339fedd88',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13449,7 +13517,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4a5e986a-08ea-4992-a0bd-8365c2204e4a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13478,7 +13546,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6381157a-0d2a-4b5b-a98a-249670b70712',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13495,7 +13563,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ac349101-495b-4e5a-bd57-fd92dff793b4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13512,7 +13580,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0868b66f-d1d1-4dad-9a04-80eb5fe76771',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13529,7 +13597,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e4bfd2be-23b2-4f3d-b970-1eb258e6051b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13546,7 +13614,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17704cb3-b2ea-460c-a108-6296761fe51d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13563,7 +13631,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c849fb74-742d-4a69-8b37-255bc0057a7f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13580,7 +13648,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9f532b28-3417-4aa8-8238-776b9d445874',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13597,7 +13665,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4ab20012-3f54-407a-8632-c7a09ebedf44',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13614,7 +13682,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4b48733d-2457-4e88-912b-4f72a68854e9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13631,7 +13699,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2deb0b32-7149-4725-8d2a-afc206976070',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '68099J8-71',
     partInstanceId: '68099J8-71',
@@ -13648,7 +13716,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dda25cd9-cc1e-432c-b0c9-94982cfccc73',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -13672,7 +13740,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a4117c68-b100-4a06-b173-72e3928a322f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13689,7 +13757,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cd16fe3f-561a-4e08-a8fb-f629ae7b7c68',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13706,7 +13774,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e3eb32d-8bfa-4895-86bf-c00243037da0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -13723,7 +13791,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b54b769a-5fc7-4d83-84a6-399861d1a05f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13740,7 +13808,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:597396e8-cf09-4b45-98cc-95a159616223',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -13757,7 +13825,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76ca6875-114c-49a2-ad86-37cd4953c84c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13774,7 +13842,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4aac20a3-f18c-4be1-bae9-dc14e2c2dfd3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '64692Q2-17',
     partInstanceId: '64692Q2-17',
@@ -13795,7 +13863,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5d4d1a9b-9661-445b-a102-ce8e2dcc9254',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13812,7 +13880,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c44a0771-d9c9-46fe-bea0-34cbbcc5beb2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13829,7 +13897,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8731c218-7a0c-43ee-a48d-5182b4bcb0d7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13846,7 +13914,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ab44b840-fa5d-4182-a32c-56f739220de9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13863,7 +13931,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ae69121d-beb8-4755-b8a0-e32178566d38',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -13880,7 +13948,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4907ac69-203b-49dd-8bdb-56a87221f958',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13897,7 +13965,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2ce0cb92-974b-4387-8f37-4e2d31c90f1c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13914,7 +13982,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f887a8a5-2f02-4174-a50e-a6e02bc14a56',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13931,7 +13999,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:de4def14-727c-4ba2-9873-d647a7aad1ad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13948,7 +14016,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:968aba1f-d6e5-4cf1-bece-84807cb80119',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13977,7 +14045,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dc53d8c9-f65f-4b9a-af5d-bb0e26520788',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -13994,7 +14062,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3eb3a352-16ec-4201-b87e-fae01febc415',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14023,7 +14091,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cb5997b5-a125-4a69-97f7-6d7f6f686351',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14040,7 +14108,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7e1130ba-8019-4282-8fdb-36e1ffbe01f5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14057,7 +14125,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f889f7ad-538d-4ba7-ab21-d432b0608a02',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14074,7 +14142,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:af7c69a2-21dc-4dbc-88b5-eef6aaefe094',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14091,7 +14159,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:05019b87-ae83-4144-9364-2063c8010b36',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14108,7 +14176,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f6c1364d-8595-4c27-a22c-514831fc77c5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -14125,7 +14193,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:57795cbd-1a16-4b6a-b764-645f385c343e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14142,7 +14210,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f1f862b6-f60a-4212-8f64-ab6853331986',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14159,7 +14227,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1e34f1cf-ea00-4f72-a627-d7aa48177f0d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14176,7 +14244,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:478ce451-eaa7-47da-a49a-fb1b67bcc025',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14193,7 +14261,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dd390777-efab-4381-b964-2b4779723939',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14210,7 +14278,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7faa887a-e4be-43eb-88a2-baf438414e46',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14227,7 +14295,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:533c0aca-99b8-42ad-8bf9-5a460d21dd9d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14244,7 +14312,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4f86c3d4-85d0-407a-8ae0-97565c1b6a19',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14261,7 +14329,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0a54cca9-aa0a-4b8b-a69b-16f42e38e024',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14278,7 +14346,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c0052cbf-594d-4f45-8434-8d7593dd3732',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14295,7 +14363,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2df181cc-a218-4f1a-9515-cf3f536b216d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14312,7 +14380,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d20d414e-f398-472a-ba61-360de150c5da',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14329,7 +14397,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a8df7450-c4df-4a9e-8276-498b1d5d98c3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14346,7 +14414,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:769801d0-c3f7-4050-b3f6-ebfe71439082',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14363,7 +14431,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9a4f6bae-1298-4ce5-940a-8155fe3528e2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14380,7 +14448,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73ac5cc1-13d7-45ef-ba2b-591e6be41b33',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14397,7 +14465,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:518abfc0-12bb-4232-a3b9-be1dbc9d3f9d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14414,7 +14482,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f9d018ce-327d-4f63-8aeb-c452623d4fc5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14431,7 +14499,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7d9411a6-1e7c-4331-8952-e000680740f8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14448,7 +14516,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d7e3db02-e764-4657-8714-8b33f25dd250',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14465,7 +14533,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c08810b-285c-4bac-950c-4488109a0cae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14482,7 +14550,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4b7bbbbf-b96d-46a9-848e-0989b696292d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14499,7 +14567,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6edd78de-1a00-468f-9e40-df404afce7d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14528,7 +14596,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5835bf77-cdee-4b68-a1d3-78e2e5565e39',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14545,7 +14613,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4d8f4d95-a22b-4dde-a0ea-2fe5c19bc515',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14574,7 +14642,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:271d11f3-53d2-47ee-a20c-615ff23acc30',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14603,7 +14671,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:71bf7c09-b842-428f-be49-b21427fe0920',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14620,7 +14688,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fccc387e-4a12-4717-8da8-5a36ed73d0b6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14637,7 +14705,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c4a9dc34-9886-4ac7-b445-5e561298b4eb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14654,7 +14722,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4905d905-002a-4fa5-b3de-e09a7f402c62',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -14675,7 +14743,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b953c12f-e149-4527-a4b6-9be0253afe81',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14692,7 +14760,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f402d4c8-b1b3-4542-9cc2-932cfad0c797',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14709,7 +14777,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7172d1fc-5e4f-4aa6-9e72-4ac6a4329dca',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14726,7 +14794,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f5e21745-0577-496f-b435-c2f3cfe3a52b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14743,7 +14811,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4247ba57-79f9-4f8c-a5f9-9ab8518ecf82',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14760,7 +14828,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8192cea7-9b63-4788-8ee0-3beea624a45e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14777,7 +14845,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:88d261a4-559f-4f73-8dee-2dd6b0b722c5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14794,7 +14862,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:86428dfd-a6cb-41fa-a10e-e1d63396b40e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14811,7 +14879,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f63fc8bc-c705-42ff-ba0a-cb9f1bda8d5c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14828,7 +14896,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:81b4dd13-2ead-4a89-9253-3494ba8fc8e5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14845,7 +14913,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17235fae-9037-48eb-b60e-0d21761dcd9e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14874,7 +14942,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5fb5e5d7-1789-4eb3-889c-e6c0c8b8b2d3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14891,7 +14959,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3621f7fa-69e1-4a50-9526-0e8d91bf870c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14908,7 +14976,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fb349437-424e-4936-b34b-8170d0e79f8e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14925,7 +14993,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bd298b37-0265-485a-8ea5-390269c5f0d7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14942,7 +15010,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:13b11854-7832-4404-ac39-ec025cbfa456',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14959,7 +15027,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1dcb2940-798c-4f64-8943-4d8092670159',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -14976,7 +15044,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dc1a3fb7-f290-4e60-b2b5-1e3d349fbd50',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -14993,7 +15061,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2a996b57-d326-4773-97c2-2bae3b094555',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15010,7 +15078,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f0d170ef-a9fc-43e7-b620-4c4c8320a725',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -15027,7 +15095,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bbe1ea88-80d4-42a8-91e0-17cb28847afc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'LT-58',
     partInstanceId: 'LT-58',
@@ -15047,7 +15115,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:91440dd1-c1f8-4d0f-b562-199f2ce806b8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15064,7 +15132,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d2b4260b-8b83-405d-8c95-c1a2a0b58cea',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15081,7 +15149,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5280be5b-1cec-4dc1-a09e-50ceec483b02',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15098,7 +15166,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6b01bc9a-8345-4048-a802-8fc5da084f17',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15115,7 +15183,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ab4e7c99-df39-451b-86a7-4c9dbf59befc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15132,7 +15200,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:15de77f6-f984-405b-86a4-93f8e2bc1e92',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15149,7 +15217,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:74db2932-8607-4f1e-9a38-7c04b5c262c3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15166,7 +15234,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0128f30c-b26e-4d99-b745-b05f9ba5802f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -15183,7 +15251,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:38f76680-6605-4a2a-98ba-c3aec9c79988',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -15200,7 +15268,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:266520a5-fe94-4e58-86eb-9aadbfe3a821',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15229,7 +15297,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b83d03ee-d662-46b2-b460-6ddde936b042',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15258,7 +15326,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:354af0af-8314-4eaa-91d9-f18e30b80c39',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -15275,7 +15343,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a809eac7-da95-475f-9502-8ffd9bec7ba8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15292,7 +15360,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:59192ccc-8fbc-4b44-8fc5-c1ff8b5f0a3c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15309,7 +15377,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1ef44d59-2d01-4aba-9141-8f686c928807',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15326,7 +15394,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cec27015-316e-4327-b8f1-a2b8325defb9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15343,7 +15411,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dba10f91-a2f9-438a-b143-b84172ca069f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15360,7 +15428,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ad2ffebe-dbb9-479a-927a-f830c86205c4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15377,7 +15445,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be06bcb8-edaa-4265-bbc6-430518adeea1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -15401,7 +15469,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c25213c7-ac35-4aaf-b2a6-65c5898cd1a0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15418,7 +15486,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a10cf6b0-b69e-4dec-b132-34fe02ac3874',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -15435,7 +15503,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:efac9b24-74e2-451e-8f94-88680a5c6775',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15452,7 +15520,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:79713f98-9421-4dfa-adad-1e0bd63c6261',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15469,7 +15537,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:40112b4f-b2c6-488d-9cb9-29f8412d1a2e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15486,7 +15554,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1378576f-342b-417c-88a4-715eadeb6844',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15503,7 +15571,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:af799969-2bb0-4ad3-8c04-bf38cffb0b38',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15520,7 +15588,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:167db9a1-279b-4be3-b678-4ec45429557e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15537,7 +15605,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ebe0906f-8f66-4bca-a423-b299168a020d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15554,7 +15622,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:df8dceec-ee8c-4f51-94f5-2eba62aa2154',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15571,7 +15639,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dcc0df4c-b13b-48da-b575-570d95e45e30',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15588,7 +15656,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5f73be62-e483-4b91-8d33-38d242ce3d22',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15605,7 +15673,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fcde50b1-90c0-4c71-84e3-ead4ce6f8726',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15634,7 +15702,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5d63dc0d-0954-4c3f-a0d8-2afd0f1de3d2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '20305G3-82',
     partInstanceId: '20305G3-82',
@@ -15651,7 +15719,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6b4874c7-aab6-4d1a-bbd3-447cea923e71',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15680,7 +15748,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5b16772f-c55d-4fd7-a2c0-19083f6df668',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15697,7 +15765,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4e17e5fe-2758-4b09-acbc-5217163ead50',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15714,7 +15782,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:61be50ee-45b3-4f5d-b1b3-7ea1e920c9fe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15743,7 +15811,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c079965-adfc-441f-8dff-58cec12af4b2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15760,7 +15828,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0d959eda-007b-4e0f-9090-fbbb0992b446',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '44572F8-41',
     partInstanceId: '44572F8-41',
@@ -15777,7 +15845,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ce87ef19-f62c-44f8-9ed6-7594b2e84a19',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15794,7 +15862,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:441d88d4-7554-423a-8ffa-27067eb27b80',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -15811,7 +15879,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:338df35f-2fbb-4b7d-8e7a-1dcf103aebf1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15828,7 +15896,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b6362fc4-3459-40b3-8dda-39ffe4a0865f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15857,7 +15925,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c0c0efa4-2ed5-454e-8b46-59d87c6b29fa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -15874,7 +15942,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:64010581-23e1-4394-a2a2-d3d863398fdd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15891,7 +15959,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2a8c2a2c-5fe5-4b47-aaea-cedc61477440',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15908,7 +15976,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fb9412b0-cd76-45a4-80bd-1c800802d9ae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15925,7 +15993,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:88634082-a66f-4e7d-b538-aba3b9ab481d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -15942,7 +16010,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d261e0fa-36f5-4128-875e-0f5735f5a535',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'TV-65',
     partInstanceId: 'TV-65',
@@ -15962,7 +16030,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cf4353bd-ff16-4867-ad74-fc065cc8f209',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -15983,7 +16051,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:234a4306-aeb7-4bf1-92d8-442c220e18f9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -16004,7 +16072,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:622cbd89-d643-4121-93d6-6d51e0429cae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -16021,7 +16089,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be3c6312-93a1-4b0d-b589-426644c656b4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16038,7 +16106,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76a05ce4-85ae-4a09-97fa-36e2acd26a83',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16055,7 +16123,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:48cd0e2f-ff08-43c6-8958-36a7de0a429b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16084,7 +16152,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6f60bd64-92b9-4b2b-98ec-436198425cf3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16113,7 +16181,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0c88b4c0-1b64-49ec-9e7f-73a8ac56d0f1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16130,7 +16198,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:07375282-bdfd-4dd6-9e09-bec0c692f394',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16147,7 +16215,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:150131b5-3066-445c-a90a-50ab87e95ce8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -16164,7 +16232,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:083f0096-ddbd-4ff9-bd6d-e4fc4d303138',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16181,7 +16249,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:48c50371-53a3-4db3-990b-f4ad137d22c2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16198,7 +16266,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:85a7161c-d06e-4885-8f8c-1ac119dd9349',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16215,7 +16283,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:07a17673-c3c9-4b3b-9e39-c97158395435',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16232,7 +16300,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b21d1098-92de-4401-97d5-ad0f0bdcb4b0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16249,7 +16317,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d97a3f14-9a50-4819-a273-89877f3e1d99',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16266,7 +16334,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e27013d7-5539-42c9-a81a-220ac007bb29',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16283,7 +16351,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:547f3703-1bb7-4e92-acbf-57514741147c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16300,7 +16368,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c6a56143-f326-4c22-8f2f-f4fa721701f9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16317,7 +16385,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1a219b19-cb92-4554-9825-c984ebd066fa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16334,7 +16402,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:807ac3cf-3dec-4f94-b698-c13275d3e7c0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16351,7 +16419,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bea17078-423d-4367-afb5-310ecff56873',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16368,7 +16436,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:99d1f198-b21a-4d5f-9f1f-ef6833660a08',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16385,7 +16453,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:133aebd4-0c26-41e8-a4f6-3ec0fdb0dcc0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -16402,7 +16470,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6491b501-8175-49c4-8b74-bcc05c52821d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16419,7 +16487,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a48b724a-3448-4e46-9ab8-df07dfd50599',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16436,7 +16504,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:83526c64-9ea7-4fbc-89ca-30ce44734213',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16453,7 +16521,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:462229b8-4706-43af-a577-db2087b02dd3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16470,7 +16538,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f7b3aade-0ee0-4447-8090-5e3c14443092',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -16487,7 +16555,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d7fd1eb8-4f37-4723-a04a-f65680834ac0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16504,7 +16572,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a8eb5029-7336-4ed0-9b4b-d128dab7a457',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16521,7 +16589,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:49655ffe-6a5a-4f28-9b80-7c5361aaf50a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16538,7 +16606,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b4c26366-eb1f-44a3-a48b-caa94ea45478',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -16562,7 +16630,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f1a1f923-f9dd-4849-bd49-b065373935bf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16579,7 +16647,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5cfef138-36ec-4f7d-bb4b-2ee9bd1bc8f4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16596,7 +16664,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:36b19c7e-0a57-401e-b04f-f6de3e61f268',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16613,7 +16681,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d6719bae-7f04-445a-9163-eda5057cd084',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16630,7 +16698,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:550fd672-ea4e-4196-8aac-f72f4f66cea8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16647,7 +16715,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:38469b5f-9d19-4a40-a50f-2669dd606d38',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16676,7 +16744,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:61b84c31-365e-4e3b-8833-679c32e81468',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16693,7 +16761,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e0d90fda-e0a6-468f-87fd-84915f12809d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16710,7 +16778,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0048a01d-53ff-4ec4-951c-62511874f9a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -16727,7 +16795,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8cd78d10-4ff4-4a2e-b0df-7fc39d861138',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16744,7 +16812,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2a087dbd-24cc-4655-abbc-3e87a198425d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16761,7 +16829,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:23bcbdc6-2d8c-49b6-9239-3358fb41bd15',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16778,7 +16846,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9a5d6b64-a1be-4f77-8064-c8c3a23b2247',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16795,7 +16863,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:261adf78-383e-44a7-bb6e-f2908269413e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16812,7 +16880,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1577c610-7da1-4967-8117-9308106cd979',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16841,7 +16909,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f246e043-fb18-4168-9e72-bb3c6d52c425',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -16858,7 +16926,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0cd07b83-7ba9-4214-b26a-24fd16b273a2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '44556B1-41',
     partInstanceId: '44556B1-41',
@@ -16875,7 +16943,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9113615d-9ce3-4e08-b060-dc255aa66f51',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '73331P7-95',
     partInstanceId: '73331P7-95',
@@ -16892,7 +16960,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:459de3a8-9107-462a-ad0b-eab4cdab17ed',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16909,7 +16977,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8ff8c973-74fd-4f8e-b5f3-461c96df075f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '68550R3-43',
     partInstanceId: '68550R3-43',
@@ -16926,7 +16994,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:306e00de-3c60-4272-bfe2-fe10c1b9aa1f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '16072M4-37',
     partInstanceId: '16072M4-37',
@@ -16943,7 +17011,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cc1a8072-a6ce-4bfc-9b38-1fa5cefee73c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16960,7 +17028,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3754a8d8-b5a7-4cfd-b212-2921c70f87ea',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -16977,7 +17045,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f6b29555-8ba7-4539-93bc-a8d2964365e4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -16994,7 +17062,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:28c8df75-6f94-4990-b81c-498d02a32989',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '64323F6-18',
     partInstanceId: '64323F6-18',
@@ -17015,7 +17083,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bf3becf3-84ed-4927-9497-75bab77987b1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17044,7 +17112,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fd838a0a-cf2f-47b9-95c7-8c31f9fa0095',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17061,7 +17129,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:286513f6-4140-491e-9645-482cfe54efd8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17078,7 +17146,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6ef3f531-7a36-47da-9d2b-1b6305a92d2d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17095,7 +17163,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7bc5913a-d523-482b-8b12-44ba53d0726e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '08678W6-55',
     partInstanceId: '08678W6-55',
@@ -17116,7 +17184,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d8d71d23-0bdc-472c-9913-a03717806afc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17133,7 +17201,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:09479559-aa3b-4b8f-b860-e168457b20ed',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17150,7 +17218,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:35ba10d6-c41c-456e-8ed0-92747530a132',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '08098P1-98',
     partInstanceId: '08098P1-98',
@@ -17167,7 +17235,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:30ac7aa6-e18c-4844-ae06-ca8c6ca11b9d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17184,7 +17252,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f41454d9-9e3d-419e-863f-d1f888c40053',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17213,7 +17281,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ba364a6d-5f95-46a7-88e2-d7156f648d6b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17230,7 +17298,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b8bda0b2-6dcd-4cdd-b698-de4a70c784c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17247,7 +17315,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9fb82198-5e63-472d-9190-19651d6bfa9d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17264,7 +17332,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a7bf101e-1044-4968-9293-2273da0da77f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17288,7 +17356,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ac38f33a-4e37-472f-84d2-65a314ab9b22',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17305,7 +17373,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2c8a1d79-a62d-49b0-a883-7115fbdce928',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17322,7 +17390,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dca7d5e9-dbff-4128-8f6d-1922ea3fd0d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17339,7 +17407,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:22222b2a-7f2d-4610-a664-8a4901e71717',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17356,7 +17424,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7dd17676-a8dc-44a1-8fad-0f1986289526',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17373,7 +17441,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e4362775-8ea5-4285-b228-c8d597b1f507',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17390,7 +17458,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8ed1f7f6-f57d-4d69-917b-8b517a09776e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17407,7 +17475,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9d58142a-3fa8-4b5a-9f42-a35020af2225',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17424,7 +17492,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:60496f2f-ee88-4e83-9a12-e901a32a34d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17441,7 +17509,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a6816383-6507-4306-8a12-709e538335a3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17458,7 +17526,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6e36b92b-bb7b-48a9-b917-34a22455b8b1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17475,7 +17543,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ec63091e-257f-4e19-965e-30cfe92532be',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17492,7 +17560,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:39c83610-8e72-4cd1-aa5a-bed87d7f50f3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17521,7 +17589,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7f020dff-c560-47f9-aa3a-c0cdc84643f6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17538,7 +17606,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3824c54c-abdd-46bd-9f17-983057ec9583',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17555,7 +17623,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e105b9c4-42ef-4426-9b23-e1898ce17cad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17572,7 +17640,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4e8601b7-787a-4220-b555-377ba185290c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17589,7 +17657,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:352b5517-105a-47c0-942a-7947e7f12ed9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17606,7 +17674,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0715ca76-7e77-456f-859e-ad79745a5803',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17623,7 +17691,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4eb725d7-8c06-4f5b-b36d-6d32d86ccab0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17640,7 +17708,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ff8510d5-a3dd-4a2a-92e2-22917addb634',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17657,7 +17725,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e02f958d-5bdd-4466-b74b-0cc0d9d48147',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17674,7 +17742,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:facc7c10-4b62-4bc3-891b-410a03e33cca',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17691,7 +17759,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f00cac81-1b98-42b3-9003-38c4f95b9a7d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17708,7 +17776,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dea56523-da8e-492d-84b5-5f0921339511',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17725,7 +17793,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:46cd82ce-4426-4fbd-8e55-66835a2aa770',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17742,7 +17810,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5ab48c91-0be3-4961-aad4-c430e6f19884',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '85676G1-78',
     partInstanceId: '85676G1-78',
@@ -17759,7 +17827,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7fdf0458-cf3c-4bde-ae7b-f9bd5a8ddc53',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17776,7 +17844,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a399ffdd-3c10-4809-bd91-0acd1aa81211',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17793,7 +17861,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:def97089-bb0f-4ef7-8b62-cd87e0816a82',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17810,7 +17878,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ef1d0110-6f07-49d6-8722-6164b148d7cc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17827,7 +17895,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f769936b-9ff7-4df2-bf0b-f360ff78a1bf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17844,7 +17912,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0081ee82-ff79-4a58-ac41-239315aecca4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17861,7 +17929,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2096778e-f1c2-48b7-a103-1425627e3a87',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17878,7 +17946,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cbb5e580-45ea-4a49-ac68-334a0336ddff',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17907,7 +17975,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ad24bf11-e2c8-4fe1-bf5e-44fd763c2f51',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17936,7 +18004,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4d6e3939-ab86-4a06-b3cd-61aad4210988',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -17953,7 +18021,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:53a44d95-bc60-4386-910c-82ab69b99265',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17970,7 +18038,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1545b7dd-8e42-4615-a7ce-3ed636c46589',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -17987,7 +18055,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c03e32af-d37d-4dea-842d-716eb7b90cf9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18004,7 +18072,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f9e04c2a-720a-4b4c-8133-35f70d655d1a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18021,7 +18089,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:33d771f4-bd63-4e18-b366-daec03dd8fb1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18050,7 +18118,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fc4dd351-3dd2-4616-903b-0e5e9c6bffad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18067,7 +18135,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2726738a-2aef-4b13-b67d-64630d57e861',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18084,7 +18152,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6fd8753e-0fc7-47b0-bd93-8d608e90d816',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18101,7 +18169,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8ca42e40-9671-4c24-b744-986551011e11',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18118,7 +18186,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1ff125bd-940d-4732-9944-67574a44fce7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18135,7 +18203,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9683eed1-5107-456f-8c47-7d332799192f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18152,7 +18220,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:58b471bc-fa6b-448f-8957-d5f3336d380f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18169,7 +18237,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2fe53529-2945-4eff-9005-cc0691d7d946',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18186,7 +18254,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a1061174-e86d-4d74-abfc-cd6de1e58fbc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -18203,7 +18271,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0535d7a7-0fca-43a1-885d-2faa81c35097',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -18227,7 +18295,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0025c2a2-cef4-4199-bb53-f18ada8b440e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18244,7 +18312,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:30bd2498-9e35-478e-9213-7ba81a7c665d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18261,7 +18329,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a5980e40-54c1-4b20-bcbf-d4e815659a90',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18278,7 +18346,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:83da2f0f-40bf-43ce-a116-796870d3dd38',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18295,7 +18363,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:126049e1-4731-41d8-8a51-8e4da0084f0e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18312,7 +18380,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0cdcc90c-e76c-4960-ae3b-17e0568c847a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18329,7 +18397,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d4545a8a-ce8d-4e30-af2a-fde2b5e45e75',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -18346,7 +18414,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bd6287a8-13f9-4967-b68a-7d4b15759489',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -18363,7 +18431,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0304e01c-a2de-47aa-90b2-1613177db468',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18380,7 +18448,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5e5c4e9c-c5f9-4882-abc0-0ed8a67e53ad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18397,7 +18465,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dc4762dc-ed9f-478a-a868-89a4040ee188',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18414,7 +18482,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:84031e4f-6119-49ea-976e-50a8f515151b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18431,7 +18499,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6b2e0595-2d79-4940-8e71-3e496126d08c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -18448,7 +18516,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3880689e-9fe2-46b2-833a-b6592dea5e71',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -18465,7 +18533,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d7246b22-7860-4063-9528-ff33a221fc4f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18482,7 +18550,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:eabd35af-0033-4324-a9ec-2499d7374409',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'QS-31',
     partInstanceId: 'QS-31',
@@ -18502,7 +18570,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7112f7bf-ee0d-4eec-9683-f55ce64c2d28',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18519,7 +18587,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f8858dd2-8913-4313-99d7-2ed5f543b85d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18536,7 +18604,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:629d1c0d-6cdc-47b7-9d0e-b2c84d589e86',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18553,7 +18621,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e49b1329-8423-4140-97c1-55e8bcdbd235',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18570,7 +18638,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:748baac1-1981-4eed-b460-92a5b5e73485',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18587,7 +18655,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5fd1ce0c-dbfa-4e57-b314-fc7be863ba61',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18604,7 +18672,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8b2b5b90-c4f5-48ac-846a-048f9b0cde05',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18621,7 +18689,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ae14fab3-de14-4fe9-82d0-0f7a5351f2f7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18638,7 +18706,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f4eb1e96-8de1-493d-9e7e-8d89447550e1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18655,7 +18723,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a82c7b4f-71c4-4589-bd7f-fcb4113b9583',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18672,7 +18740,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:81d64204-1107-43a1-a057-60717327849d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '26567L2-72',
     partInstanceId: '26567L2-72',
@@ -18693,7 +18761,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:91aac45f-9eb7-4a87-b49a-a17069ce1b2a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18710,7 +18778,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:363d25aa-03a1-4d10-82e3-3578c7cd7810',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18727,7 +18795,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:48dc6e20-cd4b-480c-b096-bee8199015da',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'RC-81',
     partInstanceId: 'RC-81',
@@ -18747,7 +18815,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a885e9e7-018a-4308-bae1-19922575d959',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '27867C2-66',
     partInstanceId: '27867C2-66',
@@ -18768,7 +18836,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1436683a-b7fd-4b7d-a41f-9fdbb3e9263d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18785,7 +18853,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76593db8-437b-43af-9e41-3c961cd99f9a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18814,7 +18882,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5cc0eaa1-a3b4-41ab-837c-fd5bc5a9bc1d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18831,7 +18899,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:da16dfa8-cc15-4993-ab98-9a851cc3c6d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18848,7 +18916,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1d1b4416-2990-444c-b422-084790166f59',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18865,7 +18933,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:799d3aef-2248-4c33-91ab-8ad5f5a22a22',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18882,7 +18950,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b2c9c995-373b-49dc-808c-b38e4bdcedad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18911,7 +18979,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f51e0add-fe37-4ef3-8714-03fa8da44a1f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18928,7 +18996,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2bd6125d-e7c6-4883-ae1e-5d560af57658',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18945,7 +19013,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0fca02c2-a4a7-402c-b7f6-2816ccacf85e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18962,7 +19030,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:44aec099-b87a-4870-9e8f-e93569b3800d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -18991,7 +19059,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e9e8f88e-1452-48f6-b241-b646acf3ab16',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -19008,7 +19076,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:047fbe05-5845-4db3-97b0-731412f0d34f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -19029,7 +19097,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1299c9c8-c829-4e5a-bec8-3538a7308e3f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19046,7 +19114,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:960f43a4-d53a-4ba6-9166-8afd71da5d03',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '30171T1-09',
     partInstanceId: '30171T1-09',
@@ -19067,7 +19135,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:24a9a972-0114-4587-8519-1c8df6e2f47b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19084,7 +19152,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:eb611843-88df-4247-aad4-95830ac639bd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -19101,7 +19169,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7178aca0-99d1-4828-b981-52c59eed4185',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -19118,7 +19186,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b7170181-288c-4a8f-b2e3-ed366dcf08a8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19135,7 +19203,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e47d95ab-87f2-4119-a838-722f6ca05acc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -19152,7 +19220,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c0c9ae13-ebbc-4a50-bc69-4fc5a822cfb9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19169,7 +19237,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1a971d74-acf3-4a49-b9f0-db98cb449c16',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19186,7 +19254,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cc2d4a5e-69ae-4260-842e-ffeb9b63dbf4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '06805L8-66',
     partInstanceId: '06805L8-66',
@@ -19203,7 +19271,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6196e64e-f905-4dca-bf94-8bb88305ab7f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19220,7 +19288,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:81e9f200-c478-4584-9d0e-8f498dacabd8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19237,7 +19305,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:94bf0afa-a3d4-4d95-8a9c-5134522c3cad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'NS-25',
     partInstanceId: 'NS-25',
@@ -19257,7 +19325,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3475c576-2acd-4b6b-ad9a-3aa23bf452f1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19274,7 +19342,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:44f611e6-0fec-4a70-8ef4-ebe18c08a7e2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19291,7 +19359,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a346c5d7-6f02-4393-8314-f1187c9b4304',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19308,7 +19376,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:989b60cf-152e-401e-815d-b3a8fd2ad1be',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19325,7 +19393,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:91447cd6-aeef-4dca-bb4e-fb92afc720ef',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19342,7 +19410,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a7d48574-9f28-48f5-9593-18c679652e4a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19359,7 +19427,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0244f1ae-1464-4952-80a0-3b4be4ef7617',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19376,7 +19444,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6fb22d41-14f9-43b4-aaab-d4efdfae45b4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19393,7 +19461,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:50bb1b7c-8d48-4c46-a4f7-68c815dec894',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -19410,7 +19478,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b2d196c6-6e8b-4fb8-9909-a6690e9c73b3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19427,7 +19495,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9c8e3263-465a-4d09-9862-cd3edb80ea23',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19444,7 +19512,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:14220ae6-4af8-415d-bbd5-1da7b4cacd91',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19461,7 +19529,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e4ebd2ab-85cc-4113-97ae-d79068d23221',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19478,7 +19546,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7a3b4575-fe0f-411a-8749-7ccceeb75f1d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19495,7 +19563,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3b67d836-4c9c-4208-a6a9-5057d5f97fd5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19512,7 +19580,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b2ceca5e-e296-454c-9505-4b560404fa95',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19529,7 +19597,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2f509d10-e64e-47c0-99ee-e30e2b020da5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19546,7 +19614,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a1dfcd7d-5677-4ba4-8787-7c4d497e01cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19563,7 +19631,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:387b3f5e-c9e8-496d-a50e-d17635eb3996',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -19580,7 +19648,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2d5ef5bb-48da-43d7-aea3-30e992a5cb73',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19597,7 +19665,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2d50ab59-5e65-43fd-a604-4023c849176b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19614,7 +19682,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bf4e3236-9925-4ed4-ac56-d99ce215890c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19631,7 +19699,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:950e806a-dffb-4847-8f00-1e27a12b32cb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -19648,7 +19716,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:795a210b-3c34-4206-ace9-5fa425adfa7c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19665,7 +19733,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bf2c64f5-d3cb-4f98-b956-7a74be547be4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19682,7 +19750,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8aeb6b89-85ae-4a2c-8b40-b286e86dc7ab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19699,7 +19767,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:47bef66c-499b-4269-8215-5cb934a0f150',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19716,7 +19784,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b659141d-bd02-420c-ac51-381cc97a3bd4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -19733,7 +19801,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fa902019-58f4-4283-a09f-54b6f0e8b3c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19762,7 +19830,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:93c6f6e3-c934-492c-84de-b6dfacad0307',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'RF-16',
     partInstanceId: 'RF-16',
@@ -19815,7 +19883,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1c96e2d8-d773-4d3c-b5e5-ef907290432d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '75901Z4-39',
     partInstanceId: '75901Z4-39',
@@ -19832,7 +19900,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a6eb5f28-7b0e-4277-8e1f-d9f9ed820d90',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19849,7 +19917,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0ca3d486-4449-4fe8-afc5-d8673698d910',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19866,7 +19934,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:afa03a96-1682-4dcf-8573-5325d97b80b2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19883,7 +19951,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:47930150-3d8d-4ceb-b890-4ed1253baccb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -19904,7 +19972,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7624a14b-f69a-4ac7-a271-e2bb521809a2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19921,7 +19989,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:faddfcca-ec88-40c7-9d6d-8641d75c7267',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19938,7 +20006,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:da72ddd2-2f31-46af-b887-a340bf76f779',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19955,7 +20023,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:157152a2-8572-4232-aa52-0face90d9060',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19972,7 +20040,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:96e76cee-eee3-4398-9a7d-577e3d95216a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -19989,7 +20057,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ffdebfa7-7d22-46bd-8c48-a4795530dd8b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -20006,7 +20074,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9f71935a-ed22-4375-ba1e-852190194e48',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20023,7 +20091,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3e49eb5a-f844-4477-a2f7-2ca93c65966b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20040,7 +20108,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c363bb9c-7760-47fa-a9e6-4c27e5d543cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20057,7 +20125,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ca565432-d328-4452-b991-102e5ecead73',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20074,7 +20142,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0f94008c-d3cb-43cd-a1cd-84cb62fbe255',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20091,7 +20159,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:33ae14df-fd77-4dcb-8412-b35847a060ff',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20108,7 +20176,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9cdb8224-9760-4928-8bc5-32157005f1b5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20125,7 +20193,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:10dab31f-db7c-41c0-b24f-08d6cf2f71a5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20142,7 +20210,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7c7b9874-7d5b-4972-b07f-38235eb94cdb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20171,7 +20239,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7e8bf354-d6ef-45fb-b3c8-95771b39d083',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20188,7 +20256,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a1ad5c53-bb47-44c0-860e-fd94fe03e174',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20205,7 +20273,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f936c1a7-5c67-4915-bd38-11975bfc97b5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20222,7 +20290,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5b428bb9-9066-4d78-8578-8177107f2c53',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20239,7 +20307,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2129e960-a592-4d98-b01c-4224d3307641',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20256,7 +20324,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d08db7ed-032d-46aa-b4d7-9f61895aa334',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20273,7 +20341,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:37195a5f-1a10-435c-89ee-a14dc6433d53',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20290,7 +20358,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f3c00364-30c5-431b-afb0-c1764a0f04a9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20307,7 +20375,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f66686a1-927b-4649-b18f-f21e1f0a191a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20324,7 +20392,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d0a0e44e-8ac5-4a51-8bd7-8cd21be3ea99',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20341,7 +20409,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a7d77b2d-4b36-47a6-a302-ec60b1b812dc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20358,7 +20426,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c69aeb68-db86-4f2a-8054-9dc2167c0e5b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20375,7 +20443,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:908cb68e-dd5d-42a1-b507-182dd8020c41',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'MV-94',
     partInstanceId: 'MV-94',
@@ -20395,7 +20463,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7482634b-1fb8-40de-b46e-a37bd50ef717',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20412,7 +20480,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7a62229b-d560-459e-ba41-0bedef7d50ae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20429,7 +20497,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4ef94678-2a9f-47d6-96af-7956ec4de535',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20446,7 +20514,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dfbdd63e-40ee-4f16-a795-8ae97984d4e4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '54424Q5-30',
     partInstanceId: '54424Q5-30',
@@ -20467,7 +20535,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:22a6e9a1-0498-4d39-ac3b-ebe6d049f7f1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20484,7 +20552,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:edf4119b-cdbd-460d-9a05-6c87e2c3fb05',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20508,7 +20576,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bc0a1ac6-2c4a-4951-af77-422121d82759',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20525,7 +20593,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f65c940a-58da-4d46-8010-737ae5e41d98',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20542,7 +20610,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:16b0c790-03fe-4b3b-8987-2d2e3a9ee160',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20559,7 +20627,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:143f5078-674c-40cd-9be0-5b1b603d39f8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20576,7 +20644,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1298f0ac-7d00-40b4-9ac2-1f2376d2c5e7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20593,7 +20661,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:25098660-214b-4b53-aa17-66284a02543e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20610,7 +20678,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9ce29e48-9d9e-48e1-910f-9cf57dd8b2bb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20627,7 +20695,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:03fb0dc2-134f-47bb-a23e-2eb94e0c6a84',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20644,7 +20712,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7d9c27d5-9db9-47b5-b665-e195c2e856f6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20661,7 +20729,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:561e742c-533b-4644-bf0e-496e39b225ec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20678,7 +20746,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bf9543ea-ffeb-4ec0-b757-c4be418b0402',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20707,7 +20775,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7809f717-dba7-46f1-92bf-9b632be7b735',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20724,7 +20792,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6c5743ad-67fa-4d6c-b271-92995901f923',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20741,7 +20809,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:929a2301-4f8b-47c8-9126-afb33499881a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '43167N6-05',
     partInstanceId: '43167N6-05',
@@ -20758,7 +20826,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bdf2601c-ae6b-4f0d-aa48-5fd1749b180e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20775,7 +20843,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:74e45e8d-33c3-4b37-acf9-866e0472e52d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20792,7 +20860,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7aa71484-1e47-4318-a505-d18bc591eae5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20809,7 +20877,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0429a6b1-9b0f-4c02-84a6-0209d9bd3a8f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20826,7 +20894,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b99df3cf-c75e-49b3-a47e-31d70de74976',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20843,7 +20911,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:773aa8f9-0da1-442c-bb1a-056032621137',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20860,7 +20928,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9bb1a71e-1b24-4d05-ba86-a641a86c9ca1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20877,7 +20945,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17b8dd2e-4c2e-4f61-8f40-c96507643680',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20894,7 +20962,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9ec81c8e-aafb-4813-9325-3ee163dc8153',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -20911,7 +20979,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e29d8d5c-2371-4899-bcb0-44cc1c6cef4a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20928,7 +20996,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e8db670-33b5-45cb-ac97-9853998cdcbe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'IG-51',
     partInstanceId: 'IG-51',
@@ -20948,7 +21016,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dfda7bd8-8625-4def-9825-6a79d0ac802b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20965,7 +21033,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4d0febf1-28c5-469f-a6f3-9bd3af359c5d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -20994,7 +21062,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d24d5a20-3b0b-47b9-8621-d4f180f91574',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21011,7 +21079,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d49d14d4-104d-4d2f-8b32-db95305cdee7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21028,7 +21096,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:57ed86f3-cee4-4712-b41a-f033a47e381e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21045,7 +21113,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5882e063-6cbb-4e15-8b4c-76037c34b450',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '23120Q8-58',
     partInstanceId: '23120Q8-58',
@@ -21062,7 +21130,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:671620b8-3f88-4541-91c4-d28d4f9b16c3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21079,7 +21147,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fc702f63-6078-41ec-ac7d-818b2fe11432',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21096,7 +21164,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6345752e-9a9c-49af-a434-88eb28941d4d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21113,7 +21181,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:79430055-6da1-4709-9916-15f2608c8534',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21130,7 +21198,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e79a5292-3396-4011-b5d9-f2ada1173dff',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21147,7 +21215,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bae492bc-5004-4f87-b206-044549f71a4d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21164,7 +21232,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2f571b3f-aa04-4de7-9f47-3a5b56e05d75',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21181,7 +21249,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9dac02bc-bd7d-4d80-94ca-500e70b91a97',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21198,7 +21266,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0df66b8d-5492-4a35-ad1a-3423e7d9b2bd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21215,7 +21283,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c9940703-f3f9-44e1-8600-72a4ffe0656d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21232,7 +21300,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73ca9cc0-a508-4ebc-85c7-196afe1b879f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21249,7 +21317,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:446e46c6-dbf3-428d-b0a0-72ff2fa3f64e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -21266,7 +21334,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:947611b4-8cad-4300-8b58-c668ec700c3e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21283,7 +21351,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:de02909d-5d02-471b-a9f4-6e726fce8fc6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21300,7 +21368,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9ecfb916-fdb8-4020-ae9c-52dc5fbfbcdb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21317,7 +21385,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:16610aa5-db91-4eda-b612-f167fe2ba63c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21334,7 +21402,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63175216-5fbb-442d-8681-d6e0edb89946',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21351,7 +21419,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dec40d65-c191-490d-9115-9ae4fb851491',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21368,7 +21436,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cce19dfa-22f3-4b03-a7f9-60f3491000ae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21385,7 +21453,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7970829e-cd93-4668-bd60-e88a90aa1c2b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21402,7 +21470,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ef54e9c0-3eba-4c6d-8618-ef4d2045094b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21419,7 +21487,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e889852f-7e04-4431-ba94-8fd66b6d4e4e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21448,7 +21516,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fb0fc502-990e-4fb9-9670-e6fb6d02b54d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21465,7 +21533,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:89d56156-cadc-4a9e-b61a-b849e4cdd025',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21482,7 +21550,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e68ca2c8-ba39-443f-a443-8e766fdf20d5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21499,7 +21567,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:745da977-4d52-49d4-ab62-8f21155a6617',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21516,7 +21584,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0771dd6e-166f-4198-83f6-a05d432abea8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21533,7 +21601,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ccbab647-c4c1-4322-9ab7-336db125c594',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21550,7 +21618,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:44566786-2ecf-414d-8520-c877936c443c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21579,7 +21647,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f84e8522-7ccc-41df-ad97-ce7f0ad36025',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21596,7 +21664,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b26395ee-9af1-483e-baf7-bd0c92e3e043',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21613,7 +21681,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fc166642-8cee-4c2e-a07d-0ea851220bf5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '67556V7-48',
     partInstanceId: '67556V7-48',
@@ -21634,7 +21702,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f1ea6085-e949-418f-99a3-98fc209cf124',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21651,7 +21719,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c98da55b-51ae-4639-957f-05984bce7f81',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21668,7 +21736,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6e809032-ac7b-4796-a9da-c9ce44827e9c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21685,7 +21753,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d40944b6-3969-4fa6-8201-67ddc14cf693',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21702,7 +21770,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f4043ba5-57c6-4fd8-8d75-04d8e8e9c3d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '18006F0-70',
     partInstanceId: '18006F0-70',
@@ -21723,7 +21791,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:185f718a-b945-49e6-80ce-5b60ab7d848f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21740,7 +21808,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:26012ab5-c69f-47e9-b63d-39409a70dac7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21757,7 +21825,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b8e178c1-5f84-4db1-8009-70e5d2717403',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21786,7 +21854,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:21d7de61-1167-457f-8c18-510cd9adc383',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21803,7 +21871,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3855acec-3e69-4531-a081-094c9363c05b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21820,7 +21888,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3d4e6a56-a928-403b-9d2c-c20753383f2f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21837,7 +21905,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:71f26a2c-d274-4865-a787-ef27cf05b607',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21854,7 +21922,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ab5cb2fd-c1a0-4de7-9dc9-2e4af1a768d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21871,7 +21939,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:75e58bee-215f-4c10-bfd2-2941d1ac2a4f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21888,7 +21956,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:45916acb-c1d2-463a-8e04-0e3590544c91',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -21905,7 +21973,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ff4b6e8b-a4ac-4638-ad0f-ab7a91b05dec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21922,7 +21990,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be8d7295-aed1-482e-b449-ceb3fca1a8d6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21939,7 +22007,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:602e8253-2a76-4861-9b34-bed975fda686',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21956,7 +22024,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:00629426-6ff0-411d-b7cf-e3ee3b283edb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -21977,7 +22045,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfb4189a-b20b-4ec3-aa19-d2c87db6b201',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -21994,7 +22062,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c688782c-2a45-4e7a-9680-3c8b45bf54d5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -22011,7 +22079,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b73a1b0d-7abc-4da2-9cec-29cf5dabcba4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -22028,7 +22096,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4f5c8e6f-dd39-4f96-b92f-2630b6f6e709',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22045,7 +22113,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f341444b-3060-459c-bf20-8945fa65c84e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22062,7 +22130,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:37086afe-c37a-4fd6-b780-4b0ff6588a02',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22079,7 +22147,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c5e443eb-b869-4783-b867-f92e24d05694',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22096,7 +22164,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:90321080-51ab-4762-ab09-c451ea50be05',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22113,7 +22181,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f224d1c6-8430-4353-a364-dd0b8ecb13f2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22130,7 +22198,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ab863676-a37c-41e7-a5f9-efaa071dbbf5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'GP-30',
     partInstanceId: 'GP-30',
@@ -22150,7 +22218,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a84f24fc-5e18-4def-a438-7d336015f624',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -22167,7 +22235,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:362fafb0-0b6f-4bd9-b844-559708b007b9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22184,7 +22252,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ead9f491-8a72-4e9f-8927-000fb787aece',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22201,7 +22269,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f7691b18-8188-45dd-a463-38801ad3e663',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22218,7 +22286,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f13947a4-73c0-4056-8654-791324a7146b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22235,7 +22303,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:19bb0712-f324-48a0-acad-0f3beb3dff8c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'ZZ-67',
     partInstanceId: 'ZZ-67',
@@ -22255,7 +22323,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ffdc77b7-54dc-4dfe-b736-7ef9da554c0a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22272,7 +22340,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1b0b68e7-a77e-4aab-ba16-9ecc2da387d2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -22289,7 +22357,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7801aa55-d12a-4347-aa3d-fc215ebf13ab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22306,7 +22374,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c62f9645-5595-470b-b25a-275671eca198',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22323,7 +22391,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:91c1b8da-a0ac-4615-87cf-35370942f374',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22340,7 +22408,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8eac23b7-cc4b-4217-90e4-602b4259d6aa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22357,7 +22425,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2dac7d16-5eb3-4180-8b9a-e4807ee74ea8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22374,7 +22442,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:672d1a10-fb7e-4e20-b146-775fc805540c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22391,7 +22459,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f9eb489e-7598-430c-99a7-f2cf51960ce9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -22408,7 +22476,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f227fc1b-b997-4a85-ae4d-d2e9f7855920',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22425,7 +22493,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4a9dd32b-1748-443c-be60-6d9dca74f67a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -22442,7 +22510,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:937ff2b2-9f54-4631-84fa-410b14ab7134',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22459,7 +22527,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b873ffdf-e083-41f1-b95a-0a2ea507e925',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22476,7 +22544,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4f356043-73c8-40b3-8073-b544114593e3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22493,7 +22561,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b76e9709-eb66-4511-928e-ce5f1fcfcffb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22510,7 +22578,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ea35cbd9-8a60-410f-9b5e-f5bffeb5a621',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '62300M5-71',
     partInstanceId: '62300M5-71',
@@ -22531,7 +22599,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7708cc42-c993-4216-8a74-dfb36a120874',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22548,7 +22616,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfb9bb66-8784-471b-a64b-d726206e6100',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22565,7 +22633,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:70ae9e56-58d8-4b53-a596-31e09cf59748',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22582,7 +22650,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4e598e6d-c8fd-49c4-82fa-8b97e4896300',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22611,7 +22679,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:771b8f0f-35c5-4323-a0ab-aadefcb412f6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22628,7 +22696,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:500cd3b5-7d4a-4ede-b088-c6a9a114f1dd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22645,7 +22713,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d21eb583-7e9d-4b63-aeae-a138daa81012',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22662,7 +22730,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f098e09f-69a3-4b22-8251-f590fdec07b5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22679,7 +22747,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6853758f-d624-4530-93fb-07487801cb58',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'CM-41',
     partInstanceId: 'CM-41',
@@ -22732,7 +22800,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e7bbe9eb-78f1-4a74-a802-419d2932823b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22761,7 +22829,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0741fd61-47ba-4a3d-8cbf-44ae2178a81f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22790,7 +22858,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ab065985-7a7b-47b5-9578-0a9a1e3034e3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22807,7 +22875,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9884d00f-0c82-44d6-9632-5f8b08d2b6a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22824,7 +22892,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cef569ba-9b7a-4ee8-bda6-72d60d5375ec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '16315J8-69',
     partInstanceId: '16315J8-69',
@@ -22841,7 +22909,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:821bd7a2-114f-4d56-835c-4c4a1c536056',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22858,7 +22926,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c04b3d71-958f-43a6-9f8b-ce41d82b748d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22887,7 +22955,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4551d429-25b5-4324-8079-d4291e321b25',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22904,7 +22972,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:967cc078-a104-4c42-84e0-07ced953bda1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22921,7 +22989,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0a9a3c2f-59cc-4f20-bb8a-d68f81d5a5b0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22938,7 +23006,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3a33ea3f-0186-4dde-a2e8-1811f218403f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine hood',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -22955,7 +23023,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0cf97fb3-e1f3-41bf-8adf-a685f66fbdd9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22972,7 +23040,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:86a5ddd6-4fcd-4c35-99f0-5c9d6f229190',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -22989,7 +23057,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76230843-5d9c-4df6-b0ec-a15bca2331d1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23006,7 +23074,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:04ded7da-e90f-4b5f-ba1d-3d1de100000c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23023,7 +23091,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4a95d2ad-8d8a-4ee1-8ee0-913029a91832',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23040,7 +23108,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:46e12106-d4ba-4d2f-a434-43c95a148dfc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23057,7 +23125,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:081b9a62-26cb-4be2-b1e4-493cee6c046d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23074,7 +23142,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0a964d3f-41c0-453e-8259-c0ec18ac2047',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23091,7 +23159,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfbb25fc-39ea-4e64-9d2e-c45616de9db0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23108,7 +23176,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f4999fdd-34c0-434c-a319-8644f40a8cb6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23125,7 +23193,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cc98b91d-9545-413b-90c8-912cb17f640c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23142,7 +23210,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a926a66a-f555-4176-855b-f8b148adaf20',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23159,7 +23227,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2a380015-b62f-4118-8666-e4e610aab7a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23176,7 +23244,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9f710f66-94e9-44b8-b6ce-b3a041c98b0c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23205,7 +23273,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:08ff8637-248d-4eb1-a25f-49fedf761b98',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -23222,7 +23290,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e6ada84a-6a56-499f-be17-b387476ff961',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23239,7 +23307,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2485f80c-c67c-4968-8e6e-2b337adee5ec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23256,7 +23324,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:99837b02-5b55-447e-a81b-9462447242eb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Starter motor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23273,7 +23341,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3c7acebb-31cd-4180-a9bf-7a18508ee3d4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23290,7 +23358,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ed20926f-54e4-4b10-914b-70530b68a9c4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23307,7 +23375,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1da75b48-7e8e-432d-b3cb-9f7e34be55f1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23324,7 +23392,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:68e3208e-73fa-4eb6-a43e-c6d0c0510ae0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23341,7 +23409,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1803bf67-d073-4b99-be5c-c46a7ac80d3a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23358,7 +23426,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:db817974-bc2d-415d-b042-b6f9b2cfdace',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23375,7 +23443,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:88438790-16f1-45cb-974a-cb50f201ac75',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23392,7 +23460,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be0ec2e9-8db8-4cf4-8845-6d15b9a6fb41',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23409,7 +23477,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a181f75c-ea28-4dac-a370-3f94a6aae136',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23426,7 +23494,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:55a34581-58ae-4a7f-8978-4dcac23f94c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23443,7 +23511,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:20d4bc02-2538-4eca-8c8c-bebd98f14f71',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23460,7 +23528,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:087752a8-8515-4a6a-bd1d-f08de09289f0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23477,7 +23545,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:012beada-52e0-4df9-8999-abb9389c3ca2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23494,7 +23562,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:93977add-4ac5-41ab-ab2d-a7d242b60997',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '69387T9-22',
     partInstanceId: '69387T9-22',
@@ -23515,7 +23583,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3583f9fc-8b82-4e4f-9b4a-e0e323dcd9d1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -23536,7 +23604,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e0ec0e0f-28f3-4a3b-a84d-a2f2d904152d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23553,7 +23621,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d24bba07-6869-423b-9c05-52fb9ec3fcdc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23570,7 +23638,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5f5bba9c-e24b-4c83-86a0-ec7484f57b7b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '54779L6-06',
     partInstanceId: '54779L6-06',
@@ -23587,7 +23655,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:114b5156-eadb-4e7c-acac-b6c21146ac29',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23604,7 +23672,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d4cad8d2-c545-42f8-9f07-4eb1cf4d2ea9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23621,7 +23689,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:faeec402-f0fb-4ca7-8354-22c372991d10',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23650,7 +23718,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4cfa435e-4f37-4160-b76e-64f8464452b4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23667,7 +23735,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c0e7542b-7645-418a-85bf-a60e4d6b48b2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23684,7 +23752,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c440f477-e40b-4669-b94f-7ed338ba7cc4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23701,7 +23769,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1028594a-5fd1-41d3-8071-b6393973158b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23718,7 +23786,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c3545a29-a27c-4fd6-88d9-38535fece6f1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23735,7 +23803,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6bc41aeb-3841-40ea-84e7-52faeeb52a4c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23752,7 +23820,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3d620160-db74-4c03-a0ae-398985eb1bd3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23769,7 +23837,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7a6a8376-1783-4926-9be0-5d946622b2e2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23786,7 +23854,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:74e1c868-942a-49b7-a4db-e4dad80131fb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23803,7 +23871,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:793cc21f-4406-434e-9873-e5cf8f33ec6a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23820,7 +23888,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7509f6b1-586e-4400-b2fc-058667371ae9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23844,7 +23912,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:83208495-d27d-48da-893a-560cf4bf36bd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23873,7 +23941,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bccec02e-8de5-4c04-988a-d55eb3c71479',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23890,7 +23958,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:065fe7fd-010a-4175-8564-7c9d8ce7e57e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'VI-26',
     partInstanceId: 'VI-26',
@@ -23943,7 +24011,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1c4af2aa-37aa-4c78-bc63-d41c99a5188c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23960,7 +24028,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9e029c09-d183-4c53-a1b0-e1c0ad569536',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -23977,7 +24045,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:58f1222d-e042-4b79-9555-161f2cd61b99',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -23994,7 +24062,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:627f6270-7135-4c5d-92ef-a389f28ec0a2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24023,7 +24091,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c21ac36f-bd1c-41bf-a431-21ee09097b17',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24040,7 +24108,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:910cd345-9e29-4637-b357-57d015df36e9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24057,7 +24125,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9fd25217-2f8b-4c62-97aa-ff415a8f1ca1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24074,7 +24142,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5c02c7ba-91ca-4d1c-ba80-88b35cfb08ab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '06224V5-65',
     partInstanceId: '06224V5-65',
@@ -24091,7 +24159,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:578f9257-2768-4c46-84b4-b9afe160a6fb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24108,7 +24176,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:03e8b413-6126-4772-b5fc-3b0a4c82b31e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24125,7 +24193,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:31825115-a283-40a8-b650-c73e4115502a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24142,7 +24210,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:89c50b91-d537-4c90-ba61-3525f248fbbe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24159,7 +24227,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0b4560b2-e3f0-46ac-a93d-95832bc86c92',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24176,7 +24244,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2244904a-168e-435f-ad3b-033e53747f0a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24193,7 +24261,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:94708ae7-052e-46b3-9e56-eafc0283e247',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24210,7 +24278,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3ab693ba-5e8d-4511-b85f-50aa596b915a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24239,7 +24307,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b8261b67-91f6-4f14-8777-b31bf7e96ac8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24256,7 +24324,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b00b74b7-d4ca-4f93-ba18-19c2fea5e139',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '49187Q0-11',
     partInstanceId: '49187Q0-11',
@@ -24273,7 +24341,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9dc4aab6-9711-48fa-be55-28554cca6696',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -24290,7 +24358,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1088c504-3640-4991-924c-d30e9c6da6ec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24307,7 +24375,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:56509ea6-5178-433b-9245-8173ad8208a5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -24324,7 +24392,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1cba3a33-a369-45b2-88cf-a8a1f8a763aa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24341,7 +24409,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:33ed22de-1a1b-4c02-804f-793cc4df1eb7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24358,7 +24426,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:31fd22da-5d64-4d5e-aa19-c7594b4ff873',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -24375,7 +24443,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:33435f7b-6ddd-48f5-af2e-00fdd84e00d4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24392,7 +24460,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:98005ee8-b669-42a5-b8b8-c18a0597c86a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24409,7 +24477,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b5e245f9-300c-4512-b3fc-2465dd6be078',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -24430,7 +24498,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bc88a57b-ae18-4350-9b43-59ce697434df',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24447,7 +24515,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e73b4585-ca86-4af7-bd5d-97726cd74a05',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '75004M0-09',
     partInstanceId: '75004M0-09',
@@ -24464,7 +24532,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ac57f6b4-c2ec-423c-8ee7-51495a38032c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24481,7 +24549,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:778c29ae-2faf-4774-832b-16757ef25fc8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24498,7 +24566,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:045d5ae0-0f04-4ac8-bbdf-8f918bfa95f9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24515,7 +24583,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6db194e4-8b44-4b3f-a6f9-4c27cc00e3eb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'LJ-63',
     partInstanceId: 'LJ-63',
@@ -24568,7 +24636,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:99ad3c89-7de1-455a-82f0-150f86192ebc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24585,7 +24653,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e7cc7f34-3452-4fee-a394-2858a918d2cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24602,7 +24670,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:703b7ab7-dfa0-4536-b6e1-9c2544d74439',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24619,7 +24687,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:546574bb-0fc4-4fe7-8bca-31b7c376897a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24636,7 +24704,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e15a081b-2688-4532-bb05-4331ad524005',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24653,7 +24721,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5517144d-62db-4981-9e27-9e9fc1a129a2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24670,7 +24738,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:51018418-5edb-45ea-a98c-701dea102015',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '41584I6-12',
     partInstanceId: '41584I6-12',
@@ -24687,7 +24755,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5c7313e0-c19b-444b-a508-866af7690fca',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24704,7 +24772,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:72d43402-d0fa-4d27-88a8-1ccadb5da4e2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24721,7 +24789,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d0ade215-a443-43ce-a416-e75253ff48c8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24738,7 +24806,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7cba9264-2479-4f67-b9bc-5afd9d4fd915',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24755,7 +24823,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a5a474c3-d34e-471f-801a-39256e7ca976',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24772,7 +24840,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cc83f8d2-27e0-4205-8c99-a16156bff375',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24789,7 +24857,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2b102c34-9f4d-41ba-a432-ab861404aaca',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '50423T4-34',
     partInstanceId: '50423T4-34',
@@ -24806,7 +24874,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c528d03-ee17-4d45-ba47-e5b99d1edaf5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -24823,7 +24891,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:11ee71f6-aca3-4927-845e-a4e3b3112016',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -24847,7 +24915,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a4772ae8-9a8f-4478-8d8b-39a73def2a6a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -24864,7 +24932,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9df95d0f-cc0a-410e-b2aa-a0aca0b13f9d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24881,7 +24949,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:329c08c9-2043-4df2-ae6b-39a636d5738b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24898,7 +24966,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d7e1fffe-02b4-43e4-89c7-2fe179ea5b1f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24915,7 +24983,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b6ff057a-e72b-459d-bf03-132c31676403',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -24932,7 +25000,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f1da033b-287a-44fd-be89-2cc459e85878',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24949,7 +25017,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cef0c7c7-8eaf-405d-ad44-836d63174f8f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24966,7 +25034,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f7966c04-83b9-4dd0-ba28-bef15131c167',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -24983,7 +25051,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:47849baf-cf0a-4b61-a02c-426a44561bf6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25000,7 +25068,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6fceb43d-aef3-43dd-807d-850b6e27b58d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25017,7 +25085,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:49ad8189-1f27-4aa0-8020-56b119ee088c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25034,7 +25102,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:547675ec-4eef-4460-a3fa-bdc0e4fe7c83',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'WK-80',
     partInstanceId: 'WK-80',
@@ -25087,7 +25155,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:89f13a97-3395-4438-a5ed-05a89fa125e1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25104,7 +25172,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:48278ee6-780b-450d-8828-f22c09c1db76',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25121,7 +25189,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:343f1f85-c049-4a78-967f-d6b0bc222661',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25138,7 +25206,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3809f5e5-4f6c-4451-a815-37912c6502e3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25155,7 +25223,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63232b12-b0b1-4108-a492-5e98c22d14d4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25172,7 +25240,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:80c00bdb-03d6-410b-892f-3ffa58ccf70d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25189,7 +25257,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:88d15960-fd7b-439e-8299-357f6271b9f5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25206,7 +25274,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b991a6f5-5f4e-4612-971d-c274f5110b24',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25223,7 +25291,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b77a5098-35e2-44ca-8031-2febdac38352',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25240,7 +25308,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7263b4dc-880c-4784-bc7e-fc0899cdf65a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25269,7 +25337,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:41aca3bc-83cc-42e0-b383-65c857b5ccdd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25286,7 +25354,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a131a9d4-1166-4202-8b16-892606e48b4e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25303,7 +25371,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e70b206-b4b3-44db-b83e-43fe6c3e95e8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25332,7 +25400,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:928b1b75-cbaa-4fb9-87e6-f4af917e2808',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25349,7 +25417,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7368d048-119f-42dc-a830-339c760e2c5c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25378,7 +25446,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:788b8c6c-173c-4f95-9073-93d14262d31e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25395,7 +25463,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7f9398ea-99e2-425c-bb36-90ad714156ab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25412,7 +25480,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4a6e9f99-1507-4c44-89d5-17d996d1ef05',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25429,7 +25497,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:101e8258-817b-4f73-8fb3-453ac557892f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25446,7 +25514,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5df50383-5cdf-41eb-a72b-d914b7409411',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25463,7 +25531,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:31cee784-bc34-4fcb-98f2-de5a368cd399',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25480,7 +25548,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0361ead8-b4a5-47e2-a319-4207a2d3d1ad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25509,7 +25577,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dd84ea98-702d-4026-a90e-074a40cf839c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25526,7 +25594,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:85c661ba-825f-4050-80c4-ca18d4d5dfb8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25543,7 +25611,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f12b6d23-71db-4555-943c-898c7d340ec8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25560,7 +25628,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e7cac37f-6ae6-4544-895d-b5d1d9f74520',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25577,7 +25645,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aab85d7e-a08d-471b-abbd-d71c3c5198b4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25594,7 +25662,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:680dc050-3be7-4095-ab8a-dc81ca8457cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25611,7 +25679,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be65e019-101d-44c6-a198-b4091090a81b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25628,7 +25696,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e356589c-5bf6-4933-ba7e-d6ba983355ee',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25645,7 +25713,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8e4a4e96-61de-4fb2-8ef4-c5dd010a5862',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25662,7 +25730,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:57848f8c-5139-4189-919a-885fe950e69b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25679,7 +25747,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:596f6bb4-43db-4ec6-8abf-524d9f863e10',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25696,7 +25764,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:51942991-1bab-4dbc-852a-f9bd2ecc0791',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25713,7 +25781,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:59b5b38a-2bf6-4ee4-9e58-c7744231b516',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25730,7 +25798,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7e5ba325-4347-4ee0-942b-ccfe144d5498',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25747,7 +25815,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a68892ee-ded8-453b-866c-b7b45c5fe952',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -25764,7 +25832,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bb911228-7a03-4dc7-b4c7-20d07266c89f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25781,7 +25849,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8426aee4-19a8-4d3d-ac7c-34dfd576dc26',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25798,7 +25866,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f40caa6b-0e20-4ce5-8d3c-2a312bf7b7eb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25815,7 +25883,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e7ff06ec-af8d-4a9e-885a-63ed292c6ff0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25832,7 +25900,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfbc614d-c5fd-4368-b679-9b2d637407e1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25849,7 +25917,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0ac1771c-97b1-4dc8-8b54-fdc0b3cc4cd0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25866,7 +25934,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ee757f16-a853-4a55-9786-c6cd3dc385bc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25883,7 +25951,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aab00d1e-650a-4e3d-a8af-57c7008eadec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25900,7 +25968,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:26c9afa1-d510-49b9-a06a-258b35330aae',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25917,7 +25985,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:22face63-fd5e-4dc8-b845-29eb7a3feffc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25934,7 +26002,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8459eac5-5db1-4c0e-8160-96abb233871c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -25951,7 +26019,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a6e97ffe-9e14-45be-a639-782636da6817',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25968,7 +26036,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4924aa11-3c91-4657-823e-de62c5f73513',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -25985,7 +26053,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:336cb810-5306-4e0d-9968-8068c1049ec1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26002,7 +26070,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6d2a42c7-e29e-4376-aa29-540fffdd2563',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26019,7 +26087,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:851d417b-bbbf-43e8-9fa1-feac53e08fe4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '60992M4-20',
     partInstanceId: '60992M4-20',
@@ -26036,7 +26104,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6ac2a195-9895-4236-9afd-e43c14f66d33',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26053,7 +26121,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d0f3bafc-0120-4111-bdb8-d90c9bcd1e5e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26070,7 +26138,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8c175a4d-0dd3-440d-be93-ae0fb25009b4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26099,7 +26167,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73e90f6a-148f-4944-a99e-e3bfd490b321',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26116,7 +26184,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:32f91682-c53f-4ce8-80ba-90660ab84da7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26133,7 +26201,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:386e4fb2-c5cf-450f-8fa3-0473d59fcb36',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26150,7 +26218,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e667d272-abc8-41c4-b8b9-031c76e30f6f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26167,7 +26235,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5b8fdaba-12c8-4a77-a584-c9fb27d4b1cc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'YS-03',
     partInstanceId: 'YS-03',
@@ -26220,7 +26288,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:263f1624-27de-4ef9-b2b1-7519d951eca2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26237,7 +26305,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:250f30ac-998f-445a-ac4f-b43897d0ff16',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26261,7 +26329,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d2770bae-6605-4826-9e56-a9640bc92263',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26278,7 +26346,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e6f51075-60aa-444f-a729-489e80bf2f62',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26295,7 +26363,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0de04d9a-7298-4821-baf1-5ccbd0a419f9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26312,7 +26380,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2cab47af-a5d1-4afb-936d-1fef2ddc5428',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26329,7 +26397,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:227f1cbb-d2e5-4e5b-800d-2bb6d2804954',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26346,7 +26414,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0c23d1e9-92f3-4dcc-b539-ab52168ee189',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26363,7 +26431,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:746083c2-9e22-47f2-993c-73976b2f82e6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26380,7 +26448,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1b871116-708a-4b24-b2a8-ad2ba18af13b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -26397,7 +26465,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8b938039-5188-4a15-8189-dd77027e1acd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26414,7 +26482,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1120d384-31ac-4485-b79d-ae9f1f7070b2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '76063B1-79',
     partInstanceId: '76063B1-79',
@@ -26431,7 +26499,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5ba1508b-1886-429a-854f-ddd7934dec8c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26448,7 +26516,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9abb3751-6928-4104-b3a2-0ae3705e301b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26465,7 +26533,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e3a7fd83-7262-49f2-bc3c-811d55913802',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26482,7 +26550,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b1ae0e41-2ca3-4951-99a5-bfa0f8f6a12f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26499,7 +26567,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b2daab35-8023-45e9-b2fe-8d9dfcab601d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26516,7 +26584,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9ce4ebec-3e38-40e8-9f82-cae37a156b86',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26533,7 +26601,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b1f43962-44d4-4222-9155-3f889bd969d4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26550,7 +26618,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f671a6b3-fb02-4145-87e8-404f4a56b999',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26567,7 +26635,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:00bfdeb1-c886-498f-9049-804dbfab3269',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '79696R1-80',
     partInstanceId: '79696R1-80',
@@ -26584,7 +26652,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a00606f3-fa9b-4f83-a6c3-8fea5248771a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26601,7 +26669,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:802d9465-e859-4102-aa5b-8ad638e99cf0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26618,7 +26686,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ff7ba7f7-bc5d-4f4a-9cae-d4f745d43981',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26635,7 +26703,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:73829221-5fde-479b-867a-92ac0f7fddf9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26652,7 +26720,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63644fba-705a-4bac-9e6a-6d557db2ec21',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26669,7 +26737,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:56b05036-9bab-47ef-96eb-ddd08c801f95',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26686,7 +26754,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ece7b55e-d564-4615-9622-c3b59b9b4bc9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26703,7 +26771,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dcf9830a-db30-4b84-8b39-4fe9281fa57a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26720,7 +26788,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8b8cf744-3dbd-4bc1-8f9b-668e47a5393e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26737,7 +26805,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:582efcc3-1293-4a65-82b1-01ea49e402aa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26766,7 +26834,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1914b641-1ede-4d05-853a-d4f6625fac22',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26783,7 +26851,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:360c967b-56e4-4dbf-86a8-9c024666f2f7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26800,7 +26868,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a3c4abe7-68fb-47d5-9b5b-d654307aff6f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26817,7 +26885,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:64c9212e-3bb0-497a-b3b6-61373ccd7784',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26834,7 +26902,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f038d1ca-9e10-4991-8ce7-f47a54c6fb60',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26851,7 +26919,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6f7d5684-701e-4902-ae7a-40840d7d6cb5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26868,7 +26936,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aaee9f1f-3abb-47dc-9ac6-24051a36064f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26885,7 +26953,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:62e60c5b-2864-4986-9739-6b5f206e1479',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26902,7 +26970,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:628c4407-96ca-4194-b3dc-dddf71549c72',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26919,7 +26987,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a49be0bf-fc54-441a-87c6-e2da6490d37a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engine',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26936,7 +27004,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:63422990-93b2-4240-8853-8391871f79d5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26953,7 +27021,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:96c63064-b0ba-4a65-bc8a-aaafc0c6de78',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -26970,7 +27038,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c053132a-9bab-4f3c-b43c-b23aad478b35',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -26987,7 +27055,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1ec449e5-b59e-42ed-8577-bb6bad12fcc7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27004,7 +27072,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7c669c9d-58cf-445c-bcbc-22c23da97f6d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27021,7 +27089,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e573fdb-42e6-4d2f-851e-f9d3e2dbf5e6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27038,7 +27106,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4d3bd381-3d1d-4685-8746-07e52cc70250',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27055,7 +27123,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6e478fe3-cae8-4082-bacc-293a26307876',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27072,7 +27140,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8c27fc9a-b6ca-497a-9278-38516ed7d51c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27089,7 +27157,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2749b6b9-e40f-4fc1-ba54-278eceb057b9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27106,7 +27174,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1799c222-ac16-4f57-8bbf-fa2893046501',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27123,7 +27191,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2bb75fec-aa08-48da-b277-97148768cab6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27140,7 +27208,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2de14711-71e5-4f1e-a7bc-9605abc3c727',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27157,7 +27225,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:55f4f517-8822-4a89-9167-d0127193779e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27174,7 +27242,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c85cef00-501c-4f68-9182-791ebe7b73aa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27191,7 +27259,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e7ddb071-ab19-4446-bb4a-aced1148552f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27208,7 +27276,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:509a4625-4f45-48cd-83c7-f834edd2851f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27225,7 +27293,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:259d9b79-f8fd-4c0b-925f-b97d04d60082',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '30366X9-07',
     partInstanceId: '30366X9-07',
@@ -27242,7 +27310,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d4a037e9-ac36-43c4-8c22-bacb06d8f8d6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27259,7 +27327,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:af605173-afc6-4424-91ee-89ca7a79dc9f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27276,7 +27344,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9a80e5ee-6c27-47f5-912a-56945e26b9a6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'GC-72',
     partInstanceId: 'GC-72',
@@ -27296,7 +27364,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:41bb35a6-68a0-436b-9218-359f598387eb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27325,7 +27393,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:69b40a87-2e5a-4039-a4ed-b2bf64d9fabc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27342,7 +27410,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:38f57173-8153-4357-b8b0-ac21b53d2a32',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27359,7 +27427,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e135c91f-1a3c-4193-8125-d553b09f4211',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27376,7 +27444,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:efc39544-149b-4f56-a496-35b74e0081b5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27393,7 +27461,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fadd3cc0-3ba8-4511-affb-baad56dd8ba7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27410,7 +27478,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:82f9e5ac-322a-4f01-a121-2ce49f92ca30',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27427,7 +27495,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9074ab09-ae91-40f0-8761-bcd5fe60e11c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27444,7 +27512,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f8bf0ddf-c1ca-46d3-9031-358ce5a7d95f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27461,7 +27529,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e61cb6c0-a963-4112-9725-d79b9672e016',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27478,7 +27546,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fac2a6de-e32b-416c-bf63-27e2a196148a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27495,7 +27563,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aafd1123-3e59-4a45-a90e-c17b5b14e8bc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27512,7 +27580,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dbf15700-b8ba-407b-a84b-e51d736ecf26',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27529,7 +27597,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:845d0032-e8bb-4ba7-ad89-af1149d2aca2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27546,7 +27614,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d50e1b74-a604-478b-a211-9615bbbf7b50',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27563,7 +27631,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:efff2a31-36e8-44d2-a30f-9c08c3ecbf93',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27580,7 +27648,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f54f0d37-495f-49f0-bca2-307888677641',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27597,7 +27665,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:506f573a-ace2-45a6-bd0b-b1b93e3eca67',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '00539W6-23',
     partInstanceId: '00539W6-23',
@@ -27618,7 +27686,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7ca4268f-b7ec-4d89-b32b-8c93366f4163',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27635,7 +27703,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2520dc81-0a8f-4fa1-b2c3-269b28bbe70e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27652,7 +27720,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f51bcd52-ba98-450a-a14a-a9cd83e46c69',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27681,7 +27749,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:430c3189-3fc4-416d-bd99-afd1c6a5ebc4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27698,7 +27766,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:334c3bdf-f7f8-46b9-a25b-2597972842d1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27715,7 +27783,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:38162866-bd14-4b92-95fb-b24982374da3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27732,7 +27800,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:81c05528-3f35-4ef2-9c35-44bc0a72ab78',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27749,7 +27817,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e358af8e-614b-4315-b66d-aa31992ad167',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27778,7 +27846,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:89150ef1-bcca-4094-9f55-502930ec36cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27795,7 +27863,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e94c3bf5-a93f-4019-84aa-21e067a484e7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27812,7 +27880,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5701ec49-826c-4849-a28d-efb14350884e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '61178T4-13',
     partInstanceId: '61178T4-13',
@@ -27829,7 +27897,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8b6a62ab-4eff-45ec-a2b7-eedc691ced71',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27853,7 +27921,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a9d872c1-dc09-4b59-ba79-87fe9d960f4f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27870,7 +27938,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:90072b29-e356-477e-bc15-739c8067aa73',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27887,7 +27955,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b598488e-d3d6-492b-9617-710da7584e07',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27904,7 +27972,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:39a07f7a-4b1c-4697-981b-21fc01815591',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27921,7 +27989,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bedae516-4e75-45b0-b0b4-c01a3c9c8bc5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27950,7 +28018,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aa433552-3adf-4c5f-be8e-b170a315c1b5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -27967,7 +28035,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b0f5effe-3d42-467b-a6fd-d7dde6c5cbe6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -27984,7 +28052,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f47c9497-0214-4d63-b440-b19847fecdce',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28001,7 +28069,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c7a8a8c5-5095-4500-af3d-f2bd6ebafd58',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28018,7 +28086,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a3619ac8-74f7-429f-98d4-c521d7378cb2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28035,7 +28103,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ba434fba-515e-4729-aabf-4e3e63857c6e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28052,7 +28120,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b9de6f30-5206-4998-8c80-a2525fa00642',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28069,7 +28137,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:13412f67-51ad-48c1-b458-afc88f894f97',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28086,7 +28154,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2d9a5c5b-d951-435a-beb1-bb7491716d4f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28103,7 +28171,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:58657b6e-ee00-47a8-a1d0-d356146edd57',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28120,7 +28188,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:09ffa07e-2579-4873-a118-81107397f8bf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28137,7 +28205,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b689a908-0f50-4cea-af41-4998db6000cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28154,7 +28222,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:24468d86-6718-479a-adc6-f9b65f6ada56',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28171,7 +28239,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2ee833b8-97ec-4afb-8a95-c861caee0e81',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28188,7 +28256,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5713e803-c9e2-436a-826a-33cafdd70e88',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28205,7 +28273,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6e6c62f0-2bd9-4418-a0c5-a379907878b9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28222,7 +28290,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:43eae484-8aaa-48cb-b262-f2f667221f7a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28239,7 +28307,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9668106d-8fea-49a7-bf7d-84c2f3a3eca7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28256,7 +28324,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8bac1134-0153-40b7-b053-d7fa65b2523e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28273,7 +28341,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:36148903-ed97-497d-a35d-874aa3f7cede',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28290,7 +28358,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f01a0d58-bd69-4221-976d-ddc50b5733ca',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28307,7 +28375,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f995c7fe-4cdf-447e-a45e-2f0f38572a74',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28324,7 +28392,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:87abaf15-5e0c-4dda-9df7-626317a2a759',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28341,7 +28409,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9ccc3437-48b7-4975-9525-6ec71a16b607',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28358,7 +28426,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3b742634-ad75-4304-af52-d31110ffaa5d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28375,7 +28443,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:faf9dca6-8942-49b5-a13d-fbc2598882d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28392,7 +28460,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:122a2b92-4d6a-4d0c-b976-b09d534671ba',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28409,7 +28477,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2a464577-0696-430c-9ca2-0636376d5b7e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28426,7 +28494,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d8e36564-0d3e-46fc-a985-82691c76b54d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28443,7 +28511,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:af8a3a7e-3483-4bb7-abef-6128bc3eae46',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28472,7 +28540,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9f4ec363-9c63-4932-b91d-eabd5584a592',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28489,7 +28557,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fafb529f-6a0a-492c-85b2-5f761dc05fa3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28506,7 +28574,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e7c75556-494b-4cf4-a4ec-baa7c87f2ef0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28523,7 +28591,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:351fd0ea-ddcf-4e64-9246-c87535c22272',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28547,7 +28615,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:05b05db0-4c6d-4a6d-a9c2-c49732160f90',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28564,7 +28632,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dc8f2863-d82b-47d0-9429-9af0ec0398a6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28581,7 +28649,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a1ad3a81-24e9-4855-a37c-4fb72fc47448',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Steering wheel',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28598,7 +28666,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:43c364ff-8130-4cf1-86b1-fb6bd8762e0d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28615,7 +28683,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7a4b7ee6-a301-4645-acc4-8bd81d8116b9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28632,7 +28700,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0f88a68a-7229-4f2a-8ab9-b050ea99d337',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28649,7 +28717,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e07f97aa-e8ef-471d-a88a-12eae7bb6b95',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '41375Z7-56',
     partInstanceId: '41375Z7-56',
@@ -28666,7 +28734,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:990ebd5e-1e99-45a4-926a-f00d218d3dfb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28683,7 +28751,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9c844d49-5941-4c4e-b38e-567ccbe0f76e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28700,7 +28768,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:341764f4-c183-42a0-855c-a898db166d18',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28717,7 +28785,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:66d1d201-cbab-4533-88cf-52c5783b9a48',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28746,7 +28814,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a2fd6580-e3fb-4392-acc3-5ce2c76ebd6f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28763,7 +28831,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e9f0c13-332b-4968-b1ba-9967ca32453d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28780,7 +28848,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bc775fe7-2de3-469f-bd5a-3e0ef8010bbf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28797,7 +28865,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2f8c7209-a7e0-415a-8827-9d64f32cb740',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28814,7 +28882,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8ddcd2c5-9e7f-46e7-9982-7a499170308d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28831,7 +28899,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1758c4bf-ce35-4e85-921f-103228b1b960',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28848,7 +28916,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1fa7d5f6-f74f-4868-82d0-e282cd309dbf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28865,7 +28933,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a5dfe8c9-ce0e-4a20-829c-5efe67908954',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28882,7 +28950,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:22312e6b-7238-459e-a0dc-35d1d13d8ca6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28899,7 +28967,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:817b6f46-14c2-4893-aec2-f2163621d54c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28916,7 +28984,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:850ce9b5-c604-448a-b7ee-ca5bc90f6038',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28933,7 +29001,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e9423503-3f8b-4f77-aea3-1126c84f9765',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -28950,7 +29018,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:039c6432-800e-4d16-b616-746a23c50f45',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -28967,7 +29035,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ea163b4e-d7ca-4351-844e-00cb933e2c19',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '24380Q8-70',
     partInstanceId: '24380Q8-70',
@@ -28984,7 +29052,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a272e9fc-8de0-4458-babd-8191787f200f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29001,7 +29069,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0144836b-3bd4-4c0d-877d-c332893a6e61',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29030,7 +29098,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6c7f6b6e-00af-43db-8f2b-30a10547622d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29047,7 +29115,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bc97a9e5-4101-427e-a9ba-ffff363fab22',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29064,7 +29132,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:82677efb-5c12-4838-b309-f846f480372f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29081,7 +29149,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:26597a12-6734-4316-9fbf-bd09e8faeaaf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29110,7 +29178,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:081334e3-3672-4336-9f9e-0a486c1fe3ce',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '90498Q8-73',
     partInstanceId: '90498Q8-73',
@@ -29127,7 +29195,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6bdf25f6-015f-474e-b483-5cdc85e463c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29144,7 +29212,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:962039eb-66b8-417a-b549-7d4017032319',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29161,7 +29229,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:89308473-f61d-4318-ad63-79ad97dc98c3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29190,7 +29258,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:61426ff6-c61f-4d52-9bcb-a880069f15af',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '89800B7-73',
     partInstanceId: '89800B7-73',
@@ -29207,7 +29275,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c7d9ce3d-73b5-4c20-972f-6f58f9f6afc9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29224,7 +29292,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:17221c75-18b2-4376-b7f4-78e7635ed673',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '49462T7-50',
     partInstanceId: '49462T7-50',
@@ -29241,7 +29309,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:49afb9d2-237e-451a-8a1f-f8d3a627234a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29258,7 +29326,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fcbfffb2-2062-4a27-9041-7d2e23a95d39',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29275,7 +29343,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3ca22926-3f41-42e3-bea2-0eaacdbd1e7d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29292,7 +29360,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f27389b8-93e7-4986-a6e7-5b19c66e8c93',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29309,7 +29377,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:87000bab-e75b-4d98-ae03-fe6f64b44f08',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29326,7 +29394,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dcb533a2-a476-4a6a-bc87-d9a668d388aa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '30734S5-57',
     partInstanceId: '30734S5-57',
@@ -29343,7 +29411,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:994b8629-09b9-4f94-b8aa-ac2a3b8ad015',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29360,7 +29428,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4dcc3258-4eb3-44a3-a396-b901a1423ba9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29389,7 +29457,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2c886e07-1452-4318-8182-cf3bc96188f2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29406,7 +29474,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d26c3aa0-e0a2-46bc-bfef-71a4bdb7fbb2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29423,7 +29491,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:84fec556-b1f9-4498-af8c-66526d5f53c9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '68338R4-37',
     partInstanceId: '68338R4-37',
@@ -29444,7 +29512,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:26a9fa72-a27f-491e-a8c2-7cfcab3c4344',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '23846K6-71',
     partInstanceId: '23846K6-71',
@@ -29461,7 +29529,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2cd64798-f97f-41aa-9cd5-a20c644ba9be',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -29478,7 +29546,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5d41bd93-0afb-4373-a772-6ef08f56539a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29495,7 +29563,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8d8b3926-7747-493c-8c78-ee375624d621',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29512,7 +29580,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:37d9511c-d8b2-4d6d-ad6f-06425e6e0623',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29529,7 +29597,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:14dfe42a-d8e5-42ac-a55e-693a73578514',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29546,7 +29614,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:beca1055-3073-41e9-ae92-db063e9c1905',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29563,7 +29631,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dbacf51f-6892-40de-bc59-bbe72cf47303',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29580,7 +29648,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:14d6aacf-e284-4230-aa44-9d389d67a44a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29597,7 +29665,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:09e8086c-63c6-4800-814f-e773e878d157',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -29614,7 +29682,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4bf46738-9294-4c8a-b878-176aaeae0393',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29631,7 +29699,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cae8a5e6-3dcf-46cd-9e3d-d295378e08d8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29648,7 +29716,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4b69c381-e597-41bf-852c-1079d129b248',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29665,7 +29733,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cb87fc29-5ea4-4a55-81c4-d9fcfab3aa80',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29682,7 +29750,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:68f1c137-423c-480a-ad35-bcb7f55d5e3d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29699,7 +29767,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e6066a88-ed70-434c-8a57-537ef45adc1d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29716,7 +29784,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f211222e-bc11-4b62-b5ef-ed88561be500',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29733,7 +29801,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a97f7c32-dc4a-4452-85c2-c5c3b5244e8c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29750,7 +29818,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d7fe76a6-7dec-4f5d-9ea1-020e5d49b948',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29767,7 +29835,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:387bb015-7409-4c70-8359-adb7b4c6005c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29784,7 +29852,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7869c815-04f7-4e6a-837e-d07ee2f7333e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29813,7 +29881,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a2018450-a0aa-4fd7-a81e-280770968719',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29830,7 +29898,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:97b7431a-94ad-4784-bc36-24a2700863fb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29847,7 +29915,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0949aaba-53e0-40f2-a988-065837ca1e9c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29864,7 +29932,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a6fa2f7f-7b77-4e39-acb7-bd6163001196',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29881,7 +29949,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8fec6506-f03a-47a8-9903-ca078c62ba61',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -29898,7 +29966,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:16bca992-fc84-442b-95a8-83661ab25408',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29927,7 +29995,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f938c172-c71a-48f5-85c8-6d62bbe91f14',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29944,7 +30012,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9dc93d07-2b5b-45b1-9b7f-324f2e6421c6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -29961,7 +30029,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:071f322a-bf93-41ae-a3cc-364cb09dfef2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -29978,7 +30046,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ab6555eb-1a75-4a39-9940-4a3b94364673',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Dashboard',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -29995,7 +30063,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ff813001-860c-4292-b964-93356dbdaa4c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30012,7 +30080,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9eb65792-d186-4345-9f17-3d5f93b9b10a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -30029,7 +30097,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:04019be3-8910-4e3e-add0-bb6c693819e4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '03292V5-85',
     partInstanceId: '03292V5-85',
@@ -30046,7 +30114,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fc9016e5-c34d-42e0-b2e0-024122b85eea',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30063,7 +30131,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f573fdde-8592-4d6e-b2cd-b63aa44fa0c5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '67639Y5-30',
     partInstanceId: '67639Y5-30',
@@ -30080,7 +30148,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:527cf1e1-45f2-4b0a-b288-f444ff6c55a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30097,7 +30165,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:365426e1-d169-45e0-8b34-3eb0a9f0116c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30114,7 +30182,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:aa92a2f7-b5af-4c69-812b-786144500d3f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -30131,7 +30199,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e34192bb-cbe0-4b12-932b-53329057d3f2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30148,7 +30216,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4cd90274-50bf-473e-949c-583912577b40',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '31625S7-98',
     partInstanceId: '31625S7-98',
@@ -30169,7 +30237,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9a8d4b2f-542c-4f42-af77-9da613d4b9e4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30198,7 +30266,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a4ca7bad-2290-49a5-9f1b-3059dc4c0f90',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30215,7 +30283,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:78cde4f9-cd3c-4df8-a5d6-d3f661a8fba3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30232,7 +30300,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c8aa804-3e2d-4deb-86f9-3eeef3015021',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30249,7 +30317,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1b0f2899-0152-4a74-bbcf-228ea47ba4b4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Trailer coupling',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -30266,7 +30334,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7416a699-771c-4d6b-9923-e40449ba1cd0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30283,7 +30351,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3e62b345-d62c-400c-8465-9fdcb2ca650d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30300,7 +30368,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5838a0d9-72d4-4f77-a74a-0ba90c9216cc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30317,7 +30385,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ea0671d5-ba10-49a1-9985-b9dfccafcdfc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30346,7 +30414,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:70e8e906-d94b-4452-854e-218709d2c0d4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '47749X7-70',
     partInstanceId: '47749X7-70',
@@ -30367,7 +30435,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:861a1206-4212-4eb4-8d9b-b03ba5334a9e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -30391,7 +30459,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fe45b51a-b1ce-4c1c-843b-fb50261658a6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30408,7 +30476,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1fa3a8b4-2c13-4065-aa8d-0b2fbb443b99',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30425,7 +30493,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:916f3a4e-af5d-4246-af3c-f08612d4f7c4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30454,7 +30522,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:60b33aea-24a3-4a17-bf21-5ba907e58aac',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30471,7 +30539,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9e3e38e0-c3c5-440e-bfd4-b969390933b3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30488,7 +30556,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:32c08a86-ba66-47a8-bbfb-fbe05c3778df',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30505,7 +30573,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f9de817c-73f2-4c65-b636-aaeb426b3113',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30522,7 +30590,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c0ea09d-aa72-4f16-91ea-33d737c4c57b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '60051F8-69',
     partInstanceId: '60051F8-69',
@@ -30539,7 +30607,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c8ff09f4-2b58-4a7a-a7a7-04a7ed7d5974',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30556,7 +30624,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e12ce897-295f-4108-992f-96e30ca05cd9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30573,7 +30641,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3aac7ed3-4642-4d59-b078-49836acd26ce',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30590,7 +30658,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cb84d934-73f0-4a82-baf7-0fe9d73a3b41',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30619,7 +30687,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:55550152-4919-4cff-9e73-cc56d0e7497f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door Key',
     manufacturerPartId: '95657762-59',
     partInstanceId: '95657762-59',
@@ -30636,7 +30704,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ba7e76a1-d549-4037-bbd1-0ab5e7d20fb2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30653,7 +30721,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c41a0456-3c20-472f-80b2-2e63716ee509',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30670,7 +30738,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a0de08fd-4a80-44c2-96ea-a8f2586e0127',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30687,7 +30755,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:889df65e-16a3-4d58-8b64-dfb383f81e9f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30704,7 +30772,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:796f6b9d-6dc1-4595-86d3-76988ebcb128',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '68125Q7-74',
     partInstanceId: '68125Q7-74',
@@ -30721,7 +30789,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:06f38656-0cee-41c8-9d62-96e182fb3227',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30738,7 +30806,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:13d6c7cc-4609-44b9-950b-707ebdbfe221',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30755,7 +30823,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e55e5baa-e75e-4ee2-8f10-57048262f14a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tires',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -30772,7 +30840,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fde07a54-93ba-41cc-b94a-b973c5591d46',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '29047C3-96',
     partInstanceId: '29047C3-96',
@@ -30793,7 +30861,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1b958ba0-1ebc-4ca5-8d71-11999bcbe5e1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Catalysator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -30810,7 +30878,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3b5ad326-10ba-4d32-b96d-0b3008d62a91',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30827,7 +30895,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:10cdabf2-5b83-42b7-90c8-374b86a355d9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30844,7 +30912,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:609d9227-b5fd-453c-bbe4-dbc10b8196a1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30861,7 +30929,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:dfa9f336-4787-4adf-9c55-b2f51a83019f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'BB-60',
     partInstanceId: 'BB-60',
@@ -30881,7 +30949,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c7b6be2f-d420-48e6-b86e-bcb2f1666edc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30898,7 +30966,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9e2d1f51-e16f-4795-9b1b-1593576ba5ee',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30915,7 +30983,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:78ffc47a-7aa1-4917-971b-cca49daafb96',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30932,7 +31000,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b77fa0fe-4d2c-4072-bcaf-b4a71f32d573',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30949,7 +31017,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:06c3f417-5c30-42d2-8a2c-b158a0130ce2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -30966,7 +31034,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d2a02eb3-effc-4100-b02c-61a4b5626643',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -30983,7 +31051,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfd2b0b4-56ff-41e3-9372-c73ecaa7bbbd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31000,7 +31068,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:119a981c-f8aa-47fc-8b64-631c6fd30b21',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31017,7 +31085,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e47a9e95-ce03-41d7-b45d-635b214a1d13',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31034,7 +31102,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:84ee417c-18d7-4604-97ee-eae5183ecb9f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31051,7 +31119,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:29ca7976-76ad-4d46-b71b-16a1ac09d80f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31068,7 +31136,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a7183131-f402-494f-a05e-eecf9b3a07b5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31085,7 +31153,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:12c129bb-fcca-474b-8581-eb51fb768fce',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31102,7 +31170,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c9b3587e-cf48-44c2-86f3-27e5b0d12b44',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31119,7 +31187,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0dc99b36-6358-4d98-9e59-648cac8d90bd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31136,7 +31204,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5691f393-ca5c-4988-b3c4-cfb65b25e4c5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31153,7 +31221,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:93b9bdbb-e48d-4442-a9e1-664ad0c01d20',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Chassis',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31170,7 +31238,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1656711e-f6ac-4721-a569-efb0cdb76bc5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '61278Z2-75',
     partInstanceId: '61278Z2-75',
@@ -31187,7 +31255,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:53e66d26-199c-4e57-b0b0-13fb0e2e496b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31204,7 +31272,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fc1adb0f-7573-4b34-a6d0-f3dd68405b34',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '48263X6-84',
     partInstanceId: '48263X6-84',
@@ -31221,7 +31289,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0c893365-9bb6-405f-98ab-7d5a59409c51',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31238,7 +31306,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0371ba9a-1373-4668-9ab3-36121e3c2395',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31255,7 +31323,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c187032f-8d36-4490-a3f2-9b7d63384b96',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Hybrid',
     manufacturerPartId: 'VT-17',
     partInstanceId: 'VT-17',
@@ -31308,7 +31376,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b3743f35-3fe4-460f-8a01-b13833461e27',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31325,7 +31393,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4b1371b7-96ad-4c33-b777-40f4335a1174',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31354,7 +31422,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d8b6d148-8481-4240-a5bf-10f846910c24',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31371,7 +31439,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f9496bd3-53be-4ad6-99f1-904379782a44',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Differential Gear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31388,7 +31456,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:19e2cbcb-df3e-40f5-80cb-49b0dc1afdd8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31405,7 +31473,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:58336956-47bd-44ab-af03-ac4cf3b0c7ea',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper rear',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31422,7 +31490,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6fcc795f-71ce-46a7-8f4d-732d394150d0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Indicator left',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31439,7 +31507,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4e474d68-4a65-4bea-b7b2-4ecdba2ac031',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31456,7 +31524,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8960764c-9eba-4956-8d37-3706310b679b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31473,7 +31541,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bca7c363-1c7e-4e4b-bd7f-e6e2874a5dcb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31490,7 +31558,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:07d4843f-fb9e-4ae8-9ee8-fd216d4e6595',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31507,7 +31575,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f649071a-abb0-4fc1-8a51-0507ef05d43e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31536,7 +31604,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5ad33f95-aa2a-479a-91f9-72b8e248c576',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31553,7 +31621,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f0c5b90b-9d84-4322-a0a1-6608509653fc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Exterior mirror right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31570,7 +31638,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e5d74f0e-9bc2-4e03-84a8-4f0670ae05c5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31587,7 +31655,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:00c1df72-7f76-4b28-839a-2c351e92eaa3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Alternator',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31604,7 +31672,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:60a5af1d-5c82-442a-9bdb-0049b6d65ce6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '59804F7-93',
     partInstanceId: '59804F7-93',
@@ -31621,7 +31689,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:9b9bc922-df8a-49f5-95d3-6100ef8afca8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'CZ-00',
     partInstanceId: 'CZ-00',
@@ -31641,7 +31709,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3c52759b-7c8d-43e9-92a7-6924850458cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '91028S0-97',
     partInstanceId: '91028S0-97',
@@ -31658,7 +31726,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:825b2bb6-b40f-48fa-b249-2ea38f8805dc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31675,7 +31743,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:7f44d90e-7203-4382-a584-cd2d1af0e895',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31692,7 +31760,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1ed1e654-c947-4ee5-9616-8559b480850f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31721,7 +31789,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:569cbca1-477b-4d4e-a030-dcea676620fb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31738,7 +31806,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:28ce113b-5830-4773-ba80-2c17dfa3340d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31755,7 +31823,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:259035d1-27f1-4b84-a627-97ed471082b5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door f-l',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31772,7 +31840,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bfb1d29d-0970-477b-b79b-db4b7b3e4c2e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31789,7 +31857,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:132e7553-be32-4fda-b541-23c8de5ed2cf',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31806,7 +31874,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:232358e5-6af0-441e-bba1-fa9fe6e2bf6a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31823,7 +31891,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ae953f01-0d71-46c3-ae52-f296556574b2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31840,7 +31908,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:abb899f5-9289-4abf-8ba2-31092ab14e8c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31857,7 +31925,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5ce6fe02-386c-45be-b48f-e1359e27e2dd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31874,7 +31942,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ee81c944-ed16-4dbf-ba0b-97c4ee265e99',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31891,7 +31959,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f2bf097f-8fd8-45bd-b545-9648a7136636',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31908,7 +31976,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:251027bc-0604-46d3-87c6-876d144e9de2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Led headlight',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31925,7 +31993,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6bf040f1-5728-47cf-8766-eee8887f3422',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31942,7 +32010,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c0edf5f7-9777-4eb5-93b2-3c792ec42ff1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31959,7 +32027,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ffa516a2-91bf-4794-91d5-4fb79bb57ac6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -31976,7 +32044,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:27e382ba-4d3d-4531-b689-0560217b69d5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -31993,7 +32061,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ce9eae07-1286-47be-8f93-fb2ff2ae4411',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Combustion',
     manufacturerPartId: 'SQ-08',
     partInstanceId: 'SQ-08',
@@ -32013,7 +32081,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:674da34c-35bc-4a94-bacb-67ce7a08304c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32030,7 +32098,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:27d42b6b-2c36-45bf-9c6a-6060a9a85e7a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Fender right',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32047,7 +32115,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6394d997-496e-4f0b-bcfe-a188bddde140',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32064,7 +32132,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8c61bc36-ffe5-4970-a22c-669db803c727',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Tailgate',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32081,7 +32149,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:8e2ee83f-501c-425a-adad-8ff5dd07c070',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32098,7 +32166,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:111f1fdc-65f0-4505-acb3-2879ab7bbabe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32115,7 +32183,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:57910486-5575-4cad-ba88-02f3183232f3',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32132,7 +32200,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6a94626d-b00d-4de2-98b0-b08634f857b7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32149,7 +32217,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f484cf31-128d-41a3-985f-d8ae57f79538',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Bumper front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32166,7 +32234,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e1481c6c-39bd-4f4b-90e3-6875f0da6984',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32183,7 +32251,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fe765734-cbc6-4851-9d81-49268b31a2ee',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32200,7 +32268,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:be1c25c6-44a6-4c47-b90c-223af9048945',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Axle part front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32217,7 +32285,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:46c8add2-4d35-4dc6-8408-c696847f9895',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32234,7 +32302,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b5840ad8-4ed6-4937-9b46-8ce8dc64029d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32251,7 +32319,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:d6c3113a-3e70-47a5-990e-eda21e947de0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32268,7 +32336,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:592c89d8-c368-40d1-becd-262b385f061b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32285,7 +32353,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:50e3dd4c-c614-4adf-a32e-cfd203c9fd83',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32302,7 +32370,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c916f103-6f6b-4681-9235-967246893396',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32319,7 +32387,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:76ab7c4a-3037-453d-85ba-3674319a3384',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32343,7 +32411,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:04234531-ff4a-4f97-89b2-ef37979b7eec',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32360,7 +32428,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b41fac75-826f-441c-941a-d3df1b6dc9cd',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32377,7 +32445,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f6bbac6d-3e95-4d98-8c37-4179d3eaadc1',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32394,7 +32462,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4c07d9a1-3321-4539-bf35-60083ab826e2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32411,7 +32479,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bf5ae91d-02f8-4e33-b130-90ec402ac0db',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Vehicle Fully Electric',
     manufacturerPartId: 'VX-55',
     partInstanceId: 'VX-55',
@@ -32431,7 +32499,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e6aaf4ab-f1fb-4e29-a7f7-ebd035ca1868',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32448,7 +32516,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ea7f0010-d913-4427-96a1-363641325590',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'AC compressor',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32465,7 +32533,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:61da0ab4-af2b-445b-aff1-0bb80c9d9fd2',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32482,7 +32550,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:bf4b5a02-18b5-4cff-b483-3ca0ad48dca9',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32499,7 +32567,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:92c9d833-710e-4b3e-a9f2-6b0e50425b7f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32516,7 +32584,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:55ed81cf-cb14-461e-8f38-77e8bf599892',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32533,7 +32601,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:980e788c-809b-4775-9f33-c029004055ab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '58570B1-98',
     partInstanceId: '58570B1-98',
@@ -32550,7 +32618,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:fe87c4a6-6e74-449a-8c6d-b3bffec1f557',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '24927N0-77',
     partInstanceId: '24927N0-77',
@@ -32567,7 +32635,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:013a2c14-5b90-4953-8935-8fbfc8b4b4a5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32584,7 +32652,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:74a03aaf-907a-47dc-9bb3-4d6eea50bfab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32601,7 +32669,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:ec70f0c1-d86f-4d86-be9a-1b5e2fb487d6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32618,7 +32686,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:eafde2b7-9a4f-4436-95a4-6f6b0da75741',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Battery',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32642,7 +32710,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0e792bd9-456c-4fc3-aa19-480320cf9083',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32659,7 +32727,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:f055d7ef-b92f-49a7-9e02-169722af72da',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '97250C1-79',
     partInstanceId: '97250C1-79',
@@ -32676,7 +32744,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:303d1402-e808-4ebf-8d4d-202c3f5ab5fe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32693,7 +32761,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:cd527397-75b9-4ba7-b723-be3aec25ef94',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32710,7 +32778,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b5055663-72e0-441e-b380-ec47a5481f40',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32739,7 +32807,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:590a1d13-de72-4054-9124-f1ccec3e9a9e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Taillight front',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32756,7 +32824,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:736df36e-a60a-438e-ae3d-ea716cbaf988',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32773,7 +32841,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6b454ee2-1450-452b-8842-1ac08fe2840e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32790,7 +32858,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:16599bb5-0f89-464d-ace4-ea99acce4017',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32819,7 +32887,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a5555f37-0d63-4104-9443-2e06a892d1e5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -32840,7 +32908,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6d122c75-8c07-48a1-8b22-26952c9dfb6e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Rims',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -32857,7 +32925,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0a6e538d-ae4c-4798-95f2-0b1be8f2c4ab',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32874,7 +32942,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:310d4cb1-6a14-48a1-998c-cc497805b7ff',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32891,7 +32959,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:40dfe53c-568a-40fe-bf7c-2ac0887b1201',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32908,7 +32976,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:54267f88-5bbf-4a13-8438-effa336cf4c0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32937,7 +33005,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:50d8fdcc-78b3-4893-a60c-9d3dac98d50e',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32954,7 +33022,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:50fd87d5-53a7-4071-9e1e-6e5f8ee86efe',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32971,7 +33039,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:6076f13d-2c20-4adc-9a4d-fb58091e61be',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -32988,7 +33056,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:5f77227b-b173-45e3-8581-e819032a9ba6',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '43914P1-70',
     partInstanceId: '43914P1-70',
@@ -33005,7 +33073,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:690ac7b2-8de6-476b-a8a1-7cc96dc5fdf5',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -33022,7 +33090,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:0538efe0-4c30-4558-8723-ae977fcd19c7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33039,7 +33107,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:724b0285-e49f-49a1-aa2f-6d7037c8ea40',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33056,7 +33124,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:a1a41b2e-c6c5-4ed4-986e-05cd4052960b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Engineering Plastics',
     manufacturerPartId: '26184H8-43',
     partInstanceId: '26184H8-43',
@@ -33073,7 +33141,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:18b2d27a-e4bc-433b-877c-f840da0e537b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33090,7 +33158,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c8b9ca15-721e-4e71-b312-e00eedd3ae29',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33107,7 +33175,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:572badca-9f14-4249-a93a-76ce358c4843',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '81398F8-55',
     partInstanceId: '81398F8-55',
@@ -33128,7 +33196,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4ac5202e-f1b4-4de4-b536-1a7830e021f8',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33145,7 +33213,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:e3718167-d20d-41ea-b95b-e42bf45e9fe0',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Transmission',
     manufacturerPartId: '1O222E8-43',
     partInstanceId: '1O222E8-43',
@@ -33166,7 +33234,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:992eb0f3-252d-4f7b-86f6-59485d1384ad',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33183,7 +33251,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:280c0d72-8bda-4711-9478-93ab8c4547aa',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33200,7 +33268,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2700a984-9595-4811-b126-1cd76b29c870',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33217,7 +33285,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:86f23666-689a-4fa8-b5bb-06774ccc7b42',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33234,7 +33302,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:4000a2dd-8af0-49df-849e-b530d282313d',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'HV MODUL',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33263,7 +33331,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:1665840c-c8f3-4f97-9b21-26e60d53fc3f',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33280,7 +33348,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c8730262-3727-4a00-aed4-6c1bd528ffbc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33297,7 +33365,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3488b961-bd9d-4231-a22b-eae3fd2bf495',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Door r-r',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -33314,7 +33382,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:95abea16-a1a1-4a23-81e7-940cec075c5c',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33331,7 +33399,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:90fcb765-9e5f-4b1e-9fcd-347374bd66af',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33348,7 +33416,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:90fb6253-429e-4dd0-b8f2-c746b53c91dc',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33365,7 +33433,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:2f5447c6-e517-4e74-92eb-f2ddc0628987',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ECU',
     manufacturerPartId: '68888G2-17',
     partInstanceId: '68888G2-17',
@@ -33386,7 +33454,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:b145320c-18d5-4ae3-b734-a749fd58e213',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33403,7 +33471,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:02e194bf-dcdc-41fd-b2a4-21a689ec15f7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Sensor',
     manufacturerPartId: '70629D4-05',
     partInstanceId: '70629D4-05',
@@ -33420,7 +33488,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:302ff922-9b90-4fb0-bbc4-27e12ac0f5cb',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33437,7 +33505,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:57c8cc17-0b10-4b74-9758-36535734e41b',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33454,7 +33522,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:40a50352-3fbb-45a7-a5c0-731636fcfef7',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33471,7 +33539,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:c08d9e16-4f00-4df3-93c9-971e2e2f887a',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'ZB ZELLE',
     manufacturerPartId: '8840838-04',
     partInstanceId: '8840838-04',
@@ -33488,7 +33556,7 @@ export const otherPartsAssets = [
   {
     id: 'urn:uuid:3bcb7695-a99e-47cb-b550-349c294435c4',
     idShort: '--',
-    batchId: '--',
+
     nameAtManufacturer: 'Turbocharger',
     manufacturerPartId: '95657362-83',
     partInstanceId: '95657362-83',
@@ -33502,4 +33570,6 @@ export const otherPartsAssets = [
     childDescriptions: [],
     qualityType: 'Ok',
   },
+   */
 ] as PartResponse[];
+

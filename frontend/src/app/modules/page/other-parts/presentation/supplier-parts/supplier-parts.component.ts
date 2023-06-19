@@ -21,7 +21,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
-import { Part } from '@page/parts/model/parts.model';
+import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
@@ -35,11 +35,11 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 export class SupplierPartsComponent implements OnInit, OnDestroy {
   public readonly displayedColumns: string[] = [
     'select',
+    'semanticDataModel',
     'name',
     'manufacturer',
     'partNumber',
-    'serialNumber',
-    'batchNumber',
+    'semanticModelId',
     'productionDate',
   ];
 
@@ -47,9 +47,9 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     name: true,
     manufacturer: true,
     partNumber: true,
-    serialNumber: true,
-    batchNumber: true,
+    semanticModelId: true,
     productionDate: true,
+    semanticDataModel: true,
   };
 
   public readonly tableConfig: TableConfig = {
@@ -77,6 +77,10 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public get currentSelectedItems(): Part[] {
+
+    this.selectedItems = this.selectedItems.map(part => {
+      return {...part, semanticDataModel: SemanticDataModel[part.semanticDataModel.toUpperCase() as keyof typeof SemanticDataModel]}
+    })
     return this.selectedItems || [];
   }
 

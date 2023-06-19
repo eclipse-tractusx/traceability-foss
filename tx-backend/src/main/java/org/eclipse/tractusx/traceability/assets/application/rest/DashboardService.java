@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,12 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.application.rest;
 
-// for now we leave this model in shared module, because of problems to handle separated SeverityModule
-// to have SeverityModule we would need to rearrange our SharedModule
-export enum Severity {
-  MINOR = 'MINOR',
-  MAJOR = 'MAJOR',
-  CRITICAL = 'CRITICAL',
-  LIFE_THREATENING = 'LIFE_THREATENING',
+import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
+
+public interface DashboardService {
+    Dashboard getDashboard();
 }
