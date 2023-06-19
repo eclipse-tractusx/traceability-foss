@@ -79,19 +79,28 @@ public class AssetServiceImpl implements AssetService {
 
     private void syncAssetsAsPlanned(String globalAssetId) {
         List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
+        downwardAssets.forEach(asset -> {
+            log.info(asset.getId() + "isDownwardAsset - asPlanned");
+        });
         assetAsPlannedRepository.saveAll(downwardAssets);
     }
 
     private void syncAssetsAsBuilt(String globalAssetId) {
         List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        downwardAssets.forEach(asset -> {
+            log.info(asset.getId() + "isDownwardAsset - asBuilt");
+        });
+
         assetAsBuiltRepository.saveAll(downwardAssets);
 
         List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         upwardAssets.forEach(asset -> {
             if (assetAsBuiltRepository.existsById(asset.getId())) {
+                log.info(asset.getId() + "isUpwardAsset 1 - asBuilt");
                 assetAsBuiltRepository.updateParentDescriptionsAndOwner(asset);
             } else {
+                log.info(asset.getId() + "isUpwardAsset 2 - asBuilt");
                 assetAsBuiltRepository.save(asset);
             }
         });
