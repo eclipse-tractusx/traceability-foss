@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.rest.service.AssetService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
@@ -49,7 +50,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AssetServiceImpl implements AssetService {
 
-    private final AssetAsBuiltRepository assetRepository;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
+    private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final IrsRepository irsRepository;
 
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
@@ -77,69 +79,69 @@ public class AssetServiceImpl implements AssetService {
 
     private void syncAssetsAsPlanned(String globalAssetId) {
         List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
-        assetRepository.saveAll(downwardAssets);
+        assetAsPlannedRepository.saveAll(downwardAssets);
     }
 
     private void syncAssetsAsBuilt(String globalAssetId) {
         List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-        assetRepository.saveAll(downwardAssets);
+        assetAsBuiltRepository.saveAll(downwardAssets);
 
         List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         upwardAssets.forEach(asset -> {
-            if (assetRepository.existsById(asset.getId())) {
-                assetRepository.updateParentDescriptionsAndOwner(asset);
+            if (assetAsBuiltRepository.existsById(asset.getId())) {
+                assetAsBuiltRepository.updateParentDescriptionsAndOwner(asset);
             } else {
-                assetRepository.save(asset);
+                assetAsBuiltRepository.save(asset);
             }
         });
     }
 
 
     public void setAssetsInvestigationStatus(QualityNotification investigation) {
-        assetRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {
+        assetAsBuiltRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
             asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            assetRepository.save(asset);
+            assetAsBuiltRepository.save(asset);
         });
     }
 
     public void setAssetsAlertStatus(QualityNotification alert) {
-        assetRepository.getAssetsById(alert.getAssetIds()).forEach(asset -> {
+        assetAsBuiltRepository.getAssetsById(alert.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
             asset.setActiveAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            assetRepository.save(asset);
+            assetAsBuiltRepository.save(asset);
         });
     }
 
     public Asset updateQualityType(String assetId, QualityType qualityType) {
-        Asset foundAsset = assetRepository.getAssetById(assetId);
+        Asset foundAsset = assetAsBuiltRepository.getAssetById(assetId);
         foundAsset.setQualityType(qualityType);
-        return assetRepository.save(foundAsset);
+        return assetAsBuiltRepository.save(foundAsset);
     }
 
     public Map<String, Long> getAssetsCountryMap() {
-        return assetRepository.getAssets().stream()
+        return assetAsBuiltRepository.getAssets().stream()
                 .collect(Collectors.groupingBy(asset -> asset.getSemanticModel().getManufacturingCountry(), Collectors.counting()));
     }
 
     public void saveAssets(List<Asset> assets) {
-        assetRepository.saveAll(assets);
+        assetAsBuiltRepository.saveAll(assets);
     }
 
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
-        return assetRepository.getAssets(pageable, owner);
+        return assetAsBuiltRepository.getAssets(pageable, owner);
     }
 
     public Asset getAssetById(String assetId) {
-        return assetRepository.getAssetById(assetId);
+        return assetAsBuiltRepository.getAssetById(assetId);
     }
 
     public List<Asset> getAssetsById(List<String> assetIds) {
-        return assetRepository.getAssetsById(assetIds);
+        return assetAsBuiltRepository.getAssetsById(assetIds);
     }
 
     public Asset getAssetByChildId(String assetId, String childId) {
-        return assetRepository.getAssetByChildId(assetId, childId);
+        return assetAsBuiltRepository.getAssetByChildId(assetId, childId);
     }
 }

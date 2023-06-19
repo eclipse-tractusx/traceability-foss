@@ -152,7 +152,7 @@ class IrsServiceTest {
                         new PartTypeInformation("classification", "Name at Manufacturer", "Name at Customer",
                                 "ManufacturerPartId123", "CustomerPartId123"),
                         new ManufacturingInformation("Country", new Date()),
-                        Collections.emptyList(), validityPeriod, List.of(site)
+                        Collections.emptyList(), validityPeriod, List.of(site), "abc"
 
                 )
         );
