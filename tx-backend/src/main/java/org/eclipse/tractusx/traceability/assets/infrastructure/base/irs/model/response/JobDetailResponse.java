@@ -144,7 +144,7 @@ public record JobDetailResponse(
     }
 
     private List<Asset> mapToOtherParts(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !semanticDataModel.catenaXId().equals(jobStatus().globalAssetId()) || !asPlannedAspects(semanticDataModel)).toList();
+        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !semanticDataModel.catenaXId().equals(jobStatus().globalAssetId()) && !asPlannedAspects(semanticDataModel)).toList();
         return otherParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
@@ -189,7 +189,7 @@ public record JobDetailResponse(
     }
 
     private List<Asset> mapToOwnParts(Map<String, String> shortIds, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> ownParts = semanticDataModels().stream().filter(semanticDataModel -> semanticDataModel.catenaXId().equals(jobStatus().globalAssetId()) || !asPlannedAspects(semanticDataModel)).toList();
+        List<SemanticDataModel> ownParts = semanticDataModels().stream().filter(semanticDataModel -> semanticDataModel.catenaXId().equals(jobStatus().globalAssetId()) && !asPlannedAspects(semanticDataModel)).toList();
 
         // The Relationship on supplierPart catenaXId contains the id of the asset which has a relationship
         Map<String, List<Relationship>> supplierPartsMap = relationships().stream()
