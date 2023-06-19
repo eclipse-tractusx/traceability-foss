@@ -98,7 +98,7 @@
     "MINOR": "Minor",
     "MAJOR": "Major",
     "CRITICAL": "Critical",
-    "LIFE_THREATENING": "Life-Threatening"
+    "LIFE-THREATENING": "Life-Threatening"
   },
   "input": {
     "minMaxLengthHint": "{{current}} Characters. (Min. {{min}} and max. {{max}} characters)",
