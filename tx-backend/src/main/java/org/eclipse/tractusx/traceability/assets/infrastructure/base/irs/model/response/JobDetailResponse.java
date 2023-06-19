@@ -103,7 +103,10 @@ public record JobDetailResponse(
 
     private List<Asset> convertAssetsAsPlanned() {
         Map<String, String> shortIds = shells().stream()
-                .collect(Collectors.toMap(Shell::identification, Shell::idShort));
+                .collect(Collectors.toMap(
+                        Shell::identification,
+                        Shell::idShort,
+                        (existingValue, newValue) -> existingValue)); // Merge function resolves duplicates by keeping the existing value
 
         Map<String, String> bpnMapping = bpns();
 
