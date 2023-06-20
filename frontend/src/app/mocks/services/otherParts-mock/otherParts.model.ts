@@ -44,7 +44,7 @@ export const otherPartsAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvan1',
-    semanticDataModel: 'SERIALPARTTYPIZATION'
+    semanticDataModel: 'PARTASPLANNED'
   },
   {
     id: 'urn:uuid:38468ac2-9053-4ce7-8d7f-318b247b7f24',

@@ -49,7 +49,7 @@ export const mockBmwAssets = [
     underInvestigation: false,
     qualityType: QualityType.Ok,
     van: null,
-    semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+    semanticDataModel: SemanticDataModel.PARTASPLANNED,
   },
   {
     id: 'urn:uuid:55c376ed-e39d-4525-96e6-71f3def7ae41',
@@ -350,7 +350,7 @@ export const mockBmwAssets = [
       { id: 'urn:uuid:3583f9fc-8b82-4e4f-9b4a-e0e323dcd9d1', idShort: '--' },
       { id: 'urn:uuid:506f573a-ace2-45a6-bd0b-b1b93e3eca67', idShort: '--' },
     ],
-    activeAlert: false,
+    activeAlert: true,
     underInvestigation: false,
     qualityType: 'Ok',
     van: null,

@@ -61,7 +61,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
   public readonly parts$: Observable<View<Pagination<Part>>>;
 
-  public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
+  public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
 
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
