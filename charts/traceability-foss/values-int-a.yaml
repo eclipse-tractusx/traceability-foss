@@ -35,6 +35,9 @@ frontend:
     CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
     CATENAX_PORTAL_URL: 'https://portal.int.demo.catena-x.net/'
 
+  nameOverride: "traceability-foss-int-a-frontend"
+  fullnameOverride: "traceability-foss-int-a-frontend"
+
   ingress:
     enabled: true
     className: "nginx"
