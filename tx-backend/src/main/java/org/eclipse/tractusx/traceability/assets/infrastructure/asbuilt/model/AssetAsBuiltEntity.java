@@ -54,7 +54,6 @@ import java.util.List;
 public class AssetAsBuiltEntity extends AssetAsPlannedEntity {
 
     private String van;
-
     private Instant manufacturingDate;
     private String manufacturingCountry;
     private String manufacturerId;

@@ -42,8 +42,6 @@ public interface AssetService {
 
     Map<String, Long> getAssetsCountryMap();
 
-  /*  void saveAssetsAsBuilt(List<Asset> assets);*/
-
     PageResult<Asset> getAssets(Pageable pageable, Owner owner);
 
     Asset getAssetById(String assetId);
