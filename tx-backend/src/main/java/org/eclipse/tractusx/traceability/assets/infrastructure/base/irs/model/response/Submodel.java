@@ -45,7 +45,7 @@ class Submodel {
                     "urn:bamm:io.catenax.batch:1.0.0#Batch"
             }),
             @Type(value = SemanticDataModel.class, names = {
-                    "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
+                    "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
             }),
             @Type(value = SemanticDataModel.class, names = {
                     "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
