@@ -42,8 +42,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     'name',
     'manufacturer',
     'partNumber',
-    'serialNumber',
-    'batchNumber',
+    'semanticModelId',
     'productionDate',
     'productionCountry',
   ];
@@ -54,8 +53,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     name: true,
     manufacturer: true,
     partNumber: true,
-    serialNumber: true,
-    batchNumber: true,
+    semanticModelId: true,
     productionDate: true,
     productionCountry: true,
   };
@@ -63,7 +61,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
   public readonly parts$: Observable<View<Pagination<Part>>>;
 
-  public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
+  public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
 
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
@@ -88,7 +86,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       displayedColumns: this.displayedColumns,
       header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
       sortableColumns: this.sortableColumns,
-      columnRoles: { select: 'wip' },
     };
   }
 

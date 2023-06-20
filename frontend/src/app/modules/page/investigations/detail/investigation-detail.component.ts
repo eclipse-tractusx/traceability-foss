@@ -53,7 +53,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(AcknowledgeNotificationModalComponent) acknowledgeModal: AcknowledgeNotificationModalComponent;
   @ViewChild(DeclineNotificationModalComponent) declineModal: DeclineNotificationModalComponent;
 
-  @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
+  @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
@@ -141,9 +141,9 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
   }
 
-  public copyToClipboard(serialNumber: string): void {
-    const text = { id: 'clipboard', values: { value: serialNumber } };
-    navigator.clipboard.writeText(serialNumber).then(_ => this.ctaSnackbarService.show(text));
+  public copyToClipboard(semanticModelId: string): void {
+    const text = { id: 'clipboard', values: { value: semanticModelId } };
+    navigator.clipboard.writeText(semanticModelId).then(_ => this.ctaSnackbarService.show(text));
   }
 
   public handleConfirmActionCompletedEvent(): void {
@@ -155,8 +155,8 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private setTableConfigs(data: Notification): void {
     this.isReceived = !data.isFromSender;
 
-    const displayedColumns = ['id', 'semanticDataModel', 'name', 'serialNumber'];
-    const sortableColumns = { id: true, semanticDataModel: true, name: true, serialNumber: true };
+    const displayedColumns = ['id', 'semanticDataModel', 'name', 'semanticModelId'];
+    const sortableColumns = { id: true, semanticDataModel: true, name: true, semanticModelId: true };
 
     const tableConfig = {
       displayedColumns,
@@ -164,7 +164,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       sortableColumns: sortableColumns,
       hasPagination: false,
       cellRenderers: {
-        serialNumber: this.serialNumberTmp,
+        semanticModelId: this.semanticModelIdTmp,
       },
     };
 

@@ -21,6 +21,7 @@
 
 import type { CalendarDateModel } from '@core/model/calendar-date.model';
 import type { PaginationResponse } from '@core/model/pagination.model';
+import { Owner, SemanticModel } from '@page/parts/model/semanticModel.model';
 
 // TODO: needs to be aligned with Severity in the future in terms of coding standards and use
 export enum QualityType {
@@ -40,9 +41,8 @@ export interface Part {
   id: string;
   name: string;
   manufacturer: string;
-  serialNumber: string;
+  semanticModelId: string;
   partNumber: string;
-  batchNumber: string;
   productionCountry: string;
   qualityType: QualityType;
   productionDate: CalendarDateModel;
@@ -51,7 +51,8 @@ export interface Part {
   nameAtCustomer?: string;
   customerPartId?: string;
   error?: boolean;
-  shouldHighlight?: boolean;
+  activeInvestigation?: boolean;
+  activeAlert: boolean;
   van?: string;
   semanticDataModel: SemanticDataModel;
 }
@@ -59,21 +60,16 @@ export interface Part {
 export interface PartResponse {
   id: string;
   idShort: string;
-  batchId?: string;
-  nameAtManufacturer: string;
-  manufacturerPartId: string;
-  partInstanceId: string;
+  semanticModelId: string;
   manufacturerId: string;
   manufacturerName: string;
-  nameAtCustomer: string;
-  customerPartId: string;
-  manufacturingDate: string;
-  manufacturingCountry: string;
-  qualityType: QualityType;
-  specificAssetIds: Record<string, string>;
-  childDescriptions: Array<{ id: string; idShort: string }>;
-  parentDescriptions?: Array<{ id: string; idShort: string }>;
+  semanticModel: SemanticModel;
+  owner: Owner;
+  childRelations: Array<{ id: string; idShort: string }>;
+  parentRelations?: Array<{ id: string; idShort: string }>;
+  activeAlert: boolean;
   underInvestigation?: boolean;
+  qualityType: QualityType;
   van?: string;
   semanticDataModel: SemanticDataModel;
 }
