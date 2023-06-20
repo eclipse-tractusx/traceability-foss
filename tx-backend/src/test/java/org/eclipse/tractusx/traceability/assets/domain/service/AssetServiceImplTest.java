@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
@@ -52,6 +53,9 @@ class AssetServiceImplTest {
 
     @Mock
     private AssetAsBuiltRepository assetRepository;
+
+    @Mock
+    private AssetAsPlannedRepository assetAsPlannedRepository;
 
 
     @Test
