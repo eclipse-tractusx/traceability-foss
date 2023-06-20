@@ -49,7 +49,8 @@ public class RegistryFacade {
             String manufacturerName = bpnRepository.findManufacturerName(shellDescriptor.getManufacturerId()).orElse("--");
             return shellDescriptor.toAsset(manufacturerName);
         }).toList();
-        assetService.saveAssets(assets);
+        // we cannot save the assets because we do not know the type asPlanned or asBuilt
+        // assetService.saveAssetsAsBuilt(assets);
         synchronizeAssetsByDescriptors(ownShellDescriptors);
     }
 

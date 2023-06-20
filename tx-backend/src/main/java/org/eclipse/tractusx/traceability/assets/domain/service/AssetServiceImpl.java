@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.assets.application.rest.service.AssetSe
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
@@ -41,6 +42,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -79,18 +82,11 @@ public class AssetServiceImpl implements AssetService {
 
     private void syncAssetsAsPlanned(String globalAssetId) {
         List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
-        downwardAssets.forEach(asset -> {
-            log.info(asset.getId() + "isDownwardAsset - asPlanned");
-        });
         assetAsPlannedRepository.saveAll(downwardAssets);
     }
 
     private void syncAssetsAsBuilt(String globalAssetId) {
         List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-        downwardAssets.forEach(asset -> {
-            log.info(asset.getId() + "isDownwardAsset - asBuilt");
-        });
-
         assetAsBuiltRepository.saveAll(downwardAssets);
 
         List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
@@ -106,9 +102,13 @@ public class AssetServiceImpl implements AssetService {
         });
     }
 
-
     public void setAssetsInvestigationStatus(QualityNotification investigation) {
         assetAsBuiltRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {
+            // Assets in status closed will be false, others true
+            asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
+            assetAsBuiltRepository.save(asset);
+        });
+        assetAsPlannedRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
             asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
             assetAsBuiltRepository.save(asset);
@@ -121,36 +121,72 @@ public class AssetServiceImpl implements AssetService {
             asset.setActiveAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
             assetAsBuiltRepository.save(asset);
         });
+        assetAsPlannedRepository.getAssetsById(alert.getAssetIds()).forEach(asset -> {
+            // Assets in status closed will be false, others true
+            asset.setActiveAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
+            assetAsBuiltRepository.save(asset);
+        });
     }
 
     public Asset updateQualityType(String assetId, QualityType qualityType) {
         Asset foundAsset = assetAsBuiltRepository.getAssetById(assetId);
-        foundAsset.setQualityType(qualityType);
-        return assetAsBuiltRepository.save(foundAsset);
+        if (foundAsset == null) {
+            Asset foundAssetAsPlanned = assetAsPlannedRepository.getAssetById(assetId);
+            foundAssetAsPlanned.setQualityType(qualityType);
+            return assetAsPlannedRepository.save(foundAssetAsPlanned);
+        } else {
+            foundAsset.setQualityType(qualityType);
+            return assetAsBuiltRepository.save(foundAsset);
+        }
+
+
     }
 
     public Map<String, Long> getAssetsCountryMap() {
-        return assetAsBuiltRepository.getAssets().stream()
+        Map<String, Long> assetsCountryMap = assetAsBuiltRepository.getAssets().stream()
                 .collect(Collectors.groupingBy(asset -> asset.getSemanticModel().getManufacturingCountry(), Collectors.counting()));
+
+        Map<String, Long> assetsAsPlannedCountryMap = assetAsPlannedRepository.getAssets().stream()
+                .collect(Collectors.groupingBy(asset -> asset.getSemanticModel().getManufacturingCountry(), Collectors.counting()));
+
+        Map<String, Long> mergedMap = new HashMap<>(assetsCountryMap);
+        assetsAsPlannedCountryMap.forEach((country, count) -> mergedMap.merge(country, count, Long::sum));
+
+        return mergedMap;
     }
 
-    public void saveAssets(List<Asset> assets) {
+ /*   public void saveAssetsAsBuilt(List<Asset> assets) {
         assetAsBuiltRepository.saveAll(assets);
-    }
+    }*/
 
+    // todo pagination will not work correctly
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
+        assetAsPlannedRepository.getAssets(pageable, owner);
         return assetAsBuiltRepository.getAssets(pageable, owner);
     }
 
     public Asset getAssetById(String assetId) {
-        return assetAsBuiltRepository.getAssetById(assetId);
+        try {
+            return assetAsBuiltRepository.getAssetById(assetId);
+        } catch (AssetNotFoundException assetNotFoundException) {
+            return assetAsPlannedRepository.getAssetById(assetId);
+        }
     }
 
     public List<Asset> getAssetsById(List<String> assetIds) {
-        return assetAsBuiltRepository.getAssetsById(assetIds);
+        List<Asset> assetAsBuiltIds = assetAsBuiltRepository.getAssetsById(assetIds);
+        List<Asset> assetAsPlannedIds = assetAsPlannedRepository.getAssetsById(assetIds);
+        List<Asset> mergedList = new ArrayList<>(assetAsBuiltIds);
+        mergedList.addAll(assetAsPlannedIds);
+        return mergedList;
     }
 
     public Asset getAssetByChildId(String assetId, String childId) {
-        return assetAsBuiltRepository.getAssetByChildId(assetId, childId);
+        try {
+            return assetAsBuiltRepository.getAssetByChildId(assetId, childId);
+        } catch (AssetNotFoundException assetNotFoundException) {
+            return assetAsPlannedRepository.getAssetByChildId(assetId, childId);
+        }
+
     }
 }

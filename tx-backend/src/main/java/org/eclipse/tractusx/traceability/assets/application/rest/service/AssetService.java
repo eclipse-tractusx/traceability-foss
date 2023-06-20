@@ -42,7 +42,7 @@ public interface AssetService {
 
     Map<String, Long> getAssetsCountryMap();
 
-    void saveAssets(List<Asset> assets);
+  /*  void saveAssetsAsBuilt(List<Asset> assets);*/
 
     PageResult<Asset> getAssets(Pageable pageable, Owner owner);
 
