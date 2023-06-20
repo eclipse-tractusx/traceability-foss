@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
@@ -55,6 +56,9 @@ import spock.util.concurrent.PollingConditions
 abstract class IntegrationSpecification extends Specification
         implements OAuth2Support, OAuth2ApiSupport, DatabaseSupport, AssetRepositoryProvider, ShellDescriptorStoreProvider,
                 BpnRepositoryProvider, InvestigationsRepositoryProvider, AlertsRepositoryProvider, InvestigationNotificationRepositoryProvider, AlertNotificationsRepositoryProvider, BpnEdcRepositoryProvider {
+
+    @Autowired
+    private AssetAsPlannedRepository assetAsPlannedRepository;
 
     @Autowired
     private AssetAsBuiltRepository assetRepository
