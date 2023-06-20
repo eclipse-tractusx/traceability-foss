@@ -29,8 +29,15 @@ jobs:
       - name: Run unit tests
         run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode test
 
+      - name: Publish integration test results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          files: "**/failsafe-reports/TEST-*.xml"
+          check_name: "Integration Test Results"
+
       - name: Run integration tests
-        run: mvn --quiet --batch-mode -PiT verify
+        run: mvn --quiet --batch-mode -PiT clean verify
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2
