@@ -156,11 +156,6 @@ public class AssetServiceImpl implements AssetService {
         return mergedMap;
     }
 
- /*   public void saveAssetsAsBuilt(List<Asset> assets) {
-        assetAsBuiltRepository.saveAll(assets);
-    }*/
-
-    // todo pagination will not work correctly
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
         Pageable halfPage = halfPageable(pageable);
         PageResult<Asset> assetsAsPlanned = assetAsPlannedRepository.getAssets(halfPage, owner);

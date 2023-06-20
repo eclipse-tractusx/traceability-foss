@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.bpn;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class PersistentBpnRepository implements BpnRepository {
@@ -47,11 +49,15 @@ public class PersistentBpnRepository implements BpnRepository {
         List<BpnEntity> entities = bpns.entrySet().stream()
                 .map(entry -> new BpnEntity(entry.getKey(), entry.getValue()))
                 .toList();
+        try {
+            entities.forEach(bpnEntity -> repository.findById(bpnEntity.getManufacturerId()).ifPresentOrElse(persistedBpnEntity -> {
+                persistedBpnEntity.setManufacturerName(bpnEntity.getManufacturerName());
+                repository.save(persistedBpnEntity);
+            }, () -> repository.save(bpnEntity)));
+        } catch (Exception e) {
+            log.warn("Exception in bpn mapping storage", e);
+        }
 
-        entities.forEach(bpnEntity -> repository.findById(bpnEntity.getManufacturerId()).ifPresentOrElse(persistedBpnEntity -> {
-            persistedBpnEntity.setManufacturerName(bpnEntity.getManufacturerName());
-            repository.save(persistedBpnEntity);
-        }, () -> repository.save(bpnEntity)));
 
     }
 
