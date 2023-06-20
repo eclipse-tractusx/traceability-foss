@@ -46,8 +46,8 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
                 .get("/api/dashboard")
                 .then()
                 .statusCode(200)
-                .body("myItems", equalTo(1))
-                .body("otherParts", equalTo(12))
+                .body("myItems", equalTo(3))
+                .body("otherParts", equalTo(25))
 
 		where:
 			role << [SUPERVISOR, ADMIN]
@@ -65,8 +65,8 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
                 .get("/api/dashboard")
                 .then()
                 .statusCode(200)
-                .body("myItems", equalTo(1))
-                .body("otherParts", equalTo(12))
+                .body("myItems", equalTo(3))
+                .body("otherParts", equalTo(25))
 	}
 
 	def "should return dashboard information for pending investigation"() {
@@ -101,8 +101,8 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
                 .get("/api/dashboard")
                 .then()
                 .statusCode(200)
-                .body("myItems", equalTo(1))
-                .body("otherParts", equalTo(12))
+                .body("myItems", equalTo(3))
+                .body("otherParts", equalTo(25))
 				.body("investigations", equalTo(1))
 	}
 
