@@ -73,6 +73,8 @@ public record JobDetailResponse(
                     return payload;
                 }).toList();
 
+        semanticDataModels.forEach(semanticDataModel -> log.info(semanticDataModel.getCatenaXId() + semanticDataModel.getAspectType()));
+
         return new JobDetailResponse(
                 jobStatus,
                 shells,
@@ -175,7 +177,10 @@ public record JobDetailResponse(
 
     private List<Asset> mapToOwnPartsAsPlanned(Map<String, String> shortIds, Map<String, String> bpnMapping) {
 
-        List<SemanticDataModel> ownPartsAsPlanned = semanticDataModels().stream().filter(semanticDataModel -> semanticDataModel.catenaXId().equals(jobStatus().globalAssetId()) && "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned".equals(semanticDataModel.getAspectType())).toList();
+        List<SemanticDataModel> ownPartsAsPlanned =
+                semanticDataModels().stream()
+                        .filter(semanticDataModel -> semanticDataModel.catenaXId()
+                                .equals(jobStatus().globalAssetId()) && "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned".equals(semanticDataModel.getAspectType())).toList();
         //List<SemanticDataModel> ownPartsPartSiteInformation = semanticDataModels().stream().filter(semanticDataModel -> semanticDataModel.catenaXId().equals(jobStatus().globalAssetId()) && "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned".equals(semanticDataModel.getAspectType())).toList();
 
         Map<String, List<Relationship>> singleLevelBomRelationship = relationships().stream()
