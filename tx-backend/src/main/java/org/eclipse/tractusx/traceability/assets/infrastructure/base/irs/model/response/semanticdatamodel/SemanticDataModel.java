@@ -39,6 +39,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @Setter
 @Getter
 @Slf4j
@@ -71,7 +73,7 @@ public class SemanticDataModel {
     }
 
     public Optional<String> getLocalId(LocalIdKey key) {
-        return localIdentifiers.stream()
+        return emptyIfNull(localIdentifiers).stream()
                 .filter(localId -> localId.key() == key)
                 .findFirst()
                 .map(LocalId::value);
