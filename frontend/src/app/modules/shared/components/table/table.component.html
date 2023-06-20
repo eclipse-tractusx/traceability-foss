@@ -55,7 +55,7 @@ SPDX-License-Identifier: Apache-2.0
         *matRowDef="let row; columns: tableConfig.displayedColumns"
         [class.loading]="isDataLoading"
         [class.no-hover]="!showHover"
-        [class.highlighted]="row?.shouldHighlight"
+        [ngClass]="{'highlighted': row?.activeInvestigation || row?.activeAlert}"
         (click)="selectElement(row)"
         mat-row
         data-testid="table-component--body-row"
