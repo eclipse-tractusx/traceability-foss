@@ -49,7 +49,7 @@ export const mockBmwAssets = [
     underInvestigation: false,
     qualityType: QualityType.Ok,
     van: null,
-    semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+    semanticDataModel: SemanticDataModel.PARTASPLANNED,
   },
   {
     id: 'urn:uuid:55c376ed-e39d-4525-96e6-71f3def7ae41',

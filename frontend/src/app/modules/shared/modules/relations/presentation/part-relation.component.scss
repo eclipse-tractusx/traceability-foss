@@ -204,11 +204,19 @@
       @apply fill-semanticDataModelSerialPartTypization
     }
 
+    &-Partasplanned {
+      @apply fill-semanticDataModelSerialPartTypization
+    }
+
     &-BATCH {
       @apply fill-semanticDataModelBatch
     }
 
     &-SERIALPARTTYPIZATION {
+      @apply fill-semanticDataModelSerialPartTypization
+    }
+
+    &-PARTASPLANNED {
       @apply fill-semanticDataModelSerialPartTypization
     }
 
