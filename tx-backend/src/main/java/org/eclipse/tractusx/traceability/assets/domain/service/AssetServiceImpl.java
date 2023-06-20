@@ -161,8 +161,9 @@ public class AssetServiceImpl implements AssetService {
 
     // todo pagination will not work correctly
     public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
-        assetAsPlannedRepository.getAssets(pageable, owner);
-        return assetAsBuiltRepository.getAssets(pageable, owner);
+        PageResult<Asset> assets = assetAsPlannedRepository.getAssets(pageable, owner);
+        assets.content().addAll(assetAsBuiltRepository.getAssets(pageable, owner).content());
+        return assets;
     }
 
     public Asset getAssetById(String assetId) {
