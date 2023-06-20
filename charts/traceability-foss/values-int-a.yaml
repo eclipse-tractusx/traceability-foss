@@ -91,8 +91,7 @@ backend:
       cpu: 500m
       memory: 512Mi
 
-  # change to int-a profile before merging . for testing purpouses it needs to be as is since charts are sourced from helm-environments and profile from 4.0.0 tag
-  springprofile: int
+  springprofile: int-a
 
   ingress:
     enabled: true
@@ -110,7 +109,7 @@ backend:
         secretName: tls-secret
 
   traceability:
-    bpn: "BPNL00000003CML1"
+    bpn: "BPNL000000ATRACE"
     url: "https://traceability-int-a.int.demo.catena-x.net"
 
   datasource:
@@ -186,7 +185,7 @@ postgresql:
 #########################
 irs-helm:
   enabled: true
-  bpn: BPNL00000003CML1
+  bpn: BPNL000000ATRACE
 
   nameOverride: "tracex-irs-int-a"
   fullnameOverride: "tracex-irs-int-a"
