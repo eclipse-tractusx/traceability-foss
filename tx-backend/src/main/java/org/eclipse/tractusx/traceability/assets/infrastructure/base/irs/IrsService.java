@@ -55,7 +55,11 @@ public class IrsService implements IrsRepository {
         log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.state(), runtime);
 
         if (jobResponse.isCompleted()) {
-            bpnRepository.updateManufacturers(jobResponse.bpns());
+            try {
+                bpnRepository.updateManufacturers(jobResponse.bpns());
+            } catch (Exception e) {
+                log.warn("BPN Mapping Exception", e);
+            }
             return jobResponse.convertAssets();
         }
         return Collections.emptyList();
