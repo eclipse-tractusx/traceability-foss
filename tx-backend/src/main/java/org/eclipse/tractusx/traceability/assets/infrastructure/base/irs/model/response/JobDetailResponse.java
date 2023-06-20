@@ -94,7 +94,7 @@ public record JobDetailResponse(
     }
 
     public List<Asset> convertAssets() {
-        return convertAssets(BomLifecycle.valueOf(jobStatus().parameter().bomLifecycle()));
+        return convertAssets(BomLifecycle.fromString(jobStatus().parameter().bomLifecycle()));
     }
 
     private List<Asset> convertAssets(BomLifecycle bomLifecycle) {

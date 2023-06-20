@@ -23,7 +23,6 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
@@ -45,12 +44,6 @@ public class RegistryFacade {
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void updateShellDescriptorAndSynchronizeAssets() {
         List<ShellDescriptor> ownShellDescriptors = updateOwnShellDescriptors();
-        List<Asset> assets = ownShellDescriptors.stream().map(shellDescriptor -> {
-            String manufacturerName = bpnRepository.findManufacturerName(shellDescriptor.getManufacturerId()).orElse("--");
-            return shellDescriptor.toAsset(manufacturerName);
-        }).toList();
-        // we cannot save the assets because we do not know the type asPlanned or asBuilt
-        // assetService.saveAssetsAsBuilt(assets);
         synchronizeAssetsByDescriptors(ownShellDescriptors);
     }
 

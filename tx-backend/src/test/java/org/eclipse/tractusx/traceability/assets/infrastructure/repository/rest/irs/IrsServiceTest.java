@@ -152,7 +152,7 @@ class IrsServiceTest {
                         new PartTypeInformation("classification", "Name at Manufacturer", "Name at Customer",
                                 "ManufacturerPartId123", "CustomerPartId123"),
                         new ManufacturingInformation("Country", new Date()),
-                        Collections.emptyList(), validityPeriod, List.of(site), "abc"
+                        Collections.emptyList(), validityPeriod, List.of(site), "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization"
 
                 )
         );

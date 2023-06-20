@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
@@ -58,6 +59,7 @@ public class NotificationPublisherService {
     private final TraceabilityProperties traceabilityProperties;
     private final EdcNotificationService edcNotificationService;
     private final AssetAsBuiltRepository assetRepository;
+    private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetServiceImpl assetService;
     private final BpnRepository bpnRepository;
     private final Clock clock;

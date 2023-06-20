@@ -19,7 +19,9 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
+@Getter
 public enum BomLifecycle {
     @JsonProperty("asBuilt")
     AS_BUILT("asBuilt"),
@@ -32,7 +34,13 @@ public enum BomLifecycle {
         this.realName = realName;
     }
 
-    public String getRealName() {
-        return realName;
+    public static BomLifecycle fromString(String value) {
+        for (BomLifecycle lifecycle : BomLifecycle.values()) {
+            if (lifecycle.realName.equalsIgnoreCase(value)) {
+                return lifecycle;
+            }
+        }
+        throw new IllegalArgumentException("Invalid BomLifecycle value: " + value);
     }
+
 }
