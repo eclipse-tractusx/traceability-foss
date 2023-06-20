@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Quality Alert feature
 - Updated testdata to reflect asPlanned assets
+- Added Semantic Data Model 'PartAsPlanned'
 
 ### Changed
 - Updated authorizeRequests to match with spring boot 3 requirements
