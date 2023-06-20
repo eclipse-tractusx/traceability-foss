@@ -12,6 +12,7 @@ create table assets_as_planned
     quality_type         integer,
     classification       varchar(255),
     owner                integer,
+    semantic_data_model  integer,
     in_investigation     boolean      not null default (false),
     active_alert         boolean      NOT NULL default (false),
     primary key (id)
