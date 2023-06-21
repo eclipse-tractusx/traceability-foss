@@ -43,6 +43,70 @@ trait IrsApiSupport implements RestitoProvider {
         )
     }
 
+    /* Returns an id which results ihn an empty response of as built*/
+
+    void irsGetJobIdForEmptyResponseAsBuilt(String globalAssetId) {
+        whenHttp(stubServer()).match(
+                post("/irs/jobs"),
+                withPostBodyContaining("asBuilt"),
+                withPostBodyContaining(globalAssetId),
+                withHeader(HttpHeaders.AUTHORIZATION)
+        ).then(
+                ok(),
+                header("Content-Type", "application/json"),
+                jsonResponseFromFile("./stubs/irs/post/jobs/response_200_jobId_as_built_successful_empty.json")
+        )
+    }
+
+    void irsGetJobIdForSuccessfulResponseAsPlanned(String globalAssetId) {
+        whenHttp(stubServer()).match(
+                post("/irs/jobs"),
+                withPostBodyContaining("asPlanned"),
+                withPostBodyContaining(globalAssetId),
+                withHeader(HttpHeaders.AUTHORIZATION)
+        ).then(
+                ok(),
+                header("Content-Type", "application/json"),
+                jsonResponseFromFile("./stubs/irs/post/jobs/response_200_jobId_as_planned_successful.json")
+        )
+    }
+
+    void irsJobDetailsEmptyAsBuilt() {
+        whenHttp(stubServer()).match(
+                get("/irs/jobs/ebb79c45-7bba-4169-bf17-EMPTY_AS_BUILT"),
+                withHeader(HttpHeaders.AUTHORIZATION)
+        )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+                        jsonResponseFromFile("./stubs/irs/post/jobs/response_200_empty_as_built_jobdetails.json"))
+
+    }
+
+    void irsJobDetailsAsPlanned() {
+        whenHttp(stubServer()).match(
+                get("/irs/jobs/ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED"),
+                withHeader(HttpHeaders.AUTHORIZATION)
+        )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json"),
+
+                        jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_downward_asPlanned.json"))
+
+    }
+
+    void irsApiTriggerJobAsPlanned() {
+        whenHttp(stubServer()).match(
+                post("/irs/jobs"),
+                withHeader(HttpHeaders.AUTHORIZATION)
+        ).then(
+                ok(),
+                header("Content-Type", "application/json"),
+                jsonResponseFromFile("./stubs/irs/post/jobs/response_200.json")
+        )
+    }
+
     void irsApiReturnsJobDetailsAsPlannedDownward() {
         whenHttp(stubServer()).match(
                 get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54"),
@@ -50,7 +114,10 @@ trait IrsApiSupport implements RestitoProvider {
         )
                 .then(
                         ok(),
-                        header("Content-Type", "application/json"),
+                        header("Content-Type", "application/json"))
+                .withSequence(
+                        jsonResponseFromFile("./stubs/irs/post/jobs/empty_response_200.json"),
+                        jsonResponseFromFile("./stubs/irs/post/jobs/empty_response_200.json"),
                         jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_downward_asPlanned.json")
                 )
     }

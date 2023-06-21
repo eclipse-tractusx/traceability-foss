@@ -63,7 +63,7 @@ class RegistryControllerIT extends IntegrationSpecification implements IrsApiSup
 					.hasSize(1)
 					.containsShellDescriptorWithId(syncId)
 
-				assertAssetsSize(15)
+				assertAssetAsBuiltSize(15)
 			}
 
 		and:
@@ -99,7 +99,7 @@ class RegistryControllerIT extends IntegrationSpecification implements IrsApiSup
 					.hasSize(1)
 					.containsShellDescriptorWithId(syncId)
 
-				assertAssetsSize(1)
+				assertAssetAsBuiltSize(1)
 			}
 
 		and:

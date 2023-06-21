@@ -61,7 +61,7 @@ abstract class IntegrationSpecification extends Specification
     private AssetAsPlannedRepository assetAsPlannedRepository;
 
     @Autowired
-    private AssetAsBuiltRepository assetRepository
+    private AssetAsBuiltRepository assetAsBuiltRepository
 
     private AssetTestData assetTestDataConverter = new AssetTestData()
 
@@ -106,8 +106,13 @@ abstract class IntegrationSpecification extends Specification
     }
 
     @Override
-    AssetAsBuiltRepository assetRepository() {
-        return assetRepository
+    AssetAsBuiltRepository assetAsBuiltRepository() {
+        return assetAsBuiltRepository
+    }
+
+    @Override
+    AssetAsPlannedRepository assetAsPlannedRepository() {
+        return assetAsPlannedRepository;
     }
 
     @Override

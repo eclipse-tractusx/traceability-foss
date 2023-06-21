@@ -56,7 +56,7 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         then:
         eventually {
-            assertAssetsSize(13)
+            assertAssetAsBuiltSize(13)
             assertHasRequiredIdentifiers()
             assertHasChildCount("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", 5)
         }
@@ -67,9 +67,12 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
     def "should synchronize assets as planned"() {
         given:
+        String globalAssetId = "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
         oauth2ApiReturnsTechnicalUserToken()
-        irsApiTriggerJob()
-        irsApiReturnsJobDetailsAsPlannedDownward()
+        irsGetJobIdForEmptyResponseAsBuilt(globalAssetId)
+        irsJobDetailsEmptyAsBuilt()
+        irsGetJobIdForSuccessfulResponseAsPlanned(globalAssetId)
+        irsJobDetailsAsPlanned()
 
         when:
         given()
@@ -77,7 +80,7 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
                 .body(
                         asJson(
                                 [
-                                        globalAssetIds: ["urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"]
+                                        globalAssetIds: [globalAssetId]
                                 ]
                         )
                 )
@@ -89,8 +92,8 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         then:
         eventually {
-            assertAssetsSize(2)
-            assertHasChildCount("urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01", 1)
+            assertAssetAsBuiltSize(0)
+            assertAssetAsPlannedSize(2)
         }
 
         and:
@@ -123,7 +126,7 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         then:
         eventually {
-            assertAssetsSize(13)
+            assertAssetAsBuiltSize(13)
         }
 
         and:

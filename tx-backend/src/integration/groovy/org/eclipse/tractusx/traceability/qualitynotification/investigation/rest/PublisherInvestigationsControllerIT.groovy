@@ -110,7 +110,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
 
         then:
         partIds.each { partId ->
-            Asset asset = assetRepository().getAssetById(partId)
+            Asset asset = assetAsBuiltRepository().getAssetById(partId)
             assert asset
             assert asset.isUnderInvestigation()
         }
@@ -513,7 +513,7 @@ class PublisherInvestigationsControllerIT extends IntegrationSpecification imple
                 .body("id", Matchers.isA(Number.class))
         then:
         partIds.each { partId ->
-            Asset asset = assetRepository().getAssetById(partId)
+            Asset asset = assetAsBuiltRepository().getAssetById(partId)
             assert asset
             assert asset.isUnderInvestigation()
         }
