@@ -97,6 +97,7 @@ public class AlertEntity extends QualityNotificationBaseEntity {
 
     public static AlertEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return AlertEntity.builder()
+                // TODO clarify how to handle assetsAsPlanned
                 .assets(assetEntities)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
