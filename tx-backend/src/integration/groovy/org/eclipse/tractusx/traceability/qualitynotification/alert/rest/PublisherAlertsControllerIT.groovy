@@ -110,7 +110,7 @@ class PublisherAlertsControllerIT extends IntegrationSpecification implements Ir
 
         then:
         partIds.each { partId ->
-            Asset asset = assetRepository().getAssetById(partId)
+            Asset asset = assetAsBuiltRepository().getAssetById(partId)
             assert asset
             assert asset.isActiveAlert()
         }
@@ -498,7 +498,7 @@ class PublisherAlertsControllerIT extends IntegrationSpecification implements Ir
                 .body("id", Matchers.isA(Number.class))
         then:
         partIds.each { partId ->
-            Asset asset = assetRepository().getAssetById(partId)
+            Asset asset = assetAsBuiltRepository().getAssetById(partId)
             assert asset
             assert asset.isActiveAlert()
         }

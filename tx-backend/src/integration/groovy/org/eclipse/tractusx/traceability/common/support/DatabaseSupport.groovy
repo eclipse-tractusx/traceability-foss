@@ -32,9 +32,14 @@ trait DatabaseSupport implements DatabaseProvider {
             "assets_as_built_investigations",
             "asset_as_built_alert_notifications",
             "assets_as_built_alerts",
+            "assets_as_planned_childs",
+            "assets_as_planned_notifications",
+            "assets_as_planned_investigations",
+            "assets_as_planned_alerts",
             "alert_notification",
             "alert",
             "assets_as_built",
+            "assets_as_planned",
             "shell_descriptor",
             "bpn_storage",
             "investigation_notification",
@@ -43,6 +48,7 @@ trait DatabaseSupport implements DatabaseProvider {
             "bpn_edc_mappings"
     ]
 
+    /* This will be called after each test method has been executed. */
 	void clearAllTables() {
 		TABLES.each {
 			JdbcTestUtils.deleteFromTables(jdbcTemplate(), it)

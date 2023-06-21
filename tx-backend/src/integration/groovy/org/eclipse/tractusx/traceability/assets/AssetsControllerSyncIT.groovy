@@ -56,14 +56,44 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         then:
         eventually {
-            assertAssetsSize(14)
+            assertAssetAsBuiltSize(13)
             assertHasRequiredIdentifiers()
             assertHasChildCount("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", 5)
         }
 
         and:
         verifyOAuth2ApiCalledOnceForTechnicalUserToken()
-        verifyIrsApiTriggerJobCalledTimes(2)
+    }
+
+    def "should synchronize assets as planned"() {
+        given:
+        String globalAssetId = "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
+        oauth2ApiReturnsTechnicalUserToken()
+        irsGetJobIdForEmptyResponseAsBuilt(globalAssetId)
+        irsJobDetailsEmptyAsBuilt()
+        irsGetJobIdForSuccessfulResponseAsPlanned(globalAssetId)
+        irsJobDetailsAsPlanned()
+
+        when:
+        given()
+                .contentType(ContentType.JSON)
+                .body(
+                        asJson(
+                                [
+                                        globalAssetIds: [globalAssetId]
+                                ]
+                        )
+                )
+                .header(jwtAuthorization(ADMIN))
+                .when()
+                .post("/api/assets/sync")
+                .then()
+                .statusCode(200)
+
+        then:
+        eventually {
+            assertAssetAsPlannedSize(2)
+        }
     }
 
     def "should synchronize assets using retry"() {
@@ -92,12 +122,12 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         then:
         eventually {
-            assertAssetsSize(14)
+            assertAssetAsBuiltSize(13)
         }
 
         and:
         verifyOAuth2ApiCalledOnceForTechnicalUserToken()
-        verifyIrsApiTriggerJobCalledTimes(2)
+        verifyIrsApiTriggerJobCalledTimes(3)
     }
 
     def "should not synchronize assets when irs failed to return job details"() {
@@ -165,14 +195,6 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         and:
         verifyOAuth2ApiCalledOnceForTechnicalUserToken()
-        verifyIrsApiTriggerJobCalledOnce()
     }
-
-
-
-
-
-
-
 
 }

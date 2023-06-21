@@ -21,9 +21,10 @@ package org.eclipse.tractusx.traceability.assets.domain.model;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetBaseEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.ManufacturingInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.PartTypeInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
 import java.time.Instant;
@@ -38,14 +39,23 @@ public class SemanticModel {
     private String nameAtManufacturer;
     private String nameAtCustomer;
 
-    public static SemanticModel from(AssetBaseEntity assetBaseEntity) {
+    public static SemanticModel from(AssetBaseEntity assetAsPlannedEntity) {
         return SemanticModel.builder()
-                .customerPartId(assetBaseEntity.getCustomerPartId())
-                .manufacturerPartId(assetBaseEntity.getManufacturerPartId())
-                .manufacturingCountry(assetBaseEntity.getManufacturingCountry())
-                .manufacturingDate(assetBaseEntity.getManufacturingDate())
-                .nameAtCustomer(assetBaseEntity.getNameAtCustomer())
-                .nameAtManufacturer(assetBaseEntity.getNameAtManufacturer())
+                .customerPartId(assetAsPlannedEntity.getCustomerPartId())
+                .manufacturerPartId(assetAsPlannedEntity.getManufacturerPartId())
+                .nameAtCustomer(assetAsPlannedEntity.getNameAtCustomer())
+                .nameAtManufacturer(assetAsPlannedEntity.getNameAtManufacturer())
+                .build();
+    }
+
+    public static SemanticModel from(AssetAsBuiltEntity assetAsBuiltEntity) {
+        return SemanticModel.builder()
+                .customerPartId(assetAsBuiltEntity.getCustomerPartId())
+                .manufacturerPartId(assetAsBuiltEntity.getManufacturerPartId())
+                .manufacturingCountry(assetAsBuiltEntity.getManufacturingCountry())
+                .manufacturingDate(assetAsBuiltEntity.getManufacturingDate())
+                .nameAtCustomer(assetAsBuiltEntity.getNameAtCustomer())
+                .nameAtManufacturer(assetAsBuiltEntity.getNameAtManufacturer())
                 .build();
     }
 
@@ -67,6 +77,16 @@ public class SemanticModel {
                 .nameAtCustomer(defaultValue(partTypeInformation.nameAtCustomer()))
                 .manufacturingCountry(defaultValue(manufacturingInformation.country()))
                 .manufacturingDate(manufacturingInformation.date().toInstant())
+                .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
+                .build();
+    }
+
+    public static SemanticModel from(PartTypeInformation partTypeInformation) {
+        return SemanticModel.builder()
+                .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
+                .nameAtManufacturer(defaultValue(partTypeInformation.nameAtManufacturer()))
+                .customerPartId(defaultValue(partTypeInformation.customerPartId()))
+                .nameAtCustomer(defaultValue(partTypeInformation.nameAtCustomer()))
                 .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
                 .build();
     }

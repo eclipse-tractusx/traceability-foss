@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.assets.application.rest.response;
 import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
 
 public enum SemanticDataModelResponse {
-    BATCH, SERIALPARTTYPIZATION, UNKNOWN;
+    BATCH, SERIALPARTTYPIZATION, UNKNOWN, PARTASPLANNED;
 
     public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
         if (semanticDataModel == null) {
