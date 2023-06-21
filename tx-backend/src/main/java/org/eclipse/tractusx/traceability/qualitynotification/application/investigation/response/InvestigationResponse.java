@@ -44,7 +44,7 @@ import java.util.List;
 
 @Data
 @SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Investigations", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+@ArraySchema(arraySchema = @Schema(description = "Investigations", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = Integer.MIN_VALUE, maxItems = Integer.MAX_VALUE)
 public class InvestigationResponse extends QualityNotificationResponse {
 
     public static InvestigationResponse from(QualityNotification qualityNotification) {

@@ -23,8 +23,9 @@ package org.eclipse.tractusx.traceability
 
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository
+import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
 import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
@@ -57,7 +58,10 @@ abstract class IntegrationSpecification extends Specification
                 BpnRepositoryProvider, InvestigationsRepositoryProvider, AlertsRepositoryProvider, InvestigationNotificationRepositoryProvider, AlertNotificationsRepositoryProvider, BpnEdcRepositoryProvider {
 
     @Autowired
-    private AssetRepository assetRepository
+    private AssetAsPlannedRepository assetAsPlannedRepository;
+
+    @Autowired
+    private AssetAsBuiltRepository assetAsBuiltRepository
 
     private AssetTestData assetTestDataConverter = new AssetTestData()
 
@@ -102,8 +106,13 @@ abstract class IntegrationSpecification extends Specification
     }
 
     @Override
-    AssetRepository assetRepository() {
-        return assetRepository
+    AssetAsBuiltRepository assetAsBuiltRepository() {
+        return assetAsBuiltRepository
+    }
+
+    @Override
+    AssetAsPlannedRepository assetAsPlannedRepository() {
+        return assetAsPlannedRepository;
     }
 
     @Override

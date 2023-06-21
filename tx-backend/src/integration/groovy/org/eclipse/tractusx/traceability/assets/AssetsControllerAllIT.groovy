@@ -154,7 +154,7 @@ class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSu
                 .get("/api/assets")
                 .then()
                 .statusCode(200)
-                .body("page", Matchers.is(2))
+                .body("page", Matchers.is(1))
                 .body("pageSize", Matchers.is(2))
     }
 

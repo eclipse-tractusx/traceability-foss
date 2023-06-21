@@ -47,7 +47,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
 @EnableWebMvc
-@EnableAsync
+@EnableAsync(proxyTargetClass = true)
 @EnableConfigurationProperties
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class ApplicationConfig {
