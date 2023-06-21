@@ -20,17 +20,11 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationSeverityRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationReasonResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationSeverityResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationSideResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationStatusResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
@@ -41,6 +35,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import qualitynotification.alert.response.AlertResponse;
+import qualitynotification.base.response.QualityNotificationIdResponse;
+import qualitynotification.base.response.QualityNotificationReasonResponse;
+import qualitynotification.base.response.QualityNotificationSeverityResponse;
+import qualitynotification.base.response.QualityNotificationSideResponse;
+import qualitynotification.base.response.QualityNotificationStatusResponse;
 
 import java.time.Instant;
 import java.util.List;

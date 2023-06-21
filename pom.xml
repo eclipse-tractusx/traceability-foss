@@ -117,6 +117,12 @@
                 <artifactId>snakeyaml</artifactId>
                 <version>${org-snakeyaml.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.swagger</groupId>
+                <artifactId>swagger-annotations</artifactId>
+                <version>${swagger-annotation.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 

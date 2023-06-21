@@ -16,15 +16,27 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.qualitynotification.application.response;
 
+package org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper;
+
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import qualitynotification.base.response.QualityNotificationSeverityResponse;
+import qualitynotification.base.response.QualityNotificationSideResponse;
+import qualitynotification.base.response.QualityNotificationStatusResponse;
 
-public enum QualityNotificationSideResponse {
-    SENDER,
-    RECEIVER;
+public class QualityNotificationMapper {
+
+    public static QualityNotificationSeverityResponse from(QualityNotificationSeverity qualityNotificationSeverity) {
+        return QualityNotificationSeverityResponse.fromString(qualityNotificationSeverity.getRealName());
+    }
 
     public static QualityNotificationSideResponse from(QualityNotificationSide side) {
         return QualityNotificationSideResponse.valueOf(side.name());
+    }
+
+    public static QualityNotificationStatusResponse from(QualityNotificationStatus qualityNotificationStatus) {
+        return QualityNotificationStatusResponse.fromStringValue(qualityNotificationStatus.name());
     }
 }
