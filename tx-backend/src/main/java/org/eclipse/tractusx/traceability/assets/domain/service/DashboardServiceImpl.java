@@ -22,10 +22,11 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.application.rest.DashboardService;
+import org.eclipse.tractusx.traceability.assets.application.rest.service.DashboardService;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.springframework.stereotype.Component;
@@ -34,14 +35,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class DashboardServiceImpl implements DashboardService {
 
-    private final AssetRepository assetRepository;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
+    private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final InvestigationRepository investigationsRepository;
 
     public Dashboard getDashboard() {
-        long customerParts = assetRepository.countAssetsByOwner(Owner.CUSTOMER);
-        long supplierParts = assetRepository.countAssetsByOwner(Owner.SUPPLIER);
+        long customerParts = assetAsBuiltRepository.countAssetsByOwner(Owner.CUSTOMER) + assetAsPlannedRepository.countAssetsByOwner(Owner.CUSTOMER);
+        long supplierParts = assetAsBuiltRepository.countAssetsByOwner(Owner.SUPPLIER) + assetAsPlannedRepository.countAssetsByOwner(Owner.SUPPLIER);
+        ;
         long otherParts = customerParts + supplierParts;
-        long ownParts = assetRepository.countAssetsByOwner(Owner.OWN);
+        long ownParts = assetAsBuiltRepository.countAssetsByOwner(Owner.OWN) + assetAsPlannedRepository.countAssetsByOwner(Owner.OWN);
         long pendingInvestigations = investigationsRepository.countQualityNotificationEntitiesByStatus(QualityNotificationStatus.RECEIVED);
         return new Dashboard(ownParts, otherParts, pendingInvestigations);
     }

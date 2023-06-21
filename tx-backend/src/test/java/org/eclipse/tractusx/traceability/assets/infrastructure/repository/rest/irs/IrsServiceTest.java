@@ -19,22 +19,29 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.request.RegisterJobRequest;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Direction;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobDetailResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.JobStatus;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Parameter;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.RegisterJobResponse;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.Shell;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship.Aspect;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship.LinkedItem;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.relationship.Relationship;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.ManufacturingInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.PartTypeInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs.model.response.semanticdatamodel.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Parameter;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.LinkedItem;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.MeasurementUnit;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Quantity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -79,7 +86,7 @@ class IrsServiceTest {
         when(irsClient.getJobDetails(jobId.id())).thenReturn(jobResponse);
 
         // When
-        List<Asset> result = irsService.findAssets("1", direction, Aspect.downwardAspects());
+        List<Asset> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         // Then
         assertThat(result).hasSize(1);
@@ -115,7 +122,7 @@ class IrsServiceTest {
         when(jobResponse.isCompleted()).thenReturn(false);
 
         // When
-        List<Asset> result = irsService.findAssets("1", direction, Aspect.downwardAspects());
+        List<Asset> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         // Then
         assertThat(result).isEqualTo(Collections.EMPTY_LIST);
@@ -124,11 +131,12 @@ class IrsServiceTest {
 
     private JobDetailResponse provideTestJobResponse(String direction) {
         JobStatus jobStatus = new JobStatus(
+                "id",
                 "COMPLETED",
                 new Date(),
                 new Date(),
                 "globalAsset123",
-                new Parameter(direction)
+                new Parameter(direction, "asBuilt")
         );
 
         List<Shell> shells = Arrays.asList(
@@ -136,25 +144,31 @@ class IrsServiceTest {
                 new Shell("shell2", "Identification 2")
         );
 
+        ValidityPeriod validityPeriod = new ValidityPeriod(new Date(), new Date());
+        Site site = new Site(new Date(), new Date(), "function", "cxid");
         List<SemanticDataModel> semanticDataModels = Collections.singletonList(
                 new SemanticDataModel(
                         "catenaXId123",
-                        new PartTypeInformation("Name at Manufacturer", "Name at Customer",
+                        new PartTypeInformation("classification", "Name at Manufacturer", "Name at Customer",
                                 "ManufacturerPartId123", "CustomerPartId123"),
                         new ManufacturingInformation("Country", new Date()),
-                        Collections.emptyList()
+                        Collections.emptyList(), validityPeriod, List.of(site), "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization"
+
                 )
         );
         List<Relationship> relationships;
+
+        MeasurementUnit measurementUnit = new MeasurementUnit("uri", "unit:abc");
+        Quantity quantity = new Quantity(1.5, measurementUnit);
         if (direction.equals(Direction.DOWNWARD.name())) {
             relationships = Arrays.asList(
-                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123"), Aspect.ASSEMBLY_PART_RELATIONSHIP),
-                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456"), Aspect.ASSEMBLY_PART_RELATIONSHIP)
+                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP),
+                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP)
             );
         } else {
             relationships = Arrays.asList(
-                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123"), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT),
-                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456"), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT)
+                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT),
+                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_USAGE_AS_BUILT)
             );
         }
 

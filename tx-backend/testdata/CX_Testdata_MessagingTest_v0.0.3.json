@@ -1137,7 +1137,7 @@
           "partTypeInformation": {
             "manufacturerPartId": "ZX-55",
             "classification": "product",
-            "nameAtManufacturer": "Vehicle Model A"
+            "nameAtManufacturer": "Vehicle Model B"
           }
         }
       ],
@@ -1156,7 +1156,7 @@
       ],
       "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned": [
         {
-          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+          "catenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
           "childParts": [
             {
               "quantity": {
@@ -1168,7 +1168,7 @@
               },
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z",
-              "childCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01"
+              "childCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"
             }
           ]
         }

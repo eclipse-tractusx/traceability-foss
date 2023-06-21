@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.investigati
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
+import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
@@ -49,7 +49,7 @@ public class InvestigationServiceImpl implements InvestigationService {
 
     private final InvestigationRepository investigationsRepository;
 
-    private final AssetService assetService;
+    private final AssetServiceImpl assetService;
 
 
     @Override

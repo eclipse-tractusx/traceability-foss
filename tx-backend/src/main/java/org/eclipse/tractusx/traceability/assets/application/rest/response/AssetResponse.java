@@ -63,12 +63,14 @@ public class AssetResponse {
     private String van;
     @ApiModelProperty(example = "BATCH")
     private SemanticDataModelResponse semanticDataModel;
-
+    @ApiModelProperty(example = "component")
+    private String classification;
 
     public static AssetResponse from(final Asset asset) {
         return AssetResponse.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
+                .classification(asset.getClassification())
                 .semanticModelId(asset.getSemanticModelId())
                 .manufacturerId(asset.getManufacturerId())
                 .manufacturerName(asset.getManufacturerName())

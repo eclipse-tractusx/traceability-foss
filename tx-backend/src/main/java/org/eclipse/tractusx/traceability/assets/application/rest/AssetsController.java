@@ -36,8 +36,8 @@ import org.eclipse.tractusx.traceability.assets.application.rest.request.GetDeta
 import org.eclipse.tractusx.traceability.assets.application.rest.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.rest.request.UpdateAssetRequest;
 import org.eclipse.tractusx.traceability.assets.application.rest.response.AssetResponse;
+import org.eclipse.tractusx.traceability.assets.application.rest.service.AssetService;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.service.AssetService;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.springframework.security.access.prepost.PreAuthorize;

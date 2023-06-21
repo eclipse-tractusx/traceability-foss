@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.model.AssetAsBuiltEntity
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
@@ -35,7 +35,7 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
     }
 
     void defaultAssetsStored() {
-        assetRepository().saveAll(assetsConverter().readAndConvertAssetsForTests())
+        assetAsBuiltRepository().saveAll(assetsConverter().readAndConvertAssetsForTests())
     }
 
     void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
@@ -57,12 +57,16 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
         }.each { jpaInvestigationRepository().save(it) }
     }
 
-    void assertAssetsSize(int size) {
-        assert assetRepository().countAssets() == size
+    void assertAssetAsBuiltSize(int size) {
+        assert assetAsBuiltRepository().countAssets() == size
+    }
+
+    void assertAssetAsPlannedSize(int size) {
+        assert assetAsPlannedRepository().countAssets() == size
     }
 
     void assertHasRequiredIdentifiers() {
-        assetRepository().getAssets().each { asset ->
+        assetAsBuiltRepository().getAssets().each { asset ->
             assert asset.manufacturerId != "--"
             assert asset.semanticModelId != "--"
             assert asset.idShort != null
@@ -70,10 +74,10 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
     }
 
     void assertHasChildCount(String assetId, int count) {
-        assetRepository().getAssetById(assetId).childRelations.size() == count
+        assetAsBuiltRepository().getAssetById(assetId).childRelations.size() == count
     }
 
     void assertNoAssetsStored() {
-        assertAssetsSize(0)
+        assertAssetAsBuiltSize(0)
     }
 }

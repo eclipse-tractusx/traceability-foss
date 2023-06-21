@@ -21,10 +21,13 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository
 
 interface AssetRepositoryProvider {
-    AssetRepository assetRepository()
+    AssetAsBuiltRepository assetAsBuiltRepository()
+
+    AssetAsPlannedRepository assetAsPlannedRepository()
 
     AssetTestData assetsConverter()
 }
