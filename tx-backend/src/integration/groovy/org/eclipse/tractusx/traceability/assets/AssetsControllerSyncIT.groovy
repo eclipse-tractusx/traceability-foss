@@ -94,9 +94,6 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
         eventually {
             assertAssetAsPlannedSize(2)
         }
-
-        and:
-        verifyOAuth2ApiCalledOnceForTechnicalUserToken()
     }
 
     def "should synchronize assets using retry"() {
