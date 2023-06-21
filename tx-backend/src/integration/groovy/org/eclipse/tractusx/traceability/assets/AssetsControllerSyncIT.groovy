@@ -199,14 +199,7 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         and:
         verifyOAuth2ApiCalledOnceForTechnicalUserToken()
-        verifyIrsApiTriggerJobCalledOnce()
+        verifyIrsApiTriggerJobCalledTimes(3)
     }
-
-
-
-
-
-
-
 
 }

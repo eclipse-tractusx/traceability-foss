@@ -167,7 +167,7 @@ public class AssetServiceImpl implements AssetService {
                 assetsAsBuilt.pageSize() + assetsAsBuilt.pageSize(),
                 (long) mergedContent.size());
     }
-
+    // TODO once asPlanned has own domain object this special pageable logic should be removed
     private Pageable halfPageable(Pageable pageable) {
         if (pageable != null) {
             int pageSize = pageable.getPageSize();

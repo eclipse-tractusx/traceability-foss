@@ -48,6 +48,7 @@ trait DatabaseSupport implements DatabaseProvider {
             "bpn_edc_mappings"
     ]
 
+    /* This will be called after each test method has been executed. */
 	void clearAllTables() {
 		TABLES.each {
 			JdbcTestUtils.deleteFromTables(jdbcTemplate(), it)

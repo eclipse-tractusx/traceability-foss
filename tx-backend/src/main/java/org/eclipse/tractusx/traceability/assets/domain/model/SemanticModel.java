@@ -24,7 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetAsPlannedEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
 import java.time.Instant;
@@ -39,7 +39,7 @@ public class SemanticModel {
     private String nameAtManufacturer;
     private String nameAtCustomer;
 
-    public static SemanticModel from(AssetAsPlannedEntity assetAsPlannedEntity) {
+    public static SemanticModel from(AssetBaseEntity assetAsPlannedEntity) {
         return SemanticModel.builder()
                 .customerPartId(assetAsPlannedEntity.getCustomerPartId())
                 .manufacturerPartId(assetAsPlannedEntity.getManufacturerPartId())
