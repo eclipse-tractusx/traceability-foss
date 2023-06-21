@@ -66,7 +66,7 @@ class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSu
                 .get("/api/assets")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(12))
+                .body("totalItems", equalTo(14))
     }
 
     // Deprecated please remove once controller has been removed
@@ -98,7 +98,7 @@ class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSu
                 .get("/api/assets",)
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(13))
+                .body("totalItems", equalTo(15))
                 .body("content[0]", hasEntry("id", "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"))
                 .body("content[0]", hasEntry("idShort", "vehicle_hybrid.asm"))
                 .body("content[0]", hasEntry("semanticModelId", "OMA-TGFAYUHXFLHHUQQMPLTE"))
@@ -136,7 +136,7 @@ class AssetsControllerAllIT extends IntegrationSpecification implements IrsApiSu
         ownerValue || totalItemsValue
         "OWN"      || 1
         "CUSTOMER" || 0
-        "SUPPLIER" || 12
+        "SUPPLIER" || 14
         "UNKNOWN"  || 0
     }
 

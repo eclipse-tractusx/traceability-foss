@@ -46,7 +46,7 @@ class DashboardControllerIT extends IntegrationSpecification implements AssetsSu
                 .get("/api/dashboard")
                 .then()
                 .statusCode(200)
-                .body("myItems", equalTo(3))
+                .body("myItems", equalTo(1))
                 .body("otherParts", equalTo(25))
 
 		where:
