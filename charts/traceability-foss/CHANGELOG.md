@@ -7,5 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Added bpn value to dev, test, int and beta environments for irs-version 5.3.0
+- Added int-a and int-b environment values for int cluster
 ### Changed
 - Migrated from irs-helm from 5.0.9 to 5.3.0
