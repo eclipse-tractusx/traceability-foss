@@ -19,6 +19,8 @@
 
 package org.eclipse.tractusx.traceability.test.tooling.rest.response;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 public enum QualityNotificationSeverityResponse {
     MINOR("MINOR"),
     MAJOR("MAJOR"),
@@ -31,5 +33,8 @@ public enum QualityNotificationSeverityResponse {
         this.realName = realName;
     }
 
-
+    @JsonValue
+    String getRealName() {
+        return realName;
+    }
 }

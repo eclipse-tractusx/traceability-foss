@@ -19,8 +19,15 @@
 
 package org.eclipse.tractusx.traceability.test.tooling.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.config.ObjectMapperConfig;
+import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
 import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import org.eclipse.tractusx.traceability.test.tooling.EnvVariablesResolver;
@@ -29,9 +36,15 @@ import org.eclipse.tractusx.traceability.test.tooling.rest.request.StartQualityN
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 
+import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.List;
 
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static com.fasterxml.jackson.databind.DeserializationFeature.READ_ENUMS_USING_TO_STRING;
+import static com.fasterxml.jackson.databind.DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE;
+import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_B;
@@ -44,6 +57,22 @@ public class RestProvider {
     public RestProvider() {
         host = null;
         authentication = new Authentication();
+
+        RestAssured.config = RestAssuredConfig.config().objectMapperConfig(new ObjectMapperConfig().jackson2ObjectMapperFactory(
+                new Jackson2ObjectMapperFactory() {
+                    @Override
+                    public ObjectMapper create(Type type, String s) {
+                        return new ObjectMapper()
+                                .registerModule(new JavaTimeModule())
+                                .registerModule(new Jdk8Module())
+                                .enable(READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
+                                .enable(READ_ENUMS_USING_TO_STRING)
+                                .disable(FAIL_ON_IGNORED_PROPERTIES)
+                                .disable(FAIL_ON_UNKNOWN_PROPERTIES)
+                                .disable(WRITE_DATES_AS_TIMESTAMPS);
+                    }
+                }
+        ));
     }
 
     public void loginToEnvironment(TraceXEnvironmentEnum environment) {
@@ -67,8 +96,10 @@ public class RestProvider {
                 .severity(severity)
                 .build();
 
-        return given().spec(getRequestSpecification())
+        return given().log().body()
+                .spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
+
                 .body(requestBody)
                 .when()
                 .post("/api/investigations")
@@ -76,6 +107,8 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_CREATED)
                 .extract()
                 .as(QualityNotificationIdResponse.class);
+
+
     }
 
     public void approveInvestigation(

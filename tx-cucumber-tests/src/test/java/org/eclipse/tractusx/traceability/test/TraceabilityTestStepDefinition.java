@@ -61,7 +61,7 @@ public class TraceabilityTestStepDefinition {
     @And("I create investigation")
     public void iCreateInvestigation() {
         // provide proper asset id from predefined import test data
-        final String assetId = "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01";
+        final String assetId = "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd";
         notificationDescription = "E2E cucumber test at " + Instant.now() ;
         final Instant targetDate = Instant.now().plus(1, ChronoUnit.DAYS);
         final String severity = "LIFE-THREATENING";
