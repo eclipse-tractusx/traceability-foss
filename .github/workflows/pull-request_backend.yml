@@ -100,7 +100,7 @@ jobs:
           cache: 'maven'
 
       - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
-        run: mvn -pl tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode validate site -Pdependency-check
+        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode validate site -Pdependency-check
 
       - name: Dependency analysis report
         run: cat target/dependency-check-report.html
