@@ -30,5 +30,5 @@ edc:
 
 cors:
   origins: >
-    https://traceability-portal-int-a.int.demo.catena-x.net
+    https://traceability-portal-int-a.int.demo.catena-x.net/
 
