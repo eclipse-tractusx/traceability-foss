@@ -57,7 +57,7 @@ jobs:
       - name: Check dependencies
         run: |
           cd tx-backend
-          mvn org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=../DEPENDENCIES_BACKEND -Ddash.fail=true
+          mvn -pl tx-models,tx-backend org.eclipse.dash:license-tool-plugin:license-check -Ddash.summary=../DEPENDENCIES_BACKEND -Ddash.fail=true
 
       - name: upload results
         if: always()
