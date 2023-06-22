@@ -43,4 +43,4 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: run maven spotbugs plugin
-        run: mvn -pl tx-models,tx-backend clean validate -DskipTests=true -Pspotbugs-check spotbugs:check
+        run: mvn -pl tx-models,tx-backend validate -DskipTests=true -Pspotbugs-check spotbugs:check
