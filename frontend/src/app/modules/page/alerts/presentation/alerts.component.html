@@ -20,41 +20,41 @@ SPDX-License-Identifier: Apache-2.0
 <app-approve-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [approveCall]="helperService.approve.bind(this)"
-  [translationContext]="'commonAlert'"
+  [translationContext]="TranslationContext.COMMONALERT"
 ></app-approve-notification-modal>
 <app-cancel-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [cancelCall]="helperService.cancel.bind(this)"
-  [translationContext]="'commonAlert'"
+  [translationContext]="TranslationContext.COMMONALERT"
 ></app-cancel-notification-modal>
 <app-close-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [closeCall]="helperService.close.bind(this)"
-  [translationContext]="'commonAlert'"
+  [translationContext]="TranslationContext.COMMONALERT"
 ></app-close-notification-modal>
 
 <app-acknowledge-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [acknowledgeCall]="helperService.acknowledge.bind(this)"
-  [translationContext]="'commonAlert'"
+  [translationContext]="TranslationContext.COMMONALERT"
 ></app-acknowledge-notification-modal>
 
 <app-accept-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [acceptCall]="helperService.accept.bind(this)"
-  [translationContext]="'commonAlert'"
+  [translationContext]= "TranslationContext.COMMONALERT"
 ></app-accept-notification-modal>
 
 <app-decline-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [declineCall]="helperService.decline.bind(this)"
-  [translationContext]="'commonAlert'"
+  [translationContext]="TranslationContext.COMMONALERT"
 ></app-decline-notification-modal>
 
 <app-notification
   [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"
   [receivedNotifications$]="alertsReceived$"
-  [translationContext]="'commonAlert'"
+  [translationContext]="TranslationContext.COMMONALERT"
   [receivedOptionalColumns]="['severity', 'createdBy']"
   [receivedSortableColumns]="{status: true, createdDate: true, severity: true, createdBy: true}"
   [queuedAndRequestedOptionalColumns]="['severity', 'sendTo']"
