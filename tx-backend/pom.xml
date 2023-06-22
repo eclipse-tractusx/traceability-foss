@@ -17,11 +17,11 @@
 
     <dependencies>
         <!-- tx-application modules -->
-         <dependency>
-             <groupId>org.eclipse.tractusx.traceability</groupId>
-             <artifactId>tx-models</artifactId>
-             <version>0.0.1-SNAPSHOT</version>
-         </dependency>
+        <!--    <dependency>
+                <groupId>org.eclipse.tractusx.traceability</groupId>
+                <artifactId>tx-models</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>-->
 
         <!-- managed by spring boot -->
         <dependency>
@@ -186,6 +186,7 @@
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
+            <version>${swagger-annotation.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -329,7 +330,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -511,7 +511,12 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot-maven-plugin.version}</version>
             </plugin>
-
+            <!-- Sonar Scanner-->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
+            </plugin>
         </plugins>
     </build>
 

@@ -39,6 +39,9 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tx-backend
     permissions:
       actions: read
       contents: read
@@ -71,7 +74,7 @@ jobs:
           # Prefix the list here with "+" to use these queries and those in the config file.
           # queries: ./path/to/local/query, your-org/your-repo/queries@main
           # The queries security-extended and security-and-quality are built into CodeQL.
-          config-file: .github/codeql/codeql-config.yml
+          config-file: ./.github/codeql/codeql-config.yml
           queries: +security-and-quality,security-extended
 
       - name: Cache maven packages
@@ -94,7 +97,7 @@ jobs:
       #    uses a compiled language
       - name: Build Package
         run: |
-          mvn -pl tx-models,tx-backend clean package --batch-mode -DskipTests
+          mvn clean package --batch-mode -DskipTests
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
