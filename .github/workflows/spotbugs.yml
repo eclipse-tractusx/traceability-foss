@@ -21,9 +21,6 @@ on:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: tx-backend
     permissions:
       actions: read
       contents: read
