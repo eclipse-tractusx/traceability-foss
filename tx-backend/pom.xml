@@ -17,11 +17,11 @@
 
     <dependencies>
         <!-- tx-application modules -->
-        <!--    <dependency>
-                <groupId>org.eclipse.tractusx.traceability</groupId>
-                <artifactId>tx-models</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>-->
+    <dependency>
+        <groupId>org.eclipse.tractusx.traceability</groupId>
+        <artifactId>tx-models</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </dependency>
 
         <!-- managed by spring boot -->
         <dependency>

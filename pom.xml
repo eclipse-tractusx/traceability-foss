@@ -44,6 +44,7 @@
         <maven-project-info-reports-plugin.version>3.4.4</maven-project-info-reports-plugin.version>
 
         <!-- versions for 3rd party dependecies -->
+        <eclipse-dash-ip.version>0.0.1-SNAPSHOT</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
@@ -158,15 +159,7 @@
                 <plugin>
                     <groupId>org.eclipse.dash</groupId>
                     <artifactId>license-tool-plugin</artifactId>
-                    <version>0.0.1-SNAPSHOT</version>
-                    <executions>
-                        <execution>
-                            <id>license-check</id>
-                            <goals>
-                                <goal>license-check</goal>
-                            </goals>
-                        </execution>
-                    </executions>
+                    <version>${eclipse-dash-ip.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>

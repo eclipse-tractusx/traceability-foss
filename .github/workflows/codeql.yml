@@ -39,9 +39,6 @@ jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: tx-backend
     permissions:
       actions: read
       contents: read
@@ -97,7 +94,7 @@ jobs:
       #    uses a compiled language
       - name: Build Package
         run: |
-          mvn clean package --batch-mode -DskipTests
+          mvn clean package -pl tx-models,tx-backend --batch-mode -DskipTests
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2

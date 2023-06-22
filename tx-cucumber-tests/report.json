@@ -1,1 +1,240 @@
-[{"line":2,"elements":[{"start_timestamp":"2023-05-26T08:16:52.775Z","line":6,"name":"CLONE - Test Cucumber Test Story","description":"","id":"❓trace-x-cucumber-test-story;clone---test-cucumber-test-story","type":"scenario","keyword":"Scenario","steps":[{"result":{"duration":4012100,"status":"passed"},"line":7,"name":"I have entered 1 into the calculator","match":{"arguments":[{"val":"1","offset":15}],"location":"org.eclipse.tractusx.traceability.TestStepDefinition.iHaveEnteredIntoTheCalculator(java.lang.Integer)"},"keyword":"Given "},{"result":{"status":"passed"},"line":8,"name":"I have entered 2 into the calculator","match":{"arguments":[{"val":"2","offset":15}],"location":"org.eclipse.tractusx.traceability.TestStepDefinition.iHaveEnteredIntoTheCalculator(java.lang.Integer)"},"keyword":"And "},{"result":{"duration":985400,"status":"passed"},"line":9,"name":"I press add","match":{"location":"org.eclipse.tractusx.traceability.TestStepDefinition.iPressAdd()"},"keyword":"When "},{"result":{"duration":62864600,"status":"passed"},"line":10,"name":"the result should be 3 on the screen","match":{"arguments":[{"val":"3","offset":21}],"location":"org.eclipse.tractusx.traceability.TestStepDefinition.theResultShouldBeOnTheScreen(java.lang.Integer)"},"keyword":"Then "}],"tags":[{"name":"@TRACEFOSS-1282"},{"name":"@TRACEFOSS-1283"},{"name":"@INTEGRATION_TEST"}]}],"name":"❓Trace-X Cucumber Test Story","description":"","id":"❓trace-x-cucumber-test-story","keyword":"Feature","uri":"classpath:features/1_TRACEFOSS-1282.feature","tags":[{"name":"@TRACEFOSS-1282","type":"Tag","location":{"line":1,"column":1}}]}]
+[
+  {
+    "line": 2,
+    "elements": [
+      {
+        "start_timestamp": "2023-06-22T14:41:30.218Z",
+        "before": [
+          {
+            "result": {
+              "duration": 3001800,
+              "status": "passed"
+            },
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.setup()"
+            }
+          }
+        ],
+        "line": 6,
+        "name": "CLONE - Test Cucumber Test Story",
+        "description": "",
+        "id": "❓trace-x-cucumber-test-story;clone---test-cucumber-test-story",
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 999900,
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "I have entered 1 into the calculator",
+            "match": {
+              "arguments": [
+                {
+                  "val": "1",
+                  "offset": 15
+                }
+              ],
+              "location": "org.eclipse.tractusx.traceability.test.TestStepDefinition.iHaveEnteredIntoTheCalculator(java.lang.Integer)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "I have entered 2 into the calculator",
+            "match": {
+              "arguments": [
+                {
+                  "val": "2",
+                  "offset": 15
+                }
+              ],
+              "location": "org.eclipse.tractusx.traceability.test.TestStepDefinition.iHaveEnteredIntoTheCalculator(java.lang.Integer)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "status": "passed"
+            },
+            "line": 9,
+            "name": "I press add",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TestStepDefinition.iPressAdd()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 67994300,
+              "status": "passed"
+            },
+            "line": 10,
+            "name": "the result should be 3 on the screen",
+            "match": {
+              "arguments": [
+                {
+                  "val": "3",
+                  "offset": 21
+                }
+              ],
+              "location": "org.eclipse.tractusx.traceability.test.TestStepDefinition.theResultShouldBeOnTheScreen(java.lang.Integer)"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@TRACEFOSS-1282"
+          },
+          {
+            "name": "@TRACEFOSS-1283"
+          },
+          {
+            "name": "@INTEGRATION_TEST"
+          }
+        ]
+      }
+    ],
+    "name": "❓Trace-X Cucumber Test Story",
+    "description": "",
+    "id": "❓trace-x-cucumber-test-story",
+    "keyword": "Feature",
+    "uri": "classpath:features/1_TRACEFOSS-1282.feature",
+    "tags": [
+      {
+        "name": "@TRACEFOSS-1282",
+        "type": "Tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ]
+  },
+  {
+    "line": 1,
+    "elements": [
+      {
+        "start_timestamp": "2023-06-22T14:41:30.318Z",
+        "before": [
+          {
+            "result": {
+              "status": "passed"
+            },
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.setup()"
+            }
+          }
+        ],
+        "line": 5,
+        "name": "Send Investigation Flow Cucumber Test",
+        "description": "",
+        "id": "investigation-notification;send-investigation-flow-cucumber-test",
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 3001200,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "I am logged into TRACE_X_A application",
+            "match": {
+              "arguments": [
+                {
+                  "val": "TRACE_X_A",
+                  "offset": 17
+                }
+              ],
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iAmLoggedIntoApplication(org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:53)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:240)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:60)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:109)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:70)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateInvestigation(TraceabilityTestStepDefinition.java:69)\r\n\tat ✽.I create investigation(classpath:features/1_Test-investigation.feature:7)\r\n",
+              "duration": 749742500,
+              "status": "failed"
+            },
+            "line": 7,
+            "name": "I create investigation",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateInvestigation()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 8,
+            "name": "I send investigation",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iSendInvestigation()"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 9,
+            "name": "I am logged into TRACE_X_B application",
+            "match": {
+              "arguments": [
+                {
+                  "val": "TRACE_X_B",
+                  "offset": 17
+                }
+              ],
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iAmLoggedIntoApplication(org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 10,
+            "name": "I wait for transfer",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.waiting50sec()"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 11,
+            "name": "I can see notification was received",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCanSeeNotificationWasReceived()"
+            },
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "name": "@TRACEFOSS-1516"
+          },
+          {
+            "name": "@INTEGRATION_TEST"
+          }
+        ]
+      }
+    ],
+    "name": "Investigation notification",
+    "description": "",
+    "id": "investigation-notification",
+    "keyword": "Feature",
+    "uri": "classpath:features/1_Test-investigation.feature",
+    "tags": []
+  }
+]
