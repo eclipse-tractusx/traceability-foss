@@ -33,7 +33,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always()
         with:
-          files: "tx-backend/target/failsafe-reports/TEST-*.xml"
+          files: "/tx-backend/target/failsafe-reports/TEST-*.xml"
           check_name: "Integration Test Results"
 
       - name: Publish unit test results
