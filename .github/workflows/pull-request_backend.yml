@@ -15,9 +15,6 @@ jobs:
       checks: write
       pull-requests: write
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -27,10 +24,10 @@ jobs:
           cache: 'maven'
 
       - name: Run unit tests
-        run: mvn  --batch-mode test -pl tx-models,tx-backend
+        run: mvn -pl tx-backend,tx-models -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode test
 
       - name: Run integration tests
-        run: mvn --batch-mode -PiT verify  -pl tx-models,tx-backend
+        run: mvn -pl tx-backend,tx-models --quiet --batch-mode -PiT verify
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -59,14 +56,11 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND  }}
           SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY_BACKEND }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -pl tx-backend -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-integration/jacoco.xml,target/site/jacoco-unittest/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco-integration/jacoco.xml,target/site/jacoco-unittest/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
 
   Publish-docker-image:
     needs: [ "Test-and-Sonar" ]
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: .
     permissions:
       contents: read
       packages: write
@@ -97,9 +91,6 @@ jobs:
 
   Dependency-analysis:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: tx-backend
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-java@v3
@@ -109,7 +100,7 @@ jobs:
           cache: 'maven'
 
       - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -pl tx-models,tx-backend --batch-mode validate site -Pdependency-check
+        run: mvn -pl tx-backend,tx-models -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode validate site -Pdependency-check
 
       - name: Dependency analysis report
-        run: cat tx-backend/target/dependency-check-report.html
+        run: cat target/dependency-check-report.html
