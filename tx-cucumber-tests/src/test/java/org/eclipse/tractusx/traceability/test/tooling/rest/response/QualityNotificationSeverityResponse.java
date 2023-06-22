@@ -19,6 +19,12 @@
 
 package org.eclipse.tractusx.traceability.test.tooling.rest.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import java.util.NoSuchElementException;
+import java.util.stream.Stream;
+
 public enum QualityNotificationSeverityResponse {
     MINOR("MINOR"),
     MAJOR("MAJOR"),
@@ -31,5 +37,16 @@ public enum QualityNotificationSeverityResponse {
         this.realName = realName;
     }
 
+    @JsonCreator
+    public static QualityNotificationSeverityResponse fromValue(final String value) {
+        return Stream.of(QualityNotificationSeverityResponse.values())
+                .filter(severity -> severity.getRealName().equals(value))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Unsupported QualityNotificationSeverityRequest"));
+    }
 
+    @JsonValue
+    public String getRealName() {
+        return realName;
+    }
 }
