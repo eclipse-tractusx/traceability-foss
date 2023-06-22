@@ -27,3 +27,7 @@ feign:
 
 edc:
   callback-urls: http://tracex-irs:8181/internal/endpoint-data-reference
+
+cors:
+  origins: >
+    https://traceability-portal-int-b.int.demo.catena-x.net/
