@@ -81,14 +81,14 @@
         <junit-bom.version>5.9.3</junit-bom.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.includeModules>tx-backend></sonar.includeModules>
+     <!--   <sonar.includeModules>tx-backend></sonar.includeModules>-->
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.build.directory}/site/jacoco-unittest/jacoco.xml,
-            ${project.build.directory}/site/jacoco-integration/jacoco.xml,
+            tx-backend/target/site/jacoco-unittest/jacoco.xml,
+            tx-backend/target/site/jacoco-integration/jacoco.xml,
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.jacoco.reportsPaths>
-            ${project.build.directory}/jacoco.exec,
+            tx-backend/target/jacoco.exec,
             /target/jacoco-ut.exec
         </sonar.jacoco.reportsPaths>
         <sonar.tests>
