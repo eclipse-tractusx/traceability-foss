@@ -89,7 +89,7 @@
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.jacoco.reportsPaths>
             tx-backend/target/jacoco.exec,
-            /target/jacoco-ut.exec
+            tx-backend/target/jacoco-ut.exec
         </sonar.jacoco.reportsPaths>
         <sonar.tests>
             src/test/java
