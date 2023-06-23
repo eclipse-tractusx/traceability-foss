@@ -20,11 +20,8 @@
 package org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest;
 
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMapping;
 
 public record BpnEdcMappingRequest(
         @NotNull(message = "BPN must be present")
