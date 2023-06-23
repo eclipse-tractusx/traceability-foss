@@ -37,6 +37,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
@@ -86,7 +89,7 @@ public class TraceabilityTestStepDefinition {
 
     @Given("I create quality investigation")
     public void iCreateQualityInvestigation(DataTable dataTable) {
-        final Map<String, String> input = dataTable.asMap();
+        final Map<String, String> input = normalize(dataTable.asMap());
         final String assetId = "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd";
         notificationDescription = wrapStringWithTimestamp(input.get("description"));
         final Instant targetDate = Instant.parse(input.get("targetDate"));
@@ -105,7 +108,7 @@ public class TraceabilityTestStepDefinition {
     @When("I check, if quality investigation has proper values")
     public void iCheckIfQualityInvestigationHasProperValues(DataTable dataTable) {
         final QualityNotificationResponse result = restProvider.getInvestigation(getNotificationIdBasedOnEnv());
-        InvestigationValidator.validateInvestigation(result, dataTable.asMap());
+        InvestigationValidator.validateInvestigation(result, normalize(dataTable.asMap()));
     }
 
     @When("I approve quality investigation")
@@ -147,5 +150,19 @@ public class TraceabilityTestStepDefinition {
             return notificationID_TXB;
         }
         throw new UnsupportedOperationException("First need to Log In");
+    }
+
+    private Map<String, String> normalize(Map<String, String> input) {
+        return input.entrySet().stream().map(entry -> Map.entry(normalizeString(entry.getKey()), normalizeString(entry.getValue())))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private String normalizeString(String input) {
+        Pattern r = Pattern.compile("\"(.+)\"");
+
+        Matcher m = r.matcher(input);
+        m.matches();
+
+        return m.group(1);
     }
 }
