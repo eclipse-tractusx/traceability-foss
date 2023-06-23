@@ -9,7 +9,9 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../tx-parent-spring-boot/pom.xml</relativePath>
     </parent>
-
+    <properties>
+        <sonar.skip>false</sonar.skip>
+    </properties>
     <artifactId>tx-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -17,9 +19,9 @@
 
     <dependencies>
         <!-- tx-application modules -->
-    <dependency>
-        <groupId>org.eclipse.tractusx.traceability</groupId>
-        <artifactId>tx-models</artifactId>
+        <dependency>
+            <groupId>org.eclipse.tractusx.traceability</groupId>
+            <artifactId>tx-models</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
