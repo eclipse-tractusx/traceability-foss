@@ -3,7 +3,7 @@
     "line": 2,
     "elements": [
       {
-        "start_timestamp": "2023-06-22T14:41:30.218Z",
+        "start_timestamp": "2023-06-22T15:19:42.743Z",
         "before": [
           {
             "result": {
@@ -24,7 +24,7 @@
         "steps": [
           {
             "result": {
-              "duration": 999900,
+              "duration": 1999600,
               "status": "passed"
             },
             "line": 7,
@@ -70,7 +70,7 @@
           },
           {
             "result": {
-              "duration": 67994300,
+              "duration": 57531700,
               "status": "passed"
             },
             "line": 10,
@@ -120,7 +120,7 @@
     "line": 1,
     "elements": [
       {
-        "start_timestamp": "2023-06-22T14:41:30.318Z",
+        "start_timestamp": "2023-06-22T15:19:42.830Z",
         "before": [
           {
             "result": {
@@ -140,7 +140,7 @@
         "steps": [
           {
             "result": {
-              "duration": 3001200,
+              "duration": 3002100,
               "status": "passed"
             },
             "line": 6,
@@ -159,7 +159,7 @@
           {
             "result": {
               "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:53)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:240)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:60)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:109)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:70)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateInvestigation(TraceabilityTestStepDefinition.java:69)\r\n\tat ✽.I create investigation(classpath:features/1_Test-investigation.feature:7)\r\n",
-              "duration": 749742500,
+              "duration": 693746000,
               "status": "failed"
             },
             "line": 7,

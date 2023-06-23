@@ -81,6 +81,7 @@
         <junit-bom.version>5.9.3</junit-bom.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.includeModules>tx-backend></sonar.includeModules>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.coverage.jacoco.xmlReportPaths>
             ${project.build.directory}/site/jacoco-unittest/jacoco.xml,
@@ -154,6 +155,15 @@
     </pluginRepositories>
 
     <build>
+        <plugins>
+
+            <!-- Sonar Scanner-->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
+            </plugin>
+        </plugins>
         <pluginManagement>
             <plugins>
                 <plugin>
