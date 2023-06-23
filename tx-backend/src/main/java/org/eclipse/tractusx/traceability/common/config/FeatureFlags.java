@@ -22,7 +22,14 @@ package org.eclipse.tractusx.traceability.common.config;
 
 public class FeatureFlags {
 
-    public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " + ApplicationProfiles.TESTS + " | " + ApplicationProfiles.DEV + " | " + ApplicationProfiles.INT + " | " + ApplicationProfiles.E2E_A + " | " + ApplicationProfiles.E2E_B;
+    public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " +
+            ApplicationProfiles.TESTS + " | " +
+            ApplicationProfiles.DEV + " | " +
+            ApplicationProfiles.INT + " | " +
+            ApplicationProfiles.E2E_A + " | " +
+            ApplicationProfiles.E2E_B + " | " +
+            ApplicationProfiles.INT_A + " | " +
+            ApplicationProfiles.INT_B;
 
     private FeatureFlags() {
     }

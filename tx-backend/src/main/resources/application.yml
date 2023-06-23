@@ -105,9 +105,7 @@ cors:
     https://traceability-portal-test.int.demo.catena-x.net/,
     https://traceability-portal.pre-prod.demo.catena-x.net/,
     https://traceability-portal-e2e-a.dev.demo.catena-x.net/,
-    https://traceability-portal-e2e-b.dev.demo.catena-x.net/,
-    https://traceability-portal-int-a.int.demo.catena-x.net/,
-    https://traceability-portal-int-b.int.demo.catena-x.net/
+    https://traceability-portal-e2e-b.dev.demo.catena-x.net/
 
 resilience4j:
   retry:
