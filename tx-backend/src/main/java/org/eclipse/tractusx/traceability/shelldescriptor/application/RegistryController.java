@@ -41,14 +41,14 @@ public class RegistryController {
 	private final RegistryFacade registryFacade;
 
 	@Operation(operationId = "reload",
-		summary = "Triggers reload of shell descriptors",
-		tags = {"Registry"},
-		description = "The endpoint Triggers reload of shell descriptors.",
-		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-	@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
-		@ApiResponse(responseCode = "401", description = "Authorization failed."),
-		@ApiResponse(responseCode = "403", description = "Forbidden.")})
-	@GetMapping("/reload")
+            summary = "Triggers reload of shell descriptors",
+            tags = {"Registry"},
+            description = "The endpoint Triggers reload of shell descriptors.",
+            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
+    @ApiResponses(value = {@ApiResponse(responseCode = "202", description = "Created registry reload job."),
+            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+    @GetMapping("/reload")
 	public void reload() {
 		registryFacade.updateShellDescriptorAndSynchronizeAssets();
 	}
