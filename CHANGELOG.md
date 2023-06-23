@@ -13,6 +13,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated testdata to reflect asPlanned assets
 - Added asPlanned lifecycle to the asset domain
 - Added Semantic Data Model 'PartAsPlanned'
+- Upgraded cypress-io/github-action from 5.8.0 to 5.8.3
+- Upgraded jruby from 9.3.9.0 to 9.4.3.0
+- Upgraded aquasecurity/trivy-action from 0.10.0 to 0.11.2
+- Upgraded maven-project-info-reports-plugin from 3.4.3 to 3.4.5
 
 ### Changed
 - Updated spring boot to 3.0.7 to fix: CVE-2023-20883
