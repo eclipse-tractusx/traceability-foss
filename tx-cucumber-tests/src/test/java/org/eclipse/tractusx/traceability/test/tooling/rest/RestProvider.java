@@ -179,8 +179,6 @@ public class RestProvider {
     private RequestSpecification getRequestSpecification() {
         final String accessToken = authentication.obtainAccessToken();
 
-        System.out.println(" token is empty = " + accessToken.isEmpty());
-
         final RequestSpecBuilder builder = new RequestSpecBuilder();
         builder.addHeader("Authorization", "Bearer " + accessToken);
         builder.setBaseUri(host);

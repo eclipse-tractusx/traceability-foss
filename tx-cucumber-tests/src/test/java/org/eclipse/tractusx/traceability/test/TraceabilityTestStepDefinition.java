@@ -22,7 +22,6 @@ package org.eclipse.tractusx.traceability.test;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.ParameterType;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +32,6 @@ import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotif
 import org.eclipse.tractusx.traceability.test.validator.InvestigationValidator;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -67,24 +65,6 @@ public class TraceabilityTestStepDefinition {
     @Given("I am logged into {TraceXEnvironmentEnum} application")
     public void iAmLoggedIntoApplication(TraceXEnvironmentEnum environment) {
         restProvider.loginToEnvironment(environment);
-    }
-
-    @And("I create investigation")
-    public void iCreateInvestigation() {
-        final String assetId = "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd";
-        notificationDescription = "E2E cucumber test at " + Instant.now();
-        final Instant targetDate = Instant.now().plus(1, ChronoUnit.DAYS);
-        final String severity = "LIFE-THREATENING";
-
-        final QualityNotificationIdResponse idResponse = restProvider.createInvestigation(
-                List.of(assetId),
-                notificationDescription,
-                targetDate,
-                severity
-        );
-        notificationID_TXA = idResponse.id();
-
-        assertThat(idResponse.id()).isNotNull();
     }
 
     @Given("I create quality investigation")
