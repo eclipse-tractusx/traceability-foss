@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.assets.application.rest.response;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -38,6 +39,7 @@ public class AssetResponse {
     @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
     private String id;
     @ApiModelProperty(example = "--")
+    @Size(max = 255)
     private String idShort;
     @ApiModelProperty(example = "--")
     private String semanticModelId;
