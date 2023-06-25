@@ -205,8 +205,7 @@ public class InvestigationsController {
     @ApiResponses(value = {
             @ApiResponse(
                     responseCode = "204",
-                    description = "No content.",
-                    content = @Content()),
+                    description = "No content."),
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
