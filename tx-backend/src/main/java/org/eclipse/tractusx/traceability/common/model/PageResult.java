@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.support.PagedListHolder;
@@ -33,9 +34,13 @@ import java.util.function.Function;
 public record PageResult<T>(
         @ArraySchema(arraySchema = @Schema(description = "Content of PageResults"), minItems = 0, maxItems = Integer.MAX_VALUE)
 	List<T> content,
+        @ApiModelProperty(example = "1")
         Integer page,
+        @ApiModelProperty(example = "15")
         Integer pageCount,
+        @ApiModelProperty(example = "10")
         Integer pageSize,
+        @ApiModelProperty(example = "2")
         Long totalItems
 ) {
 

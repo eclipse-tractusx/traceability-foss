@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
+import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -179,7 +180,7 @@ public class AlertController {
     @PostMapping("/{alertId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void closeAlert(
-            @PathVariable Long alertId,
+            @PathVariable @ApiParam Long alertId,
             @Valid @RequestBody CloseQualityNotificationRequest closeAlertRequest) {
         log.info(API_LOG_START + "/{}/close with params {}", alertId, closeAlertRequest);
         alertService.update(alertId, QualityNotificationStatusRequest.toDomain(QualityNotificationStatusRequest.CLOSED), closeAlertRequest.getReason());
