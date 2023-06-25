@@ -40,6 +40,7 @@ import org.eclipse.tractusx.traceability.assets.application.rest.service.AssetSe
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -69,7 +70,12 @@ public class AssetsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(responseCode = "400", description = "Bad request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/sync")
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
         assetService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
@@ -92,7 +98,12 @@ public class AssetsController {
                     minItems = 0)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
-            @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
     public PageResult<AssetResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner) {
         return AssetResponse.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
@@ -105,7 +116,12 @@ public class AssetsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found"),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/countries")
     public Map<String, Long> assetsCountryMap() {
         return assetService.getAssetsCountryMap();
@@ -120,7 +136,12 @@ public class AssetsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",
             content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
     public AssetResponse asset(@PathVariable String assetId) {
         return AssetResponse.from(assetService.getAssetById(assetId));
@@ -135,7 +156,12 @@ public class AssetsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the asset by childId",
             content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
     public AssetResponse asset(@PathVariable String assetId, @PathVariable String childId) {
         return AssetResponse.from(assetService.getAssetByChildId(assetId, childId));
@@ -149,7 +175,12 @@ public class AssetsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the updated asset",
             content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping("/{assetId}")
     public AssetResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
         return AssetResponse.from(
@@ -174,7 +205,12 @@ public class AssetsController {
                     minItems = 0)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
-            @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/detail-information")
     public List<AssetResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
         return AssetResponse.from(

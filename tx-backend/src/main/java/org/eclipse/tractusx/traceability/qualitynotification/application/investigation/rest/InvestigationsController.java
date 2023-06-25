@@ -80,7 +80,12 @@ public class InvestigationsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
@@ -100,7 +105,12 @@ public class InvestigationsController {
     )),
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
-            @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/created")
     public PageResult<InvestigationResponse> getCreatedInvestigations(OwnPageable pageable) {
         log.info(API_LOG_START + "/created");
@@ -117,7 +127,12 @@ public class InvestigationsController {
             array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
-            @ApiResponse(responseCode = "403", description = "Forbidden.", content = @Content())})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/received")
     public PageResult<InvestigationResponse> getReceivedInvestigations(OwnPageable pageable) {
         log.info(API_LOG_START + "/received");
@@ -131,7 +146,12 @@ public class InvestigationsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{investigationId}")
     public InvestigationResponse getInvestigation(@PathVariable Long investigationId) {
         log.info(API_LOG_START + "/{}", investigationId);
@@ -145,7 +165,12 @@ public class InvestigationsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{investigationId}/approve")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void approveInvestigation(@PathVariable Long investigationId) {
@@ -160,7 +185,12 @@ public class InvestigationsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/{investigationId}/cancel")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void cancelInvestigation(@PathVariable Long investigationId) {
@@ -176,7 +206,12 @@ public class InvestigationsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @PostMapping("/{investigationId}/close")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -193,9 +228,11 @@ public class InvestigationsController {
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
             @ApiResponse(responseCode = "400", description = "Bad Request."),
             @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403",
+            @ApiResponse(
+                    responseCode = "403",
                     description = "Forbidden.",
-                    content = @Content(mediaType = "application/json",
+                    content = @Content(
+                            mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @PostMapping("/{investigationId}/update")
