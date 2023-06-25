@@ -32,6 +32,7 @@ import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundEx
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
+import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
@@ -219,7 +220,7 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         log.error("AuthenticationException exception", exception);
-        ErrorHandlingConfig.ErrorResponse errorResponse = new ErrorHandlingConfig.ErrorResponse(exception.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
@@ -232,8 +233,5 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(exception.getMessage()));
-    }
-
-    public record ErrorResponse(String message) {
     }
 }

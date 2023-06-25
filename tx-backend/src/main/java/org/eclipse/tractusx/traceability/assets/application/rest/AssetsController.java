@@ -112,7 +112,7 @@ public class AssetsController {
     }
 
 
-    @Operation(operationId = "asset",
+    @Operation(operationId = "assetById",
             summary = "Get asset by id",
             tags = {"Assets"},
             description = "The endpoint returns an asset filtered by id .",
@@ -127,7 +127,7 @@ public class AssetsController {
     }
 
 
-    @Operation(operationId = "asset",
+    @Operation(operationId = "assetByChildId",
             summary = "Get asset by child id",
             tags = {"Assets"},
             description = "The endpoint returns an asset filtered by child id.",

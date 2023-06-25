@@ -17,23 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest;
+package org.eclipse.tractusx.traceability.common.response;
 
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
-public record BpnEdcMappingRequest(
-        @NotNull(message = "BPN must be present")
-        @NotEmpty(message = "BPN must be present")
-        @ApiModelProperty(example = "BPNL00000003CSGV")
-        @Size(max = 255)
-        String bpn,
-        @ValidUrlParameter
-        @NotNull(message = "A valid URL must be present")
-        @NotEmpty(message = "A valid URL must be present")
-        @Size(max = 255)
-        String url
+public record ErrorResponse(
+        @ApiModelProperty(example = "Access Denied")
+        String message
 ) {
 }
