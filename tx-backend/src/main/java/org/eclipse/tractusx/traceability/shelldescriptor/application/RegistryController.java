@@ -41,15 +41,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RegistryController {
 
-	private final RegistryFacade registryFacade;
+    private final RegistryFacade registryFacade;
 
-	@Operation(operationId = "reload",
+    @Operation(operationId = "reload",
             summary = "Triggers reload of shell descriptors",
             tags = {"Registry"},
             description = "The endpoint Triggers reload of shell descriptors.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "202", description = "Created registry reload job."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -57,7 +60,7 @@ public class RegistryController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/reload")
-	public void reload() {
-		registryFacade.updateShellDescriptorAndSynchronizeAssets();
-	}
+    public void reload() {
+        registryFacade.updateShellDescriptorAndSynchronizeAssets();
+    }
 }

@@ -60,7 +60,10 @@ public class EdcNotificationContractController {
 		description = "The endpoint Triggers EDC notification contract based on notification type and method",
 		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
 	@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
-			@ApiResponse(responseCode = "401", description = "Authorization failed."),
+			@ApiResponse(
+					responseCode = "401",
+					description = "Authorization failed.",
+					content = @Content()),
 			@ApiResponse(
 					responseCode = "403",
 					description = "Forbidden.",

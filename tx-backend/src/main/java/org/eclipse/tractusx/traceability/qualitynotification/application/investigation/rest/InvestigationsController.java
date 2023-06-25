@@ -79,7 +79,10 @@ public class InvestigationsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(responseCode = "400", description = "Bad Request."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -104,7 +107,10 @@ public class InvestigationsController {
             array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(responseCode = "400", description = "Bad Request."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -126,7 +132,10 @@ public class InvestigationsController {
             mediaType = "application/json",
             array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
-            @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -145,7 +154,10 @@ public class InvestigationsController {
             description = "The endpoint returns investigations as paged result by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -163,8 +175,15 @@ public class InvestigationsController {
             tags = {"Investigations"},
             description = "The endpoint approves investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No content.",
+                    content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -183,8 +202,15 @@ public class InvestigationsController {
             tags = {"Investigations"},
             description = "The endpoint cancles investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No content.",
+                    content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -203,9 +229,16 @@ public class InvestigationsController {
             tags = {"Investigations"},
             description = "The endpoint closes investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No content.",
+                    content = @Content()),
             @ApiResponse(responseCode = "400", description = "Bad Request."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -225,9 +258,16 @@ public class InvestigationsController {
             tags = {"Investigations"},
             description = "The endpoint updates investigations by their id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No content."),
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "No content.",
+                    content = @Content()),
             @ApiResponse(responseCode = "400", description = "Bad Request."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",

@@ -59,7 +59,10 @@ public class RegistryLookupMetricsController {
             mediaType = "application/json",
             array = @ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     )),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",

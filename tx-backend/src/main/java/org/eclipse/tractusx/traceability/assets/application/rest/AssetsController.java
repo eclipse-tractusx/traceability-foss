@@ -69,7 +69,10 @@ public class AssetsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(responseCode = "400", description = "Bad request."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -97,7 +100,10 @@ public class AssetsController {
                     maxItems = Integer.MAX_VALUE,
                     minItems = 0)
     )),
-            @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -115,7 +121,10 @@ public class AssetsController {
             description = "The endpoint returns a map for assets consumed by the map.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found"),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -135,7 +144,10 @@ public class AssetsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",
             content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -155,7 +167,10 @@ public class AssetsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the asset by childId",
             content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -174,7 +189,10 @@ public class AssetsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the updated asset",
             content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -204,7 +222,10 @@ public class AssetsController {
                     maxItems = Integer.MAX_VALUE,
                     minItems = 0)
     )),
-            @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",

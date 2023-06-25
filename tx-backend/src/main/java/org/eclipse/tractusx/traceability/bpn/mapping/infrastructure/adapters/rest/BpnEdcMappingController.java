@@ -71,7 +71,10 @@ public class BpnEdcMappingController {
             mediaType = "application/json",
             array = @ArraySchema(arraySchema = @Schema(description = "BPN Mappings", implementation = BpnEdcMapping.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
-            @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -92,7 +95,10 @@ public class BpnEdcMappingController {
             mediaType = "application/json",
             array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMapping.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
-            @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -111,10 +117,15 @@ public class BpnEdcMappingController {
             tags = {"BpnEdcMapping"},
             description = "The endpoint updates BPN EDC URL mappings",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for BpnEdcMapping", content = @Content(
-            mediaType = "application/json",
-            array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMapping.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
-    )), @ApiResponse(responseCode = "401", description = "Authorization failed.", content = @Content()),
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Returns the paged result found for BpnEdcMapping", content = @Content(
+                    mediaType = "application/json",
+                    array = @ArraySchema(arraySchema = @Schema(description = "BpnEdcMapping", implementation = BpnEdcMapping.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
+            )),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -133,8 +144,14 @@ public class BpnEdcMappingController {
             tags = {"BpnEdcMapping"},
             description = "The endpoint deletes BPN EDC URL mappings",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "Deleted."),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
+    @ApiResponses(value = {@ApiResponse(
+            responseCode = "204",
+            description = "Deleted.",
+            content = @Content()),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
