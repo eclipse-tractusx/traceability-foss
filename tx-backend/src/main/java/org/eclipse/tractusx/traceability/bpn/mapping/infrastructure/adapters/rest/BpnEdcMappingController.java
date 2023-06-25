@@ -106,7 +106,6 @@ public class BpnEdcMappingController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public List<BpnEdcMapping> createBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnEdcMappingRequest> bpnEdcMappings) {
         log.info("BpnEdcController [createBpnEdcUrlMappings]");
         return service.saveAllBpnEdcMappings(bpnEdcMappings);
@@ -133,7 +132,6 @@ public class BpnEdcMappingController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PutMapping("")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     public List<BpnEdcMapping> updateBpnEdcUrlMapping(@RequestBody @Valid @Size(max = 1000) List<BpnEdcMappingRequest> bpnEdcMappings) {
         log.info("BpnEdcController [createBpnEdcUrlMappings]");
         return service.updateAllBpnEdcMappings(bpnEdcMappings);
@@ -144,10 +142,11 @@ public class BpnEdcMappingController {
             tags = {"BpnEdcMapping"},
             description = "The endpoint deletes BPN EDC URL mappings",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(
-            responseCode = "204",
-            description = "Deleted.",
-            content = @Content()),
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Deleted.",
+                    content = @Content()),
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
