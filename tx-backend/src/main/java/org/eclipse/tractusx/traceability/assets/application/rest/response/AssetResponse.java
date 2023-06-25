@@ -37,15 +37,19 @@ import java.util.List;
 @ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
 public class AssetResponse {
     @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
+    @Size(max = 255)
     private String id;
     @ApiModelProperty(example = "--")
     @Size(max = 255)
     private String idShort;
     @ApiModelProperty(example = "--")
+    @Size(max = 255)
     private String semanticModelId;
     @ApiModelProperty(example = "BPNL00000003CSGV")
+    @Size(max = 255)
     private String manufacturerId;
     @ApiModelProperty(example = "Tier C")
+    @Size(max = 255)
     private String manufacturerName;
     private SemanticModelResponse semanticModel;
     @ApiModelProperty(example = "CUSTOMER")
@@ -62,10 +66,12 @@ public class AssetResponse {
     @ApiModelProperty(example = "Ok")
     private QualityTypeResponse qualityType;
     @ApiModelProperty(example = "--")
+    @Size(max = 255)
     private String van;
     @ApiModelProperty(example = "BATCH")
     private SemanticDataModelResponse semanticDataModel;
     @ApiModelProperty(example = "component")
+    @Size(max = 255)
     private String classification;
 
     public static AssetResponse from(final Asset asset) {
