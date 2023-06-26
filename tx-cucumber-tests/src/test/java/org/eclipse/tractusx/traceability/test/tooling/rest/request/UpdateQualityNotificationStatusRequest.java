@@ -17,24 +17,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+package org.eclipse.tractusx.traceability.test.tooling.rest.request;
 
-import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
-public record DashboardResponse(
-        @ApiModelProperty(example = "5")
-        Long myItems,
-        @ApiModelProperty(example = "10")
-        Long otherParts,
-        @ApiModelProperty(example = "15")
-        Long investigations) {
+import java.util.NoSuchElementException;
+import java.util.stream.Stream;
 
-    public static DashboardResponse from(final Dashboard dashboard) {
-        return new DashboardResponse(
-                dashboard.myItems(),
-                dashboard.otherParts(),
-                dashboard.investigations()
-        );
+public enum UpdateQualityNotificationStatusRequest {
+    ACKNOWLEDGED,
+    ACCEPTED,
+    DECLINED;
+
+
+    @JsonCreator
+    public static UpdateQualityNotificationStatusRequest fromValue(final String value) {
+        return Stream.of(UpdateQualityNotificationStatusRequest.values())
+                .filter(updateInvestigationStatus -> updateInvestigationStatus.name().equals(value))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Unsupported UpdateInvestigationStatus"));
     }
+
+
 }

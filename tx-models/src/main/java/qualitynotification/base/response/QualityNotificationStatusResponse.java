@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 package qualitynotification.base.response;
-
+import io.swagger.annotations.ApiModel;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptySet;
 import static java.util.Set.of;
 
+@ApiModel(description = "Describes status of quality notification")
 public enum QualityNotificationStatusResponse {
     CREATED(QualityNotificationSideResponse.SENDER, emptySet()),
     SENT(QualityNotificationSideResponse.SENDER, Set.of(QualityNotificationSideResponse.SENDER)),

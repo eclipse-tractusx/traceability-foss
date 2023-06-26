@@ -21,5 +21,10 @@
 
 package qualitynotification.base.response;
 
-public record QualityNotificationIdResponse(Long id) {
+import io.swagger.annotations.ApiModelProperty;
+
+public record QualityNotificationIdResponse(
+        @ApiModelProperty(example = "1")
+        Long id
+) {
 }

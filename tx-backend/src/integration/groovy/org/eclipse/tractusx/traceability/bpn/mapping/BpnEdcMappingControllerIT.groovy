@@ -45,7 +45,7 @@ class BpnEdcMappingControllerIT extends IntegrationSpecification implements BpnR
                 .when()
                 .post("/api/bpn-config")
                 .then()
-                .statusCode(204)
+                .statusCode(200)
         then:
         given()
                 .header(jwtAuthorization(ADMIN))
@@ -71,7 +71,7 @@ class BpnEdcMappingControllerIT extends IntegrationSpecification implements BpnR
                 .when()
                 .put("/api/bpn-config")
                 .then()
-                .statusCode(204)
+                .statusCode(200)
         then:
         given()
                 .header(jwtAuthorization(ADMIN))

@@ -17,24 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+package org.eclipse.tractusx.traceability.common.response;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
+import jakarta.validation.constraints.Size;
 
-public record DashboardResponse(
-        @ApiModelProperty(example = "5")
-        Long myItems,
-        @ApiModelProperty(example = "10")
-        Long otherParts,
-        @ApiModelProperty(example = "15")
-        Long investigations) {
-
-    public static DashboardResponse from(final Dashboard dashboard) {
-        return new DashboardResponse(
-                dashboard.myItems(),
-                dashboard.otherParts(),
-                dashboard.investigations()
-        );
-    }
+public record ErrorResponse(
+        @ApiModelProperty(example = "Access Denied")
+        @Size(max = 1000)
+        String message
+) {
 }

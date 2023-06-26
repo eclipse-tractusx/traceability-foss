@@ -330,7 +330,6 @@ class NotificationPublisherServiceTest {
 
         // Given
         BPN bpn = BPN.of("recipientBPN");
-        Long investigationIdRaw = 1L;
         QualityNotificationStatus status = QualityNotificationStatus.CREATED;
         String reason = "the update reason";
 

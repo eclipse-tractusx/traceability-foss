@@ -28,6 +28,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
 import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
@@ -193,4 +194,6 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       )
       .subscribe();
   }
+
+  protected readonly TranslationContext = TranslationContext;
 }

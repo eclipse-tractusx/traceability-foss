@@ -52,8 +52,6 @@ public class Authentication {
         oauth2Payload.put("client_id", clientId);
         oauth2Payload.put("client_secret", clientSecret);
 
-        System.out.printf("Obtaining token from %s%n", keycloakHost);
-
         return given()
                 .params(oauth2Payload)
                 .header(new Header("Content-Type", "application/x-www-form-urlencoded"))

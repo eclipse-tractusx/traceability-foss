@@ -17,24 +17,21 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+package org.eclipse.tractusx.traceability.test.validator;
 
-import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
+import java.time.Instant;
 
-public record DashboardResponse(
-        @ApiModelProperty(example = "5")
-        Long myItems,
-        @ApiModelProperty(example = "10")
-        Long otherParts,
-        @ApiModelProperty(example = "15")
-        Long investigations) {
+public class StringUtils {
 
-    public static DashboardResponse from(final Dashboard dashboard) {
-        return new DashboardResponse(
-                dashboard.myItems(),
-                dashboard.otherParts(),
-                dashboard.investigations()
-        );
+    private static final String UNIQUE_SEPARATOR = ":-:";
+
+    public static String wrapStringWithTimestamp(String string) {
+
+        return UNIQUE_SEPARATOR + string + UNIQUE_SEPARATOR + Instant.now();
+    }
+
+    public static String unWrapStringWithTimestamp(String string) {
+        String[] array = string.split(UNIQUE_SEPARATOR);
+        return array[1];
     }
 }

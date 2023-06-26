@@ -19,10 +19,20 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 
+@ApiModel(description = "Owner Type")
 public enum OwnerResponse {
-    SUPPLIER, CUSTOMER, OWN, UNKNOWN;
+    @ApiModelProperty("Supplier")
+    SUPPLIER,
+    @ApiModelProperty("Customer")
+    CUSTOMER,
+    @ApiModelProperty("Own")
+    OWN,
+    @ApiModelProperty("Unknown")
+    UNKNOWN;
 
     public static OwnerResponse from(final Owner owner) {
         return OwnerResponse.valueOf(owner.name());

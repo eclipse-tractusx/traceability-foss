@@ -31,21 +31,27 @@ import java.util.List;
 @SuperBuilder
 public class QualityNotificationResponse {
     @ApiModelProperty(example = "66")
+    @Size(max = 255)
     private Long id;
 
     @ApiModelProperty(example = "CREATED")
+    @Size(max = 255)
     private QualityNotificationStatusResponse status;
 
     @ApiModelProperty(example = "DescriptionText")
+    @Size(max = 1000)
     private String description;
 
     @ApiModelProperty(example = "BPNL00000003AYRE")
+    @Size(max = 255)
     private String createdBy;
 
     @ApiModelProperty(example = "Tier C")
+    @Size(max = 255)
     private String createdByName;
 
     @ApiModelProperty(example = "2023-02-21T21:27:10.734950Z")
+    @Size(max = 50)
     private String createdDate;
 
     @ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]")
@@ -54,19 +60,24 @@ public class QualityNotificationResponse {
     private List<String> assetIds;
 
     @ApiModelProperty(example = "SENDER")
+    @Size(max = 255)
     private QualityNotificationSideResponse channel;
 
     private QualityNotificationReasonResponse reason;
 
     @ApiModelProperty(example = "BPNL00000003AYRE")
+    @Size(max = 255)
     private String sendTo;
 
     @ApiModelProperty(example = "Tier C")
+    @Size(max = 255)
     private String sendToName;
 
     @ApiModelProperty(example = "MINOR")
+    @Size(max = 255)
     private QualityNotificationSeverityResponse severity;
 
     @ApiModelProperty(example = "2099-02-21T21:27:10.734950Z")
+    @Size(max = 50)
     private String targetDate;
 }

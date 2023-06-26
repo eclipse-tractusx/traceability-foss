@@ -23,6 +23,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
@@ -34,7 +35,7 @@ import { Observable } from 'rxjs';
 export class CancelNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() cancelCall: (id: string) => Observable<void>;
-  @Input() translationContext: 'commonInvestigation' | 'commonAlert';
+  @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -45,7 +46,7 @@ export class CancelNotificationModalComponent {
     this.formGroup = new UntypedFormGroup({ notificationId: this.textAreaControl });
   }
 
-  public show(notification: any): void {
+  public show(notification: Notification): void {
     this.notification = notification;
     this.textAreaControl.setValidators([Validators.required, Validators.pattern(this.notification.id.toString())]);
     const onConfirm = (isConfirmed: boolean) => {
