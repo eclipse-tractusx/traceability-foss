@@ -103,7 +103,10 @@ jobs:
           cache: 'maven'
 
       - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
-        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode package -Pdependency-check
+        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode site -Pdependency-check
 
-      - name: Dependency analysis report
-        run: cat /home/runner/work/tx-traceability-foss/tx-traceability-foss/tx-backend/target/dependency-check-report.html
+      - name: Dependency analysis report Tx-Backend
+        run: cat tx-backend/target/dependency-check-report.html
+
+      - name: Dependency analysis report Tx-Models
+        run: cat tx-models/target/dependency-check-report.html

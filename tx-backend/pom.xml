@@ -493,11 +493,7 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <version>${install-plugin.version}</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>4.0.0-M5</version>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -646,29 +642,7 @@
             ATTENTION! IT TAKES A LONGER TIME TO RUN
             Command: mvn clean package site -Pdependency-check
         -->
-        <profile>
-            <id>dependency-check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>${owasp-plugin.version}</version>
-                        <configuration>
-                            <suppressionFile>config/dependency_check/suppressions.xml</suppressionFile>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>site</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
         <!--
             Profile iT, used for starting the integration tests
             Command: mvn clean verify -PiT
