@@ -19,7 +19,6 @@
 package qualitynotification.base.response;
 
 import io.swagger.annotations.ApiModel;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
 
 @ApiModel(description = "Describes the side of quality notification")
 public enum QualityNotificationSideResponse {
