@@ -16,25 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
-
-import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
-
-public record DashboardResponse(
-        @ApiModelProperty(example = "5")
-        Long myItems,
-        @ApiModelProperty(example = "10")
-        Long otherParts,
-        @ApiModelProperty(example = "15")
-        Long investigations) {
-
-    public static DashboardResponse from(final Dashboard dashboard) {
-        return new DashboardResponse(
-                dashboard.myItems(),
-                dashboard.otherParts(),
-                dashboard.investigations()
-        );
-    }
+export enum TranslationContext {
+  COMMONINVESTIGATION = "commonInvestigation",
+  COMMONALERT = "commonAlert"
 }

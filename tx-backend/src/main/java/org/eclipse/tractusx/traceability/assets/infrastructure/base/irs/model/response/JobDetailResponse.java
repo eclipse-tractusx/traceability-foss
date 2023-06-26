@@ -55,7 +55,8 @@ public record JobDetailResponse(
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
     private static final String AS_PLANNED_MAPPING_ASPECT = "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned";
-    private static final String AS_BUILT_MAPPING_ASPECT = "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization";
+    private static final String AS_BUILT_MAPPING_ASPECT_SERIALPARTTYPIZATION = "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization";
+    private static final String AS_BUILT_MAPPING_ASPECT_BATCH = "urn:bamm:io.catenax.batch:1.0.0#Batch";
 
     @JsonCreator
     static JobDetailResponse of(
@@ -214,11 +215,11 @@ public record JobDetailResponse(
     }
 
     private boolean isAsBuiltAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        return semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT);
+        return semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPARTTYPIZATION) | semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
     }
 
     private boolean isAsBuiltAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        return !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT);
+        return !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPARTTYPIZATION) | semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
     }
 
     private boolean isAsPlannedAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {

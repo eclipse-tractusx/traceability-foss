@@ -19,28 +19,37 @@
 
 package org.eclipse.tractusx.traceability.test;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.ParameterType;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
+import org.eclipse.tractusx.traceability.test.validator.InvestigationValidator;
 
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
+import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_B;
+import static org.eclipse.tractusx.traceability.test.validator.StringUtils.wrapStringWithTimestamp;
 
+@Slf4j
 public class TraceabilityTestStepDefinition {
 
     private RestProvider restProvider;
-
-    private Long notificationID = null;
+    private Long notificationID_TXA = null;
+    private Long notificationID_TXB = null;
     private String notificationDescription = null;
 
     @ParameterType("TRACE_X_A|TRACE_X_B")
@@ -58,13 +67,13 @@ public class TraceabilityTestStepDefinition {
         restProvider.loginToEnvironment(environment);
     }
 
-    @And("I create investigation")
-    public void iCreateInvestigation() {
-        // provide proper asset id from predefined import test data
-        final String assetId = "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01";
-        notificationDescription = "E2E cucumber test at " + Instant.now() ;
-        final Instant targetDate = Instant.now().plus(1, ChronoUnit.DAYS);
-        final String severity = "LIFE-THREATENING";
+    @Given("I create quality investigation")
+    public void iCreateQualityInvestigation(DataTable dataTable) {
+        final Map<String, String> input = normalize(dataTable.asMap());
+        final String assetId = "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd";
+        notificationDescription = wrapStringWithTimestamp(input.get("description"));
+        final Instant targetDate = Instant.parse(input.get("targetDate"));
+        final String severity = input.get("severity");
 
         final QualityNotificationIdResponse idResponse = restProvider.createInvestigation(
                 List.of(assetId),
@@ -72,31 +81,68 @@ public class TraceabilityTestStepDefinition {
                 targetDate,
                 severity
         );
-        notificationID = idResponse.id();
-
-        assertThat(idResponse.id()).isNotNull();
+        notificationID_TXA = idResponse.id();
+        assertThat(dataTable).isNotNull();
     }
 
-    @When("I send investigation")
-    public void iSendInvestigation() {
-        restProvider.approveInvestigation(this.notificationID);
+    @When("I check, if quality investigation has proper values")
+    public void iCheckIfQualityInvestigationHasProperValues(DataTable dataTable) {
+        final QualityNotificationResponse result = restProvider.getInvestigation(getNotificationIdBasedOnEnv());
+        InvestigationValidator.validateInvestigation(result, normalize(dataTable.asMap()));
     }
 
-    @When("I can see notification was received")
+    @When("I approve quality investigation")
+    public void iApproveQualityInvestigation() {
+        restProvider.approveInvestigation(getNotificationIdBasedOnEnv());
+        waiting1Min();
+    }
+
+    @When("I check, if quality investigation has been received")
     public void iCanSeeNotificationWasReceived() {
         final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
         final QualityNotificationResponse notification = result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().get();
+        notificationID_TXB = notification.getId();
+
         assertThat(notification).isNotNull();
     }
 
-    @When("I wait for transfer")
-    public void waiting50sec() {
+    @When("I acknowledge quality investigation")
+    public void iAcknowledgeQualityInvestigation() {
+        restProvider.acknowledgeInvestigation(getNotificationIdBasedOnEnv());
+        waiting1Min();
+    }
+
+    public void waiting1Min() {
         try {
-            System.out.println("Waiting for 50 sec..");
+            System.out.println("Waiting for 1 Minute for transfer to complete");
             Thread.sleep(50_000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
 
         }
+    }
+
+    private Long getNotificationIdBasedOnEnv() {
+        if (restProvider.getCurrentEnv().equals(TRACE_X_A)) {
+            return notificationID_TXA;
+        }
+        if (restProvider.getCurrentEnv().equals(TRACE_X_B)) {
+            return notificationID_TXB;
+        }
+        throw new UnsupportedOperationException("First need to Log In");
+    }
+
+    private Map<String, String> normalize(Map<String, String> input) {
+        return input.entrySet().stream().map(entry -> Map.entry(normalizeString(entry.getKey()), normalizeString(entry.getValue())))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    private String normalizeString(String input) {
+        Pattern r = Pattern.compile("\"(.+)\"");
+
+        Matcher m = r.matcher(input);
+        m.matches();
+
+        return m.group(1);
     }
 }

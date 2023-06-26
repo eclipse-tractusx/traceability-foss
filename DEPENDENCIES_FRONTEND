@@ -222,7 +222,7 @@ npm/npmjs/-/d3-zoom/3.0.0, ISC, approved, clearlydefined
 npm/npmjs/-/d3/7.8.4, ISC, approved, clearlydefined
 npm/npmjs/-/dashdash/1.14.1, MIT, approved, clearlydefined
 npm/npmjs/-/date-format/4.0.14, MIT, approved, clearlydefined
-npm/npmjs/-/dayjs/1.11.7, MIT, approved, clearlydefined
+npm/npmjs/-/dayjs/1.11.7, MIT, approved, #9149
 npm/npmjs/-/debug/2.6.9, MIT, approved, clearlydefined
 npm/npmjs/-/debug/3.2.7, MIT, approved, clearlydefined
 npm/npmjs/-/debug/4.3.4, MIT, approved, clearlydefined

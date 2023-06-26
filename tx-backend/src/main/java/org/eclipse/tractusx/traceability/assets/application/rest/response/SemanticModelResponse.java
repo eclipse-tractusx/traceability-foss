@@ -20,6 +20,7 @@ package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
@@ -33,14 +34,19 @@ public class SemanticModelResponse {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Instant manufacturingDate;
     @ApiModelProperty(example = "DEU")
+    @Size(max = 255)
     private String manufacturingCountry;
     @ApiModelProperty(example = "33740332-54")
+    @Size(max = 255)
     private String manufacturerPartId;
     @ApiModelProperty(example = "33740332-54")
+    @Size(max = 255)
     private String customerPartId;
     @ApiModelProperty(example = "Door f-r")
+    @Size(max = 255)
     private String nameAtManufacturer;
     @ApiModelProperty(example = "Door front-right")
+    @Size(max = 255)
     private String nameAtCustomer;
 
     public static SemanticModelResponse from(final SemanticModel semanticModel) {

@@ -22,9 +22,16 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.response;
 
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Size;
 
 public record QualityNotificationReasonResponse(
-        @ApiModelProperty(example = "description of closing reason") String close,
-        @ApiModelProperty(example = "description of accepting reason") String accept,
-        @ApiModelProperty(example = "description of declining reason") String decline) {
+        @ApiModelProperty(example = "description of closing reason")
+        @Size(max = 1000)
+        String close,
+        @ApiModelProperty(example = "description of accepting reason")
+        @Size(max = 1000)
+        String accept,
+        @ApiModelProperty(example = "description of declining reason")
+        @Size(max = 1000)
+        String decline) {
 }

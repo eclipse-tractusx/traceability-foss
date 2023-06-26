@@ -20,11 +20,16 @@
 package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Size;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 
 public record DescriptionsResponse(
-        @ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0") String id,
-        @ApiModelProperty(example = "null") String idShort) {
+        @ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0")
+        @Size(max = 255)
+        String id,
+        @ApiModelProperty(example = "null")
+        @Size(max = 255)
+        String idShort) {
 
     public static DescriptionsResponse from(final Descriptions descriptions) {
         return new DescriptionsResponse(
