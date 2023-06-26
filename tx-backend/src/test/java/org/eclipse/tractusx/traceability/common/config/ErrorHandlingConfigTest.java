@@ -27,6 +27,7 @@ import jakarta.validation.ValidationException;
 import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
+import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
@@ -198,7 +199,7 @@ class ErrorHandlingConfigTest {
         final ServletOutputStream os = mock(ServletOutputStream.class);
         when(response.getOutputStream()).thenReturn(os);
         final String expectedOsOutput = objectMapper.writeValueAsString(
-                new ErrorHandlingConfig.ErrorResponse("msg")
+                new ErrorResponse("msg")
         );
 
         // when

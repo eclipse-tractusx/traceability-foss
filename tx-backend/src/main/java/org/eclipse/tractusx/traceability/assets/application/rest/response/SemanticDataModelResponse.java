@@ -18,10 +18,20 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
 
+@ApiModel(description = "Type of model")
 public enum SemanticDataModelResponse {
-    BATCH, SERIALPARTTYPIZATION, UNKNOWN, PARTASPLANNED;
+    @ApiModelProperty("Batch")
+    BATCH,
+    @ApiModelProperty("SerialPartTypization")
+    SERIALPARTTYPIZATION,
+    @ApiModelProperty("Unknown")
+    UNKNOWN,
+    @ApiModelProperty("PartAsPlanned")
+    PARTASPLANNED;
 
     public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
         if (semanticDataModel == null) {
