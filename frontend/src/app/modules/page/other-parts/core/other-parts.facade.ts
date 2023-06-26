@@ -75,7 +75,6 @@ export class OtherPartsFacade {
       const activeInvestigation = parts.some(currentPart => currentPart.id === part.id);
       return { ...part, activeInvestigation };
     });
-    console.log(data);
 
     this.otherPartsState.supplierParts = { data };
   }
