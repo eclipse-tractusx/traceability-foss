@@ -133,7 +133,7 @@ maven/mavencentral/org.springframework/spring-aspects/6.0.9, Apache-2.0, approve
 maven/mavencentral/org.springframework/spring-beans/6.0.9, Apache-2.0, approved, #5937
 maven/mavencentral/org.springframework/spring-context/6.0.9, Apache-2.0, approved, #5936
 maven/mavencentral/org.springframework/spring-core/6.0.8, Apache-2.0 AND BSD-3-Clause, approved, #5948
-maven/mavencentral/org.springframework/spring-expression/6.0.7, Apache-2.0, approved, #3284
+maven/mavencentral/org.springframework/spring-expression/6.0.8, Apache-2.0, approved, #3284
 maven/mavencentral/org.springframework/spring-jcl/6.0.9, Apache-2.0, approved, #3283
 maven/mavencentral/org.springframework/spring-jdbc/6.0.9, Apache-2.0, approved, #5924
 maven/mavencentral/org.springframework/spring-orm/6.0.9, Apache-2.0, approved, #5925
