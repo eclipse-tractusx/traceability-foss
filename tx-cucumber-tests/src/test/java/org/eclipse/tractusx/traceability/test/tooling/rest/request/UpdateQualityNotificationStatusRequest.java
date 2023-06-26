@@ -17,36 +17,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.test.tooling.rest.response;
+package org.eclipse.tractusx.traceability.test.tooling.rest.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Stream;
 
-public enum QualityNotificationSeverityResponse {
-    MINOR("MINOR"),
-    MAJOR("MAJOR"),
-    CRITICAL("CRITICAL"),
-    LIFE_THREATENING("LIFE-THREATENING");
+public enum UpdateQualityNotificationStatusRequest {
+    ACKNOWLEDGED,
+    ACCEPTED,
+    DECLINED;
 
-    private final String realName;
-
-    QualityNotificationSeverityResponse(String realName) {
-        this.realName = realName;
-    }
 
     @JsonCreator
-    public static QualityNotificationSeverityResponse fromValue(final String value) {
-        return Stream.of(QualityNotificationSeverityResponse.values())
-                .filter(severity -> severity.getRealName().equals(value))
+    public static UpdateQualityNotificationStatusRequest fromValue(final String value) {
+        return Stream.of(UpdateQualityNotificationStatusRequest.values())
+                .filter(updateInvestigationStatus -> updateInvestigationStatus.name().equals(value))
                 .findFirst()
-                .orElseThrow(() -> new NoSuchElementException("Unsupported QualityNotificationSeverityRequest"));
+                .orElseThrow(() -> new NoSuchElementException("Unsupported UpdateInvestigationStatus"));
     }
 
-    @JsonValue
-    public String getRealName() {
-        return realName;
-    }
+
 }
