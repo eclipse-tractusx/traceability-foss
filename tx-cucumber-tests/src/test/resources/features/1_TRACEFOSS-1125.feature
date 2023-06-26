@@ -37,24 +37,21 @@ Feature: ⭐[BE] User select severity for Quality Investigation
   Scenario Outline: [BE] Check correct processing of severity in quality investigation
     When I am logged into TRACE_X_A application
     And I create quality investigation
-      | "severity"    | <severity>                    |
-      | "description" | "Hello"                       |
-      | "targetDate"  | "2099-03-11T22:44:06.333827Z" |
+      | "severity"    | <severity>                        |
+      | "description" | "Testing severity TRACEFOSS-1220" |
     Then I check, if quality investigation has proper values
-      | "severity"    | <severity>                    |
-      | "description" | "Hello"                       |
-      | "targetDate"  | "2099-03-11T22:44:06.333827Z" |
-      | "status"      | "CREATED"                     |
+      | "severity"    | <severity>                        |
+      | "description" | "Testing severity TRACEFOSS-1220" |
+      | "status"      | "CREATED"                         |
     When I approve quality investigation
     Then I check, if quality investigation has proper values
       | "status" | "SENT" |
     When I am logged into TRACE_X_B application
     Then I check, if quality investigation has been received
     Then I check, if quality investigation has proper values
-      | "severity"    | <severity>                    |
-      | "description" | "Hello"                       |
-      | "targetDate"  | "2099-03-11T22:44:06.333827Z" |
-      | "status"      | "RECEIVED"                    |
+      | "severity"    | <severity>                        |
+      | "description" | "Testing severity TRACEFOSS-1220" |
+      | "status"      | "RECEIVED"                        |
     When I acknowledge quality investigation
     Then I check, if quality investigation has proper values
       | "status" | "ACKNOWLEDGED" |
