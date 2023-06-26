@@ -380,13 +380,7 @@
                 <configuration>
                     <testSources>
                         <testSource>
-                            <directory>src/test/java</directory>
-                            <includes>
-                                <include>**/*.java</include>
-                            </includes>
-                        </testSource>
-                        <testSource>
-                            <directory>src/integration</directory>
+                            <directory>tx-backend/src/integration</directory>
                             <includes>
                                 <include>**/*.groovy</include>
                             </includes>
@@ -396,8 +390,14 @@
                 <executions>
                     <execution>
                         <goals>
+                            <goal>addSources</goal>
+                            <goal>addTestSources</goal>
+                            <goal>generateStubs</goal>
                             <goal>compile</goal>
+                            <goal>generateTestStubs</goal>
                             <goal>compileTests</goal>
+                            <goal>removeStubs</goal>
+                            <goal>removeTestStubs</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -693,31 +693,6 @@
                 </testResources>
                 <plugins>
                     <plugin>
-                        <groupId>org.codehaus.gmavenplus</groupId>
-                        <artifactId>gmavenplus-plugin</artifactId>
-                        <version>${gmavenplus-plugin.version}</version> <!-- 2.1.0 -->
-                        <configuration>
-                            <verbose>false</verbose>
-                            <debug>false</debug>
-                            <testSources>
-                                <testSource>
-                                    <directory>src/integration</directory>
-                                    <includes>
-                                        <include>**/*.groovy</include>
-                                    </includes>
-                                </testSource>
-                            </testSources>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>addTestSources</goal>
-                                    <goal>compileTests</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
@@ -749,6 +724,7 @@
                         <version>3.0.0-M8</version>
                         <executions>
                             <execution>
+                                <phase>verify</phase>
                                 <goals>
                                     <goal>integration-test</goal>
                                     <goal>verify</goal>
