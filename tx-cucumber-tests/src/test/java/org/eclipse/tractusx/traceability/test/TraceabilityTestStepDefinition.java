@@ -71,8 +71,11 @@ public class TraceabilityTestStepDefinition {
     public void iCreateQualityInvestigation(DataTable dataTable) {
         final Map<String, String> input = normalize(dataTable.asMap());
         final String assetId = "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd";
+
         notificationDescription = wrapStringWithTimestamp(input.get("description"));
-        final Instant targetDate = Instant.parse(input.get("targetDate"));
+
+        final Instant targetDate = input.get("targetDate") == null ? null : Instant.parse(input.get("targetDate"));
+
         final String severity = input.get("severity");
 
         final QualityNotificationIdResponse idResponse = restProvider.createInvestigation(
