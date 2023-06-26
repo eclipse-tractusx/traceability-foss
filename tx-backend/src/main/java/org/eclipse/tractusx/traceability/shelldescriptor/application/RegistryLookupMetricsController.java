@@ -33,6 +33,7 @@ import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.metrics.RegistryLookupMetric;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -58,8 +59,16 @@ public class RegistryLookupMetricsController {
             mediaType = "application/json",
             array = @ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     )),
-            @ApiResponse(responseCode = "401", description = "Authorization failed."),
-            @ApiResponse(responseCode = "403", description = "Forbidden.")})
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content()),
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/registry-lookup")
     public @Size(max = 1000)
     @ArraySchema(arraySchema = @Schema(description = "RegistryLookupMetric", implementation = RegistryLookupMetric.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
