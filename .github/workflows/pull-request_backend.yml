@@ -23,11 +23,8 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Run unit tests
-        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode test
-
-      - name: Run integration tests
-        run: mvn -pl tx-models,tx-backend -DskipUTs=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --quiet --batch-mode -PiT verify
+      - name: Run unit & integration tests
+        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode verify -PiT
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2
