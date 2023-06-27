@@ -11,6 +11,8 @@
     </parent>
     <properties>
         <sonar.skip>false</sonar.skip>
+        <skipTests>false</skipTests>
+        <skipUTs>${skipTests}</skipUTs>
     </properties>
     <artifactId>tx-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -22,8 +24,8 @@
         <dependency>
             <groupId>org.eclipse.tractusx.traceability</groupId>
             <artifactId>tx-models</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </dependency>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- managed by spring boot -->
         <dependency>
@@ -447,6 +449,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
                 <configuration>
+                    <skipTests>${skipUTs}</skipTests>
                     <includes>
                         <include>**/*Spec.java</include>
                         <include>**/Test*.java</include>
@@ -528,7 +531,7 @@
     <!-- Maven Profiles -->
     <profiles>
 
-    <profile>
+        <profile>
             <id>license-check</id>
             <build>
                 <plugins>
@@ -649,10 +652,6 @@
         -->
         <profile>
             <id>iT</id>
-            <properties>
-                <skip.integration.tests>false</skip.integration.tests>
-                <skip.unit.tests>true</skip.unit.tests>
-            </properties>
             <build>
                 <resources>
                     <resource>
@@ -666,20 +665,8 @@
                     </testResource>
                 </testResources>
                 <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>**/*Spec.java</include>
-                                <include>**/Test*.java</include>
-                                <include>**/*Test.java</include>
-                                <include>**/*Tests.java</include>
-                                <include>**/*TestCase.java</include>
-                            </includes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
+
+                <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-report-plugin</artifactId>
                         <executions>
@@ -701,7 +688,6 @@
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>integration-test</goal>
-                                    <goal>verify</goal>
                                 </goals>
                             </execution>
                         </executions>
