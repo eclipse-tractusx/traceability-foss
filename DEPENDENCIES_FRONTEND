@@ -1513,7 +1513,7 @@ npm/npmjs/@types/retry/0.12.0, MIT, approved, clearlydefined
 npm/npmjs/@types/semver/7.3.13, MIT, approved, #4668
 npm/npmjs/@types/send/0.17.1, MIT, approved, clearlydefined
 npm/npmjs/@types/serve-index/1.9.1, MIT, approved, clearlydefined
-npm/npmjs/@types/serve-static/1.15.1, MIT, approved, clearlydefined
+npm/npmjs/@types/serve-static/1.15.1, MIT, approved, #9188
 npm/npmjs/@types/set-cookie-parser/2.4.2, MIT, approved, clearlydefined
 npm/npmjs/@types/sinonjs__fake-timers/8.1.1, MIT, approved, clearlydefined
 npm/npmjs/@types/sizzle/2.3.3, MIT, approved, clearlydefined
