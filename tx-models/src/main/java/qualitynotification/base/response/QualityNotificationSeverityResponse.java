@@ -16,12 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.qualitynotification.application.response;
+package qualitynotification.base.response;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 
 @ApiModel(description = "Describes the criticality of a notification")
 public enum QualityNotificationSeverityResponse {
@@ -43,11 +42,7 @@ public enum QualityNotificationSeverityResponse {
                 return s;
             }
         }
-        throw new IllegalArgumentException("No enum constant " + QualityNotificationSeverity.class.getCanonicalName() + "." + str);
-    }
-
-    public static QualityNotificationSeverityResponse from(QualityNotificationSeverity qualityNotificationSeverity) {
-        return QualityNotificationSeverityResponse.fromString(qualityNotificationSeverity.getRealName());
+        throw new IllegalArgumentException("No enum constant " + QualityNotificationSeverityResponse.class.getCanonicalName() + "." + str);
     }
 
     @JsonValue

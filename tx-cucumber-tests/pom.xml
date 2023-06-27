@@ -15,7 +15,9 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <name>TX Cucumber</name>
-
+    <properties>
+        <sonar.skip>true</sonar.skip>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>

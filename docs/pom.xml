@@ -15,7 +15,9 @@
 
     <name>TX Documentation</name>
     <description>Trace-X system documentation</description>
-
+   <properties>
+       <sonar.skip>true</sonar.skip>
+   </properties>
     <build>
         <defaultGoal>generate-resources</defaultGoal>
         <plugins>
