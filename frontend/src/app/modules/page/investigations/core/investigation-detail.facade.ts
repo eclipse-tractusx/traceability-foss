@@ -21,6 +21,8 @@
 
 import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
 import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
 import { Notification } from '@shared/model/notification.model';
@@ -39,6 +41,7 @@ export class InvestigationDetailFacade {
     private readonly partsService: PartsService,
     private readonly investigationDetailState: InvestigationDetailState,
     private readonly titleCasePipe: TitleCasePipe,
+    private readonly router: Router,
   ) {
   }
 
@@ -121,6 +124,10 @@ export class InvestigationDetailFacade {
     this.investigationDetailState.supplierPartsInformation = { data: [ ...sortedData ] };
   }
 
+  public navigateBackToInvestigations(pageIndex: number): void {
+    const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
+    this.router.navigate([`/${link}`]).then();
+  }
   public unsubscribeSubscriptions(): void {
     this.notificationPartsInformationDescription?.unsubscribe();
     this.supplierPartsSubscription?.unsubscribe();

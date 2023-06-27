@@ -47,7 +47,8 @@
     "save": "Speicher",
     "remove": "Entfernen",
     "delete": "Löschen",
-    "goToQueue": "Zur Warteschlange"
+    "goToQueue": "Zur Warteschlange",
+    "goBack": "Zurück"
   },
   "table": {
     "noResultFound": "KEINE ERGEBNISSE GEFUNDEN.",

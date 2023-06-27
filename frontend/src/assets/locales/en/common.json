@@ -47,7 +47,8 @@
     "save": "Save",
     "remove": "Remove",
     "delete": "Delete",
-    "goToQueue": "Go to Queue"
+    "goToQueue": "Go to Queue",
+    "goBack": "Back"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",

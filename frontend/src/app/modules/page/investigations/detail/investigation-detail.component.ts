@@ -78,8 +78,8 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   constructor(
     public readonly helperService: InvestigationHelperService,
+    public readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly staticIdService: StaticIdService,
-    private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly route: ActivatedRoute,
     private readonly ctaSnackbarService: CtaSnackbarService,
