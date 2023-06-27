@@ -215,11 +215,16 @@ public record JobDetailResponse(
     }
 
     private boolean isAsBuiltAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        return semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPARTTYPIZATION) | semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
+        return semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) &&
+                (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPARTTYPIZATION)
+                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
     }
 
     private boolean isAsBuiltAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        return !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPARTTYPIZATION) | semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
+        return !semanticDataModel.getCatenaXId()
+                .equals(jobStatus.globalAssetId()) &&
+                (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPARTTYPIZATION)
+                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
     }
 
     private boolean isAsPlannedAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {

@@ -76,6 +76,7 @@ maven/mavencentral/org.attoparser/attoparser/2.0.6.RELEASE, Apache-2.0, approved
 maven/mavencentral/org.bouncycastle/bcpkix-jdk15on/1.69, MIT, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcprov-jdk15on/1.69, MIT, approved, clearlydefined
 maven/mavencentral/org.bouncycastle/bcutil-jdk15on/1.69, MIT, approved, clearlydefined
+maven/mavencentral/org.eclipse.tractusx.traceability/tx-models/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.flywaydb/flyway-core/9.5.1, Apache-2.0, approved, #7296
 maven/mavencentral/org.hibernate.orm/hibernate-core/6.1.7.Final, LGPL-2.1-or-later AND (Apache-2.0 AND LGPL-2.1-only) AND (CC-PDDC AND LGPL-2.1-only) AND (EPL-2.0 OR BSD-3-Clause), approved, #5939
 maven/mavencentral/org.hibernate.validator/hibernate-validator/8.0.0.Final, Apache-2.0, approved, clearlydefined
@@ -134,6 +135,7 @@ maven/mavencentral/org.springframework/spring-beans/6.0.9, Apache-2.0, approved,
 maven/mavencentral/org.springframework/spring-context/6.0.9, Apache-2.0, approved, #5936
 maven/mavencentral/org.springframework/spring-core/6.0.8, Apache-2.0 AND BSD-3-Clause, approved, #5948
 maven/mavencentral/org.springframework/spring-expression/6.0.8, Apache-2.0, approved, #3284
+maven/mavencentral/org.springframework/spring-expression/6.0.9, Apache-2.0, approved, #3284
 maven/mavencentral/org.springframework/spring-jcl/6.0.9, Apache-2.0, approved, #3283
 maven/mavencentral/org.springframework/spring-jdbc/6.0.9, Apache-2.0, approved, #5924
 maven/mavencentral/org.springframework/spring-orm/6.0.9, Apache-2.0, approved, #5925
