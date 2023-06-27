@@ -102,6 +102,9 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: install tx-models
+        run: mvn install -pl tx-models
+
       - name: Dependency rules report # possible severity values: <'fail'|'warn'|'ignore'>
         run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode site -Pdependency-check
 
