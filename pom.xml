@@ -92,7 +92,7 @@
             tx-backend/target/jacoco-ut.exec
         </sonar.jacoco.reportsPaths>
         <sonar.tests>
-            src/test/java, src/integration/groovy
+            src/test/java,src/integration/groovy
         </sonar.tests>
         <sonar.organization>eclipse-tractusx</sonar.organization>
         <sonar.projectKey>eclipse-tractusx_traceability-foss-backend</sonar.projectKey>
