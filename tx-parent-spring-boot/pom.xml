@@ -7,7 +7,9 @@
         <artifactId>tx-root</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-
+    <properties>
+        <sonar.skip>true</sonar.skip>
+    </properties>
     <artifactId>tx-parent-spring-boot</artifactId>
     <name>TX Spring Boot Parent</name>
     <version>0.0.1-SNAPSHOT</version>

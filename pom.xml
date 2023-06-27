@@ -36,14 +36,15 @@
         <install-plugin.version>3.0.1</install-plugin.version>
         <jacoco-plugin.version>0.8.8</jacoco-plugin.version>
         <jar-plugin.version>3.3.0</jar-plugin.version>
-        <owasp-plugin.version>8.1.0</owasp-plugin.version>
+        <owasp-plugin.version>8.3.1</owasp-plugin.version>
         <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
-        <surefire-plugin.version>3.1.0</surefire-plugin.version>
+        <surefire-plugin.version>3.1.2</surefire-plugin.version>
         <apache-groovy.version>4.0.11</apache-groovy.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
 
         <!-- versions for 3rd party dependecies -->
+        <eclipse-dash-ip.version>0.0.1-SNAPSHOT</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
         <ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
@@ -80,17 +81,18 @@
         <junit-bom.version>5.9.3</junit-bom.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+     <!--   <sonar.includeModules>tx-backend></sonar.includeModules>-->
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.coverage.jacoco.xmlReportPaths>
             tx-backend/target/site/jacoco-unittest/jacoco.xml,
             tx-backend/target/site/jacoco-integration/jacoco.xml,
         </sonar.coverage.jacoco.xmlReportPaths>
         <sonar.jacoco.reportsPaths>
-            ${project.build.directory}/jacoco.exec,
-            /target/jacoco-ut.exec
+            tx-backend/target/jacoco.exec,
+            tx-backend/target/jacoco-ut.exec
         </sonar.jacoco.reportsPaths>
         <sonar.tests>
-            src/test/java
+            src/test/java,src/integration/groovy
         </sonar.tests>
         <sonar.organization>eclipse-tractusx</sonar.organization>
         <sonar.projectKey>eclipse-tractusx_traceability-foss-backend</sonar.projectKey>
@@ -153,21 +155,26 @@
     </pluginRepositories>
 
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>4.0.0-M5</version>
+            </plugin>
+            <!-- Sonar Scanner-->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.9.1.2184</version>
+            </plugin>
+        </plugins>
         <pluginManagement>
             <plugins>
-            <plugin>
-                <groupId>org.eclipse.dash</groupId>
-                <artifactId>license-tool-plugin</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-                <executions>
-                    <execution>
-                        <id>license-check</id>
-                        <goals>
-                            <goal>license-check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+                <plugin>
+                    <groupId>org.eclipse.dash</groupId>
+                    <artifactId>license-tool-plugin</artifactId>
+                    <version>${eclipse-dash-ip.version}</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -186,5 +193,64 @@
             </plugins>
         </pluginManagement>
     </build>
+    <profiles>
+        <profile>
+            <id>dependency-check</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>${owasp-plugin.version}</version>
+                        <configuration>
+                            <suppressionFile>dependency_check/suppressions.xml</suppressionFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>site</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>spotbugs-check</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs-plugin.version}</version>
+                        <configuration>
+                            <effort>Max</effort>
+                            <threshold>Low</threshold>
+                            <xmlOutput>true</xmlOutput>
+                            <failThreshold>High</failThreshold>
+                            <excludeFilterFile>ci/spotbugs-excludes.xml</excludeFilterFile>
+                            <plugins>
+                                <plugin>
+                                    <groupId>com.h3xstream.findsecbugs</groupId>
+                                    <artifactId>findsecbugs-plugin</artifactId>
+                                    <version>${findsecbugs-plugin.version}</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

@@ -35,13 +35,12 @@ import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper.AlertResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.response.AlertResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -53,6 +52,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import qualitynotification.alert.response.AlertResponse;
+import qualitynotification.base.response.QualityNotificationIdResponse;
 
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
 
@@ -121,7 +122,7 @@ public class AlertController {
     @GetMapping("/created")
     public PageResult<AlertResponse> getCreatedAlerts(OwnPageable pageable) {
         log.info(API_LOG_START + "/created");
-        return AlertResponse.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable)));
+        return AlertResponseMapper.fromAsPageResult(alertService.getCreated(OwnPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getReceivedAlerts",
@@ -146,7 +147,7 @@ public class AlertController {
     @GetMapping("/received")
     public PageResult<AlertResponse> getReceivedAlerts(OwnPageable pageable) {
         log.info(API_LOG_START + "/received");
-        return AlertResponse.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable)));
+        return AlertResponseMapper.fromAsPageResult(alertService.getReceived(OwnPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getAlert",
@@ -168,7 +169,7 @@ public class AlertController {
     @GetMapping("/{alertId}")
     public AlertResponse getAlert(@PathVariable Long alertId) {
         log.info(API_LOG_START + "/{}", alertId);
-        return AlertResponse.from(alertService.find(alertId));
+        return AlertResponseMapper.from(alertService.find(alertId));
     }
 
     @Operation(operationId = "approveAlert",
