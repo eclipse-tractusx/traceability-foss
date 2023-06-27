@@ -27,7 +27,7 @@ jobs:
         run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode test
 
       - name: Run integration tests
-        run: mvn -pl tx-models,tx-backend -DskipTests -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --quiet --batch-mode -PiT verify
+        run: mvn -pl tx-models,tx-backend -DskipUTs=true -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --quiet --batch-mode -PiT verify
 
       - name: Publish integration test results
         uses: EnricoMi/publish-unit-test-result-action@v2
