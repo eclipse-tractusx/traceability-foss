@@ -15,17 +15,17 @@
     <artifactId>tx-coverage</artifactId>
     <name>Trace-X Test Coverage Report</name>
     <description>Aggregated report of unit and integration tests</description>
-    <version>${internal-module.version}</version>
+    <version>0.0.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tx-models</artifactId>
-            <version>${internal-module.version}</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tx-backend</artifactId>
-            <version>${internal-module.version}</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>

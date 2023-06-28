@@ -20,7 +20,6 @@
     </modules>
 
     <properties>
-        <internal-module.version>0.0.1-SNAPSHOT</internal-module.version>
         <springboot.version>3.0.7</springboot.version>
         <spring-core.version>6.0.8</spring-core.version>
         <java.version>17</java.version>

@@ -15,7 +15,7 @@
         <skipUTs>${skipTests}</skipUTs>
     </properties>
     <artifactId>tx-backend</artifactId>
-    <version>${internal-module.version}</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <name>TX Backend</name>
 
