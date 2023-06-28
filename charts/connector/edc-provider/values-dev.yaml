@@ -36,6 +36,7 @@ tractusx-connector:
           enabled: true
           secretName: tls-secret
 
+## currently we need to provide a url but is not used anywhere
   backendService:
     httpProxyTokenReceiverUrl: "https://tracex-submodel-server.dev.demo.catena-x.net/data/endpoint-data-reference-provider1"
 
@@ -43,7 +44,7 @@ tractusx-connector:
     secretNames:
       transferProxyTokenSignerPrivateKey: token-signer-cert-key-dev
       transferProxyTokenSignerPublicKey: token-signer-cert-dev
-      transferProxyTokenEncryptionAesKey: REPLACE_ME
+      transferProxyTokenEncryptionAesKey: token-signer-aes-key
       dapsPrivateKey: daps-cert-edc-dev-provider-private
       dapsPublicKey: daps-cert-edc-dev-provider-public
 
