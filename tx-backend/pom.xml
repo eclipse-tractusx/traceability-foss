@@ -258,12 +258,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-    <!--    <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.2</version>
-            <scope>test</scope>
-        </dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
@@ -560,33 +554,7 @@
                 </plugins>
             </build>
         </profile>
-        <!--
-            Profile dependency-check, used to scan software to identify the use of known vulnerable components.
-            See: https://jeremylong.github.io/DependencyCheck/index.html
-            ATTENTION! IT TAKES A LONGER TIME TO RUN
-            Command: mvn clean package site -Pdependency-check
-        -->
 
-        <!--
-            Profile iT, used for starting the integration tests
-            Command: mvn clean verify -PiT
-        -->
-        <profile>
-            <id>iT</id>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/integration/resources</directory>
-                        <targetPath>${project.build.outputDirectory}</targetPath>
-                    </resource>
-                </resources>
-                <testResources>
-                    <testResource>
-                        <directory>src/integration/resources</directory>
-                    </testResource>
-                </testResources>
-            </build>
-        </profile>
     </profiles>
 
 </project>
