@@ -33,7 +33,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Run unit & integration tests
-        run: mvn -pl tx-models,tx-backend -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode verify -PiT
+        run: mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B verify -PiT
 
       - name: Verify Sonar Scan
         env:
@@ -41,4 +41,4 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_BACKEND }}
           SONAR_ORGANIZATION: ${{ vars.SONAR_ORGANIZATION }}
           SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY_BACKEND }}
-        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/tx-traceability-foss/tx-traceability-foss/tx-backend/target/site/jacoco-integration/jacoco.xml,/home/runner/work/tx-traceability-foss/tx-traceability-foss/tx-backend/target/site/jacoco-unittest/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}
+        run: mvn -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode sonar:sonar -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/tx-traceability-foss/tx-traceability-foss/tx-coverage/target/site/jacoco-aggregate/jacoco.xml -Dsonar.projectKey=${{ vars.SONAR_PROJECT_KEY_BACKEND }} -Dsonar.organization=${{ vars.SONAR_ORGANIZATION }}

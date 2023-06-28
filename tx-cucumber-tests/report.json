@@ -3,11 +3,11 @@
     "line": 2,
     "elements": [
       {
-        "start_timestamp": "2023-06-26T11:26:48.873Z",
+        "start_timestamp": "2023-06-28T07:33:39.865Z",
         "before": [
           {
             "result": {
-              "duration": 394641300,
+              "duration": 755347900,
               "status": "passed"
             },
             "match": {
@@ -15,7 +15,7 @@
             }
           }
         ],
-        "line": 67,
+        "line": 64,
         "name": "[BE] Check correct processing of severity in quality investigation",
         "description": "",
         "id": "⭐[be]-user-select-severity-for-quality-investigation;[be]-check-correct-processing-of-severity-in-quality-investigation;;2",
@@ -24,7 +24,7 @@
         "steps": [
           {
             "result": {
-              "duration": 1998700,
+              "duration": 2001900,
               "status": "passed"
             },
             "line": 38,
@@ -42,8 +42,8 @@
           },
           {
             "result": {
-              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:53)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:240)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:577)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:577)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:78)\r\n\tat ✽.I create quality investigation(classpath:features/1_TRACEFOSS-1125.feature:39)\r\n",
-              "duration": 374502000,
+              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallConstructor(CallSiteArray.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:263)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:53)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:240)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:49)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:81)\r\n\tat ✽.I create quality investigation(classpath:features/1_TRACEFOSS-1125.feature:39)\r\n",
+              "duration": 556975400,
               "status": "failed"
             },
             "line": 39,
@@ -61,13 +61,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               }
             ],
@@ -77,7 +71,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 43,
+            "line": 42,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -92,13 +86,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               },
               {
@@ -114,7 +102,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 48,
+            "line": 46,
             "name": "I approve quality investigation",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iApproveQualityInvestigation()"
@@ -125,7 +113,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 49,
+            "line": 47,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -144,7 +132,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 51,
+            "line": 49,
             "name": "I am logged into TRACE_X_B application",
             "match": {
               "arguments": [
@@ -161,7 +149,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 52,
+            "line": 50,
             "name": "I check, if quality investigation has been received",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCanSeeNotificationWasReceived()"
@@ -172,7 +160,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 53,
+            "line": 51,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -187,13 +175,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               },
               {
@@ -209,7 +191,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 58,
+            "line": 55,
             "name": "I acknowledge quality investigation",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iAcknowledgeQualityInvestigation()"
@@ -220,7 +202,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 59,
+            "line": 56,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -239,7 +221,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 61,
+            "line": 58,
             "name": "I am logged into TRACE_X_A application",
             "match": {
               "arguments": [
@@ -256,7 +238,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 62,
+            "line": 59,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -297,11 +279,11 @@
         ]
       },
       {
-        "start_timestamp": "2023-06-26T11:26:49.674Z",
+        "start_timestamp": "2023-06-28T07:33:41.250Z",
         "before": [
           {
             "result": {
-              "duration": 997500,
+              "duration": 1105400,
               "status": "passed"
             },
             "match": {
@@ -309,7 +291,7 @@
             }
           }
         ],
-        "line": 68,
+        "line": 65,
         "name": "[BE] Check correct processing of severity in quality investigation",
         "description": "",
         "id": "⭐[be]-user-select-severity-for-quality-investigation;[be]-check-correct-processing-of-severity-in-quality-investigation;;3",
@@ -318,6 +300,7 @@
         "steps": [
           {
             "result": {
+              "duration": 550400,
               "status": "passed"
             },
             "line": 38,
@@ -335,8 +318,8 @@
           },
           {
             "result": {
-              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:577)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:577)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:78)\r\n\tat ✽.I create quality investigation(classpath:features/1_TRACEFOSS-1125.feature:39)\r\n",
-              "duration": 3997500,
+              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:81)\r\n\tat ✽.I create quality investigation(classpath:features/1_TRACEFOSS-1125.feature:39)\r\n",
+              "duration": 4993000,
               "status": "failed"
             },
             "line": 39,
@@ -354,13 +337,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               }
             ],
@@ -368,9 +345,10 @@
           },
           {
             "result": {
+              "duration": 1000500,
               "status": "skipped"
             },
-            "line": 43,
+            "line": 42,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -385,13 +363,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               },
               {
@@ -407,7 +379,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 48,
+            "line": 46,
             "name": "I approve quality investigation",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iApproveQualityInvestigation()"
@@ -418,7 +390,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 49,
+            "line": 47,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -437,7 +409,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 51,
+            "line": 49,
             "name": "I am logged into TRACE_X_B application",
             "match": {
               "arguments": [
@@ -454,7 +426,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 52,
+            "line": 50,
             "name": "I check, if quality investigation has been received",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCanSeeNotificationWasReceived()"
@@ -465,7 +437,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 53,
+            "line": 51,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -480,13 +452,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               },
               {
@@ -502,7 +468,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 58,
+            "line": 55,
             "name": "I acknowledge quality investigation",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iAcknowledgeQualityInvestigation()"
@@ -513,7 +479,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 59,
+            "line": 56,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -532,7 +498,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 61,
+            "line": 58,
             "name": "I am logged into TRACE_X_A application",
             "match": {
               "arguments": [
@@ -549,7 +515,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 62,
+            "line": 59,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -590,11 +556,10 @@
         ]
       },
       {
-        "start_timestamp": "2023-06-26T11:26:49.687Z",
+        "start_timestamp": "2023-06-28T07:33:41.266Z",
         "before": [
           {
             "result": {
-              "duration": 998600,
               "status": "passed"
             },
             "match": {
@@ -602,7 +567,7 @@
             }
           }
         ],
-        "line": 69,
+        "line": 66,
         "name": "[BE] Check correct processing of severity in quality investigation",
         "description": "",
         "id": "⭐[be]-user-select-severity-for-quality-investigation;[be]-check-correct-processing-of-severity-in-quality-investigation;;4",
@@ -611,6 +576,7 @@
         "steps": [
           {
             "result": {
+              "duration": 999100,
               "status": "passed"
             },
             "line": 38,
@@ -628,8 +594,8 @@
           },
           {
             "result": {
-              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:577)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:577)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:78)\r\n\tat ✽.I create quality investigation(classpath:features/1_TRACEFOSS-1125.feature:39)\r\n",
-              "duration": 3996900,
+              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:81)\r\n\tat ✽.I create quality investigation(classpath:features/1_TRACEFOSS-1125.feature:39)\r\n",
+              "duration": 5005900,
               "status": "failed"
             },
             "line": 39,
@@ -647,13 +613,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               }
             ],
@@ -661,10 +621,9 @@
           },
           {
             "result": {
-              "duration": 997300,
               "status": "skipped"
             },
-            "line": 43,
+            "line": 42,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -679,13 +638,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               },
               {
@@ -701,7 +654,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 48,
+            "line": 46,
             "name": "I approve quality investigation",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iApproveQualityInvestigation()"
@@ -712,7 +665,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 49,
+            "line": 47,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -731,7 +684,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 51,
+            "line": 49,
             "name": "I am logged into TRACE_X_B application",
             "match": {
               "arguments": [
@@ -748,7 +701,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 52,
+            "line": 50,
             "name": "I check, if quality investigation has been received",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCanSeeNotificationWasReceived()"
@@ -759,7 +712,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 53,
+            "line": 51,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -774,13 +727,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               },
               {
@@ -796,7 +743,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 58,
+            "line": 55,
             "name": "I acknowledge quality investigation",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iAcknowledgeQualityInvestigation()"
@@ -807,7 +754,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 59,
+            "line": 56,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -826,7 +773,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 61,
+            "line": 58,
             "name": "I am logged into TRACE_X_A application",
             "match": {
               "arguments": [
@@ -843,7 +790,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 62,
+            "line": 59,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -884,7 +831,7 @@
         ]
       },
       {
-        "start_timestamp": "2023-06-26T11:26:49.701Z",
+        "start_timestamp": "2023-06-28T07:33:41.281Z",
         "before": [
           {
             "result": {
@@ -895,7 +842,7 @@
             }
           }
         ],
-        "line": 70,
+        "line": 67,
         "name": "[BE] Check correct processing of severity in quality investigation",
         "description": "",
         "id": "⭐[be]-user-select-severity-for-quality-investigation;[be]-check-correct-processing-of-severity-in-quality-investigation;;5",
@@ -921,8 +868,8 @@
           },
           {
             "result": {
-              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:483)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:577)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:577)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:78)\r\n\tat ✽.I create quality investigation(classpath:features/1_TRACEFOSS-1125.feature:39)\r\n",
-              "duration": 3540500,
+              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:81)\r\n\tat ✽.I create quality investigation(classpath:features/1_TRACEFOSS-1125.feature:39)\r\n",
+              "duration": 4998900,
               "status": "failed"
             },
             "line": 39,
@@ -940,13 +887,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               }
             ],
@@ -954,9 +895,10 @@
           },
           {
             "result": {
+              "duration": 997200,
               "status": "skipped"
             },
-            "line": 43,
+            "line": 42,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -971,13 +913,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               },
               {
@@ -993,7 +929,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 48,
+            "line": 46,
             "name": "I approve quality investigation",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iApproveQualityInvestigation()"
@@ -1004,7 +940,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 49,
+            "line": 47,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -1023,7 +959,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 51,
+            "line": 49,
             "name": "I am logged into TRACE_X_B application",
             "match": {
               "arguments": [
@@ -1040,7 +976,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 52,
+            "line": 50,
             "name": "I check, if quality investigation has been received",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCanSeeNotificationWasReceived()"
@@ -1051,7 +987,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 53,
+            "line": 51,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -1066,13 +1002,7 @@
               {
                 "cells": [
                   "\"description\"",
-                  "\"Hello\""
-                ]
-              },
-              {
-                "cells": [
-                  "\"targetDate\"",
-                  "\"2099-03-11T22:44:06.333827Z\""
+                  "\"Testing severity TRACEFOSS-1220\""
                 ]
               },
               {
@@ -1088,7 +1018,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 58,
+            "line": 55,
             "name": "I acknowledge quality investigation",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iAcknowledgeQualityInvestigation()"
@@ -1099,7 +1029,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 59,
+            "line": 56,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -1118,7 +1048,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 61,
+            "line": 58,
             "name": "I am logged into TRACE_X_A application",
             "match": {
               "arguments": [
@@ -1135,7 +1065,7 @@
             "result": {
               "status": "skipped"
             },
-            "line": 62,
+            "line": 59,
             "name": "I check, if quality investigation has proper values",
             "match": {
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
@@ -1196,10 +1126,11 @@
     "line": 2,
     "elements": [
       {
-        "start_timestamp": "2023-06-26T11:26:49.712Z",
+        "start_timestamp": "2023-06-28T07:33:41.297Z",
         "before": [
           {
             "result": {
+              "duration": 557400,
               "status": "passed"
             },
             "match": {
@@ -1207,134 +1138,19 @@
             }
           }
         ],
-        "line": 6,
-        "name": "CLONE - Test Cucumber Test Story",
+        "line": 14,
+        "name": "[BE] Check correct processing of targetDate in quality investigation",
         "description": "",
-        "id": "❓trace-x-cucumber-test-story;clone---test-cucumber-test-story",
+        "id": "⭐[test]-[be]-set-and-show-notification-target-date;[be]-check-correct-processing-of-targetdate-in-quality-investigation",
         "type": "scenario",
         "keyword": "Scenario",
         "steps": [
           {
             "result": {
-              "duration": 1003600,
+              "duration": 35700,
               "status": "passed"
             },
-            "line": 7,
-            "name": "I have entered 1 into the calculator",
-            "match": {
-              "arguments": [
-                {
-                  "val": "1",
-                  "offset": 15
-                }
-              ],
-              "location": "org.eclipse.tractusx.traceability.test.TestStepDefinition.iHaveEnteredIntoTheCalculator(java.lang.Integer)"
-            },
-            "keyword": "Given "
-          },
-          {
-            "result": {
-              "status": "passed"
-            },
-            "line": 8,
-            "name": "I have entered 2 into the calculator",
-            "match": {
-              "arguments": [
-                {
-                  "val": "2",
-                  "offset": 15
-                }
-              ],
-              "location": "org.eclipse.tractusx.traceability.test.TestStepDefinition.iHaveEnteredIntoTheCalculator(java.lang.Integer)"
-            },
-            "keyword": "And "
-          },
-          {
-            "result": {
-              "status": "passed"
-            },
-            "line": 9,
-            "name": "I press add",
-            "match": {
-              "location": "org.eclipse.tractusx.traceability.test.TestStepDefinition.iPressAdd()"
-            },
-            "keyword": "When "
-          },
-          {
-            "result": {
-              "duration": 51102600,
-              "status": "passed"
-            },
-            "line": 10,
-            "name": "the result should be 3 on the screen",
-            "match": {
-              "arguments": [
-                {
-                  "val": "3",
-                  "offset": 21
-                }
-              ],
-              "location": "org.eclipse.tractusx.traceability.test.TestStepDefinition.theResultShouldBeOnTheScreen(java.lang.Integer)"
-            },
-            "keyword": "Then "
-          }
-        ],
-        "tags": [
-          {
-            "name": "@TRACEFOSS-1282"
-          },
-          {
-            "name": "@TRACEFOSS-1283"
-          },
-          {
-            "name": "@INTEGRATION_TEST"
-          }
-        ]
-      }
-    ],
-    "name": "❓Trace-X Cucumber Test Story",
-    "description": "",
-    "id": "❓trace-x-cucumber-test-story",
-    "keyword": "Feature",
-    "uri": "classpath:features/1_TRACEFOSS-1282.feature",
-    "tags": [
-      {
-        "name": "@TRACEFOSS-1282",
-        "type": "Tag",
-        "location": {
-          "line": 1,
-          "column": 1
-        }
-      }
-    ]
-  },
-  {
-    "line": 1,
-    "elements": [
-      {
-        "start_timestamp": "2023-06-26T11:26:49.808Z",
-        "before": [
-          {
-            "result": {
-              "status": "passed"
-            },
-            "match": {
-              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.setup()"
-            }
-          }
-        ],
-        "line": 5,
-        "name": "Send Investigation Flow Cucumber Test",
-        "description": "",
-        "id": "investigation-notification;send-investigation-flow-cucumber-test",
-        "type": "scenario",
-        "keyword": "Scenario",
-        "steps": [
-          {
-            "result": {
-              "status": "passed"
-            },
-            "line": 6,
+            "line": 15,
             "name": "I am logged into TRACE_X_A application",
             "match": {
               "arguments": [
@@ -1345,31 +1161,108 @@
               ],
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iAmLoggedIntoApplication(org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum)"
             },
-            "keyword": "Given "
+            "keyword": "When "
           },
           {
             "result": {
-              "status": "undefined"
+              "error_message": "java.lang.IllegalArgumentException: path cannot be null\r\n\tat java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:67)\r\n\tat java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)\r\n\tat java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:484)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.invoke(CachedConstructor.java:73)\r\n\tat org.codehaus.groovy.reflection.CachedConstructor.doConstructorInvoke(CachedConstructor.java:60)\r\n\tat org.codehaus.groovy.runtime.callsite.ConstructorSite$ConstructorSiteNoUnwrap.callConstructor(ConstructorSite.java:86)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callConstructor(AbstractCallSite.java:277)\r\n\tat io.restassured.internal.common.assertion.AssertParameter.notNull(AssertParameter.groovy:26)\r\n\tat io.restassured.internal.common.assertion.AssertParameter$notNull.callStatic(Unknown Source)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1643)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy:1710)\r\n\tat io.restassured.internal.RequestSpecificationImpl.this$2$applyPathParamsAndSendRequest(RequestSpecificationImpl.groovy)\r\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)\r\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:578)\r\n\tat org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:343)\r\n\tat groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:328)\r\n\tat groovy.lang.MetaClassImpl.doInvokeMethod(MetaClassImpl.java:1331)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1086)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1006)\r\n\tat groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:789)\r\n\tat io.restassured.internal.RequestSpecificationImpl.invokeMethod(RequestSpecificationImpl.groovy)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.call(PogoInterceptableSite.java:46)\r\n\tat org.codehaus.groovy.runtime.callsite.PogoInterceptableSite.callCurrent(PogoInterceptableSite.java:57)\r\n\tat org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy:176)\r\n\tat io.restassured.internal.RequestSpecificationImpl.post(RequestSpecificationImpl.groovy)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.Authentication.obtainAccessToken(Authentication.java:58)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.getRequestSpecification(RestProvider.java:180)\r\n\tat org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider.createInvestigation(RestProvider.java:107)\r\n\tat org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(TraceabilityTestStepDefinition.java:81)\r\n\tat ✽.I create quality investigation(classpath:features/2_TRACEFOSS-608.feature:16)\r\n",
+              "duration": 8874400,
+              "status": "failed"
             },
-            "line": 7,
-            "name": "I create investigation",
-            "match": {},
+            "line": 16,
+            "name": "I create quality investigation",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCreateQualityInvestigation(io.cucumber.datatable.DataTable)"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "\"severity\"",
+                  "\"MINOR\""
+                ]
+              },
+              {
+                "cells": [
+                  "\"description\"",
+                  "\"Testing targetDate TRACEFOSS-1216\""
+                ]
+              },
+              {
+                "cells": [
+                  "\"targetDate\"",
+                  "\"2099-03-11T22:44:06.333827Z\""
+                ]
+              }
+            ],
             "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 540000,
+              "status": "skipped"
+            },
+            "line": 20,
+            "name": "I check, if quality investigation has proper values",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "\"description\"",
+                  "\"Testing targetDate TRACEFOSS-1216\""
+                ]
+              },
+              {
+                "cells": [
+                  "\"targetDate\"",
+                  "\"2099-03-11T22:44:06.333827Z\""
+                ]
+              },
+              {
+                "cells": [
+                  "\"status\"",
+                  "\"CREATED\""
+                ]
+              }
+            ],
+            "keyword": "Then "
           },
           {
             "result": {
               "status": "skipped"
             },
-            "line": 8,
-            "name": "I send investigation",
-            "match": {},
+            "line": 24,
+            "name": "I approve quality investigation",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iApproveQualityInvestigation()"
+            },
             "keyword": "When "
           },
           {
             "result": {
               "status": "skipped"
             },
-            "line": 9,
+            "line": 25,
+            "name": "I check, if quality investigation has proper values",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "\"status\"",
+                  "\"SENT\""
+                ]
+              }
+            ],
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "status": "skipped"
+            },
+            "line": 27,
             "name": "I am logged into TRACE_X_B application",
             "match": {
               "arguments": [
@@ -1380,30 +1273,69 @@
               ],
               "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iAmLoggedIntoApplication(org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum)"
             },
-            "keyword": "And "
+            "keyword": "When "
           },
           {
             "result": {
               "status": "skipped"
             },
-            "line": 10,
-            "name": "I wait for transfer",
-            "match": {},
-            "keyword": "And "
+            "line": 28,
+            "name": "I check, if quality investigation has been received",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCanSeeNotificationWasReceived()"
+            },
+            "keyword": "Then "
           },
           {
             "result": {
               "status": "skipped"
             },
-            "line": 11,
-            "name": "I can see notification was received",
-            "match": {},
+            "line": 29,
+            "name": "I check, if quality investigation has proper values",
+            "match": {
+              "location": "org.eclipse.tractusx.traceability.test.TraceabilityTestStepDefinition.iCheckIfQualityInvestigationHasProperValues(io.cucumber.datatable.DataTable)"
+            },
+            "rows": [
+              {
+                "cells": [
+                  "\"description\"",
+                  "\"Testing targetDate TRACEFOSS-1216\""
+                ]
+              },
+              {
+                "cells": [
+                  "\"targetDate\"",
+                  "\"2099-03-11T22:44:06.333827Z\""
+                ]
+              },
+              {
+                "cells": [
+                  "\"status\"",
+                  "\"RECEIVED\""
+                ]
+              }
+            ],
             "keyword": "Then "
           }
         ],
         "tags": [
           {
-            "name": "@TRACEFOSS-1516"
+            "name": "@TRACEFOSS-608"
+          },
+          {
+            "name": "@TRACEFOSS-1216"
+          },
+          {
+            "name": "@TRACEFOSS-1673"
+          },
+          {
+            "name": "@TRACEFOSS-1139"
+          },
+          {
+            "name": "@TRACEFOSS-1138"
+          },
+          {
+            "name": "@TRACEFOSS-1101"
           },
           {
             "name": "@INTEGRATION_TEST"
@@ -1411,11 +1343,20 @@
         ]
       }
     ],
-    "name": "Investigation notification",
+    "name": "⭐[TEST] [BE] Set and show notification target date",
     "description": "",
-    "id": "investigation-notification",
+    "id": "⭐[test]-[be]-set-and-show-notification-target-date",
     "keyword": "Feature",
-    "uri": "classpath:features/1_Test-investigation.feature",
-    "tags": []
+    "uri": "classpath:features/2_TRACEFOSS-608.feature",
+    "tags": [
+      {
+        "name": "@TRACEFOSS-608",
+        "type": "Tag",
+        "location": {
+          "line": 1,
+          "column": 1
+        }
+      }
+    ]
   }
 ]

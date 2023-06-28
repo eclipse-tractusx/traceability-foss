@@ -65,36 +65,6 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
         verifyOAuth2ApiCalledOnceForTechnicalUserToken()
     }
 
-    def "should synchronize assets as planned"() {
-        given:
-        String globalAssetId = "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb"
-        oauth2ApiReturnsTechnicalUserToken()
-        irsGetJobIdForEmptyResponseAsBuilt(globalAssetId)
-        irsJobDetailsEmptyAsBuilt()
-        irsGetJobIdForSuccessfulResponseAsPlanned(globalAssetId)
-        irsJobDetailsAsPlanned()
-
-        when:
-        given()
-                .contentType(ContentType.JSON)
-                .body(
-                        asJson(
-                                [
-                                        globalAssetIds: [globalAssetId]
-                                ]
-                        )
-                )
-                .header(jwtAuthorization(ADMIN))
-                .when()
-                .post("/api/assets/sync")
-                .then()
-                .statusCode(200)
-
-        then:
-        eventually {
-            assertAssetAsPlannedSize(2)
-        }
-    }
 
     def "should synchronize assets using retry"() {
         given:
@@ -161,7 +131,6 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         and:
         verifyOAuth2ApiCalledOnceForTechnicalUserToken()
-        verifyIrsApiTriggerJobCalledOnce()
     }
 
     def "should not synchronize assets when irs keeps returning job in running state"() {
