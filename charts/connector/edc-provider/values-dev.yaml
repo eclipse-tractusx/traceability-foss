@@ -1,4 +1,8 @@
 tractusx-connector:
+  install:
+    postgresql: false
+    daps: false
+    vault: false
   participant:
     id: BPNL00000003CRHK
 
@@ -44,7 +48,15 @@ tractusx-connector:
       dapsPublicKey: daps-cert-edc-dev-provider-public
 
   daps:
+    url: "https://daps1.int.demo.catena-x.net"
     clientId: 35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88:keyid:35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88
 
-  postgresql:
-    jdbcUrl: "jdbc:postgresql://tracex-dev-edc-provider-postgresql-hl:5432/edc"
+postgresql:
+  enabled: true
+
+edc-postgresql:
+  auth:
+    database: edc
+    username: <path:traceability-foss/data/dev/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+    password: <path:traceability-foss/data/dev/edc/database#password>

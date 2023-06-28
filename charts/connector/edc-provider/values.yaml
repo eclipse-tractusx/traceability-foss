@@ -121,7 +121,7 @@ tractusx-connector:
       dapsPublicKey:
 
   daps:
-    url: "https://daps1.int.demo.catena-x.net"
+    url: ""
     clientId: ""
     paths:
       jwks: /.well-known/jwks.json
@@ -145,10 +145,10 @@ tractusx-connector:
 # EDC chart do not support multiple postgres instances in the same namespace at the moment.
 # Enable this to use the postgres dependency for when you want to deploy multiple EDC instances in one namespace
 postgresql:
-  enabled: true
+  enabled: false
 edc-postgresql:
   auth:
-    database: edc
-    username: <path:traceability-foss/data/dev/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
-    password: <path:traceability-foss/data/dev/edc/database#password>
+    database:
+    username:
+    postgresPassword:
+    password:
