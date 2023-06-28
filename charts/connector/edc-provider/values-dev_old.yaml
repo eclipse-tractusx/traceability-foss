@@ -1,0 +1,138 @@
+#
+#  Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+#  See the NOTICE file(s) distributed with this work for additional
+#  information regarding copyright ownership.
+#
+#  This program and the accompanying materials are made available under the
+#  terms of the Apache License, Version 2.0 which is available at
+#  https://www.apache.org/licenses/LICENSE-2.0.
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#  License for the specific language governing permissions and limitations
+#  under the License.
+#
+#  SPDX-License-Identifier: Apache-2.0
+#
+irs-edc-provider:
+  ##############################
+  # EDC Postgres Configuration #
+  ##############################
+  postgresql:
+    auth:
+      postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+      password: <path:traceability-foss/data/dev/edc/database#password>
+    primary:
+      resources:
+        limits:
+          cpu: 1.5
+          memory: 1.5Gi
+
+  ##################################
+  # EDC Controlplane Configuration #
+  ##################################
+  edc-controlplane:
+    ingresses:
+      - enabled: true
+        hostname: "trace-x-edc.dev.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - protocol
+          - management
+        className: ""
+        tls:
+          - hosts:
+              - "trace-x-edc.dev.demo.catena-x.net"
+            secretName: tls-secret
+        certManager:
+          issuer: ""
+          clusterIssuer: ""
+
+    edc:
+      receiver:
+        callback:
+          url: http://trace-x-edc.dev.demo.catena-x.net:8080/api/service/pull
+      postgresql:
+        password: <path:traceability-foss/data/dev/edc/database#password>
+      transfer:
+        proxy:
+          token:
+            verifier:
+              publickey:
+                alias: token-signer-cert-dev
+            signer:
+              privatekey:
+                alias: token-signer-cert-key-dev
+      api:
+        auth:
+          key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+      controlplane:
+        url: "https://trace-x-edc.dev.demo.catena-x.net"
+      dataplane:
+        url: "https://trace-x-edc-dataplane.dev.demo.catena-x.net"
+    configuration:
+      properties: |-
+        edc.oauth.client.id=35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88:keyid:35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88
+        edc.oauth.private.key.alias=daps-cert-edc-dev-provider-private
+        edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+        edc.oauth.certificate.alias=daps-cert-edc-dev-provider-public
+        edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+        edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+        edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+        edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+        edc.data.encryption.keys.alias=edc-data-encryption-keys-alias
+        edc.data.encryption.algorithm=NONE
+
+  ###############################
+  # EDC Dataplane Configuration #
+  ###############################
+  edc-dataplane:
+    edc:
+      api:
+        auth:
+          key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+    ## Ingress declaration to expose the network service.
+    ingresses:
+      ## Public / Internet facing Ingress
+      - enabled: true
+        # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+        hostname: "trace-x-edc-dataplane.dev.demo.catena-x.net"
+        # -- Additional ingress annotations to add
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        # -- EDC endpoints exposed by this ingress resource
+        endpoints:
+          - public
+        # -- Defines the [ingress class](https://kubernetes.io/docs/concepts/services-networking/ingress/#ingress-class)  to use
+        className: "nginx"
+        # -- Enables TLS on the ingress resource
+        tls:
+          - hosts:
+              - "trace-x-edc-dataplane.dev.demo.catena-x.net"
+            # Default secret for certificate creation already provided to your namespace
+            secretName: tls-secret
+        ## Adds [cert-manager](https://cert-manager.io/docs/) annotations to the ingress resource
+        certManager:
+          # -- If preset enables certificate generation via cert-manager namespace scoped issuer
+          issuer: ""
+          # -- If preset enables certificate generation via cert-manager cluster-wide issuer
+          clusterIssuer: ""
+
+    configuration:
+      properties: |-
+        edc.oauth.client.id=35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88:keyid:35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88
+        edc.oauth.private.key.alias=daps-cert-edc-dev-provider-private
+        edc.oauth.provider.audience=idsc:IDS_CONNECTORS_ALL
+        edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+        edc.oauth.certificate.alias=daps-cert-edc-dev-provider-public
+        edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+        edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+        edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+        edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
