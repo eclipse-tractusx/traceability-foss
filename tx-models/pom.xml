@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tx-models</artifactId>
     <name>TX Models</name>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${internal-module.version}</version>
     <properties>
         <sonar.skip>true</sonar.skip>
     </properties>

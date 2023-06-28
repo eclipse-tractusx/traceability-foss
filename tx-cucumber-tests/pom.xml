@@ -12,7 +12,7 @@
 
     <groupId>org.eclipse.tractusx.tracex</groupId>
     <artifactId>tx-cucumber-tests</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${internal-module.version}</version>
 
     <name>TX Cucumber</name>
     <properties>

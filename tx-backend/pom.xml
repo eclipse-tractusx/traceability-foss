@@ -15,7 +15,7 @@
         <skipUTs>${skipTests}</skipUTs>
     </properties>
     <artifactId>tx-backend</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>${internal-module.version}</version>
 
     <name>TX Backend</name>
 
@@ -459,7 +459,7 @@
                     <plugin>
                         <groupId>org.eclipse.dash</groupId>
                         <artifactId>license-tool-plugin</artifactId>
-                        <version>${eclipse-license-tool.version}</version>
+                        <version>${eclipse-dash-ip.version}</version>
                         <executions>
                             <execution>
                                 <id>check-license</id>

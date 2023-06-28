@@ -13,19 +13,19 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tx-coverage</artifactId>
-    <name>Trace-X Report Aggregate Module</name>
-    <description>Aggregate Coverage Report</description>
-
+    <name>Trace-X Test Coverage Report</name>
+    <description>Aggregated report of unit and integration tests</description>
+    <version>${internal-module.version}</version>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tx-models</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${internal-module.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>tx-backend</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${internal-module.version}</version>
         </dependency>
     </dependencies>
     <build>

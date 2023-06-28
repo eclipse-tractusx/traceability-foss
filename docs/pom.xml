@@ -11,7 +11,7 @@
 
 	<groupId>org.eclipse.tractusx.tracex</groupId>
 	<artifactId>docs</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <version>${internal-module.version}</version>
 
     <name>TX Documentation</name>
     <description>Trace-X system documentation</description>

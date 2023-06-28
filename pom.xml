@@ -12,7 +12,7 @@
 
     <modules>
         <module>tx-models</module>
-      <!--  <module>tx-cucumber-tests</module>-->
+        <module>tx-cucumber-tests</module>
         <module>tx-backend</module>
         <module>tx-parent-spring-boot</module>
         <module>docs</module>
@@ -20,6 +20,7 @@
     </modules>
 
     <properties>
+        <internal-module.version>0.0.1-SNAPSHOT</internal-module.version>
         <springboot.version>3.0.7</springboot.version>
         <spring-core.version>6.0.8</spring-core.version>
         <java.version>17</java.version>
@@ -42,6 +43,10 @@
         <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
         <apache-groovy.version>4.0.11</apache-groovy.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
+        <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M8</maven-failsafe-plugin.version>
+        <maven-site-plugin.version>4.0.0-M5</maven-site-plugin.version>
 
         <!-- versions for 3rd party dependecies -->
         <eclipse-dash-ip.version>0.0.1-SNAPSHOT</eclipse-dash-ip.version>
@@ -49,7 +54,6 @@
         <ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
-        <eclipse-license-tool.version>0.0.1-SNAPSHOT</eclipse-license-tool.version>
         <feign.version>12.3</feign.version>
         <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
         <jruby.version>9.4.3.0</jruby.version>
@@ -81,23 +85,13 @@
         <junit-bom.version>5.9.3</junit-bom.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <!--   <sonar.includeModules>tx-backend></sonar.includeModules>-->
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.coverage.jacoco.xmlReportPaths>
-            tx-backend/target/site/jacoco-unittest/jacoco.xml,
-            tx-backend/target/site/jacoco-integration/jacoco.xml,
-        </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.jacoco.reportsPaths>
-            tx-backend/target/jacoco.exec,
-            tx-backend/target/jacoco-ut.exec
-        </sonar.jacoco.reportsPaths>
         <sonar.tests>
             src/test/java,src/integration/groovy
         </sonar.tests>
         <sonar.organization>eclipse-tractusx</sonar.organization>
         <sonar.projectKey>eclipse-tractusx_traceability-foss-backend</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
         <sonar.exclusions>
             org/eclipse/tractusx/traceability/TraceabilityApplication.java,
             org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java,
@@ -165,7 +159,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M8</version>
+                <version>${maven-failsafe-plugin.version}</version>
                 <executions>
                     <execution>
                         <id>integration-test</id>
@@ -184,23 +178,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <!-- Sets the VM argument line used when unit tests are run. -->
                     <!--suppress UnresolvedMavenProperty -->
                     <argLine>${surefireArgLine}</argLine>
                 </configuration>
-                <dependencies>
-                    <!--   <dependency>
-                           <groupId>org.junit.platform</groupId>
-                           <artifactId>junit-platform-surefire-provider</artifactId>
-                           <version>1.3.2</version>
-                       </dependency>-->
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*TraceabilityApplication.class</exclude>
+                        <exclude>**/*HttpCallService.class</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <!-- set arg line property for surefire -->
                     <execution>
@@ -227,13 +220,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>4.0.0-M5</version>
+                <version>${maven-site-plugin.version}</version>
             </plugin>
             <!-- Sonar Scanner-->
             <plugin>
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
+                <version>${sonar-maven-plugin.version}</version>
             </plugin>
         </plugins>
         <pluginManagement>
@@ -251,7 +244,7 @@
                 <plugin>
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
-                    <version>0.8.8</version>
+                    <version>${jacoco-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
