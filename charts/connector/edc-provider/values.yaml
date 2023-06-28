@@ -55,10 +55,10 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 1
+        cpu: 1000m
         memory: 2Gi
       requests:
-        cpu: 500m
+        cpu: 1000m
         memory: 2Gi
 
   dataplane:
@@ -89,10 +89,10 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 500m
+        cpu: 1000m
         memory: 1Gi
       requests:
-        cpu: 500m
+        cpu: 1000m
         memory: 1Gi
 
   # URL where the EndpointDataReference callback will be sent to
