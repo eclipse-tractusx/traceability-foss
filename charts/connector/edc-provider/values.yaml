@@ -1,91 +1,154 @@
-#
-#  Copyright (c) 2023 Contributors to the Eclipse Foundation
-#
-#  See the NOTICE file(s) distributed with this work for additional
-#  information regarding copyright ownership.
-#
-#  This program and the accompanying materials are made available under the
-#  terms of the Apache License, Version 2.0 which is available at
-#  https://www.apache.org/licenses/LICENSE-2.0.
-#
-#  Unless required by applicable law or agreed to in writing, software
-#  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
-#  License for the specific language governing permissions and limitations
-#  under the License.
-#
-#  SPDX-License-Identifier: Apache-2.0
-#
-irs-edc-provider:
-  ##############################
+tractusx-connector:
+  install:
+    postgresql: false
+    daps: false
+    vault: false
+  participant:
+    id: BPNL00000003CRHK
+
+  controlplane:
+    ingresses:
+      - enabled: false
+
+    endpoints:
+      # -- default api for health checks, should not be added to any ingress
+      default:
+        port: 8080
+        path: /api
+      # -- data management api, used by internal users, can be added to an ingress and must not be internet facing
+      management:
+        port: 8081
+        path: /management
+        # -- authentication key, must be attached to each 'X-Api-Key' request header
+        authKey: "123456"
+      # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
+      control:
+        port: 8083
+        path: /control
+      # -- ids api, used for inter connector communication and must be internet facing
+      protocol:
+        port: 8084
+        path: /api/v1/dsp
+      # -- metrics api, used for application metrics, must not be internet facing
+      metrics:
+        port: 9090
+        path: /metrics
+      # -- observability api with unsecured access, must not be internet facing
+      observability:
+        port: 8085
+        # -- observability api, provides /health /readiness and /liveness endpoints
+        path: /observability
+        # -- allow or disallow insecure access, i.e. access without authentication
+        insecure: true
+
+    internationalDataSpaces:
+      id: TXDC
+      description: Tractus-X Eclipse IDS Data Space Connector
+      title: ""
+      maintainer: ""
+      curator: ""
+      catalogId: TXDC-Catalog
+
+    # Explicitly declared url for reaching the ids api (e.g. if ingresses not used)
+    url:
+      ids: ""
+
+    resources:
+      limits:
+        cpu: 1Gi
+        memory: 2Gi
+      requests:
+        cpu: 500m
+        memory: 2Gi
+
+  dataplane:
+    ingresses:
+      - enabled: false
+
+    endpoints:
+      default:
+        port: 8080
+        path: /api
+      public:
+        port: 8081
+        path: /api/public
+      control:
+        port: 8083
+        path: /api/dataplane/control
+      observability:
+        port: 8085
+        path: /observability
+        insecure: true
+      metrics:
+        port: 9090
+        path: /metrics
+
+    # Explicitly declared url for reaching the public api (e.g. if ingresses not used)
+    url:
+      public: ""
+
+    resources:
+      limits:
+        cpu: 500m
+        memory: 1Gi
+      requests:
+        cpu: 500m
+        memory: 1Gi
+
+  # URL where the EndpointDataReference callback will be sent to
+  backendService:
+    httpProxyTokenReceiverUrl: ""
+
+  ################################
+  # EDC Vault/DAPS Configuration #
+  ################################
+  vault:
+    hashicorp:
+      url: "https://vault.demo.catena-x.net"
+      token: "<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>"
+      timeout: 30
+      healthCheck:
+        enabled: true
+        standbyOk: true
+      paths:
+        secret: /v1/traceability-foss
+        health: /v1/sys/health
+    secretNames:
+      transferProxyTokenSignerPrivateKey:
+      transferProxyTokenSignerPublicKey:
+      transferProxyTokenEncryptionAesKey:
+      dapsPrivateKey:
+      dapsPublicKey:
+
+  daps:
+    url: "https://daps1.int.demo.catena-x.net"
+    clientId: ""
+    paths:
+      jwks: /.well-known/jwks.json
+      token: /token
+
+  ##################################
   # EDC Postgres Configuration #
-  ##############################
+  ##################################
   postgresql:
+    enabled: true
     auth:
-      username: edc
-      database: edc
-      postgresPassword:
-      password:
+      username: "<path:traceability-foss/data/dev/edc/database#user>"
+      password: "<path:traceability-foss/data/dev/edc/database#password>"
+    username: "<path:traceability-foss/data/dev/edc/database#user>"
+    password: "<path:traceability-foss/data/dev/edc/database#password>"
+    jdbcUrl: "jdbc:postgresql://tracex-provider-edc-postgresql-hl:5432/edc"
 
-
-  ##################################
-  # EDC Controlplane Configuration #
-  ##################################
-  edc-controlplane:
-    ingresses: []
-
-    edc:
-      postgresql:
-        user: edc
-        password:
-      transfer:
-        proxy:
-          token:
-            verifier:
-              publickey:
-                alias:
-            signer:
-              privatekey:
-                alias:
-      api:
-        auth:
-          key:
-      controlplane:
-        url:
-      dataplane:
-        url:
-    configuration:
-      properties: |-
-        edc.oauth.client.id=
-        edc.oauth.private.key.alias=
-        edc.oauth.provider.jwks.url=
-        edc.oauth.certificate.alias=
-        edc.oauth.token.url=
-        edc.vault.hashicorp.url=
-        edc.vault.hashicorp.token=
-        edc.vault.hashicorp.api.secret.path=
-        edc.data.encryption.keys.alias=
-        edc.data.encryption.algorithm=NONE
-
-  ###############################
-  # EDC Dataplane Configuration #
-  ###############################
-  edc-dataplane:
-    edc:
-      api:
-        auth:
-          key:
-    ## Ingress declaration to expose the network service.
-    ingresses: []
-
-    configuration:
-      properties: |-
-        edc.oauth.client.id=
-        edc.oauth.private.key.alias=
-        edc.oauth.provider.audience=
-        edc.oauth.provider.jwks.url=
-        edc.oauth.certificate.alias=
-        edc.oauth.token.url=
-        edc.vault.hashicorp.url=
-        edc.vault.hashicorp.token=
-        edc.vault.hashicorp.api.secret.path=
+##############################
+# EDC Postgres Configuration #
+##############################
+# EDC chart do not support multiple postgres instances in the same namespace at the moment.
+# Enable this to use the postgres dependency for when you want to deploy multiple EDC instances in one namespace
+postgresql:
+  enabled: true
+edc-postgresql:
+  auth:
+    database: edc
+    username: <path:traceability-foss/data/dev/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+    password: <path:traceability-foss/data/dev/edc/database#password>

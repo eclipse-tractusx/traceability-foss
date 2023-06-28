@@ -186,6 +186,7 @@ irs-helm:
   bpn: BPNL00000003CML1
   enabled: true
 
+
   nameOverride: "tracex-irs"
   fullnameOverride: "tracex-irs"
 
@@ -225,9 +226,12 @@ irs-helm:
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
+    callbackurl: http://tracex-irs:8181/internal/endpoint-data-reference
     controlplane:
       endpoint:
+        # check port and servicename
         data: http://tracex-consumer-controlplane:8181/api/v1/management
+        ##state: /state
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 

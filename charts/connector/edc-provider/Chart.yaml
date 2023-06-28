@@ -35,7 +35,11 @@ type: application
 version: 1.1.1
 
 dependencies:
-  - name: irs-edc-consumer
-    alias: irs-edc-provider
-    repository: https://catenax-ng.github.io/tx-item-relationship-service
-    version: 1.1.1
+  - name: tractusx-connector
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.4.1
+  - condition: postgresql.enabled
+    alias: edc-postgresql
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 12.1.6

@@ -39,7 +39,7 @@ dependencies:
     condition: pgadmin4.enabled
   - name: irs-helm
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 5.3.0
+    version: 6.0.0
     condition: irs-helm.enabled
   - name: irs-edc-consumer
     repository: https://eclipse-tractusx.github.io/item-relationship-service
