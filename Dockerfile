@@ -25,6 +25,7 @@ WORKDIR /build
 COPY pom.xml .
 COPY tx-parent-spring-boot tx-parent-spring-boot
 COPY tx-cucumber-tests tx-cucumber-tests
+COPY tx-coverage tx-coverage
 COPY tx-models tx-models
 COPY docs docs
 COPY tx-backend tx-backend

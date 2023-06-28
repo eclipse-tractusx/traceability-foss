@@ -17,18 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.alert.response;
+package org.eclipse.tractusx.traceability.qualitynotification.application.alert.mapper;
 
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationReasonResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationSeverityResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationSideResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationStatusResponse;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
@@ -36,29 +28,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import qualitynotification.alert.response.AlertResponse;
+import qualitynotification.base.response.QualityNotificationReasonResponse;
 
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@Data
-@SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Alerts", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-public class AlertResponse extends QualityNotificationResponse {
-
+public class AlertResponseMapper {
 
     public static AlertResponse from(QualityNotification qualityNotification) {
         return AlertResponse
                 .builder()
                 .id(qualityNotification.getNotificationId().value())
-                .status(QualityNotificationStatusResponse.from(qualityNotification.getNotificationStatus()))
+                .status(QualityNotificationMapper.from(qualityNotification.getNotificationStatus()))
                 .description(qualityNotification.getDescription())
                 .createdBy(getSenderBPN(qualityNotification.getNotifications()))
                 .createdByName(getSenderName(qualityNotification.getNotifications()))
                 .createdDate(qualityNotification.getCreatedAt().toString())
                 .assetIds(Collections.unmodifiableList(qualityNotification.getAssetIds()))
-                .channel(QualityNotificationSideResponse.from(qualityNotification.getNotificationSide()))
+                .channel(QualityNotificationMapper.from(qualityNotification.getNotificationSide()))
                 .reason(new QualityNotificationReasonResponse(
                         qualityNotification.getCloseReason(),
                         qualityNotification.getAcceptReason(),
@@ -66,12 +56,12 @@ public class AlertResponse extends QualityNotificationResponse {
                 ))
                 .sendTo(getReceiverBPN(qualityNotification.getNotifications()))
                 .sendToName(getReceiverName(qualityNotification.getNotifications()))
-                .severity(QualityNotificationSeverityResponse.from(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getSeverity).orElse(QualityNotificationSeverity.MINOR)))
+                .severity(QualityNotificationMapper.from(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getSeverity).orElse(QualityNotificationSeverity.MINOR)))
                 .targetDate(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getTargetDate).map(Instant::toString).orElse(null)).build();
     }
 
     public static PageResult<AlertResponse> fromAsPageResult(PageResult<QualityNotification> qualityNotificationPageResult) {
-        List<AlertResponse> investigationResponses = qualityNotificationPageResult.content().stream().map(AlertResponse::from).toList();
+        List<AlertResponse> investigationResponses = qualityNotificationPageResult.content().stream().map(AlertResponseMapper::from).toList();
         int pageNumber = qualityNotificationPageResult.page();
         int pageSize = qualityNotificationPageResult.pageSize();
         Pageable pageable = PageRequest.of(pageNumber, pageSize);

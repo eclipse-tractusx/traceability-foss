@@ -16,14 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.qualitynotification.application.response;
-
+package qualitynotification.base.response;
 import io.swagger.annotations.ApiModel;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
-
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -69,30 +65,7 @@ public enum QualityNotificationStatusResponse {
         this.allowedTransitionFromSide = allowedTransitionFromSide;
     }
 
-    public static Optional<QualityNotificationStatusResponse> fromValue(String value) {
-        return Optional.ofNullable(MAPPINGS.get(value));
-    }
-
     public static QualityNotificationStatusResponse fromStringValue(String value) {
         return MAPPINGS.get(value);
-    }
-
-    public static QualityNotificationStatusResponse from(QualityNotificationStatus qualityNotificationStatus) {
-        return QualityNotificationStatusResponse.fromStringValue(qualityNotificationStatus.name());
-    }
-
-    public boolean transitionAllowed(QualityNotificationStatusResponse to) {
-
-        Set<QualityNotificationStatusResponse> allowedStatusesToTransition = STATE_MACHINE.get(this);
-
-        if (!allowedStatusesToTransition.contains(to)) {
-            return false;
-        }
-
-        return isSideEligibleForTransition(this, to);
-    }
-
-    private boolean isSideEligibleForTransition(QualityNotificationStatusResponse from, QualityNotificationStatusResponse to) {
-        return to.allowedTransitionFromSide.contains(from.qualityNotificationSide);
     }
 }

@@ -9,7 +9,11 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../tx-parent-spring-boot/pom.xml</relativePath>
     </parent>
-
+    <properties>
+        <sonar.skip>false</sonar.skip>
+        <skipTests>false</skipTests>
+        <skipUTs>${skipTests}</skipUTs>
+    </properties>
     <artifactId>tx-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -17,11 +21,11 @@
 
     <dependencies>
         <!-- tx-application modules -->
-        <!--    <dependency>
-                <groupId>org.eclipse.tractusx.traceability</groupId>
-                <artifactId>tx-models</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>-->
+        <dependency>
+            <groupId>org.eclipse.tractusx.traceability</groupId>
+            <artifactId>tx-models</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- managed by spring boot -->
         <dependency>
@@ -255,11 +259,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-test</artifactId>
             <scope>test</scope>
@@ -330,6 +329,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -377,13 +377,7 @@
                 <configuration>
                     <testSources>
                         <testSource>
-                            <directory>src/test/java</directory>
-                            <includes>
-                                <include>**/*.java</include>
-                            </includes>
-                        </testSource>
-                        <testSource>
-                            <directory>src/integration</directory>
+                            <directory>tx-backend/src/integration</directory>
                             <includes>
                                 <include>**/*.groovy</include>
                             </includes>
@@ -400,79 +394,6 @@
                 </executions>
             </plugin>
 
-            <!-- Test Coverage via Jacoco-->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <phase>process-test-classes</phase>
-                    </execution>
-                    <execution>
-                        <id>jacoco-unit-tests</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-unittest</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>jacoco-integration-tests</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-integration</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-integration</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Surefire Report Plugins -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire-plugin.version}</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Spec.java</include>
-                        <include>**/Test*.java</include>
-                        <include>**/*Test.java</include>
-                        <include>**/*Tests.java</include>
-                        <include>**/*TestCase.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>surefire_report</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                    <execution>
-                        <id>failsafe_report</id>
-                        <goals>
-                            <goal>failsafe-report-only</goal>
-                        </goals>
-                        <phase>post-integration-test</phase>
-                    </execution>
-                </executions>
-            </plugin>
 
             <!-- Maven Plugins -->
             <plugin>
@@ -490,11 +411,7 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <version>${install-plugin.version}</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>4.0.0-M5</version>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
@@ -511,12 +428,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot-maven-plugin.version}</version>
             </plugin>
-            <!-- Sonar Scanner-->
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
-            </plugin>
+
         </plugins>
     </build>
 
@@ -533,40 +445,7 @@
 
     <!-- Maven Profiles -->
     <profiles>
-        <profile>
-            <id>spotbugs-check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs-maven-plugin</artifactId>
-                        <version>${spotbugs-plugin.version}</version>
-                        <configuration>
-                            <effort>Max</effort>
-                            <threshold>Low</threshold>
-                            <xmlOutput>true</xmlOutput>
-                            <failThreshold>High</failThreshold>
-                            <excludeFilterFile>ci/spotbugs-excludes.xml</excludeFilterFile>
-                            <plugins>
-                                <plugin>
-                                    <groupId>com.h3xstream.findsecbugs</groupId>
-                                    <artifactId>findsecbugs-plugin</artifactId>
-                                    <version>${findsecbugs-plugin.version}</version>
-                                </plugin>
-                            </plugins>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
         <profile>
             <id>license-check</id>
             <build>
@@ -574,7 +453,7 @@
                     <plugin>
                         <groupId>org.eclipse.dash</groupId>
                         <artifactId>license-tool-plugin</artifactId>
-                        <version>${eclipse-license-tool.version}</version>
+                        <version>${eclipse-dash-ip.version}</version>
                         <executions>
                             <execution>
                                 <id>check-license</id>
@@ -675,125 +554,7 @@
                 </plugins>
             </build>
         </profile>
-        <!--
-            Profile dependency-check, used to scan software to identify the use of known vulnerable components.
-            See: https://jeremylong.github.io/DependencyCheck/index.html
-            ATTENTION! IT TAKES A LONGER TIME TO RUN
-            Command: mvn clean package site -Pdependency-check
-        -->
-        <profile>
-            <id>dependency-check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>${owasp-plugin.version}</version>
-                        <configuration>
-                            <suppressionFile>config/dependency_check/suppressions.xml</suppressionFile>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>site</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <!--
-            Profile iT, used for starting the integration tests
-            Command: mvn clean verify -PiT
-        -->
-        <profile>
-            <id>iT</id>
-            <properties>
-                <skip.integration.tests>false</skip.integration.tests>
-                <skip.unit.tests>false</skip.unit.tests>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/integration/resources</directory>
-                        <targetPath>${project.build.outputDirectory}</targetPath>
-                    </resource>
-                </resources>
-                <testResources>
-                    <testResource>
-                        <directory>src/integration/resources</directory>
-                    </testResource>
-                </testResources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.gmavenplus</groupId>
-                        <artifactId>gmavenplus-plugin</artifactId>
-                        <version>${gmavenplus-plugin.version}</version> <!-- 2.1.0 -->
-                        <configuration>
-                            <verbose>false</verbose>
-                            <debug>false</debug>
-                            <testSources>
-                                <testSource>
-                                    <directory>src/integration</directory>
-                                    <includes>
-                                        <include>**/*.groovy</include>
-                                    </includes>
-                                </testSource>
-                            </testSources>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>addTestSources</goal>
-                                    <goal>compileTests</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>**/*Spec.java</include>
-                                <include>**/Test*.java</include>
-                                <include>**/*Test.java</include>
-                                <include>**/*Tests.java</include>
-                                <include>**/*TestCase.java</include>
-                            </includes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-report-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>failsafe_report</id>
-                                <goals>
-                                    <goal>failsafe-report-only</goal>
-                                </goals>
-                                <phase>post-integration-test</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.0.0-M8</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
     </profiles>
 
 </project>

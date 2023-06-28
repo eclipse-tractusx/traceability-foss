@@ -15,7 +15,9 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <name>TX Cucumber</name>
-
+    <properties>
+        <sonar.skip>true</sonar.skip>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -98,17 +100,6 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <properties>
-                        <configurationParameters>
-                            cucumber.junit-platform.naming-strategy=long
-                        </configurationParameters>
-                    </properties>
                 </configuration>
             </plugin>
         </plugins>
