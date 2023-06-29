@@ -66,7 +66,6 @@ backend:
   nameOverride: "product-traceability-foss-test-backend"
   fullnameOverride: "product-traceability-foss-test-backend"
 
-
   podSecurityContext:
     runAsUser: 10001
     seccompProfile:
@@ -88,10 +87,10 @@ backend:
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
-      cpu: 1000m
+      cpu: 750m
       memory: 512Mi
     requests:
-      cpu: 750m
+      cpu: 500m
       memory: 512Mi
 
   springprofile: dev
@@ -191,9 +190,13 @@ irs-helm:
   bpn: BPNL00000003CML1
   nameOverride: "tracex-test-irs"
   fullnameOverride: "tracex-test-irs"
+
   namespace: product-traceability-foss
-  springprofile: test
+
+  springprofile: dev
+
   irsUrl: "https://tracex-irs-test.dev.demo.catena-x.net"
+
   ingress:
     enabled: true
     hosts:
@@ -206,10 +209,7 @@ irs-helm:
           - "tracex-irs-test.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
-    type: central
-    url: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry
-    ## TODO needs to be adapted to our mock once we have one.
-    discoveryFinderUrl: https://discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search
+    url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
@@ -227,13 +227,9 @@ irs-helm:
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
-    callbackurl: http://tracex-test-irs:8181/internal/endpoint-data-reference
-    catalog:
-      cache:
-        enabled: "false"
     controlplane:
       endpoint:
-        statesuffix: /state
+        data: http://tracex-test-consumer-controlplane:8181/management
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
@@ -245,20 +241,37 @@ irs-helm:
     rootUser: <path:traceability-foss/data/dev/minio#user>
     rootPassword: <path:traceability-foss/data/dev/minio#password>
 
-
 ###################################
-# EDC Consumer configuration  #
+# IRS EDC Consumer configuration  #
 ###################################
-tractusx-connector:
+irs-edc-consumer:
   enabled: true
-  install:
-    postgresql: false
-    daps: false
-    vault: false
-  participant:
-    id: BPNL00000003CML1
 
-  controlplane:
+  postgresql:
+    nameOverride: "tracex-test-consumer-edc-postgresql"
+    fullnameOverride: "tracex-test-consumer-edc-postgresql"
+
+    securityContext:
+      readOnlyRootFilesystem: false
+
+    namespace: product-traceability-foss
+
+    auth:
+      postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+      username: <path:traceability-foss/data/dev/edc/database#user>
+      password: <path:traceability-foss/data/dev/edc/database#password>
+      database: "edc"
+
+  # Values for consumer edc-controlplane.
+  edc-controlplane:
+    nameOverride: "tracex-test-consumer-controlplane"
+    fullnameOverride: "tracex-test-consumer-controlplane"
+
+    namespace: product-traceability-foss
+
+    image:
+      tag: "0.3.0"
+
     ingresses:
       - enabled: true
         hostname: "tracex-test-consumer-controlplane.dev.demo.catena-x.net"
@@ -269,47 +282,102 @@ tractusx-connector:
         endpoints:
           - protocol
           - management
+        className: "nginx"
         tls:
-          enabled: true
-          secretName: tls-secret
-
-    endpoints:
-      # -- data management api, used by internal users, can be added to an ingress and must not be internet facing
-      management:
-        port: 8081
-        path: /management
-        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value> # -- authentication key, must be attached to each 'X-Api-Key' request header
-      # -- protocol api, used for inter connector communication and must be internet facing
-      protocol:
-        port: 8084
-        path: /api/v1/dsp
-      # -- observability api with unsecured access, must not be internet facing
-      observability:
-        port: 8085
-        path: /observability  # -- observability api, provides /health /readiness and /liveness endpoints
-        insecure: true  # -- allow or disallow insecure access, i.e. access without authentication
-
-    internationalDataSpaces:
-      id: TXDC
-      description: Tractus-X Eclipse IDS Data Space Connector
-      title: ""
-      maintainer: ""
-      curator: ""
-      catalogId: TXDC-Catalog
-
-    # Explicitly declared url for reaching the ids api (e.g. if ingresses not used)
-    url:
-      ids: ""
+          - hosts:
+              - "tracex-test-consumer-controlplane.dev.demo.catena-x.net"
+            secretName: tls-secret
 
     resources:
       limits:
-        cpu: 500m
-        memory: 2Gi
+        cpu: 600m
+        memory: 1Gi
       requests:
-        cpu: 500m
-        memory: 2Gi
+        cpu: 200m
+        memory: 1Gi
 
-  dataplane:
+    logging:
+      # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
+      properties: |-
+        .level=INFO
+        org.eclipse.edc.level=INFO
+        net.catenax.edc.hashicorpvault.level=INFO
+        handlers=java.util.logging.ConsoleHandler
+        java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+        java.util.logging.ConsoleHandler.level=INFO
+        java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
+
+    edc:
+      postgresql:
+        password: <path:traceability-foss/data/dev/edc/database#password>
+      transfer:
+        proxy:
+          token:
+            verifier:
+              publickey:
+                alias: daps-cert-edc-test-consumer-public
+            signer:
+              privatekey:
+                alias: daps-cert-edc-test-consumer-private
+      api:
+        auth:
+          key: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+      controlplane:
+        url: "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
+      dataplane:
+        url: "https://tracex-test-consumer-dataplane.dev.demo.catena-x.net"
+
+
+    configuration:
+      # -- EDC configuration.properties configuring aspects of the [eclipse-dataspaceconnector](https://github.com/eclipse-dataspaceconnector/DataSpaceConnector)
+      properties: |-
+
+        edc.receiver.http.dynamic.endpoint=https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference
+        edc.dataplane.selector.consumer.url=http://tracex-test-consumer-dataplane:9999/api/dataplane/control
+        edc.oauth.client.id=FE:FB:DF:A6:07:E4:CF:C1:84:32:15:0C:07:B7:C7:55:4E:C7:4D:D4:keyid:FE:FB:DF:A6:07:E4:CF:C1:84:32:15:0C:07:B7:C7:55:4E:C7:4D:D4
+        edc.oauth.certificate.alias=daps-cert-edc-test-consumer-public
+        edc.oauth.private.key.alias=daps-cert-edc-test-consumer-private
+        edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+        edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+        edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+        edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+        edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+        edc.data.encryption.keys.alias=edc-data-encryption-keys-alias
+        edc.data.encryption.algorithm=NONE
+        edc.datasource.asset.url=jdbc:postgresql://tracex-test-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.asset.user=<path:traceability-foss/data/dev/edc/database#user>
+        edc.datasource.asset.password=<path:traceability-foss/data/dev/edc/database#password>
+
+        edc.datasource.contractdefinition.url=jdbc:postgresql://tracex-test-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.contractdefinition.user=<path:traceability-foss/data/dev/edc/database#user>
+        edc.datasource.contractdefinition.password=<path:traceability-foss/data/dev/edc/database#password>
+
+        edc.datasource.contractnegotiation.url=jdbc:postgresql://tracex-test-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.contractnegotiation.user=<path:traceability-foss/data/dev/edc/database#user>
+        edc.datasource.contractnegotiation.password=<path:traceability-foss/data/dev/edc/database#password>
+
+        edc.datasource.policy.url=jdbc:postgresql://tracex-test-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.policy.user=<path:traceability-foss/data/dev/edc/database#user>
+        edc.datasource.policy.password=<path:traceability-foss/data/dev/edc/database#password>
+
+        edc.datasource.transferprocess.url=jdbc:postgresql://tracex-test-consumer-edc-postgresql-hl:5432/edc
+        edc.datasource.transferprocess.user=<path:traceability-foss/data/dev/edc/database#user>
+        edc.datasource.transferprocess.password=<path:traceability-foss/data/dev/edc/database#password>
+
+
+  # Values for consumer edc-dataplane.
+  edc-dataplane:
+    nameOverride: "tracex-test-consumer-dataplane"
+    fullnameOverride: "tracex-test-consumer-dataplane"
+
+    namespace: product-traceability-foss
+
+    securityContext:
+      readOnlyRootFilesystem: false
+
+    image:
+      tag: "0.3.0"
+
     ingresses:
       - enabled: true
         hostname: "tracex-test-consumer-dataplane.dev.demo.catena-x.net"
@@ -321,79 +389,42 @@ tractusx-connector:
           - public
         className: "nginx"
         tls:
-          enabled: true
-          secretName: tls-secret
-
-    endpoints:
-      public:
-        port: 8081
-        path: /api/public
-      observability:
-        port: 8085
-        path: /observability
-        insecure: true
+          - hosts:
+              - "tracex-test-consumer-dataplane.dev.demo.catena-x.net"
+            secretName: tls-secret
 
     resources:
       limits:
-        cpu: 500m
+        cpu: 600m
         memory: 1Gi
       requests:
-        cpu: 500m
+        cpu: 200m
         memory: 1Gi
 
-  ## currently we need to provide a url but is not used anywhere
-  # URL where the EndpointDataReference callback will be sent to
-  backendService:
-    httpProxyTokenReceiverUrl: "https://tracex-submodel-server.dev.demo.catena-x.net/data/endpoint-data-reference-provider1"
+    logging:
+      # -- EDC logging.properties configuring the [java.util.logging subsystem](https://docs.oracle.com/javase/7/docs/technotes/guides/logging/overview.html#a1.8)
+      properties: |-
+        .level=INFO
+        org.eclipse.dataspaceconnector.level=INFO
+        net.catenax.edc.hashicorpvault.level=INFO
+        handlers=java.util.logging.ConsoleHandler
+        java.util.logging.ConsoleHandler.formatter=java.util.logging.SimpleFormatter
+        java.util.logging.ConsoleHandler.level=INFO
+        java.util.logging.SimpleFormatter.format=[%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS] [%4$-7s] %5$s%6$s%n
 
-  ################################
-  # EDC Vault/DAPS Configuration #
-  ################################
-  vault:
-    hashicorp:
-      url: "https://vault.demo.catena-x.net"
-      token: "<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>"
-      timeout: 30
-      healthCheck:
-        enabled: true
-        standbyOk: true
-      paths:
-        secret: /v1/traceability-foss
-        health: /v1/sys/health
-    secretNames:
-      transferProxyTokenSignerPrivateKey: daps-cert-edc-test-consumer-private
-      transferProxyTokenSignerPublicKey: daps-cert-edc-test-consumer-public
-      transferProxyTokenEncryptionAesKey: token-signer-aes-key
-      dapsPrivateKey: daps-cert-edc-test-consumer-private
-      dapsPublicKey: daps-cert-edc-test-consumer-public
+    configuration:
+      properties: |-
+        edc.api.auth.key=<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+        edc.dataplane.token.validation.endpoint=http://tracex-test-consumer-controlplane:8182/validation/token
 
-  daps:
-    url: "https://daps1.int.demo.catena-x.net"
-    clientId: FE:FB:DF:A6:07:E4:CF:C1:84:32:15:0C:07:B7:C7:55:4E:C7:4D:D4:keyid:FE:FB:DF:A6:07:E4:CF:C1:84:32:15:0C:07:B7:C7:55:4E:C7:4D:D4
-    paths:
-      jwks: /.well-known/jwks.json
-      token: /token
-  ##################################
-  # EDC Postgres Configuration #
-  ##################################
-  postgresql:
-    enabled: true
-    auth:
-      username: "<path:traceability-foss/data/dev/edc/database#user>"
-      password: "<path:traceability-foss/data/dev/edc/database#password>"
-    username: "<path:traceability-foss/data/dev/edc/database#user>"
-    password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tracex-test-consumer-edc-postgresql-hl:5432/edc"
+        edc.oauth.client.id=FE:FB:DF:A6:07:E4:CF:C1:84:32:15:0C:07:B7:C7:55:4E:C7:4D:D4:keyid:FE:FB:DF:A6:07:E4:CF:C1:84:32:15:0C:07:B7:C7:55:4E:C7:4D:D4
+        edc.oauth.certificate.alias=daps-cert-edc-test-consumer-public
+        edc.oauth.private.key.alias=daps-cert-edc-test-consumer-private
 
-###################################
-# EDC Postgres Configuration #
-###################################
-edc-postgresql:
-  nameOverride: "tracex-test-consumer-edc-postgresql"
-  fullnameOverride: "tracex-test-consumer-edc-postgresql"
-  enabled: true
-  auth:
-    database: edc
-    username: <path:traceability-foss/data/dev/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
-    password: <path:traceability-foss/data/dev/edc/database#password>
+        edc.oauth.provider.jwks.url=https://daps1.int.demo.catena-x.net/.well-known/jwks.json
+        edc.oauth.token.url=https://daps1.int.demo.catena-x.net/token
+
+        edc.vault.hashicorp.url=https://vault.demo.catena-x.net
+        edc.vault.hashicorp.token=<path:traceability-foss/data/dev/edc#edc.vault.hashicorp.token>
+        edc.vault.hashicorp.api.secret.path=/v1/traceability-foss
+
