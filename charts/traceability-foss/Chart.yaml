@@ -39,9 +39,14 @@ dependencies:
     condition: pgadmin4.enabled
   - name: irs-helm
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 5.3.0
+    version: 6.0.0
     condition: irs-helm.enabled
-  - name: irs-edc-consumer
-    repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 1.1.2
-    condition: irs-edc-consumer.enabled
+  - condition: tractusx-connector.enabled
+    name: tractusx-connector
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.4.1
+  - condition: edc-postgresql.enabled
+    alias: edc-postgresql
+    name: postgresql
+    repository: https://charts.bitnami.com/bitnami
+    version: 12.1.6
