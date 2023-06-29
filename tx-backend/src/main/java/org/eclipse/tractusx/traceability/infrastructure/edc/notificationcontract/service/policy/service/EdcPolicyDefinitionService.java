@@ -20,11 +20,15 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.service.EdcNotitifcationAssetService;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.CreateEdcPolicyDefinitionException;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcCreatePolicyDefinitionRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicy;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermission;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionAction;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionConstraint;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionConstraintExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -39,12 +43,11 @@ import java.util.UUID;
 
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
+@Slf4j
 @Component
 public class EdcPolicyDefinitionService {
 
-    private static final Logger logger = LoggerFactory.getLogger(EdcNotitifcationAssetService.class);
-
-    private static final String CREATE_POLICY_DEFINION_PATH = "/api/v1/management/policydefinitions";
+    private static final String CREATE_POLICY_DEFINION_PATH = "/management/v2/policydefinitions";
     private static final String DATA_SPACE_CONNECTOR_PERMISSION = "dataspaceconnector:permission";
     public static final String DATA_SPACE_LITERAL_EXPRESSION = "dataspaceconnector:literalexpression";
     private static final String USE_ACTION = "USE";
@@ -83,7 +86,7 @@ public class EdcPolicyDefinitionService {
         try {
             createPolicyDefinitionResponse = restTemplate.postForEntity(CREATE_POLICY_DEFINION_PATH, edcCreatePolicyDefinitionRequest, String.class);
         } catch (RestClientException e) {
-            logger.error("Failed to create EDC notification asset policy {} notification asset id. Reason: ", notificationAssetId, e);
+            log.error("Failed to create EDC notification asset policy {} notification asset id. Reason: ", notificationAssetId, e);
 
             throw new CreateEdcPolicyDefinitionException(e);
         }
@@ -91,7 +94,7 @@ public class EdcPolicyDefinitionService {
         HttpStatusCode responseCode = createPolicyDefinitionResponse.getStatusCode();
 
         if (responseCode.value() == 409) {
-            logger.info("{} notification asset policy definition already exists in the EDC", notificationAssetId);
+            log.info("{} notification asset policy definition already exists in the EDC", notificationAssetId);
 
             throw new CreateEdcPolicyDefinitionException("Notification asset policy definition already exists in the EDC");
         }
@@ -100,7 +103,7 @@ public class EdcPolicyDefinitionService {
             return accessPolicyId;
         }
 
-        logger.error("Failed to create EDC notification policy definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, createPolicyDefinitionResponse.getBody(), createPolicyDefinitionResponse.getStatusCode());
+        log.error("Failed to create EDC notification policy definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, createPolicyDefinitionResponse.getBody(), createPolicyDefinitionResponse.getStatusCode());
 
         throw new CreateEdcAssetException("Failed to create EDC notification policy definition for %s asset id".formatted(notificationAssetId));
     }
@@ -114,7 +117,7 @@ public class EdcPolicyDefinitionService {
         try {
             restTemplate.delete(deleteUri);
         } catch (RestClientException e) {
-            logger.error("Failed to delete EDC notification asset policy {}. Reason: ", accessPolicyId, e);
+            log.error("Failed to delete EDC notification asset policy {}. Reason: ", accessPolicyId, e);
         }
     }
 }
