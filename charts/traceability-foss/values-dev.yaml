@@ -186,7 +186,6 @@ irs-helm:
   bpn: BPNL00000003CML1
   enabled: true
 
-
   nameOverride: "tracex-irs"
   fullnameOverride: "tracex-irs"
 
@@ -343,7 +342,7 @@ tractusx-connector:
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
   backendService:
-    httpProxyTokenReceiverUrl: "https://tracex-submodel-server.dev.demo.catena-x.net/data/endpoint-data-reference-provider1"
+    httpProxyTokenReceiverUrl: "http://tracex-submodel-server.dev.demo.catena-x.net/data/endpoint-data-reference-provider1"
 
   ################################
   # EDC Vault/DAPS Configuration #
@@ -369,7 +368,9 @@ tractusx-connector:
   daps:
     url: "https://daps1.int.demo.catena-x.net"
     clientId: 91:8F:4D:2A:E2:96:79:DC:9A:8C:DD:78:90:2E:8B:11:F7:C8:C3:B6:keyid:91:8F:4D:2A:E2:96:79:DC:9A:8C:DD:78:90:2E:8B:11:F7:C8:C3:B6
-
+    paths:
+      jwks: /.well-known/jwks.json
+      token: /token
   ##################################
   # EDC Postgres Configuration #
   ##################################
