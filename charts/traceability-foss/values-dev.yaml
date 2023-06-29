@@ -359,11 +359,11 @@ tractusx-connector:
         secret: /v1/traceability-foss
         health: /v1/sys/health
     secretNames:
-      transferProxyTokenSignerPrivateKey: token-signer-cert-key-dev
-      transferProxyTokenSignerPublicKey: token-signer-cert-dev
+      transferProxyTokenSignerPrivateKey: daps-cert-edc-dev-consumer-private
+      transferProxyTokenSignerPublicKey: daps-cert-edc-dev-consumer-public
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
-      dapsPrivateKey: daps-cert-edc-dev-consumer-public
-      dapsPublicKey: daps-cert-edc-dev-consumer-private
+      dapsPrivateKey: daps-cert-edc-dev-consumer-private
+      dapsPublicKey: daps-cert-edc-dev-consumer-public
 
   daps:
     url: "https://daps1.int.demo.catena-x.net"
