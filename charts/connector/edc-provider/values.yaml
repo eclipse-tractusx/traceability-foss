@@ -1,4 +1,5 @@
 tractusx-connector:
+  enabled: true
   install:
     postgresql: false
     daps: false

@@ -344,7 +344,13 @@ irs-helm:
   enabled: false  # <irs-helm.enabled>
 
 ###################################
-# IRS EDC Consumer configuration  #
+# EDC Consumer configuration  #
+###################################
+tractusx-connector:
+  enabled: false
+
+###################################
+# EDC Database configuration  #
 ###################################
 edc-postgresql:
-  enabled: false  # <irs-edc-consumer.enabled>
+  enabled: false
