@@ -346,5 +346,6 @@ irs-helm:
 ###################################
 # IRS EDC Consumer configuration  #
 ###################################
-irs-edc-consumer:
-  enabled: false  # <irs-edc-consumer.enabled>
+edc-postgresql:
+  enabled: false
+
