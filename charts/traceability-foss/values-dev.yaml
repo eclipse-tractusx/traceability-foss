@@ -375,8 +375,6 @@ tractusx-connector:
   # EDC Postgres Configuration #
   ##################################
   postgresql:
-    nameOverride: "tracex-consumer-edc-postgresql"
-    fullnameOverride: "tracex-consumer-edc-postgresql"
     enabled: true
     auth:
       username: "<path:traceability-foss/data/dev/edc/database#user>"
@@ -389,6 +387,8 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
+  nameOverride: "tracex-consumer-edc-postgresql"
+  fullnameOverride: "tracex-consumer-edc-postgresql"
   enabled: true
   auth:
     database: edc
