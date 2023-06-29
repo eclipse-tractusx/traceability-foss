@@ -228,6 +228,9 @@ irs-helm:
 
   edc:
     callbackurl: http://tracex-irs:8181/internal/endpoint-data-reference
+    catalog:
+      cache:
+        enabled: "false"
     controlplane:
       endpoint:
         statesuffix: /state
