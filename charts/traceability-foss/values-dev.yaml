@@ -370,6 +370,18 @@ tractusx-connector:
     url: "https://daps1.int.demo.catena-x.net"
     clientId: 91:8F:4D:2A:E2:96:79:DC:9A:8C:DD:78:90:2E:8B:11:F7:C8:C3:B6:keyid:91:8F:4D:2A:E2:96:79:DC:9A:8C:DD:78:90:2E:8B:11:F7:C8:C3:B6
 
+  ##################################
+  # EDC Postgres Configuration #
+  ##################################
+  postgresql:
+    enabled: true
+    auth:
+      username: "<path:traceability-foss/data/dev/edc/database#user>"
+      password: "<path:traceability-foss/data/dev/edc/database#password>"
+    username: "<path:traceability-foss/data/dev/edc/database#user>"
+    password: "<path:traceability-foss/data/dev/edc/database#password>"
+    jdbcUrl: "jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc"
+
 ###################################
 # EDC Postgres Configuration #
 ###################################
