@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,20 +16,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package qualitynotification.base.response;
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.response;
+import io.swagger.annotations.ApiModel;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Size;
+@ApiModel(description = "Describes the side of quality notification")
+public enum QualityNotificationSideResponse {
+    SENDER,
+    RECEIVER;
 
-public record QualityNotificationReasonResponse(
-        @ApiModelProperty(example = "description of closing reason")
-        @Size(max = 1000)
-        String close,
-        @ApiModelProperty(example = "description of accepting reason")
-        @Size(max = 1000)
-        String accept,
-        @ApiModelProperty(example = "description of declining reason")
-        @Size(max = 1000)
-        String decline) {
+
 }

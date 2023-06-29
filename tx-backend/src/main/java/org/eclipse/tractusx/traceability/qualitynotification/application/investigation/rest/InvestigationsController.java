@@ -37,13 +37,12 @@ import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.response.InvestigationResponse;
+import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.response.QualityNotificationIdResponse;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,6 +54,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import qualitynotification.base.response.QualityNotificationIdResponse;
+import qualitynotification.investigation.response.InvestigationResponse;
 
 import static org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator.validate;
 
@@ -120,7 +121,7 @@ public class InvestigationsController {
     @GetMapping("/created")
     public PageResult<InvestigationResponse> getCreatedInvestigations(OwnPageable pageable) {
         log.info(API_LOG_START + "/created");
-        return InvestigationResponse.fromAsPageResult(investigationService.getCreated(OwnPageable.toPageable(pageable)));
+        return InvestigationResponseMapper.fromAsPageResult(investigationService.getCreated(OwnPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getReceivedInvestigations",
@@ -145,7 +146,7 @@ public class InvestigationsController {
     @GetMapping("/received")
     public PageResult<InvestigationResponse> getReceivedInvestigations(OwnPageable pageable) {
         log.info(API_LOG_START + "/received");
-        return InvestigationResponse.fromAsPageResult(investigationService.getReceived(OwnPageable.toPageable(pageable)));
+        return InvestigationResponseMapper.fromAsPageResult(investigationService.getReceived(OwnPageable.toPageable(pageable)));
     }
 
     @Operation(operationId = "getInvestigation",
@@ -167,7 +168,7 @@ public class InvestigationsController {
     @GetMapping("/{investigationId}")
     public InvestigationResponse getInvestigation(@PathVariable Long investigationId) {
         log.info(API_LOG_START + "/{}", investigationId);
-        return InvestigationResponse.from(investigationService.find(investigationId));
+        return InvestigationResponseMapper.from(investigationService.find(investigationId));
     }
 
     @Operation(operationId = "approveInvestigation",
