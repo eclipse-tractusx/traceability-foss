@@ -24,7 +24,7 @@ tractusx-connector:
   dataplane:
     ingresses:
       - enabled: true
-        hostname: "https://trace-x-edc-dataplane.dev.demo.catena-x.net"
+        hostname: "trace-x-edc-dataplane.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
