@@ -277,7 +277,7 @@ tractusx-connector:
       management:
         port: 8081
         path: /management
-        authKey: "123456"  # -- authentication key, must be attached to each 'X-Api-Key' request header
+        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value> # -- authentication key, must be attached to each 'X-Api-Key' request header
       # -- protocol api, used for inter connector communication and must be internet facing
       protocol:
         port: 8084
