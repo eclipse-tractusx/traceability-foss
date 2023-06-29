@@ -94,7 +94,7 @@ backend:
       cpu: 750m
       memory: 512Mi
 
-  springprofile: dev
+  springprofile: test
 
   ingress:
     enabled: true
@@ -192,7 +192,7 @@ irs-helm:
   nameOverride: "tracex-test-irs"
   fullnameOverride: "tracex-test-irs"
   namespace: product-traceability-foss
-  springprofile: test
+  springprofile: dev
   irsUrl: "https://tracex-irs-test.dev.demo.catena-x.net"
   ingress:
     enabled: true
