@@ -42,7 +42,7 @@ describe('InvestigationsComponent', () => {
     spy.and.returnValue(new Promise(null));
 
     fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
-    expect(spy).toHaveBeenCalledWith(['/investigations/id-84']);
+    expect(spy).toHaveBeenCalledWith(['/investigations/id-84'], Object({ queryParams: Object({ tabIndex: null, pageNumber: 0 }) }) );
   });
 
   it('should call change pagination of received investigations', async () => {
