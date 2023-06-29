@@ -20,10 +20,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.service;
 
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcContractDefinitionCriteria;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcCreateContractDefinitionRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,8 +45,8 @@ public class EdcContractDefinitionService {
 	private static final Logger logger = LoggerFactory.getLogger(EdcContractDefinitionService.class);
 
 	private static final String ASSET_ID_OPERAND = "asset:prop:id";
-	private static final String EQUALITY_OPERATOR = "=";
-	private static final String CONTRACT_DEFINITIONS_PATH = "/api/v1/management/contractdefinitions";
+    private static final String EQUALITY_OPERATOR = "=";
+    private static final String CONTRACT_DEFINITIONS_PATH = "/management/v2/contractdefinitions";
 
 	private final RestTemplate restTemplate;
 
