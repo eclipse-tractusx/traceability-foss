@@ -348,4 +348,3 @@ irs-helm:
 ###################################
 edc-postgresql:
   enabled: false
-
