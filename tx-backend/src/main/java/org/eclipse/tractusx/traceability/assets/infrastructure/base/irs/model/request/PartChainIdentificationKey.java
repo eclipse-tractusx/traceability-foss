@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,27 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
-
-import java.util.List;
-
-public record RegisterJobRequest(
-        List<String> aspects,
-        PartChainIdentificationKey key,
-        boolean collectAspects,
-        BomLifecycle bomLifecycle,
-        boolean lookupBPNs,
-        int depth,
-        Direction direction
-) {
-    public static RegisterJobRequest buildJobRequest(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
-        return new RegisterJobRequest(aspects, new PartChainIdentificationKey(globalAssetId, null), true, bomLifecycle, true, DEFAULT_DEPTH, direction);
-    }
-
-    public static final int DEFAULT_DEPTH = 2;
+public record PartChainIdentificationKey(String globalAssetId, String bpn) {
 }
-
-
