@@ -42,12 +42,12 @@ entity AsBuiltAsset {
 }
 
 note right
-    SerialPartTypization and Batch
+    SerialPart and Batch
 end note
 
 enum SemanticDataModel {
     BATCH,
-    SERIALPARTTYPIZATION
+    SERIALPART
 }
 
 entity AsPlannedAsset {

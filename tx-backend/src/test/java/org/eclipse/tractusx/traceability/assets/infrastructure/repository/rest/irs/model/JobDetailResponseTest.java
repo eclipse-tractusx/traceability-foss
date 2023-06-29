@@ -42,7 +42,7 @@ class JobDetailResponseTest {
                 .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_assets_v2_singleUsageAsBuilt.json");
+        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_assets_v3_singleUsageAsBuilt.json");
         JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
         // when
         List<Asset> assets = response.convertAssets();

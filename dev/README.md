@@ -162,7 +162,7 @@ Consists of a List of the following structured entries:
         "childCatenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
       } ]
     } ],
-    "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : [ {
+    "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : [ {
       "localIdentifiers" : [ {
         "value" : "BPNL00000003CML1",
         "key" : "manufacturerId"
@@ -244,11 +244,11 @@ Is achieved through adding the SingleLevelusageBuilt - Codeblock and the corresp
   "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
   "bpnl" : "BPNL00000003CNKC",
   "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship": "[...]",
-  "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : "[...]"
+  "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : "[...]"
   }, {
   "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
   "bpnl" : "BPNL00000003AZQP",
-  "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : "",
+  "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : "",
   "urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt": [
     {
       "parentParts": [
