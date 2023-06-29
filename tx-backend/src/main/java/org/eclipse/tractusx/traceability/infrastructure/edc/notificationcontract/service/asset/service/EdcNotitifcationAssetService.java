@@ -55,7 +55,7 @@ public class EdcNotitifcationAssetService {
     private static final String DEFAULT_DATA_ADDRESS_PROPERTY_TYPE = "HttpData";
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = "/api/qualitynotifications/%s";
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = "/api/qualityalerts/%s";
-    private static final String EDC_CREATE_ASSET_PATH = "/api/v1/management/assets";
+    private static final String EDC_CREATE_ASSET_PATH = "/management/v2/assets";
 
     private final TraceabilityProperties traceabilityProperties;
     private final RestTemplate restTemplate;
