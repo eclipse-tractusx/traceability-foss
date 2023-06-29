@@ -186,6 +186,7 @@ irs-helm:
   bpn: BPNL00000003CML1
   enabled: true
 
+
   nameOverride: "tracex-irs"
   fullnameOverride: "tracex-irs"
 
@@ -207,6 +208,7 @@ irs-helm:
           - "tracex-irs.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
+    type: central
     url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
@@ -230,10 +232,9 @@ irs-helm:
       endpoint:
         # check port and servicename
         data: http://tracex-consumer-controlplane:8181/api/v1/management
-        ##state: /state
+        statesuffix: /state
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
-
 
   minio:
     nameOverride: "tracex-irs-minio"
