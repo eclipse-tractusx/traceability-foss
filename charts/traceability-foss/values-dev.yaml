@@ -185,17 +185,11 @@ postgresql:
 irs-helm:
   bpn: BPNL00000003CML1
   enabled: true
-
-
   nameOverride: "tracex-irs"
   fullnameOverride: "tracex-irs"
-
   namespace: product-traceability-foss
-
   springprofile: dev
-
   irsUrl: "https://tracex-irs.dev.demo.catena-x.net"
-
   ingress:
     enabled: true
     hosts:
@@ -210,6 +204,8 @@ irs-helm:
   digitalTwinRegistry:
     type: central
     url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry
+    ## TODO needs to be adapted to our mock once we have one.
+    discoveryFinderUrl: https://discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
@@ -344,7 +340,7 @@ tractusx-connector:
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
   backendService:
-    httpProxyTokenReceiverUrl: "http://tracex-submodel-server.dev.demo.catena-x.net/data/endpoint-data-reference-provider1"
+    httpProxyTokenReceiverUrl: "https://tracex-submodel-server.dev.demo.catena-x.net/data/endpoint-data-reference-provider1"
 
   ################################
   # EDC Vault/DAPS Configuration #
