@@ -144,9 +144,8 @@ tractusx-connector:
 ##############################
 # EDC chart do not support multiple postgres instances in the same namespace at the moment.
 # Enable this to use the postgres dependency for when you want to deploy multiple EDC instances in one namespace
-postgresql:
-  enabled: false
 edc-postgresql:
+  enabled: false
   auth:
     database:
     username:

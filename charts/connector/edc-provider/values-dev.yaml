@@ -52,10 +52,8 @@ tractusx-connector:
     url: "https://daps1.int.demo.catena-x.net"
     clientId: 35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88:keyid:35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88
 
-postgresql:
-  enabled: true
-
 edc-postgresql:
+  enabled: true
   auth:
     database: edc
     username: <path:traceability-foss/data/dev/edc/database#user>
