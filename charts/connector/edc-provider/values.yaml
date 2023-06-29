@@ -5,7 +5,7 @@ tractusx-connector:
     daps: false
     vault: false
   participant:
-    id: BPNL00000003CRHK
+    id: BPNL00000003CML1
 
   controlplane:
     ingresses:
