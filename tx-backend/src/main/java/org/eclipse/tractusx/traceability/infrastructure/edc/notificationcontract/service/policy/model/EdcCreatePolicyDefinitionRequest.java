@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EdcCreatePolicyDefinitionRequest {
 
-	@JsonProperty("id")
+	@JsonProperty("@id")
 	private final String policyDefinitionId;
 
 	@JsonProperty("policy")

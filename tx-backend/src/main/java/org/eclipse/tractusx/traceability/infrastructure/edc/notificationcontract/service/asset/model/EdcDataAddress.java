@@ -24,14 +24,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EdcDataAddress {
 
-	@JsonProperty("properties")
-	private final EdcDataAddressProperties edcDataAddressProperties;
+    @JsonProperty("@type")
+    private String atType;
+    @JsonProperty("type")
+    private String type;
 
-	public EdcDataAddress(EdcDataAddressProperties edcDataAddressProperties) {
-		this.edcDataAddressProperties = edcDataAddressProperties;
-	}
+    @JsonProperty("properties")
+    private final EdcDataAddressProperties edcDataAddressProperties;
 
-	public EdcDataAddressProperties getEdcDataAddressProperties() {
-		return edcDataAddressProperties;
+    public EdcDataAddress(EdcDataAddressProperties edcDataAddressProperties) {
+        this.edcDataAddressProperties = edcDataAddressProperties;
+    }
+
+    public EdcDataAddressProperties getEdcDataAddressProperties() {
+        return edcDataAddressProperties;
 	}
 }

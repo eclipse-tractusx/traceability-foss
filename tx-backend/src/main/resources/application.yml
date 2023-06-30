@@ -25,10 +25,12 @@ traceability:
   registry.manufacturerIdKey: manufacturerId
 
 edc:
-  ids: "/api/v1/ids/data"
+  ids: "/api/v1/dsp/data"
   negotiation: "/management/v2/contractdefinitions"
   transfer: "/management/v2/transferprocesses"
   catalog: "/management/v2/catalog/request"
+  policydefinitions: "/management/v2/policydefinitions"
+  assets: "/management/v2/assets"
   api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings: { }
   provider-edc-url: ${EDC_PROVIDER_URL}

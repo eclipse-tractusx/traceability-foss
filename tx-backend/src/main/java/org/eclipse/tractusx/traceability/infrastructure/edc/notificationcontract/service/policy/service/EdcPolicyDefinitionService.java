@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionAction;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionConstraintExpression;
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -47,7 +48,6 @@ import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationc
 @Component
 public class EdcPolicyDefinitionService {
 
-    private static final String CREATE_POLICY_DEFINION_PATH = "/management/v2/policydefinitions";
     private static final String DATA_SPACE_CONNECTOR_PERMISSION = "dataspaceconnector:permission";
     public static final String DATA_SPACE_LITERAL_EXPRESSION = "dataspaceconnector:literalexpression";
     private static final String USE_ACTION = "USE";
@@ -62,10 +62,12 @@ public class EdcPolicyDefinitionService {
     );
 
     private final RestTemplate restTemplate;
+    private final EdcProperties edcProperties;
 
     @Autowired
-    public EdcPolicyDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate) {
+    public EdcPolicyDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
         this.restTemplate = restTemplate;
+        this.edcProperties = edcProperties;
     }
 
     public String createAccessPolicy(String notificationAssetId) {
@@ -84,7 +86,7 @@ public class EdcPolicyDefinitionService {
 
         final ResponseEntity<String> createPolicyDefinitionResponse;
         try {
-            createPolicyDefinitionResponse = restTemplate.postForEntity(CREATE_POLICY_DEFINION_PATH, edcCreatePolicyDefinitionRequest, String.class);
+            createPolicyDefinitionResponse = restTemplate.postForEntity(edcProperties.getPolicyDefinitionsPath(), edcCreatePolicyDefinitionRequest, String.class);
         } catch (RestClientException e) {
             log.error("Failed to create EDC notification asset policy {} notification asset id. Reason: ", notificationAssetId, e);
 
@@ -109,7 +111,7 @@ public class EdcPolicyDefinitionService {
     }
 
     public void deleteAccessPolicy(String accessPolicyId) {
-        String deleteUri = UriComponentsBuilder.fromPath(CREATE_POLICY_DEFINION_PATH)
+        String deleteUri = UriComponentsBuilder.fromPath(edcProperties.getPolicyDefinitionsPath())
                 .pathSegment("{accessPolicyId}")
                 .buildAndExpand(accessPolicyId)
                 .toUriString();

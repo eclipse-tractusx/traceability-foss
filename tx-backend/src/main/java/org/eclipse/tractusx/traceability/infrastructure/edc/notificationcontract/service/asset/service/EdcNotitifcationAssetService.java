@@ -20,17 +20,18 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcAsset;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcAssetProperties;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcCreateDataAssetRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcDataAddress;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcDataAddressProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -44,10 +45,9 @@ import java.util.UUID;
 
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
+@Slf4j
 @Component
 public class EdcNotitifcationAssetService {
-
-    private static final Logger logger = LoggerFactory.getLogger(EdcNotitifcationAssetService.class);
 
     private static final String DEFAULT_CONTENT_TYPE = "application/json";
     private static final String DEFAULT_POLICY_ID = "use-eu";
@@ -55,24 +55,25 @@ public class EdcNotitifcationAssetService {
     private static final String DEFAULT_DATA_ADDRESS_PROPERTY_TYPE = "HttpData";
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE = "/api/qualitynotifications/%s";
     private static final String TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE = "/api/qualityalerts/%s";
-    private static final String EDC_CREATE_ASSET_PATH = "/management/v2/assets";
 
     private final TraceabilityProperties traceabilityProperties;
     private final RestTemplate restTemplate;
+    private final EdcProperties edcProperties;
 
     @Autowired
-    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate) {
+    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
         this.traceabilityProperties = traceabilityProperties;
         this.restTemplate = restTemplate;
+        this.edcProperties = edcProperties;
     }
 
-	public String createNotificationAsset(NotificationMethod notificationMethod, NotificationType notificationType) {
-		String notificationMethodValue = notificationMethod.getValue();
+    public String createNotificationAsset(NotificationMethod notificationMethod, NotificationType notificationType) {
+        String notificationMethodValue = notificationMethod.getValue();
 
         final String template = notificationType.equals(NotificationType.QUALITY_ALERT) ? TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE : TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE;
         String notificationAssetId = UUID.randomUUID().toString();
 
-		EdcDataAddressProperties edcDataAddressProperties = new EdcDataAddressProperties(
+        EdcDataAddressProperties edcDataAddressProperties = new EdcDataAddressProperties(
                 traceabilityProperties.getUrl() + template.formatted(notificationMethodValue),
                 true,
                 DEFAULT_METHOD,
@@ -80,65 +81,67 @@ public class EdcNotitifcationAssetService {
                 DEFAULT_DATA_ADDRESS_PROPERTY_TYPE
         );
 
-		EdcDataAddress edcDataAddress = new EdcDataAddress(edcDataAddressProperties);
+        EdcDataAddress edcDataAddress = new EdcDataAddress(edcDataAddressProperties);
 
-		String description = "endpoint to %s %s".formatted(notificationMethodValue, notificationType.getValue());
+        String description = "endpoint to %s %s".formatted(notificationMethodValue, notificationType.getValue());
 
-		EdcAssetProperties edcAssetProperties = new EdcAssetProperties(
-			notificationAssetId,
-			description,
-			DEFAULT_CONTENT_TYPE,
-			DEFAULT_POLICY_ID,
-			notificationType.getValue(),
-			notificationType.getValue(),
-			notificationMethodValue
-		);
+        EdcAssetProperties edcAssetProperties = new EdcAssetProperties(
+                notificationAssetId,
+                description,
+                DEFAULT_CONTENT_TYPE,
+                DEFAULT_POLICY_ID,
+                notificationType.getValue(),
+                notificationType.getValue(),
+                notificationMethodValue
+        );
 
-		EdcAsset edcAsset = new EdcAsset(edcAssetProperties);
+        String id = UUID.randomUUID().toString();
+        String type = "https://w3id.org/edc/v0.0.1/ns/";
+        EdcAsset edcAsset = EdcAsset.builder().type(type).id(id).edcAssetProperties(edcAssetProperties).build();
+        EdcContext edcContext = new EdcContext("https://w3id.org/edc/v0.0.1/ns/");
+        EdcCreateDataAssetRequest createDataAssetRequest = EdcCreateDataAssetRequest.builder().edcAsset(edcAsset).edcDataAddress(edcDataAddress).edcContext(edcContext).build();
 
-		EdcCreateDataAssetRequest createDataAssetRequest = new EdcCreateDataAssetRequest(edcAsset, edcDataAddress);
 
-		final ResponseEntity<String> createEdcDataAssetResponse;
+        final ResponseEntity<String> createEdcDataAssetResponse;
 
-		try {
-			createEdcDataAssetResponse = restTemplate.postForEntity(
-				EDC_CREATE_ASSET_PATH,
-				createDataAssetRequest,
-				String.class
-			);
-		} catch (RestClientException e) {
-			logger.error("Failed to create EDC notification asset for {} method. Reason: ", notificationMethod, e);
+        try {
+            createEdcDataAssetResponse = restTemplate.postForEntity(
+                    edcProperties.getAssetsPath(),
+                    createDataAssetRequest,
+                    String.class
+            );
+        } catch (RestClientException e) {
+            log.error("Failed to create EDC notification asset for {} method. Reason: ", notificationMethod, e);
+            throw new CreateEdcAssetException(e);
+        }
 
-			throw new CreateEdcAssetException(e);
-		}
+        HttpStatusCode responseCode = createEdcDataAssetResponse.getStatusCode();
 
-		HttpStatusCode responseCode = createEdcDataAssetResponse.getStatusCode();
+        if (responseCode.value() == 409) {
+            log.info("{} notification asset already exists in the EDC", notificationAssetId);
 
-		if (responseCode.value() == 409) {
-			logger.info("{} notification asset already exists in the EDC", notificationAssetId);
+            return notificationAssetId;
+        }
 
-			return notificationAssetId;
-		}
+        if (responseCode.value() == 200) {
+            return notificationAssetId;
+        }
 
-		if (responseCode.value() == 200) {
-			return notificationAssetId;
-		}
+        log.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, createEdcDataAssetResponse.getBody(), createEdcDataAssetResponse.getStatusCode());
 
-		logger.error("Failed to create EDC notification asset for {} method. Body: {}, status: {}", notificationMethodValue, createEdcDataAssetResponse.getBody(), createEdcDataAssetResponse.getStatusCode());
+        throw new CreateEdcAssetException("Failed to create EEC notification asset for %s method".formatted(notificationMethodValue));
+    }
 
-		throw new CreateEdcAssetException("Failed to create EEC notification asset for %s method".formatted(notificationMethodValue));
-	}
+    public void deleteNotificationAsset(String notificationAssetId) {
+        String deleteUri = UriComponentsBuilder.fromPath(edcProperties.getAssetsPath())
+                .pathSegment("{notificationAssetId}")
+                .buildAndExpand(notificationAssetId)
+                .toUriString();
 
-	public void deleteNotificationAsset(String notificationAssetId) {
-		String deleteUri = UriComponentsBuilder.fromPath(EDC_CREATE_ASSET_PATH)
-			.pathSegment("{notificationAssetId}")
-			.buildAndExpand(notificationAssetId)
-			.toUriString();
-
-		try {
-			restTemplate.delete(deleteUri);
-		} catch (RestClientException e) {
-			logger.error("Failed to delete EDC notification asset {}. Reason: ", notificationAssetId, e);
-		}
-	}
+        try {
+            restTemplate.delete(deleteUri);
+        } catch (RestClientException e) {
+            log.error("Failed to delete EDC notification asset {}. Reason: ", notificationAssetId, e);
+        }
+    }
 }
