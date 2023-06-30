@@ -25,6 +25,7 @@ import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { MenuActionConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
@@ -71,14 +72,10 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
-      if(params.pageNumber) {
-        this.pagination.page = params.pageNumber;
-
-      } else {
-        this.investigationsFacade.setReceivedInvestigation(0, this.pagination.pageSize, this.pagination.sorting);
-        this.investigationsFacade.setQueuedAndRequestedInvestigations(0, this.pagination.pageSize, this.pagination.sorting);
-      }
+      this.pagination.page = params?.pageNumber;
     })
+    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
 
   public ngAfterContentInit(): void {
@@ -140,12 +137,9 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   public openDetailPage(notification: Notification): void {
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
-    let params: any = {
-      pageNumber: this.pagination.page
-    }
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
-    params = {tabIndex: tabIndex, ...params}
-    this.router.navigate([`/${link}/${notification.id}`], { queryParams: params });
+    const tabInformation: NotificationTabInformation = {tabIndex: parseInt(tabIndex), pageNumber: this.pagination.page}
+    this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {
