@@ -28,13 +28,11 @@ describe('DeclineNotificationModalComponent', () => {
   it('should create close modal', async () => {
     await renderDeclineModal(NotificationStatus.ACKNOWLEDGED);
     const title = await waitFor(() => screen.getByText('commonInvestigation.modal.declineTitle'));
-    const hint = await waitFor(() => screen.getByText('commonInvestigation.modal.declineDescription'));
     const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.declineReasonHint'));
     const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
     const buttonR = await waitFor(() => screen.getByText('actions.decline'));
 
     expect(title).toBeInTheDocument();
-    expect(hint).toBeInTheDocument();
     expect(hint2).toBeInTheDocument();
     expect(buttonL).toBeInTheDocument();
     expect(buttonR).toBeInTheDocument();

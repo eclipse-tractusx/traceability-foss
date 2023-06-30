@@ -80,6 +80,14 @@
                 }
               ]
             },
+            "authE2eA": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.authE2eA.ts"
+                }
+              ]
+            },
             "authLocal": {
               "fileReplacements": [
                 {
@@ -160,6 +168,9 @@
             },
             "authTest": {
               "browserTarget": "trace-x:build:dev,authTest"
+            },
+            "authE2eA": {
+              "browserTarget": "trace-x:build:dev,authE2eA"
             },
             "authLocal": {
               "browserTarget": "trace-x:build:dev,authLocal"
