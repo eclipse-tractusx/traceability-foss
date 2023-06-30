@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,10 +19,10 @@
 
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
-import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
-import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
-import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
+import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
+import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
+import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
+import { AlertsFacade } from '@page/alerts/core/alerts.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
@@ -42,11 +40,11 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-investigation-detail',
-  templateUrl: './investigation-detail.component.html',
-  styleUrls: ['./investigation-detail.component.scss'],
+  selector: 'app-alert-detail',
+  templateUrl: './alert-detail.component.html',
+  styleUrls: ['./alert-detail.component.scss'],
 })
-export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
+export class AlertDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
   @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
   @ViewChild(CancelNotificationModalComponent) cancelModal: CancelNotificationModalComponent;
@@ -57,17 +55,17 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
-  public readonly investigationPartsInformation$: Observable<View<Part[]>>;
+  public readonly alertPartsInformation$: Observable<View<Part[]>>;
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
   public readonly selected$: Observable<View<Notification>>;
 
-  public readonly isInvestigationOpen$ = new BehaviorSubject<boolean>(false);
+  public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
   public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
   public readonly deselectPartTrigger$ = new Subject<Part[]>();
   public readonly addPartTrigger$ = new Subject<Part>();
 
-  public readonly notificationPartsTableId = this.staticIdService.generateId('InvestigationDetail');
-  public readonly supplierPartsTableId = this.staticIdService.generateId('InvestigationDetail');
+  public readonly notificationPartsTableId = this.staticIdService.generateId('AlertDetail');
+  public readonly supplierPartsTableId = this.staticIdService.generateId('AlertDetail');
 
   public notificationPartsTableConfig: TableConfig;
   public supplierPartsTableConfig: TableConfig;
@@ -76,24 +74,24 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private originTabIndex: number;
 
   private subscription: Subscription;
-  private selectedInvestigationTmpStore: Notification;
-  public selectedInvestigation: Notification;
+  private selectedAlertTmpStore: Notification;
+  public selectedAlert: Notification;
 
   private paramSubscription: Subscription
 
   constructor(
-    public readonly helperService: InvestigationHelperService,
-    public readonly investigationDetailFacade: InvestigationDetailFacade,
+    public readonly helperService: AlertHelperService,
+    public readonly alertDetailFacade: AlertDetailFacade,
     private readonly staticIdService: StaticIdService,
-    private readonly investigationsFacade: InvestigationsFacade,
+    private readonly alertsFacade: AlertsFacade,
     private router: Router,
     private readonly route: ActivatedRoute,
     private readonly ctaSnackbarService: CtaSnackbarService,
   ) {
-    this.investigationPartsInformation$ = this.investigationDetailFacade.notificationPartsInformation$;
-    this.supplierPartsDetailInformation$ = this.investigationDetailFacade.supplierPartsInformation$;
+    this.alertPartsInformation$ = this.alertDetailFacade.notificationPartsInformation$;
+    this.supplierPartsDetailInformation$ = this.alertDetailFacade.supplierPartsInformation$;
 
-    this.selected$ = this.investigationDetailFacade.selected$;
+    this.selected$ = this.alertDetailFacade.selected$;
 
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
@@ -103,7 +101,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    if (!this.investigationDetailFacade.selected?.data) {
+    if (!this.alertDetailFacade.selected?.data) {
       this.selectedNotificationBasedOnUrl();
     }
 
@@ -112,7 +110,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
         filter(({ data }) => !!data),
         tap(({ data }) => {
           this.setTableConfigs(data);
-          this.selectedInvestigation = data;
+          this.selectedAlert = data;
         }),
       )
       .subscribe();
@@ -120,22 +118,22 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
-    this.investigationDetailFacade.unsubscribeSubscriptions();
+    this.alertDetailFacade.unsubscribeSubscriptions();
     this.paramSubscription?.unsubscribe();
   }
 
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
     const [name, direction] = sorting || ['', ''];
-    this.investigationDetailFacade.sortNotificationParts(name, direction);
+    this.alertDetailFacade.sortNotificationParts(name, direction);
   }
 
   public onSupplierPartsSort({ sorting }: TableEventConfig): void {
     const [name, direction] = sorting || ['', ''];
-    this.investigationDetailFacade.sortSupplierParts(name, direction);
+    this.alertDetailFacade.sortSupplierParts(name, direction);
   }
 
   public onMultiSelect(event: unknown[]): void {
-    this.selectedInvestigationTmpStore = Object.assign(this.investigationDetailFacade.selected);
+    this.selectedAlertTmpStore = Object.assign(this.alertDetailFacade.selected);
     this.selectedItems$.next(event as Part[]);
   }
 
@@ -159,13 +157,13 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     navigator.clipboard.writeText(semanticModelId).then(_ => this.ctaSnackbarService.show(text));
   }
 
-  public navigateBackToInvestigations(): void {
-    const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
+  public navigateBackToAlerts(): void {
+    const { link } = getRoute(ALERT_BASE_ROUTE);
     this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
   }
 
   public handleConfirmActionCompletedEvent(): void {
-    this.investigationDetailFacade.selected = { loader: true };
+    this.alertDetailFacade.selected = { loader: true };
     this.subscription?.unsubscribe();
     this.ngAfterViewInit();
   }
@@ -186,14 +184,14 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       },
     };
 
-    this.investigationDetailFacade.setInvestigationPartsInformation(data);
+    this.alertDetailFacade.setAlertPartsInformation(data);
     this.notificationPartsTableConfig = { ...tableConfig };
 
     if (!this.isReceived) {
       return;
     }
 
-    this.investigationDetailFacade.setAndSupplierPartsInformation();
+    this.alertDetailFacade.setAndSupplierPartsInformation();
     this.supplierPartsTableConfig = {
       ...tableConfig,
       displayedColumns: ['select', ...displayedColumns],
@@ -202,12 +200,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   }
 
   private selectedNotificationBasedOnUrl(): void {
-    const investigationId = this.route.snapshot.paramMap.get('investigationId');
-    this.investigationsFacade
-      .getInvestigation(investigationId)
+    const alertId = this.route.snapshot.paramMap.get('alertId');
+    this.alertsFacade
+      .getAlert(alertId)
       .pipe(
         first(),
-        tap(notification => (this.investigationDetailFacade.selected = { data: notification })),
+        tap(notification => (this.alertDetailFacade.selected = { data: notification })),
       )
       .subscribe();
   }

@@ -61,5 +61,6 @@ SPDX-License-Identifier: Apache-2.0
   [queuedAndRequestedSortableColumns]="{status: true, createdDate: true, severity: true, sendTo: true}"
   (onReceivedTableConfigChanged)="onReceivedTableConfigChange($event)"
   (onQueuedAndRequestedTableConfigChanged)="onQueuedAndRequestedTableConfigChange($event)"
+  (selected)="openDetailPage($event)"
   [menuActionsConfig]="menuActionsConfig"
 ></app-notification>

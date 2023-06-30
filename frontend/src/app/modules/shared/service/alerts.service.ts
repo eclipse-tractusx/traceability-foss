@@ -29,7 +29,8 @@ import { Severity } from '@shared/model/severity.model';
 import type { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  NotificationCreateResponse,
+  Notification,
+  NotificationCreateResponse, NotificationResponse,
   Notifications,
   NotificationsResponse,
   NotificationStatus,
@@ -60,6 +61,12 @@ export class AlertsService {
     return this.apiService
       .getBy<NotificationsResponse>(`${this.url}/alerts/received`, params)
       .pipe(map(alerts => NotificationAssembler.assembleNotifications(alerts)));
+  }
+
+  public getAlert(id: string): Observable<Notification> {
+    return this.apiService
+      .get<NotificationResponse>(`${this.url}/alerts/${id}`)
+      .pipe(map(notification => NotificationAssembler.assembleNotification(notification)));
   }
 
   public postAlert(partIds: string[], description: string, severity: Severity, bpn: string): Observable<string> {
