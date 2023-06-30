@@ -7,8 +7,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+- Added back button in notification detailed view
 
 ### Changed
+- Changed Layout in notification detailed view
 - Changed request parameter for registerjob request to irs to match requirements of irs
 
 ### Removed
