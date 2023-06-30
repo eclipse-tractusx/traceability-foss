@@ -21,46 +21,27 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 
 import java.util.List;
 
+@Builder
 public class EdcCreateContractDefinitionRequest {
 
-	@JsonProperty("id")
-	private final String id;
+    @JsonProperty("@context")
+    private EdcContext edcContext;
 
-	@JsonProperty("accessPolicyId")
-	private final String accessPolicyId;
+    @JsonProperty("@id")
+    private String id;
 
-	@JsonProperty("contractPolicyId")
-	private final String contractPolicyId;
+    @JsonProperty("accessPolicyId")
+    private String accessPolicyId;
 
-	@JsonProperty("criteria")
-	private final List<EdcContractDefinitionCriteria> criteria;
+    @JsonProperty("contractPolicyId")
+    private String contractPolicyId;
 
-	public EdcCreateContractDefinitionRequest(String id,
-											  String accessPolicyId,
-											  String contractPolicyId,
-											  List<EdcContractDefinitionCriteria> criteria) {
-		this.id = id;
-		this.accessPolicyId = accessPolicyId;
-		this.contractPolicyId = contractPolicyId;
-		this.criteria = criteria;
-	}
+    @JsonProperty("criteria")
+    private List<EdcContractDefinitionCriteria> criteria;
 
-	public String getId() {
-		return id;
-	}
-
-	public String getAccessPolicyId() {
-		return accessPolicyId;
-	}
-
-	public String getContractPolicyId() {
-		return contractPolicyId;
-	}
-
-	public List<EdcContractDefinitionCriteria> getCriteria() {
-		return criteria;
-	}
 }

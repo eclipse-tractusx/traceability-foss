@@ -24,8 +24,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EdcDataAddress {
 
-    @JsonProperty("@type")
-    private String atType;
     @JsonProperty("type")
     private String type;
 

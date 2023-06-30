@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicy;
@@ -81,9 +82,13 @@ public class EdcPolicyDefinitionService {
         EdcPolicy edcPolicy = new EdcPolicy(List.of(edcPolicyPermission));
 
         String accessPolicyId = UUID.randomUUID().toString();
+        EdcContext edcContext = new EdcContext("https://w3id.org/edc/v0.0.1/ns/");
 
-        EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest = new EdcCreatePolicyDefinitionRequest(accessPolicyId, edcPolicy);
-
+        EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest = EdcCreatePolicyDefinitionRequest.builder()
+                .policyDefinitionId(accessPolicyId)
+                .edcPolicy(edcPolicy)
+                .edcContext(edcContext)
+                .build();
         final ResponseEntity<String> createPolicyDefinitionResponse;
         try {
             createPolicyDefinitionResponse = restTemplate.postForEntity(edcProperties.getPolicyDefinitionsPath(), edcCreatePolicyDefinitionRequest, String.class);

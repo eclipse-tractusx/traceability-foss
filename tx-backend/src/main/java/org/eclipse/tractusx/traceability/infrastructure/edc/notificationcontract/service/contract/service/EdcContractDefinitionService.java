@@ -21,9 +21,11 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.service;
 
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcContractDefinitionCriteria;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcCreateContractDefinitionRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,38 +48,39 @@ public class EdcContractDefinitionService {
 
 	private static final String ASSET_ID_OPERAND = "asset:prop:id";
     private static final String EQUALITY_OPERATOR = "=";
-    private static final String CONTRACT_DEFINITIONS_PATH = "/management/v2/contractdefinitions";
 
-	private final RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+    private final EdcProperties edcProperties;
 
-	@Autowired
-	public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate) {
-		this.restTemplate = restTemplate;
-	}
+    @Autowired
+    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
+        this.restTemplate = restTemplate;
+        this.edcProperties = edcProperties;
+    }
 
 	public String createContractDefinition(String notificationAssetId, String accessPolicyId) {
-		EdcContractDefinitionCriteria edcContractDefinitionCriteria = new EdcContractDefinitionCriteria(ASSET_ID_OPERAND, EQUALITY_OPERATOR, notificationAssetId);
+        EdcContractDefinitionCriteria edcContractDefinitionCriteria = new EdcContractDefinitionCriteria(ASSET_ID_OPERAND, EQUALITY_OPERATOR, notificationAssetId);
 
-		String contractPolicyId = UUID.randomUUID().toString();
+        String contractPolicyId = UUID.randomUUID().toString();
 
-		EdcCreateContractDefinitionRequest createContractDefinitionRequest = new EdcCreateContractDefinitionRequest(
-			contractPolicyId,
-			accessPolicyId,
-			accessPolicyId,
-			List.of(
-				edcContractDefinitionCriteria
-			)
-		);
+        EdcContext edcContext = new EdcContext("https://w3id.org/edc/v0.0.1/ns/");
+        EdcCreateContractDefinitionRequest createContractDefinitionRequest = EdcCreateContractDefinitionRequest.builder()
+                .contractPolicyId(contractPolicyId)
+                .edcContext(edcContext)
+                .accessPolicyId(accessPolicyId)
+                .id(accessPolicyId)
+                .criteria(List.of(edcContractDefinitionCriteria))
+                .build();
 
-		final ResponseEntity<String> createContractDefinitionResponse;
+        final ResponseEntity<String> createContractDefinitionResponse;
 
-		try {
-			createContractDefinitionResponse = restTemplate.postForEntity(CONTRACT_DEFINITIONS_PATH, createContractDefinitionRequest, String.class);
-		} catch (RestClientException e) {
-			logger.error("Failed to create edc contract definition for {} notification asset and {} policy definition id. Reason: ", notificationAssetId, accessPolicyId, e);
+        try {
+            createContractDefinitionResponse = restTemplate.postForEntity(edcProperties.getNegotiationPath(), createContractDefinitionRequest, String.class);
+        } catch (RestClientException e) {
+            logger.error("Failed to create edc contract definition for {} notification asset and {} policy definition id. Reason: ", notificationAssetId, accessPolicyId, e);
 
-			throw new CreateEdcContractDefinitionException(e);
-		}
+            throw new CreateEdcContractDefinitionException(e);
+        }
 
 		HttpStatusCode responseCode = createContractDefinitionResponse.getStatusCode();
 

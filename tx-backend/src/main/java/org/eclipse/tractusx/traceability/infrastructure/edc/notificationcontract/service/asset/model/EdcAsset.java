@@ -26,11 +26,8 @@ import lombok.Builder;
 @Builder
 public class EdcAsset {
 
-    @JsonProperty("@type")
-    private String type;
-
     @JsonProperty("@id")
-    private String id;
+    private String assetId;
 
     @JsonProperty("properties")
     private EdcAssetProperties edcAssetProperties;

@@ -71,13 +71,14 @@ public class EdcNotitifcationAssetService {
         String notificationMethodValue = notificationMethod.getValue();
 
         final String template = notificationType.equals(NotificationType.QUALITY_ALERT) ? TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE : TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE;
+
         String notificationAssetId = UUID.randomUUID().toString();
 
         EdcDataAddressProperties edcDataAddressProperties = new EdcDataAddressProperties(
                 traceabilityProperties.getUrl() + template.formatted(notificationMethodValue),
-                true,
+                "true",
                 DEFAULT_METHOD,
-                true,
+                "true",
                 DEFAULT_DATA_ADDRESS_PROPERTY_TYPE
         );
 
@@ -86,7 +87,6 @@ public class EdcNotitifcationAssetService {
         String description = "endpoint to %s %s".formatted(notificationMethodValue, notificationType.getValue());
 
         EdcAssetProperties edcAssetProperties = new EdcAssetProperties(
-                notificationAssetId,
                 description,
                 DEFAULT_CONTENT_TYPE,
                 DEFAULT_POLICY_ID,
@@ -95,12 +95,9 @@ public class EdcNotitifcationAssetService {
                 notificationMethodValue
         );
 
-        String id = UUID.randomUUID().toString();
-        String type = "https://w3id.org/edc/v0.0.1/ns/";
-        EdcAsset edcAsset = EdcAsset.builder().type(type).id(id).edcAssetProperties(edcAssetProperties).build();
+        EdcAsset edcAsset = EdcAsset.builder().assetId(notificationAssetId).edcAssetProperties(edcAssetProperties).build();
         EdcContext edcContext = new EdcContext("https://w3id.org/edc/v0.0.1/ns/");
         EdcCreateDataAssetRequest createDataAssetRequest = EdcCreateDataAssetRequest.builder().edcAsset(edcAsset).edcDataAddress(edcDataAddress).edcContext(edcContext).build();
-
 
         final ResponseEntity<String> createEdcDataAssetResponse;
 

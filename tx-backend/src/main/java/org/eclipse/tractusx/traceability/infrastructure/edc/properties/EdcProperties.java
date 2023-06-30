@@ -53,7 +53,7 @@ public class EdcProperties {
     private String policyDefinitionsPath;
 
     @NotBlank
-    @Value("edc.assets")
+    @Value("${edc.assets}")
     private String assetsPath;
 
     @NotBlank
