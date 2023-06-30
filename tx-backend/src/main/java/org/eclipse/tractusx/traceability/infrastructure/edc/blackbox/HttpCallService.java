@@ -31,6 +31,7 @@ import okhttp3.RequestBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CatalogRequestDTO;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.stereotype.Component;
@@ -74,7 +75,7 @@ public class HttpCallService {
     ) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
         MediaType mediaType = MediaType.parse("application/json");
-        CatalogRequestDTO catalogRequestDTO = new CatalogRequestDTO(providerConnectorControlPlaneIDSUrl);
+        CatalogRequestDTO catalogRequestDTO = new CatalogRequestDTO(providerConnectorControlPlaneIDSUrl, "dataspace-protocol-http", new EdcContext("https://w3id.org/edc/v0.0.1/ns/"));
         var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, objectMapper.writeValueAsString(catalogRequestDTO)));
         headers.forEach(request::addHeader);
 
