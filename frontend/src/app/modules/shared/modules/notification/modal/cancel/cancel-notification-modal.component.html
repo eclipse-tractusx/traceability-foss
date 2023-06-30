@@ -20,7 +20,6 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <ng-template #Modal>
-  <p class="mb-2">{{ translationContext + '.modal.cancellationDescription' | i18n }}</p>
   <app-notification-modal-content [notification]="notification"></app-notification-modal-content>
 
   <form [formGroup]="formGroup" class="mt-4">
