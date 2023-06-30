@@ -162,8 +162,8 @@ class IrsServiceTest {
         Quantity quantity = new Quantity(1.5, measurementUnit);
         if (direction.equals(Direction.DOWNWARD.name())) {
             relationships = Arrays.asList(
-                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP),
-                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP)
+                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_BOM_AS_BUILT),
+                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_BOM_AS_BUILT)
             );
         } else {
             relationships = Arrays.asList(

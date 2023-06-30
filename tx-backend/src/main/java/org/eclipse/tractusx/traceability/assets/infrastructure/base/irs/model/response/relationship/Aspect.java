@@ -26,7 +26,7 @@ import java.util.List;
 public enum Aspect {
     BATCH("Batch"),
     SERIAL_PART("SerialPart"),
-    ASSEMBLY_PART_RELATIONSHIP("AssemblyPartRelationship"),
+    SINGLE_LEVEL_BOM_AS_BUILT("SingleLevelBomAsBuilt"),
     SINGLE_LEVEL_USAGE_AS_BUILT("SingleLevelUsageAsBuilt"),
     SINGLE_LEVEL_BOM_AS_PLANNED("SingleLevelBomAsPlanned"),
     PART_SITE_INFORMATION_AS_PLANNED("PartSiteInformationAsPlanned"),
@@ -44,7 +44,7 @@ public enum Aspect {
     }
 
     public static List<String> downwardAspectsForAssetsAsBuilt() {
-        return List.of(BATCH.getAspectName(), SERIAL_PART.getAspectName(), ASSEMBLY_PART_RELATIONSHIP.getAspectName());
+        return List.of(BATCH.getAspectName(), SERIAL_PART.getAspectName(), SINGLE_LEVEL_BOM_AS_BUILT.getAspectName());
     }
 
     public static List<String> upwardAspectsForAssetsAsBuilt() {

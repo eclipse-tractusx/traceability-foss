@@ -19,7 +19,7 @@
 		"parameter": {
 			"bomLifecycle": "asBuilt",
 			"aspects": [
-        "AssemblyPartRelationship",
+        "SingleLevelBomAsBuilt",
         "SerialPart",
         "Batch"
       ],
@@ -44,7 +44,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
@@ -61,7 +61,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
@@ -78,7 +78,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc",
@@ -95,7 +95,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:1ae94880-e6b0-4bf3-ab74-8148b63c0640"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc",
@@ -112,7 +112,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:8b59e2ec-d76a-49a7-a795-c4bea4a02d87"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:6dafbcec-2fce-4cbb-a5a9-b3b32aa5cffc",
@@ -129,7 +129,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:b931e9e8-614d-494c-a8e6-548ee8b6ef34"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562",
@@ -146,7 +146,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:16bb1a7e-8ed8-48ca-a839-5f38b704fcae"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562",
@@ -163,7 +163,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:580d3adf-1981-44a0-a214-13d6ceed9379"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562",
@@ -180,7 +180,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:8eea5f45-0823-48ce-a4fc-c3bf1cdfa4c2"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:7fa65f10-9dc1-49fe-818a-09c7313a4562",
@@ -197,7 +197,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:0ce83951-bc18-4e8f-892d-48bad4eb67ef"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a",
@@ -214,7 +214,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:fe99da3d-b0de-4e80-81da-882aebcca978"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:1ae94880-e6b0-4bf3-ab74-8148b63c0640",
@@ -231,7 +231,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:186359fb-4584-40e4-a59b-ed842d3d80d9"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		},
 		{
 			"catenaXId": "urn:uuid:8eea5f45-0823-48ce-a4fc-c3bf1cdfa4c2",
@@ -248,7 +248,7 @@
 				"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 				"childCatenaXId": "urn:uuid:f7cf62fe-9e25-472b-9148-66ebcc291f31"
 			},
-			"aspectType": "AssemblyPartRelationship"
+      "aspectType" : "SingleLevelBomAsBuilt"
 		}
 	],
 	"shells": [
@@ -1431,7 +1431,7 @@
 							"lastModifiedOn": "2022-02-03T14:48:54.709Z",
 							"childCatenaXId": "urn:uuid:580d3adf-1981-44a0-a214-13d6ceed9379"
 						},
-						"aspectType": "AssemblyPartRelationship"
+            "aspectType" : "SingleLevelBomAsBuilt"
 					},
 					{
 						"quantity": {
