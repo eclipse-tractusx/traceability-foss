@@ -16,6 +16,7 @@
     "start" : "ng serve",
     "start:auth" : "ng serve --configuration=dev,auth",
     "start:auth:test": "ng serve --configuration=dev,authTest",
+    "start:auth:e2ea": "ng serve --configuration=dev,authE2eA",
     "start:auth:mock" : "ng serve --configuration=authMock",
     "start:auth:local" : "ng serve --configuration=authLocal",
     "start:auth:localBe" : "ng serve --configuration=localBackend",
