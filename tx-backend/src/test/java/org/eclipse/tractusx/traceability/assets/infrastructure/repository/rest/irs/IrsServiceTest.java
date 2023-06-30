@@ -24,12 +24,15 @@ import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config.IrsPolicyConfig;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Parameter;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Shell;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -42,6 +45,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -50,6 +55,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -61,6 +67,9 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -74,6 +83,45 @@ class IrsServiceTest {
     @Mock
     private BpnRepository bpnRepository;
 
+    @Mock
+    private IrsPolicyConfig irsPolicyConfig;
+
+
+    @Test
+    void givenNoPolicyExist_whenCreateIrsPolicyIfMissing_thenCreateIt() {
+        // given
+        final IrsPolicy policyToCreate = IrsPolicy.builder()
+                .policyId("test")
+                .ttl("2023-07-03T16:01:05.309Z")
+                .build();
+        when(irsClient.getPolicies()).thenReturn(List.of());
+        when(irsPolicyConfig.getPolicy()).thenReturn(policyToCreate);
+
+        // when
+        irsService.createIrsPolicyIfMissing();
+
+        // then
+        verify(irsClient, times(1))
+                .registerPolicy(RegisterPolicyRequest.from(policyToCreate));
+    }
+
+    @Test
+    void givenPolicyExist_whenCreateIrsPolicyIfMissing_thenDoNotCreateIt() {
+        // given
+        final IrsPolicy policyToCreate = IrsPolicy.builder()
+                .policyId("test")
+                .ttl("2023-07-03T16:01:05.309Z")
+                .build();
+        final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
+        when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
+        when(irsPolicyConfig.getPolicy()).thenReturn(policyToCreate);
+
+        // when
+        irsService.createIrsPolicyIfMissing();
+
+        // then
+        verifyNoMoreInteractions(irsClient);
+    }
 
     @ParameterizedTest
     @MethodSource("provideDirections")

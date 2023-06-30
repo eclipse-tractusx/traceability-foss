@@ -36,48 +36,48 @@ trait EdcSupport implements RestitoProvider {
 
 	void edcWillCreateNotificationAsset() {
 		whenHttp(stubServer()).match(
-                post("/management/v2/assets"),
-                EDC_API_KEY_HEADER
-        ).then(
-			status(HttpStatus.OK_200)
+				post("/management/v2/assets"),
+				EDC_API_KEY_HEADER
+		).then(
+				status(HttpStatus.OK_200)
 		)
 	}
 
 	void edcWillRemoveNotificationAsset() {
 		whenHttp(stubServer()).match(
-                method(DELETE),
-                startsWithUri("/management/v2/assets/"),
-                EDC_API_KEY_HEADER
-        ).then(
-			noContent()
+				method(DELETE),
+				startsWithUri("/management/v2/assets/"),
+				EDC_API_KEY_HEADER
+		).then(
+				noContent()
 		)
 	}
 
 	void edcWillFailToCreateNotificationAsset() {
 		whenHttp(stubServer()).match(
-                post("/management/v2/assets"),
-                EDC_API_KEY_HEADER
-        ).then(
-			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+				post("/management/v2/assets"),
+				EDC_API_KEY_HEADER
+		).then(
+				status(HttpStatus.INTERNAL_SERVER_ERROR_500)
 		)
 	}
 
 	void edcNotificationAssetAlreadyExist() {
 		whenHttp(stubServer()).match(
-                post("/management/v2/assets"),
-                EDC_API_KEY_HEADER
-        ).then(
-			status(HttpStatus.CONFLICT_409),
-                jsonResponseFromFile("./stubs/edc/post/management/v2/assets/response_409.json")
+				post("/management/v2/assets"),
+				EDC_API_KEY_HEADER
+		).then(
+				status(HttpStatus.CONFLICT_409),
+				jsonResponseFromFile("./stubs/edc/post/management/v2/assets/response_409.json")
 		)
 	}
 
 	void edcWillCreatePolicyDefinition() {
 		whenHttp(stubServer()).match(
-                post("/management/v2/policydefinitions"),
-                EDC_API_KEY_HEADER
-        ).then(
-			status(HttpStatus.OK_200)
+				post("/management/v2/policydefinitions"),
+				EDC_API_KEY_HEADER
+		).then(
+				status(HttpStatus.OK_200)
 		)
 	}
 
@@ -85,7 +85,7 @@ trait EdcSupport implements RestitoProvider {
 		whenHttp(stubServer()).match(
 			composite(
 				method(DELETE),
-                    startsWithUri("/management/v2/policydefinitions/")
+					startsWithUri("/management/v2/policydefinitions/")
 			),
 			EDC_API_KEY_HEADER
 		).then(
@@ -95,67 +95,67 @@ trait EdcSupport implements RestitoProvider {
 
 	void edcWillFailToCreatePolicyDefinition() {
 		whenHttp(stubServer()).match(
-                post("/management/v2/policydefinitions"),
-                EDC_API_KEY_HEADER
-        ).then(
-			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+				post("/management/v2/policydefinitions"),
+				EDC_API_KEY_HEADER
+		).then(
+				status(HttpStatus.INTERNAL_SERVER_ERROR_500)
 		)
 	}
 
 	void edcWillCreateContractDefinition() {
 		whenHttp(stubServer()).match(
-                post("/management/v2/contractdefinitions"),
-                EDC_API_KEY_HEADER
-        ).then(
-			status(HttpStatus.OK_200)
+				post("/management/v2/contractdefinitions"),
+				EDC_API_KEY_HEADER
+		).then(
+				status(HttpStatus.OK_200)
 		)
 	}
 
 	void edcWillFailToCreateContractDefinition() {
 		whenHttp(stubServer()).match(
-                post("/management/v2/contractdefinitions"),
-                EDC_API_KEY_HEADER
-        ).then(
-			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+				post("/management/v2/contractdefinitions"),
+				EDC_API_KEY_HEADER
+		).then(
+				status(HttpStatus.INTERNAL_SERVER_ERROR_500)
 		)
 	}
 
 	void verifyCreateNotificationAssetEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
-                post("/management/v2/assets")
+				post("/management/v2/assets")
 		)
 	}
 
 	void verifyDeleteNotificationAssetEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-                startsWithUri("/management/v2/assets")
+				startsWithUri("/management/v2/assets")
 		)
 	}
 
 	void verifyCreatePolicyDefinitionEndpointCalledTimes(int times) {
 			verifyHttp(stubServer()).times(times,
-                    post("/management/v2/policydefinitions")
+					post("/management/v2/policydefinitions")
 		)
 	}
 
 	void verifyDeletePolicyDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-                startsWithUri("/management/v2/policydefinitions")
+				startsWithUri("/management/v2/policydefinitions")
 		)
 	}
 
 	void verifyCreateContractDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
-                post("/management/v2/contractdefinitions")
+				post("/management/v2/contractdefinitions")
 		)
 	}
 
 	void verifyDeleteContractDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-                startsWithUri("/management/v2/contractdefinitions")
+				startsWithUri("/management/v2/contractdefinitions")
 		)
 	}
 }
