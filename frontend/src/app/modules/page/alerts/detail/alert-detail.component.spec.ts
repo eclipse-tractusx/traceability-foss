@@ -73,5 +73,4 @@ describe('AlertDetailComponent', () => {
 
     expect(spy).toHaveBeenCalledWith(MOCK_part_1.semanticModelId);
   });
-
 });
