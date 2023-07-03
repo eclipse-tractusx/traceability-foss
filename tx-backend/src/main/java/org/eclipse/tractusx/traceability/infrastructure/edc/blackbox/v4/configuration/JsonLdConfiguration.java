@@ -67,7 +67,7 @@ public class JsonLdConfiguration {
         return new ConsoleMonitor();
     }
 
-    @Bean /* package */ ObjectMapper objectMapper() {
+    @Bean /* package */ ObjectMapper objectMapperJsonLd() {
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.registerModule(new Jdk8Module());
