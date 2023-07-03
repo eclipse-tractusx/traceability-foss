@@ -56,7 +56,7 @@ export const buildMockAlerts = (
     };
   });
 
-const MockEmptyAlert: NotificationResponse = {
+export const MockEmptyAlert: NotificationResponse = {
   id: `${AlertIdPrefix}000`,
   description: `Alert No 000`,
   status: NotificationStatus.CREATED,
