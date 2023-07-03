@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.asset.Asset;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.ContractNegotiationDto;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.TransferId;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;

@@ -28,7 +28,7 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
+import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
