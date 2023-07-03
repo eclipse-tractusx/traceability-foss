@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification;
 
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
 import org.jetbrains.annotations.NotNull;
 
 public class NegotiationInitiateRequestDto {

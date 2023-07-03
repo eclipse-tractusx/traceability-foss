@@ -34,6 +34,7 @@ import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CatalogRequestDTO;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
@@ -54,11 +55,13 @@ public class HttpCallService {
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
     private final EdcProperties edcProperties;
+    private final EdcTransformer edcTransformer;
 
-    public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties) {
+    public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties, EdcTransformer edcTransformer) {
         this.httpClient = withIncreasedTimeout(httpClient);
         this.objectMapper = objectMapper;
         this.edcProperties = edcProperties;
+        this.edcTransformer = edcTransformer;
         objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
     }
 
@@ -108,7 +111,9 @@ public class HttpCallService {
                 .querySpec(querySpec)
                 .build();
 
-        var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, objectMapper.writeValueAsString(catalogRequestDTO)));
+        final String requestJson = edcTransformer.transformCatalogRequestToJson(catalogRequestDTO).toString();
+
+        var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, requestJson));
         headers.forEach(request::addHeader);
 
         return (Catalog) sendRequest(request.build(), Catalog.class);

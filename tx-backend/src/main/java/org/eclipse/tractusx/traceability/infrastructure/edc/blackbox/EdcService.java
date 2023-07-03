@@ -28,21 +28,20 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.ContractNegotiationDto;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.ContractOfferDescription;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.NegotiationInitiateRequestDto;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.TransferId;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.Policy;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.DataAddress;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferRequestDto;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer.TransferType;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.CatalogItem;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationResponse;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.TransferProcessRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -59,11 +58,13 @@ public class EdcService {
     private final HttpCallService httpCallService;
     private final ObjectMapper objectMapper;
     private final EdcProperties edcProperties;
+    public static final String EDC_PROTOCOL = "dataspace-protocol-http";
+    private final EdcTransformer edcTransformer;
 
     /**
      * Rest call to get all contract offer and filter notification type contract
      */
-    public Optional<ContractOffer> findNotificationContractOffer(
+    public Catalog getCatalog(
             String consumerEdcDataManagementUrl,
             String providerConnectorControlPlaneIDSUrl,
             Map<String, String> header,
@@ -78,14 +79,9 @@ public class EdcService {
             log.error("No contract found");
             throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
         }
-
-        log.info(":::: Find Notification contract method[findNotificationContractOffer] total catalog ::{}", catalog.getContractOffers().size());
-
-        return catalog.getContractOffers().stream()
-                .filter(it -> it.getAsset().isQualityNotificationOffer(qualityNotificationMessage))
-                .filter(this::hasTracePolicy)
-                .findAny();
+        return catalog;
     }
+
 
     private boolean hasTracePolicy(ContractOffer contractOffer) {
         return contractOffer.getPolicy() != null && contractOffer.getPolicy().hasTracePolicy();
@@ -94,25 +90,25 @@ public class EdcService {
     /**
      * Prepare for contract negotiation. it will wait for while till API return agreementId
      */
-    public String initializeContractNegotiation(String providerConnectorUrl, String assetId, String offerId, Policy policy, String consumerEdcUrl,
+    public String initializeContractNegotiation(String providerConnectorUrl, CatalogItem catalogItem, String consumerEdcUrl,
                                                 Map<String, String> header) throws InterruptedException, IOException {
         // Initiate negotiation
-        ContractOfferDescription contractOfferDescription = new ContractOfferDescription(offerId, assetId, null, policy);
-        NegotiationInitiateRequestDto contractNegotiationRequest = NegotiationInitiateRequestDto.Builder.newInstance()
-                .offerId(contractOfferDescription).connectorId("provider").connectorAddress(providerConnectorUrl + edcProperties.getIdsPath())
-                .protocol("ids-multipart").build();
 
-        log.info(":::: Start Contract Negotiation method[initializeContractNegotiation] offerId :{}, assetId:{}", offerId, assetId);
+        final NegotiationRequest negotiationRequest = createNegotiationRequestFromCatalogItem(providerConnectorUrl + edcProperties.getIdsPath(),
+                catalogItem);
 
-        String negotiationId = initiateNegotiation(contractNegotiationRequest, consumerEdcUrl, header);
-        ContractNegotiationDto negotiation = null;
+
+        log.info(":::: Start Contract Negotiation method[initializeContractNegotiation] offerId :{}, assetId:{}", negotiationRequest.getOffer().getOfferId(), negotiationRequest.getOffer().getAssetId());
+
+        String negotiationId = initiateNegotiation(negotiationRequest, consumerEdcUrl, header);
+        NegotiationResponse negotiation = null;
 
         // Check negotiation state
         while (negotiation == null || !negotiation.getState().equals("CONFIRMED")) {
 
             log.info(":::: waiting for contract to get confirmed");
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            ScheduledFuture<ContractNegotiationDto> scheduledFuture =
+            ScheduledFuture<NegotiationResponse> scheduledFuture =
                     scheduler.schedule(() -> {
                         var url = consumerEdcUrl + edcProperties.getNegotiationPath() + "/" + negotiationId;
                         var request = new Request.Builder().url(url);
@@ -120,7 +116,7 @@ public class EdcService {
 
                         log.info(":::: Start call for contract agreement method [initializeContractNegotiation] URL :{}", url);
 
-                        return (ContractNegotiationDto) httpCallService.sendRequest(request.build(), ContractNegotiationDto.class);
+                        return (NegotiationResponse) httpCallService.sendRequest(request.build(), ContractNegotiationDto.class);
                     }, 1000, TimeUnit.MILLISECONDS);
             try {
                 negotiation = scheduledFuture.get();
@@ -137,13 +133,31 @@ public class EdcService {
     }
 
 
+    private NegotiationRequest createNegotiationRequestFromCatalogItem(final String providerConnectorUrl,
+                                                                       final CatalogItem catalogItem) {
+        final var contractOfferDescription = ContractOfferDescription.builder()
+                .offerId(catalogItem.getOfferId())
+                .assetId(catalogItem.getPolicy().getTarget())
+                .policy(catalogItem.getPolicy())
+                .build();
+
+        return NegotiationRequest.builder()
+                .connectorId(catalogItem.getConnectorId())
+                .connectorAddress(providerConnectorUrl)
+                .protocol(EDC_PROTOCOL)
+                .offer(contractOfferDescription)
+                .build();
+    }
+
     /**
      * Rest call for Contract negotiation and return agreementId.
      */
-    private String initiateNegotiation(NegotiationInitiateRequestDto contractOfferRequest, String consumerEdcDataManagementUrl,
+    private String initiateNegotiation(NegotiationRequest negotiationRequest, String consumerEdcDataManagementUrl,
                                        Map<String, String> headers) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getNegotiationPath();
-        var requestBody = RequestBody.create(objectMapper.writeValueAsString(contractOfferRequest), JSON);
+
+        final String jsonObject = edcTransformer.transformNegotiationRequestToJson(negotiationRequest).toString();
+        var requestBody = RequestBody.create(jsonObject, JSON);
         var request = new Request.Builder().url(url).post(requestBody);
 
         headers.forEach(request::addHeader);
@@ -156,21 +170,20 @@ public class EdcService {
     /**
      * Rest call for Transfer Data with HttpProxy
      */
-    public TransferId initiateHttpProxyTransferProcess(String agreementId, String assetId, String consumerEdcDataManagementUrl, String providerConnectorControlPlaneIDSUrl, Map<String, String> headers) throws IOException {
+    public TransferId initiateHttpProxyTransferProcess(String consumerEdcDataManagementUrl,
+                                                       String providerConnectorControlPlaneIDSUrl,
+                                                       TransferProcessRequest transferProcessRequest,
+                                                       Map<String, String> headers) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getTransferPath();
 
-        DataAddress dataDestination = DataAddress.Builder.newInstance().type("HttpProxy").build();
-        TransferType transferType = TransferType.Builder.transferType().contentType("application/octet-stream").isFinite(true).build();
-        TransferRequestDto transferRequest = TransferRequestDto.Builder.newInstance()
-                .assetId(assetId).contractId(agreementId).connectorId("provider").connectorAddress(providerConnectorControlPlaneIDSUrl)
-                .protocol("ids-multipart").dataDestination(dataDestination).managedResources(false).transferType(transferType)
-                .build();
 
-        var requestBody = RequestBody.create(objectMapper.writeValueAsString(transferRequest), JSON);
+        final String jsonObject = edcTransformer.transformTransferProcessRequestToJson(transferProcessRequest).toString();
+
+        var requestBody = RequestBody.create(jsonObject, JSON);
         var request = new Request.Builder().url(url).post(requestBody);
 
         headers.forEach(request::addHeader);
-        log.info(":::: call Transfer process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}", agreementId, assetId, consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl);
+        log.info(":::: call Transfer process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}", transferProcessRequest.getContractId(), transferProcessRequest.getAssetId(), consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl);
         return (TransferId) httpCallService.sendRequest(request.build(), TransferId.class);
     }
 }
