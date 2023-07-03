@@ -75,7 +75,7 @@ public class EdcService {
         String method = qualityNotificationMessage.getIsInitial() ? "receive" : "update";
 
         Catalog catalog = httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, notificationType, method, header);
-        if (catalog.getContractOffers().isEmpty()) {
+        if (catalog.getDatasets().isEmpty()) {
             log.error("No contract found");
             throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
         }
