@@ -29,6 +29,9 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
+import org.eclipse.edc.catalog.spi.CatalogRequest;
+import org.eclipse.edc.spi.query.Criterion;
+import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
@@ -76,6 +79,35 @@ public class HttpCallService {
         var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
         MediaType mediaType = MediaType.parse("application/json");
         CatalogRequestDTO catalogRequestDTO = new CatalogRequestDTO(providerConnectorControlPlaneIDSUrl, "dataspace-protocol-http", new EdcContext("https://w3id.org/edc/v0.0.1/ns/"));
+        var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, objectMapper.writeValueAsString(catalogRequestDTO)));
+        headers.forEach(request::addHeader);
+
+        return (Catalog) sendRequest(request.build(), Catalog.class);
+    }
+
+    public Catalog getCatalogForNotification(
+            String consumerEdcDataManagementUrl,
+            String providerConnectorControlPlaneIDSUrl,
+            String notificationType,
+            String notificationMethod,
+            Map<String, String> headers
+    ) throws IOException {
+        var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
+        MediaType mediaType = MediaType.parse("application/json");
+        Criterion criterion = Criterion.Builder.newInstance()
+                .operandLeft(notificationType)
+                .operandRight(notificationMethod)
+                .operator("=")
+                .build();
+        QuerySpec querySpec = QuerySpec.Builder.newInstance()
+                .filter(criterion)
+                .build();
+        CatalogRequest catalogRequestDTO = CatalogRequest.Builder.newInstance()
+                .protocol("dataspace-protocol-http")
+                .providerUrl(providerConnectorControlPlaneIDSUrl)
+                .querySpec(querySpec)
+                .build();
+
         var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, objectMapper.writeValueAsString(catalogRequestDTO)));
         headers.forEach(request::addHeader);
 

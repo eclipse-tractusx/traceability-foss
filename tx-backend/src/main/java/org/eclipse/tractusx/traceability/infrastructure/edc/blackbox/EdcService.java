@@ -70,13 +70,17 @@ public class EdcService {
             QualityNotificationMessage qualityNotificationMessage
     ) throws IOException {
 
-        Catalog catalog = httpCallService.getCatalogFromProvider(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header);
+        String notificationType = qualityNotificationMessage.getType().toString().toLowerCase();
+        String method = qualityNotificationMessage.getIsInitial() ? "receive" : "update";
+
+        Catalog catalog = httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, notificationType, method, header);
         if (catalog.getContractOffers().isEmpty()) {
             log.error("No contract found");
             throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
         }
 
         log.info(":::: Find Notification contract method[findNotificationContractOffer] total catalog ::{}", catalog.getContractOffers().size());
+
         return catalog.getContractOffers().stream()
                 .filter(it -> it.getAsset().isQualityNotificationOffer(qualityNotificationMessage))
                 .filter(this::hasTracePolicy)
