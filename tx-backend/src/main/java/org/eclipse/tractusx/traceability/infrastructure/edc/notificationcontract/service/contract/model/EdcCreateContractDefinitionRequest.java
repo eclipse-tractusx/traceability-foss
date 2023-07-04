@@ -41,7 +41,7 @@ public class EdcCreateContractDefinitionRequest {
     @JsonProperty("contractPolicyId")
     private String contractPolicyId;
 
-    @JsonProperty("criteria")
+    @JsonProperty("assetsSelector")
     private List<EdcContractDefinitionCriteria> criteria;
 
 }
