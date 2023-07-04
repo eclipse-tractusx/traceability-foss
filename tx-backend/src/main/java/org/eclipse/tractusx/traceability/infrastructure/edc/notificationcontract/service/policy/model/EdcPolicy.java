@@ -31,7 +31,7 @@ import java.util.List;
 public class EdcPolicy {
     @JsonProperty("@type")
     private String type;
-    @JsonProperty("odrl:permissions")
+    @JsonProperty("odrl:permission")
     private List<EdcPolicyPermission> odrlPermissions;
 
 }

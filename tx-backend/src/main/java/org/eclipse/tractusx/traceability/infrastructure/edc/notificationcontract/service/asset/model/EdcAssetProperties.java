@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record EdcAssetProperties(@JsonProperty("name") String assetName,
+public record EdcAssetProperties(@JsonProperty("description") String assetName,
                                  @JsonProperty("contenttype") String contentType,
                                  @JsonProperty("policy-id") String policyId,
                                  @JsonProperty("type") String type,

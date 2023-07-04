@@ -76,12 +76,12 @@ public class EdcPolicyDefinitionService {
                 .leftOperand(PURPOSE_CONSTRAINT)
                 .rightOperand(ID_TRACE_CONSTRAINT)
                 .operator("EQ")
-                .type(ATOMIC_CONSTRAINT)
+                .type(CONSTRAINT)
                 .build();
 
         EdcPolicyPermissionConstraint edcPolicyPermissionConstraint = EdcPolicyPermissionConstraint.builder()
                 .orExpressions(List.of(constraint))
-                .type(CONSTRAINT)
+                .type(ATOMIC_CONSTRAINT)
                 .build();
 
         EdcPolicyPermission odrlPermissions = EdcPolicyPermission

@@ -31,6 +31,9 @@ public class EdcAsset {
     @JsonProperty("@id")
     private String assetId;
 
+    @JsonProperty("@type")
+    private String type;
+
     @JsonProperty("properties")
     private EdcAssetProperties edcAssetProperties;
 

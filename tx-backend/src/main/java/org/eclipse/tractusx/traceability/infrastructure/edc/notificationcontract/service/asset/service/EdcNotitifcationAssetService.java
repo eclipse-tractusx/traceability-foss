@@ -102,6 +102,7 @@ public class EdcNotitifcationAssetService {
         EdcAsset asset = EdcAsset
                 .builder()
                 .assetId(notificationAssetId)
+                .type("Asset")
                 .edcAssetProperties(assetProperties)
                 .build();
 

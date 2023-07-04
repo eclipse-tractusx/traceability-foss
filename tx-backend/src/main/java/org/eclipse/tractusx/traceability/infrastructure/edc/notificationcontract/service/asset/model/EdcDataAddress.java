@@ -40,7 +40,7 @@ public class EdcDataAddress {
     @JsonProperty("proxyBody")
     private String proxyBody;
 
-    @JsonProperty("POST")
+    @JsonProperty("method")
     private String method;
 
 }
