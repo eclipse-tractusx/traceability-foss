@@ -27,7 +27,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicy;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermission;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionAction;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicyPermissionConstraintExpression;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
@@ -56,15 +55,10 @@ public class EdcPolicyDefinitionService {
     private static final String POLICY_TYPE = "Policy";
     private static final String SET_TYPE = "odrl:Set";
     private static final String POLICY_DEFINITION_TYPE = "PolicyDefinitionRequestDto";
-
-    private static final List<EdcPolicyPermissionConstraint> DEFAULT_EDC_POLICY_PERMISSION_CONSTRAINTS = List.of(
-            new EdcPolicyPermissionConstraint(
-                    "AtomicConstraint",
-                    new EdcPolicyPermissionConstraintExpression(DATA_SPACE_LITERAL_EXPRESSION, "idsc:PURPOSE"),
-                    new EdcPolicyPermissionConstraintExpression(DATA_SPACE_LITERAL_EXPRESSION, "ID 3.0 Trace"),
-                    "EQ"
-            )
-    );
+    private static final String ATOMIC_CONSTRAINT = "AtomicConstraint";
+    private static final String PURPOSE_CONSTRAINT = "idsc:PURPOSE";
+    private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
+    private static final String CONSTRAINT = "Constraint";
 
     private final RestTemplate restTemplate;
     private final EdcProperties edcProperties;
@@ -77,12 +71,29 @@ public class EdcPolicyDefinitionService {
 
     public String createAccessPolicy() {
 
+        EdcPolicyPermissionConstraintExpression purposePermissionConstraint = EdcPolicyPermissionConstraintExpression.builder()
+                .leftOperand(DATA_SPACE_LITERAL_EXPRESSION)
+                .rightOperand(PURPOSE_CONSTRAINT)
+                .operator("=")
+                .type(ATOMIC_CONSTRAINT)
+                .build();
+
+        EdcPolicyPermissionConstraintExpression idTracePermissionConstraint = EdcPolicyPermissionConstraintExpression.builder()
+                .leftOperand(DATA_SPACE_LITERAL_EXPRESSION)
+                .rightOperand(ID_TRACE_CONSTRAINT)
+                .operator("=")
+                .type(ATOMIC_CONSTRAINT)
+                .build();
+
+        EdcPolicyPermissionConstraint edcPolicyPermissionConstraint = EdcPolicyPermissionConstraint.builder()
+                .orExpressions(List.of(idTracePermissionConstraint, purposePermissionConstraint))
+                .type(CONSTRAINT)
+                .build();
+
         EdcPolicyPermission odrlPermissions = EdcPolicyPermission
                 .builder()
-                .type(DATA_SPACE_CONNECTOR_PERMISSION)
-                .edcPolicyPermissionConstraints(DEFAULT_EDC_POLICY_PERMISSION_CONSTRAINTS)
-                .policyPermissionAction(EdcPolicyPermissionAction.builder().type(USE_ACTION).build())
-                .type(SET_TYPE)
+                .action(USE_ACTION)
+                .edcPolicyPermissionConstraints(edcPolicyPermissionConstraint)
                 .build();
 
         EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(List.of(odrlPermissions)).type(POLICY_TYPE).build();
@@ -90,7 +101,8 @@ public class EdcPolicyDefinitionService {
         String accessPolicyId = UUID.randomUUID().toString();
         EdcContext edcContext = new EdcContext(EDC_CONTEXT);
 
-        EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest = EdcCreatePolicyDefinitionRequest.builder()
+        EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest = EdcCreatePolicyDefinitionRequest
+                .builder()
                 .policyDefinitionId(accessPolicyId)
                 .policy(edcPolicy)
                 .edcContext(edcContext)

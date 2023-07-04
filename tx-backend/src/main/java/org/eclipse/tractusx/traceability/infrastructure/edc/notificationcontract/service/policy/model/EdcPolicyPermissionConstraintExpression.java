@@ -20,25 +20,24 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
 
+@Getter
+@Builder
 public class EdcPolicyPermissionConstraintExpression {
 
-    @JsonProperty("edctype")
-    private final String edcType;
+    // Constraint
+    @JsonProperty("@type")
+    private final String type;
 
-    @JsonProperty("value")
-    private final String value;
+    @JsonProperty("odrl:leftOperand")
+    private final String leftOperand;
 
-    public EdcPolicyPermissionConstraintExpression(String edcType, String value) {
-        this.edcType = edcType;
-        this.value = value;
-    }
+    @JsonProperty("odrl:rightOperand")
+    private final String rightOperand;
 
-    public String getEdcType() {
-        return edcType;
-    }
+    @JsonProperty("odrl:operator")
+    private final String operator;
 
-    public String getValue() {
-        return value;
-    }
 }
