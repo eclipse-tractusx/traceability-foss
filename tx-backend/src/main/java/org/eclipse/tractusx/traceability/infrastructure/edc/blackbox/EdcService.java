@@ -140,13 +140,14 @@ public class EdcService {
                 .assetId(catalogItem.getPolicy().getTarget())
                 .policy(catalogItem.getPolicy())
                 .build();
-
-        return NegotiationRequest.builder()
+        NegotiationRequest request = NegotiationRequest.builder()
                 .connectorId(catalogItem.getConnectorId())
                 .connectorAddress(providerConnectorUrl)
                 .protocol(EDC_PROTOCOL)
                 .offer(contractOfferDescription)
                 .build();
+        log.info("NegotiationRequest {}", edcTransformer.transformNegotiationRequestToJson(request).toString());
+        return request;
     }
 
     /**
