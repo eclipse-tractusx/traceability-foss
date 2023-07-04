@@ -29,8 +29,6 @@ import java.util.List;
 @Builder
 public class EdcPolicyPermissionConstraint {
 
-    // LogicalConstraint
-    // AtomicConstraint
     @JsonProperty("@type")
     private String type;
 

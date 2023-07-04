@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
@@ -53,14 +54,16 @@ public class EdcContractDefinitionService {
 
     private final RestTemplate restTemplate;
     private final EdcProperties edcProperties;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
+    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties, ObjectMapper objectMapper, ObjectMapper objectMapper1) {
         this.restTemplate = restTemplate;
         this.edcProperties = edcProperties;
+        this.objectMapper = objectMapper1;
     }
 
-    public String createContractDefinition(String notificationAssetId, String accessPolicyId) {
+    public String createContractDefinition(String notificationAssetId, String accessPolicyId) throws JsonProcessingException {
         EdcContractDefinitionCriteria edcContractDefinitionCriteria = EdcContractDefinitionCriteria
                 .builder()
                 .type(ASSET_SELECTOR_TYPE)
@@ -82,7 +85,7 @@ public class EdcContractDefinitionService {
                 .build();
 
         final ResponseEntity<String> createContractDefinitionResponse;
-        log.info("EdcCreateContractDefinitionRequest {}", createContractDefinitionRequest);
+        log.info("EdcCreateContractDefinitionRequest {}", objectMapper.writeValueAsString(createContractDefinitionRequest));
         try {
             createContractDefinitionResponse = restTemplate.postForEntity(edcProperties.getNegotiationPath(), createContractDefinitionRequest, String.class);
         } catch (RestClientException e) {

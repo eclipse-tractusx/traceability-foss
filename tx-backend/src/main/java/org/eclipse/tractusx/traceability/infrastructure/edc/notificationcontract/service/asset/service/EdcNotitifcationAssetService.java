@@ -20,6 +20,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
@@ -59,15 +61,17 @@ public class EdcNotitifcationAssetService {
     private final TraceabilityProperties traceabilityProperties;
     private final RestTemplate restTemplate;
     private final EdcProperties edcProperties;
+    private final ObjectMapper objectMapper;
 
     @Autowired
-    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
+    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
         this.traceabilityProperties = traceabilityProperties;
         this.restTemplate = restTemplate;
         this.edcProperties = edcProperties;
+        this.objectMapper = objectMapper;
     }
 
-    public String createNotificationAsset(NotificationMethod notificationMethod, NotificationType notificationType) {
+    public String createNotificationAsset(NotificationMethod notificationMethod, NotificationType notificationType) throws JsonProcessingException {
         String notificationMethodValue = notificationMethod.getValue();
 
         final String template = notificationType.equals(NotificationType.QUALITY_ALERT) ? TRACE_FOSS_QUALITY_NOTIFICATION_ALERT_URL_TEMPLATE : TRACE_FOSS_QUALITY_NOTIFICATION_INVESTIGATION_URL_TEMPLATE;
@@ -111,7 +115,7 @@ public class EdcNotitifcationAssetService {
                 .build();
 
         final ResponseEntity<String> createEdcDataAssetResponse;
-        log.info("EdcCreateDataAssetRequest {}", createDataAssetRequest);
+        log.info("EdcCreateDataAssetRequest {}", objectMapper.writeValueAsString(createDataAssetRequest));
         try {
             createEdcDataAssetResponse = restTemplate.postForEntity(
                     edcProperties.getAssetsPath(),

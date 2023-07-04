@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
@@ -49,22 +50,27 @@ public class EdcNotificationContractService {
 
         log.info("Creating EDC asset notification contract for {} method and {} notification type", notificationMethod.getValue(), request.notificationType().getValue());
 
-        final String notificationAssetId;
+        String notificationAssetId = "";
         try {
             notificationAssetId = edcNotitifcationAssetService.createNotificationAsset(notificationMethod, request.notificationType());
         } catch (CreateEdcAssetException e) {
             throw new CreateNotificationContractException(e);
+        } catch (JsonProcessingException e2) {
+            log.error(e2.toString());
         }
 
-        final String accessPolicyId;
+
+        String accessPolicyId = "";
         try {
             accessPolicyId = edcPolicyDefinitionService.createAccessPolicy();
         } catch (CreateEdcPolicyDefinitionException e) {
             revertNotificationAsset(notificationAssetId);
             throw new CreateNotificationContractException(e);
+        } catch (JsonProcessingException e2) {
+            log.error(e2.toString());
         }
 
-        final String contractDefinitionId;
+        String contractDefinitionId = "";
         try {
             contractDefinitionId = edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId);
         } catch (CreateEdcContractDefinitionException e) {
@@ -72,6 +78,8 @@ public class EdcNotificationContractService {
             revertNotificationAsset(notificationAssetId);
 
             throw new CreateNotificationContractException(e);
+        } catch (JsonProcessingException e2) {
+            log.error(e2.toString());
         }
 
         log.info("Created notification contract for {} notification asset id, access policy id {} and contract definition id {}", notificationAssetId, accessPolicyId, contractDefinitionId);

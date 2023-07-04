@@ -20,6 +20,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
@@ -57,16 +59,18 @@ public class EdcPolicyDefinitionService {
     private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
     private static final String CONSTRAINT = "Constraint";
 
+    private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
     private final EdcProperties edcProperties;
 
     @Autowired
-    public EdcPolicyDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
+    public EdcPolicyDefinitionService(ObjectMapper objectMapper, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
+        this.objectMapper = objectMapper;
         this.restTemplate = restTemplate;
         this.edcProperties = edcProperties;
     }
 
-    public String createAccessPolicy() {
+    public String createAccessPolicy() throws JsonProcessingException {
 
         EdcPolicyPermissionConstraintExpression constraint = EdcPolicyPermissionConstraintExpression.builder()
                 .leftOperand(PURPOSE_CONSTRAINT)
@@ -98,7 +102,7 @@ public class EdcPolicyDefinitionService {
                 .edcContext(edcContext)
                 .type(POLICY_DEFINITION_TYPE)
                 .build();
-        log.info("EdcCreatePolicyDefinitionRequest {}", edcCreatePolicyDefinitionRequest);
+        log.info("EdcCreatePolicyDefinitionRequest {}", objectMapper.writeValueAsString(edcCreatePolicyDefinitionRequest));
         final ResponseEntity<String> createPolicyDefinitionResponse;
         try {
             createPolicyDefinitionResponse = restTemplate.postForEntity(edcProperties.getPolicyDefinitionsPath(), edcCreatePolicyDefinitionRequest, String.class);
