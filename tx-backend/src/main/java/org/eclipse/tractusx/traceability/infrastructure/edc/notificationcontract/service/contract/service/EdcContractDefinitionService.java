@@ -37,7 +37,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcConstants.EDC_CONTEXT;
@@ -81,7 +80,7 @@ public class EdcContractDefinitionService {
                 .type(CONTRACT_DEFINITION_TYPE)
                 .accessPolicyId(accessPolicyId)
                 .id(accessPolicyId)
-                .assetsSelector(List.of(edcContractDefinitionCriteria))
+                .assetsSelector(edcContractDefinitionCriteria)
                 .build();
 
         final ResponseEntity<String> createContractDefinitionResponse;

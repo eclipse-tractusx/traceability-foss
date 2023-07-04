@@ -25,8 +25,6 @@ import lombok.Builder;
 import lombok.ToString;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 
-import java.util.List;
-
 @ToString
 @Builder
 public class EdcCreateContractDefinitionRequest {
@@ -47,6 +45,6 @@ public class EdcCreateContractDefinitionRequest {
     private String contractPolicyId;
 
     @JsonProperty("assetsSelector")
-    private List<EdcContractDefinitionCriteria> assetsSelector;
+    private EdcContractDefinitionCriteria assetsSelector;
 
 }
