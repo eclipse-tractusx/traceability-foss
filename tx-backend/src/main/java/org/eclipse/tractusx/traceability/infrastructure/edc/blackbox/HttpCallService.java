@@ -39,6 +39,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProper
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -100,15 +101,30 @@ public class HttpCallService {
                 .protocol("dataspace-protocol-http")
                 .providerUrl(providerConnectorControlPlaneIDSUrl)
                 .build();
-        log.info("Catalog request dto", catalogRequestDTO);
+        log.info("Catalog request dto {}", catalogRequestDTO);
         final String requestJson = edcTransformer.transformCatalogRequestToJson(catalogRequestDTO).toString();
-        log.info("Catalog request body", requestJson);
+        log.info("Catalog request body {}", requestJson);
         var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, requestJson));
         headers.forEach(request::addHeader);
 
-        return (Catalog) sendRequest(request.build(), Catalog.class);
+        return sendCatalogRequest(request.build());
     }
 
+    public Catalog sendCatalogRequest(Request request) throws IOException {
+        log.info("Requesting {} {}...", request.method(), request.url());
+        try (var response = httpClient.newCall(request).execute()) {
+            var body = response.body();
+
+            if (!response.isSuccessful() || body == null) {
+                throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+            }
+
+            String res = body.string();
+            return edcTransformer.transformCatalog(res, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
     public Object sendRequest(Request request, Class<?> responseObject) throws IOException {
         log.info("Requesting {} {}...", request.method(), request.url());
