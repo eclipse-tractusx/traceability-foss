@@ -26,16 +26,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config.IrsPolicyConfig;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobStatus;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -44,6 +49,7 @@ public class IrsService implements IrsRepository {
 
     private final IRSApiClient irsClient;
     private final BpnRepository bpnRepository;
+    private final IrsPolicyConfig irsPolicyConfig;
 
     @Override
     public List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
@@ -64,4 +70,24 @@ public class IrsService implements IrsRepository {
         }
         return Collections.emptyList();
     }
+
+    @Override
+    public void createIrsPolicyIfMissing() {
+        log.info("Check if irs policy exists");
+        List<PolicyResponse> irsPolicies = irsClient.getPolicies();
+        log.info("Irs has following policies: {}", irsPolicies);
+
+
+        final IrsPolicy requiredPolicy = irsPolicyConfig.getPolicy();
+
+        final Optional<IrsPolicy> existingPolicy = irsPolicies.stream().filter(policy -> policy.policyId().equals(requiredPolicy.getPolicyId()))
+                .map(PolicyResponse::toDomain)
+                .findFirst();
+
+        if (existingPolicy.isEmpty()) {
+            log.info("Irs policy does not exist creating {}", requiredPolicy);
+            irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy));
+        }
+    }
+
 }

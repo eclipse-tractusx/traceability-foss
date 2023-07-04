@@ -117,3 +117,7 @@ resilience4j:
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
 
+irs:
+  policy:
+    name: "ID 3.0 Trace"
+    ttl: "2023-09-30T23:59:59.99Z"
