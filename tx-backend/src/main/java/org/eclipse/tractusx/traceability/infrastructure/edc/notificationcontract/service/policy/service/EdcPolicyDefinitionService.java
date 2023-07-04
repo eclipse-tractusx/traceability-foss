@@ -49,11 +49,8 @@ import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationc
 @Component
 public class EdcPolicyDefinitionService {
 
-    private static final String DATA_SPACE_CONNECTOR_PERMISSION = "dataspaceconnector:permission";
-    public static final String DATA_SPACE_LITERAL_EXPRESSION = "dataspaceconnector:literalexpression";
     private static final String USE_ACTION = "USE";
     private static final String POLICY_TYPE = "Policy";
-    private static final String SET_TYPE = "odrl:Set";
     private static final String POLICY_DEFINITION_TYPE = "PolicyDefinitionRequestDto";
     private static final String ATOMIC_CONSTRAINT = "AtomicConstraint";
     private static final String PURPOSE_CONSTRAINT = "idsc:PURPOSE";

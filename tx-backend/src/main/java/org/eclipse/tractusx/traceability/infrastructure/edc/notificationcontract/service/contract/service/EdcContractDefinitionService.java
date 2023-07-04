@@ -45,7 +45,7 @@ import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationc
 @Component
 public class EdcContractDefinitionService {
 
-    private static final String ASSET_SELECTOR_ID = "asset:prop:id";
+    private static final String ASSET_SELECTOR_ID = "https://w3id.org/edc/v0.0.1/ns/id";
     private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "=";
     private static final String ASSET_SELECTOR_TYPE = "CriterionDTO";
 
