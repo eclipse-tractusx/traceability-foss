@@ -55,6 +55,7 @@ public class EdcPolicyDefinitionService {
     private static final String USE_ACTION = "USE";
     private static final String POLICY_TYPE = "Policy";
     private static final String SET_TYPE = "odrl:Set";
+    private static final String POLICY_DEFINITION_TYPE = "PolicyDefinitionRequestDto";
 
     private static final List<EdcPolicyPermissionConstraint> DEFAULT_EDC_POLICY_PERMISSION_CONSTRAINTS = List.of(
             new EdcPolicyPermissionConstraint(
@@ -93,6 +94,7 @@ public class EdcPolicyDefinitionService {
                 .policyDefinitionId(accessPolicyId)
                 .policy(edcPolicy)
                 .edcContext(edcContext)
+                .type(POLICY_DEFINITION_TYPE)
                 .build();
 
         final ResponseEntity<String> createPolicyDefinitionResponse;
