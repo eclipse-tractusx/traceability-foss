@@ -23,14 +23,14 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.ToString;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.OdrlContext;
 
 @ToString
 @Builder
 public class EdcCreatePolicyDefinitionRequest {
 
     @JsonProperty("@context")
-    private EdcContext edcContext;
+    private OdrlContext odrlContext;
 
     @JsonProperty("@id")
     private String policyDefinitionId;

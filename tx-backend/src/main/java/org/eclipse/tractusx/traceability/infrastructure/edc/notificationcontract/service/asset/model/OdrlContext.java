@@ -17,12 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration;
+package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model;
 
-public class EdcConstants {
-    public static final String EDC_CONTEXT = "https://w3id.org/edc/v0.0.1/ns/";
-    public static final String ODRL_CONTEXT = "http://www.w3.org/ns/odrl/2/";
-
-    private EdcConstants() {
-    }
+public record OdrlContext(String odrl) {
 }

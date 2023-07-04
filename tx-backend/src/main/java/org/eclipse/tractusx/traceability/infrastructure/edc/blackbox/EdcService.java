@@ -179,7 +179,7 @@ public class EdcService {
 
 
         final String jsonObject = edcTransformer.transformTransferProcessRequestToJson(transferProcessRequest).toString();
-
+        log.info("transferprocess json {}", jsonObject);
         var requestBody = RequestBody.create(jsonObject, JSON);
         var request = new Request.Builder().url(url).post(requestBody);
 

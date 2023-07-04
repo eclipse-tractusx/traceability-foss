@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.OdrlContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicy;
@@ -44,7 +44,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcConstants.EDC_CONTEXT;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcConstants.ODRL_CONTEXT;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
 @Slf4j
@@ -93,13 +93,13 @@ public class EdcPolicyDefinitionService {
         EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(List.of(odrlPermissions)).type(POLICY_TYPE).build();
 
         String accessPolicyId = UUID.randomUUID().toString();
-        EdcContext edcContext = new EdcContext(EDC_CONTEXT);
+        OdrlContext odrlContext = new OdrlContext(ODRL_CONTEXT);
 
         EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest = EdcCreatePolicyDefinitionRequest
                 .builder()
                 .policyDefinitionId(accessPolicyId)
                 .policy(edcPolicy)
-                .edcContext(edcContext)
+                .odrlContext(odrlContext)
                 .type(POLICY_DEFINITION_TYPE)
                 .build();
         log.info("EdcCreatePolicyDefinitionRequest {}", objectMapper.writeValueAsString(edcCreatePolicyDefinitionRequest));
