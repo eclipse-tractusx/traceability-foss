@@ -71,22 +71,15 @@ public class EdcPolicyDefinitionService {
 
     public String createAccessPolicy() {
 
-        EdcPolicyPermissionConstraintExpression purposePermissionConstraint = EdcPolicyPermissionConstraintExpression.builder()
-                .leftOperand(DATA_SPACE_LITERAL_EXPRESSION)
-                .rightOperand(PURPOSE_CONSTRAINT)
-                .operator("=")
-                .type(ATOMIC_CONSTRAINT)
-                .build();
-
-        EdcPolicyPermissionConstraintExpression idTracePermissionConstraint = EdcPolicyPermissionConstraintExpression.builder()
-                .leftOperand(DATA_SPACE_LITERAL_EXPRESSION)
+        EdcPolicyPermissionConstraintExpression constraint = EdcPolicyPermissionConstraintExpression.builder()
+                .leftOperand(PURPOSE_CONSTRAINT)
                 .rightOperand(ID_TRACE_CONSTRAINT)
-                .operator("=")
+                .operator("EQ")
                 .type(ATOMIC_CONSTRAINT)
                 .build();
 
         EdcPolicyPermissionConstraint edcPolicyPermissionConstraint = EdcPolicyPermissionConstraint.builder()
-                .orExpressions(List.of(idTracePermissionConstraint, purposePermissionConstraint))
+                .orExpressions(List.of(constraint))
                 .type(CONSTRAINT)
                 .build();
 
