@@ -37,8 +37,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.UUID;
-
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcConstants.EDC_CONTEXT;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
@@ -71,11 +69,11 @@ public class EdcContractDefinitionService {
                 .operator(ASSET_SELECTOR_EQUALITY_OPERATOR)
                 .build();
 
-        String contractPolicyId = UUID.randomUUID().toString();
+
 
         EdcContext edcContext = new EdcContext(EDC_CONTEXT);
         EdcCreateContractDefinitionRequest createContractDefinitionRequest = EdcCreateContractDefinitionRequest.builder()
-                .contractPolicyId(contractPolicyId)
+                .contractPolicyId(accessPolicyId)
                 .edcContext(edcContext)
                 .type(CONTRACT_DEFINITION_TYPE)
                 .accessPolicyId(accessPolicyId)
@@ -102,7 +100,7 @@ public class EdcContractDefinitionService {
         }
 
         if (responseCode.value() == 200) {
-            return contractPolicyId;
+            return accessPolicyId;
         }
 
         log.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, createContractDefinitionResponse.getBody(), createContractDefinitionResponse.getStatusCode());
