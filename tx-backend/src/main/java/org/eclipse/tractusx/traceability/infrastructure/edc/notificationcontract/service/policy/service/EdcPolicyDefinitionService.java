@@ -53,6 +53,8 @@ public class EdcPolicyDefinitionService {
     private static final String DATA_SPACE_CONNECTOR_PERMISSION = "dataspaceconnector:permission";
     public static final String DATA_SPACE_LITERAL_EXPRESSION = "dataspaceconnector:literalexpression";
     private static final String USE_ACTION = "USE";
+    private static final String POLICY_TYPE = "Policy";
+    private static final String SET_TYPE = "odrl:Set";
 
     private static final List<EdcPolicyPermissionConstraint> DEFAULT_EDC_POLICY_PERMISSION_CONSTRAINTS = List.of(
             new EdcPolicyPermissionConstraint(
@@ -72,29 +74,32 @@ public class EdcPolicyDefinitionService {
         this.edcProperties = edcProperties;
     }
 
-    public String createAccessPolicy(String notificationAssetId) {
-        EdcPolicyPermission edcPolicyPermission = new EdcPolicyPermission(
-                DATA_SPACE_CONNECTOR_PERMISSION,
-                new EdcPolicyPermissionAction(USE_ACTION),
-                notificationAssetId,
-                DEFAULT_EDC_POLICY_PERMISSION_CONSTRAINTS
-        );
+    public String createAccessPolicy() {
 
-        EdcPolicy edcPolicy = new EdcPolicy(List.of(edcPolicyPermission));
+        EdcPolicyPermission odrlPermissions = EdcPolicyPermission
+                .builder()
+                .type(DATA_SPACE_CONNECTOR_PERMISSION)
+                .edcPolicyPermissionConstraints(DEFAULT_EDC_POLICY_PERMISSION_CONSTRAINTS)
+                .policyPermissionAction(EdcPolicyPermissionAction.builder().type(USE_ACTION).build())
+                .type(SET_TYPE)
+                .build();
+
+        EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(List.of(odrlPermissions)).type(POLICY_TYPE).build();
 
         String accessPolicyId = UUID.randomUUID().toString();
         EdcContext edcContext = new EdcContext(EDC_CONTEXT);
 
         EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest = EdcCreatePolicyDefinitionRequest.builder()
                 .policyDefinitionId(accessPolicyId)
-                .edcPolicy(edcPolicy)
+                .policy(edcPolicy)
                 .edcContext(edcContext)
                 .build();
+
         final ResponseEntity<String> createPolicyDefinitionResponse;
         try {
             createPolicyDefinitionResponse = restTemplate.postForEntity(edcProperties.getPolicyDefinitionsPath(), edcCreatePolicyDefinitionRequest, String.class);
         } catch (RestClientException e) {
-            log.error("Failed to create EDC notification asset policy {} notification asset id. Reason: ", notificationAssetId, e);
+            log.error("Failed to create EDC notification asset policy. Reason: ", e);
 
             throw new CreateEdcPolicyDefinitionException(e);
         }
@@ -102,7 +107,7 @@ public class EdcPolicyDefinitionService {
         HttpStatusCode responseCode = createPolicyDefinitionResponse.getStatusCode();
 
         if (responseCode.value() == 409) {
-            log.info("{} notification asset policy definition already exists in the EDC", notificationAssetId);
+            log.info("Notification asset policy definition already exists in the EDC");
 
             throw new CreateEdcPolicyDefinitionException("Notification asset policy definition already exists in the EDC");
         }
@@ -111,9 +116,9 @@ public class EdcPolicyDefinitionService {
             return accessPolicyId;
         }
 
-        log.error("Failed to create EDC notification policy definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, createPolicyDefinitionResponse.getBody(), createPolicyDefinitionResponse.getStatusCode());
+        log.error("Failed to create EDC notification policy definition for notification asset. Body: {}, status: {}", createPolicyDefinitionResponse.getBody(), createPolicyDefinitionResponse.getStatusCode());
 
-        throw new CreateEdcAssetException("Failed to create EDC notification policy definition for %s asset id".formatted(notificationAssetId));
+        throw new CreateEdcAssetException("Failed to create EDC notification policy definition for asset");
     }
 
     public void deleteAccessPolicy(String accessPolicyId) {

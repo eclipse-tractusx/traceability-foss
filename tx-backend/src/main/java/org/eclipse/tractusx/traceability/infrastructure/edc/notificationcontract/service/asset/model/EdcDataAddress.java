@@ -21,20 +21,24 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
+@Builder
 public class EdcDataAddress {
 
     @JsonProperty("type")
     private String type;
 
-    @JsonProperty("properties")
-    private final EdcDataAddressProperties edcDataAddressProperties;
+    @JsonProperty("baseUrl")
+    private String baseUrl;
 
-    public EdcDataAddress(EdcDataAddressProperties edcDataAddressProperties) {
-        this.edcDataAddressProperties = edcDataAddressProperties;
-    }
+    @JsonProperty("proxyMethod")
+    private String proxyMethod;
 
-    public EdcDataAddressProperties getEdcDataAddressProperties() {
-        return edcDataAddressProperties;
-	}
+    @JsonProperty("proxyBody")
+    private String proxyBody;
+
+    @JsonProperty("POST")
+    private String method;
+
 }

@@ -21,46 +21,20 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
 import java.util.List;
 
+@Builder
 public class EdcPolicyPermission {
 
-	@JsonProperty("edctype")
-	private final String edcType;
+    @JsonProperty("edctype")
+    private String type;
 
-	@JsonProperty("action")
-	private final EdcPolicyPermissionAction policyPermissionAction;
+    @JsonProperty("odrl:action")
+    private EdcPolicyPermissionAction policyPermissionAction;
 
-	@JsonProperty("target")
-	private final String target;
+    @JsonProperty("odrl:constraints")
+    private List<EdcPolicyPermissionConstraint> edcPolicyPermissionConstraints;
 
-    @JsonProperty("constraints")
-    private final List<EdcPolicyPermissionConstraint> edcPolicyPermissionConstraints;
-
-    public EdcPolicyPermission(String edcType,
-                               EdcPolicyPermissionAction policyPermissionAction,
-                               String target,
-                               List<EdcPolicyPermissionConstraint> edcPolicyPermissionConstraints) {
-        this.edcType = edcType;
-        this.policyPermissionAction = policyPermissionAction;
-        this.target = target;
-        this.edcPolicyPermissionConstraints = edcPolicyPermissionConstraints;
-    }
-
-    public String getEdcType() {
-		return edcType;
-	}
-
-	public EdcPolicyPermissionAction getPolicyPermissionAction() {
-		return policyPermissionAction;
-	}
-
-	public String getTarget() {
-		return target;
-	}
-
-    public List<EdcPolicyPermissionConstraint> getEdcPolicyPermissionConstraints() {
-        return edcPolicyPermissionConstraints;
-    }
 }

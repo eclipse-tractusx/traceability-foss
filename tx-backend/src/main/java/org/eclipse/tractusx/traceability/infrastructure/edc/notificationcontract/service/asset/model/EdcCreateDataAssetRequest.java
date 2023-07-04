@@ -27,11 +27,11 @@ import lombok.Builder;
 public class EdcCreateDataAssetRequest {
 
     @JsonProperty("@context")
-    private EdcContext edcContext;
+    private EdcContext context;
 
     @JsonProperty("asset")
-    private EdcAsset edcAsset;
+    private EdcAsset asset;
 
     @JsonProperty("dataAddress")
-    private EdcDataAddress edcDataAddress;
+    private EdcDataAddress dataAddress;
 }

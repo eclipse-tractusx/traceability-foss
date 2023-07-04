@@ -30,7 +30,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcCreateDataAssetRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcDataAddress;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcDataAddressProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -75,19 +74,19 @@ public class EdcNotitifcationAssetService {
 
         String notificationAssetId = UUID.randomUUID().toString();
 
-        EdcDataAddressProperties edcDataAddressProperties = new EdcDataAddressProperties(
-                traceabilityProperties.getUrl() + template.formatted(notificationMethodValue),
-                "true",
-                DEFAULT_METHOD,
-                "true",
-                DEFAULT_DATA_ADDRESS_PROPERTY_TYPE
-        );
 
-        EdcDataAddress edcDataAddress = new EdcDataAddress(edcDataAddressProperties);
+        EdcDataAddress dataAddress = EdcDataAddress
+                .builder()
+                .type(DEFAULT_DATA_ADDRESS_PROPERTY_TYPE)
+                .baseUrl(traceabilityProperties.getUrl() + template.formatted(notificationMethodValue))
+                .method(DEFAULT_METHOD)
+                .proxyBody("true")
+                .proxyMethod("true")
+                .build();
 
         String description = "endpoint to %s %s".formatted(notificationMethodValue, notificationType.getValue());
 
-        EdcAssetProperties edcAssetProperties = new EdcAssetProperties(
+        EdcAssetProperties assetProperties = new EdcAssetProperties(
                 description,
                 DEFAULT_CONTENT_TYPE,
                 DEFAULT_POLICY_ID,
@@ -96,9 +95,20 @@ public class EdcNotitifcationAssetService {
                 notificationMethodValue
         );
 
-        EdcAsset edcAsset = EdcAsset.builder().assetId(notificationAssetId).edcAssetProperties(edcAssetProperties).build();
+        EdcAsset asset = EdcAsset
+                .builder()
+                .assetId(notificationAssetId)
+                .edcAssetProperties(assetProperties)
+                .build();
+
         EdcContext edcContext = new EdcContext(EDC_CONTEXT);
-        EdcCreateDataAssetRequest createDataAssetRequest = EdcCreateDataAssetRequest.builder().edcAsset(edcAsset).edcDataAddress(edcDataAddress).edcContext(edcContext).build();
+
+        EdcCreateDataAssetRequest createDataAssetRequest = EdcCreateDataAssetRequest
+                .builder()
+                .asset(asset)
+                .dataAddress(dataAddress)
+                .context(edcContext)
+                .build();
 
         final ResponseEntity<String> createEdcDataAssetResponse;
 

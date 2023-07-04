@@ -33,7 +33,10 @@ public class EdcCreatePolicyDefinitionRequest {
     @JsonProperty("@id")
     private String policyDefinitionId;
 
+    @JsonProperty("@type")
+    private String type;
+
     @JsonProperty("policy")
-    private EdcPolicy edcPolicy;
+    private EdcPolicy policy;
 
 }

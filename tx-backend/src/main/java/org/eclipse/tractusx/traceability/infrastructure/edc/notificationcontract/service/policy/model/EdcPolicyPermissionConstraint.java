@@ -23,6 +23,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EdcPolicyPermissionConstraint {
 
+    // todo odrl:
+
     @JsonProperty("edctype")
     private final String edcType;
 

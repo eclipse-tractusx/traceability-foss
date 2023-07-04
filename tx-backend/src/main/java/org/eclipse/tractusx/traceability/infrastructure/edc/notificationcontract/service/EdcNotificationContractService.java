@@ -58,10 +58,9 @@ public class EdcNotificationContractService {
 
         final String accessPolicyId;
         try {
-            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(notificationAssetId);
+            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy();
         } catch (CreateEdcPolicyDefinitionException e) {
             revertNotificationAsset(notificationAssetId);
-
             throw new CreateNotificationContractException(e);
         }
 
