@@ -22,15 +22,20 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.ToString;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 
 import java.util.List;
 
+@ToString
 @Builder
 public class EdcCreateContractDefinitionRequest {
 
     @JsonProperty("@context")
     private EdcContext edcContext;
+
+    @JsonProperty("@type")
+    private String type;
 
     @JsonProperty("@id")
     private String id;
@@ -42,6 +47,6 @@ public class EdcCreateContractDefinitionRequest {
     private String contractPolicyId;
 
     @JsonProperty("assetsSelector")
-    private List<EdcContractDefinitionCriteria> criteria;
+    private List<EdcContractDefinitionCriteria> assetsSelector;
 
 }

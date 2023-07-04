@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
@@ -48,12 +49,13 @@ public class EdcContractDefinitionService {
     private static final String ASSET_SELECTOR_ID = "https://w3id.org/edc/v0.0.1/ns/id";
     private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "=";
     private static final String ASSET_SELECTOR_TYPE = "CriterionDTO";
+    private static final String CONTRACT_DEFINITION_TYPE = "ContractDefinition";
 
     private final RestTemplate restTemplate;
     private final EdcProperties edcProperties;
 
     @Autowired
-    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
+    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
         this.restTemplate = restTemplate;
         this.edcProperties = edcProperties;
     }
@@ -73,13 +75,14 @@ public class EdcContractDefinitionService {
         EdcCreateContractDefinitionRequest createContractDefinitionRequest = EdcCreateContractDefinitionRequest.builder()
                 .contractPolicyId(contractPolicyId)
                 .edcContext(edcContext)
+                .type(CONTRACT_DEFINITION_TYPE)
                 .accessPolicyId(accessPolicyId)
                 .id(accessPolicyId)
-                .criteria(List.of(edcContractDefinitionCriteria))
+                .assetsSelector(List.of(edcContractDefinitionCriteria))
                 .build();
 
         final ResponseEntity<String> createContractDefinitionResponse;
-
+        log.info("EdcCreateContractDefinitionRequest {}", createContractDefinitionRequest);
         try {
             createContractDefinitionResponse = restTemplate.postForEntity(edcProperties.getNegotiationPath(), createContractDefinitionRequest, String.class);
         } catch (RestClientException e) {

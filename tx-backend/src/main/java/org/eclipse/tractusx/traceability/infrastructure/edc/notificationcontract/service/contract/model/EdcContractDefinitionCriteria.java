@@ -23,7 +23,9 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 @Builder
 public class EdcContractDefinitionCriteria {

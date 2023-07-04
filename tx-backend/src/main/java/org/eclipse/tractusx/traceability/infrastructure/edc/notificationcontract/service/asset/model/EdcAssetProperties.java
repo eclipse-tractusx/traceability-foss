@@ -21,7 +21,9 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
+@ToString
 public record EdcAssetProperties(@JsonProperty("name") String assetName,
                                  @JsonProperty("contenttype") String contentType,
                                  @JsonProperty("policy-id") String policyId,

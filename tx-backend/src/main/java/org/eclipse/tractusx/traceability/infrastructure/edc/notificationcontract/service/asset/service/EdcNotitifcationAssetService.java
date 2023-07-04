@@ -111,7 +111,7 @@ public class EdcNotitifcationAssetService {
                 .build();
 
         final ResponseEntity<String> createEdcDataAssetResponse;
-
+        log.info("EdcCreateDataAssetRequest {}", createDataAssetRequest);
         try {
             createEdcDataAssetResponse = restTemplate.postForEntity(
                     edcProperties.getAssetsPath(),

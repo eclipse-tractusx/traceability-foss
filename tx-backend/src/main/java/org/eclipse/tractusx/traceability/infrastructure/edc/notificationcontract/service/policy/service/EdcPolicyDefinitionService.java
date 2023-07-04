@@ -98,7 +98,7 @@ public class EdcPolicyDefinitionService {
                 .edcContext(edcContext)
                 .type(POLICY_DEFINITION_TYPE)
                 .build();
-
+        log.info("EdcCreatePolicyDefinitionRequest {}", edcCreatePolicyDefinitionRequest);
         final ResponseEntity<String> createPolicyDefinitionResponse;
         try {
             createPolicyDefinitionResponse = restTemplate.postForEntity(edcProperties.getPolicyDefinitionsPath(), edcCreatePolicyDefinitionRequest, String.class);

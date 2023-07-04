@@ -22,7 +22,9 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.ToString;
 
+@ToString
 @Builder
 public class EdcPolicyPermission {
 
