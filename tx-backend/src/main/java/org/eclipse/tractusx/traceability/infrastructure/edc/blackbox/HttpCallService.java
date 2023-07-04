@@ -100,7 +100,7 @@ public class HttpCallService {
                 .protocol("dataspace-protocol-http")
                 .providerUrl(providerConnectorControlPlaneIDSUrl)
                 .build();
-
+        log.info("Catalog request dto", catalogRequestDTO);
         final String requestJson = edcTransformer.transformCatalogRequestToJson(catalogRequestDTO).toString();
         log.info("Catalog request body", requestJson);
         var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, requestJson));
