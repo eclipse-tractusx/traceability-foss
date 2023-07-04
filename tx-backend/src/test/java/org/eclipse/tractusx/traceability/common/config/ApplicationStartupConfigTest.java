@@ -17,27 +17,37 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config;
+package org.eclipse.tractusx.traceability.common.config;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
+import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
-class IrsPolicyConfigTest {
+@ExtendWith(MockitoExtension.class)
+class ApplicationStartupConfigTest {
+
+    private ApplicationStartupConfig applicationStartupConfig;
+
+    @Mock
+    private IrsRepository irsRepository;
+
+    @BeforeEach
+    void setUp() {
+        applicationStartupConfig = new ApplicationStartupConfig(irsRepository);
+    }
 
     @Test
-    void givenPolicyConfig_whenGetPolicy_thenGetCorrectPolicy() {
-        // given
-        final String policyName = "TRACEX ID 3.0";
-        final String ttl = "2023-07-03T16:01:05.309Z";
-        final IrsPolicyConfig policyConfig = new IrsPolicyConfig(policyName, ttl);
-
+    void whenCallRegisterIrsPolicy_thenCallRepository() {
         // when
-        final IrsPolicy result = policyConfig.getPolicy();
+        applicationStartupConfig.registerIrsPolicy();
 
         // then
-        assertThat(result.getPolicyId()).isEqualTo(policyName);
-        assertThat(result.getTtl()).isEqualTo(ttl);
+        verify(irsRepository, times(1)).createIrsPolicyIfMissing();
     }
 }
