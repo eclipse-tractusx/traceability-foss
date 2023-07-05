@@ -348,3 +348,8 @@ irs-helm:
 ###################################
 edc-postgresql:
   enabled: false
+  auth:
+    postgresPassword: "CHANGEME"
+    password: "CHANGEME"
+    database: "trace"
+    username: "traceuser"
