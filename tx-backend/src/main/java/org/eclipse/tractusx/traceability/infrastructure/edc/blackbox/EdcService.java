@@ -27,8 +27,6 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
-import org.eclipse.edc.catalog.spi.Dataset;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationRequest;
@@ -61,6 +59,7 @@ public class EdcService {
     public static final String EDC_PROTOCOL = "dataspace-protocol-http";
     private final EdcTransformer edcTransformer;
 
+
     /**
      * Rest call to get all contract offer and filter notification type contract
      */
@@ -80,37 +79,9 @@ public class EdcService {
             log.error("No contract found");
             throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
         }
-
-    /*    catalog.getDatasets().stream().filter(dataset -> {
-
-        })*/
-        catalog.getDatasets().forEach(dataset -> {
-            dataset.getProperties().values().forEach(o -> {
-                if (o != null) {
-                    log.info("Dataset {}", o.toString());
-                }
-            });
-            dataset.getProperties().forEach((s, o) -> {
-                log.info("key {}, value {}", s, o.toString());
-            });
-
-            if (dataset.getProperty("edc:notificationtype") != null) {
-                log.info("Dataset1 notificationType {}", dataset.getProperty("edc:notificationtype").toString());
-            }
-
-            if (dataset.getProperty("notificationtype") != null) {
-                log.info("Dataset2 notificationType {}", dataset.getProperty("edc:notificationtype").toString());
-            }
-
-        });
-
         return catalog;
     }
 
-
-    private boolean hasTracePolicy(ContractOffer contractOffer) {
-        return contractOffer.getPolicy() != null && contractOffer.getPolicy().hasTracePolicy();
-    }
 
     /**
      * Prepare for contract negotiation. it will wait for while till API return agreementId
@@ -216,19 +187,5 @@ public class EdcService {
         return (Response) httpCallService.sendRequest(request.build(), Response.class);
     }
 
-    private boolean isQualityInvestigation(Dataset dataset) {
-        Object notificationtype = dataset.getProperty("notificationtype");
-        if (notificationtype != null) {
-            return "qualityinvestigation".equals(notificationtype.toString());
-        }
-        return false;
-    }
 
-    private boolean isQualityAlert(Dataset dataset) {
-        Object notificationtype = dataset.getProperty("notificationtype");
-        if (notificationtype != null) {
-            return "qualityalert".equals(notificationtype.toString());
-        }
-        return false;
-    }
 }

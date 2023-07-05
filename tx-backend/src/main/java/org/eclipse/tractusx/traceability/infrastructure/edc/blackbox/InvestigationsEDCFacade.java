@@ -30,6 +30,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
+import org.eclipse.edc.catalog.spi.Dataset;
 import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
@@ -43,6 +44,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.Tr
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -78,6 +80,11 @@ public class InvestigationsEDCFacade {
 
     private final EdcTransformer edcTransformer;
 
+    public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
+    public static final String ASSET_VALUE_QUALITY_ALERT = "qualityalert";
+    private static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
+    private static final String ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE = "receive";
+
     public void startEDCTransfer(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
         Map<String, String> header = new HashMap<>();
         header.put("x-api-key", edcProperties.getApiAuthKey());
@@ -97,8 +104,14 @@ public class InvestigationsEDCFacade {
                 throw new BadRequestException("Notication method and type not found.");
             }
 
+            List<Dataset> filteredDataset = catalog.getDatasets().stream()
+                    .filter(dataset -> isQualityNotificationOffer(notification, dataset))
+                    .filter(this::hasTracePolicy)
+                    .toList();
+
+
             log.info(":::: Initialize Contract Negotiation method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
-            final List<CatalogItem> items = catalog.getDatasets().stream().map(dataSet -> {
+            final List<CatalogItem> items = filteredDataset.stream().map(dataSet -> {
                 final Map.Entry<String, Policy> offer = dataSet.getOffers()
                         .entrySet()
                         .stream()
@@ -236,5 +249,29 @@ public class InvestigationsEDCFacade {
         return dataReference;
     }
 
+    public boolean isQualityNotificationOffer(QualityNotificationMessage qualityNotificationMessage, Dataset dataset) {
+        Object notificationTypeObj = dataset.getProperty("https://w3id.org/edc/v0.0.1/ns/notificationtype");
+        String notificationType = null;
+        if (notificationTypeObj != null) {
+            notificationType = notificationTypeObj.toString();
+        }
+        Object notificationMethodObj = dataset.getProperty("https://w3id.org/edc/v0.0.1/ns/notificationmethod");
+        String notificationMethod = null;
+        if (notificationMethodObj != null) {
+            notificationMethod = notificationMethodObj.toString();
+        }
+
+        final String propertyNotificationTypeValue = QualityNotificationType.ALERT.equals(qualityNotificationMessage.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
+        final String propertyMethodValue = qualityNotificationMessage.getIsInitial() ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
+        return propertyNotificationTypeValue.equals(notificationType) && propertyMethodValue.equals(notificationMethod);
+    }
+
+
+    private boolean hasTracePolicy(Dataset dataset) {
+        dataset.getOffers().forEach((s, policy) -> {
+            log.info("Offers: Key: {}, value {}", s, policy);
+        });
+        return true;
+    }
 
 }
