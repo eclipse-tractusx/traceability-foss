@@ -34,8 +34,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransfo
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CatalogRequestDTO;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.stereotype.Component;
 
@@ -47,6 +45,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest.DEFAULT_PROTOCOL;
 
 @Slf4j
 @Component
@@ -73,22 +72,6 @@ public class HttpCallService {
                 .build();
     }
 
-
-    public Catalog getCatalogFromProvider(
-            String consumerEdcDataManagementUrl,
-            String providerConnectorControlPlaneIDSUrl,
-            Map<String, String> headers
-    ) throws IOException {
-        var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
-        MediaType mediaType = MediaType.parse("application/json");
-        CatalogRequestDTO catalogRequestDTO = new CatalogRequestDTO(providerConnectorControlPlaneIDSUrl, "dataspace-protocol-http", new EdcContext("https://w3id.org/edc/v0.0.1/ns/"));
-        var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, objectMapper.writeValueAsString(catalogRequestDTO)));
-        headers.forEach(request::addHeader);
-
-        return (Catalog) sendRequest(request.build(), Catalog.class);
-    }
-
-    // TODO instead of filtering with java logic after the call of this method we could add a filter to the .querySpec within CatalogRequest object. Max W.
     public Catalog getCatalogForNotification(
             String consumerEdcDataManagementUrl,
             String providerConnectorControlPlaneIDSUrl,
@@ -96,20 +79,16 @@ public class HttpCallService {
     ) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
         MediaType mediaType = MediaType.parse("application/json");
-        final String leftType = "https://w3id.org/edc/v0.0.1/ns/notificationtype";
-        final String leftMethod = "https://w3id.org/edc/v0.0.1/ns/notificationmethod";
 
+        // TODO instead of filtering with java logic after the call of this method we could add a filter to the .querySpec within CatalogRequest object. Max W.
         CatalogRequest catalogRequestDTO = CatalogRequest.Builder.newInstance()
-                .protocol("dataspace-protocol-http")
+                .protocol(DEFAULT_PROTOCOL)
                 .providerUrl(providerConnectorControlPlaneIDSUrl)
-                /*        .querySpec(filter)*/
                 .build();
-        log.info("Catalog request dto {}", catalogRequestDTO);
+
         final String requestJson = edcTransformer.transformCatalogRequestToJson(catalogRequestDTO).toString();
-        log.info("Catalog request body {}", requestJson);
         var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, requestJson));
         headers.forEach(request::addHeader);
-
         return sendCatalogRequest(request.build());
     }
 
@@ -129,7 +108,7 @@ public class HttpCallService {
         }
     }
 
-    public NegotiationResponse sendRequestNegotiation(Request request) throws IOException {
+    public NegotiationResponse sendNegotiationRequest(Request request) throws IOException {
         log.info("Requesting {} {}...", request.method(), request.url());
         try (var response = httpClient.newCall(request).execute()) {
             var body = response.body();

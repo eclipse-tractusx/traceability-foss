@@ -44,7 +44,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcConstants.EDC_CONTEXT;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
 @Slf4j
@@ -106,7 +106,7 @@ public class EdcNotitifcationAssetService {
                 .edcAssetProperties(assetProperties)
                 .build();
 
-        EdcContext edcContext = new EdcContext(EDC_CONTEXT);
+        EdcContext edcContext = new EdcContext(NAMESPACE_EDC);
 
         EdcCreateDataAssetRequest createDataAssetRequest = EdcCreateDataAssetRequest
                 .builder()

@@ -44,7 +44,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcConstants.ODRL_CONTEXT;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_ODRL;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
 @Slf4j
@@ -93,7 +93,7 @@ public class EdcPolicyDefinitionService {
         EdcPolicy edcPolicy = EdcPolicy.builder().odrlPermissions(List.of(odrlPermissions)).type(POLICY_TYPE).build();
 
         String accessPolicyId = UUID.randomUUID().toString();
-        OdrlContext odrlContext = new OdrlContext(ODRL_CONTEXT);
+        OdrlContext odrlContext = new OdrlContext(NAMESPACE_ODRL);
 
         EdcCreatePolicyDefinitionRequest edcCreatePolicyDefinitionRequest = EdcCreatePolicyDefinitionRequest
                 .builder()

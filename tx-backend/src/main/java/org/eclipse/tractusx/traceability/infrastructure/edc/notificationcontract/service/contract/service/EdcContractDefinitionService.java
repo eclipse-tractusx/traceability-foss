@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcConstants.EDC_CONTEXT;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
 @Slf4j
@@ -70,8 +70,7 @@ public class EdcContractDefinitionService {
                 .build();
 
 
-
-        EdcContext edcContext = new EdcContext(EDC_CONTEXT);
+        EdcContext edcContext = new EdcContext(NAMESPACE_EDC);
         EdcCreateContractDefinitionRequest createContractDefinitionRequest = EdcCreateContractDefinitionRequest.builder()
                 .contractPolicyId(accessPolicyId)
                 .edcContext(edcContext)

@@ -42,7 +42,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.Endpo
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.PolicyDefinition;
@@ -66,6 +65,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC_ID;
 
 @Slf4j
@@ -84,8 +84,6 @@ public class InvestigationsEDCFacade {
     private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
     private final EdcProperties edcProperties;
-
-    private final EdcTransformer edcTransformer;
 
     public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
     public static final String ASSET_VALUE_QUALITY_ALERT = "qualityalert";
@@ -144,14 +142,11 @@ public class InvestigationsEDCFacade {
                 throw new BadRequestException("No Catalog Item in catalog found");
             }
 
-
             final String negotiationId = edcService.initializeContractNegotiation(receiverEdcUrl, catalogItem.get(), senderEdcUrl, header);
-
 
             log.info(":::: Contract Agreed method[startEDCTransfer] agreementId :{}", negotiationId);
 
             endpointDataReferenceCache.storeAgreementId(negotiationId);
-
 
             if (StringUtils.hasLength(negotiationId)) {
                 notification.setContractAgreementId(negotiationId);
@@ -169,7 +164,6 @@ public class InvestigationsEDCFacade {
                         receiverEdcUrl + edcProperties.getIdsPath(),
                         catalogItem.get(),
                         negotiationId);
-
 
                 log.info(":::: initialize Transfer process with http Proxy :::::");
                 // Initiate transfer process
@@ -256,12 +250,12 @@ public class InvestigationsEDCFacade {
     }
 
     public boolean isQualityNotificationOffer(QualityNotificationMessage qualityNotificationMessage, Dataset dataset) {
-        Object notificationTypeObj = dataset.getProperty("https://w3id.org/edc/v0.0.1/ns/notificationtype");
+        Object notificationTypeObj = dataset.getProperty(NAMESPACE_EDC + "notificationtype");
         String notificationType = null;
         if (notificationTypeObj != null) {
             notificationType = notificationTypeObj.toString();
         }
-        Object notificationMethodObj = dataset.getProperty("https://w3id.org/edc/v0.0.1/ns/notificationmethod");
+        Object notificationMethodObj = dataset.getProperty(NAMESPACE_EDC + "notificationmethod");
         String notificationMethod = null;
         if (notificationMethodObj != null) {
             notificationMethod = notificationMethodObj.toString();
