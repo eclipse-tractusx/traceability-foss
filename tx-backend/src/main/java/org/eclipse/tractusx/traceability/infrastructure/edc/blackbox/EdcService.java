@@ -91,7 +91,6 @@ public class EdcService {
      */
     public String initializeContractNegotiation(String providerConnectorUrl, CatalogItem catalogItem, String consumerEdcUrl,
                                                 Map<String, String> header) throws InterruptedException, IOException {
-        // Initiate negotiation
 
         final NegotiationRequest negotiationRequest = createNegotiationRequestFromCatalogItem(providerConnectorUrl + edcProperties.getIdsPath(),
                 catalogItem);
@@ -104,12 +103,6 @@ public class EdcService {
 
         // Check negotiation state
         while (negotiation == null || negotiation.getState() == null || !negotiation.getState().equals("FINALIZED")) {
-     /*       responseId=4cdd134d-4b51-4d67-b2b6-b3bacdaf2a4c,
-            contractAgreementId=3c2a7c26-36ad-42fa-a079-f4d0a5d56889:71eae94e-b352-49b1-ac5a-ada8db870fa0:60c5b45d-1b5e-4ff8-aa5e-1fafe3f63ed6,
-            counterPartyAddress=https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/api/v1/dsp,
-            errorDetail=null,
-              protocol=dataspace-protocol-http,
-                    state=FINALIZED, type=CONSUMER, callbackAddresses=[])*/
 
             log.info(":::: waiting for contract to get confirmed");
             if (negotiation != null) {
@@ -125,7 +118,7 @@ public class EdcService {
 
                         log.info(":::: Start call for contract agreement method [initializeContractNegotiation] URL :{}", url);
 
-                        return (NegotiationResponse) httpCallService.sendRequestNegotiation(request.build());
+                        return httpCallService.sendRequestNegotiation(request.build());
                     }, 1000, TimeUnit.MILLISECONDS);
             try {
                 negotiation = scheduledFuture.get();

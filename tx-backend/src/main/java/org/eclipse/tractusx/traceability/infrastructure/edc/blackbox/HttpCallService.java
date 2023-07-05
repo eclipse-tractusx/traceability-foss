@@ -30,6 +30,8 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
+import org.eclipse.edc.spi.query.Criterion;
+import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationResponse;
@@ -97,10 +99,20 @@ public class HttpCallService {
     ) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
         MediaType mediaType = MediaType.parse("application/json");
+        final String leftType = "https://w3id.org/edc/v0.0.1/ns/notificationtype";
+        final String leftMethod = "https://w3id.org/edc/v0.0.1/ns/notificationmethod";
 
+        final Criterion typeCriterion = new Criterion(leftType, "=", notificationType);
+        final Criterion methodCriterion = new Criterion(leftMethod, "=", notificationMethod);
+
+
+        QuerySpec filter = QuerySpec.Builder.newInstance()
+                .filter(List.of(typeCriterion, methodCriterion))
+                .build();
         CatalogRequest catalogRequestDTO = CatalogRequest.Builder.newInstance()
                 .protocol("dataspace-protocol-http")
                 .providerUrl(providerConnectorControlPlaneIDSUrl)
+                .querySpec(filter)
                 .build();
         log.info("Catalog request dto {}", catalogRequestDTO);
         final String requestJson = edcTransformer.transformCatalogRequestToJson(catalogRequestDTO).toString();
