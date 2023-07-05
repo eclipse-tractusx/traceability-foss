@@ -34,6 +34,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.Ca
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationResponse;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.Response;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.TransferProcessRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
@@ -162,9 +163,9 @@ public class EdcService {
         var request = new Request.Builder().url(url).post(requestBody);
 
         headers.forEach(request::addHeader);
-        TransferId negotiationId = (TransferId) httpCallService.sendRequest(request.build(), TransferId.class);
-        log.info(":::: Method [initiateNegotiation] Negotiation Id :{}", negotiationId.getId());
-        return negotiationId.getId();
+        Response negotiationIdResponse = (Response) httpCallService.sendRequest(request.build(), Response.class);
+        log.info(":::: Method [initiateNegotiation] Negotiation Id :{}", negotiationIdResponse.getResponseId());
+        return negotiationIdResponse.getResponseId();
     }
 
 
