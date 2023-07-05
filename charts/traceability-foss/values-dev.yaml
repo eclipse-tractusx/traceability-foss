@@ -340,7 +340,7 @@ tractusx-connector:
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
   backendService:
-    httpProxyTokenReceiverUrl: "https://traceability.dev.demo.catena-x.net/callback/endpoint-data-reference"
+    httpProxyTokenReceiverUrl: "https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
 
   ################################
   # EDC Vault/DAPS Configuration #
