@@ -107,6 +107,7 @@ public class EdcService {
         while (negotiation == null || negotiation.getState() == null || !negotiation.getState().equals("CONFIRMED") || !negotiation.getState().equals("FINALIZED")) {
 
             log.info(":::: waiting for contract to get confirmed");
+            log.info("Negotation state {}", negotiation);
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             ScheduledFuture<NegotiationResponse> scheduledFuture =
                     scheduler.schedule(() -> {
@@ -116,7 +117,7 @@ public class EdcService {
 
                         log.info(":::: Start call for contract agreement method [initializeContractNegotiation] URL :{}", url);
 
-                        return (NegotiationResponse) httpCallService.sendRequest(request.build(), NegotiationResponse.class);
+                        return (NegotiationResponse) httpCallService.sendRequestNegotiation(request.build());
                     }, 1000, TimeUnit.MILLISECONDS);
             try {
                 negotiation = scheduledFuture.get();

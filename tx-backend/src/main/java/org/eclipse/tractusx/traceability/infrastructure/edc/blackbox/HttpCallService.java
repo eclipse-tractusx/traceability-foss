@@ -32,6 +32,7 @@ import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CatalogRequestDTO;
@@ -121,6 +122,22 @@ public class HttpCallService {
 
             String res = body.string();
             return edcTransformer.transformCatalog(res, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public NegotiationResponse sendRequestNegotiation(Request request) throws IOException {
+        log.info("Requesting {} {}...", request.method(), request.url());
+        try (var response = httpClient.newCall(request).execute()) {
+            var body = response.body();
+
+            if (!response.isSuccessful() || body == null) {
+                throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+            }
+
+            String res = body.string();
+            return edcTransformer.transformJsonToNegotiationResponse(res, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw e;
         }

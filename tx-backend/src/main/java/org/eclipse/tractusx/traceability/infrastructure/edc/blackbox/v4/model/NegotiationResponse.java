@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.ToString;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
@@ -32,6 +33,7 @@ import java.util.List;
 /**
  * EDC negotiation response.
  */
+@ToString
 @Value
 @Builder(toBuilder = true)
 @Jacksonized
