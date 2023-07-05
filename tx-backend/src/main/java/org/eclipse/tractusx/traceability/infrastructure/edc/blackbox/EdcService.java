@@ -104,10 +104,16 @@ public class EdcService {
         NegotiationResponse negotiation = null;
 
         // Check negotiation state
-        while (negotiation == null || negotiation.getState() == null || !negotiation.getState().equals("CONFIRMED") || !negotiation.getState().equals("FINALIZED")) {
+        while (negotiation == null || negotiation.getState() == null || !negotiation.getState().equals("FINALIZED")) {
+     /*       responseId=4cdd134d-4b51-4d67-b2b6-b3bacdaf2a4c,
+            contractAgreementId=3c2a7c26-36ad-42fa-a079-f4d0a5d56889:71eae94e-b352-49b1-ac5a-ada8db870fa0:60c5b45d-1b5e-4ff8-aa5e-1fafe3f63ed6,
+            counterPartyAddress=https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/api/v1/dsp,
+            errorDetail=null,
+              protocol=dataspace-protocol-http,
+                    state=FINALIZED, type=CONSUMER, callbackAddresses=[])*/
 
             log.info(":::: waiting for contract to get confirmed");
-            log.info("Negotation state {}", negotiation);
+            log.info("Negotation state {}", negotiation.getState());
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             ScheduledFuture<NegotiationResponse> scheduledFuture =
                     scheduler.schedule(() -> {
