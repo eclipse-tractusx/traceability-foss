@@ -151,6 +151,7 @@ public class InvestigationsEDCFacade {
                         catalogItem.get(),
                         negotiationId);
 
+
                 log.info(":::: initialize Transfer process with http Proxy :::::");
                 // Initiate transfer process
                 edcService.initiateHttpProxyTransferProcess(senderEdcUrl,

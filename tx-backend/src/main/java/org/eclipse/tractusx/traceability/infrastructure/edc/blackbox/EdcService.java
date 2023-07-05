@@ -27,7 +27,6 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.TransferId;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
@@ -181,10 +180,10 @@ public class EdcService {
     /**
      * Rest call for Transfer Data with HttpProxy
      */
-    public TransferId initiateHttpProxyTransferProcess(String consumerEdcDataManagementUrl,
-                                                       String providerConnectorControlPlaneIDSUrl,
-                                                       TransferProcessRequest transferProcessRequest,
-                                                       Map<String, String> headers) throws IOException {
+    public Response initiateHttpProxyTransferProcess(String consumerEdcDataManagementUrl,
+                                                     String providerConnectorControlPlaneIDSUrl,
+                                                     TransferProcessRequest transferProcessRequest,
+                                                     Map<String, String> headers) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getTransferPath();
 
 
@@ -195,6 +194,6 @@ public class EdcService {
 
         headers.forEach(request::addHeader);
         log.info(":::: call Transfer1 process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}", transferProcessRequest.getContractId(), transferProcessRequest.getAssetId(), consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl);
-        return (TransferId) httpCallService.sendRequest(request.build(), TransferId.class);
+        return (Response) httpCallService.sendRequest(request.build(), Response.class);
     }
 }
