@@ -113,7 +113,10 @@ public class EdcService {
                     state=FINALIZED, type=CONSUMER, callbackAddresses=[])*/
 
             log.info(":::: waiting for contract to get confirmed");
-            log.info("Negotation state {}", negotiation.getState());
+            if (negotiation != null) {
+                log.info("Negotation state {}", negotiation.getState());
+            }
+
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             ScheduledFuture<NegotiationResponse> scheduledFuture =
                     scheduler.schedule(() -> {
