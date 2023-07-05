@@ -104,7 +104,7 @@ public class EdcService {
         NegotiationResponse negotiation = null;
 
         // Check negotiation state
-        while (negotiation == null || !negotiation.getState().equals("CONFIRMED")) {
+        while (negotiation == null || negotiation.getState() == null || !negotiation.getState().equals("CONFIRMED") || !negotiation.getState().equals("FINALIZED")) {
 
             log.info(":::: waiting for contract to get confirmed");
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
