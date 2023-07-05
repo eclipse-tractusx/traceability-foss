@@ -184,7 +184,7 @@ public class EdcService {
         var request = new Request.Builder().url(url).post(requestBody);
 
         headers.forEach(request::addHeader);
-        log.info(":::: call Transfer process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}", transferProcessRequest.getContractId(), transferProcessRequest.getAssetId(), consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl);
+        log.info(":::: call Transfer1 process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}", transferProcessRequest.getContractId(), transferProcessRequest.getAssetId(), consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl);
         return (TransferId) httpCallService.sendRequest(request.build(), TransferId.class);
     }
 }
