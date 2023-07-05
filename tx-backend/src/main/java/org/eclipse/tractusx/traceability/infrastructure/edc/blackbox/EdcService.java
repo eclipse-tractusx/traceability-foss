@@ -27,15 +27,14 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.Response;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.TransferProcessRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.catalog.CatalogItem;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation.NegotiationRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation.NegotiationResponse;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess.TransferProcessRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -66,14 +65,10 @@ public class EdcService {
     public Catalog getCatalog(
             String consumerEdcDataManagementUrl,
             String providerConnectorControlPlaneIDSUrl,
-            Map<String, String> header,
-            QualityNotificationMessage qualityNotificationMessage
+            Map<String, String> header
     ) throws IOException {
 
-        String notificationType = qualityNotificationMessage.getType().toString().toLowerCase();
-        String method = qualityNotificationMessage.getIsInitial() ? "receive" : "update";
-
-        Catalog catalog = httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, notificationType, method, header);
+        Catalog catalog = httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header);
 
         if (catalog.getDatasets().isEmpty()) {
             log.error("No contract found");

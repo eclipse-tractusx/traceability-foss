@@ -20,22 +20,33 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model;
+package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
+import lombok.ToString;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.List;
+
 /**
- * Contains an ID for a transfer process.
+ * EDC negotiation response.
  */
+@ToString
 @Value
 @Builder(toBuilder = true)
 @Jacksonized
-public class TransferProcessId {
+public class NegotiationResponse {
 
     @JsonProperty("id")
-    private String value;
+    String responseId;
+    String contractAgreementId;
+    String counterPartyAddress;
+    String errorDetail;
+    String protocol;
+    String state;
+    String type;
+    List<String> callbackAddresses;
 
 }

@@ -20,25 +20,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model;
+package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 
 /**
- * EDC transfer process response.
+ * Contains the data destination type for a transfer process.
  */
 @Value
 @Builder(toBuilder = true)
 @Jacksonized
-public class TransferProcessResponse {
+public class TransferProcessDataDestination {
 
-    @JsonProperty("id")
-    private String responseId;
-    private String type;
-    private String state;
-    private String errorDetail;
+    public static final String DEFAULT_TYPE = "HttpProxy";
+    String type;
 
 }

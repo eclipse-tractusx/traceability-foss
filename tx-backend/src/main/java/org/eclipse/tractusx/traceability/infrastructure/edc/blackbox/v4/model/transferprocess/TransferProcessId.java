@@ -1,15 +1,17 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021,2022,2023
+ *       2022: ZF Friedrichshafen AG
+ *       2022: ISTOS GmbH
+ *       2022,2023: Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ *       2022,2023: BOSCH AG
+ * Copyright (c) 2021,2022,2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Apache License, Version 2.0 which is available at
- * https://www.apache.org/licenses/LICENSE-2.0.
- *
+ * https://www.apache.org/licenses/LICENSE-2.0. *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -18,14 +20,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess;
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transfer;
-
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Value;
+import lombok.extern.jackson.Jacksonized;
 
 /**
- * Types implement this interface for polymorphic de/serialization support.
+ * Contains an ID for a transfer process.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "edctype")
-public interface Polymorphic {
+@Value
+@Builder(toBuilder = true)
+@Jacksonized
+public class TransferProcessId {
+
+    @JsonProperty("id")
+    String value;
+
 }

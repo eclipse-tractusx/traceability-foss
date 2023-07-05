@@ -29,7 +29,7 @@ import jakarta.json.JsonObjectBuilder;
 import org.eclipse.edc.jsonld.spi.transformer.AbstractJsonLdTransformer;
 import org.eclipse.edc.spi.types.domain.callback.CallbackAddress;
 import org.eclipse.edc.transform.spi.TransformerContext;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation.NegotiationRequest;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

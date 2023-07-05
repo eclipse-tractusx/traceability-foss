@@ -20,20 +20,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model;
+package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation;
 
 import lombok.Builder;
 import lombok.Value;
-import org.eclipse.edc.connector.contract.spi.types.offer.ContractOffer;
+import lombok.extern.jackson.Jacksonized;
 
 /**
- * EDC catalog and contract offer response.
+ * EDC negotiation state response.
  */
 @Value
 @Builder(toBuilder = true)
-public class ContractOfferInCatalogResponse {
-
-    private String connectorId;
-    private ContractOffer contractOffer;
-
+@Jacksonized
+public class NegotiationState {
+    String state;
 }

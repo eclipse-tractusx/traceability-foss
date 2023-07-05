@@ -41,8 +41,8 @@ public class ContractOfferDescription {
     public static final String CONTRACT_OFFER_OFFER_ID = "https://w3id.org/edc/v0.0.1/ns/offerId";
     public static final String CONTRACT_OFFER_ASSET_ID = "https://w3id.org/edc/v0.0.1/ns/assetId";
     public static final String CONTRACT_OFFER_POLICY = "https://w3id.org/edc/v0.0.1/ns/policy";
-    private @NotBlank(message = "offerId is mandatory") String offerId;
-    private @NotBlank(message = "assetId is mandatory") String assetId;
-    private @NotNull(message = "policy cannot be null") Policy policy;
-    private @Positive(message = "validity must be positive") long validity;
+    @NotBlank(message = "offerId is mandatory") String offerId;
+    @NotBlank(message = "assetId is mandatory") String assetId;
+    @NotNull(message = "policy cannot be null") Policy policy;
+    @Positive(message = "validity must be positive") long validity;
 }

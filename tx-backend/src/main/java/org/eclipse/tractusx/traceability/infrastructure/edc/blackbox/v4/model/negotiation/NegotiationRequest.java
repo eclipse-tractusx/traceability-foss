@@ -20,7 +20,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model;
+package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,6 +28,7 @@ import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
 import org.eclipse.edc.spi.types.domain.callback.CallbackAddress;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,15 +52,15 @@ public class NegotiationRequest {
     public static final String NEGOTIATION_POLICY = "https://w3id.org/edc/v0.0.1/ns/policy";
 
     @NotBlank(message = "connectorAddress is mandatory")
-    private String connectorAddress;
+    String connectorAddress;
     @NotBlank(message = "protocol is mandatory")
-    private String protocol;
+    String protocol;
     @NotBlank(message = "connectorId is mandatory")
-    private String connectorId;
+    String connectorId;
     @NotNull(message = "offer cannot be null")
-    private ContractOfferDescription offer;
-    private String providerId;
-    private String consumerId;
-    private List<CallbackAddress> callbackAddresses = new ArrayList<>();
+    ContractOfferDescription offer;
+    String providerId;
+    String consumerId;
+    List<CallbackAddress> callbackAddresses = new ArrayList<>();
 }
 

@@ -59,10 +59,10 @@ import org.eclipse.edc.protocol.dsp.transferprocess.transformer.type.from.JsonOb
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.transform.spi.TypeTransformerRegistry;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationResponse;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationState;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.TransferProcessRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation.NegotiationRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation.NegotiationResponse;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation.NegotiationState;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess.TransferProcessRequest;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;

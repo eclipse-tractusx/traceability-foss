@@ -20,22 +20,25 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model;
+package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.catalog;
 
 import lombok.Builder;
-import lombok.Value;
-import lombok.extern.jackson.Jacksonized;
+import lombok.Data;
 import org.eclipse.edc.policy.model.Policy;
 
-/**
- * EDC contract offer request.
- */
-@Value
-@Builder(toBuilder = true)
-@Jacksonized
-public class ContractOfferRequest {
+import java.time.Instant;
 
-    private String offerId;
-    private String assetId;
+/**
+ * Catalog Item as it is stored in the cache and used by {@link org.eclipse.edc.connector.spi.contractnegotiation.ContractNegotiationService}.
+ */
+@Builder
+@Data
+public class CatalogItem {
+    private String assetPropId;
+    private String itemId;
     private Policy policy;
+    private String connectorId;
+    private String offerId;
+    private Instant validUntil;
+
 }

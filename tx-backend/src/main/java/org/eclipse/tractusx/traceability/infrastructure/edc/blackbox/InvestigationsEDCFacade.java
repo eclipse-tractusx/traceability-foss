@@ -43,10 +43,10 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMem
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.configuration.JsonLdConfiguration;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.PolicyDefinition;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.TransferProcessDataDestination;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.TransferProcessRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.catalog.CatalogItem;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess.TransferProcessDataDestination;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess.TransferProcessRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.AtomicConstraintValidator;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
@@ -102,8 +102,7 @@ public class InvestigationsEDCFacade {
             Catalog catalog = edcService.getCatalog(
                     senderEdcUrl,
                     receiverEdcUrl + edcProperties.getIdsPath(),
-                    header,
-                    notification
+                    header
             );
 
             if (catalog.getDatasets().isEmpty()) {

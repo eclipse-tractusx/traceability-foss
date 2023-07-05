@@ -35,5 +35,5 @@ import lombok.extern.jackson.Jacksonized;
 @Jacksonized
 public class Response {
     @JsonProperty("@id")
-    private String responseId;
+    String responseId;
 }

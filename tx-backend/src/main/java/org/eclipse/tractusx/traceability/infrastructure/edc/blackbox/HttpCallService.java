@@ -32,7 +32,7 @@ import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationResponse;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CatalogRequestDTO;
@@ -88,11 +88,10 @@ public class HttpCallService {
         return (Catalog) sendRequest(request.build(), Catalog.class);
     }
 
+    // TODO instead of filtering with java logic after the call of this method we could add a filter to the .querySpec within CatalogRequest object. Max W.
     public Catalog getCatalogForNotification(
             String consumerEdcDataManagementUrl,
             String providerConnectorControlPlaneIDSUrl,
-            String notificationType,
-            String notificationMethod,
             Map<String, String> headers
     ) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
@@ -100,12 +99,6 @@ public class HttpCallService {
         final String leftType = "https://w3id.org/edc/v0.0.1/ns/notificationtype";
         final String leftMethod = "https://w3id.org/edc/v0.0.1/ns/notificationmethod";
 
-      /*  final Criterion typeCriterion = new Criterion(leftType, "=", notificationType);
-        final Criterion methodCriterion = new Criterion(leftMethod, "=", notificationMethod);*/
-
-/*        QuerySpec filter = QuerySpec.Builder.newInstance()
-                .filter(List.of(typeCriterion, methodCriterion))
-                .build();*/
         CatalogRequest catalogRequestDTO = CatalogRequest.Builder.newInstance()
                 .protocol("dataspace-protocol-http")
                 .providerUrl(providerConnectorControlPlaneIDSUrl)

@@ -25,7 +25,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transfo
 import jakarta.json.JsonObject;
 import org.eclipse.edc.jsonld.spi.transformer.AbstractJsonLdTransformer;
 import org.eclipse.edc.transform.spi.TransformerContext;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.NegotiationState;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.negotiation.NegotiationState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

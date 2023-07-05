@@ -20,7 +20,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model;
+package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess;
 
 import lombok.Builder;
 import lombok.Value;
@@ -53,15 +53,15 @@ public class TransferProcessRequest {
     public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
     public static final boolean DEFAULT_MANAGED_RESOURCES = false;
 
-    private String assetId;
-    private String connectorAddress;
-    private String connectorId;
-    private String contractId;
-    private DataAddress dataDestination;
-    private String protocol;
-    private boolean managedResources;
-    private List<CallbackAddress> callbackAddresses;
-    private Map<String, String> properties;
-    private Map<String, String> privateProperties;
+    String assetId;
+    String connectorAddress;
+    String connectorId;
+    String contractId;
+    DataAddress dataDestination;
+    String protocol;
+    boolean managedResources;
+    List<CallbackAddress> callbackAddresses;
+    Map<String, String> properties;
+    Map<String, String> privateProperties;
 
 }
