@@ -81,8 +81,16 @@ public class EdcService {
         }
 
         catalog.getDatasets().forEach(dataset -> {
-            log.info("Dataset notificationmethod {}", dataset.getProperty("edc:notificationmethod").toString());
-            log.info("Dataset notificationType {}", dataset.getProperty("edc:notificationtype").toString());
+            dataset.getProperties().values().forEach(o -> {
+                if (o != null) {
+                    log.info("Dataset {}", o.toString());
+                }
+            });
+            log.info("Dataset notificationmethod {}", dataset.getProperty("notificationmethod").toString());
+            if (dataset.getProperty("edc:notificationtype") != null) {
+                log.info("Dataset notificationType {}", dataset.getProperty("edc:notificationtype").toString());
+            }
+
         });
 
         return catalog;
