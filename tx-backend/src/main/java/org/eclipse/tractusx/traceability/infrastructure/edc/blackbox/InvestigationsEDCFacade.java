@@ -40,14 +40,14 @@ import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.configuration.JsonLdConfiguration;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.PolicyDefinition;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.catalog.CatalogItem;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess.TransferProcessDataDestination;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.transferprocess.TransferProcessRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.PolicyDefinition;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessDataDestination;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.AtomicConstraintValidator;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
@@ -66,7 +66,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.configuration.JsonLdConfiguration.NAMESPACE_EDC_ID;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC_ID;
 
 @Slf4j
 @Component
