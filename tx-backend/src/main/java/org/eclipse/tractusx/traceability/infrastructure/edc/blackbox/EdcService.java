@@ -27,7 +27,6 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.ContractNegotiationDto;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.notification.TransferId;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.CatalogItem;
@@ -117,7 +116,7 @@ public class EdcService {
 
                         log.info(":::: Start call for contract agreement method [initializeContractNegotiation] URL :{}", url);
 
-                        return (NegotiationResponse) httpCallService.sendRequest(request.build(), ContractNegotiationDto.class);
+                        return (NegotiationResponse) httpCallService.sendRequest(request.build(), NegotiationResponse.class);
                     }, 1000, TimeUnit.MILLISECONDS);
             try {
                 negotiation = scheduledFuture.get();
