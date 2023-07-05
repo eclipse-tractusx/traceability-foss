@@ -90,6 +90,9 @@ public class EdcService {
                     log.info("Dataset {}", o.toString());
                 }
             });
+            dataset.getProperties().forEach((s, o) -> {
+                log.info("key {}, value {}", s, o.toString());
+            });
 
             if (dataset.getProperty("edc:notificationtype") != null) {
                 log.info("Dataset1 notificationType {}", dataset.getProperty("edc:notificationtype").toString());
@@ -214,7 +217,18 @@ public class EdcService {
     }
 
     private boolean isQualityInvestigation(Dataset dataset) {
-        /* if (dataset.getProperty(""))*/
+        Object notificationtype = dataset.getProperty("notificationtype");
+        if (notificationtype != null) {
+            return "qualityinvestigation".equals(notificationtype.toString());
+        }
+        return false;
+    }
+
+    private boolean isQualityAlert(Dataset dataset) {
+        Object notificationtype = dataset.getProperty("notificationtype");
+        if (notificationtype != null) {
+            return "qualityalert".equals(notificationtype.toString());
+        }
         return false;
     }
 }
