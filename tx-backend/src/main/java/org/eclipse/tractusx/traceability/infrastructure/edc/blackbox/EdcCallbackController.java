@@ -21,12 +21,11 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import io.swagger.v3.oas.annotations.Hidden;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
@@ -36,47 +35,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
 @RestController
 @Hidden
 @RequestMapping("/callback/endpoint-data-reference")
 public class EdcCallbackController {
 
-	private static final Logger log = LoggerFactory.getLogger(EdcCallbackController.class);
+    private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
-	private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
+    private final RestTemplate restTemplate;
 
-	private final RestTemplate restTemplate;
+    private final EdcProperties edcProperties;
 
-	private final EdcProperties edcProperties;
+    public EdcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
+        this.endpointDataReferenceCache = endpointDataReferenceCache;
+        this.restTemplate = restTemplateBuilder.build();
+        this.edcProperties = edcProperties;
+    }
 
-	public EdcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
-		this.endpointDataReferenceCache = endpointDataReferenceCache;
-		this.restTemplate = restTemplateBuilder.build();
-		this.edcProperties = edcProperties;
-	}
+    @PostMapping
+    public void receiveEdcCallback(@RequestBody EndpointDataReference dataReference) {
+        String contractAgreementId = dataReference.getProperties().get("cid");
+        log.info("Received EDC callback for contract: {}", contractAgreementId);
 
-	@PostMapping
-	public void receiveEdcCallback(@RequestBody EndpointDataReference dataReference) {
-		String contractAgreementId = dataReference.getProperties().get("cid");
-		log.info("Received EDC callback for contract: {}", contractAgreementId);
+        if (endpointDataReferenceCache.containsAgreementId(contractAgreementId)) {
+            log.info("Contract {} found! Processing...", contractAgreementId);
+            endpointDataReferenceCache.put(contractAgreementId, dataReference);
+        } else {
+            log.info("Contract {} not found, forwarding message...", contractAgreementId);
+            callOtherServices(dataReference);
+        }
+    }
 
-		if (endpointDataReferenceCache.containsAgreementId(contractAgreementId)) {
-			log.info("Contract {} found! Processing...", contractAgreementId);
-			endpointDataReferenceCache.put(contractAgreementId, dataReference);
-		} else {
-			log.info("Contract {} not found, forwarding message...", contractAgreementId);
-			callOtherServices(dataReference);
-		}
-	}
+    private void callOtherServices(EndpointDataReference dataReference) {
+        edcProperties.getCallbackUrls().forEach(callbackUrl -> {
+            log.info("Calling callback endpoint: {}", callbackUrl);
+            ResponseEntity<String> response = restTemplate.postForEntity(callbackUrl, dataReference, String.class);
 
-	private void callOtherServices(EndpointDataReference dataReference) {
-		edcProperties.getCallbackUrls().forEach(callbackUrl -> {
-			log.info("Calling callback endpoint: {}", callbackUrl);
-			ResponseEntity<String> response = restTemplate.postForEntity(callbackUrl, dataReference, String.class);
-
-			log.info("Callback response: HTTP {}", response.getStatusCode());
-			log.debug("Body: {}", response.getBody());
-		});
-	}
+            log.info("Callback response: HTTP {}", response.getStatusCode());
+            log.debug("Body: {}", response.getBody());
+        });
+    }
 }
