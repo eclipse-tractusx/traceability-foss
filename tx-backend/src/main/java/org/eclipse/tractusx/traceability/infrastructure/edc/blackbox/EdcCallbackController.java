@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.configuration.JsonLdConfiguration;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Profile;
@@ -56,7 +57,9 @@ public class EdcCallbackController {
 
     @PostMapping
     public void receiveEdcCallback(@RequestBody EndpointDataReference dataReference) {
-        String contractAgreementId = dataReference.getProperties().get("cid");
+        log.info("datareference {}", dataReference);
+        //  String contractAgreementId = dataReference.getProperties().get("cid");
+        final var contractAgreementId = dataReference.getProperties().get(JsonLdConfiguration.NAMESPACE_EDC_CID);
         log.info("Received EDC callback for contract: {}", contractAgreementId);
 
         if (endpointDataReferenceCache.containsAgreementId(contractAgreementId)) {
