@@ -27,6 +27,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
+import org.eclipse.edc.catalog.spi.Dataset;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.offer.ContractOffer;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.ContractOfferDescription;
@@ -80,15 +81,22 @@ public class EdcService {
             throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
         }
 
+    /*    catalog.getDatasets().stream().filter(dataset -> {
+
+        })*/
         catalog.getDatasets().forEach(dataset -> {
             dataset.getProperties().values().forEach(o -> {
                 if (o != null) {
                     log.info("Dataset {}", o.toString());
                 }
             });
-            log.info("Dataset notificationmethod {}", dataset.getProperty("notificationmethod").toString());
+
             if (dataset.getProperty("edc:notificationtype") != null) {
-                log.info("Dataset notificationType {}", dataset.getProperty("edc:notificationtype").toString());
+                log.info("Dataset1 notificationType {}", dataset.getProperty("edc:notificationtype").toString());
+            }
+
+            if (dataset.getProperty("notificationtype") != null) {
+                log.info("Dataset2 notificationType {}", dataset.getProperty("edc:notificationtype").toString());
             }
 
         });
@@ -203,5 +211,10 @@ public class EdcService {
         headers.forEach(request::addHeader);
         log.info(":::: call Transfer1 process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}", transferProcessRequest.getContractId(), transferProcessRequest.getAssetId(), consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl);
         return (Response) httpCallService.sendRequest(request.build(), Response.class);
+    }
+
+    private boolean isQualityInvestigation(Dataset dataset) {
+        /* if (dataset.getProperty(""))*/
+        return false;
     }
 }
