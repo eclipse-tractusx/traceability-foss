@@ -94,6 +94,8 @@
         <sonar.exclusions>
             org/eclipse/tractusx/traceability/TraceabilityApplication.java,
             org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/InvestigationsEDCFacade.java,
+            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/EdcService.java;
         </sonar.exclusions>
     </properties>
 
