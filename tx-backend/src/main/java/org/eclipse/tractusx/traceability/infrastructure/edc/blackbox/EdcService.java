@@ -110,7 +110,7 @@ public class EdcService {
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             ScheduledFuture<NegotiationResponse> scheduledFuture =
                     scheduler.schedule(() -> {
-                        var url = consumerEdcUrl + edcProperties.getNegotiationPath() + "/" + negotiationId;
+                        var url = consumerEdcUrl + edcProperties.getContractDefinitionsPath() + "/" + negotiationId;
                         var request = new Request.Builder().url(url);
                         header.forEach(request::addHeader);
 

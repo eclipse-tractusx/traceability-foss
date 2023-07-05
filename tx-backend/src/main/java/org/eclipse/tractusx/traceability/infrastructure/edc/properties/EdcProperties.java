@@ -21,6 +21,7 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.properties;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -28,6 +29,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Map;
 import java.util.Set;
 
+@AllArgsConstructor
 @Getter
 @ConfigurationProperties("edc")
 public class EdcProperties {
@@ -35,6 +37,10 @@ public class EdcProperties {
     @NotBlank
     @Value("${edc.ids}")
     private String idsPath;
+
+    @NotBlank
+    @Value("${edc.contractdefinitions}")
+    private String contractDefinitionsPath;
 
     @NotBlank
     @Value("${edc.negotiation}")
@@ -66,21 +72,4 @@ public class EdcProperties {
 
     private Set<String> callbackUrls;
 
-    public EdcProperties(String idsPath,
-                         String negotiationPath,
-                         String transferPath,
-                         String catalogPath,
-                         String providerEdcUrl,
-                         String apiAuthKey,
-                         Map<String, String> bpnProviderUrlMappings,
-                         Set<String> callbackUrls) {
-        this.idsPath = idsPath;
-        this.negotiationPath = negotiationPath;
-        this.transferPath = transferPath;
-        this.catalogPath = catalogPath;
-        this.providerEdcUrl = providerEdcUrl;
-        this.apiAuthKey = apiAuthKey;
-        this.bpnProviderUrlMappings = bpnProviderUrlMappings;
-        this.callbackUrls = callbackUrls;
-    }
 }

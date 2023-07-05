@@ -84,7 +84,7 @@ public class EdcContractDefinitionService {
         final ResponseEntity<String> createContractDefinitionResponse;
         log.info("EdcCreateContractDefinitionRequest {}", objectMapper.writeValueAsString(createContractDefinitionRequest));
         try {
-            createContractDefinitionResponse = restTemplate.postForEntity(edcProperties.getNegotiationPath(), createContractDefinitionRequest, String.class);
+            createContractDefinitionResponse = restTemplate.postForEntity(edcProperties.getContractDefinitionsPath(), createContractDefinitionRequest, String.class);
         } catch (RestClientException e) {
             log.error("Failed to create edc contract definition for {} notification asset and {} policy definition id. Reason: ", notificationAssetId, accessPolicyId, e);
 

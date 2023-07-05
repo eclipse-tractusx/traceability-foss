@@ -26,7 +26,8 @@ traceability:
 
 edc:
   ids: "/api/v1/dsp"
-  negotiation: "/management/v2/contractdefinitions"
+  negotiation: "/management/v2/contractnegotiations"
+  contractdefinitions: "/management/v2/contractdefinitions"
   transfer: "/management/v2/transferprocesses"
   catalog: "/management/v2/catalog/request"
   policydefinitions: "/management/v2/policydefinitions"
