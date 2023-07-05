@@ -31,6 +31,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.Dataset;
+import org.eclipse.edc.policy.model.AtomicConstraint;
+import org.eclipse.edc.policy.model.Constraint;
+import org.eclipse.edc.policy.model.Operator;
+import org.eclipse.edc.policy.model.OrConstraint;
+import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
@@ -39,9 +44,11 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNo
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.configuration.JsonLdConfiguration;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.CatalogItem;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.PolicyDefinition;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.TransferProcessDataDestination;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.model.TransferProcessRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.v4.transformer.EdcTransformer;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.AtomicConstraintValidator;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
@@ -104,10 +111,10 @@ public class InvestigationsEDCFacade {
                 throw new BadRequestException("Notication method and type not found.");
             }
 
-            List<Dataset> filteredDataset = catalog.getDatasets().stream()
+            Optional<Dataset> filteredDataset = catalog.getDatasets().stream()
                     .filter(dataset -> isQualityNotificationOffer(notification, dataset))
-                    .filter(this::hasTracePolicy)
-                    .toList();
+                    .findFirst()
+                    .filter(this::hasTracePolicy);
 
 
             log.info(":::: Initialize Contract Negotiation method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
@@ -268,10 +275,61 @@ public class InvestigationsEDCFacade {
 
 
     private boolean hasTracePolicy(Dataset dataset) {
-        dataset.getOffers().forEach((s, policy) -> {
-            log.info("Offers: Key: {}, value {}", s, policy);
-        });
-        return true;
+        boolean foundPolicy = false;
+        for (Policy policy : dataset.getOffers().values()) {
+            log.info("Policy Check {} ", policy.toString());
+            if (!foundPolicy) {
+                foundPolicy = isValid(policy);
+            }
+        }
+        log.info("Found policy: {} ", foundPolicy);
+        return foundPolicy;
+    }
+
+
+    private List<PolicyDefinition> allowedPolicies() {
+        final PolicyDefinition allowedTracePolicy = PolicyDefinition.builder()
+                .constraintOperator("EQ")
+                .permissionActionType("USE")
+                .constraintType("AtomicConstraint")
+                .leftExpressionValue("idsc:PURPOSE")
+                .rightExpressionValue("ID 3.0 Trace")
+                .build();
+        return List.of(allowedTracePolicy);
+    }
+
+
+    public boolean isValid(final Policy policy) {
+        final List<PolicyDefinition> policyList = this.allowedPolicies();
+        return policy.getPermissions()
+                .stream()
+                .anyMatch(permission -> policyList.stream()
+                        .anyMatch(allowedPolicy -> isValid(permission, allowedPolicy)));
+    }
+
+    private boolean isValid(final Permission permission, final PolicyDefinition policyDefinition) {
+        return permission.getAction().getType().equals(policyDefinition.getPermissionActionType())
+                && permission.getConstraints()
+                .stream()
+                .anyMatch(constraint -> isValid(constraint, policyDefinition));
+    }
+
+    private boolean isValid(final Constraint constraint, final PolicyDefinition policyDefinition) {
+        if (constraint instanceof AtomicConstraint atomicConstraint) {
+            return AtomicConstraintValidator.builder()
+                    .atomicConstraint(atomicConstraint)
+                    .leftExpressionValue(policyDefinition.getLeftExpressionValue())
+                    .rightExpressionValue(policyDefinition.getRightExpressionValue())
+                    .expectedOperator(
+                            Operator.valueOf(policyDefinition.getConstraintOperator()))
+                    .build()
+                    .isValid();
+        } else if (constraint instanceof OrConstraint orConstraint) {
+            return orConstraint.getConstraints()
+                    .stream()
+                    .anyMatch(constraint1 -> isValid(constraint1, policyDefinition));
+        }
+        return false;
     }
 
 }
