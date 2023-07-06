@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added back button in notification detailed view
 - EDC SPI Dependency for using provided models
+- Added default response types to apis
 
 ### Changed
 - Changed Layout in notification detailed view
