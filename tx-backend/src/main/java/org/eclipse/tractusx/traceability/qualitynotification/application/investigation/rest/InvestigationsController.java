@@ -83,7 +83,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -111,7 +113,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -136,7 +140,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -158,7 +164,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -184,7 +192,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -210,7 +220,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -238,7 +250,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -267,7 +281,9 @@ public class InvestigationsController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
