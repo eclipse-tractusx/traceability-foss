@@ -20,16 +20,15 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config;
 
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("irs.policy")
 public class IrsPolicyConfig {
 
-    @Value("policy.name")
+//    @Value("policy.name")
     private String policyName;
 
-    @Value("policy.ttl")
+    //    @Value("policy.ttl")
     private String ttl;
 
     public IrsPolicyConfig(
