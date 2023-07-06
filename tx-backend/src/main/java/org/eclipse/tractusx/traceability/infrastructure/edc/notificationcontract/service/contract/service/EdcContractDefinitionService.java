@@ -20,12 +20,15 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcContractDefinitionCriteria;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcCreateContractDefinitionRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
@@ -34,65 +37,73 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
-import java.util.UUID;
-
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
+@Slf4j
 @Component
 public class EdcContractDefinitionService {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdcContractDefinitionService.class);
+    private static final String ASSET_SELECTOR_ID = "https://w3id.org/edc/v0.0.1/ns/id";
+    private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "=";
+    private static final String ASSET_SELECTOR_TYPE = "CriterionDto";
+    private static final String CONTRACT_DEFINITION_TYPE = "ContractDefinition";
 
-	private static final String ASSET_ID_OPERAND = "asset:prop:id";
-	private static final String EQUALITY_OPERATOR = "=";
-	private static final String CONTRACT_DEFINITIONS_PATH = "/data/contractdefinitions";
+    private final RestTemplate restTemplate;
+    private final EdcProperties edcProperties;
+    private final ObjectMapper objectMapper;
 
-	private final RestTemplate restTemplate;
+    @Autowired
+    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties, ObjectMapper objectMapper, ObjectMapper objectMapper1) {
+        this.restTemplate = restTemplate;
+        this.edcProperties = edcProperties;
+        this.objectMapper = objectMapper1;
+    }
 
-	@Autowired
-	public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate) {
-		this.restTemplate = restTemplate;
-	}
+    public String createContractDefinition(String notificationAssetId, String accessPolicyId) throws JsonProcessingException {
+        EdcContractDefinitionCriteria edcContractDefinitionCriteria = EdcContractDefinitionCriteria
+                .builder()
+                .type(ASSET_SELECTOR_TYPE)
+                .operandLeft(ASSET_SELECTOR_ID)
+                .operandRight(notificationAssetId)
+                .operator(ASSET_SELECTOR_EQUALITY_OPERATOR)
+                .build();
 
-	public String createContractDefinition(String notificationAssetId, String accessPolicyId) {
-		EdcContractDefinitionCriteria edcContractDefinitionCriteria = new EdcContractDefinitionCriteria(ASSET_ID_OPERAND, EQUALITY_OPERATOR, notificationAssetId);
 
-		String contractPolicyId = UUID.randomUUID().toString();
+        EdcContext edcContext = new EdcContext(NAMESPACE_EDC);
+        EdcCreateContractDefinitionRequest createContractDefinitionRequest = EdcCreateContractDefinitionRequest.builder()
+                .contractPolicyId(accessPolicyId)
+                .edcContext(edcContext)
+                .type(CONTRACT_DEFINITION_TYPE)
+                .accessPolicyId(accessPolicyId)
+                .id(accessPolicyId)
+                .assetsSelector(edcContractDefinitionCriteria)
+                .build();
 
-		EdcCreateContractDefinitionRequest createContractDefinitionRequest = new EdcCreateContractDefinitionRequest(
-			contractPolicyId,
-			accessPolicyId,
-			accessPolicyId,
-			List.of(
-				edcContractDefinitionCriteria
-			)
-		);
+        final ResponseEntity<String> createContractDefinitionResponse;
+        log.info("EdcCreateContractDefinitionRequest {}", objectMapper.writeValueAsString(createContractDefinitionRequest));
+        try {
+            createContractDefinitionResponse = restTemplate.postForEntity(edcProperties.getContractDefinitionsPath(), createContractDefinitionRequest, String.class);
+        } catch (RestClientException e) {
+            log.error("Failed to create edc contract definition for {} notification asset and {} policy definition id. Reason: ", notificationAssetId, accessPolicyId, e);
 
-		final ResponseEntity<String> createContractDefinitionResponse;
+            throw new CreateEdcContractDefinitionException(e);
+        }
 
-		try {
-			createContractDefinitionResponse = restTemplate.postForEntity(CONTRACT_DEFINITIONS_PATH, createContractDefinitionRequest, String.class);
-		} catch (RestClientException e) {
-			logger.error("Failed to create edc contract definition for {} notification asset and {} policy definition id. Reason: ", notificationAssetId, accessPolicyId, e);
+        HttpStatusCode responseCode = createContractDefinitionResponse.getStatusCode();
 
-			throw new CreateEdcContractDefinitionException(e);
-		}
+        if (responseCode.value() == 409) {
+            log.info("{} asset contract definition already exists in the EDC", notificationAssetId);
 
-		HttpStatusCode responseCode = createContractDefinitionResponse.getStatusCode();
+            throw new CreateEdcContractDefinitionException("Asset contract definition already exists in the EDC");
+        }
 
-		if (responseCode.value() == 409) {
-			logger.info("{} asset contract definition already exists in the EDC", notificationAssetId);
+        if (responseCode.value() == 200) {
+            return accessPolicyId;
+        }
 
-			throw new CreateEdcContractDefinitionException("Asset contract definition already exists in the EDC");
-		}
+        log.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, createContractDefinitionResponse.getBody(), createContractDefinitionResponse.getStatusCode());
 
-		if (responseCode.value() == 204) {
-			return contractPolicyId;
-		}
-
-		logger.error("Failed to create EDC contract definition for {} notification asset id. Body: {}, status: {}", notificationAssetId, createContractDefinitionResponse.getBody(), createContractDefinitionResponse.getStatusCode());
-
-		throw new CreateEdcAssetException("Failed to create EDC contract definition for %s notification asset id".formatted(notificationAssetId));
-	}
+        throw new CreateEdcAssetException("Failed to create EDC contract definition for %s notification asset id".formatted(notificationAssetId));
+    }
 }

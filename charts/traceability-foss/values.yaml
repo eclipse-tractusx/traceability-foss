@@ -246,13 +246,13 @@ backend:
   # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
   livenessProbe:
     failureThreshold: 3
-    initialDelaySeconds: 60
+    initialDelaySeconds: 80
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
   readinessProbe:
     failureThreshold: 3
-    initialDelaySeconds: 60
+    initialDelaySeconds: 80
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
@@ -349,8 +349,29 @@ irs-helm:
 tractusx-connector:
   enabled: false
 
+  participant:
+    id: "BPN"
+
+  ##################################
+  # EDC Postgres Configuration #
+  ##################################
+  postgresql:
+    enabled: false
+    auth:
+      username: "CHANGEME"
+      password: "CHANGEME"
+    username: "CHANGEME"
+    password: "CHANGEME"
+    jdbcUrl: "CHANGEME"
+
+
 ###################################
 # EDC Database configuration  #
 ###################################
 edc-postgresql:
   enabled: false
+  auth:
+    postgresPassword: "CHANGEME"
+    password: "CHANGEME"
+    database: "trace"
+    username: "traceuser"

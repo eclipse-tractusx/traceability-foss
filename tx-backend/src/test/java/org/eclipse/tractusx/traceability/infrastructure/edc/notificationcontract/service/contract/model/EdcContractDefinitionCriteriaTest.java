@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class EdcContractDefinitionCriteriaTest {
@@ -39,11 +39,12 @@ class EdcContractDefinitionCriteriaTest {
 
     @BeforeEach
     void setUp() {
-        edcContractDefinitionCriteria = new EdcContractDefinitionCriteria(
-                EdcContractDefinitionCriteriaTest.LEFT,
-                EdcContractDefinitionCriteriaTest.OP_EQUALS,
-                EdcContractDefinitionCriteriaTest.RIGHT
-        );
+        edcContractDefinitionCriteria = EdcContractDefinitionCriteria.builder()
+                .type("CriterionDto")
+                .operandLeft(EdcContractDefinitionCriteriaTest.LEFT)
+                .operandRight(EdcContractDefinitionCriteriaTest.RIGHT)
+                .operator(EdcContractDefinitionCriteriaTest.OP_EQUALS)
+                .build();
     }
 
     @Test

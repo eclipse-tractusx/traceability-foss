@@ -21,25 +21,19 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.ToString;
 
+@ToString
+@Builder
 public class EdcCreateDataAssetRequest {
 
-	@JsonProperty("asset")
-	private final EdcAsset edcAsset;
+    @JsonProperty("@context")
+    private EdcContext context;
 
-	@JsonProperty("dataAddress")
-	private final EdcDataAddress edcDataAddress;
+    @JsonProperty("asset")
+    private EdcAsset asset;
 
-	public EdcCreateDataAssetRequest(EdcAsset edcAsset, EdcDataAddress edcDataAddress) {
-		this.edcAsset = edcAsset;
-		this.edcDataAddress = edcDataAddress;
-	}
-
-	public EdcAsset getEdcAsset() {
-		return edcAsset;
-	}
-
-	public EdcDataAddress getEdcDataAddress() {
-		return edcDataAddress;
-	}
+    @JsonProperty("dataAddress")
+    private EdcDataAddress dataAddress;
 }
