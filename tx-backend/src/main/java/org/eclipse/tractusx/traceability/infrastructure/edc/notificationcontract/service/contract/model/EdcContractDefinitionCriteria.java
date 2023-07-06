@@ -21,35 +21,25 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 
+@ToString
+@Getter
+@Builder
 public class EdcContractDefinitionCriteria {
 
-	@JsonProperty("operandLeft")
-	private final String operandLeft;
+    @JsonProperty("@type")
+    private String type;
 
-	@JsonProperty("operator")
-	private final String operator;
+    @JsonProperty("operandLeft")
+    private String operandLeft;
 
-	@JsonProperty("operandRight")
-	private final String operandRight;
+    @JsonProperty("operator")
+    private String operator;
 
-	public EdcContractDefinitionCriteria(String operandLeft,
-										 String operator,
-										 String operandRight) {
-		this.operandLeft = operandLeft;
-		this.operator = operator;
-		this.operandRight = operandRight;
-	}
+    @JsonProperty("operandRight")
+    private String operandRight;
 
-	public String getOperandLeft() {
-		return operandLeft;
-	}
-
-	public String getOperator() {
-		return operator;
-	}
-
-	public String getOperandRight() {
-		return operandRight;
-	}
 }

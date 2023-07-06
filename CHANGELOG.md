@@ -8,9 +8,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Added back button in notification detailed view
+- EDC SPI Dependency for using provided models
 
 ### Changed
 - Changed Layout in notification detailed view
+- Changed request parameter for registerjob request to irs to match requirements of irs
+- Migration of edc 0.4.1 endpoints and api flow
 
 ### Removed
 

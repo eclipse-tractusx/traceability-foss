@@ -25,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import lombok.ToString;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,6 +37,7 @@ import java.util.UUID;
 /**
  * Describes an endpoint serving data.
  */
+@ToString
 @JsonDeserialize(builder = EndpointDataReference.Builder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EndpointDataReference {

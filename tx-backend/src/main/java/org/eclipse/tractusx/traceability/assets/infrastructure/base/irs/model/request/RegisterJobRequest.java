@@ -27,7 +27,7 @@ import java.util.List;
 
 public record RegisterJobRequest(
         List<String> aspects,
-        String globalAssetId,
+        PartChainIdentificationKey key,
         boolean collectAspects,
         BomLifecycle bomLifecycle,
         boolean lookupBPNs,
@@ -35,7 +35,7 @@ public record RegisterJobRequest(
         Direction direction
 ) {
     public static RegisterJobRequest buildJobRequest(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
-        return new RegisterJobRequest(aspects, globalAssetId, true, bomLifecycle, true, DEFAULT_DEPTH, direction);
+        return new RegisterJobRequest(aspects, new PartChainIdentificationKey(globalAssetId, null), true, bomLifecycle, true, DEFAULT_DEPTH, direction);
     }
 
     public static final int DEFAULT_DEPTH = 2;
