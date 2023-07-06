@@ -60,16 +60,37 @@ public class EdcNotificationContractController {
 		description = "The endpoint Triggers EDC notification contract based on notification type and method",
 		security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
 	@ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
-			@ApiResponse(
-					responseCode = "401",
-					description = "Authorization failed.",
-					content = @Content()),
-			@ApiResponse(
-					responseCode = "403",
-					description = "Forbidden.",
-					content = @Content(
-							mediaType = "application/json",
-							schema = @Schema(implementation = ErrorResponse.class)))})
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "401",
+                    description = "Authorization failed.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
+            @ApiResponse(
+                    responseCode = "403",
+                    description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class)))})
 	@PostMapping("/contract")
 	@ResponseStatus(HttpStatus.CREATED)
 	public CreateNotificationContractResponse createNotificationContract(@Valid @RequestBody CreateNotificationContractRequest request) {
