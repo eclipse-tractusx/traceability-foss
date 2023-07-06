@@ -21,6 +21,7 @@
 
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
+import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
@@ -42,7 +43,8 @@ describe('InvestigationsComponent', () => {
     spy.and.returnValue(new Promise(null));
 
     fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
-    expect(spy).toHaveBeenCalledWith(['/investigations/id-84']);
+    const tabInformation: NotificationTabInformation = { tabIndex: NaN, pageNumber: undefined };
+    expect(spy).toHaveBeenCalledWith([ '/investigations/id-84' ], { queryParams: tabInformation });
   });
 
   it('should call change pagination of received investigations', async () => {

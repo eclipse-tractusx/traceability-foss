@@ -20,7 +20,18 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="detail--header">
-  <div>
+  <div class="detail--navigation">
+    <app-button
+      (click)="this.navigateBackToInvestigations()"
+      [color]="'primary'"
+    >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">arrow_back</mat-icon>
+        {{ 'actions.goBack' | i18n }}
+      </div>
+    </app-button>
+  </div>
+  <div class="detail--action">
     <app-button
       *ngIf="helperService.showApproveButton(selectedInvestigation)"
       (click)="approveModal?.show(selectedInvestigation)"

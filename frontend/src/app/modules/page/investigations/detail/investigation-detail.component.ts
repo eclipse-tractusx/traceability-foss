@@ -20,7 +20,8 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
@@ -71,16 +72,21 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   public notificationPartsTableConfig: TableConfig;
   public supplierPartsTableConfig: TableConfig;
   public isReceived: boolean;
+  private originPageNumber: number;
+  private originTabIndex: number;
 
   private subscription: Subscription;
   private selectedInvestigationTmpStore: Notification;
   public selectedInvestigation: Notification;
 
+  private paramSubscription: Subscription;
+
   constructor(
     public readonly helperService: InvestigationHelperService,
+    public readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly staticIdService: StaticIdService,
-    private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly investigationsFacade: InvestigationsFacade,
+    private router: Router,
     private readonly route: ActivatedRoute,
     private readonly ctaSnackbarService: CtaSnackbarService,
   ) {
@@ -88,6 +94,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.supplierPartsDetailInformation$ = this.investigationDetailFacade.supplierPartsInformation$;
 
     this.selected$ = this.investigationDetailFacade.selected$;
+
+    this.paramSubscription = this.route.queryParams.subscribe(params => {
+      this.originPageNumber = params.pageNumber;
+      this.originTabIndex = params?.tabIndex;
+    });
+
   }
 
   public ngAfterViewInit(): void {
@@ -109,6 +121,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.investigationDetailFacade.unsubscribeSubscriptions();
+    this.paramSubscription?.unsubscribe();
   }
 
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
@@ -139,12 +152,22 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public addItemToSelection(part: Part): void {
     this.addPartTrigger$.next(part);
-    this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
+    this.selectedItems$.next([ ...this.selectedItems$.getValue(), part ]);
   }
 
   public copyToClipboard(semanticModelId: string): void {
     const text = { id: 'clipboard', values: { value: semanticModelId } };
     navigator.clipboard.writeText(semanticModelId).then(_ => this.ctaSnackbarService.show(text));
+  }
+
+  public navigateBackToInvestigations(): void {
+    const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
+    this.router.navigate([ `/${ link }` ], {
+      queryParams: {
+        tabIndex: this.originTabIndex,
+        pageNumber: this.originPageNumber,
+      },
+    });
   }
 
   public handleConfirmActionCompletedEvent(): void {

@@ -27,11 +27,7 @@ import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp
 import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp
 import static com.xebialabs.restito.semantics.Action.noContent
 import static com.xebialabs.restito.semantics.Action.status
-import static com.xebialabs.restito.semantics.Condition.composite
-import static com.xebialabs.restito.semantics.Condition.method
-import static com.xebialabs.restito.semantics.Condition.post
-import static com.xebialabs.restito.semantics.Condition.startsWithUri
-import static com.xebialabs.restito.semantics.Condition.withHeader
+import static com.xebialabs.restito.semantics.Condition.*
 import static org.glassfish.grizzly.http.Method.DELETE
 
 trait EdcSupport implements RestitoProvider {
@@ -39,57 +35,57 @@ trait EdcSupport implements RestitoProvider {
 	private static final Condition EDC_API_KEY_HEADER = withHeader("X-Api-Key", "integration-tests")
 
 	void edcWillCreateNotificationAsset() {
-		whenHttp(stubServer()).match(
-			post("/api/v1/management/assets"),
-			EDC_API_KEY_HEADER
-		).then(
-			status(HttpStatus.OK_200)
-		)
+        whenHttp(stubServer()).match(
+                post("/management/v2/assets"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200)
+        )
 	}
 
 	void edcWillRemoveNotificationAsset() {
-		whenHttp(stubServer()).match(
-			method(DELETE),
-			startsWithUri("/api/v1/management/assets/"),
-			EDC_API_KEY_HEADER
-		).then(
-			noContent()
-		)
+        whenHttp(stubServer()).match(
+                method(DELETE),
+                startsWithUri("/management/v2/assets/"),
+                EDC_API_KEY_HEADER
+        ).then(
+                noContent()
+        )
 	}
 
 	void edcWillFailToCreateNotificationAsset() {
-		whenHttp(stubServer()).match(
-			post("/api/v1/management/assets"),
-			EDC_API_KEY_HEADER
-		).then(
-			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
-		)
+        whenHttp(stubServer()).match(
+                post("/management/v2/assets"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+        )
 	}
 
 	void edcNotificationAssetAlreadyExist() {
-		whenHttp(stubServer()).match(
-			post("/api/v1/management/assets"),
-			EDC_API_KEY_HEADER
-		).then(
-			status(HttpStatus.CONFLICT_409),
-			jsonResponseFromFile("./stubs/edc/post/api/v1/management/assets/response_409.json")
-		)
+        whenHttp(stubServer()).match(
+                post("/management/v2/assets"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.CONFLICT_409),
+                jsonResponseFromFile("./stubs/edc/post/management/v2/assets/response_409.json")
+        )
 	}
 
 	void edcWillCreatePolicyDefinition() {
-		whenHttp(stubServer()).match(
-			post("/api/v1/management/policydefinitions"),
-			EDC_API_KEY_HEADER
-		).then(
-			status(HttpStatus.OK_200)
-		)
+        whenHttp(stubServer()).match(
+                post("/management/v2/policydefinitions"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200)
+        )
 	}
 
 	void edcWillRemovePolicyDefinition() {
 		whenHttp(stubServer()).match(
 			composite(
 				method(DELETE),
-				startsWithUri("/api/v1/management/policydefinitions/")
+                    startsWithUri("/management/v2/policydefinitions/")
 			),
 			EDC_API_KEY_HEADER
 		).then(
@@ -98,68 +94,68 @@ trait EdcSupport implements RestitoProvider {
 	}
 
 	void edcWillFailToCreatePolicyDefinition() {
-		whenHttp(stubServer()).match(
-			post("/api/v1/management/policydefinitions"),
-			EDC_API_KEY_HEADER
-		).then(
-			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
-		)
+        whenHttp(stubServer()).match(
+                post("/management/v2/policydefinitions"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+        )
 	}
 
 	void edcWillCreateContractDefinition() {
-		whenHttp(stubServer()).match(
-			post("/api/v1/management/contractdefinitions"),
-			EDC_API_KEY_HEADER
-		).then(
-			status(HttpStatus.OK_200)
-		)
+        whenHttp(stubServer()).match(
+                post("/management/v2/contractdefinitions"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.OK_200)
+        )
 	}
 
 	void edcWillFailToCreateContractDefinition() {
-		whenHttp(stubServer()).match(
-			post("/api/v1/management/contractdefinitions"),
-			EDC_API_KEY_HEADER
-		).then(
-			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
-		)
+        whenHttp(stubServer()).match(
+                post("/management/v2/contractdefinitions"),
+                EDC_API_KEY_HEADER
+        ).then(
+                status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+        )
 	}
 
 	void verifyCreateNotificationAssetEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
-			post("/api/v1/management/assets")
+                post("/management/v2/assets")
 		)
 	}
 
 	void verifyDeleteNotificationAssetEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-			startsWithUri("/api/v1/management/assets")
+                startsWithUri("/management/v2/assets")
 		)
 	}
 
 	void verifyCreatePolicyDefinitionEndpointCalledTimes(int times) {
 			verifyHttp(stubServer()).times(times,
-			post("/api/v1/management/policydefinitions")
+                    post("/management/v2/policydefinitions")
 		)
 	}
 
 	void verifyDeletePolicyDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-			startsWithUri("/api/v1/management/policydefinitions")
+                startsWithUri("/management/v2/policydefinitions")
 		)
 	}
 
 	void verifyCreateContractDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
-			post("/api/v1/management/contractdefinitions")
+                post("/management/v2/contractdefinitions")
 		)
 	}
 
 	void verifyDeleteContractDefinitionEndpointCalledTimes(int times) {
 		verifyHttp(stubServer()).times(times,
 			method(DELETE),
-			startsWithUri("/api/v1/management/contractdefinitions")
+                startsWithUri("/management/v2/contractdefinitions")
 		)
 	}
 }

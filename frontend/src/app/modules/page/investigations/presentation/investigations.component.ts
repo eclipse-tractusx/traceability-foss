@@ -20,11 +20,12 @@
  ********************************************************************************/
 
 import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { MenuActionConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
@@ -33,6 +34,7 @@ import { ApproveNotificationModalComponent } from '@shared/modules/notification/
 import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
+import { Subscription } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
 @Component({
@@ -53,19 +55,25 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
-  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc']  };
+  private paramSubscription: Subscription;
+
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'createdDate', 'desc' ] };
 
   constructor(
     public readonly helperService: InvestigationHelperService,
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
   ) {
     this.investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
   }
 
   public ngOnInit(): void {
+    this.paramSubscription = this.route.queryParams.subscribe(params => {
+      this.pagination.page = params?.pageNumber;
+    });
     this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
     this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
@@ -113,6 +121,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   public ngOnDestroy(): void {
     this.investigationsFacade.stopInvestigations();
+    this.paramSubscription?.unsubscribe();
   }
 
   public onReceivedTableConfigChanged(pagination: TableEventConfig) {
@@ -128,7 +137,12 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   public openDetailPage(notification: Notification): void {
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
-    this.router.navigate([`/${link}/${notification.id}`]).then();
+    const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
+    const tabInformation: NotificationTabInformation = {
+      tabIndex: parseInt(tabIndex),
+      pageNumber: this.pagination.page,
+    };
+    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {

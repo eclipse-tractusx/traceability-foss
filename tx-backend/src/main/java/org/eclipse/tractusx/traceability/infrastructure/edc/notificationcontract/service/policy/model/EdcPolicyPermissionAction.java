@@ -21,17 +21,12 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
+@Builder
 public class EdcPolicyPermissionAction {
 
-	@JsonProperty("type")
-	private final String type;
+    @JsonProperty("type")
+    private String type;
 
-	public EdcPolicyPermissionAction(String type) {
-		this.type = type;
-	}
-
-	public String getType() {
-		return type;
-	}
 }

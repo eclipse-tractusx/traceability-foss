@@ -72,24 +72,32 @@
                 }
               ]
             },
-            "authTest": {
-              "fileReplacements": [
+            "authTest" : {
+              "fileReplacements" : [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.authTest.ts"
+                  "replace" : "src/environments/environment.ts",
+                  "with" : "src/environments/environment.authTest.ts"
                 }
               ]
             },
-            "authLocal": {
-              "fileReplacements": [
+            "authE2eA" : {
+              "fileReplacements" : [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.authLocal.ts"
+                  "replace" : "src/environments/environment.ts",
+                  "with" : "src/environments/environment.authE2eA.ts"
                 }
               ]
             },
-            "authMock": {
-              "fileReplacements": [
+            "authLocal" : {
+              "fileReplacements" : [
+                {
+                  "replace" : "src/environments/environment.ts",
+                  "with" : "src/environments/environment.authLocal.ts"
+                }
+              ]
+            },
+            "authMock" : {
+              "fileReplacements" : [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.authMock.ts"
@@ -152,25 +160,28 @@
             "proxyConfig": "./int.proxy.conf.json"
           },
           "configurations": {
-            "dev": {
-              "browserTarget": "trace-x:build:dev"
+            "dev" : {
+              "browserTarget" : "trace-x:build:dev"
             },
-            "auth": {
-              "browserTarget": "trace-x:build:dev,auth"
+            "auth" : {
+              "browserTarget" : "trace-x:build:dev,auth"
             },
-            "authTest": {
-              "browserTarget": "trace-x:build:dev,authTest"
+            "authTest" : {
+              "browserTarget" : "trace-x:build:dev,authTest"
             },
-            "authLocal": {
-              "browserTarget": "trace-x:build:dev,authLocal"
+            "authE2eA" : {
+              "browserTarget" : "trace-x:build:dev,authE2eA"
             },
-            "authMock": {
-              "browserTarget": "trace-x:build:dev,authMock"
+            "authLocal" : {
+              "browserTarget" : "trace-x:build:dev,authLocal"
             },
-            "localBackend": {
-              "browserTarget": "trace-x:build:dev,localBackend"
+            "authMock" : {
+              "browserTarget" : "trace-x:build:dev,authMock"
             },
-            "localBackendNoAuth": {
+            "localBackend" : {
+              "browserTarget" : "trace-x:build:dev,localBackend"
+            },
+            "localBackendNoAuth" : {
               "browserTarget": "trace-x:build:dev,localBackendNoAuth"
             },
             "production": {
