@@ -74,7 +74,15 @@ public class BpnEdcMappingController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -98,7 +106,15 @@ public class BpnEdcMappingController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -124,7 +140,15 @@ public class BpnEdcMappingController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
@@ -150,7 +174,15 @@ public class BpnEdcMappingController {
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
