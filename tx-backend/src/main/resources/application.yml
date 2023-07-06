@@ -35,6 +35,38 @@ edc:
   api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings: { }
   provider-edc-url: ${EDC_PROVIDER_URL}
+  callback-url: "https://traceability.dev.demo.catena-x.net/internal/endpoint-data-reference" # The URL where the EDR token callback will be sent to.
+  controlplane:
+    request-ttl: PT10M # How long to wait for an async EDC negotiation request to finish, ISO 8601 Duration
+    endpoint:
+      data: "https://tracex-consumer-controlplane.dev.demo.catena-x.net/management" # URL of the EDC consumer controlplane data endpoint
+      catalog: /v2/catalog/request # EDC consumer controlplane catalog path
+      contract-negotiation: /v2/contractnegotiations # EDC consumer controlplane contract negotiation path
+      transfer-process: /v2/transferprocesses # EDC consumer controlplane transfer process path
+      state-suffix: /state # Path of the state suffix for contract negotiation and transfer process
+    provider-suffix: /api/v1/dsp # Suffix to add to data requests to the EDC provider controlplane
+    catalog-limit: 1000 # Max number of items to fetch from the EDC provider catalog
+    catalog-page-size: 50 # Number of items to fetch at one page from the EDC provider catalog when using pagination
+    api-key:
+      header: "X-Api-Key" # API header key to use in communication with the EDC consumer controlplane
+      secret: ${EDC_API_KEY} # API header secret to use in communication with the EDC consumer controlplane
+    datareference:
+      storage:
+        duration: PT1H # Time after which stored data references will be cleaned up, ISO 8601 Duration
+
+  submodel:
+    request-ttl: PT10M # How long to wait for an async EDC submodel retrieval to finish, ISO 8601 Duration
+    path: /submodel # The path to append to the submodel data reference endpoint
+    urn-prefix: /urn # A prefix used to identify URNs correctly in the submodel endpoint address
+    timeout:
+      read: PT90S # HTTP read timeout for the submodel client
+      connect: PT90S # HTTP connect timeout for the submodel client
+
+  catalog:
+    cache:
+      enabled: false # Set to false to disable caching
+      ttl: P1D # Time after which a cached Item is no longer valid and the real catalog is called instead
+      maxCachedItems: 64000 # Maximum amount of cached catalog items
 
 server:
   servlet:
@@ -118,4 +150,12 @@ resilience4j:
         waitDuration: 30s
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
+
+digitalTwinRegistryClient:
+  type: "decentral" # or "decentral"
+
+  discoveryFinderUrl: "https://discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search" # required if type is "decentral"
+
+  descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
+  shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
 

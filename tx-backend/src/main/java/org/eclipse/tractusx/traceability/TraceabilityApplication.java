@@ -23,10 +23,15 @@ package org.eclipse.tractusx.traceability;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
+@ComponentScan({"org.eclipse.tractusx.traceability",
+        "org.eclipse.tractusx.irs.registryclient",
+        "org.eclipse.tractusx.irs.edc.client"
+})
 @SpringBootApplication
 public class TraceabilityApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(TraceabilityApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TraceabilityApplication.class, args);
+    }
 }

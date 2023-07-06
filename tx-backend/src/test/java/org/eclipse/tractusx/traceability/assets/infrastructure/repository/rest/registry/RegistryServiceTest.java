@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryApiClient;
@@ -63,6 +64,9 @@ class RegistryServiceTest {
     @Mock
     private RegistryShellDescriptor registryShellDescriptor;
 
+    @Mock
+    private DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -70,7 +74,7 @@ class RegistryServiceTest {
         String bpn = "test-bpn";
         String manufacturerIdKey = "test-manufacturer-id-key";
 
-        registryService = new RegistryService(objectMapper, registryApiClient, bpn, manufacturerIdKey, registryLookupMeterRegistry, Clock.systemUTC());
+        registryService = new RegistryService(objectMapper, registryApiClient, bpn, manufacturerIdKey, registryLookupMeterRegistry, Clock.systemUTC(), decentralDigitalTwinRegistryService);
 
     }
 
