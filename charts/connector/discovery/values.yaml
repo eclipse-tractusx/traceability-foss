@@ -61,7 +61,7 @@ service:
   port: 8080
 
 wiremock:
-  host: "discovery-mock.dev.demo.catena-x.net"
+  host: "tracex-discovery-mock.dev.demo.catena-x.net"
 
 ingress:
   enabled: true
