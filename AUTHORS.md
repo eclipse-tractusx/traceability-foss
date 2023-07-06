@@ -19,3 +19,4 @@ The following people have contributed to this repository:
 - Maximilian Wesener, doubleSlash Net-Business GmbH, https://github.com/ds-mwesener
 - László Graf, msg systems Romania, https://www.msg-systems.ro
 - Martin Maul, doubleSlash Net-Business GmbH, https://github.com/ds-mmaul
+- Lucas Capellino, doubleSlash Net-Business GmbH, https://github.com/ds-lcapellino
