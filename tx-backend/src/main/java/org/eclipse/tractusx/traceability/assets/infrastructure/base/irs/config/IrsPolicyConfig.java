@@ -25,23 +25,21 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("irs.policy")
 public class IrsPolicyConfig {
 
-//    @Value("policy.name")
-    private String policyName;
+    private String name;
 
-    //    @Value("policy.ttl")
     private String ttl;
 
     public IrsPolicyConfig(
             String policyName,
             String ttl
     ) {
-        this.policyName = policyName;
+        this.name = policyName;
         this.ttl = ttl;
     }
 
     public IrsPolicy getPolicy() {
         return IrsPolicy.builder()
-                .policyId(policyName)
+                .policyId(name)
                 .ttl(ttl)
                 .build();
     }
