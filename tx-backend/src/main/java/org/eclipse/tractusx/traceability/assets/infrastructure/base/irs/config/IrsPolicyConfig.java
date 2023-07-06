@@ -26,14 +26,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class IrsPolicyConfig {
 
     private String name;
-
     private String ttl;
 
     public IrsPolicyConfig(
-            String policyName,
+            String name,
             String ttl
     ) {
-        this.name = policyName;
+        this.name = name;
         this.ttl = ttl;
     }
 
