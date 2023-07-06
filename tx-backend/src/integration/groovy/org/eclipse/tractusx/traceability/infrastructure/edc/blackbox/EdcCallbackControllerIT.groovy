@@ -53,13 +53,13 @@ class EdcCallbackControllerIT  extends IntegrationSpecification {
 				.body(
 					asJson(
 						[
-							id: "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
-							endpoint: "endpoint",
-							authKey: "authKey",
-							authCode: "authCode",
-							properties: [
-							    "cid": contractAgreementId
-							]
+								id        : "urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb",
+								endpoint  : "endpoint",
+								authKey   : "authKey",
+								authCode  : "authCode",
+								properties: [
+										"https://w3id.org/edc/v0.0.1/ns/cid": contractAgreementId
+								]
 						]
 					)
 				)

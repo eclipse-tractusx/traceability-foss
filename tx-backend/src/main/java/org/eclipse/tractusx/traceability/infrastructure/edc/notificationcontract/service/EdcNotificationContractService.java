@@ -20,6 +20,9 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractResponse;
@@ -30,77 +33,73 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.service.EdcContractDefinitionService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.service.EdcPolicyDefinitionService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
+@AllArgsConstructor
 public class EdcNotificationContractService {
 
-	private static final Logger logger = LoggerFactory.getLogger(EdcNotificationContractService.class);
+    private final EdcNotitifcationAssetService edcNotitifcationAssetService;
+    private final EdcPolicyDefinitionService edcPolicyDefinitionService;
+    private final EdcContractDefinitionService edcContractDefinitionService;
 
-	private final EdcNotitifcationAssetService edcNotitifcationAssetService;
-	private final EdcPolicyDefinitionService edcPolicyDefinitionService;
-	private final EdcContractDefinitionService edcContractDefinitionService;
+    public CreateNotificationContractResponse handle(CreateNotificationContractRequest request) {
 
-	public EdcNotificationContractService(EdcNotitifcationAssetService edcNotitifcationAssetService,
-										  EdcPolicyDefinitionService edcPolicyDefinitionService,
-										  EdcContractDefinitionService edcContractDefinitionService) {
-		this.edcNotitifcationAssetService = edcNotitifcationAssetService;
-		this.edcPolicyDefinitionService = edcPolicyDefinitionService;
-		this.edcContractDefinitionService = edcContractDefinitionService;
-	}
+        NotificationMethod notificationMethod = request.notificationMethod();
 
-	public CreateNotificationContractResponse handle(CreateNotificationContractRequest request) {
+        log.info("Creating EDC asset notification contract for {} method and {} notification type", notificationMethod.getValue(), request.notificationType().getValue());
 
-		NotificationMethod notificationMethod = request.notificationMethod();
+        String notificationAssetId = "";
+        try {
+            notificationAssetId = edcNotitifcationAssetService.createNotificationAsset(notificationMethod, request.notificationType());
+        } catch (CreateEdcAssetException e) {
+            throw new CreateNotificationContractException(e);
+        } catch (JsonProcessingException e2) {
+            log.error(e2.toString());
+        }
 
-		logger.info("Creating EDC asset notification contract for {} method and {} notification type", notificationMethod.getValue(), request.notificationType().getValue());
 
-		final String notificationAssetId;
-		try {
-			notificationAssetId = edcNotitifcationAssetService.createNotificationAsset(notificationMethod, request.notificationType());
-		} catch (CreateEdcAssetException e) {
-			throw new CreateNotificationContractException(e);
-		}
+        String accessPolicyId = "";
+        try {
+            accessPolicyId = edcPolicyDefinitionService.createAccessPolicy();
+        } catch (CreateEdcPolicyDefinitionException e) {
+            revertNotificationAsset(notificationAssetId);
+            throw new CreateNotificationContractException(e);
+        } catch (JsonProcessingException e2) {
+            log.error(e2.toString());
+        }
 
-		final String accessPolicyId;
-		try {
-			accessPolicyId = edcPolicyDefinitionService.createAccessPolicy(notificationAssetId);
-		} catch (CreateEdcPolicyDefinitionException e) {
-			revertNotificationAsset(notificationAssetId);
+        String contractDefinitionId = "";
+        try {
+            contractDefinitionId = edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId);
+        } catch (CreateEdcContractDefinitionException e) {
+            revertAccessPolicy(accessPolicyId);
+            revertNotificationAsset(notificationAssetId);
 
-			throw new CreateNotificationContractException(e);
-		}
+            throw new CreateNotificationContractException(e);
+        } catch (JsonProcessingException e2) {
+            log.error(e2.toString());
+        }
 
-		final String contractDefinitionId;
-		try {
-			contractDefinitionId = edcContractDefinitionService.createContractDefinition(notificationAssetId, accessPolicyId);
-		} catch (CreateEdcContractDefinitionException e) {
-			revertAccessPolicy(accessPolicyId);
-			revertNotificationAsset(notificationAssetId);
+        log.info("Created notification contract for {} notification asset id, access policy id {} and contract definition id {}", notificationAssetId, accessPolicyId, contractDefinitionId);
 
-			throw new CreateNotificationContractException(e);
-		}
+        return new CreateNotificationContractResponse(
+                notificationAssetId,
+                accessPolicyId,
+                contractDefinitionId
+        );
+    }
 
-		logger.info("Created notification contract for {} notification asset id, access policy id {} and contract definition id {}", notificationAssetId, accessPolicyId, contractDefinitionId);
+    private void revertAccessPolicy(String accessPolicyId) {
+        log.info("Removing {} access policy", accessPolicyId);
 
-		return new CreateNotificationContractResponse(
-			notificationAssetId,
-			accessPolicyId,
-			contractDefinitionId
-		);
-	}
+        edcPolicyDefinitionService.deleteAccessPolicy(accessPolicyId);
+    }
 
-	private void revertAccessPolicy(String accessPolicyId) {
-		logger.info("Removing {} access policy", accessPolicyId);
+    private void revertNotificationAsset(String notificationAssetId) {
+        log.info("Removing {} notification asset", notificationAssetId);
 
-		edcPolicyDefinitionService.deleteAccessPolicy(accessPolicyId);
-	}
-
-	private void revertNotificationAsset(String notificationAssetId) {
-		logger.info("Removing {} notification asset", notificationAssetId);
-
-		edcNotitifcationAssetService.deleteNotificationAsset(notificationAssetId);
-	}
+        edcNotitifcationAssetService.deleteNotificationAsset(notificationAssetId);
+    }
 }

@@ -78,12 +78,33 @@ public class AlertController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -110,12 +131,33 @@ public class AlertController {
             array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -135,12 +177,33 @@ public class AlertController {
             array = @ArraySchema(arraySchema = @Schema(description = "AlertData", implementation = AlertResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -157,12 +220,33 @@ public class AlertController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK."),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -182,12 +266,33 @@ public class AlertController {
                     responseCode = "204",
                     description = "No content."),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -209,12 +314,33 @@ public class AlertController {
                     description = "No content.",
                     content = @Content()),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -236,12 +362,33 @@ public class AlertController {
                     description = "No content.",
                     content = @Content()),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -266,12 +413,33 @@ public class AlertController {
                     description = "No content.",
                     content = @Content()),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})

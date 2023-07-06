@@ -21,88 +21,55 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.properties;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Map;
 import java.util.Set;
 
+@AllArgsConstructor
+@Getter
 @ConfigurationProperties("edc")
 public class EdcProperties {
 
-	@NotBlank
-	@Value("${edc.ids}")
-	private String idsPath;
+    @NotBlank
+    @Value("${edc.ids}")
+    private String idsPath;
 
-	@NotBlank
-	@Value("${edc.negotiation}")
-	private String negotiationPath;
+    @NotBlank
+    @Value("${edc.contractdefinitions}")
+    private String contractDefinitionsPath;
 
-	@NotBlank
-	@Value("${edc.transfer}")
-	private String transferPath;
+    @NotBlank
+    @Value("${edc.negotiation}")
+    private String negotiationPath;
 
-	@NotBlank
-	@Value("${edc.catalog}")
-	private String catalogPath;
+    @NotBlank
+    @Value("${edc.transfer}")
+    private String transferPath;
 
-	@NotBlank
-	private String providerEdcUrl;
+    @NotBlank
+    @Value("${edc.catalog}")
+    private String catalogPath;
 
-	@NotBlank
-	private String apiAuthKey;
+    @NotBlank
+    @Value("${edc.policydefinitions}")
+    private String policyDefinitionsPath;
 
-	private Map<String, String> bpnProviderUrlMappings;
+    @NotBlank
+    @Value("${edc.assets}")
+    private String assetsPath;
 
-	private Set<String> callbackUrls;
+    @NotBlank
+    private String providerEdcUrl;
 
-	public EdcProperties(String idsPath,
-						 String negotiationPath,
-						 String transferPath,
-						 String catalogPath,
-						 String providerEdcUrl,
-						 String apiAuthKey,
-						 Map<String, String> bpnProviderUrlMappings,
-						 Set<String> callbackUrls) {
-		this.idsPath = idsPath;
-		this.negotiationPath = negotiationPath;
-		this.transferPath = transferPath;
-		this.catalogPath = catalogPath;
-		this.providerEdcUrl = providerEdcUrl;
-		this.apiAuthKey = apiAuthKey;
-		this.bpnProviderUrlMappings = bpnProviderUrlMappings;
-		this.callbackUrls = callbackUrls;
-	}
+    @NotBlank
+    private String apiAuthKey;
 
-	public String getIdsPath() {
-		return idsPath;
-	}
+    private Map<String, String> bpnProviderUrlMappings;
 
-	public String getNegotiationPath() {
-		return negotiationPath;
-	}
+    private Set<String> callbackUrls;
 
-	public String getTransferPath() {
-		return transferPath;
-	}
-
-	public String getCatalogPath() {
-		return catalogPath;
-	}
-
-	public Map<String, String> getBpnProviderUrlMappings() {
-		return bpnProviderUrlMappings;
-	}
-
-	public Set<String> getCallbackUrls() {
-		return callbackUrls;
-	}
-
-	public String getProviderEdcUrl() {
-		return providerEdcUrl;
-	}
-
-	public String getApiAuthKey() {
-		return apiAuthKey;
-	}
 }
