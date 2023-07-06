@@ -78,7 +78,6 @@ public class EdcNotitifcationAssetService {
 
         String notificationAssetId = UUID.randomUUID().toString();
 
-
         EdcDataAddress dataAddress = EdcDataAddress
                 .builder()
                 .type(DEFAULT_DATA_ADDRESS_PROPERTY_TYPE)
@@ -116,7 +115,7 @@ public class EdcNotitifcationAssetService {
                 .build();
 
         final ResponseEntity<String> createEdcDataAssetResponse;
-        log.info("EdcCreateDataAssetRequest {}", objectMapper.writeValueAsString(createDataAssetRequest));
+
         try {
             createEdcDataAssetResponse = restTemplate.postForEntity(
                     edcProperties.getAssetsPath(),
