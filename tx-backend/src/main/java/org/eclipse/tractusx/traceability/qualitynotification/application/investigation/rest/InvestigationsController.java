@@ -79,14 +79,34 @@ public class InvestigationsController {
             description = "The endpoint starts investigations based on part ids provided.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
-            @ApiResponse(responseCode = "400", description = "Bad Request."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -107,14 +127,34 @@ public class InvestigationsController {
             mediaType = "application/json",
             array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class, additionalProperties = Schema.AdditionalPropertiesValue.FALSE), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
-            @ApiResponse(responseCode = "400", description = "Bad Request."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -134,12 +174,33 @@ public class InvestigationsController {
             array = @ArraySchema(arraySchema = @Schema(description = "InvestigationData", implementation = InvestigationResponse.class), minItems = 0, maxItems = Integer.MAX_VALUE)
     )),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -156,12 +217,33 @@ public class InvestigationsController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "OK."),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -182,12 +264,33 @@ public class InvestigationsController {
                     description = "No content.",
                     content = @Content()),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -208,12 +311,33 @@ public class InvestigationsController {
                     responseCode = "204",
                     description = "No content."),
             @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -234,14 +358,34 @@ public class InvestigationsController {
                     responseCode = "204",
                     description = "No content.",
                     content = @Content()),
-            @ApiResponse(responseCode = "400", description = "Bad Request."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
@@ -263,14 +407,34 @@ public class InvestigationsController {
                     responseCode = "204",
                     description = "No content.",
                     content = @Content()),
-            @ApiResponse(responseCode = "400", description = "Bad Request."),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad request.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
             @ApiResponse(
                     responseCode = "401",
                     description = "Authorization failed.",
-                    content = @Content()),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+
             @ApiResponse(
                     responseCode = "403",
                     description = "Forbidden.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "429",
+                    description = "Too many requests.",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "Internal server error.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
