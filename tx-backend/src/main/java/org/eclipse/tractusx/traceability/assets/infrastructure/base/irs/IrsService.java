@@ -84,6 +84,16 @@ public class IrsService implements IrsRepository {
                 .map(PolicyResponse::toDomain)
                 .findFirst();
 
+        if (existingPolicy.isPresent()
+                && existingPolicy.get()
+                .getTtlAsInstant()
+                .isBefore(requiredPolicy.getTtlAsInstant())
+        ) {
+            log.info("IRS Policy has outdated validity updating new ttl");
+            irsClient.deletePolicy(existingPolicy.get().getPolicyId());
+            irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy));
+        }
+
         if (existingPolicy.isEmpty()) {
             log.info("Irs policy does not exist creating {}", requiredPolicy);
             irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy));

@@ -22,9 +22,15 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.Instant;
+
 @Data
 @Builder
 public class IrsPolicy {
     final String policyId;
     final String ttl;
+
+    public Instant getTtlAsInstant() {
+        return Instant.parse(ttl);
+    }
 }
