@@ -344,7 +344,33 @@ irs-helm:
   enabled: false  # <irs-helm.enabled>
 
 ###################################
+# EDC Consumer configuration  #
+###################################
+tractusx-connector:
+  enabled: false
+
+  participant:
+    id: "BPN"
+
+  ##################################
+  # EDC Postgres Configuration #
+  ##################################
+  postgresql:
+    enabled: false
+    auth:
+      username: "CHANGEME"
+      password: "CHANGEME"
+    username: "CHANGEME"
+    password: "CHANGEME"
+    jdbcUrl: "CHANGEME"
+
+###################################
 # IRS EDC Consumer configuration  #
 ###################################
-irs-edc-consumer:
-  enabled: false  # <irs-edc-consumer.enabled>
+edc-postgresql:
+  enabled: false
+  auth:
+    postgresPassword: "CHANGEME"
+    password: "CHANGEME"
+    database: "trace"
+    username: "traceuser"

@@ -18,5 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model;
 
-public record CatalogRequestDTO(String providerUrl) {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
+
+public record CatalogRequestDTO(@JsonProperty("providerUrl") String providerUrl,
+                                @JsonProperty("protocol") String protocol,
+                                @JsonProperty("@context") EdcContext edcContext) {
 }
