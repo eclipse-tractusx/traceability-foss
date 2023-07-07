@@ -37,4 +37,6 @@ public interface IrsRepository {
      * @return a list of assets that match the given global asset ID and direction, or an empty list if no assets are found
      */
     List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+
+    void createIrsPolicyIfMissing();
 }
