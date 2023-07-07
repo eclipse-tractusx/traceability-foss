@@ -100,7 +100,7 @@ frontend:
       cpu: 768m
       memory: 768Mi
     requests:
-      cpu: 256m
+      cpu: 100m
       memory: 256Mi
 
   nodeSelector: {}
@@ -222,7 +222,7 @@ backend:
       cpu: 768m
       memory: 768Mi
     requests:
-      cpu: 256m
+      cpu: 100m
       memory: 256Mi
 
   nodeSelector: {}
@@ -319,7 +319,7 @@ pgadmin4:
       cpu: 768m
       memory: 1768i
     requests:
-      cpu: 256m
+      cpu: 100m
       memory: 256Mi
 
 #########################

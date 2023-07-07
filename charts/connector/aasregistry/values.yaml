@@ -30,7 +30,7 @@ registry:
           cpu: 750m
           memory: 512Mi
         requests:
-          cpu: 125m
+          cpu: 100m
           memory: 256Mi
 
   registry:
@@ -53,5 +53,5 @@ registry:
         cpu: 750m
         memory: 512Mi
       requests:
-        cpu: 125m
+        cpu: 100m
         memory: 256Mi

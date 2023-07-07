@@ -88,7 +88,7 @@ backend:
       cpu: 1500m
       memory: 512Mi
     requests:
-      cpu: 500m
+      cpu: 100m
       memory: 256Mi
 
   springprofile: e2e-b
@@ -162,7 +162,7 @@ pgadmin4:
       cpu: 768m
       memory: 768Mi
     requests:
-      cpu: 256m
+      cpu: 100m
       memory: 256Mi
 
 #########################
@@ -309,7 +309,7 @@ tractusx-connector:
         cpu: 768m
         memory: 768Mi
       requests:
-        cpu: 256m
+        cpu: 100m
         memory: 256Mi
 
   dataplane:
@@ -341,7 +341,7 @@ tractusx-connector:
         cpu: 768m
         memory: 768Mi
       requests:
-        cpu: 256m
+        cpu: 100m
         memory: 256Mi
 
   ## currently we need to provide a url but is not used anywhere

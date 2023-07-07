@@ -59,7 +59,7 @@ tractusx-connector:
         cpu: 756m
         memory: 1Gi
       requests:
-        cpu: 250m
+        cpu: 100m
         memory: 256Mi
 
   dataplane:
@@ -93,7 +93,7 @@ tractusx-connector:
         cpu: 750m
         memory: 1Gi
       requests:
-        cpu: 250m
+        cpu: 100m
         memory: 256Mi
 
   # URL where the EndpointDataReference callback will be sent to
