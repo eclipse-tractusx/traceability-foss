@@ -19,6 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { Location } from '@angular/common';
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { ALL_KNOWN_LOCALES, KnownLocale } from '@core/i18n/global-i18n.providers';
 import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
@@ -41,7 +42,7 @@ export class LanguageSelectorComponent implements OnDestroy {
 
   public currentLocale: KnownLocale;
 
-  constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService) {
+  constructor(@Inject(I18NEXT_SERVICE) private readonly i18NextService: ITranslationService, private readonly location: Location) {
     const supportedLanguages = this.i18NextService.options.supportedLngs || [];
 
     this.locales = (Object.entries(ALL_KNOWN_LOCALES) as [KnownLocale, string][])
@@ -63,5 +64,6 @@ export class LanguageSelectorComponent implements OnDestroy {
 
   public handleClick(localeId: KnownLocale): void {
     void this.i18NextService.changeLanguage(localeId);
+    this.location.historyGo(0);
   }
 }
