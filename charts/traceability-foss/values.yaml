@@ -97,11 +97,11 @@ frontend:
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 768m
+      memory: 768Mi
     requests:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 256m
+      memory: 256Mi
 
   nodeSelector: {}
 
@@ -219,11 +219,11 @@ backend:
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 768m
+      memory: 768Mi
     requests:
-      cpu: 500m
-      memory: 512Mi
+      cpu: 256m
+      memory: 256Mi
 
   nodeSelector: {}
 
@@ -316,11 +316,11 @@ pgadmin4:
 
   resources:
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 768m
+      memory: 1768i
     requests:
       cpu: 256m
-      memory: 512Mi
+      memory: 256Mi
 
 #########################
 # Postgres configuration     #
