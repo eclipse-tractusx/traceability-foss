@@ -28,7 +28,7 @@ registry:
       resources:
         limits:
           cpu: 750m
-          memory: 512Mi
+          memory: 768Mi
         requests:
           cpu: 125m
           memory: 256Mi
@@ -51,7 +51,7 @@ registry:
     resources:
       limits:
         cpu: 750m
-        memory: 512Mi
+        memory: 768Mi
       requests:
         cpu: 125m
         memory: 256Mi
