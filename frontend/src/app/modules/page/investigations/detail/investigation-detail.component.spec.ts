@@ -43,7 +43,7 @@ describe('InvestigationDetailComponent', () => {
                 get: () => id || 'id-2',
               },
             },
-            queryParams: of({ pageNumber: 0, tabIndex: 0 }),
+            queryParams: of({ pageNumber: 0, tabIndex: 0 })
           },
         },
       ],

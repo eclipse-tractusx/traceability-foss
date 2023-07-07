@@ -64,50 +64,50 @@
                 }
               ]
             },
-            "auth" : {
-              "fileReplacements" : [
+            "auth": {
+              "fileReplacements": [
                 {
-                  "replace" : "src/environments/environment.ts",
-                  "with" : "src/environments/environment.auth.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.auth.ts"
                 }
               ]
             },
-            "authTest" : {
-              "fileReplacements" : [
+            "authTest": {
+              "fileReplacements": [
                 {
-                  "replace" : "src/environments/environment.ts",
-                  "with" : "src/environments/environment.authTest.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.authTest.ts"
                 }
               ]
             },
-            "authE2eA" : {
-              "fileReplacements" : [
+            "authE2eA": {
+              "fileReplacements": [
                 {
-                  "replace" : "src/environments/environment.ts",
-                  "with" : "src/environments/environment.authE2eA.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.authE2eA.ts"
                 }
               ]
             },
-            "authLocal" : {
-              "fileReplacements" : [
+            "authLocal": {
+              "fileReplacements": [
                 {
-                  "replace" : "src/environments/environment.ts",
-                  "with" : "src/environments/environment.authLocal.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.authLocal.ts"
                 }
               ]
             },
-            "authMock" : {
-              "fileReplacements" : [
+            "authMock": {
+              "fileReplacements": [
                 {
-                  "replace" : "src/environments/environment.ts",
-                  "with" : "src/environments/environment.authMock.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.authMock.ts"
                 }
               ]
             },
-            "localBackend" : {
-              "fileReplacements" : [
+            "localBackend": {
+              "fileReplacements": [
                 {
-                  "replace" : "src/environments/environment.ts",
+                  "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.localBackend.ts"
                 }
               ]
@@ -160,35 +160,35 @@
             "proxyConfig": "./int.proxy.conf.json"
           },
           "configurations": {
-            "dev" : {
-              "browserTarget" : "trace-x:build:dev"
+            "dev": {
+              "browserTarget": "trace-x:build:dev"
             },
-            "auth" : {
-              "browserTarget" : "trace-x:build:dev,auth"
+            "auth": {
+              "browserTarget": "trace-x:build:dev,auth"
             },
-            "authTest" : {
-              "browserTarget" : "trace-x:build:dev,authTest"
+            "authTest": {
+              "browserTarget": "trace-x:build:dev,authTest"
             },
-            "authE2eA" : {
-              "browserTarget" : "trace-x:build:dev,authE2eA"
+            "authE2eA": {
+              "browserTarget": "trace-x:build:dev,authE2eA"
             },
-            "authLocal" : {
-              "browserTarget" : "trace-x:build:dev,authLocal"
+            "authLocal": {
+              "browserTarget": "trace-x:build:dev,authLocal"
             },
-            "authMock" : {
-              "browserTarget" : "trace-x:build:dev,authMock"
+            "authMock": {
+              "browserTarget": "trace-x:build:dev,authMock"
             },
-            "localBackend" : {
-              "browserTarget" : "trace-x:build:dev,localBackend"
+            "localBackend": {
+              "browserTarget": "trace-x:build:dev,localBackend"
             },
-            "localBackendNoAuth" : {
-              "browserTarget" : "trace-x:build:dev,localBackendNoAuth"
+            "localBackendNoAuth": {
+              "browserTarget": "trace-x:build:dev,localBackendNoAuth"
             },
-            "production" : {
-              "browserTarget" : "trace-x:build:production"
+            "production": {
+              "browserTarget": "trace-x:build:production"
             },
-            "debugProd" : {
-              "browserTarget" : "trace-x:build:dev,debugProd"
+            "debugProd": {
+              "browserTarget": "trace-x:build:dev,debugProd"
             }
           }
         },

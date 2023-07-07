@@ -1,24 +1,24 @@
 {
   "policies": {
     "ID 3.0 Trace": {
-      "@context" : {
-        "odrl" : "http://www.w3.org/ns/odrl/2/"
+      "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/"
       },
-      "@type" : "PolicyDefinitionRequestDto",
-      "@id" : "id-3.0-trace",
-      "policy" : {
-        "@type" : "Policy",
-        "odrl:permission" : [
+      "@type": "PolicyDefinitionRequestDto",
+      "@id": "id-3.0-trace",
+      "policy": {
+        "@type": "Policy",
+        "odrl:permission": [
           {
-            "odrl:action" : "USE",
-            "odrl:constraint" : {
-              "@type" : "AtomicConstraint",
-              "odrl:or" : [
+            "odrl:action": "USE",
+            "odrl:constraint": {
+              "@type": "AtomicConstraint",
+              "odrl:or": [
                 {
-                  "@type" : "Constraint",
-                  "odrl:leftOperand" : "idsc:PURPOSE",
-                  "odrl:operator" : "EQ",
-                  "odrl:rightOperand" : "ID 3.0 Trace"
+                  "@type": "Constraint",
+                  "odrl:leftOperand": "idsc:PURPOSE",
+                  "odrl:operator": "EQ",
+                  "odrl:rightOperand": "ID 3.0 Trace"
                 }
               ]
             }

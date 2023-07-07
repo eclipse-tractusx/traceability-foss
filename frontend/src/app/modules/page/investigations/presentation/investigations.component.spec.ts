@@ -43,8 +43,8 @@ describe('InvestigationsComponent', () => {
     spy.and.returnValue(new Promise(null));
 
     fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
-    const tabInformation: NotificationTabInformation = { tabIndex: NaN, pageNumber: undefined };
-    expect(spy).toHaveBeenCalledWith([ '/investigations/id-84' ], { queryParams: tabInformation });
+    const tabInformation: NotificationTabInformation = { tabIndex: NaN, pageNumber: undefined}
+    expect(spy).toHaveBeenCalledWith(['/investigations/id-84'], { queryParams: tabInformation } );
   });
 
   it('should call change pagination of received investigations', async () => {

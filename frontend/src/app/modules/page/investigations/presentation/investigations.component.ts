@@ -57,14 +57,14 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   private paramSubscription: Subscription;
 
-  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: [ 'createdDate', 'desc' ] };
+  private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc']  };
 
   constructor(
     public readonly helperService: InvestigationHelperService,
     private readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
-    private readonly route: ActivatedRoute,
+    private readonly route: ActivatedRoute
   ) {
     this.investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
@@ -138,11 +138,8 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
-    const tabInformation: NotificationTabInformation = {
-      tabIndex: parseInt(tabIndex),
-      pageNumber: this.pagination.page,
-    };
-    this.router.navigate([ `/${ link }/${ notification.id }` ], { queryParams: tabInformation });
+    const tabInformation: NotificationTabInformation = {tabIndex: parseInt(tabIndex), pageNumber: this.pagination.page}
+    this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {

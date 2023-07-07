@@ -39,46 +39,46 @@ trait EdcSupport implements RestitoProvider {
                 post("/management/v2/assets"),
                 EDC_API_KEY_HEADER
         ).then(
-                status(HttpStatus.OK_200)
-        )
+			status(HttpStatus.OK_200)
+		)
 	}
 
 	void edcWillRemoveNotificationAsset() {
-        whenHttp(stubServer()).match(
+		whenHttp(stubServer()).match(
                 method(DELETE),
                 startsWithUri("/management/v2/assets/"),
                 EDC_API_KEY_HEADER
         ).then(
-                noContent()
-        )
+			noContent()
+		)
 	}
 
 	void edcWillFailToCreateNotificationAsset() {
-        whenHttp(stubServer()).match(
+		whenHttp(stubServer()).match(
                 post("/management/v2/assets"),
                 EDC_API_KEY_HEADER
         ).then(
-                status(HttpStatus.INTERNAL_SERVER_ERROR_500)
-        )
+			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+		)
 	}
 
 	void edcNotificationAssetAlreadyExist() {
-        whenHttp(stubServer()).match(
+		whenHttp(stubServer()).match(
                 post("/management/v2/assets"),
                 EDC_API_KEY_HEADER
         ).then(
-                status(HttpStatus.CONFLICT_409),
+			status(HttpStatus.CONFLICT_409),
                 jsonResponseFromFile("./stubs/edc/post/management/v2/assets/response_409.json")
-        )
+		)
 	}
 
 	void edcWillCreatePolicyDefinition() {
-        whenHttp(stubServer()).match(
+		whenHttp(stubServer()).match(
                 post("/management/v2/policydefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
-                status(HttpStatus.OK_200)
-        )
+			status(HttpStatus.OK_200)
+		)
 	}
 
 	void edcWillRemovePolicyDefinition() {
@@ -94,30 +94,30 @@ trait EdcSupport implements RestitoProvider {
 	}
 
 	void edcWillFailToCreatePolicyDefinition() {
-        whenHttp(stubServer()).match(
+		whenHttp(stubServer()).match(
                 post("/management/v2/policydefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
-                status(HttpStatus.INTERNAL_SERVER_ERROR_500)
-        )
+			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+		)
 	}
 
 	void edcWillCreateContractDefinition() {
-        whenHttp(stubServer()).match(
+		whenHttp(stubServer()).match(
                 post("/management/v2/contractdefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
-                status(HttpStatus.OK_200)
-        )
+			status(HttpStatus.OK_200)
+		)
 	}
 
 	void edcWillFailToCreateContractDefinition() {
-        whenHttp(stubServer()).match(
+		whenHttp(stubServer()).match(
                 post("/management/v2/contractdefinitions"),
                 EDC_API_KEY_HEADER
         ).then(
-                status(HttpStatus.INTERNAL_SERVER_ERROR_500)
-        )
+			status(HttpStatus.INTERNAL_SERVER_ERROR_500)
+		)
 	}
 
 	void verifyCreateNotificationAssetEndpointCalledTimes(int times) {

@@ -16,6 +16,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Changed Layout in notification detailed view
 - Changed request parameter for registerjob request to irs to match requirements of irs
 - Migration of edc 0.4.1 endpoints and api flow
+- Changed SerialPartTypization aspect model to SerialPart
+- Changed AssemblyPartRelationship aspect model to SingleLevelBomAsBuilt
 
 ### Removed
 

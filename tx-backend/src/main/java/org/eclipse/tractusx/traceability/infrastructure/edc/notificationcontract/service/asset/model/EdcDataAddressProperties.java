@@ -25,30 +25,30 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class EdcDataAddressProperties {
 
-    @JsonProperty("baseUrl")
-    private final String baseUrl;
+	@JsonProperty("baseUrl")
+	private final String baseUrl;
 
-    @JsonProperty("proxyMethod")
+	@JsonProperty("proxyMethod")
     private final String proxyMethod;
 
-    @JsonProperty("method")
-    private final String method;
+	@JsonProperty("method")
+	private final String method;
 
     @JsonProperty("proxyBody")
     private final String proxyBody;
 
-    @JsonProperty("type")
-    private final String type;
+	@JsonProperty("type")
+	private final String type;
 
-    public EdcDataAddressProperties(String baseUrl,
+	public EdcDataAddressProperties(String baseUrl,
                                     String proxyMethod,
                                     String method,
                                     String proxyBody,
                                     String type) {
-        this.baseUrl = baseUrl;
-        this.proxyMethod = proxyMethod;
-        this.method = method;
-        this.proxyBody = proxyBody;
-        this.type = type;
-    }
+		this.baseUrl = baseUrl;
+		this.proxyMethod = proxyMethod;
+		this.method = method;
+		this.proxyBody = proxyBody;
+		this.type = type;
+	}
 }

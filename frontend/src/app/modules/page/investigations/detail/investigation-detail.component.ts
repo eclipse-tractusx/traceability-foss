@@ -79,7 +79,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private selectedInvestigationTmpStore: Notification;
   public selectedInvestigation: Notification;
 
-  private paramSubscription: Subscription;
+  private paramSubscription: Subscription
 
   constructor(
     public readonly helperService: InvestigationHelperService,
@@ -98,7 +98,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.originPageNumber = params.pageNumber;
       this.originTabIndex = params?.tabIndex;
-    });
+    })
 
   }
 
@@ -152,7 +152,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public addItemToSelection(part: Part): void {
     this.addPartTrigger$.next(part);
-    this.selectedItems$.next([ ...this.selectedItems$.getValue(), part ]);
+    this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
   }
 
   public copyToClipboard(semanticModelId: string): void {
@@ -162,12 +162,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public navigateBackToInvestigations(): void {
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
-    this.router.navigate([ `/${ link }` ], {
-      queryParams: {
-        tabIndex: this.originTabIndex,
-        pageNumber: this.originPageNumber,
-      },
-    });
+    this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
   }
 
   public handleConfirmActionCompletedEvent(): void {
