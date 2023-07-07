@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,162 +18,185 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import okhttp3.MediaType;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import org.eclipse.edc.catalog.spi.Catalog;
+import org.eclipse.edc.catalog.spi.DataService;
+import org.eclipse.edc.catalog.spi.Dataset;
+import org.eclipse.edc.catalog.spi.Distribution;
+import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformer;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractOfferDescription;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.Response;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
-import org.springframework.stereotype.Component;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.Request;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest.DEFAULT_PROTOCOL;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
 
-@Slf4j
-@Component
-@RequiredArgsConstructor
-public class EdcService {
+@ExtendWith(MockitoExtension.class)
+class EdcServiceTest {
 
-    public static final MediaType JSON = MediaType.get("application/json");
-    private static final String FINALIZED_STATUS = "FINALIZED";
+    @Mock
+    private HttpCallService httpCallService;
 
-    private final HttpCallService httpCallService;
-    private final EdcProperties edcProperties;
-    private final EdcTransformer edcTransformer;
+    @InjectMocks
+    private EdcService edcService;
 
-    /**
-     * Rest call to get all contract offer and filter notification type contract
-     */
-    public Catalog getCatalog(
-            String consumerEdcDataManagementUrl,
-            String providerConnectorControlPlaneIDSUrl,
-            Map<String, String> header
-    ) throws IOException {
+    @Mock
+    private EdcProperties edcProperties;
+    @Mock
+    private EdcTransformer edcTransformer;
 
-        Catalog catalog = httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header);
+    @Captor
+    private ArgumentCaptor<Request> requestCaptor;
 
-        if (catalog.getDatasets().isEmpty()) {
-            log.error("No contract found");
-            throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
-        }
-        return catalog;
-    }
+    @Test
+    void testGetCatalog() throws IOException {
+        // Arrange
+        String consumerEdcDataManagementUrl = "https://example.com/consumer-edc";
+        String providerConnectorControlPlaneIDSUrl = "https://example.com/provider-connector";
+        Map<String, String> header = Collections.singletonMap("Authorization", "Bearer token");
 
+        Policy policy = Policy.Builder.newInstance().build();
 
-    /**
-     * Prepare for contract negotiation. it will wait for while till API return agreementId
-     */
-    public String initializeContractNegotiation(String providerConnectorUrl, CatalogItem catalogItem, String consumerEdcUrl,
-                                                Map<String, String> header) throws InterruptedException, IOException {
-
-        final NegotiationRequest negotiationRequest = createNegotiationRequestFromCatalogItem(providerConnectorUrl + edcProperties.getIdsPath(),
-                catalogItem);
-
-        log.info(":::: Start Contract Negotiation method[initializeContractNegotiation] offerId :{}, assetId:{}", negotiationRequest.getOffer().getOfferId(), negotiationRequest.getOffer().getAssetId());
-
-        String negotiationId = initiateNegotiation(negotiationRequest, consumerEdcUrl, header);
-        NegotiationResponse negotiation = null;
-
-        // Check negotiation state
-        while (negotiation == null || negotiation.getState() == null || !negotiation.getState().equals(FINALIZED_STATUS)) {
-
-            log.info(":::: waiting for contract to get confirmed");
-            if (negotiation != null) {
-                log.info("Negotation state {}", negotiation.getState());
-            }
-
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            ScheduledFuture<NegotiationResponse> scheduledFuture =
-                    scheduler.schedule(() -> {
-                        var url = consumerEdcUrl + edcProperties.getNegotiationPath() + "/" + negotiationId;
-                        var request = new Request.Builder().url(url);
-                        header.forEach(request::addHeader);
-
-                        log.info(":::: Start call for contract agreement method [initializeContractNegotiation] URL :{}", url);
-
-                        return httpCallService.sendNegotiationRequest(request.build());
-                    }, 1000, TimeUnit.MILLISECONDS);
-            try {
-                negotiation = scheduledFuture.get();
-                scheduler.shutdown();
-            } catch (ExecutionException e) {
-                throw new RuntimeException(e);
-            } finally {
-                if (!scheduler.isShutdown()) {
-                    scheduler.shutdown();
-                }
-            }
-        }
-        return negotiation.getContractAgreementId();
-    }
-
-
-    private NegotiationRequest createNegotiationRequestFromCatalogItem(final String providerConnectorUrl,
-                                                                       final CatalogItem catalogItem) {
-        final var contractOfferDescription = ContractOfferDescription.builder()
-                .offerId(catalogItem.getOfferId())
-                .assetId(catalogItem.getPolicy().getTarget())
-                .policy(catalogItem.getPolicy())
+        DataService dataService = DataService.Builder.newInstance()
                 .build();
-        return NegotiationRequest.builder()
-                .connectorId(catalogItem.getConnectorId())
-                .connectorAddress(providerConnectorUrl)
-                .protocol(DEFAULT_PROTOCOL)
-                .offer(contractOfferDescription)
-                .build();
+        Distribution distribution = Distribution.Builder.newInstance().format("format")
+                .dataService(dataService).build();
+
+        Dataset dataset = Dataset.Builder.newInstance().offer("123", policy).distribution(distribution).build();
+
+        Catalog catalog = Catalog.Builder.newInstance().dataset(dataset).build();
+
+        when(httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header))
+                .thenReturn(catalog);
+
+        // Act
+        Catalog catalogResult = edcService.getCatalog(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header);
+
+        assertThat(catalogResult).isNotNull();
+        // Assert
+        verify(httpCallService, times(1))
+                .getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header);
+
     }
 
-    /**
-     * Rest call for Contract negotiation and return agreementId.
-     */
-    private String initiateNegotiation(NegotiationRequest negotiationRequest, String consumerEdcDataManagementUrl,
-                                       Map<String, String> headers) throws IOException {
-        var url = consumerEdcDataManagementUrl + edcProperties.getNegotiationPath();
+    @Test
+    void testCatalogThrowBadRequestExceptionWhenDatasetIsEmpty() throws IOException {
+        //GIVEN
+        String consumerEdcDataManagementUrl = "https://example.com/consumer-edc";
+        String providerConnectorControlPlaneIDSUrl = "https://example.com/provider-connector";
+        Map<String, String> header = Collections.singletonMap("Authorization", "Bearer token");
 
-        final String jsonObject = edcTransformer.transformNegotiationRequestToJson(negotiationRequest).toString();
-        var requestBody = RequestBody.create(jsonObject, JSON);
-        var request = new Request.Builder().url(url).post(requestBody);
+        Catalog emptyCatalog = Catalog.Builder.newInstance().datasets(Collections.<Dataset>emptyList()).build();
+        when(httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header))
+                .thenReturn(emptyCatalog);
 
-        headers.forEach(request::addHeader);
-        Response negotiationIdResponse = (Response) httpCallService.sendRequest(request.build(), Response.class);
-        log.info(":::: Method [initiateNegotiation] Negotiation Id :{}", negotiationIdResponse.getResponseId());
-        return negotiationIdResponse.getResponseId();
+        //WHEN
+        BadRequestException badRequestException = assertThrows(
+                BadRequestException.class,
+                () -> edcService.getCatalog(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header)
+        );
+        //THEN
+        verify(httpCallService).getCatalogForNotification(any(), any(), any());
+        assertEquals("Provider has no contract offers for us. Catalog is empty.", badRequestException.getMessage());
     }
 
+    @Test
+    void testInitializeContractNegotiation() throws IOException, InterruptedException {
+        //GIVEN
+        String providerConnectorUrl = "https://example.com/provider-connector";
+        String consumerEdcUrl = "https://example.com/consumer-edc";
+        Map<String, String> header = Collections.singletonMap("Authorization", "Bearer token");
 
-    /**
-     * Rest call for Transfer Data with HttpProxy
-     */
-    public void initiateHttpProxyTransferProcess(String consumerEdcDataManagementUrl,
-                                                 String providerConnectorControlPlaneIDSUrl,
-                                                 TransferProcessRequest transferProcessRequest,
-                                                 Map<String, String> headers) throws IOException {
-        var url = consumerEdcDataManagementUrl + edcProperties.getTransferPath();
+        Policy policy = Policy.Builder.newInstance().target("policyTarget").build();
+        CatalogItem catalogItem = CatalogItem.builder().offerId("offerId").policy(policy).build();
 
+        JsonObject mockedJsonObject = Json.createObjectBuilder().add("", "").build();
 
-        final String jsonObject = edcTransformer.transformTransferProcessRequestToJson(transferProcessRequest).toString();
+        when(edcTransformer.transformNegotiationRequestToJson(any())).thenReturn(mockedJsonObject);
 
-        var requestBody = RequestBody.create(jsonObject, JSON);
-        var request = new Request.Builder().url(url).post(requestBody);
+        Response response = Response.builder().responseId("negotiationId").build();
+        when(httpCallService.sendRequest(any(), eq(Response.class))).thenReturn(response);
 
-        headers.forEach(request::addHeader);
-        log.info(":::: call Transfer process with http Proxy method[initiateHttpProxyTransferProcess] agreementId:{} ,assetId :{},consumerEdcDataManagementUrl :{}, providerConnectorControlPlaneIDSUrl:{}", transferProcessRequest.getContractId(), transferProcessRequest.getAssetId(), consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl);
-        httpCallService.sendRequest(request.build(), Response.class);
+        NegotiationResponse inProgressNegotiationResponse = NegotiationResponse.builder().contractAgreementId("ContractAgreementID").state("IN_PROGRESS").build();
+        NegotiationResponse finalizedNegotiationResponse = NegotiationResponse.builder().contractAgreementId("ContractAgreementID").state("FINALIZED").build();
+        when(httpCallService.sendNegotiationRequest(any()))
+                .thenReturn(inProgressNegotiationResponse)
+                .thenReturn(finalizedNegotiationResponse);
+
+        //WHEN
+        String initializeContractNegotiation = edcService.initializeContractNegotiation(providerConnectorUrl, catalogItem, consumerEdcUrl, header);
+
+        //THEN
+        assertEquals("ContractAgreementID", initializeContractNegotiation);
+        verify(edcTransformer).transformNegotiationRequestToJson(any());
+        verify(httpCallService).sendRequest(any(), any());
+        verify(httpCallService, times(2)).sendNegotiationRequest(any());
     }
 
+    @Test
+    void testInitializeContractNegotiationThrowExecutionException() throws IOException, InterruptedException {
+        //GIVEN
+        String providerConnectorUrl = "https://example.com/provider-connector";
+        String consumerEdcUrl = "https://example.com/consumer-edc";
+        Map<String, String> header = Collections.singletonMap("Authorization", "Bearer token");
+
+        Policy policy = Policy.Builder.newInstance().target("policyTarget").build();
+        CatalogItem catalogItem = CatalogItem.builder().offerId("offerId").policy(policy).build();
+
+        JsonObject mockedJsonObject = Json.createObjectBuilder().add("", "").build();
+
+        when(edcTransformer.transformNegotiationRequestToJson(any())).thenReturn(mockedJsonObject);
+
+        Response response = Response.builder().responseId("negotiationId").build();
+        when(httpCallService.sendRequest(any(), eq(Response.class))).thenReturn(response);
+
+        when(httpCallService.sendNegotiationRequest(any())).thenThrow(new IOException());
+
+        //WHEN
+        RuntimeException runtimeException = assertThrows(
+                RuntimeException.class,
+                () -> edcService.initializeContractNegotiation(providerConnectorUrl, catalogItem, consumerEdcUrl, header));
+
+        //THEN
+        assertNotNull(runtimeException);
+    }
+
+    @Test
+    void testInitiateHttpProxyTransferProcess() throws IOException {
+        //GIVEN
+        String providerConnectorControlPlaneIDSUrl = "https://example.com/provider-connector";
+        String consumerEdcDataManagementUrl = "https://example.com/consumer-edc";
+        Map<String, String> header = Collections.singletonMap("Authorization", "Bearer token");
+        TransferProcessRequest transferProcessRequest = TransferProcessRequest.builder().build();
+
+        JsonObject mockedJsonObject = Json.createObjectBuilder().add("", "").build();
+        when(edcTransformer.transformTransferProcessRequestToJson(any())).thenReturn(mockedJsonObject);
+        // when(httpCallService.sendRequest(any(), eq(Response.class)));//do nothing
+
+        //WHEN
+        edcService.initiateHttpProxyTransferProcess(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl
+                , transferProcessRequest, header);
+        //THEN
+        verify(edcTransformer).transformTransferProcessRequestToJson(any());
+        verify(httpCallService).sendRequest(any(), eq(Response.class));
+    }
 }
