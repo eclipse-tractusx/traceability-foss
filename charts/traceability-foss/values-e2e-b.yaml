@@ -85,11 +85,11 @@ backend:
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
-      cpu: 750m
+      cpu: 1500m
       memory: 512Mi
     requests:
       cpu: 500m
-      memory: 512Mi
+      memory: 256Mi
 
   springprofile: e2e-b
 
@@ -159,11 +159,11 @@ pgadmin4:
         value: "False"
   resources:
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 768m
+      memory: 768Mi
     requests:
       cpu: 256m
-      memory: 512Mi
+      memory: 256Mi
 
 #########################
 # Postgres configuration     #
@@ -306,11 +306,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 500m
-        memory: 2Gi
+        cpu: 768m
+        memory: 768Mi
       requests:
-        cpu: 500m
-        memory: 2Gi
+        cpu: 256m
+        memory: 256Mi
 
   dataplane:
     ingresses:
@@ -338,11 +338,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 768m
+        memory: 768Mi
       requests:
-        cpu: 500m
-        memory: 1Gi
+        cpu: 256m
+        memory: 256Mi
 
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
