@@ -190,7 +190,6 @@ class EdcServiceTest {
 
         JsonObject mockedJsonObject = Json.createObjectBuilder().add("", "").build();
         when(edcTransformer.transformTransferProcessRequestToJson(any())).thenReturn(mockedJsonObject);
-        // when(httpCallService.sendRequest(any(), eq(Response.class)));//do nothing
 
         //WHEN
         edcService.initiateHttpProxyTransferProcess(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl
