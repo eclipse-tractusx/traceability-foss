@@ -64,11 +64,11 @@
                 }
               ]
             },
-            "auth": {
-              "fileReplacements": [
+            "auth" : {
+              "fileReplacements" : [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.auth.ts"
+                  "replace" : "src/environments/environment.ts",
+                  "with" : "src/environments/environment.auth.ts"
                 }
               ]
             },
@@ -99,15 +99,15 @@
             "authMock" : {
               "fileReplacements" : [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.authMock.ts"
+                  "replace" : "src/environments/environment.ts",
+                  "with" : "src/environments/environment.authMock.ts"
                 }
               ]
             },
-            "localBackend": {
-              "fileReplacements": [
+            "localBackend" : {
+              "fileReplacements" : [
                 {
-                  "replace": "src/environments/environment.ts",
+                  "replace" : "src/environments/environment.ts",
                   "with": "src/environments/environment.localBackend.ts"
                 }
               ]
@@ -182,13 +182,13 @@
               "browserTarget" : "trace-x:build:dev,localBackend"
             },
             "localBackendNoAuth" : {
-              "browserTarget": "trace-x:build:dev,localBackendNoAuth"
+              "browserTarget" : "trace-x:build:dev,localBackendNoAuth"
             },
-            "production": {
-              "browserTarget": "trace-x:build:production"
+            "production" : {
+              "browserTarget" : "trace-x:build:production"
             },
-            "debugProd": {
-              "browserTarget": "trace-x:build:dev,debugProd"
+            "debugProd" : {
+              "browserTarget" : "trace-x:build:dev,debugProd"
             }
           }
         },

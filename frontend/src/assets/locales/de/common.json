@@ -31,12 +31,12 @@
     }
   },
   "actions": {
-    "back": "Zurück",
-    "cancel": "Abbrechen",
-    "approve": "Genehmigen",
-    "close": "Schließen",
-    "viewDetails": "Details anzeigen",
-    "cancellationConfirm": "Abbruch bestätigen",
+    "back" : "Zurück",
+    "cancel" : "Abbrechen",
+    "approve" : "Genehmigen",
+    "close" : "Schließen",
+    "viewDetails" : "Details anzeigen",
+    "cancellationConfirm" : "Abbruch bestätigen",
     "accept" : "Akzeptieren",
     "acknowledge" : "Bestätigen",
     "confirm" : "Genehmigen",

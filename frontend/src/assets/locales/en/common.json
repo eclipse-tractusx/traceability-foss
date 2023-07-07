@@ -31,12 +31,12 @@
     }
   },
   "actions": {
-    "accept": "Accept",
-    "acknowledge": "Acknowledge",
-    "back": "Back",
-    "cancel": "Cancel",
-    "approve": "Approve",
-    "confirm": "Approve",
+    "accept" : "Accept",
+    "acknowledge" : "Acknowledge",
+    "back" : "Back",
+    "cancel" : "Cancel",
+    "approve" : "Approve",
+    "confirm" : "Approve",
     "cancellationConfirm" : "Confirm cancellation",
     "close" : "Close",
     "decline" : "Decline",

@@ -35,7 +35,7 @@ trait EdcSupport implements RestitoProvider {
 	private static final Condition EDC_API_KEY_HEADER = withHeader("X-Api-Key", "integration-tests")
 
 	void edcWillCreateNotificationAsset() {
-        whenHttp(stubServer()).match(
+		whenHttp(stubServer()).match(
                 post("/management/v2/assets"),
                 EDC_API_KEY_HEADER
         ).then(
