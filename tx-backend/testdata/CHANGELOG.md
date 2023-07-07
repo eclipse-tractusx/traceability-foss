@@ -1,5 +1,5 @@
 ## [2023-07-07]
-
+CX_Testdata_MessagingTest_v0.0.4.json
 ### Added
 
 - businessPartner in SingleLevelBomAsBuilt was added
