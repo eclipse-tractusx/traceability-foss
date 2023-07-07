@@ -50,7 +50,7 @@
         <!-- versions for 3rd party dependecies -->
         <eclipse-dash-ip.version>0.0.1-SNAPSHOT</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
-        <ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
+        <ascii-doctor-j-diagram.version>2.2.9</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
         <feign.version>12.3</feign.version>
