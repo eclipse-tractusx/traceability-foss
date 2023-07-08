@@ -25,11 +25,13 @@ traceability:
   registry.manufacturerIdKey: manufacturerId
 
 edc:
-  ids: "/api/v1/dsp"
+  ids:
+    path: "/api/v1/dsp"
   negotiation: "/management/v2/contractnegotiations"
   contractdefinitions: "/management/v2/contractdefinitions"
   transfer: "/management/v2/transferprocesses"
-  catalog: "/management/v2/catalog/request"
+  catalog:
+    path: "/management/v2/catalog/request"
     cache:
       enabled: false # Set to false to disable caching
       ttl: P1D # Time after which a cached Item is no longer valid and the real catalog is called instead
