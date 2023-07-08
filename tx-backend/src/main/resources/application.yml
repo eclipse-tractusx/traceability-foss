@@ -30,6 +30,10 @@ edc:
   contractdefinitions: "/management/v2/contractdefinitions"
   transfer: "/management/v2/transferprocesses"
   catalog: "/management/v2/catalog/request"
+    cache:
+      enabled: false # Set to false to disable caching
+      ttl: P1D # Time after which a cached Item is no longer valid and the real catalog is called instead
+      maxCachedItems: 64000 # Maximum amount of cached catalog items
   policydefinitions: "/management/v2/policydefinitions"
   assets: "/management/v2/assets"
   api-auth-key: ${EDC_API_KEY}
@@ -62,11 +66,6 @@ edc:
       read: PT90S # HTTP read timeout for the submodel client
       connect: PT90S # HTTP connect timeout for the submodel client
 
-  catalog:
-    cache:
-      enabled: false # Set to false to disable caching
-      ttl: P1D # Time after which a cached Item is no longer valid and the real catalog is called instead
-      maxCachedItems: 64000 # Maximum amount of cached catalog items
 
 server:
   servlet:
