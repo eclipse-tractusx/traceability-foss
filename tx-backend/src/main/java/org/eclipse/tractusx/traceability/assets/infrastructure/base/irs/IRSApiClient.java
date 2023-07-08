@@ -25,16 +25,20 @@ import feign.Param;
 import feign.RequestLine;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterJobRequest;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.RegisterPolicyRequest;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
 import org.eclipse.tractusx.traceability.common.config.CatenaApiConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @FeignClient(
-	name = "irsApi",
-	url = "${feign.irsApi.url}",
-	configuration = {CatenaApiConfig.class}
+        name = "irsApi",
+        url = "${feign.irsApi.url}",
+        configuration = {CatenaApiConfig.class}
 )
 public interface IRSApiClient {
 
@@ -44,4 +48,13 @@ public interface IRSApiClient {
     @RequestLine("GET /irs/jobs/{id}")
     @Retry(name = "irs-get")
     JobDetailResponse getJobDetails(@Param("id") String id);
+
+    @RequestLine("POST /irs/policies")
+    void registerPolicy(@RequestBody RegisterPolicyRequest request);
+
+    @RequestLine("GET /irs/policies")
+    List<PolicyResponse> getPolicies();
+
+    @RequestLine("DELETE /irs/policies/{id}")
+    void deletePolicy(@Param("id") String id);
 }

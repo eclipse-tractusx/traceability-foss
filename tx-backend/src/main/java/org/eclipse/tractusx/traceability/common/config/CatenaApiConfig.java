@@ -24,6 +24,7 @@ package org.eclipse.tractusx.traceability.common.config;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.jackson.JacksonDecoder;
@@ -46,53 +47,54 @@ import java.util.concurrent.TimeUnit;
 @Configuration
 public class CatenaApiConfig {
 
-	@Bean
-	public Decoder feignDecoder() {
-		return new ResponseEntityDecoder(new JacksonDecoder(JsonMapper.builder()
-			.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
-			.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
-			.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
-			.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-			.build()));
-	}
+    @Bean
+    public Decoder feignDecoder() {
+        return new ResponseEntityDecoder(new JacksonDecoder(JsonMapper.builder()
+                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true)
+                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+                .build()
+                .registerModules(new JavaTimeModule())));
+    }
 
-	@Bean
-	public OkHttpClient catenaApiOkHttpClient(@Autowired FeignDefaultProperties feignDefaultProperties) {
-		return new OkHttpClient.Builder()
-			.connectTimeout(feignDefaultProperties.getConnectionTimeoutMillis(), TimeUnit.MILLISECONDS)
-			.readTimeout(feignDefaultProperties.getReadTimeoutMillis(), TimeUnit.MILLISECONDS)
-			.connectionPool(
-				new ConnectionPool(
-					feignDefaultProperties.getMaxIdleConnections(),
-					feignDefaultProperties.getKeepAliveDurationMinutes(),
-					TimeUnit.MINUTES
-				)
-			)
-			.build();
-	}
+    @Bean
+    public OkHttpClient catenaApiOkHttpClient(@Autowired FeignDefaultProperties feignDefaultProperties) {
+        return new OkHttpClient.Builder()
+                .connectTimeout(feignDefaultProperties.getConnectionTimeoutMillis(), TimeUnit.MILLISECONDS)
+                .readTimeout(feignDefaultProperties.getReadTimeoutMillis(), TimeUnit.MILLISECONDS)
+                .connectionPool(
+                        new ConnectionPool(
+                                feignDefaultProperties.getMaxIdleConnections(),
+                                feignDefaultProperties.getKeepAliveDurationMinutes(),
+                                TimeUnit.MINUTES
+                        )
+                )
+                .build();
+    }
 
-	@Bean
-	public AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager(
-		ClientRegistrationRepository clientRegistrationRepository,
-		OAuth2AuthorizedClientService authorizedClientService
-	) {
-		OAuth2AuthorizedClientProvider authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
-			.clientCredentials()
-			.build();
+    @Bean
+    public AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientServiceAndManager(
+            ClientRegistrationRepository clientRegistrationRepository,
+            OAuth2AuthorizedClientService authorizedClientService
+    ) {
+        OAuth2AuthorizedClientProvider authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
+                .clientCredentials()
+                .build();
 
-		AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
-			new AuthorizedClientServiceOAuth2AuthorizedClientManager(
-				clientRegistrationRepository,
-				authorizedClientService
-			);
+        AuthorizedClientServiceOAuth2AuthorizedClientManager authorizedClientManager =
+                new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                        clientRegistrationRepository,
+                        authorizedClientService
+                );
 
-		authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
-		return authorizedClientManager;
-	}
+        return authorizedClientManager;
+    }
 
-	@Bean
-	public RequestInterceptor requestInterceptor(AuthorizedClientServiceOAuth2AuthorizedClientManager oAuth2AuthorizedClientManager) {
-		return new JwtAuthorizationInterceptor(oAuth2AuthorizedClientManager);
-	}
+    @Bean
+    public RequestInterceptor requestInterceptor(AuthorizedClientServiceOAuth2AuthorizedClientManager oAuth2AuthorizedClientManager) {
+        return new JwtAuthorizationInterceptor(oAuth2AuthorizedClientManager);
+    }
 }
