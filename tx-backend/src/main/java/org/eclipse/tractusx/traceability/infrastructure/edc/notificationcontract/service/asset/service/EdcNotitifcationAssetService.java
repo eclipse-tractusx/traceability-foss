@@ -64,9 +64,9 @@ public class EdcNotitifcationAssetService {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
+    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
         this.traceabilityProperties = traceabilityProperties;
-        this.restTemplate = restTemplate;
+        this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
         this.objectMapper = objectMapper;
     }

@@ -54,8 +54,8 @@ public class EdcContractDefinitionService {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties, ObjectMapper objectMapper, ObjectMapper objectMapper1) {
-        this.restTemplate = restTemplate;
+    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper, ObjectMapper objectMapper1) {
+        this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
         this.objectMapper = objectMapper1;
     }

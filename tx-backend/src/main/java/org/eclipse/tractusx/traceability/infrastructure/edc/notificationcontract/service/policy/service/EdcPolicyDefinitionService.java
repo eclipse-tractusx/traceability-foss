@@ -64,9 +64,9 @@ public class EdcPolicyDefinitionService {
     private final EdcProperties edcProperties;
 
     @Autowired
-    public EdcPolicyDefinitionService(ObjectMapper objectMapper, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
+    public EdcPolicyDefinitionService(ObjectMapper objectMapper, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties) {
         this.objectMapper = objectMapper;
-        this.restTemplate = restTemplate;
+        this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
     }
 

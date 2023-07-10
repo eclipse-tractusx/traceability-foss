@@ -46,7 +46,7 @@ public class EdcRestTemplateConfiguration {
 
     @Bean
     @Qualifier(REST_TEMPLATE)
-    public RestTemplate edcRestTemplate() {
+    public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
                 .build();
     }
