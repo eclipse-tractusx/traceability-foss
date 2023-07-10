@@ -30,7 +30,7 @@ COPY tx-models tx-models
 COPY docs docs
 COPY tx-backend tx-backend
 COPY tx-backend/settings.xml /root/.m2/settings.xml
-
+RUN cat /root/.m2/settings.xml
 
 # the --mount option requires BuildKit.
 # --mount=type=cache,target=/root/.m2 -> mounts cache volume to the .m2 directorym in container
