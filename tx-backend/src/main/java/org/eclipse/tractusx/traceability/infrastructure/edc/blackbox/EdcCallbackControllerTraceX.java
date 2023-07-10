@@ -41,7 +41,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @Hidden
 @RequestMapping("/callback/endpoint-data-reference")
-public class EdcCallbackController {
+public class EdcCallbackControllerTraceX {
 
     private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
@@ -49,7 +49,7 @@ public class EdcCallbackController {
 
     private final EdcProperties edcProperties;
 
-    public EdcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
+    public EdcCallbackControllerTraceX(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
         this.endpointDataReferenceCache = endpointDataReferenceCache;
         this.restTemplate = restTemplateBuilder.build();
         this.edcProperties = edcProperties;
