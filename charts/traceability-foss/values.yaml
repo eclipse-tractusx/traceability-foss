@@ -310,6 +310,8 @@ backend:
 # PG Admin configuration     #
 #########################
 pgadmin4:
+  nameOverride: "traceability-foss-pgadmin4"
+  fullnameOverride: "traceability-foss-pgadmin4"
   enabled: false  # <pgadmin4.enabled>
   ingress:
     enabled: false   # <pgadmin4.ingress.enabled>
@@ -342,13 +344,15 @@ postgresql:
 #########################
 irs-helm:
   enabled: false  # <irs-helm.enabled>
-
+  nameOverride: "traceability-foss-irs"
+  fullnameOverride: "traceability-foss-irs"
 ###################################
 # EDC Consumer configuration  #
 ###################################
 tractusx-connector:
   enabled: false
-
+  nameOverride: "traceability-foss-edc-consumer"
+  fullnameOverride: "traceability-foss-edc-consumer"
   participant:
     id: "BPN"
 
@@ -368,6 +372,8 @@ tractusx-connector:
 # IRS EDC Consumer configuration  #
 ###################################
 edc-postgresql:
+  nameOverride: "traceability-foss-edc-postgresql"
+  fullnameOverride: "traceability-foss-edc-postgresql"
   enabled: false
   auth:
     postgresPassword: "CHANGEME"
