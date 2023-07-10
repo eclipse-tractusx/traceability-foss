@@ -46,6 +46,7 @@ jobs:
           helm repo add postgresql https://charts.bitnami.com/bitnami
           helm repo add tractusx-connector https://eclipse-tractusx.github.io/charts/dev
           helm repo add runix https://helm.runix.net
+          helm repo add tracex https://eclipse-tractusx.github.io/traceability-foss
 
       - name: Run helm install
         # Install latest released traceability-foss version
