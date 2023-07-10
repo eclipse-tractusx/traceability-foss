@@ -40,8 +40,8 @@ public class EdcRestTemplateConfiguration {
 	public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
 		return new RestTemplateBuilder()
 			.rootUri(edcProperties.getProviderEdcUrl())
-			.defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
-			.build();
+                .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .build();
     }
 
     @Bean
@@ -50,4 +50,12 @@ public class EdcRestTemplateConfiguration {
         return new RestTemplateBuilder()
                 .build();
     }
+
+    @Bean
+    @Qualifier(REST_TEMPLATE)
+    public RestTemplate digitalTwinRegistryRestTemplate() {
+        return new RestTemplateBuilder()
+                .build();
+    }
+
 }
