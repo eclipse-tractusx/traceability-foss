@@ -90,6 +90,8 @@ management:
     port: 8081
 
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}
