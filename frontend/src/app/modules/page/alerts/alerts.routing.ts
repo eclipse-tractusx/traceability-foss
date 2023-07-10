@@ -19,6 +19,7 @@
 
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AlertDetailComponent } from '@page/alerts/detail/alert-detail.component';
 import { AlertsComponent } from '@page/alerts/presentation/alerts.component';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
@@ -28,7 +29,14 @@ const ALERTS_ROUTING: Routes = [
     path: '',
     pathMatch: 'full',
     component: AlertsComponent,
-    data: { i18nextNamespaces: ['page.alerts'] },
+    data: { i18nextNamespaces: ['page.alert'] },
+    resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
+  },
+  {
+    path: ':alertId',
+    pathMatch: 'full',
+    component: AlertDetailComponent,
+    data: { i18nextNamespaces: ['page.alert'] },
     resolve: { i18next: I18NEXT_NAMESPACE_RESOLVER },
   },
 ];
@@ -38,3 +46,4 @@ const ALERTS_ROUTING: Routes = [
   exports: [RouterModule],
 })
 export class AlertsRoutingModule {}
+
