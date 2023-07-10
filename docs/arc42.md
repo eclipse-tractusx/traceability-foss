@@ -19,7 +19,7 @@ in which context the service runs and which stakeholders are involved.
 
 * List and view manufactured parts based on BoM AsBuild
 * Show detailed information on manufactured parts from AAS description assets and Aspects
-* Uses Submodels SerialPartTypization, AssemblyPartRelationship and Batch
+* Uses Submodels SerialPart, AssemblyPartRelationship and Batch
 * List and view Supplier parts (AssemblyPartRelationship) based on BoM AsBuild lifecycle
 * View parts and parts relations in a visualized parts tree
 * Send and receive top-down notifications (quality investigations) along the supply chain

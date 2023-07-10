@@ -221,7 +221,7 @@ backend:
       cpu: 500m
       memory: 512Mi
     requests:
-      cpu: 500m
+      cpu: 125m
       memory: 512Mi
 
   nodeSelector: {}
@@ -343,10 +343,36 @@ irs-helm:
   enabled: false  # <irs-helm.enabled>
 
 ###################################
+# EDC Consumer configuration  #
+###################################
+tractusx-connector:
+  enabled: false
+
+  participant:
+    id: "BPN"
+
+  ##################################
+  # EDC Postgres Configuration #
+  ##################################
+  postgresql:
+    enabled: false
+    auth:
+      username: "CHANGEME"
+      password: "CHANGEME"
+    username: "CHANGEME"
+    password: "CHANGEME"
+    jdbcUrl: "CHANGEME"
+
+###################################
 # IRS EDC Consumer configuration  #
 ###################################
-irs-edc-consumer:
-  enabled: false  # <irs-edc-consumer.enabled>
+edc-postgresql:
+  enabled: false
+  auth:
+    postgresPassword: "CHANGEME"
+    password: "CHANGEME"
+    database: "trace"
+    username: "traceuser"
 ```
 
 #### Values explained

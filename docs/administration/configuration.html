@@ -853,7 +853,7 @@ You can define the URLs as well as most of the secrets yourself.</p>
       <span class="na">cpu</span><span class="pi">:</span> <span class="s">500m</span>
       <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
     <span class="na">requests</span><span class="pi">:</span>
-      <span class="na">cpu</span><span class="pi">:</span> <span class="s">500m</span>
+      <span class="na">cpu</span><span class="pi">:</span> <span class="s">125m</span>
       <span class="na">memory</span><span class="pi">:</span> <span class="s">512Mi</span>
 
   <span class="na">nodeSelector</span><span class="pi">:</span> <span class="pi">{}</span>
@@ -975,10 +975,36 @@ You can define the URLs as well as most of the secrets yourself.</p>
   <span class="na">enabled</span><span class="pi">:</span> <span class="no">false</span>  <span class="c1"># &lt;irs-helm.enabled&gt;</span>
 
 <span class="c1">###################################</span>
+<span class="c1"># EDC Consumer configuration  #</span>
+<span class="c1">###################################</span>
+<span class="na">tractusx-connector</span><span class="pi">:</span>
+  <span class="na">enabled</span><span class="pi">:</span> <span class="no">false</span>
+
+  <span class="na">participant</span><span class="pi">:</span>
+    <span class="na">id</span><span class="pi">:</span> <span class="s2">"</span><span class="s">BPN"</span>
+
+  <span class="c1">##################################</span>
+  <span class="c1"># EDC Postgres Configuration #</span>
+  <span class="c1">##################################</span>
+  <span class="na">postgresql</span><span class="pi">:</span>
+    <span class="na">enabled</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">auth</span><span class="pi">:</span>
+      <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
+      <span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
+    <span class="na">jdbcUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
+
+<span class="c1">###################################</span>
 <span class="c1"># IRS EDC Consumer configuration  #</span>
 <span class="c1">###################################</span>
-<span class="na">irs-edc-consumer</span><span class="pi">:</span>
-  <span class="na">enabled</span><span class="pi">:</span> <span class="no">false</span>  <span class="c1"># &lt;irs-edc-consumer.enabled&gt;</span></code></pre>
+<span class="na">edc-postgresql</span><span class="pi">:</span>
+  <span class="na">enabled</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="na">auth</span><span class="pi">:</span>
+    <span class="na">postgresPassword</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s2">"</span><span class="s">CHANGEME"</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s2">"</span><span class="s">trace"</span>
+    <span class="na">username</span><span class="pi">:</span> <span class="s2">"</span><span class="s">traceuser"</span></code></pre>
 </div>
 </div>
 <div class="sect3">
@@ -1153,7 +1179,7 @@ and <a href="https://cloud.google.com/blog/products/containers-kubernetes/kubern
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-06-28 10:45:36 UTC
+Last updated 2023-07-10 11:20:06 UTC
 </div>
 </div>
 </body>
