@@ -52,7 +52,6 @@ public class EdcRestTemplateConfiguration {
     }
 
     @Bean
-    @Qualifier(REST_TEMPLATE)
     public RestTemplate digitalTwinRegistryRestTemplate() {
         return new RestTemplateBuilder()
                 .build();
