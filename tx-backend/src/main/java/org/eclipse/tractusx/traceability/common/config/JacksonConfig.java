@@ -38,15 +38,15 @@ import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS
 public class JacksonConfig {
 
 	@Bean
-	@Primary
-	public ObjectMapper objectMapper() {
-		return new ObjectMapper()
-			.registerModule(new JavaTimeModule())
-			.registerModule(new Jdk8Module())
-			.enable(READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
-			.enable(READ_ENUMS_USING_TO_STRING)
-			.disable(FAIL_ON_IGNORED_PROPERTIES)
-			.disable(FAIL_ON_UNKNOWN_PROPERTIES)
-			.disable(WRITE_DATES_AS_TIMESTAMPS);
-	}
+    @Primary
+    public ObjectMapper objectMapperBean() {
+        return new ObjectMapper()
+                .registerModule(new JavaTimeModule())
+                .registerModule(new Jdk8Module())
+                .enable(READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
+                .enable(READ_ENUMS_USING_TO_STRING)
+                .disable(FAIL_ON_IGNORED_PROPERTIES)
+                .disable(FAIL_ON_UNKNOWN_PROPERTIES)
+                .disable(WRITE_DATES_AS_TIMESTAMPS);
+    }
 }
