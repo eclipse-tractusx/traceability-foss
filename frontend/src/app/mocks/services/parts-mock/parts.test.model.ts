@@ -43,7 +43,7 @@ export const MOCK_part_5 = {
   underInvestigation: false,
   qualityType: QualityType.LifeThreatening,
   van: 'myvan5',
-  semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+  semanticDataModel: SemanticDataModel.SERIALPART,
 };
 
 export const MOCK_part_4 = {
@@ -67,7 +67,7 @@ export const MOCK_part_4 = {
   underInvestigation: false,
   qualityType: QualityType.Critical,
   van: 'myvan4',
-  semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+  semanticDataModel: SemanticDataModel.SERIALPART,
 };
 
 export const MOCK_part_3 = {
@@ -85,13 +85,13 @@ export const MOCK_part_3 = {
     nameAtCustomer: 'A 180 Limousine',
   },
   owner: Owner.OWN,
-  childRelations: [{ id: MOCK_part_5.id, idShort: MOCK_part_5.idShort }],
+  childRelations: [ { id: MOCK_part_5.id, idShort: MOCK_part_5.idShort } ],
   parentRelations: [],
   activeAlert: false,
   underInvestigation: false,
   qualityType: QualityType.Major,
   van: 'myvan3',
-  semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+  semanticDataModel: SemanticDataModel.SERIALPART,
 };
 
 export const MOCK_part_2 = {
@@ -115,7 +115,7 @@ export const MOCK_part_2 = {
   underInvestigation: false,
   qualityType: QualityType.Minor,
   van: 'myvan2',
-  semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION
+  semanticDataModel: SemanticDataModel.SERIALPART,
 };
 
 export const MOCK_part_1 = {
