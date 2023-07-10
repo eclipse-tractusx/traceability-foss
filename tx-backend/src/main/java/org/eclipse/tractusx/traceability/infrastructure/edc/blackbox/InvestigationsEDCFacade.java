@@ -31,12 +31,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.Dataset;
-import org.eclipse.edc.policy.model.AtomicConstraint;
-import org.eclipse.edc.policy.model.Constraint;
-import org.eclipse.edc.policy.model.Operator;
-import org.eclipse.edc.policy.model.OrConstraint;
-import org.eclipse.edc.policy.model.Permission;
-import org.eclipse.edc.policy.model.Policy;
+import org.eclipse.edc.policy.model.*;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
@@ -59,11 +54,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC_ID;
@@ -249,7 +240,7 @@ public class InvestigationsEDCFacade {
         return dataReference;
     }
 
-    public boolean isQualityNotificationOffer(QualityNotificationMessage qualityNotificationMessage, Dataset dataset) {
+    private boolean isQualityNotificationOffer(QualityNotificationMessage qualityNotificationMessage, Dataset dataset) {
         Object notificationTypeObj = dataset.getProperty(NAMESPACE_EDC + "notificationtype");
         String notificationType = null;
         if (notificationTypeObj != null) {
@@ -292,7 +283,7 @@ public class InvestigationsEDCFacade {
     }
 
 
-    public boolean isValid(final Policy policy) {
+    private boolean isValid(final Policy policy) {
         final List<PolicyDefinition> policyList = this.allowedPolicies();
         return policy.getPermissions()
                 .stream()
