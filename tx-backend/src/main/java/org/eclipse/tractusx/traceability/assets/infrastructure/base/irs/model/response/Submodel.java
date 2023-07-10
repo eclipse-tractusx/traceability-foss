@@ -36,9 +36,8 @@ class Submodel {
             property = "aspectType")
     @JsonSubTypes({
             @Type(value = SemanticDataModel.class, names = {
-                    "urn:bamm:com.catenax.serial_part_typization:1.0.0#SerialPartTypization",
-                    "urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization",
-                    "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization"
+                    "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
+
             }),
             @Type(value = SemanticDataModel.class, names = {
                     "urn:bamm:com.catenax.batch:1.0.0#Batch",

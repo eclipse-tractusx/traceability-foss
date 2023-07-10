@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+
 - Added back button in notification detailed view
 - Added alert detail view
 - EDC SPI Dependency for using provided models
@@ -20,6 +21,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Changed request parameter for registerjob request to irs to match requirements of irs
 - Migration of edc 0.4.1 endpoints and api flow
 - fixed bug where language switcher did not update to the selected language
+- Changed SerialPartTypization aspect model to SerialPart
+- Changed AssemblyPartRelationship aspect model to SingleLevelBomAsBuilt
 
 ### Removed
 
