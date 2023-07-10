@@ -161,7 +161,7 @@ irs:
 digitalTwinRegistryClient:
   type: "decentral" # or "decentral"
 
-  discoveryFinderUrl: "https://discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search" # required if type is "decentral"
+  discoveryFinderUrl: "https://tracex-discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search" # required if type is "decentral"
 
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
