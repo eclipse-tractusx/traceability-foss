@@ -74,7 +74,7 @@ import java.util.Map;
  */
 @Component
 @SuppressWarnings("PMD.ExcessiveImports")
-public class EdcTransformer {
+public class EdcTransformerTraceX {
     private final JsonObjectToCatalogTransformer jsonObjectToCatalogTransformer;
     private final JsonObjectFromNegotiationInitiateDtoTransformer jsonObjectFromNegotiationInitiateDtoTransformer;
     private final JsonObjectFromTransferProcessRequestTransformer jsonObjectFromTransferProcessRequestTransformer;
@@ -85,7 +85,7 @@ public class EdcTransformer {
     private final JsonObjectToNegotiationResponseTransformer jsonObjectToNegotiationResponseTransformer;
     private final JsonObjectToNegotiationStateTransformer jsonObjectToNegotiationStateTransformer;
 
-    public EdcTransformer(final ObjectMapper objectMapper, final TitaniumJsonLd titaniumJsonLd) {
+    public EdcTransformerTraceX(final ObjectMapper objectMapper, final TitaniumJsonLd titaniumJsonLd) {
         this.titaniumJsonLd = titaniumJsonLd;
         final JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(Map.of());
 

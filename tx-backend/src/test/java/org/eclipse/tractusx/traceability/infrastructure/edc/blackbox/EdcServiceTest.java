@@ -23,7 +23,7 @@ import org.eclipse.edc.catalog.spi.DataService;
 import org.eclipse.edc.catalog.spi.Dataset;
 import org.eclipse.edc.catalog.spi.Distribution;
 import org.eclipse.edc.policy.model.Policy;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformer;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformerTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,7 +55,7 @@ class EdcServiceTest {
     @Mock
     private EdcProperties edcProperties;
     @Mock
-    private EdcTransformer edcTransformer;
+    private EdcTransformerTraceX edcTransformer;
 
     @Captor
     private ArgumentCaptor<Request> requestCaptor;
