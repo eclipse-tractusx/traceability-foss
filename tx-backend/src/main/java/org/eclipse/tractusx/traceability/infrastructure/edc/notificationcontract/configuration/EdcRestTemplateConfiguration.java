@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration;
 
+import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -30,20 +31,21 @@ import org.springframework.web.client.RestTemplate;
 public class EdcRestTemplateConfiguration {
 
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
+    public static final String REST_TEMPLATE = "restTemplate";
 
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
 
-/*	@Bean
-	@Qualifier(EDC_REST_TEMPLATE)
+    @Bean
+    @Qualifier(EDC_REST_TEMPLATE)
 	public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
 		return new RestTemplateBuilder()
 			.rootUri(edcProperties.getProviderEdcUrl())
 			.defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
 			.build();
-	}*/
+    }
 
     @Bean
-    @Qualifier(EDC_REST_TEMPLATE)
+    @Qualifier(REST_TEMPLATE)
     public RestTemplate edcRestTemplate() {
         return new RestTemplateBuilder()
                 .build();
