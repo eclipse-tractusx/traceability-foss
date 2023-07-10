@@ -38,7 +38,7 @@ RUN cat /root/.m2/settings.xml
 # -pl specify project to build
 # :Variable specifies an artifact ID of project to build
 # -am build all dependencies of a project
-RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests --settings settings.xml
+RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests --settings tx-backend/settings.xml
 
 # Copy the jar and build image
 FROM eclipse-temurin:17-jre-alpine@sha256:c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f AS traceability-app
