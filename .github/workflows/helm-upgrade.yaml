@@ -34,10 +34,10 @@ jobs:
       - name: Run helm install
         # Install latest released traceability-foss version
         run: |
-          helm install traceability-foss traceability-foss
+          helm install traceability-foss traceability-foss/traceability-foss
 
       - name: Run helm upgrade
         # Upgrade the installed traceability-foss version with the locally available charts
         run: |
-          helm dependency update traceability-foss charts/traceability-foss
+          helm dependency update charts/traceability-foss
           helm upgrade traceability-foss charts/traceability-foss
