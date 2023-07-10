@@ -25,6 +25,7 @@ public class FeatureFlags {
     public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " +
             ApplicationProfiles.TESTS + " | " +
             ApplicationProfiles.DEV + " | " +
+            ApplicationProfiles.TEST + " | " +
             ApplicationProfiles.INT + " | " +
             ApplicationProfiles.E2E_A + " | " +
             ApplicationProfiles.E2E_B + " | " +

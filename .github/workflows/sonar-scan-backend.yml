@@ -33,7 +33,7 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar
 
       - name: Run unit & integration tests
-        run: mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B verify -PiT
+        run: mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B verify
 
       - name: Verify Sonar Scan
         env:
