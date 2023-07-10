@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added default response types to apis
 - Irs policies support ( on application startup registers policies in irs instance )
 - Added helm upgrade workflow to test upgradeability of the helm charts
+- Added helm test backwards compatability to test the helm charts with the latest kubernetes versions
 
 ### Changed
 - Changed Layout in notification detailed view
