@@ -63,7 +63,7 @@ public class JsonLdConfigurationTraceX {
         return titaniumJsonLd;
     }
 
-    @Bean /* package */ Monitor monitor() {
+    @Bean /* package */ Monitor monitorTraceX() {
         return new ConsoleMonitor();
     }
 
