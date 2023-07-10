@@ -1,0 +1,43 @@
+name: Upgrade Charts
+
+on:
+  pull_request:
+    paths:
+      - 'charts/traceability-foss/**'
+  workflow_dispatch:
+
+jobs:
+  upgrade:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Kubernetes KinD Cluster
+        uses: container-tools/kind-action@v2
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: v3.9.3
+
+      - name: Add repos
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo add irs-helm https://eclipse-tractusx.github.io/item-relationship-service
+          helm repo add postgresql https://charts.bitnami.com/bitnami
+          helm repo add tractusx-connector https://eclipse-tractusx.github.io/charts/dev
+          helm repo add runix https://helm.runix.net
+
+      - name: Run helm install
+        # Install latest released traceability-foss version
+        run: |
+          helm install traceability-foss traceability-foss
+
+      - name: Run helm upgrade
+        # Upgrade the installed traceability-foss version with the locally available charts
+        run: |
+          helm dependency update traceability-foss charts/traceability-foss
+          helm upgrade traceability-foss charts/traceability-foss
