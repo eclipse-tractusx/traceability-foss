@@ -23,9 +23,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: { { include "discovery.fullname" . } }
+  name: {{ include "discovery.fullname" . }}
   labels:
-    { { - include "discovery.labels" . | nindent 4 } }
+    {{- include "discovery.labels" . | nindent 4 }}
 data:
   discovery_finder_request.json: |-
     {
@@ -67,27 +67,17 @@ data:
         "headers": {
           "Content-Type": "application/json"
         },
-        "transformers": [
-          "response-template"]
+        "transformers": ["response-template"]
       }
     }
 
   edc_discovery_response.json: |-
     [
       {
-        "bpn": "{{ printf "
-      {
-      {
-        jsonPath
-        request.body
-        '$.[0]'}
-    }
-      " }}",
-      "connectorEndpoint"
-      :
-      [
-        "https://tracex-consumer-controlplane.dev.demo.catena-x.net/"
-      ]
+        "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
+      "connectorEndpoint": [
+      "https://tracex-consumer-controlplane.dev.demo.catena-x.net/"
+    ]
       }
     ]
 
@@ -109,60 +99,16 @@ data:
   bpn_discovery_service_response.json: |-
     {
       "bpns": [
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000000BJTL",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003AVTH",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003AXS3",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003AYRE",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003AZQP",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003B0Q0",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003B2OM",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003B3NX",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003B5MJ",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003B5MJ",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {
-          "type": "bpn",
-          "key": ".*",
-          "value": "BPNL00000003CML1",
-          "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
+        {"type": "bpn","key": ".*","value": "BPNL00000000BJTL","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003AVTH","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003AXS3","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003AYRE","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003AZQP","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B0Q0","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B2OM","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B3NX","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B5MJ","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B5MJ","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003CML1","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
       ]
     }
