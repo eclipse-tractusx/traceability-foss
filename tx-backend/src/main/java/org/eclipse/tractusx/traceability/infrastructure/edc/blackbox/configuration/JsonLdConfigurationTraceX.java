@@ -40,7 +40,7 @@ import org.springframework.context.annotation.Configuration;
  * JsonLD configuration and namespace constants.
  */
 @Configuration
-public class JsonLdConfiguration {
+public class JsonLdConfigurationTraceX {
 
     public static final String NAMESPACE_ODRL = "http://www.w3.org/ns/odrl/2/";
     public static final String NAMESPACE_DSPACE = "https://w3id.org/dspace/v0.8/";
@@ -54,11 +54,11 @@ public class JsonLdConfiguration {
 
     @Bean /* package */ TitaniumJsonLd titaniumJsonLd(final Monitor monitor) {
         final TitaniumJsonLd titaniumJsonLd = new TitaniumJsonLd(monitor);
-        titaniumJsonLd.registerNamespace("odrl", JsonLdConfiguration.NAMESPACE_ODRL);
+        titaniumJsonLd.registerNamespace("odrl", JsonLdConfigurationTraceX.NAMESPACE_ODRL);
         titaniumJsonLd.registerNamespace("dct", NAMESPACE_DCT);
         titaniumJsonLd.registerNamespace("tx", NAMESPACE_TRACTUSX);
         titaniumJsonLd.registerNamespace("edc", NAMESPACE_EDC);
-        titaniumJsonLd.registerNamespace("dcat", JsonLdConfiguration.NAMESPACE_DCAT);
+        titaniumJsonLd.registerNamespace("dcat", JsonLdConfigurationTraceX.NAMESPACE_DCAT);
         titaniumJsonLd.registerNamespace("dspace", NAMESPACE_DSPACE);
         return titaniumJsonLd;
     }
