@@ -23,43 +23,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: { { include "discovery.fullname" . } }
+  name: {{ include "discovery.fullname" . }}
   labels:
-    { { - include "discovery.labels" . | nindent 4 } }
+    {{- include "discovery.labels" . | nindent 4 }}
 spec:
-  { { - if not .Values.autoscaling.enabled } }
-  replicas: { { .Values.replicaCount } }
-  { { - end } }
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
   selector:
     matchLabels:
-      { { - include "discovery.selectorLabels" . | nindent 6 } }
+      {{- include "discovery.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      { { - with .Values.podAnnotations } }
+      {{- with .Values.podAnnotations }}
       annotations:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        { { - include "discovery.selectorLabels" . | nindent 8 } }
+        {{- include "discovery.selectorLabels" . | nindent 8 }}
     spec:
-      { { - with .Values.imagePullSecrets } }
+      {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
-      serviceAccountName: { { include "discovery.serviceAccountName" . } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "discovery.serviceAccountName" . }}
       securityContext:
-        { { - toYaml .Values.podSecurityContext | nindent 8 } }
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: { { .Chart.Name } }
+        - name: {{ .Chart.Name }}
           securityContext:
-            { { - toYaml .Values.securityContext | nindent 12 } }
+            {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: { { .Values.image.pullPolicy } }
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - --local-response-templating
           ports:
             - name: http
-              containerPort: { { .Values.service.port } }
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -76,7 +76,7 @@ spec:
             periodSeconds: 5
             failureThreshold: 3
           resources:
-            { { - toYaml .Values.resources | nindent 12 } }
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: configuration
               mountPath: /home/wiremock/mappings/discovery_finder_request.json
@@ -103,7 +103,7 @@ spec:
           emptyDir: { }
         - name: configuration
           configMap:
-            name: { { include "discovery.fullname" . } }
+            name: {{ include "discovery.fullname" . }}
             items:
               - key: discovery_finder_request.json
                 path: discovery_finder_request.json
@@ -117,15 +117,15 @@ spec:
                 path: edc_discovery_request.json
               - key: edc_discovery_response.json
                 path: edc_discovery_response.json
-      { { - with .Values.nodeSelector } }
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
-      { { - with .Values.affinity } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
       affinity:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
-      { { - with .Values.tolerations } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
-        { { - toYaml . | nindent 8 } }
-      { { - end } }
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
