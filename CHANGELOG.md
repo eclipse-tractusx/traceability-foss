@@ -8,6 +8,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 
+### Changed
+
+### Removed
+
+## [5.0.0] - 2023-07-10
+
+### Added
+
 - Added back button in notification detailed view
 - Added alert detail view
 - EDC SPI Dependency for using provided models
@@ -17,6 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added helm test backwards compatability to test the helm charts with the latest kubernetes versions
 
 ### Changed
+
 - Changed Layout in notification detailed view
 - Changed request parameter for registerjob request to irs to match requirements of irs
 - Migration of edc 0.4.1 endpoints and api flow
