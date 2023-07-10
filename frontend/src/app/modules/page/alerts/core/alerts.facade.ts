@@ -20,7 +20,7 @@
 import { Injectable } from '@angular/core';
 import { AlertsState } from '@page/alerts/core/alerts.state';
 import { TableHeaderSort } from '@shared/components/table/table.model';
-import { Notifications, NotificationStatus } from '@shared/model/notification.model';
+import { Notification, Notifications, NotificationStatus } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
 import { AlertsService } from '@shared/service/alerts.service';
 import { Observable, Subscription } from 'rxjs';
@@ -41,6 +41,10 @@ export class AlertsFacade {
 
   public get alertsQueuedAndRequested$(): Observable<View<Notifications>> {
     return this.alertsState.alertsQueuedAndRequested$;
+  }
+
+  public getAlert(id: string): Observable<Notification> {
+    return this.alertsService.getAlert(id);
   }
 
   public setReceivedAlerts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {

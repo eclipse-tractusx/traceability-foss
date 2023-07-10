@@ -17,7 +17,30 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export type NotificationTabInformation = {
-  tabIndex: string | null,
-  pageNumber?: number | null
+package org.eclipse.tractusx.traceability.common.config;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Profile;
+import org.springframework.context.event.EventListener;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+@Profile("!integration")
+@RequiredArgsConstructor
+public class ApplicationStartupConfig {
+    private final IrsRepository irsRepository;
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void registerIrsPolicy() {
+        try {
+            irsRepository.createIrsPolicyIfMissing();
+        } catch (Exception exception) {
+            log.error("Failed to create Irs Policies : ", exception);
+        }
+
+    }
 }

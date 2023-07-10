@@ -17,7 +17,27 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export type NotificationTabInformation = {
-  tabIndex: string | null,
-  pageNumber?: number | null
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config;
+
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class IrsPolicyConfigTest {
+
+    @Test
+    void givenPolicyConfig_whenGetPolicy_thenGetCorrectPolicy() {
+        // given
+        final String policyName = "TRACEX ID 3.0";
+        final String ttl = "2023-07-03T16:01:05.309Z";
+        final IrsPolicyConfig policyConfig = new IrsPolicyConfig(policyName, ttl);
+
+        // when
+        final IrsPolicy result = policyConfig.getPolicy();
+
+        // then
+        assertThat(result.getPolicyId()).isEqualTo(policyName);
+        assertThat(result.getTtl()).isEqualTo(ttl);
+    }
 }

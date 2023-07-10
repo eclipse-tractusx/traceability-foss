@@ -60,11 +60,15 @@ public class JsonObjectToNegotiationResponseTransformer
 
                 case CONTRACT_NEGOTIATION_STATE -> builder.state(this.transformString(value, transformerContext));
 
-                case CONTRACT_NEGOTIATION_COUNTERPARTY_ADDR -> builder.counterPartyAddress(this.transformString(value, transformerContext));
+                case CONTRACT_NEGOTIATION_COUNTERPARTY_ADDR ->
+                        builder.counterPartyAddress(this.transformString(value, transformerContext));
 
-                case CONTRACT_NEGOTIATION_AGREEMENT_ID -> builder.contractAgreementId(this.transformString(value, transformerContext));
-                case CONTRACT_NEGOTIATION_CALLBACK_ADDR -> builder.callbackAddresses(this.transformArray(value, String.class, transformerContext));
-                case CONTRACT_NEGOTIATION_ERRORDETAIL -> builder.errorDetail(this.transformString(value, transformerContext));
+                case CONTRACT_NEGOTIATION_AGREEMENT_ID ->
+                        builder.contractAgreementId(this.transformString(value, transformerContext));
+                case CONTRACT_NEGOTIATION_CALLBACK_ADDR ->
+                        builder.callbackAddresses(this.transformArray(value, String.class, transformerContext));
+                case CONTRACT_NEGOTIATION_ERRORDETAIL ->
+                        builder.errorDetail(this.transformString(value, transformerContext));
                 default -> {
                     // Do nothing in case no key matches
                 }

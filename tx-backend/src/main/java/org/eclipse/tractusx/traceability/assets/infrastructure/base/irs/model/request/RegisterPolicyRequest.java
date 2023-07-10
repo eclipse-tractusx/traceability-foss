@@ -17,7 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export type NotificationTabInformation = {
-  tabIndex: string | null,
-  pageNumber?: number | null
+package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
+
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
+
+import java.time.Instant;
+
+public record RegisterPolicyRequest(
+        String policyId,
+        Instant validUntil
+) {
+    public static RegisterPolicyRequest from(IrsPolicy policy) {
+        return new RegisterPolicyRequest(policy.getPolicyId(), Instant.parse(policy.getTtl()));
+    }
 }

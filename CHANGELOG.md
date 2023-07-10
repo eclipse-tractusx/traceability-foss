@@ -8,13 +8,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Added
 - Added back button in notification detailed view
+- Added alert detail view
 - EDC SPI Dependency for using provided models
 - Added default response types to apis
+- Irs policies support ( on application startup registers policies in irs instance )
 
 ### Changed
 - Changed Layout in notification detailed view
 - Changed request parameter for registerjob request to irs to match requirements of irs
 - Migration of edc 0.4.1 endpoints and api flow
+- fixed bug where language switcher did not update to the selected language
 
 ### Removed
 
