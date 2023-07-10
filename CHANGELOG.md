@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - EDC SPI Dependency for using provided models
 - Added default response types to apis
 - Irs policies support ( on application startup registers policies in irs instance )
+- Added helm upgrade workflow to test upgradeability of the helm charts
 
 ### Changed
 
