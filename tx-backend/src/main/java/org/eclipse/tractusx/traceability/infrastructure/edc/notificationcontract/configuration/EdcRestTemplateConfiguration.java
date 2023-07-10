@@ -57,4 +57,11 @@ public class EdcRestTemplateConfiguration {
                 .build();
     }
 
+    @Bean
+    public RestTemplate edcClientRestTemplate() {
+        return new RestTemplateBuilder()
+                .build();
+    }
+
+
 }
