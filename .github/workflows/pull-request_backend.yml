@@ -37,6 +37,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install irs client library
+        run: mvn install:install-file -Dfile=irs-registry-client-1.0.0-SNAPSHOT.jar -DgroupId=org.eclipse.tractusx.irs -DartifactId=irs-registry-client -Dversion=1.0.0-SNAPSHOT -Dpackaging=jar
+
       - name: Build & Push docker image for GHCR ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
         uses: docker/build-push-action@v4
         with:
