@@ -51,6 +51,12 @@ jobs:
             </servers>
           </settings>" > $HOME/.m2/settings.xml
 
+      - name: Copy m2 settings
+        run: cp $HOME/.m2/settings.xml .
+
+      - name: ls
+        run: ls -la
+
       - name: Publish to GitHub Maven Registry
         run: |
           mvn deploy:deploy-file -Durl=https://maven.pkg.github.com/${{ github.repository }} -DrepositoryId=github -Dfile=irs-registry-client-1.0.0-SNAPSHOT.jar -DgroupId=org.eclipse.tractusx.traceability -DartifactId=irs-registry-client -Dversion=1.0.0-SNAPSHOT -Dpackaging=jar --settings $HOME/.m2/settings.xml

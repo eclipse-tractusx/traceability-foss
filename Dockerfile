@@ -29,6 +29,7 @@ COPY tx-coverage tx-coverage
 COPY tx-models tx-models
 COPY docs docs
 COPY tx-backend tx-backend
+COPY tx-backend/settings.xml /root/.m2/settings.xml
 
 
 # the --mount option requires BuildKit.
