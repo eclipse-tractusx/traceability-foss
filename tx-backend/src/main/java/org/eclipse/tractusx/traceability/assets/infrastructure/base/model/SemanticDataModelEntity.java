@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
 import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
 
 public enum SemanticDataModelEntity {
-    BATCH, SERIALPARTTYPIZATION, UNKNOWN, PARTASPLANNED;
+    BATCH, SERIALPART, UNKNOWN, PARTASPLANNED;
 
     public static SemanticDataModelEntity from(SemanticDataModel semanticDataModel) {
         if (semanticDataModel == null) {

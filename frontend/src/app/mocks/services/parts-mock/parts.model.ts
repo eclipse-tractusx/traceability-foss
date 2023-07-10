@@ -98,7 +98,7 @@ export const mockBmwAssets = [
     underInvestigation: false,
     qualityType: QualityType.Ok,
     van: null,
-    semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+    semanticDataModel: SemanticDataModel.SERIALPART,
   },
   {
     id: 'urn:uuid:ab863676-a37c-41e7-a5f9-efaa071dbbf5',
@@ -182,7 +182,7 @@ export const mockBmwAssets = [
     van: null,
     activeAlert: false,
     underInvestigation: false,
-    semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+    semanticDataModel: SemanticDataModel.SERIALPART,
   },
 
 {
@@ -240,7 +240,7 @@ export const mockBmwAssets = [
   activeAlert: false,
   underInvestigation: false,
   qualityType: QualityType.Ok,
-  semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+  semanticDataModel: SemanticDataModel.SERIALPART,
 },
 
   {
@@ -300,7 +300,7 @@ export const mockBmwAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: null,
-    semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+    semanticDataModel: SemanticDataModel.SERIALPART,
   },
 
   {
@@ -327,7 +327,7 @@ export const mockBmwAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: null,
-    semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+    semanticDataModel: SemanticDataModel.SERIALPART,
   },
   {
     id: 'urn:uuid:9a80e5ee-6c27-47f5-912a-56945e26b9a6',
@@ -354,7 +354,7 @@ export const mockBmwAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: null,
-    semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+    semanticDataModel: SemanticDataModel.SERIALPART,
   },
   {
     id: 'urn:uuid:bf5ae91d-02f8-4e33-b130-90ec402ac0db',
@@ -380,7 +380,7 @@ export const mockBmwAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: null,
-    semanticDataModel: SemanticDataModel.SERIALPARTTYPIZATION,
+    semanticDataModel: SemanticDataModel.SERIALPART,
   },
   {
     id: 'urn:uuid:d261e0fa-36f5-4128-875e-0f5735f5a535',
