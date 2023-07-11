@@ -15,10 +15,31 @@ export class FormatSemanticDataModelToProperCasePipe implements PipeTransform {
   transform(value: Pagination<any> | any): Pagination<any> | any {
 
     const transformedContent = value.content.map(part => {
+      let camelCaseSemanticDataModel;
+      console.log(part.semanticDataModel);
+      switch (part.semanticDataModel.toLowerCase()) {
 
+        case 'batch': {
+          camelCaseSemanticDataModel = 'Batch';
+          break;
+        }
+        case 'serialpart': {
+          camelCaseSemanticDataModel = 'SerialPart';
+          break;
+        }
+        case 'partasplanned': {
+          camelCaseSemanticDataModel = 'PartAsPlanned';
+          break;
+        }
+        default: {
+          camelCaseSemanticDataModel = "Unknown"
+          break;
+        }
+
+      }
       return {
         ...part,
-        semanticDataModel: this.titleCasePipe.transform(part.semanticDataModel)
+        semanticDataModel: camelCaseSemanticDataModel
       };
     });
 
