@@ -139,11 +139,11 @@ describe('Other Parts', () => {
         expect(customerParts).toEqual({
           data: {
             content: [
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5)),
             ],
             page: 0,
             pageCount: 1,
