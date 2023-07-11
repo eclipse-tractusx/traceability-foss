@@ -55,7 +55,5 @@ public class JacksonConfig {
         objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
         objectMapper.registerModule(new JSONPModule());
         return objectMapper;
-
-
     }
 }

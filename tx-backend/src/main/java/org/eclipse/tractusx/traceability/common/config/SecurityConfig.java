@@ -53,6 +53,7 @@ public class SecurityConfig {
             "/qualitynotifications/update",
             "/qualityalerts/update",
             "/callback/endpoint-data-reference",
+            "/internal/endpoint-data-reference",
             "/actuator/**"
     };
 

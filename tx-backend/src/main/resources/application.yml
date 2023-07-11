@@ -41,6 +41,8 @@ edc:
   api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings: { }
   provider-edc-url: ${EDC_PROVIDER_URL}
+
+irs-edc-client:
   callback-url: "https://traceability.dev.demo.catena-x.net/internal/endpoint-data-reference" # The URL where the EDR token callback will be sent to.
   controlplane:
     request-ttl: PT10M # How long to wait for an async EDC negotiation request to finish, ISO 8601 Duration
