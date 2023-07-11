@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Modified IRS Policies support to handle multiple policies
 
 ### Removed
+- unused classes and methods
 
 ## [5.0.0] - 2023-07-10
 
