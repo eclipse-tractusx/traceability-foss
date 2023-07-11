@@ -136,7 +136,6 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public onMultiSelect(event: unknown[]): void {
     this.selectedInvestigationTmpStore = Object.assign(this.investigationDetailFacade.selected);
-
     this.selectedItems$.next(event as Part[]);
   }
 

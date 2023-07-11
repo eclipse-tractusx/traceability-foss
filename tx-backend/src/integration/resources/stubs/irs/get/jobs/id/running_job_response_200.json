@@ -19,9 +19,9 @@
 		"parameter": {
 			"bomLifecycle": "asBuilt",
 			"aspects": [
-				"SerialPartTypization",
-				"AssemblyPartRelationship"
-			],
+        "SerialPart",
+        "AssemblyPartRelationship"
+      ],
 			"depth": 100,
 			"direction": "downward",
 			"collectAspects": true

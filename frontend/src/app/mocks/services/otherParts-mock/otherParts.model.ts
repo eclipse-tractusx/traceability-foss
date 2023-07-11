@@ -67,7 +67,7 @@ export const otherPartsAssets = [
     underInvestigation: true,
     qualityType: 'Ok',
     van: 'myvan2',
-    semanticDataModel: 'SERIALPARTTYPIZATION'
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:fccbc75e-6ccd-46e2-ba93-4a3125dfb5a5',
@@ -90,7 +90,7 @@ export const otherPartsAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvan3',
-    semanticDataModel: 'SERIALPARTTYPIZATION'
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:dad03189-4ce7-47a4-bfc5-e7b77dc6cf68',
@@ -148,7 +148,7 @@ export const otherPartsAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvan5',
-    semanticDataModel: 'SERIALPARTTYPIZATION'
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:d411568e-d950-44ff-87c2-492ac6beabe9',
@@ -171,7 +171,7 @@ export const otherPartsAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvanX',
-    semanticDataModel: 'SERIALPARTTYPIZATION'
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:c8504172-21a7-4b02-9cc7-cfaa0fc29bd8',
@@ -252,7 +252,7 @@ export const otherPartsAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvanX',
-    semanticDataModel: 'SERIALPARTTYPIZATION'
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:6599279a-3fe4-479f-bc11-fcd97bb42607',
@@ -287,7 +287,7 @@ export const otherPartsAssets = [
     underInvestigation: false,
     qualityType: 'Ok',
     van: 'myvanX',
-    semanticDataModel: 'SERIALPARTTYPIZATION'
+    semanticDataModel: 'SERIALPART',
   },
   /* Commented out for now because of amount of effort to change to new structure
   {
@@ -306,7 +306,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
-    semanticDataModel: 'SERIALPARTTYPIZATION',
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:b8f04288-6685-47cd-b38d-67c88ba1b02d',
@@ -336,7 +336,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:24468d86-6718-479a-adc6-f9b65f6ada56', idShort: '--' },
     ],
     qualityType: 'Ok',
-    semanticDataModel: 'SERIALPARTTYPIZATION',
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:09c704a5-c1a7-4b73-9038-e4af72e44dd6',
@@ -372,7 +372,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
-    semanticDataModel: 'SERIALPARTTYPIZATION',
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:8869d78f-b127-406c-b261-1060e30560f2',
@@ -408,7 +408,7 @@ export const otherPartsAssets = [
     specificAssetIds: {},
     childDescriptions: [],
     qualityType: 'Ok',
-    semanticDataModel: 'SERIALPARTTYPIZATION',
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:0f6b767a-7f8f-4edd-902c-ee563255a5f8',
@@ -438,7 +438,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:440e2c89-6db5-4044-9aa3-c020b276ade9', idShort: '--' },
     ],
     qualityType: 'Ok',
-    semanticDataModel: 'SERIALPARTTYPIZATION',
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:06ce2095-d52d-4ab9-a31f-fa6a6b07f685',
@@ -460,7 +460,7 @@ export const otherPartsAssets = [
       { id: 'urn:uuid:5f5bba9c-e24b-4c83-86a0-ec7484f57b7b', idShort: '--' },
     ],
     qualityType: 'Ok',
-    semanticDataModel: 'SERIALPARTTYPIZATION',
+    semanticDataModel: 'SERIALPART',
   },
   {
     id: 'urn:uuid:e35abf46-5a66-47b6-b74b-1753287d576d',

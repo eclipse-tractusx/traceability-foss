@@ -26,8 +26,8 @@ import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
 public enum SemanticDataModelResponse {
     @ApiModelProperty("Batch")
     BATCH,
-    @ApiModelProperty("SerialPartTypization")
-    SERIALPARTTYPIZATION,
+    @ApiModelProperty("SerialPart")
+    SERIALPART,
     @ApiModelProperty("Unknown")
     UNKNOWN,
     @ApiModelProperty("PartAsPlanned")
