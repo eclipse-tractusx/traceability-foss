@@ -26,7 +26,7 @@ import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.Dataset;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
@@ -123,7 +123,7 @@ class InvestigationsEDCFacadeTest {
 
         when(edcProperties.getApiAuthKey()).thenReturn("x-api-key");
 
-        Map<String, Object> properties = Map.of(JsonLdConfiguration.NAMESPACE_EDC_PARTICIPANT_ID, "participantId");
+        Map<String, Object> properties = Map.of(JsonLdConfigurationTraceX.NAMESPACE_EDC_PARTICIPANT_ID, "participantId");
         Catalog catalog = CatalogTestDataFactory.createCatalogTestData(properties);
         when(edcService.getCatalog(anyString(), anyString(), any())).thenReturn(catalog);
 
