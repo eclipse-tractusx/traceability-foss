@@ -23,7 +23,6 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.model;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.util.StringUtils;
 
 
 @Data
@@ -36,13 +35,5 @@ public class ShellDescriptor {
     private String manufacturerPartId;
     private String manufacturerId;
     private String batchId;
-
-    private static String defaultValue(String value) {
-        final String EMPTY_TEXT = "--";
-        if (!StringUtils.hasText(value)) {
-            return EMPTY_TEXT;
-        }
-        return value;
-    }
 
 }
