@@ -81,6 +81,8 @@ public class IrsService implements IrsRepository {
 
         final List<IrsPolicy> requiredPolicies = irsPolicyConfig.getPolicies();
 
+        log.info("Required policies from application yaml are : {}", irsPolicies);
+
         final List<IrsPolicy> existingPolicy = irsPolicies.stream().filter(
                 irsPolicy -> requiredPolicies.stream()
                         .map(IrsPolicy::getPolicyId)
@@ -109,7 +111,7 @@ public class IrsService implements IrsRepository {
         if (requiredPolicy.isPresent() &&
                 requiredPolicy.get().getTtlAsInstant().isAfter(existingPolicy.getTtlAsInstant())
         ) {
-            log.info("IRS Policy has outdated validity updating new ttl");
+            log.info("IRS Policy {} has outdated validity updating new ttl {}", existingPolicy, requiredPolicy);
             irsClient.deletePolicy(existingPolicy.getPolicyId());
             irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy.get()));
         }
