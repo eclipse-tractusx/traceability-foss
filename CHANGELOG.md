@@ -32,7 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - fixed bug where language switcher did not update to the selected language
 - Changed SerialPartTypization aspect model to SerialPart
 - Changed AssemblyPartRelationship aspect model to SingleLevelBomAsBuilt
-- changed semantic data model display to camel case
+- Changed semantic data model to be displayed in camel case
 
 ### Removed
 
