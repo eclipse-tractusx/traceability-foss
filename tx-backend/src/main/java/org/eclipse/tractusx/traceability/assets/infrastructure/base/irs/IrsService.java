@@ -74,29 +74,46 @@ public class IrsService implements IrsRepository {
     @Override
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
-        List<PolicyResponse> irsPolicies = irsClient.getPolicies();
+        List<IrsPolicy> irsPolicies = irsClient.getPolicies().stream().map(PolicyResponse::toDomain)
+                .toList();
         log.info("Irs has following policies: {}", irsPolicies);
 
 
-        final IrsPolicy requiredPolicy = irsPolicyConfig.getPolicy();
+        final List<IrsPolicy> requiredPolicies = irsPolicyConfig.getPolicies();
 
-        final Optional<IrsPolicy> existingPolicy = irsPolicies.stream().filter(policy -> policy.policyId().equals(requiredPolicy.getPolicyId()))
-                .map(PolicyResponse::toDomain)
-                .findFirst();
+        log.info("Required policies from application yaml are : {}", irsPolicies);
 
-        if (existingPolicy.isPresent()
-                && existingPolicy.get()
-                .getTtlAsInstant()
-                .isBefore(requiredPolicy.getTtlAsInstant())
+        final List<IrsPolicy> existingPolicy = irsPolicies.stream().filter(
+                irsPolicy -> requiredPolicies.stream()
+                        .map(IrsPolicy::getPolicyId)
+                        .toList()
+                        .contains(irsPolicy.getPolicyId()))
+                .toList();
+        final List<IrsPolicy> missingPolicies = requiredPolicies.stream().filter(requiredPolicy -> !irsPolicies.stream()
+                        .map(IrsPolicy::getPolicyId)
+                        .toList()
+                        .contains(requiredPolicy.getPolicyId()))
+                .toList();
+
+        existingPolicy.forEach(policy -> checkAndUpdatePolicy(policy, requiredPolicies));
+
+
+        missingPolicies.forEach(this::createPolicy);
+    }
+
+    private void createPolicy(IrsPolicy requiredPolicy) {
+        log.info("Irs policy does not exist creating {}", requiredPolicy);
+        irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy));
+    }
+
+    private void checkAndUpdatePolicy(IrsPolicy existingPolicy, List<IrsPolicy> requiredPolicies) {
+        Optional<IrsPolicy> requiredPolicy = requiredPolicies.stream().filter(policyItem -> policyItem.getPolicyId().equals(existingPolicy.getPolicyId())).findFirst();
+        if (requiredPolicy.isPresent() &&
+                requiredPolicy.get().getTtlAsInstant().isAfter(existingPolicy.getTtlAsInstant())
         ) {
-            log.info("IRS Policy has outdated validity updating new ttl");
-            irsClient.deletePolicy(existingPolicy.get().getPolicyId());
-            irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy));
-        }
-
-        if (existingPolicy.isEmpty()) {
-            log.info("Irs policy does not exist creating {}", requiredPolicy);
-            irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy));
+            log.info("IRS Policy {} has outdated validity updating new ttl {}", existingPolicy, requiredPolicy);
+            irsClient.deletePolicy(existingPolicy.getPolicyId());
+            irsClient.registerPolicy(RegisterPolicyRequest.from(requiredPolicy.get()));
         }
     }
 

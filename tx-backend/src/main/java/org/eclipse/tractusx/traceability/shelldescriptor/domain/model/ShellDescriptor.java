@@ -23,14 +23,6 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.model;
 
 import lombok.Builder;
 import lombok.Data;
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
-import org.springframework.util.StringUtils;
-
-import java.util.Collections;
 
 
 @Data
@@ -43,43 +35,5 @@ public class ShellDescriptor {
     private String manufacturerPartId;
     private String manufacturerId;
     private String batchId;
-
-    private static String defaultValue(String value) {
-        final String EMPTY_TEXT = "--";
-        if (!StringUtils.hasText(value)) {
-            return EMPTY_TEXT;
-        }
-        return value;
-    }
-
-
-    public Asset toAsset(String manufacturerName) {
-        String semanticModelId = null;
-        SemanticDataModel semanticDataModel = null;
-        if (getBatchId() != null) {
-            semanticModelId = getBatchId();
-            semanticDataModel = SemanticDataModel.BATCH;
-        }
-        if (getPartInstanceId() != null) {
-            semanticModelId = getPartInstanceId();
-            semanticDataModel = SemanticDataModel.SERIALPART;
-        }
-        return Asset.builder()
-                .id(getGlobalAssetId())
-                .idShort(getIdShort())
-                .semanticModel(SemanticModel.from(this))
-                .semanticModelId(semanticModelId)
-                .manufacturerId(defaultValue(getManufacturerId()))
-                .manufacturerName(manufacturerName)
-                .owner(Owner.OWN)
-                .childRelations(Collections.emptyList())
-                .parentRelations(Collections.emptyList())
-                .underInvestigation(false)
-                .activeAlert(false)
-                .qualityType(QualityType.OK)
-                .van("--")
-                .semanticDataModel(semanticDataModel)
-                .build();
-    }
 
 }

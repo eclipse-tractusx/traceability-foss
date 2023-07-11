@@ -21,9 +21,7 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import org.eclipse.edc.catalog.spi.Catalog;
-import org.eclipse.edc.catalog.spi.DataService;
 import org.eclipse.edc.catalog.spi.Dataset;
-import org.eclipse.edc.catalog.spi.Distribution;
 import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformer;
@@ -31,11 +29,9 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.Response;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.testdata.CatalogTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.Request;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -64,26 +60,15 @@ class EdcServiceTest {
     @Mock
     private EdcTransformer edcTransformer;
 
-    @Captor
-    private ArgumentCaptor<Request> requestCaptor;
-
     @Test
-    void testGetCatalog() throws IOException {
+    void test_getCatalog() throws IOException {
         // Arrange
         String consumerEdcDataManagementUrl = "https://example.com/consumer-edc";
         String providerConnectorControlPlaneIDSUrl = "https://example.com/provider-connector";
         Map<String, String> header = Collections.singletonMap("Authorization", "Bearer token");
 
-        Policy policy = Policy.Builder.newInstance().build();
 
-        DataService dataService = DataService.Builder.newInstance()
-                .build();
-        Distribution distribution = Distribution.Builder.newInstance().format("format")
-                .dataService(dataService).build();
-
-        Dataset dataset = Dataset.Builder.newInstance().offer("123", policy).distribution(distribution).build();
-
-        Catalog catalog = Catalog.Builder.newInstance().dataset(dataset).build();
+        Catalog catalog = CatalogTestDataFactory.createCatalogTestData();
 
         when(httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header))
                 .thenReturn(catalog);
@@ -99,7 +84,7 @@ class EdcServiceTest {
     }
 
     @Test
-    void testCatalogThrowBadRequestExceptionWhenDatasetIsEmpty() throws IOException {
+    void test_getCatalog_throw_BadRequestException_when_dataset_is_empty() throws IOException {
         //GIVEN
         String consumerEdcDataManagementUrl = "https://example.com/consumer-edc";
         String providerConnectorControlPlaneIDSUrl = "https://example.com/provider-connector";
@@ -120,7 +105,7 @@ class EdcServiceTest {
     }
 
     @Test
-    void testInitializeContractNegotiation() throws IOException, InterruptedException {
+    void test_initializeContractNegotiation() throws IOException, InterruptedException {
         //GIVEN
         String providerConnectorUrl = "https://example.com/provider-connector";
         String consumerEdcUrl = "https://example.com/consumer-edc";
@@ -153,7 +138,7 @@ class EdcServiceTest {
     }
 
     @Test
-    void testInitializeContractNegotiationThrowExecutionException() throws IOException, InterruptedException {
+    void test_initializeContractNegotiation_throw_ExecutionException() throws IOException {
         //GIVEN
         String providerConnectorUrl = "https://example.com/provider-connector";
         String consumerEdcUrl = "https://example.com/consumer-edc";
@@ -181,7 +166,7 @@ class EdcServiceTest {
     }
 
     @Test
-    void testInitiateHttpProxyTransferProcess() throws IOException {
+    void test_initiateHttpProxyTransferProcess() throws IOException {
         //GIVEN
         String providerConnectorControlPlaneIDSUrl = "https://example.com/provider-connector";
         String consumerEdcDataManagementUrl = "https://example.com/consumer-edc";
