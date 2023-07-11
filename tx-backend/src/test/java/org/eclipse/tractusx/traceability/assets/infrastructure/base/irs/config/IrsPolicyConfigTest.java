@@ -22,6 +22,8 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class IrsPolicyConfigTest {
@@ -31,13 +33,16 @@ class IrsPolicyConfigTest {
         // given
         final String policyName = "TRACEX ID 3.0";
         final String ttl = "2023-07-03T16:01:05.309Z";
-        final IrsPolicyConfig policyConfig = new IrsPolicyConfig(policyName, ttl);
+        final IrsPolicyConfig policyConfig = new IrsPolicyConfig(List.of(
+                IrsPolicy.builder().policyId(policyName).ttl(ttl).build()
+        ));
 
         // when
-        final IrsPolicy result = policyConfig.getPolicy();
+        final List<IrsPolicy> result = policyConfig.getPolicies();
 
         // then
-        assertThat(result.getPolicyId()).isEqualTo(policyName);
-        assertThat(result.getTtl()).isEqualTo(ttl);
+        assertThat(result).hasSize(1);
+        assertThat(result.stream().findFirst().get().getPolicyId()).isEqualTo(policyName);
+        assertThat(result.stream().findFirst().get().getTtl()).isEqualTo(ttl);
     }
 }
