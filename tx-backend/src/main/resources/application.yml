@@ -122,8 +122,8 @@ resilience4j:
 irs:
   policies:
     -
-      name: "ID 3.0 Trace"
+      policyId: "ID 3.0 Trace"
       ttl: "2023-09-30T23:59:59.99Z"
     -
-      name: "ID 3.0 Trace"
+      policyId: "ID 3.0 Trace"
       ttl: "2023-09-30T23:59:59.99Z"
