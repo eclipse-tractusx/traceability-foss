@@ -1,38 +1,32 @@
-import { TitleCasePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
+import { SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 
 @Pipe({
-  name: 'formatSemanticDataModelToProperCase'
+  name: 'formatSemanticDataModelToCamelCase'
 })
-export class FormatSemanticDataModelToProperCasePipe implements PipeTransform {
-
-  private titleCasePipe: TitleCasePipe;
-  constructor(titleCasePipe: TitleCasePipe) {
-    this.titleCasePipe = titleCasePipe;
-  }
+export class FormatSemanticDataModelToCamelCasePipe implements PipeTransform {
 
   transform(value: Pagination<any> | any): Pagination<any> | any {
 
     const transformedContent = value.content.map(part => {
       let camelCaseSemanticDataModel;
-      console.log(part.semanticDataModel);
       switch (part.semanticDataModel.toLowerCase()) {
 
         case 'batch': {
-          camelCaseSemanticDataModel = 'Batch';
+          camelCaseSemanticDataModel = SemanticDataModelInCamelCase.BATCH;
           break;
         }
         case 'serialpart': {
-          camelCaseSemanticDataModel = 'SerialPart';
+          camelCaseSemanticDataModel = SemanticDataModelInCamelCase.SERIALPART;
           break;
         }
         case 'partasplanned': {
-          camelCaseSemanticDataModel = 'PartAsPlanned';
+          camelCaseSemanticDataModel = SemanticDataModelInCamelCase.PARTASPLANNED;
           break;
         }
         default: {
-          camelCaseSemanticDataModel = "Unknown"
+          camelCaseSemanticDataModel = SemanticDataModelInCamelCase.UNKNOWN
           break;
         }
 
