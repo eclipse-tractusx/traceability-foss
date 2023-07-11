@@ -96,7 +96,7 @@ public class InvestigationsEDCFacade {
 
             if (catalog.getDatasets().isEmpty()) {
                 log.info("No Dataset in catalog found");
-                throw new BadRequestException("Notication method and type not found.");
+                throw new BadRequestException("The dataset from the catalog is empty.");
             }
 
             Optional<Dataset> filteredDataset = catalog.getDatasets().stream()
@@ -130,7 +130,7 @@ public class InvestigationsEDCFacade {
 
             if (catalogItem.isEmpty()) {
                 log.info("No Catalog Item in catalog found");
-                throw new BadRequestException("No Catalog Item in catalog found");
+                throw new BadRequestException("No Catalog Item in catalog found.");
             }
 
             final String negotiationId = edcService.initializeContractNegotiation(receiverEdcUrl, catalogItem.get(), senderEdcUrl, header);
@@ -172,9 +172,7 @@ public class InvestigationsEDCFacade {
 
             log.info(":::: EDC Data Transfer Completed :::::");
         } catch (IOException e) {
-            log.error("EDC Data Transfer fail", e);
-
-            throw new BadRequestException("EDC Data Transfer fail");
+            throw new BadRequestException("EDC Data Transfer fail.", e);
         } catch (InterruptedException e) {
             log.error("Exception", e);
             Thread.currentThread().interrupt();
