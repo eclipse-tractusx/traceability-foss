@@ -27,6 +27,7 @@ import { InvestigationDetailState } from '@page/investigations/core/investigatio
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { PartsModule } from '@page/parts/parts.module';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
+import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { InvestigationsFacade } from './core/investigations.facade';
@@ -44,6 +45,7 @@ import { InvestigationsComponent } from './presentation/investigations.component
     InvestigationDetailFacade,
     InvestigationDetailState,
     InvestigationHelperService,
+    FormatPartlistSemanticDataModelToCamelCasePipe,
     ...getI18nPageProvider('page.investigation'),
   ],
 })

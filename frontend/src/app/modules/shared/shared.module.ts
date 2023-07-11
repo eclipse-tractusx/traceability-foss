@@ -32,7 +32,7 @@ import { SeveritySelectComponent } from '@shared/components/severity-select/seve
 import { SeverityComponent } from '@shared/components/severity/severity.component';
 import { TextWithIconComponent } from '@shared/components/text-with-icon/text-with-icon.component';
 import { NotificationModalContentComponent } from '@shared/modules/notification/modal/content/notification-modal-content.component';
-import { FormatSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-semantic-data-model-to-propercase.pipe';
+import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
 import { I18NextModule } from 'angular-i18next';
 import { BaseInputComponent } from './abstraction/baseInput/baseInput.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
@@ -82,7 +82,7 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     I18nPipe,
     AutoFormatPipe,
     FormatDatePipe,
-    FormatSemanticDataModelToCamelCasePipe,
+    FormatPaginationSemanticDataModelToCamelCasePipe,
     ViewContainerDirective,
     AvatarComponent,
     LanguageSelectorComponent,
@@ -150,7 +150,7 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
         SeveritySelectComponent,
         NotificationUserComponent,
         InputComponent,
-        FormatSemanticDataModelToCamelCasePipe,
+        FormatPaginationSemanticDataModelToCamelCasePipe,
     ],
   providers: [
     FormatDatePipe,

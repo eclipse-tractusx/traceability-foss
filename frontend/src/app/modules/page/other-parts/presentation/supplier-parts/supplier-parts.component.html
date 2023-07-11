@@ -29,7 +29,7 @@ SPDX-License-Identifier: Apache-2.0
 
 <ng-template #mainTmp let-parts="view" let-customContext="customContext">
   <app-table
-    [paginationData]="parts.data | formatSemanticDataModelToCamelCase"
+    [paginationData]="parts.data | formatPaginationSemanticDataModelToCamelCase"
     [tableConfig]="tableConfig"
     [selectedPartsInfoLabel]="'page.selectedParts.info'"
     [selectedPartsActionLabel]="'page.selectedParts.action'"

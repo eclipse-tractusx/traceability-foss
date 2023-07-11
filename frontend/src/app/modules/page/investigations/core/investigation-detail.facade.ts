@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { TitleCasePipe } from '@angular/common';
+import { FormatPartlistSemanticDataModelToCamelCasePipe} from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { Injectable } from '@angular/core';
 import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
 import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
@@ -38,7 +38,8 @@ export class InvestigationDetailFacade {
   constructor(
     private readonly partsService: PartsService,
     private readonly investigationDetailState: InvestigationDetailState,
-    private readonly titleCasePipe: TitleCasePipe,
+    private readonly formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe
+
   ) {
   }
 
@@ -75,9 +76,7 @@ export class InvestigationDetailFacade {
       .getPartDetailOfIds(notification.assetIds)
       .subscribe({
         next: data => {
-          data.forEach(part => {
-            part.semanticDataModel = <SemanticDataModel>this.titleCasePipe.transform(part.semanticDataModel);
-          })
+          this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
           this.investigationDetailState.investigationPartsInformation = { data };
         },
         error: error => (this.investigationDetailState.investigationPartsInformation = { error }),
@@ -96,9 +95,7 @@ export class InvestigationDetailFacade {
       )
       .subscribe({
         next: data => {
-          data.forEach(part => {
-            part.semanticDataModel = this.titleCasePipe.transform(part.semanticDataModel);
-          })
+          this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
           this.investigationDetailState.supplierPartsInformation = { data };
         },
         error: error => (this.investigationDetailState.supplierPartsInformation = { error }),
