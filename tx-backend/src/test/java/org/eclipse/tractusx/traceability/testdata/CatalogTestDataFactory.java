@@ -26,10 +26,45 @@ import org.eclipse.edc.policy.model.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class CatalogTestDataFactory {
 
     public static Catalog createCatalogTestData() {
+        return createCatalogTestData(Collections.emptyMap());
+    }
+
+    public static Catalog createCatalogTestData(Map<String, Object> properties) {
+
+        OrConstraint orConstraint = OrConstraint.Builder.newInstance().constraint(AtomicConstraint.Builder.newInstance()
+                .operator(Operator.EQ)
+                .leftExpression(new LiteralExpression("idsc:PURPOSE"))
+                .rightExpression(new LiteralExpression("ID 3.0 Trace"))
+                .build()).build();
+
+        Permission permission = Permission.Builder.newInstance()
+                .action(Action.Builder.newInstance()
+                        .type("USE").build())
+                .constraints(List.of(orConstraint)).build();
+        Policy policy = Policy.Builder.newInstance().permission(permission).build();
+
+        DataService dataService = DataService.Builder.newInstance()
+                .build();
+        Distribution distribution = Distribution.Builder.newInstance().format("format")
+                .dataService(dataService).build();
+
+        Dataset dataset = Dataset.Builder.newInstance()
+                .offer("123", policy)
+                .distribution(distribution)
+                .property("https://w3id.org/edc/v0.0.1/ns/notificationtype", "qualityinvestigation")
+                .property("https://w3id.org/edc/v0.0.1/ns/notificationmethod", "receive")
+                .property("https://w3id.org/edc/v0.0.1/ns/id", "id")
+                .build();
+
+        return Catalog.Builder.newInstance().dataset(dataset).properties(properties).build();
+    }
+
+    public static Catalog createCatalogTestData(Dataset.Builder datasetBuilder) {
         Permission permission = Permission.Builder.newInstance()
                 .action(Action.Builder.newInstance()
                         .type("USE").build())
@@ -44,13 +79,9 @@ public class CatalogTestDataFactory {
                 .build();
         Distribution distribution = Distribution.Builder.newInstance().format("format")
                 .dataService(dataService).build();
-
-        Dataset dataset = Dataset.Builder.newInstance()
+        Dataset dataset = datasetBuilder
                 .offer("123", policy)
                 .distribution(distribution)
-                .property("https://w3id.org/edc/v0.0.1/ns/notificationtype", "qualityinvestigation")
-                .property("https://w3id.org/edc/v0.0.1/ns/notificationmethod", "receive")
-                .property("https://w3id.org/edc/v0.0.1/ns/id", "id")
                 .build();
 
         return Catalog.Builder.newInstance().dataset(dataset).properties(Collections.emptyMap()).build();
