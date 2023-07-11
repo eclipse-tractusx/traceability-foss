@@ -61,7 +61,6 @@ public class EdcTransformer {
     private final TitaniumJsonLd titaniumJsonLd;
     private final TransformerContextImpl transformerContext;
     private final JsonObjectToNegotiationResponseTransformer jsonObjectToNegotiationResponseTransformer;
-    private final JsonObjectToNegotiationStateTransformer jsonObjectToNegotiationStateTransformer;
 
     public EdcTransformer(final ObjectMapper objectMapper, final TitaniumJsonLd titaniumJsonLd) {
         this.titaniumJsonLd = titaniumJsonLd;
@@ -76,7 +75,6 @@ public class EdcTransformer {
                 jsonBuilderFactory);
         jsonObjectFromCatalogRequestTransformer = new JsonObjectFromCatalogRequestTransformer(jsonBuilderFactory);
         jsonObjectToNegotiationResponseTransformer = new JsonObjectToNegotiationResponseTransformer();
-        jsonObjectToNegotiationStateTransformer = new JsonObjectToNegotiationStateTransformer();
 
         final TypeTransformerRegistry typeTransformerRegistry = new TypeTransformerRegistryImpl();
         transformerContext = new TransformerContextImpl(typeTransformerRegistry);
