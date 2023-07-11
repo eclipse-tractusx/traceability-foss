@@ -25,6 +25,7 @@ import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
 import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -38,8 +39,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApplicationStartupConfig {
     private final IrsRepository irsRepository;
-    private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
-    private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -51,15 +50,5 @@ public class ApplicationStartupConfig {
 
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void registerDecentralRegistryPermissions() {
-        try {
-            OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
-            AcceptedPolicy acceptedPolicy = new AcceptedPolicy(ID_TRACE_CONSTRAINT, offsetDateTime);
-            defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
-        } catch (Exception exception) {
-            log.error("Failed to create Irs Policies : ", exception);
-        }
 
-    }
 }

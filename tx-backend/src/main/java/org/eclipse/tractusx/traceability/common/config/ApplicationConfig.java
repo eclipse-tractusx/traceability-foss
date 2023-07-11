@@ -26,6 +26,10 @@ import io.github.resilience4j.core.registry.EntryRemovedEvent;
 import io.github.resilience4j.core.registry.EntryReplacedEvent;
 import io.github.resilience4j.core.registry.RegistryEventConsumer;
 import io.github.resilience4j.retry.Retry;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPoliciesProvider;
+import org.eclipse.tractusx.irs.edc.client.policy.AcceptedPolicy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,13 +48,21 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+
 @Configuration
 @ConfigurationPropertiesScan(basePackages = "org.eclipse.tractusx.traceability.*")
 @EnableWebMvc
 @EnableAsync(proxyTargetClass = true)
 @EnableConfigurationProperties
+@RequiredArgsConstructor
+@Slf4j
 @EnableJpaRepositories(basePackages = "org.eclipse.tractusx.traceability.*")
 public class ApplicationConfig {
+    private final AcceptedPoliciesProvider.DefaultAcceptedPoliciesProvider defaultAcceptedPoliciesProvider;
+    private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
+
 
 	@Bean
 	public InternalResourceViewResolver defaultViewResolver() {
@@ -96,6 +108,17 @@ public class ApplicationConfig {
 		return templateResolver;
 	}
 
+    @Bean
+    public void registerDecentralRegistryPermissions() {
+        try {
+            OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
+            AcceptedPolicy acceptedPolicy = new AcceptedPolicy(ID_TRACE_CONSTRAINT, offsetDateTime);
+            defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
+        } catch (Exception exception) {
+            log.error("Failed to create Irs Policies : ", exception);
+        }
+
+    }
 
 	@Bean
 	public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
