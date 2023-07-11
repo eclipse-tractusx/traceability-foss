@@ -76,7 +76,7 @@ data:
       {
         "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
       "connectorEndpoint": [
-      "https://https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/"
+      "https://trace-x-edc.dev.demo.catena-x.net/"
     ]
       }
     ]
