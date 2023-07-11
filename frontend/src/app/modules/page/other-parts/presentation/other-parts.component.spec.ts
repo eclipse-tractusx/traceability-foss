@@ -42,8 +42,12 @@ import { OtherPartsComponent } from './other-parts.component';
 
 describe('Other Parts', () => {
   let otherPartsState: OtherPartsState;
-  beforeEach(() => (otherPartsState = new OtherPartsState()));
   let formatPartSemanticToCamelCase: FormatPartSemanticDataModelToCamelCasePipe;
+  beforeEach(() => {
+    otherPartsState = new OtherPartsState()
+    formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
+  });
+
 
   const renderOtherParts = ({ roles = [] } = {}) =>
     renderComponent(OtherPartsComponent, {
@@ -98,6 +102,10 @@ describe('Other Parts', () => {
 
 
   describe('onTableConfigChange', () => {
+    let formatPartSemanticToCamelCase: FormatPartSemanticDataModelToCamelCasePipe;
+    beforeEach(() => {
+      formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
+    })
     it('should request supplier parts if first tab is selected', async () => {
       await renderOtherParts({ roles: ['user'] });
       fireEvent.click(screen.getByText('pageOtherParts.tab.supplier'));
