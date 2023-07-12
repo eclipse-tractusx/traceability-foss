@@ -89,6 +89,9 @@ public class RegistryService {
         try {
             // ownAssetIds = registryApiClient.getShellsByAssetIds(ownManufacturerIdBPNMap);
             registryKeys = decentralDigitalTwinRegistryService.lookupShells("BPNL00000003CML1");
+            registryKeys.forEach(digitalTwinRegistryKey -> {
+                log.info("DTR Key" + digitalTwinRegistryKey);
+            });
         } catch (FeignException e) {
             endMetric(registryLookupMetric);
             log.error("Fetching shell ownShellsRegistryResponse failed", e);
@@ -103,6 +106,10 @@ public class RegistryService {
         final RegistryShellDescriptorResponse ownShellsRegistryResponse;
         try {
             Collection<AssetAdministrationShellDescriptor> assetAdministrationShellDescriptors = decentralDigitalTwinRegistryService.fetchShells(registryKeys);
+            assetAdministrationShellDescriptors.forEach(assetAdministrationShellDescriptor -> {
+                log.info("Asset Administration Shell Descriptor " + assetAdministrationShellDescriptor);
+                log.info("Asset Administration Global Asset Id " + assetAdministrationShellDescriptor.getGlobalAssetId());
+            });
 
             ownShellsRegistryResponse = RegistryShellDescriptorResponse.fromCollection(assetAdministrationShellDescriptors);
 
