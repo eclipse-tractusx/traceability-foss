@@ -95,7 +95,7 @@ class IrsServiceTest {
                 .ttl("2023-07-03T16:01:05.309Z")
                 .build();
         when(irsClient.getPolicies()).thenReturn(List.of());
-        when(irsPolicyConfig.getPolicy()).thenReturn(policyToCreate);
+        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -114,13 +114,32 @@ class IrsServiceTest {
                 .build();
         final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
-        when(irsPolicyConfig.getPolicy()).thenReturn(policyToCreate);
+        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
 
         // when
         irsService.createIrsPolicyIfMissing();
 
         // then
         verifyNoMoreInteractions(irsClient);
+    }
+
+    @Test
+    void givenOutdatedPolicyExist_whenCreateIrsPolicyIfMissing_thenUpdateIt() {
+        // given
+        final IrsPolicy policyToCreate = IrsPolicy.builder()
+                .policyId("test")
+                .ttl("2123-07-03T16:01:05.309Z")
+                .build();
+        final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
+        when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
+        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
+
+        // when
+        irsService.createIrsPolicyIfMissing();
+
+        // then
+        verify(irsClient, times(1)).deletePolicy("test");
+        verify(irsClient, times(1)).registerPolicy(RegisterPolicyRequest.from(policyToCreate));
     }
 
     @ParameterizedTest
