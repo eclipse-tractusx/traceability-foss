@@ -17,12 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { TitleCasePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { AlertDetailState } from '@page/alerts/core/alert-detail.state';
-import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
+import { Part } from '@page/parts/model/parts.model';
 import { Notification } from '@shared/model/notification.model';
 import { View } from '@shared/model/view.model';
+import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
@@ -36,7 +36,7 @@ export class AlertDetailFacade {
   constructor(
     private readonly partsService: PartsService,
     private readonly alertDetailState: AlertDetailState,
-    private readonly titleCasePipe: TitleCasePipe,
+    private readonly formatSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe,
   ) {
   }
 
@@ -73,9 +73,7 @@ export class AlertDetailFacade {
       .getPartDetailOfIds(notification.assetIds)
       .subscribe({
         next: data => {
-          data.forEach(part => {
-            part.semanticDataModel = <SemanticDataModel>this.titleCasePipe.transform(part.semanticDataModel);
-          })
+          this.formatSemanticDataModelToCamelCasePipe.transform(data);
           this.alertDetailState.alertPartsInformation = { data };
         },
         error: error => (this.alertDetailState.alertPartsInformation = { error }),
@@ -95,7 +93,7 @@ export class AlertDetailFacade {
       .subscribe({
         next: data => {
           data.forEach(part => {
-            part.semanticDataModel = this.titleCasePipe.transform(part.semanticDataModel);
+            part.semanticDataModel = this.formatSemanticDataModelToCamelCasePipe.transform(part.semanticDataModel);
           })
           this.alertDetailState.supplierPartsInformation = { data };
         },
