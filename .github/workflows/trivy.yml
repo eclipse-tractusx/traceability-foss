@@ -20,8 +20,8 @@ on:
     - cron: "0 0 * * *"
   workflow_dispatch:
   workflow_run:
-    workflows: [Publish docker image]
-    types: [completed]
+    workflows: ["Pull request Backend"]
+    types: ["completed"]
 
 permissions:
   contents: read
@@ -125,7 +125,7 @@ jobs:
       run:
         working-directory: tx-backend
     if: always()
-    needs: ["prepare-env-backend", "Pull request Backend"]
+    needs: ["prepare-env-backend"]
     permissions:
       actions: read
       contents: read
