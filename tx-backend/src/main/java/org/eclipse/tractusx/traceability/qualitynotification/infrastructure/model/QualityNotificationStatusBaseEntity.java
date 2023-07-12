@@ -21,7 +21,6 @@ package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.mod
 
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -67,26 +66,8 @@ public enum QualityNotificationStatusBaseEntity {
         this.allowedTransitionFromSide = allowedTransitionFromSide;
     }
 
-    public static Optional<QualityNotificationStatusBaseEntity> fromValue(String value) {
-        return Optional.ofNullable(MAPPINGS.get(value));
-    }
-
     public static QualityNotificationStatusBaseEntity fromStringValue(String value) {
         return MAPPINGS.get(value);
     }
 
-    public boolean transitionAllowed(QualityNotificationStatusBaseEntity to) {
-
-        Set<QualityNotificationStatusBaseEntity> allowedStatusesToTransition = STATE_MACHINE.get(this);
-
-        if (!allowedStatusesToTransition.contains(to)) {
-            return false;
-        }
-
-        return isSideEligibleForTransition(this, to);
-    }
-
-    private boolean isSideEligibleForTransition(QualityNotificationStatusBaseEntity from, QualityNotificationStatusBaseEntity to) {
-        return to.allowedTransitionFromSide.contains(from.qualityNotificationSideBaseEntity);
-    }
 }

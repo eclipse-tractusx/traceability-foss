@@ -21,9 +21,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { AlertsRoutingModule } from '@page/alerts/alerts.routing';
+import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
+import { AlertDetailState } from '@page/alerts/core/alert-detail.state';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
 import { AlertsState } from '@page/alerts/core/alerts.state';
+import { AlertDetailComponent } from '@page/alerts/detail/alert-detail.component';
+import { PartsModule } from '@page/parts/parts.module';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
@@ -32,7 +36,7 @@ import { AlertsComponent } from './presentation/alerts.component';
 
 @NgModule({
   declarations: [
-    AlertsComponent
+    AlertsComponent, AlertDetailComponent
   ],
   imports: [
     CommonModule,
@@ -40,12 +44,15 @@ import { AlertsComponent } from './presentation/alerts.component';
     SharedModule,
     AlertsRoutingModule,
     NotificationModule,
+    PartsModule
   ],
   providers: [
     AlertsFacade,
     AlertsState,
+    AlertDetailFacade,
+    AlertDetailState,
     AlertHelperService,
-    ...getI18nPageProvider('page.alerts'),
+    ...getI18nPageProvider('page.alert'),
   ]
 })
 export class AlertsModule { }

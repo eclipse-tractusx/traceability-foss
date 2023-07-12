@@ -21,6 +21,13 @@ on:
     paths:
       - 'charts/**'
   workflow_dispatch:
+  workflow_call: # Trigger by another workflow
+    inputs:
+      node_image:
+        description: 'kindest/node image for k8s kind cluster'
+        default: 'kindest/node:v1.27.3'
+        required: false
+        type: string
 
 env:
   REGISTRY: kind-registry:5000

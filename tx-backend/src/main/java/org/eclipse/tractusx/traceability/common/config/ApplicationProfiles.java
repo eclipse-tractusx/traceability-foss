@@ -21,10 +21,6 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
-import org.springframework.core.env.Environment;
-
-import java.util.Arrays;
-
 public class ApplicationProfiles {
 
     public static final String LOCAL = "local";
@@ -39,10 +35,5 @@ public class ApplicationProfiles {
     public static final String E2E_B = "e2e-b";
 
     private ApplicationProfiles() {
-    }
-
-    public static boolean doesNotContainTestProfile(Environment environment) {
-        return Arrays.stream(environment.getActiveProfiles())
-                .noneMatch(profile -> profile.equals(TESTS));
     }
 }

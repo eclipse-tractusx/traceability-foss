@@ -97,11 +97,11 @@ frontend:
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
-      cpu: 768m
-      memory: 768Mi
+      cpu: 500m
+      memory: 512Mi
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 125m
+      memory: 512Mi
 
   nodeSelector: {}
 
@@ -219,11 +219,11 @@ backend:
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
-      cpu: 768m
-      memory: 768Mi
+      cpu: 500m
+      memory: 512Mi
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 125m
+      memory: 512Mi
 
   nodeSelector: {}
 
@@ -316,11 +316,11 @@ pgadmin4:
 
   resources:
     limits:
-      cpu: 768m
-      memory: 1768i
+      cpu: 1000m
+      memory: 1Gi
     requests:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 256m
+      memory: 512Mi
 
 #########################
 # Postgres configuration     #
@@ -363,7 +363,6 @@ tractusx-connector:
     username: "CHANGEME"
     password: "CHANGEME"
     jdbcUrl: "CHANGEME"
-
 
 ###################################
 # EDC Database configuration  #

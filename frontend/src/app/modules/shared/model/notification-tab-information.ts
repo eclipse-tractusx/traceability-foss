@@ -18,6 +18,6 @@
  ********************************************************************************/
 
 export type NotificationTabInformation = {
-  tabIndex: number | null,
+  tabIndex: string | null,
   pageNumber?: number | null
 }

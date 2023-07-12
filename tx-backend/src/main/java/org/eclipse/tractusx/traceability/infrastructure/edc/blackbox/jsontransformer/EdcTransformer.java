@@ -33,35 +33,13 @@ import org.eclipse.edc.catalog.spi.CatalogRequest;
 import org.eclipse.edc.connector.core.transform.TransformerContextImpl;
 import org.eclipse.edc.connector.core.transform.TypeTransformerRegistryImpl;
 import org.eclipse.edc.jsonld.TitaniumJsonLd;
-import org.eclipse.edc.jsonld.transformer.from.JsonObjectFromAssetTransformer;
-import org.eclipse.edc.jsonld.transformer.from.JsonObjectFromCatalogTransformer;
-import org.eclipse.edc.jsonld.transformer.from.JsonObjectFromCriterionTransformer;
-import org.eclipse.edc.jsonld.transformer.from.JsonObjectFromDataServiceTransformer;
-import org.eclipse.edc.jsonld.transformer.from.JsonObjectFromDatasetTransformer;
-import org.eclipse.edc.jsonld.transformer.from.JsonObjectFromDistributionTransformer;
-import org.eclipse.edc.jsonld.transformer.from.JsonObjectFromPolicyTransformer;
-import org.eclipse.edc.jsonld.transformer.from.JsonObjectFromQuerySpecTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToActionTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToAssetTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToCatalogTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToConstraintTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToCriterionTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToDataServiceTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToDatasetTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToDistributionTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToDutyTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToPermissionTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToPolicyTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToProhibitionTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonObjectToQuerySpecTransformer;
-import org.eclipse.edc.jsonld.transformer.to.JsonValueToGenericTypeTransformer;
+import org.eclipse.edc.jsonld.transformer.from.*;
+import org.eclipse.edc.jsonld.transformer.to.*;
 import org.eclipse.edc.protocol.dsp.transferprocess.transformer.type.from.JsonObjectFromDataAddressTransformer;
 import org.eclipse.edc.spi.result.Result;
 import org.eclipse.edc.transform.spi.TypeTransformerRegistry;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractOfferDescription;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationResponse;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationState;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest;
 import org.springframework.stereotype.Component;
 
@@ -83,7 +61,6 @@ public class EdcTransformer {
     private final TitaniumJsonLd titaniumJsonLd;
     private final TransformerContextImpl transformerContext;
     private final JsonObjectToNegotiationResponseTransformer jsonObjectToNegotiationResponseTransformer;
-    private final JsonObjectToNegotiationStateTransformer jsonObjectToNegotiationStateTransformer;
 
     public EdcTransformer(final ObjectMapper objectMapper, final TitaniumJsonLd titaniumJsonLd) {
         this.titaniumJsonLd = titaniumJsonLd;
@@ -98,7 +75,6 @@ public class EdcTransformer {
                 jsonBuilderFactory);
         jsonObjectFromCatalogRequestTransformer = new JsonObjectFromCatalogRequestTransformer(jsonBuilderFactory);
         jsonObjectToNegotiationResponseTransformer = new JsonObjectToNegotiationResponseTransformer();
-        jsonObjectToNegotiationStateTransformer = new JsonObjectToNegotiationStateTransformer();
 
         final TypeTransformerRegistry typeTransformerRegistry = new TypeTransformerRegistryImpl();
         transformerContext = new TransformerContextImpl(typeTransformerRegistry);
@@ -154,15 +130,6 @@ public class EdcTransformer {
         return jsonObjectToNegotiationResponseTransformer.transform(expand.getContent(), transformerContext);
     }
 
-    public NegotiationState transformJsonToNegotiationState(final String jsonString, final Charset charset) {
-        final Result<JsonObject> expand;
-        try (JsonReader reader = Json.createReader(new ByteArrayInputStream(jsonString.getBytes(charset)))) {
-            expand = titaniumJsonLd.expand(
-                    JsonDocument.of(reader.read()).getJsonContent().orElseThrow().asJsonObject());
-        }
-        return jsonObjectToNegotiationStateTransformer.transform(expand.getContent(), transformerContext);
-    }
-
     public JsonObject transformNegotiationRequestToJson(final NegotiationRequest negotiationRequest) {
         final JsonObject transform = jsonObjectFromNegotiationInitiateDtoTransformer.transform(negotiationRequest,
                 transformerContext);
@@ -172,13 +139,6 @@ public class EdcTransformer {
     public JsonObject transformTransferProcessRequestToJson(final TransferProcessRequest transferProcessRequest) {
         final JsonObject transform = jsonObjectFromTransferProcessRequestTransformer.transform(transferProcessRequest,
                 transformerContext);
-        return titaniumJsonLd.compact(transform).asOptional().orElseThrow();
-    }
-
-    public JsonObject transformContractOfferDescriptionToJson(final ContractOfferDescription contractOfferDescription) {
-
-        final JsonObject transform = jsonObjectFromContractOfferDescriptionTransformer.transform(
-                contractOfferDescription, transformerContext);
         return titaniumJsonLd.compact(transform).asOptional().orElseThrow();
     }
 

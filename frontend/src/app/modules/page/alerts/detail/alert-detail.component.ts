@@ -1,0 +1,214 @@
+/********************************************************************************
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ *
+ * See the NOTICE file(s) distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Apache License, Version 2.0 which is available at
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ ********************************************************************************/
+
+import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
+import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
+import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
+import { AlertsFacade } from '@page/alerts/core/alerts.facade';
+import { Part } from '@page/parts/model/parts.model';
+import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
+import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
+import { View } from '@shared/model/view.model';
+import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
+import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
+import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
+import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
+import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
+import { StaticIdService } from '@shared/service/staticId.service';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { filter, first, tap } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-alert-detail',
+  templateUrl: './alert-detail.component.html',
+  styleUrls: ['./alert-detail.component.scss'],
+})
+export class AlertDetailComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
+  @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
+  @ViewChild(CancelNotificationModalComponent) cancelModal: CancelNotificationModalComponent;
+
+  @ViewChild(AcceptNotificationModalComponent) acceptModal: AcceptNotificationModalComponent;
+  @ViewChild(AcknowledgeNotificationModalComponent) acknowledgeModal: AcknowledgeNotificationModalComponent;
+  @ViewChild(DeclineNotificationModalComponent) declineModal: DeclineNotificationModalComponent;
+
+  @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
+
+  public readonly alertPartsInformation$: Observable<View<Part[]>>;
+  public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
+  public readonly selected$: Observable<View<Notification>>;
+
+  public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
+  public readonly selectedItems$ = new BehaviorSubject<Part[]>([]);
+  public readonly deselectPartTrigger$ = new Subject<Part[]>();
+  public readonly addPartTrigger$ = new Subject<Part>();
+
+  public readonly notificationPartsTableId = this.staticIdService.generateId('AlertDetail');
+  public readonly supplierPartsTableId = this.staticIdService.generateId('AlertDetail');
+
+  public notificationPartsTableConfig: TableConfig;
+  public supplierPartsTableConfig: TableConfig;
+  public isReceived: boolean;
+  private originPageNumber: number;
+  private originTabIndex: number;
+
+  private subscription: Subscription;
+  private selectedAlertTmpStore: Notification;
+  public selectedAlert: Notification;
+
+  private paramSubscription: Subscription
+
+  constructor(
+    public readonly helperService: AlertHelperService,
+    public readonly alertDetailFacade: AlertDetailFacade,
+    private readonly staticIdService: StaticIdService,
+    private readonly alertsFacade: AlertsFacade,
+    private router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly ctaSnackbarService: CtaSnackbarService,
+  ) {
+    this.alertPartsInformation$ = this.alertDetailFacade.notificationPartsInformation$;
+    this.supplierPartsDetailInformation$ = this.alertDetailFacade.supplierPartsInformation$;
+
+    this.selected$ = this.alertDetailFacade.selected$;
+
+    this.paramSubscription = this.route.queryParams.subscribe(params => {
+      this.originPageNumber = params.pageNumber;
+      this.originTabIndex = params?.tabIndex;
+    })
+
+  }
+
+  public ngAfterViewInit(): void {
+    if (!this.alertDetailFacade.selected?.data) {
+      this.selectedNotificationBasedOnUrl();
+    }
+
+    this.subscription = this.selected$
+      .pipe(
+        filter(({ data }) => !!data),
+        tap(({ data }) => {
+          this.setTableConfigs(data);
+          this.selectedAlert = data;
+        }),
+      )
+      .subscribe();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+    this.alertDetailFacade.unsubscribeSubscriptions();
+    this.paramSubscription?.unsubscribe();
+  }
+
+  public onNotificationPartsSort({ sorting }: TableEventConfig): void {
+    const [name, direction] = sorting || ['', ''];
+    this.alertDetailFacade.sortNotificationParts(name, direction);
+  }
+
+  public onSupplierPartsSort({ sorting }: TableEventConfig): void {
+    const [name, direction] = sorting || ['', ''];
+    this.alertDetailFacade.sortSupplierParts(name, direction);
+  }
+
+  public onMultiSelect(event: unknown[]): void {
+    this.selectedAlertTmpStore = Object.assign(this.alertDetailFacade.selected);
+    this.selectedItems$.next(event as Part[]);
+  }
+
+  public removeItemFromSelection(part: Part): void {
+    this.deselectPartTrigger$.next([part]);
+    this.selectedItems$.next(this.selectedItems$.getValue().filter(({ id }) => id !== part.id));
+  }
+
+  public clearSelected(): void {
+    this.deselectPartTrigger$.next(this.selectedItems$.getValue());
+    this.selectedItems$.next([]);
+  }
+
+  public addItemToSelection(part: Part): void {
+    this.addPartTrigger$.next(part);
+    this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
+  }
+
+  public copyToClipboard(semanticModelId: string): void {
+    const text = { id: 'clipboard', values: { value: semanticModelId } };
+    navigator.clipboard.writeText(semanticModelId).then(_ => this.ctaSnackbarService.show(text));
+  }
+
+  public navigateBackToAlerts(): void {
+    const { link } = getRoute(ALERT_BASE_ROUTE);
+    this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
+  }
+
+  public handleConfirmActionCompletedEvent(): void {
+    this.alertDetailFacade.selected = { loader: true };
+    this.subscription?.unsubscribe();
+    this.ngAfterViewInit();
+  }
+
+  private setTableConfigs(data: Notification): void {
+    this.isReceived = !data.isFromSender;
+
+    const displayedColumns = ['id', 'semanticDataModel', 'name', 'semanticModelId'];
+    const sortableColumns = { id: true, semanticDataModel: true, name: true, semanticModelId: true };
+
+    const tableConfig = {
+      displayedColumns,
+      header: CreateHeaderFromColumns(displayedColumns, 'table.column'),
+      sortableColumns: sortableColumns,
+      hasPagination: false,
+      cellRenderers: {
+        semanticModelId: this.semanticModelIdTmp,
+      },
+    };
+
+    this.alertDetailFacade.setAlertPartsInformation(data);
+    this.notificationPartsTableConfig = { ...tableConfig };
+
+    if (!this.isReceived) {
+      return;
+    }
+
+    this.alertDetailFacade.setAndSupplierPartsInformation();
+    this.supplierPartsTableConfig = {
+      ...tableConfig,
+      displayedColumns: ['select', ...displayedColumns],
+      header: CreateHeaderFromColumns(['select', ...displayedColumns], 'table.column'),
+    };
+  }
+
+  private selectedNotificationBasedOnUrl(): void {
+    const alertId = this.route.snapshot.paramMap.get('alertId');
+    this.alertsFacade
+      .getAlert(alertId)
+      .pipe(
+        first(),
+        tap(notification => (this.alertDetailFacade.selected = { data: notification })),
+      )
+      .subscribe();
+  }
+
+  protected readonly TranslationContext = TranslationContext;
+}

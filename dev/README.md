@@ -30,25 +30,25 @@ In order to upload data to EDC Provider, please use [IRS project script](https:/
 Sample invocation (DEV)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.3.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.4.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
 ```
 
 Sample invocation (TEST)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.3.json -s https://tracex-submodel-server-test.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.4.json -s https://tracex-submodel-server-test.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
 ```
 
 Sample invocation (E2E A)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.3.json -s https://tracex-submodel-server-e2e-a.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.4.json -s https://tracex-submodel-server-e2e-a.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
 ```
 
 Sample invocation (E2E B)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.3.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.4.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry -p id-3.0-trace -k <apiKey>
 ```
 
 where:
@@ -162,7 +162,7 @@ Consists of a List of the following structured entries:
         "childCatenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
       } ]
     } ],
-    "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : [ {
+    "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : [ {
       "localIdentifiers" : [ {
         "value" : "BPNL00000003CML1",
         "key" : "manufacturerId"
@@ -212,10 +212,10 @@ Is achieved by defining the order of the BPNLs of the desired manufacturers. See
   ]
 ```
 ...AZQP -> ...3ML1 -> ...CNKC
-and adding an AssemlyPartRelationship Aspect with the corresponding childCatenaXId:
+and adding an SingleLevelBomAsBuilt Aspect with the corresponding childCatenaXId:
 ```json
 {
-"urn:bamm:io.catenax.assembly_part_relationship:1.1.0#AssemblyPartRelationship" : [ {
+"urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt" : [ {
 "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
 "childParts" : [ {
 "quantity" : {
@@ -243,12 +243,12 @@ Is achieved through adding the SingleLevelusageBuilt - Codeblock and the corresp
 [{
   "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
   "bpnl" : "BPNL00000003CNKC",
-  "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship": "[...]",
-  "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : "[...]"
+  "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt": "[...]",
+  "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : "[...]"
   }, {
   "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
   "bpnl" : "BPNL00000003AZQP",
-  "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : "",
+  "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : "",
   "urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt": [
     {
       "parentParts": [

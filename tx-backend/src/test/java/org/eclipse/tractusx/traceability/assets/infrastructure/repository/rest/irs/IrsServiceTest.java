@@ -95,7 +95,7 @@ class IrsServiceTest {
                 .ttl("2023-07-03T16:01:05.309Z")
                 .build();
         when(irsClient.getPolicies()).thenReturn(List.of());
-        when(irsPolicyConfig.getPolicy()).thenReturn(policyToCreate);
+        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
 
         // when
         irsService.createIrsPolicyIfMissing();
@@ -114,13 +114,32 @@ class IrsServiceTest {
                 .build();
         final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
         when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
-        when(irsPolicyConfig.getPolicy()).thenReturn(policyToCreate);
+        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
 
         // when
         irsService.createIrsPolicyIfMissing();
 
         // then
         verifyNoMoreInteractions(irsClient);
+    }
+
+    @Test
+    void givenOutdatedPolicyExist_whenCreateIrsPolicyIfMissing_thenUpdateIt() {
+        // given
+        final IrsPolicy policyToCreate = IrsPolicy.builder()
+                .policyId("test")
+                .ttl("2123-07-03T16:01:05.309Z")
+                .build();
+        final PolicyResponse existingPolicy = new PolicyResponse("test", Instant.parse("2023-07-03T16:01:05.309Z"), Instant.now());
+        when(irsClient.getPolicies()).thenReturn(List.of(existingPolicy));
+        when(irsPolicyConfig.getPolicies()).thenReturn(List.of(policyToCreate));
+
+        // when
+        irsService.createIrsPolicyIfMissing();
+
+        // then
+        verify(irsClient, times(1)).deletePolicy("test");
+        verify(irsClient, times(1)).registerPolicy(RegisterPolicyRequest.from(policyToCreate));
     }
 
     @ParameterizedTest
@@ -200,7 +219,7 @@ class IrsServiceTest {
                         new PartTypeInformation("classification", "Name at Manufacturer", "Name at Customer",
                                 "ManufacturerPartId123", "CustomerPartId123"),
                         new ManufacturingInformation("Country", new Date()),
-                        Collections.emptyList(), validityPeriod, List.of(site), "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization"
+                        Collections.emptyList(), validityPeriod, List.of(site), "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
 
                 )
         );
@@ -210,8 +229,8 @@ class IrsServiceTest {
         Quantity quantity = new Quantity(1.5, measurementUnit);
         if (direction.equals(Direction.DOWNWARD.name())) {
             relationships = Arrays.asList(
-                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP),
-                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.ASSEMBLY_PART_RELATIONSHIP)
+                    new Relationship("catenaXId123", new LinkedItem("childCatenaXId123", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_BOM_AS_BUILT),
+                    new Relationship("catenaXId456", new LinkedItem("childCatenaXId456", new Date(), new Date(), validityPeriod, quantity), Aspect.SINGLE_LEVEL_BOM_AS_BUILT)
             );
         } else {
             relationships = Arrays.asList(
