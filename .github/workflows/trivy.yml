@@ -125,7 +125,7 @@ jobs:
       run:
         working-directory: tx-backend
     if: always()
-    needs: ["prepare-env-backend", "Publish-docker-image"]
+    needs: ["prepare-env-backend", "Pull request Backend"]
     permissions:
       actions: read
       contents: read
