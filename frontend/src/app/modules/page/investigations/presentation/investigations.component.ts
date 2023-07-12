@@ -72,12 +72,9 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
-      if(params.pageNumber) {
-        this.pagination.page = params.pageNumber;
-      } else {
-        this.investigationsFacade.setReceivedInvestigation(0, this.pagination.pageSize, this.pagination.sorting);
-        this.investigationsFacade.setQueuedAndRequestedInvestigations(0, this.pagination.pageSize, this.pagination.sorting);
-      }
+      this.pagination.page = params?.pageNumber;
+      this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+      this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
     })
   }
 

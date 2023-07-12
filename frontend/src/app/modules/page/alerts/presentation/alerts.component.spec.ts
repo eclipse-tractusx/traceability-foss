@@ -43,7 +43,7 @@ describe('AlertsComponent', () => {
     spy.and.returnValue(new Promise(null));
 
     fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
-    const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: 0}
+    const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined}
     expect(spy).toHaveBeenCalledWith(['/alerts/id-84'], { queryParams: tabInformation } );
   });
 

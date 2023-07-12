@@ -28,7 +28,7 @@ import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.model';
 
-fdescribe('InvestigationDetailFacade', () => {
+describe('InvestigationDetailFacade', () => {
   let investigationDetailFacade: InvestigationDetailFacade;
   let investigationDetailState: InvestigationDetailState;
   let partService: PartsService;

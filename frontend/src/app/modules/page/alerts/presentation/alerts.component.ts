@@ -71,12 +71,9 @@ export class AlertsComponent {
 
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
-      if(params.pageNumber) {
-        this.pagination.page = params.pageNumber;
-      } else {
-        this.alertsFacade.setReceivedAlerts(0, this.pagination.pageSize, this.pagination.sorting);
-        this.alertsFacade.setQueuedAndRequestedAlerts(0, this.pagination.pageSize, this.pagination.sorting);
-      }
+      this.pagination.page = params?.pageNumber;
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
     })
   }
 
