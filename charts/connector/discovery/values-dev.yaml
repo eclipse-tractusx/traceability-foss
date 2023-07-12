@@ -23,3 +23,6 @@ wiremock:
 ingress:
   hosts:
     - host: "tracex-discovery-mock.dev.demo.catena-x.net"
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
