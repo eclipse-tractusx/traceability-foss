@@ -53,8 +53,8 @@ frontend:
   # imagePullSecrets:
   #   - name: machineuser-pull-secret-ro
 
-  nameOverride: "traceability-foss-frontend"
-  fullnameOverride: "traceability-foss-frontend"
+  nameOverride: "tracex-frontend"
+  fullnameOverride: "tracex-frontend"
 
   autoscaling:
     enabled: false
@@ -188,8 +188,8 @@ backend:
 
   podAnnotations: {}
 
-  nameOverride: "traceability-foss-backend"
-  fullnameOverride: "traceability-foss-backend"
+  nameOverride: "tracex-backend"
+  fullnameOverride: "tracex-backend"
 
   podSecurityContext:
     runAsUser: 10000
