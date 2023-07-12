@@ -57,7 +57,6 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
             - --local-response-templating
-            - --verbose
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
