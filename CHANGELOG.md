@@ -7,10 +7,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+- Helmignore config params for wrong values.yaml files
+- Home / Source URL in Helm Chart
+- Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
 
 ### Changed
 
 - Modified IRS Policies support to handle multiple policies
+- Readme titles to match TRGs
+
 
 ### Removed
 - unused classes and methods
@@ -35,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - fixed bug where language switcher did not update to the selected language
 - Changed SerialPartTypization aspect model to SerialPart
 - Changed AssemblyPartRelationship aspect model to SingleLevelBomAsBuilt
+- Changed semantic data model to be displayed in camel case
 
 ### Removed
 

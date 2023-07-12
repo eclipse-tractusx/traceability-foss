@@ -24,6 +24,7 @@ import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertDetailState } from '@page/alerts/core/alert-detail.state';
 import { Notification } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
+import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 
 describe('AlertDetailFacade', () => {
@@ -64,7 +65,7 @@ describe('AlertDetailFacade', () => {
         AlertDetailFacade,
         { provide: AlertDetailState, useValue: alertDetailState },
         { provide: PartsService, useValue: partsService },
-        { provide: TitleCasePipe, useValue: titleCasePipe }
+        FormatPartlistSemanticDataModelToCamelCasePipe
       ]
     });
 

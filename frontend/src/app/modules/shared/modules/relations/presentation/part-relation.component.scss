@@ -200,24 +200,24 @@
       @apply fill-semanticDataModelBatch
     }
 
-    &-Serialparttypization {
-      @apply fill-semanticDataModelSerialPartTypization
+    &-SerialPart {
+      @apply fill-semanticDataModelSerialPart
     }
 
-    &-Partasplanned {
-      @apply fill-semanticDataModelSerialPartTypization
+    &-PartAsPlanned {
+      @apply fill-semanticDataModelSerialPart
     }
 
     &-BATCH {
       @apply fill-semanticDataModelBatch
     }
 
-    &-SERIALPARTTYPIZATION {
-      @apply fill-semanticDataModelSerialPartTypization
+    &-SERIALPART {
+      @apply fill-semanticDataModelSerialPart
     }
 
     &-PARTASPLANNED {
-      @apply fill-semanticDataModelSerialPartTypization
+      @apply fill-semanticDataModelSerialPart
     }
 
     &-Minor {
