@@ -38,6 +38,13 @@ export enum SemanticDataModel {
   PARTASPLANNED = 'PARTASPLANNED'
 }
 
+export enum SemanticDataModelInCamelCase {
+  BATCH = "Batch",
+  SERIALPART = 'SerialPart',
+  PARTASPLANNED = 'PartAsPlanned',
+  UNKNOWN = 'Unknown'
+}
+
 export interface Part {
   id: string;
   name: string;

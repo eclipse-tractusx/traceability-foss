@@ -22,6 +22,7 @@
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { PartsState } from '@page/parts/core/parts.state';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { firstValueFrom } from 'rxjs';
@@ -41,7 +42,12 @@ import { OtherPartsComponent } from './other-parts.component';
 
 describe('Other Parts', () => {
   let otherPartsState: OtherPartsState;
-  beforeEach(() => (otherPartsState = new OtherPartsState()));
+  let formatPartSemanticToCamelCase: FormatPartSemanticDataModelToCamelCasePipe;
+  beforeEach(() => {
+    otherPartsState = new OtherPartsState()
+    formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
+  });
+
 
   const renderOtherParts = ({ roles = [] } = {}) =>
     renderComponent(OtherPartsComponent, {
@@ -96,6 +102,10 @@ describe('Other Parts', () => {
 
 
   describe('onTableConfigChange', () => {
+    let formatPartSemanticToCamelCase: FormatPartSemanticDataModelToCamelCasePipe;
+    beforeEach(() => {
+      formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();
+    })
     it('should request supplier parts if first tab is selected', async () => {
       await renderOtherParts({ roles: ['user'] });
       fireEvent.click(screen.getByText('pageOtherParts.tab.supplier'));
@@ -108,10 +118,10 @@ describe('Other Parts', () => {
         expect(supplierParts).toEqual({
           data: {
             content: [
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_7),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_8),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_9),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_7)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_8)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_9)),
             ],
             page: 0,
             pageCount: 1,
@@ -137,11 +147,11 @@ describe('Other Parts', () => {
         expect(customerParts).toEqual({
           data: {
             content: [
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4),
-              PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5)),
             ],
             page: 0,
             pageCount: 1,

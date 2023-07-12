@@ -26,6 +26,7 @@ import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsState } from '@page/parts/core/parts.state';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { RelationsModule } from '@shared/modules/relations/relations.module';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { PartsRoutingModule } from './parts.routing';
@@ -35,6 +36,6 @@ import { RelationComponent } from './presentation/relation/relation.component';
 @NgModule({
   declarations: [PartsComponent, RelationComponent],
   imports: [CommonModule, TemplateModule, SharedModule, PartsRoutingModule, RelationsModule, PartDetailsModule],
-  providers: [PartsState, PartsFacade, ...getI18nPageProvider(['page.parts', 'partDetail'])],
+  providers: [PartsState, PartsFacade, FormatPartSemanticDataModelToCamelCasePipe, ...getI18nPageProvider(['page.parts', 'partDetail'])],
 })
 export class PartsModule {}

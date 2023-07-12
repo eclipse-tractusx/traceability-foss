@@ -403,6 +403,29 @@
                             <goal>resources</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>copy-meta-inf</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                target/classes/META-INF
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ../
+                                    </directory>
+                                    <includes>
+                                        <include>LICENSE</include>
+                                        <include>NOTICE.md</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
                 <configuration>
                     <resources>
@@ -495,7 +518,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot-maven-plugin.version}</version>
             </plugin>
-
         </plugins>
     </build>
 

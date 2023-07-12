@@ -29,6 +29,9 @@ import { AlertsState } from '@page/alerts/core/alerts.state';
 import { AlertDetailComponent } from '@page/alerts/detail/alert-detail.component';
 import { PartsModule } from '@page/parts/parts.module';
 import { NotificationModule } from '@shared/modules/notification/notification.module';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
+import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
+import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { AlertsComponent } from './presentation/alerts.component';
@@ -52,6 +55,9 @@ import { AlertsComponent } from './presentation/alerts.component';
     AlertDetailFacade,
     AlertDetailState,
     AlertHelperService,
+    FormatPartSemanticDataModelToCamelCasePipe,
+    FormatPaginationSemanticDataModelToCamelCasePipe,
+    FormatPartlistSemanticDataModelToCamelCasePipe,
     ...getI18nPageProvider('page.alert'),
   ]
 })

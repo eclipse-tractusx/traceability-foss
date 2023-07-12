@@ -21,17 +21,11 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcAsset;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcAssetProperties;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcContext;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcCreateDataAssetRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.EdcDataAddress;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.*;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -61,14 +55,12 @@ public class EdcNotitifcationAssetService {
     private final TraceabilityProperties traceabilityProperties;
     private final RestTemplate restTemplate;
     private final EdcProperties edcProperties;
-    private final ObjectMapper objectMapper;
 
     @Autowired
-    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
+    public EdcNotitifcationAssetService(TraceabilityProperties traceabilityProperties, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties) {
         this.traceabilityProperties = traceabilityProperties;
         this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
-        this.objectMapper = objectMapper;
     }
 
     public String createNotificationAsset(NotificationMethod notificationMethod, NotificationType notificationType) throws JsonProcessingException {

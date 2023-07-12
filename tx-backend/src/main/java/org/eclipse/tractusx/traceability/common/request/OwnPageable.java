@@ -39,10 +39,6 @@ public class OwnPageable {
         return PageRequest.of(usedPage, usedPageSize, usedSort);
     }
 
-    public static OwnPageable toOwnPageable(Pageable pageable) {
-        return new OwnPageable(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString());
-    }
-
     private static Sort toDomainSort(final String sort) {
 
         try {
