@@ -76,7 +76,7 @@ public class RegistryService {
         this.decentralDigitalTwinRegistryService = decentralDigitalTwinRegistryService;
     }
 
-    public List<ShellDescriptor> findOwnShellDescriptors() {
+    public List<ShellDescriptor> findOwnShellDescriptors() throws RegistryServiceException {
         RegistryLookupMetric registryLookupMetric = RegistryLookupMetric.start(clock);
 
         log.info("Fetching all shell descriptor IDs for BPN {}.", applicationBPN);
@@ -86,17 +86,16 @@ public class RegistryService {
         ownManufacturerIdBPNMap.put("assetIds", getFilterValue(manufacturerIdKey, applicationBPN));
 
         final List<String> ownAssetIds = new ArrayList<>();
-        Collection<DigitalTwinRegistryKey> registryKeys = Collections.emptyList();
+        Collection<DigitalTwinRegistryKey> registryKeys = null;
         try {
             // ownAssetIds = registryApiClient.getShellsByAssetIds(ownManufacturerIdBPNMap);
             registryKeys = decentralDigitalTwinRegistryService.lookupShells("BPNL00000003CML1");
             registryKeys.forEach(digitalTwinRegistryKey -> {
                 log.info("DTR Key" + digitalTwinRegistryKey);
             });
-        } catch (FeignException | RegistryServiceException e) {
+        } catch (FeignException e) {
             endMetric(registryLookupMetric);
             log.error("Fetching shell ownShellsRegistryResponse failed", e);
-    return null;
         }
         /*  log.info("Received {} shell descriptor IDs.", ownAssetIds.size());*/
 
