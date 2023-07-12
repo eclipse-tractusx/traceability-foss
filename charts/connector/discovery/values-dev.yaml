@@ -18,7 +18,7 @@
 
 #Environment specific wiremock host
 wiremock:
-  host: "trace-x-edc.dev.demo.catena-x.net"
+  host: "https://trace-x-edc.dev.demo.catena-x.net"
 
 ingress:
   hosts:
