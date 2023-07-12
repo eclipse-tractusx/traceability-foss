@@ -37,10 +37,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @Slf4j
-//@Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
-//@RestController
-//@Hidden
-//@RequestMapping("/callback/endpoint-data-reference")
+@Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
+@RestController
+@Hidden
+@RequestMapping("/callback/endpoint-data-reference")
 public class EdcCallbackControllerTraceX {
 
     private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;

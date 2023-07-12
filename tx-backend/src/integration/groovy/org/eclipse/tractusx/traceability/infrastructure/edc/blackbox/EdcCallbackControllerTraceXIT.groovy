@@ -128,10 +128,10 @@ class EdcCallbackControllerTraceXIT extends IntegrationSpecification {
 	@TestConfiguration
 	static class EdcTestConfig {
 
-		@Bean
-		EdcCallbackControllerTraceX edcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
-			return new EdcCallbackControllerTraceX(endpointDataReferenceCache, restTemplateBuilder, edcProperties)
-		}
+//		@Bean
+//		EdcCallbackControllerTraceX edcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
+//			return new EdcCallbackControllerTraceX(endpointDataReferenceCache, restTemplateBuilder, edcProperties)
+//		}
 	}
 
 }
