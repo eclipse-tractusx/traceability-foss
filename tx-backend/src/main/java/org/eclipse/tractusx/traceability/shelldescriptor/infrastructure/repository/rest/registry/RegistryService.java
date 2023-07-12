@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.registryclient.DigitalTwinRegistryKey;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.metrics.RegistryLookupMetric;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
@@ -92,12 +93,10 @@ public class RegistryService {
             registryKeys.forEach(digitalTwinRegistryKey -> {
                 log.info("DTR Key" + digitalTwinRegistryKey);
             });
-        } catch (FeignException e) {
+        } catch (FeignException | RegistryServiceException e) {
             endMetric(registryLookupMetric);
             log.error("Fetching shell ownShellsRegistryResponse failed", e);
-            throw e;
-        } catch (org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException registryServiceException) {
-            log.error("Fetching shell for bpn decentral client failed", registryServiceException);
+    return null;
         }
         /*  log.info("Received {} shell descriptor IDs.", ownAssetIds.size());*/
 
