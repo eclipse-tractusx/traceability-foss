@@ -18,11 +18,11 @@
 
 #Environment specific wiremock host
 wiremock:
-  host: "https://trace-x-edc.dev.demo.catena-x.net"
+  host: "https://trace-x-edc-e2e-a.dev.demo.catena-x.net"
 
 ingress:
   hosts:
-    - host: "tracex-discovery-mock-dev.dev.demo.catena-x.net"
+    - host: "tracex-discovery-mock-e2e-a.dev.demo.catena-x.net"
       paths:
         - path: /
           pathType: ImplementationSpecific
