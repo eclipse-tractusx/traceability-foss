@@ -70,7 +70,7 @@
         <jose4j.version>0.9.3</jose4j.version>
         <restito.version>1.1.0</restito.version>
         <testcontainer-postgresql.version>1.17.6</testcontainer-postgresql.version>
-        <testcontainer-spock.version>1.18.0</testcontainer-spock.version>
+        <testcontainer-spock.version>1.18.3</testcontainer-spock.version>
         <rest-assured.version>5.3.0</rest-assured.version>
         <spock-core.version>2.4-M1-groovy-4.0</spock-core.version>
         <springdoc.version>2.0.4</springdoc.version>
