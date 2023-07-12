@@ -37,3 +37,6 @@
 .idea/
 *.tmproj
 .vscode/
+# Accept only values.yaml
+values?*.yaml
+values?*.yml

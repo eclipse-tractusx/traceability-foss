@@ -7,10 +7,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+- Helmignore config params for wrong values.yaml files
+- Home / Source URL in Helm Chart
+- Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
 
 ### Changed
 
 - Modified IRS Policies support to handle multiple policies
+- Readme titles to match TRGs
+
 
 ### Removed
 - unused classes and methods

@@ -53,8 +53,8 @@ frontend:
   # imagePullSecrets:
   #   - name: machineuser-pull-secret-ro
 
-  nameOverride: "traceability-foss-frontend"
-  fullnameOverride: "traceability-foss-frontend"
+  nameOverride: "tracex-frontend"
+  fullnameOverride: "tracex-frontend"
 
   autoscaling:
     enabled: false
@@ -188,8 +188,8 @@ backend:
 
   podAnnotations: {}
 
-  nameOverride: "traceability-foss-backend"
-  fullnameOverride: "traceability-foss-backend"
+  nameOverride: "tracex-backend"
+  fullnameOverride: "tracex-backend"
 
   podSecurityContext:
     runAsUser: 10000
@@ -310,6 +310,8 @@ backend:
 # PG Admin configuration     #
 #########################
 pgadmin4:
+  nameOverride: "tracex-pgadmin4"
+  fullnameOverride: "tracex-pgadmin4"
   enabled: false  # <pgadmin4.enabled>
   ingress:
     enabled: false   # <pgadmin4.ingress.enabled>
@@ -328,8 +330,8 @@ pgadmin4:
 postgresql:
   enabled: true
 
-  nameOverride: "traceability-foss-backend-postgresql"
-  fullnameOverride: "traceability-foss-backend-postgresql"
+  nameOverride: "tracex-backend-postgresql"
+  fullnameOverride: "tracex-backend-postgresql"
 
   auth:
     postgresPassword: "CHANGEME"
@@ -342,13 +344,15 @@ postgresql:
 #########################
 irs-helm:
   enabled: false  # <irs-helm.enabled>
-
+  nameOverride: "tracex-irs"
+  fullnameOverride: "tracex-irs"
 ###################################
 # EDC Consumer configuration  #
 ###################################
 tractusx-connector:
   enabled: false
-
+  nameOverride: "tracex-consumer-edc"
+  fullnameOverride: "tracex-consumer-edc"
   participant:
     id: "BPN"
 
@@ -368,6 +372,8 @@ tractusx-connector:
 # EDC Database configuration  #
 ###################################
 edc-postgresql:
+  nameOverride: "tracex-consumer-edc-postgresql"
+  fullnameOverride: "tracex-consumer-edc-postgresql"
   enabled: false
   auth:
     postgresPassword: "CHANGEME"
