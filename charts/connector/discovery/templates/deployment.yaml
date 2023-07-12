@@ -56,7 +56,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
-            - --local-response-templating --verbose
+            - --local-response-templating
+            - --verbose
           ports:
             - name: http
               containerPort: {{ .Values.service.port }}
