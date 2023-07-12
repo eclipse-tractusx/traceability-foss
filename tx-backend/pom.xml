@@ -20,13 +20,13 @@
     <name>TX Backend</name>
 
     <repositories>
-       <repository>
+      <repository>
             <id>github</id>
             <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/catenax-ng/tx-traceability-foss</url>
         </repository>
 
-           <!--    <repository>
+     <!--          <repository>
                     <id>github</id>
                     <name>GitHub Packages</name>
                     <url>https://maven.pkg.github.com/catenax-ng/tx-item-relationship-service</url>
@@ -41,8 +41,8 @@
                 <artifactId>irs-registry-client</artifactId>
                 <version>1.0.0-SNAPSHOT</version>
             </dependency>
-
-           <!--   <dependency>
+<!--
+          <dependency>
                   <groupId>org.eclipse.tractusx.irs</groupId>
                   <artifactId>irs-registry-client</artifactId>
                   <version>1.0.0-SNAPSHOT</version>
