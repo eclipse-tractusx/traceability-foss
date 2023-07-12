@@ -19,3 +19,7 @@
 #Environment specific wiremock host
 wiremock:
   host: "trace-x-edc.dev.demo.catena-x.net"
+
+ingress:
+  hosts:
+    - host: "tracex-discovery-mock.dev.demo.catena-x.net"
