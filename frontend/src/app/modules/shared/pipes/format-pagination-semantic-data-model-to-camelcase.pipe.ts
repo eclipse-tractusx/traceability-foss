@@ -25,7 +25,7 @@ import { SemanticDataModelInCamelCase } from '@page/parts/model/parts.model';
 })
 export class FormatPaginationSemanticDataModelToCamelCasePipe implements PipeTransform {
 
-  transform(value: Pagination<any> | any): Pagination<any> | any {
+  transform(value: Pagination<any>): Pagination<any> {
 
       const transformedContent = value.content.map(part => {
         switch (part.semanticDataModel.toString().toLowerCase()) {
