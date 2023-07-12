@@ -61,7 +61,7 @@
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <jetbrains-annotation.version>24.0.1</jetbrains-annotation.version>
         <feign-form.version>3.8.0</feign-form.version>
-        <feign-slf4j.version>12.1</feign-slf4j.version>
+        <feign-slf4j.version>12.4</feign-slf4j.version>
         <scribe-java.version>8.3.3</scribe-java.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <swagger-annotation.version>1.6.10</swagger-annotation.version>
