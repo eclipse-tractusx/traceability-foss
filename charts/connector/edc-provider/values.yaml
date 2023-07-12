@@ -56,11 +56,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 756m
-        memory: 1Gi
+        cpu: 1000m
+        memory: 2Gi
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 2Gi
 
   dataplane:
     ingresses:
@@ -90,11 +90,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 750m
-        memory: 1Gi
+        cpu: 1000m
+        memory: 2Gi
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 2Gi
 
   # URL where the EndpointDataReference callback will be sent to
   backendService:
