@@ -67,7 +67,8 @@ data:
         "headers": {
           "Content-Type": "application/json"
         },
-        "transformers": ["response-template"]
+        "transformers": [
+          "response-template"]
       }
     }
 
@@ -75,9 +76,9 @@ data:
     [
       {
         "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
-      "connectorEndpoint": [
-      "https://trace-x-edc.dev.demo.catena-x.net/"
-    ]
+        "connectorEndpoint": [
+          "{{ .Values.wiremock.host }}"
+        ]
       }
     ]
 
