@@ -9,7 +9,7 @@ tractusx-connector:
   controlplane:
     ingresses:
       - enabled: true
-        hostname: "trace1-x-edc.dev.demo.catena-x.net"
+        hostname: "trace-x-edc.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
