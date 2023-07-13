@@ -20,6 +20,13 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+      requests:
+        cpu: 100m
+        memory: 2Gi
 
   dataplane:
     ingresses:
@@ -35,6 +42,13 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
+    resources:
+      limits:
+        cpu: 1000m
+        memory: 2Gi
+      requests:
+        cpu: 100m
+        memory: 2Gi
 
 ## currently we need to provide a url but is not used anywhere
   backendService:
