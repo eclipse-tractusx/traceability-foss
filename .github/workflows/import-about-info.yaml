@@ -37,10 +37,20 @@ jobs:
           mv updated.json frontend/src/assets/notice/legal-notice.json
           rm commit-id.txt source-path.txt repository-path.txt license-path.txt notice-path.txt
 
-      - name: Commit and push changes
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add frontend/src/assets/notice/legal-notice.json
-          git commit -m "Update JSON with commit ID, source path, repository path, license path, notice path, and repository name"
-          git push
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update legal-notice.json with commit ID, source path, repository path, license path, notice path, and repository name
+          title: Update legal-notice.json
+          branch: update-legal-notice
+          body: |
+            This pull request updates the JSON file with the following information:
+            - Commit ID: ${{ github.sha }}
+            - Source Path: ${{ github.event.repository.html_url }}/blob/${{ github.sha }}
+            - Repository Path: ${{ github.event.repository.html_url }}
+            - License Path: ${{ github.event.repository.html_url }}/blob/main/LICENSE
+            - Notice Path: ${{ github.event.repository.html_url }}/blob/main/NOTICE.md
+            - Repository Name: ${{ env.REPO_NAME }}
+          labels: |
+            auto-generated
