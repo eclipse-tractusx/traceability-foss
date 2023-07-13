@@ -73,7 +73,7 @@ edc-postgresql:
         memory: 4Gi
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 4Gi
   enabled: true
   auth:
     database: edc
