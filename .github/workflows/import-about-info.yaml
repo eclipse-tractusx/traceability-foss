@@ -19,7 +19,7 @@ jobs:
           echo "${{ github.sha }}" > commit-id.txt
           REPO_NAME=$(basename -s .git "${{ github.repository }}")
           REPO_URL="${{ github.event.repository.html_url }}"
-          SOURCE_PATH="${REPO_URL}}/blob/${{ github.sha }}"
+          SOURCE_PATH="${REPO_URL}/blob/${{ github.sha }}"
           echo "${SOURCE_PATH}" > source-path.txt
           echo "${REPO_URL}" > repository-path.txt
           echo "${REPO_URL}/blob/main/LICENSE" > license-path.txt
@@ -45,12 +45,13 @@ jobs:
           title: Update legal-notice.json
           branch: update-legal-notice
           body: |
-            This pull request updates the JSON file with the following information:
+            This pull request updates the legal-notice.json file with the following information:
             - Commit ID: ${{ github.sha }}
             - Source Path: ${{ github.event.repository.html_url }}/blob/${{ github.sha }}
             - Repository Path: ${{ github.event.repository.html_url }}
             - License Path: ${{ github.event.repository.html_url }}/blob/main/LICENSE
             - Notice Path: ${{ github.event.repository.html_url }}/blob/main/NOTICE.md
             - Repository Name: ${{ env.REPO_NAME }}
+            The Information is used to update the about page with the latest info about the commit
           labels: |
             auto-generated
