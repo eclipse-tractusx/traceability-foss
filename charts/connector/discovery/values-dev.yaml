@@ -16,9 +16,13 @@
 # SPDX-License-Identifier: Apache-2.0#
 #
 
+
+nameOverride: ""
+fullnameOverride: ""
+
 #Environment specific wiremock host
-wiremock:
-  host: "trace-x-edc.dev.demo.catena-x.net"
+provider:
+  url: "https://trace-x-edc.dev.demo.catena-x.net"
 
 ingress:
   hosts:
