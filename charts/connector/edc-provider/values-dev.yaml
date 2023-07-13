@@ -71,9 +71,9 @@ edc-postgresql:
       limits:
         cpu: 2000m
         memory: 4Gi
-        requests:
-          cpu: 100m
-          memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
   enabled: true
   auth:
     database: edc
