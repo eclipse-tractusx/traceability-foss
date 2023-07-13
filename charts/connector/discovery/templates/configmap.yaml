@@ -76,7 +76,7 @@ data:
       {
         "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
       "connectorEndpoint": [
-      "https://trace-x-edc.dev.demo.catena-x.net/"
+      "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/"
     ]
       }
     ]
@@ -109,6 +109,7 @@ data:
         {"type": "bpn","key": ".*","value": "BPNL00000003B3NX","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
         {"type": "bpn","key": ".*","value": "BPNL00000003B5MJ","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
         {"type": "bpn","key": ".*","value": "BPNL00000003B5MJ","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {"type": "bpn","key": ".*","value": "BPNL00000003CML1","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
+        {"type": "bpn","key": ".*","value": "BPNL00000003CML1","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003CNKC","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
       ]
     }
