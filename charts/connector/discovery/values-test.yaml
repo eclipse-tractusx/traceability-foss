@@ -29,3 +29,6 @@ ingress:
       paths:
         - path: /
           pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - "discovery-mock-test.dev.demo.catena-x.net"
