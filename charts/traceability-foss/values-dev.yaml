@@ -299,8 +299,8 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 768m
-        memory: 768Mi
+        cpu: 2000m
+        memory: 3Gi
       requests:
         cpu: 100m
         memory: 256Mi
@@ -331,8 +331,8 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 768m
-        memory: 768Mi
+        cpu: 2000m
+        memory: 3Gi
       requests:
         cpu: 100m
         memory: 256Mi
@@ -385,6 +385,14 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+        requests:
+          cpu: 100m
+          memory: 256Mi
   nameOverride: "tracex-consumer-edc-postgresql"
   fullnameOverride: "tracex-consumer-edc-postgresql"
   enabled: true

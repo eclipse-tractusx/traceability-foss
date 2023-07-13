@@ -66,6 +66,14 @@ tractusx-connector:
     clientId: 35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88:keyid:35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88
 
 edc-postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+        requests:
+          cpu: 100m
+          memory: 256Mi
   enabled: true
   auth:
     database: edc
