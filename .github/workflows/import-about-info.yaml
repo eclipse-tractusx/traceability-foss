@@ -1,0 +1,56 @@
+name: Update About Info
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update JSON
+        run: |
+          echo "${{ github.sha }}" > commit-id.txt
+          REPO_NAME=$(basename -s .git "${{ github.repository }}")
+          REPO_URL="${{ github.event.repository.html_url }}"
+          SOURCE_PATH="${REPO_URL}}/blob/${{ github.sha }}"
+          echo "${SOURCE_PATH}" > source-path.txt
+          echo "${REPO_URL}" > repository-path.txt
+          echo "${REPO_URL}/blob/main/LICENSE" > license-path.txt
+          echo "${REPO_URL}/blob/main/NOTICE.md" > notice-path.txt
+
+          jq --arg commitId "$(cat commit-id.txt)" \
+             --arg sourcePath "$(cat source-path.txt)" \
+             --arg repositoryPath "$(cat repository-path.txt)" \
+             --arg licensePath "$(cat license-path.txt)" \
+             --arg noticePath "$(cat notice-path.txt)" \
+             --arg name "${REPO_NAME}" \
+             '.commitId = $commitId | .sourcePath = $sourcePath | .repositoryPath = $repositoryPath | .licensePath = $licensePath | .noticePath = $noticePath | .name = $name' \
+             frontend/src/assets/notice/legal-notice.json > updated.json
+
+          mv updated.json frontend/src/assets/notice/legal-notice.json
+          rm commit-id.txt source-path.txt repository-path.txt license-path.txt notice-path.txt
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: Update legal-notice.json with commit ID, source path, repository path, license path, notice path, and repository name
+          title: Update legal-notice.json
+          branch: update-legal-notice
+          body: |
+            This pull request updates the JSON file with the following information:
+            - Commit ID: ${{ github.sha }}
+            - Source Path: ${{ github.event.repository.html_url }}/blob/${{ github.sha }}
+            - Repository Path: ${{ github.event.repository.html_url }}
+            - License Path: ${{ github.event.repository.html_url }}/blob/main/LICENSE
+            - Notice Path: ${{ github.event.repository.html_url }}/blob/main/NOTICE.md
+            - Repository Name: ${{ env.REPO_NAME }}
+          labels: |
+            auto-generated
