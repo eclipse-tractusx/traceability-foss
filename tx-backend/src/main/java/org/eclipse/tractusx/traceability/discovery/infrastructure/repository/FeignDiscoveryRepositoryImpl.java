@@ -26,7 +26,6 @@ import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryResponse;
 import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
-import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +39,6 @@ import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery
 @RequiredArgsConstructor
 @Component
 public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
-    private final FeignDiscoveryRepository feignDiscoveryRepository;
     private final EdcProperties edcProperties;
     private final DiscoveryFinderClient discoveryFinderClient;
 
