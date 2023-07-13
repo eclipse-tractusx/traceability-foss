@@ -39,6 +39,7 @@
               "src/assets/fonts",
               "src/assets/images",
               "src/assets/locales",
+              "src/assets/notice",
               "src/mockServiceWorker.js",
               "src/favicon"
             ],

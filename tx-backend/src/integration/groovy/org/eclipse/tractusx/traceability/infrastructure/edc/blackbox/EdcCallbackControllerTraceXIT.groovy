@@ -36,16 +36,16 @@ import static com.xebialabs.restito.semantics.Condition.post
 import static io.restassured.RestAssured.given
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN
 
-class EdcCallbackControllerIT  extends IntegrationSpecification {
+class EdcCallbackControllerTraceXIT extends IntegrationSpecification {
 
 	@Autowired
 	InMemoryEndpointDataReferenceCache endpointDataReferenceCache
 
 	def "should execute callback"() {
 		given:
-			String contractAgreementId = "contractAgreementId"
-			thereIsRedirectionEndpoint()
-			endpointDataReferenceCache.storeAgreementId(contractAgreementId)
+		String contractAgreementId = "contractAgreementId"
+		thereIsRedirectionEndpoint()
+		endpointDataReferenceCache.storeAgreementId(contractAgreementId)
 
 		when:
 			given()
@@ -128,10 +128,10 @@ class EdcCallbackControllerIT  extends IntegrationSpecification {
 	@TestConfiguration
 	static class EdcTestConfig {
 
-		@Bean
-		EdcCallbackController edcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
-			return new EdcCallbackController(endpointDataReferenceCache, restTemplateBuilder, edcProperties)
-		}
+//		@Bean
+//		EdcCallbackControllerTraceX edcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
+//			return new EdcCallbackControllerTraceX(endpointDataReferenceCache, restTemplateBuilder, edcProperties)
+//		}
 	}
 
 }

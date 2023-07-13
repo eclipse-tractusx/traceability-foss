@@ -30,7 +30,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformer;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformerTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
@@ -54,9 +54,9 @@ public class HttpCallService {
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
     private final EdcProperties edcProperties;
-    private final EdcTransformer edcTransformer;
+    private final EdcTransformerTraceX edcTransformer;
 
-    public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties, EdcTransformer edcTransformer) {
+    public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties, EdcTransformerTraceX edcTransformer) {
         this.httpClient = withIncreasedTimeout(httpClient);
         this.objectMapper = objectMapper;
         this.edcProperties = edcProperties;

@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.discovery.domain.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
 
 import java.util.ArrayList;
@@ -47,6 +48,10 @@ public class Discovery {
                 .collect(Collectors.toMap(ConnectorDiscoveryMappingResponse::bpn, ConnectorDiscoveryMappingResponse::connectorEndpoint));
         List<String> receiverUrls = bpnToEndpointMappings.get(bpn);
         return Discovery.builder().receiverUrls(receiverUrls).senderUrl(senderUrl).build();
+    }
+
+    public static Discovery toDiscovery(EdcDiscoveryResult edcDiscoveryResult, String senderUrl) {
+        return Discovery.builder().receiverUrls(edcDiscoveryResult.connectorEndpoint()).senderUrl(senderUrl).build();
     }
 
     public static Discovery mergeDiscoveries(List<Discovery> discoveries) {

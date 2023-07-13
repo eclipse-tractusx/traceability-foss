@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Profile;
@@ -41,7 +41,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @Hidden
 @RequestMapping("/callback/endpoint-data-reference")
-public class EdcCallbackController {
+public class EdcCallbackControllerTraceX {
 
     private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
@@ -49,7 +49,7 @@ public class EdcCallbackController {
 
     private final EdcProperties edcProperties;
 
-    public EdcCallbackController(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
+    public EdcCallbackControllerTraceX(InMemoryEndpointDataReferenceCache endpointDataReferenceCache, RestTemplateBuilder restTemplateBuilder, EdcProperties edcProperties) {
         this.endpointDataReferenceCache = endpointDataReferenceCache;
         this.restTemplate = restTemplateBuilder.build();
         this.edcProperties = edcProperties;
@@ -57,7 +57,7 @@ public class EdcCallbackController {
 
     @PostMapping
     public void receiveEdcCallback(@RequestBody EndpointDataReference dataReference) {
-        final var contractAgreementId = dataReference.getProperties().get(JsonLdConfiguration.NAMESPACE_EDC_CID);
+        final var contractAgreementId = dataReference.getProperties().get(JsonLdConfigurationTraceX.NAMESPACE_EDC_CID);
         log.info("Received EDC callback for contract: {}", contractAgreementId);
 
         if (endpointDataReferenceCache.containsAgreementId(contractAgreementId)) {

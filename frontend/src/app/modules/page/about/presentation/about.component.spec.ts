@@ -18,16 +18,29 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 import { AboutModule } from '@page/about/about.module';
 import { AboutComponent } from '@page/about/presentation/about.component';
 import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
+
 describe('About Page', () => {
+
+  it('should open link in new tab', async () => {
+    const {fixture} = await renderComponent(AboutComponent, { imports: [AboutModule] });
+    let component = fixture.componentInstance;
+    const url = 'https://www.example.com';
+
+    spyOn(window, 'open');
+
+    component.openLink(url);
+
+    expect(window.open).toHaveBeenCalledWith(url, '_blank');
+  });
+
+
   it('should render about page', async () => {
     await renderComponent(AboutComponent, { imports: [AboutModule] });
-
     expect(screen.getByText('pageAbout.content')).toBeInTheDocument();
   });
 });

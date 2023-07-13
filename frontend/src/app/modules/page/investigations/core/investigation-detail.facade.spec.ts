@@ -16,12 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-
 import { TitleCasePipe } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
-import { AlertDetailState } from '@page/alerts/core/alert-detail.state';
+import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
+import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
@@ -29,9 +28,9 @@ import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
 import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.model';
 
-describe('AlertDetailFacade', () => {
-  let alertDetailFacade: AlertDetailFacade;
-  let alertDetailState: AlertDetailState;
+describe('InvestigationDetailFacade', () => {
+  let investigationDetailFacade: InvestigationDetailFacade;
+  let investigationDetailState: InvestigationDetailState;
   let partService: PartsService;
 
   beforeEach(() => {
@@ -44,15 +43,15 @@ describe('AlertDetailFacade', () => {
         KeycloakService,
         PartsService,
         TitleCasePipe,
-        AlertDetailFacade,
-        AlertDetailState,
+        InvestigationDetailFacade,
+        InvestigationDetailState,
         FormatPartlistSemanticDataModelToCamelCasePipe,
       ],
     });
 
-    alertDetailFacade = TestBed.inject(AlertDetailFacade);
+    investigationDetailFacade = TestBed.inject(InvestigationDetailFacade);
 
-    alertDetailState = TestBed.inject(AlertDetailState);
+    investigationDetailState = TestBed.inject(InvestigationDetailState);
 
     partService = TestBed.inject(PartsService);
   });
@@ -60,7 +59,7 @@ describe('AlertDetailFacade', () => {
   [
     {
       method: 'sortNotificationParts',
-      prop: 'alertPartsInformation' as any,
+      prop: 'investigationPartsInformation' as any,
     },
     {
       method: 'sortSupplierParts',
@@ -83,11 +82,11 @@ describe('AlertDetailFacade', () => {
 
         it('should pass sortParts', function() {
 
-          spyOnProperty(alertDetailState, object.prop, 'get').and.returnValue({
+          spyOnProperty(investigationDetailState, object.prop, 'get').and.returnValue({
             data: fallacy,
           });
 
-          alertDetailFacade[object.method]('', '');
+          investigationDetailFacade[object.method]('', '');
 
           index == 0
             ? (() => {
@@ -102,13 +101,13 @@ describe('AlertDetailFacade', () => {
 
         it('should set part infos after sort', function() {
 
-          spyOnProperty(alertDetailState, object.prop, 'get').and.returnValue({
+          spyOnProperty(investigationDetailState, object.prop, 'get').and.returnValue({
             data: fallacy,
           });
 
-          this.spyPropSet = spyOnProperty(alertDetailState, object.prop, 'set');
+          this.spyPropSet = spyOnProperty(investigationDetailState, object.prop, 'set');
 
-          alertDetailFacade[object.method]('', '');
+          investigationDetailFacade[object.method]('', '');
 
           index == 0
             ? (() => {
