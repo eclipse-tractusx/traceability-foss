@@ -40,9 +40,7 @@ import org.springframework.stereotype.Component;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Clock;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,11 +83,9 @@ public class RegistryService {
 
         ownManufacturerIdBPNMap.put("assetIds", getFilterValue(manufacturerIdKey, applicationBPN));
 
-        final List<String> ownAssetIds = new ArrayList<>();
         Collection<DigitalTwinRegistryKey> registryKeys = null;
         try {
-            // ownAssetIds = registryApiClient.getShellsByAssetIds(ownManufacturerIdBPNMap);
-            registryKeys = decentralDigitalTwinRegistryService.lookupShells("BPNL00000003CML1");
+            registryKeys = decentralDigitalTwinRegistryService.lookupShells(applicationBPN);
             registryKeys.forEach(digitalTwinRegistryKey -> {
                 log.info("DTR Key" + digitalTwinRegistryKey);
             });
@@ -97,7 +93,6 @@ public class RegistryService {
             endMetric(registryLookupMetric);
             log.error("Fetching shell ownShellsRegistryResponse failed", e);
         }
-        /*  log.info("Received {} shell descriptor IDs.", ownAssetIds.size());*/
 
         log.info("Fetching shell ownShellsRegistryResponse.");
 
@@ -111,7 +106,6 @@ public class RegistryService {
 
             ownShellsRegistryResponse = RegistryShellDescriptorResponse.fromCollection(assetAdministrationShellDescriptors);
 
-            // ownShellsRegistryResponse = registryApiClient.fetchShellDescriptors(ownAssetIds);
         } catch (FeignException e) {
             endMetric(registryLookupMetric);
 
@@ -120,7 +114,9 @@ public class RegistryService {
             throw e;
         }
 
-        log.info("Received {} shell ownShellsRegistryResponse for {} IDs.", ownShellsRegistryResponse.items().size(), ownAssetIds.size());
+        log.info("Received {} shell ownShellsRegistryResponse for {} IDs.",
+                ownShellsRegistryResponse.items().size(),
+                registryKeys == null ? 0 : registryKeys.size());
 
         List<ShellDescriptor> ownShellDescriptors = ownShellsRegistryResponse.items().stream()
                 .filter(it -> Objects.nonNull(it.globalAssetId()))
