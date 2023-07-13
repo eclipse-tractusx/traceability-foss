@@ -36,7 +36,7 @@ export class AlertDetailFacade {
   constructor(
     private readonly partsService: PartsService,
     private readonly alertDetailState: AlertDetailState,
-    private readonly formatSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe,
+    private readonly formatPartlistSemanticDataModelToCamelCasePipe: FormatPartlistSemanticDataModelToCamelCasePipe,
   ) {
   }
 
@@ -73,7 +73,7 @@ export class AlertDetailFacade {
       .getPartDetailOfIds(notification.assetIds)
       .subscribe({
         next: data => {
-          this.formatSemanticDataModelToCamelCasePipe.transform(data);
+          this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
           this.alertDetailState.alertPartsInformation = { data };
         },
         error: error => (this.alertDetailState.alertPartsInformation = { error }),
@@ -92,9 +92,7 @@ export class AlertDetailFacade {
       )
       .subscribe({
         next: data => {
-          data.forEach(part => {
-            part.semanticDataModel = this.formatSemanticDataModelToCamelCasePipe.transform(part.semanticDataModel);
-          })
+          this.formatPartlistSemanticDataModelToCamelCasePipe.transform(data);
           this.alertDetailState.supplierPartsInformation = { data };
         },
         error: error => (this.alertDetailState.supplierPartsInformation = { error }),
