@@ -3,32 +3,17 @@ package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.reposit
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
-class RegistryShellDescriptorTest {
-
-    @Test
-    void test_ToShellDescriptor() {
-        //GIVEN
-        GlobalAssetId globalAssetId = new GlobalAssetId(List.of("assetId1", "assetId2"));
-        List<SpecificAssetId> specificAssetIds = List.of(new SpecificAssetId("manufacturerPartId", "manufacturerPartId"));
-        RegistryShellDescriptor registryShellDescriptor = new RegistryShellDescriptor(globalAssetId, "", "", specificAssetIds);
-
-        //WHEN
-        ShellDescriptor shellDescriptor = registryShellDescriptor.toShellDescriptor();
-
-        //THEN
-        assertEquals("manufacturerPartId", shellDescriptor.getManufacturerPartId());
-    }
+class RegistryShellDescriptorResponseTest {
 
     @Test
-    void givenAssetAdministrationShellDescriptor_whenFrom_thenConvertProperly() {
+    void givenRegistryShellDescriptorResponse_whenFromCollection_thenCorrectMapping() {
         // given
         final String globalAssetId = "GLOBAL_ASSET_ID";
         final String idShort = "ID_SHORT";
@@ -43,18 +28,14 @@ class RegistryShellDescriptorTest {
                 .identification(identification)
                 .specificAssetIds(List.of(identifierKeyValuePair))
                 .build();
+        final RegistryShellDescriptor expectedDescriptor = RegistryShellDescriptor.from(assetAdministrationShellDescriptor);
 
         // when
-        final RegistryShellDescriptor result = RegistryShellDescriptor.from(assetAdministrationShellDescriptor);
+        final RegistryShellDescriptorResponse result = RegistryShellDescriptorResponse.fromCollection(List.of(assetAdministrationShellDescriptor));
 
         // then
-        assertThat(result.globalAssetId().value())
-                .containsExactly(globalAssetId);
-        assertThat(result.identification()).isEqualTo(identification);
-        assertThat(result.idShort()).isEqualTo(idShort);
-        assertThat(result.specificAssetIds())
+        assertThat(result.items())
                 .hasSize(1)
-                .first().hasFieldOrPropertyWithValue("key", keyIdentifier)
-                .hasFieldOrPropertyWithValue("value", valueIdentifier);
+                .containsExactly(expectedDescriptor);
     }
 }
