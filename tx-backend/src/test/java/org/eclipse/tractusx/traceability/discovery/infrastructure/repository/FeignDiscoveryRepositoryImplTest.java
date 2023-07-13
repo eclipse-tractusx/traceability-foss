@@ -18,6 +18,10 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.discovery.infrastructure.repository;
 
+import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryEndpoint;
+import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryFinderClient;
+import org.eclipse.tractusx.irs.registryclient.discovery.DiscoveryResponse;
+import org.eclipse.tractusx.irs.registryclient.discovery.EdcDiscoveryResult;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.infrastructure.model.ConnectorDiscoveryMappingResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
@@ -28,10 +32,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,14 +51,18 @@ class FeignDiscoveryRepositoryImplTest {
     private EdcProperties edcProperties;
 
     @Mock
-    private FeignDiscoveryRepository feignDiscoveryRepository;
+    private DiscoveryFinderClient discoveryFinderClient;
 
     @Test
     void testGetDiscoveryByBpnFromConnectorEndpointSuccessful() {
-        ConnectorDiscoveryMappingResponse connectorDiscoveryMappingResponse = new ConnectorDiscoveryMappingResponse("bpn", List.of("test.de"));
-        when(feignDiscoveryRepository.getConnectorEndpointMappings(List.of("bpn"))).thenReturn(List.of(connectorDiscoveryMappingResponse));
+        DiscoveryEndpoint discoveryEndpoint = new DiscoveryEndpoint("bpn", "description", "test.de", "documentation", "resourceId");
+        DiscoveryResponse discoveryResponse = new DiscoveryResponse(List.of(discoveryEndpoint));
+        when(discoveryFinderClient.findDiscoveryEndpoints(any())).thenReturn(discoveryResponse);
+
+        EdcDiscoveryResult edcDiscoveryResult = new EdcDiscoveryResult("bpn", List.of("test.de"));
+        when(discoveryFinderClient.findConnectorEndpoints(any(), any())).thenReturn(List.of(edcDiscoveryResult));
         when(edcProperties.getProviderEdcUrl()).thenReturn("sender.de");
-        Optional<Discovery> discovery = feignDiscoveryRepositoryImpl.getDiscoveryByBpnFromConnectorEndpoint("bpn");
+        Optional<Discovery> discovery = feignDiscoveryRepositoryImpl.retrieveDiscoveryByFinderAndEdcDiscoveryService("bpn");
 
         Assertions.assertTrue(discovery.isPresent());
         assertThat(discovery.get().getReceiverUrls()).isEqualTo(List.of("test.de"));
@@ -60,8 +71,9 @@ class FeignDiscoveryRepositoryImplTest {
 
     @Test
     void testGetDiscoveryByBpnFromConnectorEndpointException() {
-        when(feignDiscoveryRepository.getConnectorEndpointMappings(List.of("bpn"))).thenThrow(new RuntimeException());
-        Optional<Discovery> discoveryByBpnFromConnectorEndpoint = feignDiscoveryRepositoryImpl.getDiscoveryByBpnFromConnectorEndpoint("bpn");
+        DiscoveryResponse discoveryResponse = new DiscoveryResponse(Collections.emptyList());
+        when(discoveryFinderClient.findDiscoveryEndpoints(any())).thenReturn(discoveryResponse);
+        Optional<Discovery> discoveryByBpnFromConnectorEndpoint = feignDiscoveryRepositoryImpl.retrieveDiscoveryByFinderAndEdcDiscoveryService("bpn");
         Assertions.assertTrue(discoveryByBpnFromConnectorEndpoint.isEmpty());
     }
 }
