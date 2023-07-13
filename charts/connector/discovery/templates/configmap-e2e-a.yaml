@@ -23,7 +23,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "discovery.fullname" . }}
+  name: tracex-discoveryfinder-e2e-a
   labels:
     {{- include "discovery.labels" . | nindent 4 }}
 data:
