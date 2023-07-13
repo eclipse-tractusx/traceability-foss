@@ -5,7 +5,6 @@ tractusx-connector:
     vault: false
   participant:
     id: BPNL00000003CML1
-#Update
   controlplane:
     ingresses:
       - enabled: true
