@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.scheduler;
 
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.scheduler.ShellDescriptorRefreshJob;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,7 @@ class ShellDescriptorRefreshJobTest {
     private RegistryFacade registryFacade;
 
     @Test
-    void refresh_shouldCallLoadShellDescriptors() {
+    void refresh_shouldCallLoadShellDescriptors() throws RegistryServiceException {
         ShellDescriptorRefreshJob job = new ShellDescriptorRefreshJob(registryFacade);
         job.refresh();
         verify(registryFacade).updateShellDescriptorAndSynchronizeAssets();

@@ -36,7 +36,7 @@ import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.PolicyDefinition;
@@ -56,8 +56,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.*;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC_ID;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC_ID;
 
 @Slf4j
 @Component
@@ -118,9 +118,9 @@ public class InvestigationsEDCFacade {
                         .connectorId(catalog.getId())
                         .offerId(offer.getKey())
                         .policy(offer.getValue());
-                if (catalog.getProperties().containsKey(JsonLdConfiguration.NAMESPACE_EDC_PARTICIPANT_ID)) {
+                if (catalog.getProperties().containsKey(JsonLdConfigurationTraceX.NAMESPACE_EDC_PARTICIPANT_ID)) {
                     catalogItem.connectorId(
-                            catalog.getProperties().get(JsonLdConfiguration.NAMESPACE_EDC_PARTICIPANT_ID).toString());
+                            catalog.getProperties().get(JsonLdConfigurationTraceX.NAMESPACE_EDC_PARTICIPANT_ID).toString());
                 }
 
                 return catalogItem.build();

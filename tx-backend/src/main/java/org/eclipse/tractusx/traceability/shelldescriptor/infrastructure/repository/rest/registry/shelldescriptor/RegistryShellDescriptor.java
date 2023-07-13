@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor;
 
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
 import java.util.List;
@@ -58,6 +59,10 @@ public record RegistryShellDescriptor(
                 .manufacturerId(manufacturerId)
                 .batchId(batchId)
                 .build();
+    }
+
+    public static RegistryShellDescriptor from(AssetAdministrationShellDescriptor assetAdministrationShellDescriptor) {
+        return new RegistryShellDescriptor(GlobalAssetId.from(assetAdministrationShellDescriptor.getGlobalAssetId()), assetAdministrationShellDescriptor.getIdentification(), assetAdministrationShellDescriptor.getIdShort(), SpecificAssetId.fromList(assetAdministrationShellDescriptor.getSpecificAssetIds()));
     }
 
     enum AssetIdType {

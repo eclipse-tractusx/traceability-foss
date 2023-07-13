@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 
 /**
  * Transformer to convert TransferProcessRequest to JSON-LD.

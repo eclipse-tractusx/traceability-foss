@@ -44,7 +44,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 import java.util.UUID;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_ODRL;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_ODRL;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
 @Slf4j
@@ -64,9 +64,9 @@ public class EdcPolicyDefinitionService {
     private final EdcProperties edcProperties;
 
     @Autowired
-    public EdcPolicyDefinitionService(ObjectMapper objectMapper, @Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties) {
+    public EdcPolicyDefinitionService(ObjectMapper objectMapper, @Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties) {
         this.objectMapper = objectMapper;
-        this.restTemplate = restTemplate;
+        this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
     }
 
