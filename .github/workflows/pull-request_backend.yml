@@ -83,29 +83,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Configure Maven settings
-        run: |
-          mkdir -p $HOME/.m2
-          echo "<settings xmlns='http://maven.apache.org/SETTINGS/1.0.0' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd'>
-            <servers>
-              <server>
-                <id>github</id>
-                <username>${{ github.actor }}</username>
-                <password>${{ secrets.GITHUB_TOKEN }}</password>
-              </server>
-            </servers>
-          </settings>" > $HOME/.m2/settings.xml
-
-      - name: Copy m2 settings
-        run: cp $HOME/.m2/settings.xml .
-
-      - name: ls
-        run: ls -la
-
-      - name: Publish to GitHub Maven Registry
-        run: |
-          mvn deploy:deploy-file -Durl=https://maven.pkg.github.com/${{ github.repository }} -DrepositoryId=github -Dfile=irs-registry-client-1.0.0-SNAPSHOT.jar -DgroupId=org.eclipse.tractusx.traceability -DartifactId=irs-registry-client -Dversion=1.0.0-SNAPSHOT -Dpackaging=jar --settings $HOME/.m2/settings.xml
-
       - name: Build & Push docker image for GHCR ${{ env.GHCR_REGISTRY }}/${{ github.repository }}:${{ github.event.pull_request.head.sha }}
         uses: docker/build-push-action@v4
         with:
