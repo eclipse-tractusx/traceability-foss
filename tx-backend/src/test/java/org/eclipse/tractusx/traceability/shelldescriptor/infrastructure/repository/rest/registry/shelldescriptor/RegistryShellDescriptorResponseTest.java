@@ -37,5 +37,8 @@ class RegistryShellDescriptorResponseTest {
         assertThat(result.items())
                 .hasSize(1)
                 .containsExactly(expectedDescriptor);
+        assertThat(result).isEqualTo(RegistryShellDescriptorResponse.builder().items(List.of(expectedDescriptor)).build());
+        assertThat(result.toString()).hasToString("RegistryShellDescriptorResponse[" +
+                "items=" + List.of(expectedDescriptor) + ']');
     }
 }

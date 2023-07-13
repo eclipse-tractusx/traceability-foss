@@ -22,13 +22,20 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
+import org.eclipse.tractusx.irs.registryclient.DigitalTwinRegistryKey;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryApiClient;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -36,6 +43,10 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Clock;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RegistryServiceTest {
@@ -69,20 +80,33 @@ class RegistryServiceTest {
 
     }
 
-/*    @Test
-    void testFindAssets() {
+    @Test
+    void testFindAssets() throws RegistryServiceException {
         // Given
-        when(registryShellDescriptor.globalAssetId()).thenReturn(new GlobalAssetId(List.of("testGlobalAssetId")));
-
-        List<RegistryShellDescriptor> items = new ArrayList<>();
-        items.add(registryShellDescriptor);
-        when(registryShellDescriptorResponse.items()).thenReturn(items);
-        when(registryApiClient.fetchShellDescriptors(any())).thenReturn(registryShellDescriptorResponse);
+        List<DigitalTwinRegistryKey> registryKeys = List.of(
+                new DigitalTwinRegistryKey("assetId", "test-bpn")
+        );
+        when(decentralDigitalTwinRegistryService.lookupShells("test-bpn")).thenReturn(registryKeys);
+        final String globalAssetId = "GLOBAL_ASSET_ID";
+        final String idShort = "ID_SHORT";
+        final String identification = "IDENTIFICATION";
+        final String keyIdentifier = "KEY_IDENTIFIER";
+        final String valueIdentifier = "VALUE_IDENTIFIER";
+        IdentifierKeyValuePair identifierKeyValuePair = IdentifierKeyValuePair.builder().key(keyIdentifier).value(valueIdentifier).build();
+        final Reference reference = Reference.builder().value(List.of(globalAssetId)).build();
+        final AssetAdministrationShellDescriptor assetAdministrationShellDescriptor = AssetAdministrationShellDescriptor.builder()
+                .globalAssetId(reference)
+                .idShort(idShort)
+                .identification(identification)
+                .specificAssetIds(List.of(identifierKeyValuePair))
+                .build();
+        List<AssetAdministrationShellDescriptor> administrationShellDescriptors = List.of(assetAdministrationShellDescriptor);
+        when(decentralDigitalTwinRegistryService.fetchShells(registryKeys)).thenReturn(administrationShellDescriptors);
 
         // When
         List<ShellDescriptor> shellDescriptors = registryService.findOwnShellDescriptors();
 
         // Then
-        assertEquals(1, shellDescriptors.size());
-    }*/
+        assertThat(shellDescriptors).hasSize(1);
+    }
 }
