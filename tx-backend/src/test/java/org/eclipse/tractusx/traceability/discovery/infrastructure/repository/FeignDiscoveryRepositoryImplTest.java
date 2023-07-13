@@ -51,7 +51,7 @@ class FeignDiscoveryRepositoryImplTest {
         ConnectorDiscoveryMappingResponse connectorDiscoveryMappingResponse = new ConnectorDiscoveryMappingResponse("bpn", List.of("test.de"));
         when(feignDiscoveryRepository.getConnectorEndpointMappings(List.of("bpn"))).thenReturn(List.of(connectorDiscoveryMappingResponse));
         when(edcProperties.getProviderEdcUrl()).thenReturn("sender.de");
-        Optional<Discovery> discovery = feignDiscoveryRepositoryImpl.getDiscoveryByBpnFromConnectorEndpoint("bpn");
+        Optional<Discovery> discovery = feignDiscoveryRepositoryImpl.retrieveDiscoveryByFinderAndEdcDiscoveryService("bpn");
 
         Assertions.assertTrue(discovery.isPresent());
         assertThat(discovery.get().getReceiverUrls()).isEqualTo(List.of("test.de"));
@@ -61,7 +61,7 @@ class FeignDiscoveryRepositoryImplTest {
     @Test
     void testGetDiscoveryByBpnFromConnectorEndpointException() {
         when(feignDiscoveryRepository.getConnectorEndpointMappings(List.of("bpn"))).thenThrow(new RuntimeException());
-        Optional<Discovery> discoveryByBpnFromConnectorEndpoint = feignDiscoveryRepositoryImpl.getDiscoveryByBpnFromConnectorEndpoint("bpn");
+        Optional<Discovery> discoveryByBpnFromConnectorEndpoint = feignDiscoveryRepositoryImpl.retrieveDiscoveryByFinderAndEdcDiscoveryService("bpn");
         Assertions.assertTrue(discoveryByBpnFromConnectorEndpoint.isEmpty());
     }
 }

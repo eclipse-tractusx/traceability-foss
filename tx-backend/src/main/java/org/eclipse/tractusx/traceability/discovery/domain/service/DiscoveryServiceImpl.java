@@ -44,6 +44,8 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 
     private final EdcProperties edcProperties;
 
+
+
     @Override
     public Discovery getDiscoveryByBPN(String bpn) {
         List<Discovery> discoveryList = new ArrayList<>();
@@ -56,7 +58,7 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 
     @NotNull
     private Optional<Discovery> getOptionalDiscoveryByBpnFromDiscoveryService(String bpn) {
-        return discoveryRepository.getDiscoveryByBpnFromConnectorEndpoint(bpn);
+        return discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(bpn);
     }
 
     @NotNull
