@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.scheduler;
 
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.springframework.context.annotation.Profile;
@@ -44,7 +45,7 @@ public class ShellDescriptorRefreshJob {
 		lockAtLeastFor = "PT5M",
 		lockAtMostFor = "PT15M"
 	)
-	public void refresh() {
+	public void refresh() throws RegistryServiceException {
 		registryFacade.updateShellDescriptorAndSynchronizeAssets();
 	}
 }

@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfiguration.NAMESPACE_EDC;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration.EdcRestTemplateConfiguration.EDC_REST_TEMPLATE;
 
 @Slf4j
@@ -54,8 +54,8 @@ public class EdcContractDefinitionService {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate restTemplate, EdcProperties edcProperties, ObjectMapper objectMapper, ObjectMapper objectMapper1) {
-        this.restTemplate = restTemplate;
+    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper, ObjectMapper objectMapper1) {
+        this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
         this.objectMapper = objectMapper1;
     }

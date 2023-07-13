@@ -19,7 +19,43 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor;
 
-import java.util.List;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
 
-public record GlobalAssetId(List<String> value) {
+import java.util.List;
+import java.util.Objects;
+
+public final class GlobalAssetId {
+    private final List<String> value;
+
+    public GlobalAssetId(List<String> value) {
+        this.value = value;
+    }
+
+    public static GlobalAssetId from(Reference reference) {
+        return new GlobalAssetId(reference.getValue());
+    }
+
+    public List<String> value() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (GlobalAssetId) obj;
+        return Objects.equals(this.value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override
+    public String toString() {
+        return "GlobalAssetId[" +
+                "value=" + value + ']';
+    }
+
 }
