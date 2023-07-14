@@ -58,7 +58,7 @@ data:
   edc_discovery_request_registry_flow.json: |-
     {
       "request": {
-        "body": "{\"test\": \"test\"}",
+        "bodyFileName": "edc_discovery_request_body_registry_flow.json",
         "method": "POST",
         "urlPath": "/api/administration/connectors/discovery"
       },
@@ -71,6 +71,13 @@ data:
         "transformers": ["response-template"]
       }
     }
+
+  edc_discovery_request_body_registry_flow.json: |-
+
+    {
+      "test": "test"
+    }
+
 
   edc_discovery_response_registry_flow.json: |-
     [
