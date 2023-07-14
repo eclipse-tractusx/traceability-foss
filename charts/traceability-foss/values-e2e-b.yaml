@@ -211,7 +211,7 @@ irs-helm:
     type: central
     url: https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry
     ## TODO needs to be adapted to our mock once we have one.
-    discoveryFinderUrl: https://discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search
+    discoveryFinderUrl: https://discovery-mock-e2e-b.dev.demo.catena-x.net/api/administration/connectors/discovery/search
 
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
