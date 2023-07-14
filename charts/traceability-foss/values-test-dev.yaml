@@ -260,6 +260,8 @@ tractusx-connector:
     id: BPNL00000003CML1
 
   controlplane:
+    nameOverride: "consumer-controlplane-test"
+    fullnameOverride: "consumer-controlplane-test"
     ingresses:
       - enabled: true
         hostname: "tracex-test-consumer-controlplane.dev.demo.catena-x.net"
