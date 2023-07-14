@@ -84,23 +84,15 @@ spec:
             - name: configuration
               mountPath: home/wiremock/__files/discovery_finder_response.json
               subPath: discovery_finder_response.json
-
             - name: configuration
               mountPath: /home/wiremock/mappings/edc_discovery_request_registry_flow.json
               subPath: edc_discovery_request_registry_flow.json
             - name: configuration
-              mountPath: /home/wiremock/mappings/edc_discovery_request_body_registry_flow.json
-              subPath: edc_discovery_request_body_registry_flow.json
-            - name: configuration
               mountPath: home/wiremock/__files/edc_discovery_response_registry_flow.json
               subPath: edc_discovery_response_registry_flow.json
-
             - name: configuration
               mountPath: /home/wiremock/mappings/edc_discovery_request_notification_flow.json
               subPath: edc_discovery_request_notification_flow.json
-            - name: configuration
-              mountPath: /home/wiremock/mappings/edc_discovery_request_body_notification_flow.json
-              subPath: edc_discovery_request_body_notification_flow.json
             - name: configuration
               mountPath: home/wiremock/__files/edc_discovery_response_notification_flow.json
               subPath: edc_discovery_response_notification_flow.json
@@ -119,15 +111,10 @@ spec:
                 path: discovery_finder_response.json
               - key: edc_discovery_request_registry_flow.json
                 path: edc_discovery_request_registry_flow.json
-              - key: edc_discovery_request_body_registry_flow.json
-                path: edc_discovery_request_body_registry_flow.json
               - key: edc_discovery_response_registry_flow.json
                 path: edc_discovery_response_registry_flow.json
-
               - key: edc_discovery_request_notification_flow.json
                 path: edc_discovery_request_notification_flow.json
-              - key: edc_discovery_request_body_notification_flow.json
-                path: edc_discovery_request_body_notification_flow.json
               - key: edc_discovery_response_notification_flow.json
                 path: edc_discovery_response_notification_flow.json
       {{- with .Values.nodeSelector }}
