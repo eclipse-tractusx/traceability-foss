@@ -49,7 +49,7 @@ jobs:
           body: |
             This pull request updates the legal-notice.json file with the following information:
             - Commit ID: ${{ github.sha }}
-            - Source Path: ${{ github.event.repository.html_url }}/blob/${{ github.sha }}
+            - Source Path: ${{ github.event.repository.html_url }}/tree/main
             - Repository Path: ${{ github.event.repository.html_url }}
             - License Path: ${{ github.event.repository.html_url }}/blob/main/LICENSE
             - Notice Path: ${{ github.event.repository.html_url }}/blob/main/NOTICE.md
