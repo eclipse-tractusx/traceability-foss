@@ -60,8 +60,7 @@ data:
       "request": {
         "bodyPatterns": [
           {
-            "matchesJsonPath": "$.test",
-            "equalToJson" : "test"
+            "equalToJson" : "{\"test\": \"test\"}"
           }
         ],
         "method": "POST",
@@ -92,8 +91,7 @@ data:
       "request": {
         "bodyPatterns": [
           {
-            "matchesJsonPath": "$.test",
-            "equalToJson" : "test2"
+            "equalToJson" : "{\"test\": \"test2\"}"
           }
         ],
         "method": "POST",
