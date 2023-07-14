@@ -60,7 +60,8 @@ data:
       "request": {
         "bodyPatterns": [
           {
-            "matchesJsonPath": "$.test"
+            "matchesJsonPath": "$.test",
+            "equalTo" : "test"
           }
         ],
         "method": "POST",
@@ -91,7 +92,8 @@ data:
       "request": {
         "bodyPatterns": [
           {
-            "matchesJsonPath": "$.test"
+            "matchesJsonPath": "$.test",
+            "equalTo" : "test2"
           }
         ],
         "method": "POST",
@@ -99,7 +101,7 @@ data:
       },
       "response": {
         "status": 200,
-        "bodyFileName": "edc_discovery_response_notification_flow",
+        "bodyFileName": "edc_discovery_response_notification_flow.json",
         "headers": {
         "Content-Type": "application/json"
         },
