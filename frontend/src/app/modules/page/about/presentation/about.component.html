@@ -23,25 +23,25 @@ SPDX-License-Identifier: Apache-2.0
   <div class="mt-4 card">
     <div class="card-content">
       <h3 class="title-text" (click)="openLink(repositoryPath)">{{ name }}
-        <mat-icon (click)="openLink(noticePath)" class="ml-1.5 part-detail--relation__icon"
+        <mat-icon class="ml-1.5 part-detail--relation__icon"
         >open_in_new
         </mat-icon>
       </h3>
       <div *ngIf="license && licensePath" class="link-text" (click)="openLink(licensePath)">
         License {{ license }}
-        <mat-icon (click)="openLink(licensePath)" class="part-detail--relation__icon"
+        <mat-icon class="part-detail--relation__icon"
         >open_in_new
         </mat-icon>
       </div>
       <div *ngIf="noticePath" class="link-text" (click)="openLink(noticePath)">
         Notice
-        <mat-icon (click)="openLink(noticePath)" class="part-detail--relation__icon"
+        <mat-icon class="part-detail--relation__icon"
         >open_in_new
         </mat-icon>
       </div>
       <div *ngIf="sourcePath" class="link-text" (click)="openLink(sourcePath)">
         Source
-        <mat-icon (click)="openLink(sourcePath)" class="part-detail--relation__icon"
+        <mat-icon class="part-detail--relation__icon"
         >open_in_new
         </mat-icon>
       </div>
