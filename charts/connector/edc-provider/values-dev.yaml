@@ -14,6 +14,16 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
+    ssi:
+      miw:
+        url: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
+      oauth:
+        tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
+          secretAlias: edc-miw-keycloak-secret
+
   dataplane:
     ingresses:
       - enabled: true
