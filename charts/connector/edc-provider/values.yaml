@@ -176,7 +176,7 @@ edc-postgresql:
       requests:
         cpu: 100m
         memory: 4Gi
-  enabled: false
+  enabled: true
   auth:
     database: edc
     username: <path:traceability-foss/data/dev/edc/database#user>
