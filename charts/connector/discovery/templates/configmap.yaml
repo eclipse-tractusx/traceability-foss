@@ -60,7 +60,10 @@ data:
       "request": {
         "body": "{\"test\": \"test\"}",
         "method": "POST",
-        "urlPath": "/api/administration/connectors/discovery"
+        "urlPath": "/api/administration/connectors/discovery",
+        "headers": {
+          "Content-Type": "application/json"
+        }
       },
       "response": {
         "status": 200,
@@ -87,7 +90,10 @@ data:
       "request": {
         "body": "{\"test\": \"test2\"}",
         "method": "POST",
-        "urlPath": "/api/administration/connectors/discovery"
+        "urlPath": "/api/administration/connectors/discovery",
+        "headers": {
+          "Content-Type": "application/json"
+        }
       },
       "response": {
         "status": 200,
