@@ -5,6 +5,9 @@ tractusx-connector:
     vault: false
   participant:
     id: BPNL00000003CML1
+    # URL where the EndpointDataReference callback will be sent to
+  backendService:
+    httpProxyTokenReceiverUrl: "https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
 
   controlplane:
     ingresses:
@@ -127,10 +130,6 @@ tractusx-connector:
       requests:
         cpu: 100m
         memory: 512Mi
-
-  # URL where the EndpointDataReference callback will be sent to
-  backendService:
-    httpProxyTokenReceiverUrl: ""
 
   ################################
   # EDC Vault/DAPS Configuration #
