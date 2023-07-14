@@ -26,7 +26,6 @@ export class FormatPartlistSemanticDataModelToCamelCasePipe implements PipeTrans
 
   transform(partList: Part[] | any[]): Part[] | any[] {
 
-
       partList.forEach(part => {
         switch (part.semanticDataModel.toString().toLowerCase()) {
 
