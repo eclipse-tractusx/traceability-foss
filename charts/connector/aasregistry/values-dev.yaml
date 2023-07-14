@@ -18,39 +18,5 @@
 ###############################################################
 
 registry:
-  enableKeycloak: false
-  postgresql:
-    primary:
-      persistence:
-        enabled: true
-        size: 1Gi
-      resources:
-        limits:
-          cpu: 750m
-          memory: 768Mi
-        requests:
-          cpu: 100m
-          memory: 256Mi
-
   registry:
-    authentication: false
-    idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
     host: trace-x-registry.dev.demo.catena-x.net
-    ingress:
-      enabled: true
-      tls: true
-      className: nginx
-      annotations:
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
-
-    resources:
-      limits:
-        cpu: 750m
-        memory: 768Mi
-      requests:
-        cpu: 100m
-        memory: 256Mi

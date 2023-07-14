@@ -27,11 +27,11 @@ registry:
         size: 1Gi
       resources:
         limits:
-          cpu: 750m
-          memory: 512Mi
+          cpu: 1500m
+          memory: 2Gi
         requests:
-          cpu: 100m
-          memory: 256Mi
+          cpu: 200m
+          memory: 2Gi
 
   registry:
     authentication: false
@@ -41,17 +41,12 @@ registry:
       enabled: true
       tls: true
       className: nginx
-      annotations:
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
+      urlPrefix: /semantics/registry
 
     resources:
       limits:
-        cpu: 750m
-        memory: 512Mi
+        cpu: 1500m
+        memory: 2Gi
       requests:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 200m
+        memory: 2Gi
