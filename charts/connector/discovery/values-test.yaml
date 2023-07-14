@@ -27,6 +27,9 @@ wiremock:
   provider: "https://trace-x-edc-test.dev.demo.catena-x.net/"
   consumer: "https://tracex-consumer-controlplane.dev.demo.catena-x.net/"
 
+test:
+  self: "tracex-discovery-mock-test.dev.demo.catena-x.net"
+
 ingress:
   hosts:
     - host: "tracex-discovery-mock-test.dev.demo.catena-x.net"
