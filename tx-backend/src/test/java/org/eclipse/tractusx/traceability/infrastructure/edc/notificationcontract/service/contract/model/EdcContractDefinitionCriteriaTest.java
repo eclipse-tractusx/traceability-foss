@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class EdcContractDefinitionCriteriaTest {
 
     private static final String LEFT = "abc";
-    private static final String OP_EQUALS = "=";
+    private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "odrl:eq";
     private static final String RIGHT = "xyz";
 
     private EdcContractDefinitionCriteria edcContractDefinitionCriteria;
@@ -43,7 +43,7 @@ class EdcContractDefinitionCriteriaTest {
                 .type("CriterionDto")
                 .operandLeft(EdcContractDefinitionCriteriaTest.LEFT)
                 .operandRight(EdcContractDefinitionCriteriaTest.RIGHT)
-                .operator(EdcContractDefinitionCriteriaTest.OP_EQUALS)
+                .operator(new EdcOperator(ASSET_SELECTOR_EQUALITY_OPERATOR))
                 .build();
     }
 
@@ -54,7 +54,7 @@ class EdcContractDefinitionCriteriaTest {
 
     @Test
     void getOperator() {
-        assertEquals(EdcContractDefinitionCriteriaTest.OP_EQUALS, edcContractDefinitionCriteria.getOperator());
+        assertEquals(EdcContractDefinitionCriteriaTest.ASSET_SELECTOR_EQUALITY_OPERATOR, edcContractDefinitionCriteria.getOperator());
     }
 
     @Test

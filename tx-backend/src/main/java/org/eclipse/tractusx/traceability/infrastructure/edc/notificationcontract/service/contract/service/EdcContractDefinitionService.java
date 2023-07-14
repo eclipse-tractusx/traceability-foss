@@ -28,6 +28,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CreateEdcContractDefinitionException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcContractDefinitionCriteria;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcCreateContractDefinitionRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcOperator;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -45,7 +46,7 @@ import static org.eclipse.tractusx.traceability.infrastructure.edc.notificationc
 public class EdcContractDefinitionService {
 
     private static final String ASSET_SELECTOR_ID = "https://w3id.org/edc/v0.0.1/ns/id";
-    private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "=";
+    private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "odrl:eq";
     private static final String ASSET_SELECTOR_TYPE = "CriterionDto";
     private static final String CONTRACT_DEFINITION_TYPE = "ContractDefinition";
 
@@ -66,7 +67,7 @@ public class EdcContractDefinitionService {
                 .type(ASSET_SELECTOR_TYPE)
                 .operandLeft(ASSET_SELECTOR_ID)
                 .operandRight(notificationAssetId)
-                .operator(ASSET_SELECTOR_EQUALITY_OPERATOR)
+                .operator(new EdcOperator(ASSET_SELECTOR_EQUALITY_OPERATOR))
                 .build();
 
 
