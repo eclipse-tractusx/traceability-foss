@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcOperator;
 
 @ToString
 @Getter
@@ -40,6 +41,6 @@ public class EdcPolicyPermissionConstraintExpression {
     private final String rightOperand;
 
     @JsonProperty("odrl:operator")
-    private final String operator;
+    private final EdcOperator operator;
 
 }
