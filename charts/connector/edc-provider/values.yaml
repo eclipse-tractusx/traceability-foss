@@ -2,7 +2,6 @@ tractusx-connector:
   enabled: true
   install:
     postgresql: false
-    daps: false
     vault: false
   participant:
     id: BPNL00000003CML1
@@ -10,6 +9,25 @@ tractusx-connector:
   controlplane:
     ingresses:
       - enabled: false
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - protocol
+          - management
+        tls:
+          enabled: true
+          secretName: tls-secret
+    ssi:
+      miw:
+        url: <path:traceability-foss/data/dev/controlplane#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/dev/controlplane#ssi.miw.authorityId>
+      oauth:
+        tokenurl: <path:traceability-foss/data/dev/controlplane#ssi.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/dev/controlplane#ssi.oauth.client.id>
+          secretAlias: edc-test-miw-keycloak-secret
 
     endpoints:
       # -- default api for health checks, should not be added to any ingress
@@ -54,17 +72,31 @@ tractusx-connector:
     url:
       ids: ""
 
+    # Files system has to be set to writeable for now since controlplane relies on temporary files to write SSI related things to
+    securityContext:
+      readOnlyRootFilesystem: false
+
     resources:
       limits:
         cpu: 1000m
         memory: 2Gi
       requests:
-        cpu: 100m
+        cpu: 500m
         memory: 2Gi
 
   dataplane:
     ingresses:
       - enabled: false
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - public
+        className: "nginx"
+        tls:
+          enabled: true
+          secretName: tls-secret
 
     endpoints:
       default:
@@ -90,11 +122,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 1000m
-        memory: 2Gi
+        cpu: 500m
+        memory: 512Mi
       requests:
         cpu: 100m
-        memory: 2Gi
+        memory: 512Mi
 
   # URL where the EndpointDataReference callback will be sent to
   backendService:
@@ -118,15 +150,6 @@ tractusx-connector:
       transferProxyTokenSignerPrivateKey:
       transferProxyTokenSignerPublicKey:
       transferProxyTokenEncryptionAesKey:
-      dapsPrivateKey:
-      dapsPublicKey:
-
-  daps:
-    url: ""
-    clientId: ""
-    paths:
-      jwks: /.well-known/jwks.json
-      token: /token
 
   ##################################
   # EDC Postgres Configuration #
@@ -146,9 +169,17 @@ tractusx-connector:
 # EDC chart do not support multiple postgres instances in the same namespace at the moment.
 # Enable this to use the postgres dependency for when you want to deploy multiple EDC instances in one namespace
 edc-postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 4Gi
   enabled: false
   auth:
-    database:
-    username:
-    postgresPassword:
-    password:
+    database: edc
+    username: <path:traceability-foss/data/dev/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+    password: <path:traceability-foss/data/dev/edc/database#password>

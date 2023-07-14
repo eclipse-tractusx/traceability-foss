@@ -1,82 +1,22 @@
 tractusx-connector:
-  install:
-    postgresql: false
-    daps: false
-    vault: false
-  participant:
-    id: BPNL00000003CML1
   controlplane:
     ingresses:
       - enabled: true
         hostname: "trace-x-edc.dev.demo.catena-x.net"
-        annotations:
-          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        endpoints:
-          - protocol
-          - management
-        tls:
-          enabled: true
-          secretName: tls-secret
-    resources:
-      limits:
-        cpu: 1000m
-        memory: 2Gi
-      requests:
-        cpu: 100m
-        memory: 2Gi
 
   dataplane:
     ingresses:
       - enabled: true
         hostname: "trace-x-edc-dataplane.dev.demo.catena-x.net"
-        annotations:
-          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        endpoints:
-          - public
-        className: "nginx"
-        tls:
-          enabled: true
-          secretName: tls-secret
-    resources:
-      limits:
-        cpu: 1000m
-        memory: 2Gi
-      requests:
-        cpu: 100m
-        memory: 2Gi
 
-## currently we need to provide a url but is not used anywhere
   backendService:
-    httpProxyTokenReceiverUrl: "https://tracex-submodel-server.dev.demo.catena-x.net/data/endpoint-data-reference-provider1"
+    httpProxyTokenReceiverUrl: "https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
 
   vault:
     secretNames:
       transferProxyTokenSignerPrivateKey: token-signer-cert-key-dev
       transferProxyTokenSignerPublicKey: token-signer-cert-dev
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
-      dapsPrivateKey: daps-cert-edc-dev-provider-private
-      dapsPublicKey: daps-cert-edc-dev-provider-public
-
-  daps:
-    url: "https://daps1.int.demo.catena-x.net"
-    clientId: 35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88:keyid:35:A4:2C:69:8E:BC:42:D8:34:D2:FB:40:6B:9F:BE:53:9D:2A:E3:88
 
 edc-postgresql:
-  primary:
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 4Gi
-      requests:
-        cpu: 100m
-        memory: 4Gi
   enabled: true
-  auth:
-    database: edc
-    username: <path:traceability-foss/data/dev/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
-    password: <path:traceability-foss/data/dev/edc/database#password>
