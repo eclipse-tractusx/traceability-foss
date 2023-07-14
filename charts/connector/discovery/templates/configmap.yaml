@@ -60,7 +60,7 @@ data:
       "request": {
         "bodyPatterns": [
           {
-            "equalToJson" : "{\"test\": \"test\"}"
+            "equalToJson" : "[\"BPN1\"]"
           }
         ],
         "method": "POST",
@@ -91,7 +91,7 @@ data:
       "request": {
         "bodyPatterns": [
           {
-            "equalToJson" : "{\"test\": \"test2\"}"
+            "equalToJson" : "[\"BPN2\"]"
           }
         ],
         "method": "POST",
