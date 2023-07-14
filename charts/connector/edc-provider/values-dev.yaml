@@ -1,34 +1,12 @@
 tractusx-connector:
-  enabled: true
   controlplane:
     ingresses:
       - enabled: true
         hostname: "trace-x-edc.dev.demo.catena-x.net"
-        annotations:
-          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        endpoints:
-          - protocol
-          - management
-        tls:
-          enabled: true
-          secretName: tls-secret
-
   dataplane:
     ingresses:
       - enabled: true
         hostname: "trace-x-edc-dataplane.dev.demo.catena-x.net"
-        annotations:
-          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        endpoints:
-          - public
-        className: "nginx"
-        tls:
-          enabled: true
-          secretName: tls-secret
 
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
