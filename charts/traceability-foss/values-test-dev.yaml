@@ -135,6 +135,8 @@ backend:
 # PG Admin configuration     #
 #########################
 pgadmin4:
+  nameOverride: "tracex-pgadmin4-test"
+  fullnameOverride: "tracex-pgadmin4-test"
   enabled: true
   strategy:
     type: Recreate
