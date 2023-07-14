@@ -17,7 +17,7 @@ jobs:
       - name: Update JSON
         run: |
           echo "${{ github.sha }}" > commit-id.txt
-          REPO_NAME=$(basename -s .git "${{ github.repository }}")
+          REPO_NAME=$("${{ github.event.repository.name }}")
           REPO_URL="${{ github.event.repository.html_url }}"
           SOURCE_PATH="${REPO_URL}/blob/${{ github.sha }}"
           echo "${SOURCE_PATH}" > source-path.txt
