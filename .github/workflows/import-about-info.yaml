@@ -7,14 +7,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  update-json:
+  update-legal-notice-json:
     runs-on: ubuntu-latest
+    # should run only on tractus-x to prevent amount of generated PRs
+    if: ${{ github.event.repository.name == 'traceability-foss' }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Update JSON
+      - name: Update legal-notice-json
         run: |
           echo "${{ github.sha }}" > commit-id.txt
           REPO_NAME="${{ github.event.repository.name }}"
@@ -51,7 +53,7 @@ jobs:
             - Repository Path: ${{ github.event.repository.html_url }}
             - License Path: ${{ github.event.repository.html_url }}/blob/main/LICENSE
             - Notice Path: ${{ github.event.repository.html_url }}/blob/main/NOTICE.md
-            - Repository Name: ${{ env.REPO_NAME }}
+            - Repository Name: ${{ github.event.repository.name }}
             The Information is used to update the about page with the latest info about the commit
           labels: |
             auto-generated
