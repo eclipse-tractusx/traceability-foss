@@ -85,17 +85,17 @@ spec:
               mountPath: home/wiremock/__files/discovery_finder_response.json
               subPath: discovery_finder_response.json
             - name: configuration
-              mountPath: /home/wiremock/mappings/bpn_discovery_service_request.json
-              subPath: bpn_discovery_service_request.json
+              mountPath: /home/wiremock/mappings/edc_discovery_request_registry_flow.json
+              subPath: edc_discovery_request_registry_flow.json
             - name: configuration
-              mountPath: home/wiremock/__files/bpn_discovery_service_response.json
-              subPath: bpn_discovery_service_response.json
+              mountPath: home/wiremock/__files/edc_discovery_response_registry_flow.json
+              subPath: edc_discovery_response_registry_flow.json
             - name: configuration
-              mountPath: /home/wiremock/mappings/edc_discovery_request.json
-              subPath: edc_discovery_request.json
+              mountPath: /home/wiremock/mappings/edc_discovery_request_notification_flow.json
+              subPath: edc_discovery_request_notification_flow.json
             - name: configuration
-              mountPath: home/wiremock/__files/edc_discovery_response.json
-              subPath: edc_discovery_response.json
+              mountPath: home/wiremock/__files/edc_discovery_response_notification_flow.json
+              subPath: edc_discovery_response_notification_flow.json
             - name: tmp
               mountPath: /tmp
       volumes:
@@ -109,14 +109,14 @@ spec:
                 path: discovery_finder_request.json
               - key: discovery_finder_response.json
                 path: discovery_finder_response.json
-              - key: bpn_discovery_service_request.json
-                path: bpn_discovery_service_request.json
-              - key: bpn_discovery_service_response.json
-                path: bpn_discovery_service_response.json
-              - key: edc_discovery_request.json
-                path: edc_discovery_request.json
-              - key: edc_discovery_response.json
-                path: edc_discovery_response.json
+              - key: edc_discovery_request_registry_flow.json
+                path: edc_discovery_request_registry_flow.json
+              - key: edc_discovery_response_registry_flow.json
+                path: edc_discovery_response_registry_flow.json
+              - key: edc_discovery_request_notification_flow.json
+                path: edc_discovery_request_notification_flow.json
+              - key: edc_discovery_response_notification_flow.json
+                path: edc_discovery_response_notification_flow.json
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

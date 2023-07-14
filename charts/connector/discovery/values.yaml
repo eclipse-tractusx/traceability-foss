@@ -60,8 +60,6 @@ service:
   type: ClusterIP
   port: 8080
 
-wiremock:
-  host: "tracex-discovery-mock.dev.demo.catena-x.net"
 
 ingress:
   enabled: true
@@ -70,11 +68,6 @@ ingress:
     nginx.ingress.kubernetes.io/ssl-passthrough: "false"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-  hosts:
-    - host: "tracex-discovery-mock.dev.demo.catena-x.net"
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
   tls:
     - hosts:
         - "discovery-mock.dev.demo.catena-x.net"
