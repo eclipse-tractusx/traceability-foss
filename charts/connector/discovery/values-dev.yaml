@@ -21,9 +21,6 @@ nameOverride: ""
 fullnameOverride: ""
 
 #Environment specific wiremock host
-provider:
-  url: "https://trace-x-edc.dev.demo.catena-x.net"
-
 wiremock:
   provider: "https://trace-x-edc.dev.demo.catena-x.net/"
   consumer: "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/"

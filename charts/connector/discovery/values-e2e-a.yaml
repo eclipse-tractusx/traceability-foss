@@ -20,13 +20,9 @@ nameOverride: ""
 fullnameOverride: ""
 
 #Environment specific wiremock host
-provider:
-  url: "https://trace-x-edc-e2e-a.dev.demo.catena-x.net"
-
 wiremock:
   provider: "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/"
   consumer: "https://tracex-e2e-b-consumer-controlplane.dev.demo.catena-x.net/"
-
 
 ingress:
   hosts:
