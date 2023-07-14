@@ -58,12 +58,13 @@ data:
   edc_discovery_request_registry_flow.json: |-
     {
       "request": {
-        "body": "{\"test\": \"test\"}",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$.test"
+          }
+        ],
         "method": "POST",
-        "urlPath": "/api/administration/connectors/discovery",
-        "headers": {
-          "Content-Type": "application/json"
-        }
+        "urlPath": "/api/administration/connectors/discovery"
       },
       "response": {
         "status": 200,
@@ -88,12 +89,13 @@ data:
   edc_discovery_request_notification_flow.json: |-
     {
       "request": {
-        "body": "{\"test\": \"test2\"}",
+        "bodyPatterns": [
+          {
+            "matchesJsonPath": "$.test"
+          }
+        ],
         "method": "POST",
-        "urlPath": "/api/administration/connectors/discovery",
-        "headers": {
-          "Content-Type": "application/json"
-        }
+        "urlPath": "/api/administration/connectors/discovery"
       },
       "response": {
         "status": 200,
