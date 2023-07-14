@@ -11,7 +11,14 @@ tractusx-connector:
 
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
-
+  postgresql:
+    enabled: true
+    auth:
+      username: "<path:traceability-foss/data/dev/edc/database#user>"
+      password: "<path:traceability-foss/data/dev/edc/database#password>"
+    username: "<path:traceability-foss/data/dev/edc/database#user>"
+    password: "<path:traceability-foss/data/dev/edc/database#password>"
+    jdbcUrl: "jdbc:postgresql://tracex-edc-provider-edc-postgresql-hl:5432/edc"
   vault:
     secretNames:
       transferProxyTokenSignerPrivateKey: token-signer-cert-key-dev
@@ -20,3 +27,8 @@ tractusx-connector:
 
 edc-postgresql:
   enabled: true
+  auth:
+    database: edc
+    username: <path:traceability-foss/data/dev/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
+    password: <path:traceability-foss/data/dev/edc/database#password>

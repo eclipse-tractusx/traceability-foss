@@ -154,13 +154,7 @@ tractusx-connector:
   # EDC Postgres Configuration #
   ##################################
   postgresql:
-    enabled: true
-    auth:
-      username: "<path:traceability-foss/data/dev/edc/database#user>"
-      password: "<path:traceability-foss/data/dev/edc/database#password>"
-    username: "<path:traceability-foss/data/dev/edc/database#user>"
-    password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tracex-edc-provider-edc-postgresql-hl:5432/edc"
+    enabled: false
 
 ##############################
 # EDC Postgres Configuration #
@@ -176,9 +170,4 @@ edc-postgresql:
       requests:
         cpu: 100m
         memory: 4Gi
-  enabled: true
-  auth:
-    database: edc
-    username: <path:traceability-foss/data/dev/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/dev/edc/database#password>
-    password: <path:traceability-foss/data/dev/edc/database#password>
+  enabled: false
