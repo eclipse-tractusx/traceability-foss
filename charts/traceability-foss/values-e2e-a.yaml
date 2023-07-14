@@ -253,7 +253,6 @@ tractusx-connector:
   enabled: true
   install:
     postgresql: false
-    daps: false
     vault: false
   participant:
     id: BPNL00000003CML1
@@ -272,22 +271,46 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
+    ssi:
+      miw:
+        url: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.authorityId>
+      oauth:
+        tokenurl: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
+          secretAlias: edc-miw-keycloak-secret
 
     endpoints:
+      # -- default api for health checks, should not be added to any ingress
+      default:
+        port: 8080
+        path: /api
       # -- data management api, used by internal users, can be added to an ingress and must not be internet facing
       management:
         port: 8081
         path: /management
-        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value> # -- authentication key, must be attached to each 'X-Api-Key' request header
-      # -- protocol api, used for inter connector communication and must be internet facing
+        # -- authentication key, must be attached to each 'X-Api-Key' request header
+        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+      # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
+      control:
+        port: 8083
+        path: /control
+      # -- ids api, used for inter connector communication and must be internet facing
       protocol:
         port: 8084
         path: /api/v1/dsp
+      # -- metrics api, used for application metrics, must not be internet facing
+      metrics:
+        port: 9090
+        path: /metrics
       # -- observability api with unsecured access, must not be internet facing
       observability:
         port: 8085
-        path: /observability  # -- observability api, provides /health /readiness and /liveness endpoints
-        insecure: true  # -- allow or disallow insecure access, i.e. access without authentication
+        # -- observability api, provides /health /readiness and /liveness endpoints
+        path: /observability
+        # -- allow or disallow insecure access, i.e. access without authentication
+        insecure: true
 
     internationalDataSpaces:
       id: TXDC
@@ -303,11 +326,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 768m
-        memory: 768Mi
+        cpu: 2000m
+        memory: 3Gi
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 3Gi
 
   dataplane:
     ingresses:
@@ -325,29 +348,42 @@ tractusx-connector:
           secretName: tls-secret
 
     endpoints:
+      default:
+        port: 8080
+        path: /api
       public:
         port: 8081
         path: /api/public
+      control:
+        port: 8083
+        path: /api/dataplane/control
       observability:
         port: 8085
         path: /observability
         insecure: true
+      metrics:
+        port: 9090
+        path: /metrics
 
+    url:
+      public: ""
     resources:
       limits:
-        cpu: 768m
-        memory: 768Mi
+        cpu: 2000m
+        memory: 3Gi
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 3Gi
 
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability-e2e-a.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
-
+    # Files system has to be set to writeable for now since controlplane relies on temporary files to write SSI related things to
+  securityContext:
+    readOnlyRootFilesystem: false
   ################################
-  # EDC Vault/DAPS Configuration #
+  # EDC Vault Configuration #
   ################################
   vault:
     hashicorp:
@@ -364,15 +400,7 @@ tractusx-connector:
       transferProxyTokenSignerPrivateKey: daps-cert-edc-e2e-a-consumer-private
       transferProxyTokenSignerPublicKey: daps-cert-edc-e2e-a-consumer-public
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
-      dapsPrivateKey: daps-cert-edc-e2e-a-consumer-private
-      dapsPublicKey: daps-cert-edc-e2e-a-consumer-public
 
-  daps:
-    url: "https://daps1.int.demo.catena-x.net"
-    clientId: 7B:F7:4E:EC:60:5C:36:7D:24:72:EE:AC:EC:31:1C:28:BC:C3:2E:0B:keyid:7B:F7:4E:EC:60:5C:36:7D:24:72:EE:AC:EC:31:1C:28:BC:C3:2E:0B
-    paths:
-      jwks: /.well-known/jwks.json
-      token: /token
   ##################################
   # EDC Postgres Configuration #
   ##################################
