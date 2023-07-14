@@ -73,9 +73,9 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
       this.pagination.page = params?.pageNumber;
+      this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+      this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
     })
-    this.investigationsFacade.setReceivedInvestigation(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
-    this.investigationsFacade.setQueuedAndRequestedInvestigations(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
   }
 
   public ngAfterContentInit(): void {
@@ -138,7 +138,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
     this.investigationDetailFacade.selected = { data: notification };
     const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
     const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
-    const tabInformation: NotificationTabInformation = {tabIndex: parseInt(tabIndex), pageNumber: this.pagination.page}
+    const tabInformation: NotificationTabInformation = {tabIndex: tabIndex, pageNumber: this.pagination.page}
     this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
   }
 

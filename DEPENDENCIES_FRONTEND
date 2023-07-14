@@ -1354,7 +1354,7 @@ npm/npmjs/@jridgewell/gen-mapping/0.3.3, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/resolve-uri/3.0.6, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/resolve-uri/3.1.0, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/set-array/1.1.2, MIT, approved, clearlydefined
-npm/npmjs/@jridgewell/source-map/0.3.3, MIT, approved, clearlydefined
+npm/npmjs/@jridgewell/source-map/0.3.3, MIT, approved, #9304
 npm/npmjs/@jridgewell/sourcemap-codec/1.4.14, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/sourcemap-codec/1.4.15, MIT, approved, clearlydefined
 npm/npmjs/@jridgewell/trace-mapping/0.3.18, MIT, approved, clearlydefined
@@ -1503,7 +1503,7 @@ npm/npmjs/@types/minimist/1.2.2, MIT, approved, clearlydefined
 npm/npmjs/@types/mkdirp/1.0.2, MIT, approved, clearlydefined
 npm/npmjs/@types/ms/0.7.31, MIT, approved, clearlydefined
 npm/npmjs/@types/node/14.18.34, MIT, approved, #4611
-npm/npmjs/@types/node/18.16.0, MIT, approved, clearlydefined
+npm/npmjs/@types/node/18.16.0, MIT, approved, #9385
 npm/npmjs/@types/node/20.2.3, MIT, approved, clearlydefined
 npm/npmjs/@types/normalize-package-data/2.4.1, MIT, approved, clearlydefined
 npm/npmjs/@types/parse-json/4.0.0, MIT, approved, clearlydefined

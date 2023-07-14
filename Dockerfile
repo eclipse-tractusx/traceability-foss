@@ -30,7 +30,6 @@ COPY tx-models tx-models
 COPY docs docs
 COPY tx-backend tx-backend
 
-
 # the --mount option requires BuildKit.
 # --mount=type=cache,target=/root/.m2 -> mounts cache volume to the .m2 directorym in container
 # -B Batch Mode

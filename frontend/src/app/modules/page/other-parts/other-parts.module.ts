@@ -23,6 +23,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { getI18nPageProvider } from '@core/i18n';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
+import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { SharedModule } from '@shared/shared.module';
 import { TemplateModule } from '@shared/template.module';
 import { OtherPartsFacade } from './core/other-parts.facade';
@@ -40,6 +41,7 @@ import { CustomerPartsComponent } from './presentation/customer-parts/customer-p
     OtherPartsState,
     OtherPartsFacade,
     OtherPartsService,
+    FormatPartSemanticDataModelToCamelCasePipe,
     ...getI18nPageProvider(['page.otherParts', 'partDetail']),
   ],
   exports: [OtherPartsComponent],

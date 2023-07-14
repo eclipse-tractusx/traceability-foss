@@ -18,9 +18,13 @@
  ********************************************************************************/
 
 import { Component, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
+import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
 import { MenuActionConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
@@ -29,6 +33,7 @@ import { ApproveNotificationModalComponent } from '@shared/modules/notification/
 import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-alerts',
@@ -49,19 +54,27 @@ export class AlertsComponent {
 
   public menuActionsConfig: MenuActionConfig<Notification>[];
 
+  private paramSubscription: Subscription;
+
   private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc'] };
 
   constructor(
     public readonly helperService: AlertHelperService,
-    private readonly alertsFacade: AlertsFacade
+    private readonly alertsFacade: AlertsFacade,
+    private readonly alertDetailFacade: AlertDetailFacade,
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
     this.alertsReceived$ = this.alertsFacade.alertsReceived$;
     this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
   }
 
   public ngOnInit(): void {
-    this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
-    this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+    this.paramSubscription = this.route.queryParams.subscribe(params => {
+      this.pagination.page = params?.pageNumber;
+      this.alertsFacade.setReceivedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+      this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+    })
   }
 
   public ngAfterContentInit(): void {
@@ -107,6 +120,7 @@ export class AlertsComponent {
 
   public ngOnDestroy(): void {
     this.alertsFacade.stopAlerts();
+    this.paramSubscription?.unsubscribe();
   }
 
   public onReceivedTableConfigChange(pagination: TableEventConfig) {
@@ -117,6 +131,14 @@ export class AlertsComponent {
   public onQueuedAndRequestedTableConfigChange(pagination: TableEventConfig) {
     this.pagination = pagination;
     this.alertsFacade.setQueuedAndRequestedAlerts(this.pagination.page, this.pagination.pageSize, this.pagination.sorting);
+  }
+
+  public openDetailPage(notification: Notification): void {
+    this.alertDetailFacade.selected = { data: notification };
+    const { link } = getRoute(ALERT_BASE_ROUTE);
+    const tabIndex = this.route.snapshot.queryParamMap.get('tabIndex');
+    const tabInformation: NotificationTabInformation = {tabIndex: tabIndex, pageNumber: this.pagination.page}
+    this.router.navigate([`/${link}/${notification.id}`], { queryParams: tabInformation });
   }
 
   public handleConfirmActionCompletedEvent() {

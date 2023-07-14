@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
@@ -42,7 +43,7 @@ public class RegistryFacade {
     private final BpnRepository bpnRepository;
 
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
-    public void updateShellDescriptorAndSynchronizeAssets() {
+    public void updateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
         List<ShellDescriptor> ownShellDescriptors = updateOwnShellDescriptors();
         synchronizeAssetsByDescriptors(ownShellDescriptors);
     }
@@ -53,7 +54,7 @@ public class RegistryFacade {
                 .forEach(assetService::synchronizeAssetsAsync);
     }
 
-    private List<ShellDescriptor> updateOwnShellDescriptors() {
+    private List<ShellDescriptor> updateOwnShellDescriptors() throws RegistryServiceException {
         List<ShellDescriptor> ownShellDescriptors = registryService.findOwnShellDescriptors();
         return shellDescriptorsService.update(ownShellDescriptors);
     }

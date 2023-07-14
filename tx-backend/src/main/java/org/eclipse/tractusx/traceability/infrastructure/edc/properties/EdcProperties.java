@@ -35,7 +35,7 @@ import java.util.Set;
 public class EdcProperties {
 
     @NotBlank
-    @Value("${edc.ids}")
+    @Value("${edc.ids.path}")
     private String idsPath;
 
     @NotBlank
@@ -51,7 +51,7 @@ public class EdcProperties {
     private String transferPath;
 
     @NotBlank
-    @Value("${edc.catalog}")
+    @Value("${edc.catalog.path}")
     private String catalogPath;
 
     @NotBlank

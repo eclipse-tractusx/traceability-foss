@@ -7,10 +7,33 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+- Helmignore config params for wrong values.yaml files
+- Home / Source URL in Helm Chart
+- Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
+- Added decentral registry approach
+- Added discovery finder / edc discovery service for looking up edc urls of receiver of notifications
+- Added about component with additional Workflow to load repo info into the component
+
+### Changed
+
+- Modified IRS Policies support to handle multiple policies
+- Readme titles to match TRGs
+
+
+### Removed
+- unused classes and methods
+
+## [5.0.0] - 2023-07-10
+
+### Added
+
 - Added back button in notification detailed view
+- Added alert detail view
 - EDC SPI Dependency for using provided models
 - Added default response types to apis
 - Irs policies support ( on application startup registers policies in irs instance )
+- Added helm upgrade workflow to test upgradeability of the helm charts
+- Added helm test backwards compatability to test the helm charts with the latest kubernetes versions
 
 ### Changed
 
@@ -18,6 +41,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Changed request parameter for registerjob request to irs to match requirements of irs
 - Migration of edc 0.4.1 endpoints and api flow
 - fixed bug where language switcher did not update to the selected language
+- Changed SerialPartTypization aspect model to SerialPart
+- Changed AssemblyPartRelationship aspect model to SingleLevelBomAsBuilt
+- Changed semantic data model to be displayed in camel case
 
 ### Removed
 

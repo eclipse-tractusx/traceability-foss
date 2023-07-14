@@ -67,8 +67,7 @@ data:
         "headers": {
           "Content-Type": "application/json"
         },
-        "transformers": [
-          "response-template"]
+        "transformers": ["response-template"]
       }
     }
 
@@ -110,6 +109,7 @@ data:
         {"type": "bpn","key": ".*","value": "BPNL00000003B3NX","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
         {"type": "bpn","key": ".*","value": "BPNL00000003B5MJ","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
         {"type": "bpn","key": ".*","value": "BPNL00000003B5MJ","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {"type": "bpn","key": ".*","value": "BPNL00000003CML1","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
+        {"type": "bpn","key": ".*","value": "BPNL00000003CML1","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003CNKC","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
       ]
     }

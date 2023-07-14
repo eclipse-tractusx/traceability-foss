@@ -22,24 +22,20 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("irs.policy")
+import java.util.List;
+
+@ConfigurationProperties("irs")
 public class IrsPolicyConfig {
 
-    private String name;
-    private String ttl;
+    List<IrsPolicy> policies;
 
     public IrsPolicyConfig(
-            String name,
-            String ttl
+            List<IrsPolicy> policies
     ) {
-        this.name = name;
-        this.ttl = ttl;
+        this.policies = policies;
     }
 
-    public IrsPolicy getPolicy() {
-        return IrsPolicy.builder()
-                .policyId(name)
-                .ttl(ttl)
-                .build();
+    public List<IrsPolicy> getPolicies() {
+        return this.policies;
     }
 }

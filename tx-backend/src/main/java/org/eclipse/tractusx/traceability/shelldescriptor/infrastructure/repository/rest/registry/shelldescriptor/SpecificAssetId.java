@@ -19,5 +19,56 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor;
 
-public record SpecificAssetId(String key, String value) {
+import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+public class SpecificAssetId {
+    private final String key;
+    private final String value;
+
+    public SpecificAssetId(String key, String value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public static List<SpecificAssetId> fromList(List<IdentifierKeyValuePair> keyValuePair) {
+        List<SpecificAssetId> specificAssetIds = new ArrayList<>();
+        keyValuePair.forEach(keyValuePair1 -> {
+            specificAssetIds.add(new SpecificAssetId(keyValuePair1.getKey(), keyValuePair1.getValue()));
+        });
+        return specificAssetIds;
+    }
+
+    public String key() {
+        return key;
+    }
+
+    public String value() {
+        return value;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (SpecificAssetId) obj;
+        return Objects.equals(this.key, that.key) &&
+                Objects.equals(this.value, that.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key, value);
+    }
+
+    @Override
+    public String toString() {
+        return "SpecificAssetId[" +
+                "key=" + key + ", " +
+                "value=" + value + ']';
+    }
+
 }

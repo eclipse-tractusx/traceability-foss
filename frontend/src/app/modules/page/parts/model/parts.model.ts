@@ -33,9 +33,16 @@ export enum QualityType {
 }
 
 export enum SemanticDataModel {
-  BATCH= 'BATCH',
-  SERIALPARTTYPIZATION = 'SERIALPARTTYPIZATION',
+  BATCH = 'BATCH',
+  SERIALPART = 'SERIALPART',
   PARTASPLANNED = 'PARTASPLANNED'
+}
+
+export enum SemanticDataModelInCamelCase {
+  BATCH = "Batch",
+  SERIALPART = 'SerialPart',
+  PARTASPLANNED = 'PartAsPlanned',
+  UNKNOWN = 'Unknown'
 }
 
 export interface Part {

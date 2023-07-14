@@ -21,10 +21,58 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor;
 
-import java.util.List;
+import lombok.Builder;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 
-public record RegistryShellDescriptorResponse(
-        List<RegistryShellDescriptor> items
-) {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+
+@Builder
+public class RegistryShellDescriptorResponse {
+    private final List<RegistryShellDescriptor> items;
+
+    public RegistryShellDescriptorResponse(
+            List<RegistryShellDescriptor> items
+    ) {
+        this.items = items;
+    }
+
+    public static RegistryShellDescriptorResponse fromCollection(Collection<AssetAdministrationShellDescriptor> assetAdministrationShellDescriptors) {
+        List<RegistryShellDescriptor> registryShellDescriptors = new ArrayList<>();
+        assetAdministrationShellDescriptors.forEach(assetAdministrationShellDescriptor -> {
+            RegistryShellDescriptor registryShellDescriptor = RegistryShellDescriptor.from(assetAdministrationShellDescriptor);
+            registryShellDescriptors.add(registryShellDescriptor);
+        });
+
+        return RegistryShellDescriptorResponse.builder()
+                .items(registryShellDescriptors)
+                .build();
+    }
+
+    public List<RegistryShellDescriptor> items() {
+        return items;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (RegistryShellDescriptorResponse) obj;
+        return Objects.equals(this.items, that.items);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(items);
+    }
+
+    @Override
+    public String toString() {
+        return "RegistryShellDescriptorResponse[" +
+                "items=" + items + ']';
+    }
+
 }
 

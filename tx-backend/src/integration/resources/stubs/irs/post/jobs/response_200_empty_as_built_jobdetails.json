@@ -24,7 +24,7 @@
       "bomLifecycle": "asBuilt",
       "aspects": [
         "Batch",
-        "SerialPartTypization",
+        "SerialPart",
         "AssemblyPartRelationship"
       ],
       "depth": 2,

@@ -23,5 +23,5 @@ import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import java.util.Optional;
 
 public interface DiscoveryRepository {
-    Optional<Discovery> getDiscoveryByBpnFromConnectorEndpoint(String bpn);
+    Optional<Discovery> retrieveDiscoveryByFinderAndEdcDiscoveryService(String bpn);
 }

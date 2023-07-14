@@ -299,11 +299,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 768m
-        memory: 768Mi
+        cpu: 2000m
+        memory: 3Gi
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 3Gi
 
   dataplane:
     ingresses:
@@ -331,11 +331,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 768m
-        memory: 768Mi
+        cpu: 2000m
+        memory: 3Gi
       requests:
         cpu: 100m
-        memory: 256Mi
+        memory: 3Gi
 
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
@@ -385,6 +385,14 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 4Gi
   nameOverride: "tracex-consumer-edc-postgresql"
   fullnameOverride: "tracex-consumer-edc-postgresql"
   enabled: true

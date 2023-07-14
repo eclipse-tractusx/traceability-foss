@@ -74,19 +74,19 @@ import java.util.Map;
  */
 @Component
 @SuppressWarnings("PMD.ExcessiveImports")
-public class EdcTransformer {
+public class EdcTransformerTraceX {
     private final JsonObjectToCatalogTransformer jsonObjectToCatalogTransformer;
     private final JsonObjectFromNegotiationInitiateDtoTransformer jsonObjectFromNegotiationInitiateDtoTransformer;
     private final JsonObjectFromTransferProcessRequestTransformer jsonObjectFromTransferProcessRequestTransformer;
     private final JsonObjectFromContractOfferDescriptionTransformer jsonObjectFromContractOfferDescriptionTransformer;
     private final JsonObjectFromCatalogRequestTransformer jsonObjectFromCatalogRequestTransformer;
-    private final TitaniumJsonLd titaniumJsonLd;
+    private final TitaniumJsonLd titaniumJsonLdTraceX;
     private final TransformerContextImpl transformerContext;
     private final JsonObjectToNegotiationResponseTransformer jsonObjectToNegotiationResponseTransformer;
     private final JsonObjectToNegotiationStateTransformer jsonObjectToNegotiationStateTransformer;
 
-    public EdcTransformer(final ObjectMapper objectMapper, final TitaniumJsonLd titaniumJsonLd) {
-        this.titaniumJsonLd = titaniumJsonLd;
+    public EdcTransformerTraceX(final ObjectMapper objectMapper, final TitaniumJsonLd titaniumJsonLdTraceX) {
+        this.titaniumJsonLdTraceX = titaniumJsonLdTraceX;
         final JsonBuilderFactory jsonBuilderFactory = Json.createBuilderFactory(Map.of());
 
         jsonObjectFromNegotiationInitiateDtoTransformer = new JsonObjectFromNegotiationInitiateDtoTransformer(
@@ -139,7 +139,7 @@ public class EdcTransformer {
         final Result<JsonObject> expand;
         try (JsonReader reader = Json.createReader(new ByteArrayInputStream(jsonString.getBytes(charset)))) {
 
-            expand = titaniumJsonLd.expand(
+            expand = titaniumJsonLdTraceX.expand(
                     JsonDocument.of(reader.read()).getJsonContent().orElseThrow().asJsonObject());
         }
         return jsonObjectToCatalogTransformer.transform(expand.getContent(), transformerContext);
@@ -148,7 +148,7 @@ public class EdcTransformer {
     public NegotiationResponse transformJsonToNegotiationResponse(final String jsonString, final Charset charset) {
         final Result<JsonObject> expand;
         try (JsonReader reader = Json.createReader(new ByteArrayInputStream(jsonString.getBytes(charset)))) {
-            expand = titaniumJsonLd.expand(
+            expand = titaniumJsonLdTraceX.expand(
                     JsonDocument.of(reader.read()).getJsonContent().orElseThrow().asJsonObject());
         }
         return jsonObjectToNegotiationResponseTransformer.transform(expand.getContent(), transformerContext);
@@ -157,7 +157,7 @@ public class EdcTransformer {
     public NegotiationState transformJsonToNegotiationState(final String jsonString, final Charset charset) {
         final Result<JsonObject> expand;
         try (JsonReader reader = Json.createReader(new ByteArrayInputStream(jsonString.getBytes(charset)))) {
-            expand = titaniumJsonLd.expand(
+            expand = titaniumJsonLdTraceX.expand(
                     JsonDocument.of(reader.read()).getJsonContent().orElseThrow().asJsonObject());
         }
         return jsonObjectToNegotiationStateTransformer.transform(expand.getContent(), transformerContext);
@@ -166,25 +166,25 @@ public class EdcTransformer {
     public JsonObject transformNegotiationRequestToJson(final NegotiationRequest negotiationRequest) {
         final JsonObject transform = jsonObjectFromNegotiationInitiateDtoTransformer.transform(negotiationRequest,
                 transformerContext);
-        return titaniumJsonLd.compact(transform).asOptional().orElseThrow();
+        return titaniumJsonLdTraceX.compact(transform).asOptional().orElseThrow();
     }
 
     public JsonObject transformTransferProcessRequestToJson(final TransferProcessRequest transferProcessRequest) {
         final JsonObject transform = jsonObjectFromTransferProcessRequestTransformer.transform(transferProcessRequest,
                 transformerContext);
-        return titaniumJsonLd.compact(transform).asOptional().orElseThrow();
+        return titaniumJsonLdTraceX.compact(transform).asOptional().orElseThrow();
     }
 
     public JsonObject transformContractOfferDescriptionToJson(final ContractOfferDescription contractOfferDescription) {
 
         final JsonObject transform = jsonObjectFromContractOfferDescriptionTransformer.transform(
                 contractOfferDescription, transformerContext);
-        return titaniumJsonLd.compact(transform).asOptional().orElseThrow();
+        return titaniumJsonLdTraceX.compact(transform).asOptional().orElseThrow();
     }
 
     public JsonObject transformCatalogRequestToJson(final CatalogRequest catalogRequest) {
         final JsonObject transform = jsonObjectFromCatalogRequestTransformer.transform(catalogRequest,
                 transformerContext);
-        return titaniumJsonLd.compact(transform).asOptional().orElseThrow();
+        return titaniumJsonLdTraceX.compact(transform).asOptional().orElseThrow();
     }
 }
