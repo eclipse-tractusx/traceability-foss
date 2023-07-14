@@ -18,5 +18,34 @@
 ###############################################################
 
 registry:
+  enableKeycloak: false
+  postgresql:
+    primary:
+      persistence:
+        enabled: true
+        size: 1Gi
+      resources:
+        limits:
+          cpu: 1500m
+          memory: 2Gi
+        requests:
+          cpu: 200m
+          memory: 2Gi
+
   registry:
+    authentication: false
+    idpIssuerUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central
     host: trace-x-registry.dev.demo.catena-x.net
+    ingress:
+      enabled: true
+      tls: true
+      className: nginx
+      urlPrefix: /semantics/registry
+
+    resources:
+      limits:
+        cpu: 1500m
+        memory: 2Gi
+      requests:
+        cpu: 200m
+        memory: 2Gi
