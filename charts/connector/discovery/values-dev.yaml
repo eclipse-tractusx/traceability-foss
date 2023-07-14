@@ -24,6 +24,10 @@ fullnameOverride: ""
 provider:
   url: "https://trace-x-edc.dev.demo.catena-x.net"
 
+wiremock:
+  provider: "https://trace-x-edc.dev.demo.catena-x.net/"
+  consumer: "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/"
+
 ingress:
   hosts:
     - host: "tracex-discovery-mock-dev.dev.demo.catena-x.net"
