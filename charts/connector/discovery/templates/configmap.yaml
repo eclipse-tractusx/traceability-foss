@@ -60,7 +60,7 @@ data:
       "request": {
         "bodyPatterns": [
           {
-            "equalToJson" : "[\"BPN1\"]"
+            "equalToJson" : "[\"{{ .Values.wiremock.bpn.own }}\"]"
           }
         ],
         "method": "POST",
@@ -91,7 +91,7 @@ data:
       "request": {
         "bodyPatterns": [
           {
-            "equalToJson" : "[\"BPN2\"]"
+            "equalToJson" : "[\"{{ .Values.wiremock.bpn.other }}\"]"
           }
         ],
         "method": "POST",

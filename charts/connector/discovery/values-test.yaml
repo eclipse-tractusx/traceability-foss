@@ -23,6 +23,9 @@ fullnameOverride: ""
 wiremock:
   provider: "https://trace-x-edc-test.dev.demo.catena-x.net/"
   consumer: "https://tracex-consumer-controlplane.dev.demo.catena-x.net/"
+  bpn:
+    own: "BPNL00000003CNKC"
+    other: "BPNL00000003CML1"
 
 ingress:
   hosts:
