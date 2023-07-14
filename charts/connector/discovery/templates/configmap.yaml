@@ -61,7 +61,7 @@ data:
         "bodyPatterns": [
           {
             "matchesJsonPath": "$.test",
-            "equalTo" : "test"
+            "equalToJson" : "test"
           }
         ],
         "method": "POST",
@@ -93,7 +93,7 @@ data:
         "bodyPatterns": [
           {
             "matchesJsonPath": "$.test",
-            "equalTo" : "test2"
+            "equalToJson" : "test2"
           }
         ],
         "method": "POST",
