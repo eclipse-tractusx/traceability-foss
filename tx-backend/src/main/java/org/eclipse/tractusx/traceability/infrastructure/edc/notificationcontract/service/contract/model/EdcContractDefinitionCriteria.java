@@ -37,7 +37,7 @@ public class EdcContractDefinitionCriteria {
     private String operandLeft;
 
     @JsonProperty("operator")
-    private EdcOperator operator;
+    private String operator;
 
     @JsonProperty("operandRight")
     private String operandRight;

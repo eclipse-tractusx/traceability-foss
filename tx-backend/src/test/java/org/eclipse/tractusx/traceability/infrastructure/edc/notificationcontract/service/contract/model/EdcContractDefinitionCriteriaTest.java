@@ -43,7 +43,7 @@ class EdcContractDefinitionCriteriaTest {
                 .type("CriterionDto")
                 .operandLeft(EdcContractDefinitionCriteriaTest.LEFT)
                 .operandRight(EdcContractDefinitionCriteriaTest.RIGHT)
-                .operator(new EdcOperator(ASSET_SELECTOR_EQUALITY_OPERATOR))
+                .operator(ASSET_SELECTOR_EQUALITY_OPERATOR)
                 .build();
     }
 
@@ -54,7 +54,7 @@ class EdcContractDefinitionCriteriaTest {
 
     @Test
     void getOperator() {
-        assertEquals(EdcContractDefinitionCriteriaTest.ASSET_SELECTOR_EQUALITY_OPERATOR, edcContractDefinitionCriteria.getOperator().id());
+        assertEquals(EdcContractDefinitionCriteriaTest.ASSET_SELECTOR_EQUALITY_OPERATOR, edcContractDefinitionCriteria.getOperator());
     }
 
     @Test
