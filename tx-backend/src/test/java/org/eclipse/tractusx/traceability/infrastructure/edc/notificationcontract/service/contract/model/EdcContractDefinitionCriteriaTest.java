@@ -54,7 +54,7 @@ class EdcContractDefinitionCriteriaTest {
 
     @Test
     void getOperator() {
-        assertEquals(EdcContractDefinitionCriteriaTest.ASSET_SELECTOR_EQUALITY_OPERATOR, edcContractDefinitionCriteria.getOperator());
+        assertEquals(EdcContractDefinitionCriteriaTest.ASSET_SELECTOR_EQUALITY_OPERATOR, edcContractDefinitionCriteria.getOperator().id());
     }
 
     @Test
