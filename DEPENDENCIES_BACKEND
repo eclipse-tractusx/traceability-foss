@@ -133,7 +133,7 @@ maven/mavencentral/org.eclipse.edc/transfer-data-plane-spi/0.1.0, Apache-2.0, ap
 maven/mavencentral/org.eclipse.edc/transfer-spi/0.1.0, Apache-2.0, approved, technology.edc
 maven/mavencentral/org.eclipse.edc/transform-spi/0.1.0, Apache-2.0, approved, technology.edc
 maven/mavencentral/org.eclipse.edc/web-spi/0.1.0, Apache-2.0, approved, technology.edc
-maven/mavencentral/org.eclipse.tractusx.irs/irs-registry-client/1.0.0-20230713.112509-1, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-registry-client/1.0.0-20230717.110823-2, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.eclipse.tractusx.traceability/tx-backend/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.eclipse.tractusx.traceability/tx-models/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.flywaydb/flyway-core/9.5.1, Apache-2.0, approved, #7296
