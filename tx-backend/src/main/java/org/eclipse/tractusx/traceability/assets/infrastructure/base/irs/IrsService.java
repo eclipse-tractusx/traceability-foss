@@ -72,6 +72,26 @@ public class IrsService implements IrsRepository {
     }
 
     @Override
+    public List<Asset> findAssets(String globalAssetId, String manufacturerId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
+        RegisterJobResponse startJobResponse = irsClient.registerJob(RegisterJobRequest.buildJobRequest(globalAssetId, manufacturerId,  direction, aspects, bomLifecycle));
+        JobDetailResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
+
+        JobStatus jobStatus = jobResponse.jobStatus();
+        long runtime = (jobStatus.lastModifiedOn().getTime() - jobStatus.startedOn().getTime()) / 1000;
+        log.info("IRS call for globalAssetId: {} finished with status: {}, runtime {} s.", globalAssetId, jobStatus.state(), runtime);
+
+        if (jobResponse.isCompleted()) {
+            try {
+                bpnRepository.updateManufacturers(jobResponse.bpns());
+            } catch (Exception e) {
+                log.warn("BPN Mapping Exception", e);
+            }
+            return jobResponse.convertAssets();
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
     public void createIrsPolicyIfMissing() {
         log.info("Check if irs policy exists");
         List<IrsPolicy> irsPolicies = irsClient.getPolicies().stream().map(PolicyResponse::toDomain)

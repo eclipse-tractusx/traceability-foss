@@ -79,16 +79,46 @@ public class AssetServiceImpl implements AssetService {
         }
     }
 
+    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
+    public void synchronizeAssetsAsync(String globalAssetId, String manufacturerId) {
+        log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
+        try {
+            syncAssetsAsBuilt(globalAssetId, manufacturerId);
+            syncAssetsAsPlanned(globalAssetId);
+
+        } catch (Exception e) {
+            log.warn("Exception during assets synchronization for globalAssetId: {}. Message: {}.", globalAssetId, e.getMessage(), e);
+        }
+    }
+
     private void syncAssetsAsPlanned(String globalAssetId) {
         List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
         assetAsPlannedRepository.saveAll(downwardAssets);
     }
 
+    // TODO: Remove if not needed anymore
     private void syncAssetsAsBuilt(String globalAssetId) {
         List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
         assetAsBuiltRepository.saveAll(downwardAssets);
 
         List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+
+        upwardAssets.forEach(asset -> {
+            if (assetAsBuiltRepository.existsById(asset.getId())) {
+                log.info(asset.getId() + "isUpwardAsset 1 - asBuilt");
+                assetAsBuiltRepository.updateParentDescriptionsAndOwner(asset);
+            } else {
+                log.info(asset.getId() + "isUpwardAsset 2 - asBuilt");
+                assetAsBuiltRepository.save(asset);
+            }
+        });
+    }
+
+    private void syncAssetsAsBuilt(String globalAssetId, String manufacturerId) {
+        List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, manufacturerId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        assetAsBuiltRepository.saveAll(downwardAssets);
+
+        List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, manufacturerId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         upwardAssets.forEach(asset -> {
             if (assetAsBuiltRepository.existsById(asset.getId())) {

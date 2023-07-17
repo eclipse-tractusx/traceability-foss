@@ -38,5 +38,7 @@ public interface IrsRepository {
      */
     List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
 
+    List<Asset> findAssets(String globalAssetId, String manufacturerId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+
     void createIrsPolicyIfMissing();
 }
