@@ -102,6 +102,27 @@ spec:
             - name: configuration
               mountPath: home/wiremock/__files/bpn_discovery_service_response.json
               subPath: bpn_discovery_service_response.json
+            - name: configuration
+              mountPath: home/wiremock/__files/irs_bpn_discovery_service_request.json
+              subPath: irs_bpn_discovery_service_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/irs_discovery_finder_request.json
+              subPath: irs_discovery_finder_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/irs_discovery_finder_response.json
+              subPath: irs_discovery_finder_response.json
+            - name: configuration
+              mountPath: home/wiremock/__files/irs_own_edc_discovery_request.json
+              subPath: irs_own_edc_discovery_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/irs_own_edc_discovery_response.json
+              subPath: irs_own_edc_discovery_response.json
+            - name: configuration
+              mountPath: home/wiremock/__files/irs_other_edc_discovery_request.json
+              subPath: irs_other_edc_discovery_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/irs_other_edc_discovery_response.json
+              subPath: irs_other_edc_discovery_response.json
             - name: tmp
               mountPath: /tmp
       volumes:
@@ -127,6 +148,20 @@ spec:
                 path: bpn_discovery_service_request.json
               - key: bpn_discovery_service_response.json
                 path: bpn_discovery_service_response.json
+              - key: irs_bpn_discovery_service_request.json
+                path: irs_bpn_discovery_service_request.json
+              - key: irs_discovery_finder_request.json
+                path: irs_discovery_finder_request.json
+              - key: irs_discovery_finder_response.json
+                path: irs_discovery_finder_response.json
+              - key: irs_own_edc_discovery_request.json
+                path: irs_own_edc_discovery_request.json
+              - key: irs_own_edc_discovery_response.json
+                path: irs_own_edc_discovery_response.json
+              - key: irs_other_edc_discovery_request.json
+                path: irs_other_edc_discovery_request.json
+              - key: irs_other_edc_discovery_response.json
+                path: irs_other_edc_discovery_response.json
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

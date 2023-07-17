@@ -132,6 +132,21 @@ data:
       }
     }
 
+  irs_bpn_discovery_service_request.json: |-
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/irs/api/administration/connectors/bpnDiscovery/search"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "bpn_discovery_service_response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+
   bpn_discovery_service_response.json: |-
     {
       "bpns": [
@@ -145,7 +160,97 @@ data:
         {"type": "bpn", "key": ".*", "value": "BPNL00000003B3NX", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
         {"type": "bpn", "key": ".*", "value": "BPNL00000003B5MJ", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
         {"type": "bpn", "key": ".*", "value": "BPNL00000003B5MJ", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
-        {"type": "bpn", "key": ".*", "value": "BPNL00000003CML1", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
+        {"type": "bpn", "key": ".*", "value": "BPNL00000003CML1", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn", "key": ".*", "value": "BPNL00000003CNKC", "resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
       ]
     }
 
+  irs_discovery_finder_request.json: |-
+    {
+      "request": {
+      "method": "POST",
+      "urlPath": "/irs/api/administration/connectors/discovery/search"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "irs_discovery_finder_response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+
+  irs_discovery_finder_response.json: |-
+    {
+      "endpoints": [
+        {
+          "type": "bpn",
+          "description": "Service to discover EDC to a particular BPN",
+          "endpointAddress": "https://{{ index .Values.ingress.hosts 0 "host" }}/irs/api/administration/connectors/discovery",
+          "documentation": "http://.../swagger/index.html",
+          "resourceId": "316417cd-0fb5-4daf-8dfa-8f68125923f1"
+        }
+      ]
+    }
+
+  irs_own_edc_discovery_request.json: |-
+    {
+      "request": {
+        "bodyPatterns": [
+          {
+            "equalToJson" : "[\"{{ .Values.wiremock.bpn.own }}\"]"
+          }
+        ],
+        "method": "POST",
+        "urlPath": "/irs/api/administration/connectors/discovery"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "irs_own_edc_discovery_response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": ["response-template"]
+      }
+    }
+
+  irs_own_edc_discovery_response.json: |-
+    [
+      {
+        "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
+        "connectorEndpoint": [
+          "https://{{ .Values.wiremock.bpn.ownUrl}}/"
+        ]
+      }
+    ]
+
+  irs_other_edc_discovery_request.json: |-
+    {
+      "request": {
+        "bodyPatterns": [
+          {
+            "equalToJson" : "[\"{{ .Values.wiremock.bpn.other }}\"]"
+          }
+        ],
+        "method": "POST",
+        "urlPath": "/irs/api/administration/connectors/discovery"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "irs_other_edc_discovery_response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": ["response-template"]
+      }
+    }
+
+  irs_other_edc_discovery_response.json: |-
+    [
+      {
+        "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
+        "connectorEndpoint": [
+          "https://{{ .Values.wiremock.bpn.otherUrl}}/"
+        ]
+      }
+    ]

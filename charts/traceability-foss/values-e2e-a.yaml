@@ -208,8 +208,8 @@ irs-helm:
         secretName: tls-secret
   digitalTwinRegistry:
     type: central
-    url: https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry
-    ## TODO needs to be adapted to our mock once we have one.
+    descriptorEndpoint: https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
+    shellLookupEndpoint: https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
     discoveryFinderUrl: https://discovery-mock-e2e-a.dev.demo.catena-x.net/api/administration/connectors/discovery/search
 
   semanticshub:
