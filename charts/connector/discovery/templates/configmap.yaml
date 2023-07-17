@@ -169,7 +169,7 @@ data:
     {
       "request": {
       "method": "POST",
-      "urlPath": "/api/irs/administration/connectors/discovery/search"
+      "urlPath": "/irs/api/administration/connectors/discovery/search"
       },
       "response": {
         "status": 200,
