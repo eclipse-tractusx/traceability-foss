@@ -203,7 +203,7 @@ irs-helm:
         secretName: tls-secret
   digitalTwinRegistry:
     type: central
-    url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry
+    url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0
     ## TODO needs to be adapted to our mock once we have one.
     discoveryFinderUrl: https://discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search
   semanticshub:
