@@ -39,7 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Security [TRACEFOSS-1314]: Open Redirect - host header injection
 - Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
 ---
-- Environment [TRACEFOSS-2164]: Inoperably endpoints for synchronization of submodels
+- Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable
 
 ## [5.0.0] - 2023-07-10
 
