@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+
 - Helmignore config params for wrong values.yaml files
 - Home / Source URL in Helm Chart
 - Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
@@ -15,11 +16,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added about component with additional Workflow to load repo info into the component
 - Update EDC dependencies to 0.1.3
 - Add Transformer to support new EDC constraint operator format
+-
 ### Changed
 
 - Modified IRS Policies support to handle multiple policies
 - Readme titles to match TRGs
-
+- Updated Irs helm chart to 6.2.0
 
 ### Removed
 - unused classes and methods
