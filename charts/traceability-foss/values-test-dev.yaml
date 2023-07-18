@@ -235,6 +235,7 @@ irs-helm:
         enabled: "false"
     controlplane:
       endpoint:
+        data: https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/management
         statesuffix: /state
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
