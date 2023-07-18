@@ -229,6 +229,7 @@ irs-helm:
         enabled: "false"
     controlplane:
       endpoint:
+#        TODO: ADD to other environment configurations
         data: https://tracex-consumer-controlplane.dev.demo.catena-x.net/management
         statesuffix: /state
       apikey:
