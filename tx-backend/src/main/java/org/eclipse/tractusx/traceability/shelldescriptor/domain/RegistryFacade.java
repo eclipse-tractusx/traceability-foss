@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
+import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
@@ -47,11 +48,9 @@ public class RegistryFacade {
     }
 
     private void synchronizeAssetsByDescriptors(List<ShellDescriptor> descriptors) {
-        descriptors
-                .forEach(descriptor ->
-                        assetService.synchronizeAssetsAsync(
-                                descriptor.getGlobalAssetId(),
-                                descriptor.getManufacturerId()));
+        descriptors.stream()
+                .map(ShellDescriptor::getGlobalAssetId)
+                .forEach(assetService::synchronizeAssetsAsync);
     }
 
     private List<ShellDescriptor> updateOwnShellDescriptors() throws RegistryServiceException {
