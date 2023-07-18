@@ -84,7 +84,7 @@ public class IrsService implements IrsRepository {
 
         final List<IrsPolicy> requiredPolicies = irsPolicyConfig.getPolicies();
 
-        log.info("Required policies from application yaml are : {}", irsPolicies);
+        log.info("Required policies from application yaml are : {}", requiredPolicies);
 
         final List<IrsPolicy> existingPolicy = irsPolicies.stream().filter(
                 irsPolicy -> requiredPolicies.stream()
