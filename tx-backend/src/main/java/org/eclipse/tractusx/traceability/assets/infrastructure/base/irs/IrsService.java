@@ -36,6 +36,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -50,10 +51,12 @@ public class IrsService implements IrsRepository {
     private final IRSApiClient irsClient;
     private final BpnRepository bpnRepository;
     private final IrsPolicyConfig irsPolicyConfig;
+    @Value("${traceability.bpn}")
+    private String applicationBPN;
 
     @Override
-    public List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) { //TODO: replace with application bpn
-        RegisterJobResponse startJobResponse = irsClient.registerJob(RegisterJobRequest.buildJobRequest(globalAssetId, "BPNL00000003CML1",  direction, aspects, bomLifecycle));
+    public List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
+        RegisterJobResponse startJobResponse = irsClient.registerJob(RegisterJobRequest.buildJobRequest(globalAssetId, applicationBPN,  direction, aspects, bomLifecycle));
         JobDetailResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
 
         JobStatus jobStatus = jobResponse.jobStatus();
