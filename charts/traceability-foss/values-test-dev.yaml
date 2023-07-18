@@ -211,7 +211,7 @@ irs-helm:
     type: central
     descriptorEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
     shellLookupEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
-    discoveryFinderUrl: https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/administration/connectors/discovery/search
+    discoveryFinderUrl: https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/administration/connectors/discovery/search
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
