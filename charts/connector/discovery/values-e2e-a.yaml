@@ -22,7 +22,7 @@ fullnameOverride: ""
 #Environment specific wiremock host
 wiremock:
   provider: "https://trace-x-edc-e2e-a.dev.demo.catena-x.net/"
-  consumer: "https://tracex-e2e-b-consumer-controlplane.dev.demo.catena-x.net/"
+  consumer: "https://tracex-e2e-b-consumer-controlplane.dev.demo.catena-x.net"
   bpn:
     own: "BPNL00000003CML1"
     other: "BPNL00000003CNKC"
