@@ -249,6 +249,8 @@ irs-helm:
 ###################################
 tractusx-connector:
   enabled: true
+  nameOverride: "consumer-controlplane-dev"
+  fullnameOverride: "consumer-controlplane-dev"
   install:
     postgresql: false
     vault: false
