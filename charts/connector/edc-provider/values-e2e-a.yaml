@@ -49,7 +49,7 @@ tractusx-connector:
       password: "<path:traceability-foss/data/dev/edc/database#password>"
     username: "<path:traceability-foss/data/dev/edc/database#user>"
     password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tracex-edc-provider-edc-postgresql-hl:5432/edc"
+    jdbcUrl: "jdbc:postgresql://tracex-edc-provider-e2e-a-edc-postgresql-hl:5432/edc"
 
   vault:
     secretNames:

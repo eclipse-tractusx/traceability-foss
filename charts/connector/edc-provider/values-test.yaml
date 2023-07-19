@@ -45,7 +45,7 @@ tractusx-connector:
       password: "<path:traceability-foss/data/dev/edc/database#password>"
     username: "<path:traceability-foss/data/dev/edc/database#user>"
     password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tracex-edc-provider-edc-postgresql-hl:5432/edc"
+    jdbcUrl: "jdbc:postgresql://tracex-test-edc-provider-edc-postgresql-hl:5432/edc"
 
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability-test.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
