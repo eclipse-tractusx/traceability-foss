@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record LocalId(
-        @JsonProperty("key") LocalIdKey key,
+        @JsonProperty("name") LocalIdKey key,
         String value
 ) {
 }
