@@ -21,10 +21,11 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
+import lombok.ToString;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 
 import java.util.List;
-
+@ToString
 public record RegisterJobRequest(
         List<String> aspects,
         PartChainIdentificationKey key,
@@ -34,11 +35,7 @@ public record RegisterJobRequest(
         int depth,
         Direction direction
 ) {
-    public static RegisterJobRequest buildJobRequest(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
-        return new RegisterJobRequest(aspects, new PartChainIdentificationKey(globalAssetId, null), true, bomLifecycle, true, DEFAULT_DEPTH, direction);
-    }
-
-    public static RegisterJobRequest buildJobRequest(String globalAssetId, String manufacturerId,  Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
+    public static RegisterJobRequest buildJobRequest(String globalAssetId, String manufacturerId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
         return new RegisterJobRequest(aspects, new PartChainIdentificationKey(globalAssetId, manufacturerId), true, bomLifecycle, true, DEFAULT_DEPTH, direction);
     }
 

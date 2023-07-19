@@ -56,7 +56,9 @@ public class IrsService implements IrsRepository {
 
     @Override
     public List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
-        RegisterJobResponse startJobResponse = irsClient.registerJob(RegisterJobRequest.buildJobRequest(globalAssetId, applicationBPN,  direction, aspects, bomLifecycle));
+        RegisterJobRequest registerJobRequest = RegisterJobRequest.buildJobRequest(globalAssetId, applicationBPN, direction, aspects, bomLifecycle);
+        log.info("Build HTTP Request {}", registerJobRequest);
+        RegisterJobResponse startJobResponse = irsClient.registerJob(registerJobRequest);
         JobDetailResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
 
         JobStatus jobStatus = jobResponse.jobStatus();

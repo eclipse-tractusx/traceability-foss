@@ -21,7 +21,9 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
+@ToString
 public enum Direction {
     @JsonProperty("downward")
     DOWNWARD,
