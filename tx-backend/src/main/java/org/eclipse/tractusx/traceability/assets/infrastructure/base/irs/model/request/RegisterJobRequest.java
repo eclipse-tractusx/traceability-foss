@@ -25,7 +25,7 @@ import lombok.ToString;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 
 import java.util.List;
-@ToString
+
 public record RegisterJobRequest(
         List<String> aspects,
         PartChainIdentificationKey key,
