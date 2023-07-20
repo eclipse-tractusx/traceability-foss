@@ -19,14 +19,14 @@
 
 feign:
   irsApi:
-    url: https://tracex-irs-e2e-b.dev.demo.catena-x.net
+    url: https://tx-irs-e2e-b.dev.demo.catena-x.net
   registryApi:
     url: https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0
   portalApi:
     url: https://portal-backend.dev.demo.catena-x.net/api
 
 edc:
-  callback-urls: http://tracex-irs-e2e-b:8181/internal/endpoint-data-reference
+  callback-urls: http://tx-irs-e2e-b:8181/internal/endpoint-data-reference
 
 digitalTwinRegistryClient:
   type: "decentral"
