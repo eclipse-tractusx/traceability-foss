@@ -50,7 +50,7 @@ public record JobDetailResponse(
 ) {
 
     private static final String SINGLE_LEVEL_USAGE_AS_BUILT = "SingleLevelUsageAsBuilt";
-    private static final String ASSEMBLY_PART_RELATIONSHIP = "SingleLevelBomAsBuilt";
+    private static final String SINGLE_LEVEL_BOM_AS_BUILT = "SingleLevelBomAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
@@ -197,7 +197,7 @@ public record JobDetailResponse(
         log.info(":: ownParts: {}", ownParts);
         // The Relationship on supplierPart catenaXId contains the id of the asset which has a relationship
         Map<String, List<Relationship>> supplierPartsMap = relationships().stream()
-                .filter(relationship -> ASSEMBLY_PART_RELATIONSHIP.equals(relationship.aspectType().getAspectName()))
+                .filter(relationship -> SINGLE_LEVEL_BOM_AS_BUILT.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
         // The Relationship on customerPart childCatenaXId contains the id of the asset which has a relationship
