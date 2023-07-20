@@ -21,7 +21,7 @@ feign:
   irsApi:
     url: https://tracex-irs.int.demo.catena-x.net
   registryApi:
-    url: https://semantics.int.demo.catena-x.net/registry
+    url: https://semantics.int.demo.catena-x.net/registry/api/v3.0
   portalApi:
     url: https://portal-backend.int.demo.catena-x.net/api
 
@@ -31,3 +31,7 @@ edc:
 cors:
   origins: >
     https://traceability-portal-int-b.int.demo.catena-x.net/
+
+digitalTwinRegistryClient:
+  type: "decentral"
+  discoveryFinderUrl: "https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/administration/connectors/discovery/search" # required if type is "decentral"

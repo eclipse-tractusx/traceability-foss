@@ -37,7 +37,7 @@ public class SpecificAssetId {
     public static List<SpecificAssetId> fromList(List<IdentifierKeyValuePair> keyValuePair) {
         List<SpecificAssetId> specificAssetIds = new ArrayList<>();
         keyValuePair.forEach(keyValuePair1 -> {
-            specificAssetIds.add(new SpecificAssetId(keyValuePair1.getKey(), keyValuePair1.getValue()));
+            specificAssetIds.add(new SpecificAssetId(keyValuePair1.getName(), keyValuePair1.getValue()));
         });
         return specificAssetIds;
     }

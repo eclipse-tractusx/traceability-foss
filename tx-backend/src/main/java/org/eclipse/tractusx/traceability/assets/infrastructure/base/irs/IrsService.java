@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
@@ -36,6 +37,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.PolicyResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.RegisterJobResponse;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.IrsPolicy;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -50,10 +52,21 @@ public class IrsService implements IrsRepository {
     private final IRSApiClient irsClient;
     private final BpnRepository bpnRepository;
     private final IrsPolicyConfig irsPolicyConfig;
+    @Value("${traceability.bpn}")
+    private String applicationBPN;
+    private final ObjectMapper objectMapper;
 
     @Override
     public List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle) {
-        RegisterJobResponse startJobResponse = irsClient.registerJob(RegisterJobRequest.buildJobRequest(globalAssetId, direction, aspects, bomLifecycle));
+        RegisterJobRequest registerJobRequest = RegisterJobRequest.buildJobRequest(globalAssetId, applicationBPN, direction, aspects, bomLifecycle);
+        log.info("Build HTTP Request {}", registerJobRequest);
+        try {
+            log.info("Build HTTP Request as JSON {}", objectMapper.writeValueAsString(registerJobRequest));
+        } catch (Exception e) {
+            log.error("exception", e);
+        }
+
+        RegisterJobResponse startJobResponse = irsClient.registerJob(registerJobRequest);
         JobDetailResponse jobResponse = irsClient.getJobDetails(startJobResponse.id());
 
         JobStatus jobStatus = jobResponse.jobStatus();
@@ -81,13 +94,13 @@ public class IrsService implements IrsRepository {
 
         final List<IrsPolicy> requiredPolicies = irsPolicyConfig.getPolicies();
 
-        log.info("Required policies from application yaml are : {}", irsPolicies);
+        log.info("Required policies from application yaml are : {}", requiredPolicies);
 
         final List<IrsPolicy> existingPolicy = irsPolicies.stream().filter(
-                irsPolicy -> requiredPolicies.stream()
-                        .map(IrsPolicy::getPolicyId)
-                        .toList()
-                        .contains(irsPolicy.getPolicyId()))
+                        irsPolicy -> requiredPolicies.stream()
+                                .map(IrsPolicy::getPolicyId)
+                                .toList()
+                                .contains(irsPolicy.getPolicyId()))
                 .toList();
         final List<IrsPolicy> missingPolicies = requiredPolicies.stream().filter(requiredPolicy -> !irsPolicies.stream()
                         .map(IrsPolicy::getPolicyId)
