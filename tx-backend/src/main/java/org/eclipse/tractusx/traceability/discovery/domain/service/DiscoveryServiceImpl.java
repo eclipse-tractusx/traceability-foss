@@ -52,11 +52,11 @@ public class DiscoveryServiceImpl implements DiscoveryService {
         List<Discovery> discoveryList = new ArrayList<>();
         Optional<Discovery> optionalDiscoveryFromDiscoveryService = getOptionalDiscoveryByBpnFromDiscoveryService(bpn);
         optionalDiscoveryFromDiscoveryService.ifPresent(discovery -> {
-
-            List<String> receiverUrls = discovery.getReceiverUrls();
-            for (int i = 0; i < receiverUrls.size(); i++) {
-                receiverUrls.set(i, removeTrailingSlash(receiverUrls.get(i)));
-            }
+            discovery.setReceiverUrls(
+                    discovery.getReceiverUrls().stream().map(
+                            DiscoveryServiceImpl::removeTrailingSlash
+                    ).toList()
+            );
             log.info("Retrieved discovery by bpn from edcDiscoveryService receiverUrls: {}, senderUrls: {}", discovery.getReceiverUrls().toString(), discovery.getSenderUrl());
             discoveryList.add(discovery);
         });
