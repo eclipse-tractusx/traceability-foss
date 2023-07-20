@@ -18,8 +18,5 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request;
 
-import lombok.ToString;
-
-
 public record PartChainIdentificationKey(String globalAssetId, String bpn) {
 }
