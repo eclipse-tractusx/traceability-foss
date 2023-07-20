@@ -1164,19 +1164,19 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AYRE",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "KR-09",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "OMA-TGFAYUHXFLHHUQQMPLTE",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           },
           {
             "value" : "OMA-TGFAYUHXFLHHUQQMPLTE",
-            "name" : "van"
+            "key" : "van"
           }
         ],
         "manufacturingInformation" : {
@@ -1246,15 +1246,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B5MJ",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "83238F4-36",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-354879221683258717359442",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1326,15 +1326,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B2OM",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "1O222E8-43",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-733616531805581150452604",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1428,15 +1428,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AYRE",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "95657362-83",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-369202025208677072946181",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1460,15 +1460,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B0Q0",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "55269I8-71",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-340460948192054950891951",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1492,15 +1492,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AXS3",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "91471Z0-84",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-182660425740222655242543",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1524,15 +1524,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B0Q0",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "01697F7-65",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-947880349904267845729159",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1578,15 +1578,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B3NX",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "65847F9-69",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-628797496367807957077265",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1618,15 +1618,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AXS3",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "31008B0-49",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-825423826078402432465664",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1650,15 +1650,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B3NX",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "37754B7-76",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-159040131155901488695376",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1712,15 +1712,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003AYRE",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "8840838-04",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-397646649734958738335866",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1744,15 +1744,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B0Q0",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "74268H5-13",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-565359302028822441908953",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
@@ -1776,15 +1776,15 @@
         "localIdentifiers" : [
           {
             "value" : "BPNL00000003B0Q0",
-            "name" : "manufacturerId"
+            "key" : "manufacturerId"
           },
           {
             "value" : "98801V5-17",
-            "name" : "manufacturerPartId"
+            "key" : "manufacturerPartId"
           },
           {
             "value" : "NO-056604022229087145032390",
-            "name" : "partInstanceId"
+            "key" : "partInstanceId"
           }
         ],
         "manufacturingInformation" : {
