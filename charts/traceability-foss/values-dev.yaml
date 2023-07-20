@@ -202,10 +202,10 @@ irs-helm:
           - "tracex-irs.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
-    type: central
-    url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry
-    ## TODO needs to be adapted to our mock once we have one.
-    discoveryFinderUrl: https://discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search
+    type: decentral
+    descriptorEndpoint: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
+    shellLookupEndpoint: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
+    discoveryFinderUrl: https://tracex-discovery-mock-dev.dev.demo.catena-x.net/irs/api/administration/connectors/discovery/search
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
@@ -229,6 +229,8 @@ irs-helm:
         enabled: "false"
     controlplane:
       endpoint:
+#        TODO: ADD to other environment configurations
+        data: https://tracex-consumer-controlplane.dev.demo.catena-x.net/management
         statesuffix: /state
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
@@ -247,6 +249,8 @@ irs-helm:
 ###################################
 tractusx-connector:
   enabled: true
+  nameOverride: "consumer-controlplane-dev"
+  fullnameOverride: "consumer-controlplane-dev"
   install:
     postgresql: false
     vault: false

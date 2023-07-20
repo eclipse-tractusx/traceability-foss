@@ -23,10 +23,12 @@ fullnameOverride: ""
 #Environment specific wiremock host
 wiremock:
   provider: "https://trace-x-edc.dev.demo.catena-x.net/"
-  consumer: "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/"
+  consumer: "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
   bpn:
     own: "BPNL00000003CML1"
     other: "BPNL00000003CNKC"
+    ownUrl: "trace-x-edc.dev.demo.catena-x.net"
+    otherUrl: "trace-x-test-edc.dev.demo.catena-x.net"
 
 ingress:
   hosts:

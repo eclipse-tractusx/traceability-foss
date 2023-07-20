@@ -135,6 +135,8 @@ backend:
 # PG Admin configuration     #
 #########################
 pgadmin4:
+  nameOverride: "tracex-pgadmin4-test"
+  fullnameOverride: "tracex-pgadmin4-test"
   enabled: true
   strategy:
     type: Recreate
@@ -206,10 +208,10 @@ irs-helm:
           - "tracex-irs-test.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
-    type: central
-    url: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry
-    ## TODO needs to be adapted to our mock once we have one.
-    discoveryFinderUrl: https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/administration/connectors/discovery/search
+    type: decentral
+    descriptorEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
+    shellLookupEndpoint: https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
+    discoveryFinderUrl: https://tracex-discovery-mock-test.dev.demo.catena-x.net/irs/api/administration/connectors/discovery/search
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
@@ -233,6 +235,7 @@ irs-helm:
         enabled: "false"
     controlplane:
       endpoint:
+        data: https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/management
         statesuffix: /state
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>

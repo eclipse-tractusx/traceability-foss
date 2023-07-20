@@ -35,8 +35,8 @@ frontend:
     CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
     CATENAX_PORTAL_URL: 'https://portal.dev.demo.catena-x.net/'
 
-  nameOverride: "traceability-foss-e2e-b-frontend"
-  fullnameOverride: "traceability-foss-e2e-b-frontend"
+  nameOverride: "tx-frontend-e2e-b"
+  fullnameOverride: "tx-frontend-e2e-b"
 
   ingress:
     enabled: true
@@ -61,8 +61,8 @@ backend:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
 
-  nameOverride: "traceability-foss-backend-e2e-b"
-  fullnameOverride: "traceability-foss-backend-e2e-b"
+  nameOverride: "tx-backend-e2e-b"
+  fullnameOverride: "tx-backend-e2e-b"
 
   podSecurityContext:
     runAsUser: 10001
@@ -113,7 +113,7 @@ backend:
     url: "https://traceability-e2e-b.dev.demo.catena-x.net"
 
   datasource:
-    url: jdbc:postgresql://traceability-foss-backend-e2e-b-postgresql:5432/trace
+    url: jdbc:postgresql://tx-backend-postgresql-e2e-b:5432/trace
     username: trace
     password: <path:traceability-foss/data/dev/database#tracePassword>
 
@@ -132,6 +132,8 @@ backend:
 # PG Admin configuration     #
 #########################
 pgadmin4:
+  nameOverride: "tx-pgadmin-e2e-b"
+  fullnameOverride: "tx-pgadmin-e2e-b"
   enabled: true
   strategy:
     type: Recreate
@@ -143,13 +145,13 @@ pgadmin4:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
-      - host: tracex-pgadmin4-e2e-b.dev.demo.catena-x.net
+      - host: tx-pgadmin-e2e-b.dev.demo.catena-x.net
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - tracex-pgadmin4-e2e-b.dev.demo.catena-x.net
+          - tx-pgadmin-e2e-b.dev.demo.catena-x.net
         secretName: tls-secret
   env:
     email: pgadmin4@trace.foss
@@ -171,8 +173,8 @@ pgadmin4:
 postgresql:
   enabled: true
 
-  nameOverride: "traceability-foss-backend-e2e-b-postgresql"
-  fullnameOverride: "traceability-foss-backend-e2e-b-postgresql"
+  nameOverride: "tx-backend-postgresql-e2e-b"
+  fullnameOverride: "tx-backend-postgresql-e2e-b"
 
   auth:
     postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"
@@ -187,31 +189,31 @@ irs-helm:
   bpn: BPNL00000003CML1
   enabled: true
 
-  nameOverride: "tracex-irs-e2e-b"
-  fullnameOverride: "tracex-irs-e2e-b"
+  nameOverride: "tx-irs-e2e-b"
+  fullnameOverride: "tx-irs-e2e-b"
 
   namespace: product-traceability-foss
 
   springprofile: dev
 
-  irsUrl: "https://tracex-irs-e2e-b.dev.demo.catena-x.net"
+  irsUrl: "https://tx-irs-e2e-b.dev.demo.catena-x.net"
 
   ingress:
     enabled: true
     hosts:
-      - host: "tracex-irs-e2e-b.dev.demo.catena-x.net"
+      - host: "tx-irs-e2e-b.dev.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "tracex-irs-e2e-b.dev.demo.catena-x.net"
+          - "tx-irs-e2e-b.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
     type: central
-    url: https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry
-    ## TODO needs to be adapted to our mock once we have one.
-    discoveryFinderUrl: https://discovery-mock-e2e-b.dev.demo.catena-x.net/api/administration/connectors/discovery/search
+    descriptorEndpoint: https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
+    shellLookupEndpoint: https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
+    discoveryFinderUrl: https://tracex-discovery-mock-e2e-b.dev.demo.catena-x.net/irs/api/administration/connectors/discovery/search
 
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
@@ -230,7 +232,7 @@ irs-helm:
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
-    callbackurl: http://tracex-irs-e2e-b:8181/internal/endpoint-data-reference
+    callbackurl: http://tx-irs-e2e-b:8181/internal/endpoint-data-reference
     catalog:
       cache:
         enabled: "false"
@@ -253,6 +255,8 @@ irs-helm:
 # EDC Consumer configuration  #
 ###################################
 tractusx-connector:
+  fullnameOverride: "tx-edc-consumer-e2e-b"
+  nameOverride: "tx-edc-consumer-e2e-b"
   enabled: true
   install:
     postgresql: false
@@ -414,14 +418,14 @@ tractusx-connector:
       password: "<path:traceability-foss/data/dev/edc/database#password>"
     username: "<path:traceability-foss/data/dev/edc/database#user>"
     password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tracex-consumer-edc-postgresql-e2e-b-hl:5432/edc"
+    jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-e2e-b-hl:5432/edc"
 
 ###################################
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
-  nameOverride: "tracex-consumer-edc-postgresql-e2e-b"
-  fullnameOverride: "tracex-consumer-edc-postgresql-e2e-b"
+  nameOverride: "tx-edc-consumer-postgresql-e2e-b"
+  fullnameOverride: "tx-edc-consumer-postgresql-e2e-b"
   enabled: true
   auth:
     database: edc
