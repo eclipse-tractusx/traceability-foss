@@ -51,12 +51,27 @@ public class DiscoveryServiceImpl implements DiscoveryService {
     public Discovery getDiscoveryByBPN(String bpn) {
         List<Discovery> discoveryList = new ArrayList<>();
         Optional<Discovery> optionalDiscoveryFromDiscoveryService = getOptionalDiscoveryByBpnFromDiscoveryService(bpn);
-        optionalDiscoveryFromDiscoveryService.ifPresent(discovery -> log.info("Retrieved discovery by bpn from edcDiscoveryService receiverUrls: {}, senderUrls: {}", discovery.getReceiverUrls().toString(), discovery.getSenderUrl()));
+        optionalDiscoveryFromDiscoveryService.ifPresent(discovery -> {
+            discovery.setReceiverUrls(
+                    discovery.getReceiverUrls().stream().map(
+                            DiscoveryServiceImpl::removeTrailingSlash
+                    ).toList()
+            );
+            log.info("Retrieved discovery by bpn from edcDiscoveryService receiverUrls: {}, senderUrls: {}", discovery.getReceiverUrls().toString(), discovery.getSenderUrl());
+            discoveryList.add(discovery);
+        });
         optionalDiscoveryFromDiscoveryService.ifPresent(discoveryList::add);
         Optional<Discovery> optionalDiscoveryFromBpnDatabase = getOptionalDiscoveryFromBpnDatabase(bpn);
         optionalDiscoveryFromBpnDatabase.ifPresent(discovery -> log.info("Retrieved discovery by bpn from BPN Mapping Table receiverUrls: {}, senderUrls: {}", discovery.getReceiverUrls().toString(), discovery.getSenderUrl()));
         optionalDiscoveryFromBpnDatabase.ifPresent(discoveryList::add);
         return mergeDiscoveries(discoveryList);
+    }
+
+    private static String removeTrailingSlash(String inputString) {
+        if (inputString.endsWith("/")) {
+            return inputString.substring(0, inputString.length() - 1);
+        }
+        return inputString;
     }
 
     @NotNull

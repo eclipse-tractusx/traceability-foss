@@ -40,7 +40,6 @@ public class RegistryFacade {
     private final ShellDescriptorsService shellDescriptorsService;
     private final RegistryService registryService;
     private final AssetServiceImpl assetService;
-    private final BpnRepository bpnRepository;
 
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void updateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {

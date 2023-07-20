@@ -62,7 +62,7 @@ public record RegistryShellDescriptor(
     }
 
     public static RegistryShellDescriptor from(AssetAdministrationShellDescriptor assetAdministrationShellDescriptor) {
-        return new RegistryShellDescriptor(GlobalAssetId.from(assetAdministrationShellDescriptor.getGlobalAssetId()), assetAdministrationShellDescriptor.getIdentification(), assetAdministrationShellDescriptor.getIdShort(), SpecificAssetId.fromList(assetAdministrationShellDescriptor.getSpecificAssetIds()));
+        return new RegistryShellDescriptor(GlobalAssetId.from(List.of(assetAdministrationShellDescriptor.getGlobalAssetId())), assetAdministrationShellDescriptor.getId(), assetAdministrationShellDescriptor.getIdShort(), SpecificAssetId.fromList(assetAdministrationShellDescriptor.getSpecificAssetIds()));
     }
 
     enum AssetIdType {

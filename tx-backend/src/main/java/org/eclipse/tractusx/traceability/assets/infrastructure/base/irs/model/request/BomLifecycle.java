@@ -20,7 +20,9 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @Getter
 public enum BomLifecycle {
     @JsonProperty("asBuilt")

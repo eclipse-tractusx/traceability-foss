@@ -50,7 +50,7 @@ public record JobDetailResponse(
 ) {
 
     private static final String SINGLE_LEVEL_USAGE_AS_BUILT = "SingleLevelUsageAsBuilt";
-    private static final String ASSEMBLY_PART_RELATIONSHIP = "SingleLevelBomAsBuilt";
+    private static final String SINGLE_LEVEL_BOM_AS_BUILT = "SingleLevelBomAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
@@ -100,6 +100,9 @@ public record JobDetailResponse(
 
     private List<Asset> convertAssets(BomLifecycle bomLifecycle) {
 
+        log.info(":: convertAssets(\"{}\")", bomLifecycle.getRealName());
+        log.info(":: relationships: {}", relationships.toString());
+
         Map<String, String> shortIds = shells().stream()
                 .collect(Collectors.toMap(
                         Shell::identification,
@@ -137,24 +140,31 @@ public record JobDetailResponse(
 
     private List<Asset> mapToOtherPartsAsBuilt(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> isAsBuiltAndOtherPart(semanticDataModel, jobStatus)).toList();
-        return otherParts
+
+        log.info(":: mapToOtherPartsAsBuilt()" );
+        log.info(":: otherParts: {}", otherParts);
+        final List<Asset> assets =  otherParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
                         Collections.emptyList()))
                 .toList();
-
+        log.info(":: mapped assets: {}", assets);
+        return assets;
     }
 
     private List<Asset> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> isAsPlannedAndOtherPart(semanticDataModel, jobStatus)).toList();
-        return otherParts
+        log.info(":: mapToOtherPartsAsPlanned()" );
+        log.info(":: otherParts: {}", otherParts);
+        final List<Asset> assets =  otherParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, owner, bpnMapping,
                         Collections.emptyList(),
                         Collections.emptyList()))
                 .toList();
-
+        log.info(":: mapped assets: {}", assets);
+        return assets;
     }
 
     private List<Asset> mapToOwnPartsAsPlanned(Map<String, String> shortIds, Map<String, String> bpnMapping) {
@@ -163,25 +173,31 @@ public record JobDetailResponse(
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> isAsPlannedAndOwnPart(semanticDataModel, jobStatus)).toList();
 
+        log.info(":: mapToOwnPartsAsPlanned()" );
+        log.info(":: ownPartsAsPlanned: {}", ownPartsAsPlanned);
+
         Map<String, List<Relationship>> singleLevelBomRelationship = relationships().stream()
                 .filter(relationship -> SINGLE_LEVEL_BOM_AS_PLANNED.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
 
-        return ownPartsAsPlanned
+        final List<Asset> assets =  ownPartsAsPlanned
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, Owner.OWN, bpnMapping,
                         Collections.emptyList(),
                         getChildParts(singleLevelBomRelationship, shortIds, semanticDataModel.catenaXId())))
                 .toList();
+        log.info(":: mapped assets: {}", assets);
+        return assets;
     }
 
     private List<Asset> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
         List<SemanticDataModel> ownParts = semanticDataModels().stream().filter(semanticDataModel -> isAsBuiltAndOwnPart(semanticDataModel, jobStatus)).toList();
-
+        log.info(":: mapToOwnPartsAsBuilt()" );
+        log.info(":: ownParts: {}", ownParts);
         // The Relationship on supplierPart catenaXId contains the id of the asset which has a relationship
         Map<String, List<Relationship>> supplierPartsMap = relationships().stream()
-                .filter(relationship -> ASSEMBLY_PART_RELATIONSHIP.equals(relationship.aspectType().getAspectName()))
+                .filter(relationship -> SINGLE_LEVEL_BOM_AS_BUILT.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
         // The Relationship on customerPart childCatenaXId contains the id of the asset which has a relationship
@@ -189,12 +205,14 @@ public record JobDetailResponse(
                 .filter(relationship -> SINGLE_LEVEL_USAGE_AS_BUILT.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::childCatenaXId, Collectors.toList()));
 
-        return ownParts
+        final List<Asset> assets = ownParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),
                         getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId())))
                 .toList();
+        log.info(":: mapped assets: {}", assets);
+        return assets;
     }
 
     private List<Descriptions> getChildParts(Map<String, List<Relationship>> relationships, Map<String, String> shortIds, String catenaXId) {
@@ -215,24 +233,36 @@ public record JobDetailResponse(
     }
 
     private boolean isAsBuiltAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        return semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) &&
+        final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) &&
                 (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART)
                         || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
+        log.info(":: isAsBuildAndOwnPart() {}", semanticDataModel);
+        log.info(":: result: {}", result);
+        return result;
     }
 
     private boolean isAsBuiltAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        return !semanticDataModel.getCatenaXId()
+        final boolean result =!semanticDataModel.getCatenaXId()
                 .equals(jobStatus.globalAssetId()) &&
                 (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART)
                         || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
+        log.info(":: isAsBuiltAndOtherPart() {}", semanticDataModel);
+        log.info(":: result: {}", result);
+        return result;
     }
 
     private boolean isAsPlannedAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        return semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT);
+        final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT);
+        log.info(":: isAsPlannedAndOwnPart() {}", semanticDataModel);
+        log.info(":: result: {}", result);
+        return result;
     }
 
     private boolean isAsPlannedAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        return !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT);
+        final boolean result = !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT);
+        log.info(":: isAsPlannedAndOtherPart() {}", semanticDataModel);
+        log.info(":: result: {}", result);
+        return result;
     }
 
 }

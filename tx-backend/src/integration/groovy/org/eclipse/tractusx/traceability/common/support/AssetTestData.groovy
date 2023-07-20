@@ -31,7 +31,7 @@ class AssetTestData {
 
     List<Asset> readAndConvertAssetsForTests() {
         try {
-            InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_v3.json")
+            InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_v4.json")
             JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class)
             def assets = response.convertAssets()
             return assets

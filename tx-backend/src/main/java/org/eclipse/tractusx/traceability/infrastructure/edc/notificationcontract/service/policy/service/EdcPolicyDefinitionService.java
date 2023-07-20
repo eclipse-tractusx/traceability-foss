@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.CreateEdcAssetException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.OdrlContext;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EdcOperator;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.CreateEdcPolicyDefinitionException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcCreatePolicyDefinitionRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model.EdcPolicy;
@@ -58,7 +59,7 @@ public class EdcPolicyDefinitionService {
     private static final String PURPOSE_CONSTRAINT = "idsc:PURPOSE";
     private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
     private static final String CONSTRAINT = "Constraint";
-
+    private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "odrl:eq";
     private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
     private final EdcProperties edcProperties;
@@ -75,7 +76,7 @@ public class EdcPolicyDefinitionService {
         EdcPolicyPermissionConstraintExpression constraint = EdcPolicyPermissionConstraintExpression.builder()
                 .leftOperand(PURPOSE_CONSTRAINT)
                 .rightOperand(ID_TRACE_CONSTRAINT)
-                .operator("EQ")
+                .operator(new EdcOperator(ASSET_SELECTOR_EQUALITY_OPERATOR))
                 .type(CONSTRAINT)
                 .build();
 

@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,15 +16,21 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.ToString;
+package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model;
 
-@ToString
-public enum Direction {
-    @JsonProperty("downward")
-    DOWNWARD,
-    @JsonProperty("upward")
-    UPWARD
+import lombok.Builder;
+import lombok.Data;
+import lombok.extern.jackson.Jacksonized;
+
+/**
+ * The decoded Auth code JWT.
+ */
+@Builder
+@Data
+@Jacksonized
+public class EDRAuthCode {
+    private final long exp;
+    private final String dad;
+    private final String cid;
 }
