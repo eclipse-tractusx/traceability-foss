@@ -17,39 +17,11 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<app-approve-notification-modal
+<app-notification-common-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [approveCall]="helperService.approve.bind(this)"
-  [translationContext]="TranslationContext.COMMONALERT"
-></app-approve-notification-modal>
-<app-cancel-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [cancelCall]="helperService.cancel.bind(this)"
-  [translationContext]="TranslationContext.COMMONALERT"
-></app-cancel-notification-modal>
-<app-close-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [closeCall]="helperService.close.bind(this)"
-  [translationContext]="TranslationContext.COMMONALERT"
-></app-close-notification-modal>
-
-<app-acknowledge-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [acknowledgeCall]="helperService.acknowledge.bind(this)"
-  [translationContext]="TranslationContext.COMMONALERT"
-></app-acknowledge-notification-modal>
-
-<app-accept-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [acceptCall]="helperService.accept.bind(this)"
-  [translationContext]= "TranslationContext.COMMONALERT"
-></app-accept-notification-modal>
-
-<app-decline-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [declineCall]="helperService.decline.bind(this)"
-  [translationContext]="TranslationContext.COMMONALERT"
-></app-decline-notification-modal>
+  [helperService]="helperService"
+  [translationContext]="TranslationContext.COMMONINVESTIGATION"
+></app-notification-common-modal>
 
 <app-notification
   [queuedAndRequestedNotifications$]="alertsQueuedAndRequested$"

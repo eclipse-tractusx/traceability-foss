@@ -21,6 +21,7 @@
 
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { ModalModule } from '@shared/modules/modal/modal.module';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
 import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
@@ -43,9 +44,11 @@ import { NotificationComponent } from './presentation/notification.component';
     AcceptNotificationModalComponent,
     AcknowledgeNotificationModalComponent,
     DeclineNotificationModalComponent,
+    NotificationCommonModalComponent,
   ],
-  imports: [CommonModule, TemplateModule, SharedModule, ModalModule],
+  imports: [CommonModule, TemplateModule, SharedModule, ModalModule, ],
   exports: [
+    NotificationCommonModalComponent,
     NotificationComponent,
     NotificationTabComponent,
     CloseNotificationModalComponent,
