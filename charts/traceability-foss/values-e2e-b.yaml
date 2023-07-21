@@ -126,7 +126,7 @@ backend:
 
   edc:
     apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
-    providerUrl: "https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net"
+    providerUrl: "https://tx-edc-consumer-e2e-b-controlplane.dev.demo.catena-x.net"
 
 #########################
 # PG Admin configuration     #
@@ -268,7 +268,7 @@ tractusx-connector:
   controlplane:
     ingresses:
       - enabled: true
-        hostname: "tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net"
+        hostname: "tx-edc-consumer-e2e-b-controlplane.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -342,7 +342,7 @@ tractusx-connector:
   dataplane:
     ingresses:
       - enabled: true
-        hostname: "tracex-consumer-dataplane-e2e-b.dev.demo.catena-x.net"
+        hostname: "tx-edc-consumer-e2e-b-dataplane.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"

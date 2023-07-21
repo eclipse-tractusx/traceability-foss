@@ -126,7 +126,7 @@ backend:
 
   edc:
     apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
-    providerUrl: "https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net"
+    providerUrl: "https://tx-edc-consumer-e2e-a-controlplane.dev.demo.catena-x.net"
 
 #########################
 # PG Admin configuration     #
