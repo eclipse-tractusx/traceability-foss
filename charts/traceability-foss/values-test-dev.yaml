@@ -161,6 +161,13 @@ backend:
   discoveryfinder:
     baseUrl: "https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/administration/connectors/discovery/search"
 
+  irs:
+    baseUrl: "https://tx-irs-test.dev.demo.catena-x.net"
+  registry:
+    urlWithPath: "https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0"
+  portal:
+    baseUrl: "https://portal-backend.dev.demo.catena-x.net/api"
+
 #########################
 # PG Admin configuration     #
 #########################
