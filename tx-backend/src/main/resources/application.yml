@@ -143,15 +143,8 @@ cache:
 
 cors:
   origins: >
-    http://localhost:4200/,
-    https://traceability-portal.dev.demo.catena-x.net/,
-    https://traceability-portal-test.dev.demo.catena-x.net/,
-    https://traceability-portal-pen.dev.demo.catena-x.net/,
-    https://traceability-portal.int.demo.catena-x.net/,
-    https://traceability-portal-test.int.demo.catena-x.net/,
-    https://traceability-portal.pre-prod.demo.catena-x.net/,
-    https://traceability-portal-e2e-a.dev.demo.catena-x.net/,
-    https://traceability-portal-e2e-b.dev.demo.catena-x.net/
+    ${ALLOWED_CORS_ORIGIN_FIRST},
+    ${ALLOWED_CORS_ORIGIN_SECOND}
 
 resilience4j:
   retry:
