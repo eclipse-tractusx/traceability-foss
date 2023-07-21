@@ -34,7 +34,7 @@ irs-edc-client:
   callback-url: "https://traceability.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
   controlplane:
     endpoint:
-      data: "https://tx-edc-consumer-dev-controlplane/management"
+      data: "https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net/management"
 
 digitalTwinRegistryClient:
   type: "decentral"
