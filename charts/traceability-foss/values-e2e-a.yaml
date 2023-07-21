@@ -207,7 +207,7 @@ irs-helm:
           - "tx-irs-e2e-a.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
-    type: central
+    type: decentral
     descriptorEndpoint: https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
     shellLookupEndpoint: https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
     discoveryFinderUrl: https://tracex-discovery-mock-e2e-a.dev.demo.catena-x.net/irs/api/administration/connectors/discovery/search
