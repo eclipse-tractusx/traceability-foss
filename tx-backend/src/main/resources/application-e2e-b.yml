@@ -28,6 +28,9 @@ feign:
 edc:
   callback-urls: http://tx-irs-e2e-b:8181/internal/endpoint-data-reference
 
+irs-edc-client:
+  callback-url: "https://traceability-e2e-a.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
+
 digitalTwinRegistryClient:
   type: "decentral"
   discoveryFinderUrl: "https://tracex-discovery-mock-e2e-b.dev.demo.catena-x.net/api/administration/connectors/discovery/search" # required if type is "decentral"
