@@ -195,17 +195,17 @@ irs-helm:
   fullnameOverride: "tx-irs-test"
   namespace: product-traceability-foss
   springprofile: dev
-  irsUrl: "https://tracex-irs-test.dev.demo.catena-x.net"
+  irsUrl: "https://tx-irs-test.dev.demo.catena-x.net"
   ingress:
     enabled: true
     hosts:
-      - host: "tracex-irs-test.dev.demo.catena-x.net"
+      - host: "tx-irs-test.dev.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "tracex-irs-test.dev.demo.catena-x.net"
+          - "tx-irs-test.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
     type: decentral
