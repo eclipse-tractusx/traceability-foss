@@ -50,6 +50,7 @@ import org.eclipse.edc.jsonld.transformer.to.JsonObjectToDataServiceTransformer;
 import org.eclipse.edc.jsonld.transformer.to.JsonObjectToDatasetTransformer;
 import org.eclipse.edc.jsonld.transformer.to.JsonObjectToDistributionTransformer;
 import org.eclipse.edc.jsonld.transformer.to.JsonObjectToDutyTransformer;
+import org.eclipse.edc.jsonld.transformer.to.JsonObjectToOperatorTransformer;
 import org.eclipse.edc.jsonld.transformer.to.JsonObjectToPermissionTransformer;
 import org.eclipse.edc.jsonld.transformer.to.JsonObjectToPolicyTransformer;
 import org.eclipse.edc.jsonld.transformer.to.JsonObjectToProhibitionTransformer;
@@ -133,6 +134,7 @@ public class EdcTransformerTraceX {
         typeTransformerRegistry.register(new JsonObjectFromAssetTransformer(jsonBuilderFactory, objectMapper));
         typeTransformerRegistry.register(new JsonObjectFromCriterionTransformer(jsonBuilderFactory, objectMapper));
         typeTransformerRegistry.register(new JsonObjectFromDataAddressTransformer(jsonBuilderFactory));
+        typeTransformerRegistry.register(new JsonObjectToOperatorTransformer());
     }
 
     public Catalog transformCatalog(final String jsonString, final Charset charset) {

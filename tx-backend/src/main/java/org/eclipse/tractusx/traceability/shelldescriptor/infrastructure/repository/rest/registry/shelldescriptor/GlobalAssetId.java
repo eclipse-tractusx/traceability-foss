@@ -19,8 +19,6 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor;
 
-import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -31,8 +29,8 @@ public final class GlobalAssetId {
         this.value = value;
     }
 
-    public static GlobalAssetId from(Reference reference) {
-        return new GlobalAssetId(reference.getValue());
+    public static GlobalAssetId from(List<String> ids) {
+        return new GlobalAssetId(ids);
     }
 
     public List<String> value() {

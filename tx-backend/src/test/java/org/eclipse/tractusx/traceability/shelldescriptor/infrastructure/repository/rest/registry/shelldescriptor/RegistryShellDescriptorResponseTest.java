@@ -43,12 +43,11 @@ class RegistryShellDescriptorResponseTest {
         final String identification = "IDENTIFICATION";
         final String keyIdentifier = "KEY_IDENTIFIER";
         final String valueIdentifier = "VALUE_IDENTIFIER";
-        IdentifierKeyValuePair identifierKeyValuePair = IdentifierKeyValuePair.builder().key(keyIdentifier).value(valueIdentifier).build();
-        final Reference reference = Reference.builder().value(List.of(globalAssetId)).build();
+        IdentifierKeyValuePair identifierKeyValuePair = IdentifierKeyValuePair.builder().name(keyIdentifier).value(valueIdentifier).build();
         final AssetAdministrationShellDescriptor assetAdministrationShellDescriptor = AssetAdministrationShellDescriptor.builder()
-                .globalAssetId(reference)
+                .globalAssetId(globalAssetId)
                 .idShort(idShort)
-                .identification(identification)
+                .id(identification)
                 .specificAssetIds(List.of(identifierKeyValuePair))
                 .build();
         final RegistryShellDescriptor expectedDescriptor = RegistryShellDescriptor.from(assetAdministrationShellDescriptor);

@@ -48,7 +48,7 @@ public class FeignDiscoveryRepositoryImpl implements DiscoveryRepository {
         List<EdcDiscoveryResult> discoveryResults = new ArrayList<>();
         discoveryEndpoints.endpoints().forEach(discoveryEndpoint -> {
             String endPointAddress = discoveryEndpoint.endpointAddress();
-            discoveryResults.addAll(discoveryFinderClient.findConnectorEndpoints(endPointAddress, List.of("bpn")));
+            discoveryResults.addAll(discoveryFinderClient.findConnectorEndpoints(endPointAddress, List.of(bpn)));
         });
         List<EdcDiscoveryResult> discoveryResultByBPN
                 = discoveryResults.stream().filter(edcDiscoveryResult -> edcDiscoveryResult.bpn().equals(bpn)).toList();

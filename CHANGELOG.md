@@ -7,25 +7,42 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 
 ### Added
+
 - Helmignore config params for wrong values.yaml files
 - Home / Source URL in Helm Chart
 - Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
 - Added decentral registry approach
 - Added discovery finder / edc discovery service for looking up edc urls of receiver of notifications
 - Added about component with additional Workflow to load repo info into the component
-
+- Update EDC dependencies to 0.1.3
+- Add Transformer to support new EDC constraint operator format
+-
 ### Changed
 
 - Modified IRS Policies support to handle multiple policies
 - Readme titles to match TRGs
-
+- Updated Irs helm chart to 6.2.0
 
 ### Removed
 - unused classes and methods
 
 ### Known knowns
 
-
+- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping
+- Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
+- Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
+---
+- Frontend [TRACEFOSS-2149]: Sorting on empty table causes unhandled error view
+---
+- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to bypass HSTS
+- Security [TRACEFOSS-830]: CVE one stack trace disclosure (Java) in the target web server's HTTP response
+- Security [TRACEFOSS-919]: Authorization Bypass Through User-Controlled SQL Primary Key CWE ID 566
+- Security [TRACEFOSS-984]: Improper Output Neutralization for Logs CWE ID 117
+- Security [TRACEFOSS-1313]: Using components with known vulnerabilities
+- Security [TRACEFOSS-1314]: Open Redirect - host header injection
+- Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
+---
+- Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable
 
 ## [5.0.0] - 2023-07-10
 

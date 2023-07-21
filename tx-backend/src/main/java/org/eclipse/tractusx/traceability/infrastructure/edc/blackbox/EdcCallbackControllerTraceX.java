@@ -22,10 +22,12 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.data.StringMapper;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.EDRAuthCode;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Profile;
@@ -35,6 +37,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 @Slf4j
 @Profile(FeatureFlags.NOTIFICATIONS_ENABLED_PROFILES)
@@ -57,7 +62,8 @@ public class EdcCallbackControllerTraceX {
 
     @PostMapping
     public void receiveEdcCallback(@RequestBody EndpointDataReference dataReference) {
-        final var contractAgreementId = dataReference.getProperties().get(JsonLdConfigurationTraceX.NAMESPACE_EDC_CID);
+        final String authCode = dataReference.getAuthCode();
+        final var contractAgreementId = extractContractAgreementId(authCode);
         log.info("Received EDC callback for contract: {}", contractAgreementId);
 
         if (endpointDataReferenceCache.containsAgreementId(contractAgreementId)) {
@@ -77,5 +83,18 @@ public class EdcCallbackControllerTraceX {
             log.info("Callback response: HTTP {}", response.getStatusCode());
             log.debug("Body: {}", response.getBody());
         });
+    }
+    private String extractContractAgreementId(final String token) {
+        if (token != null) {
+            final var chunks = token.split("\\.");
+            final var decoder = Base64.getUrlDecoder();
+            final var payload = new String(decoder.decode(chunks[1]), StandardCharsets.UTF_8);
+            final var authCode = StringMapper.mapFromString(payload, EDRAuthCode.class);
+            return authCode.getCid();
+        } else {
+            log.warn("Authentication missing on edc edr callback request.");
+            return null;
+        }
+
     }
 }
