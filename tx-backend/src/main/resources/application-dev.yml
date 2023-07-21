@@ -21,20 +21,20 @@
 
 feign:
   irsApi:
-    url: https://tracex-irs.dev.demo.catena-x.net
+    url: https://tx-irs-dev.dev.demo.catena-x.net
   registryApi:
     url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0
   portalApi:
     url: https://portal-backend.dev.demo.catena-x.net/api
 
 edc:
-  callback-urls: http://tracex-irs:8181/internal/endpoint-data-reference
+  callback-urls: http://tx-irs-dev:8181/internal/endpoint-data-reference
 
 irs-edc-client:
   callback-url: "https://traceability.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
   controlplane:
     endpoint:
-      data: "https://tracex-consumer-controlplane.dev.demo.catena-x.net/management"
+      data: "https://tx-edc-consumer-dev-controlplane/management"
 
 digitalTwinRegistryClient:
   type: "decentral"
