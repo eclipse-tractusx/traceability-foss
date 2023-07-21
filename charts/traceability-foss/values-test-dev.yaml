@@ -30,6 +30,18 @@ global:
 # Frontend Chart Values configuration     #
 #########################
 frontend:
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
   image:
     tag: $ARGOCD_APP_REVISION
     CATENAX_PORTAL_API_URL: 'https://traceability-test.dev.demo.catena-x.net/api'
@@ -59,6 +71,18 @@ frontend:
 # Backend Chart Values configuration     #
 #########################
 backend:
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
   image:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
