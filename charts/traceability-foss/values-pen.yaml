@@ -134,7 +134,12 @@ backend:
   edc:
     apiKey:
     providerUrl: "https://trace-x-pen.dev.demo.catena-x.net"
+    callbackUrl: ""
+    callbackUrlEdcClient: ""
+    dataEndpointUrl: ""
 
+  discoveryfinder:
+    baseUrl: ""
 #########################
 # PG Admin configuration     #
 #########################

@@ -127,7 +127,12 @@ backend:
   edc:
     apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
     providerUrl: "https://tx-edc-consumer-e2e-b-controlplane.dev.demo.catena-x.net"
+    callbackUrl: "http://tx-irs-e2e-b:8181/internal/endpoint-data-reference"
+    callbackUrlEdcClient: "https://traceability-e2e-b.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
+    dataEndpointUrl: "https://tx-edc-consumer-e2e-b-controlplane.dev.demo.catena-x.net/management"
 
+  discoveryfinder:
+    baseUrl: "https://tracex-discovery-mock-e2e-b.dev.demo.catena-x.net/api/administration/connectors/discovery/search"
 #########################
 # PG Admin configuration     #
 #########################
