@@ -130,14 +130,14 @@ frontend:
   # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
   livenessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 60
+    failureThreshold: 6
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
   readinessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 60
+    failureThreshold: 6
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
@@ -245,14 +245,14 @@ backend:
   # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
   livenessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 80
+    failureThreshold: 6
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
   readinessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 80
+    failureThreshold: 6
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
@@ -269,7 +269,7 @@ backend:
         secretName: tls-secret
 
   healthCheck:
-    enabled: false  # <healthCheck.enabled>
+    enabled: true  # <healthCheck.enabled>
 
   traceability:
     bpn: "CHANGEME"  # <traceability.bpn>
@@ -330,8 +330,8 @@ pgadmin4:
 postgresql:
   enabled: true
 
-  nameOverride: "tracex-backend-postgresql"
-  fullnameOverride: "tracex-backend-postgresql"
+  nameOverride: "traceability-foss-backend-postgresql"
+  fullnameOverride: "traceability-foss-backend-postgresql"
 
   auth:
     postgresPassword: "CHANGEME"
