@@ -1046,7 +1046,7 @@
     {
       "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
           "validityPeriod" : {
             "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -1073,21 +1073,22 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned" : [
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
         {
           "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
-          "childParts" : [
+          "childItems" : [
             {
+              "validityPeriod": {
+                "validFrom": "2023-03-21T08:17:29.187+01:00",
+                "validTo": "2024-07-01T16:10:00.000+01:00"
+              },
               "quantity" : {
-                "quantityNumber" : "1",
-                "measurementUnit" : {
-                  "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#curie",
-                  "lexicalValue" : "unit:piece"
-                }
+                "quantityNumber" : 1,
+                "measurementUnit" : "unit:piece"
               },
               "createdOn" : "2022-02-03T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
-              "childCatenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
+              "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
               "businessPartner" : "BPNL00000003CNKC"
             }
           ]
@@ -1097,7 +1098,7 @@
     {
       "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned" : [
+      "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned" : [
         {
           "validityPeriod" : {
             "validFrom" : "2019-04-04T03:19:03.000Z",
@@ -1124,21 +1125,22 @@
           ]
         }
       ],
-      "urn:bamm:io.catenax.single_level_bom_as_planned:1.0.2#SingleLevelBomAsPlanned" : [
+      "urn:bamm:io.catenax.single_level_bom_as_planned:2.0.0#SingleLevelBomAsPlanned" : [
         {
           "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4eb01",
-          "childParts" : [
+          "childItems" : [
             {
+              "validityPeriod": {
+                "validFrom": "2023-03-21T08:17:29.187+01:00",
+                "validTo": "2024-07-01T16:10:00.000+01:00"
+              },
               "quantity" : {
-                "quantityNumber" : "1",
-                "measurementUnit" : {
-                  "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#curie",
-                  "lexicalValue" : "unit:piece"
-                }
+                "quantityNumber" : 1,
+                "measurementUnit" : "unit:piece"
               },
               "createdOn" : "2022-02-03T14:48:54.709Z",
               "lastModifiedOn" : "2022-02-03T14:48:54.709Z",
-              "childCatenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
+              "catenaXId" : "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01",
               "businessPartner" : "BPNL00000003CML1"
             }
           ]
