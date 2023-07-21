@@ -85,7 +85,7 @@
           "identification": "urn:uuid:6506fbae-c1c0-4f79-a4e4-663be438854d",
           "semanticId": {
             "value": [
-              "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
+              "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
             ]
           },
           "endpoints": [
@@ -160,7 +160,7 @@
           "identification": "urn:uuid:28d4c163-2b12-4519-b616-18c6e42dcc81",
           "semanticId": {
             "value": [
-              "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned"
+              "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned"
             ]
           },
           "endpoints": [
@@ -208,7 +208,7 @@
   "submodels": [
     {
       "identification": "urn:uuid:6506fbae-c1c0-4f79-a4e4-663be438854d",
-      "aspectType": "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned",
+      "aspectType": "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
       "payload": {
         "validityPeriod": {
           "validFrom": "2019-04-04T03:19:03.000Z",
@@ -239,7 +239,7 @@
     },
     {
       "identification": "urn:uuid:28d4c163-2b12-4519-b616-18c6e42dcc81",
-      "aspectType": "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned",
+      "aspectType": "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
       "payload": {
         "validityPeriod": {
           "validFrom": "2019-04-04T03:19:03.000Z",
