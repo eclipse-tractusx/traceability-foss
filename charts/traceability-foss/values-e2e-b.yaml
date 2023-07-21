@@ -141,6 +141,10 @@ backend:
   portal:
     baseUrl: "https://portal-backend.dev.demo.catena-x.net/api"
 
+  config:
+    allowedCorsOriginFirst: "http://localhost:4200/"
+    allowedCorsOriginSecond: "https://traceability-portal-e2e-b.dev.demo.catena-x.net/"
+
 #########################
 # PG Admin configuration     #
 #########################
