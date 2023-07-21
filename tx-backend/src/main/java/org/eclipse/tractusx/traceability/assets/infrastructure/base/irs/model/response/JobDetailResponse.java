@@ -54,8 +54,13 @@ public record JobDetailResponse(
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
-    private static final String AS_PLANNED_MAPPING_ASPECT = "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned";
-    private static final String AS_BUILT_MAPPING_ASPECT_SERIALPART = "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart";
+    private static final String AS_PLANNED_MAPPING_ASPECT_1 = "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned";
+    private static final String AS_PLANNED_MAPPING_ASPECT_2 = "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned";
+
+    private static final String AS_BUILT_MAPPING_ASPECT_SERIALPART_1 = "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart";
+    private static final String AS_BUILT_MAPPING_ASPECT_SERIALPART_2 = "urn:samm:io.catenax.serial_part:1.0.0#SerialPart";
+    private static final String AS_BUILT_MAPPING_ASPECT_SERIALPART_3 = "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart";
+
     private static final String AS_BUILT_MAPPING_ASPECT_BATCH = "urn:bamm:io.catenax.batch:1.0.0#Batch";
 
     @JsonCreator
@@ -234,7 +239,9 @@ public record JobDetailResponse(
 
     private boolean isAsBuiltAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
         final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) &&
-                (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART)
+                (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_1)
+                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_2)
+                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_3)
                         || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
         log.info(":: isAsBuildAndOwnPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
@@ -244,7 +251,9 @@ public record JobDetailResponse(
     private boolean isAsBuiltAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
         final boolean result =!semanticDataModel.getCatenaXId()
                 .equals(jobStatus.globalAssetId()) &&
-                (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART)
+                (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_1)
+                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_2)
+                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_3)
                         || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
         log.info(":: isAsBuiltAndOtherPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
@@ -252,14 +261,16 @@ public record JobDetailResponse(
     }
 
     private boolean isAsPlannedAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT);
+        final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId())
+                && (semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_1) || semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_2));
         log.info(":: isAsPlannedAndOwnPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;
     }
 
     private boolean isAsPlannedAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        final boolean result = !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) && semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT);
+        final boolean result = !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId())
+                && (semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_1) ||semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_2) );
         log.info(":: isAsPlannedAndOtherPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;
