@@ -41,12 +41,14 @@ edc:
   api-auth-key: ${EDC_API_KEY}
   bpn-provider-url-mappings: { }
   provider-edc-url: ${EDC_PROVIDER_URL}
+  callback-urls: ${EDC_CALLBACK_URL}
 
 irs-edc-client:
+  callback-url: ${EDC_CALLBACK_URL_EDC_CLIENT}
   controlplane:
     request-ttl: PT10M # How long to wait for an async EDC negotiation request to finish, ISO 8601 Duration
     endpoint:
-      data: "https://tracex-consumer-controlplane.dev.demo.catena-x.net/management" # URL of the EDC consumer controlplane data endpoint
+      data: ${EDC_DATA_ENDPOINT_URL}
       catalog: /v2/catalog/request # EDC consumer controlplane catalog path
       contract-negotiation: /v2/contractnegotiations # EDC consumer controlplane contract negotiation path
       transfer-process: /v2/transferprocesses # EDC consumer controlplane transfer process path
@@ -164,9 +166,9 @@ irs:
       policyId: "ID 3.1 Trace"
       ttl: "2023-09-30T23:59:59.99Z"
 digitalTwinRegistryClient:
-  type: "decentral" # or "decentral"
+  type: "decentral"
 
-  discoveryFinderUrl: "https://tracex-discovery-mock.dev.demo.catena-x.net/api/administration/connectors/discovery/search" # required if type is "decentral"
+  discoveryFinderUrl: ${DISCOVERY_FINDER_URL}
 
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
