@@ -304,7 +304,19 @@ backend:
             - hosts:
                 - "https://replace.me"
               secretName: tls-secret
+    callbackUrl: "https://replace.me"
+    callbackUrlEdcClient: "https://replace.me"
+    dataEndpointUrl: "https://replace.me"
 
+  discoveryfinder:
+    baseUrl: "https://replace.me"
+
+  irs:
+    baseUrl: "https://replace.me"
+  registry:
+    urlWithPath: "https://replace.me"
+  portal:
+    baseUrl: "https://replace.me"
 
 #########################
 # PG Admin configuration     #
