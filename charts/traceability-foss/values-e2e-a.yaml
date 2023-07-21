@@ -236,6 +236,7 @@ irs-helm:
     controlplane:
       endpoint:
         statesuffix: /state
+        data: https://tx-edc-consumer-e2e-a-controlplane.dev.demo.catena-x.net/management
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
@@ -421,6 +422,14 @@ tractusx-connector:
 # EDC Postgres Configuration #
 ###################################
 edc-postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 4Gi
   nameOverride: "tx-edc-consumer-postgresql-e2e-a"
   fullnameOverride: "tx-edc-consumer-postgresql-e2e-a"
   enabled: true

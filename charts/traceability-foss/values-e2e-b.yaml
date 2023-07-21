@@ -239,6 +239,7 @@ irs-helm:
     controlplane:
       endpoint:
         statesuffix: /state
+        data: https://tx-edc-consumer-e2e-b-controlplane.dev.demo.catena-x.net/management
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
