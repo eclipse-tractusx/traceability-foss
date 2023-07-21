@@ -26,6 +26,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -44,10 +47,15 @@ class ApplicationStartupConfigTest {
 
     @Test
     void whenCallRegisterIrsPolicy_thenCallRepository() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         // when
-        applicationStartupConfig.registerIrsPolicy();
+        executor.execute(() -> {
+            applicationStartupConfig.registerIrsPolicy();
 
-        // then
-        verify(irsRepository, times(1)).createIrsPolicyIfMissing();
+            // then
+            verify(irsRepository, times(1)).createIrsPolicyIfMissing();
+        });
+
+        executor.shutdown();
     }
 }

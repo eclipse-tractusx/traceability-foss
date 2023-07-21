@@ -32,6 +32,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Slf4j
 @Component
@@ -42,12 +44,17 @@ public class ApplicationStartupConfig {
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
-        try {
-            irsRepository.createIrsPolicyIfMissing();
-        } catch (Exception exception) {
-            log.error("Failed to create Irs Policies : ", exception);
-        }
+        ExecutorService executor = Executors.newSingleThreadExecutor();
 
+        executor.execute(() -> {
+            try {
+                irsRepository.createIrsPolicyIfMissing();
+            } catch (Exception exception) {
+                log.error("Failed to create Irs Policies: ", exception);
+            }
+        });
+
+        executor.shutdown();
     }
 
 

@@ -54,7 +54,7 @@ public record JobDetailResponse(
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
-    private static final String AS_PLANNED_MAPPING_ASPECT = "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned";
+    private static final String AS_PLANNED_MAPPING_ASPECT = "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned";
     private static final String AS_BUILT_MAPPING_ASPECT_SERIALPART = "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart";
     private static final String AS_BUILT_MAPPING_ASPECT_BATCH = "urn:bamm:io.catenax.batch:1.0.0#Batch";
 
