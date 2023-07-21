@@ -87,13 +87,13 @@ spec:
             - name: PORTAL_URL
               value: {{ .Values.portal.baseUrl | quote }}
             - name: EDC_CALLBACK_URL
-              value: { { .Values.edc.callbackUrl | quote } }
+              value: {{ .Values.edc.callbackUrl | quote }}
             - name: EDC_CALLBACK_URL_EDC_CLIENT
-              value: { { .Values.edc.callbackUrlEdcClient | quote } }
+              value: {{ .Values.edc.callbackUrlEdcClient | quote }}
             - name: EDC_DATA_ENDPOINT_URL
-              value: { { .Values.edc.dataEndpointUrl | quote } }
+              value: {{ .Values.edc.dataEndpointUrl | quote }}
             - name: DISCOVERY_FINDER_URL_WITH_PATH
-              value: { { .Values.discoveryfinder.baseUrl | quote } }
+              value: {{ .Values.discoveryfinder.baseUrl | quote }}
             - name: JWT_RESOURCE_CLIENT
               value: {{ .Values.oauth2.resourceClient | quote }}
             - name: SPRING_DATASOURCE_URL
