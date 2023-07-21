@@ -26,16 +26,3 @@ feign:
     url: https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0
   portalApi:
     url: https://portal-backend.dev.demo.catena-x.net/api
-
-edc:
-  callback-urls: http://tx-irs-dev:8181/internal/endpoint-data-reference
-
-irs-edc-client:
-  callback-url: "https://traceability.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
-  controlplane:
-    endpoint:
-      data: "https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net/management"
-
-digitalTwinRegistryClient:
-  type: "decentral"
-  discoveryFinderUrl: "https://tracex-discovery-mock-dev.dev.demo.catena-x.net/api/administration/connectors/discovery/search" # required if type is "decentral"

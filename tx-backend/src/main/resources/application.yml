@@ -119,6 +119,12 @@ jwt:
   resource-client: ${JWT_RESOURCE_CLIENT}
 
 feign:
+  irsApi:
+    url: ${IRS_URL}
+  registryApi:
+    url: ${REGISTRY_URL_WITH_PATH}
+  portalApi:
+    url: ${PORTAL_URL}
   okhttp:
     enabled: true
   hystrix:
@@ -167,8 +173,7 @@ irs:
       ttl: "2023-09-30T23:59:59.99Z"
 digitalTwinRegistryClient:
   type: "decentral"
-
-  discoveryFinderUrl: ${DISCOVERY_FINDER_URL}
+  discoveryFinderUrl: ${DISCOVERY_FINDER_URL_WITH_PATH}
 
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
   shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
