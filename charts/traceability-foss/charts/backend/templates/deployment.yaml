@@ -90,6 +90,10 @@ spec:
               value: {{ .Values.edc.callbackUrl | quote }}
             - name: EDC_CALLBACK_URL_EDC_CLIENT
               value: {{ .Values.edc.callbackUrlEdcClient | quote }}
+            - name: ALLOWED_CORS_ORIGIN_FIRST
+              value: {{ .Values.config.allowedCorsOriginFirst | quote }}
+            - name: ALLOWED_CORS_ORIGIN_SECOND
+              value: {{ .Values.config.allowedCorsOriginSecond | quote }}
             - name: EDC_DATA_ENDPOINT_URL
               value: {{ .Values.edc.dataEndpointUrl | quote }}
             - name: DISCOVERY_FINDER_URL_WITH_PATH
