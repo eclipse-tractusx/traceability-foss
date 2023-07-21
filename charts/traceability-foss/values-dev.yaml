@@ -218,7 +218,7 @@ irs-helm:
 
   minioUser: <path:traceability-foss/data/dev/minio#user>
   minioPassword: <path:traceability-foss/data/dev/minio#password>
-  minioUrl: http://tx-irs-dev-minio:9000
+  minioUrl: http://tx-irs-minio-dev:9000
 
   keycloak:
     oauth2:
