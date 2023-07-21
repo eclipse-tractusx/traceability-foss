@@ -166,3 +166,7 @@ registry:
   urlWithPath: "https://replace.me"
 portal:
   baseUrl: "https://replace.me"
+
+config:
+  allowedCorsOriginFirst: "https://replace.me"
+  allowedCorsOriginSecond: "https://replace.me"

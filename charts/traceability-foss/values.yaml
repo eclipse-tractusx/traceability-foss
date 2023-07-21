@@ -318,6 +318,10 @@ backend:
   portal:
     baseUrl: "https://replace.me"
 
+  config:
+    allowedCorsOriginFirst: "https://replace.me"
+    allowedCorsOriginSecond: "https://replace.me"
+
 #########################
 # PG Admin configuration     #
 #########################
