@@ -27,7 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Modified IRS Policies support to handle multiple policies
 - Readme titles to match TRGs
-- Updated Irs helm chart to 6.3.0
+- Updated Irs helm chart to 6.3.1
 - Update EDC dependencies to 0.1.3
 - Update implementation to use EDC 0.5.0
 
