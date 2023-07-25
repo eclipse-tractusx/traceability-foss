@@ -37,6 +37,9 @@ frontend:
     CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
     CATENAX_PORTAL_URL: 'https://portal.dev.demo.catena-x.net/'
 
+  nameOverride: "tx-frontend-dev"
+  fullnameOverride: "tx-frontend-dev"
+
   ingress:
     enabled: true
     className: "nginx"
@@ -56,12 +59,24 @@ frontend:
 # Backend Chart Values configuration     #
 #########################
 backend:
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
   image:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
 
-  nameOverride: "traceability-foss-backend"
-  fullnameOverride: "traceability-foss-backend"
+  nameOverride: "tx-backend-dev"
+  fullnameOverride: "tx-backend-dev"
 
   podSecurityContext:
     runAsUser: 10001
@@ -112,7 +127,7 @@ backend:
     url: "https://traceability.dev.demo.catena-x.net"
 
   datasource:
-    url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
+    url: jdbc:postgresql://tx-backend-postgresql-dev:5432/trace
     username: trace
     password: <path:traceability-foss/data/dev/database#tracePassword>
 
@@ -125,12 +140,32 @@ backend:
 
   edc:
     apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
-    providerUrl: "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
+    providerUrl: "https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net"
+    callbackUrl: "http://tx-irs-dev:8181/internal/endpoint-data-reference"
+    callbackUrlEdcClient: "https://traceability.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
+    dataEndpointUrl: "https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net/management"
+
+  discoveryfinder:
+    baseUrl: "https://tracex-discovery-mock-dev.dev.demo.catena-x.net/api/administration/connectors/discovery/search"
+
+  irs:
+    baseUrl: "https://tx-irs-dev.dev.demo.catena-x.net"
+  registry:
+    urlWithPath: "https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0"
+  portal:
+    baseUrl: "https://portal-backend.dev.demo.catena-x.net/api"
+
+  config:
+    allowedCorsOriginFirst: "http://localhost:4200/"
+    allowedCorsOriginSecond: "https://traceability-portal.dev.demo.catena-x.net/"
+
 
 #########################
 # PG Admin configuration     #
 #########################
 pgadmin4:
+  nameOverride: "tx-pgadmin-dev"
+  fullnameOverride: "tx-pgadmin-dev"
   enabled: true
   strategy:
     type: Recreate
@@ -142,13 +177,13 @@ pgadmin4:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
-      - host: tracex-pgadmin4.dev.demo.catena-x.net
+      - host: tx-pgadmin-dev.dev.demo.catena-x.net
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - tracex-pgadmin4.dev.demo.catena-x.net
+          - tx-pgadmin-dev.dev.demo.catena-x.net
         secretName: tls-secret
   env:
     email: pgadmin4@trace.foss
@@ -170,8 +205,8 @@ pgadmin4:
 postgresql:
   enabled: true
 
-  nameOverride: "traceability-foss-backend-postgresql"
-  fullnameOverride: "traceability-foss-backend-postgresql"
+  nameOverride: "tx-backend-postgresql-dev"
+  fullnameOverride: "tx-backend-postgresql-dev"
 
   auth:
     postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"
@@ -185,21 +220,21 @@ postgresql:
 irs-helm:
   bpn: BPNL00000003CML1
   enabled: true
-  nameOverride: "tracex-irs"
-  fullnameOverride: "tracex-irs"
+  nameOverride: "tx-irs-dev"
+  fullnameOverride: "tx-irs-dev"
   namespace: product-traceability-foss
   springprofile: dev
-  irsUrl: "https://tracex-irs.dev.demo.catena-x.net"
+  irsUrl: "https://tx-irs-dev.dev.demo.catena-x.net"
   ingress:
     enabled: true
     hosts:
-      - host: "tracex-irs.dev.demo.catena-x.net"
+      - host: "tx-irs-dev.dev.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "tracex-irs.dev.demo.catena-x.net"
+          - "tx-irs-dev.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
     type: decentral
@@ -213,7 +248,7 @@ irs-helm:
 
   minioUser: <path:traceability-foss/data/dev/minio#user>
   minioPassword: <path:traceability-foss/data/dev/minio#password>
-  minioUrl: http://tracex-irs-minio:9000
+  minioUrl: http://tx-irs-minio-dev:9000
 
   keycloak:
     oauth2:
@@ -223,21 +258,20 @@ irs-helm:
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
-    callbackurl: http://tracex-irs:8181/internal/endpoint-data-reference
+    callbackurl: http://tx-irs-dev:8181/internal/endpoint-data-reference
     catalog:
       cache:
         enabled: "false"
     controlplane:
       endpoint:
-#        TODO: ADD to other environment configurations
-        data: https://tracex-consumer-controlplane.dev.demo.catena-x.net/management
+        data: https://tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net/management
         statesuffix: /state
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
-    nameOverride: "tracex-irs-minio"
-    fullnameOverride: "tracex-irs-minio"
+    nameOverride: "tx-irs-minio-dev"
+    fullnameOverride: "tx-irs-minio-dev"
     serviceAccount:
       create: false
     rootUser: <path:traceability-foss/data/dev/minio#user>
@@ -249,8 +283,8 @@ irs-helm:
 ###################################
 tractusx-connector:
   enabled: true
-  nameOverride: "consumer-controlplane-dev"
-  fullnameOverride: "consumer-controlplane-dev"
+  nameOverride: "tx-edc-consumer-dev"
+  fullnameOverride: "tx-edc-consumer-dev"
   install:
     postgresql: false
     vault: false
@@ -260,7 +294,7 @@ tractusx-connector:
   controlplane:
     ingresses:
       - enabled: true
-        hostname: "tracex-consumer-controlplane.dev.demo.catena-x.net"
+        hostname: "tx-edc-consumer-dev-controlplane.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -335,7 +369,7 @@ tractusx-connector:
   dataplane:
     ingresses:
       - enabled: true
-        hostname: "tracex-consumer-dataplane.dev.demo.catena-x.net"
+        hostname: "tx-edc-consumer-dev-dataplane.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -411,7 +445,7 @@ tractusx-connector:
       password: "<path:traceability-foss/data/dev/edc/database#password>"
     username: "<path:traceability-foss/data/dev/edc/database#user>"
     password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tracex-consumer-edc-postgresql-hl:5432/edc"
+    jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-dev-hl:5432/edc"
 
 ###################################
 # EDC Postgres Configuration #
@@ -425,8 +459,8 @@ edc-postgresql:
       requests:
         cpu: 100m
         memory: 4Gi
-  nameOverride: "tracex-consumer-edc-postgresql"
-  fullnameOverride: "tracex-consumer-edc-postgresql"
+  nameOverride: "tx-edc-consumer-postgresql-dev"
+  fullnameOverride: "tx-edc-consumer-postgresql-dev"
   enabled: true
   auth:
     database: edc

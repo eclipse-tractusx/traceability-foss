@@ -134,7 +134,16 @@ backend:
   edc:
     apiKey:
     providerUrl: "https://trace-x-pen.dev.demo.catena-x.net"
+    callbackUrl: ""
+    callbackUrlEdcClient: ""
+    dataEndpointUrl: ""
 
+  discoveryfinder:
+    baseUrl: ""
+
+  config:
+    allowedCorsOriginFirst: "http://localhost:4200/"
+    allowedCorsOriginSecond: "https://traceability-portal-pen.dev.demo.catena-x.net/"
 #########################
 # PG Admin configuration     #
 #########################

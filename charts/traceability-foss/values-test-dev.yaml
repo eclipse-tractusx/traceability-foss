@@ -30,6 +30,18 @@ global:
 # Frontend Chart Values configuration     #
 #########################
 frontend:
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
   image:
     tag: $ARGOCD_APP_REVISION
     CATENAX_PORTAL_API_URL: 'https://traceability-test.dev.demo.catena-x.net/api'
@@ -37,8 +49,8 @@ frontend:
     CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
     CATENAX_PORTAL_URL: 'https://portal.dev.demo.catena-x.net/'
 
-  nameOverride: "traceability-foss-test-frontend"
-  fullnameOverride: "traceability-foss-test-frontend"
+  nameOverride: "tx-frontend-test"
+  fullnameOverride: "tx-frontend-test"
 
   ingress:
     enabled: true
@@ -59,12 +71,24 @@ frontend:
 # Backend Chart Values configuration     #
 #########################
 backend:
+  livenessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+  readinessProbe:
+    failureThreshold: 3
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
   image:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
 
-  nameOverride: "product-traceability-foss-test-backend"
-  fullnameOverride: "product-traceability-foss-test-backend"
+  nameOverride: "tx-backend-test"
+  fullnameOverride: "tx-backend-test"
 
 
   podSecurityContext:
@@ -116,7 +140,7 @@ backend:
     url: "https://traceability-test.dev.demo.catena-x.net"
 
   datasource:
-    url: jdbc:postgresql://tracex-backend-test-postgresql-hl:5432/trace
+    url: jdbc:postgresql://tx-backend-postgresql-test-hl:5432/trace
     username: trace
     password: <path:traceability-foss/data/dev/database#tracePassword>
 
@@ -129,14 +153,30 @@ backend:
 
   edc:
     apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
-    providerUrl: "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
+    providerUrl: "https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net"
+    callbackUrl: "http://tx-irs-test:8181/internal/endpoint-data-reference"
+    callbackUrlEdcClient: "https://traceability-test.dev.demo.catena-x.net/api/internal/endpoint-data-reference"
+    dataEndpointUrl: "https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management"
 
+  discoveryfinder:
+    baseUrl: "https://tracex-discovery-mock-test.dev.demo.catena-x.net/api/administration/connectors/discovery/search"
+
+  irs:
+    baseUrl: "https://tx-irs-test.dev.demo.catena-x.net"
+  registry:
+    urlWithPath: "https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0"
+  portal:
+    baseUrl: "https://portal-backend.dev.demo.catena-x.net/api"
+
+  config:
+    allowedCorsOriginFirst: "http://localhost:4200/"
+    allowedCorsOriginSecond: "https://traceability-portal-test.dev.demo.catena-x.net/"
 #########################
 # PG Admin configuration     #
 #########################
 pgadmin4:
-  nameOverride: "tracex-pgadmin4-test"
-  fullnameOverride: "tracex-pgadmin4-test"
+  nameOverride: "tx-pgadmin-test"
+  fullnameOverride: "tx-pgadmin-test"
   enabled: true
   strategy:
     type: Recreate
@@ -148,13 +188,13 @@ pgadmin4:
       kubernetes.io/ingress.class: nginx
       nginx.ingress.kubernetes.io/backend-protocol: HTTP
     hosts:
-      - host: tracex-pgadmin4-test.dev.demo.catena-x.net
+      - host: tx-pgadmin-test.dev.demo.catena-x.net
         paths:
           - path: /
             pathType: Prefix
     tls:
       - hosts:
-          - tracex-pgadmin4-test.dev.demo.catena-x.net
+          - tx-pgadmin-test.dev.demo.catena-x.net
         secretName: tls-secret
   env:
     email: pgadmin4@trace.foss
@@ -176,8 +216,8 @@ pgadmin4:
 postgresql:
   enabled: true
 
-  nameOverride: "tracex-backend-test-postgresql"
-  fullnameOverride: "tracex-backend-test-postgresql"
+  nameOverride: "tx-backend-postgresql-test"
+  fullnameOverride: "tx-backend-postgresql-test"
 
   auth:
     postgresPassword: "<path:traceability-foss/data/dev/database#postgresPassword>"
@@ -191,21 +231,21 @@ postgresql:
 irs-helm:
   enabled: true
   bpn: BPNL00000003CML1
-  nameOverride: "tracex-test-irs"
-  fullnameOverride: "tracex-test-irs"
+  nameOverride: "tx-irs-test"
+  fullnameOverride: "tx-irs-test"
   namespace: product-traceability-foss
   springprofile: dev
-  irsUrl: "https://tracex-irs-test.dev.demo.catena-x.net"
+  irsUrl: "https://tx-irs-test.dev.demo.catena-x.net"
   ingress:
     enabled: true
     hosts:
-      - host: "tracex-irs-test.dev.demo.catena-x.net"
+      - host: "tx-irs-test.dev.demo.catena-x.net"
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "tracex-irs-test.dev.demo.catena-x.net"
+          - "tx-irs-test.dev.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
     type: decentral
@@ -219,7 +259,7 @@ irs-helm:
 
   minioUser: <path:traceability-foss/data/dev/minio#user>
   minioPassword: <path:traceability-foss/data/dev/minio#password>
-  minioUrl: http://tracex-test-irs-minio:9000
+  minioUrl: http://tx-irs-minio-test:9000
 
   keycloak:
     oauth2:
@@ -229,20 +269,20 @@ irs-helm:
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
   edc:
-    callbackurl: http://tracex-test-irs:8181/internal/endpoint-data-reference
+    callbackurl: http://tx-irs-test:8181/internal/endpoint-data-reference
     catalog:
       cache:
         enabled: "false"
     controlplane:
       endpoint:
-        data: https://tracex-test-consumer-controlplane.dev.demo.catena-x.net/management
+        data: https://tx-edc-consumer-test-controlplane.dev.demo.catena-x.net/management
         statesuffix: /state
       apikey:
         secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
-    nameOverride: "tracex-test-irs-minio"
-    fullnameOverride: "tracex-test-irs-minio"
+    nameOverride: "tx-irs-minio-test"
+    fullnameOverride: "tx-irs-minio-test"
     serviceAccount:
       create: false
     rootUser: <path:traceability-foss/data/dev/minio#user>
@@ -253,6 +293,8 @@ irs-helm:
 # EDC Consumer configuration  #
 ###################################
 tractusx-connector:
+  nameOverride: "tx-edc-consumer-test"
+  fullnameOverride: "tx-edc-consumer-test"
   enabled: true
   install:
     postgresql: false
@@ -263,7 +305,7 @@ tractusx-connector:
   controlplane:
     ingresses:
       - enabled: true
-        hostname: "tracex-test-consumer-controlplane.dev.demo.catena-x.net"
+        hostname: "tx-edc-consumer-test-controlplane.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -339,7 +381,7 @@ tractusx-connector:
   dataplane:
     ingresses:
       - enabled: true
-        hostname: "tracex-test-consumer-dataplane.dev.demo.catena-x.net"
+        hostname: "tx-edc-consumer-test-dataplane.dev.demo.catena-x.net"
         annotations:
           nginx.ingress.kubernetes.io/ssl-passthrough: "false"
           nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
@@ -414,7 +456,7 @@ tractusx-connector:
       password: "<path:traceability-foss/data/dev/edc/database#password>"
     username: "<path:traceability-foss/data/dev/edc/database#user>"
     password: "<path:traceability-foss/data/dev/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tracex-test-consumer-edc-postgresql-hl:5432/edc"
+    jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-test-hl:5432/edc"
 
 ###################################
 # EDC Postgres Configuration #
@@ -428,8 +470,8 @@ edc-postgresql:
       requests:
         cpu: 100m
         memory: 4Gi
-  nameOverride: "tracex-test-consumer-edc-postgresql"
-  fullnameOverride: "tracex-test-consumer-edc-postgresql"
+  nameOverride: "tx-edc-consumer-postgresql-test"
+  fullnameOverride: "tx-edc-consumer-postgresql-test"
   enabled: true
   auth:
     database: edc
