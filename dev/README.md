@@ -30,25 +30,25 @@ In order to upload data to EDC Provider, please use [IRS project script](https:/
 Sample invocation (DEV)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.5.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.6.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 Sample invocation (TEST)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.5.json -s https://tracex-submodel-server-test.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.6.json -s https://tracex-submodel-server-test.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 Sample invocation (E2E A)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.5.json -s https://tracex-submodel-server-e2e-a.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.6.json -s https://tracex-submodel-server-e2e-a.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 Sample invocation (E2E B)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.5.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.6.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 where:
@@ -107,30 +107,6 @@ curl --request POST \
 --data '{"notificationType" : "QUALITY_ALERT", "notificationMethod" : "UPDATE"}'
 -
 ```
-
-- Make sure bpn mapping for the instances exists:
-
-DEV & Test:
-[
-{
-"bpn": "BPNL00000003CML1",
-"url": "https://tracex-consumer-controlplane.dev.demo.catena-x.net"
-}, {
-"bpn": "BPNL00000003CNKC",
-"url": "https://tracex-test-consumer-controlplane.dev.demo.catena-x.net"
-}
-]
-
-E2E A & E2E B:
-[
-{
-"bpn": "BPNL00000003CML1",
-"url": "https://tracex-consumer-controlplane-e2e-a.dev.demo.catena-x.net"
-}, {
-"bpn": "BPNL00000003CNKC",
-"url": "https://tracex-consumer-controlplane-e2e-b.dev.demo.catena-x.net"
-}
-]
 
 ## Documentation of Testdata
 
