@@ -42,7 +42,7 @@ dependencies:
     condition: pgadmin4.enabled
   - name: irs-helm
     repository: https://eclipse-tractusx.github.io/item-relationship-service
-    version: 6.3.0
+    version: 6.3.1
     condition: irs-helm.enabled
   - name: tractusx-connector
     repository: https://eclipse-tractusx.github.io/tractusx-edc
