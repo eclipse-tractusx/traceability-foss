@@ -63,6 +63,7 @@ public class EdcProperties {
     private String assetsPath;
 
     @NotBlank
+    @Value("${edc.provider-edc-url}")
     private String providerEdcUrl;
 
     @NotBlank
