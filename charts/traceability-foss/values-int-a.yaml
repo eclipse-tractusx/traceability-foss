@@ -422,8 +422,8 @@ tractusx-connector:
         secret: /v1/traceability-foss
         health: /v1/sys/health
     secretNames:
-      transferProxyTokenSignerPrivateKey: daps-cert-int-a
-      transferProxyTokenSignerPublicKey: daps-cert-key-int-a
+      transferProxyTokenSignerPrivateKey: daps-cert-key-int-a
+      transferProxyTokenSignerPublicKey: daps-cert-int-a
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
 
   ##################################
