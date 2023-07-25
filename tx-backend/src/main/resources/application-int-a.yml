@@ -17,14 +17,3 @@
 # SPDX-License-Identifier: Apache-2.0
 ################################################################################
 
-feign:
-  irsApi:
-    url: https://tracex-irs.int.demo.catena-x.net
-  registryApi:
-    url: https://semantics.int.demo.catena-x.net/registry/api/v3.0
-  portalApi:
-    url: https://portal-backend.int.demo.catena-x.net/api
-
-cors:
-  origins: >
-    https://traceability-portal-int-a.int.demo.catena-x.net/
