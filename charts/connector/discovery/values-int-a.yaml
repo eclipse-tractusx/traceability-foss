@@ -22,13 +22,13 @@ fullnameOverride: ""
 
 #Environment specific wiremock host
 wiremock:
-  provider: "https://tx-edc-consumer-int-a-controlplane.dev.demo.catena-x.net/"
-  consumer: "https://tx-edc-consumer-int-b-controlplane.dev.demo.catena-x.net/"
+  provider: "https://tx-edc-consumer-int-a-controlplane.int.demo.catena-x.net/"
+  consumer: "https://tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net/"
   bpn:
     own: "BPNL00000003CML1"
     other: "BPNL00000003CNKC"
-    ownUrl: "tx-edc-consumer-int-a-controlplane.dev.demo.catena-x.net"
-    otherUrl: "tx-edc-consumer-int-b-controlplane.dev.demo.catena-x.net"
+    ownUrl: "tx-edc-consumer-int-a-controlplane.int.demo.catena-x.net"
+    otherUrl: "tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net"
 
 ingress:
   hosts:
