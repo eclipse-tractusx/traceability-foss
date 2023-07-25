@@ -58,6 +58,14 @@ tractusx-connector:
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
 
 edc-postgresql:
+  primary:
+    resources:
+      limits:
+        cpu: 2000m
+        memory: 4Gi
+      requests:
+        cpu: 100m
+        memory: 4Gi
   enabled: true
   auth:
     database: edc
