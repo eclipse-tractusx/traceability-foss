@@ -59,36 +59,6 @@ tractusx-connector:
       transferProxyTokenSignerPublicKey: token-signer-cert-dev
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
 
-    endpoints:
-      # -- default api for health checks, should not be added to any ingress
-      default:
-        port: 8080
-        path: /api
-      # -- data management api, used by internal users, can be added to an ingress and must not be internet facing
-      management:
-        port: 8081
-        path: /management
-        # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
-      # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
-      control:
-        port: 8083
-        path: /control
-      # -- ids api, used for inter connector communication and must be internet facing
-      protocol:
-        port: 8084
-        path: /api/v1/dsp
-      # -- metrics api, used for application metrics, must not be internet facing
-      metrics:
-        port: 9090
-        path: /metrics
-      # -- observability api with unsecured access, must not be internet facing
-      observability:
-        port: 8085
-        # -- observability api, provides /health /readiness and /liveness endpoints
-        path: /observability
-        # -- allow or disallow insecure access, i.e. access without authentication
-        insecure: true
 edc-postgresql:
   primary:
     resources:

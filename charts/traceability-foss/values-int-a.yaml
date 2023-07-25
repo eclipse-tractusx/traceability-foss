@@ -125,7 +125,7 @@ backend:
     resourceClient: "Cl17-CX-Part"
 
   edc:
-    apiKey: "<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>"
+    apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
     providerUrl: "https://tx-consumer-int-a-controlplane.int.demo.catena-x.net"
     callbackUrl: "http://tx-irs-int-a:8181/internal/endpoint-data-reference"
     callbackUrlEdcClient: "https://traceability-int-a.int.demo.catena-x.net/api/internal/endpoint-data-reference"
@@ -316,7 +316,7 @@ tractusx-connector:
         port: 8081
         path: /management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+        authKey: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         port: 8083
