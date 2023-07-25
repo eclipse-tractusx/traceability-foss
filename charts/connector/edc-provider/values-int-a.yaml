@@ -1,5 +1,7 @@
 tractusx-connector:
   enabled: true
+  nameOverride: "tx-edc-provider-int-a"
+  fullnameOverride: "tx-edc-provider-int-a"
   controlplane:
     ingresses:
       - enabled: true
@@ -49,7 +51,7 @@ tractusx-connector:
       password: "<path:traceability-foss/data/int/edc/database#password>"
     username: "<path:traceability-foss/data/int/edc/database#user>"
     password: "<path:traceability-foss/data/int/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tx-edc-provider-int-a-edc-postgresql-hl:5432/edc"
+    jdbcUrl: "jdbc:postgresql://tx-edc-provider-postgresql-int-a-hl:5432/edc"
 
   vault:
     secretNames:
@@ -58,6 +60,8 @@ tractusx-connector:
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
 
 edc-postgresql:
+  nameOverride: "tx-edc-provider-postgresql-int-a"
+  fullnameOverride: "tx-edc-provider-postgresql-int-a"
   enabled: true
   auth:
     database: edc
