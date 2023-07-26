@@ -31,6 +31,7 @@ frontend:
   image:
     tag: $ARGOCD_APP_REVISION
     CATENAX_PORTAL_API_URL: 'https://traceability-int-a.int.demo.catena-x.net/api'
+    CATENAX_PORTAL_CLIENT_ID: 'app266'
     CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.int.demo.catena-x.net/auth'
     CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
     CATENAX_PORTAL_URL: 'https://portal.int.demo.catena-x.net/'
