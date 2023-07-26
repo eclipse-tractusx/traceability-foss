@@ -1,5 +1,18 @@
 # Full reset of environment (dev,test)
+
 ## 1) Clean up
+
+### a) Using Insomnia Collection
+
+- Hint you need to copy the access token for argo cd into the specific environment for requests against argo (argocd.token) in insomnia: argo_access_token
+
+Here you can find the [Trace-X Insomnia Collection](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/tracex.json). Use this [README](https://github.com/catenax-ng/tx-traceability-foss/blob/main/tx-backend/collection/README.md) to find out how to setup Insomnia with the Trace-X Collection.
+
+In the Collection you will find a directory named 'Argo', in which you can delete & sync all necessary application components. Go through every directory inside the 'Argo' directory and execute every request inside the Directory 'DELETE'. To make this step easier, you can install the Insomnia Plugin ['multiple requests'](https://insomnia.rest/plugins/insomnia-plugin-multiple-requests). With this Plugin you can execute all requests inside the 'DELETE' Directory by right-clicking the directory and choosing 'send Requests'.
+
+Wait until pvc and database pods are restored. Underneath all 'DELETE' directories there is another request that syncs the application component. Execute this request for all. The environment begins the sync process. After the sync process you can proceed with Chapter 2.
+
+### b) Manual steps
 
 - Open Argo specific env
 - Delete all pvc (not pgadmin, not minio)
@@ -13,25 +26,43 @@ Repeat those steps for registry, submodelserver, trace-x-provider-edcs, tracex-i
 ## 2) Data upload of assets
 
 In order to upload data to EDC Provider, please use [IRS project script](https://github.com/catenax-ng/tx-item-relationship-service/blob/main/local/testing/testdata/transform-and-upload.py)
-Sample invocation (DEV & TEST)
+
+Sample invocation (DEV)
 
 ```
-python transform-and-upload.py -f CX_Testdata_v1.4.1-AsBuilt-reduced-with-asPlanned.json -s https://tracex-submodel-server.dev.demo.catena-x.net https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry -k apiKey
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.6.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
 ```
 
-Sample invocation (E2E A & E2E B)
+Sample invocation (TEST)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.1.json -s https://tracex-submodel-server-e2e.dev.demo.catena-x.net https://tracex-submodel-server-e2e.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e.dev.demo.catena-x.net/semantics/registry -k apiKey
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.6.json -s https://tracex-submodel-server-test.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+```
+
+Sample invocation (E2E A)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.6.json -s https://tracex-submodel-server-e2e-a.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+```
+
+Sample invocation (E2E B)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.6.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 where:
 
-* -f file to be used for data provisioning
+* -f file to be used for data provisioning /tx-backend/testdata/CX_Testdata_MessagingTest_vx.x.x.json
 * -s submodel server url(s)
 * -edc edc url(s) to upload data to
 * -a aas url(s)
+* -p policies to add to the data
 * -k edc api key (value from <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value> vault path)
+
+optional:
+
+* -bpns upload data only from a list of BPN
 
 ## 3) Prepare trace-x
 - Registry reload
@@ -48,6 +79,7 @@ curl --request POST \
    "notificationType": "QUALITY_INVESTIGATION", "notificationMethod": "RECEIVE"
    }
 ```
+
 ```
 curl --request POST \
 --url https://traceability.dev.demo.catena-x.net/api/edc/notification/contract \
@@ -56,30 +88,44 @@ curl --request POST \
 --data '{"notificationType" : "QUALITY_INVESTIGATION", "notificationMethod" : "UPDATE"}'
 -
 ```
-## 4) Manual adaption for notification flow
-- Open pgadmin on test
-- select asset which relates to dev
+
 ```
-UPDATE asset
-SET owner = 0 where id = 'urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpna';
-
-UPDATE asset
-SET owner = 2 where id = 'urn:uuid:51ff7c73-34e9-45d4-816c-d92ownerbpnb';;
+curl --request POST \
+   --url <baseUrl>/api/edc/notification/contract \
+   --header 'Authorization: Bearer x' \
+   --header 'Content-Type: application/json' \
+   --data '{
+   "notificationType": "QUALITY_ALERT", "notificationMethod": "RECEIVE"
+   }
 ```
 
-- Now you should be able to send notifications for that assetId from BPN:BPNL00000003B2OM to BPN:BPNL00000003AYRE
+```
+curl --request POST \
+--url https://traceability.dev.demo.catena-x.net/api/edc/notification/contract \
+--header 'Authorization: Bearer x' \
+--header 'Content-Type: application/json' \
+--data '{"notificationType" : "QUALITY_ALERT", "notificationMethod" : "UPDATE"}'
+-
+```
 
+## Documentation of Testdata
 
-## Structure of a Testdata
-Consists of a List of the following entries:
+https://confluence.catena-x.net/display/BDPQ/%28TRF%29+%5BTRACEFOSS-1278%5D+%3A+Setup+Trace-X+Instances+as+own+virtual+companies+in+DEV+and+INT+environment
+
+## Structure of Testdata
+
+Consists of a List of the following structured entries:
+
 ```json
 {
-    "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
-    "bpnl" : "BPNL00000003CML1",
-    "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship" : [ {
-      "catenaXId" : "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
-      "childParts" : [ {
-        "quantity" : {
+    "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+    "bpnl": "BPNL00000003CML1",
+    "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship": [
+        {
+            "catenaXId": "urn:uuid:6b2296cc-26c0-4f38-8a22-092338c36e22",
+            "childParts": [
+                {
+                    "quantity": {
           "quantityNumber" : 1,
           "measurementUnit" : {
             "datatypeURI" : "urn:bamm:io.openmanufacturing:meta-model:1.0.0#curie",
@@ -92,7 +138,7 @@ Consists of a List of the following entries:
         "childCatenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
       } ]
     } ],
-    "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : [ {
+    "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : [ {
       "localIdentifiers" : [ {
         "value" : "BPNL00000003CML1",
         "key" : "manufacturerId"
@@ -142,10 +188,10 @@ Is achieved by defining the order of the BPNLs of the desired manufacturers. See
   ]
 ```
 ...AZQP -> ...3ML1 -> ...CNKC
-and adding an AssemlyPartRelationship Aspect with the corresponding childCatenaXId:
+and adding an SingleLevelBomAsBuilt Aspect with the corresponding childCatenaXId:
 ```json
 {
-"urn:bamm:io.catenax.assembly_part_relationship:1.1.0#AssemblyPartRelationship" : [ {
+"urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt" : [ {
 "catenaXId" : "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd",
 "childParts" : [ {
 "quantity" : {
@@ -173,12 +219,12 @@ Is achieved through adding the SingleLevelusageBuilt - Codeblock and the corresp
 [{
   "catenaXId" : "urn:uuid:f11ddc62-3bd5-468f-b7b0-110fe13ed0cd",
   "bpnl" : "BPNL00000003CNKC",
-  "urn:bamm:io.catenax.assembly_part_relationship:1.1.1#AssemblyPartRelationship": "[...]",
-  "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : "[...]"
+  "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt": "[...]",
+  "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : "[...]"
   }, {
   "catenaXId" : "urn:uuid:4e390dab-707f-446e-bfbe-653f6f5b1f37",
   "bpnl" : "BPNL00000003AZQP",
-  "urn:bamm:io.catenax.serial_part_typization:1.1.0#SerialPartTypization" : "",
+  "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart" : "",
   "urn:bamm:io.catenax.single_level_usage_as_built:1.0.1#SingleLevelUsageAsBuilt": [
     {
       "parentParts": [

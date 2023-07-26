@@ -31,7 +31,7 @@ public class EDCNotificationFactory {
     private EDCNotificationFactory() {
     }
 
-    public static EDCNotification createQualityInvestigation(String senderEDC, QualityNotificationMessage notification) {
+    public static EDCNotification createEdcNotification(String senderEDC, QualityNotificationMessage notification) {
         String targetDate = null;
         if (notification.getTargetDate() != null) {
             targetDate = notification.getTargetDate().toString();
@@ -41,10 +41,10 @@ public class EDCNotificationFactory {
                 notification.getSenderBpnNumber(),
                 senderEDC,
                 notification.getReceiverBpnNumber(),
-                NotificationType.QMINVESTIGATION.getValue(),
+                NotificationType.from(notification.getType()).getValue(),
                 notification.getSeverity() != null ? notification.getSeverity().getRealName() : QualityNotificationSeverity.MINOR.getRealName(),
                 notification.getNotificationReferenceId(),
-                notification.getInvestigationStatus().name(),
+                notification.getNotificationStatus().name(),
                 targetDate,
                 notification.getMessageId()
         );
@@ -56,6 +56,7 @@ public class EDCNotificationFactory {
 
         return new EDCNotification(header, content);
     }
+
 
     private static List<String> extractAssetIds(QualityNotificationMessage notification) {
         return notification.getAffectedParts().stream()

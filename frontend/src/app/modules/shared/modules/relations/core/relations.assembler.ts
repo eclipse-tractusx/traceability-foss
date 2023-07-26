@@ -19,20 +19,26 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Part, QualityType } from '@page/parts/model/parts.model';
+import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
 import { TreeElement, TreeStructure } from '@shared/modules/relations/model/relations.model';
 import _deepClone from 'lodash-es/cloneDeep';
 
 export class RelationsAssembler {
   public static assemblePartForRelation(part: Part, idFallback?: string): TreeElement {
-    const { id, name: text = idFallback, serialNumber, qualityType, children, parents } = part || {};
+    const { id, name: text = idFallback, semanticModelId, semanticDataModel, children, parents } = part || {};
 
-    const mapQualityTypeToState = (type: QualityType) => (type === QualityType.Ok ? 'done' : type || 'error');
+    const mapBatchToState = (type: SemanticDataModel): SemanticDataModel | string => {
+      if(type && type.toUpperCase() in SemanticDataModel) {
+        return type;
+      }
+      return 'done';
+    }
     const loadingOrErrorStatus = id ? 'loading' : 'error';
-    const mappedOrFallbackStatus = mapQualityTypeToState(qualityType) || 'done';
+
+    const mappedOrFallbackStatus = mapBatchToState(semanticDataModel);
     const state = !!children ? mappedOrFallbackStatus : loadingOrErrorStatus;
 
-    const title = `${text || '--'} | ${serialNumber || id}`;
+    const title = `${text || '--'} | ${semanticModelId || id}`;
 
     return { id: id || idFallback, text, title, state, children, parents };
   }

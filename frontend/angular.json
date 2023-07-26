@@ -39,6 +39,7 @@
               "src/assets/fonts",
               "src/assets/images",
               "src/assets/locales",
+              "src/assets/notice",
               "src/mockServiceWorker.js",
               "src/favicon"
             ],
@@ -69,6 +70,22 @@
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.auth.ts"
+                }
+              ]
+            },
+            "authTest": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.authTest.ts"
+                }
+              ]
+            },
+            "authE2eA": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.authE2eA.ts"
                 }
               ]
             },
@@ -149,6 +166,12 @@
             },
             "auth": {
               "browserTarget": "trace-x:build:dev,auth"
+            },
+            "authTest": {
+              "browserTarget": "trace-x:build:dev,authTest"
+            },
+            "authE2eA": {
+              "browserTarget": "trace-x:build:dev,authE2eA"
             },
             "authLocal": {
               "browserTarget": "trace-x:build:dev,authLocal"

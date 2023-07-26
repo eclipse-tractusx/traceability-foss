@@ -23,6 +23,7 @@ import { AfterViewInit, Component, Input, ViewChild } from '@angular/core';
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Notification, NotificationStatus } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
 import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
 import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
@@ -38,7 +39,7 @@ import { of } from 'rxjs';
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-accept-notification-modal [acceptCall]="call"></app-accept-notification-modal>',
+    '<app-toast-container></app-toast-container><app-accept-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [acceptCall]="call"></app-accept-notification-modal>',
 })
 class AcceptModalComponent implements AfterViewInit {
   @ViewChild(AcceptNotificationModalComponent) modal: AcceptNotificationModalComponent;
@@ -47,12 +48,14 @@ class AcceptModalComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
+
+  protected readonly TranslationContext = TranslationContext;
 }
 
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-acknowledge-notification-modal [acknowledgeCall]="call"></app-acknowledge-notification-modal>',
+    '<app-toast-container></app-toast-container><app-acknowledge-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [acknowledgeCall]="call"></app-acknowledge-notification-modal>',
 })
 class AcknowledgeModalComponent implements AfterViewInit {
   @ViewChild(AcknowledgeNotificationModalComponent) modal: AcknowledgeNotificationModalComponent;
@@ -61,12 +64,14 @@ class AcknowledgeModalComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
+
+  protected readonly TranslationContext = TranslationContext;
 }
 
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-approve-notification-modal [approveCall]="call"></app-approve-notification-modal>',
+    '<app-toast-container></app-toast-container><app-approve-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [approveCall]="call"></app-approve-notification-modal>',
 })
 class ApproveModalComponent implements AfterViewInit {
   @ViewChild(ApproveNotificationModalComponent) modal: ApproveNotificationModalComponent;
@@ -75,12 +80,14 @@ class ApproveModalComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
+
+  protected readonly TranslationContext = TranslationContext;
 }
 
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-cancel-notification-modal [cancelCall]="call"></app-cancel-notification-modal>',
+    '<app-toast-container></app-toast-container><app-cancel-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [cancelCall]="call"></app-cancel-notification-modal>',
 })
 class CancelModalComponent implements AfterViewInit {
   @ViewChild(CancelNotificationModalComponent) modal: CancelNotificationModalComponent;
@@ -89,12 +96,14 @@ class CancelModalComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
+
+  protected readonly TranslationContext = TranslationContext;
 }
 
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-decline-notification-modal [declineCall]="call"></app-decline-notification-modal>',
+    '<app-toast-container></app-toast-container><app-decline-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [declineCall]="call"></app-decline-notification-modal>',
 })
 class DeclineModalComponent implements AfterViewInit {
   @ViewChild(DeclineNotificationModalComponent) modal: DeclineNotificationModalComponent;
@@ -103,12 +112,14 @@ class DeclineModalComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
+
+  protected readonly TranslationContext = TranslationContext;
 }
 
 @Component({
   selector: '',
   template:
-    '<app-toast-container></app-toast-container><app-close-notification-modal [closeCall]="call"></app-close-notification-modal>',
+    '<app-toast-container></app-toast-container><app-close-notification-modal [translationContext]="TranslationContext.COMMONINVESTIGATION" [closeCall]="call"></app-close-notification-modal>',
 })
 class CloseModalComponent implements AfterViewInit {
   @ViewChild(CloseNotificationModalComponent) modal: CloseNotificationModalComponent;
@@ -117,6 +128,8 @@ class CloseModalComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.modal.show(this.notification);
   }
+
+  protected readonly TranslationContext = TranslationContext;
 }
 
 export const notificationTemplate: Notification = {

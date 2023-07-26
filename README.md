@@ -79,7 +79,7 @@ Clone the source locally:
 
 ```sh
 $ git clone git@github.com:eclipse-tractusx/traceability-foss.git
-$ cd tx-traceability-foss/frontend
+$ cd traceability-foss/frontend
 ```
 
 Install prerequisites:
@@ -134,7 +134,7 @@ persistence layer, thus [Docker Engine](https://docs.docker.com/engine/) is requ
 To run integration tests invoke following command:
 
 ```sh
-mvn clean verify -PiT
+mvn clean verify
 ```
 
 #### Running all tests
@@ -142,7 +142,7 @@ mvn clean verify -PiT
 To run all tests invoke following command:
 
 ```sh
-mvn -DskipTests=false clean verify -PiT
+mvn -DskipTests=false clean verify
 ```
 
 *Please note that this task depends on `integrationTest` task, so it's required to have [Docker Engine](https://docs.docker.com/engine/) running.*

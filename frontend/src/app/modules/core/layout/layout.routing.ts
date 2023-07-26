@@ -24,6 +24,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   ABOUT_BASE_ROUTE,
   ADMIN_BASE_ROUTE,
+  ALERT_BASE_ROUTE,
   DASHBOARD_BASE_ROUTE,
   INVESTIGATION_BASE_ROUTE,
   NO_PERMISSION_BASE_ROUTE,
@@ -31,8 +32,8 @@ import {
   PARTS_BASE_ROUTE,
 } from '@core/known-route';
 import { RoleGuard } from '@core/user/role.guard';
-import { ErrorPageType } from '@page/error-page/model/error-page.model';
 import { AdminComponent } from '@page/admin/presentation/admin.component';
+import { ErrorPageType } from '@page/error-page/model/error-page.model';
 import { I18NEXT_NAMESPACE_RESOLVER } from 'angular-i18next';
 
 export /** @type {*} */
@@ -85,6 +86,15 @@ const routes: Routes = [
     loadChildren: () => import('../../page/investigations/investigations.module').then(m => m.InvestigationsModule),
     data: {
       breadcrumb: 'investigations',
+      roles: ['user'],
+    },
+    canActivate: [RoleGuard],
+  },
+  {
+    path: ALERT_BASE_ROUTE,
+    loadChildren: () => import('../../page/alerts/alerts.module').then(m => m.AlertsModule),
+    data: {
+      breadcrumb: 'alerts',
       roles: ['user'],
     },
     canActivate: [RoleGuard],

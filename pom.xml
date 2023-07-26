@@ -16,10 +16,12 @@
         <module>tx-backend</module>
         <module>tx-parent-spring-boot</module>
         <module>docs</module>
+        <module>tx-coverage</module>
     </modules>
 
     <properties>
-        <springboot.version>3.0.6</springboot.version>
+        <springboot.version>3.0.7</springboot.version>
+        <spring-core.version>6.0.8</spring-core.version>
         <java.version>17</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -35,24 +37,28 @@
         <install-plugin.version>3.0.1</install-plugin.version>
         <jacoco-plugin.version>0.8.8</jacoco-plugin.version>
         <jar-plugin.version>3.3.0</jar-plugin.version>
-        <owasp-plugin.version>8.1.0</owasp-plugin.version>
+        <owasp-plugin.version>8.3.1</owasp-plugin.version>
         <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
-        <surefire-plugin.version>3.0.0</surefire-plugin.version>
         <apache-groovy.version>4.0.11</apache-groovy.version>
-
+        <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
+        <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
+        <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.0.0-M8</maven-failsafe-plugin.version>
+        <maven-site-plugin.version>4.0.0-M5</maven-site-plugin.version>
+        <edc-library.version>0.1.3</edc-library.version>
         <!-- versions for 3rd party dependecies -->
+        <eclipse-dash-ip.version>0.0.1-SNAPSHOT</eclipse-dash-ip.version>
         <nimbus-jose-jwt.version>9.31</nimbus-jose-jwt.version>
-        <ascii-doctor-j-diagram.version>2.2.3</ascii-doctor-j-diagram.version>
+        <ascii-doctor-j-diagram.version>2.2.9</ascii-doctor-j-diagram.version>
         <ascii-dcotor-j.version>2.5.8</ascii-dcotor-j.version>
         <auth-0-java-jwt.version>4.4.0</auth-0-java-jwt.version>
-        <eclipse-license-tool.version>0.0.1-SNAPSHOT</eclipse-license-tool.version>
         <feign.version>12.3</feign.version>
         <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
-        <jruby.version>9.3.9.0</jruby.version>
+        <jruby.version>9.4.3.0</jruby.version>
         <resilience4j.version>2.0.2</resilience4j.version>
         <schedlock.version>4.42.0</schedlock.version>
-        <spring-cloud.version>2022.0.2</spring-cloud.version>
+        <spring-cloud.version>2022.0.3</spring-cloud.version>
         <jetbrains-annotation.version>24.0.1</jetbrains-annotation.version>
         <feign-form.version>3.8.0</feign-form.version>
         <feign-slf4j.version>12.1</feign-slf4j.version>
@@ -68,29 +74,29 @@
         <rest-assured.version>5.3.0</rest-assured.version>
         <spock-core.version>2.4-M1-groovy-4.0</spock-core.version>
         <springdoc.version>2.0.4</springdoc.version>
-
+        <assertj.version>3.24.2</assertj.version>
+        <commons-logging.version>1.2</commons-logging.version>
+        <lombok.version>1.18.28</lombok.version>
+        <json-unit-assertj.version>2.38.0</json-unit-assertj.version>
+        <cucumber.version>7.12.1</cucumber.version>
+        <org-snakeyaml.version>2.0</org-snakeyaml.version>
+        <jackson.version>2.15.1</jackson.version>
+        <junit-bom.version>5.9.3</junit-bom.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.build.directory}/site/jacoco-unittest/jacoco.xml,
-            ${project.build.directory}/site/jacoco-integration/jacoco.xml,
-        </sonar.coverage.jacoco.xmlReportPaths>
-        <sonar.jacoco.reportsPaths>
-            ${project.build.directory}/jacoco.exec,
-            /target/jacoco-ut.exec
-        </sonar.jacoco.reportsPaths>
         <sonar.tests>
-            src/test/java
+            src/test/java,src/integration/groovy
         </sonar.tests>
         <sonar.organization>eclipse-tractusx</sonar.organization>
         <sonar.projectKey>eclipse-tractusx_traceability-foss-backend</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-
-        <sonar.exclusions>
-            org/eclipse/tractusx/traceability/TraceabilityApplication.java,
-            org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java,
-        </sonar.exclusions>
+        <sonar.coverage.exclusions>
+            tx-backend/src/main/java/org/eclipse/tractusx/traceability/TraceabilityApplication.java,
+            tx-backend/src/main/java/org/eclipse/tractusx/traceability/infrastructure/edc/blackbox/HttpCallService.java,
+            **/*Config.java,
+            **/*Properties.java
+        </sonar.coverage.exclusions>
     </properties>
 
     <dependencyManagement>
@@ -102,22 +108,42 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- Update snakeyaml manually to avoid vulnerability CVE-2020-13936; can be removed after Spring updates their dependency -->
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-                <exclusions>
-                    <!--Fix CVE-2023-24998 -->
-                    <exclusion>
-                        <groupId>commons-fileupload</groupId>
-                        <artifactId>commons-fileupload</artifactId>
-                    </exclusion>
-                </exclusions>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${org-snakeyaml.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+            <version>${junit-bom.version}</version>
+        </dependency>
+    </dependencies>
 
     <pluginRepositories>
         <pluginRepository>
@@ -130,33 +156,158 @@
     </pluginRepositories>
 
     <build>
-        <pluginManagement>
-            <plugins>
+        <plugins>
             <plugin>
-                <groupId>org.eclipse.dash</groupId>
-                <artifactId>license-tool-plugin</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-plugin.version}</version>
                 <executions>
                     <execution>
-                        <id>license-check</id>
+                        <id>integration-test</id>
                         <goals>
-                            <goal>license-check</goal>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
+                        <configuration>
+                            <!-- Sets the VM argument line used when integration tests are run. -->
+                            <!--suppress UnresolvedMavenProperty -->
+                            <argLine>${failsafeArgLine}</argLine>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <!-- Sets the VM argument line used when unit tests are run. -->
+                    <!--suppress UnresolvedMavenProperty -->
+                    <argLine>${surefireArgLine}</argLine>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <exclude>**/*TraceabilityApplication.class</exclude>
+                        <exclude>**/*HttpCallService.class</exclude>
+                    </excludes>
+                </configuration>
+                <executions>
+                    <!-- set arg line property for surefire -->
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <propertyName>surefireArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <!-- set arg line property for failsafe -->
+                    <execution>
+                        <id>prepare-agent-integration</id>
+                        <goals>
+                            <goal>prepare-agent-integration</goal>
+                        </goals>
+                        <configuration>
+                            <propertyName>failsafeArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>${maven-site-plugin.version}</version>
+            </plugin>
+            <!-- Sonar Scanner-->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>${sonar-maven-plugin.version}</version>
+            </plugin>
+        </plugins>
+        <pluginManagement>
+            <plugins>
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${surefire-plugin.version}</version>
+                    <groupId>org.eclipse.dash</groupId>
+                    <artifactId>license-tool-plugin</artifactId>
+                    <version>${eclipse-dash-ip.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-report-plugin</artifactId>
-                    <version>${surefire-plugin.version}</version>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compiler-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
     </build>
+    <profiles>
+        <profile>
+            <id>dependency-check</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                        <version>${owasp-plugin.version}</version>
+                        <configuration>
+                            <suppressionFile>dependency_check/suppressions.xml</suppressionFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>site</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>spotbugs-check</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.spotbugs</groupId>
+                        <artifactId>spotbugs-maven-plugin</artifactId>
+                        <version>${spotbugs-plugin.version}</version>
+                        <configuration>
+                            <effort>Max</effort>
+                            <threshold>Low</threshold>
+                            <xmlOutput>true</xmlOutput>
+                            <failThreshold>High</failThreshold>
+                            <excludeFilterFile>ci/spotbugs-excludes.xml</excludeFilterFile>
+                            <plugins>
+                                <plugin>
+                                    <groupId>com.h3xstream.findsecbugs</groupId>
+                                    <artifactId>findsecbugs-plugin</artifactId>
+                                    <version>${findsecbugs-plugin.version}</version>
+                                </plugin>
+                            </plugins>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>check</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>

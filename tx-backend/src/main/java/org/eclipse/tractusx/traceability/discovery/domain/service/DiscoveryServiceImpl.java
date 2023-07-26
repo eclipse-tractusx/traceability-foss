@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.discovery.domain.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
@@ -34,6 +35,7 @@ import java.util.Optional;
 import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery.mergeDiscoveries;
 import static org.eclipse.tractusx.traceability.discovery.domain.model.Discovery.toDiscovery;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class DiscoveryServiceImpl implements DiscoveryService {
@@ -44,19 +46,37 @@ public class DiscoveryServiceImpl implements DiscoveryService {
 
     private final EdcProperties edcProperties;
 
+
     @Override
     public Discovery getDiscoveryByBPN(String bpn) {
         List<Discovery> discoveryList = new ArrayList<>();
         Optional<Discovery> optionalDiscoveryFromDiscoveryService = getOptionalDiscoveryByBpnFromDiscoveryService(bpn);
+        optionalDiscoveryFromDiscoveryService.ifPresent(discovery -> {
+            discovery.setReceiverUrls(
+                    discovery.getReceiverUrls().stream().map(
+                            DiscoveryServiceImpl::removeTrailingSlash
+                    ).toList()
+            );
+            log.info("Retrieved discovery by bpn from edcDiscoveryService receiverUrls: {}, senderUrls: {}", discovery.getReceiverUrls().toString(), discovery.getSenderUrl());
+            discoveryList.add(discovery);
+        });
         optionalDiscoveryFromDiscoveryService.ifPresent(discoveryList::add);
         Optional<Discovery> optionalDiscoveryFromBpnDatabase = getOptionalDiscoveryFromBpnDatabase(bpn);
+        optionalDiscoveryFromBpnDatabase.ifPresent(discovery -> log.info("Retrieved discovery by bpn from BPN Mapping Table receiverUrls: {}, senderUrls: {}", discovery.getReceiverUrls().toString(), discovery.getSenderUrl()));
         optionalDiscoveryFromBpnDatabase.ifPresent(discoveryList::add);
         return mergeDiscoveries(discoveryList);
     }
 
+    private static String removeTrailingSlash(String inputString) {
+        if (inputString.endsWith("/")) {
+            return inputString.substring(0, inputString.length() - 1);
+        }
+        return inputString;
+    }
+
     @NotNull
     private Optional<Discovery> getOptionalDiscoveryByBpnFromDiscoveryService(String bpn) {
-        return discoveryRepository.getDiscoveryByBpnFromConnectorEndpoint(bpn);
+        return discoveryRepository.retrieveDiscoveryByFinderAndEdcDiscoveryService(bpn);
     }
 
     @NotNull

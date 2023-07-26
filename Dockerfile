@@ -25,10 +25,10 @@ WORKDIR /build
 COPY pom.xml .
 COPY tx-parent-spring-boot tx-parent-spring-boot
 COPY tx-cucumber-tests tx-cucumber-tests
+COPY tx-coverage tx-coverage
 COPY tx-models tx-models
 COPY docs docs
 COPY tx-backend tx-backend
-
 
 # the --mount option requires BuildKit.
 # --mount=type=cache,target=/root/.m2 -> mounts cache volume to the .m2 directorym in container
@@ -39,7 +39,7 @@ COPY tx-backend tx-backend
 RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -pl :$BUILD_TARGET -am -DskipTests
 
 # Copy the jar and build image
-FROM eclipse-temurin:17-jre-alpine AS traceability-app
+FROM eclipse-temurin:17-jre-alpine@sha256:c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f AS traceability-app
 
 RUN apk upgrade --no-cache libssl3 libcrypto3
 

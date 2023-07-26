@@ -20,7 +20,18 @@ SPDX-License-Identifier: Apache-2.0
 -->
 
 <div class="detail--header">
-  <div>
+  <div class="detail--navigation">
+    <app-button
+      [color]="'primary'"
+      (click)="this.navigateBackToInvestigations()"
+        >
+      <div class="flex justify-between items-center">
+        <mat-icon class="mr-2">arrow_back</mat-icon>
+        {{ 'actions.goBack' | i18n }}
+      </div>
+    </app-button>
+  </div>
+  <div class="detail--action">
     <app-button
       *ngIf="helperService.showApproveButton(selectedInvestigation)"
       (click)="approveModal?.show(selectedInvestigation)"
@@ -90,29 +101,35 @@ SPDX-License-Identifier: Apache-2.0
 <app-approve-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [approveCall]="helperService.approve.bind(this)"
+  [translationContext]="TranslationContext.COMMONINVESTIGATION"
 ></app-approve-notification-modal>
 <app-cancel-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [cancelCall]="helperService.cancel.bind(this)"
+  [translationContext]="TranslationContext.COMMONINVESTIGATION"
 ></app-cancel-notification-modal>
 <app-close-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [closeCall]="helperService.close.bind(this)"
+  [translationContext]="TranslationContext.COMMONINVESTIGATION"
 ></app-close-notification-modal>
 
 <app-acknowledge-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [acknowledgeCall]="helperService.acknowledge.bind(this)"
+  [translationContext]="TranslationContext.COMMONINVESTIGATION"
 ></app-acknowledge-notification-modal>
 
 <app-accept-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [acceptCall]="helperService.accept.bind(this)"
+  [translationContext]="TranslationContext.COMMONINVESTIGATION"
 ></app-accept-notification-modal>
 
 <app-decline-notification-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
   [declineCall]="helperService.decline.bind(this)"
+  [translationContext]="TranslationContext.COMMONINVESTIGATION"
 ></app-decline-notification-modal>
 
 <div class="detail--wrapper">
@@ -183,11 +200,11 @@ SPDX-License-Identifier: Apache-2.0
   </mat-card>
 </div>
 
-<ng-template #serialNumberTmp let-row="row">
-  <app-button (click)="copyToClipboard(row.serialNumber)" [attr.data-testId]="'copy-button--' + row.id">
+<ng-template #semanticModelIdTmp let-row="row">
+  <app-button (click)="copyToClipboard(row.semanticModelId)" [attr.data-testId]="'copy-button--' + row.id">
     <div class="flex justify-around items-center">
-      {{ row.serialNumber }}
-      <mat-icon class="investigation--serial-number__icon">filter_none</mat-icon>
+      {{ row.semanticModelId }}
+      <mat-icon class="investigation--semantic-model-id__icon">filter_none</mat-icon>
     </div>
   </app-button>
 </ng-template>

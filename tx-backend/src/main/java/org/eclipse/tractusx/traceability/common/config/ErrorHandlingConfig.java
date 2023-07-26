@@ -29,18 +29,19 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
+import org.eclipse.tractusx.traceability.common.request.InvalidSortException;
+import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationReceiverBpnMismatchException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationStatusTransitionNotAllowed;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.NotificationStatusTransitionNotAllowed;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -106,6 +107,13 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
     @ExceptionHandler(InvestigationNotFoundException.class)
     ResponseEntity<ErrorResponse> handleInvestigationNotFoundException(InvestigationNotFoundException exception) {
         log.warn("handleInvestigationNotFoundException", exception);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new ErrorResponse(exception.getMessage()));
+    }
+
+    @ExceptionHandler(AlertNotFoundException.class)
+    ResponseEntity<ErrorResponse> handleAlertNotFoundException(AlertNotFoundException exception) {
+        log.warn("handleAlertNotFoundException", exception);
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(new ErrorResponse(exception.getMessage()));
     }
@@ -211,13 +219,19 @@ public class ErrorHandlingConfig implements AuthenticationFailureHandler {
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
-        ErrorHandlingConfig.ErrorResponse errorResponse = new ErrorHandlingConfig.ErrorResponse(exception.getMessage());
+        log.error("AuthenticationException exception", exception);
+        ErrorResponse errorResponse = new ErrorResponse(exception.getMessage());
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
 
         response.getOutputStream().println(objectMapper.writeValueAsString(errorResponse));
     }
 
-    public record ErrorResponse(String message) {
+    @ExceptionHandler(InvalidSortException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidSortException(final InvalidSortException exception) {
+        log.error("InvalidSortException exception", exception);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(new ErrorResponse(exception.getMessage()));
     }
 }

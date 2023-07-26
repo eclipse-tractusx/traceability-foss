@@ -4,11 +4,141 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased - x.x.x]
+## [Unreleased]
 ### Added
+
+### Changed
+
+### Removed
+
+## [6.0.0 - 2023-07-21]
+
+### Added
+
+- Moved all parts of app config to helm charts to be fully configurable
+- Helmignore config params for wrong values.yaml files
+- Home / Source URL in Helm Chart
+- Name Overrides in Helmchart for pgadmin, irs-helm and tractusx-connector
+- Added decentral registry approach
+- Added discovery finder / edc discovery service for looking up edc urls of receiver of notifications
+- Added about component with additional Workflow to load repo info into the component
+- Add Transformer to support new EDC constraint operator format
+
+### Changed
+
+- Modified IRS Policies support to handle multiple policies
+- Readme titles to match TRGs
+- Updated Irs helm chart to 6.3.1
+- Update EDC dependencies to 0.1.3
+- Update implementation to use EDC 0.5.0
+- Spring Security Config Update from 6.0.3 to 6.0.5
+
+### Removed
+- unused classes and methods
+
+### Known knowns
+
+- Backend [TRACEFOSS-1458]: AdminView: No validation of BPN for BPN  EDC URL mapping
+- Backend [TRACEFOSS-589]: Backend API access without login returns incorrect HTTP status code (500 instead of 401)
+- Backend [TRACEFOSS-2148]: Endpoints for parts and notifications returns unsorted list
+---
+- Frontend [TRACEFOSS-2149]: Sorting on empty table causes unhandled error view
+---
+- Security [TRACEFOSS-829]: CVE Strict-Transport-Security header - The HSTS Warning and Error may allow attackers to bypass HSTS
+- Security [TRACEFOSS-830]: CVE one stack trace disclosure (Java) in the target web server's HTTP response
+- Security [TRACEFOSS-919]: Authorization Bypass Through User-Controlled SQL Primary Key CWE ID 566
+- Security [TRACEFOSS-984]: Improper Output Neutralization for Logs CWE ID 117
+- Security [TRACEFOSS-1313]: Using components with known vulnerabilities
+- Security [TRACEFOSS-1314]: Open Redirect - host header injection
+- Security [TRACEFOSS-1315]: No additional authentication component (MFA) during login process
+---
+- Environment [TRACEFOSS-2164]: HTTP Requests for syncing the submodel server inoperable~~
+
+## [5.0.0] - 2023-07-10
+
+### Added
+
+- Added back button in notification detailed view
+- Added alert detail view
+- EDC SPI Dependency for using provided models
+- Added default response types to apis
+- Irs policies support ( on application startup registers policies in irs instance )
+- Added helm upgrade workflow to test upgradeability of the helm charts
+- Added helm test backwards compatability to test the helm charts with the latest kubernetes versions
+
+### Changed
+
+- Changed Layout in notification detailed view
+- Changed request parameter for registerjob request to irs to match requirements of irs
+- Migration of edc 0.4.1 endpoints and api flow
+- fixed bug where language switcher did not update to the selected language
+- Changed SerialPartTypization aspect model to SerialPart
+- Changed AssemblyPartRelationship aspect model to SingleLevelBomAsBuilt
+- Changed semantic data model to be displayed in camel case
+
+### Removed
+
+## [4.1.0] - 2023-06-26
+
+### Added
+
+- Spring profiles for integration int-a and int-b environments
+- Quality Alert feature
+- Updated testdata to reflect asPlanned assets
+- Added asPlanned lifecycle to the asset domain
+- Added Semantic Data Model 'PartAsPlanned'
+- Upgraded cypress-io/github-action from 5.8.0 to 5.8.3
+- Upgraded jruby from 9.3.9.0 to 9.4.3.0
+- Upgraded aquasecurity/trivy-action from 0.10.0 to 0.11.2
+- Upgraded maven-project-info-reports-plugin from 3.4.3 to 3.4.5
+
+### Changed
+- Updated spring boot to 3.0.7 to fix: CVE-2023-20883
+- Fixed calculation of otherParts amount within dashboard response
+- Fixed incorrect label mapping in notification action modals
+
+### Removed
+
+## [4.0.0] - 2023-06-12
+
+### Added
+
+- Added translationContext "commonAlert" to all modal components
+- Send quality alert to customer / action on queued items
+- Adapt asset synchronization from IRS
+- Cors configuration for environment e2e-a and e2e-b
+- GitHubAction to update dependencies files on merge to main
+- Added testdata with batches
+- Added Semantic Data Model to frontend to support batches
+- Added batch aspect to the asset import process
+
+### Changed
+
+- Updated registry urls within env profiles
+- Changed error message for notification status transitions
+- Replaced DELETE Pod Requests with StatefulSets
+- Made Quality Alerts Tab visible
+- bump json-unit-assertj from 2.36.1 to 2.38.0
+- bump spring-cloud-dependencies from 2022.0.2 to 2022.0.3
+- bump maven-project-info-reports-plugin from 3.4.3 to 3.4.4 #158
+- Refactored logic to save different kind of assets related to their aspect
+
+### Removed
+
+- Bpn Mapping fallback in INT environment profile - has been removed
+
+## [3.5.0] - 2023-05-30
+
+### Added
+
 - Added option to hide "Investigation for components" in part-detail.component.html
 - E2E A & B env profile configuration
 - Added tests for SonarQube exclusions
+- Added alerts controller
+- Inbox for quality alerts (marked with WIP role)
+- Sortable columns in notification.component.ts and related components
+- Insomnia Collection for Alerts api
+- Added E2E cucumber test for sending notification
 
 ### Changed
 - Refactored other-parts.component.html - split into new components: supplier-parts.component.html and customer-parts.component.html
@@ -20,10 +150,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Bump asciidoctorj from 2.5.7 to 2.5.8
 - Use Selective dependency resolutions for @angular-devkit/build-angular to keep 15.2.8 version locked (so @angular-builders/custom-webpack uses the same version as well)
 - Aligned help button and user icon in the header to official C-X styleguide
+- Changed logic of merging response from irs to match the correct ids of the relationships
+- Updated open api collection to detect security issues on rest api
+- Upgraded karma package dependency: socket.io-parser to 4.2.3 (to solve Insufficient validation when decoding a Socket.IO packet)
+- Corrected alignment for severity and other fields in section "Overview" in quality investigation detail page
+- Upgraded cypress-io/github-action from 5.7.1 to 5.8.0
+- Changed trivy.yml settings for frontend (use "--format sarif" instead of "--template sarif.tpl")
 
 ### Removed
 - Removed selection column on Customer Parts page
 - Removed classes: AssetFacade, Constants, Command, ContractAgreementRequest, ContractOfferRequest, AssetFacadeTest
+- Removed log flooding in asset sync process
 
 ## [3.4.0] - 2023-05-11
 
@@ -66,6 +203,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Added Dockerfile to root directory
 - Added helm-test workflow
 - Added new testdata set for bom lifecycle "asBuilt"
+- Added a custom Pageable Scheme
 
 ### Changed
 - Updated spring-boot:core from 6.0.6 to 6.0.8 for cve-2023-20863
@@ -108,13 +246,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Improved admin page navigation (as a left side menu)
 - Combined results of discovery service and fallback mock service to provide bpn url mappings
 - Updated EDC Provider to 0.3.0 version
+- Replaced jib with docker-build-push action in workflows
+
+## [3.1.2] - 2023-05-02
+
+### Added
+
+- Helm lint, test and install action workflow
+- Updated frontend and backend dependency file and requested review for open license issues
+- Updated broken links in readme
+- Refactored github action workflow to isolate latest and release version tags
+- Added missing license headers to files
+- Synchronized configuration for runAsUser for container images
+- Adapt default values.yaml to allow installation of helm charts in any environment
 
 ## [3.1.1] - 2023-04-04
 
 ### Added
+
 - Some unit tests for better code quality
 
 ### Changed
+
 - Fixed edc notification flow bug
 - Updated org.springframework/spring-expression from 6.0.6 to 6.0.7
 - Updated net.minidev/json-smart from 2.4.8 to 2.4.10

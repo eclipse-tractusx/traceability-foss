@@ -72,8 +72,8 @@ export class OtherPartsFacade {
     }
 
     data.content = data.content.map(part => {
-      const shouldHighlight = parts.some(currentPart => currentPart.id === part.id);
-      return { ...part, shouldHighlight };
+      const activeInvestigation = parts.some(currentPart => currentPart.id === part.id);
+      return { ...part, activeInvestigation };
     });
 
     this.otherPartsState.supplierParts = { data };

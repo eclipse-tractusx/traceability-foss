@@ -20,7 +20,8 @@
  ********************************************************************************/
 
 import { AfterViewInit, Component, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
@@ -28,6 +29,7 @@ import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
 import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
 import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
@@ -53,7 +55,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   @ViewChild(AcknowledgeNotificationModalComponent) acknowledgeModal: AcknowledgeNotificationModalComponent;
   @ViewChild(DeclineNotificationModalComponent) declineModal: DeclineNotificationModalComponent;
 
-  @ViewChild('serialNumberTmp') serialNumberTmp: TemplateRef<unknown>;
+  @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
   public readonly investigationPartsInformation$: Observable<View<Part[]>>;
   public readonly supplierPartsDetailInformation$: Observable<View<Part[]>>;
@@ -70,16 +72,21 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   public notificationPartsTableConfig: TableConfig;
   public supplierPartsTableConfig: TableConfig;
   public isReceived: boolean;
+  private originPageNumber: number;
+  private originTabIndex: number;
 
   private subscription: Subscription;
   private selectedInvestigationTmpStore: Notification;
   public selectedInvestigation: Notification;
 
+  private paramSubscription: Subscription
+
   constructor(
     public readonly helperService: InvestigationHelperService,
+    public readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly staticIdService: StaticIdService,
-    private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly investigationsFacade: InvestigationsFacade,
+    private router: Router,
     private readonly route: ActivatedRoute,
     private readonly ctaSnackbarService: CtaSnackbarService,
   ) {
@@ -87,6 +94,12 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.supplierPartsDetailInformation$ = this.investigationDetailFacade.supplierPartsInformation$;
 
     this.selected$ = this.investigationDetailFacade.selected$;
+
+    this.paramSubscription = this.route.queryParams.subscribe(params => {
+      this.originPageNumber = params.pageNumber;
+      this.originTabIndex = params?.tabIndex;
+    })
+
   }
 
   public ngAfterViewInit(): void {
@@ -108,6 +121,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscription?.unsubscribe();
     this.investigationDetailFacade.unsubscribeSubscriptions();
+    this.paramSubscription?.unsubscribe();
   }
 
   public onNotificationPartsSort({ sorting }: TableEventConfig): void {
@@ -122,7 +136,6 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public onMultiSelect(event: unknown[]): void {
     this.selectedInvestigationTmpStore = Object.assign(this.investigationDetailFacade.selected);
-
     this.selectedItems$.next(event as Part[]);
   }
 
@@ -141,9 +154,14 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     this.selectedItems$.next([...this.selectedItems$.getValue(), part]);
   }
 
-  public copyToClipboard(serialNumber: string): void {
-    const text = { id: 'clipboard', values: { value: serialNumber } };
-    navigator.clipboard.writeText(serialNumber).then(_ => this.ctaSnackbarService.show(text));
+  public copyToClipboard(semanticModelId: string): void {
+    const text = { id: 'clipboard', values: { value: semanticModelId } };
+    navigator.clipboard.writeText(semanticModelId).then(_ => this.ctaSnackbarService.show(text));
+  }
+
+  public navigateBackToInvestigations(): void {
+    const { link } = getRoute(INVESTIGATION_BASE_ROUTE);
+    this.router.navigate([`/${link}`], {queryParams: {tabIndex: this.originTabIndex, pageNumber: this.originPageNumber}});
   }
 
   public handleConfirmActionCompletedEvent(): void {
@@ -155,8 +173,8 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
   private setTableConfigs(data: Notification): void {
     this.isReceived = !data.isFromSender;
 
-    const displayedColumns = ['id', 'name', 'serialNumber'];
-    const sortableColumns = { id: true, name: true, serialNumber: true };
+    const displayedColumns = ['id', 'semanticDataModel', 'name', 'semanticModelId'];
+    const sortableColumns = { id: true, semanticDataModel: true, name: true, semanticModelId: true };
 
     const tableConfig = {
       displayedColumns,
@@ -164,7 +182,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       sortableColumns: sortableColumns,
       hasPagination: false,
       cellRenderers: {
-        serialNumber: this.serialNumberTmp,
+        semanticModelId: this.semanticModelIdTmp,
       },
     };
 
@@ -193,4 +211,6 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
       )
       .subscribe();
   }
+
+  protected readonly TranslationContext = TranslationContext;
 }

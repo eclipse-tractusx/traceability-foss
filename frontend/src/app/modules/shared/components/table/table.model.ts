@@ -21,9 +21,8 @@
 
 import { TemplateRef } from '@angular/core';
 import { Role } from '@core/user/role.model';
-import { SortableHeaders } from '@page/parts/model/parts.model';
 
-export type TableHeaderSort = [SortableHeaders, 'asc' | 'desc'];
+export type TableHeaderSort = [string, 'asc' | 'desc'];
 
 export interface TableConfig<Columns extends string = string> {
   displayedColumns: DisplayColumns<Columns>[];

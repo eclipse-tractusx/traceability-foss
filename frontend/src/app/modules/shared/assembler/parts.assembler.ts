@@ -22,7 +22,7 @@
 import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
-import { Part, PartResponse, QualityType, SortableHeaders } from '@page/parts/model/parts.model';
+import { Part, PartResponse, QualityType } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { OperatorFunction } from 'rxjs';
@@ -36,20 +36,21 @@ export class PartsAssembler {
 
     return {
       id: part.id,
-      name: part.nameAtManufacturer,
+      name: part.semanticModel.nameAtManufacturer,
       manufacturer: part.manufacturerName,
-      serialNumber: part.partInstanceId,
-      partNumber: part.manufacturerPartId,
-      batchNumber: part.batchId || '--',
-      productionCountry: part.manufacturingCountry,
-      nameAtCustomer: part.nameAtCustomer,
-      customerPartId: part.customerPartId,
+      semanticModelId: part.semanticModelId,
+      partNumber: part.semanticModel.manufacturerPartId,
+      productionCountry: part.semanticModel.manufacturingCountry,
+      nameAtCustomer: part.semanticModel.nameAtCustomer,
+      customerPartId: part.semanticModel.customerPartId,
       qualityType: part.qualityType || QualityType.Ok,
-      productionDate: new CalendarDateModel(part.manufacturingDate),
-      children: part.childDescriptions.map(child => child.id) || [],
-      parents: part.parentDescriptions?.map(parent => parent.id) || [],
-      shouldHighlight: part.underInvestigation || false,
+      productionDate: new CalendarDateModel(part.semanticModel.manufacturingDate) ,
+      children: part.childRelations.map(child => child.id) || [],
+      parents: part.parentRelations?.map(parent => parent.id) || [],
+      activeInvestigation: part.underInvestigation || false,
+      activeAlert: part.activeAlert || false,
       van: part.van || '--',
+      semanticDataModel: part.semanticDataModel
     };
   }
 
@@ -78,8 +79,8 @@ export class PartsAssembler {
     if (!viewData?.data) {
       return viewData;
     }
-    const { name, productionDate, serialNumber } = viewData.data;
-    return { data: { name, productionDate, serialNumber } as Part };
+    const { name, semanticDataModel, productionDate, semanticModelId } = viewData.data;
+    return { data: { name, semanticDataModel, productionDate, semanticModelId } as Part };
   }
 
   public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {
@@ -92,8 +93,8 @@ export class PartsAssembler {
         return viewData;
       }
 
-      const { manufacturer, partNumber, serialNumber, batchNumber, van } = viewData.data;
-      return { data: { manufacturer, partNumber, serialNumber, batchNumber, van } as Part };
+      const { manufacturer, partNumber, semanticModelId, van } = viewData.data;
+      return { data: { manufacturer, partNumber, semanticModelId, van } as Part };
     });
   }
 
@@ -113,13 +114,15 @@ export class PartsAssembler {
       return '';
     }
 
-    const localToApiMapping = new Map<SortableHeaders, string>([
+
+
+    const localToApiMapping = new Map<string, string>([
       ['id', 'id'],
+      ['semanticDataModel', 'semanticDataModel'],
       ['name', 'nameAtManufacturer'],
       ['manufacturer', 'manufacturerName'],
-      ['serialNumber', 'manufacturerPartId'],
+      ['semanticModelId', 'manufacturerPartId'],
       ['partNumber', 'customerPartId'],
-      ['batchNumber', 'batchId'],
       ['productionCountry', 'manufacturingCountry'],
       ['nameAtCustomer', 'nameAtCustomer'],
       ['customerPartId', 'customerPartId'],

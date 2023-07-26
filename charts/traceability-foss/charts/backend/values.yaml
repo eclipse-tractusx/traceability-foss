@@ -153,3 +153,20 @@ oauth2:
 edc:
   apiKey: "" #<edc.apiKey>
   providerUrl: "" #<edc.providerUrl>
+  callbackUrl: "https://replace.me"
+  callbackUrlEdcClient: "https://replace.me"
+  dataEndpointUrl: "https://replace.me"
+
+discoveryfinder:
+  baseUrl: "https://replace.me"
+
+irs:
+  baseUrl: "https://replace.me"
+registry:
+  urlWithPath: "https://replace.me"
+portal:
+  baseUrl: "https://replace.me"
+
+config:
+  allowedCorsOriginFirst: "https://replace.me"
+  allowedCorsOriginSecond: "https://replace.me"

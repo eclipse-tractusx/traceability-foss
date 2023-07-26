@@ -20,7 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.mapper;
 
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationHeader;
@@ -74,7 +74,7 @@ class NotificationMapperTest {
         assertEquals(expectedNotification.getEdcUrl(), actualNotification.getEdcUrl());
         assertNull(actualNotification.getContractAgreementId());
         assertEquals("information", actualNotification.getDescription());
-        assertEquals(expectedNotification.getInvestigationStatus(), actualNotification.getInvestigationStatus());
+        assertEquals(expectedNotification.getNotificationStatus(), actualNotification.getNotificationStatus());
         assertEquals(expectedNotification.getAffectedParts(), actualNotification.getAffectedParts());
         assertEquals(expectedNotification.getSeverity(), actualNotification.getSeverity());
     }

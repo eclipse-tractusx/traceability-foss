@@ -21,13 +21,14 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.metrics.RegistryLookupMeterRegistry;
+import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.shelldescriptor.application.RegistryLookupMetricsController;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -36,7 +37,7 @@ import static org.mockito.Mockito.verify;
 class RegistryLookupMetricsControllerTest {
 
     @Mock
-    private RegistryLookupMeterRegistry registryLookupMeterRegistry;
+    private ShellDescriptorLookupMetricRepository registryLookupMeterRegistry;
 
     @InjectMocks
     private RegistryLookupMetricsController controller;
@@ -44,12 +45,12 @@ class RegistryLookupMetricsControllerTest {
     @Test
     void givenRequest_whenMetrics_thenCallRegistry() {
         // given
-        final Pageable request = Pageable.ofSize(1);
+        OwnPageable ownPageable = new OwnPageable(0, 1, "createDate,desc");
 
         // when
-        controller.metrics(request);
+        controller.metrics(ownPageable);
 
         // then
-        verify(registryLookupMeterRegistry, times(1)).getMetrics(request);
+        verify(registryLookupMeterRegistry, times(1)).getMetrics(OwnPageable.toPageable(ownPageable));
     }
 }

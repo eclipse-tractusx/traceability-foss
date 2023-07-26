@@ -25,9 +25,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ValidationException;
 import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.assets.infrastructure.config.openapi.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
+import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import org.eclipse.tractusx.traceability.common.security.TechnicalUserAuthorizationException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
@@ -77,6 +78,7 @@ class ErrorHandlingConfigTest {
 
     @Test
     void givenMethodArgumentNotValidException_handler_respondsBadRequest() throws Exception {
+
         mockMvc.perform(get("/methodArgumentNotValidException"))
                 .andExpect(status().isBadRequest());
     }
@@ -197,7 +199,7 @@ class ErrorHandlingConfigTest {
         final ServletOutputStream os = mock(ServletOutputStream.class);
         when(response.getOutputStream()).thenReturn(os);
         final String expectedOsOutput = objectMapper.writeValueAsString(
-                new ErrorHandlingConfig.ErrorResponse("msg")
+                new ErrorResponse("msg")
         );
 
         // when

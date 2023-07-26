@@ -21,6 +21,13 @@ on:
     paths:
       - 'charts/**'
   workflow_dispatch:
+  workflow_call: # Trigger by another workflow
+    inputs:
+      node_image:
+        description: 'kindest/node image for k8s kind cluster'
+        default: 'kindest/node:v1.27.3'
+        required: false
+        type: string
 
 env:
   REGISTRY: kind-registry:5000
@@ -39,6 +46,9 @@ jobs:
 
       - name: Kubernetes KinD Cluster
         uses: container-tools/kind-action@v2
+        with:
+          node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
+          version: v0.20.0
 
       - name: Build & push Image App to KinD
         uses: docker/build-push-action@v4
@@ -72,14 +82,15 @@ jobs:
 
       - name: Run chart-testing (lint)
         run: |
-          ct lint --excluded-charts=edc-consumer --validate-maintainers=false --check-version-increment=false --target-branch ${{ github.event.repository.default_branch }}
+          ct lint  --validate-maintainers=false --check-version-increment=false --target-branch ${{ github.event.repository.default_branch }}
 
       - name: Run chart-testing (install)
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
           helm repo add irs-helm https://eclipse-tractusx.github.io/item-relationship-service
-          helm repo add irs-edc-consumer https://eclipse-tractusx.github.io/item-relationship-service
           helm repo add postgresql https://charts.bitnami.com/bitnami
+          helm repo add tractusx-connector https://eclipse-tractusx.github.io/tractusx-edc
           helm repo add runix https://helm.runix.net
-          ct install --charts charts/traceability-foss --helm-extra-set-args "--set backend.image.repository=${{ env.REGISTRY }}/${{ env.APP_NAME}} --set backend.image.tag=${{ env.TAG }} --set frontend.image.repository=${{ env.REGISTRY }}/traceability-foss --set frontend.image.tag=${{ env.TAG }} --set postgresql.enabled=false"
+          ct install --charts charts/traceability-foss --helm-extra-set-args "--set backend.image.repository=${{ env.REGISTRY }}/${{ env.APP_NAME}} --set backend.image.tag=${{ env.TAG }} --set frontend.image.repository=${{ env.REGISTRY }}/traceability-foss --set frontend.image.tag=${{ env.TAG }}"
         if: steps.list-changed.outputs.changed == 'true'
+

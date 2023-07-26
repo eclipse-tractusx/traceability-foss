@@ -21,17 +21,24 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.ToString;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model.OdrlContext;
 
+@ToString
+@Builder
 public class EdcCreatePolicyDefinitionRequest {
 
-	@JsonProperty("id")
-	private final String policyDefinitionId;
+    @JsonProperty("@context")
+    private OdrlContext odrlContext;
 
-	@JsonProperty("policy")
-	private final EdcPolicy edcPolicy;
+    @JsonProperty("@id")
+    private String policyDefinitionId;
 
-	public EdcCreatePolicyDefinitionRequest(String policyDefinitionId, EdcPolicy edcPolicy) {
-		this.policyDefinitionId = policyDefinitionId;
-		this.edcPolicy = edcPolicy;
-	}
+    @JsonProperty("@type")
+    private String type;
+
+    @JsonProperty("policy")
+    private EdcPolicy policy;
+
 }

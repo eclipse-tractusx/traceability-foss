@@ -22,33 +22,33 @@
 package org.eclipse.tractusx.traceability.assets.domain.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 
-import java.time.Instant;
 import java.util.List;
 
 @Slf4j
 @AllArgsConstructor
 @Data
-public final class Asset {
+@Builder
+public class Asset {
     private final String id;
     private final String idShort;
-    private final String nameAtManufacturer;
-    private final String manufacturerPartId;
-    private final String partInstanceId;
+    private String semanticModelId;
     private final String manufacturerId;
-    private final String batchId;
     private String manufacturerName;
-    private final String nameAtCustomer;
-    private final String customerPartId;
-    private final Instant manufacturingDate;
-    private final String manufacturingCountry;
-    private final Owner owner;
-
-    private List<Descriptions> childDescriptions;
-    private List<Descriptions> parentDescriptions;
+    private SemanticModel semanticModel;
+    private Owner owner;
+    @Singular
+    private List<Descriptions> childRelations;
+    @Singular
+    private List<Descriptions> parentRelations;
+    private boolean activeAlert;
     private boolean underInvestigation;
     private QualityType qualityType;
     private String van;
+    private SemanticDataModel semanticDataModel;
+    private String classification;
 }

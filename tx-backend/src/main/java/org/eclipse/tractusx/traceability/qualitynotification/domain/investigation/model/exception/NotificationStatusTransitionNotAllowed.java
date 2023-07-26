@@ -26,6 +26,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.model.Qualit
 public class NotificationStatusTransitionNotAllowed extends RuntimeException {
 
     public NotificationStatusTransitionNotAllowed(String notificationId, QualityNotificationStatus from, QualityNotificationStatus to) {
-        super("Can't transit from %s status to %s status for %s notification id".formatted(from.name(), to.name(), notificationId));
+        super("Transition from status '%s' to status '%s' is not allowed for notification with id '%s'".formatted(from.name(), to.name(), notificationId));
     }
 }

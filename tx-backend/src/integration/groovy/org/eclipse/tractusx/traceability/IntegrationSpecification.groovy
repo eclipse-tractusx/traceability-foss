@@ -23,18 +23,20 @@ package org.eclipse.tractusx.traceability
 
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.AssetRepository
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.BpnRepository
-import org.eclipse.tractusx.traceability.assets.domain.service.repository.ShellDescriptorRepository
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.AssetAsBuiltRepository
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository
+import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles
 import org.eclipse.tractusx.traceability.common.config.PostgreSQLConfig
 import org.eclipse.tractusx.traceability.common.config.RestAssuredConfig
 import org.eclipse.tractusx.traceability.common.config.RestitoConfig
 import org.eclipse.tractusx.traceability.common.support.*
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertNotificationRepository
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationNotificationRepository
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaNotificationRepository
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.jdbc.core.JdbcTemplate
@@ -53,13 +55,15 @@ import spock.util.concurrent.PollingConditions
 @Testcontainers
 abstract class IntegrationSpecification extends Specification
         implements OAuth2Support, OAuth2ApiSupport, DatabaseSupport, AssetRepositoryProvider, ShellDescriptorStoreProvider,
-                BpnRepositoryProvider, InvestigationsRepositoryProvider, NotificationsRepositoryProvider, BpnEdcRepositoryProvider {
+                BpnRepositoryProvider, InvestigationsRepositoryProvider, AlertsRepositoryProvider, InvestigationNotificationRepositoryProvider, AlertNotificationsRepositoryProvider, BpnEdcRepositoryProvider {
 
     @Autowired
-    private AssetRepository assetRepository
+    private AssetAsPlannedRepository assetAsPlannedRepository;
 
     @Autowired
-    private AssetsConverter assetsConverter
+    private AssetAsBuiltRepository assetAsBuiltRepository
+
+    private AssetTestData assetTestDataConverter = new AssetTestData()
 
     @Autowired
     private ShellDescriptorRepository shellDescriptorRepository
@@ -74,10 +78,17 @@ abstract class IntegrationSpecification extends Specification
     private JpaInvestigationRepository jpaInvestigationRepository
 
     @Autowired
-    private JpaNotificationRepository jpaNotificationRepository
+    private JpaAlertRepository jpaAlertRepository
+
+    @Autowired
+    private JpaAlertNotificationRepository jpaAlertNotificationRepository
+
+    @Autowired
+    private JpaInvestigationNotificationRepository jpaInvestigationNotificationRepository
 
     @Autowired
     private JdbcTemplate jdbcTemplate
+
 
     def setup() {
         oauth2ApiReturnsJwkCerts(jwk())
@@ -95,13 +106,18 @@ abstract class IntegrationSpecification extends Specification
     }
 
     @Override
-    AssetRepository assetRepository() {
-        return assetRepository
+    AssetAsBuiltRepository assetAsBuiltRepository() {
+        return assetAsBuiltRepository
     }
 
     @Override
-    AssetsConverter assetsConverter() {
-        return assetsConverter
+    AssetAsPlannedRepository assetAsPlannedRepository() {
+        return assetAsPlannedRepository;
+    }
+
+    @Override
+    AssetTestData assetsConverter() {
+        return assetTestDataConverter
     }
 
     @Override
@@ -125,8 +141,18 @@ abstract class IntegrationSpecification extends Specification
     }
 
     @Override
-    JpaNotificationRepository jpaNotificationRepository() {
-        return jpaNotificationRepository
+    JpaAlertRepository jpaAlertRepository() {
+        return jpaAlertRepository
+    }
+
+    @Override
+    JpaAlertNotificationRepository jpaAlertNotificationRepository() {
+        return jpaAlertNotificationRepository
+    }
+
+    @Override
+    JpaInvestigationNotificationRepository jpaNotificationRepository() {
+        return jpaInvestigationNotificationRepository
     }
 
     @Override

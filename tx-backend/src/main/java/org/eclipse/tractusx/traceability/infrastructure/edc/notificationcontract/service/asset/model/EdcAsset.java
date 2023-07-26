@@ -21,17 +21,20 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.ToString;
 
+@ToString
+@Builder
 public class EdcAsset {
 
-	@JsonProperty("properties")
-	private final EdcAssetProperties edcAssetProperties;
+    @JsonProperty("@id")
+    private String assetId;
 
-	public EdcAsset(EdcAssetProperties edcAssetProperties) {
-		this.edcAssetProperties = edcAssetProperties;
-	}
+    @JsonProperty("@type")
+    private String type;
 
-	public EdcAssetProperties getEdcAssetProperties() {
-		return edcAssetProperties;
-	}
+    @JsonProperty("properties")
+    private EdcAssetProperties edcAssetProperties;
+
 }

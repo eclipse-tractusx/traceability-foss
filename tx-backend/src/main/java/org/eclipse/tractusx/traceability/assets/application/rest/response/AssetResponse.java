@@ -19,93 +19,86 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 
-import java.time.Instant;
 import java.util.List;
 
-@Slf4j
 @AllArgsConstructor
 @Builder
 @Data
-@ArraySchema(arraySchema = @Schema(description = "Assets"), maxItems = Integer.MAX_VALUE)
-public final class AssetResponse {
+@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+public class AssetResponse {
     @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
-    private final String id;
+    @Size(max = 255)
+    private String id;
     @ApiModelProperty(example = "--")
-    private final String idShort;
-    @ApiModelProperty(example = "Door f-r")
-    private final String nameAtManufacturer;
-    @ApiModelProperty(example = "33740332-54")
-    private final String manufacturerPartId;
-    @ApiModelProperty(example = "NO-297452866581906730261974")
-    private final String partInstanceId;
+    @Size(max = 255)
+    private String idShort;
+    @ApiModelProperty(example = "--")
+    @Size(max = 255)
+    private String semanticModelId;
     @ApiModelProperty(example = "BPNL00000003CSGV")
-    private final String manufacturerId;
-    @ApiModelProperty(example = "--")
-    private final String batchId;
+    @Size(max = 255)
+    private String manufacturerId;
     @ApiModelProperty(example = "Tier C")
+    @Size(max = 255)
     private String manufacturerName;
-    @ApiModelProperty(example = "Door front-right")
-    private final String nameAtCustomer;
-    @ApiModelProperty(example = "33740332-54")
-    private final String customerPartId;
-    @ApiModelProperty(example = "2022-02-04T13:48:54Z")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private final Instant manufacturingDate;
-    @ApiModelProperty(example = "DEU")
-    private final String manufacturingCountry;
+    private SemanticModelResponse semanticModel;
     @ApiModelProperty(example = "CUSTOMER")
-    private final OwnerResponse owner;
+    private OwnerResponse owner;
+    @ArraySchema(arraySchema = @Schema(description = "Child relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+    private List<DescriptionsResponse> childRelations;
+    @ArraySchema(arraySchema = @Schema(description = "Parent relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+    private List<DescriptionsResponse> parentRelations;
 
-    @ArraySchema(arraySchema = @Schema(description = "Child relationships"), maxItems = Integer.MAX_VALUE)
-    private List<DescriptionsResponse> childDescriptions;
-    @ArraySchema(arraySchema = @Schema(description = "Parent relationships"), maxItems = Integer.MAX_VALUE)
-    private List<DescriptionsResponse> parentDescriptions;
+    @ApiModelProperty(example = "false")
+    private boolean activeAlert;
     @ApiModelProperty(example = "false")
     private boolean underInvestigation;
     @ApiModelProperty(example = "Ok")
     private QualityTypeResponse qualityType;
     @ApiModelProperty(example = "--")
+    @Size(max = 255)
     private String van;
+    @ApiModelProperty(example = "BATCH")
+    private SemanticDataModelResponse semanticDataModel;
+    @ApiModelProperty(example = "component")
+    @Size(max = 255)
+    private String classification;
 
     public static AssetResponse from(final Asset asset) {
         return AssetResponse.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
-                .nameAtManufacturer(asset.getNameAtManufacturer())
-                .manufacturerPartId(asset.getManufacturerPartId())
-                .partInstanceId(asset.getPartInstanceId())
+                .classification(asset.getClassification())
+                .semanticModelId(asset.getSemanticModelId())
                 .manufacturerId(asset.getManufacturerId())
-                .batchId(asset.getBatchId())
                 .manufacturerName(asset.getManufacturerName())
-                .nameAtCustomer(asset.getNameAtCustomer())
-                .customerPartId(asset.getCustomerPartId())
-                .manufacturingDate(asset.getManufacturingDate())
-                .manufacturingCountry(asset.getManufacturingCountry())
+                .semanticModel(SemanticModelResponse.from(asset.getSemanticModel()))
                 .owner(OwnerResponse.from(asset.getOwner()))
-                .childDescriptions(
-                        asset.getChildDescriptions().stream()
+                .childRelations(
+                        asset.getChildRelations().stream()
                                 .map(DescriptionsResponse::from)
                                 .toList())
-                .parentDescriptions(
-                        asset.getParentDescriptions().stream()
+                .parentRelations(
+                        asset.getParentRelations().stream()
                                 .map(DescriptionsResponse::from)
                                 .toList())
                 .underInvestigation(asset.isUnderInvestigation())
+                .activeAlert(asset.isActiveAlert())
                 .qualityType(
                         QualityTypeResponse.from(asset.getQualityType())
                 )
                 .van(asset.getVan())
+                .semanticDataModel(SemanticDataModelResponse.from(asset.getSemanticDataModel()))
                 .build();
     }
 

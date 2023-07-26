@@ -21,6 +21,7 @@
 
 import { InvestigationsModule } from '@page/investigations/investigations.module';
 import { InvestigationsComponent } from '@page/investigations/presentation/investigations.component';
+import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { InvestigationsService } from '@shared/service/investigations.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
@@ -42,14 +43,26 @@ describe('InvestigationsComponent', () => {
     spy.and.returnValue(new Promise(null));
 
     fireEvent.click(await waitFor(() => screen.getByTestId('table-menu-button--actions.viewDetails')));
-    expect(spy).toHaveBeenCalledWith(['/investigations/id-1']);
+    const tabInformation: NotificationTabInformation = { tabIndex: null, pageNumber: undefined}
+    expect(spy).toHaveBeenCalledWith(['/investigations/id-84'], { queryParams: tabInformation } );
   });
 
-  it('should call change pagination of received notification', async () => {
+  it('should call change pagination of received investigations', async () => {
     await renderInvestigations();
     fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
 
-    expect(await waitFor(() => screen.getByText('Investigation No 51'))).toBeInTheDocument();
-    expect(await waitFor(() => screen.getByText('Investigation No 90'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Investigation No 84'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Investigation No 11'))).toBeInTheDocument();
+  });
+
+  it('should call change pagination of queued & requested investigations', async () => {
+    await renderInvestigations();
+
+    fireEvent.click(await waitFor(() => screen.getByText('commonInvestigation.tabs.queuedAndRequested')));
+
+    fireEvent.click(await waitFor(() => screen.getByLabelText('pagination.nextPageLabel', { selector: 'button' })));
+
+    expect(await waitFor(() => screen.getByText('Investigation No 84'))).toBeInTheDocument();
+    expect(await waitFor(() => screen.getByText('Investigation No 11'))).toBeInTheDocument();
   });
 });

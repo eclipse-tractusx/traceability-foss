@@ -32,10 +32,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationMessageBaseEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
 
@@ -57,11 +59,19 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "assets_notifications",
+            name = "assets_as_built_notifications",
             joinColumns = @JoinColumn(name = "notification_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetEntity> assets;
+    private List<AssetAsBuiltEntity> assets;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "assets_as_planned_notifications",
+            joinColumns = @JoinColumn(name = "notification_id"),
+            inverseJoinColumns = @JoinColumn(name = "asset_id")
+    )
+    private List<AssetAsPlannedEntity> assetsAsPlanned;
 
 
     public static QualityNotificationMessage toDomain(InvestigationNotificationEntity investigationNotificationEntity) {
@@ -75,7 +85,7 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .description(investigationNotificationEntity.getInvestigation().getDescription())
                 .edcUrl(investigationNotificationEntity.getEdcUrl())
                 .contractAgreementId(investigationNotificationEntity.getContractAgreementId())
-                .investigationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
+                .notificationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
                 .affectedParts(investigationNotificationEntity.getAssets().stream()
                         .map(asset -> new QualityNotificationAffectedPart(asset.getId()))
                         .toList())
@@ -86,12 +96,13 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .created(investigationNotificationEntity.getCreated())
                 .updated(investigationNotificationEntity.getUpdated())
                 .isInitial(investigationNotificationEntity.getIsInitial())
+                .type(QualityNotificationType.INVESTIGATION)
                 .build();
     }
 
     public static InvestigationNotificationEntity from(InvestigationEntity investigationEntity,
                                                        QualityNotificationMessage qualityNotificationMessage,
-                                                       List<AssetEntity> notificationAssets) {
+                                                       List<AssetAsBuiltEntity> notificationAssets) {
         return InvestigationNotificationEntity
                 .builder()
                 .id(qualityNotificationMessage.getId())
@@ -106,7 +117,7 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .targetDate(qualityNotificationMessage.getTargetDate())
                 .severity(qualityNotificationMessage.getSeverity())
                 .edcNotificationId(qualityNotificationMessage.getEdcNotificationId())
-                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getInvestigationStatus().name()))
+                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
                 .messageId(qualityNotificationMessage.getMessageId())
                 .isInitial(qualityNotificationMessage.getIsInitial())
                 .build();

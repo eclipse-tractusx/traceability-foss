@@ -26,6 +26,11 @@
   display: grid;
   grid-template-columns: 35% 65%;
   grid-template-rows: minmax(23px, auto);
+  align-items: center;
+
+  > span {
+    line-height: 1.25rem;
+  }
 
   @media (max-width: 1440px) {
     grid-template-columns: 40% 60%;

@@ -8,7 +8,8 @@
     "about": "About",
     "relations": "Relations",
     "admin": "Administration",
-    "investigations": "Quality investigation",
+    "investigations": "Quality investigations",
+    "alerts": "Quality alerts",
     "adminRegistry": "Registry lookups",
     "adminBpn": "BPN - EDC configuration"
   },
@@ -19,7 +20,8 @@
     "about": "About Catena-X Open-Source Traceability",
     "relations": "Part Relations",
     "admin": "Administration Catena-X",
-    "investigations": "Quality Investigations"
+    "investigations": "Quality Investigations",
+    "alerts": "Quality Alerts"
   },
   "layout": {
     "nav": {
@@ -45,7 +47,8 @@
     "save": "Save",
     "remove": "Remove",
     "delete": "Delete",
-    "goToQueue": "Go to Queue"
+    "goToQueue": "Go to Queue",
+    "goBack": "Back"
   },
   "table": {
     "noResultFound": "NO RESULTS FOUND.",
@@ -67,8 +70,7 @@
       "name": "Name",
       "manufacturer": "Manufacturer",
       "partNumber": "Part number",
-      "serialNumber": "Serial number",
-      "batchNumber": "Batch number",
+      "semanticModelId": "Semantic Model ID",
       "productionDate": "Production date",
       "qualityType": "Quality type",
       "productionCountry": "Production country",
@@ -78,7 +80,8 @@
       "createdDate": "Created",
       "createdBy": "Created by",
       "sendTo": "Send to",
-      "severity": "Severity"
+      "severity": "Severity",
+      "semanticDataModel": "Semantic Data Model"
     }
   },
   "dataLoading": {
@@ -175,20 +178,14 @@
     },
     "modal": {
       "acceptTitle": "Accept of investigation",
-      "acceptDescription": "Are you sure you want to accept this investigation?",
       "acceptReasonHint": "Enter the reason for accepting this investigation.",
       "acknowledgeTitle": "Acknowledgment of investigation",
-      "acknowledgeDescription": "Are you sure you want to acknowledge this investigation?",
       "approvalTitle": "Approval of investigation",
-      "approvalDescription": "Are you sure you want to approve this investigation?",
       "closeTitle": "Close of investigation",
-      "closeDescription": "Are you sure you want to close this investigation?",
       "closeReasonHint": "Enter the reason for close action.",
       "cancellationTitle": "Cancellation of investigation",
-      "cancellationDescription": "Are you sure you want to cancel this investigation?",
       "cancellationHint": "Enter the ID of the investigation to confirm your cancellation.",
       "declineTitle": "Decline of investigation",
-      "declineDescription": "Are you sure you want to decline this investigation?",
       "declineReasonHint": "Enter the reason for declining this investigation.",
       "successfullyAccepted": "Investigation was accepted successfully.",
       "successfullyAcknowledged": "Investigation was acknowledged successfully.",
@@ -202,6 +199,47 @@
       "failedCancel": "Investigation failed to cancel, please try again.",
       "failedClose": "Investigation failed to close, please try again.",
       "failedDecline": "Investigation failed to decline, please try again."
+    }
+  },
+  "commonAlert": {
+    "viewAll": "View all",
+    "tabs": {
+      "received": "Received",
+      "queuedAndRequested": "Queued & Sent"
+    },
+    "status": {
+      "SENT": "Sent",
+      "CANCELED": "Cancelled",
+      "CLOSED": "Closed",
+      "CREATED": "Queued",
+      "RECEIVED": "Received",
+      "ACCEPTED": "Accepted",
+      "ACKNOWLEDGED": "Acknowledged",
+      "DECLINED": "Declined"
+    },
+    "modal": {
+      "acceptTitle": "Accept of alert",
+      "acceptReasonHint": "Enter the reason for accepting this alert.",
+      "acknowledgeTitle": "Acknowledgment of alert",
+      "approvalTitle": "Approval of alert",
+      "closeTitle": "Close of alert",
+      "closeReasonHint": "Enter the reason for close action.",
+      "cancellationTitle": "Cancellation of alert",
+      "cancellationHint": "Enter the ID of the alert to confirm your cancellation.",
+      "declineTitle": "Decline of alert",
+      "declineReasonHint": "Enter the reason for declining this alert.",
+      "successfullyAccepted": "Alert was accepted successfully.",
+      "successfullyAcknowledged": "Alert was acknowledged successfully.",
+      "successfullyApproved": "Alert was approved successfully.",
+      "successfullyCanceled": "Alert was canceled successfully.",
+      "successfullyClosed": "Alert was closed successfully.",
+      "successfullyDeclined": "Alert was declined successfully.",
+      "failedAccept": "Alert failed to accept, please try again.",
+      "failedAcknowledge": "Alert failed to acknowledge, please try again.",
+      "failedApprove": "Alert failed to approve, please try again.",
+      "failedCancel": "Alert failed to cancel, please try again.",
+      "failedClose": "Alert failed to close, please try again.",
+      "failedDecline": "Alert failed to decline, please try again."
     }
   }
 }

@@ -28,20 +28,24 @@ import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.Catalog;
+import org.eclipse.edc.catalog.spi.Catalog;
+import org.eclipse.edc.catalog.spi.CatalogRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformerTraceX;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.model.CatalogRequestDTO;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest.DEFAULT_PROTOCOL;
 
 @Slf4j
 @Component
@@ -50,11 +54,13 @@ public class HttpCallService {
     private final OkHttpClient httpClient;
     private final ObjectMapper objectMapper;
     private final EdcProperties edcProperties;
+    private final EdcTransformerTraceX edcTransformer;
 
-    public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties) {
+    public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper, EdcProperties edcProperties, EdcTransformerTraceX edcTransformer) {
         this.httpClient = withIncreasedTimeout(httpClient);
         this.objectMapper = objectMapper;
         this.edcProperties = edcProperties;
+        this.edcTransformer = edcTransformer;
         objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
     }
 
@@ -66,21 +72,57 @@ public class HttpCallService {
                 .build();
     }
 
-
-    public Catalog getCatalogFromProvider(
+    public Catalog getCatalogForNotification(
             String consumerEdcDataManagementUrl,
             String providerConnectorControlPlaneIDSUrl,
             Map<String, String> headers
     ) throws IOException {
         var url = consumerEdcDataManagementUrl + edcProperties.getCatalogPath();
         MediaType mediaType = MediaType.parse("application/json");
-        CatalogRequestDTO catalogRequestDTO = new CatalogRequestDTO(providerConnectorControlPlaneIDSUrl);
-        var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, objectMapper.writeValueAsString(catalogRequestDTO)));
-        headers.forEach(request::addHeader);
 
-        return (Catalog) sendRequest(request.build(), Catalog.class);
+        // TODO instead of filtering with java logic after the call of this method we could add a filter to the .querySpec within CatalogRequest object. Max W.
+        CatalogRequest catalogRequestDTO = CatalogRequest.Builder.newInstance()
+                .protocol(DEFAULT_PROTOCOL)
+                .providerUrl(providerConnectorControlPlaneIDSUrl)
+                .build();
+
+        final String requestJson = edcTransformer.transformCatalogRequestToJson(catalogRequestDTO).toString();
+        var request = new Request.Builder().url(url).post(RequestBody.create(mediaType, requestJson));
+        headers.forEach(request::addHeader);
+        return sendCatalogRequest(request.build());
     }
 
+    public Catalog sendCatalogRequest(Request request) throws IOException {
+        log.info("Requesting {} {}...", request.method(), request.url());
+        try (var response = httpClient.newCall(request).execute()) {
+            var body = response.body();
+
+            if (!response.isSuccessful() || body == null) {
+                throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+            }
+
+            String res = body.string();
+            return edcTransformer.transformCatalog(res, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public NegotiationResponse sendNegotiationRequest(Request request) throws IOException {
+        log.info("Requesting {} {}...", request.method(), request.url());
+        try (var response = httpClient.newCall(request).execute()) {
+            var body = response.body();
+
+            if (!response.isSuccessful() || body == null) {
+                throw new BadRequestException(format("Control plane responded with: %s %s", response.code(), body != null ? body.string() : ""));
+            }
+
+            String res = body.string();
+            return edcTransformer.transformJsonToNegotiationResponse(res, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 
     public Object sendRequest(Request request, Class<?> responseObject) throws IOException {
         log.info("Requesting {} {}...", request.method(), request.url());

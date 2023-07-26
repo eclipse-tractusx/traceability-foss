@@ -196,6 +196,30 @@
       @apply fill-qualityTypeOk;
     }
 
+    &-Batch {
+      @apply fill-semanticDataModelBatch
+    }
+
+    &-SerialPart {
+      @apply fill-semanticDataModelSerialPart
+    }
+
+    &-PartAsPlanned {
+      @apply fill-semanticDataModelSerialPart
+    }
+
+    &-BATCH {
+      @apply fill-semanticDataModelBatch
+    }
+
+    &-SERIALPART {
+      @apply fill-semanticDataModelSerialPart
+    }
+
+    &-PARTASPLANNED {
+      @apply fill-semanticDataModelSerialPart
+    }
+
     &-Minor {
       @apply fill-qualityTypeMinor;
     }

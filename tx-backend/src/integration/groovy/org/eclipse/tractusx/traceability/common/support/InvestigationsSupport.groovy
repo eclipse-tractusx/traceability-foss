@@ -37,7 +37,7 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
                 .status(QualityNotificationStatusBaseEntity.RECEIVED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
                 .description("some description")
-                .created(Instant.now())
+                .createdDate(Instant.now())
                 .build();
 
         return storedInvestigation(entity)
@@ -49,7 +49,7 @@ trait InvestigationsSupport implements InvestigationsRepositoryProvider {
                 .bpn("BPNL00000003AXS3")
                 .status(QualityNotificationStatusBaseEntity.ACKNOWLEDGED)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
-                .created(Instant.now())
+                .createdDate(Instant.now())
                 .build();
 
         return storedInvestigation(entity)

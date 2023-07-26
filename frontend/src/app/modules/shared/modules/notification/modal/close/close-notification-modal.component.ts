@@ -23,6 +23,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
@@ -34,6 +35,7 @@ import { Observable } from 'rxjs';
 export class CloseNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() closeCall: (id: string, reason: string) => Observable<void>;
+  @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -56,17 +58,17 @@ export class CloseNotificationModalComponent {
 
       this.closeCall(notification.id, reason).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyClosed');
+          this.toastService.success(this.translationContext + '.modal.successfullyClosed');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedClose');
+          this.toastService.error(this.translationContext + '.modal.failedClose');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.closeTitle',
+      title: this.translationContext + '.modal.closeTitle',
       buttonRight: 'actions.close',
       buttonLeft: 'actions.cancel',
 

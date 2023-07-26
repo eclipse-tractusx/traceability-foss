@@ -29,13 +29,11 @@ describe('CloseNotificationModalComponent', () => {
   it('should create close modal', async () => {
     await renderCloseModal(NotificationStatus.SENT);
     const title = await waitFor(() => screen.getByText('commonInvestigation.modal.closeTitle'));
-    const hint = await waitFor(() => screen.getByText('commonInvestigation.modal.closeDescription'));
     const hint2 = await waitFor(() => screen.getByText('commonInvestigation.modal.closeReasonHint'));
     const buttonL = await waitFor(() => screen.getByText('actions.cancel'));
     const buttonR = await waitFor(() => screen.getByText('actions.close'));
 
     expect(title).toBeInTheDocument();
-    expect(hint).toBeInTheDocument();
     expect(hint2).toBeInTheDocument();
     expect(buttonL).toBeInTheDocument();
     expect(buttonR).toBeInTheDocument();

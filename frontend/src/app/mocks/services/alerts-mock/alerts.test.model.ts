@@ -21,10 +21,9 @@
 
 import type { NotificationResponse } from '@shared/model/notification.model';
 import { NotificationStatus } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
 import { getRandomAsset } from '../parts-mock/parts.model';
 import { MOCK_part_1 } from '../parts-mock/parts.test.model';
-import { Severity } from '@shared/model/severity.model';
-import { getRandomIntFromInterval } from '../text-generator.helper';
 
 export const AlertIdPrefix = 'id-';
 
@@ -38,8 +37,8 @@ export const buildMockAlerts = (
     const severity = severities[index % severities.length];
 
     const numberToString = (i: number) => i.toString().padStart(2, '0');
-    const month = getRandomIntFromInterval(1, 12);
-    const day = getRandomIntFromInterval(1, 28);
+    const month = (index % 12) + 1;
+    const day = (index % 28) + 1;
 
     return {
       id: `${AlertIdPrefix}${index + 1}`,
@@ -57,7 +56,7 @@ export const buildMockAlerts = (
     };
   });
 
-const MockEmptyAlert: NotificationResponse = {
+export const MockEmptyAlert: NotificationResponse = {
   id: `${AlertIdPrefix}000`,
   description: `Alert No 000`,
   status: NotificationStatus.CREATED,

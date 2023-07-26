@@ -26,24 +26,25 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 class EdcContractDefinitionCriteriaTest {
 
     private static final String LEFT = "abc";
-    private static final String OP_EQUALS = "=";
+    private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "odrl:eq";
     private static final String RIGHT = "xyz";
 
     private EdcContractDefinitionCriteria edcContractDefinitionCriteria;
 
     @BeforeEach
     void setUp() {
-        edcContractDefinitionCriteria = new EdcContractDefinitionCriteria(
-                EdcContractDefinitionCriteriaTest.LEFT,
-                EdcContractDefinitionCriteriaTest.OP_EQUALS,
-                EdcContractDefinitionCriteriaTest.RIGHT
-        );
+        edcContractDefinitionCriteria = EdcContractDefinitionCriteria.builder()
+                .type("CriterionDto")
+                .operandLeft(EdcContractDefinitionCriteriaTest.LEFT)
+                .operandRight(EdcContractDefinitionCriteriaTest.RIGHT)
+                .operator(ASSET_SELECTOR_EQUALITY_OPERATOR)
+                .build();
     }
 
     @Test
@@ -53,7 +54,7 @@ class EdcContractDefinitionCriteriaTest {
 
     @Test
     void getOperator() {
-        assertEquals(EdcContractDefinitionCriteriaTest.OP_EQUALS, edcContractDefinitionCriteria.getOperator());
+        assertEquals(EdcContractDefinitionCriteriaTest.ASSET_SELECTOR_EQUALITY_OPERATOR, edcContractDefinitionCriteria.getOperator());
     }
 
     @Test

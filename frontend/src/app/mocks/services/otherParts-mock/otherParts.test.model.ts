@@ -22,10 +22,10 @@
 import { PartsResponse } from '@page/parts/model/parts.model';
 import { MOCK_part_1, MOCK_part_2, MOCK_part_3, MOCK_part_4, MOCK_part_5 } from '../parts-mock/parts.test.model';
 
-export const OTHER_PARTS_MOCK_1 = { ...MOCK_part_1, id: 'OTHER_PARTS_MOCK_1', qualityType: null };
-export const OTHER_PARTS_MOCK_2 = { ...MOCK_part_2, id: 'OTHER_PARTS_MOCK_2', qualityType: null };
-export const OTHER_PARTS_MOCK_3 = { ...MOCK_part_3, id: 'OTHER_PARTS_MOCK_3', qualityType: null };
-export const OTHER_PARTS_MOCK_4 = { ...MOCK_part_4, id: 'OTHER_PARTS_MOCK_4', qualityType: null };
+export const OTHER_PARTS_MOCK_1 = { ...MOCK_part_1, id: 'OTHER_PARTS_MOCK_1', qualityType: null};
+export const OTHER_PARTS_MOCK_2 = { ...MOCK_part_2, id: 'OTHER_PARTS_MOCK_2', qualityType: null};
+export const OTHER_PARTS_MOCK_3 = { ...MOCK_part_3, id: 'OTHER_PARTS_MOCK_3', qualityType: null};
+export const OTHER_PARTS_MOCK_4 = { ...MOCK_part_4, id: 'OTHER_PARTS_MOCK_4', qualityType: null};
 export const OTHER_PARTS_MOCK_5 = { ...MOCK_part_5, id: 'OTHER_PARTS_MOCK_5', qualityType: null };
 export const OTHER_PARTS_MOCK_6 = { ...MOCK_part_1, id: 'OTHER_PARTS_MOCK_6', qualityType: null };
 export const OTHER_PARTS_MOCK_7 = { ...MOCK_part_2, id: 'OTHER_PARTS_MOCK_7', qualityType: null };

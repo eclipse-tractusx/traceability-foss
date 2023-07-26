@@ -21,13 +21,13 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.common.security.JwtAuthenticationTokenConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -39,12 +39,21 @@ import java.util.List;
 @EnableMethodSecurity(
         securedEnabled = true
 )
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] WHITELIST_URLS = {
-            "/api/v3/api-docs/**",
-            "/api/swagger-ui/**",
-            "/api/swagger-ui.html",
+
+    private static final String[] WHITELIST_PATHS = {
+            "/swagger-ui.html",
+            "/v3/api-docs/**",
+            "/swagger-ui/**",
+            "/webjars/swagger-ui/**",
+            "/qualitynotifications/receive",
+            "/qualityalerts/receive",
+            "/qualitynotifications/update",
+            "/qualityalerts/update",
+            "/callback/endpoint-data-reference",
+            "/internal/endpoint-data-reference",
             "/actuator/**"
     };
 
@@ -52,36 +61,33 @@ public class SecurityConfig {
     private String resourceClient;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
-        http
-                .httpBasic().disable()
-                .formLogin().disable()
-                .logout().disable()
-                .csrf().disable()
-                .cors()
-                .and()
-                .anonymous().disable()
-                .authorizeRequests()
-                .requestMatchers("/api/callback/endpoint-data-reference").permitAll()
-                .requestMatchers("/api/qualitynotifications/receive").permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .and()
-                .oauth2Client()
-                .and()
-                .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(new JwtAuthenticationTokenConverter(resourceClient));
+    SecurityFilterChain securityFilterChain(final HttpSecurity httpSecurity) throws Exception {
 
-        return http.build();
+        httpSecurity.httpBasic().disable();
+        httpSecurity.formLogin().disable();
+        httpSecurity.logout().disable();
+        httpSecurity.anonymous().disable();
+        httpSecurity.csrf().disable();
+        httpSecurity.cors();
+
+
+        httpSecurity.authorizeHttpRequests(auth -> auth
+                .requestMatchers(WHITELIST_PATHS)
+                .permitAll()
+                .anyRequest()
+                .authenticated());
+
+        httpSecurity.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt()
+                        .jwtAuthenticationConverter(
+                                new JwtAuthenticationTokenConverter(resourceClient)))
+                .oauth2Client();
+
+        return httpSecurity.build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers(WHITELIST_URLS);
-    }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource(@Value("${cors.origins}") List<String> origins) {
+    CorsConfigurationSource corsConfigurationSource(@Value("${cors.origins}") List<String> origins) {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(origins);
         configuration.setAllowedMethods(List.of("*"));

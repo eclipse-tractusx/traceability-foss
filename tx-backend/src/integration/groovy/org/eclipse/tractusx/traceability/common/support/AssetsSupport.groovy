@@ -21,48 +21,28 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.model.AssetsConverter
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 import java.time.Instant
 
 trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepositoryProvider {
-    private static final Logger logger = LoggerFactory.getLogger(AssetsSupport.class);
+
+    String emptyText() {
+        return "--"
+    }
 
     void defaultAssetsStored() {
-        assetRepository().saveAll(assetsConverter().readAndConvertAssets())
+        assetAsBuiltRepository().saveAll(assetsConverter().readAndConvertAssetsForTests())
     }
 
     void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
-        List<AssetEntity> assetEntities = assetsConverter().readAndConvertAssets().collect { asset ->
-            new AssetEntity(
-                    asset.getId(), asset.getIdShort(),
-                    asset.getNameAtManufacturer(),
-                    asset.getManufacturerPartId(),
-                    asset.getPartInstanceId(),
-                    asset.getManufacturerId(),
-                    asset.getBatchId(),
-                    asset.getManufacturerName(),
-                    asset.getNameAtCustomer(),
-                    asset.getCustomerPartId(),
-                    asset.getManufacturingDate(),
-                    asset.getManufacturingCountry(),
-                    asset.getOwner(),
-                    asset.getChildDescriptions().stream()
-                            .map(child -> new AssetEntity.ChildDescription(child.id(), child.idShort()))
-                            .toList(),
-                    asset.getParentDescriptions().stream()
-                            .map(parent -> new AssetEntity.ParentDescription(parent.id(), parent.idShort()))
-                            .toList(),
-                    asset.getQualityType(),
-                    asset.getVan(),
-                    inInvestigation
-            )
+        List<AssetAsBuiltEntity> assetEntities = assetsConverter().readAndConvertAssetsForTests().collect { asset ->
+            def assetEntity = AssetAsBuiltEntity.from(asset)
+            assetEntity.setInInvestigation(inInvestigation);
+            return assetEntity;
         }
 
         assetEntities.collect { it ->
@@ -72,29 +52,32 @@ trait AssetsSupport implements AssetRepositoryProvider, InvestigationsRepository
                     .status(investigationStatus)
                     .side(QualityNotificationSideBaseEntity.SENDER)
                     .description("some long description")
-                    .created(Instant.now())
+                    .createdDate(Instant.now())
                     .build();
         }.each { jpaInvestigationRepository().save(it) }
     }
 
-    void assertAssetsSize(int size) {
-        logger.info("Assetsize: " + assetRepository().countAssets());
-        assert assetRepository().countAssets() == size
+    void assertAssetAsBuiltSize(int size) {
+        assert assetAsBuiltRepository().countAssets() == size
+    }
+
+    void assertAssetAsPlannedSize(int size) {
+        assert assetAsPlannedRepository().countAssets() == size
     }
 
     void assertHasRequiredIdentifiers() {
-        assetRepository().getAssets().each { asset ->
-            assert asset.manufacturerId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
-            assert asset.partInstanceId != AssetsConverter.EMPTY_TEXT || asset.batchId != AssetsConverter.EMPTY_TEXT
+        assetAsBuiltRepository().getAssets().each { asset ->
+            assert asset.manufacturerId != "--"
+            assert asset.semanticModelId != "--"
             assert asset.idShort != null
         }
     }
 
     void assertHasChildCount(String assetId, int count) {
-        assetRepository().getAssetById(assetId).childDescriptions.size() == count
+        assetAsBuiltRepository().getAssetById(assetId).childRelations.size() == count
     }
 
     void assertNoAssetsStored() {
-        assertAssetsSize(0)
+        assertAssetAsBuiltSize(0)
     }
 }

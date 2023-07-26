@@ -22,6 +22,7 @@
 import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '@angular/core';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
@@ -33,6 +34,7 @@ import { Observable } from 'rxjs';
 export class ApproveNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() approveCall: (id: string) => Observable<void>;
+  @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -41,23 +43,22 @@ export class ApproveNotificationModalComponent {
 
   public show(notification: Notification): void {
     this.notification = notification;
-
     const onConfirm = (isConfirmed: boolean) => {
       if (!isConfirmed) return;
 
       this.approveCall(notification.id).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyApproved');
+          this.toastService.success(this.translationContext + '.modal.successfullyApproved');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedApprove');
+          this.toastService.error(this.translationContext + '.modal.failedApprove');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.approvalTitle',
+      title: this.translationContext + '.modal.approvalTitle',
       buttonRight: 'actions.confirm',
       buttonLeft: 'actions.cancel',
 

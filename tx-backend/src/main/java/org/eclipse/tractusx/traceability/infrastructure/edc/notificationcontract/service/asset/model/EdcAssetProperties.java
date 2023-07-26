@@ -22,42 +22,10 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class EdcAssetProperties {
-
-	@JsonProperty("asset:prop:id")
-	private final String assetId;
-
-	@JsonProperty("asset:prop:name")
-	private final String assetName;
-
-	@JsonProperty("asset:prop:contenttype")
-	private final String contentType;
-
-	@JsonProperty("asset:prop:policy-id")
-	private final String policyId;
-
-	@JsonProperty("asset:prop:type")
-	private final String type;
-
-	@JsonProperty("asset:prop:notificationtype")
-	private final String notiifcationType;
-
-	@JsonProperty("asset:prop:notificationmethod")
-	private final String notificationMethod;
-
-	public EdcAssetProperties(String assetId,
-							  String assetName,
-							  String contentType,
-							  String policyId,
-							  String type,
-							  String notiifcationType,
-							  String notificationMethod) {
-		this.assetId = assetId;
-		this.assetName = assetName;
-		this.contentType = contentType;
-		this.policyId = policyId;
-		this.type = type;
-		this.notiifcationType = notiifcationType;
-		this.notificationMethod = notificationMethod;
-	}
+public record EdcAssetProperties(@JsonProperty("description") String assetName,
+                                 @JsonProperty("contenttype") String contentType,
+                                 @JsonProperty("policy-id") String policyId,
+                                 @JsonProperty("type") String type,
+                                 @JsonProperty("notificationtype") String notificationType,
+                                 @JsonProperty("notificationmethod") String notificationMethod) {
 }

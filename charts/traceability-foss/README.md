@@ -3,14 +3,14 @@
 This Helm chart provides a way to deploy the Umbrella component of Eclipse-TractusX-Traceability-FOSS on Kubernetes.
 The chart includes the necessary configuration files, resources, and dependencies to deploy the Umbrella component in an kubernetes environment.
 
-## Requirements
+## Prerequisites
 
 To use this Helm chart, you must have the following:
 
 - Kubernetes cluster version 1.16+
 - Helm version 3+
 
-## Installation
+## TL;DR
 
 To install the Helm chart, use the following command:
 `helm install traceability-foss .`
@@ -32,4 +32,4 @@ You can customize the configuration options by creating a `values.yaml` file and
 
 ## License
 This project is licensed under the Apache License, Version 2.0. See the `LICENSE` file for more information.
- 
+

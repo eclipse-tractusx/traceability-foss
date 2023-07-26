@@ -30,16 +30,38 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class EdcRestTemplateConfiguration {
 
-	public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
+    public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
+    public static final String REST_TEMPLATE = "restTemplate";
 
-	private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
+    private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
 
-	@Bean
-	@Qualifier(EDC_REST_TEMPLATE)
+    @Bean
+    @Qualifier(EDC_REST_TEMPLATE)
 	public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
 		return new RestTemplateBuilder()
 			.rootUri(edcProperties.getProviderEdcUrl())
-			.defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
-			.build();
-	}
+                .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
+                .build();
+    }
+
+    @Bean
+    @Qualifier(REST_TEMPLATE)
+    public RestTemplate edcTemplate() {
+        return new RestTemplateBuilder()
+                .build();
+    }
+
+    @Bean
+    public RestTemplate digitalTwinRegistryRestTemplate() {
+        return new RestTemplateBuilder()
+                .build();
+    }
+
+    @Bean
+    public RestTemplate edcClientRestTemplate() {
+        return new RestTemplateBuilder()
+                .build();
+    }
+
+
 }

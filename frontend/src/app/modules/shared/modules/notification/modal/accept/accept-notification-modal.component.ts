@@ -23,6 +23,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
@@ -34,6 +35,7 @@ import { Observable } from 'rxjs';
 export class AcceptNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() acceptCall: (id: string, reason: string) => Observable<void>;
+  @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -46,7 +48,9 @@ export class AcceptNotificationModalComponent {
 
   public show(notification: Notification): void {
     this.notification = notification;
-    this.textAreaControl.setValidators([Validators.required, Validators.maxLength(1000), Validators.minLength(15)]);
+
+
+    this.textAreaControl.setValidators([ Validators.required, Validators.maxLength(1000), Validators.minLength(15) ]);
 
     const onConfirm = (isConfirmed: boolean) => {
       const reason = this.formGroup.get('reason').value;
@@ -56,17 +60,17 @@ export class AcceptNotificationModalComponent {
 
       this.acceptCall(notification.id, reason).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyAccepted');
+          this.toastService.success(this.translationContext + '.modal.successfullyAccepted');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedAccept');
+          this.toastService.error(this.translationContext + '.modal.failedAccept');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.acceptTitle',
+      title: this.translationContext + '.modal.acceptTitle',
       buttonRight: 'actions.accept',
       buttonLeft: 'actions.cancel',
 

@@ -32,7 +32,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.infrastructure.adapters.jpa.asset.AssetEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
@@ -55,11 +56,19 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "assets_investigations",
+            name = "assets_as_built_investigations",
             joinColumns = @JoinColumn(name = "investigation_id"),
             inverseJoinColumns = @JoinColumn(name = "asset_id")
     )
-    private List<AssetEntity> assets;
+    private List<AssetAsBuiltEntity> assets;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "assets_as_planned_investigations",
+            joinColumns = @JoinColumn(name = "investigation_id"),
+            inverseJoinColumns = @JoinColumn(name = "asset_id")
+    )
+    private List<AssetAsPlannedEntity> assetsAsPlanned;
 
     @OneToMany(mappedBy = "investigation")
     private List<InvestigationNotificationEntity> notifications;
@@ -70,32 +79,34 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .toList();
 
         List<String> assetIds = investigationNotificationEntity.getAssets().stream()
-                .map(AssetEntity::getId)
+                .map(AssetAsBuiltEntity::getId)
                 .toList();
 
         return QualityNotification.builder()
-                .investigationId(new QualityNotificationId(investigationNotificationEntity.getId()))
+                .notificationId(new QualityNotificationId(investigationNotificationEntity.getId()))
                 .bpn(BPN.of(investigationNotificationEntity.getBpn()))
-                .investigationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
-                .investigationSide(QualityNotificationSide.valueOf(investigationNotificationEntity.getSide().name()))
+                .notificationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
+                .notificationSide(QualityNotificationSide.valueOf(investigationNotificationEntity.getSide().name()))
                 .closeReason(investigationNotificationEntity.getCloseReason())
                 .acceptReason(investigationNotificationEntity.getAcceptReason())
                 .declineReason(investigationNotificationEntity.getDeclineReason())
-                .createdAt(investigationNotificationEntity.getCreated())
+                .createdAt(investigationNotificationEntity.getCreatedDate())
                 .description(investigationNotificationEntity.getDescription())
                 .assetIds(assetIds)
                 .notifications(notifications)
                 .build();
     }
 
-    public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetEntity> assetEntities) {
+    public static InvestigationEntity from(QualityNotification qualityNotification, List<AssetAsBuiltEntity> assetEntities) {
         return InvestigationEntity.builder()
                 .assets(assetEntities)
+                // TODO clarify how to handle assetsAsPlanned
+                .assetsAsPlanned(null)
                 .bpn(qualityNotification.getBpn())
                 .description(qualityNotification.getDescription())
-                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getInvestigationStatus().name()))
-                .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getInvestigationSide().name()))
-                .created(qualityNotification.getCreatedAt())
+                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
+                .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getNotificationSide().name()))
+                .createdDate(qualityNotification.getCreatedAt())
                 .build();
     }
 

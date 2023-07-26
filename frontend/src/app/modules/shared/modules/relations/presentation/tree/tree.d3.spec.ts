@@ -136,7 +136,7 @@ describe('D3 Tree', () => {
     ).toBeInTheDocument();
     expect(
       nodesRightList.item(0).getElementsByTagName('a').item(0).getElementsByTagName('title').item(0).innerHTML,
-    ).toBe('Audi A1 Sportback | 5XXGM4A77CG032209');
+    ).toBe('Audi A1 Sportback | mysemanticModelId1');
     expect(
       nodesRightList.item(0).getElementsByTagName('a').item(0).getElementsByTagName('text').item(0),
     ).toBeInTheDocument();
@@ -179,7 +179,7 @@ describe('D3 Tree', () => {
     ).toBeInTheDocument();
     expect(
       nodesLeftList.item(0).getElementsByTagName('a').item(0).getElementsByTagName('title').item(0).innerHTML,
-    ).toBe('Audi A1 Sportback | 5XXGM4A77CG032209');
+    ).toBe('Audi A1 Sportback | mysemanticModelId1');
     expect(
       nodesLeftList.item(0).getElementsByTagName('a').item(0).getElementsByTagName('text').item(0),
     ).toBeInTheDocument();

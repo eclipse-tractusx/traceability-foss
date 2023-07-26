@@ -9,19 +9,42 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../tx-parent-spring-boot/pom.xml</relativePath>
     </parent>
-
+    <properties>
+        <sonar.skip>false</sonar.skip>
+        <skipTests>false</skipTests>
+        <skipUTs>${skipTests}</skipUTs>
+    </properties>
     <artifactId>tx-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>TX Backend</name>
 
+    <repositories>
+        <repository>
+            <id>oss-sonatype</id>
+            <name>oss-sonatype</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
     <dependencies>
+        <!-- IRS Client for decentral registry approach -->
+        <dependency>
+            <groupId>org.eclipse.tractusx.irs</groupId>
+            <artifactId>irs-registry-client</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
         <!-- tx-application modules -->
-        <!--    <dependency>
-                <groupId>org.eclipse.tractusx.traceability</groupId>
-                <artifactId>tx-models</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
-            </dependency>-->
+        <dependency>
+            <groupId>org.eclipse.tractusx.traceability</groupId>
+            <artifactId>tx-models</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- managed by spring boot -->
         <dependency>
@@ -36,48 +59,72 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-
-        <!-- Fix https://avd.aquasec.com/nvd/2023/cve-2023-20863/ - can be removed once spring boot parent is updated -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>6.0.8</version>
-        </dependency>
         <!--Fix CVE-2023-24998 - can be removed once org.springframework.cloud:spring-cloud-openfeign-core:jar:4.0.1 is updated-->
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>1.5</version>
         </dependency>
+
+        <!-- EDC Client -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>connector-core</artifactId>
+            <version>${edc-library.version}</version>
             <exclusions>
                 <exclusion>
-                    <groupId>org.yaml</groupId>
-                    <artifactId>snakeyaml</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-expression</artifactId>
+                    <artifactId>runtime-metamodel</artifactId>
+                    <groupId>org.eclipse.edc</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- Update snakeyaml manually to avoid vulnerability CVE-2020-13936; can be removed after Spring updates their dependency -->
+        <dependency>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>dsp</artifactId>
+            <version>${edc-library.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>runtime-metamodel</artifactId>
+                    <groupId>org.eclipse.edc</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.edc</groupId>
+            <artifactId>json-ld</artifactId>
+            <version>${edc-library.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>runtime-metamodel</artifactId>
+                    <groupId>org.eclipse.edc</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <artifactId>runtime-metamodel</artifactId>
+            <groupId>org.eclipse.edc</groupId>
+            <version>${edc-library.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
         </dependency>
         <!-- Update spring-expression manually to avoid vulnerability CVE-2023-20861; can be removed after Spring updates their dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
-            <version>6.0.7</version>
+            <version>${spring-core.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+        <!-- Fixes CVE-2023-34035  -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>6.0.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -125,11 +172,6 @@
         </dependency>
 
         <!-- 3rd party dependecies - NOT managed by spring boot -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
-        </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
@@ -238,6 +280,11 @@
             <version>${apache-groovy.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+
         <!-- test dependencies spring boot managed -->
         <dependency>
             <groupId>org.mockito</groupId>
@@ -274,11 +321,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -334,12 +376,6 @@
             <version>${testcontainer-spock.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>${rest-assured.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <pluginRepositories>
@@ -358,11 +394,35 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <goals>
                             <goal>resources</goal>
                         </goals>
+                    </execution>
+                    <execution>
+                        <id>copy-meta-inf</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                target/classes/META-INF
+                            </outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>
+                                        ../
+                                    </directory>
+                                    <includes>
+                                        <include>LICENSE</include>
+                                        <include>NOTICE.md</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
                     </execution>
                 </executions>
                 <configuration>
@@ -405,13 +465,7 @@
                 <configuration>
                     <testSources>
                         <testSource>
-                            <directory>src/test/java</directory>
-                            <includes>
-                                <include>**/*.java</include>
-                            </includes>
-                        </testSource>
-                        <testSource>
-                            <directory>src/integration</directory>
+                            <directory>tx-backend/src/integration</directory>
                             <includes>
                                 <include>**/*.groovy</include>
                             </includes>
@@ -428,79 +482,6 @@
                 </executions>
             </plugin>
 
-            <!-- Test Coverage via Jacoco-->
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>prepare-agent</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <phase>process-test-classes</phase>
-                    </execution>
-                    <execution>
-                        <id>jacoco-unit-tests</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-unittest</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>jacoco-integration-tests</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>report-integration</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>${project.build.directory}/jacoco.exec</dataFile>
-                            <outputDirectory>${project.reporting.outputDirectory}/jacoco-integration</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Surefire Report Plugins -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${surefire-plugin.version}</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Spec.java</include>
-                        <include>**/Test*.java</include>
-                        <include>**/*Test.java</include>
-                        <include>**/*Tests.java</include>
-                        <include>**/*TestCase.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-report-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>surefire_report</id>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                    <execution>
-                        <id>failsafe_report</id>
-                        <goals>
-                            <goal>failsafe-report-only</goal>
-                        </goals>
-                        <phase>post-integration-test</phase>
-                    </execution>
-                </executions>
-            </plugin>
 
             <!-- Maven Plugins -->
             <plugin>
@@ -518,20 +499,15 @@
                 <artifactId>maven-install-plugin</artifactId>
                 <version>${install-plugin.version}</version>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>4.0.0-M5</version>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.4.1</version>
+                <version>${maven-project-info-reports-plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${compiler-plugin.version}</version>
             </plugin>
 
             <!-- Spring Boot Plugin-->
@@ -539,38 +515,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot-maven-plugin.version}</version>
-            </plugin>
-            <!-- Sonar Scanner-->
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.9.1.2184</version>
-            </plugin>
-
-            <!-- Jib Plugin-->
-            <plugin>
-                <groupId>com.google.cloud.tools</groupId>
-                <artifactId>jib-maven-plugin</artifactId>
-                <version>3.3.1</version>
-                <configuration>
-                    <from>
-                        <image>
-                            eclipse-temurin:17-jre-alpine@sha256:c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f
-                        </image>
-                    </from>
-                    <container>
-                        <user>10000:1000</user>
-                    </container>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>build-image</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>dockerBuild</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>
@@ -588,40 +532,7 @@
 
     <!-- Maven Profiles -->
     <profiles>
-        <profile>
-            <id>spotbugs-check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.spotbugs</groupId>
-                        <artifactId>spotbugs-maven-plugin</artifactId>
-                        <version>${spotbugs-plugin.version}</version>
-                        <configuration>
-                            <effort>Max</effort>
-                            <threshold>Low</threshold>
-                            <xmlOutput>true</xmlOutput>
-                            <failThreshold>High</failThreshold>
-                            <excludeFilterFile>ci/spotbugs-excludes.xml</excludeFilterFile>
-                            <plugins>
-                                <plugin>
-                                    <groupId>com.h3xstream.findsecbugs</groupId>
-                                    <artifactId>findsecbugs-plugin</artifactId>
-                                    <version>${findsecbugs-plugin.version}</version>
-                                </plugin>
-                            </plugins>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>validate</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
         <profile>
             <id>license-check</id>
             <build>
@@ -629,7 +540,7 @@
                     <plugin>
                         <groupId>org.eclipse.dash</groupId>
                         <artifactId>license-tool-plugin</artifactId>
-                        <version>${eclipse-license-tool.version}</version>
+                        <version>${eclipse-dash-ip.version}</version>
                         <executions>
                             <execution>
                                 <id>check-license</id>
@@ -730,125 +641,7 @@
                 </plugins>
             </build>
         </profile>
-        <!--
-            Profile dependency-check, used to scan software to identify the use of known vulnerable components.
-            See: https://jeremylong.github.io/DependencyCheck/index.html
-            ATTENTION! IT TAKES A LONGER TIME TO RUN
-            Command: mvn clean package site -Pdependency-check
-        -->
-        <profile>
-            <id>dependency-check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.owasp</groupId>
-                        <artifactId>dependency-check-maven</artifactId>
-                        <version>${owasp-plugin.version}</version>
-                        <configuration>
-                            <suppressionFile>config/dependency_check/suppressions.xml</suppressionFile>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>site</phase>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <!--
-            Profile iT, used for starting the integration tests
-            Command: mvn clean verify -PiT
-        -->
-        <profile>
-            <id>iT</id>
-            <properties>
-                <skip.integration.tests>false</skip.integration.tests>
-                <skip.unit.tests>false</skip.unit.tests>
-            </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/integration/resources</directory>
-                        <targetPath>${project.build.outputDirectory}</targetPath>
-                    </resource>
-                </resources>
-                <testResources>
-                    <testResource>
-                        <directory>src/integration/resources</directory>
-                    </testResource>
-                </testResources>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.gmavenplus</groupId>
-                        <artifactId>gmavenplus-plugin</artifactId>
-                        <version>${gmavenplus-plugin.version}</version> <!-- 2.1.0 -->
-                        <configuration>
-                            <verbose>false</verbose>
-                            <debug>false</debug>
-                            <testSources>
-                                <testSource>
-                                    <directory>src/integration</directory>
-                                    <includes>
-                                        <include>**/*.groovy</include>
-                                    </includes>
-                                </testSource>
-                            </testSources>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>addTestSources</goal>
-                                    <goal>compileTests</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>**/*Spec.java</include>
-                                <include>**/Test*.java</include>
-                                <include>**/*Test.java</include>
-                                <include>**/*Tests.java</include>
-                                <include>**/*TestCase.java</include>
-                            </includes>
-                        </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-report-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>failsafe_report</id>
-                                <goals>
-                                    <goal>failsafe-report-only</goal>
-                                </goals>
-                                <phase>post-integration-test</phase>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-failsafe-plugin</artifactId>
-                        <version>3.0.0-M8</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                    <goal>verify</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
+
     </profiles>
 
 </project>

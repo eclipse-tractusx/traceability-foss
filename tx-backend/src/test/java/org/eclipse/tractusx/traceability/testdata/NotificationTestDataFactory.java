@@ -19,10 +19,7 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.*;
 
 import java.time.Instant;
 import java.util.List;
@@ -42,13 +39,37 @@ public class NotificationTestDataFactory {
                 .edcUrl("senderAddress")
                 .contractAgreementId("agreement")
                 .description("123")
-                .investigationStatus(QualityNotificationStatus.ACKNOWLEDGED)
+                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
                 .affectedParts(affectedParts)
                 .severity(QualityNotificationSeverity.MINOR)
                 .edcNotificationId("123")
                 .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
                 .messageId("messageId")
                 .isInitial(true)
+                .build();
+    }
+
+    public static QualityNotificationMessage createNotificationTestData(QualityNotificationType qualityNotificationType) {
+        List<QualityNotificationAffectedPart> affectedParts = List.of(new QualityNotificationAffectedPart("partId"));
+
+        return QualityNotificationMessage.builder()
+                .id("123")
+                .notificationReferenceId("id123")
+                .senderBpnNumber("senderBPN")
+                .senderManufacturerName("senderManufacturerName")
+                .receiverBpnNumber("recipientBPN")
+                .receiverManufacturerName("receiverManufacturerName")
+                .edcUrl("senderAddress")
+                .contractAgreementId("agreement")
+                .description("123")
+                .notificationStatus(QualityNotificationStatus.ACKNOWLEDGED)
+                .affectedParts(affectedParts)
+                .severity(QualityNotificationSeverity.MINOR)
+                .edcNotificationId("123")
+                .targetDate(Instant.parse("2022-03-01T12:00:00Z"))
+                .messageId("messageId")
+                .isInitial(true)
+                .type(qualityNotificationType)
                 .build();
     }
 }

@@ -23,6 +23,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
@@ -34,6 +35,7 @@ import { Observable } from 'rxjs';
 export class CancelNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() cancelCall: (id: string) => Observable<void>;
+  @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -44,7 +46,7 @@ export class CancelNotificationModalComponent {
     this.formGroup = new UntypedFormGroup({ notificationId: this.textAreaControl });
   }
 
-  public show(notification: any): void {
+  public show(notification: Notification): void {
     this.notification = notification;
     this.textAreaControl.setValidators([Validators.required, Validators.pattern(this.notification.id.toString())]);
     const onConfirm = (isConfirmed: boolean) => {
@@ -53,17 +55,17 @@ export class CancelNotificationModalComponent {
 
       this.cancelCall(notification.id).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyCanceled');
+          this.toastService.success(this.translationContext + '.modal.successfullyCanceled');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedCancel');
+          this.toastService.error(this.translationContext + '.modal.failedCancel');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.cancellationTitle',
+      title: this.translationContext + '.modal.cancellationTitle',
       buttonRight: 'actions.cancellationConfirm',
       buttonLeft: 'actions.cancel',
       primaryButtonColour: 'warn',

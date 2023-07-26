@@ -23,6 +23,7 @@ import { Component, EventEmitter, Input, Output, TemplateRef, ViewChild } from '
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
+import { TranslationContext } from '@shared/model/translation-context.model';
 import { ModalData } from '@shared/modules/modal/core/modal.model';
 import { ModalService } from '@shared/modules/modal/core/modal.service';
 import { Observable } from 'rxjs';
@@ -34,6 +35,7 @@ import { Observable } from 'rxjs';
 export class DeclineNotificationModalComponent {
   @ViewChild('Modal') modal: TemplateRef<unknown>;
   @Input() declineCall: (id: string, reason: string) => Observable<void>;
+  @Input() translationContext: TranslationContext;
   @Output() confirmActionCompleted = new EventEmitter<void>();
 
   public notification: Notification;
@@ -56,17 +58,17 @@ export class DeclineNotificationModalComponent {
 
       this.declineCall(notification.id, reason).subscribe({
         next: () => {
-          this.toastService.success('commonInvestigation.modal.successfullyDeclined');
+          this.toastService.success(this.translationContext + '.modal.successfullyDeclined');
           this.confirmActionCompleted.emit();
         },
         error: () => {
-          this.toastService.error('commonInvestigation.modal.failedDecline');
+          this.toastService.error(this.translationContext + '.modal.failedDecline');
         },
       });
     };
 
     const options: ModalData = {
-      title: 'commonInvestigation.modal.declineTitle',
+      title: this.translationContext + '.modal.declineTitle',
       buttonRight: 'actions.decline',
       buttonLeft: 'actions.cancel',
 

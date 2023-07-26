@@ -54,7 +54,7 @@ resilience4j:
   retry:
     instances:
       irs-get:
-        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastructure.adapters.feign.irs.JobRunning'
+        resultPredicate: 'org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.JobRunning'
         maxAttempts: 10
         waitDuration: 10s
         enableExponentialBackoff: true
@@ -67,3 +67,19 @@ logging:
     org.springframework.web.client.RestTemplate: INFO
     org.springframework.security: INFO
     org.springframework: INFO
+
+digitalTwinRegistryClient:
+  discoveryFinderUrl: ""
+
+  descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}
+  shellLookupEndpoint: "" # required if type is "central", must contain the placeholder {assetIds}
+feign:
+  irsApi:
+    url: ""
+  registryApi:
+    url: ""
+  portalApi:
+    url: ""
+cors:
+  origins: >
+    "https://localhost:4200"
