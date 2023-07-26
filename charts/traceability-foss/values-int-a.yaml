@@ -122,7 +122,7 @@ backend:
     clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
     clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     jwkSetUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
-    resourceClient: "Cl17-CX-Part"
+    resourceClient: "app266"
 
   edc:
     apiKey: "<path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>"
