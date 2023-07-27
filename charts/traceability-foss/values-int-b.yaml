@@ -144,7 +144,7 @@ backend:
 
   config:
     allowedCorsOriginFirst: "http://localhost:4200/"
-    allowedCorsOriginSecond: "https://traceability-portal-int-b.dev.demo.catena-x.net/"
+    allowedCorsOriginSecond: "https://traceability-portal-int-b.int.demo.catena-x.net/"
 #########################
 # PG Admin configuration     #
 #########################
