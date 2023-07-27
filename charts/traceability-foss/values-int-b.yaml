@@ -258,7 +258,7 @@ irs-helm:
         statesuffix: /state
         data: https://tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net/management
       apikey:
-        secret: <path:traceability-foss/data/dev/edc/controlplane#edc.api.control.auth.apikey.value>
+        secret: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
     nameOverride: "tx-irs-minio-int-b"
