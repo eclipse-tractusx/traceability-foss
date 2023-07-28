@@ -123,7 +123,7 @@ backend:
 
   traceability:
     bpn: "BPNL00000003CML1"
-    url: "https://traceability-int-a.int.demo.catena-x.net"
+    url: "https://tx-edc-consumer-int-a-controlplane.int.demo.catena-x.net"
 
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql-int-a:5432/trace
