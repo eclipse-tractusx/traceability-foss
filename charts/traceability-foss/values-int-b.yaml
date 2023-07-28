@@ -127,7 +127,7 @@ backend:
 
   edc:
     apiKey: "<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>"
-    providerUrl: "https://tracex-consumer-controlplane-int-b.int.demo.catena-x.net"
+    providerUrl: "https://tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net"
     callbackUrl: "http://tx-irs-int-b:8181/internal/endpoint-data-reference"
     callbackUrlEdcClient: "https://traceability-int-b.int.demo.catena-x.net/api/internal/endpoint-data-reference"
     dataEndpointUrl: "https://tx-edc-consumer-int-b-controlplane.int.demo.catena-x.net/management"
