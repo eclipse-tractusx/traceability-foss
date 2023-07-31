@@ -2,6 +2,8 @@ tractusx-connector:
   enabled: true
   nameOverride: "tx-edc-provider-int-a"
   fullnameOverride: "tx-edc-provider-int-a"
+  participant:
+    id: BPNL00000003CML1
   controlplane:
     ingresses:
       - enabled: true

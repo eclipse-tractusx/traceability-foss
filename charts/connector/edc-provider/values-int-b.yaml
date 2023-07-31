@@ -1,5 +1,7 @@
 tractusx-connector:
   enabled: true
+  participant:
+    id: BPNL00000003CNKC
   controlplane:
     ingresses:
       - enabled: true

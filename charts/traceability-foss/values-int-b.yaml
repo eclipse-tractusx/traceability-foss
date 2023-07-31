@@ -204,7 +204,7 @@ postgresql:
 #########################
 irs-helm:
   enabled: true
-  bpn: BPNL00000003CML1
+  bpn: BPNL00000003CNKC
 
   nameOverride: "tx-irs-int-b"
   fullnameOverride: "tx-irs-int-b"
@@ -280,7 +280,7 @@ tractusx-connector:
     postgresql: false
     vault: false
   participant:
-    id: BPNL00000003CML1
+    id: BPNL00000003CNKC
 
   controlplane:
     ingresses:
