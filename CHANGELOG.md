@@ -7,7 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 
+- OAuth2 client credentials rest template interceptor
+
 ### Changed
+
+- Changed digitalTwinRegistryRestTemplate to use token in requests
 
 ### Removed
 
