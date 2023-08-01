@@ -86,8 +86,8 @@ public class EdcRestTemplateConfiguration {
         oAuthRestTemplate(restTemplateBuilder,
                 clientRegistrationId).build();
         log.info("initializing DTRT with clientRegistration {}", clientRegistrationId);
-        return new RestTemplateBuilder()
-                .build();
+        return oAuthRestTemplate(restTemplateBuilder,
+                clientRegistrationId).build();
     }
 
     @Bean
