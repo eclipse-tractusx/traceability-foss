@@ -20,20 +20,47 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
+import java.time.Duration;
+
+import static java.util.Objects.isNull;
+
 @Configuration
+@RequiredArgsConstructor
 public class EdcRestTemplateConfiguration {
 
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
     public static final String REST_TEMPLATE = "restTemplate";
 
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
+
+    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+    private final ClientRegistrationRepository clientRegistrationRepository;
 
     @Bean
     @Qualifier(EDC_REST_TEMPLATE)
@@ -52,7 +79,12 @@ public class EdcRestTemplateConfiguration {
     }
 
     @Bean
-    public RestTemplate digitalTwinRegistryRestTemplate() {
+    public RestTemplate digitalTwinRegistryRestTemplate(
+            final RestTemplateBuilder restTemplateBuilder,
+            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId
+    ) {
+        oAuthRestTemplate(restTemplateBuilder,
+                clientRegistrationId).build();
         return new RestTemplateBuilder()
                 .build();
     }
@@ -63,5 +95,60 @@ public class EdcRestTemplateConfiguration {
                 .build();
     }
 
+    private RestTemplateBuilder oAuthRestTemplate(final RestTemplateBuilder restTemplateBuilder,
+                                                  final String clientRegistrationId) {
+        final var clientRegistration = clientRegistrationRepository.findByRegistrationId(clientRegistrationId);
+
+        return restTemplateBuilder.additionalInterceptors(
+                        new OAuthClientCredentialsRestTemplateInterceptor(authorizedClientManager(), clientRegistration));
+    }
+
+    @Bean
+        /* package */ OAuth2AuthorizedClientManager authorizedClientManager() {
+        final var authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
+                .clientCredentials()
+                .build();
+
+        final var authorizedClientManager = new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                clientRegistrationRepository, oAuth2AuthorizedClientService);
+        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+
+        return authorizedClientManager;
+    }
+
+    /**
+     * Interceptor to add Authorization header to every call done via Rest template
+     */
+    @RequiredArgsConstructor
+    @Slf4j
+    /* package */ static class OAuthClientCredentialsRestTemplateInterceptor implements ClientHttpRequestInterceptor {
+
+        private final OAuth2AuthorizedClientManager manager;
+        private final ClientRegistration clientRegistration;
+
+        @Override
+        public ClientHttpResponse intercept(final HttpRequest request, final byte[] body,
+                                            final ClientHttpRequestExecution execution) throws IOException {
+            final OAuth2AuthorizeRequest oAuth2AuthorizeRequest = OAuth2AuthorizeRequest.withClientRegistrationId(
+                    clientRegistration.getRegistrationId()).principal(clientRegistration.getClientName()).build();
+
+            final OAuth2AuthorizedClient client = manager.authorize(oAuth2AuthorizeRequest);
+
+            if (isNull(client)) {
+                throw new IllegalStateException("Client credentials flow on " + clientRegistration.getRegistrationId()
+                        + " failed, client is null");
+            }
+
+            log.debug("Adding Authorization header to the request");
+
+            request.getHeaders().add(HttpHeaders.AUTHORIZATION, buildAuthorizationHeaderValue(client.getAccessToken()));
+            return execution.execute(request, body);
+        }
+
+        @NotNull
+        private String buildAuthorizationHeaderValue(final OAuth2AccessToken accessToken) {
+            return accessToken.getTokenType().getValue() + " " + accessToken.getTokenValue();
+        }
+    }
 
 }
