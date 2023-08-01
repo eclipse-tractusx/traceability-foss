@@ -52,6 +52,7 @@ import static java.util.Objects.isNull;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class EdcRestTemplateConfiguration {
 
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
@@ -81,10 +82,10 @@ public class EdcRestTemplateConfiguration {
     @Bean
     public RestTemplate digitalTwinRegistryRestTemplate(
             final RestTemplateBuilder restTemplateBuilder,
-            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId
-    ) {
+            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
         oAuthRestTemplate(restTemplateBuilder,
                 clientRegistrationId).build();
+        log.info("initializing DTRT with clientRegistration {}", clientRegistrationId);
         return new RestTemplateBuilder()
                 .build();
     }
@@ -139,9 +140,10 @@ public class EdcRestTemplateConfiguration {
                         + " failed, client is null");
             }
 
-            log.debug("Adding Authorization header to the request");
+            log.info("Adding Authorization header to the request {}", request.getURI());
 
             request.getHeaders().add(HttpHeaders.AUTHORIZATION, buildAuthorizationHeaderValue(client.getAccessToken()));
+            log.info("test  - {} ", client.getAccessToken());
             return execution.execute(request, body);
         }
 
