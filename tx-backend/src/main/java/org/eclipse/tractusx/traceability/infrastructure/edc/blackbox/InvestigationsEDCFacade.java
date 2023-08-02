@@ -180,7 +180,8 @@ public class InvestigationsEDCFacade {
             httpCallService.sendRequest(notificationRequest);
 
             log.info(":::: EDC Data Transfer Completed :::::");
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             throw new BadRequestException("EDC Data Transfer fail.", e);
         } catch (InterruptedException e) {
             log.error("Exception", e);

@@ -26,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.BadRequestException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
@@ -75,6 +76,8 @@ public class EdcNotificationService {
         alertRepository.updateQualityNotificationMessageEntity(notification);
         } catch (NoCatalogItemException e) {
             log.warn("Could not send alert to {} no catalog item found.", receiverUrl);
+        } catch (BadRequestException e) {
+            log.warn("Could not send alert to {} ", receiverUrl, e);
         }
     }
 
@@ -84,6 +87,8 @@ public class EdcNotificationService {
             alertRepository.updateQualityNotificationMessageEntity(notification);
         } catch (NoCatalogItemException e) {
             log.warn("Could not send investigation to {} no catalog item found.", receiverUrl);
+        } catch (BadRequestException e) {
+            log.warn("Could not send investigation to {} ", receiverUrl, e);
         }
     }
 }
