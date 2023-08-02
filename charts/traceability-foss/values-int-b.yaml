@@ -303,7 +303,7 @@ tractusx-connector:
       oauth:
         tokenurl: <path:traceability-foss/data/int-b/edc/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/int-b/edc/wallet-int-b#ssi.oauth.client.id>
+          id: <path:traceability-foss/data/int-b/edc/wallet#ssi.oauth.client.id>
           secretAlias: edc-miw-keycloak-secret-int-b
 
     endpoints:
