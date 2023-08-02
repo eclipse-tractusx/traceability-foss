@@ -18,16 +18,16 @@ tractusx-connector:
           secretName: tls-secret
     ssi:
       miw:
-        url: <path:traceability-foss/data/int/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/int/edc/wallet#ssi.miw.authorityId>
+        url: <path:traceability-foss/data/int-b/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/int-b/edc/wallet#ssi.miw.authorityId>
       oauth:
-        tokenurl: <path:traceability-foss/data/int/edc/wallet#ssi.oauth.tokenurl>
+        tokenurl: <path:traceability-foss/data/int-b/edc/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/int/edc/wallet-int-b#ssi.oauth.client.id>
+          id: <path:traceability-foss/data/int-b/edc/wallet#ssi.oauth.client.id>
           secretAlias: edc-miw-keycloak-secret-int-b
     endpoints:
       management:
-        authKey: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+        authKey: <path:traceability-foss/data/int-b/edc/controlplane#edc.api.control.auth.apikey.value>
 
   dataplane:
     ingresses:
@@ -50,10 +50,10 @@ tractusx-connector:
   postgresql:
     enabled: true
     auth:
-      username: "<path:traceability-foss/data/int/edc/database#user>"
-      password: "<path:traceability-foss/data/int/edc/database#password>"
-    username: "<path:traceability-foss/data/int/edc/database#user>"
-    password: "<path:traceability-foss/data/int/edc/database#password>"
+      username: "<path:traceability-foss/data/int-b/edc/database#user>"
+      password: "<path:traceability-foss/data/int-b/edc/database#password>"
+    username: "<path:traceability-foss/data/int-b/edc/database#user>"
+    password: "<path:traceability-foss/data/int-b/edc/database#password>"
     jdbcUrl: "jdbc:postgresql://tx-edc-provider-int-b-edc-postgresql-hl:5432/edc"
 
   vault:
@@ -74,6 +74,6 @@ edc-postgresql:
   enabled: true
   auth:
     database: edc
-    username: <path:traceability-foss/data/int/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/int/edc/database#password>
-    password: <path:traceability-foss/data/int/edc/database#password>
+    username: <path:traceability-foss/data/int-b/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/int-b/edc/database#password>
+    password: <path:traceability-foss/data/int-b/edc/database#password>
