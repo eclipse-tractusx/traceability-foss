@@ -27,6 +27,7 @@ import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
@@ -56,21 +57,33 @@ public class EdcNotificationService {
         if (notification.getType().equals(QualityNotificationType.ALERT)) {
             log.info("::asyncNotificationExecutor::isQualityAlert");
             emptyIfNull(discovery.getReceiverUrls())
-                    .forEach(receiverUrl -> {
-                        edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
-                        alertRepository.updateQualityNotificationMessageEntity(notification);
-                    });
+                    .forEach(receiverUrl -> handleSendingAlert(notification, senderEdcUrl, receiverUrl));
         }
 
         if (notification.getType().equals(QualityNotificationType.INVESTIGATION)) {
             log.info("::asyncNotificationExecutor::isQualityInvestigation");
             emptyIfNull(discovery.getReceiverUrls())
-                    .forEach(receiverUrl -> {
-                        edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
-                        investigationRepository.updateQualityNotificationMessageEntity(notification);
-                    });
+                    .forEach(receiverUrl -> handleSendingInvestigation(notification, senderEdcUrl, receiverUrl));
         }
 
 
+    }
+
+    private void handleSendingAlert(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
+        try{
+        edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
+        alertRepository.updateQualityNotificationMessageEntity(notification);
+        } catch (NoCatalogItemException e) {
+            log.warn("Could not send alert to {} no catalog item found.", receiverUrl);
+        }
+    }
+
+    private void handleSendingInvestigation(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
+        try{
+            edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
+            alertRepository.updateQualityNotificationMessageEntity(notification);
+        } catch (NoCatalogItemException e) {
+            log.warn("Could not send investigation to {} no catalog item found.", receiverUrl);
+        }
     }
 }
