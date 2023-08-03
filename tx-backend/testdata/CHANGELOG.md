@@ -1,3 +1,14 @@
+## [2023-08-04]
+CX_Testdata_MessagingTest_v0.0.7.json
+
+### Added
+
+### Changed
+
+- fixed missing businessPartner in some SingleLevelUsageAsBuilt
+
+### Removed
+
 ## [2023-07-07]
 CX_Testdata_MessagingTest_v0.0.4.json
 ### Added
