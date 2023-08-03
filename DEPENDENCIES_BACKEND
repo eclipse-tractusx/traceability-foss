@@ -134,7 +134,7 @@ maven/mavencentral/org.eclipse.edc/transfer-spi/0.1.3, Apache-2.0, approved, tec
 maven/mavencentral/org.eclipse.edc/transform-spi/0.1.3, Apache-2.0, approved, technology.edc
 maven/mavencentral/org.eclipse.edc/validator-spi/0.1.3, Apache-2.0, approved, technology.edc
 maven/mavencentral/org.eclipse.edc/web-spi/0.1.3, Apache-2.0, approved, technology.edc
-maven/mavencentral/org.eclipse.tractusx.irs/irs-registry-client/1.0.0-20230724.103139-7, Apache-2.0, approved, automotive.tractusx
+maven/mavencentral/org.eclipse.tractusx.irs/irs-registry-client/1.0.0-20230731.142230-8, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.eclipse.tractusx.traceability/tx-backend/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.eclipse.tractusx.traceability/tx-models/0.0.1-SNAPSHOT, Apache-2.0, approved, automotive.tractusx
 maven/mavencentral/org.flywaydb/flyway-core/9.5.1, Apache-2.0, approved, #7296
