@@ -34,6 +34,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -57,11 +58,17 @@ public record JobDetailResponse(
     private static final String AS_PLANNED_MAPPING_ASPECT_1 = "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned";
     private static final String AS_PLANNED_MAPPING_ASPECT_2 = "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned";
 
-    private static final String AS_BUILT_MAPPING_ASPECT_SERIALPART_1 = "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart";
-    private static final String AS_BUILT_MAPPING_ASPECT_SERIALPART_2 = "urn:samm:io.catenax.serial_part:1.0.0#SerialPart";
-    private static final String AS_BUILT_MAPPING_ASPECT_SERIALPART_3 = "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart";
+    private static final String[] AS_BUILT_MAPPING_ASPECT_SERIALPART_LIST = {
+            "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
+            "urn:samm:io.catenax.serial_part:1.0.0#SerialPart",
+            "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",
+            "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
+    };
 
-    private static final String AS_BUILT_MAPPING_ASPECT_BATCH = "urn:bamm:io.catenax.batch:1.0.0#Batch";
+    private static final String[] AS_BUILT_MAPPING_ASPECT_BATCH = {
+            "urn:bamm:io.catenax.batch:1.0.0#Batch",
+            "urn:bamm:io.catenax.batch:1.0.2#Batch"
+    };
 
     @JsonCreator
     static JobDetailResponse of(
@@ -146,9 +153,9 @@ public record JobDetailResponse(
     private List<Asset> mapToOtherPartsAsBuilt(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> isAsBuiltAndOtherPart(semanticDataModel, jobStatus)).toList();
 
-        log.info(":: mapToOtherPartsAsBuilt()" );
+        log.info(":: mapToOtherPartsAsBuilt()");
         log.info(":: otherParts: {}", otherParts);
-        final List<Asset> assets =  otherParts
+        final List<Asset> assets = otherParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
@@ -160,9 +167,9 @@ public record JobDetailResponse(
 
     private List<Asset> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> isAsPlannedAndOtherPart(semanticDataModel, jobStatus)).toList();
-        log.info(":: mapToOtherPartsAsPlanned()" );
+        log.info(":: mapToOtherPartsAsPlanned()");
         log.info(":: otherParts: {}", otherParts);
-        final List<Asset> assets =  otherParts
+        final List<Asset> assets = otherParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, owner, bpnMapping,
                         Collections.emptyList(),
@@ -178,7 +185,7 @@ public record JobDetailResponse(
                 semanticDataModels().stream()
                         .filter(semanticDataModel -> isAsPlannedAndOwnPart(semanticDataModel, jobStatus)).toList();
 
-        log.info(":: mapToOwnPartsAsPlanned()" );
+        log.info(":: mapToOwnPartsAsPlanned()");
         log.info(":: ownPartsAsPlanned: {}", ownPartsAsPlanned);
 
         Map<String, List<Relationship>> singleLevelBomRelationship = relationships().stream()
@@ -186,7 +193,7 @@ public record JobDetailResponse(
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
 
-        final List<Asset> assets =  ownPartsAsPlanned
+        final List<Asset> assets = ownPartsAsPlanned
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, Owner.OWN, bpnMapping,
                         Collections.emptyList(),
@@ -198,7 +205,7 @@ public record JobDetailResponse(
 
     private List<Asset> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
         List<SemanticDataModel> ownParts = semanticDataModels().stream().filter(semanticDataModel -> isAsBuiltAndOwnPart(semanticDataModel, jobStatus)).toList();
-        log.info(":: mapToOwnPartsAsBuilt()" );
+        log.info(":: mapToOwnPartsAsBuilt()");
         log.info(":: ownParts: {}", ownParts);
         // The Relationship on supplierPart catenaXId contains the id of the asset which has a relationship
         Map<String, List<Relationship>> supplierPartsMap = relationships().stream()
@@ -239,22 +246,18 @@ public record JobDetailResponse(
 
     private boolean isAsBuiltAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
         final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) &&
-                (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_1)
-                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_2)
-                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_3)
-                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
+                (Arrays.asList(AS_BUILT_MAPPING_ASPECT_SERIALPART_LIST).contains(semanticDataModel.aspectType())
+                        || Arrays.asList(AS_BUILT_MAPPING_ASPECT_BATCH).contains(semanticDataModel.aspectType()));
         log.info(":: isAsBuildAndOwnPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;
     }
 
     private boolean isAsBuiltAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
-        final boolean result =!semanticDataModel.getCatenaXId()
+        final boolean result = !semanticDataModel.getCatenaXId()
                 .equals(jobStatus.globalAssetId()) &&
-                (semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_1)
-                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_2)
-                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_SERIALPART_3)
-                        || semanticDataModel.aspectType().equals(AS_BUILT_MAPPING_ASPECT_BATCH));
+                (Arrays.asList(AS_BUILT_MAPPING_ASPECT_SERIALPART_LIST).contains(semanticDataModel.aspectType())
+                        || Arrays.asList(AS_BUILT_MAPPING_ASPECT_BATCH).contains(semanticDataModel.aspectType()));
         log.info(":: isAsBuiltAndOtherPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;
@@ -270,7 +273,7 @@ public record JobDetailResponse(
 
     private boolean isAsPlannedAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
         final boolean result = !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId())
-                && (semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_1) ||semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_2) );
+                && (semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_1) || semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_2));
         log.info(":: isAsPlannedAndOtherPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;
