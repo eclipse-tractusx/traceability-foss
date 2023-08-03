@@ -131,10 +131,12 @@ mvn clean test
 Product Traceability FOSS Backend relies on [Testcontainers library](https://www.testcontainers.org/) in order to provide
 persistence layer, thus [Docker Engine](https://docs.docker.com/engine/) is required to be running.
 
-To run integration tests invoke following command:
+If you want to execute the integration tests with IntelliJ you must mark the src/integration/groovy folder as "Test Sources Root".
+
+To run integration tests via command line, invoke following command:
 
 ```sh
-mvn clean verify
+mvn -pl tx-models,tx-backend,tx-coverage -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -B verify
 ```
 
 #### Running all tests
