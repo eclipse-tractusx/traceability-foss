@@ -232,7 +232,7 @@ irs-helm:
     type: decentral
     descriptorEndpoint: https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
     shellLookupEndpoint: https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
-    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
+    discoveryFinderUrl: https://tracex-discovery-mock-int-a.int.demo.catena-x.net/irs/api/administration/connectors/discovery/search
 
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
