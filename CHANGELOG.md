@@ -7,7 +7,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [Unreleased]
 ### Added
 
+- Configuration for left and right policies to use registry client library
+
 ### Changed
+
+- Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
 
 ### Removed
 

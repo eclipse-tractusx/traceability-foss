@@ -71,6 +71,10 @@ irs-edc-client:
       read: PT90S # HTTP read timeout for the submodel client
       connect: PT90S # HTTP connect timeout for the submodel client
 
+  catalog:
+    policies:
+      acceptedRightOperands: active # List of comma separated names of the rightOperands to accept.
+      acceptedLeftOperands: idsc:PURPOSE # List of comma separated names of the leftOperands to accept.
 
 server:
   servlet:
