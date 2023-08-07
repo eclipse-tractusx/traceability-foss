@@ -76,8 +76,8 @@ edc-postgresql:
   primary:
     resources:
       limits:
-        cpu: 1500
-        memory: 5Gi
+        cpu: 1200m
+        memory: 4Gi
   nameOverride: "tx-edc-provider-postgresql-int-a"
   fullnameOverride: "tx-edc-provider-postgresql-int-a"
   enabled: true
