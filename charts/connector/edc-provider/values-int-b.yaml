@@ -62,7 +62,7 @@ tractusx-connector:
       password: "<path:traceability-foss/data/int-b/edc/database#password>"
     username: "<path:traceability-foss/data/int-b/edc/database#user>"
     password: "<path:traceability-foss/data/int-b/edc/database#password>"
-    jdbcUrl: "jdbc:postgresql://tx-edc-provider-int-b-edc-postgresql-hl:5432/edc"
+    jdbcUrl: "jdbc:postgresql://tx-edc-provider-postgresql-int-b-hl:5432/edc"
 
   vault:
     secretNames:
@@ -76,6 +76,8 @@ edc-postgresql:
       limits:
         cpu: 1200m
         memory: 4Gi
+  nameOverride: "tx-edc-provider-postgresql-int-b"
+  fullnameOverride: "tx-edc-provider-postgresql-int-b"
   enabled: true
   auth:
     database: edc
