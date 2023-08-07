@@ -84,7 +84,7 @@ tractusx-connector:
         cpu: '1.5'
         memory: 2Gi
       requests:
-        cpu: 300m
+        cpu: 600m
         memory: 2Gi
 
   dataplane:
@@ -165,9 +165,9 @@ edc-postgresql:
   primary:
     resources:
       requests:
-        memory: 1Gi
-        cpu: 250m
+        memory: 2Gi
+        cpu: 500m
       limits:
-        memory: 1Gi
+        memory: 2Gi
         cpu: 1
   enabled: false
