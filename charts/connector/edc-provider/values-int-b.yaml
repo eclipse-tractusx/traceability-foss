@@ -30,7 +30,7 @@ tractusx-connector:
         authKey: <path:traceability-foss/data/int-b/edc/controlplane#edc.api.control.auth.apikey.value>
     resources:
       limits:
-        cpu: '1.5'
+        cpu: 1500m
         memory: 3Gi
 
   dataplane:
@@ -74,8 +74,8 @@ edc-postgresql:
   primary:
     resources:
       limits:
-        cpu: 1.5
-        memory: 4Gi
+        cpu: 1500m
+        memory: 5Gi
   enabled: true
   auth:
     database: edc

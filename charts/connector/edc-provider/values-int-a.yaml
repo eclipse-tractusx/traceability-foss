@@ -32,7 +32,7 @@ tractusx-connector:
         authKey: <path:traceability-foss/data/int-a/edc/controlplane#edc.api.control.auth.apikey.value>
     resources:
       limits:
-        cpu: '1.5'
+        cpu: 1500m
         memory: 3Gi
 
   dataplane:
@@ -76,8 +76,8 @@ edc-postgresql:
   primary:
     resources:
       limits:
-        cpu: 1.5
-        memory: 4Gi
+        cpu: 1500
+        memory: 5Gi
   nameOverride: "tx-edc-provider-postgresql-int-a"
   fullnameOverride: "tx-edc-provider-postgresql-int-a"
   enabled: true
