@@ -66,11 +66,8 @@ edc-postgresql:
   primary:
     resources:
       limits:
-        cpu: 1000m
-        memory: 1Gi
-      requests:
-        cpu: 250m
-        memory: 1Gi
+        cpu: 1.5
+        memory: 1.5Gi
   enabled: true
   auth:
     database: edc
