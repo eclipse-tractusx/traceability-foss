@@ -169,5 +169,5 @@ edc-postgresql:
         memory: 1.5Gi
       limits:
         cpu: 1000m
-        memory: 2Gi
+        memory: 1.5Gi
   enabled: false
