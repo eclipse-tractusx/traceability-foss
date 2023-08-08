@@ -19,7 +19,7 @@
 import {
   Component,
   EventEmitter,
-  Input,
+  Input, Optional,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -58,8 +58,8 @@ export class NotificationCommonModalComponent {
 
 
   public constructor(
-    private readonly investigationsFacade: InvestigationsFacade,
-    // private readonly alertsFacade: AlertsFacade
+    @Optional() private readonly investigationsFacade: InvestigationsFacade,
+    @Optional() private readonly alertsFacade: AlertsFacade
   ) {}
 
 
@@ -68,7 +68,7 @@ export class NotificationCommonModalComponent {
   }
 
   public show(modalContext: string, notification?: Notification) {
-    let notificationToShow = notification ? notification : this.selectedNotification
+    let notificationToShow = notification || this.selectedNotification
     switch (modalContext) {
       case 'approve': {
         this.approveModal.show(notificationToShow);
