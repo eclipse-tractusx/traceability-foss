@@ -34,7 +34,7 @@ SPDX-License-Identifier: Apache-2.0
   <div class="detail--action">
     <app-button
       *ngIf="helperService.showApproveButton(selectedInvestigation)"
-      (click)="approveModal?.show(selectedInvestigation)"
+      (click)="notificationCommonModalComponent?.show('approve')"
       [color]="'primary'"
     >
       <div class="flex justify-between items-center">
@@ -44,7 +44,7 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
     <app-button
       *ngIf="helperService.showCancelButton(selectedInvestigation)"
-      (click)="cancelModal?.show(selectedInvestigation)"
+      (click)="notificationCommonModalComponent?.show('cancel')"
       [color]="'primary'"
     >
       <div class="flex justify-between items-center">
@@ -54,7 +54,7 @@ SPDX-License-Identifier: Apache-2.0
     </app-button>
     <app-button
       *ngIf="helperService.showCloseButton(selectedInvestigation)"
-      (click)="closeModal?.show(selectedInvestigation)"
+      (click)="notificationCommonModalComponent?.show('close')"
       [color]="'primary'"
     >
       <div class="flex justify-between items-center">
@@ -65,7 +65,7 @@ SPDX-License-Identifier: Apache-2.0
 
     <app-button
       *ngIf="helperService.showAcceptButton(selectedInvestigation)"
-      (click)="acceptModal?.show(selectedInvestigation)"
+      (click)="notificationCommonModalComponent?.show('accept')"
       [color]="'primary'"
     >
       <div class="flex justify-between items-center">
@@ -76,7 +76,7 @@ SPDX-License-Identifier: Apache-2.0
 
     <app-button
       *ngIf="helperService.showAcknowledgeButton(selectedInvestigation)"
-      (click)="acknowledgeModal?.show(selectedInvestigation)"
+      (click)="notificationCommonModalComponent?.show('acknowledge')"
       [color]="'primary'"
     >
       <div class="flex justify-between items-center">
@@ -87,7 +87,7 @@ SPDX-License-Identifier: Apache-2.0
 
     <app-button
       *ngIf="helperService.showDeclineButton(selectedInvestigation)"
-      (click)="declineModal?.show(selectedInvestigation)"
+      (click)="notificationCommonModalComponent?.show('decline')"
       [color]="'primary'"
     >
       <div class="flex justify-between items-center">
@@ -98,39 +98,12 @@ SPDX-License-Identifier: Apache-2.0
   </div>
 </div>
 
-<app-approve-notification-modal
+<app-notification-common-modal
   (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [approveCall]="helperService.approve.bind(this)"
+  [helperService]="helperService"
+  [selectedNotification]="selectedInvestigation"
   [translationContext]="TranslationContext.COMMONINVESTIGATION"
-></app-approve-notification-modal>
-<app-cancel-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [cancelCall]="helperService.cancel.bind(this)"
-  [translationContext]="TranslationContext.COMMONINVESTIGATION"
-></app-cancel-notification-modal>
-<app-close-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [closeCall]="helperService.close.bind(this)"
-  [translationContext]="TranslationContext.COMMONINVESTIGATION"
-></app-close-notification-modal>
-
-<app-acknowledge-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [acknowledgeCall]="helperService.acknowledge.bind(this)"
-  [translationContext]="TranslationContext.COMMONINVESTIGATION"
-></app-acknowledge-notification-modal>
-
-<app-accept-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [acceptCall]="helperService.accept.bind(this)"
-  [translationContext]="TranslationContext.COMMONINVESTIGATION"
-></app-accept-notification-modal>
-
-<app-decline-notification-modal
-  (confirmActionCompleted)="handleConfirmActionCompletedEvent()"
-  [declineCall]="helperService.decline.bind(this)"
-  [translationContext]="TranslationContext.COMMONINVESTIGATION"
-></app-decline-notification-modal>
+  ></app-notification-common-modal>
 
 <div class="detail--wrapper">
   <mat-card>

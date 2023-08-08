@@ -27,16 +27,11 @@ import { InvestigationHelperService } from '@page/investigations/core/investigat
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { Part } from '@page/parts/model/parts.model';
 import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
+import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
-import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
-import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
-import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
-import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
 import { StaticIdService } from '@shared/service/staticId.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, tap } from 'rxjs/operators';
@@ -47,13 +42,7 @@ import { filter, first, tap } from 'rxjs/operators';
   styleUrls: ['./investigation-detail.component.scss'],
 })
 export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
-  @ViewChild(ApproveNotificationModalComponent) approveModal: ApproveNotificationModalComponent;
-  @ViewChild(CloseNotificationModalComponent) closeModal: CloseNotificationModalComponent;
-  @ViewChild(CancelNotificationModalComponent) cancelModal: CancelNotificationModalComponent;
-
-  @ViewChild(AcceptNotificationModalComponent) acceptModal: AcceptNotificationModalComponent;
-  @ViewChild(AcknowledgeNotificationModalComponent) acknowledgeModal: AcknowledgeNotificationModalComponent;
-  @ViewChild(DeclineNotificationModalComponent) declineModal: DeclineNotificationModalComponent;
+  @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   @ViewChild('semanticModelIdTmp') semanticModelIdTmp: TemplateRef<unknown>;
 
@@ -85,7 +74,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     public readonly helperService: InvestigationHelperService,
     public readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly staticIdService: StaticIdService,
-    private readonly investigationsFacade: InvestigationsFacade,
+    public readonly investigationsFacade: InvestigationsFacade,
     private router: Router,
     private readonly route: ActivatedRoute,
     private readonly ctaSnackbarService: CtaSnackbarService,

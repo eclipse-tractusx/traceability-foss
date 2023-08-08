@@ -24,16 +24,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
+import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { MenuActionConfig, TableEventConfig } from '@shared/components/table/table.model';
 import { NotificationTabInformation } from '@shared/model/notification-tab-information';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
-import { AcceptNotificationModalComponent } from '@shared/modules/notification/modal/accept/accept-notification-modal.component';
-import { AcknowledgeNotificationModalComponent } from '@shared/modules/notification/modal/acknowledge/acknowledge-notification-modal.component';
-import { ApproveNotificationModalComponent } from '@shared/modules/notification/modal/approve/approve-notification-modal.component';
-import { CancelNotificationModalComponent } from '@shared/modules/notification/modal/cancel/cancel-notification-modal.component';
-import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
-import { DeclineNotificationModalComponent } from '@shared/modules/notification/modal/decline/decline-notification-modal.component';
 import { Subscription } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
 
@@ -42,13 +37,7 @@ import { InvestigationsFacade } from '../core/investigations.facade';
   templateUrl: './investigations.component.html',
 })
 export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentInit {
-  @ViewChild(CloseNotificationModalComponent) private closeModal: CloseNotificationModalComponent;
-  @ViewChild(ApproveNotificationModalComponent) private approveModal: ApproveNotificationModalComponent;
-  @ViewChild(CancelNotificationModalComponent) private cancelModal: CancelNotificationModalComponent;
-
-  @ViewChild(AcceptNotificationModalComponent) private acceptModal: AcceptNotificationModalComponent;
-  @ViewChild(AcknowledgeNotificationModalComponent) private acknowledgeModal: AcknowledgeNotificationModalComponent;
-  @ViewChild(DeclineNotificationModalComponent) private declineModal: DeclineNotificationModalComponent;
+  @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   public readonly investigationsReceived$;
   public readonly investigationsQueuedAndRequested$;
@@ -61,7 +50,7 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
 
   constructor(
     public readonly helperService: InvestigationHelperService,
-    private readonly investigationsFacade: InvestigationsFacade,
+    public readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
     private readonly route: ActivatedRoute
@@ -83,37 +72,37 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
       {
         label: 'actions.close',
         icon: 'close',
-        action: data => this.closeModal.show(data),
+        action: data => this.notificationCommonModalComponent.show('close', data),
         condition: data => this.helperService.showCloseButton(data),
       },
       {
         label: 'actions.approve',
         icon: 'share',
-        action: data => this.approveModal.show(data),
+        action: data => this.notificationCommonModalComponent.show('approve',data),
         condition: data => this.helperService.showApproveButton(data),
       },
       {
         label: 'actions.cancel',
         icon: 'cancel',
-        action: data => this.cancelModal.show(data),
+        action: data => this.notificationCommonModalComponent.show('cancel',data),
         condition: data => this.helperService.showCancelButton(data),
       },
       {
         label: 'actions.acknowledge',
         icon: 'work',
-        action: data => this.acknowledgeModal.show(data),
+        action: data => this.notificationCommonModalComponent.show('acknowledge', data),
         condition: data => this.helperService.showAcknowledgeButton(data),
       },
       {
         label: 'actions.accept',
         icon: 'assignment_turned_in',
-        action: data => this.acceptModal.show(data),
+        action: data => this.notificationCommonModalComponent.show('accept',data),
         condition: data => this.helperService.showAcceptButton(data),
       },
       {
         label: 'actions.decline',
         icon: 'assignment_late',
-        action: data => this.declineModal.show(data),
+        action: data => this.notificationCommonModalComponent.show('decline', data),
         condition: data => this.helperService.showDeclineButton(data),
       },
     ];
