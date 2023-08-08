@@ -20,14 +20,24 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
+@RequiredArgsConstructor
+@Slf4j
 public class EdcRestTemplateConfiguration {
 
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
@@ -35,11 +45,14 @@ public class EdcRestTemplateConfiguration {
 
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
 
+    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+    private final ClientRegistrationRepository clientRegistrationRepository;
+
     @Bean
     @Qualifier(EDC_REST_TEMPLATE)
-	public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
-		return new RestTemplateBuilder()
-			.rootUri(edcProperties.getProviderEdcUrl())
+    public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
+        return new RestTemplateBuilder()
+                .rootUri(edcProperties.getProviderEdcUrl())
                 .defaultHeader(EDC_API_KEY_HEADER_NAME, edcProperties.getApiAuthKey())
                 .build();
     }
@@ -52,9 +65,13 @@ public class EdcRestTemplateConfiguration {
     }
 
     @Bean
-    public RestTemplate digitalTwinRegistryRestTemplate() {
-        return new RestTemplateBuilder()
-                .build();
+    public RestTemplate digitalTwinRegistryRestTemplate(
+            final RestTemplateBuilder restTemplateBuilder,
+            @Value("${digitalTwinRegistryClient.oAuthClientId}") final String clientRegistrationId) {
+        oAuthRestTemplate(restTemplateBuilder,
+                clientRegistrationId).build();
+        return oAuthRestTemplate(restTemplateBuilder,
+                clientRegistrationId).build();
     }
 
     @Bean
@@ -63,5 +80,25 @@ public class EdcRestTemplateConfiguration {
                 .build();
     }
 
+    private RestTemplateBuilder oAuthRestTemplate(final RestTemplateBuilder restTemplateBuilder,
+                                                  final String clientRegistrationId) {
+        final var clientRegistration = clientRegistrationRepository.findByRegistrationId(clientRegistrationId);
+
+        return restTemplateBuilder.additionalInterceptors(
+                new OAuthClientCredentialsRestTemplateInterceptor(authorizedClientManager(), clientRegistration));
+    }
+
+    @Bean
+        /* package */ OAuth2AuthorizedClientManager authorizedClientManager() {
+        final var authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
+                .clientCredentials()
+                .build();
+
+        final var authorizedClientManager = new AuthorizedClientServiceOAuth2AuthorizedClientManager(
+                clientRegistrationRepository, oAuth2AuthorizedClientService);
+        authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
+
+        return authorizedClientManager;
+    }
 
 }
