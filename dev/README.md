@@ -53,6 +53,18 @@ Sample invocation (E2E B)
 python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
 ```
 
+Sample invocation (INT A)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server-int-a.int.demo.catena-x.net -edc https://trace-x-edc-int-a.int.demo.catena-x.net -a https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+```
+
+Sample invocation (INT B)
+
+```
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server-int-b.int.demo.catena-x.net -edc https://trace-x-edc-int-b.int.demo.catena-x.net -a https://trace-x-registry-int-b.int.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+```
+
 where:
 
 * -f file to be used for data provisioning /tx-backend/testdata/CX_Testdata_MessagingTest_vx.x.x.json

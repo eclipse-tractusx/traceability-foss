@@ -200,7 +200,7 @@ class InvestigationsEDCFacadeTest {
         when(edcService.getCatalog(anyString(), anyString(), any())).thenReturn(catalog);
 
         //WHEN
-        BadRequestException badRequestException = assertThrows(BadRequestException.class,
+        NoCatalogItemException badRequestException = assertThrows(NoCatalogItemException.class,
                 () -> investigationsEDCFacade.startEDCTransfer(qualityNotificationMessage, receiverEdcUrl, senderEdcUrl));
 
         //THEN
