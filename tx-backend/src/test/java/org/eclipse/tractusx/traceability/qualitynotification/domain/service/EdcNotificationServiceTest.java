@@ -39,6 +39,7 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -83,5 +84,35 @@ class EdcNotificationServiceTest {
 
         // then
         verify(edcFacade).startEDCTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
+        verify(investigationRepository).updateQualityNotificationMessageEntity(notification);
+        verifyNoInteractions(alertRepository);
+    }
+
+    @Test
+    void testNotificationsServiceAlertNotificationUpdateAsync() {
+        // given
+        String bpn = "BPN1234";
+        String edcReceiverUrl = "https://not-real-edc-receiver-url.com";
+        String edcSenderUrl = "https://not-real-edc-sender-url.com";
+
+        Discovery discovery = Discovery.builder().senderUrl(edcSenderUrl).receiverUrls(List.of(edcReceiverUrl)).build();
+        // and
+        when(discoveryService.getDiscoveryByBPN(bpn)).thenReturn(discovery);
+        // and
+        QualityNotificationMessage notification = QualityNotificationMessage.builder()
+                .receiverBpnNumber(bpn)
+                .type(QualityNotificationType.ALERT)
+                .targetDate(Instant.now())
+                .severity(QualityNotificationSeverity.MINOR)
+                .isInitial(false)
+                .build();
+
+        // when
+        notificationsService.asyncNotificationExecutor(notification);
+
+        // then
+        verify(edcFacade).startEDCTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
+        verify(alertRepository).updateQualityNotificationMessageEntity(notification);
+        verifyNoInteractions(investigationRepository);
     }
 }

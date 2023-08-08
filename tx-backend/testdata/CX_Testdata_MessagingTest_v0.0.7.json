@@ -910,7 +910,8 @@
                 "measurementUnit" : "unit:piece"
               },
               "createdOn" : "2023-02-03T14:48:54.709Z",
-              "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+              "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+              "businessPartner" : "BPNL00000003CML1"
             }
           ],
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01"
@@ -1011,7 +1012,8 @@
                 "measurementUnit" : "unit:piece"
               },
               "createdOn" : "2023-02-03T14:48:54.709Z",
-              "lastModifiedOn" : "2023-02-03T14:48:54.709Z"
+              "lastModifiedOn" : "2023-02-03T14:48:54.709Z",
+              "businessPartner" : "BPNL00000003CNKC"
             }
           ],
           "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03"

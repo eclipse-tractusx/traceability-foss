@@ -107,12 +107,18 @@ spring:
     oauth2:
       client:
         registration:
+          keycloak:
+            authorization-grant-type: client_credentials
+            client-id: ${OAUTH2_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_SECRET}
           OKTA:
             client-id: ${OAUTH2_CLIENT_ID}
             client-secret: ${OAUTH2_CLIENT_SECRET}
             authorization-grant-type: client_credentials
             scope: openid
         provider:
+          keycloak:
+            token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
           OKTA:
             token-uri: ${OAUTH2_PROVIDER_TOKEN_URI}
       resourceserver:
@@ -169,6 +175,7 @@ irs:
       policyId: "ID 3.1 Trace"
       ttl: "2023-09-30T23:59:59.99Z"
 digitalTwinRegistryClient:
+  oAuthClientId: keycloak
   type: "decentral"
   discoveryFinderUrl: ${DISCOVERY_FINDER_URL_WITH_PATH}
 
