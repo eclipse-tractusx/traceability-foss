@@ -1371,7 +1371,7 @@ npm/npmjs/@material/chips/15.0.0-canary.684e33d25.0, MIT, approved, clearlydefin
 npm/npmjs/@material/circular-progress/15.0.0-canary.684e33d25.0, MIT, approved, clearlydefined
 npm/npmjs/@material/data-table/15.0.0-canary.684e33d25.0, MIT, approved, clearlydefined
 npm/npmjs/@material/density/15.0.0-canary.684e33d25.0, MIT, approved, clearlydefined
-npm/npmjs/@material/dialog/15.0.0-canary.684e33d25.0, MIT, approved, clearlydefined
+npm/npmjs/@material/dialog/15.0.0-canary.684e33d25.0, MIT, restricted, clearlydefined
 npm/npmjs/@material/dom/15.0.0-canary.684e33d25.0, MIT, approved, clearlydefined
 npm/npmjs/@material/drawer/15.0.0-canary.684e33d25.0, MIT AND Apache-2.0, approved, #7431
 npm/npmjs/@material/elevation/15.0.0-canary.684e33d25.0, MIT, approved, clearlydefined
