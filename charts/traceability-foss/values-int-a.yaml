@@ -116,24 +116,24 @@ backend:
   datasource:
     url: jdbc:postgresql://tx-backend-postgresql-int-a:5432/trace
     username: trace
-    password: <path:traceability-foss/data/int/database#tracePassword>
+    password: <path:traceability-foss/data/int-a/database#tracePassword>
 
   oauth2:
-    clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
-    clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+    clientId: <path:traceability-foss/data/int-a/keycloak/oauth2#clientId>
+    clientSecret: <path:traceability-foss/data/int-a/keycloak/oauth2#clientSecret>
     clientTokenUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
     jwkSetUri: "https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
     resourceClient: "app266"
 
   edc:
-    apiKey: "<path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>"
+    apiKey: "<path:traceability-foss/data/int-a/edc/controlplane#edc.api.control.auth.apikey.value>"
     providerUrl: "https://tx-edc-consumer-int-a-controlplane.int.demo.catena-x.net"
     callbackUrl: "http://tx-irs-int-a:8181/internal/endpoint-data-reference"
     callbackUrlEdcClient: "https://traceability-int-a.int.demo.catena-x.net/api/internal/endpoint-data-reference"
     dataEndpointUrl: "https://tx-edc-consumer-int-a-controlplane.int.demo.catena-x.net/management"
 
   discoveryfinder:
-    baseUrl: "https://tracex-discovery-mock-int-a.int.demo.catena-x.net/api/administration/connectors/discovery/search"
+    baseUrl: "https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search"
 
   config:
     allowedCorsOriginFirst: "http://localhost:4200/"
@@ -173,7 +173,7 @@ pgadmin4:
         secretName: tls-secret
   env:
     email: pgadmin4@trace.foss
-    password: "<path:traceability-foss/data/int/database#pgadminPassword>"
+    password: "<path:traceability-foss/data/int-a/database#pgadminPassword>"
     variables:
       - name: PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED
         value: "False"
@@ -195,8 +195,8 @@ postgresql:
   fullnameOverride: "tx-backend-postgresql-int-a"
 
   auth:
-    postgresPassword: "<path:traceability-foss/data/int/database#postgresPassword>"
-    password: "<path:traceability-foss/data/int/database#tracePassword>"
+    postgresPassword: "<path:traceability-foss/data/int-a/database#postgresPassword>"
+    password: "<path:traceability-foss/data/int-a/database#tracePassword>"
     database: "trace"
     username: "trace"
 
@@ -232,21 +232,21 @@ irs-helm:
     type: decentral
     descriptorEndpoint: https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0/shell-descriptors/{aasIdentifier}
     shellLookupEndpoint: https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0/lookup/shells?assetIds={assetIds}
-    discoveryFinderUrl: https://tracex-discovery-mock-int-a.int.demo.catena-x.net/irs/api/administration/connectors/discovery/search
+    discoveryFinderUrl: https://semantics.int.demo.catena-x.net/discoveryfinder/api/administration/connectors/discovery/search
 
   semanticshub:
     url: https://semantics.int.demo.catena-x.net/hub/api/v1/models
   bpdm:
     url: https://partners-pool.int.demo.catena-x.net
 
-  minioUser: <path:traceability-foss/data/int/minio#user>
-  minioPassword: <path:traceability-foss/data/int/minio#password>
+  minioUser: <path:traceability-foss/data/int-a/minio#user>
+  minioPassword: <path:traceability-foss/data/int-a/minio#password>
   minioUrl: http://tx-irs-minio-int-a:9000
 
   keycloak:
     oauth2:
-      clientId: <path:traceability-foss/data/int/keycloak/oauth2#clientId>
-      clientSecret: <path:traceability-foss/data/int/keycloak/oauth2#clientSecret>
+      clientId: <path:traceability-foss/data/int-a/keycloak/oauth2#clientId>
+      clientSecret: <path:traceability-foss/data/int-a/keycloak/oauth2#clientSecret>
       clientTokenUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token
       jwkSetUri: https://centralidp.int.demo.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs
 
@@ -260,15 +260,15 @@ irs-helm:
         statesuffix: /state
         data: https://tx-edc-consumer-int-a-controlplane.int.demo.catena-x.net/management
       apikey:
-        secret: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+        secret: <path:traceability-foss/data/int-a/edc/controlplane#edc.api.control.auth.apikey.value>
 
   minio:
     nameOverride: "tx-irs-minio-int-a"
     fullnameOverride: "tx-irs-minio-int-a"
     serviceAccount:
       create: false
-    rootUser: <path:traceability-foss/data/int/minio#user>
-    rootPassword: <path:traceability-foss/data/int/minio#password>
+    rootUser: <path:traceability-foss/data/int-a/minio#user>
+    rootPassword: <path:traceability-foss/data/int-a/minio#password>
 
 ###################################
 # EDC Consumer configuration  #
@@ -299,13 +299,13 @@ tractusx-connector:
           secretName: tls-secret
     ssi:
       miw:
-        url: <path:traceability-foss/data/int/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/int/edc/wallet#ssi.miw.authorityId>
+        url: <path:traceability-foss/data/int-a/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/int-a/edc/wallet#ssi.miw.authorityId>
       oauth:
-        tokenurl: <path:traceability-foss/data/int/edc/wallet#ssi.oauth.tokenurl>
+        tokenurl: <path:traceability-foss/data/int-a/edc/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/int/edc/wallet#ssi.oauth.client.id>
-          secretAlias: edc-miw-keycloak-secret
+          id: <path:traceability-foss/data/int-a/edc/wallet#ssi.oauth.client.id>
+          secretAlias: edc-miw-keycloak-secret-int-a
 
     endpoints:
       # -- default api for health checks, should not be added to any ingress
@@ -317,7 +317,7 @@ tractusx-connector:
         port: 8081
         path: /management
         # -- authentication key, must be attached to each 'X-Api-Key' request header
-        authKey: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+        authKey: <path:traceability-foss/data/int-a/edc/controlplane#edc.api.control.auth.apikey.value>
       # -- control api, used for internal control calls. can be added to the internal ingress, but should probably not
       control:
         port: 8083
@@ -414,7 +414,7 @@ tractusx-connector:
   vault:
     hashicorp:
       url: "https://vault.demo.catena-x.net"
-      token: "<path:traceability-foss/data/int/edc#edc.vault.hashicorp.token>"
+      token: "<path:traceability-foss/data/int-a/edc#edc.vault.hashicorp.token>"
       timeout: 30
       healthCheck:
         enabled: true
@@ -433,10 +433,10 @@ tractusx-connector:
   postgresql:
     enabled: true
     auth:
-      username: "<path:traceability-foss/data/int/edc/database#user>"
-      password: "<path:traceability-foss/data/int/edc/database#password>"
-    username: "<path:traceability-foss/data/int/edc/database#user>"
-    password: "<path:traceability-foss/data/int/edc/database#password>"
+      username: "<path:traceability-foss/data/int-a/edc/database#user>"
+      password: "<path:traceability-foss/data/int-a/edc/database#password>"
+    username: "<path:traceability-foss/data/int-a/edc/database#user>"
+    password: "<path:traceability-foss/data/int-a/edc/database#password>"
     jdbcUrl: "jdbc:postgresql://tx-edc-consumer-postgresql-int-a-hl:5432/edc"
 
 ###################################
@@ -456,7 +456,7 @@ edc-postgresql:
   enabled: true
   auth:
     database: edc
-    username: <path:traceability-foss/data/int/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/int/edc/database#password>
-    password: <path:traceability-foss/data/int/edc/database#password>
+    username: <path:traceability-foss/data/int-a/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/int-a/edc/database#password>
+    password: <path:traceability-foss/data/int-a/edc/database#password>
 

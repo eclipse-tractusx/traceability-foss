@@ -2,6 +2,8 @@ tractusx-connector:
   enabled: true
   nameOverride: "tx-edc-provider-int-a"
   fullnameOverride: "tx-edc-provider-int-a"
+  participant:
+    id: BPNL00000003CML1
   controlplane:
     ingresses:
       - enabled: true
@@ -18,16 +20,16 @@ tractusx-connector:
           secretName: tls-secret
     ssi:
       miw:
-        url: <path:traceability-foss/data/int/edc/wallet#ssi.miw.url>
-        authorityId: <path:traceability-foss/data/int/edc/wallet#ssi.miw.authorityId>
+        url: <path:traceability-foss/data/int-a/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/int-a/edc/wallet#ssi.miw.authorityId>
       oauth:
-        tokenurl: <path:traceability-foss/data/int/edc/wallet#ssi.oauth.tokenurl>
+        tokenurl: <path:traceability-foss/data/int-a/edc/wallet#ssi.oauth.tokenurl>
         client:
-          id: <path:traceability-foss/data/int/edc/wallet#ssi.oauth.client.id>
-          secretAlias: edc-miw-keycloak-secret
+          id: <path:traceability-foss/data/int-a/edc/wallet#ssi.oauth.client.id>
+          secretAlias: edc-miw-keycloak-secret-int-a
     endpoints:
       management:
-        authKey: <path:traceability-foss/data/int/edc/controlplane#edc.api.control.auth.apikey.value>
+        authKey: <path:traceability-foss/data/int-a/edc/controlplane#edc.api.control.auth.apikey.value>
 
   dataplane:
     ingresses:
@@ -50,10 +52,10 @@ tractusx-connector:
   postgresql:
     enabled: true
     auth:
-      username: "<path:traceability-foss/data/int/edc/database#user>"
-      password: "<path:traceability-foss/data/int/edc/database#password>"
-    username: "<path:traceability-foss/data/int/edc/database#user>"
-    password: "<path:traceability-foss/data/int/edc/database#password>"
+      username: "<path:traceability-foss/data/int-a/edc/database#user>"
+      password: "<path:traceability-foss/data/int-a/edc/database#password>"
+    username: "<path:traceability-foss/data/int-a/edc/database#user>"
+    password: "<path:traceability-foss/data/int-a/edc/database#password>"
     jdbcUrl: "jdbc:postgresql://tx-edc-provider-postgresql-int-a-hl:5432/edc"
 
   vault:
@@ -63,19 +65,11 @@ tractusx-connector:
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
 
 edc-postgresql:
-  primary:
-    resources:
-      limits:
-        cpu: 2000m
-        memory: 4Gi
-      requests:
-        cpu: 100m
-        memory: 4Gi
   nameOverride: "tx-edc-provider-postgresql-int-a"
   fullnameOverride: "tx-edc-provider-postgresql-int-a"
   enabled: true
   auth:
     database: edc
-    username: <path:traceability-foss/data/int/edc/database#user>
-    postgresPassword: <path:traceability-foss/data/int/edc/database#password>
-    password: <path:traceability-foss/data/int/edc/database#password>
+    username: <path:traceability-foss/data/int-a/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/int-a/edc/database#password>
+    password: <path:traceability-foss/data/int-a/edc/database#password>

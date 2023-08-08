@@ -164,10 +164,10 @@ tractusx-connector:
 edc-postgresql:
   primary:
     resources:
-      limits:
-        cpu: 2000m
-        memory: 4Gi
       requests:
         cpu: 100m
-        memory: 4Gi
+        memory: 1.5Gi
+      limits:
+        cpu: 1000m
+        memory: 1.5Gi
   enabled: false
