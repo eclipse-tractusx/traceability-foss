@@ -26,7 +26,6 @@ import jakarta.validation.constraints.Size;
 public record ErrorResponse(
         @ApiModelProperty(example = "Access Denied")
         @Size(max = 1000)
-
         @Pattern(regexp = "^.*$", message = "Invalid message pattern")
         String message
 ) {
