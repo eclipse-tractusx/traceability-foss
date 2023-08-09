@@ -3328,8 +3328,7 @@
           "message" : {
             "maxLength" : 1000,
             "minLength" : 0,
-            "type" : "string",
-            "pattern" : "^.*$"
+            "type" : "string"
           }
         }
       },
