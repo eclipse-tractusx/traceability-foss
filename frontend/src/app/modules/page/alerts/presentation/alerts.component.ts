@@ -29,6 +29,7 @@ import { NotificationTabInformation } from '@shared/model/notification-tab-infor
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
+import {NotificationMenuActionsAssembler} from "@shared/assembler/notificationMenuActions.assembler";
 
 @Component({
   selector: 'app-alerts',
@@ -66,45 +67,8 @@ export class AlertsComponent {
     })
   }
 
-  public ngAfterContentInit(): void {
-    this.menuActionsConfig = [
-      {
-        label: 'actions.close',
-        icon: 'close',
-        action: data => this.notificationCommonModalComponent.show('close', data),
-        condition: data => this.helperService.showCloseButton(data),
-      },
-      {
-        label: 'actions.approve',
-        icon: 'share',
-        action: data => this.notificationCommonModalComponent.show('approve',data),
-        condition: data => this.helperService.showApproveButton(data),
-      },
-      {
-        label: 'actions.cancel',
-        icon: 'cancel',
-        action: data => this.notificationCommonModalComponent.show('cancel',data),
-        condition: data => this.helperService.showCancelButton(data),
-      },
-      {
-        label: 'actions.acknowledge',
-        icon: 'work',
-        action: data => this.notificationCommonModalComponent.show('acknowledge', data),
-        condition: data => this.helperService.showAcknowledgeButton(data),
-      },
-      {
-        label: 'actions.accept',
-        icon: 'assignment_turned_in',
-        action: data => this.notificationCommonModalComponent.show('accept',data),
-        condition: data => this.helperService.showAcceptButton(data),
-      },
-      {
-        label: 'actions.decline',
-        icon: 'assignment_late',
-        action: data => this.notificationCommonModalComponent.show('decline', data),
-        condition: data => this.helperService.showDeclineButton(data),
-      },
-    ];
+  public ngAfterViewChecked(): void {
+    this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(this.helperService, this.notificationCommonModalComponent)
   }
 
   public ngOnDestroy(): void {
