@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ViewChild } from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
@@ -48,16 +48,17 @@ export class AlertsComponent {
 
   private pagination: TableEventConfig = { page: 0, pageSize: 50, sorting: ['createdDate' , 'desc'] };
 
-  constructor(
-    public readonly helperService: AlertHelperService,
-    private readonly alertsFacade: AlertsFacade,
-    private readonly alertDetailFacade: AlertDetailFacade,
-    private readonly router: Router,
-    private readonly route: ActivatedRoute
-  ) {
-    this.alertsReceived$ = this.alertsFacade.alertsReceived$;
-    this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
-  }
+    constructor(
+        public readonly helperService: AlertHelperService,
+        private readonly alertsFacade: AlertsFacade,
+        private readonly alertDetailFacade: AlertDetailFacade,
+        private readonly router: Router,
+        private readonly route: ActivatedRoute,
+        private readonly cd: ChangeDetectorRef
+    ) {
+        this.alertsReceived$ = this.alertsFacade.alertsReceived$;
+        this.alertsQueuedAndRequested$ = this.alertsFacade.alertsQueuedAndRequested$;
+    }
 
   public ngOnInit(): void {
     this.paramSubscription = this.route.queryParams.subscribe(params => {
@@ -67,9 +68,13 @@ export class AlertsComponent {
     })
   }
 
-  public ngAfterViewChecked(): void {
-    this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(this.helperService, this.notificationCommonModalComponent)
-  }
+    public ngAfterViewInit(): void {
+        this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(
+            this.helperService,
+            this.notificationCommonModalComponent
+        );
+        this.cd.detectChanges();
+    }
 
   public ngOnDestroy(): void {
     this.alertsFacade.stopAlerts();

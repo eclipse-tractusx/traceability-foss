@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ViewChild } from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
@@ -54,7 +54,8 @@ export class InvestigationsComponent {
     public readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly cd: ChangeDetectorRef
   ) {
     this.investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
@@ -68,8 +69,9 @@ export class InvestigationsComponent {
     })
   }
 
-  public ngAfterViewChecked(): void {
+  public ngAfterViewInit(): void {
     this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(this.helperService, this.notificationCommonModalComponent);
+    this.cd.detectChanges();
   }
 
   public ngOnDestroy(): void {
