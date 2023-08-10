@@ -38,10 +38,7 @@ import java.time.Instant;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class OAuthClientCredentialsRestTemplateInterceptorTest {
@@ -95,7 +92,7 @@ class OAuthClientCredentialsRestTemplateInterceptorTest {
                 tokenType,
                 "XXX",
                 Instant.now(),
-                Instant.now()
+                Instant.MAX
         );
         when(tokenType.getValue()).thenReturn("Bearer");
         when(clientRegistration.getRegistrationId()).thenReturn(registrationId);
