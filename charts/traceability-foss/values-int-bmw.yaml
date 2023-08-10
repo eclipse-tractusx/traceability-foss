@@ -237,8 +237,8 @@ irs-helm:
   bpdm:
     url: https://partners-pool.int.demo.catena-x.net
 
-  minioUser: <path:traceability-foss/data/int-bmw/minio#user>
-  minioPassword: <path:traceability-foss/data/int-bmw/minio#password>
+  minioUser: <path:traceability-foss/data/int-b/minio#user>
+  minioPassword: <path:traceability-foss/data/int-b/minio#password>
   minioUrl: http://tx-irs-minio-int-bmw:9000
 
   keycloak:
@@ -265,8 +265,8 @@ irs-helm:
     fullnameOverride: "tx-irs-minio-int-bmw"
     serviceAccount:
       create: false
-    rootUser: <path:traceability-foss/data/int-bmw/minio#user>
-    rootPassword: <path:traceability-foss/data/int-bmw/minio#password>
+    rootUser: <path:traceability-foss/data/int-b/minio#user>
+    rootPassword: <path:traceability-foss/data/int-b/minio#password>
 
 
 ###################################
