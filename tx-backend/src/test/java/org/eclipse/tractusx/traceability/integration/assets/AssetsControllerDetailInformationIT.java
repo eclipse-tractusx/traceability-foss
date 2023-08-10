@@ -33,7 +33,7 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.hasSize;
 
-public class AssetsControllerDetailInformationIT extends IntegrationTestSpecification {
+class AssetsControllerDetailInformationIT extends IntegrationTestSpecification {
 
 
     @Autowired

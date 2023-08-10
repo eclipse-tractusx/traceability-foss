@@ -22,7 +22,6 @@ import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -36,7 +35,7 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class AssetsControllerCountriesIT extends IntegrationTestSpecification {
+class AssetsControllerCountriesIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;

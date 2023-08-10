@@ -23,7 +23,6 @@ import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -39,7 +38,7 @@ import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-public class AssetsControllerAllIT extends IntegrationTestSpecification {
+class AssetsControllerAllIT extends IntegrationTestSpecification {
 
     @Autowired
     BpnSupport bpnSupport;

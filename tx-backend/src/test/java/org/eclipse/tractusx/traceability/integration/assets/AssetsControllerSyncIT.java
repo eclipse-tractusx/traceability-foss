@@ -32,7 +32,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
-public class AssetsControllerSyncIT extends IntegrationTestSpecification {
+class AssetsControllerSyncIT extends IntegrationTestSpecification {
 
     @Autowired
     IrsApiSupport irsApiSupport;
