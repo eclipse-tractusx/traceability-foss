@@ -92,7 +92,7 @@ backend:
       cpu: 500m
       memory: 512Mi
 
-#  springprofile: set-profile  // currently there are no environment dependant configurations in spring profile files
+  springprofile: int-bmw
 
   ingress:
     enabled: true
