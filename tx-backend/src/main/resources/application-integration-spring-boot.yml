@@ -61,6 +61,9 @@ resilience4j:
         exponentialBackoffMultiplier: 2
 server:
   port: 9998
+management:
+  server:
+    port: 8082
 
 logging:
   level:
