@@ -22,7 +22,6 @@ import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSupport;
-import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +36,6 @@ public class AssetsControllerSyncIT extends IntegrationTestSpecification {
 
     @Autowired
     IrsApiSupport irsApiSupport;
-
-    @Autowired
-    OAuth2ApiSupport oAuth2ApiSupport;
 
     @Autowired
     AssetsSupport assetsSupport;
@@ -79,9 +75,9 @@ public class AssetsControllerSyncIT extends IntegrationTestSpecification {
     void shouldSynchronizeAssetsUsingRetry() throws JoseException, InterruptedException {
         //GIVEN
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
-        and:
+
         irsApiSupport.irsApiTriggerJob();
-        and:
+
         irsApiSupport.irsApiReturnsJobInRunningAndCompleted();
 
         //WHEN
@@ -141,7 +137,7 @@ public class AssetsControllerSyncIT extends IntegrationTestSpecification {
         oAuth2ApiSupport.oauth2ApiReturnsTechnicalUserToken();
         irsApiSupport.irsApiTriggerJob();
 
-        and:
+
         irsApiSupport.irsApiReturnsJobInRunningState();
 
         //WHEN

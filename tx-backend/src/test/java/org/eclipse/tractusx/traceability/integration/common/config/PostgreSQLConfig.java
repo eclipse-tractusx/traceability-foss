@@ -42,6 +42,7 @@ public class PostgreSQLConfig {
 
     public static class Initializer
             implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
                     "spring.datasource.url=" + postgresqlContainer.getJdbcUrl(),

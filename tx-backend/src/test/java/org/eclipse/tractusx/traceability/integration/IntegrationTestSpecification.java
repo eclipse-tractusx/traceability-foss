@@ -53,7 +53,7 @@ public class IntegrationTestSpecification {
     public OAuth2Support oAuth2Support;
 
     @Autowired
-    OAuth2ApiSupport oAuth2ApiSupport;
+    public OAuth2ApiSupport oAuth2ApiSupport;
 
     @Autowired
     DatabaseSupport databaseSupport;
@@ -69,10 +69,6 @@ public class IntegrationTestSpecification {
         RestitoConfig.clear();
         oAuth2Support.clearOAuth2Client();
         databaseSupport.clearAllTables();
-    }
-
-    protected String asJson(Object object) {
-        return new JsonBuilder(object).toPrettyString();
     }
 
     protected String asJson(Map map) {

@@ -28,6 +28,7 @@ public class RestitoConfig {
     }
 
     public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+        @Override
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
                     "spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://127.0.0.1:" + STUB_SERVER_PORT + OAUTH2_JWK_PATH,

@@ -45,7 +45,7 @@ public class ActuatorIT extends IntegrationTestSpecification {
     private RequestSpecification requestSpecification;
 
     @BeforeEach
-    void beforeEach() {
+    void setup() {
         requestSpecification = new RequestSpecBuilder()
                 .setPort(managementPort)
                 .build();
