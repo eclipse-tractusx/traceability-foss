@@ -86,7 +86,6 @@ fdescribe('NotificationMenuActionsAssembler', () => {
       let conditionAction = item.condition(notificationTemplate);
       console.warn(conditionAction);
       expect(conditionAction).not.toBe(undefined);
-
     });
   });
 
