@@ -19,12 +19,16 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { MockedKeycloakService } from '@core/auth/mocked-keycloak.service';
+import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { InvestigationsState } from '@page/investigations/core/investigations.state';
 import { NotificationMenuActionsAssembler } from '@shared/assembler/notificationMenuActions.assembler';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
+import { Notification, NotificationStatus } from '@shared/model/notification.model';
+import { Severity } from '@shared/model/severity.model';
+import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { KeycloakService } from 'keycloak-angular';
 
 fdescribe('NotificationMenuActionsAssembler', () => {
@@ -47,6 +51,7 @@ fdescribe('NotificationMenuActionsAssembler', () => {
         InvestigationsState,
         NotificationCommonModalComponent,
         NotificationMenuActionsAssembler,
+        CloseNotificationModalComponent
       ],
     });
     notificationCommonModalComponent = TestBed.inject(NotificationCommonModalComponent);
@@ -55,16 +60,33 @@ fdescribe('NotificationMenuActionsAssembler', () => {
 
   it('should return menuActions', function() {
     // Arrange
-    let methodSpy = spyOn(NotificationMenuActionsAssembler, 'getMenuActions').and.callThrough();
+    let showSpy = spyOn(notificationCommonModalComponent, 'show').and.returnValue(undefined);
+
+    const notificationTemplate: Notification = {
+      id: 'id-1',
+      description: 'Investigation No 1',
+      createdBy: { name: 'OEM xxxxxxxxxxxxxxx A', bpn: 'BPN10000000OEM0A' },
+      sendTo: { name: 'OEM xxxxxxxxxxxxxxx B', bpn: 'BPN20000000OEM0B' },
+      reason: { close: '', accept: '', decline: '' },
+      isFromSender: true,
+      assetIds: ['MOCK_part_1'],
+      status: NotificationStatus.ACKNOWLEDGED,
+      severity: Severity.MINOR,
+      createdDate: new CalendarDateModel('2022-05-01T10:34:12.000Z'),
+    };
 
     // Act
     let menuActions = NotificationMenuActionsAssembler.getMenuActions(helperService, notificationCommonModalComponent);
 
     // Assert
-    expect(methodSpy).toHaveBeenCalled();
-
     menuActions.map(item => {
       expect(item.action).toBeDefined();
+      item.action(notificationTemplate);
+      expect(showSpy).toHaveBeenCalled();
+      let conditionAction = item.condition(notificationTemplate);
+      console.warn(conditionAction);
+      expect(conditionAction).not.toBe(undefined);
+
     });
   });
 
