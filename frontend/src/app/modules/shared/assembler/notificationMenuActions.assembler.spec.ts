@@ -84,7 +84,6 @@ fdescribe('NotificationMenuActionsAssembler', () => {
       item.action(notificationTemplate);
       expect(showSpy).toHaveBeenCalled();
       let conditionAction = item.condition(notificationTemplate);
-      console.warn(conditionAction);
       expect(conditionAction).not.toBe(undefined);
     });
   });
