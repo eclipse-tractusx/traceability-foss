@@ -4,6 +4,7 @@ on:
   workflow_dispatch: # Trigger manually
   push:
     tags:
+      # Todo currently does not work with release candidates e.g. 6.0.1-rc1
       - '[0-9]+.[0-9]+.[0-9]+'
 
 jobs:
