@@ -84,6 +84,7 @@ edc-postgresql:
   nameOverride: "tx-edc-provider-postgresql-int-a"
   fullnameOverride: "tx-edc-provider-postgresql-int-a"
   enabled: true
+
   primary:
     resources:
       requests:
