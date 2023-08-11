@@ -140,7 +140,7 @@ backend:
 
 # DEPRECATED
   registry:
-    urlWithPath: ""
+    urlWithPath: "https://trace-x-registry.int.demo.catena-x.net"
   portal:
     baseUrl: "https://portal-backend.int.demo.catena-x.net/api"
 
