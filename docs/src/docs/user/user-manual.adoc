@@ -52,7 +52,7 @@ Parts that are in a quality alert are highlighted yellow.
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/parts-list-view.png[]
 
-=== Quality Alert for selected parts
+=== Parts select / Quality alert
 Select one or multiple child components/parts/batches that are build into your part. Selection will enable you to create a quality alert (notification) to your customers. The quality alert will be added to a queue (queued & requested inbox) and not directly sent to the customers.
 
 Once the quality alert is created you will get a pop-up and can directly navigate to the inbox for further action.
@@ -95,8 +95,6 @@ Once the quality investigation is created you will get a pop-up and can directly
 === Supplier part details
 Clicking on an item in the list opens "Part details" view.
 More detailed information on the asset is listed.
-
-image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/supplier-parts-list-detailed-view.PNG[]
 
 ==== Overview
 General production information. Information on the quality status of the supplier part/batch.
