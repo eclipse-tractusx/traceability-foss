@@ -143,9 +143,9 @@ Notifications in the context of quality investigations that are in queued/draft 
 * Requested status: Quality investigation is sent to the supplier.
 
 
-=== Quality Investigation Context Action
+=== Quality investigation Context Action
 
-Select the three dots icon on the right side of a investigation entry to open the context menu. From there it is possible to open the investigation detailed view or change the status of an investigation. Only the possible status transition will show up.
+Select the three dots icon on the right side of an investigation entry to open the context menu. From there it is possible to open the investigation detailed view or change the status of an investigation. Only the possible status transition will show up.
 
 image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-context-action.png[]
 
@@ -155,11 +155,31 @@ image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/
 
 A pop-up will notify you if the status transition was successful.
 
-=== Quality Investigation Detail View
-
-//TODO: Investigation Detailed View and the creation View of an investigation (?) CHECKPOINT
+=== Quality investigation Detail View
 
 The investigation detail view can be opened by selecting the corresponding option in the context menu.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/investigation-detail-view.png[]
+
+==== Overview
+
+General information about the notification.
+
+==== Affected Parts
+
+Listed parts that are assigned to the selected alert.
+
+==== Supplier Parts
+
+Detailed information for child parts assigned to a notification
+
+==== Message History
+
+Displays all state transitions including the reason/description of the transition that were done on the notification to get an overview of the correspondence between sender and receiver.
+
+==== Quality investigation Action
+
+All possible state transitions are displayed in form of buttons (upper right corner). There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.
 
 === Quality investigation status
 Following status for a quality investigation (notification) are possible:
@@ -204,21 +224,56 @@ image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main
 == Quality alert
 Inbox for received quality alerts and "Queued & Requested" inbox for outgoing draft as well as already sent alerts.
 
-//TODO: Insert alert list screenshot
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alerts-list-view.png[]
 
 image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-drafts.png[] Received alerts.
 
-Alerts received by a supplier. Those notifications specify a defect or request to informed on a specific part / batch on your side and give feedback to the supplier.
+Alerts received by a supplier. Those notifications specify a defect or request to informed on a specific part / batch on your side to be informed and give feedback to the supplier.
 
 image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-send.png[] Queued & Requested alerts.
 
 Notifications in the context of quality alerts that are in queued/draft status or already requested/sent to the customer. Those notifications specify a defect or request to inform on a specific part / batch on the customer side and give feedback back to you.
 
-* Queued status: Quality investigation is created but not yet released.
-* Requested status: Quality investigation is sent to the supplier.
+* Queued status: Quality alert is created but not yet released.
+* Requested status: Quality alert is sent to the customer.
 
-//TODO: alert quick Actions
+=== Quality alert Context Action
 
+Select the three dots icon on the right side of an alert entry to open the context menu. From there it is possible to open the alert detailed view or change the status of an alert. Only the possible status transitions will show up.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notification-context-action.png[]
+
+Changing the status of an alert will open a modal in which the details to the status change can be provided and completed.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alert-context-action-modal.png[]
+
+A pop-up will notify you if the status transition was successful.
+
+=== Quality alert Detail View
+
+The alert detail view can be opened by selecting the corresponding option in the context menu.
+
+image:https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/alert-detail-view.png[]
+
+==== Overview
+
+General information about the notification.
+
+==== Affected Parts
+
+Listed parts that are assigned to the selected alert.
+
+==== Supplier Parts
+
+Detailed information for child parts assigned to a notification
+
+==== Message History
+
+Displays all state transitions including the reason/description of the transition that were done on the notification to get an overview of the correspondence between sender and receiver.
+
+==== Quality investigation Action
+
+All possible state transitions are displayed in form of buttons (upper right corner). There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.
 
 === Quality alert status
 Following status for a quality alert (notification) are possible:
@@ -259,9 +314,3 @@ The Sender can change the status to closed from any status. The receiver can nev
 The legend in the below state diagram describes who can set the status. One exception to this rule: the transition from status SENT to status RECEIVED is done automatically once the sender receives the Http status code 201.
 
 image::https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/notificationstatemodel.png[Notification state model]
-
-//TODO: Alert Detailed View and the creation View of an Alert
-
-//TODO: Look for other new features that have to be documented.
-
-//TODO: Check for correctness (graph and text)
