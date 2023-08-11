@@ -29,6 +29,14 @@ tractusx-connector:
       management:
         authKey: <path:traceability-foss/data/int-b/edc/controlplane#edc.api.control.auth.apikey.value>
 
+    resources:
+      limits:
+        cpu: 400m
+        memory: 1.5Gi
+      requests:
+        cpu: 200m
+        memory: 1.5Gi
+
   dataplane:
     ingresses:
       - enabled: true
@@ -43,6 +51,14 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
+
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
 
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability-int-b.int.demo.catena-x.net/api/callback/endpoint-data-reference"

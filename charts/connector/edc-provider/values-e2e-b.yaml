@@ -14,6 +14,7 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
+
     ssi:
       miw:
         url: <path:traceability-foss/data/dev/edc/wallet#ssi.miw.url>
@@ -23,6 +24,15 @@ tractusx-connector:
         client:
           id: <path:traceability-foss/data/dev/edc/wallet#ssi.oauth.client.id>
           secretAlias: edc-miw-keycloak-secret
+
+    resources:
+      limits:
+        cpu: 400m
+        memory: 1.5Gi
+      requests:
+        cpu: 200m
+        memory: 1.5Gi
+
   dataplane:
     ingresses:
       - enabled: true
@@ -37,6 +47,14 @@ tractusx-connector:
         tls:
           enabled: true
           secretName: tls-secret
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+
   ## currently we need to provide a url but is not used anywhere
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability-e2e-b.dev.demo.catena-x.net/api/callback/endpoint-data-reference"
