@@ -86,10 +86,10 @@ backend:
   # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
   resources:
     limits:
-      cpu: 500m
+      cpu: 200m
       memory: 512Mi
     requests:
-      cpu: 500m
+      cpu: 100m
       memory: 512Mi
 
   springprofile: int-a
@@ -179,10 +179,10 @@ pgadmin4:
         value: "False"
   resources:
     limits:
-      cpu: 1000m
-      memory: 1Gi
+      cpu: 200m
+      memory: 512Gi
     requests:
-      cpu: 500m
+      cpu: 100m
       memory: 512Mi
 
 #########################
@@ -352,11 +352,11 @@ tractusx-connector:
 
     resources:
       limits:
-        cpu: 2000m
-        memory: 3Gi
+        cpu: 400m
+        memory: 1.5Gi
       requests:
-        cpu: 100m
-        memory: 3Gi
+        cpu: 200m
+        memory: 1.5Gi
 
   dataplane:
     ingresses:
@@ -395,11 +395,11 @@ tractusx-connector:
       public: ""
     resources:
       limits:
-        cpu: 2000m
-        memory: 3Gi
+        cpu: 200m
+        memory: 512Mi
       requests:
         cpu: 100m
-        memory: 3Gi
+        memory: 512Mi
 
   ## currently we need to provide a url but is not used anywhere
   # URL where the EndpointDataReference callback will be sent to
@@ -432,6 +432,7 @@ tractusx-connector:
   ##################################
   postgresql:
     enabled: true
+    size: 1Gi
     auth:
       username: "<path:traceability-foss/data/int-a/edc/database#user>"
       password: "<path:traceability-foss/data/int-a/edc/database#password>"
@@ -446,11 +447,11 @@ edc-postgresql:
   primary:
     resources:
       limits:
-        cpu: 2000m
-        memory: 4Gi
+        cpu: 200m
+        memory: 1Gi
       requests:
         cpu: 100m
-        memory: 4Gi
+        memory: 1Gi
   nameOverride: "tx-edc-consumer-postgresql-int-a"
   fullnameOverride: "tx-edc-consumer-postgresql-int-a"
   enabled: true

@@ -24,13 +24,6 @@ registry:
       persistence:
         enabled: true
         size: 1Gi
-      resources:
-        limits:
-          cpu: 1500m
-          memory: 2Gi
-        requests:
-          cpu: 200m
-          memory: 2Gi
 
   registry:
     authentication: false
