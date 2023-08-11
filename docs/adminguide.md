@@ -129,14 +129,14 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
   # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
   livenessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 60
+    failureThreshold: 6
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
   readinessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 60
+    failureThreshold: 6
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
@@ -244,14 +244,14 @@ backend:
   # Following Catena-X Helm Best Practices @url: https://catenax-ng.github.io/docs/kubernetes-basics/helm
   # @url: https://github.com/helm/charts/blob/master/stable/nginx-ingress/values.yaml#L210
   livenessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 80
+    failureThreshold: 6
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
   readinessProbe:
-    failureThreshold: 3
-    initialDelaySeconds: 80
+    failureThreshold: 6
+    initialDelaySeconds: 180
     periodSeconds: 10
     successThreshold: 1
     timeoutSeconds: 1
@@ -268,7 +268,7 @@ backend:
         secretName: tls-secret
 
   healthCheck:
-    enabled: false  # <healthCheck.enabled>
+    enabled: true  # <healthCheck.enabled>
 
   traceability:
     bpn: "CHANGEME"  # <traceability.bpn>
@@ -303,12 +303,30 @@ backend:
             - hosts:
                 - "<https://replace.me">
               secretName: tls-secret
+    callbackUrl: "<https://replace.me">
+    callbackUrlEdcClient: "<https://replace.me">
+    dataEndpointUrl: "<https://replace.me">
 
+  discoveryfinder:
+    baseUrl: "<https://replace.me">
+
+  irs:
+    baseUrl: "<https://replace.me">
+  registry:
+    urlWithPath: "<https://replace.me">
+  portal:
+    baseUrl: "<https://replace.me">
+
+  config:
+    allowedCorsOriginFirst: "<https://replace.me">
+    allowedCorsOriginSecond: "<https://replace.me">
 
 #########################
 # PG Admin configuration     #
 #########################
 pgadmin4:
+  nameOverride: "tracex-pgadmin4"
+  fullnameOverride: "tracex-pgadmin4"
   enabled: false  # <pgadmin4.enabled>
   ingress:
     enabled: false   # <pgadmin4.ingress.enabled>
@@ -341,13 +359,15 @@ postgresql:
 #########################
 irs-helm:
   enabled: false  # <irs-helm.enabled>
-
+  nameOverride: "tracex-irs"
+  fullnameOverride: "tracex-irs"
 ###################################
 # EDC Consumer configuration  #
 ###################################
 tractusx-connector:
   enabled: false
-
+  nameOverride: "tracex-consumer-edc"
+  fullnameOverride: "tracex-consumer-edc"
   participant:
     id: "BPN"
 
@@ -367,6 +387,8 @@ tractusx-connector:
 # IRS EDC Consumer configuration  #
 ###################################
 edc-postgresql:
+  nameOverride: "tracex-consumer-edc-postgresql"
+  fullnameOverride: "tracex-consumer-edc-postgresql"
   enabled: false
   auth:
     postgresPassword: "CHANGEME"
