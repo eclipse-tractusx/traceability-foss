@@ -66,6 +66,14 @@ edc-postgresql:
   nameOverride: "tx-edc-provider-postgresql-int-b"
   fullnameOverride: "tx-edc-provider-postgresql-int-b"
   enabled: true
+  primary:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 1Gi
+      limits:
+        cpu: 200m
+        memory: 1Gi
   auth:
     database: edc
     username: <path:traceability-foss/data/int-b/edc/database#user>
