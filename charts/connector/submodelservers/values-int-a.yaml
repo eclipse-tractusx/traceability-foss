@@ -78,11 +78,11 @@ ingress:
 # @url: https://cloud.google.com/blog/products/containers-kubernetes/kubernetes-best-practices-resource-requests-and-limits
 resources:
   limits:
-    cpu: 100m
-    memory: 512
+    cpu: 200m
+    memory: 512Mi
   requests:
-    cpu: 50m
-    memory: 512
+    cpu: 100m
+    memory: 512Mi
 
 autoscaling:
   enabled: false
