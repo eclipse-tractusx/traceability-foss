@@ -1,0 +1,41 @@
+{
+  "job" : {
+    "id" : "6bb115eb-6793-44c9-b247-c8acc03756d5",
+    "globalAssetId" : "ebb79c45-7bba-4169-bf17-EMPTY_AS_BUILT",
+    "state" : "COMPLETED",
+    "exception" : null,
+    "createdOn" : "2023-06-14T13:42:17.473660935Z",
+    "startedOn" : "2023-06-14T13:42:17.473771737Z",
+    "lastModifiedOn" : "2023-06-14T13:42:50.578583206Z",
+    "completedOn" : "2023-06-14T13:42:50.578585306Z",
+    "owner" : "sa-cl6-cx-10",
+    "summary" : {
+      "asyncFetchedItems" : {
+        "running" : 0,
+        "completed" : 0,
+        "failed" : 0
+      },
+      "bpnLookups" : {
+        "completed" : 3,
+        "failed" : 0
+      }
+    },
+    "parameter" : {
+      "bomLifecycle" : "asBuilt",
+      "aspects" : [
+        "Batch",
+        "SerialPart",
+        "AssemblyPartRelationship"
+      ],
+      "depth" : 2,
+      "direction" : "downward",
+      "collectAspects" : true,
+      "lookupBPNs" : true,
+      "callbackUrl" : null
+    }
+  },
+  "relationships" : [],
+  "shells" : [],
+  "tombstones" : [],
+  "submodels" : []
+}

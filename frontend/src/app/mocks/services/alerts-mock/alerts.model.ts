@@ -38,6 +38,8 @@ export const buildMockAlerts = (
   new Array(101).fill(null).map((_, index) => {
     const status = statuses[index % statuses.length];
     const severity = severities[index % severities.length];
+    // every 10th alert should have an error
+    const errorAlert = (index+1) % 10 === 0 ? "The Services returned an Error while processing this Alert" : undefined;
 
     const close = status === NotificationStatus.CLOSED ? getRandomText(getRandomIntFromInterval(15, 500)) : '';
     const isDeclined = Math.random() >= 0.5;
@@ -70,6 +72,7 @@ export const buildMockAlerts = (
       createdDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
       targetDate: `2022-${numberToString(month)}-${numberToString(day + 1)}T12:34:12`,
       assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
+      errorMessage: errorAlert,
     };
   });
 
