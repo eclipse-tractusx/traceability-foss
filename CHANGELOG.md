@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - OAuth2 client credentials rest template interceptor
 - Configuration for left and right policies to use registry client library
+- TRG Github Action Pipeline for quality checks
 - ErrorMessage field to investigation and alerts
 
 ### Changed
