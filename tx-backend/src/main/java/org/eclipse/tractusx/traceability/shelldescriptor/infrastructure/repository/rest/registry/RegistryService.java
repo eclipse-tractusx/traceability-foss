@@ -85,11 +85,11 @@ public class RegistryService {
 
         Collection<DigitalTwinRegistryKey> registryKeys = null;
         try {
-            registryKeys = decentralDigitalTwinRegistryService.lookupShells(applicationBPN);
+            registryKeys = decentralDigitalTwinRegistryService.lookupShellIdentifiers(applicationBPN);
             registryKeys.forEach(digitalTwinRegistryKey -> {
                 log.info("DTR Key" + digitalTwinRegistryKey);
             });
-        } catch (FeignException e) {
+        } catch (Exception e) {
             endMetric(registryLookupMetric);
             log.error("Fetching shell ownShellsRegistryResponse failed", e);
         }
