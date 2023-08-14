@@ -66,8 +66,8 @@ public class OAuth2ApiSupport {
                 );
     }
 
-    public void verifyOAuth2ApiCalledOnceForTechnicalUserToken() {
-        verifyHttp(restitoProvider.stubServer()).once(
+    public void verifyOAuth2ApiCalledForTechnicalUserToken(int times) {
+        verifyHttp(restitoProvider.stubServer()).times(times,
                 startsWithUri(RestitoConfig.OAUTH2_TOKEN_PATH)
         );
     }
