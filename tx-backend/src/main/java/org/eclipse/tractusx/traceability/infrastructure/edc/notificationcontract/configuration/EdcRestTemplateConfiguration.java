@@ -22,17 +22,9 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.edc.client.EdcSubmodelFacade;
-import org.eclipse.tractusx.irs.edc.client.exceptions.EdcClientException;
-import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryClient;
-import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
-import org.eclipse.tractusx.irs.registryclient.decentral.EdcRetrieverException;
-import org.eclipse.tractusx.irs.registryclient.decentral.EndpointDataForConnectorsService;
-import org.eclipse.tractusx.irs.registryclient.discovery.ConnectorEndpointsService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -70,21 +62,6 @@ public class EdcRestTemplateConfiguration {
     public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
                 .build();
-    }
-
-    @Bean
-//    @ConditionalOnProperty(prefix = "digitalTwinRegistry", name = "type", havingValue = "decentral")
-    public DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService(
-            @Qualifier("edcClientRestTemplate") final RestTemplate edcRestTemplate,
-            final ConnectorEndpointsService connectorEndpointsService, final EdcSubmodelFacade facade) {
-        return new DecentralDigitalTwinRegistryService(connectorEndpointsService,
-                new EndpointDataForConnectorsService((edcConnectorEndpoint, assetType, assetValue) -> {
-                    try {
-                        return facade.getEndpointReferenceForAsset(edcConnectorEndpoint, assetType, assetValue);
-                    } catch (EdcClientException e) {
-                        throw new EdcRetrieverException(e);
-                    }
-                }), new DecentralDigitalTwinRegistryClient(edcRestTemplate));
     }
 
     @Bean
