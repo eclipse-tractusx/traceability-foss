@@ -1,0 +1,14 @@
+[
+  {
+    "bpn" : "BPNL00000003AYRE",
+    "connectorEndpoint" : [
+      "http://localhost:9999/api/edc"
+    ]
+  },
+  {
+    "bpn" : "BPNL00000003AXS3",
+    "connectorEndpoint" : [
+      "http://localhost:9999/api/edc"
+    ]
+  }
+]
