@@ -52,8 +52,6 @@ public class QualityNotificationMessageBaseEntity {
     private String messageId;
     private Boolean isInitial;
     private QualityNotificationStatusBaseEntity status;
-    @Column(name = "errormessage")
-    private String errorMessage;
 
     @PreUpdate
     public void preUpdate() {

@@ -97,7 +97,6 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .updated(investigationNotificationEntity.getUpdated())
                 .isInitial(investigationNotificationEntity.getIsInitial())
                 .type(QualityNotificationType.INVESTIGATION)
-                .errorMessage(investigationNotificationEntity.getErrorMessage())
                 .build();
     }
 
@@ -121,7 +120,6 @@ public class InvestigationNotificationEntity extends QualityNotificationMessageB
                 .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
                 .messageId(qualityNotificationMessage.getMessageId())
                 .isInitial(qualityNotificationMessage.getIsInitial())
-                .errorMessage(qualityNotificationMessage.getErrorMessage())
                 .build();
     }
 

@@ -96,7 +96,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .updated(alertNotificationEntity.getUpdated())
                 .isInitial(alertNotificationEntity.getIsInitial())
                 .type(QualityNotificationType.ALERT)
-                .errorMessage(alertNotificationEntity.getErrorMessage())
                 .build();
     }
 
@@ -120,7 +119,6 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
                 .messageId(qualityNotificationMessage.getMessageId())
                 .isInitial(qualityNotificationMessage.getIsInitial())
-                .errorMessage(qualityNotificationMessage.getErrorMessage())
                 .build();
     }
 

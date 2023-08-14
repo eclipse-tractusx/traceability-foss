@@ -67,7 +67,6 @@ public class QualityNotification {
     private Map<String, QualityNotificationMessage> notifications = new HashMap<>();
     private String errorMessage;
 
-
     public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
         return QualityNotification.builder()
                 .bpn(bpn)
