@@ -96,7 +96,7 @@ class AssetsControllerSyncIT extends IntegrationTestSpecification {
         //THEN
         eventually(() -> {
             assetsSupport.assertAssetAsBuiltSize(14);
-            oAuth2ApiSupport.verifyOAuth2ApiCalledForTechnicalUserToken(2);
+            oAuth2ApiSupport.verifyOAuth2ApiCalledForTechnicalUserToken(1);
             irsApiSupport.verifyIrsApiTriggerJobCalledTimes(3);
             return true;
         });
