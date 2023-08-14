@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
@@ -31,6 +32,7 @@ import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.r
 import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor.AssetIdType.MANUFACTURER_PART_ID;
 import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor.AssetIdType.PART_INSTANCE_ID;
 
+@Slf4j
 public record RegistryShellDescriptor(
         GlobalAssetId globalAssetId,
         String identification,
@@ -42,6 +44,7 @@ public record RegistryShellDescriptor(
         String globalAssetId = globalAssetId().value().stream()
                 .findFirst()
                 .orElse(null);
+        log.info("toShellDescriptor: {}", specificAssetIds);
         Map<String, String> assetIdsMap = specificAssetIds().stream()
                 .collect(Collectors.toMap(entry -> entry.key().toLowerCase(), SpecificAssetId::value));
 
