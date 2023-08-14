@@ -80,4 +80,8 @@ public class QualityNotificationResponse {
     @ApiModelProperty(example = "2099-02-21T21:27:10.734950Z")
     @Size(max = 50)
     private String targetDate;
+
+    @ApiModelProperty(example = "EDC not reachable")
+    @Size(max = 255)
+    private String errorMessage;
 }

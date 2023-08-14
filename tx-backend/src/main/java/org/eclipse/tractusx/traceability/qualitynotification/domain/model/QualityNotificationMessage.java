@@ -56,6 +56,7 @@ public class QualityNotificationMessage {
     private String messageId;
     private Boolean isInitial;
     private QualityNotificationType type;
+    private String errorMessage;
 
     void changeStatusTo(QualityNotificationStatus to) {
         boolean transitionAllowed = notificationStatus.transitionAllowed(to);
@@ -103,6 +104,7 @@ public class QualityNotificationMessage {
                 .messageId(UUID.randomUUID().toString())
                 .isInitial(false)
                 .type(type)
+                .errorMessage(errorMessage)
                 .build();
     }
 }
