@@ -121,6 +121,18 @@ public class ApplicationConfig {
 
     }
 
+    @Bean
+    public AcceptedPoliciesProvider acceptedPoliciesProvider() {
+        return new AcceptedPoliciesProvider() {
+            OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
+            AcceptedPolicy acceptedPolicy = new AcceptedPolicy(ID_TRACE_CONSTRAINT, offsetDateTime);
+            @Override
+            public List<AcceptedPolicy> getAcceptedPolicies() {
+                return List.of(acceptedPolicy);
+            }
+        };
+    }
+
 	@Bean
 	public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
 		final Logger logger = LoggerFactory.getLogger("RetryLogger");
