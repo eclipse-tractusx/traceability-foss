@@ -45,6 +45,13 @@
   }
 }
 
+.card-list--full-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #d91e18;
+}
+
 .card-list--key {
   padding-right: 10px;
   font-weight: bold;
@@ -54,6 +61,11 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.card-list--full-value {
+  //text-overflow: ;
+  width: 100%;
 }
 
 mat-card {
