@@ -52,6 +52,6 @@ export class HeaderComponent {
   }
 
   public openDocumentation(): void {
-    window.open('https://eclipse-tractusx.github.io/traceability-foss-backend/docs/', '_blank', 'noopener');
+    window.open('https://eclipse-tractusx.github.io/traceability-foss/docs/', '_blank', 'noopener');
   }
 }
