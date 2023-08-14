@@ -114,25 +114,12 @@ public class ApplicationConfig {
             OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
             AcceptedPolicy acceptedPolicy = new AcceptedPolicy(ID_TRACE_CONSTRAINT, offsetDateTime);
             defaultAcceptedPoliciesProvider.addAcceptedPolicies(List.of(acceptedPolicy));
-            log.info("Successfully added permission to irs client lib provider");
+            log.info("Successfully added permission to irs client lib provider: {}", acceptedPolicy);
         } catch (Exception exception) {
             log.error("Failed to create Irs Policies : ", exception);
         }
 
     }
-
-    @Bean
-    public AcceptedPoliciesProvider acceptedPoliciesProvider() {
-        return new AcceptedPoliciesProvider() {
-            OffsetDateTime offsetDateTime = OffsetDateTime.now().plusMonths(1);
-            AcceptedPolicy acceptedPolicy = new AcceptedPolicy(ID_TRACE_CONSTRAINT, offsetDateTime);
-            @Override
-            public List<AcceptedPolicy> getAcceptedPolicies() {
-                return List.of(acceptedPolicy);
-            }
-        };
-    }
-
 	@Bean
 	public RegistryEventConsumer<Retry> myRetryRegistryEventConsumer() {
 		final Logger logger = LoggerFactory.getLogger("RetryLogger");
