@@ -219,7 +219,7 @@ data:
       {
         "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
         "connectorEndpoint": [
-          "https://{{ .Values.wiremock.bpn.ownUrl}}/"
+          "https://{{ .Values.wiremock.bpn.ownUrl}}"
         ]
       }
     ]
@@ -250,7 +250,7 @@ data:
       {
         "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
         "connectorEndpoint": [
-          "https://{{ .Values.wiremock.bpn.otherUrl}}/"
+          "https://{{ .Values.wiremock.bpn.otherUrl}}"
         ]
       }
     ]
