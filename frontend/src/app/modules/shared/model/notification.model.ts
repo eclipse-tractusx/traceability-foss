@@ -71,6 +71,7 @@ export interface NotificationResponse {
   channel: 'SENDER' | 'RECEIVER';
   targetDate?: string;
   bpn?: string;
+  errorMessage?: string
 }
 
 export interface Notification {
@@ -87,6 +88,7 @@ export interface Notification {
   isFromSender: boolean;
   targetDate?: CalendarDateModel;
   bpn?: string;
+  errorMessage?: string;
 }
 
 export type NotificationsResponse = PaginationResponse<NotificationResponse>;
