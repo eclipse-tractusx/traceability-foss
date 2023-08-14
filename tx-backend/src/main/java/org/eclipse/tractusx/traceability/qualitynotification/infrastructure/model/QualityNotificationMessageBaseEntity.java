@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.PreUpdate;
@@ -51,6 +52,7 @@ public class QualityNotificationMessageBaseEntity {
     private String messageId;
     private Boolean isInitial;
     private QualityNotificationStatusBaseEntity status;
+    @Column(name = "errormessage")
     private String errorMessage;
 
     @PreUpdate
