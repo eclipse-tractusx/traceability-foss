@@ -52,6 +52,7 @@ export class NotificationAssembler {
       sendTo: _sendTo = '',
       sendToName: _sendToName = '',
       targetDate: _targetDate = '',
+      errorMessage: _errorMessage= '',
     } = response;
 
     const isFromSender = channel === 'SENDER';
@@ -61,8 +62,9 @@ export class NotificationAssembler {
     const targetDate = new CalendarDateModel(_targetDate);
     const createdBy = { bpn: _createdBy, name: _createdByName };
     const sendTo = { bpn: _sendTo, name: _sendToName };
+    const errorMessage = _errorMessage || undefined;
 
-    return {
+    let assembled = {
       id,
       description,
       createdBy,
@@ -76,5 +78,7 @@ export class NotificationAssembler {
       targetDate,
       bpn,
     };
+
+    return errorMessage ? {...assembled, errorMessage: errorMessage} : assembled;
   }
 }

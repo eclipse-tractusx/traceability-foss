@@ -106,9 +106,16 @@ table {
 }
 
 tr.highlighted {
-  @apply bg-warning bg-opacity-50;
+  @apply bg-warning bg-opacity-30;
   &:hover {
-    @apply bg-warning bg-opacity-50;
+    @apply bg-warning bg-opacity-30;
+  }
+}
+
+tr.error {
+  @apply bg-danger bg-opacity-20;
+  &:hover {
+    @apply bg-danger bg-opacity-20;
   }
 }
 

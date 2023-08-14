@@ -39,6 +39,7 @@ export const buildMockAlerts = (
     const numberToString = (i: number) => i.toString().padStart(2, '0');
     const month = (index % 12) + 1;
     const day = (index % 28) + 1;
+    const errorAlert = (index+1) % 10 === 0 ? "The Services returned an Error while processing this Alert" : "";
 
     return {
       id: `${AlertIdPrefix}${index + 1}`,
@@ -53,6 +54,7 @@ export const buildMockAlerts = (
       reason: { close: '', accept: '', decline: '' },
       createdDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
       assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
+      errorMessage: errorAlert
     };
   });
 
