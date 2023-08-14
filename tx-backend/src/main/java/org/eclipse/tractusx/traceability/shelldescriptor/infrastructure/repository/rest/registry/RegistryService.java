@@ -64,7 +64,8 @@ public class RegistryService {
                            RegistryApiClient registryApiClient,
                            @Value("${traceability.bpn}") String applicationBPN,
                            @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey,
-                           ShellDescriptorLookupMetricRepository registryLookupMeterRegistry, Clock clock, DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService) {
+                           ShellDescriptorLookupMetricRepository registryLookupMeterRegistry, Clock clock,
+                           DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService) {
         this.objectMapper = objectMapper;
         this.registryApiClient = registryApiClient;
         this.applicationBPN = applicationBPN;
