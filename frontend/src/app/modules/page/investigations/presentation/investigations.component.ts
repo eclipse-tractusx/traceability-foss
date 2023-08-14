@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { getRoute, INVESTIGATION_BASE_ROUTE } from '@core/known-route';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
@@ -31,12 +31,13 @@ import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { Subscription } from 'rxjs';
 import { InvestigationsFacade } from '../core/investigations.facade';
+import {NotificationMenuActionsAssembler} from "@shared/assembler/notificationMenuActions.assembler";
 
 @Component({
   selector: 'app-investigations',
   templateUrl: './investigations.component.html',
 })
-export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentInit {
+export class InvestigationsComponent {
   @ViewChild(NotificationCommonModalComponent) notificationCommonModalComponent: NotificationCommonModalComponent;
 
   public readonly investigationsReceived$;
@@ -53,7 +54,8 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
     public readonly investigationsFacade: InvestigationsFacade,
     private readonly investigationDetailFacade: InvestigationDetailFacade,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly cd: ChangeDetectorRef
   ) {
     this.investigationsReceived$ = this.investigationsFacade.investigationsReceived$;
     this.investigationsQueuedAndRequested$ = this.investigationsFacade.investigationsQueuedAndRequested$;
@@ -67,45 +69,9 @@ export class InvestigationsComponent implements OnInit, OnDestroy, AfterContentI
     })
   }
 
-  public ngAfterContentInit(): void {
-    this.menuActionsConfig = [
-      {
-        label: 'actions.close',
-        icon: 'close',
-        action: data => this.notificationCommonModalComponent.show('close', data),
-        condition: data => this.helperService.showCloseButton(data),
-      },
-      {
-        label: 'actions.approve',
-        icon: 'share',
-        action: data => this.notificationCommonModalComponent.show('approve',data),
-        condition: data => this.helperService.showApproveButton(data),
-      },
-      {
-        label: 'actions.cancel',
-        icon: 'cancel',
-        action: data => this.notificationCommonModalComponent.show('cancel',data),
-        condition: data => this.helperService.showCancelButton(data),
-      },
-      {
-        label: 'actions.acknowledge',
-        icon: 'work',
-        action: data => this.notificationCommonModalComponent.show('acknowledge', data),
-        condition: data => this.helperService.showAcknowledgeButton(data),
-      },
-      {
-        label: 'actions.accept',
-        icon: 'assignment_turned_in',
-        action: data => this.notificationCommonModalComponent.show('accept',data),
-        condition: data => this.helperService.showAcceptButton(data),
-      },
-      {
-        label: 'actions.decline',
-        icon: 'assignment_late',
-        action: data => this.notificationCommonModalComponent.show('decline', data),
-        condition: data => this.helperService.showDeclineButton(data),
-      },
-    ];
+  public ngAfterViewInit(): void {
+    this.menuActionsConfig = NotificationMenuActionsAssembler.getMenuActions(this.helperService, this.notificationCommonModalComponent);
+    this.cd.detectChanges();
   }
 
   public ngOnDestroy(): void {
