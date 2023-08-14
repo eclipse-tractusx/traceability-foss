@@ -33,12 +33,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -55,20 +50,6 @@ public record JobDetailResponse(
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
     private static final String JOB_STATUS_COMPLETED = "COMPLETED";
     private static final String JOB_STATUS_RUNNING = "RUNNING";
-    private static final String AS_PLANNED_MAPPING_ASPECT_1 = "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned";
-    private static final String AS_PLANNED_MAPPING_ASPECT_2 = "urn:bamm:io.catenax.part_as_planned:1.0.0#PartAsPlanned";
-
-    private static final String[] AS_BUILT_MAPPING_ASPECT_SERIALPART_LIST = {
-            "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
-            "urn:samm:io.catenax.serial_part:1.0.0#SerialPart",
-            "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",
-            "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
-    };
-
-    private static final String[] AS_BUILT_MAPPING_ASPECT_BATCH = {
-            "urn:bamm:io.catenax.batch:1.0.0#Batch",
-            "urn:bamm:io.catenax.batch:1.0.2#Batch"
-    };
 
     @JsonCreator
     static JobDetailResponse of(
@@ -246,8 +227,7 @@ public record JobDetailResponse(
 
     private boolean isAsBuiltAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
         final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId()) &&
-                (Arrays.asList(AS_BUILT_MAPPING_ASPECT_SERIALPART_LIST).contains(semanticDataModel.aspectType())
-                        || Arrays.asList(AS_BUILT_MAPPING_ASPECT_BATCH).contains(semanticDataModel.aspectType()));
+                semanticDataModel.isAsBuilt();
         log.info(":: isAsBuildAndOwnPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;
@@ -255,9 +235,7 @@ public record JobDetailResponse(
 
     private boolean isAsBuiltAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
         final boolean result = !semanticDataModel.getCatenaXId()
-                .equals(jobStatus.globalAssetId()) &&
-                (Arrays.asList(AS_BUILT_MAPPING_ASPECT_SERIALPART_LIST).contains(semanticDataModel.aspectType())
-                        || Arrays.asList(AS_BUILT_MAPPING_ASPECT_BATCH).contains(semanticDataModel.aspectType()));
+                .equals(jobStatus.globalAssetId()) && semanticDataModel.isAsBuilt();
         log.info(":: isAsBuiltAndOtherPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;
@@ -265,7 +243,7 @@ public record JobDetailResponse(
 
     private boolean isAsPlannedAndOwnPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
         final boolean result = semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId())
-                && (semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_1) || semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_2));
+                && semanticDataModel.isAsPlanned();
         log.info(":: isAsPlannedAndOwnPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;
@@ -273,7 +251,7 @@ public record JobDetailResponse(
 
     private boolean isAsPlannedAndOtherPart(SemanticDataModel semanticDataModel, JobStatus jobStatus) {
         final boolean result = !semanticDataModel.getCatenaXId().equals(jobStatus.globalAssetId())
-                && (semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_1) || semanticDataModel.aspectType().equals(AS_PLANNED_MAPPING_ASPECT_2));
+                && semanticDataModel.isAsPlanned();
         log.info(":: isAsPlannedAndOtherPart() {}", semanticDataModel);
         log.info(":: result: {}", result);
         return result;

@@ -92,7 +92,7 @@ class AssetsControllerSyncIT extends IntegrationSpecification implements IrsApiS
 
         then:
         eventually {
-            assertAssetAsBuiltSize(13)
+            assertAssetAsBuiltSize(14)
         }
 
         and:
