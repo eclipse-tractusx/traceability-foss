@@ -18,8 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
+import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -31,14 +34,21 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
 class RegistryFacadeTest {
 
     @Mock
     private ShellDescriptorsServiceImpl shellDescriptorsService;
 
+    @Mock
+    private DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
 
+    @Mock
+    private TraceabilityProperties traceabilityProperties;
     @Mock
     private AssetServiceImpl assetService;
 
@@ -48,19 +58,20 @@ class RegistryFacadeTest {
 
     @Test
     void testUpdateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
+        // Given
         List<ShellDescriptor> shellDescriptors = new ArrayList<>();
         ShellDescriptor shellDescritor = ShellDescriptor.builder().globalAssetId("1").build();
         ShellDescriptor shellDescritor2 = ShellDescriptor.builder().globalAssetId("2").build();
         shellDescriptors.add(shellDescritor);
         shellDescriptors.add(shellDescritor2);
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
+        List<String> globalAssetIds = List.of("1", "2");
+        when(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(BPN.of("test").toString())).thenReturn(globalAssetIds);
 
-
-        when(shellDescriptorsService.update(shellDescriptors)).thenReturn(shellDescriptors);
-
-
-
+        // When
         registryFacade.updateShellDescriptorAndSynchronizeAssets();
 
+        // Then
         verify(shellDescriptorsService, times(1)).update(shellDescriptors);
     }
 }
