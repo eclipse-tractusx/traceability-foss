@@ -182,10 +182,6 @@ public class SemanticDataModel {
         return localIdentifiers;
     }
 
-    public ValidityPeriod validityPeriod() {
-        return validityPeriod;
-    }
-
     public List<Site> sites() {
         return sites;
     }
@@ -226,11 +222,11 @@ public class SemanticDataModel {
     }
 
     public boolean isAsPlanned() {
-        return aspectType.contains("part_as_planned");
+        return aspectType.contains("AsPlanned");
     }
 
     public boolean isAsBuilt() {
-        return !aspectType.contains("part_as_planned");
+        return !aspectType.contains("AsPlanned");
     }
 
 
