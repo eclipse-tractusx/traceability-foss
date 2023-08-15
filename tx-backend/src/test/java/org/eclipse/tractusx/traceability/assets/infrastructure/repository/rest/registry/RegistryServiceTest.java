@@ -24,13 +24,10 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
-import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
 import org.eclipse.tractusx.irs.registryclient.DigitalTwinRegistryKey;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryApiClient;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
@@ -55,12 +52,6 @@ class RegistryServiceTest {
     private RegistryService registryService;
 
     @Mock
-    private RegistryApiClient registryApiClient;
-
-    @Mock
-    private ShellDescriptorLookupMetricRepository registryLookupMeterRegistry;
-
-    @Mock
     private RegistryShellDescriptorResponse registryShellDescriptorResponse;
 
     @Mock
@@ -76,7 +67,7 @@ class RegistryServiceTest {
         String bpn = "test-bpn";
         String manufacturerIdKey = "test-manufacturer-id-key";
 
-        registryService = new RegistryService(objectMapper, registryApiClient, bpn, manufacturerIdKey, registryLookupMeterRegistry, Clock.systemUTC(), decentralDigitalTwinRegistryService);
+        registryService = new RegistryService(objectMapper, bpn, manufacturerIdKey, Clock.systemUTC(), decentralDigitalTwinRegistryService);
 
     }
 

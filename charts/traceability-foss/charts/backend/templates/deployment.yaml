@@ -82,8 +82,6 @@ spec:
               value: {{ .Values.edc.providerUrl | quote }}
             - name: IRS_URL
               value: {{ .Values.irs.baseUrl | quote }}
-            - name: REGISTRY_URL_WITH_PATH
-              value: {{ .Values.registry.urlWithPath | quote }}
             - name: PORTAL_URL
               value: {{ .Values.portal.baseUrl | quote }}
             - name: EDC_CALLBACK_URL

@@ -131,8 +131,6 @@ jwt:
 feign:
   irsApi:
     url: ${IRS_URL}
-  registryApi:
-    url: ${REGISTRY_URL_WITH_PATH}
   portalApi:
     url: ${PORTAL_URL}
   okhttp:
