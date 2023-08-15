@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.integration;
 import groovy.json.JsonBuilder;
 import org.awaitility.Awaitility;
 import org.eclipse.tractusx.traceability.integration.common.config.PostgreSQLConfig;
+import org.eclipse.tractusx.traceability.integration.common.config.RestAssuredConfig;
 import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
 import org.eclipse.tractusx.traceability.integration.common.support.DatabaseSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.OAuth2ApiSupport;
@@ -46,7 +47,7 @@ import static org.awaitility.Awaitility.await;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
 @Testcontainers
-@ContextConfiguration(initializers = {PostgreSQLConfig.Initializer.class, RestitoConfig.Initializer.class})
+@ContextConfiguration(initializers = {PostgreSQLConfig.Initializer.class, RestitoConfig.Initializer.class}, classes = {RestAssuredConfig.class})
 public class IntegrationTestSpecification {
 
     @Autowired
@@ -78,7 +79,7 @@ public class IntegrationTestSpecification {
     protected void eventually(Callable<Boolean> conditions) throws InterruptedException {
         Awaitility.setDefaultPollInterval(500, TimeUnit.MILLISECONDS);
         Awaitility.setDefaultTimeout(15, TimeUnit.SECONDS);
-        Awaitility.catchUncaughtExceptionsByDefault();
+        Awaitility.ignoreExceptionsByDefault();
         Awaitility.pollInSameThread();
         await().until(conditions, Matchers.equalTo(true));
     }

@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.integration.common.config.RestitoConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ import static com.xebialabs.restito.semantics.Action.*;
 import static com.xebialabs.restito.semantics.Condition.*;
 
 @Component
+@Slf4j
 public class OAuth2ApiSupport {
     @Autowired
     RestitoProvider restitoProvider;
@@ -66,11 +68,6 @@ public class OAuth2ApiSupport {
                 );
     }
 
-    public void verifyOAuth2ApiCalledForTechnicalUserToken(int times) {
-        verifyHttp(restitoProvider.stubServer()).times(times,
-                startsWithUri(RestitoConfig.OAUTH2_TOKEN_PATH)
-        );
-    }
 
     public void verifyOAuth2ApiCalledTimesForTechnicalUserToken(int times) {
         verifyHttp(restitoProvider.stubServer()).times(times,

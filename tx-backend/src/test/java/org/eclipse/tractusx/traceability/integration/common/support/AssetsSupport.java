@@ -71,7 +71,7 @@ public class AssetsSupport {
 
     public void assertAssetAsBuiltSize(int size) {
         long assetCount = assetRepositoryProvider.assetAsBuiltRepository().countAssets();
-        log.info("AsBuiltRepository asset count: {}", assetCount);
+        log.info("AsBuiltRepository asset count: {}, expected: {}", assetCount, size);
         assert assetCount == size;
     }
 

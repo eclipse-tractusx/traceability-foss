@@ -450,7 +450,7 @@
                             <filtering>true</filtering>
                         </resource>
                         <resource>
-                            <directory>src/integration/resources</directory>
+                            <directory>src/test/resources</directory>
                             <filtering>true</filtering>
                         </resource>
                     </resources>
@@ -475,7 +475,7 @@
                 </configuration>
             </plugin>
 
-            <!--Test Plugin-->
+            <!--            Test Plugin-->
             <plugin>
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
