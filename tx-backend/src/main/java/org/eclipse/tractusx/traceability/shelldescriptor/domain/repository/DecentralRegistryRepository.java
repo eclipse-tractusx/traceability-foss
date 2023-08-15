@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,27 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.domain.model;
+package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
 
-import lombok.Builder;
-import lombok.Data;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
-import java.util.Collection;
 import java.util.List;
 
-@Data
-@Builder
-public class ShellDescriptor {
-    private Long id;
-    private String globalAssetId;
-
-    public static ShellDescriptor fromGlobalAssetId(String globalAssetId) {
-        return ShellDescriptor.builder()
-                .globalAssetId(globalAssetId)
-                .build();
-    }
-
-    public static List<ShellDescriptor> fromGlobalAssetIds(Collection<String> globalAssetIds) {
-        return globalAssetIds.stream().map(ShellDescriptor::fromGlobalAssetId).toList();
-    }
+public interface DecentralRegistryRepository {
+    List<ShellDescriptor> retrieveShellDescriptorsByBpn(String bpn);
 }
