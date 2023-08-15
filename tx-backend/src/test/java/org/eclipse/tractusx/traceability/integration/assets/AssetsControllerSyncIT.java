@@ -62,7 +62,7 @@ class AssetsControllerSyncIT extends IntegrationTestSpecification {
 
         //THEN
         eventually(() -> {
-            assetsSupport.assertAssetAsBuiltSize(14);
+            assetsSupport.assertAssetAsBuiltSize(15);
             assetsSupport.assertHasRequiredIdentifiers();
             assetsSupport.assertHasChildCount("urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb", 3);
             return true;
@@ -94,7 +94,7 @@ class AssetsControllerSyncIT extends IntegrationTestSpecification {
 
         //THEN
         eventually(() -> {
-            assetsSupport.assertAssetAsBuiltSize(14);
+            assetsSupport.assertAssetAsBuiltSize(15);
             irsApiSupport.verifyIrsApiTriggerJobCalledTimes(3);
             return true;
         });
