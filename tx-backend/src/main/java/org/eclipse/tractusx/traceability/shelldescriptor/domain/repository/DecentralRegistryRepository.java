@@ -16,12 +16,13 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.shelldescriptor.application;
+
+package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
 
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
 import java.util.List;
 
-public interface ShellDescriptorService {
-    List<ShellDescriptor> determineExistingShellDescriptorsAndUpdate(List<ShellDescriptor> ownShellDescriptors);
+public interface DecentralRegistryRepository {
+    List<ShellDescriptor> retrieveShellDescriptorsByBpn(String bpn);
 }

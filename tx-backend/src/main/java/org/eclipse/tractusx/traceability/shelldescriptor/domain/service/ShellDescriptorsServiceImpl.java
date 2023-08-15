@@ -44,7 +44,7 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
     private final ShellDescriptorRepository shellDescriptorRepository;
 
     @Transactional
-    public List<ShellDescriptor> update(List<ShellDescriptor> ownShellDescriptors) {
+    public List<ShellDescriptor> determineExistingShellDescriptorsAndUpdate(List<ShellDescriptor> ownShellDescriptors) {
         log.info("Starting update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
         Map<String, ShellDescriptor> existingDescriptors = shellDescriptorRepository.findAll().stream()
                 .collect(Collectors.toMap(ShellDescriptor::getGlobalAssetId, Function.identity()));

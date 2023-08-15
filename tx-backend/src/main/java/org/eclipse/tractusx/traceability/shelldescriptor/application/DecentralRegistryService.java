@@ -18,10 +18,6 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-
-import java.util.List;
-
-public interface ShellDescriptorService {
-    List<ShellDescriptor> determineExistingShellDescriptorsAndUpdate(List<ShellDescriptor> ownShellDescriptors);
+public interface DecentralRegistryService {
+    void updateShellDescriptorAndSynchronizeAssets();
 }

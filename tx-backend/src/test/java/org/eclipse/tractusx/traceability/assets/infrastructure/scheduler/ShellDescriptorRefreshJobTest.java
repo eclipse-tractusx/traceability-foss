@@ -23,8 +23,8 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.scheduler;
 
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.scheduler.ShellDescriptorRefreshJob;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
+import org.eclipse.tractusx.traceability.shelldescriptor.application.ShellDescriptorRefreshJob;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.verify;
 class ShellDescriptorRefreshJobTest {
 
     @Mock
-    private RegistryFacade registryFacade;
+    private DecentralRegistryServiceImpl registryFacade;
 
     @Test
     void refresh_shouldCallLoadShellDescriptors() throws RegistryServiceException {

@@ -24,6 +24,7 @@ import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,7 +40,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RegistryFacadeTest {
+class DecentralDecentralRegistryServiceImplTest {
 
     @Mock
     private ShellDescriptorsServiceImpl shellDescriptorsService;
@@ -53,7 +54,7 @@ class RegistryFacadeTest {
     private AssetServiceImpl assetService;
 
     @InjectMocks
-    private RegistryFacade registryFacade;
+    private DecentralRegistryServiceImpl registryFacade;
 
 
     @Test
@@ -72,6 +73,6 @@ class RegistryFacadeTest {
         registryFacade.updateShellDescriptorAndSynchronizeAssets();
 
         // Then
-        verify(shellDescriptorsService, times(1)).update(shellDescriptors);
+        verify(shellDescriptorsService, times(1)).determineExistingShellDescriptorsAndUpdate(shellDescriptors);
     }
 }
