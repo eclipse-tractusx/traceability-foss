@@ -30,10 +30,10 @@ global:
 frontend:
   image:
     tag: $ARGOCD_APP_REVISION
-    CATENAX_PORTAL_API_URL: 'https://traceability-e2e-a.dev.demo.catena-x.net/api'
-    CATENAX_PORTAL_KEYCLOAK_URL: 'https://centralidp.dev.demo.catena-x.net/auth'
-    CATENAX_PORTAL_BACKEND_DOMAIN: 'catena-x.net'
-    CATENAX_PORTAL_URL: 'https://portal.dev.demo.catena-x.net/'
+    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/e2e/a/frontend#catenax_portal_api_url>'
+    CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/e2e/a/frontend#catenax_portal_keycloak_url>'
+    CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/e2e/a/frontend#catenax_portal_backend_domain>'
+    CATENAX_PORTAL_URL: '<path:traceability-foss/data/e2e/a/frontend#catenax_portal_url>'
 
   nameOverride: "tx-frontend-e2e-a"
   fullnameOverride: "tx-frontend-e2e-a"
