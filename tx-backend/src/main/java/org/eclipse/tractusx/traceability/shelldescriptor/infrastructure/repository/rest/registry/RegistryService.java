@@ -64,7 +64,8 @@ public class RegistryService {
                            RegistryApiClient registryApiClient,
                            @Value("${traceability.bpn}") String applicationBPN,
                            @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey,
-                           ShellDescriptorLookupMetricRepository registryLookupMeterRegistry, Clock clock, DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService) {
+                           ShellDescriptorLookupMetricRepository registryLookupMeterRegistry, Clock clock,
+                           DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService) {
         this.objectMapper = objectMapper;
         this.registryApiClient = registryApiClient;
         this.applicationBPN = applicationBPN;
@@ -85,11 +86,11 @@ public class RegistryService {
 
         Collection<DigitalTwinRegistryKey> registryKeys = null;
         try {
-            registryKeys = decentralDigitalTwinRegistryService.lookupShells(applicationBPN);
+            registryKeys = decentralDigitalTwinRegistryService.lookupShellIdentifiers(applicationBPN);
             registryKeys.forEach(digitalTwinRegistryKey -> {
                 log.info("DTR Key" + digitalTwinRegistryKey);
             });
-        } catch (FeignException e) {
+        } catch (Exception e) {
             endMetric(registryLookupMetric);
             log.error("Fetching shell ownShellsRegistryResponse failed", e);
         }

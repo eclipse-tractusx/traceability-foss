@@ -86,7 +86,7 @@ class RegistryServiceTest {
         List<DigitalTwinRegistryKey> registryKeys = List.of(
                 new DigitalTwinRegistryKey("assetId", "test-bpn")
         );
-        when(decentralDigitalTwinRegistryService.lookupShells("test-bpn")).thenReturn(registryKeys);
+        when(decentralDigitalTwinRegistryService.lookupShellIdentifiers("test-bpn")).thenReturn(registryKeys);
         final String globalAssetId = "GLOBAL_ASSET_ID";
         final String idShort = "ID_SHORT";
         final String identification = "IDENTIFICATION";
