@@ -36,7 +36,7 @@
         <dependency>
             <groupId>org.eclipse.tractusx.irs</groupId>
             <artifactId>irs-registry-client</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <version>1.1.0-SNAPSHOT</version>
         </dependency>
 
         <!-- tx-application modules -->
@@ -372,8 +372,26 @@
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainer-postgresql.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
             <artifactId>spock</artifactId>
             <version>${testcontainer-spock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>3.0.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility-proxy</artifactId>
+            <version>3.0.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -441,7 +459,7 @@
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>5.0.0</version>
+                <version>6.0.0</version>
                 <configuration>
                     <verbose>false</verbose>
                     <!-- generateGitPropertiesFilename>${project.build.sourceDirectory}/../filters/git.properties</generateGitPropertiesFilename -->

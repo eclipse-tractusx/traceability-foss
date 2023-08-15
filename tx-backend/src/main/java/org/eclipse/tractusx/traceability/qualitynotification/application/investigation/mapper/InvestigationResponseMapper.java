@@ -60,7 +60,9 @@ public class InvestigationResponseMapper {
                 .sendTo(getReceiverBPN(qualityNotification.getNotifications()))
                 .sendToName(getReceiverName(qualityNotification.getNotifications()))
                 .severity(QualityNotificationMapper.from(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getSeverity).orElse(QualityNotificationSeverity.MINOR)))
-                .targetDate(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getTargetDate).map(Instant::toString).orElse(null)).build();
+                .targetDate(qualityNotification.getNotifications().stream().findFirst().map(QualityNotificationMessage::getTargetDate).map(Instant::toString).orElse(null))
+                .errorMessage(qualityNotification.getErrorMessage())
+                .build();
     }
 
     public static PageResult<InvestigationResponse> fromAsPageResult(PageResult<QualityNotification> qualityNotificationPageResult) {
