@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
@@ -52,8 +51,7 @@ public class RegistryService {
     private final DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
 
 
-    public RegistryService(ObjectMapper objectMapper,
-                           @Value("${traceability.bpn}") String applicationBPN,
+    public RegistryService(@Value("${traceability.bpn}") String applicationBPN,
                            @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey,
                            Clock clock,
                            DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService) {
@@ -73,9 +71,7 @@ public class RegistryService {
         Collection<DigitalTwinRegistryKey> registryKeys = null;
         try {
             registryKeys = decentralDigitalTwinRegistryService.lookupShellIdentifiers(applicationBPN);
-            registryKeys.forEach(digitalTwinRegistryKey -> {
-                log.info("DTR Key" + digitalTwinRegistryKey);
-            });
+            registryKeys.forEach(digitalTwinRegistryKey -> log.info("DTR Key" + digitalTwinRegistryKey));
         } catch (Exception e) {
 
             log.error("Fetching shell ownShellsRegistryResponse failed", e);

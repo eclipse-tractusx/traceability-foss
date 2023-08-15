@@ -63,11 +63,10 @@ class RegistryServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        ObjectMapper objectMapper = new ObjectMapper();
         String bpn = "test-bpn";
         String manufacturerIdKey = "test-manufacturer-id-key";
 
-        registryService = new RegistryService(objectMapper, bpn, manufacturerIdKey, Clock.systemUTC(), decentralDigitalTwinRegistryService);
+        registryService = new RegistryService(bpn, manufacturerIdKey, Clock.systemUTC(), decentralDigitalTwinRegistryService);
 
     }
 
