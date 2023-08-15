@@ -19,37 +19,41 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.domain;
+package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.application.rest.service.AssetService;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
+import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
+import org.eclipse.tractusx.traceability.shelldescriptor.application.ShellDescriptorService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsService;
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @RequiredArgsConstructor
+@Slf4j
 @Component
-public class RegistryFacade {
-    private final ShellDescriptorsService shellDescriptorsService;
-    private final RegistryService registryService;
-    private final AssetServiceImpl assetService;
+public class DecentralRegistryServiceImpl implements DecentralRegistryService {
+
+    private final ShellDescriptorService shellDescriptorsService;
+    private final AssetService assetService;
+    private final TraceabilityProperties traceabilityProperties;
+    private final DecentralRegistryRepository decentralRegistryRepository;
 
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
-    public void updateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
-        List<ShellDescriptor> shellDescriptorList = registryService.findOwnShellDescriptors();
-        List<ShellDescriptor> updatedShellDescriptorList = shellDescriptorsService.update(shellDescriptorList);
-        synchronizeAssetsByDescriptors(updatedShellDescriptorList);
-    }
+    public void updateShellDescriptorAndSynchronizeAssets() {
+        List<ShellDescriptor> shellDescriptorList = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
 
-    private void synchronizeAssetsByDescriptors(List<ShellDescriptor> descriptors) {
-        descriptors.stream()
+        List<ShellDescriptor> updatedShellDescriptorList = shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(shellDescriptorList);
+        updatedShellDescriptorList.stream()
                 .map(ShellDescriptor::getGlobalAssetId)
                 .forEach(assetService::synchronizeAssetsAsync);
     }
+
 }
+

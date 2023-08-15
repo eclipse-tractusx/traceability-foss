@@ -19,33 +19,29 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.scheduler;
+package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
+import lombok.RequiredArgsConstructor;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
-import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
 @Profile(ApplicationProfiles.NOT_TESTS)
+@RequiredArgsConstructor
 public class ShellDescriptorRefreshJob {
 
-	private final RegistryFacade registryFacade;
+    private final DecentralRegistryService decentralRegistryService;
 
-	public ShellDescriptorRefreshJob(RegistryFacade registryFacade) {
-		this.registryFacade = registryFacade;
-	}
-
-	@Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
-	@SchedulerLock(
-		name = "data-sync-lock",
-		lockAtLeastFor = "PT5M",
-		lockAtMostFor = "PT15M"
-	)
-	public void refresh() throws RegistryServiceException {
-		registryFacade.updateShellDescriptorAndSynchronizeAssets();
-	}
+    @Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
+    @SchedulerLock(
+            name = "data-sync-lock",
+            lockAtLeastFor = "PT5M",
+            lockAtMostFor = "PT15M"
+    )
+    public void refresh() {
+        decentralRegistryService.updateShellDescriptorAndSynchronizeAssets();
+    }
 }
