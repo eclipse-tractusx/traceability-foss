@@ -2,8 +2,10 @@ package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.reposit
 
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
-import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.GlobalAssetId;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.SpecificAssetId;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

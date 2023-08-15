@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.ShellDescriptorRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,11 +36,11 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class ShellDescriptorsService {
+public class ShellDescriptorsServiceImpl {
 
     private final ShellDescriptorRepository shellDescriptorRepository;
 
-    public ShellDescriptorsService(ShellDescriptorRepository shellDescriptorRepository) {
+    public ShellDescriptorsServiceImpl(ShellDescriptorRepository shellDescriptorRepository) {
         this.shellDescriptorRepository = shellDescriptorRepository;
     }
 

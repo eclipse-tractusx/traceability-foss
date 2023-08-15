@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.common.support
 
 
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.ShellDescriptorRepository
 
 interface ShellDescriptorStoreProvider {
 	ShellDescriptorRepository shellDescriptorRepository()

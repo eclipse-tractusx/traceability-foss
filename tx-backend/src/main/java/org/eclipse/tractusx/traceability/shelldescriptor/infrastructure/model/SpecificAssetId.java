@@ -17,23 +17,34 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor;
+package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model;
 
+import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class GlobalAssetId {
-    private final List<String> value;
+public class SpecificAssetId {
+    private final String key;
+    private final String value;
 
-    public GlobalAssetId(List<String> value) {
+    public SpecificAssetId(String key, String value) {
+        this.key = key;
         this.value = value;
     }
 
-    public static GlobalAssetId from(List<String> ids) {
-        return new GlobalAssetId(ids);
+    public static List<SpecificAssetId> fromList(List<IdentifierKeyValuePair> keyValuePair) {
+        List<SpecificAssetId> specificAssetIds = new ArrayList<>();
+        keyValuePair.forEach(keyValuePair1 -> specificAssetIds.add(new SpecificAssetId(keyValuePair1.getName(), keyValuePair1.getValue())));
+        return specificAssetIds;
     }
 
-    public List<String> value() {
+    public String key() {
+        return key;
+    }
+
+    public String value() {
         return value;
     }
 
@@ -41,18 +52,20 @@ public final class GlobalAssetId {
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (GlobalAssetId) obj;
-        return Objects.equals(this.value, that.value);
+        var that = (SpecificAssetId) obj;
+        return Objects.equals(this.key, that.key) &&
+                Objects.equals(this.value, that.value);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(value);
+        return Objects.hash(key, value);
     }
 
     @Override
     public String toString() {
-        return "GlobalAssetId[" +
+        return "SpecificAssetId[" +
+                "key=" + key + ", " +
                 "value=" + value + ']';
     }
 

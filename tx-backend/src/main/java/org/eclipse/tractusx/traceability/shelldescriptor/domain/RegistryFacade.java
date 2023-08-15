@@ -26,7 +26,7 @@ import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceExcepti
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsService;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsServiceImpl;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -36,7 +36,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class RegistryFacade {
-    private final ShellDescriptorsService shellDescriptorsService;
+    private final ShellDescriptorsServiceImpl shellDescriptorsService;
     private final RegistryService registryService;
     private final AssetServiceImpl assetService;
 

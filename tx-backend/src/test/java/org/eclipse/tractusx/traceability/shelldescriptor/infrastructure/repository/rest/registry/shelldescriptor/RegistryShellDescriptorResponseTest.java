@@ -25,13 +25,13 @@ package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.reposit
 
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
-import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptorResponse;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class RegistryShellDescriptorResponseTest {
 

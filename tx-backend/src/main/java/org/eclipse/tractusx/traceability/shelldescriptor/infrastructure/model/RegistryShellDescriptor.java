@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor;
+package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
@@ -27,10 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor.AssetIdType.BATCH_ID;
-import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor.AssetIdType.MANUFACTURER_ID;
-import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor.AssetIdType.MANUFACTURER_PART_ID;
-import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor.AssetIdType.PART_INSTANCE_ID;
+import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor.AssetIdType.BATCH_ID;
+import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor.AssetIdType.MANUFACTURER_ID;
+import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor.AssetIdType.MANUFACTURER_PART_ID;
+import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor.AssetIdType.PART_INSTANCE_ID;
 
 @Slf4j
 public record RegistryShellDescriptor(
