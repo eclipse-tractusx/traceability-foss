@@ -21,8 +21,6 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
@@ -30,8 +28,6 @@ import org.eclipse.tractusx.irs.registryclient.DigitalTwinRegistryKey;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.metrics.RegistryLookupMetric;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +35,6 @@ import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Clock;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -49,34 +44,21 @@ import java.util.Objects;
 @Slf4j
 @Component
 public class RegistryService {
-
-    private final ObjectMapper objectMapper;
-    private final RegistryApiClient registryApiClient;
     private final String applicationBPN;
     private final String manufacturerIdKey;
-    private final ShellDescriptorLookupMetricRepository registryLookupMeterRegistry;
-    private final Clock clock;
 
     private final DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
 
 
-    public RegistryService(ObjectMapper objectMapper,
-                           RegistryApiClient registryApiClient,
-                           @Value("${traceability.bpn}") String applicationBPN,
+    public RegistryService(@Value("${traceability.bpn}") String applicationBPN,
                            @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey,
-                           ShellDescriptorLookupMetricRepository registryLookupMeterRegistry, Clock clock,
                            DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService) {
-        this.objectMapper = objectMapper;
-        this.registryApiClient = registryApiClient;
         this.applicationBPN = applicationBPN;
         this.manufacturerIdKey = manufacturerIdKey;
-        this.registryLookupMeterRegistry = registryLookupMeterRegistry;
-        this.clock = clock;
         this.decentralDigitalTwinRegistryService = decentralDigitalTwinRegistryService;
     }
 
     public List<ShellDescriptor> findOwnShellDescriptors() throws RegistryServiceException {
-        RegistryLookupMetric registryLookupMetric = RegistryLookupMetric.start(clock);
 
         log.info("Fetching all shell descriptor IDs for BPN {}.", applicationBPN);
 
@@ -87,11 +69,9 @@ public class RegistryService {
         Collection<DigitalTwinRegistryKey> registryKeys = null;
         try {
             registryKeys = decentralDigitalTwinRegistryService.lookupShellIdentifiers(applicationBPN);
-            registryKeys.forEach(digitalTwinRegistryKey -> {
-                log.info("DTR Key" + digitalTwinRegistryKey);
-            });
+            registryKeys.forEach(digitalTwinRegistryKey -> log.info("DTR Key" + digitalTwinRegistryKey));
         } catch (Exception e) {
-            endMetric(registryLookupMetric);
+
             log.error("Fetching shell ownShellsRegistryResponse failed", e);
         }
 
@@ -108,7 +88,6 @@ public class RegistryService {
             ownShellsRegistryResponse = RegistryShellDescriptorResponse.fromCollection(assetAdministrationShellDescriptors);
 
         } catch (FeignException e) {
-            endMetric(registryLookupMetric);
 
             log.error("Fetching shell ownShellsRegistryResponse failed", e);
 
@@ -121,40 +100,12 @@ public class RegistryService {
 
         List<ShellDescriptor> ownShellDescriptors = ownShellsRegistryResponse.items().stream()
                 .filter(it -> Objects.nonNull(it.globalAssetId()))
-                .map(aasDescriptor -> {
-                    logIncomingDescriptor(aasDescriptor, registryLookupMetric);
-                    return aasDescriptor.toShellDescriptor();
-                })
-                .peek(it -> registryLookupMetric.incrementSuccessShellDescriptorsFetchCount())
+                .map(RegistryShellDescriptor::toShellDescriptor)
                 .toList();
 
         log.info("Found {} shell ownShellsRegistryResponse containing a global asset ID.", ownShellDescriptors.size());
 
-        registryLookupMetric.end(clock);
-
-        registryLookupMeterRegistry.save(registryLookupMetric);
-
         return ownShellDescriptors;
-    }
-
-
-    private void endMetric(RegistryLookupMetric registryLookupMetric) {
-        registryLookupMetric.incrementFailedShellDescriptorsFetchCount();
-        registryLookupMetric.end(clock);
-
-        registryLookupMeterRegistry.save(registryLookupMetric);
-    }
-
-    private void logIncomingDescriptor(RegistryShellDescriptor descriptor, RegistryLookupMetric registryLookupMetric) {
-        if (log.isDebugEnabled()) {
-            try {
-                String rawDescriptor = objectMapper.writeValueAsString(descriptor);
-                log.debug("Received shell descriptor: {}", rawDescriptor);
-            } catch (JsonProcessingException e) {
-                log.warn("Failed to write rawDescriptor {} as string", descriptor, e);
-                registryLookupMetric.incrementFailedShellDescriptorsFetchCount();
-            }
-        }
     }
 
     private String getFilterValue(String key, String value) {

@@ -21,16 +21,12 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
-import org.eclipse.tractusx.irs.component.assetadministrationshell.Reference;
 import org.eclipse.tractusx.irs.registryclient.DigitalTwinRegistryKey;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorLookupMetricRepository;
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryApiClient;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.shelldescriptor.RegistryShellDescriptorResponse;
@@ -42,7 +38,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Clock;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,12 +48,6 @@ class RegistryServiceTest {
 
     @InjectMocks
     private RegistryService registryService;
-
-    @Mock
-    private RegistryApiClient registryApiClient;
-
-    @Mock
-    private ShellDescriptorLookupMetricRepository registryLookupMeterRegistry;
 
     @Mock
     private RegistryShellDescriptorResponse registryShellDescriptorResponse;
@@ -72,11 +61,10 @@ class RegistryServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        ObjectMapper objectMapper = new ObjectMapper();
         String bpn = "test-bpn";
         String manufacturerIdKey = "test-manufacturer-id-key";
 
-        registryService = new RegistryService(objectMapper, registryApiClient, bpn, manufacturerIdKey, registryLookupMeterRegistry, Clock.systemUTC(), decentralDigitalTwinRegistryService);
+        registryService = new RegistryService(bpn, manufacturerIdKey, decentralDigitalTwinRegistryService);
 
     }
 
