@@ -35,7 +35,6 @@ import org.springframework.stereotype.Component;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.Clock;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +52,6 @@ public class RegistryService {
 
     public RegistryService(@Value("${traceability.bpn}") String applicationBPN,
                            @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey,
-                           Clock clock,
                            DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService) {
         this.applicationBPN = applicationBPN;
         this.manufacturerIdKey = manufacturerIdKey;

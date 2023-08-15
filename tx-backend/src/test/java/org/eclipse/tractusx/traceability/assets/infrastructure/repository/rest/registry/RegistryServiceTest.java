@@ -21,7 +21,6 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.registry;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
 import org.eclipse.tractusx.irs.registryclient.DigitalTwinRegistryKey;
@@ -39,7 +38,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Clock;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -66,7 +64,7 @@ class RegistryServiceTest {
         String bpn = "test-bpn";
         String manufacturerIdKey = "test-manufacturer-id-key";
 
-        registryService = new RegistryService(bpn, manufacturerIdKey, Clock.systemUTC(), decentralDigitalTwinRegistryService);
+        registryService = new RegistryService(bpn, manufacturerIdKey, decentralDigitalTwinRegistryService);
 
     }
 
