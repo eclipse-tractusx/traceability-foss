@@ -44,7 +44,6 @@ trait DatabaseSupport implements DatabaseProvider {
             "bpn_storage",
             "investigation_notification",
             "investigation",
-            "registry_lookup_metrics",
             "bpn_edc_mappings"
     ]
 
