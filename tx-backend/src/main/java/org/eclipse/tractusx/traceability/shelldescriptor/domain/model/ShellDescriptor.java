@@ -28,12 +28,6 @@ import lombok.Data;
 @Data
 @Builder
 public class ShellDescriptor {
-    private String shellDescriptorId;
+    private Long id;
     private String globalAssetId;
-    private String idShort;
-    private String partInstanceId;
-    private String manufacturerPartId;
-    private String manufacturerId;
-    private String batchId;
-
 }

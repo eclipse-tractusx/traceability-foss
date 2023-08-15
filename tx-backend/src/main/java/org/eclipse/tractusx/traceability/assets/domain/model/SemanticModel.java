@@ -59,15 +59,6 @@ public class SemanticModel {
                 .build();
     }
 
-    public static SemanticModel from(ShellDescriptor shellDescriptor) {
-        return SemanticModel.builder()
-                .manufacturerPartId(shellDescriptor.getManufacturerPartId())
-                .nameAtManufacturer(shellDescriptor.getIdShort())
-                .nameAtCustomer(shellDescriptor.getIdShort())
-                .manufacturingCountry("--")
-                .manufacturerPartId(defaultValue(shellDescriptor.getManufacturerPartId()))
-                .build();
-    }
 
     public static SemanticModel from(PartTypeInformation partTypeInformation, ManufacturingInformation manufacturingInformation) {
         return SemanticModel.builder()

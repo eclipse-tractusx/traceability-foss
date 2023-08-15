@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,18 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.ShellDescriptorEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-import java.time.ZonedDateTime;
-import java.util.Optional;
-
-@Repository
-public interface JpaShellDescriptorRepository extends JpaRepository<ShellDescriptorEntity, Long> {
-
-	void deleteAllByUpdatedBefore(ZonedDateTime dateTime);
+public interface ShellDescriptorService {
+    List<ShellDescriptor> update(List<ShellDescriptor> ownShellDescriptors);
 }

@@ -62,9 +62,7 @@ class RegistryServiceTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
         String bpn = "test-bpn";
-        String manufacturerIdKey = "test-manufacturer-id-key";
-
-        registryService = new RegistryService(bpn, manufacturerIdKey, decentralDigitalTwinRegistryService);
+        registryService = new RegistryService(bpn, decentralDigitalTwinRegistryService);
 
     }
 

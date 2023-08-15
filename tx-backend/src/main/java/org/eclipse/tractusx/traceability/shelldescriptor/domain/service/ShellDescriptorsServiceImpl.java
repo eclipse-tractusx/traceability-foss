@@ -21,7 +21,9 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.shelldescriptor.application.ShellDescriptorService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository;
 import org.springframework.stereotype.Component;
@@ -36,13 +38,10 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Component
-public class ShellDescriptorsServiceImpl {
+@RequiredArgsConstructor
+public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
 
     private final ShellDescriptorRepository shellDescriptorRepository;
-
-    public ShellDescriptorsServiceImpl(ShellDescriptorRepository shellDescriptorRepository) {
-        this.shellDescriptorRepository = shellDescriptorRepository;
-    }
 
     @Transactional
     public List<ShellDescriptor> update(List<ShellDescriptor> ownShellDescriptors) {

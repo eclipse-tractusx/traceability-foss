@@ -45,26 +45,18 @@ import java.util.Objects;
 @Component
 public class RegistryService {
     private final String applicationBPN;
-    private final String manufacturerIdKey;
-
     private final DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
 
 
     public RegistryService(@Value("${traceability.bpn}") String applicationBPN,
-                           @Value("${traceability.registry.manufacturerIdKey}") String manufacturerIdKey,
                            DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService) {
         this.applicationBPN = applicationBPN;
-        this.manufacturerIdKey = manufacturerIdKey;
         this.decentralDigitalTwinRegistryService = decentralDigitalTwinRegistryService;
     }
 
     public List<ShellDescriptor> findOwnShellDescriptors() throws RegistryServiceException {
 
         log.info("Fetching all shell descriptor IDs for BPN {}.", applicationBPN);
-
-        Map<String, Object> ownManufacturerIdBPNMap = new HashMap<>();
-
-        ownManufacturerIdBPNMap.put("assetIds", getFilterValue(manufacturerIdKey, applicationBPN));
 
         Collection<DigitalTwinRegistryKey> registryKeys = null;
         try {
@@ -111,4 +103,5 @@ public class RegistryService {
     private String getFilterValue(String key, String value) {
         return URLEncoder.encode(String.format("{\"key\":\"%s\",\"value\":\"%s\"}", key, value), StandardCharsets.UTF_8);
     }
+
 }

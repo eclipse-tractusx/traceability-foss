@@ -24,13 +24,6 @@ import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdminist
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor.AssetIdType.BATCH_ID;
-import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor.AssetIdType.MANUFACTURER_ID;
-import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor.AssetIdType.MANUFACTURER_PART_ID;
-import static org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.RegistryShellDescriptor.AssetIdType.PART_INSTANCE_ID;
 
 @Slf4j
 public record RegistryShellDescriptor(
@@ -40,49 +33,17 @@ public record RegistryShellDescriptor(
         List<SpecificAssetId> specificAssetIds
 ) {
     public ShellDescriptor toShellDescriptor() {
-        String shellDescriptorId = identification();
         String globalAssetId = globalAssetId().value().stream()
                 .findFirst()
                 .orElse(null);
         log.info("toShellDescriptor: {}", specificAssetIds);
-        Map<String, String> assetIdsMap = specificAssetIds().stream()
-                .distinct()
-                .collect(Collectors.toMap(entry -> entry.key().toLowerCase(), SpecificAssetId::value));
-
-        String manufacturerPartId = assetIdsMap.get(MANUFACTURER_PART_ID.asKey());
-        String partInstanceId = assetIdsMap.get(PART_INSTANCE_ID.asKey());
-        String manufacturerId = assetIdsMap.get(MANUFACTURER_ID.asKey());
-        String batchId = assetIdsMap.get(BATCH_ID.asKey());
 
         return ShellDescriptor.builder()
-                .shellDescriptorId(shellDescriptorId)
                 .globalAssetId(globalAssetId)
-                .idShort(idShort())
-                .partInstanceId(partInstanceId)
-                .manufacturerPartId(manufacturerPartId)
-                .manufacturerId(manufacturerId)
-                .batchId(batchId)
                 .build();
     }
 
     public static RegistryShellDescriptor from(AssetAdministrationShellDescriptor assetAdministrationShellDescriptor) {
         return new RegistryShellDescriptor(GlobalAssetId.from(List.of(assetAdministrationShellDescriptor.getGlobalAssetId())), assetAdministrationShellDescriptor.getId(), assetAdministrationShellDescriptor.getIdShort(), SpecificAssetId.fromList(assetAdministrationShellDescriptor.getSpecificAssetIds()));
-    }
-
-    enum AssetIdType {
-        MANUFACTURER_PART_ID("manufacturerPartId"),
-        PART_INSTANCE_ID("partInstanceId"),
-        MANUFACTURER_ID("manufacturerId"),
-        BATCH_ID("batchId");
-
-        private final String value;
-
-        AssetIdType(String value) {
-            this.value = value;
-        }
-
-        public String asKey() {
-            return this.value.toLowerCase();
-        }
     }
 }

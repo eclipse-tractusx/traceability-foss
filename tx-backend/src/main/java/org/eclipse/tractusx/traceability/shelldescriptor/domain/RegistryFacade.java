@@ -23,10 +23,10 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.application.rest.service.AssetService;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
+import org.eclipse.tractusx.traceability.shelldescriptor.application.ShellDescriptorService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsServiceImpl;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -36,9 +36,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class RegistryFacade {
-    private final ShellDescriptorsServiceImpl shellDescriptorsService;
+    private final ShellDescriptorService shellDescriptorsService;
     private final RegistryService registryService;
-    private final AssetServiceImpl assetService;
+    private final AssetService assetService;
 
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void updateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {

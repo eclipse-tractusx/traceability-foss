@@ -48,7 +48,7 @@ public class ShellDescriptorRepositoryImpl implements ShellDescriptorRepository 
     @Override
     @Transactional
     public void update(ShellDescriptor shellDescriptor) {
-        repository.findByShellDescriptorId(shellDescriptor.getShellDescriptorId()).ifPresent(entity -> {
+        repository.findById(shellDescriptor.getId()).ifPresent(entity -> {
             entity.setUpdated(ZonedDateTime.now());
             repository.save(entity);
         });
