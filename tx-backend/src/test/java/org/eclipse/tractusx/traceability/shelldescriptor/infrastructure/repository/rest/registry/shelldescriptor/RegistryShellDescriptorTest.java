@@ -26,7 +26,7 @@ class RegistryShellDescriptorTest {
         ShellDescriptor shellDescriptor = registryShellDescriptor.toShellDescriptor();
 
         //THEN
-        assertEquals("manufacturerPartId", shellDescriptor.getManufacturerPartId());
+        assertEquals("assetId1", shellDescriptor.getGlobalAssetId());
     }
 
     @Test

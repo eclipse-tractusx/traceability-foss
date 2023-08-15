@@ -52,8 +52,8 @@ class RegistryFacadeTest {
     @Test
     void testUpdateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
         List<ShellDescriptor> shellDescriptors = new ArrayList<>();
-        ShellDescriptor shellDescritor = ShellDescriptor.builder().shellDescriptorId("1").build();
-        ShellDescriptor shellDescritor2 = ShellDescriptor.builder().shellDescriptorId("2").build();
+        ShellDescriptor shellDescritor = ShellDescriptor.builder().globalAssetId("1").build();
+        ShellDescriptor shellDescritor2 = ShellDescriptor.builder().globalAssetId("2").build();
         shellDescriptors.add(shellDescritor);
         shellDescriptors.add(shellDescritor2);
 
