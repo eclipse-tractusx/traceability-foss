@@ -108,6 +108,7 @@
     "maxLengthHint": "{{rest}} verbleibende Zeichen."
   },
   "errorMessage": {
+    "notificationError": "Der Service hat bei der Bearbeitung dieser Warnung einen Fehler gemeldet.",
     "min": "Bitte geben Sie eine Zahl größer {{min}} ein.",
     "max": "Bitte geben Sie eine Zahl kleiner {{max}} ein.",
     "required": "Pflichtfeld!",

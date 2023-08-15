@@ -92,6 +92,7 @@ public class AlertEntity extends QualityNotificationBaseEntity {
                 .description(alertNotificationEntity.getDescription())
                 .assetIds(assetIds)
                 .notifications(notifications)
+                .errorMessage(alertNotificationEntity.getErrorMessage())
                 .build();
     }
 
@@ -104,6 +105,7 @@ public class AlertEntity extends QualityNotificationBaseEntity {
                 .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
                 .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getNotificationSide().name()))
                 .createdDate(qualityNotification.getCreatedAt())
+                .errorMessage(qualityNotification.getErrorMessage())
                 .build();
     }
 

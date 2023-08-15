@@ -73,6 +73,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
     @OneToMany(mappedBy = "investigation")
     private List<InvestigationNotificationEntity> notifications;
 
+
     public static QualityNotification toDomain(InvestigationEntity investigationNotificationEntity) {
         List<QualityNotificationMessage> notifications = investigationNotificationEntity.getNotifications().stream()
                 .map(InvestigationNotificationEntity::toDomain)
@@ -94,6 +95,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .description(investigationNotificationEntity.getDescription())
                 .assetIds(assetIds)
                 .notifications(notifications)
+                .errorMessage(investigationNotificationEntity.getErrorMessage())
                 .build();
     }
 
@@ -107,6 +109,7 @@ public class InvestigationEntity extends QualityNotificationBaseEntity {
                 .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotification.getNotificationStatus().name()))
                 .side(QualityNotificationSideBaseEntity.valueOf(qualityNotification.getNotificationSide().name()))
                 .createdDate(qualityNotification.getCreatedAt())
+                .errorMessage(qualityNotification.getErrorMessage())
                 .build();
     }
 

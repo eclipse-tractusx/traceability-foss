@@ -39,6 +39,8 @@ export const buildMockInvestigations = (
     const numberToString = (i: number) => i.toString().padStart(2, '0');
     const month = (index % 12) + 1;
     const day = (index % 28) + 1;
+    // every 10th alert should have an error
+    const errorInvestigation = (index+1) % 10 === 0 ? "The Services returned an Error while processing this Investigation" : undefined;
 
     return {
       id: `${InvestigationIdPrefix}${index + 1}`,
@@ -53,6 +55,7 @@ export const buildMockInvestigations = (
       reason: { close: '', accept: '', decline: '' },
       createdDate: `2022-${numberToString(month)}-${numberToString(day)}T12:34:12`,
       assetIds: [MOCK_part_1.id, getRandomAsset().id, getRandomAsset().id, getRandomAsset().id],
+      errorMessage: errorInvestigation
     };
   });
 

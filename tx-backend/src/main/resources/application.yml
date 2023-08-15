@@ -74,7 +74,7 @@ irs-edc-client:
   catalog:
     policies:
       acceptedRightOperands: active # List of comma separated names of the rightOperands to accept.
-      acceptedLeftOperands: idsc:PURPOSE # List of comma separated names of the leftOperands to accept.
+      acceptedLeftOperands: PURPOSE # List of comma separated names of the leftOperands to accept.
 
 server:
   servlet:
