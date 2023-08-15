@@ -32,10 +32,10 @@ global:
 frontend:
   image:
     tag: $ARGOCD_APP_REVISION
-    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/dev/frontend#catenax_portal_api_url>'
-    CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/dev/frontend#catenax_portal_keycloak_url>'
-    CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/dev/frontend#catenax_portal_backend_domain>'
-    CATENAX_PORTAL_URL: '<path:traceability-foss/data/dev/frontend#catenax_portal_url>'
+    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/int/frontend#catenax_portal_api_url>'
+    CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/int/frontend#catenax_portal_keycloak_url>'
+    CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/int/frontend#catenax_portal_backend_domain>'
+    CATENAX_PORTAL_URL: '<path:traceability-foss/data/int/frontend#catenax_portal_url>'
 
   ingress:
     enabled: true
