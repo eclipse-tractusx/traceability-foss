@@ -18,12 +18,12 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
-import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsServiceImpl;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ class DecentralDecentralRegistryServiceImplTest {
     private ShellDescriptorsServiceImpl shellDescriptorsService;
 
     @Mock
-    private DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService;
+    private DecentralRegistryRepository decentralRegistryRepository;
 
     @Mock
     private TraceabilityProperties traceabilityProperties;
@@ -66,8 +66,7 @@ class DecentralDecentralRegistryServiceImplTest {
         shellDescriptors.add(shellDescritor);
         shellDescriptors.add(shellDescritor2);
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
-        List<String> globalAssetIds = List.of("1", "2");
-        when(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(BPN.of("test").toString())).thenReturn(globalAssetIds);
+        when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(shellDescriptors);
 
         // When
         registryFacade.updateShellDescriptorAndSynchronizeAssets();
