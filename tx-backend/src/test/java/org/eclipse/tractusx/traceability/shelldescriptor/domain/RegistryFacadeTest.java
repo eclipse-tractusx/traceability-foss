@@ -22,7 +22,6 @@ import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceExcepti
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsServiceImpl;
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,8 +38,6 @@ class RegistryFacadeTest {
     @Mock
     private ShellDescriptorsServiceImpl shellDescriptorsService;
 
-    @Mock
-    private RegistryService registryService;
 
     @Mock
     private AssetServiceImpl assetService;
@@ -57,14 +54,13 @@ class RegistryFacadeTest {
         shellDescriptors.add(shellDescritor);
         shellDescriptors.add(shellDescritor2);
 
-        when(registryService.findOwnShellDescriptors()).thenReturn(shellDescriptors);
+
         when(shellDescriptorsService.update(shellDescriptors)).thenReturn(shellDescriptors);
 
 
 
         registryFacade.updateShellDescriptorAndSynchronizeAssets();
 
-        verify(registryService, times(1)).findOwnShellDescriptors();
         verify(shellDescriptorsService, times(1)).update(shellDescriptors);
     }
 }
