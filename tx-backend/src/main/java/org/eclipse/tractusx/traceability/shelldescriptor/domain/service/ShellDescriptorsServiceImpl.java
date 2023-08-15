@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.ShellDescriptorRepository;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 

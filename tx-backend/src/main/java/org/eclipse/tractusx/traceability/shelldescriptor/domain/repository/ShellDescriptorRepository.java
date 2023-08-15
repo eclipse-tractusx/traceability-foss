@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa;
+package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
 
 
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;

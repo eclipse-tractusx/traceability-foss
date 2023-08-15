@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.reposit
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository;
 import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.ShellDescriptorEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +34,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PersistentShellDescriptorsRepository implements ShellDescriptorRepository {
+public class ShellDescriptorRepositoryImpl implements ShellDescriptorRepository {
 
     private final JpaShellDescriptorRepository repository;
 
