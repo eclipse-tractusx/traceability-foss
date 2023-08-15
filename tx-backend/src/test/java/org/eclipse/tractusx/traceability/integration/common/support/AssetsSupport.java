@@ -83,6 +83,10 @@ public class AssetsSupport {
 
     public void assertHasRequiredIdentifiers() {
         assetRepositoryProvider.assetAsBuiltRepository().getAssets().forEach(asset -> {
+            log.info("!asset.getManufacturerId().equals(\"--\"): {}", !asset.getManufacturerId().equals("--"));
+            log.info("!asset.getSemanticModelId().equals(\"--\"): {}", !asset.getSemanticModelId().equals("--"));
+            log.info("!Objects.isNull(asset.getIdShort()): {}", !Objects.isNull(asset.getIdShort()));
+
             assert !asset.getManufacturerId().equals("--");
             assert !asset.getSemanticModelId().equals("--");
             assert !Objects.isNull(asset.getIdShort());

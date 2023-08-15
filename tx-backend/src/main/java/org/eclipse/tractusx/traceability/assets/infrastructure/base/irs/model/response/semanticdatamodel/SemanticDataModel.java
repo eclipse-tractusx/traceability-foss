@@ -79,7 +79,7 @@ public class SemanticDataModel {
     }
 
     public Asset toDomain(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
-        final String manufacturerName = bpns.get(manufacturerId());
+
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
         final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
@@ -104,12 +104,14 @@ public class SemanticDataModel {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.UNKNOWN);
         }
 
+        final String manufacturerName = bpns.get(manufacturerId(semanticDataModel.get()));
+
         return Asset.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .semanticModelId(semanticModelId.get())
                 .semanticModel(SemanticModel.from(partTypeInformation, manufacturingInformation))
-                .manufacturerId(manufacturerId())
+                .manufacturerId(manufacturerId(semanticDataModel.get()))
                 .manufacturerName(defaultValue(manufacturerName))
                 .parentRelations(parentRelations)
                 .childRelations(childRelations)
@@ -124,15 +126,14 @@ public class SemanticDataModel {
     }
 
     public Asset toDomainAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
-        final String manufacturerName = bpns.get(manufacturerId());
-        final String[] manufacturerId = {"--"};
-        bpns.values().stream().filter(s -> s.equals(manufacturerName)).findFirst().ifPresent(s -> manufacturerId[0] = s);
+        final String manufacturerName = bpns.get(manufacturerId(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.PARTASPLANNED));
+        String manufacturerId = bpns.values().stream().filter(s -> s.equals(manufacturerName)).findFirst().orElse("--");
 
         return Asset.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .semanticModel(SemanticModel.from(partTypeInformation))
-                .manufacturerId(manufacturerId[0])
+                .manufacturerId(manufacturerId)
                 .manufacturerName(defaultValue(manufacturerName))
                 .parentRelations(parentRelations)
                 .childRelations(childRelations)
@@ -146,7 +147,12 @@ public class SemanticDataModel {
                 .build();
     }
 
-    private String manufacturerId() {
+    private String manufacturerId(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel semanticDataModel) {
+
+        if (semanticDataModel.equals(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.JUSTINSEQUENCE)) {
+            return getLocalId(LocalIdKey.JIS_NUMBER)
+                    .orElse("--");
+        }
         return getLocalId(LocalIdKey.MANUFACTURER_ID)
                 .orElse("--");
     }
