@@ -59,11 +59,13 @@ public class ApplicationStartupConfig {
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         executor.execute(() -> {
+            log.info("on ApplicationReadyEvent register irs policies.");
             try {
                 irsRepository.createIrsPolicyIfMissing();
             } catch (Exception exception) {
                 log.error("Failed to create Irs Policies: ", exception);
             }
+            log.info("on ApplicationReadyEvent irs policies registered.");
         });
 
         executor.shutdown();
@@ -72,18 +74,30 @@ public class ApplicationStartupConfig {
     @EventListener(ApplicationReadyEvent.class)
     public void createNotificationContracts() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        NOTIFICATION_CONTRACTS.forEach(edcNotificationContractService::handle);
-
+        executor.execute(() -> {
+            log.info("on ApplicationReadyEvent create notification contracts.");
+            try {
+                NOTIFICATION_CONTRACTS.forEach(edcNotificationContractService::handle);
+            } catch (Exception exception) {
+                log.error("Failed to create notification contracts: ", exception);
+            }
+            log.info("on ApplicationReadyEvent notification contracts created.");
+        });
         executor.shutdown();
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    public void triggerRegistryReload() throws RegistryServiceException {
+    public void triggerRegistryReload() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
-
-        registryFacade.updateShellDescriptorAndSynchronizeAssets();
-
+        executor.execute(() -> {
+            log.info("on ApplicationReadyEvent reload registry.");
+            try {
+                registryFacade.updateShellDescriptorAndSynchronizeAssets();
+            } catch (Exception exception) {
+                log.error("Failed to update assets: ", exception);
+            }
+            log.info("on ApplicationReadyEvent registry reloaded.");
+        });
         executor.shutdown();
     }
 
