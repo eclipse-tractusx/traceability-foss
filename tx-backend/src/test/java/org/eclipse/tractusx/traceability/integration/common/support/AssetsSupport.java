@@ -71,7 +71,7 @@ public class AssetsSupport {
 
     public void assertAssetAsBuiltSize(int size) {
         long assetCount = assetRepositoryProvider.assetAsBuiltRepository().countAssets();
-        log.info("AsBuiltRepository asset count: {}", assetCount);
+        log.info("AsBuiltRepository asset count: {}, expected: {}", assetCount, size);
         assert assetCount == size;
     }
 
@@ -83,6 +83,10 @@ public class AssetsSupport {
 
     public void assertHasRequiredIdentifiers() {
         assetRepositoryProvider.assetAsBuiltRepository().getAssets().forEach(asset -> {
+            log.info("!asset.getManufacturerId().equals(\"--\"): {}", !asset.getManufacturerId().equals("--"));
+            log.info("!asset.getSemanticModelId().equals(\"--\"): {}", !asset.getSemanticModelId().equals("--"));
+            log.info("!Objects.isNull(asset.getIdShort()): {}", !Objects.isNull(asset.getIdShort()));
+
             assert !asset.getManufacturerId().equals("--");
             assert !asset.getSemanticModelId().equals("--");
             assert !Objects.isNull(asset.getIdShort());

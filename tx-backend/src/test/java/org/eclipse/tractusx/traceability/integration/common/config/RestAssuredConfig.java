@@ -16,16 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.integration.common.config;
 
-import { _environment } from './_environment.base';
+import io.restassured.RestAssured;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.context.event.EventListener;
 
-export const environment = {
-  ..._environment,
-  mockService: false,
-  authDisabled: false,
-  apiUrl: 'https://traceability-e2e-a.dev.demo.catena-x.net/api',
-  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
-  clientId: 'Cl17-CX-Part',
-  api: '',
-  gitTag: "local"
-};
+@TestConfiguration
+public class RestAssuredConfig {
+
+    @EventListener(WebServerInitializedEvent.class)
+    void onServletContainerInitialized(WebServerInitializedEvent event) {
+        RestAssured.port = event.getWebServer().getPort();
+    }
+}
