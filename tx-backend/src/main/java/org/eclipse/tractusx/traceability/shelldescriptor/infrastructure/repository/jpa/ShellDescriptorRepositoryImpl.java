@@ -19,11 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.shelldescriptor;
+package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa;
 
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.ShellDescriptorRepository;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.ShellDescriptorEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class PersistentShellDescriptorsRepository implements ShellDescriptorRepository {
+public class ShellDescriptorRepositoryImpl implements ShellDescriptorRepository {
 
     private final JpaShellDescriptorRepository repository;
 
@@ -47,7 +48,7 @@ public class PersistentShellDescriptorsRepository implements ShellDescriptorRepo
     @Override
     @Transactional
     public void update(ShellDescriptor shellDescriptor) {
-        repository.findByShellDescriptorId(shellDescriptor.getShellDescriptorId()).ifPresent(entity -> {
+        repository.findById(shellDescriptor.getId()).ifPresent(entity -> {
             entity.setUpdated(ZonedDateTime.now());
             repository.save(entity);
         });

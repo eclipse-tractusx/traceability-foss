@@ -75,6 +75,7 @@ public class IrsService implements IrsRepository {
 
         if (jobResponse.isCompleted()) {
             try {
+                // TODO exception will be often thrown probably because two transactions try to commit same primary key - check if we need to update it here
                 bpnRepository.updateManufacturers(jobResponse.bpns());
             } catch (Exception e) {
                 log.warn("BPN Mapping Exception", e);

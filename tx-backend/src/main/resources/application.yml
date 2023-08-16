@@ -22,7 +22,6 @@
 traceability:
   bpn: ${TRACEABILITY_BPN}
   url: ${TRACEABILITY_URL}
-  registry.manufacturerIdKey: manufacturerId
 
 edc:
   ids:

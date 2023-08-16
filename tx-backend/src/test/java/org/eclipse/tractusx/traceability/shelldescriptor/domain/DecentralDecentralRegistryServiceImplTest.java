@@ -20,55 +20,58 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsService;
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.rest.registry.RegistryService;
-import org.junit.jupiter.api.BeforeEach;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.DecentralRegistryServiceImpl;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.service.ShellDescriptorsServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.scheduling.annotation.AsyncResult;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Future;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(MockitoExtension.class)
-class RegistryFacadeTest {
+class DecentralDecentralRegistryServiceImplTest {
 
     @Mock
-    private ShellDescriptorsService shellDescriptorsService;
+    private ShellDescriptorsServiceImpl shellDescriptorsService;
 
     @Mock
-    private RegistryService registryService;
+    private DecentralRegistryRepository decentralRegistryRepository;
 
+    @Mock
+    private TraceabilityProperties traceabilityProperties;
     @Mock
     private AssetServiceImpl assetService;
 
     @InjectMocks
-    private RegistryFacade registryFacade;
+    private DecentralRegistryServiceImpl registryFacade;
 
 
     @Test
     void testUpdateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
+        // Given
         List<ShellDescriptor> shellDescriptors = new ArrayList<>();
-        ShellDescriptor shellDescritor = ShellDescriptor.builder().shellDescriptorId("1").build();
-        ShellDescriptor shellDescritor2 = ShellDescriptor.builder().shellDescriptorId("2").build();
+        ShellDescriptor shellDescritor = ShellDescriptor.builder().globalAssetId("1").build();
+        ShellDescriptor shellDescritor2 = ShellDescriptor.builder().globalAssetId("2").build();
         shellDescriptors.add(shellDescritor);
         shellDescriptors.add(shellDescritor2);
+        when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
+        when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(shellDescriptors);
 
-        when(registryService.findOwnShellDescriptors()).thenReturn(shellDescriptors);
-        when(shellDescriptorsService.update(shellDescriptors)).thenReturn(shellDescriptors);
-
-
-
+        // When
         registryFacade.updateShellDescriptorAndSynchronizeAssets();
 
-        verify(registryService, times(1)).findOwnShellDescriptors();
-        verify(shellDescriptorsService, times(1)).update(shellDescriptors);
+        // Then
+        verify(shellDescriptorsService, times(1)).determineExistingShellDescriptorsAndUpdate(shellDescriptors);
     }
 }

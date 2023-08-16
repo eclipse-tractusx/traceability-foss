@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.shelldescriptor;
+package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -46,13 +46,7 @@ public class ShellDescriptorEntity {
     private Long id;
     private ZonedDateTime created;
     private ZonedDateTime updated;
-    private String shellDescriptorId;
     private String globalAssetId;
-    private String idShort;
-    private String partInstanceId;
-    private String manufacturerPartId;
-    private String batchId;
-    private String manufacturerId;
 
     public static ShellDescriptorEntity newEntityFrom(final ShellDescriptor descriptor) {
         ZonedDateTime now = ZonedDateTime.now();
@@ -60,25 +54,14 @@ public class ShellDescriptorEntity {
                 .id(null)
                 .created(now)
                 .updated(now)
-                .shellDescriptorId(descriptor.getShellDescriptorId())
                 .globalAssetId(descriptor.getGlobalAssetId())
-                .idShort(descriptor.getIdShort())
-                .partInstanceId(descriptor.getPartInstanceId())
-                .manufacturerPartId(descriptor.getManufacturerPartId())
-                .batchId(descriptor.getBatchId())
-                .manufacturerId(descriptor.getManufacturerId())
                 .build();
     }
 
     public ShellDescriptor toShellDescriptor() {
         return ShellDescriptor.builder()
-                .shellDescriptorId(shellDescriptorId)
+                .id(id)
                 .globalAssetId(globalAssetId)
-                .idShort(idShort)
-                .manufacturerId(manufacturerId)
-                .manufacturerPartId(manufacturerPartId)
-                .batchId(batchId)
-                .partInstanceId(partInstanceId)
                 .build();
     }
 }
