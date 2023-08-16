@@ -41,6 +41,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update EDC dependencies to 0.1.3
 - Update implementation to use EDC 0.5.0
 - Spring Security Config Update from 6.0.3 to 6.0.5
+- Logic of commitId retrieval by frontend has changed
+- Readme / Docker Notice information as required in TRGs
+- Removed references to GitHub registry and added docker hub for tractusx instead
 
 ### Removed
 - unused classes and methods
