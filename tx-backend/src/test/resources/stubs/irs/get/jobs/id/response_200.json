@@ -1198,6 +1198,10 @@
       "payload" : {
         "localIdentifiers" : [
           {
+            "value" : "BPNL00000003AYRE",
+            "key" : "ManufacturerID"
+          },
+          {
             "value" : "12345678ABC",
             "key" : "jisNumber"
           }
