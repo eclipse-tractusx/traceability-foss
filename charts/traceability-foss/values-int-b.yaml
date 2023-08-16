@@ -29,6 +29,7 @@ global:
 #########################
 frontend:
   image:
+    repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
     CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/int/b/frontend#catenax_portal_api_url>'
     CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/int/b/frontend#catenax_portal_keycloak_url>'
