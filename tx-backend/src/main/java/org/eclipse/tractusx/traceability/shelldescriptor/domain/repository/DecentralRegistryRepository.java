@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,8 +17,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.shelldescriptor.domain.model.metrics;
+package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
 
-public enum RegistryLookupStatus {
-	SUCCESSFUL, PARTIALLY_SUCCESS, ERROR
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+
+import java.util.List;
+
+public interface DecentralRegistryRepository {
+    List<ShellDescriptor> retrieveShellDescriptorsByBpn(String bpn);
 }

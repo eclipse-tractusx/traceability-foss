@@ -31,7 +31,7 @@ import { Severity } from '@shared/model/severity.model';
 import { CloseNotificationModalComponent } from '@shared/modules/notification/modal/close/close-notification-modal.component';
 import { KeycloakService } from 'keycloak-angular';
 
-fdescribe('NotificationMenuActionsAssembler', () => {
+describe('NotificationMenuActionsAssembler', () => {
   let helperService: AlertHelperService | InvestigationHelperService;
   let notificationCommonModalComponent: NotificationCommonModalComponent;
 

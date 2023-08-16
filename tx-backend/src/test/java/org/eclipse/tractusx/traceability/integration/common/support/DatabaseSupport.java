@@ -46,7 +46,6 @@ public class DatabaseSupport {
             "bpn_storage",
             "investigation_notification",
             "investigation",
-            "registry_lookup_metrics",
             "bpn_edc_mappings"
     });
 

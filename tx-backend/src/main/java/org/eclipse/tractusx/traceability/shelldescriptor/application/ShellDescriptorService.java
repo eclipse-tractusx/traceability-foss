@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,15 +16,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
-package org.eclipse.tractusx.traceability.shelldescriptor.domain.repository;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.metrics.RegistryLookupMetric;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
 
-public interface ShellDescriptorLookupMetricRepository {
-    void save(RegistryLookupMetric registryLookupMetric);
-
-    PageResult<RegistryLookupMetric> getMetrics(Pageable pageable);
+public interface ShellDescriptorService {
+    List<ShellDescriptor> determineExistingShellDescriptorsAndUpdate(List<ShellDescriptor> ownShellDescriptors);
 }

@@ -22,7 +22,6 @@
 traceability:
   bpn: ${TRACEABILITY_BPN}
   url: ${TRACEABILITY_URL}
-  registry.manufacturerIdKey: manufacturerId
 
 edc:
   ids:
@@ -74,7 +73,7 @@ irs-edc-client:
   catalog:
     policies:
       acceptedRightOperands: active # List of comma separated names of the rightOperands to accept.
-      acceptedLeftOperands: idsc:PURPOSE # List of comma separated names of the leftOperands to accept.
+      acceptedLeftOperands: PURPOSE # List of comma separated names of the leftOperands to accept.
 
 server:
   servlet:
@@ -131,8 +130,6 @@ jwt:
 feign:
   irsApi:
     url: ${IRS_URL}
-  registryApi:
-    url: ${REGISTRY_URL_WITH_PATH}
   portalApi:
     url: ${PORTAL_URL}
   okhttp:

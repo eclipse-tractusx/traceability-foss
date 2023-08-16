@@ -16,7 +16,7 @@
               "odrl:or" : [
                 {
                   "@type" : "Constraint",
-                  "odrl:leftOperand" : "idsc:PURPOSE",
+                  "odrl:leftOperand" : "PURPOSE",
                   "odrl:operator" : {
                     "@id" : "odrl:eq"
                   },
