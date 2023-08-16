@@ -21,11 +21,12 @@
 
 import { HttpClient } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
+import { environment } from '@env';
 
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss'],
+  styleUrls: [ './about.component.scss' ],
 })
 export class AboutComponent {
   @Input() name: string;
@@ -37,15 +38,21 @@ export class AboutComponent {
   @Input() commitId: string;
 
   constructor(private http: HttpClient) {
-    this.license = "Apache-2.0";
+    this.license = 'Apache-2.0';
     this.fetchAppInfo();
   }
 
-   openLink(url: string) {
-    window.open(url, '_blank')
+  openLink(url: string) {
+    window.open(url, '_blank');
   }
 
-   fetchAppInfo() {
+  fetchAppInfo() {
+
+    const commitIdNew = environment.gitTag;
+    const sourcePathNew = 'https://github.com/eclipse-tractusx/traceability-foss/commit/' + commitIdNew;
+    console.log(commitIdNew, 'gittag');
+    console.log(sourcePathNew, 'sourcepath');
+
     this.http.get<any>('/assets/notice/legal-notice.json').subscribe(data => {
       this.sourcePath = data.sourcePath;
       this.commitId = data.commitId;
@@ -53,6 +60,8 @@ export class AboutComponent {
       this.repositoryPath = data.repositoryPath;
       this.licensePath = data.licensePath;
       this.noticePath = data.noticePath;
-    })
+    });
   }
+
+  protected readonly environment = environment;
 }
