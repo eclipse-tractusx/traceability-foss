@@ -16,29 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+package org.eclipse.tractusx.traceability.integration.common.config;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
+import io.restassured.RestAssured;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.context.event.EventListener;
 
-@ApiModel(description = "Type of model")
-public enum SemanticDataModelResponse {
-    @ApiModelProperty("Batch")
-    BATCH,
-    @ApiModelProperty("SerialPart")
-    SERIALPART,
-    @ApiModelProperty("Unknown")
-    UNKNOWN,
-    @ApiModelProperty("PartAsPlanned")
-    PARTASPLANNED,
-    @ApiModelProperty("JustInSequence")
-    JUSTINSEQUENCE;
+@TestConfiguration
+public class RestAssuredConfig {
 
-    public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
-        if (semanticDataModel == null) {
-            return SemanticDataModelResponse.UNKNOWN;
-        }
-        return SemanticDataModelResponse.valueOf(semanticDataModel.name());
+    @EventListener(WebServerInitializedEvent.class)
+    void onServletContainerInitialized(WebServerInitializedEvent event) {
+        RestAssured.port = event.getWebServer().getPort();
     }
 }
