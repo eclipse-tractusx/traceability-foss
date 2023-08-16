@@ -76,4 +76,4 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
           repository: ${{ env.DOCKER_HUB_REGISTRY_NAMESPACE }}/${{ env.BACKEND_IMAGE_DOCKER_HUB }}
-          readme-filepath: DOCKER_NOTICE.md
+          readme-filepath: README.md
