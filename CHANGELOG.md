@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
 - Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
 - Decentral flow only using bpn for resolving globalAssetIds
+- Logic of commitId retrieval by frontend has changed
 -
 ### Removed
 
