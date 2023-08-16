@@ -20,7 +20,7 @@ Navigation is done based on the top menu.
 #### Dashboard
 
 Provides a fast overview about the amount of manufactured and supplied / customer (other) parts and batches, as well as the amount of open investigations and alerts.
-lists the five newest quality investigations and alerts to get an overview of the current state.
+Lists the five newest quality investigations and alerts to get an overview of the current state.
 
 #### Parts
 
@@ -97,13 +97,13 @@ Information about the identifiers at the customer for the respective part/batch.
 
 ### Other parts
 
-List view of the supplied/delivered parts and batches (Supplier Parts / Customer Parts).
+List view of the supplied/delivered parts and batches (Supplier parts / Customer parts).
 Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X. This includes data based on the aspect models of Use Case Traceability: SerialPart, Batch.
 
-#### Supplier Parts
+#### Supplier parts
 
 List view of supplied parts and batches.
-Supplier Parts that are in a quality investigation are highlighted yellow.
+Supplier parts that are in a quality investigation are highlighted yellow.
 
 ##### Supplier parts select / Quality Investigation
 
@@ -171,7 +171,7 @@ Notifications in the context of quality investigations that are in queued/draft 
 * Queued status: Quality investigation is created but not yet released.
 * Requested status: Quality investigation is sent to the supplier.
 
-#### Quality investigation Context Action
+#### Quality investigation context action
 
 Select the three dots icon on the right side of an investigation entry to open the context menu. From there it is possible to open the investigation detailed view or change the status of an investigation. Only the possible status transition will show up.
 
@@ -183,7 +183,7 @@ Changing the status of an investigation will open a modal in which the details t
 
 A pop-up will notify you if the status transition was successful.
 
-#### Quality investigation Detail View
+#### Quality investigation Detail view
 
 The investigation detail view can be opened by selecting the corresponding option in the context menu.
 
@@ -197,7 +197,7 @@ General information about the notification.
 
 Listed parts that are assigned to the selected alert.
 
-##### Supplier Parts
+##### Supplier parts
 
 Detailed information for child parts assigned to a notification
 
@@ -205,7 +205,7 @@ Detailed information for child parts assigned to a notification
 
 Displays all state transitions including the reason/description of the transition that were done on the notification to get an overview of the correspondence between sender and receiver.
 
-##### Quality investigation Action
+##### Quality investigation action
 
 All possible state transitions are displayed in form of buttons (upper right corner). There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.
 
@@ -215,9 +215,9 @@ Following status for a quality investigation (notification) are possible:
 
 | Status | Description |
 | --- | --- |
-| Queued | A quality investigation that was created by a user but not yet send to the receiver. |
+| Queued | A quality investigation that was created by a user but not yet sent to the receiver. |
 | Requested | Created quality investigation that is already sent to the receiver. |
-| Cancelled | Created quality investigation that is not yet send to the receiver and got cancelled on sender side before doing so. It is no longer valid / necessary. |
+| Cancelled | Created quality investigation that is not yet sent to the receiver and got cancelled on sender side before doing so. It is no longer valid / necessary. |
 | Received | Received notification from a sender which needs to be investigated. |
 | Acknowledged | The receiver acknowledged to work on the received inquiry. |
 | Accepted | The receiver accepted the inquiry. Issue on part/batch detected. |
@@ -251,7 +251,7 @@ Notifications in the context of quality alerts that are in queued/draft status o
 * Queued status: Quality alert is created but not yet released.
 * Requested status: Quality alert is sent to the customer.
 
-#### Quality alert Context Action
+#### Quality alert context action
 
 Select the three dots icon on the right side of an alert entry to open the context menu. From there it is possible to open the alert detailed view or change the status of an alert. Only the possible status transitions will show up.
 
@@ -263,7 +263,7 @@ Changing the status of an alert will open a modal in which the details to the st
 
 A pop-up will notify you if the status transition was successful.
 
-#### Quality alert Detail View
+#### Quality alert Detail view
 
 The alert detail view can be opened by selecting the corresponding option in the context menu.
 
@@ -273,11 +273,11 @@ The alert detail view can be opened by selecting the corresponding option in the
 
 General information about the notification.
 
-##### Affected Parts
+##### Affected parts
 
 Listed parts that are assigned to the selected alert.
 
-##### Supplier Parts
+##### Supplier parts
 
 Detailed information for child parts assigned to a notification
 
@@ -285,7 +285,7 @@ Detailed information for child parts assigned to a notification
 
 Displays all state transitions including the reason/description of the transition that were done on the notification to get an overview of the correspondence between sender and receiver.
 
-##### Quality investigation Action
+##### Quality investigation action
 
 All possible state transitions are displayed in form of buttons (upper right corner). There the desired action can be selected to open a modal in which the details to the status change can be provided and completed.
 
@@ -295,9 +295,9 @@ Following status for a quality alert (notification) are possible:
 
 | Status | Description |
 | --- | --- |
-| Queued | A quality alert that was created by a user but not yet send to the receiver. |
+| Queued | A quality alert that was created by a user but not yet sent to the receiver. |
 | Requested | Created quality alert that is already sent to the receiver. |
-| Cancelled | Created quality alert that is not yet send to the receiver and got cancelled on sender side before doing so. It is no longer valid / necessary. |
+| Cancelled | Created quality alert that is not yet sent to the receiver and got cancelled on sender side before doing so. It is no longer valid / necessary. |
 | Received | Received notification from a sender which needs to be aware of. |
 | Acknowledged | The receiver acknowledged to work on the received inquiry. |
 | Accepted | The receiver accepted the inquiry. Issue on part/batch is known. |

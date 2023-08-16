@@ -152,7 +152,7 @@ backend:
   replicaCount: 1
 
   image:
-    repository: ghcr.io/catenax-ng/tx-traceability-foss
+    repository: tractusx/tx-traceability-foss
     pullPolicy: Always
 
   springprofile: dev  # will be set as dev
