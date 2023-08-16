@@ -153,22 +153,33 @@ mvn -DskipTests=false clean verify
 The project follows [OpenAPI Specification](https://swagger.io/specification/) in order to document implemented REST Endpoints. The documentation can be found under [/openapi directory](https://github.com/eclipse-tractusx/traceability-foss/blob/main/tx-backend/openapi/traceability-foss-backend.json)
 or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swagger-ui/index.html`
 
-## Container image
-
-This application provides container images for demonstration purposes.Here you can finde the [BE Images](https://hub.docker.com/r/tractusx/traceability-foss) and the [FE Images](https://hub.docker.com/r/tractusx/traceability-foss-frontend).
-The base images used, to build these demo application images are `eclipse-temurin:17-jre-alpine` and `node:18-alpine`
-
-Docker Hub:
-- [eclipse-temurin](https://hub.docker.com/_/eclipse-temurin)
-- [17-jre-alpine image](https://hub.docker.com/layers/library/eclipse-temurin/17-jre-alpine/images/sha256-c26a727c4883eb73d32351be8bacb3e70f390c2c94f078dc493495ed93c60c2f?context=explore)
-- [node](https://hub.docker.com/_/node)
-- [18-alpine image](https://hub.docker.com/layers/library/node/18-alpine/images/sha256-19eaf41f3b8c2ac2f609ac8103f9246a6a6d46716cdbe49103fdb116e55ff0cc?context=explore)
-
-Source:
-- [temurin-build](https://github.com/adoptium/temurin-build)
-- [temurin docker repo info](https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin)
-- [node-build](https://github.com/nodejs/docker-node)
-
 ## License
 
 [Apache License 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+
+## Notice for Docker image
+
+This application provides container images for demonstration purposes.
+
+Here you can find the [BE Images](https://hub.docker.com/r/tractusx/traceability-foss) and the [FE Images](https://hub.docker.com/r/tractusx/traceability-foss-frontend).
+The base images used, to build these demo application images are `eclipse-temurin:17-jre-alpine` and `node:18-alpine`
+
+Eclipse Tractus-X product(s) installed within the image:
+
+DockerHub: https://hub.docker.com/r/tractusx/traceability-foss
+
+- GitHub: https://github.com/eclipse-tractusx/traceability-foss
+- Project home: https://projects.eclipse.org/projects/automotive.tractusx
+- Dockerfile Backend: https://github.com/eclipse-tractusx/traceability-foss/blob/main/Dockerfile
+- Dockerfile Frontend: https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/Dockerfile
+- Project license: [Apache License, Version 2.0](https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE)
+
+**Used base image**
+- [eclipse-temurin:20-jre-alpine](https://github.com/adoptium/containers)
+- Official Eclipse Temurin DockerHub page: https://hub.docker.com/_/eclipse-temurin
+- Eclipse Temurin Project: https://projects.eclipse.org/projects/adoptium.temurin
+- Additional information about the Eclipse Temurin images: https://github.com/docker-library/repo-info/tree/master/repos/eclipse-temurin
+
+As with all Docker images, these likely also contain other software which may be under other licenses (such as Bash, etc from the base distribution, along with any direct or indirect dependencies of the primary software being contained).
+
+As for any pre-built image usage, it is the image user's responsibility to ensure that any use of this image complies with any relevant licenses for all software contained within.
