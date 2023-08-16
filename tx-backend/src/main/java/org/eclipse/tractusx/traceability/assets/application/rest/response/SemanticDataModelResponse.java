@@ -31,7 +31,9 @@ public enum SemanticDataModelResponse {
     @ApiModelProperty("Unknown")
     UNKNOWN,
     @ApiModelProperty("PartAsPlanned")
-    PARTASPLANNED;
+    PARTASPLANNED,
+    @ApiModelProperty("JustInSequence")
+    JUSTINSEQUENCE;
 
     public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
         if (semanticDataModel == null) {
