@@ -1,8 +1,0 @@
-{
-  "name": "traceability-foss",
-  "repositoryPath": "https://github.com/eclipse-tractusx/traceability-foss",
-  "licensePath": "https://github.com/eclipse-tractusx/traceability-foss/blob/main/LICENSE",
-  "noticePath": "https://github.com/eclipse-tractusx/traceability-foss/blob/main/NOTICE.md",
-  "sourcePath": "https://github.com/eclipse-tractusx/traceability-foss/tree/main",
-  "commitId": "6cd54c89bdf6ca63d56101e0862f979d124595df"
-}
