@@ -29,4 +29,5 @@ public enum LocalIdKey {
     @JsonProperty("batchId") BATCH_ID,
     @JsonEnumDefaultValue UNKNOWN,
     @JsonProperty("van") VAN,
+    @JsonProperty("jisNumber") JIS_NUMBER,
 }
