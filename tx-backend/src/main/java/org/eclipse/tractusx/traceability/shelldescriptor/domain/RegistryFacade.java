@@ -41,7 +41,7 @@ public class RegistryFacade {
     private final RegistryService registryService;
     private final AssetServiceImpl assetService;
 
-//    @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
+    @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void updateShellDescriptorAndSynchronizeAssets() throws RegistryServiceException {
         List<ShellDescriptor> ownShellDescriptors = updateOwnShellDescriptors();
         synchronizeAssetsByDescriptors(ownShellDescriptors);
