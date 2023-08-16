@@ -161,12 +161,10 @@ or can be viewed in the Swagger UI accessing the url: `{projectBasePath}/api/swa
 
 This application provides container images for demonstration purposes.
 
-Here you can find the [BE Images](https://hub.docker.com/r/tractusx/traceability-foss) and the [FE Images](https://hub.docker.com/r/tractusx/traceability-foss-frontend).
-The base images used, to build these demo application images are `eclipse-temurin:17-jre-alpine` and `node:18-alpine`
-
 Eclipse Tractus-X product(s) installed within the image:
 
-DockerHub: https://hub.docker.com/r/tractusx/traceability-foss
+DockerHub Backend: https://hub.docker.com/r/tractusx/traceability-foss
+DockerHub Frontend: https://hub.docker.com/r/tractusx/traceability-foss-frontend
 
 - GitHub: https://github.com/eclipse-tractusx/traceability-foss
 - Project home: https://projects.eclipse.org/projects/automotive.tractusx
