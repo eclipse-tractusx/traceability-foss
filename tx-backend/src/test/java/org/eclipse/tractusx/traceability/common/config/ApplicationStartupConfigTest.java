@@ -19,7 +19,10 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,6 +32,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -40,9 +44,19 @@ class ApplicationStartupConfigTest {
     @Mock
     private IrsRepository irsRepository;
 
+    @Mock
+    private EdcNotificationContractService edcNotificationContractService;
+
+    @Mock
+    private RegistryFacade registryFacade;
+
+
     @BeforeEach
     void setUp() {
-        applicationStartupConfig = new ApplicationStartupConfig(irsRepository);
+        applicationStartupConfig = new ApplicationStartupConfig(
+                irsRepository,
+                edcNotificationContractService,
+                registryFacade);
     }
 
     @Test
@@ -54,6 +68,38 @@ class ApplicationStartupConfigTest {
 
             // then
             verify(irsRepository, times(1)).createIrsPolicyIfMissing();
+        });
+
+        executor.shutdown();
+    }
+
+    @Test
+    void whenCallCreateNotificationContracts_thenCallContractService() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        // when
+        executor.execute(() -> {
+            applicationStartupConfig.registerIrsPolicy();
+
+            // then
+            verify(edcNotificationContractService, times(4)).handle(any());
+        });
+
+        executor.shutdown();
+    }
+
+    @Test
+    void whenCallTriggerRegistryReload_thenCallUpdateShellDescriptor() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        // when
+        executor.execute(() -> {
+            applicationStartupConfig.registerIrsPolicy();
+
+            // then
+            try {
+                verify(registryFacade, times(1)).updateShellDescriptorAndSynchronizeAssets();
+            } catch (RegistryServiceException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         executor.shutdown();

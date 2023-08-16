@@ -21,12 +21,19 @@ package org.eclipse.tractusx.traceability.common.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,7 +42,17 @@ import java.util.concurrent.Executors;
 @Profile("!integration")
 @RequiredArgsConstructor
 public class ApplicationStartupConfig {
+
+    private static final List<CreateNotificationContractRequest> NOTIFICATION_CONTRACTS = List.of(
+            new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.UPDATE),
+            new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.RECEIVE),
+            new CreateNotificationContractRequest(NotificationType.QUALITY_INVESTIGATION, NotificationMethod.UPDATE),
+            new CreateNotificationContractRequest(NotificationType.QUALITY_INVESTIGATION, NotificationMethod.RECEIVE)
+    );
+
     private final IrsRepository irsRepository;
+    private final EdcNotificationContractService edcNotificationContractService;
+    private final RegistryFacade registryFacade;
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -52,5 +69,22 @@ public class ApplicationStartupConfig {
         executor.shutdown();
     }
 
+    @EventListener(ApplicationReadyEvent.class)
+    public void createNotificationContracts() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        NOTIFICATION_CONTRACTS.forEach(edcNotificationContractService::handle);
+
+        executor.shutdown();
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void triggerRegistryReload() throws RegistryServiceException {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        registryFacade.updateShellDescriptorAndSynchronizeAssets();
+
+        executor.shutdown();
+    }
 
 }
