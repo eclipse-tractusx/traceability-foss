@@ -47,20 +47,11 @@ export class AboutComponent {
   }
 
   fetchAppInfo() {
-
-    const commitIdNew = environment.gitTag;
-    const sourcePathNew = 'https://github.com/eclipse-tractusx/traceability-foss/commit/' + commitIdNew;
-    console.log(commitIdNew, 'gittag');
-    console.log(sourcePathNew, 'sourcepath');
-
-    this.http.get<any>('/assets/notice/legal-notice.json').subscribe(data => {
-      this.sourcePath = data.sourcePath;
-      this.commitId = data.commitId;
-      this.name = data.name;
-      this.repositoryPath = data.repositoryPath;
-      this.licensePath = data.licensePath;
-      this.noticePath = data.noticePath;
-    });
+    this.commitId = environment.gitTag;
+    this.repositoryPath = "https://github.com/eclipse-tractusx/traceability-foss"
+    this.licensePath = this.repositoryPath + "/blob/" + this.commitId + "/LICENSE";
+    this.noticePath = this.repositoryPath + "/blob/" + this.commitId+ "/NOTICE.md";
+    this.sourcePath = this.repositoryPath + "/tree/" + this.commitId;
   }
 
   protected readonly environment = environment;
