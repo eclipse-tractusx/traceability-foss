@@ -86,17 +86,15 @@ public class ApplicationStartupConfig {
         executor.shutdown();
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationReadyEvent.class)
     public void triggerRegistryReload() {
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
-            try {
-                registryFacade.updateShellDescriptorAndSynchronizeAssets();
-            } catch (Exception exception) {
-                log.error("Failed to update assets: ", exception);
-            }
-        });
-        executor.shutdown();
+
+        try {
+            registryFacade.updateShellDescriptorAndSynchronizeAssets();
+        } catch (RegistryServiceException e) {
+            throw new RuntimeException("Something went rly wrong ", e);
+        }
+
     }
 
 }
