@@ -38,6 +38,7 @@ export class AboutComponent {
 
     constructor() {
         this.license = 'Apache-2.0';
+        this.name = "Traceability Foss"
         this.commitId = environment.gitTag;
         this.repositoryPath = "https://github.com/eclipse-tractusx/traceability-foss"
         this.licensePath = this.repositoryPath + "/blob/" + this.commitId + "/LICENSE";
