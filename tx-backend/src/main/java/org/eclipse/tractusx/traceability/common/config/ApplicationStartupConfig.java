@@ -86,7 +86,7 @@ public class ApplicationStartupConfig {
         executor.shutdown();
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
+    @EventListener(ApplicationReadyEvent.class)
     public void triggerRegistryReload() {
 
         try {
