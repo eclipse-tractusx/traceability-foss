@@ -19,40 +19,35 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
-import { environment } from '@env';
+import {Component} from '@angular/core';
+import {environment} from '@env';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: [ './about.component.scss' ],
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent {
-  @Input() name: string;
-  @Input() repositoryPath: string;
-  @Input() license: string;
-  @Input() licensePath: string;
-  @Input() noticePath: string;
-  @Input() sourcePath: string;
-  @Input() commitId: string;
+    name: string;
+    repositoryPath: string;
+    license: string;
+    licensePath: string;
+    noticePath: string;
+    sourcePath: string;
+    commitId: string;
 
-  constructor(private http: HttpClient) {
-    this.license = 'Apache-2.0';
-    this.fetchAppInfo();
-  }
+    constructor() {
+        this.license = 'Apache-2.0';
+        this.commitId = environment.gitTag;
+        this.repositoryPath = "https://github.com/eclipse-tractusx/traceability-foss"
+        this.licensePath = this.repositoryPath + "/blob/" + this.commitId + "/LICENSE";
+        this.noticePath = this.repositoryPath + "/blob/" + this.commitId + "/NOTICE.md";
+        this.sourcePath = this.repositoryPath + "/tree/" + this.commitId;
+    }
 
-  openLink(url: string) {
-    window.open(url, '_blank');
-  }
+    openLink(url: string): void {
+        window.open(url, '_blank');
+    }
 
-  fetchAppInfo() {
-    this.commitId = environment.gitTag;
-    this.repositoryPath = "https://github.com/eclipse-tractusx/traceability-foss"
-    this.licensePath = this.repositoryPath + "/blob/" + this.commitId + "/LICENSE";
-    this.noticePath = this.repositoryPath + "/blob/" + this.commitId+ "/NOTICE.md";
-    this.sourcePath = this.repositoryPath + "/tree/" + this.commitId;
-  }
-
-  protected readonly environment = environment;
+    protected readonly environment = environment;
 }
