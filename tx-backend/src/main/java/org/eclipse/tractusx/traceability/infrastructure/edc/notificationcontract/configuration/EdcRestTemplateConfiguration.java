@@ -123,6 +123,7 @@ public class EdcRestTemplateConfiguration {
         return new DecentralDigitalTwinRegistryClient(edcRestTemplate) {
             @Override
             public List<String> getAllAssetAdministrationShellIdsByAssetLink(EndpointDataReference endpointDataReference, List<IdentifierKeyValuePair> assetIds) {
+                log.info("HI there ! How are YOUUUU DOING");
                 String shellLookupEndpoint = endpointDataReference.getEndpoint() + "/lookup/shells";
                 ShellQueryBody queryBody = ShellQueryBody.builder().query(ShellQueryBody.ShellQuery.builder().assetIds(assetIds).build()).build();
                 return edcRestTemplate.exchange(shellLookupEndpoint, HttpMethod.POST, new HttpEntity(queryBody, headers(endpointDataReference)), new ParameterizedTypeReference<List<String>>() {
