@@ -26,7 +26,10 @@ import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
 import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
 import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryClient;
+import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryService;
+import org.eclipse.tractusx.irs.registryclient.decentral.EndpointDataForConnectorsService;
 import org.eclipse.tractusx.irs.registryclient.decentral.ShellQueryBody;
+import org.eclipse.tractusx.irs.registryclient.discovery.ConnectorEndpointsService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -131,6 +134,17 @@ public class EdcRestTemplateConfiguration {
                 }, new Object[0]).getBody();
             }
         };
+    }
+
+    @Bean
+    @Primary
+    public DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService(
+            final ConnectorEndpointsService connectorEndpointsService,
+            final EndpointDataForConnectorsService endpointDataForConnectorsService,
+            @Qualifier(EDC_REST_TEMPLATE) final RestTemplate edcRestTemplate) {
+        log.info ("Overriding service");
+        return new DecentralDigitalTwinRegistryService(connectorEndpointsService, endpointDataForConnectorsService,
+                decentralDigitalTwinRegistryClient(edcRestTemplate));
     }
 
     private HttpHeaders headers(EndpointDataReference dataReference) {
