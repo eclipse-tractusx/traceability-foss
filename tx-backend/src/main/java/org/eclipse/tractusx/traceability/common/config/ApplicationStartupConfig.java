@@ -88,7 +88,7 @@ public class ApplicationStartupConfig {
     }
 
 //    @EventListener(ApplicationReadyEvent.class)
-    @Scheduled(initialDelay = 1000 * 60, fixedDelay=Long.MAX_VALUE)
+//    @Scheduled(initialDelay = 1000 * 60, fixedDelay=Long.MAX_VALUE)
     public void triggerRegistryReload() {
         log.info("1 min delay");
         try {
