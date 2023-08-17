@@ -27,7 +27,6 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.ObjectMapperConfig;
 import io.restassured.config.RestAssuredConfig;
 import io.restassured.http.ContentType;
-import io.restassured.path.json.mapper.factory.Jackson2ObjectMapperFactory;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
 import org.apache.http.HttpStatus;
@@ -39,14 +38,10 @@ import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQuality
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 
-import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.List;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES;
-import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
-import static com.fasterxml.jackson.databind.DeserializationFeature.READ_ENUMS_USING_TO_STRING;
-import static com.fasterxml.jackson.databind.DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE;
+import static com.fasterxml.jackson.databind.DeserializationFeature.*;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
@@ -64,19 +59,14 @@ public class RestProvider {
         authentication = new Authentication();
 
         RestAssured.config = RestAssuredConfig.config().objectMapperConfig(new ObjectMapperConfig().jackson2ObjectMapperFactory(
-                new Jackson2ObjectMapperFactory() {
-                    @Override
-                    public ObjectMapper create(Type type, String s) {
-                        return new ObjectMapper()
-                                .registerModule(new JavaTimeModule())
-                                .registerModule(new Jdk8Module())
-                                .enable(READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
-                                .enable(READ_ENUMS_USING_TO_STRING)
-                                .disable(FAIL_ON_IGNORED_PROPERTIES)
-                                .disable(FAIL_ON_UNKNOWN_PROPERTIES)
-                                .disable(WRITE_DATES_AS_TIMESTAMPS);
-                    }
-                }
+                (type, s) -> new ObjectMapper()
+                        .registerModule(new JavaTimeModule())
+                        .registerModule(new Jdk8Module())
+                        .enable(READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE)
+                        .enable(READ_ENUMS_USING_TO_STRING)
+                        .disable(FAIL_ON_IGNORED_PROPERTIES)
+                        .disable(FAIL_ON_UNKNOWN_PROPERTIES)
+                        .disable(WRITE_DATES_AS_TIMESTAMPS)
         ));
     }
 
@@ -124,7 +114,7 @@ public class RestProvider {
         given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .post("api/investigations/{notificationId}/approve" .replace(
+                .post("api/investigations/{notificationId}/approve".replace(
                         "{notificationId}",
                         notificationId.toString()
                 ))
@@ -132,11 +122,37 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    public void acknowledgeInvestigation(
-            final Long notificationId
-    ) {
+    public void cancelInvestigation(
+            final Long notificationId) {
+
+        given().spec(getRequestSpecification())
+                .contentType(ContentType.JSON)
+                .when()
+                .post("api/investigations/{notificationId}/cancel".replace(
+                        "{notificationId}",
+                        notificationId.toString()
+                ))
+                .then()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
+    }
+
+    public void closeInvestigation(
+            final Long notificationId) {
+
+        given().spec(getRequestSpecification())
+                .contentType(ContentType.JSON)
+                .when()
+                .post("api/investigations/{notificationId}/close".replace(
+                        "{notificationId}",
+                        notificationId.toString()
+                ))
+                .then()
+                .statusCode(HttpStatus.SC_NO_CONTENT);
+    }
+
+    public void updateInvestigation(final Long notificationId, UpdateQualityNotificationStatusRequest status) {
         UpdateQualityNotificationRequest requestBody = UpdateQualityNotificationRequest.builder()
-                .status(UpdateQualityNotificationStatusRequest.ACKNOWLEDGED)
+                .status(status)
                 .build();
 
 
@@ -144,7 +160,7 @@ public class RestProvider {
                 .contentType(ContentType.JSON)
                 .body(requestBody)
                 .when()
-                .post("api/investigations/{notificationId}/update" .replace(
+                .post("api/investigations/{notificationId}/update".replace(
                         "{notificationId}",
                         notificationId.toString()
                 ))

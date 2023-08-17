@@ -27,6 +27,7 @@ import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
+import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 import org.eclipse.tractusx.traceability.test.validator.InvestigationValidator;
@@ -100,18 +101,48 @@ public class TraceabilityTestStepDefinition {
         waiting1Min();
     }
 
+    @When("I cancel quality investigation")
+    public void iCancelQualityInvestigation() {
+        restProvider.cancelInvestigation(getNotificationIdBasedOnEnv());
+        waiting1Min();
+    }
+
+    @When("I close quality investigation")
+    public void iCloseQualityInvestigation() {
+        restProvider.closeInvestigation(getNotificationIdBasedOnEnv());
+        waiting1Min();
+    }
+
     @When("I check, if quality investigation has been received")
     public void iCanSeeNotificationWasReceived() {
         final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
-        final QualityNotificationResponse notification = result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().get();
+        final QualityNotificationResponse notification = result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().orElseThrow();
         notificationID_TXB = notification.getId();
 
         assertThat(notification).isNotNull();
     }
 
+    @When("I check, if quality investigation has not been received")
+    public void iCanSeeNotificationWasNotReceived() {
+        final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
+        assertThat(result.size()).isEqualTo(0);
+    }
+
     @When("I acknowledge quality investigation")
     public void iAcknowledgeQualityInvestigation() {
-        restProvider.acknowledgeInvestigation(getNotificationIdBasedOnEnv());
+        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED);
+        waiting1Min();
+    }
+
+    @When("I accept quality investigation")
+    public void iAcceptQualityInvestigation() {
+        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED);
+        waiting1Min();
+    }
+
+    @When("I decline quality investigation")
+    public void iDeclineQualityInvestigation() {
+        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED);
         waiting1Min();
     }
 
@@ -144,7 +175,6 @@ public class TraceabilityTestStepDefinition {
         Pattern r = Pattern.compile("\"(.+)\"");
 
         Matcher m = r.matcher(input);
-        m.matches();
 
         return m.group(1);
     }
