@@ -117,45 +117,4 @@ public class EdcRestTemplateConfiguration {
 
         return authorizedClientManager;
     }
-
-
-    @Bean
-    @Primary
-    public DecentralDigitalTwinRegistryClient decentralDigitalTwinRegistryClient(
-            @Qualifier(EDC_REST_TEMPLATE) final RestTemplate edcRestTemplate) {
-            log.info("creating bean. ovveriding method");
-        return new DecentralDigitalTwinRegistryClient(edcRestTemplate) {
-            @Override
-            public List<String> getAllAssetAdministrationShellIdsByAssetLink(EndpointDataReference endpointDataReference, List<IdentifierKeyValuePair> assetIds) {
-                log.info("HI there ! How are YOUUUU DOING");
-                String shellLookupEndpoint = endpointDataReference.getEndpoint() + "/lookup/shells";
-                ShellQueryBody queryBody = ShellQueryBody.builder().query(ShellQueryBody.ShellQuery.builder().assetIds(assetIds).build()).build();
-                return edcRestTemplate.exchange(shellLookupEndpoint, HttpMethod.POST, new HttpEntity(queryBody, headers(endpointDataReference)), new ParameterizedTypeReference<List<String>>() {
-                }, new Object[0]).getBody();
-            }
-        };
-    }
-
-    @Bean
-    @Primary
-    public DecentralDigitalTwinRegistryService decentralDigitalTwinRegistryService(
-            final ConnectorEndpointsService connectorEndpointsService,
-            final EndpointDataForConnectorsService endpointDataForConnectorsService,
-            @Qualifier(EDC_REST_TEMPLATE) final RestTemplate edcRestTemplate) {
-        log.info ("Overriding service");
-        return new DecentralDigitalTwinRegistryService(connectorEndpointsService, endpointDataForConnectorsService,
-                decentralDigitalTwinRegistryClient(edcRestTemplate));
-    }
-
-    private HttpHeaders headers(EndpointDataReference dataReference) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        String authKey = dataReference.getAuthKey();
-        if (authKey != null) {
-            headers.add(authKey, dataReference.getAuthCode());
-        }
-
-        return headers;
-    }
-
 }
