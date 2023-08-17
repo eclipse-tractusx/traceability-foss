@@ -120,6 +120,7 @@ public class EdcRestTemplateConfiguration {
     @Primary
     public DecentralDigitalTwinRegistryClient decentralDigitalTwinRegistryClient(
             @Qualifier(EDC_REST_TEMPLATE) final RestTemplate edcRestTemplate) {
+            log.info("creating bean. ovveriding method");
         return new DecentralDigitalTwinRegistryClient(edcRestTemplate) {
             @Override
             public List<String> getAllAssetAdministrationShellIdsByAssetLink(EndpointDataReference endpointDataReference, List<IdentifierKeyValuePair> assetIds) {
