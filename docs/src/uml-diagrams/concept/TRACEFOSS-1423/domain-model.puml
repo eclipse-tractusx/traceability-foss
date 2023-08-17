@@ -5,33 +5,36 @@ title: Domain Model
 
 abstract Asset {
         *   id : String
-        idShort : String
-        manufacturerId : String
-        * private final Owner owner;
-        manufacturerName : String
+        owner : Owner
         childRelations : List<Relation>
         parentRelations : List<Relation>
-        underInvestigation : boolean
+
         activeAlert: boolean
         qualityType : QualityType
-        classification : String
+        underInvestigation : boolean
+        semanticDataModelType : SemanticDataModelType
+        idShort : String
+        manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
+        nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
+        classification : String /' partTypeInformation.classification '/
+        businessPartner : String /' BusinessPartner '/
+        abstract String getSemanticDataModelId()
         van : String
-        abstract String : getSemanticDataModelId()
-        abstract SemanticDataModel : getSemanticDataModel()
+
 }
+
 note left
     Rename Descriptions to Relations
 end note
-
 
 entity Relation {
        *   id : String
        idShort : String
 }
 
-enum SemanticModelType {
-    SERIALPART,
+enum SemanticDataModelType {
     BATCH,
+    SERIALPART,
     JUSTINSEQUENCEPART,
     TRACTIONBATTERYCODE,
     PARTASPLANNED,
@@ -40,33 +43,32 @@ enum SemanticModelType {
 
 
 entity AsBuiltAspectModel {
-        manufacturingDate : Instant
-        manufacturingCountry : String (iso-3)
-        manufacturerPartId : String
-        customerPartId : String
-        nameAtManufacturer : String
-        nameAtCustomer : String
+    manufacturingDate : Instant
+    manufacturingCountry : String (iso-3)
+    customerPartId : String
+    nameAtCustomer : String
 }
 
 entity SerialPart {
-     partInstanceId : String
-     String: getSemanticDataModelId() return partInstanceId
-     SemanticModelType: getSemanticDataModel()
+       * partInstanceID: String
+       String: getSemanticDataModelId() return batchId
+       SemanticModelType.SERIALPART
 }
 
 entity Batch {
-     batchId : String
+     * BatchID : String
      String: getSemanticDataModelId() return batchId
-     SemanticModelType: getSemanticDataModel()
+     SemanticModelType.BATCH
 }
 
 entity JustInSequencePart {
-     jisNumber : String
+     * jisNumber : String
      String: getSemanticDataModelId() return jisNumber
-     SemanticModelType: getSemanticDataModel()
+     SemanticModelType.JUSTINSEQUENCEPART
 }
 
 entity TractionBatteryCode {
+    * uuid4 : String /' UUID ID '/
     productType: String
     tractionBatteryCode: String
     subComponents : List<TractionBatteryCode>
@@ -90,12 +92,6 @@ entity PartSiteInformationAsPlanned {
 }
 
 entity AsPlannedAspectModel {
-        manufacturingDate : Instant
-        manufacturingCountry : String
-        manufacturerPartId : String
-        customerPartId : String
-        nameAtManufacturer : String
-        nameAtCustomer : String
 }
 
 SemanticModelType --> Asset
@@ -105,6 +101,7 @@ Asset <|.. AsPlannedAspectModel
 AsBuiltAspectModel <|.. Batch
 AsBuiltAspectModel <|.. SerialPart
 AsBuiltAspectModel <|.. JustInSequencePart
+AsBuiltAspectModel <|.. TractionBatteryCode
 
 AsPlannedAspectModel <|.. PartAsPlanned
 AsPlannedAspectModel <|.. PartSiteInformationAsPlanned
