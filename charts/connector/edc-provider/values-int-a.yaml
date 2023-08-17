@@ -76,8 +76,8 @@ tractusx-connector:
 
   vault:
     secretNames:
-      transferProxyTokenSignerPrivateKey: token-signer-cert-key-dev
-      transferProxyTokenSignerPublicKey: token-signer-cert-dev
+      transferProxyTokenSignerPrivateKey: daps-cert-key-int-a
+      transferProxyTokenSignerPublicKey: daps-cert-int-a
       transferProxyTokenEncryptionAesKey: token-signer-aes-key
 
 edc-postgresql:
