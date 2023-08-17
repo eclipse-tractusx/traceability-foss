@@ -73,6 +73,16 @@ tractusx-connector:
     jdbcUrl: "jdbc:postgresql://tx-edc-provider-postgresql-int-b-hl:5432/edc"
 
   vault:
+    hashicorp:
+      url: "https://vault.demo.catena-x.net"
+      token: "<path:traceability-foss/data/int-b/edc#edc.vault.hashicorp.token>"
+      timeout: 30
+      healthCheck:
+        enabled: true
+        standbyOk: true
+      paths:
+        secret: /v1/traceability-foss
+        health: /v1/sys/health
     secretNames:
       transferProxyTokenSignerPrivateKey: token-signer-cert-key-dev
       transferProxyTokenSignerPublicKey: token-signer-cert-dev
