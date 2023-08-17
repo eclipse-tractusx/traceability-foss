@@ -38,12 +38,14 @@ class Submodel {
             @Type(value = SemanticDataModel.class, names = {
                     "urn:samm:io.catenax.serial_part:1.0.0#SerialPart",
                     "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart",
-                    "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart"
+                    "urn:bamm:io.catenax.serial_part:1.1.0#SerialPart",
+                    "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart"
 
             }),
             @Type(value = SemanticDataModel.class, names = {
                     "urn:bamm:com.catenax.batch:1.0.0#Batch",
-                    "urn:bamm:io.catenax.batch:1.0.0#Batch"
+                    "urn:bamm:io.catenax.batch:1.0.0#Batch",
+                    "urn:bamm:io.catenax.batch:1.0.2#Batch"
             }),
             @Type(value = SemanticDataModel.class, names = {
                     "urn:bamm:io.catenax.part_as_planned:1.0.1#PartAsPlanned",
@@ -51,6 +53,9 @@ class Submodel {
             }),
             @Type(value = SemanticDataModel.class, names = {
                     "urn:bamm:io.catenax.part_site_information_as_planned:1.0.0#PartSiteInformationAsPlanned"
+            }),
+            @Type(value = SemanticDataModel.class, names = {
+                    "urn:bamm:io.catenax.just_in_sequence_part:1.0.0#JustInSequencePart"
             })
     })
     private Object payload;

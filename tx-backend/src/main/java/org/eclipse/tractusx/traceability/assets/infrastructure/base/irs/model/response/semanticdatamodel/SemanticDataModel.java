@@ -25,18 +25,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
+import org.eclipse.tractusx.traceability.assets.domain.model.*;
 import org.springframework.util.StringUtils;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -100,6 +92,11 @@ public class SemanticDataModel {
         getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.BATCH);
+        });
+
+        getLocalIdByInput(LocalIdKey.JIS_NUMBER, localIds).ifPresent(s -> {
+            semanticModelId.set(s);
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.JUSTINSEQUENCE);
         });
 
 
@@ -185,10 +182,6 @@ public class SemanticDataModel {
         return localIdentifiers;
     }
 
-    public ValidityPeriod validityPeriod() {
-        return validityPeriod;
-    }
-
     public List<Site> sites() {
         return sites;
     }
@@ -227,6 +220,15 @@ public class SemanticDataModel {
                 "sites=" + sites + ", " +
                 "aspectType=" + aspectType + ']';
     }
+
+    public boolean isAsPlanned() {
+        return aspectType.contains("AsPlanned");
+    }
+
+    public boolean isAsBuilt() {
+        return !aspectType.contains("AsPlanned");
+    }
+
 
 }
 

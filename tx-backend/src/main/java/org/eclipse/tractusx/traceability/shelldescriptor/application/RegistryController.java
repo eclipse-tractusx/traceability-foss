@@ -29,9 +29,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
-import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +40,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RegistryController {
 
-    private final RegistryFacade registryFacade;
+    private final DecentralRegistryService decentralRegistryService;
 
     @Operation(operationId = "reload",
             summary = "Triggers reload of shell descriptors",
@@ -82,7 +80,7 @@ public class RegistryController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/reload")
-    public void reload() throws RegistryServiceException {
-        registryFacade.updateShellDescriptorAndSynchronizeAssets();
+    public void reload() {
+        decentralRegistryService.updateShellDescriptorAndSynchronizeAssets();
     }
 }

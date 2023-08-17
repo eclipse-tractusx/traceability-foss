@@ -65,7 +65,7 @@ public class QualityNotification {
     private String acceptReason;
     private String declineReason;
     private Map<String, QualityNotificationMessage> notifications = new HashMap<>();
-
+    private String errorMessage;
 
     public static QualityNotification startNotification(Instant createDate, BPN bpn, String description) { // rename to generic
         return QualityNotification.builder()
@@ -76,6 +76,7 @@ public class QualityNotification {
                 .createdAt(createDate)
                 .assetIds(Collections.emptyList())
                 .notifications(Collections.emptyList())
+                .errorMessage(null)
                 .build();
     }
 

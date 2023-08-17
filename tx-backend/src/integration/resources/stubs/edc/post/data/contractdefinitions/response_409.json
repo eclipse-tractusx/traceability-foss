@@ -1,8 +1,0 @@
-[
-	{
-		"message": "Object of type ContractDefinition already exists with ID = {placeholder}",
-		"type": "ObjectExists",
-		"path": null,
-		"invalidValue": null
-	}
-]

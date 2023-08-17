@@ -69,7 +69,7 @@ public class EdcService {
 
         Catalog catalog = httpCallService.getCatalogForNotification(consumerEdcDataManagementUrl, providerConnectorControlPlaneIDSUrl, header);
 
-        if (catalog.getDatasets().isEmpty()) {
+        if (catalog.getDatasets() == null || catalog.getDatasets().isEmpty()) {
             log.error("No contract found");
             throw new BadRequestException("Provider has no contract offers for us. Catalog is empty.");
         }

@@ -6,6 +6,8 @@ on:
       - 'tx-backend/**'
     branches:
       - main
+  schedule:
+    - cron: "0 0 * * *"
 
 env:
   JAVA_VERSION: 17

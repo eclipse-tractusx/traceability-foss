@@ -19,7 +19,7 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<h2 class="mb-4 mt-4 text-center text-primary">{{ 'partDetail.investigation.headline' | i18n }}</h2>
+<h2 class="mb-4 mt-4 normal-case text-center text-primary">{{ 'partDetail.investigation.headline' | i18n }}</h2>
 <div class="start-investigation--wrapper">
   <ng-container *viewContainer="childParts$ | async; main: mainTmp; error: errorTmp; loading: loaderTmp"></ng-container>
 
@@ -36,7 +36,7 @@ SPDX-License-Identifier: Apache-2.0
 
   <div *ngIf="!(selectedChildParts$ | async)?.length" class="start-investigation start-investigation--no-data">
     <mat-icon color="primary" class="scale-150">no_sim</mat-icon>
-    <h3>{{ 'partDetail.investigation.noSelection.header' | i18n }}</h3>
+    <h3 class="upper-case">{{ 'partDetail.investigation.noSelection.header' | i18n }}</h3>
     <p>{{ 'partDetail.investigation.noSelection.text' | i18n }}</p>
   </div>
 </div>
