@@ -22,18 +22,33 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.AssetAdministrationShellDescriptor;
+import org.eclipse.tractusx.irs.component.assetadministrationshell.IdentifierKeyValuePair;
+import org.eclipse.tractusx.irs.registryclient.decentral.DecentralDigitalTwinRegistryClient;
+import org.eclipse.tractusx.irs.registryclient.decentral.ShellQueryBody;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.AuthorizedClientServiceOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientProviderBuilder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -98,6 +113,33 @@ public class EdcRestTemplateConfiguration {
         authorizedClientManager.setAuthorizedClientProvider(authorizedClientProvider);
 
         return authorizedClientManager;
+    }
+
+
+    @Bean
+    @Primary
+    public DecentralDigitalTwinRegistryClient decentralDigitalTwinRegistryClient(
+            @Qualifier(EDC_REST_TEMPLATE) final RestTemplate edcRestTemplate) {
+        return new DecentralDigitalTwinRegistryClient(edcRestTemplate) {
+            @Override
+            public List<String> getAllAssetAdministrationShellIdsByAssetLink(EndpointDataReference endpointDataReference, List<IdentifierKeyValuePair> assetIds) {
+                String shellLookupEndpoint = endpointDataReference.getEndpoint() + "/lookup/shells";
+                ShellQueryBody queryBody = ShellQueryBody.builder().query(ShellQueryBody.ShellQuery.builder().assetIds(assetIds).build()).build();
+                return edcRestTemplate.exchange(shellLookupEndpoint, HttpMethod.POST, new HttpEntity(queryBody, headers(endpointDataReference)), new ParameterizedTypeReference<List<String>>() {
+                }, new Object[0]).getBody();
+            }
+        };
+    }
+
+    private HttpHeaders headers(EndpointDataReference dataReference) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+        String authKey = dataReference.getAuthKey();
+        if (authKey != null) {
+            headers.add(authKey, dataReference.getAuthCode());
+        }
+
+        return headers;
     }
 
 }
