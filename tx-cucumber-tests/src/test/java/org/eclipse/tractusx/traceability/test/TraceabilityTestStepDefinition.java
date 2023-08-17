@@ -175,6 +175,7 @@ public class TraceabilityTestStepDefinition {
         Pattern r = Pattern.compile("\"(.+)\"");
 
         Matcher m = r.matcher(input);
+        m.matches();
 
         return m.group(1);
     }
