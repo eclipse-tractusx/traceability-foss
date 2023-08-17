@@ -6,28 +6,22 @@ title: Domain Model
 abstract Asset {
         *   id : String
         owner : Owner
-        childRelations : List<Relation>
-        parentRelations : List<Relation>
-
         activeAlert: boolean
         qualityType : QualityType
         underInvestigation : boolean
         semanticDataModelType : SemanticDataModelType
-        idShort : String
-        manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
-        nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
-        classification : String /' partTypeInformation.classification '/
-        businessPartner : String /' BusinessPartner '/
-        abstract String getSemanticDataModelId()
-        van : String
+        childRelations : List<Relation>
+        parentRelations : List<Relation>
 
+        idShort : String
+        van : String
 }
 
 note left
     Rename Descriptions to Relations
 end note
 
-entity Relation {
+class Relation {
        *   id : String
        idShort : String
 }
@@ -42,71 +36,67 @@ enum SemanticDataModelType {
 }
 
 
-entity AsBuiltAspectModel {
-    manufacturingDate : Instant
-    manufacturingCountry : String (iso-3)
+class AsBuiltAspectModel {
+    partId : String /' BatchID ,  jisNumber , partInstanceID'/
+
+    manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
+    nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
+    classification : String /' partTypeInformation.classification '/
+    businessPartner : String /' BusinessPartner '/
+
     customerPartId : String
     nameAtCustomer : String
+    manufacturingCountry : String (iso-3)
+    manufacturingDate : Instant
+
+    tractionBatteryCode : TractionBatteryCode
+
 }
 
-entity SerialPart {
-       * partInstanceID: String
-       String: getSemanticDataModelId() return batchId
-       SemanticModelType.SERIALPART
-}
+note left
+    partId covers SerialPart.partInstanceID, Batch.BatchID, JustInSequencePart.jisNumber
+end note
 
-entity Batch {
-     * BatchID : String
-     String: getSemanticDataModelId() return batchId
-     SemanticModelType.BATCH
-}
-
-entity JustInSequencePart {
-     * jisNumber : String
-     String: getSemanticDataModelId() return jisNumber
-     SemanticModelType.JUSTINSEQUENCEPART
-}
-
-entity TractionBatteryCode {
+class TractionBatteryCode {
     * uuid4 : String /' UUID ID '/
     productType: String
     tractionBatteryCode: String
     subComponents : List<TractionBatteryCode>
 }
 
-entity PartAsPlanned {
+class PartAsPlanned {
+    manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
+    nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
+    classification : String /' partTypeInformation.classification '/
+    businessPartner : String /' BusinessPartner '/
 /'
     1.0.0
 '/
     validityPeriodFrom : Instance
     validityPeriodTo: Instance
+
+    partSiteInformationAsPlanned : PartSiteInformationAsPlanned
 }
 
-entity PartSiteInformationAsPlanned {
+class PartSiteInformationAsPlanned {
 /'
     1.0.0
     Currently this is not ready for implementing - there is no specification right now.
 '/
     functionValidFrom : Instance
     functionValidUntil : Instance
+
 }
 
-entity AsPlannedAspectModel {
-}
 
-SemanticDataModelType --> Asset
+SemanticDataModelType <-- Asset
 Asset <|.. AsBuiltAspectModel
-Asset <|.. AsPlannedAspectModel
+Asset <|.. PartAsPlanned
 
-AsBuiltAspectModel <|.. Batch
-AsBuiltAspectModel <|.. SerialPart
-AsBuiltAspectModel <|.. JustInSequencePart
-Asset <|.. TractionBatteryCode
+Asset }o-- Relation : childRelations
+Asset }o--  Relation : parentRelations
 
-AsPlannedAspectModel <|.. PartAsPlanned
-Asset <|.. PartSiteInformationAsPlanned
+AsBuiltAspectModel  -- TractionBatteryCode
 
-Asset }o--- Relation : childRelations
-Asset }o---  Relation : parentRelations
-
+PartAsPlanned   --  PartSiteInformationAsPlanned
 @enduml
