@@ -94,7 +94,7 @@ entity PartSiteInformationAsPlanned {
 entity AsPlannedAspectModel {
 }
 
-SemanticModelType --> Asset
+SemanticDataModelType --> Asset
 Asset <|.. AsBuiltAspectModel
 Asset <|.. AsPlannedAspectModel
 
