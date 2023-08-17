@@ -14,6 +14,7 @@ abstract Asset {
         underInvestigation : boolean
         activeAlert: boolean
         qualityType : QualityType
+        classification : String
         van : String
         abstract String : getSemanticDataModelId()
         abstract SemanticDataModel : getSemanticDataModel()
@@ -29,21 +30,23 @@ entity Relation {
 }
 
 enum SemanticModelType {
-    SERIALPARTTYPIZATION,
-    BATCH
+    SERIALPART,
+    BATCH,
+    JUSTINSEQUENCEPART,
+    TRACTIONBATTERYCODE
 }
 
 
 entity AsBuiltAspectModel {
         manufacturingDate : Instant
-        manufacturingCountry : String
+        manufacturingCountry : String (iso-3)
         manufacturerPartId : String
         customerPartId : String
         nameAtManufacturer : String
         nameAtCustomer : String
 }
 
-entity SerialPartTypization {
+entity SerialPart {
      partInstanceId : String
      String: getSemanticDataModelId() return partInstanceId
      SemanticModelType: getSemanticDataModel()
@@ -55,6 +58,35 @@ entity Batch {
      SemanticModelType: getSemanticDataModel()
 }
 
+entity JustInSequencePart {
+     jisNumber : String
+     String: getSemanticDataModelId() return jisNumber
+     SemanticModelType: getSemanticDataModel()
+}
+
+entity TractionBatteryCode {
+    productType: String
+    tractionBatteryCode: String
+    subComponents : List<TractionBatteryCode>
+}
+
+entity PartAsPlanned {
+/'
+    1.0.0
+'/
+    validityPeriodFrom : Instance
+    validityPeriodTo: Instance
+}
+
+entity PartSiteInformationAsPlanned {
+/'
+    1.0.0
+    Currently this is not ready for implementing - there is no specification right now.
+'/
+    functionValidFrom : Instance
+    functionValidUntil : Instance
+}
+
 entity AsPlannedAspectModel {
         manufacturingDate : Instant
         manufacturingCountry : String
@@ -64,14 +96,17 @@ entity AsPlannedAspectModel {
         nameAtCustomer : String
 }
 
-
 SemanticModelType --> Asset
 Asset <|.. AsBuiltAspectModel
 Asset <|.. AsPlannedAspectModel
+
 AsBuiltAspectModel <|.. Batch
-AsBuiltAspectModel <|.. SerialPartTypization
-AsPlannedAspectModel <|.. Batch
-AsPlannedAspectModel <|.. SerialPartTypization
+AsBuiltAspectModel <|.. SerialPart
+AsBuiltAspectModel <|.. JustInSequencePart
+
+AsPlannedAspectModel <|.. PartAsPlanned
+AsPlannedAspectModel <|.. PartSiteInformationAsPlanned
+
 Asset }o--- Relation : childRelations
 Asset }o---  Relation : parentRelations
 
