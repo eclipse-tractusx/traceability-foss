@@ -176,6 +176,10 @@ public class TraceabilityTestStepDefinition {
 
         Matcher m = r.matcher(input);
 
+        if (!m.matches()) {
+            throw new RuntimeException("Can not match regex to input: " + input);
+        }
+
         return m.group(1);
     }
 }
