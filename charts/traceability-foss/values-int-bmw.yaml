@@ -226,7 +226,7 @@ irs-helm:
             pathType: ImplementationSpecific
     tls:
       - hosts:
-          - "tx-irs-int-bmw.dev.demo.catena-x.net"
+          - "tx-irs-int-bmw.int.demo.catena-x.net"
         secretName: tls-secret
   digitalTwinRegistry:
     type: decentral
