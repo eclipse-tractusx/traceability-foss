@@ -101,10 +101,10 @@ Asset <|.. AsPlannedAspectModel
 AsBuiltAspectModel <|.. Batch
 AsBuiltAspectModel <|.. SerialPart
 AsBuiltAspectModel <|.. JustInSequencePart
-AsBuiltAspectModel <|.. TractionBatteryCode
+Asset <|.. TractionBatteryCode
 
 AsPlannedAspectModel <|.. PartAsPlanned
-AsPlannedAspectModel <|.. PartSiteInformationAsPlanned
+Asset <|.. PartSiteInformationAsPlanned
 
 Asset }o--- Relation : childRelations
 Asset }o---  Relation : parentRelations
