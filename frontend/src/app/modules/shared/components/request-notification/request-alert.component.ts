@@ -25,11 +25,11 @@ import { ALERT_BASE_ROUTE, getRoute } from '@core/known-route';
 import { bpnRegex } from '@page/admin/presentation/bpn-configuration/bpn-configuration.component';
 import { Part } from '@page/parts/model/parts.model';
 import { BaseInputHelper } from '@shared/abstraction/baseInput/baseInput.helper';
-import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import {
   RequestContext,
   RequestNotificationBase,
 } from '@shared/components/request-notification/request-notification.base';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { NotificationStatusGroup } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
 import { AlertsService } from '@shared/service/alerts.service';
@@ -49,8 +49,8 @@ export class RequestAlertComponent extends RequestNotificationBase {
 
   public readonly context: RequestContext = 'requestAlert';
 
-  constructor(ctaSnackbarService: CtaSnackbarService, private readonly alertsService: AlertsService) {
-    super(ctaSnackbarService);
+  constructor(toastService: ToastService, private readonly alertsService: AlertsService) {
+    super(toastService);
   }
 
   public readonly formGroup = new FormGroup({
