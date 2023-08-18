@@ -21,13 +21,11 @@ package org.eclipse.tractusx.traceability.common.config;
 
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
-import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -41,7 +39,6 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class ApplicationStartupConfigTest {
 
-    @InjectMocks
     private ApplicationStartupConfig applicationStartupConfig;
 
     @Mock
@@ -51,8 +48,16 @@ class ApplicationStartupConfigTest {
     private EdcNotificationContractService edcNotificationContractService;
 
     @Mock
-    private TraceabilityProperties traceabilityProperties;
+    private RegistryFacade registryFacade;
 
+
+    @BeforeEach
+    void setUp() {
+        applicationStartupConfig = new ApplicationStartupConfig(
+                irsRepository,
+                edcNotificationContractService,
+                registryFacade);
+    }
 
     @Test
     void whenCallRegisterIrsPolicy_thenCallRepository() {
@@ -77,6 +82,24 @@ class ApplicationStartupConfigTest {
 
             // then
             verify(edcNotificationContractService, times(4)).handle(any());
+        });
+
+        executor.shutdown();
+    }
+
+    @Test
+    void whenCallTriggerRegistryReload_thenCallUpdateShellDescriptor() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        // when
+        executor.execute(() -> {
+            applicationStartupConfig.registerIrsPolicy();
+
+            // then
+            try {
+                verify(registryFacade, times(1)).updateShellDescriptorAndSynchronizeAssets();
+            } catch (RegistryServiceException e) {
+                throw new RuntimeException(e);
+            }
         });
 
         executor.shutdown();
