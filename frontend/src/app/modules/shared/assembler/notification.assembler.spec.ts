@@ -71,6 +71,7 @@ describe('InvestigationsAssembler', () => {
             sendTo: '',
             reason: { close: '', accept: '', decline: '' },
             assetIds: [],
+            errorMessage: ''
           },
           {
             id: 'test-2',

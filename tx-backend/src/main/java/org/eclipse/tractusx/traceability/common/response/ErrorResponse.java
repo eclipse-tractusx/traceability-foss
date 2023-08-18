@@ -20,11 +20,13 @@
 package org.eclipse.tractusx.traceability.common.response;
 
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record ErrorResponse(
         @ApiModelProperty(example = "Access Denied")
         @Size(max = 1000)
+        @Pattern(regexp = "^.*$", message = "Invalid message pattern")
         String message
 ) {
 }

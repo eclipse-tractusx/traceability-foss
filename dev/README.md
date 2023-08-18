@@ -32,37 +32,37 @@ Keep in mind to always update DEV and TEST since they are dependend on each othe
 Sample invocation (DEV)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.8.json -s https://tracex-submodel-server.dev.demo.catena-x.net -edc https://trace-x-edc.dev.demo.catena-x.net -a https://trace-x-registry.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 Sample invocation (TEST)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server-test.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.8.json -s https://tracex-submodel-server-test.dev.demo.catena-x.net -edc https://trace-x-test-edc.dev.demo.catena-x.net -a https://trace-x-registry-test.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-test-edc-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 Sample invocation (E2E A)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server-e2e-a.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.8.json -s https://tracex-submodel-server-e2e-a.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-a.dev.demo.catena-x.net -a https://trace-x-registry-e2e-a.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-a-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 Sample invocation (E2E B)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.8.json -s https://tracex-submodel-server-e2e-b.dev.demo.catena-x.net -edc https://trace-x-edc-e2e-b.dev.demo.catena-x.net -a https://trace-x-registry-e2e-b.dev.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-e2e-b-dataplane.dev.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 Sample invocation (INT A)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server-int-a.int.demo.catena-x.net -edc https://trace-x-edc-int-a.int.demo.catena-x.net -a https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.8.json -s https://tracex-submodel-server-int-a.int.demo.catena-x.net -edc https://trace-x-edc-int-a.int.demo.catena-x.net -a https://trace-x-registry-int-a.int.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 Sample invocation (INT B)
 
 ```
-python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.7.json -s https://tracex-submodel-server-int-b.int.demo.catena-x.net -edc https://trace-x-edc-int-b.int.demo.catena-x.net -a https://trace-x-registry-int-b.int.demo.catena-x.net/semantics/registry/api/v3.0 -p id-3.0-trace -k <apiKey> --aas3
+python transform-and-upload.py -f CX_Testdata_MessagingTest_v0.0.8.json -s https://tracex-submodel-server-int-b.int.demo.catena-x.net -edc https://trace-x-edc-int-b.int.demo.catena-x.net -a https://trace-x-registry-int-b.int.demo.catena-x.net/semantics/registry/api/v3.0 -d https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net -p id-3.0-trace -k <apiKey> --aas3
 ```
 
 where:

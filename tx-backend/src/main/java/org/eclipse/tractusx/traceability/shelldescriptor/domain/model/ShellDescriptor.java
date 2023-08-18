@@ -24,16 +24,22 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.Collection;
+import java.util.List;
 
 @Data
 @Builder
 public class ShellDescriptor {
-    private String shellDescriptorId;
+    private Long id;
     private String globalAssetId;
-    private String idShort;
-    private String partInstanceId;
-    private String manufacturerPartId;
-    private String manufacturerId;
-    private String batchId;
 
+    public static ShellDescriptor fromGlobalAssetId(String globalAssetId) {
+        return ShellDescriptor.builder()
+                .globalAssetId(globalAssetId)
+                .build();
+    }
+
+    public static List<ShellDescriptor> fromGlobalAssetIds(Collection<String> globalAssetIds) {
+        return globalAssetIds.stream().map(ShellDescriptor::fromGlobalAssetId).toList();
+    }
 }

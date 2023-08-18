@@ -107,6 +107,7 @@
     "maxLengthHint": "{{rest}} Characters left."
   },
   "errorMessage": {
+    "notificationError": "The service has reported an error when processing this notification.",
     "min": "Please enter a number that is larger than: {{min}}.",
     "max": "Please enter a number that is smaller than: {{max}}.",
     "required": "This field is required!",

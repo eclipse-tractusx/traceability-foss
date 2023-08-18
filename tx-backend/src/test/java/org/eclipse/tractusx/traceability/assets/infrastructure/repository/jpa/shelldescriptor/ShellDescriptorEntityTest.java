@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa.shelldescriptor;
 
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
-import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.repository.jpa.shelldescriptor.ShellDescriptorEntity;
+import org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.model.ShellDescriptorEntity;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZonedDateTime;
@@ -37,13 +37,7 @@ class ShellDescriptorEntityTest {
                 .id(1L)
                 .created(now)
                 .updated(now)
-                .shellDescriptorId("shellDescriptorId")
                 .globalAssetId("globalAssetId")
-                .idShort("idShort")
-                .partInstanceId("partInstanceId")
-                .manufacturerPartId("manufacturerPartId")
-                .batchId("batchId")
-                .manufacturerId("manufacturerId")
                 .build();
 
         // when
@@ -51,26 +45,14 @@ class ShellDescriptorEntityTest {
 
         // then
         assertThat(result)
-                .hasFieldOrPropertyWithValue("shellDescriptorId", entity.getShellDescriptorId())
-                .hasFieldOrPropertyWithValue("globalAssetId", entity.getGlobalAssetId())
-                .hasFieldOrPropertyWithValue("idShort", entity.getIdShort())
-                .hasFieldOrPropertyWithValue("partInstanceId", entity.getPartInstanceId())
-                .hasFieldOrPropertyWithValue("manufacturerPartId", entity.getManufacturerPartId())
-                .hasFieldOrPropertyWithValue("manufacturerId", entity.getManufacturerId())
-                .hasFieldOrPropertyWithValue("batchId", entity.getBatchId());
+                .hasFieldOrPropertyWithValue("globalAssetId", entity.getGlobalAssetId());
     }
 
     @Test
     void givenDescriptor_whenNewEntityFrom_thenCreateNewEntity() {
         // given
         ShellDescriptor descriptor = ShellDescriptor.builder()
-                .shellDescriptorId("shellDescriptorId")
                 .globalAssetId("globalAssetId")
-                .idShort("idShort")
-                .partInstanceId("partInstanceId")
-                .manufacturerPartId("manufacturerPartId")
-                .manufacturerId("manufacturerId")
-                .batchId("batchId")
                 .build();
 
         // when
@@ -78,14 +60,7 @@ class ShellDescriptorEntityTest {
 
         // then
         assertThat(result).usingRecursiveComparison()
-                .comparingOnlyFields(
-                        "shellDescriptorId",
-                        "globalAssetId",
-                        "idShort",
-                        "partInstanceId",
-                        "manufacturerPartId",
-                        "manufacturerId",
-                        "batchId");
+                .comparingOnlyFields("globalAssetId");
         assertThat(result).hasNoNullFieldsOrPropertiesExcept("id");
     }
 }

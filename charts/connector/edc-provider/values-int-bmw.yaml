@@ -1,0 +1,75 @@
+tractusx-connector:
+  enabled: true
+  nameOverride: "tx-edc-provider-int-bmw"
+  fullnameOverride: "tx-edc-provider-int-bmw"
+  participant:
+    id: BPNL00000003AYRE
+  controlplane:
+    ingresses:
+      - enabled: true
+        hostname: "trace-x-edc-int-bmw.int.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - protocol
+          - management
+        tls:
+          enabled: true
+          secretName: tls-secret
+    ssi:
+      miw:
+        url: <path:traceability-foss/data/int-bmw/edc/wallet#ssi.miw.url>
+        authorityId: <path:traceability-foss/data/int-bmw/edc/wallet#ssi.miw.authorityId>
+      oauth:
+        tokenurl: <path:traceability-foss/data/int-bmw/edc/wallet#ssi.oauth.tokenurl>
+        client:
+          id: <path:traceability-foss/data/int-bmw/edc/wallet#ssi.oauth.client.id>
+          secretAlias: edc-miw-keycloak-secret-int-bmw
+    endpoints:
+      management:
+        authKey: <path:traceability-foss/data/int-bmw/edc/controlplane#edc.api.control.auth.apikey.value>
+
+  dataplane:
+    ingresses:
+      - enabled: true
+        hostname: "trace-x-edc-int-bmw-dataplane.int.demo.catena-x.net"
+        annotations:
+          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        endpoints:
+          - public
+        className: "nginx"
+        tls:
+          enabled: true
+          secretName: tls-secret
+
+  backendService:
+    httpProxyTokenReceiverUrl: "https://traceability-int-bmw.int.demo.catena-x.net/api/callback/endpoint-data-reference"
+
+  postgresql:
+    enabled: true
+    auth:
+      username: "<path:traceability-foss/data/int-bmw/edc/database#user>"
+      password: "<path:traceability-foss/data/int-bmw/edc/database#password>"
+    username: "<path:traceability-foss/data/int-bmw/edc/database#user>"
+    password: "<path:traceability-foss/data/int-bmw/edc/database#password>"
+    jdbcUrl: "jdbc:postgresql://tx-edc-provider-postgresql-int-bmw-hl:5432/edc"
+
+  vault:
+    secretNames:
+      transferProxyTokenSignerPrivateKey: daps-cert-key-int-bmw
+      transferProxyTokenSignerPublicKey: daps-cert-int-bmw
+      transferProxyTokenEncryptionAesKey: token-signer-aes-key
+
+edc-postgresql:
+  nameOverride: "tx-edc-provider-postgresql-int-bmw"
+  fullnameOverride: "tx-edc-provider-postgresql-int-bmw"
+  enabled: true
+  auth:
+    database: edc
+    username: <path:traceability-foss/data/int-bmw/edc/database#user>
+    postgresPassword: <path:traceability-foss/data/int-bmw/edc/database#password>
+    password: <path:traceability-foss/data/int-bmw/edc/database#password>
