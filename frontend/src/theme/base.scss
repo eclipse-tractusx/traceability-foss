@@ -35,13 +35,33 @@
     font-size: 56px;
   }
 
+  h1,
+  normal-case {
+    @apply font-medium text-dark;
+    font-size: 56px;
+    text-transform: none;
+  }
+
   h2 {
     @apply font-medium uppercase text-dark;
     font-size: 36px;
   }
 
+  h2,
+  normal-case{
+    @apply font-medium uppercase text-dark;
+    font-size: 36px;
+    text-transform: none;
+  }
+
   h3 {
     @apply font-semiBold sm:text-xl text-dark;
+    font-size: 24px;
+  }
+
+  h3,
+  upper-case{
+    @apply uppercase font-semiBold sm:text-xl text-dark;
     font-size: 24px;
   }
 
