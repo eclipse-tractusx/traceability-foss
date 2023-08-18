@@ -18,6 +18,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+import { TestBed } from '@angular/core/testing';
 import { AboutModule } from '@page/about/about.module';
 import { AboutComponent } from '@page/about/presentation/about.component';
 import { screen } from '@testing-library/angular';
@@ -42,5 +43,13 @@ describe('About Page', () => {
   it('should render about page', async () => {
     await renderComponent(AboutComponent, { imports: [AboutModule] });
     expect(screen.getByText('pageAbout.content')).toBeInTheDocument();
+    const componentInstance = TestBed.inject(AboutComponent);
+    expect(componentInstance.name).toBeDefined();
+    expect(componentInstance.repositoryPath).toBeDefined();
+    expect(componentInstance.license).toBeDefined();
+    expect(componentInstance.licensePath).toBeDefined();
+    expect(componentInstance.noticePath).toBeDefined();
+    expect(componentInstance.sourcePath).toBeDefined();
+    expect(componentInstance.commitId).toBeDefined();
   });
 });
