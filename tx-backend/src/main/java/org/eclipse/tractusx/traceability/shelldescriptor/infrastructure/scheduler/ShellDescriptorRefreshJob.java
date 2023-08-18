@@ -21,15 +21,19 @@
 
 package org.eclipse.tractusx.traceability.shelldescriptor.infrastructure.scheduler;
 
+import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
+@EnableScheduling
 @Profile(ApplicationProfiles.NOT_TESTS)
 public class ShellDescriptorRefreshJob {
 
@@ -39,13 +43,16 @@ public class ShellDescriptorRefreshJob {
 		this.registryFacade = registryFacade;
 	}
 
-	@Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
+//	@Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
+
+    @Scheduled(cron = "*/10 * * * * *", zone = "Europe/Berlin") // every 10 seconds for testing
 	@SchedulerLock(
 		name = "data-sync-lock",
 		lockAtLeastFor = "PT5M",
 		lockAtMostFor = "PT15M"
 	)
 	public void refresh() throws RegistryServiceException {
-		registryFacade.updateShellDescriptorAndSynchronizeAssets();
+        log.info("TEST REFRESH REGISTRY TRIGGER");
+//		registryFacade.updateShellDescriptorAndSynchronizeAssets();
 	}
 }
