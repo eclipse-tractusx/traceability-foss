@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
-## [6.0.1-rc1]
+## [6.0.1-rc2]
 ### Added
 
 - OAuth2 client credentials rest template interceptor
