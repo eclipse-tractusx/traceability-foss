@@ -19,6 +19,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { I18nMessage } from '@shared/model/i18n-message';
+
 /**
  * Types or status of toast messages
  * Success status - shows the toast with a green status bar, typically used to inform the user
@@ -28,14 +30,20 @@
  */
 
 export const enum ToastStatus {
-  Success = 'success',
+  Success = 'check',
   Warning = 'warning',
   Error = 'error',
-  Informative = 'informative',
+  Informative = 'info',
+}
+
+export interface CallAction {
+  text: I18nMessage;
+  link: string;
+  linkQueryParams?: Record<string, string>;
 }
 
 export class ToastMessage {
   public isSliderON = true;
 
-  constructor(public id: number, public message: string, public status: ToastStatus | null, public timeout: number) {}
+  constructor(public id: number, public message: I18nMessage | string, public status: ToastStatus | null, public timeout: number, public actions: CallAction[] = null) {}
 }

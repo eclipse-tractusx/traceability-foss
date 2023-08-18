@@ -24,9 +24,9 @@ import { AlertDetailFacade } from '@page/alerts/core/alert-detail.facade';
 import { AlertHelperService } from '@page/alerts/core/alert-helper.service';
 import { AlertsFacade } from '@page/alerts/core/alerts.facade';
 import { Part } from '@page/parts/model/parts.model';
-import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
@@ -75,7 +75,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
     private readonly alertsFacade: AlertsFacade,
     private router: Router,
     private readonly route: ActivatedRoute,
-    private readonly ctaSnackbarService: CtaSnackbarService,
+    private readonly toastService: ToastService,
   ) {
     this.alertPartsInformation$ = this.alertDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.alertDetailFacade.supplierPartsInformation$;
@@ -143,7 +143,7 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
 
   public copyToClipboard(semanticModelId: string): void {
     const text = { id: 'clipboard', values: { value: semanticModelId } };
-    navigator.clipboard.writeText(semanticModelId).then(_ => this.ctaSnackbarService.show(text));
+    navigator.clipboard.writeText(semanticModelId).then(_ => this.toastService.info(text));
   }
 
   public navigateBackToAlerts(): void {

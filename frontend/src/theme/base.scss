@@ -58,6 +58,11 @@
     @apply font-semiBold sm:text-xl text-dark;
     font-size: 24px;
   }
+  h3,
+  upper-case{
+    @apply uppercase font-semiBold sm:text-xl text-dark;
+    font-size: 24px;
+    }
 
   h3,
   upper-case{

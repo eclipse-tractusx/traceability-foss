@@ -22,8 +22,8 @@
 import { EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Part } from '@page/parts/model/parts.model';
-import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { Severity } from '@shared/model/severity.model';
 import { BehaviorSubject } from 'rxjs';
 
@@ -56,7 +56,7 @@ export abstract class RequestNotificationBase {
 
   public removedItemsHistory: Part[] = [];
 
-  protected constructor(private readonly ctaSnackbarService: CtaSnackbarService) {}
+  protected constructor( private readonly toastService: ToastService) {}
 
   protected abstract submit(): void;
 
@@ -75,7 +75,7 @@ export abstract class RequestNotificationBase {
     const amountOfItems = this.selectedItems.length;
     this.resetForm();
 
-    this.openCtaSnackbar(amountOfItems, link, linkQueryParams);
+    this.openToast(amountOfItems, link, linkQueryParams);
   }
 
   protected onUnsuccessfulSubmit(): void {
@@ -83,12 +83,13 @@ export abstract class RequestNotificationBase {
     this.formGroup.enable();
   }
 
-  protected openCtaSnackbar(count: number, link: string, linkQueryParams: Record<string, string>): void {
-    this.ctaSnackbarService.show(
-      {
-        id: `${this.context}.success`,
-        values: { count },
-      },
+  protected openToast(count: number, link: string, linkQueryParams: Record<string, string>): void {
+
+    this.toastService.success({
+      id:  `${this.context}.success`,
+      values: {count}
+    },
+      5000,
       [
         {
           text: 'actions.goToQueue',
@@ -96,7 +97,9 @@ export abstract class RequestNotificationBase {
           link,
         },
       ],
-    );
+
+
+     );
   }
 
   public cancelAction(part: Part): void {
