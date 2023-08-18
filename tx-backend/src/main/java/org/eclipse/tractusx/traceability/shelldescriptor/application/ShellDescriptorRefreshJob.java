@@ -22,13 +22,17 @@
 package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.eclipse.tractusx.traceability.common.config.ApplicationProfiles;
 import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
+@EnableScheduling
 @Profile(ApplicationProfiles.NOT_TESTS)
 @RequiredArgsConstructor
 public class ShellDescriptorRefreshJob {
@@ -42,6 +46,7 @@ public class ShellDescriptorRefreshJob {
             lockAtMostFor = "PT15M"
     )
     public void refresh() {
+        log.info("Refreshing registry");
         decentralRegistryService.updateShellDescriptorAndSynchronizeAssets();
     }
 }
