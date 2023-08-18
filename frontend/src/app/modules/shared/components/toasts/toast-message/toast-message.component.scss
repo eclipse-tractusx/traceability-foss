@@ -20,30 +20,36 @@
  ********************************************************************************/
 
 .toast {
-  @apply flex flex-row justify-between bg-white mb-2 w-96 h-14 z-120 border-solid border-l-8;
+  @apply flex flex-row justify-between bg-white w-96 h-full z-120;
 }
 
-.status-bar-success {
-  height: 100%;
-  @apply border-success;
+
+.toast-container {
+  border-radius: 8px;
 }
 
-.status-bar-warning {
-  height: 100%;
-  @apply border-warning;
+.toast-icon-check {
+  color: rgb(0, 170, 85);
 }
 
-.status-bar-error {
-  height: 100%;
-  @apply border-error;
+.toast-icon-warning {
+  color: rgb(255, 166, 0);
 }
 
-.status-bar-informative {
-  height: 100%;
-  @apply border-info;
+.toast-icon-error {
+  color: rgb(217, 30, 24);
+}
+
+.toast-icon-info {
+  color: rgb(103, 107, 198);
 }
 
 .btn-close {
   border: 0;
-  @apply bg-tundoraShadeGray border-0;
 }
+
+.check-icon-container {
+  display:flex;
+  align-items: center;
+}
+

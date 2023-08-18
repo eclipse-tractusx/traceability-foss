@@ -26,9 +26,9 @@ import { InvestigationDetailFacade } from '@page/investigations/core/investigati
 import { InvestigationHelperService } from '@page/investigations/core/investigation-helper.service';
 import { InvestigationsFacade } from '@page/investigations/core/investigations.facade';
 import { Part } from '@page/parts/model/parts.model';
-import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { NotificationCommonModalComponent } from '@shared/components/notification-common-modal/notification-common-modal.component';
 import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { Notification } from '@shared/model/notification.model';
 import { TranslationContext } from '@shared/model/translation-context.model';
 import { View } from '@shared/model/view.model';
@@ -77,7 +77,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
     public readonly investigationsFacade: InvestigationsFacade,
     private router: Router,
     private readonly route: ActivatedRoute,
-    private readonly ctaSnackbarService: CtaSnackbarService,
+    private readonly toastService: ToastService,
   ) {
     this.investigationPartsInformation$ = this.investigationDetailFacade.notificationPartsInformation$;
     this.supplierPartsDetailInformation$ = this.investigationDetailFacade.supplierPartsInformation$;
@@ -145,7 +145,7 @@ export class InvestigationDetailComponent implements AfterViewInit, OnDestroy {
 
   public copyToClipboard(semanticModelId: string): void {
     const text = { id: 'clipboard', values: { value: semanticModelId } };
-    navigator.clipboard.writeText(semanticModelId).then(_ => this.ctaSnackbarService.show(text));
+    navigator.clipboard.writeText(semanticModelId).then(_ => this.toastService.info(text));
   }
 
   public navigateBackToInvestigations(): void {

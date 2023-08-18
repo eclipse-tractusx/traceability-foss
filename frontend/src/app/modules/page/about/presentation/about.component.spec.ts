@@ -41,7 +41,7 @@ describe('About Page', () => {
 
 
   it('should render about page', async () => {
-    await renderComponent(AboutComponent, { imports: [AboutModule] });
+    await renderComponent(AboutComponent, { imports: [AboutModule], providers: [AboutComponent] });
     expect(screen.getByText('pageAbout.content')).toBeInTheDocument();
     const componentInstance = TestBed.inject(AboutComponent);
 

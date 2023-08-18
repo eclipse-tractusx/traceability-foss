@@ -21,9 +21,9 @@
 
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CtaSnackbarService } from '@shared/components/call-to-action-snackbar/cta-snackbar.service';
 import { DateTimeString } from '@shared/components/dateTime/dateTime.component';
 import { DateValidators } from '@shared/components/dateTime/dateValidators.model';
+import { ToastService } from '@shared/components/toasts/toast.service';
 import { Severity } from '@shared/model/severity.model';
 import {
   RequestContext,
@@ -49,8 +49,8 @@ export class RequestInvestigationComponent extends RequestNotificationBase {
 
   public readonly context: RequestContext = 'requestInvestigations';
 
-  constructor(ctaSnackbarService: CtaSnackbarService, private readonly investigationsService: InvestigationsService) {
-    super(ctaSnackbarService);
+  constructor(toastService: ToastService, private readonly investigationsService: InvestigationsService) {
+    super(toastService);
   }
 
   public readonly formGroup = new FormGroup<{
