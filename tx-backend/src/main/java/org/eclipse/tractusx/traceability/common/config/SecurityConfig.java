@@ -54,7 +54,8 @@ public class SecurityConfig {
             "/qualityalerts/update",
             "/callback/endpoint-data-reference",
             "/internal/endpoint-data-reference",
-            "/actuator/**"
+            "/actuator/**",
+            "/registry/reload"
     };
 
     @Value("${jwt.resource-client}")
