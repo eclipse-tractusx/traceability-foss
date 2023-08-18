@@ -43,16 +43,14 @@ public class ShellDescriptorRefreshJob {
 		this.registryFacade = registryFacade;
 	}
 
-//	@Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
-
-    @Scheduled(cron = "*/10 * * * * *", zone = "Europe/Berlin") // every 10 seconds for testing
+	@Scheduled(cron = "0 0 */2 * * ?", zone = "Europe/Berlin")
 	@SchedulerLock(
 		name = "data-sync-lock",
 		lockAtLeastFor = "PT5M",
 		lockAtMostFor = "PT15M"
 	)
 	public void refresh() throws RegistryServiceException {
-        log.info("TEST REFRESH REGISTRY TRIGGER");
+        log.info("Refreshing registry");
 		registryFacade.updateShellDescriptorAndSynchronizeAssets();
 	}
 }
