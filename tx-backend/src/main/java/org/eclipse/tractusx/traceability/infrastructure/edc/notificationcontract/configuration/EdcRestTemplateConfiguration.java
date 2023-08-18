@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.configuration;
 
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
@@ -68,6 +69,7 @@ public class EdcRestTemplateConfiguration {
 
     @Bean
     @Qualifier(EDC_REST_TEMPLATE)
+    @Retry(name = "retrythird")
     public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
@@ -77,6 +79,7 @@ public class EdcRestTemplateConfiguration {
 
     @Bean
     @Qualifier(REST_TEMPLATE)
+    @Retry(name = "retrysecond")
     public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
                 .build();
@@ -93,6 +96,7 @@ public class EdcRestTemplateConfiguration {
     }
 
     @Bean
+    @Retry(name = "retryfirst")
     public RestTemplate edcClientRestTemplate() {
         return new RestTemplateBuilder()
                 .build();

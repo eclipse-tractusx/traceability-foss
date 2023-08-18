@@ -165,6 +165,21 @@ resilience4j:
         waitDuration: 30s
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
+      retryfirst:
+        maxAttempts: 20
+        waitDuration: 20s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      retrysecond:
+        maxAttempts: 20
+        waitDuration: 20s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      retrythird:
+        maxAttempts: 20
+        waitDuration: 20s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
 
 irs:
   policies:
