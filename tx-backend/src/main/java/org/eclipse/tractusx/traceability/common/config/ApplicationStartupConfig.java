@@ -27,8 +27,13 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.Executors;import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractRequest;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
+
 
 @Slf4j
 @Component
@@ -36,6 +41,13 @@ import java.util.concurrent.Executors;
 @RequiredArgsConstructor
 public class ApplicationStartupConfig {
     private final IrsRepository irsRepository;
+    private final EdcNotificationContractService edcNotificationContractService;
+    private static final List<CreateNotificationContractRequest> NOTIFICATION_CONTRACTS = List.of(
+            new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.UPDATE),
+            new CreateNotificationContractRequest(NotificationType.QUALITY_ALERT, NotificationMethod.RECEIVE),
+            new CreateNotificationContractRequest(NotificationType.QUALITY_INVESTIGATION, NotificationMethod.UPDATE),
+            new CreateNotificationContractRequest(NotificationType.QUALITY_INVESTIGATION, NotificationMethod.RECEIVE)
+    );
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -51,6 +63,19 @@ public class ApplicationStartupConfig {
 
         executor.shutdown();
     }
-
+    @EventListener(ApplicationReadyEvent.class)
+    public void createNotificationContracts() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            log.info("on ApplicationReadyEvent create notification contracts.");
+            try {
+                NOTIFICATION_CONTRACTS.forEach(edcNotificationContractService::handle);
+            } catch (Exception exception) {
+                log.error("Failed to create notification contracts: ", exception);
+            }
+            log.info("on ApplicationReadyEvent notification contracts created.");
+        });
+        executor.shutdown();
+    }
 
 }

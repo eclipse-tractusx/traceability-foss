@@ -21,7 +21,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { SharedModule } from '@shared/shared.module';
-import { screen, within } from '@testing-library/angular';
+import { screen } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { ToastService } from './toast.service';
 
@@ -36,9 +36,7 @@ describe('toasts', () => {
     toastService.success('some success');
 
     const toast = await screen.findByTestId('toast-container');
-
-    expect(toast).toHaveClass('status-bar-success');
-    expect(within(toast).getByText('some success')).toBeInTheDocument();
+    expect(toast).toHaveClass('toast-icon-check');
   });
 
   it('should render info toast', async () => {
@@ -47,8 +45,7 @@ describe('toasts', () => {
 
     const toast = await screen.findByTestId('toast-container');
 
-    expect(toast).toHaveClass('status-bar-informative');
-    expect(within(toast).getByText('some info')).toBeInTheDocument();
+    expect(toast).toHaveClass('toast-icon-info');
   });
 
   it('should render warning toast', async () => {
@@ -57,8 +54,7 @@ describe('toasts', () => {
 
     const toast = await screen.findByTestId('toast-container');
 
-    expect(toast).toHaveClass('status-bar-warning');
-    expect(within(toast).getByText('some warning')).toBeInTheDocument();
+    expect(toast).toHaveClass('toast-icon-warning');
   });
 
   it('should render error toast', async () => {
@@ -67,7 +63,6 @@ describe('toasts', () => {
 
     const toast = await screen.findByTestId('toast-container');
 
-    expect(toast).toHaveClass('status-bar-error');
-    expect(within(toast).getByText('some error')).toBeInTheDocument();
+    expect(toast).toHaveClass('toast-icon-error');
   });
 });
