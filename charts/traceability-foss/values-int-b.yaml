@@ -31,11 +31,11 @@ frontend:
   image:
     repository: ghcr.io/catenax-ng/tx-traceability-foss
     tag: $ARGOCD_APP_REVISION
-    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/int/b/frontend#catenax_portal_api_url>'
-    CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/int/b/frontend#catenax_portal_keycloak_url>'
-    CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/int/b/frontend#catenax_portal_backend_domain>'
-    CATENAX_PORTAL_URL: '<path:traceability-foss/data/int/b/frontend#catenax_portal_url>'
-    CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/int/b/frontend#catenax_portal_client_id>'
+    CATENAX_PORTAL_API_URL: '<path:traceability-foss/data/int-b/frontend#catenax_portal_api_url>'
+    CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/int-b/frontend#catenax_portal_keycloak_url>'
+    CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/int-b/frontend#catenax_portal_backend_domain>'
+    CATENAX_PORTAL_URL: '<path:traceability-foss/data/int-b/frontend#catenax_portal_url>'
+    CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/int-b/frontend#catenax_portal_client_id>'
 
   nameOverride: "tx-frontend-int-b"
   fullnameOverride: "tx-frontend-int-b"
