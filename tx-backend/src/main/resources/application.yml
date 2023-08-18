@@ -180,6 +180,11 @@ resilience4j:
         waitDuration: 20s
         enableExponentialBackoff: true
         exponentialBackoffMultiplier: 2
+      registry:
+        maxAttempts: 20
+        waitDuration: 20s
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
 
 irs:
   policies:
