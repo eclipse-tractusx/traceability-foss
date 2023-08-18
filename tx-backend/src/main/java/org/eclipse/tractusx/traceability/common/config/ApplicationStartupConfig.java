@@ -29,6 +29,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -53,9 +54,8 @@ public class ApplicationStartupConfig {
 
     private final IrsRepository irsRepository;
     private final EdcNotificationContractService edcNotificationContractService;
-    private final RegistryFacade registryFacade;
     private final TraceabilityProperties traceabilityProperties;
-    private final RestTemplate restTemplateRegistryController;
+
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -95,7 +95,8 @@ public class ApplicationStartupConfig {
     private void callRegistryReload() {
         log.info("on ApplicationReadyEvent registry reload");
         String registryReloadUrl = traceabilityProperties.getUrl() + "/api/v1/registry/reload";
-        restTemplateRegistryController.getForEntity(registryReloadUrl, Void.class);
+        new RestTemplateBuilder()
+                .build().getForEntity(registryReloadUrl, Void.class);
     }
 
 }
