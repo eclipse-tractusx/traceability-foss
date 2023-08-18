@@ -69,7 +69,6 @@ public class EdcRestTemplateConfiguration {
 
     @Bean
     @Qualifier(EDC_REST_TEMPLATE)
-    @Retry(name = "retrythird")
     public RestTemplate edcRestTemplate(EdcProperties edcProperties) {
         return new RestTemplateBuilder()
                 .rootUri(edcProperties.getProviderEdcUrl())
@@ -79,7 +78,6 @@ public class EdcRestTemplateConfiguration {
 
     @Bean
     @Qualifier(REST_TEMPLATE)
-    @Retry(name = "retrysecond")
     public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
                 .build();
@@ -96,7 +94,6 @@ public class EdcRestTemplateConfiguration {
     }
 
     @Bean
-    @Retry(name = "retryfirst")
     public RestTemplate edcClientRestTemplate() {
         return new RestTemplateBuilder()
                 .build();

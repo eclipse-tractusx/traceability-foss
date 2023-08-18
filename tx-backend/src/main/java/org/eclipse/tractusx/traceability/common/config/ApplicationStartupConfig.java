@@ -31,6 +31,7 @@ import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -87,14 +88,14 @@ public class ApplicationStartupConfig {
         executor.shutdown();
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
-//    @Scheduled(initialDelay = 1000 * 60, fixedDelay=Long.MAX_VALUE)
+    @EventListener(ApplicationReadyEvent.class)
+    @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void triggerRegistryReload() {
-        log.info("1 min delay");
         try {
+            log.info("on ApplicationReadyEvent registry reload");
             registryFacade.updateShellDescriptorAndSynchronizeAssets();
         } catch (RegistryServiceException e) {
-            throw new RuntimeException("Something went rly wrong ", e);
+            throw new RuntimeException("Something went wrong with registry reload", e);
         }
 
     }
