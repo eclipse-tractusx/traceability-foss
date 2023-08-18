@@ -46,8 +46,9 @@ public record RegistryShellDescriptor(
                 .orElse(null);
         log.info("toShellDescriptor: {}", specificAssetIds);
         Map<String, String> assetIdsMap = specificAssetIds().stream()
+                .map(specificAssetId -> new SpecificAssetId(specificAssetId.key().toLowerCase(), specificAssetId.value()))
                 .distinct()
-                .collect(Collectors.toMap(entry -> entry.key().toLowerCase(), SpecificAssetId::value));
+                .collect(Collectors.toMap(SpecificAssetId::key, SpecificAssetId::value));
 
         String manufacturerPartId = assetIdsMap.get(MANUFACTURER_PART_ID.asKey());
         String partInstanceId = assetIdsMap.get(PART_INSTANCE_ID.asKey());
