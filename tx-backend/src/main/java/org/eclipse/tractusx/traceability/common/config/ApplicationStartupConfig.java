@@ -54,7 +54,6 @@ public class ApplicationStartupConfig {
 
     private final IrsRepository irsRepository;
     private final EdcNotificationContractService edcNotificationContractService;
-    private final RegistryFacade registryFacade;
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -87,17 +86,4 @@ public class ApplicationStartupConfig {
         });
         executor.shutdown();
     }
-
-    @EventListener(ApplicationReadyEvent.class)
-    @Async
-    public void triggerRegistryReload() {
-        try {
-            log.info("on ApplicationReadyEvent registry reload");
-            registryFacade.updateShellDescriptorAndSynchronizeAssets();
-        } catch (RegistryServiceException e) {
-            throw new RuntimeException("Something went wrong with registry reload", e);
-        }
-
-    }
-
 }
