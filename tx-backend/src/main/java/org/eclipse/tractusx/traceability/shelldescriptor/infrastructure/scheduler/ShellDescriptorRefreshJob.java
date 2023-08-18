@@ -53,6 +53,6 @@ public class ShellDescriptorRefreshJob {
 	)
 	public void refresh() throws RegistryServiceException {
         log.info("TEST REFRESH REGISTRY TRIGGER");
-//		registryFacade.updateShellDescriptorAndSynchronizeAssets();
+		registryFacade.updateShellDescriptorAndSynchronizeAssets();
 	}
 }
