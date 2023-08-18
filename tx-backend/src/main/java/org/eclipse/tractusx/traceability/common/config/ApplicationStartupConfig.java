@@ -89,7 +89,7 @@ public class ApplicationStartupConfig {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
+    @Async
     public void triggerRegistryReload() {
         try {
             log.info("on ApplicationReadyEvent registry reload");
