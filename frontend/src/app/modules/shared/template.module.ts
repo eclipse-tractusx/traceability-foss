@@ -50,7 +50,6 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -97,7 +96,6 @@ import { MatTreeModule } from '@angular/material/tree';
     NgxMatDatetimePickerModule,
     NgxMatNativeDateModule,
     MatTooltipModule,
-    MatSnackBarModule,
   ],
   exports: [
     CommonModule,
@@ -137,7 +135,6 @@ import { MatTreeModule } from '@angular/material/tree';
     NgxMatNativeDateModule,
     MatTooltipModule,
     MatTabsModule,
-    MatSnackBarModule,
   ],
 })
 export class TemplateModule {}

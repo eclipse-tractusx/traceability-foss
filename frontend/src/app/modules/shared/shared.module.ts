@@ -40,7 +40,6 @@ import { BaseInputComponent } from './abstraction/baseInput/baseInput.component'
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { BreadcrumbsComponent } from './components/breadcrumbs/breadcrumbs.component';
 import { ButtonComponent } from './components/button/button.component';
-import { CtaSnackbarComponent } from './components/call-to-action-snackbar/cta-snackbar.component';
 import { CardIconComponent } from './components/card-icon/card-icon.component';
 import { CardListComponent } from './components/card-list/card-list.component';
 import { ToKeyValuePipe } from './components/card-list/card-list.pipe';
@@ -101,7 +100,6 @@ import { RequestAlertComponent } from '@shared/components/request-notification/r
     ErrorMessagePipe,
     RequestInvestigationComponent,
     RequestAlertComponent,
-    CtaSnackbarComponent,
     ScrollWithShadowComponent,
     QualityTypeComponent,
     ValueToLablePipe,

@@ -20,8 +20,9 @@
  ********************************************************************************/
 
 import { Injectable } from '@angular/core';
+import { I18nMessage } from '@shared/model/i18n-message';
 import { Observable, Subject } from 'rxjs';
-import { ToastMessage, ToastStatus } from './toast-message/toast-message.model';
+import { CallAction, ToastMessage, ToastStatus } from './toast-message/toast-message.model';
 
 @Injectable({
   providedIn: 'root',
@@ -34,19 +35,23 @@ export class ToastService {
     return this.toastStore.asObservable();
   }
 
-  public success(message: string, timeout = 5000): void {
-    this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Success, timeout));
+  public success(message: I18nMessage | string, timeout = 5000, actions?: CallAction[]): void {
+    if(actions) {
+      this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Success, timeout, actions));
+    } else {
+      this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Success, timeout));
+    }
   }
 
-  public info(message: string, timeout = 5000): void {
+  public info(message: I18nMessage, timeout = 5000): void {
     this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Informative, timeout));
   }
 
-  public error(message: string, timeout = 5000): void {
+  public error(message: I18nMessage, timeout = 5000): void {
     this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Error, timeout));
   }
 
-  public warning(message: string, timeout = 5000): void {
+  public warning(message: I18nMessage, timeout = 5000): void {
     this.toastStore.next(new ToastMessage(this.idx++, message, ToastStatus.Warning, timeout));
   }
 }
