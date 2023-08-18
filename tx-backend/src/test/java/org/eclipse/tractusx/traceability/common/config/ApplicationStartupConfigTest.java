@@ -19,31 +19,36 @@
 
 package org.eclipse.tractusx.traceability.common.config;
 
+import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class ApplicationStartupConfigTest {
 
+    @InjectMocks
     private ApplicationStartupConfig applicationStartupConfig;
 
     @Mock
     private IrsRepository irsRepository;
 
-    @BeforeEach
-    void setUp() {
-        applicationStartupConfig = new ApplicationStartupConfig(irsRepository);
-    }
+    @Mock
+    private EdcNotificationContractService edcNotificationContractService;
+
 
     @Test
     void whenCallRegisterIrsPolicy_thenCallRepository() {
@@ -54,6 +59,20 @@ class ApplicationStartupConfigTest {
 
             // then
             verify(irsRepository, times(1)).createIrsPolicyIfMissing();
+        });
+
+        executor.shutdown();
+    }
+
+    @Test
+    void whenCallCreateNotificationContracts_thenCallContractService() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        // when
+        executor.execute(() -> {
+            applicationStartupConfig.registerIrsPolicy();
+
+            // then
+            verify(edcNotificationContractService, times(4)).handle(any());
         });
 
         executor.shutdown();
