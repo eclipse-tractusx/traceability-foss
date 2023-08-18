@@ -29,6 +29,14 @@ tractusx-connector:
       management:
         authKey: <path:traceability-foss/data/int-b/edc/controlplane#edc.api.control.auth.apikey.value>
 
+    resources:
+      limits:
+        cpu: 400m
+        memory: 1.5Gi
+      requests:
+        cpu: 200m
+        memory: 1.5Gi
+
   dataplane:
     ingresses:
       - enabled: true
@@ -44,6 +52,14 @@ tractusx-connector:
           enabled: true
           secretName: tls-secret
 
+    resources:
+      limits:
+        cpu: 200m
+        memory: 512Mi
+      requests:
+        cpu: 100m
+        memory: 512Mi
+
   backendService:
     httpProxyTokenReceiverUrl: "https://traceability-int-b.int.demo.catena-x.net/api/callback/endpoint-data-reference"
 
@@ -57,6 +73,16 @@ tractusx-connector:
     jdbcUrl: "jdbc:postgresql://tx-edc-provider-postgresql-int-b-hl:5432/edc"
 
   vault:
+    hashicorp:
+      url: "https://vault.demo.catena-x.net"
+      token: "<path:traceability-foss/data/int-b/edc#edc.vault.hashicorp.token>"
+      timeout: 30
+      healthCheck:
+        enabled: true
+        standbyOk: true
+      paths:
+        secret: /v1/traceability-foss
+        health: /v1/sys/health
     secretNames:
       transferProxyTokenSignerPrivateKey: token-signer-cert-key-dev
       transferProxyTokenSignerPublicKey: token-signer-cert-dev
@@ -66,6 +92,15 @@ edc-postgresql:
   nameOverride: "tx-edc-provider-postgresql-int-b"
   fullnameOverride: "tx-edc-provider-postgresql-int-b"
   enabled: true
+
+  primary:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 1Gi
+      limits:
+        cpu: 200m
+        memory: 1Gi
   auth:
     database: edc
     username: <path:traceability-foss/data/int-b/edc/database#user>
