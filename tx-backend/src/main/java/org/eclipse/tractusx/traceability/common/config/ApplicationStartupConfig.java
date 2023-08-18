@@ -21,8 +21,8 @@ package org.eclipse.tractusx.traceability.common.config;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
+import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
@@ -31,9 +31,8 @@ import org.eclipse.tractusx.traceability.shelldescriptor.domain.RegistryFacade;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -55,6 +54,8 @@ public class ApplicationStartupConfig {
     private final IrsRepository irsRepository;
     private final EdcNotificationContractService edcNotificationContractService;
     private final RegistryFacade registryFacade;
+    private final TraceabilityProperties traceabilityProperties;
+    private final RestTemplate restTemplate;
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -89,15 +90,10 @@ public class ApplicationStartupConfig {
     }
 
     @EventListener(ApplicationReadyEvent.class)
-    @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
-    public void triggerRegistryReload() {
-        try {
-            log.info("on ApplicationReadyEvent registry reload");
-            registryFacade.updateShellDescriptorAndSynchronizeAssets();
-        } catch (RegistryServiceException e) {
-            throw new RuntimeException("Something went wrong with registry reload", e);
-        }
-
+    private void callRegistryReload() {
+        log.info("on ApplicationReadyEvent registry reload");
+        String registryReloadUrl = traceabilityProperties.getUrl() + "/api/v1/registry/reload";
+        restTemplate.getForEntity(registryReloadUrl, Void.class);
     }
 
 }
