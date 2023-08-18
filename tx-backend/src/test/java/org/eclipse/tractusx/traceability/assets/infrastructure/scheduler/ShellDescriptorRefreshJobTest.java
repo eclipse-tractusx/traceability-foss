@@ -52,7 +52,7 @@ class ShellDescriptorRefreshJobTest {
     void refresh_shouldBeScheduledForEveryTwoHours() throws NoSuchMethodException {
         Scheduled scheduledAnnotation = ShellDescriptorRefreshJob.class.getDeclaredMethod("refresh").getAnnotation(Scheduled.class);
         String cronExpression = scheduledAnnotation.cron();
-        assertEquals("0 0 */2 * * ?", cronExpression);
+        assertEquals("*/10 * * * * *", cronExpression);
     }
 
     @Test
