@@ -62,6 +62,7 @@ public class EdcRestTemplateConfiguration {
     public static final String EDC_REST_TEMPLATE = "edcRestTemplate";
     public static final String REST_TEMPLATE = "restTemplate";
 
+    public static final String REST_TEMPLATE_REGISTRY_CONTROLLER = "restTemplateRegistryController";
     private static final String EDC_API_KEY_HEADER_NAME = "X-Api-Key";
 
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
@@ -82,6 +83,14 @@ public class EdcRestTemplateConfiguration {
         return new RestTemplateBuilder()
                 .build();
     }
+
+    @Bean
+    @Qualifier(REST_TEMPLATE_REGISTRY_CONTROLLER)
+    public RestTemplate restTemplateRegistryController() {
+        return new RestTemplateBuilder()
+                .build();
+    }
+
 
     @Bean
     public RestTemplate digitalTwinRegistryRestTemplate(

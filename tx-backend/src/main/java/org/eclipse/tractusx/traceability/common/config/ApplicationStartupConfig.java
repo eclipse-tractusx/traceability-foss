@@ -55,7 +55,7 @@ public class ApplicationStartupConfig {
     private final EdcNotificationContractService edcNotificationContractService;
     private final RegistryFacade registryFacade;
     private final TraceabilityProperties traceabilityProperties;
-    private final RestTemplate restTemplate;
+    private final RestTemplate restTemplateRegistryController;
 
     @EventListener(ApplicationReadyEvent.class)
     public void registerIrsPolicy() {
@@ -89,11 +89,13 @@ public class ApplicationStartupConfig {
         executor.shutdown();
     }
 
+    // TODO we should not call the registry with an http call. But if we directly call the facadeMethod for the registry reload we have thread issues
+    //  because IRS lib is not thread safe.
     @EventListener(ApplicationReadyEvent.class)
     private void callRegistryReload() {
         log.info("on ApplicationReadyEvent registry reload");
         String registryReloadUrl = traceabilityProperties.getUrl() + "/api/v1/registry/reload";
-        restTemplate.getForEntity(registryReloadUrl, Void.class);
+        restTemplateRegistryController.getForEntity(registryReloadUrl, Void.class);
     }
 
 }
