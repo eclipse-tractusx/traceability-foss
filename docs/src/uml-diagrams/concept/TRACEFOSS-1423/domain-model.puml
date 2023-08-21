@@ -10,19 +10,30 @@ abstract Asset {
         qualityType : QualityType
         underInvestigation : boolean
         semanticDataModelType : SemanticDataModelType
-        childRelations : List<Relation>
-        parentRelations : List<Relation>
+        childRelation : List<Relation>
+        parentRelation : List<Relation>
 
         idShort : String
         van : String
+
+        detailSemanticModels : List<DetailSemanticModel>
 }
 
 note left
-    Rename Descriptions to Relations
+    Rename Descriptions to Relationship
 end note
 
+
+class DetailSemanticModel {
+    semanticDataModelType : SemanticDataModelType
+}
+note left
+    DetailSemanticModel contains detail semantic models
+end note
+
+
 class Relation {
-       *   id : String
+       *   childCatenaXId : String
        idShort : String
 }
 
@@ -95,8 +106,7 @@ Asset <|.. PartAsPlanned
 
 Asset }o-- Relation : childRelations
 Asset }o--  Relation : parentRelations
-
-AsBuiltAspectModel  -- TractionBatteryCode
-
-PartAsPlanned   --  PartSiteInformationAsPlanned
+Asset }o- DetailSemanticModel : detailSemanticModels
+DetailSemanticModel  <|.. TractionBatteryCode
+DetailSemanticModel  <|..  PartSiteInformationAsPlanned
 @enduml
