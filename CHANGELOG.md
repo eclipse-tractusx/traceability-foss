@@ -27,6 +27,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
+## [6.0.1-rc2]
+### Added
+- OAuth2 client credentials rest template interceptor
+- Configuration for left and right policies to use registry client library
+- TRG Github Action Pipeline for quality checks
+- ErrorMessage field to investigation and alerts
+
+### Changed
+- Changed digitalTwinRegistryRestTemplate to use token in requests
+- Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
+- Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
+- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "UNKNOWN_MANUFACTURER"
+
+### Removed
+
+
 ## [6.0.0 - 2023-07-21]
 
 ### Added
