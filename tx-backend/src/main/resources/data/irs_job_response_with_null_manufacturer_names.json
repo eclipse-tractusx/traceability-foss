@@ -1,0 +1,654 @@
+{
+  "job": {
+    "id": "d2b3e2bc-d4a8-41d5-9edb-7d171b3fe39c",
+    "globalAssetId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+    "state": "COMPLETED",
+    "exception": null,
+    "createdOn": "2023-08-21T09:56:30.349763703Z",
+    "startedOn": "2023-08-21T09:56:30.653278822Z",
+    "lastModifiedOn": "2023-08-21T09:59:13.885281078Z",
+    "completedOn": "2023-08-21T09:59:13.885284878Z",
+    "owner": "sa272",
+    "summary": {
+      "asyncFetchedItems": {
+        "running": 0,
+        "completed": 9,
+        "failed": 7
+      },
+      "bpnLookups": {
+        "completed": 1,
+        "failed": 2
+      }
+    },
+    "parameter": {
+      "bomLifecycle": "asBuilt",
+      "aspects": [
+        "Batch",
+        "SerialPart",
+        "SingleLevelBomAsBuilt"
+      ],
+      "depth": 2,
+      "bpn": "BPNL00000003CNKC",
+      "direction": "downward",
+      "collectAspects": true,
+      "lookupBPNs": true,
+      "callbackUrl": null
+    }
+  },
+  "relationships": [
+    {
+      "catenaXId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 4.0,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:litre"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    },
+    {
+      "catenaXId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 2.5,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:litre"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:cc8af08d-0aeb-44b5-9add-fef236721d91"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    },
+    {
+      "catenaXId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 2.5,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:litre"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:c3124ddd-1174-4ed3-ae67-e37f21f34f8f"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    },
+    {
+      "catenaXId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 2.5,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:litre"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:08d6776b-1ef7-4de9-9e01-c06392f3442a"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    },
+    {
+      "catenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 2.5,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:litre"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:33c40622-6e9b-478e-a6dd-caeb5deaea51"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    },
+    {
+      "catenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 4.0,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:litre"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:f39ef86f-c1be-4c09-b61f-b7d12db688e5"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    },
+    {
+      "catenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 2.5,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:litre"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:93aab108-d421-420d-9f18-967f4ba5a55e"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    },
+    {
+      "catenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 2.5,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:litre"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:9cd763dc-a258-4e8e-bc32-200647016ad3"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    }
+  ],
+  "shells": [
+    {
+      "administration": null,
+      "description": [],
+      "globalAssetId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+      "idShort": "TraceXBDoorFrontRight",
+      "id": "urn:uuid:b957069e-f686-4f41-b393-bcbd93ef357d",
+      "specificAssetIds": [
+        {
+          "name": "partInstanceId",
+          "subjectId": null,
+          "value": "OMCTFVAAAAOULLCDW",
+          "semanticId": null
+        },
+        {
+          "name": "van",
+          "subjectId": null,
+          "value": "OMCTFVAAAAOULLCDW",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerId",
+          "subjectId": null,
+          "value": "BPNL00000003CNKC",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerId",
+          "subjectId": null,
+          "value": "BPNL00000003CNKC",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerPartId",
+          "subjectId": null,
+          "value": "IG-10",
+          "semanticId": null
+        }
+      ],
+      "submodelDescriptors": [
+        {
+          "administration": null,
+          "description": [],
+          "idShort": "SingleLevelBomAsBuilt",
+          "id": "urn:uuid:55ef8480-0943-4b55-b6dd-3a85a9501092",
+          "semanticId": {
+            "keys": [
+              {
+                "value": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+                "type": "Submodel"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "endpoints": [
+            {
+              "protocolInformation": {
+                "href": "https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net/api/public/data/urn:uuid:55ef8480-0943-4b55-b6dd-3a85a9501092",
+                "endpointProtocol": "HTTP",
+                "endpointProtocolVersion": [
+                  "1.1"
+                ],
+                "subprotocol": "DSP",
+                "subprotocolBody": "id=urn:uuid:bd4db024-d6c5-4779-9dfc-3ab0d82c4def;dspEndpoint=https://trace-x-edc-int-b.int.demo.catena-x.net",
+                "subprotocolBodyEncoding": "plain"
+              },
+              "interface": "SUBMODEL-3.0"
+            }
+          ]
+        },
+        {
+          "administration": null,
+          "description": [],
+          "idShort": "SerialPart",
+          "id": "urn:uuid:8c512170-6205-4f56-a838-fe18fcb64505",
+          "semanticId": {
+            "keys": [
+              {
+                "value": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+                "type": "Submodel"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "endpoints": [
+            {
+              "protocolInformation": {
+                "href": "https://trace-x-edc-int-b-dataplane.int.demo.catena-x.net/api/public/data/urn:uuid:8c512170-6205-4f56-a838-fe18fcb64505",
+                "endpointProtocol": "HTTP",
+                "endpointProtocolVersion": [
+                  "1.1"
+                ],
+                "subprotocol": "DSP",
+                "subprotocolBody": "id=urn:uuid:bd4db024-d6c5-4779-9dfc-3ab0d82c4def;dspEndpoint=https://trace-x-edc-int-b.int.demo.catena-x.net",
+                "subprotocolBodyEncoding": "plain"
+              },
+              "interface": "SUBMODEL-3.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "administration": null,
+      "description": [],
+      "globalAssetId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+      "idShort": "TraceXADoorKey",
+      "id": "urn:uuid:ca5eb9f9-b8ec-48b3-bb77-ff649d9bbe53",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerPartId",
+          "subjectId": null,
+          "value": "JM-53",
+          "semanticId": null
+        },
+        {
+          "name": "partInstanceId",
+          "subjectId": null,
+          "value": "OMAQYYIUPTVCRPOYY",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerId",
+          "subjectId": null,
+          "value": "BPNL00000003CML1",
+          "semanticId": null
+        },
+        {
+          "name": "van",
+          "subjectId": null,
+          "value": "OMAQYYIUPTVCRPOYY",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerId",
+          "subjectId": null,
+          "value": "BPNL00000003CML1",
+          "semanticId": null
+        }
+      ],
+      "submodelDescriptors": [
+        {
+          "administration": null,
+          "description": [],
+          "idShort": "SerialPart",
+          "id": "urn:uuid:c2f0929e-f31b-4f7e-aebf-b72bd82e4837",
+          "semanticId": {
+            "keys": [
+              {
+                "value": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+                "type": "Submodel"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "endpoints": [
+            {
+              "protocolInformation": {
+                "href": "https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net/api/public/data/urn:uuid:c2f0929e-f31b-4f7e-aebf-b72bd82e4837",
+                "endpointProtocol": "HTTP",
+                "endpointProtocolVersion": [
+                  "1.1"
+                ],
+                "subprotocol": "DSP",
+                "subprotocolBody": "id=urn:uuid:c58bc1c6-8a83-48e6-af88-c48836d16a07;dspEndpoint=https://trace-x-edc-int-a.int.demo.catena-x.net",
+                "subprotocolBodyEncoding": "plain"
+              },
+              "interface": "SUBMODEL-3.0"
+            }
+          ]
+        },
+        {
+          "administration": null,
+          "description": [],
+          "idShort": "SingleLevelBomAsBuilt",
+          "id": "urn:uuid:52963e93-6ac0-4c42-8c80-19ad5741c129",
+          "semanticId": {
+            "keys": [
+              {
+                "value": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+                "type": "Submodel"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "endpoints": [
+            {
+              "protocolInformation": {
+                "href": "https://trace-x-edc-int-a-dataplane.int.demo.catena-x.net/api/public/data/urn:uuid:52963e93-6ac0-4c42-8c80-19ad5741c129",
+                "endpointProtocol": "HTTP",
+                "endpointProtocolVersion": [
+                  "1.1"
+                ],
+                "subprotocol": "DSP",
+                "subprotocolBody": "id=urn:uuid:c58bc1c6-8a83-48e6-af88-c48836d16a07;dspEndpoint=https://trace-x-edc-int-a.int.demo.catena-x.net",
+                "subprotocolBodyEncoding": "plain"
+              },
+              "interface": "SUBMODEL-3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tombstones": [
+    {
+      "catenaXId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "BpdmRequest",
+        "errorDetail": "404 : \"{\"timestamp\":\"2023-08-21T09:57:10.817+00:00\",\"status\":404,\"error\":\"Not Found\",\"path\":\"/api/catena/legal-entities/BPNL50096894aNXY\"}\"",
+        "lastAttempt": "2023-08-21T09:57:10.851903355Z",
+        "retryCounter": 3
+      }
+    },
+    {
+      "catenaXId": "urn:uuid:cc8af08d-0aeb-44b5-9add-fef236721d91",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "DigitalTwinRequest",
+        "errorDetail": "EndpointDataReference was not found. Requested connectorEndpoints: ",
+        "lastAttempt": "2023-08-21T09:57:49.745547103Z",
+        "retryCounter": 3
+      }
+    },
+    {
+      "catenaXId": "urn:uuid:c3124ddd-1174-4ed3-ae67-e37f21f34f8f",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "DigitalTwinRequest",
+        "errorDetail": "EndpointDataReference was not found. Requested connectorEndpoints: ",
+        "lastAttempt": "2023-08-21T09:57:49.754614727Z",
+        "retryCounter": 3
+      }
+    },
+    {
+      "catenaXId": "urn:uuid:08d6776b-1ef7-4de9-9e01-c06392f3442a",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "DigitalTwinRequest",
+        "errorDetail": "EndpointDataReference was not found. Requested connectorEndpoints: ",
+        "lastAttempt": "2023-08-21T09:57:49.843077366Z",
+        "retryCounter": 3
+      }
+    },
+    {
+      "catenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "BpdmRequest",
+        "errorDetail": "404 : \"{\"timestamp\":\"2023-08-21T09:58:36.174+00:00\",\"status\":404,\"error\":\"Not Found\",\"path\":\"/api/catena/legal-entities/BPNL50096894aNXY\"}\"",
+        "lastAttempt": "2023-08-21T09:58:36.175902481Z",
+        "retryCounter": 3
+      }
+    },
+    {
+      "catenaXId": "urn:uuid:f39ef86f-c1be-4c09-b61f-b7d12db688e5",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "DigitalTwinRequest",
+        "errorDetail": "EndpointDataReference was not found. Requested connectorEndpoints: ",
+        "lastAttempt": "2023-08-21T09:59:13.606136804Z",
+        "retryCounter": 3
+      }
+    },
+    {
+      "catenaXId": "urn:uuid:93aab108-d421-420d-9f18-967f4ba5a55e",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "DigitalTwinRequest",
+        "errorDetail": "EndpointDataReference was not found. Requested connectorEndpoints: ",
+        "lastAttempt": "2023-08-21T09:59:13.620462043Z",
+        "retryCounter": 3
+      }
+    },
+    {
+      "catenaXId": "urn:uuid:33c40622-6e9b-478e-a6dd-caeb5deaea51",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "DigitalTwinRequest",
+        "errorDetail": "EndpointDataReference was not found. Requested connectorEndpoints: ",
+        "lastAttempt": "2023-08-21T09:59:13.589357457Z",
+        "retryCounter": 3
+      }
+    },
+    {
+      "catenaXId": "urn:uuid:9cd763dc-a258-4e8e-bc32-200647016ad3",
+      "endpointURL": null,
+      "processingError": {
+        "processStep": "DigitalTwinRequest",
+        "errorDetail": "EndpointDataReference was not found. Requested connectorEndpoints: ",
+        "lastAttempt": "2023-08-21T09:59:13.657695147Z",
+        "retryCounter": 3
+      }
+    }
+  ],
+  "submodels": [
+    {
+      "identification": "urn:uuid:55ef8480-0943-4b55-b6dd-3a85a9501092",
+      "aspectType": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+      "payload": {
+        "catenaXId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+        "childItems": [
+          {
+            "catenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+            "quantity": {
+              "quantityNumber": 4,
+              "measurementUnit": "unit:litre"
+            },
+            "businessPartner": "BPNL00000003CML1",
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+          },
+          {
+            "catenaXId": "urn:uuid:c3124ddd-1174-4ed3-ae67-e37f21f34f8f",
+            "quantity": {
+              "quantityNumber": 2.5,
+              "measurementUnit": "unit:litre"
+            },
+            "businessPartner": "BPNL50096894aNXY",
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+          },
+          {
+            "catenaXId": "urn:uuid:cc8af08d-0aeb-44b5-9add-fef236721d91",
+            "quantity": {
+              "quantityNumber": 2.5,
+              "measurementUnit": "unit:litre"
+            },
+            "businessPartner": "BPNL50096894aNXY",
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+          },
+          {
+            "catenaXId": "urn:uuid:08d6776b-1ef7-4de9-9e01-c06392f3442a",
+            "quantity": {
+              "quantityNumber": 2.5,
+              "measurementUnit": "unit:litre"
+            },
+            "businessPartner": "BPNL50096894aNXY",
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+          }
+        ]
+      }
+    },
+    {
+      "identification": "urn:uuid:8c512170-6205-4f56-a838-fe18fcb64505",
+      "aspectType": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "payload": {
+        "localIdentifiers": [
+          {
+            "value": "BPNL00000003CNKC",
+            "key": "manufacturerId"
+          },
+          {
+            "value": "IG-10",
+            "key": "manufacturerPartId"
+          },
+          {
+            "value": "OMCTFVAAAAOULLCDW",
+            "key": "partInstanceId"
+          },
+          {
+            "value": "OMCTFVAAAAOULLCDW",
+            "key": "van"
+          }
+        ],
+        "manufacturingInformation": {
+          "date": "2020-03-23T08:58:30.000Z",
+          "country": "DEU"
+        },
+        "catenaXId": "urn:uuid:9068d4b8-b96e-4479-b0b5-a8be63e2143b",
+        "partTypeInformation": {
+          "manufacturerPartId": "IG-10",
+          "classification": "product",
+          "nameAtManufacturer": "TraceX B Door Front Right"
+        }
+      }
+    },
+    {
+      "identification": "urn:uuid:c2f0929e-f31b-4f7e-aebf-b72bd82e4837",
+      "aspectType": "urn:bamm:io.catenax.serial_part:1.0.1#SerialPart",
+      "payload": {
+        "localIdentifiers": [
+          {
+            "value": "BPNL00000003CML1",
+            "key": "manufacturerId"
+          },
+          {
+            "value": "JM-53",
+            "key": "manufacturerPartId"
+          },
+          {
+            "value": "OMAQYYIUPTVCRPOYY",
+            "key": "partInstanceId"
+          },
+          {
+            "value": "OMAQYYIUPTVCRPOYY",
+            "key": "van"
+          }
+        ],
+        "manufacturingInformation": {
+          "date": "2013-06-23T16:56:12.000Z",
+          "country": "DEU"
+        },
+        "catenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+        "partTypeInformation": {
+          "manufacturerPartId": "JM-53",
+          "classification": "product",
+          "nameAtManufacturer": "TraceX A Door Key"
+        }
+      }
+    },
+    {
+      "identification": "urn:uuid:52963e93-6ac0-4c42-8c80-19ad5741c129",
+      "aspectType": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+      "payload": {
+        "catenaXId": "urn:uuid:b8836ae9-cb32-46b8-ba7d-2e170fb60280",
+        "childItems": [
+          {
+            "catenaXId": "urn:uuid:f39ef86f-c1be-4c09-b61f-b7d12db688e5",
+            "quantity": {
+              "quantityNumber": 4,
+              "measurementUnit": "unit:litre"
+            },
+            "businessPartner": "BPNL00000003AZQP",
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+          },
+          {
+            "catenaXId": "urn:uuid:93aab108-d421-420d-9f18-967f4ba5a55e",
+            "quantity": {
+              "quantityNumber": 2.5,
+              "measurementUnit": "unit:litre"
+            },
+            "businessPartner": "BPNL50096894aNXY",
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+          },
+          {
+            "catenaXId": "urn:uuid:33c40622-6e9b-478e-a6dd-caeb5deaea51",
+            "quantity": {
+              "quantityNumber": 2.5,
+              "measurementUnit": "unit:litre"
+            },
+            "businessPartner": "BPNL50096894aNXY",
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+          },
+          {
+            "catenaXId": "urn:uuid:9cd763dc-a258-4e8e-bc32-200647016ad3",
+            "quantity": {
+              "quantityNumber": 2.5,
+              "measurementUnit": "unit:litre"
+            },
+            "businessPartner": "BPNL50096894aNXY",
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+          }
+        ]
+      }
+    }
+  ],
+  "bpns": [
+    {
+      "manufacturerId": "BPNL00000003CML1",
+      "manufacturerName": "TEST_BPN_DFT_1"
+    },
+    {
+      "manufacturerId": "BPNL00000003AZQP",
+      "manufacturerName": null
+    },
+    {
+      "manufacturerId": "BPNL50096894aNXY",
+      "manufacturerName": null
+    }
+  ]
+}
