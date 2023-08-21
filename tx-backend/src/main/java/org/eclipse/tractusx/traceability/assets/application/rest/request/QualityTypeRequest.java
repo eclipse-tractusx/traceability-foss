@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.application.rest.request;
 
 
+import assets.response.QualityTypeResponse;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -44,8 +45,8 @@ public enum QualityTypeRequest {
         this.description = description;
     }
 
-    public static org.eclipse.tractusx.traceability.assets.application.rest.response.QualityTypeResponse from(final QualityType qualityType) {
-        return org.eclipse.tractusx.traceability.assets.application.rest.response.QualityTypeResponse.valueOf(qualityType.name());
+    public static QualityTypeResponse from(final QualityType qualityType) {
+        return QualityTypeResponse.valueOf(qualityType.name());
     }
 
     public QualityType toDomain() {

@@ -89,6 +89,15 @@
             <artifactId>jackson-datatype-jdk8</artifactId>
             <scope>test</scope>
         </dependency>
+
+
+        <!-- tx-application modules -->
+        <dependency>
+            <groupId>org.eclipse.tractusx.traceability</groupId>
+            <artifactId>tx-models</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>

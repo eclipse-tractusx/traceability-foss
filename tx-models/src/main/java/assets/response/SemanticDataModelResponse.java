@@ -16,31 +16,22 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.response;
 
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-
-import assets.response.DescriptionsResponse;
-import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
-import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-class DescriptionsResponseTest {
-
-    @Test
-    void givenDescriptionsResponse_whenFrom_thenMapCorrectly() {
-        // given
-        final String id = "identifier";
-        final String shortId = "shortIdentifier";
-        final Descriptions response = new Descriptions(id, shortId);
-
-        // when
-        final DescriptionsResponse result = DescriptionsResponse.from(response);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(response);
-    }
+@ApiModel(description = "Type of model")
+public enum SemanticDataModelResponse {
+    @ApiModelProperty("Batch")
+    BATCH,
+    @ApiModelProperty("SerialPart")
+    SERIALPART,
+    @ApiModelProperty("Unknown")
+    UNKNOWN,
+    @ApiModelProperty("PartAsPlanned")
+    PARTASPLANNED,
+    @ApiModelProperty("JustInSequence")
+    JUSTINSEQUENCE;
 
 }

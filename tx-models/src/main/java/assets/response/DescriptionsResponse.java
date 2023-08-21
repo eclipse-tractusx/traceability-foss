@@ -17,30 +17,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+package assets.response;
 
+import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Size;
 
-import assets.response.DescriptionsResponse;
-import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
-import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-class DescriptionsResponseTest {
-
-    @Test
-    void givenDescriptionsResponse_whenFrom_thenMapCorrectly() {
-        // given
-        final String id = "identifier";
-        final String shortId = "shortIdentifier";
-        final Descriptions response = new Descriptions(id, shortId);
-
-        // when
-        final DescriptionsResponse result = DescriptionsResponse.from(response);
-
-        // then
-        assertThat(result).usingRecursiveComparison()
-                .isEqualTo(response);
-    }
+public record DescriptionsResponse(
+        @ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0")
+        @Size(max = 255)
+        String id,
+        @ApiModelProperty(example = "null")
+        @Size(max = 255)
+        String idShort) {
 
 }
