@@ -15,11 +15,22 @@ abstract Asset {
 
         idShort : String
         van : String
+
+        detailSemanticModels : List<DetailSemanticModel>
 }
 
 note left
-    Rename Descriptions to Relations
+    Rename Descriptions to Relation
 end note
+
+
+class DetailSemanticModel {
+    semanticDataModelType : SemanticDataModelType
+}
+note left
+    DetailSemanticModel contains detail semantic models
+end note
+
 
 class Relation {
        *   id : String
@@ -95,8 +106,7 @@ Asset <|.. PartAsPlanned
 
 Asset }o-- Relation : childRelations
 Asset }o--  Relation : parentRelations
-
-AsBuiltAspectModel  -- TractionBatteryCode
-
-PartAsPlanned   --  PartSiteInformationAsPlanned
+Asset }o- DetailSemanticModel : detailSemanticModels
+DetailSemanticModel  <|.. TractionBatteryCode
+DetailSemanticModel  <|..  PartSiteInformationAsPlanned
 @enduml
