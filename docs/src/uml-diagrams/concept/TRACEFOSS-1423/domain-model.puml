@@ -10,8 +10,8 @@ abstract Asset {
         qualityType : QualityType
         underInvestigation : boolean
         semanticDataModelType : SemanticDataModelType
-        childRelation : List<Relation>
-        parentRelation : List<Relation>
+        childRelations : List<Relation>
+        parentRelations : List<Relation>
 
         idShort : String
         van : String
@@ -20,7 +20,7 @@ abstract Asset {
 }
 
 note left
-    Rename Descriptions to Relationship
+    Rename Descriptions to Relation
 end note
 
 
