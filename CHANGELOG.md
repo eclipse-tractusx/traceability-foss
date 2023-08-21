@@ -23,7 +23,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Readme / Docker Notice information as required in TRGs
 - Removed references to GitHub registry and added docker hub for tractusx instead
 - Removed UX breaking black status box
-- added handling for null manufacturerName in IrsJobResponse, if null is passed it is replaced with "UNKNOWN_MANUFACTURER"
 
 ### Removed
 
