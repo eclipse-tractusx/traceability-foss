@@ -53,6 +53,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Logic of commitId retrieval by frontend has changed
 - Readme / Docker Notice information as required in TRGs
 - Removed references to GitHub registry and added docker hub for tractusx instead
+- Spring Boot Update from: 3.0.7 to 3.1.2
+- Spring Core Update from: 6.0.8 to 6.0.11
 
 ### Removed
 - unused classes and methods
