@@ -64,4 +64,24 @@ class JobDetailResponseTest {
         assertTrue(parentAsset.getChildRelations().isEmpty());
     }
 
+    @Test
+    void testAssetConverterWithNullManufacturerNames() throws IOException {
+        // Given
+        ObjectMapper mapper = new ObjectMapper()
+                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_job_response_with_null_manufacturer_names.json");
+
+        // when
+        JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
+
+        // then
+        assertThat(response).isNotNull();
+        assertThat(response.bpns())
+                .containsEntry("BPNL00000003AZQP", "UNKNOWN_MANUFACTURER")
+                .containsEntry("BPNL50096894aNXY", "UNKNOWN_MANUFACTURER")
+                .containsEntry("BPNL00000003CML1", "TEST_BPN_DFT_1");
+    }
+
 }
