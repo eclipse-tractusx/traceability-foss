@@ -45,6 +45,7 @@ public record JobDetailResponse(
         Map<String, String> bpns
 ) {
 
+    private static final String UNKNOWN_MANUFACTURER_NAME = "UNKNOWN_MANUFACTURER";
     private static final String SINGLE_LEVEL_USAGE_AS_BUILT = "SingleLevelUsageAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_BUILT = "SingleLevelBomAsBuilt";
     private static final String SINGLE_LEVEL_BOM_AS_PLANNED = "SingleLevelBomAsPlanned";
@@ -60,6 +61,10 @@ public record JobDetailResponse(
             @JsonProperty("bpns") @JsonSetter(nulls = Nulls.AS_EMPTY) List<Bpn> bpns
     ) {
         Map<String, String> bpnsMap = bpns.stream()
+                .map(bpn -> new Bpn(
+                        bpn.manufacturerId(),
+                        bpn.manufacturerName() == null ? UNKNOWN_MANUFACTURER_NAME : bpn.manufacturerName()
+                ))
                 .collect(Collectors.toMap(Bpn::manufacturerId, Bpn::manufacturerName));
 
         //TODO: replace the generic payload (SemanticDataModel.class) with the actual models. This can be achieved by
