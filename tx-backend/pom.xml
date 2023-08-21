@@ -455,6 +455,8 @@ SPDX-License-Identifier: Apache-2.0
                                     <includes>
                                         <include>LICENSE</include>
                                         <include>NOTICE.md</include>
+                                        <include>DEPENDENCIES_BACKEND</include>
+                                        <include>SECURITY.md</include>
                                     </includes>
                                 </resource>
                             </resources>
