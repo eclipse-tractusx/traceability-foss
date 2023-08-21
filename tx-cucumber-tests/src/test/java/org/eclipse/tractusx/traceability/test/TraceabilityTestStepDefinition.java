@@ -19,15 +19,22 @@
 
 package org.eclipse.tractusx.traceability.test;
 
+import assets.response.AssetResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.ParameterType;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest;
+import org.eclipse.tractusx.traceability.test.tooling.rest.response.PageResult;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 import org.eclipse.tractusx.traceability.test.validator.InvestigationValidator;
@@ -36,6 +43,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -52,6 +60,8 @@ public class TraceabilityTestStepDefinition {
     private Long notificationID_TXA = null;
     private Long notificationID_TXB = null;
     private String notificationDescription = null;
+    private PageResult requestedAssets;
+
 
     @ParameterType("TRACE_X_A|TRACE_X_B")
     public TraceXEnvironmentEnum TraceXEnvironmentEnum(String environment) {
@@ -115,7 +125,9 @@ public class TraceabilityTestStepDefinition {
 
     @When("I check, if quality investigation has been received")
     public void iCanSeeNotificationWasReceived() {
+        System.out.println("searching for notificationDescription: " + notificationDescription);
         final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
+        result.stream().map(QualityNotificationResponse::getDescription).forEach(System.out::println);
         final QualityNotificationResponse notification = result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().orElseThrow();
         notificationID_TXB = notification.getId();
 
@@ -125,24 +137,31 @@ public class TraceabilityTestStepDefinition {
     @When("I check, if quality investigation has not been received")
     public void iCanSeeNotificationWasNotReceived() {
         final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
-        assertThat(result.size()).isEqualTo(0);
+        Optional<QualityNotificationResponse> first = result.stream()
+                .filter(qualityNotificationResponse -> Objects.equals(qualityNotificationResponse.getId(), getNotificationIdBasedOnEnv()))
+                .findFirst();
+        assertThat(first.isEmpty()).isTrue();
     }
 
     @When("I acknowledge quality investigation")
     public void iAcknowledgeQualityInvestigation() {
-        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED);
+        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED, "");
         waiting1Min();
     }
 
     @When("I accept quality investigation")
-    public void iAcceptQualityInvestigation() {
-        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED);
+    public void iAcceptQualityInvestigation(DataTable dataTable) {
+        String reason = normalize(dataTable.asMap()).get("reason");
+        System.out.println("reason: " + reason);
+        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED, reason);
         waiting1Min();
     }
 
     @When("I decline quality investigation")
-    public void iDeclineQualityInvestigation() {
-        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED);
+    public void iDeclineQualityInvestigation(DataTable dataTable) {
+        String reason = normalize(dataTable.asMap()).get("reason");
+        System.out.println("reason: " + reason);
+        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED, reason);
         waiting1Min();
     }
 
@@ -175,8 +194,32 @@ public class TraceabilityTestStepDefinition {
         Pattern r = Pattern.compile("\"(.+)\"");
 
         Matcher m = r.matcher(input);
-        m.matches();
 
-        return m.group(1);
+        if (m.matches()) {
+            return m.group(1);
+        } else {
+            return "";
+        }
+
+    }
+
+    @And("I request assets with {string}")
+    public void iRequestAssetsWith(String ownerFilter) {
+        requestedAssets = restProvider.getAssets(ownerFilter);
+    }
+
+    @Then("I check, if only assets with {string} are responded")
+    public void iCheckIfOnlyAssetsWithOwnerFilterAreResponded(String ownerFilter) {
+        requestedAssets.content().forEach(asset -> {
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            try {
+                System.out.println(objectMapper.writeValueAsString(asset).toString());
+                AssetResponse assetResponse = objectMapper.readValue(objectMapper.writeValueAsString(asset), AssetResponse.class);
+                assertThat(ownerFilter).isEqualTo(assetResponse.getOwner().toString());
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 }

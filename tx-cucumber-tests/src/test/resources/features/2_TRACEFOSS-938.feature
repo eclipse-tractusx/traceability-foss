@@ -1,24 +1,35 @@
-@TRACEFOSS-936
-Feature: ⭐[BE] Include reason for receiver and sender investigations
-	#*As a* Dev
+@TRACEFOSS-938
+Feature: ⭐[TEST] Update Quality Investigation (over EDC)
+	#h2. User Story
 	#
-	#*I want to* update contract of:
+	#*As* Supervisor
+	#*I want* to be able to update a quality investigation that I received
+	#*so that* the corresponding partner knows in which status the notification is on my side.
+	#h2. Hints / Details / . Hints & NFR (Technical, Design & Content))* : 
 	#
-	#/investigations/created (sender side of notifications)
-	#/investigations/received (receiver side of notifications)
+	#1. BPN B receives a notification
+	#2. BPN B updates notification
+	#3. BPN A receives notification update with corresponding status
+	# * The right notification asset needs to be looked up in the Catalog offer of the counter side
+	# * Lookup based on asset:props
+	# * Keep in mind that some fields are optional and might be empty
+	# ** Handle based on documentation / agreement like for send/receive
+	# ** E.g. "information" will be empty for Update from REC to ACK
+	# * Utilize EDC Update functionality in order to send investigation update over EDC from BNP B to BPN A.
 	#
-	#with following object:
-	#{code:java}
-	#{
-	#  "reason" : {
-	#    "close" : $string,
-	#    "accept": $string, | nullable
-	#    "decline": $string | nullable
-	#  }
-	#} {code}
-	#Where for accept and decline reason, it's either one or another. Reasons are passed from receiver to sender and from sender to receiver via EDC and stored in the database.
+	#Docs: [Notification Update Docu|https://confluence.catena-x.net/pages/viewpage.action?pageId=69429778#id-(TRS)[Release3]%F0%9F%93%9CTraceabilityApp(ImplementationSpecification)-HttpPOSTendpointtoupdateanotification]
 	#
-	#*so that* the information provided with the update is also stored and provided to sender and receiver sides.
+	#!screenshot-1.png|thumbnail!
+	#h2. TODO:
+	# * (-) Fill out description
+	# * (-) Fill out Story Points
+	# * (-) Assign an Assignee
+	# * (-) define Acceptance Criteria
+	# * (-) [DoR |https://confluence.catena-x.net/pages/viewpage.action?pageId=917505] 
+	#
+	#h2. LOP
+	# * (/) [~thomas.braun3@zf.com] Update AC and describe error handling, retry and rollback.
+	# * (/) Add pbi for "Close notification on sender side". --> TRACEFOSS-961
 
 	#Check if *CANCELLATION* of quality investigations is processed correctly which contains following checks:
 	#* correct CANCELLATION on receiver side
@@ -106,7 +117,7 @@ Feature: ⭐[BE] Include reason for receiver and sender investigations
       | "status" | "DECLINED" |
     When I am logged into TRACE_X_A application
     Then I check, if quality investigation has proper values
-      | "status"      | "DECLINED"                   |
+      | "status"        | "DECLINED"                   |
       | "declineReason" | "declined in TRACEFOSS-1223" |
 
 	#Check if *ACCEPTANCE* of quality investigations is processed correctly which contains following checks:
@@ -141,5 +152,5 @@ Feature: ⭐[BE] Include reason for receiver and sender investigations
       | "status" | "ACCEPTED" |
     When I am logged into TRACE_X_A application
     Then I check, if quality investigation has proper values
-      | "status"      | "ACCEPTED"                   |
+      | "status"       | "ACCEPTED"                   |
       | "acceptReason" | "accepted in TRACEFOSS-1222" |

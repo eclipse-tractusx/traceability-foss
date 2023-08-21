@@ -35,6 +35,7 @@ import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest;
+import org.eclipse.tractusx.traceability.test.tooling.rest.response.PageResult;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 
@@ -136,12 +137,12 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    public void closeInvestigation(
-            final Long notificationId) {
+    public void closeInvestigation(final Long notificationId) {
 
         given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
+                .body("{\"reason\": \"stringstringstr\"}")
                 .post("api/investigations/{notificationId}/close".replace(
                         "{notificationId}",
                         notificationId.toString()
@@ -150,9 +151,10 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    public void updateInvestigation(final Long notificationId, UpdateQualityNotificationStatusRequest status) {
+    public void updateInvestigation(final Long notificationId, UpdateQualityNotificationStatusRequest status, String reason) {
         UpdateQualityNotificationRequest requestBody = UpdateQualityNotificationRequest.builder()
                 .status(status)
+                .reason(reason)
                 .build();
 
 
@@ -200,5 +202,16 @@ public class RestProvider {
         builder.setBaseUri(host);
 
         return builder.build();
+    }
+
+    public PageResult getAssets(String ownerFilter) {
+        return given().spec(getRequestSpecification())
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/assets?owner=" + ownerFilter + "&page=0&size=50")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .extract()
+                .body().as(PageResult.class);
     }
 }
