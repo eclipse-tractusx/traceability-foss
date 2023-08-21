@@ -20,9 +20,6 @@
 package org.eclipse.tractusx.traceability.test;
 
 import assets.response.AssetResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.ParameterType;
@@ -34,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.test.tooling.rest.response.PageResult;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 import org.eclipse.tractusx.traceability.test.validator.InvestigationValidator;
@@ -60,7 +56,7 @@ public class TraceabilityTestStepDefinition {
     private Long notificationID_TXA = null;
     private Long notificationID_TXB = null;
     private String notificationDescription = null;
-    private PageResult requestedAssets;
+    private List<AssetResponse> requestedAssets;
 
 
     @ParameterType("TRACE_X_A|TRACE_X_B")
@@ -210,16 +206,6 @@ public class TraceabilityTestStepDefinition {
 
     @Then("I check, if only assets with {string} are responded")
     public void iCheckIfOnlyAssetsWithOwnerFilterAreResponded(String ownerFilter) {
-        requestedAssets.content().forEach(asset -> {
-            ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.registerModule(new JavaTimeModule());
-            try {
-                System.out.println(objectMapper.writeValueAsString(asset).toString());
-                AssetResponse assetResponse = objectMapper.readValue(objectMapper.writeValueAsString(asset), AssetResponse.class);
-                assertThat(ownerFilter).isEqualTo(assetResponse.getOwner().toString());
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        requestedAssets.forEach(asset -> assertThat(ownerFilter).isEqualTo(asset.getOwner().toString()));
     }
 }

@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.test.tooling.rest;
 
+import assets.response.AssetResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -35,14 +36,16 @@ import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.test.tooling.rest.response.PageResult;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
 
 import java.time.Instant;
 import java.util.List;
 
-import static com.fasterxml.jackson.databind.DeserializationFeature.*;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES;
+import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
+import static com.fasterxml.jackson.databind.DeserializationFeature.READ_ENUMS_USING_TO_STRING;
+import static com.fasterxml.jackson.databind.DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
@@ -204,7 +207,7 @@ public class RestProvider {
         return builder.build();
     }
 
-    public PageResult getAssets(String ownerFilter) {
+    public List<AssetResponse> getAssets(String ownerFilter) {
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
@@ -212,6 +215,8 @@ public class RestProvider {
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
-                .body().as(PageResult.class);
+                .body()
+                .jsonPath()
+                .getList("pageResult.content", AssetResponse.class);
     }
 }
