@@ -33,7 +33,7 @@ end note
 
 
 class Relation {
-       *   childCatenaXId : String
+       *   id : String
        idShort : String
 }
 
