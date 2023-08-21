@@ -1,5 +1,18 @@
 # Architecture documentation (arc42)
 
+### Notice
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+* SPDX-License-Identifier: Apache-2.0
+* Licence Path: <https://creativecommons.org/licenses/by/4.0/legalcode>
+* Copyright (c) 2021,2022,2023 Contributors to the Eclipse Foundation
+* Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+* Copyright (c) 2022 ISTOS GmbH
+* Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+* Copyright (c) 2022,2023 BOSCH AG
+* Source URL: <https://github.com/eclipse-tractusx/traceability-foss>
+
 ## Introduction and goals
 
 This chapter gives you an overview about the goals of the service,
