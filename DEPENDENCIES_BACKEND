@@ -171,7 +171,7 @@ maven/mavencentral/org.springframework.boot/spring-boot-starter-logging/3.1.2, A
 maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-client/3.1.2, Apache-2.0, approved, #8806
 maven/mavencentral/org.springframework.boot/spring-boot-starter-oauth2-resource-server/3.1.2, Apache-2.0, approved, #8804
 maven/mavencentral/org.springframework.boot/spring-boot-starter-security/3.1.2, Apache-2.0, approved, #9337
-maven/mavencentral/org.springframework.boot/spring-boot-starter-thymeleaf/3.1.2, , restricted, clearlydefined
+maven/mavencentral/org.springframework.boot/spring-boot-starter-thymeleaf/3.1.2, Apache-2.0, approved, #10092
 maven/mavencentral/org.springframework.boot/spring-boot-starter-tomcat/3.1.2, Apache-2.0, approved, #9351
 maven/mavencentral/org.springframework.boot/spring-boot-starter-validation/3.1.2, Apache-2.0, approved, #9335
 maven/mavencentral/org.springframework.boot/spring-boot-starter-web/3.1.2, Apache-2.0, approved, #9347
