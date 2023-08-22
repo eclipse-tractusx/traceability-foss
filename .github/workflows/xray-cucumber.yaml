@@ -79,7 +79,7 @@ jobs:
         working-directory: tx-cucumber-tests
         run: |
           unzip -o features.zip -d src/test/resources/features
-          mvn --batch-mode clean install  -D"cucumber.filter.tags"="not @Ignore and @INTEGRATION_TEST"
+          mvn -pl tx-models,tx-cucumber-tests --batch-mode clean install  -D"cucumber.filter.tags"="not @Ignore and @INTEGRATION_TEST"
 
       - name: Submit results to Xray
         if: ${{ always() && steps.download.outputs.http_response == '200' }}
