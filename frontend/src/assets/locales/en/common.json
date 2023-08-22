@@ -130,14 +130,14 @@
   "requestAlert": {
     "headline": "Create quality alert",
     "textAreaDescription": "Add a description about the alert.",
-    "success_one": "You queued an alert for {{count}} Part",
-    "success_other": "You queued an alert for {{count}} Parts"
+    "success_one": "You queued an alert for {{count}} part",
+    "success_other": "You queued an alert for {{count}} parts"
   },
   "requestInvestigations": {
     "headline": "Request quality investigation",
     "textAreaDescription": "Add a description about the investigation.",
-    "success_one": "You queued an investigation for {{count}} Part",
-    "success_other": "You queued an investigation for {{count}} Parts"
+    "success_one": "You queued an investigation for {{count}} part",
+    "success_other": "You queued an investigation for {{count}} parts"
   },
   "requestNotification": {
     "partDescription": "You selected the following parts:",
