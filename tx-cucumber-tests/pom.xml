@@ -10,7 +10,6 @@
         <relativePath>../tx-parent-spring-boot/pom.xml</relativePath>
     </parent>
 
-    <groupId>org.eclipse.tractusx.tracex</groupId>
     <artifactId>tx-cucumber-tests</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
