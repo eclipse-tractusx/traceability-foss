@@ -82,6 +82,7 @@
         <org-snakeyaml.version>2.0</org-snakeyaml.version>
         <jackson.version>2.15.1</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
+        <awaitility.version>3.0.0</awaitility.version>
         <!-- Sonar related properties -->
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>

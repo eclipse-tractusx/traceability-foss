@@ -31,6 +31,7 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import lombok.Getter;
 import org.apache.http.HttpStatus;
+import org.awaitility.Duration;
 import org.eclipse.tractusx.traceability.test.tooling.EnvVariablesResolver;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.StartQualityNotificationRequest;
@@ -38,9 +39,11 @@ import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQuality
 import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
+import org.hamcrest.Matchers;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES;
 import static com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES;
@@ -48,6 +51,7 @@ import static com.fasterxml.jackson.databind.DeserializationFeature.READ_ENUMS_U
 import static com.fasterxml.jackson.databind.DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE;
 import static com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS;
 import static io.restassured.RestAssured.given;
+import static org.awaitility.Awaitility.await;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_B;
 
@@ -96,11 +100,9 @@ public class RestProvider {
                 .targetDate(targetDate)
                 .severity(severity)
                 .build();
-
         return given().log().body()
                 .spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
-
                 .body(requestBody)
                 .when()
                 .post("/api/investigations")
@@ -108,7 +110,6 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_CREATED)
                 .extract()
                 .as(QualityNotificationIdResponse.class);
-
 
     }
 
@@ -186,14 +187,18 @@ public class RestProvider {
     }
 
     public QualityNotificationResponse getInvestigation(Long investigationId) {
-        return given().spec(getRequestSpecification())
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/investigations/" + investigationId)
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .extract()
-                .body().as(QualityNotificationResponse.class);
+        return await()
+                .atMost(Duration.ONE_MINUTE)
+                .pollInterval(1, TimeUnit.SECONDS)
+                .until(() -> given().spec(getRequestSpecification())
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .get("/api/investigations/" + investigationId)
+                        .then()
+                        .statusCode(HttpStatus.SC_OK)
+                        .extract()
+                        .body().as(QualityNotificationResponse.class), Matchers.notNullValue()
+                );
     }
 
 
