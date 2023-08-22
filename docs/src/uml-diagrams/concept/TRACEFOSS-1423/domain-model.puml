@@ -16,7 +16,12 @@ abstract Asset {
         idShort : String
         van : String
 
-        detailSemanticModels : List<DetailSemanticModel>
+        manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
+        nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
+        classification : String /' partTypeInformation.classification '/
+        businessPartner : String /' BusinessPartner '/
+
+        detailSemanticModels : List<DetailAspectModel>
 }
 
 note left
@@ -24,11 +29,11 @@ note left
 end note
 
 
-class DetailSemanticModel {
-    semanticDataModelType : SemanticDataModelType
+abstract DetailAspectModel {
+    detailSemanticDataModelType : DetailSemanticDataModelType
 }
 note left
-    DetailSemanticModel contains detail semantic models
+    DetailAspectModel contains detail semantic models
 end note
 
 
@@ -41,27 +46,23 @@ enum SemanticDataModelType {
     BATCH,
     SERIALPART,
     JUSTINSEQUENCEPART,
-    TRACTIONBATTERYCODE,
-    PARTASPLANNED,
-    PARTSITEINFORMATIONASPLANNED
+    PARTASPLANNED
 }
 
+
+enum DetailSemanticDataModelType {
+    TRACTIONBATTERYCODE,
+    PARTSITEINFORMATIONASPLANNED
+}
 
 class AsBuiltAspectModel {
     partId : String /' BatchID ,  jisNumber , partInstanceID'/
 
-    manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
-    nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
-    classification : String /' partTypeInformation.classification '/
-    businessPartner : String /' BusinessPartner '/
-
+    /' specific customer attribute for asBuilt '/
     customerPartId : String
     nameAtCustomer : String
     manufacturingCountry : String (iso-3)
     manufacturingDate : Instant
-
-    tractionBatteryCode : TractionBatteryCode
-
 }
 
 note left
@@ -75,18 +76,12 @@ class TractionBatteryCode {
     subComponents : List<TractionBatteryCode>
 }
 
-class PartAsPlanned {
-    manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
-    nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
-    classification : String /' partTypeInformation.classification '/
-    businessPartner : String /' BusinessPartner '/
+class  AsPlannedAspectModel { /' PartAsPlanned '/
 /'
     1.0.0
 '/
     validityPeriodFrom : Instance
     validityPeriodTo: Instance
-
-    partSiteInformationAsPlanned : PartSiteInformationAsPlanned
 }
 
 class PartSiteInformationAsPlanned {
@@ -101,12 +96,13 @@ class PartSiteInformationAsPlanned {
 
 
 SemanticDataModelType <-- Asset
+DetailSemanticDataModelType <-- DetailAspectModel
 Asset <|.. AsBuiltAspectModel
-Asset <|.. PartAsPlanned
+Asset <|.. AsPlannedAspectModel
 
 Asset }o-- Relation : childRelations
 Asset }o--  Relation : parentRelations
-Asset }o- DetailSemanticModel : detailSemanticModels
-DetailSemanticModel  <|.. TractionBatteryCode
-DetailSemanticModel  <|..  PartSiteInformationAsPlanned
+Asset }o- DetailAspectModel : detailAspectModels
+DetailAspectModel  <|.. TractionBatteryCode
+DetailAspectModel  <|..  PartSiteInformationAsPlanned
 @enduml
