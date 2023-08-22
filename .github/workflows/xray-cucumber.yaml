@@ -78,7 +78,7 @@ jobs:
           E2E_TXB_HOST: ${{ secrets.E2E_TXB_HOST }}
         #working-directory: tx-cucumber-tests
         run: |
-          unzip -o features.zip -d tx-cucumber-tests/src/test/resources/features
+          unzip -o tx-cucumber-tests/features.zip -d tx-cucumber-tests/src/test/resources/features
           mvn -pl tx-models,tx-cucumber-tests --batch-mode clean install  -D"cucumber.filter.tags"="not @Ignore and @INTEGRATION_TEST"
 
       - name: Submit results to Xray
