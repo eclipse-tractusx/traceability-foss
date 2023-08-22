@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
 
 import assets.response.DescriptionsResponse;
+import org.eclipse.tractusx.traceability.assets.application.rest.mapper.AssetResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +37,7 @@ class DescriptionsResponseTest {
         final Descriptions response = new Descriptions(id, shortId);
 
         // when
-        final DescriptionsResponse result = DescriptionsResponse.from(response);
+        final DescriptionsResponse result = AssetResponseMapper.from(response);
 
         // then
         assertThat(result).usingRecursiveComparison()
