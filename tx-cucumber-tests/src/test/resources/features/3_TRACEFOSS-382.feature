@@ -34,26 +34,26 @@ Feature: Create Request for quality investigation / store in queue
   @TRACEFOSS-1652 @TRACEFOSS-1101 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of several parts in quality investigation
     When I am logged into TRACE_X_A application
-    And I create quality investigation with "two" parts
+    And I create quality investigation with two parts
       | "severity"    | "MINOR"                           |
       | "description" | "Testing severity TRACEFOSS-1652" |
     Then I check, if quality investigation has proper values
-      | "description" | "Testing severity TRACEFOSS-1652" |
-      | "status"      | "CREATED"                         |
-      | "assetIds"    | "two"                             |
+      | "description"  | "Testing severity TRACEFOSS-1652" |
+      | "status"       | "CREATED"                         |
+      | "assetIdCount" | "2"                               |
     When I approve quality investigation
     Then I check, if quality investigation has proper values
       | "status" | "SENT" |
     When I am logged into TRACE_X_B application
     Then I check, if quality investigation has been received
     Then I check, if quality investigation has proper values
-      | "description" | "Testing severity TRACEFOSS-1652" |
-      | "status"      | "RECEIVED"                        |
-      | "assetIds"    | "two"                             |
+      | "description"  | "Testing severity TRACEFOSS-1652" |
+      | "status"       | "RECEIVED"                        |
+      | "assetIdCount" | "2"                               |
     When I acknowledge quality investigation
     Then I check, if quality investigation has proper values
       | "status" | "ACKNOWLEDGED" |
     When I am logged into TRACE_X_A application
     Then I check, if quality investigation has proper values
-      | "status"   | "ACKNOWLEDGED" |
-      | "assetIds" | "two"          |
+      | "status"       | "ACKNOWLEDGED" |
+      | "assetIdCount" | "2"            |
