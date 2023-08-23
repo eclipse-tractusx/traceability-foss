@@ -84,7 +84,7 @@ SPDX-License-Identifier: Apache-2.0
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <swagger-annotation.version>1.6.10</swagger-annotation.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <commons-io.version>2.11.0</commons-io.version>
+        <commons-io.version>2.13.0</commons-io.version>
         <jose4j.version>0.9.3</jose4j.version>
         <restito.version>1.1.0</restito.version>
         <testcontainer-postgresql.version>1.17.6</testcontainer-postgresql.version>
