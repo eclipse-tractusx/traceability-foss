@@ -295,9 +295,9 @@ backend:
     baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search
 
   irs:
-    baseUrl: "https://replace.me" # https://<irs-helm.ingress.host>
+    baseUrl: "https://replace.me"  # https://<irs-helm.ingress.host>
   registry:
-    urlWithPath: "https://replace.me" #digitalTwinRegistry /semantics/registry/api/v3.0
+    urlWithPath: "https://replace.me"  # digitalTwinRegistry /semantics/registry/api/v3.0
   portal:
     baseUrl: "https://replace.me"
 
