@@ -18,8 +18,18 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.rest.mapper;
 
-import assets.response.*;
-import org.eclipse.tractusx.traceability.assets.domain.model.*;
+import assets.response.AssetResponse;
+import assets.response.DescriptionsResponse;
+import assets.response.OwnerResponse;
+import assets.response.QualityTypeResponse;
+import assets.response.SemanticDataModelResponse;
+import assets.response.SemanticModelResponse;
+import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 
 import java.util.List;
