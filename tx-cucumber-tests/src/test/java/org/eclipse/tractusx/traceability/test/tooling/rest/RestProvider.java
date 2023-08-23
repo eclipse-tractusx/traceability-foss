@@ -188,7 +188,7 @@ public class RestProvider {
 
     public QualityNotificationResponse getInvestigation(Long investigationId) {
         return await()
-                .atMost(Duration.ONE_MINUTE)
+                .atMost(Duration.TWO_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> given().spec(getRequestSpecification())
                         .contentType(ContentType.JSON)

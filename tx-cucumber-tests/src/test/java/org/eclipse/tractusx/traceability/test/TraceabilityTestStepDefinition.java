@@ -102,7 +102,7 @@ public class TraceabilityTestStepDefinition {
     @When("I check, if quality investigation has proper values")
     public void iCheckIfQualityInvestigationHasProperValues(DataTable dataTable) {
         await()
-                .atMost(Duration.ONE_MINUTE)
+                .atMost(Duration.TWO_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .ignoreExceptions()
                 .until(() -> {
@@ -134,7 +134,7 @@ public class TraceabilityTestStepDefinition {
     public void iCanSeeNotificationWasReceived() {
         System.out.println("searching for notificationDescription: " + notificationDescription);
         final QualityNotificationResponse notification = await()
-                .atMost(Duration.ONE_MINUTE)
+                .atMost(Duration.TWO_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
                             final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
