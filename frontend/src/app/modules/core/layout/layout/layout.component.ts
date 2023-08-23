@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, Renderer2, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-layout',
@@ -27,4 +27,17 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class LayoutComponent {}
+export class LayoutComponent {
+  constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
+
+  public ngOnInit() {
+    /**
+     * This Block positions the toast component to the start of the header breadcrumb component (vertical top distance)
+     * so that on every screen size the position stays the same (not relative)
+     */
+    const headerBreadCrumbRef = this.elementRef.nativeElement.querySelector('.header--breadcrumb-container');
+    const toastLayoutRef = this.elementRef.nativeElement.querySelector('.layout-toast-component');
+    const elementTopDistance = headerBreadCrumbRef.getBoundingClientRect().top;
+    this.renderer.setStyle(toastLayoutRef, 'top',`${elementTopDistance}px`)
+  }
+}
