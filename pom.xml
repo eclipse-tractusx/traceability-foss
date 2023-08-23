@@ -47,7 +47,7 @@ SPDX-License-Identifier: Apache-2.0
         <start-class>org.eclipse.tractusx.traceability.TraceabilityApplication</start-class>
 
         <!-- versions for Maven plugin -->
-        <ascii-doctor.maven.plugin.version>2.2.3</ascii-doctor.maven.plugin.version>
+        <ascii-doctor.maven.plugin.version>2.2.4</ascii-doctor.maven.plugin.version>
         <checkstyle-plugin.version>3.2.1</checkstyle-plugin.version>
         <compiler-plugin.version>3.10.1</compiler-plugin.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
