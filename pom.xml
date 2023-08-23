@@ -97,7 +97,7 @@ SPDX-License-Identifier: Apache-2.0
         <lombok.version>1.18.28</lombok.version>
         <json-unit-assertj.version>2.38.0</json-unit-assertj.version>
         <cucumber.version>7.12.1</cucumber.version>
-        <org-snakeyaml.version>2.0</org-snakeyaml.version>
+        <org-snakeyaml.version>2.1</org-snakeyaml.version>
         <jackson.version>2.15.1</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
         <!-- Sonar related properties -->
