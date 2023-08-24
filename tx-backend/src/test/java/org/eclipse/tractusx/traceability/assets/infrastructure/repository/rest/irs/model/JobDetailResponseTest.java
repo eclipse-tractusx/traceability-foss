@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.val;
 import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
@@ -82,6 +83,27 @@ class JobDetailResponseTest {
                 .containsEntry("BPNL00000003AZQP", "UNKNOWN_MANUFACTURER")
                 .containsEntry("BPNL50096894aNXY", "UNKNOWN_MANUFACTURER")
                 .containsEntry("BPNL00000003CML1", "TEST_BPN_DFT_1");
+    }
+
+    @Test
+    void testAssetConverterBatch_v2_0_0() throws IOException {
+        // Given
+        ObjectMapper mapper = new ObjectMapper()
+                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_job_response_batch2.0.0.json");
+
+        // when
+        JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
+
+        // then
+        assertThat(response).isNotNull();
+        val assets = response.convertAssets();
+        assertThat(assets).hasSize(2);
+        assertThat(assets).allMatch(asset ->
+                asset.getSemanticModel().getNameAtCustomer() == "--"
+                && asset.getSemanticModel().getCustomerPartId() == "--" );
     }
 
 }
