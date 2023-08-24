@@ -30,12 +30,8 @@ on:
         # by default, we use this filter: https://jira.catena-x.net/issues/?filter=11645
         default: 11645
   # or automatically by merge to main
-  push:
+  #push:
     branches: main
-    paths:
-      - 'frontend/**'
-  # or in PR
-  pull_request:
     paths:
       - 'frontend/**'
 

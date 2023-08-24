@@ -16,25 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.application.rest.mapper;
 
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+import assets.response.DashboardResponse;
+import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+public class DashboardResponseMapper {
 
-@ApiModel(description = "Owner Type")
-public enum OwnerResponse {
-    @ApiModelProperty("Supplier")
-    SUPPLIER,
-    @ApiModelProperty("Customer")
-    CUSTOMER,
-    @ApiModelProperty("Own")
-    OWN,
-    @ApiModelProperty("Unknown")
-    UNKNOWN;
-
-    public static OwnerResponse from(final Owner owner) {
-        return OwnerResponse.valueOf(owner.name());
+    public static DashboardResponse from(final Dashboard dashboard) {
+        return new DashboardResponse(
+                dashboard.myItems(),
+                dashboard.otherParts(),
+                dashboard.investigations()
+        );
     }
 }

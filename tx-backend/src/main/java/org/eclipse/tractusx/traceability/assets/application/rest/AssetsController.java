@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
+import assets.response.AssetResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,10 +33,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import lombok.RequiredArgsConstructor;
+import org.eclipse.tractusx.traceability.assets.application.rest.mapper.AssetResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.rest.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.rest.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.rest.request.UpdateAssetRequest;
-import org.eclipse.tractusx.traceability.assets.application.rest.response.AssetResponse;
 import org.eclipse.tractusx.traceability.assets.application.rest.service.AssetService;
 import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -159,7 +160,7 @@ public class AssetsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
     public PageResult<AssetResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner) {
-        return AssetResponse.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
+        return AssetResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
     }
 
     @Operation(operationId = "assetsCountryMap",
@@ -245,7 +246,7 @@ public class AssetsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
     public AssetResponse asset(@PathVariable String assetId) {
-        return AssetResponse.from(assetService.getAssetById(assetId));
+        return AssetResponseMapper.from(assetService.getAssetById(assetId));
     }
 
 
@@ -289,7 +290,7 @@ public class AssetsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
     public AssetResponse asset(@PathVariable String assetId, @PathVariable String childId) {
-        return AssetResponse.from(assetService.getAssetByChildId(assetId, childId));
+        return AssetResponseMapper.from(assetService.getAssetByChildId(assetId, childId));
     }
 
     @Operation(operationId = "updateAsset",
@@ -338,7 +339,7 @@ public class AssetsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping("/{assetId}")
     public AssetResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
-        return AssetResponse.from(
+        return AssetResponseMapper.from(
                 assetService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
         );
     }
@@ -398,7 +399,7 @@ public class AssetsController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/detail-information")
     public List<AssetResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
-        return AssetResponse.from(
+        return AssetResponseMapper.from(
                 assetService.getAssetsById(getDetailInformationRequest.assetIds())
         );
     }

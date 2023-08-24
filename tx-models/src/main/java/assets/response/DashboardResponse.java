@@ -16,29 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
-import io.swagger.annotations.ApiModel;
+package assets.response;
+
 import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
 
-@ApiModel(description = "Type of model")
-public enum SemanticDataModelResponse {
-    @ApiModelProperty("Batch")
-    BATCH,
-    @ApiModelProperty("SerialPart")
-    SERIALPART,
-    @ApiModelProperty("Unknown")
-    UNKNOWN,
-    @ApiModelProperty("PartAsPlanned")
-    PARTASPLANNED,
-    @ApiModelProperty("JustInSequence")
-    JUSTINSEQUENCE;
+public record DashboardResponse(
+        @ApiModelProperty(example = "5")
+        Long myItems,
+        @ApiModelProperty(example = "10")
+        Long otherParts,
+        @ApiModelProperty(example = "15")
+        Long investigations) {
 
-    public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
-        if (semanticDataModel == null) {
-            return SemanticDataModelResponse.UNKNOWN;
-        }
-        return SemanticDataModelResponse.valueOf(semanticDataModel.name());
-    }
 }
