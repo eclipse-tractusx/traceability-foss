@@ -68,7 +68,8 @@ public record JobDetailResponse(
 
     private static final String[] AS_BUILT_MAPPING_ASPECT_BATCH = {
             "urn:bamm:io.catenax.batch:1.0.0#Batch",
-            "urn:bamm:io.catenax.batch:1.0.2#Batch"
+            "urn:bamm:io.catenax.batch:1.0.2#Batch",
+            "urn:bamm:io.catenax.batch:2.0.0#Batch"
     };
 
     @JsonCreator
