@@ -28,7 +28,7 @@ import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingException;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.model.BpnEdcMappingNotFoundException;
 import org.eclipse.tractusx.traceability.common.request.InvalidSortException;

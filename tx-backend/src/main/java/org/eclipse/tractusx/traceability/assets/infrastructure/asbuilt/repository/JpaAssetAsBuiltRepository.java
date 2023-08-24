@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

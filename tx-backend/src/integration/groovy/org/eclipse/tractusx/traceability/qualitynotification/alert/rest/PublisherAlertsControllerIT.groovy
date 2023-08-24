@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.alert.rest
 import io.restassured.http.ContentType
 import org.apache.commons.lang3.RandomStringUtils
 import org.eclipse.tractusx.traceability.IntegrationSpecification
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset
 import org.eclipse.tractusx.traceability.common.security.JwtRole
 import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification
