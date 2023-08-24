@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -100,10 +101,11 @@ class JobDetailResponseTest {
         // then
         assertThat(response).isNotNull();
         val assets = response.convertAssets();
-        assertThat(assets).hasSize(2);
-        assertThat(assets).allMatch(asset ->
-                asset.getSemanticModel().getNameAtCustomer() == "--"
-                && asset.getSemanticModel().getCustomerPartId() == "--" );
+        assertThat(assets)
+                .hasSize(2)
+                .allMatch(asset ->
+                        Objects.equals(asset.getSemanticModel().getNameAtCustomer(), "--")
+                                && Objects.equals(asset.getSemanticModel().getCustomerPartId(), "--"));
     }
 
 }
