@@ -28,10 +28,13 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.ACCEPT_REASON;
+import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.ASSET_ID_COUNT;
 import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.CHANNEL;
 import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.CLOSE_REASON;
+import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.CREATED_BY;
 import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.DECLINE_REASON;
 import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.DESCRIPTION;
+import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.SEND_TO;
 import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.SEVERITY;
 import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.STATUS;
 import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.TARGET_DATE;
@@ -79,8 +82,29 @@ public class InvestigationValidator {
         }
 
         if (fieldsToCheck.containsKey(TARGET_DATE.getFieldName())) {
-            assertThat(investigation.getTargetDate())
-                    .isEqualTo(fieldsToCheck.get(TARGET_DATE.getFieldName()));
+            if (fieldsToCheck.get(TARGET_DATE.getFieldName()).isEmpty()) {
+                assertThat(investigation.getTargetDate())
+                        .isNull();
+
+            } else {
+                assertThat(investigation.getTargetDate())
+                        .isEqualTo(fieldsToCheck.get(TARGET_DATE.getFieldName()));
+            }
+        }
+
+        if (fieldsToCheck.containsKey(CREATED_BY.getFieldName())) {
+            assertThat(investigation.getCreatedBy())
+                    .isEqualTo(fieldsToCheck.get(CREATED_BY.getFieldName()));
+        }
+
+        if (fieldsToCheck.containsKey(SEND_TO.getFieldName())) {
+            assertThat(investigation.getSendTo())
+                    .isEqualTo(fieldsToCheck.get(SEND_TO.getFieldName()));
+        }
+
+        if (fieldsToCheck.containsKey(ASSET_ID_COUNT.getFieldName())) {
+            assertThat(investigation.getAssetIds().size())
+                    .isEqualTo(Integer.valueOf(fieldsToCheck.get(ASSET_ID_COUNT.getFieldName())));
         }
     }
 
@@ -109,6 +133,9 @@ public class InvestigationValidator {
         ACCEPT_REASON("acceptReason"),
         DECLINE_REASON("declineReason"),
         SEVERITY("severity"),
+        CREATED_BY("createdBy"),
+        SEND_TO("sendTo"),
+        ASSET_ID_COUNT("assetIdCount"),
         TARGET_DATE("targetDate");
 
         private final String fieldName;

@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+package assets.response;
 
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -26,12 +26,12 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Data
 @ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
@@ -74,48 +74,4 @@ public class AssetResponse {
     @Size(max = 255)
     private String classification;
 
-    public static AssetResponse from(final Asset asset) {
-        return AssetResponse.builder()
-                .id(asset.getId())
-                .idShort(asset.getIdShort())
-                .classification(asset.getClassification())
-                .semanticModelId(asset.getSemanticModelId())
-                .manufacturerId(asset.getManufacturerId())
-                .manufacturerName(asset.getManufacturerName())
-                .semanticModel(SemanticModelResponse.from(asset.getSemanticModel()))
-                .owner(OwnerResponse.from(asset.getOwner()))
-                .childRelations(
-                        asset.getChildRelations().stream()
-                                .map(DescriptionsResponse::from)
-                                .toList())
-                .parentRelations(
-                        asset.getParentRelations().stream()
-                                .map(DescriptionsResponse::from)
-                                .toList())
-                .underInvestigation(asset.isUnderInvestigation())
-                .activeAlert(asset.isActiveAlert())
-                .qualityType(
-                        QualityTypeResponse.from(asset.getQualityType())
-                )
-                .van(asset.getVan())
-                .semanticDataModel(SemanticDataModelResponse.from(asset.getSemanticDataModel()))
-                .build();
-    }
-
-    public static PageResult<AssetResponse> from(final PageResult<Asset> assetPageResult) {
-        return new PageResult<>(
-                assetPageResult.content().stream()
-                        .map(AssetResponse::from).toList(),
-                assetPageResult.page(),
-                assetPageResult.pageCount(),
-                assetPageResult.pageSize(),
-                assetPageResult.totalItems()
-        );
-    }
-
-    public static List<AssetResponse> from(final List<Asset> assets) {
-        return assets.stream()
-                .map(AssetResponse::from)
-                .toList();
-    }
 }

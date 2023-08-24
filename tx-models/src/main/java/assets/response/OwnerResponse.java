@@ -17,24 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.rest.response;
+package assets.response;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
 
-public record DashboardResponse(
-        @ApiModelProperty(example = "5")
-        Long myItems,
-        @ApiModelProperty(example = "10")
-        Long otherParts,
-        @ApiModelProperty(example = "15")
-        Long investigations) {
+@ApiModel(description = "Owner Type")
+public enum OwnerResponse {
+    @ApiModelProperty("Supplier")
+    SUPPLIER,
+    @ApiModelProperty("Customer")
+    CUSTOMER,
+    @ApiModelProperty("Own")
+    OWN,
+    @ApiModelProperty("Unknown")
+    UNKNOWN;
 
-    public static DashboardResponse from(final Dashboard dashboard) {
-        return new DashboardResponse(
-                dashboard.myItems(),
-                dashboard.otherParts(),
-                dashboard.investigations()
-        );
-    }
 }

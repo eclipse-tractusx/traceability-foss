@@ -21,6 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
+import assets.response.DashboardResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,7 +30,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.application.rest.response.DashboardResponse;
+import org.eclipse.tractusx.traceability.assets.application.rest.mapper.DashboardResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.rest.service.DashboardService;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,6 +85,6 @@ public class DashboardController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     public DashboardResponse dashboard() {
-        return DashboardResponse.from(dashboardService.getDashboard());
+        return DashboardResponseMapper.from(dashboardService.getDashboard());
     }
 }
