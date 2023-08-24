@@ -7,24 +7,6 @@ on:
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
-  pull_request:
-    branches: main
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.txt'
-      - 'dev/**'
-      - 'docs/**'
-      - 'tx-backend/charts/**'
-      - 'tx-backend/ci/**'
-      - 'tx-backend/collection/**'
-      - 'tx-backend/config/**'
-      - 'tx-backend/docker/**'
-      - 'tx-backend/infrastructure/**'
-      - 'tx-backend/openapi/**'
-      - 'tx-backend/scripts/**'
-      - 'frontend/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
 
 jobs:
   build:
