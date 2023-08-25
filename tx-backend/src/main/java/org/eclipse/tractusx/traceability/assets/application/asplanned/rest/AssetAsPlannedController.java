@@ -49,7 +49,7 @@ import java.util.Map;
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "Assets")
-@RequestMapping(path = "/assets", produces = "application/json", consumes = "application/json")
+@RequestMapping(path = "/assets/as-planned", produces = "application/json", consumes = "application/json")
 @RequiredArgsConstructor
 public class AssetAsPlannedController {
 
