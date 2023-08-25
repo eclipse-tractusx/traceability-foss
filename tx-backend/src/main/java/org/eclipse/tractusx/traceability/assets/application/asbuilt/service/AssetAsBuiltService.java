@@ -19,24 +19,7 @@
 package org.eclipse.tractusx.traceability.assets.application.asbuilt.service;
 
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
-import org.springframework.data.domain.Pageable;
-
-import java.util.List;
-import java.util.Map;
 
 public interface AssetAsBuiltService extends AssetBaseService {
-    AssetBase getAssetById(String assetId);
 
-    List<AssetBase> getAssetsById(List<String> assetIds);
-
-    AssetBase getAssetByChildId(String assetId, String childId);
-
-    PageResult<AssetBase> getAssets(Pageable pageable, Owner owner);
-
-    AssetBase updateQualityType(String assetId, QualityType qualityType);
 }

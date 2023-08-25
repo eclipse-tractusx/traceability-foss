@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
 import assets.response.AssetAsBuiltResponse;
+import assets.response.AssetAsPlannedResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -32,6 +33,7 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
+import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.service.AssetAsPlannedService;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
@@ -152,8 +154,8 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public PageResult<AssetAsBuiltResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
+    public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner) {
+        return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
     }
 
     @Operation(operationId = "assetsCountryMap",
@@ -238,8 +240,8 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
-    public AssetAsBuiltResponse asset(@PathVariable String assetId) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssetById(assetId));
+    public AssetAsPlannedResponse asset(@PathVariable String assetId) {
+        return AssetAsPlannedResponseMapper.from(assetService.getAssetById(assetId));
     }
 
 
@@ -282,8 +284,8 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
-    public AssetAsBuiltResponse asset(@PathVariable String assetId, @PathVariable String childId) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssetByChildId(assetId, childId));
+    public AssetAsPlannedResponse asset(@PathVariable String assetId, @PathVariable String childId) {
+        return AssetAsPlannedResponseMapper.from(assetService.getAssetByChildId(assetId, childId));
     }
 
     @Operation(operationId = "updateAsset",
@@ -331,8 +333,8 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping("/{assetId}")
-    public AssetAsBuiltResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
-        return AssetAsBuiltResponseMapper.from(
+    public AssetAsPlannedResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
+        return AssetAsPlannedResponseMapper.from(
                 assetService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
         );
     }
@@ -391,8 +393,8 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/detail-information")
-    public List<AssetAsBuiltResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
-        return AssetAsBuiltResponseMapper.from(
+    public List<AssetAsPlannedResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
+        return AssetAsPlannedResponseMapper.from(
                 assetService.getAssetsById(getDetailInformationRequest.assetIds())
         );
     }

@@ -56,7 +56,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/sync")
+                .post("/api/assets/as-built/sync")
                 .then()
                 .statusCode(200);
 
@@ -88,7 +88,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/sync")
+                .post("/api/assets/as-built/sync")
                 .then()
                 .statusCode(200);
 
@@ -117,7 +117,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/sync")
+                .post("/api/assets/as-built/sync")
                 .then()
                 .statusCode(200);
 
@@ -146,7 +146,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/sync")
+                .post("/api/assets/as-built/sync")
                 .then()
                 .statusCode(200);
 

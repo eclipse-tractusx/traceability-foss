@@ -36,7 +36,7 @@ trait EdcSupport implements RestitoProvider {
 
 	void edcWillCreateNotificationAsset() {
 		whenHttp(stubServer()).match(
-				post("/management/v2/assets"),
+				post("/management/v2/assets/"),
 				EDC_API_KEY_HEADER
 		).then(
 				status(HttpStatus.OK_200)
