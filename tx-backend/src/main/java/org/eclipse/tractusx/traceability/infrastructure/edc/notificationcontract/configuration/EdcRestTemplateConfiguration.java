@@ -22,6 +22,9 @@ package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontrac
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
+import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
+import org.eclipse.tractusx.irs.edc.client.EdcControlPlaneClient;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,6 +65,14 @@ public class EdcRestTemplateConfiguration {
     public RestTemplate edcTemplate() {
         return new RestTemplateBuilder()
                 .build();
+    }
+
+
+    @Bean
+    EDCCatalogFacade edcCatalogFacade(EdcControlPlaneClient client,
+                                      EdcConfiguration c) {
+        log.info("<BEAN CONFIG>  {}", c);
+        return new EDCCatalogFacade(client,c);
     }
 
     @Bean

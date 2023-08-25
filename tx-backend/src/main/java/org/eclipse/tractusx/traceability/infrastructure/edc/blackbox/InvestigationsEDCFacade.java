@@ -107,12 +107,17 @@ public class InvestigationsEDCFacade {
 
             log.info(":::: Find Notification contract method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
 
-            List<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItems =edcCatalogFacade.fetchCatalogItems(
-                    CatalogRequest.Builder.newInstance()
-                            .protocol(DEFAULT_PROTOCOL)
-                            .providerUrl(receiverEdcUrl)
-                            .build()
-            );
+            List<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItems = null;
+            try{
+                catalogItems =edcCatalogFacade.fetchCatalogItems(
+                        CatalogRequest.Builder.newInstance()
+                                .protocol(DEFAULT_PROTOCOL)
+                                .providerUrl(receiverEdcUrl)
+                                .build()
+                );
+            } catch (Exception e) {
+                log.error(" CATALOG REQUEST LIB", e);
+            }
 
             log.info("CATALOG ITEMS: {}", catalogItems);
             Catalog catalog = edcService.getCatalog(
