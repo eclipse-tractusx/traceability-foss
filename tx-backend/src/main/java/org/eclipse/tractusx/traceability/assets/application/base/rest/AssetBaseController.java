@@ -43,6 +43,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +57,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AssetBaseController {
 
+    @Qualifier("assetBaseServiceImpl")
     private final AssetBaseService assetBaseService;
 
     @Operation(operationId = "sync",
