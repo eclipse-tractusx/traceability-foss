@@ -130,6 +130,7 @@ The OAuth2, Vault configuration / secrets depend on your setup and might need to
 ### Helm configuration Trace-X Backend (values.yaml)
 
 ```yaml
+                  operator: DoesNotExist
             topologyKey: kubernetes.io/hostname
 
   ingress:
@@ -161,7 +162,8 @@ backend:
   # Default values for k8s-helm-example.
   # This is a YAML-formatted file.
   # Declare variables to be passed into your templates.
-
+  nameOverride: "tx-backend"
+  fullnameOverride: "tx-backend"
   replicaCount: 1
 
   image:
@@ -200,8 +202,6 @@ backend:
 
   podAnnotations: {}
 
-  nameOverride: "traceability-foss-backend"
-  fullnameOverride: "traceability-foss-backend"
 
   podSecurityContext:
     runAsUser: 10000
@@ -270,9 +270,6 @@ backend:
     timeoutSeconds: 1
 
   ingress:
-    enabled: false
-    className: ""
-    annotations: {}
     hosts:
       - "<https://replace.me">
     tls:
@@ -285,10 +282,10 @@ backend:
 
   traceability:
     bpn: "CHANGEME"  # <traceability.bpn>
-    url: ""  # <traceability.url>
+    url: ""  # backend url example: https://<backend.ingress.hosts>
 
   datasource:
-    url: jdbc:postgresql://traceability-foss-backend-postgresql:5432/trace
+    url: jdbc:postgresql://tx-backend-postgresql:5432/trace
     username: "traceuser"
     password: "CHANGEME"  # <datasource.password>
 
@@ -297,36 +294,22 @@ backend:
     clientSecret: "CHANGEME"  # <oauth2.clientSecret>
     clientTokenUri: "<https://changeme.com">  # <oauth2.clientTokenUri>
     jwkSetUri: "<https://changeme.com">  # <oauth2.jwkSetUri>
-    resourceClient: "CHANGEME"  # <oauth2.resourceClient>
+    resourceClient: "CHANGEME"  # application id created on portal
 
   edc:
-    apiKey: ""  # <edc.apiKey>
-    providerUrl: ""  # <edc.providerUrl>
-    dataplane:
-      url: "<https://replace.me">
-    controlplane:
-      url: "<https://example.com">
-
-    edc-dataplane:
-      ingresses:
-        - enabled: false
-          annotations: {}
-          className: ""
-          tls:
-            - hosts:
-                - "<https://replace.me">
-              secretName: tls-secret
-    callbackUrl: "<https://replace.me">
-    callbackUrlEdcClient: "<https://replace.me">
-    dataEndpointUrl: "<https://replace.me">
+    apiKey: "CHANGEME"  # <tractusx-connector.controlplane.endpoints.management.authKey>
+    providerUrl: "CHANGEME"  #  example: https://<tractusx-connector.controlplane.ingress.hosts>
+    callbackUrl: "CHANGEME"  # example: http://<irs-helm.nameOverride>:8181/internal/endpoint-data-reference
+    callbackUrlEdcClient: "CHANGEME"  # example: https://<backend.ingress.hosts>/api/internal/endpoint-data-reference
+    dataEndpointUrl: "CHANGEME"  # example: https://<tractusx-connector.controlplane.ingress.hosts>/management"
 
   discoveryfinder:
-    baseUrl: "<https://replace.me">
+    baseUrl: "CHANGEME"  # example: https://discoveryfinder.net/discoveryfinder/api/administration/connectors/discovery/search
 
   irs:
-    baseUrl: "<https://replace.me">
+    baseUrl: "<https://replace.me">  # https://<irs-helm.ingress.host>
   registry:
-    urlWithPath: "<https://replace.me">
+    urlWithPath: "<https://replace.me">  # digitalTwinRegistry /semantics/registry/api/v3.0
   portal:
     baseUrl: "<https://replace.me">
 
@@ -358,8 +341,8 @@ pgadmin4:
 postgresql:
   enabled: true
 
-  nameOverride: "traceability-foss-backend-postgresql"
-  fullnameOverride: "traceability-foss-backend-postgresql"
+  nameOverride: "tx-backend-postgresql"
+  fullnameOverride: "tx-backend-postgresql"
 
   auth:
     postgresPassword: "CHANGEME"
