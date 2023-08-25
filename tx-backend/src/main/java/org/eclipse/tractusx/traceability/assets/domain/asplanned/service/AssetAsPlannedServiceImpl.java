@@ -21,14 +21,12 @@ package org.eclipse.tractusx.traceability.assets.domain.asplanned.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

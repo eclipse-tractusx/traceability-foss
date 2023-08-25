@@ -27,7 +27,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
