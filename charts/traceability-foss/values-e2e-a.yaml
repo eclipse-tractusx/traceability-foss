@@ -35,7 +35,7 @@ frontend:
     CATENAX_PORTAL_KEYCLOAK_URL: '<path:traceability-foss/data/e2e/a/frontend#catenax_portal_keycloak_url>'
     CATENAX_PORTAL_BACKEND_DOMAIN: '<path:traceability-foss/data/e2e/a/frontend#catenax_portal_backend_domain>'
     CATENAX_PORTAL_URL: '<path:traceability-foss/data/e2e/a/frontend#catenax_portal_url>'
-    CATENAX_PORTAL_CLIENT_ID: "Cl17-CX-Part"
+    CATENAX_PORTAL_CLIENT_ID: '<path:traceability-foss/data/e2e/a/frontend#catenax_portal_client_id>'
 
   nameOverride: "tx-frontend-e2e-a"
   fullnameOverride: "tx-frontend-e2e-a"
