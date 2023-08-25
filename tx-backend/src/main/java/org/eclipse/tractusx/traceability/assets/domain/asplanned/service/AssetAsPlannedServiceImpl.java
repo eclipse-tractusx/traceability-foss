@@ -17,16 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.service;
+package org.eclipse.tractusx.traceability.assets.domain.asplanned.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetAsBuiltService;
+import org.eclipse.tractusx.traceability.assets.application.asplanned.service.AssetAsPlannedService;
 import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AssetAsBuiltServiceImpl implements AssetAsBuiltService {
+public class AssetAsPlannedServiceImpl implements AssetAsPlannedService {
 
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final AssetAsPlannedRepository assetAsPlannedRepository;

@@ -30,5 +30,13 @@ import java.util.List;
 import java.util.Map;
 
 public interface AssetAsBuiltService extends AssetBaseService {
+    AssetBase getAssetById(String assetId);
 
+    List<AssetBase> getAssetsById(List<String> assetIds);
+
+    AssetBase getAssetByChildId(String assetId, String childId);
+
+    PageResult<AssetBase> getAssets(Pageable pageable, Owner owner);
+
+    AssetBase updateQualityType(String assetId, QualityType qualityType);
 }
