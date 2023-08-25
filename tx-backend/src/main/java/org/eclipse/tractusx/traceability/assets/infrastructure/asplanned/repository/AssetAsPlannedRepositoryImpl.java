@@ -20,10 +20,10 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.AssetAsPlannedRepository;
-import org.eclipse.tractusx.traceability.assets.domain.exception.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;

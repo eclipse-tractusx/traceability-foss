@@ -20,7 +20,7 @@ package org.eclipse.tractusx.traceability.common.support
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse
 
 class AssetTestData {
