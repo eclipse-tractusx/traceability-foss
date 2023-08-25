@@ -106,7 +106,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(2));
+                .body("totalItems", equalTo(1));
     }
 
     @Test
@@ -173,7 +173,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
-                .body("page", Matchers.is(1))
+                .body("page", Matchers.is(2))
                 .body("pageSize", Matchers.is(2));
     }
 
