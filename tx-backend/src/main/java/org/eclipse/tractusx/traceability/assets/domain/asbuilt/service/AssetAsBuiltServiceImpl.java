@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.asbuilt.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
@@ -36,8 +37,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
 
-    @Qualifier("assetAsBuiltRepository")
-    private final AssetRepository assetAsBuiltRepository;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
 
     private final IrsRepository irsRepository;
 

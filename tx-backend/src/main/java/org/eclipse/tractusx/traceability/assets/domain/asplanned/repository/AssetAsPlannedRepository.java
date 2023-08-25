@@ -20,9 +20,8 @@
 package org.eclipse.tractusx.traceability.assets.domain.asplanned.repository;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
-import org.springframework.stereotype.Component;
 
-@Component("assetAsPlannedRepository")
+
 public interface AssetAsPlannedRepository extends AssetRepository {
 
 }
