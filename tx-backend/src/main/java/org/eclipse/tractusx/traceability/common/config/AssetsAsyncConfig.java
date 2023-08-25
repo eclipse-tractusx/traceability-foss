@@ -29,7 +29,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 public class AssetsAsyncConfig {
 
 	public static final String SYNCHRONIZE_ASSETS_EXECUTOR = "synchronize-assets-executor";
-	public static final String LOAD_SHELL_DESCRIPTORS_EXECUTOR = "load-shell-descriptors-executor";
+    	public static final String LOAD_SHELL_DESCRIPTORS_EXECUTOR = "load-shell-descriptors-executor";
 	public static final String UPDATE_NOTIFICATION_EXECUTOR = "update-notification-executor";
 
 	@Bean(name = SYNCHRONIZE_ASSETS_EXECUTOR)

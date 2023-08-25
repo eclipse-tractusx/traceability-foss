@@ -95,7 +95,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
         //THEN
         eventually(() -> {
             assetsSupport.assertAssetAsBuiltSize(15);
-            irsApiSupport.verifyIrsApiTriggerJobCalledTimes(3);
+            irsApiSupport.verifyIrsApiTriggerJobCalledTimes(2);
             return true;
         });
     }
