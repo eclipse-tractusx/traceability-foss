@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.asbuilt.request;
+package org.eclipse.tractusx.traceability.assets.application.base.request;
 
 
 import assets.response.QualityTypeResponse;

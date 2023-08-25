@@ -50,7 +50,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AssetServiceImpl implements AssetService {
+public class AssetServiceImpl implements AssetService<AssetAsBuilt> {
 
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final AssetAsPlannedRepository assetAsPlannedRepository;
