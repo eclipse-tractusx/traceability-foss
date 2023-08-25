@@ -30,6 +30,7 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.Catalog;
+import org.eclipse.edc.catalog.spi.CatalogRequest;
 import org.eclipse.edc.catalog.spi.Dataset;
 import org.eclipse.edc.policy.model.AtomicConstraint;
 import org.eclipse.edc.policy.model.Constraint;
@@ -70,6 +71,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC_ID;
+import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest.DEFAULT_PROTOCOL;
 
 @Slf4j
 @Component
@@ -105,18 +107,26 @@ public class InvestigationsEDCFacade {
 
             log.info(":::: Find Notification contract method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
 
+            List<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItems =edcCatalogFacade.fetchCatalogItems(
+                    CatalogRequest.Builder.newInstance()
+                            .protocol(DEFAULT_PROTOCOL)
+                            .providerUrl(receiverEdcUrl)
+                            .build()
+            );
 
+            log.info("CATALOG ITEMS: {}", catalogItems);
             Catalog catalog = edcService.getCatalog(
                     senderEdcUrl,
                     receiverEdcUrl + edcProperties.getIdsPath(),
                     header
             );
+            log.info(" CATALOG FOR NOTIFICATION : {}", catalog);
 
             if (catalog.getDatasets().isEmpty()) {
                 log.info("No Dataset in catalog found");
                 throw new BadRequestException("The dataset from the catalog is empty.");
             }
-
+//
             Optional<Dataset> filteredDataset = catalog.getDatasets().stream()
                     .filter(dataset -> isQualityNotificationOffer(notification, dataset))
                     .findFirst()
@@ -144,7 +154,7 @@ public class InvestigationsEDCFacade {
                 return catalogItem.build();
             }).toList();
 
-            Optional<CatalogItem> catalogItem = items.stream().findFirst();
+            Optional<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItem = catalogItems.stream().findFirst();
 
             if (catalogItem.isEmpty()) {
                 log.info("No Catalog Item in catalog found");
@@ -204,7 +214,7 @@ public class InvestigationsEDCFacade {
     }
 
     private TransferProcessRequest createTransferProcessRequest(final String providerConnectorUrl,
-                                                                final CatalogItem catalogItem,
+                                                                final org.eclipse.tractusx.irs.edc.client.model.CatalogItem catalogItem,
                                                                 final String negotiationId) {
         final var destination = DataAddress.Builder.newInstance()
                 .type(TransferProcessDataDestination.DEFAULT_TYPE)

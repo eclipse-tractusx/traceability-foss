@@ -25,8 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+
 import org.eclipse.edc.catalog.spi.Catalog;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
+import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformerTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractOfferDescription;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationRequest;
@@ -58,6 +59,7 @@ public class EdcService {
     private final EdcProperties edcProperties;
     private final EdcTransformerTraceX edcTransformer;
 
+    // TODO: Remove
     /**
      * Rest call to get all contract offer and filter notification type contract
      */
