@@ -69,12 +69,15 @@ public class EdcCallbackControllerTraceX {
         if (endpointDataReferenceCache.containsAgreementId(contractAgreementId)) {
             log.info("Contract {} found! Processing...", contractAgreementId);
             endpointDataReferenceCache.put(contractAgreementId, dataReference);
-        } else {
+        }
+        // todo remove else block
+        else {
             log.info("Contract {} not found, forwarding message...", contractAgreementId);
             callOtherServices(dataReference);
         }
     }
 
+    // TODO remove this
     private void callOtherServices(EndpointDataReference dataReference) {
         edcProperties.getCallbackUrls().forEach(callbackUrl -> {
             log.info("Calling callback endpoint: {}", callbackUrl);

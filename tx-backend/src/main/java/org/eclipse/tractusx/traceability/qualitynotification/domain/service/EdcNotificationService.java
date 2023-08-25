@@ -66,8 +66,6 @@ public class EdcNotificationService {
             emptyIfNull(discovery.getReceiverUrls())
                     .forEach(receiverUrl -> handleSendingInvestigation(notification, senderEdcUrl, receiverUrl));
         }
-
-
     }
 
     private void handleSendingAlert(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {

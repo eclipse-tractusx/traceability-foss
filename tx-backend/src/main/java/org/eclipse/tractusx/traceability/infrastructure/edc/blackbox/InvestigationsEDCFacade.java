@@ -38,6 +38,9 @@ import org.eclipse.edc.policy.model.OrConstraint;
 import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.spi.types.domain.DataAddress;
+import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
+import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
+import org.eclipse.tractusx.irs.edc.client.model.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
@@ -85,6 +88,10 @@ public class InvestigationsEDCFacade {
 
     private final EdcProperties edcProperties;
 
+    private final EDCCatalogFacade edcCatalogFacade;
+
+    private final ContractNegotiationService contractNegotiationService;
+
     public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
     public static final String ASSET_VALUE_QUALITY_ALERT = "qualityalert";
     private static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
@@ -97,6 +104,8 @@ public class InvestigationsEDCFacade {
             notification.setEdcUrl(receiverEdcUrl);
 
             log.info(":::: Find Notification contract method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
+
+
             Catalog catalog = edcService.getCatalog(
                     senderEdcUrl,
                     receiverEdcUrl + edcProperties.getIdsPath(),
@@ -142,28 +151,33 @@ public class InvestigationsEDCFacade {
                 throw new NoCatalogItemException("No Catalog Item in catalog found.");
             }
 
-            final String negotiationId = edcService.initializeContractNegotiation(receiverEdcUrl, catalogItem.get(), senderEdcUrl, header);
+// TODO
+            //NegotiationResponse negotiationResponse = contractNegotiationService.negotiate(null, null);
 
-            log.info(":::: Contract Agreed method[startEDCTransfer] agreementId :{}", negotiationId);
+          //  String contractAgreementId = negotiationResponse.getContractAgreementId();
+            final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl, catalogItem.get(), senderEdcUrl, header);
 
-            endpointDataReferenceCache.storeAgreementId(negotiationId);
+            log.info(":::: Contract Agreed method[startEDCTransfer] agreementId :{}", edcContractAgreementId);
 
-            if (StringUtils.hasLength(negotiationId)) {
-                notification.setContractAgreementId(negotiationId);
+            // TODO remove this because we do not store agreement Id we extract it from a token in EdcCallbackControllerTraceX.java
+            endpointDataReferenceCache.storeAgreementId(edcContractAgreementId);
+
+            if (StringUtils.hasLength(edcContractAgreementId)) {
+                notification.setContractAgreementId(edcContractAgreementId);
             }
 
-            EndpointDataReference dataReference = endpointDataReferenceCache.get(negotiationId);
+            EndpointDataReference dataReference = endpointDataReferenceCache.get(edcContractAgreementId);
             boolean validDataReference = dataReference != null && InMemoryEndpointDataReferenceCache.endpointDataRefTokenExpired(dataReference);
             if (!validDataReference) {
                 log.info(":::: Invalid Data Reference :::::");
                 if (dataReference != null) {
-                    endpointDataReferenceCache.remove(negotiationId);
+                    endpointDataReferenceCache.remove(edcContractAgreementId);
                 }
 
                 final TransferProcessRequest transferProcessRequest = createTransferProcessRequest(
                         receiverEdcUrl + edcProperties.getIdsPath(),
                         catalogItem.get(),
-                        negotiationId);
+                        edcContractAgreementId);
 
                 log.info(":::: initialize Transfer process with http Proxy :::::");
                 // Initiate transfer process
@@ -172,7 +186,7 @@ public class InvestigationsEDCFacade {
                         transferProcessRequest,
                         header
                 );
-                dataReference = getDataReference(negotiationId);
+                dataReference = getDataReference(edcContractAgreementId);
             }
 
             Request notificationRequest = buildNotificationRequest(notification, senderEdcUrl, dataReference);
