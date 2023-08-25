@@ -22,11 +22,10 @@ package org.eclipse.tractusx.traceability.assets.domain.asbuilt.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetAsBuiltService;
-import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
@@ -168,6 +167,7 @@ public class AssetAsBuiltServiceImpl implements AssetAsBuiltService {
                 assetsAsBuilt.pageSize() + assetsAsBuilt.pageSize(),
                 (long) mergedContent.size());
     }
+
     // TODO once asPlanned has own domain object this special pageable logic should be removed
     private Pageable halfPageable(Pageable pageable) {
         if (pageable != null) {
