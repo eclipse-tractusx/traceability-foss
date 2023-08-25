@@ -21,8 +21,8 @@ package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
 
 import assets.response.DescriptionsResponse;
-import org.eclipse.tractusx.traceability.assets.application.rest.mapper.AssetResponseMapper;
-import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +37,7 @@ class DescriptionsResponseTest {
         final Descriptions response = new Descriptions(id, shortId);
 
         // when
-        final DescriptionsResponse result = AssetResponseMapper.from(response);
+        final DescriptionsResponse result = AssetAsBuiltResponseMapper.from(response);
 
         // then
         assertThat(result).usingRecursiveComparison()

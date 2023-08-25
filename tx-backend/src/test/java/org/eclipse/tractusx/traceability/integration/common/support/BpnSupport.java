@@ -18,7 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

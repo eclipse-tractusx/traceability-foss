@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - TRG Github Action Pipeline for quality checks
 - ErrorMessage field to investigation and alerts
 - Cucumber tests for quality investigations
+- Refactored asset structure to allow new API for assets-as-planned
 
 ### Changed
 
