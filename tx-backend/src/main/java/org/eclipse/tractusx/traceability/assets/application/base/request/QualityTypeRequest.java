@@ -24,7 +24,7 @@ import assets.response.QualityTypeResponse;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 
 @ApiModel(description = "Quality types")
 public enum QualityTypeRequest {

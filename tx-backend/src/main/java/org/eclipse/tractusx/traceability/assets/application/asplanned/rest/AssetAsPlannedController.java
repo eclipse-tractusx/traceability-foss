@@ -32,11 +32,12 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
+import org.eclipse.tractusx.traceability.assets.application.asplanned.service.AssetAsPlannedService;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetService;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetAsBuiltService;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
@@ -53,7 +54,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AssetAsPlannedController {
 
-    private final AssetService assetService;
+    private final AssetAsPlannedService assetService;
 
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
@@ -63,7 +64,7 @@ public class AssetAsPlannedController {
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Authorization failed.",
+                    description = "Bad request.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),

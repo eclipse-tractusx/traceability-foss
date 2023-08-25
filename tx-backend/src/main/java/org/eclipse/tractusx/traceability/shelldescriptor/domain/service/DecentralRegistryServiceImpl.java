@@ -23,7 +23,8 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetService;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetAsBuiltService;
+import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
@@ -41,7 +42,7 @@ import java.util.List;
 public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
     private final ShellDescriptorService shellDescriptorsService;
-    private final AssetService assetService;
+    private final AssetBaseService assetService;
     private final TraceabilityProperties traceabilityProperties;
     private final DecentralRegistryRepository decentralRegistryRepository;
 

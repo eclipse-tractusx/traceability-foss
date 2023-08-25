@@ -20,7 +20,7 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class AssetTestData {
             .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, false)
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    List<Asset> readAndConvertAssetsForTests() {
+    List<AssetBase> readAndConvertAssetsForTests() {
         try {
             InputStream file = AssetTestData.class.getResourceAsStream("/data/irs_assets_v4.json");
             JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);

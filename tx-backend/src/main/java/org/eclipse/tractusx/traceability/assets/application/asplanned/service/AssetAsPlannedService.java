@@ -16,9 +16,10 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.application.asplanned.service;
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model;
+import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 
-public enum SemanticDataModel {
-    BATCH, SERIALPART, UNKNOWN, PARTASPLANNED, JUSTINSEQUENCE
+public interface AssetAsPlannedService extends AssetBaseService {
+
 }

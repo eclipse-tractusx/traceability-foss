@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.servi
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception.AlertNotFoundException;
@@ -49,7 +49,7 @@ public class AlertServiceImpl implements AlertService {
 
     private final AlertRepository alertRepository;
 
-    private final AssetServiceImpl assetService;
+    private final AssetAsBuiltServiceImpl assetService;
 
     @Override
     public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String targetBpn) {

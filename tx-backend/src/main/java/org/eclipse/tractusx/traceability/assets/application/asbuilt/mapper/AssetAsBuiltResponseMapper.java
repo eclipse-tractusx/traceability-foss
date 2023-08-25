@@ -20,14 +20,14 @@ package org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper;
 
 import assets.response.AssetAsBuiltResponse;
 import org.eclipse.tractusx.traceability.assets.application.base.mapper.AssetBaseResponseMapper;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 
 import java.util.List;
 
 public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
 
-    public static AssetAsBuiltResponse from(final Asset asset) {
+    public static AssetAsBuiltResponse from(final AssetBase asset) {
         return AssetAsBuiltResponse.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
@@ -55,7 +55,7 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
                 .build();
     }
 
-    public static PageResult<AssetAsBuiltResponse> from(final PageResult<Asset> assetPageResult) {
+    public static PageResult<AssetAsBuiltResponse> from(final PageResult<AssetBase> assetPageResult) {
         return new PageResult<>(
                 assetPageResult.content().stream()
                         .map(AssetAsBuiltResponseMapper::from).toList(),
@@ -66,7 +66,7 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
         );
     }
 
-    public static List<AssetAsBuiltResponse> from(final List<Asset> assets) {
+    public static List<AssetAsBuiltResponse> from(final List<AssetBase> assets) {
         return assets.stream()
                 .map(AssetAsBuiltResponseMapper::from)
                 .toList();

@@ -20,11 +20,11 @@
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -44,10 +44,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AssetServiceImplTest {
+class AssetAsBuiltServiceImplTest {
 
     @InjectMocks
-    private AssetServiceImpl assetService;
+    private AssetAsBuiltServiceImpl assetService;
 
     @Mock
     private IrsRepository irsRepository;
@@ -65,8 +65,8 @@ class AssetServiceImplTest {
         List<Descriptions> parentDescriptionsList = AssetTestDataFactory.provideParentRelations();
         List<Descriptions> childDescriptionList = AssetTestDataFactory.provideChildRelations();
         String globalAssetId = "123";
-        List<Asset> downwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(Collections.emptyList(), childDescriptionList));
-        List<Asset> upwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(parentDescriptionsList, Collections.emptyList()));
+        List<AssetBase> downwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(Collections.emptyList(), childDescriptionList));
+        List<AssetBase> upwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(parentDescriptionsList, Collections.emptyList()));
 
         when(irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT))
                 .thenReturn(downwardAssets);

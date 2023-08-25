@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model;
+package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
 import lombok.Builder;
 

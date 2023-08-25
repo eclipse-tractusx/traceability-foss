@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
@@ -69,7 +69,7 @@ class NotificationPublisherServiceTest {
     @Mock
     private AssetAsBuiltRepository assetRepository;
     @Mock
-    private AssetServiceImpl assetsService;
+    private AssetAsBuiltServiceImpl assetsService;
     @Mock
     private Clock clock;
     @Mock

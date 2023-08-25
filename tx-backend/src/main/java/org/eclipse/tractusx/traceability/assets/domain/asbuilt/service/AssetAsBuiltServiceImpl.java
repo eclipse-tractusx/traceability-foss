@@ -21,14 +21,15 @@ package org.eclipse.tractusx.traceability.assets.domain.asbuilt.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetService;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetAsBuiltService;
+import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -50,7 +51,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AssetServiceImpl implements AssetService{
+public class AssetAsBuiltServiceImpl implements AssetBaseService {
 
     private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final AssetAsPlannedRepository assetAsPlannedRepository;
@@ -80,15 +81,15 @@ public class AssetServiceImpl implements AssetService{
     }
 
     private void syncAssetsAsPlanned(String globalAssetId) {
-        List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
+        List<AssetBase> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
         assetAsPlannedRepository.saveAll(downwardAssets);
     }
 
     private void syncAssetsAsBuilt(String globalAssetId) {
-        List<Asset> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        List<AssetBase> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
         assetAsBuiltRepository.saveAll(downwardAssets);
 
-        List<Asset> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        List<AssetBase> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         upwardAssets.forEach(asset -> {
             if (assetAsBuiltRepository.existsById(asset.getId())) {
@@ -127,10 +128,10 @@ public class AssetServiceImpl implements AssetService{
         });
     }
 
-    public Asset updateQualityType(String assetId, QualityType qualityType) {
-        Asset foundAsset = assetAsBuiltRepository.getAssetById(assetId);
+    public AssetBase updateQualityType(String assetId, QualityType qualityType) {
+        AssetBase foundAsset = assetAsBuiltRepository.getAssetById(assetId);
         if (foundAsset == null) {
-            Asset foundAssetAsPlanned = assetAsPlannedRepository.getAssetById(assetId);
+            AssetBase foundAssetAsPlanned = assetAsPlannedRepository.getAssetById(assetId);
             foundAssetAsPlanned.setQualityType(qualityType);
             return assetAsPlannedRepository.save(foundAssetAsPlanned);
         } else {
@@ -154,12 +155,12 @@ public class AssetServiceImpl implements AssetService{
         return mergedMap;
     }
 
-    public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
+    public PageResult<AssetBase> getAssets(Pageable pageable, Owner owner) {
         Pageable halfPage = halfPageable(pageable);
-        PageResult<Asset> assetsAsPlanned = assetAsPlannedRepository.getAssets(halfPage, owner);
-        PageResult<Asset> assetsAsBuilt = assetAsBuiltRepository.getAssets(halfPage, owner);
+        PageResult<AssetBase> assetsAsPlanned = assetAsPlannedRepository.getAssets(halfPage, owner);
+        PageResult<AssetBase> assetsAsBuilt = assetAsBuiltRepository.getAssets(halfPage, owner);
 
-        List<Asset> mergedContent = new ArrayList<>(assetsAsPlanned.content());
+        List<AssetBase> mergedContent = new ArrayList<>(assetsAsPlanned.content());
         mergedContent.addAll(assetsAsBuilt.content());
         return new PageResult<>(mergedContent,
                 assetsAsBuilt.page(),
@@ -177,7 +178,7 @@ public class AssetServiceImpl implements AssetService{
         return Pageable.unpaged();
     }
 
-    public Asset getAssetById(String assetId) {
+    public AssetBase getAssetById(String assetId) {
         try {
             return assetAsBuiltRepository.getAssetById(assetId);
         } catch (AssetNotFoundException assetNotFoundException) {
@@ -185,15 +186,15 @@ public class AssetServiceImpl implements AssetService{
         }
     }
 
-    public List<Asset> getAssetsById(List<String> assetIds) {
-        List<Asset> assetAsBuiltIds = assetAsBuiltRepository.getAssetsById(assetIds);
-        List<Asset> assetAsPlannedIds = assetAsPlannedRepository.getAssetsById(assetIds);
-        List<Asset> mergedList = new ArrayList<>(assetAsBuiltIds);
+    public List<AssetBase> getAssetsById(List<String> assetIds) {
+        List<AssetBase> assetAsBuiltIds = assetAsBuiltRepository.getAssetsById(assetIds);
+        List<AssetBase> assetAsPlannedIds = assetAsPlannedRepository.getAssetsById(assetIds);
+        List<AssetBase> mergedList = new ArrayList<>(assetAsBuiltIds);
         mergedList.addAll(assetAsPlannedIds);
         return mergedList;
     }
 
-    public Asset getAssetByChildId(String assetId, String childId) {
+    public AssetBase getAssetByChildId(String assetId, String childId) {
         try {
             return assetAsBuiltRepository.getAssetByChildId(assetId, childId);
         } catch (AssetNotFoundException assetNotFoundException) {

@@ -22,7 +22,7 @@ import assets.response.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
 
 @AllArgsConstructor
 @Data

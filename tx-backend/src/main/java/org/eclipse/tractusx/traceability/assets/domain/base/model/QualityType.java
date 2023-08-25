@@ -19,36 +19,12 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model;
+package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Singular;
-import lombok.extern.slf4j.Slf4j;
-
-import java.util.List;
-
-@Slf4j
-@AllArgsConstructor
-@Data
-@Builder
-public class Asset {
-    private final String id;
-    private final String idShort;
-    private String semanticModelId;
-    private final String manufacturerId;
-    private String manufacturerName;
-    private SemanticModel semanticModel;
-    private Owner owner;
-    @Singular
-    private List<Descriptions> childRelations;
-    @Singular
-    private List<Descriptions> parentRelations;
-    private boolean activeAlert;
-    private boolean underInvestigation;
-    private QualityType qualityType;
-    private String van;
-    private SemanticDataModel semanticDataModel;
-    private String classification;
+public enum QualityType {
+    OK,
+    MINOR,
+    MAJOR,
+    CRITICAL,
+    LIFE_THREATENING;
 }

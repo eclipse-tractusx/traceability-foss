@@ -37,8 +37,8 @@ import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.Asset
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetService;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetAsBuiltService;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
@@ -61,7 +61,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AssetAsBuiltController {
 
-    private final AssetService assetService;
+    private final AssetAsBuiltService assetAsBuiltService;
 
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
@@ -108,7 +108,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/sync")
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
+        assetAsBuiltService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
     }
 
     @Operation(operationId = "assets",
@@ -160,7 +160,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
     public PageResult<AssetAsBuiltResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
+        return AssetAsBuiltResponseMapper.from(assetAsBuiltService.getAssets(OwnPageable.toPageable(pageable), owner));
     }
 
     @Operation(operationId = "assetsCountryMap",
@@ -202,7 +202,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/countries")
     public Map<String, Long> assetsCountryMap() {
-        return assetService.getAssetsCountryMap();
+        return assetAsBuiltService.getAssetsCountryMap();
     }
 
 
@@ -246,7 +246,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
     public AssetAsBuiltResponse asset(@PathVariable String assetId) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssetById(assetId));
+        return AssetAsBuiltResponseMapper.from(assetAsBuiltService.getAssetById(assetId));
     }
 
 
@@ -290,7 +290,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
     public AssetAsBuiltResponse asset(@PathVariable String assetId, @PathVariable String childId) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssetByChildId(assetId, childId));
+        return AssetAsBuiltResponseMapper.from(assetAsBuiltService.getAssetByChildId(assetId, childId));
     }
 
     @Operation(operationId = "updateAsset",
@@ -340,7 +340,7 @@ public class AssetAsBuiltController {
     @PatchMapping("/{assetId}")
     public AssetAsBuiltResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
         return AssetAsBuiltResponseMapper.from(
-                assetService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
+                assetAsBuiltService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
         );
     }
 
@@ -400,7 +400,7 @@ public class AssetAsBuiltController {
     @PostMapping("/detail-information")
     public List<AssetAsBuiltResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
         return AssetAsBuiltResponseMapper.from(
-                assetService.getAssetsById(getDetailInformationRequest.assetIds())
+                assetAsBuiltService.getAssetsById(getDetailInformationRequest.assetIds())
         );
     }
 }
