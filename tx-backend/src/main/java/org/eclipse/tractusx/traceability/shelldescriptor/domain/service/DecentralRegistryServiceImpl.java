@@ -23,14 +23,14 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.ShellDescriptorService;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.repository.DecentralRegistryRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -42,8 +42,8 @@ import java.util.List;
 public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
     private final ShellDescriptorService shellDescriptorsService;
-    @Qualifier("assetBaseServiceImpl")
-    private final AssetBaseService assetService;
+    private final AssetAsBuiltServiceImpl assetAsBuiltService;
+    private final AssetAsPlannedServiceImpl assetAsPlannedService;
     private final TraceabilityProperties traceabilityProperties;
     private final DecentralRegistryRepository decentralRegistryRepository;
 
@@ -54,7 +54,10 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         List<ShellDescriptor> updatedShellDescriptorList = shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(shellDescriptorList);
         updatedShellDescriptorList.stream()
                 .map(ShellDescriptor::getGlobalAssetId)
-                .forEach(assetService::synchronizeAssetsAsync);
+                .forEach(globalAssetId -> {
+                    assetAsPlannedService.synchronizeAssetsAsync(globalAssetId);
+                    assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
+                });
     }
 
 }
