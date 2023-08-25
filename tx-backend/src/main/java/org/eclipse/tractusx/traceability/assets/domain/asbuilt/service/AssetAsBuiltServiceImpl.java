@@ -21,185 +21,48 @@ package org.eclipse.tractusx.traceability.assets.domain.asbuilt.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetAsBuiltService;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.service.AbstractAssetBaseService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
-import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Async;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AssetAsBuiltServiceImpl implements AssetAsBuiltService {
+public class AssetAsBuiltServiceImpl extends AbstractAssetBaseService {
 
-    private final AssetAsBuiltRepository assetAsBuiltRepository;
-    private final AssetAsPlannedRepository assetAsPlannedRepository;
+    @Qualifier("assetAsBuiltRepository")
+    private final AssetRepository assetAsBuiltRepository;
+
     private final IrsRepository irsRepository;
 
-    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void synchronizeAssetsAsync(List<String> globalAssetIds) {
-        for (String globalAssetId : globalAssetIds) {
-            try {
-                synchronizeAssetsAsync(globalAssetId);
-            } catch (Exception e) {
-                log.warn("Cannot fetch assets for id: {}. Error: {}", globalAssetId, e.getMessage());
-            }
-        }
+    @Override
+    protected AssetRepository getAssetRepository() {
+        return assetAsBuiltRepository;
     }
 
-    @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
-    public void synchronizeAssetsAsync(String globalAssetId) {
-        log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
-        try {
-            syncAssetsAsBuilt(globalAssetId);
-            syncAssetsAsPlanned(globalAssetId);
-
-        } catch (Exception e) {
-            log.warn("Exception during assets synchronization for globalAssetId: {}. Message: {}.", globalAssetId, e.getMessage(), e);
-        }
+    @Override
+    protected List<String> getDownwardAspects() {
+        return Aspect.downwardAspectsForAssetsAsBuilt();
     }
 
-    private void syncAssetsAsPlanned(String globalAssetId) {
-        List<AssetBase> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
-        assetAsPlannedRepository.saveAll(downwardAssets);
+    @Override
+    protected List<String> getUpwardAspects() {
+        return Aspect.upwardAspectsForAssetsAsBuilt();
     }
 
-    private void syncAssetsAsBuilt(String globalAssetId) {
-        List<AssetBase> downwardAssets = irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-        assetAsBuiltRepository.saveAll(downwardAssets);
-
-        List<AssetBase> upwardAssets = irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-
-        upwardAssets.forEach(asset -> {
-            if (assetAsBuiltRepository.existsById(asset.getId())) {
-                log.info(asset.getId() + "isUpwardAsset 1 - asBuilt");
-                assetAsBuiltRepository.updateParentDescriptionsAndOwner(asset);
-            } else {
-                log.info(asset.getId() + "isUpwardAsset 2 - asBuilt");
-                assetAsBuiltRepository.save(asset);
-            }
-        });
+    @Override
+    protected BomLifecycle getBomLifecycle() {
+        return BomLifecycle.AS_BUILT;
     }
 
-    public void setAssetsInvestigationStatus(QualityNotification investigation) {
-        assetAsBuiltRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {
-            // Assets in status closed will be false, others true
-            asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            assetAsBuiltRepository.save(asset);
-        });
-        assetAsPlannedRepository.getAssetsById(investigation.getAssetIds()).forEach(asset -> {
-            // Assets in status closed will be false, others true
-            asset.setUnderInvestigation(!investigation.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            assetAsBuiltRepository.save(asset);
-        });
-    }
-
-    public void setAssetsAlertStatus(QualityNotification alert) {
-        assetAsBuiltRepository.getAssetsById(alert.getAssetIds()).forEach(asset -> {
-            // Assets in status closed will be false, others true
-            asset.setActiveAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            assetAsBuiltRepository.save(asset);
-        });
-        assetAsPlannedRepository.getAssetsById(alert.getAssetIds()).forEach(asset -> {
-            // Assets in status closed will be false, others true
-            asset.setActiveAlert(!alert.getNotificationStatus().equals(QualityNotificationStatus.CLOSED));
-            assetAsBuiltRepository.save(asset);
-        });
-    }
-
-    public AssetBase updateQualityType(String assetId, QualityType qualityType) {
-        AssetBase foundAsset = assetAsBuiltRepository.getAssetById(assetId);
-        if (foundAsset == null) {
-            AssetBase foundAssetAsPlanned = assetAsPlannedRepository.getAssetById(assetId);
-            foundAssetAsPlanned.setQualityType(qualityType);
-            return assetAsPlannedRepository.save(foundAssetAsPlanned);
-        } else {
-            foundAsset.setQualityType(qualityType);
-            return assetAsBuiltRepository.save(foundAsset);
-        }
-
-
-    }
-
-    public Map<String, Long> getAssetsCountryMap() {
-        Map<String, Long> assetsCountryMap = assetAsBuiltRepository.getAssets().stream()
-                .collect(Collectors.groupingBy(asset -> asset.getSemanticModel().getManufacturingCountry(), Collectors.counting()));
-
-        Map<String, Long> assetsAsPlannedCountryMap = assetAsPlannedRepository.getAssets().stream()
-                .collect(Collectors.groupingBy(asset -> asset.getSemanticModel().getManufacturingCountry(), Collectors.counting()));
-
-        Map<String, Long> mergedMap = new HashMap<>(assetsCountryMap);
-        assetsAsPlannedCountryMap.forEach((country, count) -> mergedMap.merge(country, count, Long::sum));
-
-        return mergedMap;
-    }
-
-    public PageResult<AssetBase> getAssets(Pageable pageable, Owner owner) {
-        Pageable halfPage = halfPageable(pageable);
-        PageResult<AssetBase> assetsAsPlanned = assetAsPlannedRepository.getAssets(halfPage, owner);
-        PageResult<AssetBase> assetsAsBuilt = assetAsBuiltRepository.getAssets(halfPage, owner);
-
-        List<AssetBase> mergedContent = new ArrayList<>(assetsAsPlanned.content());
-        mergedContent.addAll(assetsAsBuilt.content());
-        return new PageResult<>(mergedContent,
-                assetsAsBuilt.page(),
-                assetsAsBuilt.pageCount() + assetsAsPlanned.pageCount(),
-                assetsAsBuilt.pageSize() + assetsAsBuilt.pageSize(),
-                (long) mergedContent.size());
-    }
-
-    // TODO once asPlanned has own domain object this special pageable logic should be removed
-    private Pageable halfPageable(Pageable pageable) {
-        if (pageable != null) {
-            int pageSize = pageable.getPageSize();
-            int pageNumber = pageable.getPageNumber();
-            return PageRequest.of(pageNumber / 2, pageSize / 2);
-        }
-        return Pageable.unpaged();
-    }
-
-    public AssetBase getAssetById(String assetId) {
-        try {
-            return assetAsBuiltRepository.getAssetById(assetId);
-        } catch (AssetNotFoundException assetNotFoundException) {
-            return assetAsPlannedRepository.getAssetById(assetId);
-        }
-    }
-
-    public List<AssetBase> getAssetsById(List<String> assetIds) {
-        List<AssetBase> assetAsBuiltIds = assetAsBuiltRepository.getAssetsById(assetIds);
-        List<AssetBase> assetAsPlannedIds = assetAsPlannedRepository.getAssetsById(assetIds);
-        List<AssetBase> mergedList = new ArrayList<>(assetAsBuiltIds);
-        mergedList.addAll(assetAsPlannedIds);
-        return mergedList;
-    }
-
-    public AssetBase getAssetByChildId(String assetId, String childId) {
-        try {
-            return assetAsBuiltRepository.getAssetByChildId(assetId, childId);
-        } catch (AssetNotFoundException assetNotFoundException) {
-            return assetAsPlannedRepository.getAssetByChildId(assetId, childId);
-        }
-
+    @Override
+    protected IrsRepository getIrsRepository() {
+        return irsRepository;
     }
 }
