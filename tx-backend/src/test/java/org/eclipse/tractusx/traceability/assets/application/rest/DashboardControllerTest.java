@@ -21,8 +21,8 @@
 
 package org.eclipse.tractusx.traceability.assets.application.rest;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.Dashboard;
-import org.eclipse.tractusx.traceability.assets.domain.service.DashboardServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.dashboard.model.Dashboard;
+import org.eclipse.tractusx.traceability.assets.domain.dashboard.service.DashboardServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

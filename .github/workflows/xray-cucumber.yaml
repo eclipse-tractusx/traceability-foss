@@ -24,24 +24,6 @@ on:
     paths-ignore:
       - '**/*.md'
       - '**/*.txt'
-  pull_request:
-    branches: main
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.txt'
-      - 'dev/**'
-      - 'docs/**'
-      - 'tx-backend/charts/**'
-      - 'tx-backend/ci/**'
-      - 'tx-backend/collection/**'
-      - 'tx-backend/config/**'
-      - 'tx-backend/docker/**'
-      - 'tx-backend/infrastructure/**'
-      - 'tx-backend/openapi/**'
-      - 'tx-backend/scripts/**'
-      - 'frontend/**'
-      - 'README.md'
-      - 'CHANGELOG.md'
 
 jobs:
   build:
@@ -75,12 +57,15 @@ jobs:
           [[ $HTTP_RESULT == 200 || $HTTP_RESULT == 400 ]]
           echo "::set-output name=http_response::$HTTP_RESULT"
 
+      - name: install tx-models
+        run: mvn install -pl tx-models
+
       # Required step due to fact that jira will name feature files differently with each feature added and that will cause duplicate test runs
       - name: Cleanup repository feature files
         if: ${{ steps.download.outputs.http_response == '200' }}
-        working-directory: tx-cucumber-tests
+        #working-directory: tx-cucumber-tests
         run: |
-          rm -r src/test/resources/features/*
+          rm -r tx-cucumber-tests/src/test/resources/features/*
 
       - name: Build with Maven
         if: ${{ steps.download.outputs.http_response == '200' }}
@@ -90,10 +75,10 @@ jobs:
           SUPERVISOR_PASSWORD: ${{ secrets.SUPERVISOR_PASSWORD }}
           E2E_TXA_HOST: ${{ secrets.E2E_TXA_HOST }}
           E2E_TXB_HOST: ${{ secrets.E2E_TXB_HOST }}
-        working-directory: tx-cucumber-tests
+        #working-directory: tx-cucumber-tests
         run: |
-          unzip -o features.zip -d src/test/resources/features
-          mvn --batch-mode clean install  -D"cucumber.filter.tags"="not @Ignore and @INTEGRATION_TEST"
+          unzip -o tx-cucumber-tests/features.zip -d tx-cucumber-tests/src/test/resources/features
+          mvn -pl tx-models,tx-cucumber-tests --batch-mode clean install  -D"cucumber.filter.tags"="not @Ignore and @INTEGRATION_TEST"
 
       - name: Submit results to Xray
         if: ${{ always() && steps.download.outputs.http_response == '200' }}

@@ -19,9 +19,9 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuiltRepositoryImpl;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;

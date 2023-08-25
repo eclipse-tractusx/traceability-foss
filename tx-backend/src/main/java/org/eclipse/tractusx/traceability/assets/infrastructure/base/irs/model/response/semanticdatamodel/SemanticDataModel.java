@@ -25,7 +25,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.*;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -82,26 +82,26 @@ public class SemanticDataModel {
         final String manufacturerName = bpns.get(manufacturerId());
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
-        final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
+        final AtomicReference<org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel> semanticDataModel = new AtomicReference<>();
 
         getLocalIdByInput(LocalIdKey.PART_INSTANCE_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.SERIALPART);
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel.SERIALPART);
         });
 
         getLocalIdByInput(LocalIdKey.BATCH_ID, localIds).ifPresent(s -> {
             semanticModelId.set(s);
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.BATCH);
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel.BATCH);
         });
 
         getLocalIdByInput(LocalIdKey.JIS_NUMBER, localIds).ifPresent(s -> {
             semanticModelId.set(s);
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.JUSTINSEQUENCE);
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel.JUSTINSEQUENCE);
         });
 
 
         if (semanticDataModel.get() == null) {
-            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.UNKNOWN);
+            semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel.UNKNOWN);
         }
 
         return Asset.builder()
@@ -141,7 +141,7 @@ public class SemanticDataModel {
                 .classification(partTypeInformation.classification())
                 .underInvestigation(false)
                 .qualityType(QualityType.OK)
-                .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel.PARTASPLANNED)
+                .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel.PARTASPLANNED)
                 .van(van())
                 .build();
     }

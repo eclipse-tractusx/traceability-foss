@@ -28,7 +28,6 @@ SPDX-License-Identifier: Apache-2.0
         <relativePath>../tx-parent-spring-boot/pom.xml</relativePath>
     </parent>
 
-    <groupId>org.eclipse.tractusx.tracex</groupId>
     <artifactId>tx-cucumber-tests</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
@@ -107,6 +106,20 @@ SPDX-License-Identifier: Apache-2.0
             <artifactId>jackson-datatype-jdk8</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>${awaitility.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- tx-application modules -->
+        <dependency>
+            <groupId>org.eclipse.tractusx.traceability</groupId>
+            <artifactId>tx-models</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -120,6 +133,32 @@ SPDX-License-Identifier: Apache-2.0
                     <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <configuration>
+                    <properties>
+                        <configurationParameters>
+                            cucumber.execution.parallel.enabled=true
+                        </configurationParameters>
+                    </properties>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <properties>
+                        <!-- Work around. Surefire does not include enough
+                             information to disambiguate between different
+                             examples and scenarios. -->
+                        <configurationParameters>
+                            cucumber.execution.parallel.enabled=true
+                        </configurationParameters>
+                    </properties>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 </project>

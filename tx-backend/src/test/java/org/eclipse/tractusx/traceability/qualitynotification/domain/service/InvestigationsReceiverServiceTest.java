@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
-import org.eclipse.tractusx.traceability.assets.domain.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;

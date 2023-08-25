@@ -19,12 +19,12 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
-import org.eclipse.tractusx.traceability.assets.domain.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticModel;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticModel;
 
 import java.time.Instant;
 import java.util.ArrayList;

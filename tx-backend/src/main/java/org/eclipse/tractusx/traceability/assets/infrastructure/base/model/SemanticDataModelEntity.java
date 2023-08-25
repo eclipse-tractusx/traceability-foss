@@ -19,7 +19,7 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
 
 
-import org.eclipse.tractusx.traceability.assets.domain.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel;
 
 public enum SemanticDataModelEntity {
     BATCH, SERIALPART, UNKNOWN, PARTASPLANNED, JUSTINSEQUENCE;
