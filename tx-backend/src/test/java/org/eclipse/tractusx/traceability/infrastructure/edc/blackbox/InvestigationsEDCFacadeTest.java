@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.HttpUrl;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.Dataset;
+import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX;
@@ -41,6 +42,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -65,6 +67,9 @@ class InvestigationsEDCFacadeTest {
     InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
     @Mock
+    EDCCatalogFacade edcCatalogFacade;
+
+    @Mock
     EdcProperties edcProperties;
 
     @InjectMocks
@@ -80,6 +85,7 @@ class InvestigationsEDCFacadeTest {
                 .createNotificationTestData(QualityNotificationType.INVESTIGATION);
 
         when(edcProperties.getApiAuthKey()).thenReturn("x-api-key");
+        when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
         Catalog catalog = CatalogTestDataFactory.createCatalogTestData();
         when(edcService.getCatalog(anyString(), anyString(), any())).thenReturn(catalog);
@@ -122,6 +128,7 @@ class InvestigationsEDCFacadeTest {
                 .createNotificationTestData(QualityNotificationType.INVESTIGATION);
 
         when(edcProperties.getApiAuthKey()).thenReturn("x-api-key");
+        when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
         Map<String, Object> properties = Map.of(JsonLdConfigurationTraceX.NAMESPACE_EDC_PARTICIPANT_ID, "participantId");
         Catalog catalog = CatalogTestDataFactory.createCatalogTestData(properties);
@@ -165,6 +172,7 @@ class InvestigationsEDCFacadeTest {
                 .createNotificationTestData(QualityNotificationType.INVESTIGATION);
 
         when(edcProperties.getApiAuthKey()).thenReturn("x-api-key");
+        when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
         Catalog catalog = Catalog.Builder.newInstance().datasets(Collections.emptyList()).build();
         when(edcService.getCatalog(anyString(), anyString(), any())).thenReturn(catalog);
@@ -190,6 +198,7 @@ class InvestigationsEDCFacadeTest {
                 .createNotificationTestData(QualityNotificationType.INVESTIGATION);
 
         when(edcProperties.getApiAuthKey()).thenReturn("x-api-key");
+        when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
         Dataset.Builder datasetBuilder = Dataset.Builder.newInstance()
                 .property("https://w3id.org/edc/v0.0.1/ns/notificationtype", "invalidNotificationType")
@@ -220,6 +229,7 @@ class InvestigationsEDCFacadeTest {
                 .createNotificationTestData(QualityNotificationType.INVESTIGATION);
 
         when(edcProperties.getApiAuthKey()).thenReturn("x-api-key");
+        when(edcCatalogFacade.fetchCatalogItems(any())).thenReturn(List.of());
 
         when(edcService.getCatalog(anyString(), anyString(), any())).thenThrow(IOException.class);
 
