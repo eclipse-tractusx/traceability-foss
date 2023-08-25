@@ -52,13 +52,12 @@ import java.util.Map;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "Assets")
 @RequestMapping(path = "/assets/as-planned", produces = "application/json", consumes = "application/json")
-@RequiredArgsConstructor
 public class AssetAsPlannedController {
 
-
-    @Qualifier("assetAsPlannedServiceImpl")
     private final AssetBaseService assetService;
-
+    public AssetAsPlannedController(@Qualifier("assetAsPlannedServiceImpl") AssetBaseService assetService) {
+        this.assetService = assetService;
+    }
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
             tags = {"Assets"},
