@@ -68,7 +68,8 @@ public class EdcRestTemplateConfiguration {
     }
 
 
-    @Bean
+    @Bean(name = "testedc",
+            autowireCandidate = false)
     EDCCatalogFacade edcCatalogFacade(EdcControlPlaneClient client,
                                       EdcConfiguration c) {
         log.info("<BEAN CONFIG>  {}", c);

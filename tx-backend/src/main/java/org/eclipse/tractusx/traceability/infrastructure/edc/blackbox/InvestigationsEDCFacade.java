@@ -55,6 +55,7 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -90,6 +91,7 @@ public class InvestigationsEDCFacade {
 
     private final EdcProperties edcProperties;
 
+    @Qualifier("testedc")
     private final EDCCatalogFacade edcCatalogFacade;
 
     private final ContractNegotiationService contractNegotiationService;
