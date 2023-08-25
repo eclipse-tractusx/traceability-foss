@@ -106,7 +106,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
-                .body("totalItems", equalTo(1));
+                .body("totalItems", equalTo(2));
     }
 
     @Test

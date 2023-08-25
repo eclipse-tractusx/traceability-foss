@@ -128,7 +128,8 @@ public class AlertController {
                 request.getDescription(),
                 request.getTargetDate(),
                 request.getSeverity().toDomain(),
-                request.getBpn()
+                request.getBpn(),
+                request.isAsBuilt()
         ).value());
     }
 

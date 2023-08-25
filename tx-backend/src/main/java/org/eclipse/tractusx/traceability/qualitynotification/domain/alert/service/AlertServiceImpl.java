@@ -53,8 +53,8 @@ public class AlertServiceImpl implements AlertService {
     private final AssetAsBuiltServiceImpl assetService;
 
     @Override
-    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String targetBpn) {
-        QualityNotification notification = notificationPublisherService.startAlert(partIds, description, targetDate, severity, targetBpn);
+    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String targetBpn, boolean isAsBuilt) {
+        QualityNotification notification = notificationPublisherService.startAlert(partIds, description, targetDate, severity, targetBpn, isAsBuilt);
 
         QualityNotificationId createdAlertId = alertRepository.saveQualityNotificationEntity(notification);
         log.info("Start Alert {}", notification);

@@ -77,7 +77,7 @@ class AlertControllerTest {
                 request.getDescription(),
                 request.getTargetDate(),
                 request.getSeverity().toDomain(),
-                request.getBpn()
+                request.getBpn(), true
         )).thenReturn(notificationId);
 
         // when
