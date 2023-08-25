@@ -27,7 +27,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import org.eclipse.edc.catalog.spi.Catalog;
-import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformerTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractOfferDescription;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationRequest;

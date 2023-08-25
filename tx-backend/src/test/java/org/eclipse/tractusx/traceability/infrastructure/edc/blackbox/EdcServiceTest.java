@@ -23,7 +23,7 @@ import jakarta.json.JsonObject;
 import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.Dataset;
 import org.eclipse.edc.policy.model.Policy;
-import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformerTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.Response;
@@ -116,7 +116,7 @@ class EdcServiceTest {
         Map<String, String> header = Collections.singletonMap("Authorization", "Bearer token");
 
         Policy policy = Policy.Builder.newInstance().target("policyTarget").build();
-        org.eclipse.tractusx.irs.edc.client.model.CatalogItem catalogItem = org.eclipse.tractusx.irs.edc.client.model.CatalogItem.builder().offerId("offerId").policy(policy).build();
+        org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem catalogItem = CatalogItem.builder().offerId("offerId").policy(policy).build();
 
         JsonObject mockedJsonObject = Json.createObjectBuilder().add("", "").build();
 

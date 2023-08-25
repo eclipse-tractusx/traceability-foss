@@ -154,7 +154,7 @@ public class InvestigationsEDCFacade {
                 return catalogItem.build();
             }).toList();
 
-            Optional<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItem = catalogItems.stream().findFirst();
+            Optional<CatalogItem> catalogItem = items.stream().findFirst();
 
             if (catalogItem.isEmpty()) {
                 log.info("No Catalog Item in catalog found");
@@ -214,7 +214,7 @@ public class InvestigationsEDCFacade {
     }
 
     private TransferProcessRequest createTransferProcessRequest(final String providerConnectorUrl,
-                                                                final org.eclipse.tractusx.irs.edc.client.model.CatalogItem catalogItem,
+                                                                final CatalogItem catalogItem,
                                                                 final String negotiationId) {
         final var destination = DataAddress.Builder.newInstance()
                 .type(TransferProcessDataDestination.DEFAULT_TYPE)
