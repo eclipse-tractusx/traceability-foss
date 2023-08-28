@@ -189,7 +189,16 @@ public class InvestigationsEDCFacade {
 
             //  String contractAgreementId = negotiationResponse.getContractAgreementId();
 
-            final NegotiationResponse response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
+            NegotiationResponse response ;
+            try {
+            response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
+        } catch (TransferProcessException e) {
+            throw new RuntimeException(e);
+        } catch (UsagePolicyException e) {
+            throw new RuntimeException(e);
+        } catch (ContractNegotiationException e) {
+            throw new RuntimeException(e);
+        }
     log.info("LIB contractNegotiation {}", response);
 
             final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl, items.stream().findFirst().get(), senderEdcUrl, header);
@@ -236,12 +245,6 @@ public class InvestigationsEDCFacade {
         } catch (InterruptedException e) {
             log.error("Exception", e);
             Thread.currentThread().interrupt();
-        } catch (TransferProcessException e) {
-            throw new RuntimeException(e);
-        } catch (UsagePolicyException e) {
-            throw new RuntimeException(e);
-        } catch (ContractNegotiationException e) {
-            throw new RuntimeException(e);
         }
     }
 
