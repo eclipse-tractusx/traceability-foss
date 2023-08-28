@@ -163,8 +163,11 @@ public class InvestigationsEDCFacade {
     }
 
     public void startEDCTransfer(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
-        startEdcTransferNew(notification, receiverEdcUrl, senderEdcUrl);
-
+        try {
+            startEdcTransferNew(notification, receiverEdcUrl, senderEdcUrl);
+        } catch (Exception e) {
+            log.error("failed NEW exception", e);
+        }
         log.info("END OF NEW");
         Map<String, String> header = new HashMap<>();
         header.put("x-api-key", edcProperties.getApiAuthKey());
