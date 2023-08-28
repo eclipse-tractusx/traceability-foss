@@ -136,7 +136,7 @@ public class InvestigationsEDCFacade {
                 log.error(" CATALOG REQUEST LIB", e);
             }
 
-//            log.info("CATALOG ITEMS: {}", objectMapper.writeValueAsString(catalogItems));
+           log.info("CATALOG ITEMS: {}", objectMapper.writeValueAsString(catalogItems));
             Catalog catalog = edcService.getCatalog(
                     senderEdcUrl,
                     receiverEdcUrl + edcProperties.getIdsPath(),
