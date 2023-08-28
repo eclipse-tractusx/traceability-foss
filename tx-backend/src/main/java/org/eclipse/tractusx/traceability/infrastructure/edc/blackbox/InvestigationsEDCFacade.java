@@ -114,7 +114,7 @@ public class InvestigationsEDCFacade {
                 catalogItems =edcCatalogFacade.fetchCatalogItems(
                         CatalogRequest.Builder.newInstance()
                                 .protocol(DEFAULT_PROTOCOL)
-                                .providerUrl(receiverEdcUrl)
+                                .providerUrl(receiverEdcUrl + edcProperties.getIdsPath())
                                 .build()
                 );
             } catch (Exception e) {
