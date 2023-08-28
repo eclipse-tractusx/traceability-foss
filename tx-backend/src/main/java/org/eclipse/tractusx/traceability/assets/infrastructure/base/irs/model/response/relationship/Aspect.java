@@ -55,4 +55,9 @@ public enum Aspect {
     public static List<String> downwardAspectsForAssetsAsPlanned() {
         return List.of(PART_AS_PLANNED.getAspectName(), PART_SITE_INFORMATION_AS_PLANNED.getAspectName());
     }
+
+
+    public static boolean isMasterAspect(String aspect) {
+        return Aspect.PART_AS_PLANNED.getAspectName().contains(aspect) || Aspect.SERIAL_PART.getAspectName().contains(aspect) || Aspect.BATCH.getAspectName().contains(aspect) || Aspect.JUST_IN_SEQUENCE_PART.getAspectName().contains(aspect);
+    }
 }

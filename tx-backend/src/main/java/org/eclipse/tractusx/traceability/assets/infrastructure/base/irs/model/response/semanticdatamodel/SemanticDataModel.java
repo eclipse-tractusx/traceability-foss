@@ -74,7 +74,7 @@ public class SemanticDataModel {
                 .map(LocalId::value);
     }
 
-    public List<DetailAspectModel> extractDetailAspectModelsAsPlanned(List<Site> sites) {
+    private List<DetailAspectModel> extractDetailAspectModelsAsPlanned(List<Site> sites) {
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
         emptyIfNull(sites).forEach(site -> {
             PartSiteInformationAsPlanned partSiteInformationAsPlanned = PartSiteInformationAsPlanned.builder()

@@ -30,6 +30,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
@@ -156,7 +157,7 @@ public record JobDetailResponse(
     }
 
     private List<AssetBase> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).toList();
+        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType())).toList();
         log.info(":: mapToOtherPartsAsPlanned()");
         log.info(":: otherParts: {}", otherParts);
         final List<AssetBase> assets = otherParts
@@ -173,7 +174,8 @@ public record JobDetailResponse(
 
         List<SemanticDataModel> ownPartsAsPlanned =
                 semanticDataModels().stream()
-                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus)).toList();
+                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
+                        .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.aspectType())).toList();
 
         log.info(":: mapToOwnPartsAsPlanned()");
         log.info(":: ownPartsAsPlanned: {}", ownPartsAsPlanned);

@@ -50,6 +50,10 @@ public class AssetsSupport {
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests());
     }
 
+    public void defaultAssetsAsPlannedStored() {
+        assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests());
+    }
+
     public void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
         List<AssetAsBuiltEntity> assetEntities = assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests().stream().map(asset -> {
             AssetAsBuiltEntity assetEntity = AssetAsBuiltEntity.from(asset);
