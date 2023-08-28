@@ -38,9 +38,14 @@ import org.eclipse.edc.policy.model.Operator;
 import org.eclipse.edc.policy.model.OrConstraint;
 import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.policy.model.Policy;
+import org.eclipse.edc.spi.query.Criterion;
+import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
+import org.eclipse.tractusx.irs.edc.client.exceptions.ContractNegotiationException;
+import org.eclipse.tractusx.irs.edc.client.exceptions.TransferProcessException;
+import org.eclipse.tractusx.irs.edc.client.exceptions.UsagePolicyException;
 import org.eclipse.tractusx.irs.edc.client.model.NegotiationResponse;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
@@ -110,29 +115,39 @@ public class InvestigationsEDCFacade {
             log.info(":::: Find Notification contract method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
 
             List<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItems = null;
-            try{
-                catalogItems =edcCatalogFacade.fetchCatalogItems(
-                        CatalogRequest.Builder.newInstance()
-                                .protocol(DEFAULT_PROTOCOL)
-                                .providerUrl(receiverEdcUrl + edcProperties.getIdsPath())
-                                .build()
-                );
+            try {
+                final String propertyNotificationTypeValue = QualityNotificationType.ALERT.equals(notification.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
+                final String propertyMethodValue = notification.getIsInitial() ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
+                catalogItems = edcCatalogFacade.fetchCatalogItems(
+                                CatalogRequest.Builder.newInstance()
+                                        .protocol(DEFAULT_PROTOCOL)
+                                        .providerUrl(receiverEdcUrl + edcProperties.getIdsPath())
+                                        .querySpec(QuerySpec.Builder.newInstance()
+                                                .filter(
+                                                        List.of(new Criterion(NAMESPACE_EDC + "notificationtype", "=", propertyNotificationTypeValue),
+                                                                new Criterion(NAMESPACE_EDC + "notificationmethod", "=", propertyMethodValue))
+                                                )
+                                                .build())
+                                        .build()
+                        ).stream()
+                        .filter(this::hasTracePolicy)
+                        .toList();
             } catch (Exception e) {
                 log.error(" CATALOG REQUEST LIB", e);
             }
 
-            log.info("CATALOG ITEMS: {}", objectMapper.writeValueAsString(catalogItems));
+//            log.info("CATALOG ITEMS: {}", objectMapper.writeValueAsString(catalogItems));
             Catalog catalog = edcService.getCatalog(
                     senderEdcUrl,
                     receiverEdcUrl + edcProperties.getIdsPath(),
                     header
             );
-            log.info(" CATALOG FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog));
-
-            log.info(" DATASET FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog.getDatasets()));
-            if (catalog.getDatasets().isEmpty()) {
-                log.info("No Dataset in catalog found");
-                throw new BadRequestException("The dataset from the catalog is empty.");
+//            log.info(" CATALOG FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog));
+//
+//            log.info(" DATASET FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog.getDatasets()));
+            if (catalogItems.isEmpty()) {
+                log.info("No CatalogItems found");
+                throw new BadRequestException("No catalog items for sending notification.");
             }
 //
             Optional<Dataset> filteredDataset = catalog.getDatasets().stream()
@@ -162,7 +177,7 @@ public class InvestigationsEDCFacade {
                 return catalogItem.build();
             }).toList();
 
-            Optional<CatalogItem> catalogItem = items.stream().findFirst();
+            Optional<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItem = catalogItems.stream().findFirst();
 
             if (catalogItem.isEmpty()) {
                 log.info("No Catalog Item in catalog found");
@@ -172,8 +187,12 @@ public class InvestigationsEDCFacade {
 // TODO
             //NegotiationResponse negotiationResponse = contractNegotiationService.negotiate(null, null);
 
-          //  String contractAgreementId = negotiationResponse.getContractAgreementId();
-            final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl, catalogItem.get(), senderEdcUrl, header);
+            //  String contractAgreementId = negotiationResponse.getContractAgreementId();
+
+            final NegotiationResponse response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
+    log.info("LIB contractNegotiation {}", response);
+
+            final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl, items.stream().findFirst().get(), senderEdcUrl, header);
 
             log.info(":::: Contract Agreed method[startEDCTransfer] agreementId :{}", edcContractAgreementId);
 
@@ -194,7 +213,7 @@ public class InvestigationsEDCFacade {
 
                 final TransferProcessRequest transferProcessRequest = createTransferProcessRequest(
                         receiverEdcUrl + edcProperties.getIdsPath(),
-                        catalogItem.get(),
+                        items.stream().findFirst().get(),
                         edcContractAgreementId);
 
                 log.info(":::: initialize Transfer process with http Proxy :::::");
@@ -212,12 +231,17 @@ public class InvestigationsEDCFacade {
             httpCallService.sendRequest(notificationRequest);
 
             log.info(":::: EDC Data Transfer Completed :::::");
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new BadRequestException("EDC Data Transfer fail.", e);
         } catch (InterruptedException e) {
             log.error("Exception", e);
             Thread.currentThread().interrupt();
+        } catch (TransferProcessException e) {
+            throw new RuntimeException(e);
+        } catch (UsagePolicyException e) {
+            throw new RuntimeException(e);
+        } catch (ContractNegotiationException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -280,6 +304,7 @@ public class InvestigationsEDCFacade {
         return dataReference;
     }
 
+    @Deprecated
     private boolean isQualityNotificationOffer(QualityNotificationMessage qualityNotificationMessage, Dataset dataset) {
         Object notificationTypeObj = dataset.getProperty(NAMESPACE_EDC + "notificationtype");
         String notificationType = null;
@@ -305,6 +330,16 @@ public class InvestigationsEDCFacade {
             if (!foundPolicy) {
                 foundPolicy = isValid(policy);
             }
+        }
+        log.info("Found policy: {} ", foundPolicy);
+        return foundPolicy;
+    }
+
+    private boolean hasTracePolicy(org.eclipse.tractusx.irs.edc.client.model.CatalogItem catalogItem) {
+        boolean foundPolicy = false;
+        if (catalogItem.getPolicy() != null) {
+            log.info("Policy Check {} ", catalogItem.getPolicy().toString());
+            foundPolicy = isValid(catalogItem.getPolicy());
         }
         log.info("Found policy: {} ", foundPolicy);
         return foundPolicy;
