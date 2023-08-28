@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - ErrorMessage field to investigation and alerts
 - Cucumber tests for quality investigations
 - Refactored asset structure to allow new API for assets-as-planned
+- Optional parameter "receiverBpn" to /investigations endpoint
 
 ### Changed
 

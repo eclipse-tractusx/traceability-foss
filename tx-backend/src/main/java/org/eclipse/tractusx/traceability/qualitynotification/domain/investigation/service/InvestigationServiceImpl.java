@@ -52,8 +52,8 @@ public class InvestigationServiceImpl implements InvestigationService {
     private final AssetAsBuiltServiceImpl assetService;
 
     @Override
-    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, boolean isAsBuilt) {
-        QualityNotification notification = notificationPublisherService.startInvestigation(partIds, description, targetDate, severity,isAsBuilt);
+    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
+        QualityNotification notification = notificationPublisherService.startInvestigation(partIds, description, targetDate, severity, receiverBpn,isAsBuilt);
 
         QualityNotificationId createdInvestigationId = investigationsRepository.saveQualityNotificationEntity(notification);
         log.info("Start Investigation {}", notification);

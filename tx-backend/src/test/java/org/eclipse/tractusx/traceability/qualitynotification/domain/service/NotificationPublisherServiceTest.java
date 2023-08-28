@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
@@ -86,9 +86,10 @@ class NotificationPublisherServiceTest {
         when(assetRepository.getAssetsById(Arrays.asList("asset-1", "asset-2"))).thenReturn(List.of(AssetTestDataFactory.createAssetTestData()));
         when(bpnRepository.findManufacturerName(anyString())).thenReturn(Optional.empty());
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("bpn-123"));
+        String receiverBpn = "someReceiverBpn";
 
         // When
-        QualityNotification result = notificationPublisherService.startInvestigation(Arrays.asList("asset-1", "asset-2"), description, Instant.parse("2022-03-01T12:00:00Z"), QualityNotificationSeverity.MINOR, true);
+        QualityNotification result = notificationPublisherService.startInvestigation(Arrays.asList("asset-1", "asset-2"), description, Instant.parse("2022-03-01T12:00:00Z"), QualityNotificationSeverity.MINOR, receiverBpn, true);
 
         // Then
         assertThat(result.getNotificationStatus()).isEqualTo(QualityNotificationStatus.CREATED);
