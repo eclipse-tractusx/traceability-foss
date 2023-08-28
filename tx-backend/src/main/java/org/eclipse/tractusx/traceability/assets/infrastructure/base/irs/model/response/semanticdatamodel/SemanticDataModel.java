@@ -25,7 +25,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.PartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -69,6 +72,20 @@ public class SemanticDataModel {
                 .filter(localId -> localId.key() == key)
                 .findFirst()
                 .map(LocalId::value);
+    }
+
+    public List<DetailAspectModel> extractDetailAspectModelsAsPlanned() {
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        this.sites.forEach(site -> {
+            PartSiteInformationAsPlanned partSiteInformationAsPlanned = PartSiteInformationAsPlanned.builder()
+                    .catenaXSiteId(site.catenaXSiteId())
+                    .functionValidFrom(site.functionValidFrom())
+                    .functionValidUntil(site.functionValidUntil())
+                    .build();
+            detailAspectModels.add(DetailAspectModel.builder().data(partSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
+        });
+
+        return detailAspectModels;
     }
 
     public Optional<String> getLocalIdByInput(LocalIdKey key, List<LocalId> localIds) {
@@ -120,6 +137,7 @@ public class SemanticDataModel {
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())
                 .van(van())
+
                 .build();
     }
 
@@ -127,6 +145,7 @@ public class SemanticDataModel {
         final String manufacturerName = bpns.get(manufacturerId());
         final String[] manufacturerId = {"--"};
         bpns.values().stream().filter(s -> s.equals(manufacturerName)).findFirst().ifPresent(s -> manufacturerId[0] = s);
+
 
         return AssetBase.builder()
                 .id(catenaXId())
@@ -142,6 +161,7 @@ public class SemanticDataModel {
                 .underInvestigation(false)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
+                .detailAspectModels(extractDetailAspectModelsAsPlanned())
                 .van(van())
                 .build();
     }

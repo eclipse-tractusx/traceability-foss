@@ -26,6 +26,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 
 import java.util.List;
 
@@ -51,4 +52,5 @@ public class AssetBase {
     private String van;
     private SemanticDataModel semanticDataModel;
     private String classification;
+    private List<DetailAspectModel> detailAspectModels;
 }
