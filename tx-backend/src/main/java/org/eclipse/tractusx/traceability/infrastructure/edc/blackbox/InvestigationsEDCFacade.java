@@ -121,14 +121,15 @@ public class InvestigationsEDCFacade {
                 log.error(" CATALOG REQUEST LIB", e);
             }
 
-            log.info("CATALOG ITEMS: {}", catalogItems);
+            log.info("CATALOG ITEMS: {}", objectMapper.writeValueAsString(catalogItems));
             Catalog catalog = edcService.getCatalog(
                     senderEdcUrl,
                     receiverEdcUrl + edcProperties.getIdsPath(),
                     header
             );
-            log.info(" CATALOG FOR NOTIFICATION : {}", catalog);
+            log.info(" CATALOG FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog));
 
+            log.info(" DATASET FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog.getDatasets()));
             if (catalog.getDatasets().isEmpty()) {
                 log.info("No Dataset in catalog found");
                 throw new BadRequestException("The dataset from the catalog is empty.");
