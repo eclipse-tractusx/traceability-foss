@@ -51,5 +51,5 @@ public class StartQualityNotificationRequest {
     @ApiModelProperty(example = "MINOR")
     private QualityNotificationSeverityRequest severity;
     @ApiModelProperty(example = "BPN00001123123AS")
-    private String ReceiverBpn;
+    private String receiverBpn;
 }
