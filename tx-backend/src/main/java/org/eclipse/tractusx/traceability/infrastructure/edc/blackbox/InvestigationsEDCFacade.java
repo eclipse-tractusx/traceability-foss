@@ -142,9 +142,9 @@ public class InvestigationsEDCFacade {
                     receiverEdcUrl + edcProperties.getIdsPath(),
                     header
             );
-//            log.info(" CATALOG FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog));
-//
-//            log.info(" DATASET FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog.getDatasets()));
+            log.info(" CATALOG FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog));
+
+            log.info(" DATASET FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog.getDatasets()));
             if (catalogItems.isEmpty()) {
                 log.info("No CatalogItems found");
                 throw new BadRequestException("No catalog items for sending notification.");
