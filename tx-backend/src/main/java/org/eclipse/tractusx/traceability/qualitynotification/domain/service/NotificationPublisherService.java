@@ -22,11 +22,10 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.logging.log4j.util.Strings;
+import org.eclipse.jetty.util.StringUtil;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
@@ -60,7 +59,6 @@ public class NotificationPublisherService {
     private final TraceabilityProperties traceabilityProperties;
     private final EdcNotificationService edcNotificationService;
     private final AssetAsBuiltRepository assetRepository;
-    private final AssetAsPlannedRepository assetAsPlannedRepository;
     private final AssetServiceImpl assetService;
     private final BpnRepository bpnRepository;
     private final Clock clock;
@@ -122,7 +120,7 @@ public class NotificationPublisherService {
                 .created(LocalDateTime.now())
                 .senderBpnNumber(applicationBpn.value())
                 .senderManufacturerName(getManufacturerName(applicationBpn.value()))
-                .receiverBpnNumber(Strings.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
+                .receiverBpnNumber(StringUtil.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
                 .receiverManufacturerName(getManufacturerName(asset.getKey()))
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.CREATED)
@@ -249,7 +247,7 @@ public class NotificationPublisherService {
                 notificationGroup.add(notificationMessage);
             } else {
                 Optional<QualityNotificationMessage> latestNotification = notificationGroup.stream().max(Comparator.comparing(QualityNotificationMessage::getCreated));
-                if (latestNotification.isEmpty() || notificationMessage.getCreated().isAfter(latestNotification.get().getCreated())) {
+                if (notificationMessage.getCreated().isAfter(latestNotification.get().getCreated())) {
                     notificationGroup.clear();
                     notificationGroup.add(notificationMessage);
                 } else if (notificationMessage.getCreated().isEqual(latestNotification.get().getCreated())) {
