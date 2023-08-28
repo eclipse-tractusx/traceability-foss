@@ -354,7 +354,7 @@ public class InvestigationsEDCFacade {
                 .constraintOperator("EQ")
                 .permissionActionType("USE")
                 .constraintType("AtomicConstraint")
-                .leftExpressionValue("idsc:PURPOSE")
+                .leftExpressionValue("PURPOSE")
                 .rightExpressionValue("ID 3.0 Trace")
                 .build();
         return List.of(allowedTracePolicy);
