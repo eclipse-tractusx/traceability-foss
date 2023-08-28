@@ -43,6 +43,7 @@ import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
+import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
 import org.eclipse.tractusx.irs.edc.client.exceptions.ContractNegotiationException;
 import org.eclipse.tractusx.irs.edc.client.exceptions.TransferProcessException;
 import org.eclipse.tractusx.irs.edc.client.exceptions.UsagePolicyException;
@@ -100,13 +101,71 @@ public class InvestigationsEDCFacade {
     private final EDCCatalogFacade edcCatalogFacade;
 
     private final ContractNegotiationService contractNegotiationService;
+    private final EdcConfiguration edcConfiguration;
 
     public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
     public static final String ASSET_VALUE_QUALITY_ALERT = "qualityalert";
     private static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
     private static final String ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE = "receive";
 
+    public void startEdcTransferNew(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
+        notification.setEdcUrl(receiverEdcUrl);
+
+        notification.setDescription(notification.getDescription() + " withIrsClientLib");
+
+        List<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItems = null;
+        try {
+            final String propertyNotificationTypeValue = QualityNotificationType.ALERT.equals(notification.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
+            final String propertyMethodValue = notification.getIsInitial() ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
+            catalogItems = edcCatalogFacade.fetchCatalogItems(
+                            CatalogRequest.Builder.newInstance()
+                                    .protocol(DEFAULT_PROTOCOL)
+                                    .providerUrl(receiverEdcUrl + edcProperties.getIdsPath())
+                                    .querySpec(QuerySpec.Builder.newInstance()
+                                            .filter(
+                                                    List.of(new Criterion(NAMESPACE_EDC + "notificationtype", "=", propertyNotificationTypeValue),
+                                                            new Criterion(NAMESPACE_EDC + "notificationmethod", "=", propertyMethodValue))
+                                            )
+                                            .build())
+                                    .build()
+                    ).stream()
+                    .filter(this::hasTracePolicy)
+                    .toList();
+        } catch (Exception e) {
+            log.error(" CATALOG REQUEST LIB", e);
+        }
+
+        try {
+            log.info("CATALOG ITEMS: {}", objectMapper.writeValueAsString(catalogItems));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        Optional<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItem = catalogItems.stream().findFirst();
+
+        try {
+            log.info("starting negotiation with edcConfig {}", objectMapper.writeValueAsString(edcConfiguration));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        NegotiationResponse response = null;
+        try {
+            response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
+        } catch (TransferProcessException e) {
+            log.error("contractNegotiationService.negotiate  TransferProcessException  {}", e);
+        } catch (UsagePolicyException e) {
+            log.error("contractNegotiationService.negotiate  UsagePolicyException  {}", e);
+        } catch (ContractNegotiationException e) {
+            log.error("contractNegotiationService.negotiate  ContractNegotiationException  {}", e);
+        }
+        log.info("LIB contractNegotiation {}", response);
+
+    }
+
     public void startEDCTransfer(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
+        startEdcTransferNew(notification, receiverEdcUrl, senderEdcUrl);
+
+        log.info("END OF NEW");
         Map<String, String> header = new HashMap<>();
         header.put("x-api-key", edcProperties.getApiAuthKey());
         try {
@@ -114,29 +173,6 @@ public class InvestigationsEDCFacade {
 
             log.info(":::: Find Notification contract method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
 
-            List<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItems = null;
-            try {
-                final String propertyNotificationTypeValue = QualityNotificationType.ALERT.equals(notification.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
-                final String propertyMethodValue = notification.getIsInitial() ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
-                catalogItems = edcCatalogFacade.fetchCatalogItems(
-                                CatalogRequest.Builder.newInstance()
-                                        .protocol(DEFAULT_PROTOCOL)
-                                        .providerUrl(receiverEdcUrl + edcProperties.getIdsPath())
-                                        .querySpec(QuerySpec.Builder.newInstance()
-                                                .filter(
-                                                        List.of(new Criterion(NAMESPACE_EDC + "notificationtype", "=", propertyNotificationTypeValue),
-                                                                new Criterion(NAMESPACE_EDC + "notificationmethod", "=", propertyMethodValue))
-                                                )
-                                                .build())
-                                        .build()
-                        ).stream()
-                        .filter(this::hasTracePolicy)
-                        .toList();
-            } catch (Exception e) {
-                log.error(" CATALOG REQUEST LIB", e);
-            }
-
-           log.info("CATALOG ITEMS: {}", objectMapper.writeValueAsString(catalogItems));
             Catalog catalog = edcService.getCatalog(
                     senderEdcUrl,
                     receiverEdcUrl + edcProperties.getIdsPath(),
@@ -145,11 +181,11 @@ public class InvestigationsEDCFacade {
             log.info(" CATALOG FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog));
 
             log.info(" DATASET FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog.getDatasets()));
-            if (catalogItems.isEmpty()) {
-                log.info("No CatalogItems found");
-                throw new BadRequestException("No catalog items for sending notification.");
+            if (catalog.getDatasets().isEmpty()) {
+                log.info("No Dataset in catalog found");
+                throw new BadRequestException("The dataset from the catalog is empty.");
             }
-//
+
             Optional<Dataset> filteredDataset = catalog.getDatasets().stream()
                     .filter(dataset -> isQualityNotificationOffer(notification, dataset))
                     .findFirst()
@@ -177,8 +213,7 @@ public class InvestigationsEDCFacade {
                 return catalogItem.build();
             }).toList();
 
-            Optional<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItem = catalogItems.stream().findFirst();
-
+            Optional<CatalogItem> catalogItem = items.stream().findFirst();
             if (catalogItem.isEmpty()) {
                 log.info("No Catalog Item in catalog found");
                 throw new NoCatalogItemException("No Catalog Item in catalog found.");
@@ -188,18 +223,6 @@ public class InvestigationsEDCFacade {
             //NegotiationResponse negotiationResponse = contractNegotiationService.negotiate(null, null);
 
             //  String contractAgreementId = negotiationResponse.getContractAgreementId();
-
-            NegotiationResponse response = null;
-            try {
-            response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
-        } catch (TransferProcessException e) {
-                log.error("contractNegotiationService.negotiate  TransferProcessException  {}", e);
-        } catch (UsagePolicyException e) {
-                log.error("contractNegotiationService.negotiate  UsagePolicyException  {}", e);
-        } catch (ContractNegotiationException e) {
-                log.error("contractNegotiationService.negotiate  ContractNegotiationException  {}", e);
-        }
-    log.info("LIB contractNegotiation {}", response);
 
             final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl, items.stream().findFirst().get(), senderEdcUrl, header);
 
@@ -222,7 +245,7 @@ public class InvestigationsEDCFacade {
 
                 final TransferProcessRequest transferProcessRequest = createTransferProcessRequest(
                         receiverEdcUrl + edcProperties.getIdsPath(),
-                        items.stream().findFirst().get(),
+                        catalogItem.get(),
                         edcContractAgreementId);
 
                 log.info(":::: initialize Transfer process with http Proxy :::::");
