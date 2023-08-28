@@ -74,9 +74,9 @@ public class SemanticDataModel {
                 .map(LocalId::value);
     }
 
-    public List<DetailAspectModel> extractDetailAspectModelsAsPlanned() {
+    public List<DetailAspectModel> extractDetailAspectModelsAsPlanned(List<Site> sites) {
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
-        this.sites.forEach(site -> {
+        emptyIfNull(sites).forEach(site -> {
             PartSiteInformationAsPlanned partSiteInformationAsPlanned = PartSiteInformationAsPlanned.builder()
                     .catenaXSiteId(site.catenaXSiteId())
                     .functionValidFrom(site.functionValidFrom())
@@ -161,7 +161,7 @@ public class SemanticDataModel {
                 .underInvestigation(false)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
-                .detailAspectModels(extractDetailAspectModelsAsPlanned())
+                .detailAspectModels(extractDetailAspectModelsAsPlanned(sites()))
                 .van(van())
                 .build();
     }
