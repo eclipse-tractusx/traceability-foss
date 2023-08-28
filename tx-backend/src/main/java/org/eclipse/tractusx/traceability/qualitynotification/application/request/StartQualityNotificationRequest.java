@@ -50,4 +50,6 @@ public class StartQualityNotificationRequest {
     @NotNull
     @ApiModelProperty(example = "MINOR")
     private QualityNotificationSeverityRequest severity;
+    @ApiModelProperty(example = "BPN00001123123AS")
+    private String receiverBpn;
 }
