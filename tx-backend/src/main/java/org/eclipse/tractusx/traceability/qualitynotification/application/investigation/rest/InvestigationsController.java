@@ -125,7 +125,7 @@ public class InvestigationsController {
                         request.getDescription(),
                         request.getTargetDate(),
                         request.getSeverity().toDomain(),
-                        request.getBpn())
+                        request.getReceiverBpn())
                 .value());
     }
 
