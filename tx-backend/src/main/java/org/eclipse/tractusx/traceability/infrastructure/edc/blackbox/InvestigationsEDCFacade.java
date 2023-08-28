@@ -143,11 +143,9 @@ public class InvestigationsEDCFacade {
 
         Optional<org.eclipse.tractusx.irs.edc.client.model.CatalogItem> catalogItem = catalogItems.stream().findFirst();
 
-        try {
-            log.info("starting negotiation with edcConfig {}", objectMapper.writeValueAsString(edcConfiguration));
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+
+            log.info("starting negotiation with edcConfig callbackURL {}",
+                    edcConfiguration.getCallbackUrl());
         NegotiationResponse response = null;
         try {
             response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
