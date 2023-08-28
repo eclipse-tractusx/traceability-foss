@@ -146,6 +146,14 @@ public class InvestigationsEDCFacade {
 
             log.info("starting negotiation with edcConfig callbackURL {}",
                     edcConfiguration.getCallbackUrl());
+        log.info("starting negotiation with receiverURL {}",
+                receiverEdcUrl);
+        try {
+            log.info("starting negotiation with catalogItem {}",
+                    objectMapper.writeValueAsString(catalogItem.get()));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
         NegotiationResponse response = null;
         try {
             response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
