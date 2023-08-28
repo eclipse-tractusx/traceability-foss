@@ -189,15 +189,15 @@ public class InvestigationsEDCFacade {
 
             //  String contractAgreementId = negotiationResponse.getContractAgreementId();
 
-            NegotiationResponse response ;
+            NegotiationResponse response = null;
             try {
             response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
         } catch (TransferProcessException e) {
-            throw new RuntimeException(e);
+                log.error("contractNegotiationService.negotiate  TransferProcessException  {}", e);
         } catch (UsagePolicyException e) {
-            throw new RuntimeException(e);
+                log.error("contractNegotiationService.negotiate  UsagePolicyException  {}", e);
         } catch (ContractNegotiationException e) {
-            throw new RuntimeException(e);
+                log.error("contractNegotiationService.negotiate  ContractNegotiationException  {}", e);
         }
     log.info("LIB contractNegotiation {}", response);
 
