@@ -26,6 +26,6 @@ import java.time.Instant;
 import java.util.List;
 
 public interface InvestigationService extends QualityNotificationService {
-    QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity);
+    QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn);
 
 }

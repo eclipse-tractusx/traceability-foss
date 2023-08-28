@@ -22,11 +22,12 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
@@ -74,7 +75,7 @@ public class NotificationPublisherService {
      * @param severity    the severity of the investigation
      * @return the ID of the newly created investigation
      */
-    public QualityNotification startInvestigation(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
+    public QualityNotification startInvestigation(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
 
@@ -83,7 +84,7 @@ public class NotificationPublisherService {
         assetsByBPN
                 .entrySet()
                 .stream()
-                .map(it -> createInvestigation(applicationBPN, description, targetDate, severity, it))
+                .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
                 .forEach(notification::addNotification);
 
         assetService.setAssetsInvestigationStatus(notification);
@@ -113,7 +114,7 @@ public class NotificationPublisherService {
         return notification;
     }
 
-    private QualityNotificationMessage createInvestigation(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<Asset>> asset) {
+    private QualityNotificationMessage createInvestigation(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<Asset>> asset) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
@@ -121,7 +122,7 @@ public class NotificationPublisherService {
                 .created(LocalDateTime.now())
                 .senderBpnNumber(applicationBpn.value())
                 .senderManufacturerName(getManufacturerName(applicationBpn.value()))
-                .receiverBpnNumber(asset.getKey())
+                .receiverBpnNumber(Strings.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
                 .receiverManufacturerName(getManufacturerName(asset.getKey()))
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.CREATED)
