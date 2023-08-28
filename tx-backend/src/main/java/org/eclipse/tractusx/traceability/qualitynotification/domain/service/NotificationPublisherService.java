@@ -87,7 +87,7 @@ public class NotificationPublisherService {
             assetsAsPlannedBPNMap
                     .entrySet()
                     .stream()
-                    .map(it -> createInvestigation(applicationBPN, description, targetDate, severity, it))
+                    .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
                     .forEach(notification::addNotification);
             assetAsPlannedService.setAssetsInvestigationStatus(notification);
             return notification;
