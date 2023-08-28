@@ -264,7 +264,7 @@ public class NotificationPublisherService {
                 notificationGroup.add(notificationMessage);
             } else {
                 Optional<QualityNotificationMessage> latestNotification = notificationGroup.stream().max(Comparator.comparing(QualityNotificationMessage::getCreated));
-                if (notificationMessage.getCreated().isAfter(latestNotification.get().getCreated())) {
+                if (latestNotification.isEmpty() || notificationMessage.getCreated().isAfter(latestNotification.get().getCreated())) {
                     notificationGroup.clear();
                     notificationGroup.add(notificationMessage);
                 } else if (notificationMessage.getCreated().isEqual(latestNotification.get().getCreated())) {
