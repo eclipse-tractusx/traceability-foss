@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "ShellDescriptorController", description = "Shell Descriptor Controller")
 @RequiredArgsConstructor
-@RequestMapping(path = "/assets/as-built", produces = "application/json", consumes = "application/json")
+@RequestMapping(path = "/shelldescriptors", produces = "application/json", consumes = "application/json")
 public class ShellDescriptorController {
     private final ShellDescriptorService shellDescriptorService;
 
