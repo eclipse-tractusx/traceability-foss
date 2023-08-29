@@ -20,6 +20,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
@@ -27,6 +28,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 
 import org.eclipse.edc.catalog.spi.Catalog;
+import org.eclipse.tractusx.irs.edc.client.model.ContractOfferRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.jsontransformer.EdcTransformerTraceX;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.negotiation.ContractOfferDescription;
@@ -45,6 +47,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import static org.eclipse.tractusx.irs.edc.client.ContractNegotiationService.EDC_PROTOCOL;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest.DEFAULT_PROTOCOL;
 
 @Slf4j
@@ -58,6 +61,7 @@ public class EdcService {
     private final HttpCallService httpCallService;
     private final EdcProperties edcProperties;
     private final EdcTransformerTraceX edcTransformer;
+    private final ObjectMapper objectMapper;
 
     // TODO: Remove
     /**
@@ -88,6 +92,25 @@ public class EdcService {
         final NegotiationRequest negotiationRequest = createNegotiationRequestFromCatalogItem(providerConnectorUrl + edcProperties.getIdsPath(),
                 catalogItem);
 
+
+
+//        // TODO: remove after tests
+//        final var contractOfferDescription = org.eclipse.tractusx.irs.edc.client.model.ContractOfferDescription.builder()
+//                .offerId(catalogItem.getOfferId())
+//                .assetId(catalogItem.getPolicy().getTarget())
+//                .policy(catalogItem.getPolicy())
+//                .build();
+//
+//        final org.eclipse.tractusx.irs.edc.client.model.NegotiationRequest test =  org.eclipse.tractusx.irs.edc.client.model.NegotiationRequest.builder()
+//                .connectorId(catalogItem.getConnectorId())
+//                .connectorAddress(providerConnectorUrl)
+//                .protocol(EDC_PROTOCOL)
+//                .offer(contractOfferDescription)
+//                .build();
+//        log.info("---- negotiation request by own implementation", objectMapper.writeValueAsString(negotiationRequest));
+//        log.info("---- negotiation request by library", objectMapper.writeValueAsString(test));
+//
+//        // TODO:----------
         log.info(":::: Start Contract Negotiation method[initializeContractNegotiation] offerId :{}, assetId:{}", negotiationRequest.getOffer().getOfferId(), negotiationRequest.getOffer().getAssetId());
 
         String negotiationId = initiateNegotiation(negotiationRequest, consumerEdcUrl, header);

@@ -156,13 +156,17 @@ public class InvestigationsEDCFacade {
         }
         NegotiationResponse response = null;
         try {
-            response = contractNegotiationService.negotiate(receiverEdcUrl, catalogItem.get());
+            log.info("calling initializeContractNegotiationLib with receiverConnectorURL {}", receiverEdcUrl+ edcProperties.getIdsPath());
+            log.info("calling initializeContractNegotiationLib with catalogItem {}", objectMapper.writeValueAsString(catalogItem.get()));
+            response = contractNegotiationService.negotiate(receiverEdcUrl+ edcProperties.getIdsPath(), catalogItem.get());
         } catch (TransferProcessException e) {
             log.error("contractNegotiationService.negotiate  TransferProcessException  {}", e);
         } catch (UsagePolicyException e) {
             log.error("contractNegotiationService.negotiate  UsagePolicyException  {}", e);
         } catch (ContractNegotiationException e) {
             log.error("contractNegotiationService.negotiate  ContractNegotiationException  {}", e);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
         log.info("LIB contractNegotiation {}", response);
 
@@ -233,7 +237,8 @@ public class InvestigationsEDCFacade {
 
             //  String contractAgreementId = negotiationResponse.getContractAgreementId();
 
-            final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl+ edcProperties.getIdsPath(), items.stream().findFirst().get(), senderEdcUrl, header);
+
+            final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl, items.stream().findFirst().get(), senderEdcUrl, header);
 
             log.info(":::: Contract Agreed method[startEDCTransfer] agreementId :{}", edcContractAgreementId);
 
