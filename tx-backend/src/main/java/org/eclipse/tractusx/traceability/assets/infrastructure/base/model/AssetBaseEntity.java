@@ -24,8 +24,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 
 @NoArgsConstructor
 @Getter

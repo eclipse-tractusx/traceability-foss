@@ -19,33 +19,33 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base;
 
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface AssetRepository {
-    Asset getAssetById(String assetId);
+    AssetBase getAssetById(String assetId);
 
     boolean existsById(String globalAssetId);
 
-    List<Asset> getAssetsById(List<String> assetIds);
+    List<AssetBase> getAssetsById(List<String> assetIds);
 
-    Asset getAssetByChildId(String assetId, String childId);
+    AssetBase getAssetByChildId(String assetId, String childId);
 
-    PageResult<Asset> getAssets(Pageable pageable, Owner owner);
+    PageResult<AssetBase> getAssets(Pageable pageable, Owner owner);
 
-    List<Asset> getAssets();
+    List<AssetBase> getAssets();
 
-    Asset save(Asset asset);
+    AssetBase save(AssetBase asset);
 
-    List<Asset> saveAll(List<Asset> assets);
+    List<AssetBase> saveAll(List<AssetBase> assets);
 
     long countAssets();
 
-    void updateParentDescriptionsAndOwner(final Asset asset);
+    void updateParentDescriptionsAndOwner(final AssetBase asset);
 
     long countAssetsByOwner(Owner owner);
 }

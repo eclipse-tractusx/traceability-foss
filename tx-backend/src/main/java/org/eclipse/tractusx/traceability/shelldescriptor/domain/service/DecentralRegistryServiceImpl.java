@@ -23,7 +23,8 @@ package org.eclipse.tractusx.traceability.shelldescriptor.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetService;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.application.DecentralRegistryService;
@@ -41,7 +42,8 @@ import java.util.List;
 public class DecentralRegistryServiceImpl implements DecentralRegistryService {
 
     private final ShellDescriptorService shellDescriptorsService;
-    private final AssetService assetService;
+    private final AssetAsBuiltServiceImpl assetAsBuiltService;
+    private final AssetAsPlannedServiceImpl assetAsPlannedService;
     private final TraceabilityProperties traceabilityProperties;
     private final DecentralRegistryRepository decentralRegistryRepository;
 
@@ -52,7 +54,10 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         List<ShellDescriptor> updatedShellDescriptorList = shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(shellDescriptorList);
         updatedShellDescriptorList.stream()
                 .map(ShellDescriptor::getGlobalAssetId)
-                .forEach(assetService::synchronizeAssetsAsync);
+                .forEach(globalAssetId -> {
+                    assetAsPlannedService.synchronizeAssetsAsync(globalAssetId);
+                    assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
+                });
     }
 
 }

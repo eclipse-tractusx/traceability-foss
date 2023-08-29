@@ -26,7 +26,7 @@ import { otherPartsAssets } from './otherParts.model';
 import { mockCustomerAssets, mockSupplierAssets } from './otherParts.test.model';
 
 export const otherPartsHandlers = [
-  rest.get(`*${environment.apiUrl}/assets`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
     const pagination = extractPagination(req);
     const owner = req.url.searchParams.get('owner');
 
@@ -42,7 +42,7 @@ export const otherPartsHandlers = [
 ];
 
 export const otherPartsHandlersTest = [
-  rest.get(`*${environment.apiUrl}/assets`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
     const owner = req.url.searchParams.get('owner');
 
     switch (owner) {

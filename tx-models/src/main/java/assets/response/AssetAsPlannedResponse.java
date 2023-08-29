@@ -17,15 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.alert.service;
+package assets.response;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-import java.time.Instant;
-import java.util.List;
+@SuperBuilder
+@Data
+@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+public class AssetAsPlannedResponse extends AssetBaseResponse {
 
-public interface AlertService extends QualityNotificationService {
-    QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String targetBpn);
 }

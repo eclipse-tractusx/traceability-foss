@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,15 +17,8 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.application.asbuilt.request;
+package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
-import io.swagger.annotations.ApiModelProperty;
-
-import jakarta.validation.constraints.Size;
-import java.util.List;
-
-public record GetDetailInformationRequest(
-        @Size(min = 1, max = 50, message = "Specify at least 1 and at most 50 assetIds")
-        @ApiModelProperty(example = "[\"urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd\"]")
-        List<String> assetIds) {
+public enum SemanticDataModel {
+    BATCH, SERIALPART, UNKNOWN, PARTASPLANNED, JUSTINSEQUENCE
 }

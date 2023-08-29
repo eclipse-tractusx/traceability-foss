@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 
+
 public interface AssetAsBuiltRepository extends AssetRepository {
 
 }

@@ -16,16 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service;
+package org.eclipse.tractusx.traceability.assets.domain.base.model.aspect;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
-
-import java.time.Instant;
-import java.util.List;
-
-public interface InvestigationService extends QualityNotificationService {
-    QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn);
-
+public interface DetailAspectData {
 }

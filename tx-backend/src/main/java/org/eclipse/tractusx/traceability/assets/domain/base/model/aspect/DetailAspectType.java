@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,15 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.domain.base.model.aspect;
 
-package org.eclipse.tractusx.traceability.assets.application.asbuilt.request;
+public enum DetailAspectType {
+    /* Detail aspect of as built assets */
+    TRACTION_BATTERY_CODE,
+    /* Downward relation of as planned assets */
+    SINGLE_LEVEL_BOM_AS_BUILT,
 
-import io.swagger.annotations.ApiModelProperty;
+    /* Upward relation of as planned assets */
+    SINGLE_LEVEL_USAGE_AS_BUILT,
 
-import jakarta.validation.constraints.NotNull;
+    /* Downward relation of as planned assets */
+    SINGLE_LEVEL_BOM_AS_PLANNED,
+    /* Detail aspect of as planned assets */
+    PART_SITE_INFORMATION_AS_PLANNED,
 
-public record UpdateAssetRequest(
-	@NotNull(message = "qualityType must be present")
-    @ApiModelProperty(example = "Ok" )
-    QualityTypeRequest qualityType) {
 }

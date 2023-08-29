@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model;
+package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -72,13 +72,18 @@ public class SemanticModel {
     }
 
     public static SemanticModel from(PartTypeInformation partTypeInformation) {
-        return SemanticModel.builder()
-                .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
-                .nameAtManufacturer(defaultValue(partTypeInformation.nameAtManufacturer()))
-                .customerPartId(defaultValue(partTypeInformation.customerPartId()))
-                .nameAtCustomer(defaultValue(partTypeInformation.nameAtCustomer()))
-                .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
-                .build();
+        if (partTypeInformation != null){
+            return SemanticModel.builder()
+                    .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
+                    .nameAtManufacturer(defaultValue(partTypeInformation.nameAtManufacturer()))
+                    .customerPartId(defaultValue(partTypeInformation.customerPartId()))
+                    .nameAtCustomer(defaultValue(partTypeInformation.nameAtCustomer()))
+                    .manufacturerPartId(defaultValue(partTypeInformation.manufacturerPartId()))
+                    .build();
+        } else {
+            return SemanticModel.builder().build();
+        }
+
     }
 
     private static String defaultValue(String value) {

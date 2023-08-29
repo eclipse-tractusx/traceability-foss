@@ -21,11 +21,17 @@ package org.eclipse.tractusx.traceability.qualitynotification.application.servic
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.springframework.data.domain.Pageable;
 
+import java.time.Instant;
+import java.util.List;
+
 public interface QualityNotificationService {
 
+    // TODO refactor to use request object instead of all params.
+    QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String targetBpn, boolean isAsBuilt);
     PageResult<QualityNotification> getCreated(Pageable pageable);
 
     PageResult<QualityNotification> getReceived(Pageable pageable);

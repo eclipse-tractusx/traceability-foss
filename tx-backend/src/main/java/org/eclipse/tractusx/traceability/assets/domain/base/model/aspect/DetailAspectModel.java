@@ -16,9 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.assets.domain.base.model.aspect;
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-public enum SemanticDataModel {
-    BATCH, SERIALPART, UNKNOWN, PARTASPLANNED, JUSTINSEQUENCE
+@Getter
+@Setter
+@Builder
+public class DetailAspectModel {
+
+    private DetailAspectType type;
+    private DetailAspectData data;
+
 }

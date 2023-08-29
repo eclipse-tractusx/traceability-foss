@@ -19,12 +19,11 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.service;
 
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -44,45 +43,31 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AssetServiceImplTest {
+class AssetAsPlannedServiceImplTest {
 
     @InjectMocks
-    private AssetServiceImpl assetService;
+    private AssetAsPlannedServiceImpl assetService;
 
     @Mock
     private IrsRepository irsRepository;
 
     @Mock
-    private AssetAsBuiltRepository assetRepository;
-
-    @Mock
-    private AssetAsPlannedRepository assetAsPlannedRepository;
-
+    private AssetAsPlannedRepository assetRepository;
 
     @Test
     void synchronizeAssets_shouldSaveCombinedAssets_whenNoException() {
         // given
-        List<Descriptions> parentDescriptionsList = AssetTestDataFactory.provideParentRelations();
         List<Descriptions> childDescriptionList = AssetTestDataFactory.provideChildRelations();
         String globalAssetId = "123";
-        List<Asset> downwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(Collections.emptyList(), childDescriptionList));
-        List<Asset> upwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(parentDescriptionsList, Collections.emptyList()));
+        List<AssetBase> downwardAssets = List.of(AssetTestDataFactory.createAssetTestDataWithRelations(Collections.emptyList(), childDescriptionList));
 
-        when(irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT))
+        when(irsRepository.findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED))
                 .thenReturn(downwardAssets);
-        when(irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT))
-                .thenReturn(upwardAssets);
-
-        when(irsRepository.findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT))
-                .thenReturn(Collections.emptyList());
-
 
         // when
         assetService.synchronizeAssetsAsync(globalAssetId);
 
         // then
-        verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
-        verify(irsRepository).findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
         verify(irsRepository).findAssets(globalAssetId, Direction.DOWNWARD, Aspect.downwardAspectsForAssetsAsPlanned(), BomLifecycle.AS_PLANNED);
         verify(assetRepository, times(1)).saveAll(any());
     }

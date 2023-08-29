@@ -19,13 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model;
+package org.eclipse.tractusx.traceability.assets.domain.base.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-public class Asset {
+public class AssetBase {
     private final String id;
     private final String idShort;
     private String semanticModelId;
@@ -51,4 +52,5 @@ public class Asset {
     private String van;
     private SemanticDataModel semanticDataModel;
     private String classification;
+    private List<DetailAspectModel> detailAspectModels;
 }
