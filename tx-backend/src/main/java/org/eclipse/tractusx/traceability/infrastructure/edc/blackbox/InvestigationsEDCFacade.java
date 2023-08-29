@@ -44,6 +44,7 @@ import org.eclipse.edc.spi.types.domain.DataAddress;
 import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
 import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
+import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.exceptions.ContractNegotiationException;
 import org.eclipse.tractusx.irs.edc.client.exceptions.TransferProcessException;
 import org.eclipse.tractusx.irs.edc.client.exceptions.UsagePolicyException;
@@ -102,6 +103,7 @@ public class InvestigationsEDCFacade {
 
     private final ContractNegotiationService contractNegotiationService;
     private final EdcConfiguration edcConfiguration;
+    private final EndpointDataReferenceStorage endpointDataReferenceStorage;
 
     public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
     public static final String ASSET_VALUE_QUALITY_ALERT = "qualityalert";
@@ -170,6 +172,21 @@ public class InvestigationsEDCFacade {
         }
         log.info("LIB contractNegotiation {}", response);
 
+        if (StringUtils.hasLength(response.getContractAgreementId())) {
+            notification.setContractAgreementId(response.getContractAgreementId());
+        }
+
+        final org.eclipse.edc.spi.types.domain.edr.EndpointDataReference dataReference = endpointDataReferenceStorage.remove(response.getContractAgreementId()).get();
+
+
+
+        try {
+            Request notificationRequest = buildNotificationRequestNew(notification, senderEdcUrl, dataReference);
+            httpCallService.sendRequest(notificationRequest);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     public void startEDCTransfer(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
@@ -179,6 +196,7 @@ public class InvestigationsEDCFacade {
             log.error("failed NEW exception", e);
         }
         log.info("END OF NEW");
+        notification.setDescription("after client sent one already");
         Map<String, String> header = new HashMap<>();
         header.put("x-api-key", edcProperties.getApiAuthKey());
         try {
@@ -306,6 +324,20 @@ public class InvestigationsEDCFacade {
     }
 
     private Request buildNotificationRequest(QualityNotificationMessage notification, String senderEdcUrl, EndpointDataReference dataReference) throws JsonProcessingException {
+        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notification);
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        String body = objectMapper.writeValueAsString(edcNotification);
+        HttpUrl url = httpCallService.getUrl(dataReference.getEndpoint(), null, null);
+        log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
+        return new Request.Builder()
+                .url(url)
+                .addHeader(dataReference.getAuthKey(), dataReference.getAuthCode())
+                .addHeader("Content-Type", JSON.type())
+                .post(RequestBody.create(body, JSON))
+                .build();
+    }
+
+    private Request buildNotificationRequestNew(QualityNotificationMessage notification, String senderEdcUrl,org.eclipse.edc.spi.types.domain.edr.EndpointDataReference dataReference) throws JsonProcessingException {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notification);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);
