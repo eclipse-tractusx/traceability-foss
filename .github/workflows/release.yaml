@@ -30,7 +30,7 @@ jobs:
         run: |
           DEPENDENCIES=("frontend" "backend")
           for dep in "${DEPENDENCIES[@]}"; do
-            yq eval --inplace '.dependencies[] | select(.name == "'$dep'") | .version = env.HELM_VERSION | .appVersion = env.HELM_VERSION' charts/traceability-foss/Chart.yaml
+            yq eval --inplace '.dependencies[] | select(.name == "'$dep'") | .version = env.HELM_VERSION | .appVersion = github.ref_name' charts/traceability-foss/Chart.yaml
           done
 
       - name: Update frontend version in frontend/Chart.yaml
