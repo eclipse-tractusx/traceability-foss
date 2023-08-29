@@ -13,6 +13,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ### Removed
 
+## [1.3.13] - 2023-08-22
+### Added
+- THIS IS A TEST
+
+### Changed
+
+
+### Removed
+
 ## [1.3.12] - 2023-08-22
 
 ### Added
