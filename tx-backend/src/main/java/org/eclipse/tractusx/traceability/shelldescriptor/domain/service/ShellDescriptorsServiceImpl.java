@@ -54,17 +54,22 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
         for (ShellDescriptor descriptor : ownShellDescriptors) {
             if (existingDescriptors.containsKey(descriptor.getGlobalAssetId())) {
                 shellDescriptorRepository.update(existingDescriptors.get(descriptor.getGlobalAssetId()));
+                log.info("Updated existing shellDescriptor with id {}.", descriptor.getGlobalAssetId());
             } else {
                 descriptorsToSync.add((descriptor));
             }
         }
-
+        log.info("Updated new shellDescriptors list size {}.", descriptorsToSync.size());
         shellDescriptorRepository.saveAll(descriptorsToSync);
         shellDescriptorRepository.removeDescriptorsByUpdatedBefore(now);
 
-        log.info("Finished update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
-        log.info("Updated needed for {} ownShellDescriptors.", descriptorsToSync.size());
+        log.info("Finished update of {} shell descriptors.", ownShellDescriptors.size());
 
         return descriptorsToSync;
+    }
+
+    @Transactional
+    public void deleteAll(){
+        shellDescriptorRepository.deleteAll();
     }
 }

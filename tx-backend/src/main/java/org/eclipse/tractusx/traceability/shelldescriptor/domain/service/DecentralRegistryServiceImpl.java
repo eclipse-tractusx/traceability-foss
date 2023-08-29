@@ -50,7 +50,6 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void updateShellDescriptorAndSynchronizeAssets() {
         List<ShellDescriptor> shellDescriptorList = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
-
         List<ShellDescriptor> updatedShellDescriptorList = shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(shellDescriptorList);
         updatedShellDescriptorList.stream()
                 .map(ShellDescriptor::getGlobalAssetId)
@@ -59,6 +58,12 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
                     assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
                 });
     }
+
+    public void deleteAll(){
+        shellDescriptorsService.deleteAll();
+        log.info("Deleted all shell descriptors");
+    }
+
 
 }
 
