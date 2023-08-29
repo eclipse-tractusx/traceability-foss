@@ -83,7 +83,7 @@ class EdcNotificationServiceTest {
         notificationsService.asyncNotificationExecutor(notification);
 
         // then
-        verify(edcFacade).startEDCTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
+        verify(edcFacade).startEdcTransferNew(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
         verify(investigationRepository).updateQualityNotificationMessageEntity(notification);
         verifyNoInteractions(alertRepository);
     }
@@ -111,7 +111,7 @@ class EdcNotificationServiceTest {
         notificationsService.asyncNotificationExecutor(notification);
 
         // then
-        verify(edcFacade).startEDCTransfer(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
+        verify(edcFacade).startEdcTransferNew(any(QualityNotificationMessage.class), eq(edcReceiverUrl), eq(edcSenderUrl));
         verify(alertRepository).updateQualityNotificationMessageEntity(notification);
         verifyNoInteractions(investigationRepository);
     }
