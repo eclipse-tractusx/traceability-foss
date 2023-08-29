@@ -35,7 +35,11 @@ import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
@@ -50,14 +54,14 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
         return Stream.of(
                 arguments("OWN", 1),
                 arguments("CUSTOMER", 0),
-                arguments("SUPPLIER", 12),
+                arguments("SUPPLIER", 1),
                 arguments("UNKNOWN", 0));
     }
 
     @Test
     void shouldReturnAssetsWithManufacturerName() throws JoseException {
         //GIVEN
-        bpnSupport.cachedBpnsForDefaultAssets();
+        bpnSupport.cachedBpnsForAsPlannedAssets();
         assetsSupport.defaultAssetsAsPlannedStored();
 
         //THEN
@@ -70,6 +74,7 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
+                .body("totalItems", is(greaterThan(0)))
                 .body("content.manufacturerName", everyItem(not(equalTo(assetsSupport.emptyText()))));
     }
 

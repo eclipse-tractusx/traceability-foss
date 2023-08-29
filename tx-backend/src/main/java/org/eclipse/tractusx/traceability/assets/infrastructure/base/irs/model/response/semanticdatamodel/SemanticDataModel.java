@@ -196,10 +196,6 @@ public class SemanticDataModel {
         return catenaXId;
     }
 
-    public PartTypeInformation partTypeInformation() {
-        return partTypeInformation;
-    }
-
     public ManufacturingInformation manufacturingInformation() {
         return manufacturingInformation;
     }

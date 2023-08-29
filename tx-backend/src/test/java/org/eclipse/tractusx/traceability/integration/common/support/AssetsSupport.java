@@ -97,8 +97,26 @@ public class AssetsSupport {
         });
     }
 
+    public void assertAsPlannedHasRequiredIdentifiers() {
+        assetRepositoryProvider.assetAsPlannedRepository().getAssets().forEach(asset -> {
+            assert Objects.nonNull(asset.getManufacturerId()) && !asset.getManufacturerId().equals("--");
+            assert Objects.nonNull(asset.getSemanticModelId()) && !asset.getSemanticModelId().equals("--");
+            assert !Objects.isNull(asset.getIdShort());
+
+            log.info("!asset.getManufacturerId().equals(\"--\"): {}", !asset.getManufacturerId().equals("--"));
+            log.info("!asset.getSemanticModelId().equals(\"--\"): {}", !asset.getSemanticModelId().equals("--"));
+            log.info("!Objects.isNull(asset.getIdShort()): {}", !Objects.isNull(asset.getIdShort()));
+        });
+    }
+
     public void assertHasChildCount(String assetId, int count) {
         List<Descriptions> childRelations = assetRepositoryProvider.assetAsBuiltRepository().getAssetById(assetId).getChildRelations();
+        log.info("childCount: {}", childRelations.size());
+        assert childRelations.size() == count;
+    }
+
+    public void assertHasAsPlannedChildCount(String assetId, int count) {
+        List<Descriptions> childRelations = assetRepositoryProvider.assetAsPlannedRepository().getAssetById(assetId).getChildRelations();
         log.info("childCount: {}", childRelations.size());
         assert childRelations.size() == count;
     }
