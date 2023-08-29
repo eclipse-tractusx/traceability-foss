@@ -30,12 +30,6 @@ import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
-import org.eclipse.edc.policy.model.AtomicConstraint;
-import org.eclipse.edc.policy.model.Constraint;
-import org.eclipse.edc.policy.model.Operator;
-import org.eclipse.edc.policy.model.OrConstraint;
-import org.eclipse.edc.policy.model.Permission;
-import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.query.QuerySpec;
 import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
@@ -46,8 +40,6 @@ import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.PolicyDefinition;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.AtomicConstraintValidator;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
@@ -57,7 +49,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
 
-import static org.eclipse.edc.spi.query.Criterion.CRITERION_OPERAND_LEFT;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest.DEFAULT_PROTOCOL;
 
@@ -90,6 +81,7 @@ public class InvestigationsEDCFacade {
             final QualityNotificationMessage notification,
             final String receiverEdcUrl,
             final String senderEdcUrl) {
+
         CatalogItem catalogItem = getCatalogItem(notification, receiverEdcUrl);
 
         String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem);
@@ -159,60 +151,6 @@ public class InvestigationsEDCFacade {
                 .addHeader("Content-Type", JSON.type())
                 .post(RequestBody.create(body, JSON))
                 .build();
-    }
-
-    private boolean hasTracePolicy(final CatalogItem catalogItem) {
-        boolean foundPolicy = false;
-        if (catalogItem.getPolicy() != null) {
-            log.info("Policy Check {} ", catalogItem.getPolicy().toString());
-            foundPolicy = isValid(catalogItem.getPolicy());
-        }
-        log.info("Found policy: {} ", foundPolicy);
-        return foundPolicy;
-    }
-
-    private List<PolicyDefinition> allowedPolicies() {
-        final PolicyDefinition allowedTracePolicy = PolicyDefinition.builder()
-                .constraintOperator("EQ")
-                .permissionActionType("USE")
-                .constraintType("AtomicConstraint")
-                .leftExpressionValue("PURPOSE")
-                .rightExpressionValue("ID 3.0 Trace")
-                .build();
-        return List.of(allowedTracePolicy);
-    }
-
-    private boolean isValid(final Policy policy) {
-        final List<PolicyDefinition> policyList = this.allowedPolicies();
-        return policy.getPermissions()
-                .stream()
-                .anyMatch(permission -> policyList.stream()
-                        .anyMatch(allowedPolicy -> isValid(permission, allowedPolicy)));
-    }
-
-    private boolean isValid(final Permission permission, final PolicyDefinition policyDefinition) {
-        return permission.getAction().getType().equals(policyDefinition.getPermissionActionType())
-                && permission.getConstraints()
-                .stream()
-                .anyMatch(constraint -> isValid(constraint, policyDefinition));
-    }
-
-    private boolean isValid(final Constraint constraint, final PolicyDefinition policyDefinition) {
-        if (constraint instanceof AtomicConstraint atomicConstraint) {
-            return AtomicConstraintValidator.builder()
-                    .atomicConstraint(atomicConstraint)
-                    .leftExpressionValue(policyDefinition.getLeftExpressionValue())
-                    .rightExpressionValue(policyDefinition.getRightExpressionValue())
-                    .expectedOperator(
-                            Operator.valueOf(policyDefinition.getConstraintOperator()))
-                    .build()
-                    .isValid();
-        } else if (constraint instanceof OrConstraint orConstraint) {
-            return orConstraint.getConstraints()
-                    .stream()
-                    .anyMatch(constraint1 -> isValid(constraint1, policyDefinition));
-        }
-        return false;
     }
 
 }
