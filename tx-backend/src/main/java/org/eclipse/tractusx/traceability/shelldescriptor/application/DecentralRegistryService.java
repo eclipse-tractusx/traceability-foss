@@ -18,8 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.shelldescriptor.application;
 
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+
+import java.util.List;
+
 public interface DecentralRegistryService {
     void updateShellDescriptorAndSynchronizeAssets();
 
-    void deleteAll();
 }
