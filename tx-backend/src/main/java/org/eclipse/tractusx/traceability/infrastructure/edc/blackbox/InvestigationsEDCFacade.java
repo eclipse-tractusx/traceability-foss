@@ -29,9 +29,7 @@ import okhttp3.HttpUrl;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import org.eclipse.edc.catalog.spi.Catalog;
 import org.eclipse.edc.catalog.spi.CatalogRequest;
-import org.eclipse.edc.catalog.spi.Dataset;
 import org.eclipse.edc.policy.model.AtomicConstraint;
 import org.eclipse.edc.policy.model.Constraint;
 import org.eclipse.edc.policy.model.Operator;
@@ -40,41 +38,27 @@ import org.eclipse.edc.policy.model.Permission;
 import org.eclipse.edc.policy.model.Policy;
 import org.eclipse.edc.spi.query.Criterion;
 import org.eclipse.edc.spi.query.QuerySpec;
-import org.eclipse.edc.spi.types.domain.DataAddress;
+import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
-import org.eclipse.tractusx.irs.edc.client.EdcConfiguration;
 import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.EndpointDataReference;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.cache.InMemoryEndpointDataReferenceCache;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.catalog.CatalogItem;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX;
+import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
+import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.PolicyDefinition;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessDataDestination;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.AtomicConstraintValidator;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
+import static org.eclipse.edc.spi.query.Criterion.CRITERION_OPERAND_LEFT;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.configuration.JsonLdConfigurationTraceX.NAMESPACE_EDC_ID;
 import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest.DEFAULT_PROTOCOL;
 
 @Slf4j
@@ -84,13 +68,9 @@ public class InvestigationsEDCFacade {
 
     private static final MediaType JSON = MediaType.get("application/json");
 
-    private final EdcService edcService;
-
     private final HttpCallService httpCallService;
 
     private final ObjectMapper objectMapper;
-
-    private final InMemoryEndpointDataReferenceCache endpointDataReferenceCache;
 
     private final EdcProperties edcProperties;
 
@@ -99,18 +79,22 @@ public class InvestigationsEDCFacade {
 
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
+    private final PolicyCheckerService policyCheckerService;
 
     public static final String ASSET_VALUE_QUALITY_INVESTIGATION = "qualityinvestigation";
     public static final String ASSET_VALUE_QUALITY_ALERT = "qualityalert";
     private static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
     private static final String ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE = "receive";
 
-    public void startEdcTransferNew(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
-        org.eclipse.tractusx.irs.edc.client.model.CatalogItem catalogItem = getCatalogItem(notification, receiverEdcUrl);
+    public void startEdcTransferNew(
+            final QualityNotificationMessage notification,
+            final String receiverEdcUrl,
+            final String senderEdcUrl) {
+        CatalogItem catalogItem = getCatalogItem(notification, receiverEdcUrl);
 
         String contractAgreementId = negotiateContractAgreement(receiverEdcUrl, catalogItem);
 
-        final org.eclipse.edc.spi.types.domain.edr.EndpointDataReference dataReference = endpointDataReferenceStorage.remove(contractAgreementId)
+        final EndpointDataReference dataReference = endpointDataReferenceStorage.remove(contractAgreementId)
                 .orElseThrow(() -> new NoEndpointDataReferenceException("No EndpointDataReference was found"));
 
         notification.setContractAgreementId(contractAgreementId);
@@ -124,7 +108,7 @@ public class InvestigationsEDCFacade {
         }
     }
 
-    private String negotiateContractAgreement(String receiverEdcUrl, org.eclipse.tractusx.irs.edc.client.model.CatalogItem catalogItem) {
+    private String negotiateContractAgreement(final String receiverEdcUrl, final CatalogItem catalogItem) {
         try {
             return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem))
                     .orElseThrow(() -> new ContractNegotiationException("Failed to negotiate contract agreement. Negotiation response is null"))
@@ -134,7 +118,7 @@ public class InvestigationsEDCFacade {
         }
     }
 
-    private org.eclipse.tractusx.irs.edc.client.model.CatalogItem getCatalogItem(QualityNotificationMessage notification, String receiverEdcUrl) {
+    private CatalogItem getCatalogItem(final QualityNotificationMessage notification, final String receiverEdcUrl) {
         try {
             final String propertyNotificationTypeValue = QualityNotificationType.ALERT.equals(notification.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
             final String propertyMethodValue = Boolean.TRUE.equals(notification.getIsInitial()) ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
@@ -150,143 +134,20 @@ public class InvestigationsEDCFacade {
                                             .build())
                                     .build()
                     ).stream()
-                    .filter(this::hasTracePolicy)
+                    .filter(catalogItem -> policyCheckerService.isValid(catalogItem.getPolicy()))
                     .findFirst()
-                    .orElseThrow(() -> new NoCatalogItemException());
+                    .orElseThrow(NoCatalogItemException::new);
         } catch (Exception e) {
             log.error("Exception was thrown while requesting catalog items from Lib", e);
             throw new NoCatalogItemException(e);
         }
     }
 
-    public void startEDCTransfer(QualityNotificationMessage notification, String receiverEdcUrl, String senderEdcUrl) {
-        Map<String, String> header = new HashMap<>();
-        header.put("x-api-key", edcProperties.getApiAuthKey());
-        try {
-            notification.setEdcUrl(receiverEdcUrl);
-
-            log.info(":::: Find Notification contract method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
-
-            Catalog catalog = edcService.getCatalog(
-                    senderEdcUrl,
-                    receiverEdcUrl + edcProperties.getIdsPath(),
-                    header
-            );
-            log.info(" CATALOG FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog));
-
-            log.info(" DATASET FOR NOTIFICATION : {}", objectMapper.writeValueAsString(catalog.getDatasets()));
-            if (catalog.getDatasets().isEmpty()) {
-                log.info("No Dataset in catalog found");
-                throw new BadRequestException("The dataset from the catalog is empty.");
-            }
-
-            Optional<Dataset> filteredDataset = catalog.getDatasets().stream()
-                    .filter(dataset -> isQualityNotificationOffer(notification, dataset))
-                    .findFirst()
-                    .filter(this::hasTracePolicy);
-
-
-            log.info(":::: Initialize Contract Negotiation method[startEDCTransfer] senderEdcUrl :{}, receiverEdcUrl:{}", senderEdcUrl, receiverEdcUrl);
-            final List<CatalogItem> items = filteredDataset.stream().map(dataSet -> {
-                final Map.Entry<String, Policy> offer = dataSet.getOffers()
-                        .entrySet()
-                        .stream()
-                        .findFirst()
-                        .orElseThrow();
-                final var catalogItem = CatalogItem.builder()
-                        .itemId(dataSet.getId())
-                        .assetPropId(dataSet.getProperty(NAMESPACE_EDC_ID).toString())
-                        .connectorId(catalog.getId())
-                        .offerId(offer.getKey())
-                        .policy(offer.getValue());
-                if (catalog.getProperties().containsKey(JsonLdConfigurationTraceX.NAMESPACE_EDC_PARTICIPANT_ID)) {
-                    catalogItem.connectorId(
-                            catalog.getProperties().get(JsonLdConfigurationTraceX.NAMESPACE_EDC_PARTICIPANT_ID).toString());
-                }
-
-                return catalogItem.build();
-            }).toList();
-
-            Optional<CatalogItem> catalogItem = items.stream().findFirst();
-            if (catalogItem.isEmpty()) {
-                log.info("No Catalog Item in catalog found");
-                throw new NoCatalogItemException();
-            }
-
-// TODO
-            //NegotiationResponse negotiationResponse = contractNegotiationService.negotiate(null, null);
-
-            //  String contractAgreementId = negotiationResponse.getContractAgreementId();
-
-
-            final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl, items.stream().findFirst().get(), senderEdcUrl, header);
-
-            log.info(":::: Contract Agreed method[startEDCTransfer] agreementId :{}", edcContractAgreementId);
-
-            // TODO remove this because we do not store agreement Id we extract it from a token in EdcCallbackControllerTraceX.java
-            endpointDataReferenceCache.storeAgreementId(edcContractAgreementId);
-
-            if (StringUtils.hasLength(edcContractAgreementId)) {
-                notification.setContractAgreementId(edcContractAgreementId);
-            }
-
-            EndpointDataReference dataReference = endpointDataReferenceCache.get(edcContractAgreementId);
-            boolean validDataReference = dataReference != null && InMemoryEndpointDataReferenceCache.endpointDataRefTokenExpired(dataReference);
-            if (!validDataReference) {
-                log.info(":::: Invalid Data Reference :::::");
-                if (dataReference != null) {
-                    endpointDataReferenceCache.remove(edcContractAgreementId);
-                }
-
-                final TransferProcessRequest transferProcessRequest = createTransferProcessRequest(
-                        receiverEdcUrl + edcProperties.getIdsPath(),
-                        catalogItem.get(),
-                        edcContractAgreementId);
-
-                log.info(":::: initialize Transfer process with http Proxy :::::");
-                // Initiate transfer process
-                edcService.initiateHttpProxyTransferProcess(senderEdcUrl,
-                        receiverEdcUrl + edcProperties.getIdsPath(),
-                        transferProcessRequest,
-                        header
-                );
-                dataReference = getDataReference(edcContractAgreementId);
-            }
-
-            Request notificationRequest = buildNotificationRequest(notification, senderEdcUrl, dataReference);
-
-            httpCallService.sendRequest(notificationRequest);
-
-            log.info(":::: EDC Data Transfer Completed :::::");
-        } catch (IOException e) {
-            throw new BadRequestException("EDC Data Transfer fail.", e);
-        } catch (InterruptedException e) {
-            log.error("Exception", e);
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    private TransferProcessRequest createTransferProcessRequest(final String providerConnectorUrl,
-                                                                final CatalogItem catalogItem,
-                                                                final String negotiationId) {
-        final var destination = DataAddress.Builder.newInstance()
-                .type(TransferProcessDataDestination.DEFAULT_TYPE)
-                .build();
-        final var transferProcessRequestBuilder = TransferProcessRequest.builder()
-                .protocol(
-                        TransferProcessRequest.DEFAULT_PROTOCOL)
-                .managedResources(
-                        TransferProcessRequest.DEFAULT_MANAGED_RESOURCES)
-                .connectorId(catalogItem.getConnectorId())
-                .connectorAddress(providerConnectorUrl)
-                .contractId(negotiationId)
-                .assetId(catalogItem.getAssetPropId())
-                .dataDestination(destination);
-
-        return transferProcessRequestBuilder.build();
-    }
-
-    private Request buildNotificationRequest(QualityNotificationMessage notification, String senderEdcUrl, EndpointDataReference dataReference) throws JsonProcessingException {
+    private Request buildNotificationRequestNew(
+            final QualityNotificationMessage notification,
+            final String senderEdcUrl,
+            final EndpointDataReference dataReference
+    ) throws JsonProcessingException {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notification);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);
@@ -300,77 +161,7 @@ public class InvestigationsEDCFacade {
                 .build();
     }
 
-    private Request buildNotificationRequestNew(QualityNotificationMessage notification, String senderEdcUrl, org.eclipse.edc.spi.types.domain.edr.EndpointDataReference dataReference) throws JsonProcessingException {
-        EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notification);
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        String body = objectMapper.writeValueAsString(edcNotification);
-        HttpUrl url = httpCallService.getUrl(dataReference.getEndpoint(), null, null);
-        log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
-        return new Request.Builder()
-                .url(url)
-                .addHeader(dataReference.getAuthKey(), dataReference.getAuthCode())
-                .addHeader("Content-Type", JSON.type())
-                .post(RequestBody.create(body, JSON))
-                .build();
-    }
-
-    private EndpointDataReference getDataReference(String agreementId) throws InterruptedException {
-        EndpointDataReference dataReference = null;
-        var waitTimeout = 20;
-        while (dataReference == null && waitTimeout > 0) {
-            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            ScheduledFuture<EndpointDataReference> scheduledFuture =
-                    scheduler.schedule(() -> endpointDataReferenceCache.get(agreementId), 30, TimeUnit.SECONDS);
-            try {
-                dataReference = scheduledFuture.get();
-                waitTimeout--;
-                scheduler.shutdown();
-            } catch (ExecutionException e) {
-                throw new RuntimeException(e);
-            } finally {
-                if (!scheduler.isShutdown()) {
-                    scheduler.shutdown();
-                }
-            }
-        }
-        if (dataReference == null) {
-            throw new BadRequestException("Did not receive callback within 30 seconds from consumer edc.");
-        }
-        return dataReference;
-    }
-
-    @Deprecated
-    private boolean isQualityNotificationOffer(QualityNotificationMessage qualityNotificationMessage, Dataset dataset) {
-        Object notificationTypeObj = dataset.getProperty(NAMESPACE_EDC + "notificationtype");
-        String notificationType = null;
-        if (notificationTypeObj != null) {
-            notificationType = notificationTypeObj.toString();
-        }
-        Object notificationMethodObj = dataset.getProperty(NAMESPACE_EDC + "notificationmethod");
-        String notificationMethod = null;
-        if (notificationMethodObj != null) {
-            notificationMethod = notificationMethodObj.toString();
-        }
-
-        final String propertyNotificationTypeValue = QualityNotificationType.ALERT.equals(qualityNotificationMessage.getType()) ? ASSET_VALUE_QUALITY_ALERT : ASSET_VALUE_QUALITY_INVESTIGATION;
-        final String propertyMethodValue = qualityNotificationMessage.getIsInitial() ? ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE : ASSET_VALUE_NOTIFICATION_METHOD_UPDATE;
-        return propertyNotificationTypeValue.equals(notificationType) && propertyMethodValue.equals(notificationMethod);
-    }
-
-
-    private boolean hasTracePolicy(Dataset dataset) {
-        boolean foundPolicy = false;
-        for (Policy policy : dataset.getOffers().values()) {
-            log.info("Policy Check {} ", policy.toString());
-            if (!foundPolicy) {
-                foundPolicy = isValid(policy);
-            }
-        }
-        log.info("Found policy: {} ", foundPolicy);
-        return foundPolicy;
-    }
-
-    private boolean hasTracePolicy(org.eclipse.tractusx.irs.edc.client.model.CatalogItem catalogItem) {
+    private boolean hasTracePolicy(final CatalogItem catalogItem) {
         boolean foundPolicy = false;
         if (catalogItem.getPolicy() != null) {
             log.info("Policy Check {} ", catalogItem.getPolicy().toString());
@@ -379,7 +170,6 @@ public class InvestigationsEDCFacade {
         log.info("Found policy: {} ", foundPolicy);
         return foundPolicy;
     }
-
 
     private List<PolicyDefinition> allowedPolicies() {
         final PolicyDefinition allowedTracePolicy = PolicyDefinition.builder()
@@ -391,7 +181,6 @@ public class InvestigationsEDCFacade {
                 .build();
         return List.of(allowedTracePolicy);
     }
-
 
     private boolean isValid(final Policy policy) {
         final List<PolicyDefinition> policyList = this.allowedPolicies();
