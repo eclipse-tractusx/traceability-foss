@@ -20,11 +20,11 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.alert.service.AlertService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationSeverityRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
@@ -54,7 +54,7 @@ import static org.mockito.Mockito.when;
 class AlertControllerTest {
 
     @Mock
-    private AlertService alertService;
+    private QualityNotificationService alertService;
 
     @InjectMocks
     private AlertController controller;

@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
@@ -42,8 +42,8 @@ import java.util.List;
 // TODO as this is duplicated with InvestigationServiceImpl it should be done like assetAsPlanned / assetAsBuilt with an abstract class / interface
 @Slf4j
 @RequiredArgsConstructor
-@Service
-public class InvestigationServiceImpl implements InvestigationService {
+@Service("investigationServiceImpl")
+public class InvestigationServiceImpl implements QualityNotificationService {
 
     private final NotificationPublisherService notificationPublisherService;
 

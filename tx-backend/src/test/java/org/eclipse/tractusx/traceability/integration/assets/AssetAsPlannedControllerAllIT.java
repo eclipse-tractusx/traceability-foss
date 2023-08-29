@@ -73,4 +73,41 @@ class AssetAsPlannedControllerAllIT extends IntegrationTestSpecification {
                 .body("content.manufacturerName", everyItem(not(equalTo(assetsSupport.emptyText()))));
     }
 
+    @ParameterizedTest
+    @MethodSource("owners")
+    void shouldReturnAssetsByOwnerFiltering(String ownerValue, int totalItemsValue) throws JoseException {
+        //GIVEN
+        assetsSupport.defaultAssetsAsPlannedStored();
+
+        //THEN
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .queryParam("owner", ownerValue)
+                .when()
+                .get("/api/assets/as-planned")
+                .then()
+                .statusCode(200)
+                .body("totalItems", equalTo(totalItemsValue));
+    }
+
+    @Test
+    void shouldGetPageOfAssets() throws JoseException {
+        //GIVEN
+        assetsSupport.defaultAssetsAsPlannedStored();
+
+        //THEN
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .param("page", "2")
+                .param("size", "2")
+                .when()
+                .get("/api/assets/as-planned")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(2))
+                .body("pageSize", Matchers.is(2));
+    }
+
 }
