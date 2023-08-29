@@ -69,9 +69,9 @@ public class EdcNotificationService {
     }
 
     private void handleSendingAlert(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
-        try{
-        edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
-        alertRepository.updateQualityNotificationMessageEntity(notification);
+        try {
+            edcFacade.startEdcTransferNew(notification, receiverUrl, senderEdcUrl);
+            alertRepository.updateQualityNotificationMessageEntity(notification);
         } catch (NoCatalogItemException e) {
             log.warn("Could not send alert to {} no catalog item found.", receiverUrl);
         } catch (BadRequestException e) {
@@ -80,8 +80,8 @@ public class EdcNotificationService {
     }
 
     private void handleSendingInvestigation(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
-        try{
-            edcFacade.startEDCTransfer(notification, receiverUrl, senderEdcUrl);
+        try {
+            edcFacade.startEdcTransferNew(notification, receiverUrl, senderEdcUrl);
             investigationRepository.updateQualityNotificationMessageEntity(notification);
         } catch (NoCatalogItemException e) {
             log.warn("Could not send investigation to {} no catalog item found.", receiverUrl);
