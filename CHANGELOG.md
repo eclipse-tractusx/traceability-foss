@@ -26,6 +26,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Readme / Docker Notice information as required in TRGs
 - Removed references to GitHub registry and added docker hub for tractusx instead
 - Removed UX breaking black status box
+- Updated cypress-io/github-action from 5.8.4 to 6.0.0
+- Updated asciidoctor-maven-plugin from 2.2.3 to 2.2.4
+- Updated owasp:dependency-check from 8.3.1 to 8.4.0
+- Updated commons-io from 2.11.0 to 2.13.0
+- Updated snakeyaml from 2.0 to 2.1
 
 ### Removed
 
