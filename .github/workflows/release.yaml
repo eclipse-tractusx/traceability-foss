@@ -26,6 +26,33 @@ jobs:
         with:
           cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
 
+      - name: Update dependency versions and appVersions in Chart.yaml
+        run: |
+          DEPENDENCIES=("frontend" "backend")
+          for dep in "${DEPENDENCIES[@]}"; do
+            yq eval --inplace '.dependencies[] | select(.name == "'$dep'") | .version = env.HELM_VERSION | .appVersion = env.HELM_VERSION' charts/traceability-foss/Chart.yaml
+          done
+
+      - name: Update frontend version in frontend/Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/charts/frontend/Chart.yaml
+
+      - name: Update frontend appVersion in frontend/Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.appVersion = "${{ github.ref_name }}"' charts/traceability-foss/charts/frontend/Chart.yaml
+
+      - name: Update backend version in backend/Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/charts/backend/Chart.yaml
+
+      - name: Update backend appVersion in frontend/Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.appVersion = "${{ github.ref_name }}"' charts/traceability-foss/charts/backend/Chart.yaml
+
       - name: Prepare Helm release
         uses: peter-evans/create-pull-request@v5
         with:
