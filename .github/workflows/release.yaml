@@ -26,19 +26,25 @@ jobs:
         with:
           cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
 
-  #    - name: Update dependency versions and appVersions in Chart.yaml
-  #      run: |
-  #        DEPENDENCIES=("frontend" "backend")
-  #        for dep in "${DEPENDENCIES[@]}"; do
-  #          yq eval --inplace '.dependencies[] | select(.name == "'$dep'") | .version = ${{ env.HELM_VERSION }} | .appVersion = ${{ github.ref_name }}' charts/traceability-foss/Chart.yaml
-  #        done
+      - name: Update frontend dependency version in Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.dependencies[0].version = "${{ github.ref_name }}"' charts/traceability-foss/Chart.yaml
 
-      - name: Update dependency versions and appVersions in Chart.yaml
-        run: |
-            DEPENDENCIES=("frontend" "backend")
-            for dep in "${DEPENDENCIES[@]}"; do
-              sed -i '/name: '"$dep"'/ {n; s/version:.*/version: 6.0.2/; n; s/appVersion:.*/appVersion: 1.3.15/;}' charts/traceability-foss/Chart.yaml
-            done
+      - name: Update frontend dependency appVersion in Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.dependencies[0].appVersion = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
+
+      - name: Update backend dependency version in Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.dependencies[1].version = "${{ github.ref_name }}"' charts/traceability-foss/Chart.yaml
+
+      - name: Update backend dependency appVersion in Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.dependencies[1].appVersion = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
 
       - name: Update frontend version in frontend/Chart.yaml
         uses: mikefarah/yq@v4.34.2
