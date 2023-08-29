@@ -26,33 +26,33 @@ import { getAssetById, mockBmwAssets } from './parts.model';
 import { mockAssetList, mockAssets } from './parts.test.model';
 
 export const partsHandlers = [
-  rest.get(`*${environment.apiUrl}/assets`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
   }),
 
 
-  rest.post(`*${environment.apiUrl}/assets/detail-information`, async (req, res, ctx) => {
+  rest.post(`*${environment.apiUrl}/assets/as-built/detail-information`, async (req, res, ctx) => {
     const { assetIds } = await req.json();
 
     const response = assetIds.map(id => getAssetById(id));
     return res(ctx.status(200), ctx.json(response.filter(data => !!data)));
   }),
 
-  rest.get(`*${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentAsset = getAssetById(partId as string);
     return res(ctx.status(200), ctx.json(currentAsset));
   }),
 
-  rest.patch(`*${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
+  rest.patch(`*${environment.apiUrl}/assets/as-built/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentPart = getAssetById(partId as string);
     return res(ctx.status(200), ctx.json({ ...currentPart, ...req.json() }));
   }),
 
-  rest.get(`*${environment.apiUrl}/assets/:assetId/children/:childId`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built/:assetId/children/:childId`, (req, res, ctx) => {
     const { childId } = req.params;
     const currentAsset = getAssetById(childId as string);
     return res(ctx.status(200), ctx.json(currentAsset));
@@ -60,34 +60,34 @@ export const partsHandlers = [
 ];
 
 export const partsHandlersTest = [
-  rest.get(`*${environment.apiUrl}/assets`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockAssets));
   }),
 
-  rest.get(`*${environment.apiUrl}/assets/my`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built/my`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockAssets));
   }),
 
-  rest.post(`*${environment.apiUrl}/assets/detail-information`, async (req, res, ctx) => {
+  rest.post(`*${environment.apiUrl}/assets/as-built/detail-information`, async (req, res, ctx) => {
     const { assetIds } = await req.json();
 
     const response = assetIds.map(id => mockAssetList[id] || getAssetById(id));
     return res(ctx.status(200), ctx.json(response.filter(data => !!data)));
   }),
 
-  rest.get(`*${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentAsset = mockAssetList[partId as string];
     return res(ctx.status(200), ctx.json(currentAsset));
   }),
 
-  rest.patch(`*${environment.apiUrl}/assets/:partId`, (req, res, ctx) => {
+  rest.patch(`*${environment.apiUrl}/assets/as-built/:partId`, (req, res, ctx) => {
     const { partId } = req.params;
     const currentPart = mockAssetList[partId as string];
     return res(ctx.status(200), ctx.json({ ...currentPart, ...req.json() }));
   }),
 
-  rest.get(`*${environment.apiUrl}/assets/:assetId/children/:childId`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/as-built/:assetId/children/:childId`, (req, res, ctx) => {
     const { childId } = req.params;
     const currentAsset = mockAssetList[childId as string];
     return res(ctx.status(200), ctx.json(currentAsset));

@@ -15,9 +15,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Cucumber tests for quality investigations
 - Refactored asset structure to allow new API for assets-as-planned
 - Optional parameter "receiverBpn" to /investigations endpoint
+- NEW API /api/assets/as-planned
 
 ### Changed
-
+- API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
 - Changed digitalTwinRegistryRestTemplate to use token in requests
 - Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
 - Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
