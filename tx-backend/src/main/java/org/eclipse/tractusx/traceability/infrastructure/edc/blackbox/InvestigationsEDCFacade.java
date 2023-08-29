@@ -233,7 +233,7 @@ public class InvestigationsEDCFacade {
 
             //  String contractAgreementId = negotiationResponse.getContractAgreementId();
 
-            final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl, items.stream().findFirst().get(), senderEdcUrl, header);
+            final String edcContractAgreementId = edcService.initializeContractNegotiation(receiverEdcUrl+ edcProperties.getIdsPath(), items.stream().findFirst().get(), senderEdcUrl, header);
 
             log.info(":::: Contract Agreed method[startEDCTransfer] agreementId :{}", edcContractAgreementId);
 
