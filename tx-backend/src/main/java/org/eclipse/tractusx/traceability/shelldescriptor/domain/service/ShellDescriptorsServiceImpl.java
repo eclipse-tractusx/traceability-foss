@@ -72,4 +72,9 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
     public void deleteAll(){
         shellDescriptorRepository.deleteAll();
     }
+
+    @Transactional
+    public List<ShellDescriptor> findAll(){
+        return shellDescriptorRepository.findAll();
+    }
 }
