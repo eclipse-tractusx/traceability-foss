@@ -31,14 +31,25 @@ import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.*;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.exception.QualityNotificationIllegalUpdate;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 import static java.util.stream.Collectors.groupingBy;
 

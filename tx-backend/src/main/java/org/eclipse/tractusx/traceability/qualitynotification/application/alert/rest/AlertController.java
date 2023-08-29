@@ -120,6 +120,7 @@ public class AlertController {
     @ResponseStatus(HttpStatus.CREATED)
     public QualityNotificationIdResponse alertAssets(@RequestBody @Valid StartQualityAlertRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
+        //TODO refactor this method to only take request as parameter
         return new QualityNotificationIdResponse(alertService.start(
                 request.getPartIds(),
                 request.getDescription(),

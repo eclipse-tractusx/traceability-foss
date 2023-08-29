@@ -26,12 +26,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.PartSiteInformationAsPlanned;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
@@ -137,7 +146,6 @@ public class SemanticDataModel {
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())
                 .van(van())
-
                 .build();
     }
 
@@ -145,7 +153,6 @@ public class SemanticDataModel {
         final String manufacturerName = bpns.get(manufacturerId());
         final String[] manufacturerId = {"--"};
         bpns.values().stream().filter(s -> s.equals(manufacturerName)).findFirst().ifPresent(s -> manufacturerId[0] = s);
-
 
         return AssetBase.builder()
                 .id(catenaXId())
@@ -170,7 +177,6 @@ public class SemanticDataModel {
         return getLocalId(LocalIdKey.MANUFACTURER_ID)
                 .orElse("--");
     }
-
 
     private String defaultValue(String value) {
         final String EMPTY_TEXT = "--";
@@ -249,6 +255,4 @@ public class SemanticDataModel {
         return !aspectType.contains("AsPlanned");
     }
 
-
 }
-
