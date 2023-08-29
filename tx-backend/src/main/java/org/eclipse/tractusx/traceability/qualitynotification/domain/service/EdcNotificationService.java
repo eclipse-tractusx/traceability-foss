@@ -21,14 +21,18 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.BadRequestException;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoCatalogItemException;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoEndpointDataReferenceException;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
@@ -73,9 +77,13 @@ public class EdcNotificationService {
             edcFacade.startEdcTransferNew(notification, receiverUrl, senderEdcUrl);
             alertRepository.updateQualityNotificationMessageEntity(notification);
         } catch (NoCatalogItemException e) {
-            log.warn("Could not send alert to {} no catalog item found.", receiverUrl);
-        } catch (BadRequestException e) {
+            log.warn("Could not send alert to {} no catalog item found. ", receiverUrl, e);
+        } catch (SendNotificationException e) {
             log.warn("Could not send alert to {} ", receiverUrl, e);
+        } catch (NoEndpointDataReferenceException e) {
+            log.warn("Could not send alert to {} no endpoint data reference found", receiverUrl, e);
+        } catch (ContractNegotiationException e) {
+            log.warn("Could not send alert to {} could not negotiate contract agreement", receiverUrl, e);
         }
     }
 
@@ -84,9 +92,13 @@ public class EdcNotificationService {
             edcFacade.startEdcTransferNew(notification, receiverUrl, senderEdcUrl);
             investigationRepository.updateQualityNotificationMessageEntity(notification);
         } catch (NoCatalogItemException e) {
-            log.warn("Could not send investigation to {} no catalog item found.", receiverUrl);
-        } catch (BadRequestException e) {
+            log.warn("Could not send investigation to {} no catalog item found.", receiverUrl, e);
+        } catch (SendNotificationException e) {
             log.warn("Could not send investigation to {} ", receiverUrl, e);
+        } catch (NoEndpointDataReferenceException e) {
+            log.warn("Could not send investigation to {} no endpoint data reference found", receiverUrl, e);
+        } catch (ContractNegotiationException e) {
+            log.warn("Could not send investigation to {} could not negotiate contract agreement", receiverUrl, e);
         }
     }
 }

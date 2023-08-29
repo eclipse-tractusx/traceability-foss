@@ -19,13 +19,12 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-public class NoCatalogItemException extends RuntimeException{
-    static final String MESSAGE = "No Catalog Item in catalog found.";
-    public NoCatalogItemException() {
-        super(MESSAGE);
+public class ContractNegotiationException extends RuntimeException {
+    public ContractNegotiationException(final String message, final Throwable exception) {
+        super(message, exception);
     }
 
-    public NoCatalogItemException(final Throwable exception) {
-        super(MESSAGE, exception);
+    public ContractNegotiationException(final String message) {
+        super(message);
     }
 }

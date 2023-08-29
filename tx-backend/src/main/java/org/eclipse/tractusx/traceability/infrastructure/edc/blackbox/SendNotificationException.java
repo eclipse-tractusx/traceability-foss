@@ -19,13 +19,8 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-public class NoCatalogItemException extends RuntimeException{
-    static final String MESSAGE = "No Catalog Item in catalog found.";
-    public NoCatalogItemException() {
-        super(MESSAGE);
-    }
-
-    public NoCatalogItemException(final Throwable exception) {
-        super(MESSAGE, exception);
+public class SendNotificationException extends RuntimeException {
+    public SendNotificationException(final String message, final Throwable exception) {
+        super(message, exception);
     }
 }
