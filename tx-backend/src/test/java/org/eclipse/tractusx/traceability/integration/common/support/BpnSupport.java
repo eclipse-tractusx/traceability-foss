@@ -49,6 +49,17 @@ public class BpnSupport {
         bpnRepositoryProvider.bpnRepository().updateManufacturers(bpnMappings);
     }
 
+    public void cachedBpnsForAsPlannedAssets() {
+        List<String> assetIds = assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests().stream().map(AssetBase::getManufacturerId).toList();
+        Map<String, String> bpnMappings = new HashMap<>();
+
+        for (String assetId : assetIds) {
+            bpnMappings.put(assetId, "Manufacturer Name $i");
+        }
+
+        bpnRepositoryProvider.bpnRepository().updateManufacturers(bpnMappings);
+    }
+
     public String testBpn() {
         return bpn;
     }
