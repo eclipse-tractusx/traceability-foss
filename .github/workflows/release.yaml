@@ -26,6 +26,41 @@ jobs:
         with:
           cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
 
+      - name: Update frontend dependency version in Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.dependencies[0].version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
+
+      - name: Update backend dependency version in Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.dependencies[1].version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/Chart.yaml
+
+      - name: Update frontend version in frontend/Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/charts/frontend/Chart.yaml
+
+      - name: Update frontend appVersion in frontend/Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.appVersion = "${{ github.ref_name }}"' charts/traceability-foss/charts/frontend/Chart.yaml
+
+      - name: Update backend version in backend/Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.version = "${{ env.HELM_VERSION }}"' charts/traceability-foss/charts/backend/Chart.yaml
+
+      - name: Update backend appVersion in frontend/Chart.yaml
+        uses: mikefarah/yq@v4.34.2
+        with:
+          cmd: yq -i eval '.appVersion = "${{ github.ref_name }}"' charts/traceability-foss/charts/backend/Chart.yaml
+
+      - name: Update the frontend package.json appVersion
+        run: |
+          npm install -g json
+          json -I -f frontend/package.json -e "this.version='${{ github.ref_name }}'"
+
       - name: Prepare Helm release
         uses: peter-evans/create-pull-request@v5
         with:
