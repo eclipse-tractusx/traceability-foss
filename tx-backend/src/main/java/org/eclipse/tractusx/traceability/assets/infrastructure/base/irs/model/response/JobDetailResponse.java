@@ -34,7 +34,11 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -183,7 +187,6 @@ public record JobDetailResponse(
         Map<String, List<Relationship>> singleLevelBomRelationship = relationships().stream()
                 .filter(relationship -> SINGLE_LEVEL_BOM_AS_PLANNED.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
-
 
         final List<AssetBase> assets = ownPartsAsPlanned
                 .stream()
