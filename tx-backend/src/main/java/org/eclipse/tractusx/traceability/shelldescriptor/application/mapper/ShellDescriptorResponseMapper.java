@@ -16,9 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.shelldescriptor.application;
+package org.eclipse.tractusx.traceability.shelldescriptor.application.mapper;
 
-public interface DecentralRegistryService {
-    void updateShellDescriptorAndSynchronizeAssets();
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+import shelldescriptors.ShellDescriptorResponse;
 
+import java.util.List;
+
+public class ShellDescriptorResponseMapper {
+
+    public static ShellDescriptorResponse from(ShellDescriptor shellDescriptor) {
+        return new ShellDescriptorResponse(shellDescriptor.getId(), shellDescriptor.getGlobalAssetId());
+    }
+
+    public static List<ShellDescriptorResponse> from(List<ShellDescriptor> shellDescriptors) {
+        return shellDescriptors.stream().map(ShellDescriptorResponseMapper::from).toList();
+    }
 }
