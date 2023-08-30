@@ -31,6 +31,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @AllArgsConstructor
 @Data
 @SuperBuilder
@@ -47,7 +49,7 @@ public class AssetBaseResponseMapper {
     }
 
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
-        return detailAspectModels.stream()
+        return emptyIfNull(detailAspectModels).stream()
                 .map(AssetAsPlannedResponseMapper::from)
                 .toList();
     }
