@@ -21,13 +21,11 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.BadRequestException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoCatalogItemException;
@@ -74,7 +72,7 @@ public class EdcNotificationService {
 
     private void handleSendingAlert(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
         try {
-            edcFacade.startEdcTransferNew(notification, receiverUrl, senderEdcUrl);
+            edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
             alertRepository.updateQualityNotificationMessageEntity(notification);
         } catch (NoCatalogItemException e) {
             log.warn("Could not send alert to {} no catalog item found. ", receiverUrl, e);
@@ -89,7 +87,7 @@ public class EdcNotificationService {
 
     private void handleSendingInvestigation(QualityNotificationMessage notification, String senderEdcUrl, String receiverUrl) {
         try {
-            edcFacade.startEdcTransferNew(notification, receiverUrl, senderEdcUrl);
+            edcFacade.startEdcTransfer(notification, receiverUrl, senderEdcUrl);
             investigationRepository.updateQualityNotificationMessageEntity(notification);
         } catch (NoCatalogItemException e) {
             log.warn("Could not send investigation to {} no catalog item found.", receiverUrl, e);

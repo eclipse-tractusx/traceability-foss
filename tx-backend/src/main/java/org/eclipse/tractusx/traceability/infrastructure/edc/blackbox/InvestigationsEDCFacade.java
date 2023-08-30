@@ -74,7 +74,7 @@ public class InvestigationsEDCFacade {
     private static final String ASSET_VALUE_NOTIFICATION_METHOD_UPDATE = "update";
     private static final String ASSET_VALUE_NOTIFICATION_METHOD_RECEIVE = "receive";
 
-    public void startEdcTransferNew(
+    public void startEdcTransfer(
             final QualityNotificationMessage notification,
             final String receiverEdcUrl,
             final String senderEdcUrl) {
