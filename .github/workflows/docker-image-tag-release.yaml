@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "[BE][FE][RELEASE] Release Tag"
+name: Release Frontend&Backend on Tag
 
 on:
   workflow_dispatch:
