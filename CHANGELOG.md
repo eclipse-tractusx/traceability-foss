@@ -18,6 +18,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - NEW API /api/assets/as-planned
 - NEW API DELETE /api/registry
 - NEW API GET /api/shelldescriptors
+- cascading sorting functionality by allowing multiple sort query parameters on APIs
 
 ### Changed
 - API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
