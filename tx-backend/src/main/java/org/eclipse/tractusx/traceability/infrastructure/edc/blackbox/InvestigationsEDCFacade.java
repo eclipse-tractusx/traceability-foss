@@ -65,9 +65,7 @@ public class InvestigationsEDCFacade {
 
     private final EdcProperties edcProperties;
 
-    @Qualifier("testedc")
     private final EDCCatalogFacade edcCatalogFacade;
-
     private final ContractNegotiationService contractNegotiationService;
     private final EndpointDataReferenceStorage endpointDataReferenceStorage;
     private final PolicyCheckerService policyCheckerService;
