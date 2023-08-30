@@ -18,10 +18,17 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.asplanned.mapper;
 
-import assets.response.AssetAsBuiltResponse;
-import assets.response.AssetAsPlannedResponse;
+import assets.response.asplanned.AssetAsPlannedResponse;
+import assets.response.base.DetailAspectDataResponse;
+import assets.response.base.DetailAspectModelResponse;
+import assets.response.base.DetailAspectTypeResponse;
+import assets.response.base.PartSiteInformationAsPlannedResponse;
 import org.eclipse.tractusx.traceability.assets.application.base.mapper.AssetBaseResponseMapper;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.PartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 
 import java.util.List;
@@ -53,8 +60,11 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 )
                 .van(asset.getVan())
                 .semanticDataModel(from(asset.getSemanticDataModel()))
+                .detailAspectModels(fromList(asset.getDetailAspectModels()))
                 .build();
     }
+
+
 
     public static PageResult<AssetAsPlannedResponse> from(final PageResult<AssetBase> assetPageResult) {
         return new PageResult<>(

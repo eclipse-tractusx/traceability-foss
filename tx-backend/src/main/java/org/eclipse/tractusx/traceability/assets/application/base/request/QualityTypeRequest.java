@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.application.base.request;
 
 
-import assets.response.QualityTypeResponse;
+import assets.response.base.QualityTypeResponse;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

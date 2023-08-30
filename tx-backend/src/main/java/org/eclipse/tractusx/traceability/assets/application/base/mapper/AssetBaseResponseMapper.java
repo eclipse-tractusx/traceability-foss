@@ -18,11 +18,20 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.base.mapper;
 
-import assets.response.*;
+import assets.response.base.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.PartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
+
+import java.util.List;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @AllArgsConstructor
 @Data
@@ -39,6 +48,34 @@ public class AssetBaseResponseMapper {
                 .build();
     }
 
+    public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
+        return emptyIfNull(detailAspectModels).stream()
+                .map(AssetAsPlannedResponseMapper::from)
+                .toList();
+    }
+
+    public static DetailAspectModelResponse from(DetailAspectModel detailAspectModel) {
+        return DetailAspectModelResponse.builder()
+                .type(from(detailAspectModel.getType()))
+                .data(from(detailAspectModel.getData()))
+                .build();
+    }
+
+    public static DetailAspectTypeResponse from(DetailAspectType detailAspectType) {
+        return DetailAspectTypeResponse.valueOf(detailAspectType.name());
+    }
+
+    public static DetailAspectDataResponse from(DetailAspectData detailAspectData) {
+        if (detailAspectData instanceof PartSiteInformationAsPlanned partSiteInformationAsPlanned) {
+            return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(partSiteInformationAsPlanned.getCatenaXSiteId())
+                    .function(partSiteInformationAsPlanned.getFunction())
+                    .functionValidFrom(partSiteInformationAsPlanned.getFunctionValidFrom())
+                    .functionValidUntil(partSiteInformationAsPlanned.getFunctionValidUntil())
+                    .build();
+        } else {
+            return null;
+        }
+    }
 
     public static OwnerResponse from(final Owner owner) {
         return OwnerResponse.valueOf(owner.name());

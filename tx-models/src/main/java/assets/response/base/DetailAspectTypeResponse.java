@@ -16,21 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.response.base;
 
-package assets.response;
+public enum DetailAspectTypeResponse {
+    /* Detail aspect of as built assets */
+    TRACTION_BATTERY_CODE,
+    /* Downward relation of as planned assets */
+    SINGLE_LEVEL_BOM_AS_BUILT,
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+    /* Upward relation of as planned assets */
+    SINGLE_LEVEL_USAGE_AS_BUILT,
 
-@ApiModel(description = "Owner Type")
-public enum OwnerResponse {
-    @ApiModelProperty("Supplier")
-    SUPPLIER,
-    @ApiModelProperty("Customer")
-    CUSTOMER,
-    @ApiModelProperty("Own")
-    OWN,
-    @ApiModelProperty("Unknown")
-    UNKNOWN;
-
+    /* Downward relation of as planned assets */
+    SINGLE_LEVEL_BOM_AS_PLANNED,
+    /* Detail aspect of as planned assets */
+    PART_SITE_INFORMATION_AS_PLANNED,
 }
