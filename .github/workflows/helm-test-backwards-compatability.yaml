@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: Test k8s version compatability
+name: "[BE][FE][HELM] Test Backward Compatability"
 
 on:
   workflow_dispatch:
