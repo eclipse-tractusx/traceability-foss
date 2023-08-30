@@ -13,11 +13,12 @@ Please update the [CHANGELOG.md](https://github.com/eclipse-tractusx/traceabilit
 ## Release helm charts
 Hint: You need to stricly follow this guide to make sure the helm chart releaser will be able to detect a new helm chart version!
 1) Create a GIT Tag with the release version of the application.
-2) Afterwards update the properties in the Chart.yamls as described down below:
-   - Update helm charts *version* & *appVersion* property from
+2) A Release Action ( Release Trace-X ) will bump the helm versions and create a Pull request that needs to be merged.
+3) Check if the Action ran successfully and the following properties in the Chart.yamls and package.json were updated with the corresponding new versions from your created tag and the latest version entry from the [charts/CHANGELOG.md](https://github.com/catenax-ng/tx-traceability-foss/blob/main/charts/traceability-foss/CHANGELOG.md) file:
+   - *version* & *appVersion* property from
      - [backend Chart.yaml file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/charts/backend/Chart.yaml) and from
      - [frontend Chart.yaml file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/charts/frontend/Chart.yaml).
      - [Umbrella Helm Chart.yaml file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/Chart.yaml).
-
+     - [frontend package.json file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/package.json)
 3) Proceed with merging into the main branch and check the [Release Charts workflow](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml)
    - It should trigger automatically, if not invoke the workflow manually for the *main* branch. The workflow will compare previously stored helm charts version and if it detects new version, it will release it in GitHub and will create an appropriate git tag.
