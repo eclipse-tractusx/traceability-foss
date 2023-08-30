@@ -17,33 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package assets.response;
+package assets.response.asbuilt;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import assets.response.base.AssetBaseResponse;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.experimental.SuperBuilder;
 
-@ApiModel(description = "Quality types")
-public enum QualityTypeResponse {
-    @ApiModelProperty("Ok")
-    OK("Ok"),
-    @ApiModelProperty("Minor")
-    MINOR("Minor"),
-    @ApiModelProperty("Major")
-    MAJOR("Major"),
-    @ApiModelProperty("Critical")
-    CRITICAL("Critical"),
-    @ApiModelProperty("Life-threatening")
-    LIFE_THREATENING("LifeThreatening");
+@SuperBuilder
+@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+public class AssetAsBuiltResponse extends AssetBaseResponse {
 
-    private final String description;
 
-    QualityTypeResponse(String description) {
-        this.description = description;
-    }
-
-    @JsonValue
-    public String getDescription() {
-        return description;
-    }
 }

@@ -18,7 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper;
 
-import assets.response.AssetAsBuiltResponse;
+import assets.response.asbuilt.AssetAsBuiltResponse;
 import org.eclipse.tractusx.traceability.assets.application.base.mapper.AssetBaseResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -52,6 +52,7 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
                 )
                 .van(asset.getVan())
                 .semanticDataModel(from(asset.getSemanticDataModel()))
+                .detailAspectModels(fromList(asset.getDetailAspectModels()))
                 .build();
     }
 
