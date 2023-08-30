@@ -18,7 +18,7 @@
 # Require to set secrets:
 #  - ORG_IRS_JIRA_USERNAME
 #  - ORG_IRS_JIRA_PASSWORD
-name: [FE][TEST][E2E]- Cypress
+name: "[FE][TEST][E2E]- Cypress"
 
 on:
   # triggered manually by Test Manager
