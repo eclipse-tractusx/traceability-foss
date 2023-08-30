@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability
 
 import com.xebialabs.restito.server.StubServer
 import groovy.json.JsonBuilder
+import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository
@@ -88,6 +89,9 @@ abstract class IntegrationSpecification extends Specification
 
     @Autowired
     private JdbcTemplate jdbcTemplate
+
+    @Autowired
+    private EDCCatalogFacade edcCatalogFacade
 
 
     def setup() {

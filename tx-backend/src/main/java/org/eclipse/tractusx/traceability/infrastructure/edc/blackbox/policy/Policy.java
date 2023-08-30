@@ -94,7 +94,7 @@ public class Policy {
         LiteralExpression leftLiteralExpression = (LiteralExpression) atomicConstraint.getLeftExpression();
         LiteralExpression rightLiteralExpression = (LiteralExpression) atomicConstraint.getRightExpression();
 
-        return matchesValue(leftLiteralExpression, "idsc:PURPOSE") && matchesValue(rightLiteralExpression, "ID 3.0 Trace");
+        return matchesValue(leftLiteralExpression, "PURPOSE") && matchesValue(rightLiteralExpression, "ID 3.0 Trace");
     }
 
     @JsonIgnore
