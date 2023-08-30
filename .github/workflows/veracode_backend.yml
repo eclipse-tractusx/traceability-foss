@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "Veracode upload and scan"
+name: "[BE][SECURITY] Trivy"
 
 on:
   workflow_dispatch:

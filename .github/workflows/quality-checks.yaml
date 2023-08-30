@@ -15,14 +15,11 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "Quality Checks (Release Guidelines)"
+name: "[BE][FE][SECURITY] TRG Checks"
 
 on:
   workflow_dispatch: # Trigger manually
   push:
-    branches:
-      - main
-  pull_request:
     branches:
       - main
 

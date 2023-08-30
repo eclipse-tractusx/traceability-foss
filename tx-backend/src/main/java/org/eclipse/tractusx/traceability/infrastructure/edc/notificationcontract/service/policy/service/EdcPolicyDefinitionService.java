@@ -56,7 +56,7 @@ public class EdcPolicyDefinitionService {
     private static final String POLICY_TYPE = "Policy";
     private static final String POLICY_DEFINITION_TYPE = "PolicyDefinitionRequestDto";
     private static final String ATOMIC_CONSTRAINT = "AtomicConstraint";
-    private static final String PURPOSE_CONSTRAINT = "idsc:PURPOSE";
+    private static final String PURPOSE_CONSTRAINT = "PURPOSE";
     private static final String ID_TRACE_CONSTRAINT = "ID 3.0 Trace";
     private static final String CONSTRAINT = "Constraint";
     private static final String ASSET_SELECTOR_EQUALITY_OPERATOR = "odrl:eq";

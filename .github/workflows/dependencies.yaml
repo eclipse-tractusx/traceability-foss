@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "Dependencies Backend Update"
+name: "[BE][FE][SECURITY] Update DEPENDENCIES files"
 
 on:
   push:

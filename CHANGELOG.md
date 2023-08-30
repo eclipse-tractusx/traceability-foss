@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Optional parameter "receiverBpn" to /investigations endpoint
 - NEW API /api/assets/as-planned
 - NEW API DELETE /api/registry
+- NEW API GET /api/shelldescriptors
 
 ### Changed
 - API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
@@ -33,6 +34,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated owasp:dependency-check from 8.3.1 to 8.4.0
 - Updated commons-io from 2.11.0 to 2.13.0
 - Updated snakeyaml from 2.0 to 2.1
+- Replaced own implementation of getCatalog, negotiateAgreement, and validatePolicy with irs-client-library implementation.
+- Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.1.1-SNAPSHOT
 
 ### Removed
 

@@ -16,22 +16,17 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+package assets.response.asbuilt;
 
-@ApiModel(description = "Type of model")
-public enum SemanticDataModelResponse {
-    @ApiModelProperty("Batch")
-    BATCH,
-    @ApiModelProperty("SerialPart")
-    SERIALPART,
-    @ApiModelProperty("Unknown")
-    UNKNOWN,
-    @ApiModelProperty("PartAsPlanned")
-    PARTASPLANNED,
-    @ApiModelProperty("JustInSequence")
-    JUSTINSEQUENCE;
+import assets.response.base.AssetBaseResponse;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
+@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+public class AssetAsBuiltResponse extends AssetBaseResponse {
+
 
 }

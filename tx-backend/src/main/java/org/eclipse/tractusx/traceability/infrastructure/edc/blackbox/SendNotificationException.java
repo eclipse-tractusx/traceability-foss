@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,9 +19,8 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-public class BadRequestException extends RuntimeException {
-
-    public BadRequestException(String message) {
-        super(message);
+public class SendNotificationException extends RuntimeException {
+    public SendNotificationException(final String message, final Throwable exception) {
+        super(message, exception);
     }
 }

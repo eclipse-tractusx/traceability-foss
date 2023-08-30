@@ -1,17 +1,13 @@
 /********************************************************************************
- * Copyright (c) 2021,2022,2023
- *       2022: ZF Friedrichshafen AG
- *       2022: ISTOS GmbH
- *       2022,2023: Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- *       2022,2023: BOSCH AG
- * Copyright (c) 2021,2022,2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Apache License, Version 2.0 which is available at
- * https://www.apache.org/licenses/LICENSE-2.0. *
+ * https://www.apache.org/licenses/LICENSE-2.0.
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,23 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy;
 
-import lombok.Builder;
-import lombok.Data;
+package assets.response.asplanned;
 
-/**
- * Policy Definition that is accepted by IRS.
- */
-@Builder
+import assets.response.base.AssetBaseResponse;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+@SuperBuilder
 @Data
-public class PolicyDefinition {
-
-    private String permissionActionType;
-    private String constraintType;
-    private String leftExpressionValue;
-    private String rightExpressionValue;
-    private String constraintOperator;
-
+@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
+public class AssetAsPlannedResponse extends AssetBaseResponse {
 
 }

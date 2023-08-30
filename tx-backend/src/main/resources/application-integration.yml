@@ -69,6 +69,7 @@ logging:
     org.springframework: INFO
 
 digitalTwinRegistryClient:
+  oAuthClientId: keycloak
   discoveryFinderUrl: ""
 
   descriptorEndpoint: "" # required if type is "central", must contain the placeholder {aasIdentifier}

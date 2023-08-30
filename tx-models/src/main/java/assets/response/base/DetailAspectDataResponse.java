@@ -16,16 +16,11 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.response.base;
 
-package assets.response;
+import lombok.Builder;
 
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.experimental.SuperBuilder;
 
-@SuperBuilder
-@ArraySchema(arraySchema = @Schema(description = "Assets", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-public class AssetAsBuiltResponse extends AssetBaseResponse {
-
+public interface DetailAspectDataResponse {
 
 }

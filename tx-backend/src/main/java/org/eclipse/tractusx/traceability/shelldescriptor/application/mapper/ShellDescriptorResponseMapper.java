@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,12 +16,20 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.shelldescriptor.application.mapper;
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
+import shelldescriptors.ShellDescriptorResponse;
 
-public class BadRequestException extends RuntimeException {
+import java.util.List;
 
-    public BadRequestException(String message) {
-        super(message);
+public class ShellDescriptorResponseMapper {
+
+    public static ShellDescriptorResponse from(ShellDescriptor shellDescriptor) {
+        return new ShellDescriptorResponse(shellDescriptor.getId(), shellDescriptor.getGlobalAssetId());
+    }
+
+    public static List<ShellDescriptorResponse> from(List<ShellDescriptor> shellDescriptors) {
+        return shellDescriptors.stream().map(ShellDescriptorResponseMapper::from).toList();
     }
 }

@@ -22,7 +22,6 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-import lombok.val;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -1,4 +1,4 @@
-name: Release Trace-X
+name: "[BE][FE] Release"
 
 on:
   workflow_dispatch:
