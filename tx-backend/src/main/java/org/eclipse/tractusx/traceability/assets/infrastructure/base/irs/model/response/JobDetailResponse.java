@@ -34,11 +34,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -162,6 +158,12 @@ public record JobDetailResponse(
 
     private List<AssetBase> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType())).toList();
+        List<SemanticDataModel> isPartSiteInformationAsPlanned =
+                semanticDataModels().stream()
+                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
+                        .filter(semanticDataModel -> semanticDataModel.aspectType().contains(Aspect.PART_SITE_INFORMATION_AS_PLANNED.getAspectName())).toList();
+
+        addPartSiteInformationAsPlannedToOwnPartsAsPlanned(otherParts, isPartSiteInformationAsPlanned);
         log.info(":: mapToOtherPartsAsPlanned()");
         log.info(":: otherParts: {}", otherParts);
         final List<AssetBase> assets = otherParts
@@ -181,6 +183,13 @@ public record JobDetailResponse(
                         .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
                         .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.aspectType())).toList();
 
+        List<SemanticDataModel> isPartSiteInformationAsPlanned =
+                semanticDataModels().stream()
+                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
+                        .filter(semanticDataModel -> semanticDataModel.aspectType().contains(Aspect.PART_SITE_INFORMATION_AS_PLANNED.getAspectName())).toList();
+
+        addPartSiteInformationAsPlannedToOwnPartsAsPlanned(ownPartsAsPlanned, isPartSiteInformationAsPlanned);
+
         log.info(":: mapToOwnPartsAsPlanned()");
         log.info(":: ownPartsAsPlanned: {}", ownPartsAsPlanned);
 
@@ -196,6 +205,16 @@ public record JobDetailResponse(
                 .toList();
         log.info(":: mapped assets: {}", assets);
         return assets;
+    }
+
+    private static void addPartSiteInformationAsPlannedToOwnPartsAsPlanned(List<SemanticDataModel> ownPartsAsPlanned, List<SemanticDataModel> partSiteInformationAsPlanned) {
+        for (SemanticDataModel semanticDataModel : ownPartsAsPlanned) {
+            for (SemanticDataModel partSiteSemanticDataModel : partSiteInformationAsPlanned) {
+                if (semanticDataModel.getCatenaXId().equals(partSiteSemanticDataModel.getCatenaXId())) {
+                    semanticDataModel.setSites(partSiteSemanticDataModel.getSites());
+                }
+            }
+        }
     }
 
     private List<AssetBase> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
