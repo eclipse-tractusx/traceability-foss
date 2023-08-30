@@ -88,7 +88,7 @@ public class EdcRestTemplateConfiguration {
                 new OAuthClientCredentialsRestTemplateInterceptor(authorizedClientManager(), clientRegistration));
     }
 
-        /* package */ OAuth2AuthorizedClientManager authorizedClientManager() {
+    /* package */ OAuth2AuthorizedClientManager authorizedClientManager() {
         final var authorizedClientProvider = OAuth2AuthorizedClientProviderBuilder.builder()
                 .clientCredentials()
                 .build();

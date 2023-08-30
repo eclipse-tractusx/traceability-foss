@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,9 +19,21 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-public class BadRequestException extends RuntimeException {
+import org.junit.jupiter.api.Test;
 
-    public BadRequestException(String message) {
-        super(message);
+import static org.assertj.core.api.Assertions.assertThat;
+
+class SendNotificationExceptionTest {
+
+    @Test
+    void givenSendNotificationException_thenShouldHaveProperMessage() {
+        // given
+        final String message = "message";
+        final Throwable exceptionParam = new RuntimeException("test");
+        SendNotificationException exception = new SendNotificationException(message, exceptionParam);
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo(message);
+        assertThat(exception.getCause()).isEqualTo(exceptionParam);
     }
 }

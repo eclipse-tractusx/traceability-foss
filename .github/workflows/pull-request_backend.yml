@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: [BE][BUILT][DEPLOYMENT] Pull request
+name: "[BE][BUILT][DEPLOYMENT] Pull request"
 
 on:
   workflow_dispatch: # Trigger manually

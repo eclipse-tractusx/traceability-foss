@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: [BE][SECURITY] Spotbugs
+name: "[BE][SECURITY] Spotbugs"
 
 on:
   push:

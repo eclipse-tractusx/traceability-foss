@@ -20,7 +20,7 @@
 package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
 
-import assets.response.DescriptionsResponse;
+import assets.response.base.DescriptionsResponse;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.junit.jupiter.api.Test;

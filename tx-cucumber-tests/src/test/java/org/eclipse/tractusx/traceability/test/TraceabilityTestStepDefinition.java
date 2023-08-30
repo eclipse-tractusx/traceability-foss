@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.test;
 
-import assets.response.AssetAsBuiltResponse;
+import assets.response.asbuilt.AssetAsBuiltResponse;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.ParameterType;

@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,11 +17,20 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+package assets.response.base;
 
-public class BadRequestException extends RuntimeException {
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
-    public BadRequestException(String message) {
-        super(message);
-    }
+@ApiModel(description = "Owner Type")
+public enum OwnerResponse {
+    @ApiModelProperty("Supplier")
+    SUPPLIER,
+    @ApiModelProperty("Customer")
+    CUSTOMER,
+    @ApiModelProperty("Own")
+    OWN,
+    @ApiModelProperty("Unknown")
+    UNKNOWN;
+
 }

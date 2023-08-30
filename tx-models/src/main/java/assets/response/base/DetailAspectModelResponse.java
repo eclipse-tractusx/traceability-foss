@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,12 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.response.base;
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 
-public class BadRequestException extends RuntimeException {
+@Builder
+public class DetailAspectModelResponse {
 
-    public BadRequestException(String message) {
-        super(message);
-    }
+    @ApiModelProperty(example = "PART_SITE_INFORMATION_AS_PLANNED")
+    private DetailAspectTypeResponse type;
+    private DetailAspectDataResponse data;
 }

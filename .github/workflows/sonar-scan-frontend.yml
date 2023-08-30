@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: [FE][SECURITY] Sonar
+name: "[FE][SECURITY] Sonar"
 
 on:
   push:

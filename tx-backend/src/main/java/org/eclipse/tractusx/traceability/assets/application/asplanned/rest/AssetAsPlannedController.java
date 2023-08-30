@@ -19,8 +19,8 @@
 
 package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
-import assets.response.AssetAsBuiltResponse;
-import assets.response.AssetAsPlannedResponse;
+import assets.response.asbuilt.AssetAsBuiltResponse;
+import assets.response.asplanned.AssetAsPlannedResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -31,7 +31,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
-import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
 import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
 import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;

@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: [BE][SECURITY] Sonar
+name: "[BE][SECURITY] Sonar"
 on:
   workflow_dispatch:
   push:

@@ -38,7 +38,7 @@ public class CatalogTestDataFactory {
 
         OrConstraint orConstraint = OrConstraint.Builder.newInstance().constraint(AtomicConstraint.Builder.newInstance()
                 .operator(Operator.EQ)
-                .leftExpression(new LiteralExpression("idsc:PURPOSE"))
+                .leftExpression(new LiteralExpression("PURPOSE"))
                 .rightExpression(new LiteralExpression("ID 3.0 Trace"))
                 .build()).build();
 
@@ -70,7 +70,7 @@ public class CatalogTestDataFactory {
                         .type("USE").build())
                 .constraints(List.of(AtomicConstraint.Builder.newInstance()
                         .operator(Operator.EQ)
-                        .leftExpression(new LiteralExpression("idsc:PURPOSE"))
+                        .leftExpression(new LiteralExpression("PURPOSE"))
                         .rightExpression(new LiteralExpression("ID 3.0 Trace"))
                         .build())).build();
         Policy policy = Policy.Builder.newInstance().permission(permission).build();

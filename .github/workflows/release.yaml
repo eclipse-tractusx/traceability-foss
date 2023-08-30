@@ -1,4 +1,4 @@
-name: [BE][FE] Release
+name: "[BE][FE] Release"
 
 on:
   workflow_dispatch:

@@ -16,34 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package assets.response.base;
 
-package assets.response;
+public enum DetailAspectTypeResponse {
+    /* Detail aspect of as built assets */
+    TRACTION_BATTERY_CODE,
+    /* Downward relation of as planned assets */
+    SINGLE_LEVEL_BOM_AS_BUILT,
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+    /* Upward relation of as planned assets */
+    SINGLE_LEVEL_USAGE_AS_BUILT,
 
-@ApiModel(description = "Quality types")
-public enum QualityTypeResponse {
-    @ApiModelProperty("Ok")
-    OK("Ok"),
-    @ApiModelProperty("Minor")
-    MINOR("Minor"),
-    @ApiModelProperty("Major")
-    MAJOR("Major"),
-    @ApiModelProperty("Critical")
-    CRITICAL("Critical"),
-    @ApiModelProperty("Life-threatening")
-    LIFE_THREATENING("LifeThreatening");
-
-    private final String description;
-
-    QualityTypeResponse(String description) {
-        this.description = description;
-    }
-
-    @JsonValue
-    public String getDescription() {
-        return description;
-    }
+    /* Downward relation of as planned assets */
+    SINGLE_LEVEL_BOM_AS_PLANNED,
+    /* Detail aspect of as planned assets */
+    PART_SITE_INFORMATION_AS_PLANNED,
 }

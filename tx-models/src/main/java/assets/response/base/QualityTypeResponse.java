@@ -17,17 +17,33 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package assets.response;
+package assets.response.base;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Size;
 
-public record DescriptionsResponse(
-        @ApiModelProperty(example = "urn:uuid:a4a26b9c-9460-4cc5-8645-85916b86adb0")
-        @Size(max = 255)
-        String id,
-        @ApiModelProperty(example = "null")
-        @Size(max = 255)
-        String idShort) {
+@ApiModel(description = "Quality types")
+public enum QualityTypeResponse {
+    @ApiModelProperty("Ok")
+    OK("Ok"),
+    @ApiModelProperty("Minor")
+    MINOR("Minor"),
+    @ApiModelProperty("Major")
+    MAJOR("Major"),
+    @ApiModelProperty("Critical")
+    CRITICAL("Critical"),
+    @ApiModelProperty("Life-threatening")
+    LIFE_THREATENING("LifeThreatening");
 
+    private final String description;
+
+    QualityTypeResponse(String description) {
+        this.description = description;
+    }
+
+    @JsonValue
+    public String getDescription() {
+        return description;
+    }
 }
