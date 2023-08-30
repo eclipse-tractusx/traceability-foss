@@ -20,8 +20,8 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.irs;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IRSApiClient;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.IrsService;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.config.IrsPolicyConfig;
@@ -153,7 +153,7 @@ class IrsServiceTest {
         when(irsClient.getJobDetails(jobId.id())).thenReturn(jobResponse);
 
         // When
-        List<Asset> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        List<AssetBase> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         // Then
         assertThat(result).hasSize(1);
@@ -189,7 +189,7 @@ class IrsServiceTest {
         when(jobResponse.isCompleted()).thenReturn(false);
 
         // When
-        List<Asset> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
+        List<AssetBase> result = irsService.findAssets("1", direction, Aspect.downwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
         // Then
         assertThat(result).isEqualTo(Collections.EMPTY_LIST);

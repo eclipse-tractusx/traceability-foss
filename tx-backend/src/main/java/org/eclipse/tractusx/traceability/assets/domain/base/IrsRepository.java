@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.domain.base;
 
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 
@@ -36,7 +36,7 @@ public interface IrsRepository {
      * @param aspects       the list of aspects
      * @return a list of assets that match the given global asset ID and direction, or an empty list if no assets are found
      */
-    List<Asset> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
+    List<AssetBase> findAssets(String globalAssetId, Direction direction, List<String> aspects, BomLifecycle bomLifecycle);
 
     void createIrsPolicyIfMissing();
 }

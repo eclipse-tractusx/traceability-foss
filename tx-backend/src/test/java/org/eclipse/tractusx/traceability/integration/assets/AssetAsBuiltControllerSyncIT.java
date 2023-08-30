@@ -56,7 +56,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/sync")
+                .post("/api/assets/as-built/sync")
                 .then()
                 .statusCode(200);
 
@@ -88,14 +88,14 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/sync")
+                .post("/api/assets/as-built/sync")
                 .then()
                 .statusCode(200);
 
         //THEN
         eventually(() -> {
             assetsSupport.assertAssetAsBuiltSize(15);
-            irsApiSupport.verifyIrsApiTriggerJobCalledTimes(3);
+            irsApiSupport.verifyIrsApiTriggerJobCalledTimes(2);
             return true;
         });
     }
@@ -117,7 +117,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/sync")
+                .post("/api/assets/as-built/sync")
                 .then()
                 .statusCode(200);
 
@@ -146,7 +146,7 @@ class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/sync")
+                .post("/api/assets/as-built/sync")
                 .then()
                 .statusCode(200);
 

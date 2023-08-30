@@ -34,9 +34,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
@@ -75,7 +75,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     private List<AlertNotificationEntity> alertNotificationEntities = new ArrayList<>();
 
 
-    public static AssetAsBuiltEntity from(Asset asset) {
+    public static AssetAsBuiltEntity from(AssetBase asset) {
         return AssetAsBuiltEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
@@ -104,8 +104,8 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .build();
     }
 
-    public static Asset toDomain(AssetAsBuiltEntity entity) {
-        return Asset.builder()
+    public static AssetBase toDomain(AssetAsBuiltEntity entity) {
+        return AssetBase.builder()
                 .id(entity.getId())
                 .idShort(entity.getIdShort())
                 .semanticDataModel(SemanticDataModelEntity.toDomain(entity.getSemanticDataModel()))
@@ -129,13 +129,13 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .build();
     }
 
-    public static List<Asset> toDomainList(List<AssetAsBuiltEntity> entities) {
+    public static List<AssetBase> toDomainList(List<AssetAsBuiltEntity> entities) {
         return entities.stream()
                 .map(AssetAsBuiltEntity::toDomain)
                 .toList();
     }
 
-    public static List<AssetAsBuiltEntity> fromList(List<Asset> assets) {
+    public static List<AssetAsBuiltEntity> fromList(List<AssetBase> assets) {
         return assets.stream()
                 .map(AssetAsBuiltEntity::from)
                 .toList();

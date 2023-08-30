@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.test.tooling.rest;
 
-import assets.response.AssetResponse;
+import assets.response.AssetAsBuiltResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -212,16 +212,16 @@ public class RestProvider {
         return builder.build();
     }
 
-    public List<AssetResponse> getAssets(String ownerFilter) {
+    public List<AssetAsBuiltResponse> getAssets(String ownerFilter) {
         return given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets?owner=" + ownerFilter + "&page=0&size=50")
+                .get("/api/assets/as-built?owner=" + ownerFilter + "&page=0&size=50")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
                 .extract()
                 .body()
                 .jsonPath()
-                .getList("pageResult.content", AssetResponse.class);
+                .getList("pageResult.content", AssetAsBuiltResponse.class);
     }
 }

@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.assets.application.rest.response;
 
 import assets.response.DescriptionsResponse;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

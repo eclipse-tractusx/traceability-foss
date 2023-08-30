@@ -19,12 +19,12 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -33,14 +33,14 @@ import java.util.List;
 public class AssetTestDataFactory {
 
 
-    public static Asset createAssetTestDataWithRelations(List<Descriptions> parents, List<Descriptions> childs) {
-        Asset assetTestData = createAssetTestData();
+    public static AssetBase createAssetTestDataWithRelations(List<Descriptions> parents, List<Descriptions> childs) {
+        AssetBase assetTestData = createAssetTestData();
         assetTestData.setParentRelations(parents);
         assetTestData.setChildRelations(childs);
         return assetTestData;
     }
 
-    public static Asset createAssetTestData() {
+    public static AssetBase createAssetTestData() {
         Instant manufacturingDate = Instant.now();
         SemanticModel semanticModel =
                 SemanticModel.builder()
@@ -52,7 +52,7 @@ public class AssetTestDataFactory {
                         .nameAtCustomer("Customer Name")
                         .build();
 
-        return Asset.builder()
+        return AssetBase.builder()
                 .id("1")
                 .idShort("1234")
                 .semanticModelId("456")
@@ -70,7 +70,7 @@ public class AssetTestDataFactory {
                 .build();
     }
 
-    public static Asset createAssetParentTestData() {
+    public static AssetBase createAssetParentTestData() {
         Instant manufacturingDate = Instant.now();
         SemanticModel semanticModel =
                 SemanticModel.builder()
@@ -82,7 +82,7 @@ public class AssetTestDataFactory {
                         .nameAtCustomer("Customer Name")
                         .build();
 
-        return Asset.builder()
+        return AssetBase.builder()
                 .id("2")
                 .idShort("23456")
                 .semanticModelId("456")

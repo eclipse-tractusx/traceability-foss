@@ -37,6 +37,7 @@ spec:
       namespace: {{ .Values.namespace | default .Release.Namespace }}
       {{- with .Values.podAnnotations }}
       annotations:
+        seccomp.security.alpha.kubernetes.io/pod: 'runtime/default'
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:

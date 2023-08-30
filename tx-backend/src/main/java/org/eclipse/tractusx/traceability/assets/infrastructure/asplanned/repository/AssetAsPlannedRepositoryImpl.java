@@ -22,8 +22,8 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.reposi
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +40,7 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
     @Override
     @Transactional
-    public Asset getAssetById(String assetId) {
+    public AssetBase getAssetById(String assetId) {
         return jpaAssetAsPlannedRepository.findById(assetId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Asset with id %s was not found.".formatted(assetId)));
     }
@@ -51,19 +51,19 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     }
 
     @Override
-    public List<Asset> getAssetsById(List<String> assetIds) {
+    public List<AssetBase> getAssetsById(List<String> assetIds) {
         return jpaAssetAsPlannedRepository.findByIdIn(assetIds).stream().map(AssetAsPlannedEntity::toDomain)
                 .toList();
     }
 
     @Override
-    public Asset getAssetByChildId(String assetId, String childId) {
+    public AssetBase getAssetByChildId(String assetId, String childId) {
         return jpaAssetAsPlannedRepository.findById(childId).map(AssetAsPlannedEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
     }
 
     @Override
-    public PageResult<Asset> getAssets(Pageable pageable, Owner owner) {
+    public PageResult<AssetBase> getAssets(Pageable pageable, Owner owner) {
         if (owner != null) {
             return new PageResult<>(jpaAssetAsPlannedRepository.findByOwner(pageable, owner), AssetAsPlannedEntity::toDomain);
         }
@@ -72,25 +72,25 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
     @Override
     @Transactional
-    public List<Asset> getAssets() {
+    public List<AssetBase> getAssets() {
         return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.findAll());
     }
 
     @Override
-    public Asset save(Asset asset) {
+    public AssetBase save(AssetBase asset) {
         return AssetAsPlannedEntity.toDomain(jpaAssetAsPlannedRepository.save(AssetAsPlannedEntity.from(asset)));
     }
 
     @Override
     @Transactional
-    public List<Asset> saveAll(List<Asset> assets) {
+    public List<AssetBase> saveAll(List<AssetBase> assets) {
         return AssetAsPlannedEntity.toDomainList(jpaAssetAsPlannedRepository.saveAll(AssetAsPlannedEntity.fromList(assets)));
     }
 
     @Transactional
     @Override
-    public void updateParentDescriptionsAndOwner(final Asset asset) {
-        Asset assetById = this.getAssetById(asset.getId());
+    public void updateParentDescriptionsAndOwner(final AssetBase asset) {
+        AssetBase assetById = this.getAssetById(asset.getId());
         if (assetById.getOwner().equals(Owner.UNKNOWN)) {
             assetById.setOwner(asset.getOwner());
         }

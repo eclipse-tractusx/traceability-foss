@@ -19,7 +19,7 @@
 package org.eclipse.tractusx.traceability.integration.common.support;
 
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository;
@@ -48,6 +48,10 @@ public class AssetsSupport {
 
     public void defaultAssetsStored() {
         assetRepositoryProvider.assetAsBuiltRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests());
+    }
+
+    public void defaultAssetsAsPlannedStored() {
+        assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests());
     }
 
     public void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
@@ -93,8 +97,26 @@ public class AssetsSupport {
         });
     }
 
+    public void assertAsPlannedHasRequiredIdentifiers() {
+        assetRepositoryProvider.assetAsPlannedRepository().getAssets().forEach(asset -> {
+            assert Objects.nonNull(asset.getManufacturerId()) && !asset.getManufacturerId().equals("--");
+            assert Objects.nonNull(asset.getSemanticModelId()) && !asset.getSemanticModelId().equals("--");
+            assert !Objects.isNull(asset.getIdShort());
+
+            log.info("!asset.getManufacturerId().equals(\"--\"): {}", !asset.getManufacturerId().equals("--"));
+            log.info("!asset.getSemanticModelId().equals(\"--\"): {}", !asset.getSemanticModelId().equals("--"));
+            log.info("!Objects.isNull(asset.getIdShort()): {}", !Objects.isNull(asset.getIdShort()));
+        });
+    }
+
     public void assertHasChildCount(String assetId, int count) {
         List<Descriptions> childRelations = assetRepositoryProvider.assetAsBuiltRepository().getAssetById(assetId).getChildRelations();
+        log.info("childCount: {}", childRelations.size());
+        assert childRelations.size() == count;
+    }
+
+    public void assertHasAsPlannedChildCount(String assetId, int count) {
+        List<Descriptions> childRelations = assetRepositoryProvider.assetAsPlannedRepository().getAssetById(assetId).getChildRelations();
         log.info("childCount: {}", childRelations.size());
         assert childRelations.size() == count;
     }

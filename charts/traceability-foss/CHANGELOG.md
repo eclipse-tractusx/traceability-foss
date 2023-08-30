@@ -22,3 +22,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 
 - Migrated from irs-helm from 5.0.9 to 5.3.0
+=======
+### Added
+
+
+### Changed
+
+
+### Removed
+
+## [1.3.13] - 2023-08-22
+### Added
+- THIS IS A TEST
+
+### Changed
+
+
+### Removed
+
+## [1.3.12] - 2023-08-22
+
+### Added
+- Initialization of chart changelogs
+
+
+>>>>>>> main

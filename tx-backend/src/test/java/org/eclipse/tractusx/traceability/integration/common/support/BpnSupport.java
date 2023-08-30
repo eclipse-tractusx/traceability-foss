@@ -18,7 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.integration.common.support;
 
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -39,7 +39,18 @@ public class BpnSupport {
     String bpn = null;
 
     public void cachedBpnsForDefaultAssets() {
-        List<String> assetIds = assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests().stream().map(Asset::getManufacturerId).toList();
+        List<String> assetIds = assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests().stream().map(AssetBase::getManufacturerId).toList();
+        Map<String, String> bpnMappings = new HashMap<>();
+
+        for (String assetId : assetIds) {
+            bpnMappings.put(assetId, "Manufacturer Name $i");
+        }
+
+        bpnRepositoryProvider.bpnRepository().updateManufacturers(bpnMappings);
+    }
+
+    public void cachedBpnsForAsPlannedAssets() {
+        List<String> assetIds = assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests().stream().map(AssetBase::getManufacturerId).toList();
         Map<String, String> bpnMappings = new HashMap<>();
 
         for (String assetId : assetIds) {

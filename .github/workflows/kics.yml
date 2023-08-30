@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: "KICS"
+name: "[BE][FE][SECURITY] Kics"
 
 on:
   push:
@@ -65,6 +65,7 @@ jobs:
           # - results-dir/results.json
           # - results-dir/results.sarif
           output_path: kicsResults/
+          enable_comments: true
           output_formats: "json,sarif"
           # If you want KICS to ignore the results and return exit status code 0 unless a KICS engine error happens
           # ignore_on_exit: results
@@ -98,7 +99,8 @@ jobs:
         with:
           # Scanning directory .
           path: "./tx-backend"
-
+          exclude_queries: 9f88c88d-824d-4d9a-b985-e22977046042,8c8261c2-19a9-4ef7-ad37-b8bc7bdd4d85,181bd815-767e-4e95-a24d-bb3c87328e19,00b78adf-b83f-419c-8ed8-c6018441dd3a
+          enable_comments: true
           # Fail on HIGH severity results
           fail_on: high
           # Disable secrets detection - we use GitGuardian

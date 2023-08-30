@@ -22,6 +22,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.r
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.List;
+import java.util.Objects;
 
 public enum Aspect {
     BATCH("Batch"),
@@ -54,5 +55,14 @@ public enum Aspect {
 
     public static List<String> downwardAspectsForAssetsAsPlanned() {
         return List.of(PART_AS_PLANNED.getAspectName(), PART_SITE_INFORMATION_AS_PLANNED.getAspectName());
+    }
+
+
+    public static boolean isMasterAspect(String aspect) {
+        assert Objects.nonNull(aspect);
+        return aspect.contains(Aspect.PART_AS_PLANNED.getAspectName()) ||
+                aspect.contains(Aspect.SERIAL_PART.getAspectName()) ||
+                aspect.contains(Aspect.BATCH.getAspectName()) ||
+                aspect.contains(Aspect.JUST_IN_SEQUENCE_PART.getAspectName());
     }
 }
