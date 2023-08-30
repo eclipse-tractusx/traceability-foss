@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: Frontend Build&Push Docker image on main
+name: "[FE][BUILT][RELEASE] Docker Image on Main"
 
 on:
   push:
