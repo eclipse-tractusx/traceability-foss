@@ -23,7 +23,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.investigati
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.mapper.NotificationMapper;
 import org.eclipse.tractusx.traceability.common.mapper.QualityNotificationMapper;
 import org.eclipse.tractusx.traceability.common.model.BPN;
@@ -43,7 +43,7 @@ public class InvestigationsReceiverService {
 
     private final InvestigationRepository investigationsRepository;
     private final NotificationMapper notificationMapper;
-    private final AssetServiceImpl assetService;
+    private final AssetAsBuiltServiceImpl assetService;
     private final QualityNotificationMapper qualityNotificationMapper;
 
     public void handleNotificationReceive(EDCNotification edcNotification) {

@@ -62,7 +62,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
+                .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
                 .then()
                 .statusCode(200);
     }
@@ -77,7 +77,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
+                .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
                 .then()
                 .statusCode(200)
                 .body("underInvestigation", equalTo(false));
@@ -93,7 +93,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
+                .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb")
                 .then()
                 .statusCode(200)
                 .body("underInvestigation", equalTo(true));
@@ -104,7 +104,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/1234")
+                .get("/api/assets/as-built/1234")
                 .then()
                 .statusCode(401);
     }
@@ -119,7 +119,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a")
+                .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a")
                 .then()
                 .statusCode(200)
                 .body("id", Matchers.is("urn:uuid:587cfb38-7149-4f06-b1e0-0e9b6e98be2a"));
@@ -135,7 +135,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/unknown")
+                .get("/api/assets/as-built/urn:uuid:d387fa8e-603c-42bd-98c3-4d87fef8d2bb/children/unknown")
                 .then()
                 .statusCode(404);
     }
@@ -147,7 +147,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .body(asJson(Map.of("qualityType", "Critical")))
                 .when()
-                .patch("/api/assets/1234")
+                .patch("/api/assets/as-built/1234")
                 .then()
                 .statusCode(404)
                 .body("message", equalTo("Asset with id 1234 was not found."));
@@ -161,7 +161,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .body(asJson(requestBody))
                 .when()
-                .patch("/api/assets/1234")
+                .patch("/api/assets/as-built/1234")
                 .then()
                 .statusCode(400)
                 .body("message", equalTo(errorMessage));
@@ -178,7 +178,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/" + existingAssetId)
+                .get("/api/assets/as-built/" + existingAssetId)
                 .then()
                 .statusCode(200)
                 .body("qualityType", equalTo("Ok"));
@@ -188,7 +188,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .body(Map.of("qualityType", "Critical"))
                 .when()
-                .patch("/api/assets/" + existingAssetId)
+                .patch("/api/assets/as-built/" + existingAssetId)
                 .then()
                 .statusCode(200)
                 .body("qualityType", equalTo("Critical"));
@@ -197,7 +197,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/" + existingAssetId)
+                .get("/api/assets/as-built/" + existingAssetId)
                 .then()
                 .statusCode(200)
                 .body("qualityType", equalTo("Critical"));

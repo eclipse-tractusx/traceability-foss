@@ -56,7 +56,7 @@ class AssetAsBuiltControllerDetailInformationIT extends IntegrationTestSpecifica
                         )
                 )
                 .when()
-                .post("/api/assets/detail-information")
+                .post("/api/assets/as-built/detail-information")
                 .then()
                 .statusCode(401);
     }
@@ -78,7 +78,7 @@ class AssetAsBuiltControllerDetailInformationIT extends IntegrationTestSpecifica
                 )
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .when()
-                .post("/api/assets/detail-information")
+                .post("/api/assets/as-built/detail-information")
                 .then()
                 .statusCode(200)
                 .body("", hasSize(3));

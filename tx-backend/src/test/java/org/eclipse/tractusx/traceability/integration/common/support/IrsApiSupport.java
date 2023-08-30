@@ -25,8 +25,14 @@ import org.springframework.stereotype.Component;
 
 import static com.xebialabs.restito.builder.stub.StubHttp.whenHttp;
 import static com.xebialabs.restito.builder.verify.VerifyHttp.verifyHttp;
-import static com.xebialabs.restito.semantics.Action.*;
-import static com.xebialabs.restito.semantics.Condition.*;
+import static com.xebialabs.restito.semantics.Action.header;
+import static com.xebialabs.restito.semantics.Action.ok;
+import static com.xebialabs.restito.semantics.Action.status;
+import static com.xebialabs.restito.semantics.Condition.get;
+import static com.xebialabs.restito.semantics.Condition.post;
+import static com.xebialabs.restito.semantics.Condition.startsWithUri;
+import static com.xebialabs.restito.semantics.Condition.withHeader;
+import static com.xebialabs.restito.semantics.Condition.withPostBodyContaining;
 
 @Component
 public class IrsApiSupport {
@@ -81,7 +87,7 @@ public class IrsApiSupport {
                 .then(
                         ok(),
                         header("Content-Type", "application/json"),
-                        restitoProvider.jsonResponseFromFile("./stubs/irs/post/jobs/response_200_empty_as_built_jobdetails.json"));
+                        restitoProvider.jsonResponseFromFile("stubs/irs/get/jobs/id/response_200_empty_as_built_jobdetails.json"));
 
     }
 
@@ -105,25 +111,35 @@ public class IrsApiSupport {
         ).then(
                 ok(),
                 header("Content-Type", "application/json"),
-                restitoProvider.jsonResponseFromFile("./stubs/irs/post/jobs/response_200.json")
+                restitoProvider.jsonResponseFromFile("./stubs/irs/post/jobs/response_200_jobId_as_planned_successful.json")
         );
     }
 
     public void irsApiReturnsJobDetailsAsPlannedDownward() {
         whenHttp(restitoProvider.stubServer()).match(
-                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-3e719989ab54"),
+                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED"),
                         withHeader(HttpHeaders.AUTHORIZATION)
                 )
                 .then(
                         ok(),
-                        header("Content-Type", "application/json"))
-                .withSequence(
-                        restitoProvider.jsonResponseFromFile("./stubs/irs/post/jobs/empty_response_200.json"),
-                        restitoProvider.jsonResponseFromFile("./stubs/irs/post/jobs/empty_response_200.json"),
+                        header("Content-Type", "application/json"),
                         restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_downward_asPlanned.json")
                 );
     }
 
+    public void irsApiReturnsJobDetailsAsPlannedDownwardEmptyFirst() {
+        whenHttp(restitoProvider.stubServer()).match(
+                        get("/irs/jobs/ebb79c45-7bba-4169-bf17-SUCCESSFUL_AS_PLANNED"),
+                        withHeader(HttpHeaders.AUTHORIZATION)
+                )
+                .then(
+                        ok(),
+                        header("Content-Type", "application/json")
+                ).withSequence(
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_empty_as_planned_jobdetails.json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_downward_asPlanned.json")
+                );
+    }
 
     public void irsApiTriggerJobFailed() {
         whenHttp(restitoProvider.stubServer()).match(
@@ -192,7 +208,7 @@ public class IrsApiSupport {
                         ok(),
                         header("Content-Type", "application/json")
                 ).withSequence(
-                        restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json"),
+                        restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200_empty_as_built_jobdetails.json"),
                         restitoProvider.jsonResponseFromFile("./stubs/irs/get/jobs/id/response_200.json")
                 );
     }

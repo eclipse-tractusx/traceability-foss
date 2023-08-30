@@ -83,4 +83,5 @@ public class RegistryController {
     public void reload() {
         decentralRegistryService.updateShellDescriptorAndSynchronizeAssets();
     }
+
 }

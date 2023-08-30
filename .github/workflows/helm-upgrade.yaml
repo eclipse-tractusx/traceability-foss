@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: Upgrade Charts
+name: "[BE][FE][HELM] Upgrade Charts"
 
 on:
   pull_request:

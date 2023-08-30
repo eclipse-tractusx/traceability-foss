@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: Lint and Test Charts
+name: "[BE][FE][HELM] Lint and Test"
 
 on:
   pull_request:

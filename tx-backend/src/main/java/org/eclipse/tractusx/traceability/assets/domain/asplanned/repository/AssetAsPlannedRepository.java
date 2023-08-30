@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.domain.asplanned.repository;
 
 import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
 
+
 public interface AssetAsPlannedRepository extends AssetRepository {
 
 }

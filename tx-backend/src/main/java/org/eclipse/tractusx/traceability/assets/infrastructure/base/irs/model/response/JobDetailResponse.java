@@ -26,14 +26,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Relationship;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -96,11 +101,11 @@ public record JobDetailResponse(
         return JOB_STATUS_COMPLETED.equals(jobStatus.state());
     }
 
-    public List<Asset> convertAssets() {
+    public List<AssetBase> convertAssets() {
         return convertAssets(BomLifecycle.fromString(jobStatus().parameter().bomLifecycle()));
     }
 
-    private List<Asset> convertAssets(BomLifecycle bomLifecycle) {
+    private List<AssetBase> convertAssets(BomLifecycle bomLifecycle) {
 
         log.info(":: convertAssets(\"{}\")", bomLifecycle.getRealName());
         log.info(":: relationships: {}", relationships.toString());
@@ -113,8 +118,8 @@ public record JobDetailResponse(
 
         Map<String, String> bpnMapping = bpns();
 
-        List<Asset> ownParts = new ArrayList<>();
-        List<Asset> otherParts = new ArrayList<>();
+        List<AssetBase> ownParts = new ArrayList<>();
+        List<AssetBase> otherParts = new ArrayList<>();
         if (bomLifecycle.equals(BomLifecycle.AS_BUILT)) {
             ownParts = mapToOwnPartsAsBuilt(shortIds, bpnMapping);
             if (isSupplierDirection()) {
@@ -130,7 +135,7 @@ public record JobDetailResponse(
             }
         }
 
-        List<Asset> convertedAssets = new ArrayList<>();
+        List<AssetBase> convertedAssets = new ArrayList<>();
         convertedAssets.addAll(ownParts);
         convertedAssets.addAll(otherParts);
         return convertedAssets;
@@ -140,12 +145,12 @@ public record JobDetailResponse(
         return jobStatus().parameter().direction().equalsIgnoreCase(Direction.DOWNWARD.name());
     }
 
-    private List<Asset> mapToOtherPartsAsBuilt(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
+    private List<AssetBase> mapToOtherPartsAsBuilt(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).toList();
 
         log.info(":: mapToOtherPartsAsBuilt()");
         log.info(":: otherParts: {}", otherParts);
-        final List<Asset> assets = otherParts
+        final List<AssetBase> assets = otherParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
@@ -155,11 +160,11 @@ public record JobDetailResponse(
         return assets;
     }
 
-    private List<Asset> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
-        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).toList();
+    private List<AssetBase> mapToOtherPartsAsPlanned(Map<String, String> shortIds, Owner owner, Map<String, String> bpnMapping) {
+        List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType())).toList();
         log.info(":: mapToOtherPartsAsPlanned()");
         log.info(":: otherParts: {}", otherParts);
-        final List<Asset> assets = otherParts
+        final List<AssetBase> assets = otherParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, owner, bpnMapping,
                         Collections.emptyList(),
@@ -169,11 +174,12 @@ public record JobDetailResponse(
         return assets;
     }
 
-    private List<Asset> mapToOwnPartsAsPlanned(Map<String, String> shortIds, Map<String, String> bpnMapping) {
+    private List<AssetBase> mapToOwnPartsAsPlanned(Map<String, String> shortIds, Map<String, String> bpnMapping) {
 
         List<SemanticDataModel> ownPartsAsPlanned =
                 semanticDataModels().stream()
-                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus)).toList();
+                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
+                        .filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.aspectType())).toList();
 
         log.info(":: mapToOwnPartsAsPlanned()");
         log.info(":: ownPartsAsPlanned: {}", ownPartsAsPlanned);
@@ -182,8 +188,7 @@ public record JobDetailResponse(
                 .filter(relationship -> SINGLE_LEVEL_BOM_AS_PLANNED.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::catenaXId, Collectors.toList()));
 
-
-        final List<Asset> assets = ownPartsAsPlanned
+        final List<AssetBase> assets = ownPartsAsPlanned
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomainAsPlanned(shortIds, Owner.OWN, bpnMapping,
                         Collections.emptyList(),
@@ -193,7 +198,7 @@ public record JobDetailResponse(
         return assets;
     }
 
-    private List<Asset> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
+    private List<AssetBase> mapToOwnPartsAsBuilt(Map<String, String> shortIds, Map<String, String> bpnMapping) {
         List<SemanticDataModel> ownParts = semanticDataModels().stream().filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus)).toList();
         log.info(":: mapToOwnPartsAsBuilt()");
         log.info(":: ownParts: {}", ownParts);
@@ -207,7 +212,7 @@ public record JobDetailResponse(
                 .filter(relationship -> SINGLE_LEVEL_USAGE_AS_BUILT.equals(relationship.aspectType().getAspectName()))
                 .collect(Collectors.groupingBy(Relationship::childCatenaXId, Collectors.toList()));
 
-        final List<Asset> assets = ownParts
+        final List<AssetBase> assets = ownParts
                 .stream()
                 .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),

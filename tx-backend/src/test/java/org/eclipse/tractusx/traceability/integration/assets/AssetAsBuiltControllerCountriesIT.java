@@ -55,7 +55,7 @@ class AssetAsBuiltControllerCountriesIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(role))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/countries")
+                .get("/api/assets/as-built/countries")
                 .then()
                 .statusCode(200);
 
@@ -66,7 +66,7 @@ class AssetAsBuiltControllerCountriesIT extends IntegrationTestSpecification {
         given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets/countries")
+                .get("/api/assets/as-built/countries")
                 .then()
                 .statusCode(401);
     }

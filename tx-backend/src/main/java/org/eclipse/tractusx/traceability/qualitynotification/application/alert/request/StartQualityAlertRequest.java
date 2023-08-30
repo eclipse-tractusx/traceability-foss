@@ -52,4 +52,6 @@ public class StartQualityAlertRequest {
     @NotNull
     @ApiModelProperty(example = "BPN00001123123AS")
     private String bpn;
+    @ApiModelProperty(example = "true")
+    private boolean isAsBuilt = true;
 }
