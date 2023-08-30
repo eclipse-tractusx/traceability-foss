@@ -66,7 +66,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets")
+                .get("/api/assets/as-built")
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -85,7 +85,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .queryParam("owner", "SUPPLIER")
                 .when()
-                .get("/api/assets")
+                .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
                 .body("totalItems", equalTo(12));
@@ -103,7 +103,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .queryParam("owner", "OWN")
                 .when()
-                .get("/api/assets")
+                .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
                 .body("totalItems", equalTo(1));
@@ -119,7 +119,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/assets")
+                .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
                 .body("totalItems", equalTo(13))
@@ -152,7 +152,7 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .queryParam("owner", ownerValue)
                 .when()
-                .get("/api/assets")
+                .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
                 .body("totalItems", equalTo(totalItemsValue));
@@ -170,10 +170,10 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .param("page", "2")
                 .param("size", "2")
                 .when()
-                .get("/api/assets")
+                .get("/api/assets/as-built")
                 .then()
                 .statusCode(200)
-                .body("page", Matchers.is(1))
+                .body("page", Matchers.is(2))
                 .body("pageSize", Matchers.is(2));
     }
 

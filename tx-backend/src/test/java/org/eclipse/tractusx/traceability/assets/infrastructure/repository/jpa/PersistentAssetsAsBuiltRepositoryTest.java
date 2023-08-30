@@ -19,9 +19,9 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa;
 
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuiltRepositoryImpl;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
@@ -90,11 +90,11 @@ class PersistentAssetsAsBuiltRepositoryTest {
 
 
         // when
-        Asset asset = AssetAsBuiltEntity.toDomain(entity);
+        AssetBase asset = AssetAsBuiltEntity.toDomain(entity);
 
 
         // then
-        Asset expected = createAssetTestData();
+        AssetBase expected = createAssetTestData();
 
         Assertions.assertEquals(asset.getId(), expected.getId());
         Assertions.assertEquals(asset.getIdShort(), expected.getIdShort());

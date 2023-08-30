@@ -22,7 +22,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.alert.rest
 import io.restassured.http.ContentType
 import org.apache.commons.lang3.RandomStringUtils
 import org.eclipse.tractusx.traceability.IntegrationSpecification
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase
 import org.eclipse.tractusx.traceability.common.security.JwtRole
 import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification
@@ -110,7 +110,7 @@ class PublisherAlertsControllerIT extends IntegrationSpecification implements Ir
 
         then:
         partIds.each { partId ->
-            Asset asset = assetAsBuiltRepository().getAssetById(partId)
+            AssetBase asset = assetAsBuiltRepository().getAssetById(partId)
             assert asset
             assert asset.isActiveAlert()
         }
@@ -498,7 +498,7 @@ class PublisherAlertsControllerIT extends IntegrationSpecification implements Ir
                 .body("id", Matchers.isA(Number.class))
         then:
         partIds.each { partId ->
-            Asset asset = assetAsBuiltRepository().getAssetById(partId)
+            AssetBase asset = assetAsBuiltRepository().getAssetById(partId)
             assert asset
             assert asset.isActiveAlert()
         }

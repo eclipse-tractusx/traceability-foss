@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.assets.application.asbuilt.rest;
 
-import assets.response.AssetResponse;
+import assets.response.AssetAsBuiltResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,14 +34,15 @@ import jakarta.validation.Valid;
 import jakarta.ws.rs.QueryParam;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper.AssetAsBuiltResponseMapper;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.request.GetDetailInformationRequest;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.request.SyncAssetsRequest;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.request.UpdateAssetRequest;
-import org.eclipse.tractusx.traceability.assets.application.asbuilt.service.AssetService;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.application.base.request.GetDetailInformationRequest;
+import org.eclipse.tractusx.traceability.assets.application.base.request.SyncAssetsRequest;
+import org.eclipse.tractusx.traceability.assets.application.base.request.UpdateAssetRequest;
+import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -57,11 +58,14 @@ import java.util.Map;
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "Assets")
-@RequestMapping(path = "/assets", produces = "application/json", consumes = "application/json")
-@RequiredArgsConstructor
+@RequestMapping(path = "/assets/as-built", produces = "application/json", consumes = "application/json")
 public class AssetAsBuiltController {
 
-    private final AssetService assetService;
+    private final AssetBaseService assetBaseService;
+
+    public AssetAsBuiltController(@Qualifier("assetAsBuiltServiceImpl") AssetBaseService assetService) {
+        this.assetBaseService = assetService;
+    }
 
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
@@ -71,7 +75,7 @@ public class AssetAsBuiltController {
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
             @ApiResponse(
                     responseCode = "400",
-                    description = "Authorization failed.",
+                    description = "Bad request.",
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
@@ -108,7 +112,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/sync")
     public void sync(@Valid @RequestBody SyncAssetsRequest syncAssetsRequest) {
-        assetService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
+        assetBaseService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
     }
 
     @Operation(operationId = "assets",
@@ -121,7 +125,7 @@ public class AssetAsBuiltController {
             array = @ArraySchema(
                     arraySchema = @Schema(
                             description = "Assets",
-                            implementation = AssetResponse.class,
+                            implementation = AssetAsBuiltResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
                     ),
                     maxItems = Integer.MAX_VALUE,
@@ -159,8 +163,8 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public PageResult<AssetResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
+    public PageResult<AssetAsBuiltResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner) {
+        return AssetAsBuiltResponseMapper.from(assetBaseService.getAssets(OwnPageable.toPageable(pageable), owner));
     }
 
     @Operation(operationId = "assetsCountryMap",
@@ -202,7 +206,7 @@ public class AssetAsBuiltController {
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/countries")
     public Map<String, Long> assetsCountryMap() {
-        return assetService.getAssetsCountryMap();
+        return assetBaseService.getAssetsCountryMap();
     }
 
 
@@ -212,7 +216,7 @@ public class AssetAsBuiltController {
             description = "The endpoint returns an asset filtered by id .",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",
-            content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
+            content = {@Content(schema = @Schema(implementation = AssetAsBuiltResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -245,8 +249,8 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}")
-    public AssetResponse asset(@PathVariable String assetId) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssetById(assetId));
+    public AssetAsBuiltResponse asset(@PathVariable String assetId) {
+        return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetById(assetId));
     }
 
 
@@ -256,7 +260,7 @@ public class AssetAsBuiltController {
             description = "The endpoint returns an asset filtered by child id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the asset by childId",
-            content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
+            content = {@Content(schema = @Schema(implementation = AssetAsBuiltResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -289,8 +293,8 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("/{assetId}/children/{childId}")
-    public AssetResponse asset(@PathVariable String assetId, @PathVariable String childId) {
-        return AssetAsBuiltResponseMapper.from(assetService.getAssetByChildId(assetId, childId));
+    public AssetAsBuiltResponse asset(@PathVariable String assetId, @PathVariable String childId) {
+        return AssetAsBuiltResponseMapper.from(assetBaseService.getAssetByChildId(assetId, childId));
     }
 
     @Operation(operationId = "updateAsset",
@@ -299,7 +303,7 @@ public class AssetAsBuiltController {
             description = "The endpoint updates asset by provided quality type.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the updated asset",
-            content = {@Content(schema = @Schema(implementation = AssetResponse.class))}),
+            content = {@Content(schema = @Schema(implementation = AssetAsBuiltResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -338,9 +342,9 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PatchMapping("/{assetId}")
-    public AssetResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
+    public AssetAsBuiltResponse updateAsset(@PathVariable String assetId, @Valid @RequestBody UpdateAssetRequest updateAssetRequest) {
         return AssetAsBuiltResponseMapper.from(
-                assetService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
+                assetBaseService.updateQualityType(assetId, updateAssetRequest.qualityType().toDomain())
         );
     }
 
@@ -354,7 +358,7 @@ public class AssetAsBuiltController {
             array = @ArraySchema(
                     arraySchema = @Schema(
                             description = "Assets",
-                            implementation = AssetResponse.class,
+                            implementation = AssetAsBuiltResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
                     ),
                     maxItems = Integer.MAX_VALUE,
@@ -398,9 +402,9 @@ public class AssetAsBuiltController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @PostMapping("/detail-information")
-    public List<AssetResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
+    public List<AssetAsBuiltResponse> getDetailInformation(@Valid @RequestBody GetDetailInformationRequest getDetailInformationRequest) {
         return AssetAsBuiltResponseMapper.from(
-                assetService.getAssetsById(getDetailInformationRequest.assetIds())
+                assetBaseService.getAssetsById(getDetailInformationRequest.assetIds())
         );
     }
 }

@@ -45,7 +45,7 @@ export class OtherPartsService {
       .set('owner', 'SUPPLIER');
 
     return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets`, params)
+      .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts)));
   }
 
@@ -58,7 +58,7 @@ export class OtherPartsService {
       .set('owner', 'CUSTOMER');
 
     return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets`, params)
+      .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts)));
   }
 }

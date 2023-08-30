@@ -47,25 +47,25 @@ export class PartsService {
       .set('owner', 'OWN');
 
     return this.apiService
-      .getBy<PartsResponse>(`${this.url}/assets`, params)
+      .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));
   }
 
   public getPart(id: string): Observable<Part> {
     return this.apiService
-      .get<PartResponse>(`${this.url}/assets/${id}`)
+      .get<PartResponse>(`${this.url}/assets/as-built/${id}`)
       .pipe(map(part => PartsAssembler.assemblePart(part)));
   }
 
   public patchPart({ qualityType, id }: Part): Observable<Part> {
     const patchBody = { qualityType };
 
-    return this.apiService.patch<Part>(`${this.url}/assets/${id}`, patchBody);
+    return this.apiService.patch<Part>(`${this.url}/assets/as-built/${id}`, patchBody);
   }
 
   public getPartDetailOfIds(assetIds: string[]): Observable<Part[]> {
     return this.apiService
-      .post<PartResponse[]>(`${this.url}/assets/detail-information`, { assetIds })
+      .post<PartResponse[]>(`${this.url}/assets/as-built/detail-information`, { assetIds })
       .pipe(map(parts => PartsAssembler.assemblePartList(parts)));
   }
 

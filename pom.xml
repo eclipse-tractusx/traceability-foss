@@ -47,7 +47,7 @@ SPDX-License-Identifier: Apache-2.0
         <start-class>org.eclipse.tractusx.traceability.TraceabilityApplication</start-class>
 
         <!-- versions for Maven plugin -->
-        <ascii-doctor.maven.plugin.version>2.2.3</ascii-doctor.maven.plugin.version>
+        <ascii-doctor.maven.plugin.version>2.2.4</ascii-doctor.maven.plugin.version>
         <checkstyle-plugin.version>3.2.1</checkstyle-plugin.version>
         <compiler-plugin.version>3.10.1</compiler-plugin.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
@@ -55,7 +55,7 @@ SPDX-License-Identifier: Apache-2.0
         <install-plugin.version>3.0.1</install-plugin.version>
         <jacoco-plugin.version>0.8.8</jacoco-plugin.version>
         <jar-plugin.version>3.3.0</jar-plugin.version>
-        <owasp-plugin.version>8.3.1</owasp-plugin.version>
+        <owasp-plugin.version>8.4.0</owasp-plugin.version>
         <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
         <apache-groovy.version>4.0.11</apache-groovy.version>
@@ -84,7 +84,7 @@ SPDX-License-Identifier: Apache-2.0
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
         <swagger-annotation.version>1.6.10</swagger-annotation.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
-        <commons-io.version>2.11.0</commons-io.version>
+        <commons-io.version>2.13.0</commons-io.version>
         <jose4j.version>0.9.3</jose4j.version>
         <restito.version>1.1.0</restito.version>
         <testcontainer-postgresql.version>1.17.6</testcontainer-postgresql.version>
@@ -97,7 +97,7 @@ SPDX-License-Identifier: Apache-2.0
         <lombok.version>1.18.28</lombok.version>
         <json-unit-assertj.version>2.38.0</json-unit-assertj.version>
         <cucumber.version>7.12.1</cucumber.version>
-        <org-snakeyaml.version>2.0</org-snakeyaml.version>
+        <org-snakeyaml.version>2.1</org-snakeyaml.version>
         <jackson.version>2.15.1</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
         <awaitility.version>3.0.0</awaitility.version>

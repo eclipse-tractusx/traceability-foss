@@ -38,22 +38,17 @@ import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.mapper.InvestigationResponseMapper;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.StartQualityNotificationRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import qualitynotification.base.response.QualityNotificationIdResponse;
 import qualitynotification.investigation.response.InvestigationResponse;
 
@@ -65,11 +60,14 @@ import static org.eclipse.tractusx.traceability.qualitynotification.application.
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
 @Tag(name = "Investigations", description = "Operations on Investigation Notification")
 @Validated
-@RequiredArgsConstructor
 @Slf4j
 public class InvestigationsController {
 
-    private final InvestigationService investigationService;
+    private final QualityNotificationService investigationService;
+
+    public InvestigationsController(@Qualifier("investigationServiceImpl") QualityNotificationService investigationService) {
+        this.investigationService = investigationService;
+    }
 
     private static final String API_LOG_START = "Received API call on /investigations";
 
@@ -121,7 +119,13 @@ public class InvestigationsController {
     public QualityNotificationIdResponse investigateAssets(@RequestBody @Valid StartQualityNotificationRequest request) {
         log.info(API_LOG_START + " with params: {}", request);
         return new QualityNotificationIdResponse(investigationService.start(
-                request.getPartIds(), request.getDescription(), request.getTargetDate(), request.getSeverity().toDomain()).value());
+                        request.getPartIds(),
+                        request.getDescription(),
+                        request.getTargetDate(),
+                        request.getSeverity().toDomain(),
+                        request.getReceiverBpn(),
+                        request.isAsBuilt())
+                .value());
     }
 
     @Operation(operationId = "getCreatedInvestigations",

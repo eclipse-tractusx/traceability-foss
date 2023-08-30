@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.test;
 
-import assets.response.AssetResponse;
+import assets.response.AssetAsBuiltResponse;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.ParameterType;
@@ -60,7 +60,7 @@ public class TraceabilityTestStepDefinition {
     private Long notificationID_TXA = null;
     private Long notificationID_TXB = null;
     private String notificationDescription = null;
-    private List<AssetResponse> requestedAssets;
+    private List<AssetAsBuiltResponse> requestedAssets;
 
 
     @ParameterType("TRACE_X_A|TRACE_X_B")

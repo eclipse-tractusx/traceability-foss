@@ -19,7 +19,9 @@
 package org.eclipse.tractusx.traceability.shelldescriptor.domain;
 
 import org.eclipse.tractusx.irs.registryclient.exceptions.RegistryServiceException;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBaseService;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.shelldescriptor.domain.model.ShellDescriptor;
@@ -51,8 +53,10 @@ class DecentralDecentralRegistryServiceImplTest {
     @Mock
     private TraceabilityProperties traceabilityProperties;
     @Mock
-    private AssetServiceImpl assetService;
+    private AssetAsBuiltServiceImpl assetService;
 
+    @Mock
+    private AssetAsPlannedServiceImpl assetAsPlannedService;
     @InjectMocks
     private DecentralRegistryServiceImpl registryFacade;
 
@@ -67,6 +71,7 @@ class DecentralDecentralRegistryServiceImplTest {
         shellDescriptors.add(shellDescritor2);
         when(traceabilityProperties.getBpn()).thenReturn(BPN.of("test"));
         when(decentralRegistryRepository.retrieveShellDescriptorsByBpn(BPN.of("test").toString())).thenReturn(shellDescriptors);
+        when(shellDescriptorsService.determineExistingShellDescriptorsAndUpdate(shellDescriptors)).thenReturn(shellDescriptors);
 
         // When
         registryFacade.updateShellDescriptorAndSynchronizeAssets();
