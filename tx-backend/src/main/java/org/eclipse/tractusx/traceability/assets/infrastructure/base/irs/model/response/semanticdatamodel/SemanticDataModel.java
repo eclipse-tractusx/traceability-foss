@@ -25,7 +25,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.PartSiteInformationAsPlanned;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
@@ -83,18 +85,37 @@ public class SemanticDataModel {
                 .map(LocalId::value);
     }
 
-    private List<DetailAspectModel> extractDetailAspectModelsAsPlanned(List<Site> sites) {
+    private List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites) {
         List<DetailAspectModel> detailAspectModels = new ArrayList<>();
         emptyIfNull(sites).forEach(site -> {
-            PartSiteInformationAsPlanned partSiteInformationAsPlanned = PartSiteInformationAsPlanned.builder()
+            DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
                     .catenaXSiteId(site.catenaXSiteId())
                     .functionValidFrom(site.functionValidFrom())
                     .functionValidUntil(site.functionValidUntil())
                     .build();
-            detailAspectModels.add(DetailAspectModel.builder().data(partSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
+            detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
         });
 
         return detailAspectModels;
+    }
+
+    private DetailAspectModel extractDetailAspectModelsAsPlanned(ValidityPeriod validityPeriod) {
+            DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
+                    .validityPeriodFrom(validityPeriod.validFrom().toString())
+                    .validityPeriodTo(validityPeriod.validTo().toString())
+                    .build();
+          return  DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.SINGLE_LEVEL_BOM_AS_PLANNED).build();
+    }
+
+    private DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation, PartTypeInformation partTypeInformation) {
+        DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
+                .customerPartId(partTypeInformation.customerPartId())
+                .manufacturingCountry(manufacturingInformation.country())
+                .manufacturingDate(manufacturingInformation.date().toString())
+                .nameAtCustomer(partTypeInformation.nameAtCustomer())
+                .partId(partTypeInformation.manufacturerPartId())
+                .build();
+        return  DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.SINGLE_LEVEL_USAGE_AS_BUILT).build();
     }
 
     public Optional<String> getLocalIdByInput(LocalIdKey key, List<LocalId> localIds) {
@@ -104,7 +125,7 @@ public class SemanticDataModel {
                 .map(LocalId::value);
     }
 
-    public AssetBase toDomain(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
+    public AssetBase toDomainAsBuilt(List<LocalId> localIds, Map<String, String> shortIds, Owner owner, Map<String, String> bpns, List<Descriptions> parentRelations, List<Descriptions> childRelations) {
         final String manufacturerName = bpns.get(manufacturerId());
 
         final AtomicReference<String> semanticModelId = new AtomicReference<>();
@@ -130,11 +151,13 @@ public class SemanticDataModel {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
         }
 
+        DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation);
+
         return AssetBase.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .semanticModelId(semanticModelId.get())
-                .semanticModel(SemanticModel.from(partTypeInformation, manufacturingInformation))
+                .detailAspectModels(List.of(detailAspectModel))
                 .manufacturerId(manufacturerId())
                 .manufacturerName(defaultValue(manufacturerName))
                 .parentRelations(parentRelations)
@@ -154,6 +177,12 @@ public class SemanticDataModel {
         final String[] manufacturerId = {"--"};
         bpns.values().stream().filter(s -> s.equals(manufacturerName)).findFirst().ifPresent(s -> manufacturerId[0] = s);
 
+        List<DetailAspectModel> partSiteInfoAsPlanned = extractDetailAspectModelsPartSiteInformationAsPlanned(sites());
+        DetailAspectModel asPlanned = extractDetailAspectModelsAsPlanned(validityPeriod);
+
+        final List<DetailAspectModel> aspectModels = new ArrayList<>(partSiteInfoAsPlanned);
+        aspectModels.add(asPlanned);
+
         return AssetBase.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
@@ -161,6 +190,7 @@ public class SemanticDataModel {
                 .manufacturerId(manufacturerId[0])
                 .manufacturerName(defaultValue(manufacturerName))
                 .parentRelations(parentRelations)
+                .detailAspectModels(aspectModels)
                 .childRelations(childRelations)
                 .owner(owner)
                 .activeAlert(false)
@@ -168,7 +198,6 @@ public class SemanticDataModel {
                 .underInvestigation(false)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
-                .detailAspectModels(extractDetailAspectModelsAsPlanned(sites()))
                 .van(van())
                 .build();
     }

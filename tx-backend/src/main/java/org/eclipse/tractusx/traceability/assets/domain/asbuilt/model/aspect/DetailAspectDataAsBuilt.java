@@ -16,41 +16,18 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
+package org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.time.Instant;
+import lombok.Getter;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-public class SemanticModelResponse {
-    @ApiModelProperty(example = "2022-02-04T13:48:54Z")
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Instant manufacturingDate;
-    @ApiModelProperty(example = "DEU")
-    @Size(max = 255)
-    private String manufacturingCountry;
-    @ApiModelProperty(example = "33740332-54")
-    @Size(max = 255)
-    private String manufacturerPartId;
-    @ApiModelProperty(example = "33740332-54")
-    @Size(max = 255)
+@Getter
+public class DetailAspectDataAsBuilt implements DetailAspectData {
+    private String partId;
     private String customerPartId;
-    @ApiModelProperty(example = "Door f-r")
-    @Size(max = 255)
-    private String nameAtManufacturer;
-    @ApiModelProperty(example = "Door front-right")
-    @Size(max = 255)
     private String nameAtCustomer;
-
-
+    private String manufacturingCountry;
+    private String manufacturingDate;
 }

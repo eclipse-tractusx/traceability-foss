@@ -22,13 +22,9 @@ import lombok.Builder;
 import lombok.Getter;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 
-import java.util.Date;
-
 @Builder
 @Getter
-public class PartSiteInformationAsPlanned implements DetailAspectData {
-    private Date functionValidUntil;
-    private String function;
-    private Date functionValidFrom;
-    private String catenaXSiteId;
+public class DetailAspectDataAsPlanned implements DetailAspectData {
+    private String validityPeriodFrom;
+    private String validityPeriodTo;
 }

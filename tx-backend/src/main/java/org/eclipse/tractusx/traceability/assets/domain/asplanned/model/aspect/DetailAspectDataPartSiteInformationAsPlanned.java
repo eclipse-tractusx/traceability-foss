@@ -16,16 +16,19 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.assets.domain.base.model.aspect;
+package org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 
-@Getter
-@Setter
+import java.util.Date;
+
 @Builder
-public class DetailAspectModel {
-    private DetailAspectType type;
-    private DetailAspectData data;
+@Getter
+public class DetailAspectDataPartSiteInformationAsPlanned implements DetailAspectData {
+    private Date functionValidUntil;
+    private String function;
+    private Date functionValidFrom;
+    private String catenaXSiteId;
 }

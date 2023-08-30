@@ -23,7 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.PartSiteInformationAsPlanned;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
@@ -32,21 +32,13 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-
+// TODO missing in concept:
+// manuf
 @AllArgsConstructor
 @Data
 @SuperBuilder
 public class AssetBaseResponseMapper {
-    public static SemanticModelResponse from(final SemanticModel semanticModel) {
-        return SemanticModelResponse.builder()
-                .customerPartId(semanticModel.getCustomerPartId())
-                .manufacturerPartId(semanticModel.getManufacturerPartId())
-                .manufacturingCountry(semanticModel.getManufacturingCountry())
-                .manufacturingDate(semanticModel.getManufacturingDate())
-                .nameAtCustomer(semanticModel.getNameAtCustomer())
-                .nameAtManufacturer(semanticModel.getNameAtManufacturer())
-                .build();
-    }
+
 
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
         return emptyIfNull(detailAspectModels).stream()
@@ -66,11 +58,11 @@ public class AssetBaseResponseMapper {
     }
 
     public static DetailAspectDataResponse from(DetailAspectData detailAspectData) {
-        if (detailAspectData instanceof PartSiteInformationAsPlanned partSiteInformationAsPlanned) {
-            return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(partSiteInformationAsPlanned.getCatenaXSiteId())
-                    .function(partSiteInformationAsPlanned.getFunction())
-                    .functionValidFrom(partSiteInformationAsPlanned.getFunctionValidFrom())
-                    .functionValidUntil(partSiteInformationAsPlanned.getFunctionValidUntil())
+        if (detailAspectData instanceof DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned) {
+            return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(detailAspectDataPartSiteInformationAsPlanned.getCatenaXSiteId())
+                    .function(detailAspectDataPartSiteInformationAsPlanned.getFunction())
+                    .functionValidFrom(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidFrom())
+                    .functionValidUntil(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidUntil())
                     .build();
         } else {
             return null;

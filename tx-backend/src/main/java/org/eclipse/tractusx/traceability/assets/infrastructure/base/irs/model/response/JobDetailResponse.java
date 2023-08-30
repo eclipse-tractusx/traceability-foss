@@ -148,7 +148,7 @@ public record JobDetailResponse(
         log.info(":: otherParts: {}", otherParts);
         final List<AssetBase> assets = otherParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, owner, bpnMapping,
                         Collections.emptyList(),
                         Collections.emptyList()))
                 .toList();
@@ -233,7 +233,7 @@ public record JobDetailResponse(
 
         final List<AssetBase> assets = ownParts
                 .stream()
-                .map(semanticDataModel -> semanticDataModel.toDomain(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
+                .map(semanticDataModel -> semanticDataModel.toDomainAsBuilt(semanticDataModel.localIdentifiers(), shortIds, Owner.OWN, bpnMapping,
                         getParentParts(customerPartsMap, shortIds, semanticDataModel.catenaXId()),
                         getChildParts(supplierPartsMap, shortIds, semanticDataModel.catenaXId())))
                 .toList();

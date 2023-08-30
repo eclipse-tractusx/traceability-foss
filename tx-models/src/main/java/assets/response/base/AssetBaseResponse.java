@@ -46,8 +46,7 @@ public class AssetBaseResponse {
     private String manufacturerId;
     @ApiModelProperty(example = "Tier C")
     @Size(max = 255)
-    private String manufacturerName;
-    private SemanticModelResponse semanticModel;
+    private String businessPartner;
     @ApiModelProperty(example = "CUSTOMER")
     private OwnerResponse owner;
     @ArraySchema(arraySchema = @Schema(description = "Child relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
