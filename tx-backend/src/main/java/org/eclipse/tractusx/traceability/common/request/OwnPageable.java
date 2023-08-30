@@ -23,12 +23,13 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.bouncycastle.util.Arrays;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -36,7 +37,7 @@ public class OwnPageable {
     private Integer page;
     private Integer size;
     @ArraySchema(arraySchema = @Schema(description = "Content of Assets PageResults", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
-    private String[] sort;
+    private List<String> sort;
 
     public static Pageable toPageable(OwnPageable ownPageable) {
         int usedPage = 0;
@@ -52,14 +53,14 @@ public class OwnPageable {
 
         Sort usedSort = Sort.unsorted();
 
-        if (!Arrays.isNullOrEmpty(ownPageable.getSort())) {
+        if (!CollectionUtils.isEmpty(ownPageable.getSort())) {
             usedSort = toDomainSort(ownPageable.getSort());
         }
 
         return PageRequest.of(usedPage, usedPageSize, usedSort);
     }
 
-    private static Sort toDomainSort(final String[] sorts) {
+    private static Sort toDomainSort(final List<String> sorts) {
         ArrayList<Sort.Order> orders = new ArrayList<>();
         for (String sort : sorts) {
 
