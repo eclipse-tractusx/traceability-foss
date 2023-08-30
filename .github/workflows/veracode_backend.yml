@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: [BE][SECURITY] Trivy
+name: "[BE][SECURITY] Trivy"
 
 on:
   workflow_dispatch:
