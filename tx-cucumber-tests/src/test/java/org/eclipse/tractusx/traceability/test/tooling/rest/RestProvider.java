@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.test.tooling.rest;
 
-import assets.response.AssetAsBuiltResponse;
+import assets.response.asbuilt.AssetAsBuiltResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
