@@ -43,7 +43,6 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNo
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
