@@ -24,4 +24,8 @@ import java.util.List;
 
 public interface ShellDescriptorService {
     List<ShellDescriptor> determineExistingShellDescriptorsAndUpdate(List<ShellDescriptor> ownShellDescriptors);
+
+    void deleteAll();
+
+    List<ShellDescriptor> findAll();
 }

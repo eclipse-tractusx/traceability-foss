@@ -14,9 +14,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - ErrorMessage field to investigation and alerts
 - Cucumber tests for quality investigations
 - Refactored asset structure to allow new API for assets-as-planned
+- Optional parameter "receiverBpn" to /investigations endpoint
+- NEW API /api/assets/as-planned
+- NEW API DELETE /api/registry
+- NEW API GET /api/shelldescriptors
 
 ### Changed
-
+- API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
 - Changed digitalTwinRegistryRestTemplate to use token in requests
 - Update asBuild test data to 1.5.3 and asPlanned to 1.5.1
 - Changed transfer notification logic not to break iteration loop when sending notifications to bpn with more than 1 connector endpoints
@@ -25,6 +29,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Readme / Docker Notice information as required in TRGs
 - Removed references to GitHub registry and added docker hub for tractusx instead
 - Removed UX breaking black status box
+- Updated cypress-io/github-action from 5.8.4 to 6.0.0
+- Updated asciidoctor-maven-plugin from 2.2.3 to 2.2.4
+- Updated owasp:dependency-check from 8.3.1 to 8.4.0
+- Updated commons-io from 2.11.0 to 2.13.0
+- Updated snakeyaml from 2.0 to 2.1
 
 ### Removed
 

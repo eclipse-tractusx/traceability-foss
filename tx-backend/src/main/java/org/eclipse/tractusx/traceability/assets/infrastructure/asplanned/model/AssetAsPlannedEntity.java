@@ -31,9 +31,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
@@ -69,7 +69,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
         private String idShort;
     }
 
-    public static AssetAsPlannedEntity from(Asset asset) {
+    public static AssetAsPlannedEntity from(AssetBase asset) {
         return org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
@@ -89,8 +89,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .build();
     }
 
-    public static Asset toDomain(AssetAsPlannedEntity entity) {
-        return Asset.builder()
+    public static AssetBase toDomain(AssetAsPlannedEntity entity) {
+        return AssetBase.builder()
                 .id(entity.getId())
                 .classification(entity.getClassification())
                 .idShort(entity.getIdShort())
@@ -106,13 +106,13 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .build();
     }
 
-    public static List<Asset> toDomainList(List<AssetAsPlannedEntity> entities) {
+    public static List<AssetBase> toDomainList(List<AssetAsPlannedEntity> entities) {
         return entities.stream()
                 .map(org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity::toDomain)
                 .toList();
     }
 
-    public static List<AssetAsPlannedEntity> fromList(List<Asset> assets) {
+    public static List<AssetAsPlannedEntity> fromList(List<AssetBase> assets) {
         return assets.stream()
                 .map(org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity::from)
                 .toList();

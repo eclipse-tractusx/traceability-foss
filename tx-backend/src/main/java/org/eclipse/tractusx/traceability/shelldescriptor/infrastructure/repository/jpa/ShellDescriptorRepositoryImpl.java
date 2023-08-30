@@ -65,4 +65,11 @@ public class ShellDescriptorRepositoryImpl implements ShellDescriptorRepository 
     public void removeDescriptorsByUpdatedBefore(ZonedDateTime now) {
         repository.deleteAllByUpdatedBefore(now);
     }
+
+    @Override
+    public void deleteAll() {
+        repository.deleteAll();
+    }
+
+
 }

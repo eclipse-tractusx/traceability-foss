@@ -22,11 +22,13 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.service.AssetAsPlannedServiceImpl;
 import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
@@ -58,9 +60,11 @@ public class NotificationPublisherService {
 
     private final TraceabilityProperties traceabilityProperties;
     private final EdcNotificationService edcNotificationService;
-    private final AssetAsBuiltRepository assetRepository;
+    private final AssetAsBuiltRepository assetAsBuiltRepository;
     private final AssetAsPlannedRepository assetAsPlannedRepository;
-    private final AssetServiceImpl assetService;
+    private final AssetAsBuiltServiceImpl assetAsBuiltService;
+    private final AssetAsPlannedServiceImpl assetAsPlannedService;
+
     private final BpnRepository bpnRepository;
     private final Clock clock;
 
@@ -72,23 +76,37 @@ public class NotificationPublisherService {
      * @param description the description of the investigation
      * @param targetDate  the targetDate of the investigation
      * @param severity    the severity of the investigation
+     * @param isAsBuilt   the isAsBuilt of the investigation
      * @return the ID of the newly created investigation
      */
-    public QualityNotification startInvestigation(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
+    public QualityNotification startInvestigation(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
+        if (isAsBuilt) {
+            Map<String, List<AssetBase>> assetsAsBuiltBPNMap = assetAsBuiltRepository.getAssetsById(assetIds).stream().collect(groupingBy(AssetBase::getManufacturerId));
 
-        Map<String, List<Asset>> assetsByBPN = assetRepository.getAssetsById(assetIds).stream().collect(groupingBy(Asset::getManufacturerId));
+            assetsAsBuiltBPNMap
+                    .entrySet()
+                    .stream()
+                    .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
+                    .forEach(notification::addNotification);
+            assetAsBuiltService.setAssetsInvestigationStatus(notification);
+            return notification;
+        } else {
+            Map<String, List<AssetBase>> assetsAsPlannedBPNMap = assetAsPlannedRepository.getAssetsById(assetIds).stream().collect(groupingBy(AssetBase::getManufacturerId));
 
-        assetsByBPN
-                .entrySet()
-                .stream()
-                .map(it -> createInvestigation(applicationBPN, description, targetDate, severity, it))
-                .forEach(notification::addNotification);
+            assetsAsPlannedBPNMap
+                    .entrySet()
+                    .stream()
+                    .map(it -> createInvestigation(applicationBPN, receiverBpn, description, targetDate, severity, it))
+                    .forEach(notification::addNotification);
+            assetAsPlannedService.setAssetsInvestigationStatus(notification);
+            return notification;
+        }
 
-        assetService.setAssetsInvestigationStatus(notification);
-        return notification;
+
     }
+
 
     /**
      * Starts a new alert with the given BPN, asset IDs and description.
@@ -100,20 +118,29 @@ public class NotificationPublisherService {
      * @param receiverBpn the bpn of the receiver
      * @return the ID of the newly created alert
      */
-    public QualityNotification startAlert(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn) {
+    public QualityNotification startAlert(List<String> assetIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
         BPN applicationBPN = traceabilityProperties.getBpn();
         QualityNotification notification = QualityNotification.startNotification(clock.instant(), applicationBPN, description);
+        List<AssetBase> assets = new ArrayList<>();
+        if (isAsBuilt) {
+            assets.addAll(assetAsBuiltRepository.getAssetsById(assetIds));
+        } else {
+            assets.addAll(assetAsPlannedRepository.getAssetsById(assetIds));
+        }
 
-        List<Asset> assets = assetRepository.getAssetsById(assetIds);
 
         QualityNotificationMessage qualityNotificationMessage = createAlert(applicationBPN, description, targetDate, severity, assets, receiverBpn);
         notification.addNotification(qualityNotificationMessage);
 
-        assetService.setAssetsAlertStatus(notification);
+        if (isAsBuilt) {
+            assetAsBuiltService.setAssetsAlertStatus(notification);
+        } else {
+            assetAsPlannedService.setAssetsAlertStatus(notification);
+        }
         return notification;
     }
 
-    private QualityNotificationMessage createInvestigation(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<Asset>> asset) {
+    private QualityNotificationMessage createInvestigation(BPN applicationBpn, String receiverBpn, String description, Instant targetDate, QualityNotificationSeverity severity, Map.Entry<String, List<AssetBase>> asset) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
@@ -121,11 +148,11 @@ public class NotificationPublisherService {
                 .created(LocalDateTime.now())
                 .senderBpnNumber(applicationBpn.value())
                 .senderManufacturerName(getManufacturerName(applicationBpn.value()))
-                .receiverBpnNumber(asset.getKey())
+                .receiverBpnNumber(StringUtils.isBlank(receiverBpn) ? asset.getKey() : receiverBpn)
                 .receiverManufacturerName(getManufacturerName(asset.getKey()))
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.CREATED)
-                .affectedParts(asset.getValue().stream().map(Asset::getId).map(QualityNotificationAffectedPart::new).toList())
+                .affectedParts(asset.getValue().stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())
                 .targetDate(targetDate)
                 .severity(severity)
                 .edcNotificationId(notificationId)
@@ -134,7 +161,7 @@ public class NotificationPublisherService {
                 .build();
     }
 
-    private QualityNotificationMessage createAlert(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, List<Asset> affectedAssets, String targetBpn) {
+    private QualityNotificationMessage createAlert(BPN applicationBpn, String description, Instant targetDate, QualityNotificationSeverity severity, List<AssetBase> affectedAssets, String targetBpn) {
         final String notificationId = UUID.randomUUID().toString();
         final String messageId = UUID.randomUUID().toString();
         return QualityNotificationMessage.builder()
@@ -146,7 +173,7 @@ public class NotificationPublisherService {
                 .receiverManufacturerName(getManufacturerName(targetBpn))
                 .description(description)
                 .notificationStatus(QualityNotificationStatus.CREATED)
-                .affectedParts(affectedAssets.stream().map(Asset::getId).map(QualityNotificationAffectedPart::new).toList())
+                .affectedParts(affectedAssets.stream().map(AssetBase::getId).map(QualityNotificationAffectedPart::new).toList())
                 .targetDate(targetDate)
                 .severity(severity)
                 .edcNotificationId(notificationId)

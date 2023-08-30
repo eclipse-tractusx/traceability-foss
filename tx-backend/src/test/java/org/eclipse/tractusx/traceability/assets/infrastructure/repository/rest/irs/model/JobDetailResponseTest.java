@@ -21,8 +21,8 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.rest.
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.JobDetailResponse;
 import org.junit.jupiter.api.Test;
 
@@ -45,9 +45,9 @@ class JobDetailResponseTest {
         InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_assets_v3_singleUsageAsBuilt.json");
         JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
         // when
-        List<Asset> assets = response.convertAssets();
-        Asset ownAsset = assets.get(0);
-        Asset parentAsset = assets.get(1);
+        List<AssetBase> assets = response.convertAssets();
+        AssetBase ownAsset = assets.get(0);
+        AssetBase parentAsset = assets.get(1);
 
         // then
         final String ownAssetId = "urn:uuid:8f9d8c7f-6d7a-48f1-9959-9fa3a1a7a891";

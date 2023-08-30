@@ -21,9 +21,9 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.investigati
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetServiceImpl;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.service.AssetAsBuiltServiceImpl;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
-import org.eclipse.tractusx.traceability.qualitynotification.application.investigation.service.InvestigationService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
@@ -39,22 +39,21 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-
+// TODO as this is duplicated with InvestigationServiceImpl it should be done like assetAsPlanned / assetAsBuilt with an abstract class / interface
 @Slf4j
 @RequiredArgsConstructor
-@Service
-public class InvestigationServiceImpl implements InvestigationService {
+@Service("investigationServiceImpl")
+public class InvestigationServiceImpl implements QualityNotificationService {
 
     private final NotificationPublisherService notificationPublisherService;
 
     private final InvestigationRepository investigationsRepository;
 
-    private final AssetServiceImpl assetService;
-
+    private final AssetAsBuiltServiceImpl assetService;
 
     @Override
-    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity) {
-        QualityNotification notification = notificationPublisherService.startInvestigation(partIds, description, targetDate, severity);
+    public QualityNotificationId start(List<String> partIds, String description, Instant targetDate, QualityNotificationSeverity severity, String receiverBpn, boolean isAsBuilt) {
+        QualityNotification notification = notificationPublisherService.startInvestigation(partIds, description, targetDate, severity, receiverBpn,isAsBuilt);
 
         QualityNotificationId createdInvestigationId = investigationsRepository.saveQualityNotificationEntity(notification);
         log.info("Start Investigation {}", notification);

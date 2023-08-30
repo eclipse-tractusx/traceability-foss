@@ -79,7 +79,6 @@ public class IntegrationTestSpecification {
     protected void eventually(Callable<Boolean> conditions) throws InterruptedException {
         Awaitility.setDefaultPollInterval(500, TimeUnit.MILLISECONDS);
         Awaitility.setDefaultTimeout(15, TimeUnit.SECONDS);
-        Awaitility.ignoreExceptionsByDefault();
         Awaitility.pollInSameThread();
         await().until(conditions, Matchers.equalTo(true));
     }

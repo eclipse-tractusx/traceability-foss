@@ -18,27 +18,17 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.asbuilt.mapper;
 
-import assets.response.AssetResponse;
-import assets.response.DescriptionsResponse;
-import assets.response.OwnerResponse;
-import assets.response.QualityTypeResponse;
-import assets.response.SemanticDataModelResponse;
-import assets.response.SemanticModelResponse;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Asset;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticDataModel;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.SemanticModel;
+import assets.response.AssetAsBuiltResponse;
+import org.eclipse.tractusx.traceability.assets.application.base.mapper.AssetBaseResponseMapper;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 
 import java.util.List;
 
-public class AssetAsBuiltResponseMapper {
+public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
 
-
-    public static AssetResponse from(final Asset asset) {
-        return AssetResponse.builder()
+    public static AssetAsBuiltResponse from(final AssetBase asset) {
+        return AssetAsBuiltResponse.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
                 .classification(asset.getClassification())
@@ -65,7 +55,7 @@ public class AssetAsBuiltResponseMapper {
                 .build();
     }
 
-    public static PageResult<AssetResponse> from(final PageResult<Asset> assetPageResult) {
+    public static PageResult<AssetAsBuiltResponse> from(final PageResult<AssetBase> assetPageResult) {
         return new PageResult<>(
                 assetPageResult.content().stream()
                         .map(AssetAsBuiltResponseMapper::from).toList(),
@@ -76,44 +66,9 @@ public class AssetAsBuiltResponseMapper {
         );
     }
 
-    public static List<AssetResponse> from(final List<Asset> assets) {
+    public static List<AssetAsBuiltResponse> from(final List<AssetBase> assets) {
         return assets.stream()
                 .map(AssetAsBuiltResponseMapper::from)
                 .toList();
-    }
-
-    public static SemanticModelResponse from(final SemanticModel semanticModel) {
-        return SemanticModelResponse.builder()
-                .customerPartId(semanticModel.getCustomerPartId())
-                .manufacturerPartId(semanticModel.getManufacturerPartId())
-                .manufacturingCountry(semanticModel.getManufacturingCountry())
-                .manufacturingDate(semanticModel.getManufacturingDate())
-                .nameAtCustomer(semanticModel.getNameAtCustomer())
-                .nameAtManufacturer(semanticModel.getNameAtManufacturer())
-                .build();
-    }
-
-
-    public static OwnerResponse from(final Owner owner) {
-        return OwnerResponse.valueOf(owner.name());
-    }
-
-    public static DescriptionsResponse from(final Descriptions descriptions) {
-        return new DescriptionsResponse(
-                descriptions.id(),
-                descriptions.idShort()
-        );
-    }
-
-    public static QualityTypeResponse from(final QualityType qualityType) {
-        return QualityTypeResponse.valueOf(qualityType.name());
-    }
-
-
-    public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
-        if (semanticDataModel == null) {
-            return SemanticDataModelResponse.UNKNOWN;
-        }
-        return SemanticDataModelResponse.valueOf(semanticDataModel.name());
     }
 }
