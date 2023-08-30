@@ -15,15 +15,12 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: Trace-X Cucumber Xray execution
+name: [BE][TEST][E2E] Cucumber
 
 on:
   workflow_dispatch: # Trigger manually
-  push:
-    branches: main
-    paths-ignore:
-      - '**/*.md'
-      - '**/*.txt'
+  schedule:
+    - cron: "0 0 * * *"
 
 jobs:
   build:

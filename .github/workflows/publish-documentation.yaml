@@ -15,7 +15,7 @@
 #
 #  SPDX-License-Identifier: Apache-2.0
 
-name: Publish documentation
+name: [BE][FE][DOCUMENTATION] Publish documentation
 
 on:
   workflow_dispatch: # Trigger manually
