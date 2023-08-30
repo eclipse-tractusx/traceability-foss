@@ -24,9 +24,6 @@ import org.eclipse.edc.spi.types.domain.edr.EndpointDataReference;
 import org.eclipse.tractusx.irs.edc.client.ContractNegotiationService;
 import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
 import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
-import org.eclipse.tractusx.irs.edc.client.exceptions.ContractNegotiationException;
-import org.eclipse.tractusx.irs.edc.client.exceptions.TransferProcessException;
-import org.eclipse.tractusx.irs.edc.client.exceptions.UsagePolicyException;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.model.NegotiationResponse;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
@@ -40,7 +37,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,7 +68,7 @@ class InvestigationsEDCFacadeTest {
     InvestigationsEDCFacade investigationsEDCFacade;
 
     @Test
-    void givenCorrectInvestigationMessage_whenStartEdcTransferNew_thenSendIt() throws TransferProcessException, UsagePolicyException, ContractNegotiationException, IOException {
+    void givenCorrectInvestigationMessage_whenStartEdcTransferNew_thenSendIt() throws Exception {
         // given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
@@ -107,7 +103,7 @@ class InvestigationsEDCFacadeTest {
     }
 
     @Test
-    void givenCorrectInvestigationMessageButSendRequestThrowsException_whenStartEdcTransferNew_thenThrowSendNotificationException() throws TransferProcessException, UsagePolicyException, ContractNegotiationException, IOException {
+    void givenCorrectInvestigationMessageButSendRequestThrowsException_whenStartEdcTransferNew_thenThrowSendNotificationException() throws Exception {
         // given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
@@ -140,7 +136,7 @@ class InvestigationsEDCFacadeTest {
     }
 
     @Test
-    void givenCorrectInvestigationMessageButNegotiateContractAgreementHasNoCatalogItem_whenStartEdcTransferNew_thenThrowContractNegotiationException() throws TransferProcessException, UsagePolicyException, ContractNegotiationException, IOException {
+    void givenCorrectInvestigationMessageButNegotiateContractAgreementHasNoCatalogItem_whenStartEdcTransferNew_thenThrowContractNegotiationException() throws Exception {
         // given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
@@ -163,7 +159,7 @@ class InvestigationsEDCFacadeTest {
     }
 
     @Test
-    void givenCorrectInvestigationMessageButCatalogItem_whenStartEdcTransferNew_thenThrowSendNotificationException() throws TransferProcessException, UsagePolicyException, ContractNegotiationException, IOException {
+    void givenCorrectInvestigationMessageButCatalogItem_whenStartEdcTransferNew_thenThrowSendNotificationException() {
         // given
         final String receiverEdcUrl = "https://receiver.com";
         final String senderEdcUrl = "https://sender.com";
