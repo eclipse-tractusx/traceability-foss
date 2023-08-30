@@ -34,7 +34,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated owasp:dependency-check from 8.3.1 to 8.4.0
 - Updated commons-io from 2.11.0 to 2.13.0
 - Updated snakeyaml from 2.0 to 2.1
-- Removed own implementation of getCatalog, negotiateAgreement, and validatePolicy with irs-client-library implementation.
+- Replaced own implementation of getCatalog, negotiateAgreement, and validatePolicy with irs-client-library implementation.
 
 ### Removed
 
