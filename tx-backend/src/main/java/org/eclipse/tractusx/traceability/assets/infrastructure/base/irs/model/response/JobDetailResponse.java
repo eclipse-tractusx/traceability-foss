@@ -160,7 +160,7 @@ public record JobDetailResponse(
         List<SemanticDataModel> otherParts = semanticDataModels().stream().filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus)).filter(semanticDataModel -> Aspect.isMasterAspect(semanticDataModel.getAspectType())).toList();
         List<SemanticDataModel> isPartSiteInformationAsPlanned =
                 semanticDataModels().stream()
-                        .filter(semanticDataModel -> isOwnPart(semanticDataModel, jobStatus))
+                        .filter(semanticDataModel -> !isOwnPart(semanticDataModel, jobStatus))
                         .filter(semanticDataModel -> semanticDataModel.aspectType().contains(Aspect.PART_SITE_INFORMATION_AS_PLANNED.getAspectName())).toList();
 
         addPartSiteInformationAsPlannedToOwnPartsAsPlanned(otherParts, isPartSiteInformationAsPlanned);
