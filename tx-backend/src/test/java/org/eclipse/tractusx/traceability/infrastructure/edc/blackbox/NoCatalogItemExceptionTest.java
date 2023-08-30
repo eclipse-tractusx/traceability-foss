@@ -19,13 +19,31 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
-public class NoCatalogItemException extends RuntimeException{
-    public static final String MESSAGE = "No Catalog Item in catalog found.";
-    public NoCatalogItemException() {
-        super(MESSAGE);
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class NoCatalogItemExceptionTest {
+
+    @Test
+    void givenNoCatalogItemException_thenShouldHaveProperMessage() {
+        // given
+        final String message = NoCatalogItemException.MESSAGE;
+        NoCatalogItemException exception = new NoCatalogItemException();
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo(message);
     }
 
-    public NoCatalogItemException(final Throwable exception) {
-        super(MESSAGE, exception);
+    @Test
+    void givenNoCatalogItemExceptionWithThrowable_thenShouldHaveProperMessageAndThrowable() {
+        // given
+        final String message = NoCatalogItemException.MESSAGE;
+        final Throwable exceptionParam = new RuntimeException("test");
+        NoCatalogItemException exception = new NoCatalogItemException(exceptionParam);
+
+        // then
+        assertThat(exception.getMessage()).isEqualTo(message);
+        assertThat(exception.getCause()).isEqualTo(exceptionParam);
     }
 }
