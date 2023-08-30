@@ -56,6 +56,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Removed references to GitHub registry and added docker hub for tractusx instead
 - Spring Boot Update from: 3.0.7 to 3.1.2
 - Spring Core Update from: 6.0.8 to 6.0.11
+- Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
+- Updated irs-helm from 6.4.1 to 6.5.0
 
 ### Removed
 - unused classes and methods
