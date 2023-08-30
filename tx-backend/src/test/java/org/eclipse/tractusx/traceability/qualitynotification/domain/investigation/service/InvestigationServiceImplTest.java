@@ -19,12 +19,12 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service;
 
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationNotFoundException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -143,7 +143,7 @@ class InvestigationServiceImplTest {
     void testLoadPresentInvestigationByEdcNotificationId() {
         // given
         when(investigationsRepositoryMock.findByEdcNotificationId(any())).thenReturn(Optional.of(
-                InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, QualityNotificationStatus.ACKNOWLEDGED)
+                        InvestigationTestDataFactory.createInvestigationTestData(QualityNotificationStatus.ACKNOWLEDGED, QualityNotificationStatus.ACKNOWLEDGED)
                 )
         );
 

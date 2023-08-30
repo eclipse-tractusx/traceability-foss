@@ -24,7 +24,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationContent;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationHeader;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
