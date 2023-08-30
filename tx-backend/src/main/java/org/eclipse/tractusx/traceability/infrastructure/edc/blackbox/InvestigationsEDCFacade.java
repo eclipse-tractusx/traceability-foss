@@ -100,7 +100,7 @@ public class InvestigationsEDCFacade {
     private String negotiateContractAgreement(final String receiverEdcUrl, final CatalogItem catalogItem) {
         try {
             return Optional.ofNullable(contractNegotiationService.negotiate(receiverEdcUrl + edcProperties.getIdsPath(), catalogItem))
-                    .orElseThrow(() -> new ContractNegotiationException("Failed to negotiate contract agreement. Negotiation response is null"))
+                    .orElseThrow()
                     .getContractAgreementId();
         } catch (Exception e) {
             throw new ContractNegotiationException("Failed to negotiate contract agreement. ", e);
@@ -125,7 +125,7 @@ public class InvestigationsEDCFacade {
                     ).stream()
                     .filter(catalogItem -> policyCheckerService.isValid(catalogItem.getPolicy()))
                     .findFirst()
-                    .orElseThrow(NoCatalogItemException::new);
+                    .orElseThrow();
         } catch (Exception e) {
             log.error("Exception was thrown while requesting catalog items from Lib", e);
             throw new NoCatalogItemException(e);
