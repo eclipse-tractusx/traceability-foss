@@ -37,10 +37,10 @@ import java.util.List;
 public abstract class AbstractQualityNotificationService implements QualityNotificationService {
 
     protected abstract NotificationPublisherService getNotificationPublisherService();
-
     protected abstract QualityNotificationRepository getQualityNotificationRepository();
-
     protected abstract AssetAsBuiltServiceImpl getAssetAsBuiltServiceImpl();
+
+    protected abstract void setAssetStatus(QualityNotification qualityNotification);
 
     @Override
     public PageResult<QualityNotification> getCreated(Pageable pageable) {
@@ -82,5 +82,14 @@ public abstract class AbstractQualityNotificationService implements QualityNotif
                 .toList();
         Page<QualityNotification> alertDataPage = new PageImpl<>(alertData, pageable, getQualityNotificationRepository().countQualityNotificationEntitiesBySide(alertSide));
         return new PageResult<>(alertDataPage);
+    }
+
+    @Override
+    public void cancel(Long notificationId) {
+        QualityNotification qualityNotification = loadOrNotFoundException(new QualityNotificationId(notificationId));
+        QualityNotification canceledQualityNotification = getNotificationPublisherService().cancelNotification(qualityNotification);
+
+        setAssetStatus(canceledQualityNotification);
+        getQualityNotificationRepository().updateQualityNotificationEntity(canceledQualityNotification);
     }
 }

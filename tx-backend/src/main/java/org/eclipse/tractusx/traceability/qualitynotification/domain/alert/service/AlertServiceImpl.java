@@ -89,4 +89,9 @@ public class AlertServiceImpl extends AbstractQualityNotificationService {
         alertRepository.updateQualityNotificationEntity(canceledAlert);
     }
 
+    @Override
+    public void setAssetStatus(QualityNotification qualityNotification) {
+        assetService.setAssetsAlertStatus(qualityNotification);
+    }
+
 }

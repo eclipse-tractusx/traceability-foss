@@ -81,12 +81,8 @@ public class InvestigationServiceImpl extends AbstractQualityNotificationService
     }
 
     @Override
-    public void cancel(Long notificationId) {
-        QualityNotification investigation = loadOrNotFoundException(new QualityNotificationId(notificationId));
-        QualityNotification canceledInvestigation = getNotificationPublisherService().cancelNotification(investigation);
-
-        getAssetAsBuiltServiceImpl().setAssetsInvestigationStatus(canceledInvestigation);
-        getQualityNotificationRepository().updateQualityNotificationEntity(canceledInvestigation);
+    public void setAssetStatus(QualityNotification qualityNotification) {
+        assetService.setAssetsInvestigationStatus(qualityNotification);
     }
 
 
