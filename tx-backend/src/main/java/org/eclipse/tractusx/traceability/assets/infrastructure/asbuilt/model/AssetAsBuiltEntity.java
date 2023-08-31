@@ -21,22 +21,14 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
@@ -45,6 +37,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inve
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Getter
 @NoArgsConstructor
@@ -74,20 +67,21 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     @ManyToMany(mappedBy = "assets")
     private List<AlertNotificationEntity> alertNotificationEntities = new ArrayList<>();
 
-
     public static AssetAsBuiltEntity from(AssetBase asset) {
+        ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
+
         return AssetAsBuiltEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
-                .nameAtManufacturer(asset.getSemanticModel().getNameAtManufacturer())
-                .manufacturerPartId(asset.getSemanticModel().getManufacturerPartId())
+                .nameAtManufacturer(asset.getManufacturerName())
+                .manufacturerPartId(manufacturingInfo.getManufacturerPartId())
                 .semanticModelId(asset.getSemanticModelId())
                 .manufacturerId(asset.getManufacturerId())
                 .manufacturerName(asset.getManufacturerName())
-                .nameAtCustomer(asset.getSemanticModel().getNameAtCustomer())
-                .customerPartId(asset.getSemanticModel().getCustomerPartId())
-                .manufacturingDate(asset.getSemanticModel().getManufacturingDate())
-                .manufacturingCountry(asset.getSemanticModel().getManufacturingCountry())
+                .nameAtCustomer(manufacturingInfo.getNameAtCustomer())
+                .customerPartId(manufacturingInfo.getCustomerPartId())
+                .manufacturingDate(manufacturingInfo.getManufacturingDate())
+                .manufacturingCountry(manufacturingInfo.getManufacturingCountry())
                 .owner(asset.getOwner())
                 .childDescriptors(asset.getChildRelations().stream()
                         .map(child -> new ChildDescription(child.id(), child.idShort()))
@@ -105,11 +99,11 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     }
 
     public static AssetBase toDomain(AssetAsBuiltEntity entity) {
+        // TODO add detailAspectModels
         return AssetBase.builder()
                 .id(entity.getId())
                 .idShort(entity.getIdShort())
                 .semanticDataModel(SemanticDataModelEntity.toDomain(entity.getSemanticDataModel()))
-                .semanticModel(SemanticModel.from(entity))
                 .semanticModelId(entity.getSemanticModelId())
                 .manufacturerId(entity.getManufacturerId())
                 .manufacturerName(entity.getManufacturerName())
@@ -126,6 +120,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .qualityType(entity.getQualityType())
                 .van(entity.getVan())
                 .classification(entity.getClassification())
+                .detailAspectModels()
                 .build();
     }
 
@@ -161,6 +156,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
         private String id;
         private String idShort;
     }
+
 
 
 }

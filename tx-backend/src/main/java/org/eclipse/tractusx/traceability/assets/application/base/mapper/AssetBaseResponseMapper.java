@@ -18,6 +18,7 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.base.mapper;
 
+import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
 import assets.response.base.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

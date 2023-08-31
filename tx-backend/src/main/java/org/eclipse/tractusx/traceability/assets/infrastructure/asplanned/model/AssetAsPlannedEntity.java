@@ -33,12 +33,12 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +48,9 @@ import java.util.List;
 @SuperBuilder
 @Table(name = "assets_as_planned")
 public class AssetAsPlannedEntity extends AssetBaseEntity {
+
+    private LocalDateTime validityPeriodFrom;
+    private LocalDateTime validityPeriodTo;
 
     @ElementCollection
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
@@ -70,9 +73,15 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     }
 
     public static AssetAsPlannedEntity from(AssetBase asset) {
-        return org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity.builder()
+        // TODO add detailAspectModels
+
+
+
+        return AssetAsPlannedEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
+                .validityPeriodFrom(// todo)
+                .validityPeriodTo(// todo)
                 .nameAtManufacturer(asset.getSemanticModel().getNameAtManufacturer())
                 .manufacturerPartId(asset.getSemanticModel().getManufacturerPartId())
                 .nameAtCustomer(asset.getSemanticModel().getNameAtCustomer())
@@ -90,12 +99,12 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     }
 
     public static AssetBase toDomain(AssetAsPlannedEntity entity) {
+// TODO add detailAspectModels
         return AssetBase.builder()
                 .id(entity.getId())
                 .classification(entity.getClassification())
                 .idShort(entity.getIdShort())
                 .semanticDataModel(SemanticDataModelEntity.toDomain(entity.getSemanticDataModel()))
-                .semanticModel(SemanticModel.from(entity))
                 .owner(entity.getOwner())
                 .childRelations(entity.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
@@ -103,6 +112,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .underInvestigation(entity.isInInvestigation())
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
+                .detailAspectModels()
                 .build();
     }
 

@@ -20,7 +20,9 @@ package assets.response.base;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 @Builder
 public class DetailAspectModelResponse {
 

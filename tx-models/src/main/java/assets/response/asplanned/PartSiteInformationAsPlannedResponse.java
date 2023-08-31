@@ -1,11 +1,13 @@
-package assets.response.base;
+package assets.response.asplanned;
 
 import assets.response.base.DetailAspectDataResponse;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.Date;
 
+@Getter
 @Builder
 public class PartSiteInformationAsPlannedResponse implements DetailAspectDataResponse {
     @ApiModelProperty(example = "2025-02-08T04:30:48.000Z")

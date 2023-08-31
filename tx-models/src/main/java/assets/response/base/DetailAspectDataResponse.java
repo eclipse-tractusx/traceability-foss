@@ -18,9 +18,6 @@
  ********************************************************************************/
 package assets.response.base;
 
-import lombok.Builder;
-
-
 public interface DetailAspectDataResponse {
 
 }

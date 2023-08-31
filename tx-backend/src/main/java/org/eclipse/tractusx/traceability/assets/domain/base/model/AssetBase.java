@@ -40,7 +40,6 @@ public class AssetBase {
     private String semanticModelId;
     private final String manufacturerId;
     private String manufacturerName;
-    private SemanticModel semanticModel;
     private Owner owner;
     @Singular
     private List<Descriptions> childRelations;

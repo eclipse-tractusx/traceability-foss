@@ -32,7 +32,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.springframework.util.StringUtils;
@@ -182,11 +181,11 @@ public class SemanticDataModel {
 
         final List<DetailAspectModel> aspectModels = new ArrayList<>(partSiteInfoAsPlanned);
         aspectModels.add(asPlanned);
+// TODO add detailAspectModels
 
         return AssetBase.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
-                .semanticModel(SemanticModel.from(partTypeInformation))
                 .manufacturerId(manufacturerId[0])
                 .manufacturerName(defaultValue(manufacturerName))
                 .parentRelations(parentRelations)
