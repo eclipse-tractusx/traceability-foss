@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.application.base.mapper;
 
+import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
+import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
 import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
 import assets.response.base.*;
 import lombok.AllArgsConstructor;
@@ -25,8 +27,13 @@ import lombok.Data;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
@@ -64,15 +71,32 @@ public class AssetBaseResponseMapper {
     }
 
     public static DetailAspectDataResponse from(DetailAspectData detailAspectData) {
+
         if (detailAspectData instanceof DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned) {
             return PartSiteInformationAsPlannedResponse.builder().catenaXSiteId(detailAspectDataPartSiteInformationAsPlanned.getCatenaXSiteId())
                     .function(detailAspectDataPartSiteInformationAsPlanned.getFunction())
                     .functionValidFrom(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidFrom())
                     .functionValidUntil(detailAspectDataPartSiteInformationAsPlanned.getFunctionValidUntil())
                     .build();
-        } else {
-            return null;
         }
+
+        if (detailAspectData instanceof DetailAspectDataAsBuilt detailAspectDataAsBuilt) {
+            return DetailAspectDataAsBuiltResponse.builder()
+                    .partId(detailAspectDataAsBuilt.getPartId())
+                    .customerPartId(detailAspectDataAsBuilt.getCustomerPartId())
+                    .nameAtCustomer(detailAspectDataAsBuilt.getNameAtCustomer())
+                    .manufacturingCountry(detailAspectDataAsBuilt.getManufacturingCountry())
+                    .manufacturingDate(detailAspectDataAsBuilt.getManufacturingDate())
+                    .build();
+        }
+
+        if (detailAspectData instanceof DetailAspectDataAsPlanned detailAspectDataAsPlanned) {
+            return DetailAspectDataAsPlannedResponse.builder()
+                    .validityPeriodTo(detailAspectDataAsPlanned.getValidityPeriodTo())
+                    .validityPeriodFrom(detailAspectDataAsPlanned.getValidityPeriodFrom())
+                    .build();
+        }
+        return null;
     }
 
     public static OwnerResponse from(final Owner owner) {

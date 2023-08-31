@@ -131,12 +131,11 @@ class AssetAsBuiltControllerAllIT extends IntegrationTestSpecification {
                 .body("content[0]", hasEntry("underInvestigation", false))
                 .body("content[0]", hasEntry("qualityType", "Ok"))
                 .body("content[0]", hasEntry("van", "OMA-TGFAYUHXFLHHUQQMPLTE"))
-                .body("content[0].detailAspectModels[0].data.manufacturingCountry", hasEntry("manufacturingCountry", "DEU"))
-                .body("content[0].semanticModel", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
-                .body("content[0].semanticModel", hasEntry("nameAtManufacturer", "Vehicle Hybrid"))
-                .body("content[0].semanticModel", hasEntry("manufacturerPartId", assetsSupport.emptyText()))
-                .body("content[0].semanticModel", hasEntry("nameAtCustomer", assetsSupport.emptyText()))
-                .body("content[0].semanticModel", hasEntry("customerPartId", assetsSupport.emptyText()));
+                .body("content[0].detailAspectModels[0].data", hasEntry("manufacturingCountry", "DEU"))
+                .body("content[0].detailAspectModels[0].data", hasEntry("manufacturingDate", "2014-11-18T08:23:55Z"))
+                .body("content[0].detailAspectModels[0].data", hasEntry("manufacturerPartId", assetsSupport.emptyText()))
+                .body("content[0].detailAspectModels[0].data", hasEntry("nameAtCustomer", assetsSupport.emptyText()))
+                .body("content[0].detailAspectModels[0].data", hasEntry("customerPartId", assetsSupport.emptyText()));
 
     }
 
