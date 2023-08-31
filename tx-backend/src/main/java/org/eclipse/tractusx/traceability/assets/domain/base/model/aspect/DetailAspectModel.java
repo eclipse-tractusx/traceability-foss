@@ -32,10 +32,16 @@ import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.De
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.SemanticDataModel;
-import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ManufacturingInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.PartTypeInformation;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Getter
 @Setter
@@ -82,9 +88,13 @@ public class DetailAspectModel {
         return DetailAspectDataPartSiteInformationAsPlanned.builder().build();
     }
 
+    public static Optional<DetailAspectModel> getDetailAspectDataByType(List<DetailAspectModel> detailAspectModels, DetailAspectType type) {
+        return detailAspectModels.stream()
+                .filter(detailAspectModel -> detailAspectModel.getType().equals(type))
+                .findFirst();
+    }
 
     public static List<DetailAspectModel> from(AssetAsBuiltEntity entity) {
-        // todo map all from entity to list of detail aspect model. Then do the same for assetAsPlanned
 
         DetailAspectModel detailAspectModel = DetailAspectModel.builder()
                 .type(DetailAspectType.AS_BUILT)
@@ -101,16 +111,58 @@ public class DetailAspectModel {
     }
 
     public static List<DetailAspectModel> from(AssetAsPlannedEntity entity) {
-        // todo map all from entity to list of detail aspect model. Then do the same for assetAsPlanned
-
-        DetailAspectModel detailAspectModel = DetailAspectModel.builder()
+        DetailAspectModel asPlannedInfo = DetailAspectModel.builder()
                 .type(DetailAspectType.AS_PLANNED)
                 .data(DetailAspectDataAsPlanned.builder()
-                        .validityPeriodFrom(entity.get)
-                        .validityPeriodTo()
+                        .validityPeriodFrom(entity.getValidityPeriodFrom().toString())
+                        .validityPeriodTo(entity.getValidityPeriodTo().toString())
                         .build())
                 .build();
 
-        return List.of(detailAspectModel);
+        DetailAspectModel partSiteInfo = DetailAspectModel.builder()
+                .type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED)
+                .data(DetailAspectDataPartSiteInformationAsPlanned.builder()
+                        .catenaXSiteId(entity.getId())
+                        .functionValidFrom(entity.getFunctionValidFrom())
+                        .function(entity.getFunction())
+                        .functionValidUntil(entity.getFunctionValidUntil())
+                        .build())
+                .build();
+
+        return List.of(asPlannedInfo, partSiteInfo);
+    }
+
+
+    public static List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites) {
+        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
+        emptyIfNull(sites).forEach(site -> {
+            DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
+                    .catenaXSiteId(site.catenaXSiteId())
+                    .functionValidFrom(site.functionValidFrom())
+                    .functionValidUntil(site.functionValidUntil())
+                    .build();
+            detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
+        });
+
+        return detailAspectModels;
+    }
+
+    public static DetailAspectModel extractDetailAspectModelsAsPlanned(ValidityPeriod validityPeriod) {
+        DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
+                .validityPeriodFrom(validityPeriod.validFrom().toString())
+                .validityPeriodTo(validityPeriod.validTo().toString())
+                .build();
+        return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.SINGLE_LEVEL_BOM_AS_PLANNED).build();
+    }
+
+    public static DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation, PartTypeInformation partTypeInformation) {
+        DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
+                .customerPartId(partTypeInformation.customerPartId())
+                .manufacturingCountry(manufacturingInformation.country())
+                .manufacturingDate(manufacturingInformation.date().toString())
+                .nameAtCustomer(partTypeInformation.nameAtCustomer())
+                .partId(partTypeInformation.manufacturerPartId())
+                .build();
+        return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.SINGLE_LEVEL_USAGE_AS_BUILT).build();
     }
 }

@@ -27,8 +27,8 @@ import java.util.Date;
 @Builder
 @Getter
 public class DetailAspectDataPartSiteInformationAsPlanned implements DetailAspectData {
-    private Date functionValidUntil;
+    private String functionValidUntil;
     private String function;
-    private Date functionValidFrom;
+    private String functionValidFrom;
     private String catenaXSiteId;
 }

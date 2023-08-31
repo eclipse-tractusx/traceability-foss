@@ -31,8 +31,11 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
@@ -40,7 +43,11 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.inve
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.getDetailAspectDataByType;
 
 @Getter
 @NoArgsConstructor
@@ -49,8 +56,12 @@ import java.util.List;
 @Table(name = "assets_as_planned")
 public class AssetAsPlannedEntity extends AssetBaseEntity {
 
-    private LocalDateTime validityPeriodFrom;
-    private LocalDateTime validityPeriodTo;
+    private String validityPeriodFrom;
+    private String validityPeriodTo;
+    private String functionValidUntil;
+    private String function;
+    private String functionValidFrom;
+
 
     @ElementCollection
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
@@ -75,17 +86,18 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     public static AssetAsPlannedEntity from(AssetBase asset) {
         // TODO add detailAspectModels
 
+        List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
+        AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
 
 
         return AssetAsPlannedEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
-                .validityPeriodFrom(// todo)
-                .validityPeriodTo(// todo)
-                .nameAtManufacturer(asset.getSemanticModel().getNameAtManufacturer())
-                .manufacturerPartId(asset.getSemanticModel().getManufacturerPartId())
-                .nameAtCustomer(asset.getSemanticModel().getNameAtCustomer())
-                .customerPartId(asset.getSemanticModel().getCustomerPartId())
+                .functionValidFrom(asPlannedInfo.getFunctionValidFrom())
+                .function(asPlannedInfo.getFunction())
+                .functionValidUntil(asPlannedInfo.getFunctionValidUntil())
+                .validityPeriodFrom(asPlannedInfo.getValidityPeriodFrom())
+                .validityPeriodTo(asPlannedInfo.getValidityPeriodTo())
                 .owner(asset.getOwner())
                 .classification(asset.getClassification())
                 .childDescriptors(asset.getChildRelations().stream()

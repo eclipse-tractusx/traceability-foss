@@ -45,6 +45,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.*;
 
 @Setter
 @Getter
@@ -84,38 +85,7 @@ public class SemanticDataModel {
                 .map(LocalId::value);
     }
 
-    private List<DetailAspectModel> extractDetailAspectModelsPartSiteInformationAsPlanned(List<Site> sites) {
-        List<DetailAspectModel> detailAspectModels = new ArrayList<>();
-        emptyIfNull(sites).forEach(site -> {
-            DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
-                    .catenaXSiteId(site.catenaXSiteId())
-                    .functionValidFrom(site.functionValidFrom())
-                    .functionValidUntil(site.functionValidUntil())
-                    .build();
-            detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
-        });
 
-        return detailAspectModels;
-    }
-
-    private DetailAspectModel extractDetailAspectModelsAsPlanned(ValidityPeriod validityPeriod) {
-            DetailAspectDataAsPlanned detailAspectDataAsPlanned = DetailAspectDataAsPlanned.builder()
-                    .validityPeriodFrom(validityPeriod.validFrom().toString())
-                    .validityPeriodTo(validityPeriod.validTo().toString())
-                    .build();
-          return  DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.SINGLE_LEVEL_BOM_AS_PLANNED).build();
-    }
-
-    private DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation, PartTypeInformation partTypeInformation) {
-        DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
-                .customerPartId(partTypeInformation.customerPartId())
-                .manufacturingCountry(manufacturingInformation.country())
-                .manufacturingDate(manufacturingInformation.date().toString())
-                .nameAtCustomer(partTypeInformation.nameAtCustomer())
-                .partId(partTypeInformation.manufacturerPartId())
-                .build();
-        return  DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.SINGLE_LEVEL_USAGE_AS_BUILT).build();
-    }
 
     public Optional<String> getLocalIdByInput(LocalIdKey key, List<LocalId> localIds) {
         return localIds.stream()
