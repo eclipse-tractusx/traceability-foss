@@ -18,8 +18,11 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.common.config;
 
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StringToStringListConverter implements Converter<String, List<String>> {
@@ -35,7 +38,7 @@ public class StringToStringListConverter implements Converter<String, List<Strin
      * @return a list of the String with only one entry without comma separation.
      */
     @Override
-    public List<String> convert(final String from) {
-        return List.of(from);
+    public List<String> convert(final @NotNull String from) {
+        return StringUtils.isBlank(from) ? new ArrayList<>() : List.of(from);
     }
 }
