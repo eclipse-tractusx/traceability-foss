@@ -19,6 +19,8 @@
 package assets.response.base;
 
 public enum DetailAspectTypeResponse {
+    AS_BUILT("AS_BUILT"),
+    AS_PLANNED("AS_PLANNED"),
     /* Detail aspect of as built assets */
     TRACTION_BATTERY_CODE("TRACTION_BATTERY_CODE"),
     /* Downward relation of as planned assets */
