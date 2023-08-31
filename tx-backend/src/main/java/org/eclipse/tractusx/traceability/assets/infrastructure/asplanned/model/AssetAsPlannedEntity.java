@@ -18,36 +18,19 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model;
 
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Embeddable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.getDetailAspectDataByType;
 
 @Getter
 @NoArgsConstructor
@@ -84,11 +67,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     }
 
     public static AssetAsPlannedEntity from(AssetBase asset) {
-        // TODO add detailAspectModels
-
         List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
         AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
-
 
         return AssetAsPlannedEntity.builder()
                 .id(asset.getId())
@@ -111,7 +91,6 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     }
 
     public static AssetBase toDomain(AssetAsPlannedEntity entity) {
-// TODO add detailAspectModels
         return AssetBase.builder()
                 .id(entity.getId())
                 .classification(entity.getClassification())
@@ -124,7 +103,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .underInvestigation(entity.isInInvestigation())
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
-                .detailAspectModels()
+                .detailAspectModels(DetailAspectModel.from(entity))
                 .build();
     }
 

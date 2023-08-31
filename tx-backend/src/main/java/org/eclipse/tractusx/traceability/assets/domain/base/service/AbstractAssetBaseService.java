@@ -25,6 +25,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
@@ -51,6 +53,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     protected abstract List<String> getUpwardAspects();
 
     protected abstract BomLifecycle getBomLifecycle();
+
 
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
     public void synchronizeAssetsAsync(String globalAssetId) {
@@ -108,10 +111,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         });
     }
 
-    public Map<String, Long> getAssetsCountryMap() {
-        return getAssetRepository().getAssets().stream()
-                .collect(Collectors.groupingBy(asset -> asset.getSemanticModel().getManufacturingCountry(), Collectors.counting()));
-    }
+
 
     public AssetBase updateQualityType(String assetId, QualityType qualityType) {
         AssetBase foundAsset = getAssetRepository().getAssetById(assetId);
@@ -133,5 +133,11 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     public AssetBase getAssetByChildId(String assetId, String childId) {
         return getAssetRepository().getAssetByChildId(assetId, childId);
+    }
+
+    public Map<String, Long> getAssetsCountryMap() {
+        return getAssetRepository().getAssets().stream()
+                .collect(Collectors.groupingBy(
+                        asset -> ManufacturingInfo.from(asset.getDetailAspectModels()).getManufacturingCountry(), Collectors.counting()));
     }
 }

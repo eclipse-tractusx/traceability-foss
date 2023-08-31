@@ -99,7 +99,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     }
 
     public static AssetBase toDomain(AssetAsBuiltEntity entity) {
-        // TODO add detailAspectModels
         return AssetBase.builder()
                 .id(entity.getId())
                 .idShort(entity.getIdShort())
@@ -120,7 +119,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .qualityType(entity.getQualityType())
                 .van(entity.getVan())
                 .classification(entity.getClassification())
-                .detailAspectModels()
+                .detailAspectModels(DetailAspectModel.from(entity))
                 .build();
     }
 

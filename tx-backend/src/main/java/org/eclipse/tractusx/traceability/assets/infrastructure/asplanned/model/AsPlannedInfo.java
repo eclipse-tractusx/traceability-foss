@@ -35,7 +35,7 @@ public class AsPlannedInfo {
 
         Optional<DetailAspectModel> partSiteInfo = detailAspectModels
                 .stream()
-                .filter(detailAspectModel -> detailAspectModel.getType().equals(DetailAspectType.AS_PLANNED))
+                .filter(detailAspectModel -> detailAspectModel.getType().equals(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED))
                 .findFirst();
 
         String function = partSiteInfo.map(detailAspectModel -> (DetailAspectDataPartSiteInformationAsPlanned) detailAspectModel.getData())

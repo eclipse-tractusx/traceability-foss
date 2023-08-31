@@ -114,8 +114,8 @@ public class DetailAspectModel {
         DetailAspectModel asPlannedInfo = DetailAspectModel.builder()
                 .type(DetailAspectType.AS_PLANNED)
                 .data(DetailAspectDataAsPlanned.builder()
-                        .validityPeriodFrom(entity.getValidityPeriodFrom().toString())
-                        .validityPeriodTo(entity.getValidityPeriodTo().toString())
+                        .validityPeriodFrom(entity.getValidityPeriodFrom())
+                        .validityPeriodTo(entity.getValidityPeriodTo())
                         .build())
                 .build();
 
@@ -138,8 +138,8 @@ public class DetailAspectModel {
         emptyIfNull(sites).forEach(site -> {
             DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
                     .catenaXSiteId(site.catenaXSiteId())
-                    .functionValidFrom(site.functionValidFrom())
-                    .functionValidUntil(site.functionValidUntil())
+                    .functionValidFrom(site.functionValidFrom().toString())
+                    .functionValidUntil(site.functionValidUntil().toString())
                     .build();
             detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());
         });
