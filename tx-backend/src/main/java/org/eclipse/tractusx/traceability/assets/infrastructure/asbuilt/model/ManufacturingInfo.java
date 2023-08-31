@@ -43,7 +43,7 @@ public class ManufacturingInfo {
     public static ManufacturingInfo from(List<DetailAspectModel> detailAspectModels) {
         Optional<DetailAspectModel> detailAspectAsBuilt = detailAspectModels
                 .stream()
-                .filter(detailAspectModel -> detailAspectModel.getType().equals(DetailAspectType.SINGLE_LEVEL_USAGE_AS_BUILT))
+                .filter(detailAspectModel -> detailAspectModel.getType().equals(DetailAspectType.AS_BUILT))
                 .findFirst();
 
         String manufacturerPartId = detailAspectAsBuilt.map(detailAspectModel -> (DetailAspectDataAsBuilt) detailAspectModel.getData())

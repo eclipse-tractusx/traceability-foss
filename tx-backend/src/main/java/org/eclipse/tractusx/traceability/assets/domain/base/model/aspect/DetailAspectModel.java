@@ -103,7 +103,7 @@ public class DetailAspectModel {
                         .customerPartId(entity.getCustomerPartId())
                         .nameAtCustomer(entity.getNameAtCustomer())
                         .manufacturingCountry(entity.getManufacturingCountry())
-                        .manufacturingDate(entity.getManufacturingDate().toString())
+                        .manufacturingDate(entity.getManufacturingDate() != null ? entity.getManufacturingDate().toString() : null)
                         .build())
                 .build();
 
