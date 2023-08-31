@@ -33,8 +33,8 @@ public class AssetAsBuiltResponseMapper extends AssetBaseResponseMapper {
                 .idShort(asset.getIdShort())
                 .classification(asset.getClassification())
                 .semanticModelId(asset.getSemanticModelId())
-                .manufacturerId(asset.getManufacturerId())
-                .businessPartner(asset.getManufacturerName())
+                .businessPartner(asset.getManufacturerId())
+                .manufacturerName(asset.getManufacturerName())
                 .owner(from(asset.getOwner()))
                 .childRelations(
                         asset.getChildRelations().stream()

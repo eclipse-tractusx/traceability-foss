@@ -62,7 +62,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .manufacturerName("manuName")
                 .nameAtCustomer("Customer Name")
                 .customerPartId("customerPartId")
-                .manufacturingDate(Instant.ofEpochSecond(11111111L))
+                .manufacturingDate("22.22.2222")
                 .manufacturingCountry("manu456")
                 .semanticDataModel(SemanticDataModelEntity.SERIALPART)
                 .owner(Owner.OWN)

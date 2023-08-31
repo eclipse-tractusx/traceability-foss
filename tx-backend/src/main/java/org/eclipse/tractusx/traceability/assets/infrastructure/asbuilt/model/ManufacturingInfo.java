@@ -38,7 +38,7 @@ public class ManufacturingInfo {
     private String nameAtCustomer;
     private String customerPartId;
     private String manufacturingCountry;
-    private Instant manufacturingDate;
+    private String manufacturingDate;
 
     public static ManufacturingInfo from(List<DetailAspectModel> detailAspectModels) {
         Optional<DetailAspectModel> detailAspectAsBuilt = detailAspectModels
@@ -58,14 +58,10 @@ public class ManufacturingInfo {
         String nameAtCustomer = detailAspectAsBuilt.map(detailAspectModel -> (DetailAspectDataAsBuilt) detailAspectModel.getData())
                 .map(DetailAspectDataAsBuilt::getNameAtCustomer)
                 .orElse("");
-        Optional<Instant> manufacturingDateOptional = detailAspectAsBuilt.map(detailAspectModel -> (DetailAspectDataAsBuilt) detailAspectModel.getData())
+        String manufacturingDate = detailAspectAsBuilt.map(detailAspectModel -> (DetailAspectDataAsBuilt) detailAspectModel.getData())
                 .map(DetailAspectDataAsBuilt::getManufacturingDate)
-                .map(Instant::parse);
-        Instant manufacturingDate = null;
+                .orElse("");
 
-        if (manufacturingDateOptional.isPresent()) {
-            manufacturingDate = manufacturingDateOptional.get();
-        }
 
         return ManufacturingInfo.builder()
                 .manufacturerPartId(manufacturerPartId)

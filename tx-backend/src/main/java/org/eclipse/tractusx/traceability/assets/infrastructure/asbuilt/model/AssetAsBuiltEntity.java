@@ -47,7 +47,7 @@ import java.util.Optional;
 public class AssetAsBuiltEntity extends AssetBaseEntity {
 
     private String van;
-    private Instant manufacturingDate;
+    private String manufacturingDate;
     private String manufacturingCountry;
     private String manufacturerId;
     private String manufacturerName;

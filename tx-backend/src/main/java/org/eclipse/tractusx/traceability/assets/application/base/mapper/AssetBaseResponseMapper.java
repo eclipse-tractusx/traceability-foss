@@ -23,6 +23,7 @@ import assets.response.base.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
+import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.assets.application.asplanned.mapper.AssetAsPlannedResponseMapper;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
@@ -33,18 +34,22 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 // TODO missing in concept:
 // manuf
 @AllArgsConstructor
+@Slf4j
 @Data
 @SuperBuilder
 public class AssetBaseResponseMapper {
 
 
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
-        return emptyIfNull(detailAspectModels).stream()
+        List<DetailAspectModelResponse> list = emptyIfNull(detailAspectModels).stream()
                 .map(AssetAsPlannedResponseMapper::from)
                 .toList();
+        log.info(list.toString());
+        return list;
     }
 
     public static DetailAspectModelResponse from(DetailAspectModel detailAspectModel) {

@@ -155,7 +155,10 @@ public class DetailAspectModel {
         return DetailAspectModel.builder().data(detailAspectDataAsPlanned).type(DetailAspectType.SINGLE_LEVEL_BOM_AS_PLANNED).build();
     }
 
-    public static DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation, PartTypeInformation partTypeInformation) {
+    public static DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation,
+                                                                     PartTypeInformation partTypeInformation,
+                                                                     org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel semanticDataModel) {
+
         DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
                 .customerPartId(partTypeInformation.customerPartId())
                 .manufacturingCountry(manufacturingInformation.country())
@@ -163,6 +166,6 @@ public class DetailAspectModel {
                 .nameAtCustomer(partTypeInformation.nameAtCustomer())
                 .partId(partTypeInformation.manufacturerPartId())
                 .build();
-        return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.SINGLE_LEVEL_USAGE_AS_BUILT).build();
+        return DetailAspectModel.builder().data(detailAspectDataAsBuilt).type(DetailAspectType.AS_BUILT).build();
     }
 }
