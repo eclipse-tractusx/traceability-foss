@@ -41,8 +41,8 @@ import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

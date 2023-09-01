@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.common.support
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity

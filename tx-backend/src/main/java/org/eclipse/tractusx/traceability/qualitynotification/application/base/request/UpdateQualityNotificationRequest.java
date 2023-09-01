@@ -19,10 +19,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository;
+package org.eclipse.tractusx.traceability.qualitynotification.application.base.request;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
+import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
-public interface InvestigationRepository extends QualityNotificationRepository {
-
+@Data
+public class UpdateQualityNotificationRequest {
+    @NotNull(message = "status must be present")
+    @ApiModelProperty(example = "ACKNOWLEDGED")
+    private UpdateQualityNotificationStatusRequest status;
+    @ApiModelProperty(example = "The reason.")
+    private String reason;
 }

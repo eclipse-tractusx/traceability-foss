@@ -21,8 +21,8 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.investigation.rest.validation;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidationException;
 import org.eclipse.tractusx.traceability.qualitynotification.application.validation.UpdateQualityNotificationValidator;
 import org.junit.jupiter.api.DisplayName;

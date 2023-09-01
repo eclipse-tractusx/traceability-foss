@@ -17,10 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
+public class QualityNotificationIllegalUpdate extends IllegalArgumentException {
 
-public interface AlertRepository extends QualityNotificationRepository {
-
+    public QualityNotificationIllegalUpdate(String message) {
+        super(message);
+    }
 }

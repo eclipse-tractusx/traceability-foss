@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.request;
+package org.eclipse.tractusx.traceability.qualitynotification.application.base.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Future;

@@ -17,9 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.model;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base;
 
-public enum QualityNotificationType {
-    INVESTIGATION,
-    ALERT
+import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
+
+public interface AlertRepository extends QualityNotificationRepository {
+
 }

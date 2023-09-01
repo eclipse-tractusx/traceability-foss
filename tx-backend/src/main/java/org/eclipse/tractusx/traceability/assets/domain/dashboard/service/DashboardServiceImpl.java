@@ -22,13 +22,13 @@
 package org.eclipse.tractusx.traceability.assets.domain.dashboard.service;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.domain.dashboard.model.Dashboard;
 import org.eclipse.tractusx.traceability.assets.application.dashboard.service.DashboardService;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.assets.domain.dashboard.model.Dashboard;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.springframework.stereotype.Component;
 
 @Component

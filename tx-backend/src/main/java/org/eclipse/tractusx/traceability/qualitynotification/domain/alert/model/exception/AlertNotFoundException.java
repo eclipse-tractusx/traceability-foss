@@ -19,7 +19,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.alert.model.exception;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 
 public class AlertNotFoundException extends RuntimeException {
 

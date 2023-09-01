@@ -28,7 +28,7 @@ import org.eclipse.tractusx.traceability.common.support.*
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.*
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.*
 import org.hamcrest.Matchers
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.annotation.Transactional

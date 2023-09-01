@@ -27,7 +27,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationSeverityRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
 
 import java.time.Instant;
 import java.util.List;

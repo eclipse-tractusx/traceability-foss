@@ -19,15 +19,17 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.model;
+package org.eclipse.tractusx.traceability.qualitynotification.application.base.request;
 
-import java.util.Objects;
+import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
-public record QualityNotificationId(Long value) {
-
-    public QualityNotificationId {
-        if (Objects.isNull(value)) {
-            throw new IllegalArgumentException("Investigation id must be present");
-        }
-    }
+@Setter
+@Getter
+public class CloseQualityNotificationRequest {
+    @Size(min = 15, max = 1000, message = "Close reason should have at least 15 characters and at most 1000 characters")
+    @ApiModelProperty(example = "The reason.")
+    private String reason;
 }

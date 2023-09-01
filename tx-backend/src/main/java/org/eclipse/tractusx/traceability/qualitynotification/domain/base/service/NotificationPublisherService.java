@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
 
 import lombok.RequiredArgsConstructor;
@@ -31,13 +31,13 @@ import org.eclipse.tractusx.traceability.assets.domain.base.BpnRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationAffectedPart;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSide;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.exception.QualityNotificationIllegalUpdate;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationAffectedPart;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSide;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.exception.QualityNotificationIllegalUpdate;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
