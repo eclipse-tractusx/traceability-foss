@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.model;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -30,15 +30,11 @@ public enum QualityNotificationSeverity {
     @ApiModelProperty(name = "LIFE-THREATENING")
     LIFE_THREATENING("LIFE-THREATENING");
 
+    private final String realName;
+
     QualityNotificationSeverity(String realName) {
         this.realName = realName;
     }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    private final String realName;
 
     public static QualityNotificationSeverity fromString(String str) {
         for (QualityNotificationSeverity s : QualityNotificationSeverity.values()) {
@@ -47,5 +43,9 @@ public enum QualityNotificationSeverity {
             }
         }
         throw new IllegalArgumentException("No enum constant " + QualityNotificationSeverity.class.getCanonicalName() + "." + str);
+    }
+
+    public String getRealName() {
+        return realName;
     }
 }

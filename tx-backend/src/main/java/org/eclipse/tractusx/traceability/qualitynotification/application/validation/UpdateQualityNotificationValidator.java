@@ -21,14 +21,14 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.application.validation;
 
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 
 import java.util.Set;
 
-import static org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus.ACCEPTED;
-import static org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus.ACKNOWLEDGED;
-import static org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus.DECLINED;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus.ACCEPTED;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus.ACKNOWLEDGED;
+import static org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus.DECLINED;
 
 public class UpdateQualityNotificationValidator {
 

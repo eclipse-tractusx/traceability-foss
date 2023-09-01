@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,17 +17,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.application.request;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.Size;
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
-public class CloseQualityNotificationRequest {
-    @Size(min = 15, max = 1000, message = "Close reason should have at least 15 characters and at most 1000 characters")
-    @ApiModelProperty(example = "The reason.")
-    private String reason;
+public enum QualityNotificationType {
+    INVESTIGATION,
+    ALERT
 }

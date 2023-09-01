@@ -16,10 +16,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.qualitynotification.application.base.request;
 
-package org.eclipse.tractusx.traceability.qualitynotification.domain.model;
+import io.swagger.annotations.ApiModel;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 
-public enum QualityNotificationSide {
-    SENDER,
-    RECEIVER
+@ApiModel(description = "Describes status for closed action")
+public enum QualityNotificationStatusRequest {
+    CLOSED;
+
+    public static QualityNotificationStatus toDomain(QualityNotificationStatusRequest qualityNotificationStatusRequest) {
+        return QualityNotificationStatus.fromStringValue(qualityNotificationStatusRequest.name());
+    }
 }

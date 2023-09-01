@@ -28,7 +28,7 @@ import org.eclipse.tractusx.traceability.common.support.InvestigationNotificatio
 import org.eclipse.tractusx.traceability.common.support.InvestigationsSupport
 import org.eclipse.tractusx.traceability.common.support.TestDataSupport
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity
