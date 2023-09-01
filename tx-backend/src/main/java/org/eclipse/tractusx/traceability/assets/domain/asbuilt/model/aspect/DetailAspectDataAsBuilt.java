@@ -22,6 +22,8 @@ import lombok.Builder;
 import lombok.Getter;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 
+import java.time.LocalDateTime;
+
 @Builder
 @Getter
 public class DetailAspectDataAsBuilt implements DetailAspectData {
@@ -29,5 +31,5 @@ public class DetailAspectDataAsBuilt implements DetailAspectData {
     private String customerPartId;
     private String nameAtCustomer;
     private String manufacturingCountry;
-    private String manufacturingDate;
+    private LocalDateTime manufacturingDate;
 }

@@ -21,7 +21,13 @@ package org.eclipse.tractusx.traceability.assets.application.base.mapper;
 import assets.response.asbuilt.DetailAspectDataAsBuiltResponse;
 import assets.response.asplanned.DetailAspectDataAsPlannedResponse;
 import assets.response.asplanned.PartSiteInformationAsPlannedResponse;
-import assets.response.base.*;
+import assets.response.base.DescriptionsResponse;
+import assets.response.base.DetailAspectDataResponse;
+import assets.response.base.DetailAspectModelResponse;
+import assets.response.base.DetailAspectTypeResponse;
+import assets.response.base.OwnerResponse;
+import assets.response.base.QualityTypeResponse;
+import assets.response.base.SemanticDataModelResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -43,7 +49,6 @@ import java.util.List;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 // TODO missing in concept:
-// manuf
 @AllArgsConstructor
 @Slf4j
 @Data
@@ -86,7 +91,7 @@ public class AssetBaseResponseMapper {
                     .customerPartId(detailAspectDataAsBuilt.getCustomerPartId())
                     .nameAtCustomer(detailAspectDataAsBuilt.getNameAtCustomer())
                     .manufacturingCountry(detailAspectDataAsBuilt.getManufacturingCountry())
-                    .manufacturingDate(detailAspectDataAsBuilt.getManufacturingDate())
+                    .manufacturingDate(detailAspectDataAsBuilt.getManufacturingDate().toString())
                     .build();
         }
 
@@ -113,7 +118,6 @@ public class AssetBaseResponseMapper {
     public static QualityTypeResponse from(final QualityType qualityType) {
         return QualityTypeResponse.valueOf(qualityType.name());
     }
-
 
     public static SemanticDataModelResponse from(final SemanticDataModel semanticDataModel) {
         if (semanticDataModel == null) {

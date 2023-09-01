@@ -22,9 +22,7 @@ package org.eclipse.tractusx.traceability.assets.infrastructure.repository.jpa;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuiltRepositoryImpl;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
@@ -35,7 +33,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.createAssetTestData;
@@ -62,7 +60,7 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .manufacturerName("manuName")
                 .nameAtCustomer("Customer Name")
                 .customerPartId("customerPartId")
-                .manufacturingDate("22.22.2222")
+                .manufacturingDate(LocalDateTime.now())
                 .manufacturingCountry("manu456")
                 .semanticDataModel(SemanticDataModelEntity.SERIALPART)
                 .owner(Owner.OWN)
@@ -86,12 +84,9 @@ class PersistentAssetsAsBuiltRepositoryTest {
                                         .id("parent2")
                                         .idShort("desc2")
                                         .build()
-
                         )
-
                 )
                 .build();
-
 
         // when
         AssetBase asset = AssetAsBuiltEntity.toDomain(entity);

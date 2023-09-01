@@ -56,6 +56,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -218,7 +219,7 @@ class IrsServiceTest {
                         "catenaXId123",
                         new PartTypeInformation("classification", "Name at Manufacturer", "Name at Customer",
                                 "ManufacturerPartId123", "CustomerPartId123"),
-                        new ManufacturingInformation("Country", new Date()),
+                        new ManufacturingInformation("Country", LocalDateTime.now()),
                         Collections.emptyList(), validityPeriod, List.of(site), "urn:bamm:io.catenax.serial_part:1.0.0#SerialPart"
 
                 )
@@ -251,8 +252,5 @@ class IrsServiceTest {
                 relationships,
                 bpns
         );
-
     }
-
-
 }

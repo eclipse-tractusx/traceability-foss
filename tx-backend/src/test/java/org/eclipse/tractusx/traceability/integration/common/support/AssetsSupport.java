@@ -43,7 +43,7 @@ public class AssetsSupport {
     JpaInvestigationRepository jpaInvestigationRepository;
 
     public String emptyText() {
-        return "--";
+        return "";
     }
 
     public void defaultAssetsStored() {

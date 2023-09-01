@@ -37,6 +37,7 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.re
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.Site;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel.ValidityPeriod;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +67,7 @@ public class DetailAspectModel {
                     .customerPartId(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getCustomerPartId())
                     .nameAtCustomer(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getNameAtCustomer())
                     .manufacturingCountry(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getManufacturingCountry())
-                    .manufacturingDate(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getManufacturingDate())
+                    .manufacturingDate(LocalDateTime.parse(((DetailAspectDataAsBuiltResponse) detailAspectDataResponse).getManufacturingDate()))
                     .build();
         }
 
@@ -103,7 +104,7 @@ public class DetailAspectModel {
                         .customerPartId(entity.getCustomerPartId())
                         .nameAtCustomer(entity.getNameAtCustomer())
                         .manufacturingCountry(entity.getManufacturingCountry())
-                        .manufacturingDate(entity.getManufacturingDate() != null ? entity.getManufacturingDate().toString() : null)
+                        .manufacturingDate(entity.getManufacturingDate() != null ? entity.getManufacturingDate() : null)
                         .build())
                 .build();
 
@@ -162,7 +163,7 @@ public class DetailAspectModel {
         DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
                 .customerPartId(partTypeInformation.customerPartId())
                 .manufacturingCountry(manufacturingInformation.country())
-                .manufacturingDate(manufacturingInformation.date().toString())
+                .manufacturingDate(manufacturingInformation.date())
                 .nameAtCustomer(partTypeInformation.nameAtCustomer())
                 .partId(partTypeInformation.manufacturerPartId())
                 .build();
