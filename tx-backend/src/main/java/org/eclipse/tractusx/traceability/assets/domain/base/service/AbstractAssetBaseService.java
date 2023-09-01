@@ -25,7 +25,6 @@ import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
@@ -135,6 +134,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return getAssetRepository().getAssetByChildId(assetId, childId);
     }
 
+    @Override
     public Map<String, Long> getAssetsCountryMap() {
         return getAssetRepository().getAssets().stream()
                 .collect(Collectors.groupingBy(

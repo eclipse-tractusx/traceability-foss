@@ -157,8 +157,7 @@ public class DetailAspectModel {
     }
 
     public static DetailAspectModel extractDetailAspectModelsAsBuilt(ManufacturingInformation manufacturingInformation,
-                                                                     PartTypeInformation partTypeInformation,
-                                                                     org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel semanticDataModel) {
+                                                                     PartTypeInformation partTypeInformation) {
 
         DetailAspectDataAsBuilt detailAspectDataAsBuilt = DetailAspectDataAsBuilt.builder()
                 .customerPartId(partTypeInformation.customerPartId())

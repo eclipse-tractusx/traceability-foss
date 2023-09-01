@@ -25,15 +25,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.model.aspect.DetailAspectDataAsBuilt;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataAsPlanned;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect.DetailAspectDataPartSiteInformationAsPlanned;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -45,7 +41,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
-import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.*;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsBuilt;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsAsPlanned;
+import static org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel.extractDetailAspectModelsPartSiteInformationAsPlanned;
 
 @Setter
 @Getter
@@ -121,7 +119,7 @@ public class SemanticDataModel {
         }
 
         // TODO add full list of detailAspectModels
-        DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation, semanticDataModel.get());
+        DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation);
 
         return AssetBase.builder()
                 .id(catenaXId())
