@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,21 +16,23 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.common.config;
 
-public class FeatureFlags {
+package org.eclipse.tractusx.traceability.integration.common.support;
 
-    public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " +
-            ApplicationProfiles.INTEGRATION_SPRING_BOOT + " | " +
-            ApplicationProfiles.TESTS + " | " +
-            ApplicationProfiles.DEV + " | " +
-            ApplicationProfiles.TEST + " | " +
-            ApplicationProfiles.INT + " | " +
-            ApplicationProfiles.E2E_A + " | " +
-            ApplicationProfiles.E2E_B + " | " +
-            ApplicationProfiles.INT_A + " | " +
-            ApplicationProfiles.INT_B;
+import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
+import org.eclipse.tractusx.traceability.bpn.mapping.infrastructure.adapters.rest.BpnEdcMappingRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-    private FeatureFlags() {
+import java.util.List;
+
+@Component
+public class BpnEdcMappingSupport {
+    @Autowired
+    BpnEdcMappingRepository bpnEdcMappingRepository;
+
+    public void defaultBpnEdcMappingStored() {
+        var bpnEdcMappingRequests = List.of(new BpnEdcMappingRequest("BPN123", "https://test123.de"), new BpnEdcMappingRequest("BPN456", "https://test456.de"));
+        bpnEdcMappingRepository.saveAll(bpnEdcMappingRequests);
     }
 }

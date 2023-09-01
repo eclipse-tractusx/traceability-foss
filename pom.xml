@@ -58,7 +58,6 @@ SPDX-License-Identifier: Apache-2.0
         <owasp-plugin.version>8.4.0</owasp-plugin.version>
         <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
         <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
-        <apache-groovy.version>4.0.11</apache-groovy.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
@@ -105,7 +104,7 @@ SPDX-License-Identifier: Apache-2.0
         <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.tests>
-            src/test/java,src/integration/groovy
+            src/test/java
         </sonar.tests>
         <sonar.organization>eclipse-tractusx</sonar.organization>
         <sonar.projectKey>eclipse-tractusx_traceability-foss-backend</sonar.projectKey>
