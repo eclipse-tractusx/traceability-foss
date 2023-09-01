@@ -37,7 +37,7 @@ will be right!
 
 	<module name="RegexpHeader">
 		<property name="headerFile" value="config/checkstyle/REGEXPR_HEADER.txt"/>
-		<property name="fileExtensions" value="groovy,java,yml"/>
+		<property name="fileExtensions" value="java,yml"/>
 	</module>
 
 </module>

@@ -38,6 +38,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Replaced own implementation of getCatalog, negotiateAgreement, and validatePolicy with irs-client-library implementation.
 - Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
 - Updated irs-helm from 6.4.1 to 6.5.0
+- Migrated groovy integration tests to SpringBootTests
 
 ### Removed
 
