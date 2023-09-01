@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 
 public class NotificationStatusTransitionNotAllowed extends RuntimeException {
 

@@ -26,11 +26,12 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.Investigati
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.SendNotificationException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.repository.AlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.repository.InvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationSeverity;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationSeverity;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.EdcNotificationService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

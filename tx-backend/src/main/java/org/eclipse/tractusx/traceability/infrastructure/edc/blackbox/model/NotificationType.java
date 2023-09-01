@@ -22,7 +22,7 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.BadRequestException;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 
 import java.util.Arrays;
 import java.util.Map;
