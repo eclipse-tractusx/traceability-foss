@@ -1,7 +1,8 @@
 @startuml
 
 title: Domain Model
-
+skinparam monochrome true
+skinparam shadowing false
 
 abstract Asset {
         *   id : String
