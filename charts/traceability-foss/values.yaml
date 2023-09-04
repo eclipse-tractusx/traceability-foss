@@ -305,10 +305,6 @@ backend:
     allowedCorsOriginFirst: "https://replace.me"
     allowedCorsOriginSecond: "https://replace.me"
 
-  serviceAccounts:
-    irs: "testirs"  # {{- tpl (.Values.irs-helm.nameOverride | default "" ) . }}
-    edc: "testedc"  # {{- tpl (.Values.tractusx-connector.nameOverride | default "" ) . }}
-
 #########################
 # PG Admin configuration     #
 #########################
