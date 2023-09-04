@@ -1,4 +1,4 @@
-#
+charts/traceability-foss/charts/backend/values.yaml#
 #  Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
 #  Copyright (c) 2022, 2023 ZF Friedrichshafen AG
 #  Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
@@ -170,3 +170,7 @@ portal:
 config:
   allowedCorsOriginFirst: "https://replace.me"
   allowedCorsOriginSecond: "https://replace.me"
+
+serviceAccounts:
+  irs: {{- tpl (.Values.irs-helm.serviceAccount.name | default "" ) . }}
+  edc: {{- tpl (.Values.tractusx-connector.serviceAccount.name | default "" ) . }}
