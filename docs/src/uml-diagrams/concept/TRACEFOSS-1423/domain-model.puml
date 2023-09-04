@@ -1,7 +1,8 @@
 @startuml
 
 title: Domain Model
-
+skinparam monochrome true
+skinparam shadowing false
 
 abstract Asset {
         *   id : String
@@ -15,6 +16,8 @@ abstract Asset {
 
         idShort : String
         van : String
+
+        manufacturerName : String /' BPN Lookup collection irs.bpns[] '/
 
         manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
         nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
