@@ -17,6 +17,8 @@ abstract Asset {
         idShort : String
         van : String
 
+        manufacturerName : String /' BPN Lookup collection irs.bpns[] '/
+
         manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
         nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
         classification : String /' partTypeInformation.classification '/
