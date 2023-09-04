@@ -118,7 +118,6 @@ public class SemanticDataModel {
             semanticDataModel.set(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.UNKNOWN);
         }
 
-        // TODO add full list of detailAspectModels
         DetailAspectModel detailAspectModel = extractDetailAspectModelsAsBuilt(manufacturingInformation, partTypeInformation);
 
         return AssetBase.builder()
@@ -128,6 +127,8 @@ public class SemanticDataModel {
                 .detailAspectModels(List.of(detailAspectModel))
                 .manufacturerId(manufacturerId())
                 .manufacturerName(defaultValue(manufacturerName))
+                .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
+                .manufacturerPartId(partTypeInformation.manufacturerPartId())
                 .parentRelations(parentRelations)
                 .childRelations(childRelations)
                 .owner(owner)
@@ -150,13 +151,14 @@ public class SemanticDataModel {
 
         final List<DetailAspectModel> aspectModels = new ArrayList<>(partSiteInfoAsPlanned);
         aspectModels.add(asPlanned);
-// TODO add detailAspectModels
 
         return AssetBase.builder()
                 .id(catenaXId())
                 .idShort(defaultValue(shortIds.get(catenaXId())))
                 .manufacturerId(manufacturerId[0])
                 .manufacturerName(defaultValue(manufacturerName))
+                .nameAtManufacturer(partTypeInformation.nameAtManufacturer())
+                .manufacturerPartId(partTypeInformation.manufacturerPartId())
                 .parentRelations(parentRelations)
                 .detailAspectModels(aspectModels)
                 .childRelations(childRelations)
