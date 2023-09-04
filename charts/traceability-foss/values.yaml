@@ -305,6 +305,10 @@ backend:
     allowedCorsOriginFirst: "https://replace.me"
     allowedCorsOriginSecond: "https://replace.me"
 
+  serviceAccounts:
+    irs: CHANGEME
+    edc: CHANGEME
+
 #########################
 # PG Admin configuration     #
 #########################
