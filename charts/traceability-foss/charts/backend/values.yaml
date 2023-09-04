@@ -172,5 +172,5 @@ config:
   allowedCorsOriginSecond: "https://replace.me"
 
 serviceAccounts:
-  irs: {{- tpl (.Values.irs-helm.serviceAccount.name | default "" ) . }}
-  edc: {{- tpl (.Values.tractusx-connector.serviceAccount.name | default "" ) . }}
+  irs: "CHANGEME"
+  edc: "CHANGEME"
