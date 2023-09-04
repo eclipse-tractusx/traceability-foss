@@ -47,6 +47,12 @@ public class AssetBaseResponse {
     @ApiModelProperty(example = "Tier C")
     @Size(max = 255)
     private String manufacturerName;
+    @ApiModelProperty(example = "Tier C")
+    @Size(max = 255)
+    private String nameAtManufacturer;
+    @ApiModelProperty(example = "Tier C")
+    @Size(max = 255)
+    private String manufacturerPartId;
     @ApiModelProperty(example = "CUSTOMER")
     private OwnerResponse owner;
     @ArraySchema(arraySchema = @Schema(description = "Child relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
