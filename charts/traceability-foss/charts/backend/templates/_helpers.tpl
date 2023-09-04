@@ -85,5 +85,5 @@ Create the name of the service account to use
 includeIRS
 */}}
 {{- define "traceability-foss-backend.serviceAccounts.irs" -}}
-{{- .Values.serviceAccounts.irs }}
+{{- default .Values.serviceAccounts.irs }}
 {{- end }}
