@@ -172,5 +172,5 @@ config:
   allowedCorsOriginSecond: "https://replace.me"
 
 serviceAccounts:
-  irs: "CHANGEME"
-  edc: "CHANGEME"
+  irs: CHANGEME
+  edc: CHANGEME
