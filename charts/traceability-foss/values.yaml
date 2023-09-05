@@ -307,9 +307,9 @@ backend:
 
   dependencies:
     irs: >-
-      {{ (.Values.irs-helm.nameOverride | default "" ) . }}
+      {{ tpl (.Values.irs-helm.nameOverride | default "") . }}
     edc: >-
-      {{ (.Values.irs-helm.nameOverride | default "" ) . }}
+      {{ tpl (.Values.irs-helm.nameOverride | default "") . }}
 
 #########################
 # PG Admin configuration     #
