@@ -173,6 +173,11 @@ backend:
   config:
     allowedCorsOriginFirst: "http://localhost:4200/"
     allowedCorsOriginSecond: "https://traceability-portal-test.dev.demo.catena-x.net/"
+
+  dependencies:
+    irs: "tx-irs-test"  # <irs-helm.nameOverride>
+    edc: "tx-edc-consumer-test"  # <tractusx-connector.nameOverride
+
 #########################
 # PG Admin configuration     #
 #########################
