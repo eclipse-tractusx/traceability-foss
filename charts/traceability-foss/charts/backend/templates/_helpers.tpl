@@ -81,9 +81,9 @@ Create the name of the service account to use
 {{- end }}
 {{- end }}
 
-{{/**/}}
-{{/*includeIRS*/}}
-{{/**/}}
-{{/*{{- define "traceability-foss-backend.serviceAccounts.irs" -}}*/}}
-{{/*{{- default .Values.serviceAccounts.irs }}*/}}
-{{/*{{- end }}*/}}
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "traceability-foss-backend.dependencies.irs" -}}
+{{- default "default" .Values.dependencies.irs }}
+{{- end }}

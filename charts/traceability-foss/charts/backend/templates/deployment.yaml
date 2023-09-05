@@ -59,10 +59,10 @@ spec:
       initContainers:
         - name: wait-for-controlplane
           image: appropriate/curl:latest
-          command: [ 'sh', '-c', 'until curl -s http://{{ include "traceability-foss-backend.serviceAccounts.irs" . }}-controlplane:8080/api/check/liveness; do echo waiting for other pod; sleep 2; done;' ]
+          command: [ 'sh', '-c', 'until curl -s http://{{ include "traceability-foss-backend.dependencies.irs" . }}-controlplane:8080/api/check/liveness; do echo waiting for other pod; sleep 2; done;' ]
         - name: wait-for-irs
           image: appropriate/curl:latest
-          command: [ 'sh', '-c', 'until curl -s http://{{ include "traceability-foss-backend.serviceAccounts.irs" . }}:8080/actuator/health/liveness; do echo waiting for other pod; sleep 2; done;' ]
+          command: [ 'sh', '-c', 'until curl -s http://{{ include "traceability-foss-backend.dependencies.irs" . }}:8080/actuator/health/liveness; do echo waiting for other pod; sleep 2; done;' ]
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
