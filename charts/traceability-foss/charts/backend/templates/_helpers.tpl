@@ -80,10 +80,3 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "traceability-foss-backend.dependencies.irs" -}}
-{{- default "default" .Values.dependencies.irs }}
-{{- end }}
