@@ -306,8 +306,10 @@ backend:
     allowedCorsOriginSecond: "https://replace.me"
 
   dependencies:
-    irs: {{ (.Values.irs-helm.nameOverride | default "" ) . }}
-    edc: {{ (.Values.irs-helm.nameOverride | default "" ) . }}
+    irs: >-
+      {{ (.Values.irs-helm.nameOverride | default "" ) . }}
+    edc: >-
+      {{ (.Values.irs-helm.nameOverride | default "" ) . }}
 
 #########################
 # PG Admin configuration     #
