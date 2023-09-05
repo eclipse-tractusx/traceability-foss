@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
-- Init pods on backend startup to check dependant deployment up status
+- Init pods on backend startup to check dependant services readiness status ( irs, edc-controlplane )
 
 
 ### Changed
