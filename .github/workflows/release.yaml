@@ -11,7 +11,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Calculate Helm release version from CHANGELOG
         run: echo HELM_VERSION=$(cat charts/traceability-foss/CHANGELOG.md | sed -n 's/.*\[\([0-9]\+\.[0-9]\+\.[0-9]\+\)\].*/\1/p' | head -n 1) >> $GITHUB_ENV
