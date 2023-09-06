@@ -56,7 +56,7 @@ spec:
       serviceAccountName: {{ include "traceability-foss-backend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      {{- if not .Values.dependencies.enabled }}
+      {{- if .Values.dependencies.enabled }}
       initContainers:
         - name: wait-for-edc-controlplane
           image: appropriate/curl:latest
