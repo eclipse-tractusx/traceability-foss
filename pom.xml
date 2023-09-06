@@ -48,7 +48,7 @@ SPDX-License-Identifier: Apache-2.0
 
         <!-- versions for Maven plugin -->
         <ascii-doctor.maven.plugin.version>2.2.4</ascii-doctor.maven.plugin.version>
-        <checkstyle-plugin.version>3.2.1</checkstyle-plugin.version>
+        <checkstyle-plugin.version>3.3.0</checkstyle-plugin.version>
         <compiler-plugin.version>3.10.1</compiler-plugin.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
         <gmavenplus-plugin.version>2.1.0</gmavenplus-plugin.version>
