@@ -147,6 +147,7 @@ backend:
     allowedCorsOriginSecond: "https://traceability-portal-pen.dev.demo.catena-x.net/"
 
   dependencies:
+    enabled: true
     irs: "CHANGEME"  # <irs-helm.nameOverride>
     edc: "CHANGEME"  # <tractusx-connector.nameOverride
 

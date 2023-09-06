@@ -175,6 +175,7 @@ backend:
     allowedCorsOriginSecond: "https://traceability-portal-test.dev.demo.catena-x.net/"
 
   dependencies:
+    enabled: true
     irs: "tx-irs-test"  # <irs-helm.nameOverride>
     edc: "tx-edc-consumer-test"  # <tractusx-connector.nameOverride
 
