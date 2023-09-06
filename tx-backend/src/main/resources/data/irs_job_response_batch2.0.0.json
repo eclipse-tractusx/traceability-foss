@@ -96,7 +96,7 @@
           "semanticId": {
             "keys": [
               {
-                "value": "urn:bamm:io.catenax.batch:2.0.0#Batch",
+                "value": "urn:samm:io.catenax.batch:2.0.0#Batch",
                 "type": "Submodel"
               }
             ],
@@ -191,7 +191,7 @@
           "semanticId": {
             "keys": [
               {
-                "value": "urn:bamm:io.catenax.batch:2.0.0#Batch",
+                "value": "urn:samm:io.catenax.batch:2.0.0#Batch",
                 "type": "Submodel"
               }
             ],
@@ -220,7 +220,7 @@
   "submodels": [
     {
       "identification": "urn:uuid:95c9d8d2-ccde-4a08-9e9d-3e6914b19bd2",
-      "aspectType": "urn:bamm:io.catenax.batch:2.0.0#Batch",
+      "aspectType": "urn:samm:io.catenax.batch:2.0.0#Batch",
       "payload": {
         "localIdentifiers": [
           {
@@ -269,7 +269,7 @@
     },
     {
       "identification": "urn:uuid:0e6397dc-5001-48ba-ae41-fa53c1fae443",
-      "aspectType": "urn:bamm:io.catenax.batch:2.0.0#Batch",
+      "aspectType": "urn:samm:io.catenax.batch:2.0.0#Batch",
       "payload": {
         "localIdentifiers": [
           {

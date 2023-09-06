@@ -734,7 +734,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284b170",
       "bpnl" : "BPNL00000003CSGV",
-      "urn:bamm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -783,7 +783,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa01",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -815,7 +815,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -864,7 +864,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:bamm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -913,7 +913,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb02",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:bamm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -962,7 +962,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa03",
       "bpnl" : "BPNL00000003CML1",
-      "urn:bamm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
@@ -1011,7 +1011,7 @@
     {
       "catenaXId" : "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb03",
       "bpnl" : "BPNL00000003CNKC",
-      "urn:bamm:io.catenax.batch:2.0.0#Batch" : [
+      "urn:samm:io.catenax.batch:2.0.0#Batch" : [
         {
           "localIdentifiers" : [
             {
