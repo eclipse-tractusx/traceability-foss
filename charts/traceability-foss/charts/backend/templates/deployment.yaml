@@ -56,6 +56,7 @@ spec:
       serviceAccountName: {{ include "traceability-foss-backend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- if not .Values.dependencies.enabled }}
       initContainers:
         - name: wait-for-edc-controlplane
           image: appropriate/curl:latest
@@ -63,6 +64,7 @@ spec:
         - name: wait-for-irs
           image: appropriate/curl:latest
           command: [ 'sh', '-c', 'until curl -s http://{{ tpl (.Values.dependencies.irs | default "") . }}:8080/actuator/health/liveness; do echo waiting for other pod; sleep 2; done;' ]
+      {{- end }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
