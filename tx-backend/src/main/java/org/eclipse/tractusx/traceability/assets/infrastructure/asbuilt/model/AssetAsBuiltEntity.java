@@ -53,11 +53,9 @@ import java.util.List;
 @Table(name = "assets_as_built")
 public class AssetAsBuiltEntity extends AssetBaseEntity {
 
-    private String van;
     private LocalDateTime manufacturingDate;
     private String manufacturingCountry;
     private String manufacturerId;
-    private String manufacturerName;
     private String semanticModelId;
 
     @ElementCollection
