@@ -140,6 +140,7 @@ public class DetailAspectModel {
             DetailAspectDataPartSiteInformationAsPlanned detailAspectDataPartSiteInformationAsPlanned = DetailAspectDataPartSiteInformationAsPlanned.builder()
                     .catenaXSiteId(site.catenaXSiteId())
                     .functionValidFrom(site.functionValidFrom().toString())
+                    .function(site.function())
                     .functionValidUntil(site.functionValidUntil().toString())
                     .build();
             detailAspectModels.add(DetailAspectModel.builder().data(detailAspectDataPartSiteInformationAsPlanned).type(DetailAspectType.PART_SITE_INFORMATION_AS_PLANNED).build());

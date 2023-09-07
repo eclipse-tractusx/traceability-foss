@@ -18,12 +18,23 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
@@ -67,12 +78,15 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     }
 
     public static AssetAsPlannedEntity from(AssetBase asset) {
+        ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
         List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
         AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
 
         return AssetAsPlannedEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
+                .nameAtManufacturer(asset.getNameAtManufacturer())
+                .manufacturerPartId(manufacturingInfo.getManufacturerPartId())
                 .functionValidFrom(asPlannedInfo.getFunctionValidFrom())
                 .function(asPlannedInfo.getFunction())
                 .functionValidUntil(asPlannedInfo.getFunctionValidUntil())
@@ -93,6 +107,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     public static AssetBase toDomain(AssetAsPlannedEntity entity) {
         return AssetBase.builder()
                 .id(entity.getId())
+                .manufacturerPartId(entity.getManufacturerPartId())
+                .nameAtManufacturer(entity.getNameAtManufacturer())
                 .classification(entity.getClassification())
                 .idShort(entity.getIdShort())
                 .semanticDataModel(SemanticDataModelEntity.toDomain(entity.getSemanticDataModel()))
