@@ -1,0 +1,307 @@
+{
+  "job": {
+    "id": "8e2b0e4f-75e7-47a8-b1dc-9fe6eebccfa0",
+    "globalAssetId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
+    "state": "COMPLETED",
+    "exception": null,
+    "createdOn": "2023-08-24T19:41:22.368943802Z",
+    "startedOn": "2023-08-24T19:41:22.369092303Z",
+    "lastModifiedOn": "2023-08-24T19:43:12.956258674Z",
+    "completedOn": "2023-08-24T19:43:12.956260174Z",
+    "owner": "owner",
+    "summary": {
+      "asyncFetchedItems": {
+        "running": 0,
+        "completed": 2,
+        "failed": 0
+      },
+      "bpnLookups": {
+        "completed": 1,
+        "failed": 0
+      }
+    },
+    "parameter": {
+      "bomLifecycle": "asBuilt",
+      "aspects": [
+        "SingleLevelBomAsBuilt",
+        "SerialPart",
+        "Batch"
+      ],
+      "depth": 2,
+      "bpn": "BPNL00000003CML1",
+      "direction": "downward",
+      "collectAspects": true,
+      "lookupBPNs": true,
+      "callbackUrl": null
+    }
+  },
+  "relationships": [
+    {
+      "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
+      "linkedItem": {
+        "quantity": {
+          "quantityNumber": 1.0,
+          "measurementUnit": {
+            "datatypeURI": null,
+            "lexicalValue": "unit:piece"
+          }
+        },
+        "lifecycleContext": "asBuilt",
+        "assembledOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+        "childCatenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01"
+      },
+      "aspectType": "SingleLevelBomAsBuilt"
+    }
+  ],
+  "shells": [
+    {
+      "administration": null,
+      "description": [],
+      "globalAssetId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
+      "idShort": "DoorKey",
+      "id": "urn:uuid:0eb0e6da-b268-4721-8f4d-f04194dfe297",
+      "specificAssetIds": [
+        {
+          "name": "manufacturerId",
+          "subjectId": null,
+          "value": "BPNL00000003CML1",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerId",
+          "subjectId": null,
+          "value": "BPNL00000003CML1",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerPartId",
+          "subjectId": null,
+          "value": "95657762-59",
+          "semanticId": null
+        },
+        {
+          "name": "batchId",
+          "subjectId": null,
+          "value": "NO-341449848714937445621543",
+          "semanticId": null
+        }
+      ],
+      "submodelDescriptors": [
+        {
+          "administration": null,
+          "description": [],
+          "idShort": "Batch",
+          "id": "urn:uuid:95c9d8d2-ccde-4a08-9e9d-3e6914b19bd2",
+          "semanticId": {
+            "keys": [
+              {
+                "value": "urn:samm:io.catenax.batch:2.0.0#Batch",
+                "type": "Submodel"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "endpoints": [
+            {
+              "protocolInformation": {
+                "href": "https://trace-x-edc-dataplane.dev.demo.catena-x.net/api/public/data/urn:uuid:95c9d8d2-ccde-4a08-9e9d-3e6914b19bd2",
+                "endpointProtocol": "HTTP",
+                "endpointProtocolVersion": [
+                  "1.1"
+                ],
+                "subprotocol": "DSP",
+                "subprotocolBody": "id=urn:uuid:cdf0476f-fcd9-4dea-817e-9766e24ca0ae;dspEndpoint=https://trace-x-edc.dev.demo.catena-x.net",
+                "subprotocolBodyEncoding": "plain"
+              },
+              "interface": "SUBMODEL-3.0"
+            }
+          ]
+        },
+        {
+          "administration": null,
+          "description": [],
+          "idShort": "SingleLevelBomAsBuilt",
+          "id": "urn:uuid:dd7df866-fe59-462d-a9ed-71dabc966ad0",
+          "semanticId": {
+            "keys": [
+              {
+                "value": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+                "type": "Submodel"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "endpoints": [
+            {
+              "protocolInformation": {
+                "href": "https://trace-x-edc-dataplane.dev.demo.catena-x.net/api/public/data/urn:uuid:dd7df866-fe59-462d-a9ed-71dabc966ad0",
+                "endpointProtocol": "HTTP",
+                "endpointProtocolVersion": [
+                  "1.1"
+                ],
+                "subprotocol": "DSP",
+                "subprotocolBody": "id=urn:uuid:cdf0476f-fcd9-4dea-817e-9766e24ca0ae;dspEndpoint=https://trace-x-edc.dev.demo.catena-x.net",
+                "subprotocolBodyEncoding": "plain"
+              },
+              "interface": "SUBMODEL-3.0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "administration": null,
+      "description": [],
+      "globalAssetId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
+      "idShort": "DoorKey",
+      "id": "urn:uuid:0eade2a8-11f2-40f3-b36f-f4557c7e193b",
+      "specificAssetIds": [
+        {
+          "name": "batchId",
+          "subjectId": null,
+          "value": "NO-341449848714937445621543",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerPartId",
+          "subjectId": null,
+          "value": "95657762-59",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerId",
+          "subjectId": null,
+          "value": "BPNL00000003CNKC",
+          "semanticId": null
+        },
+        {
+          "name": "manufacturerId",
+          "subjectId": null,
+          "value": "BPNL00000003CNKC",
+          "semanticId": null
+        }
+      ],
+      "submodelDescriptors": [
+        {
+          "administration": null,
+          "description": [],
+          "idShort": "Batch",
+          "id": "urn:uuid:0e6397dc-5001-48ba-ae41-fa53c1fae443",
+          "semanticId": {
+            "keys": [
+              {
+                "value": "urn:samm:io.catenax.batch:2.0.0#Batch",
+                "type": "Submodel"
+              }
+            ],
+            "type": "ExternalReference"
+          },
+          "endpoints": [
+            {
+              "protocolInformation": {
+                "href": "https://trace-x-test-edc-dataplane.dev.demo.catena-x.net/api/public/data/urn:uuid:0e6397dc-5001-48ba-ae41-fa53c1fae443",
+                "endpointProtocol": "HTTP",
+                "endpointProtocolVersion": [
+                  "1.1"
+                ],
+                "subprotocol": "DSP",
+                "subprotocolBody": "id=urn:uuid:6fa1848d-694f-4bc1-81aa-ea025cdeaf18;dspEndpoint=https://trace-x-test-edc.dev.demo.catena-x.net",
+                "subprotocolBodyEncoding": "plain"
+              },
+              "interface": "SUBMODEL-3.0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "tombstones": [],
+  "submodels": [
+    {
+      "identification": "urn:uuid:95c9d8d2-ccde-4a08-9e9d-3e6914b19bd2",
+      "aspectType": "urn:samm:io.catenax.batch:2.0.0#Batch",
+      "payload": {
+        "localIdentifiers": [
+          {
+            "value": "BPNL00000003CML1",
+            "key": "manufacturerId"
+          },
+          {
+            "value": "95657762-59",
+            "key": "manufacturerPartId"
+          },
+          {
+            "value": "NO-341449848714937445621543",
+            "key": "batchId"
+          }
+        ],
+        "manufacturingInformation": {
+          "date": "2022-02-04T14:48:54",
+          "country": "DEU"
+        },
+        "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
+        "partTypeInformation": {
+          "manufacturerPartId": "95657762-59",
+          "classification": "component",
+          "nameAtManufacturer": "Door Key"
+        }
+      }
+    },
+    {
+      "identification": "urn:uuid:dd7df866-fe59-462d-a9ed-71dabc966ad0",
+      "aspectType": "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt",
+      "payload": {
+        "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fa02",
+        "childItems": [
+          {
+            "quantity": {
+              "quantityNumber": 1,
+              "measurementUnit": "unit:piece"
+            },
+            "createdOn": "2022-02-03T14:48:54.709Z",
+            "lastModifiedOn": "2022-02-03T14:48:54.709Z",
+            "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
+            "businessPartner": "BPNL00000003CNKC"
+          }
+        ]
+      }
+    },
+    {
+      "identification": "urn:uuid:0e6397dc-5001-48ba-ae41-fa53c1fae443",
+      "aspectType": "urn:samm:io.catenax.batch:2.0.0#Batch",
+      "payload": {
+        "localIdentifiers": [
+          {
+            "value": "BPNL00000003CNKC",
+            "key": "manufacturerId"
+          },
+          {
+            "value": "95657762-59",
+            "key": "manufacturerPartId"
+          },
+          {
+            "value": "NO-341449848714937445621543",
+            "key": "batchId"
+          }
+        ],
+        "manufacturingInformation": {
+          "date": "2022-02-04T14:48:54",
+          "country": "DEU"
+        },
+        "catenaXId": "urn:uuid:1be6ec59-40fb-4993-9836-acb0e284fb01",
+        "partTypeInformation": {
+          "manufacturerPartId": "95657762-59",
+          "classification": "component",
+          "nameAtManufacturer": "Door Key"
+        }
+      }
+    }
+  ],
+  "bpns": [
+    {
+      "manufacturerId": "BPNL00000003CNKC",
+      "manufacturerName": "TEST_BPN_IRS_1"
+    }
+  ]
+}

@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -82,6 +83,28 @@ class JobDetailResponseTest {
                 .containsEntry("BPNL00000003AZQP", "UNKNOWN_MANUFACTURER")
                 .containsEntry("BPNL50096894aNXY", "UNKNOWN_MANUFACTURER")
                 .containsEntry("BPNL00000003CML1", "TEST_BPN_DFT_1");
+    }
+
+    @Test
+    void testAssetConverterBatch_v2_0_0() throws IOException {
+        // Given
+        ObjectMapper mapper = new ObjectMapper()
+                .configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_USING_DEFAULT_VALUE, true)
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        InputStream file = JobDetailResponseTest.class.getResourceAsStream("/data/irs_job_response_batch2.0.0.json");
+
+        // when
+        JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
+
+        // then
+        assertThat(response).isNotNull();
+        final List<Asset> assets = response.convertAssets();
+        assertThat(assets)
+                .hasSize(2)
+                .allMatch(asset ->
+                        Objects.equals(asset.getSemanticModel().getNameAtCustomer(), "--")
+                                && Objects.equals(asset.getSemanticModel().getCustomerPartId(), "--"));
     }
 
 }
