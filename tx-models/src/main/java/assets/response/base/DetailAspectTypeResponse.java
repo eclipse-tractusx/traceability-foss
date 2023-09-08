@@ -19,16 +19,24 @@
 package assets.response.base;
 
 public enum DetailAspectTypeResponse {
+    AS_BUILT("AS_BUILT"),
+    AS_PLANNED("AS_PLANNED"),
     /* Detail aspect of as built assets */
-    TRACTION_BATTERY_CODE,
+    TRACTION_BATTERY_CODE("TRACTION_BATTERY_CODE"),
     /* Downward relation of as planned assets */
-    SINGLE_LEVEL_BOM_AS_BUILT,
+    SINGLE_LEVEL_BOM_AS_BUILT("SINGLE_LEVEL_BOM_AS_BUILT"),
 
     /* Upward relation of as planned assets */
-    SINGLE_LEVEL_USAGE_AS_BUILT,
+    SINGLE_LEVEL_USAGE_AS_BUILT("SINGLE_LEVEL_USAGE_AS_BUILT"),
 
     /* Downward relation of as planned assets */
-    SINGLE_LEVEL_BOM_AS_PLANNED,
+    SINGLE_LEVEL_BOM_AS_PLANNED("SINGLE_LEVEL_BOM_AS_PLANNED"),
     /* Detail aspect of as planned assets */
-    PART_SITE_INFORMATION_AS_PLANNED,
+    PART_SITE_INFORMATION_AS_PLANNED("PART_SITE_INFORMATION_AS_PLANNED");
+
+    final String realName;
+
+    DetailAspectTypeResponse(final String realName) {
+        this.realName = realName;
+    }
 }

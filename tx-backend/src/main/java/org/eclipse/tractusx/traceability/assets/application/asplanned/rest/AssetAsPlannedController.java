@@ -157,49 +157,6 @@ public class AssetAsPlannedController {
         return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
     }
 
-    @Operation(operationId = "assetsCountryMap",
-            summary = "Get map of assets",
-            tags = {"Assets"},
-            description = "The endpoint returns a map for assets consumed by the map.",
-            security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found"),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "Bad request.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Authorization failed.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "429",
-                    description = "Too many requests.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "Internal server error.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/countries")
-    public Map<String, Long> assetsCountryMap() {
-        return assetService.getAssetsCountryMap();
-    }
-
-
     @Operation(operationId = "assetById",
             summary = "Get asset by id",
             tags = {"Assets"},
