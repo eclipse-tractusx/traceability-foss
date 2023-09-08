@@ -16,8 +16,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package assets.response.base;
+package org.eclipse.tractusx.traceability.assets.domain.asplanned.model.aspect;
 
-public interface DetailAspectDataResponse {
+import lombok.Builder;
+import lombok.Getter;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 
+@Builder
+@Getter
+public class DetailAspectDataAsPlanned implements DetailAspectData {
+    private String validityPeriodFrom;
+    private String validityPeriodTo;
 }

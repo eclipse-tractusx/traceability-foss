@@ -33,7 +33,8 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
@@ -48,6 +49,13 @@ import java.util.List;
 @SuperBuilder
 @Table(name = "assets_as_planned")
 public class AssetAsPlannedEntity extends AssetBaseEntity {
+
+    private String validityPeriodFrom;
+    private String validityPeriodTo;
+    private String functionValidUntil;
+    private String function;
+    private String functionValidFrom;
+
 
     @ElementCollection
     @CollectionTable(name = "assets_as_planned_childs", joinColumns = {@JoinColumn(name = "asset_as_planned_id")})
@@ -70,13 +78,22 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     }
 
     public static AssetAsPlannedEntity from(AssetBase asset) {
-        return org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity.builder()
+        ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
+        List<DetailAspectModel> detailAspectModels = asset.getDetailAspectModels();
+        AsPlannedInfo asPlannedInfo = AsPlannedInfo.from(detailAspectModels);
+
+        return AssetAsPlannedEntity.builder()
                 .id(asset.getId())
                 .idShort(asset.getIdShort())
-                .nameAtManufacturer(asset.getSemanticModel().getNameAtManufacturer())
-                .manufacturerPartId(asset.getSemanticModel().getManufacturerPartId())
-                .nameAtCustomer(asset.getSemanticModel().getNameAtCustomer())
-                .customerPartId(asset.getSemanticModel().getCustomerPartId())
+                .nameAtManufacturer(asset.getNameAtManufacturer())
+                .manufacturerPartId(manufacturingInfo.getManufacturerPartId())
+                .manufacturerName(asset.getManufacturerName())
+                .van(asset.getVan())
+                .functionValidFrom(asPlannedInfo.getFunctionValidFrom())
+                .function(asPlannedInfo.getFunction())
+                .functionValidUntil(asPlannedInfo.getFunctionValidUntil())
+                .validityPeriodFrom(asPlannedInfo.getValidityPeriodFrom())
+                .validityPeriodTo(asPlannedInfo.getValidityPeriodTo())
                 .owner(asset.getOwner())
                 .classification(asset.getClassification())
                 .childDescriptors(asset.getChildRelations().stream()
@@ -92,10 +109,13 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     public static AssetBase toDomain(AssetAsPlannedEntity entity) {
         return AssetBase.builder()
                 .id(entity.getId())
+                .manufacturerPartId(entity.getManufacturerPartId())
+                .nameAtManufacturer(entity.getNameAtManufacturer())
+                .manufacturerName(entity.getManufacturerName())
+                .van(entity.getVan())
                 .classification(entity.getClassification())
                 .idShort(entity.getIdShort())
                 .semanticDataModel(SemanticDataModelEntity.toDomain(entity.getSemanticDataModel()))
-                .semanticModel(SemanticModel.from(entity))
                 .owner(entity.getOwner())
                 .childRelations(entity.getChildDescriptors().stream()
                         .map(child -> new Descriptions(child.getId(), child.getIdShort()))
@@ -103,6 +123,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .underInvestigation(entity.isInInvestigation())
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
+                .detailAspectModels(DetailAspectModel.from(entity))
                 .build();
     }
 
