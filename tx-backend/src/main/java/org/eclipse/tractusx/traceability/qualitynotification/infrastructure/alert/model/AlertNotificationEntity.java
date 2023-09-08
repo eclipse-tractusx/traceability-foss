@@ -101,7 +101,8 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
 
     public static AlertNotificationEntity from(AlertEntity alertEntity,
                                                QualityNotificationMessage qualityNotificationMessage,
-                                               List<AssetAsBuiltEntity> notificationAssets) {
+                                               List<AssetAsBuiltEntity> notificationAssets,
+                                               List<AssetAsPlannedEntity> assetAsPlannedEntitiesByAlert) {
         return AlertNotificationEntity
                 .builder()
                 .id(qualityNotificationMessage.getId())
@@ -112,6 +113,7 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .receiverBpnNumber(qualityNotificationMessage.getReceiverBpnNumber())
                 .receiverManufacturerName(qualityNotificationMessage.getReceiverManufacturerName())
                 .assets(notificationAssets)
+                .assetsAsPlanned(assetAsPlannedEntitiesByAlert)
                 .notificationReferenceId(qualityNotificationMessage.getNotificationReferenceId())
                 .targetDate(qualityNotificationMessage.getTargetDate())
                 .severity(qualityNotificationMessage.getSeverity())
