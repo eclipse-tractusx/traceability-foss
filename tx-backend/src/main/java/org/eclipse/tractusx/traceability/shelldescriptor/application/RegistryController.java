@@ -42,7 +42,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class RegistryController {
 
-
     private final RegistryFacade registryFacade;
 
     @Operation(operationId = "reload",
