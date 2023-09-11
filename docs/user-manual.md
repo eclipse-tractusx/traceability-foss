@@ -69,11 +69,22 @@ Supported languages:
 
 ### Parts
 
-List view of the own manufactured parts and batches.
-Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company. This includes data based on the aspect models of Use Case Traceability: SerialPart, Batch.
-Parts that are in a quality alert are highlighted yellow.
+List view of the own manufactured (asBuilt) or planned (asPlanned) parts and batches.
+By default, both tables are displayed. You can adjust the View of tables by activating/deactivating the tables.
 
 ![parts-list-view](https://raw.githubusercontent.com/eclipse-tractusx/traceability-foss/main/docs/src/images/arc42/user-guide/parts-list-view.png)
+
+#### AsBuilt Lifecycle Parts
+
+List view of own Parts with AsBuilt Lifecycle.
+Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company. This includes data based on the aspect models of Use Case Traceability: Asbuilt, SerialPart, Batch.
+Parts that are in a quality alert are highlighted yellow.
+
+#### AsPlanned
+
+List view of own Parts with AsPlanned Lifecycle.
+Gives detailed information on the assets registered in the Digital Twin Registry of Catena-X for the company. This includes data based on the aspect models of Use Case Traceability: AsPlanned, SerialPart, Batch.
+Parts that are in a quality alert are highlighted yellow.
 
 #### Parts select / Quality alert
 
