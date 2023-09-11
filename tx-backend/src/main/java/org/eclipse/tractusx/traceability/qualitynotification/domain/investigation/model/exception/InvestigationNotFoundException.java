@@ -21,7 +21,7 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception;
 
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
 
 public class InvestigationNotFoundException extends RuntimeException {
 

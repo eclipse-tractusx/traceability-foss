@@ -22,8 +22,8 @@
 import type { NotificationResponse } from '@shared/model/notification.model';
 import { NotificationStatus } from '@shared/model/notification.model';
 import { Severity } from '@shared/model/severity.model';
-import { getRandomAsset } from '../parts-mock/parts.model';
-import { MOCK_part_1 } from '../parts-mock/parts.test.model';
+import { getRandomAsset } from '../parts-mock/partsAsPlanned/partsAsPlanned.model';
+import { MOCK_part_1 } from '../parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 import { getRandomIntFromInterval, getRandomText } from '../text-generator.helper';
 
 export const InvestigationIdPrefix = 'id-';

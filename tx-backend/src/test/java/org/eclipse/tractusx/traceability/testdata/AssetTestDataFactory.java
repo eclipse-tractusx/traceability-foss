@@ -19,12 +19,7 @@
 
 package org.eclipse.tractusx.traceability.testdata;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
-import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticModel;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.*;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -42,21 +37,13 @@ public class AssetTestDataFactory {
 
     public static AssetBase createAssetTestData() {
         Instant manufacturingDate = Instant.now();
-        SemanticModel semanticModel =
-                SemanticModel.builder()
-                        .customerPartId("customerPartId")
-                        .manufacturerPartId("customer123")
-                        .manufacturingCountry("manu456")
-                        .manufacturingDate(manufacturingDate)
-                        .nameAtManufacturer("Manufacturer Name")
-                        .nameAtCustomer("Customer Name")
-                        .build();
+
+// TODO add detailAspectModels
 
         return AssetBase.builder()
                 .id("1")
                 .idShort("1234")
                 .semanticModelId("456")
-                .semanticModel(semanticModel)
                 .semanticDataModel(SemanticDataModel.SERIALPART)
                 .activeAlert(false)
                 .parentRelations(AssetTestDataFactory.provideParentRelations())
@@ -72,21 +59,13 @@ public class AssetTestDataFactory {
 
     public static AssetBase createAssetParentTestData() {
         Instant manufacturingDate = Instant.now();
-        SemanticModel semanticModel =
-                SemanticModel.builder()
-                        .customerPartId("customerPartParentId")
-                        .manufacturerPartId("customer123")
-                        .manufacturingCountry("manu456")
-                        .manufacturingDate(manufacturingDate)
-                        .nameAtManufacturer("Manufacturer Name")
-                        .nameAtCustomer("Customer Name")
-                        .build();
+
+// TODO add detailAspectModels
 
         return AssetBase.builder()
                 .id("2")
                 .idShort("23456")
                 .semanticModelId("456")
-                .semanticModel(semanticModel)
                 .semanticDataModel(SemanticDataModel.SERIALPART)
                 .activeAlert(false)
                 .parentRelations(AssetTestDataFactory.provideParentRelations())

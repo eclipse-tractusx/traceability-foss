@@ -42,7 +42,7 @@ public class DecentralRegistryRepositoryImpl implements DecentralRegistryReposit
         try {
             return ShellDescriptor.fromGlobalAssetIds(decentralDigitalTwinRegistryService.lookupGlobalAssetIds(bpn));
         } catch (RegistryServiceException exception) {
-            log.warn("Could not retrieve globalAssetIds by bpn {}", bpn);
+            log.error("Could not retrieve globalAssetIds by bpn " + bpn, exception);
             return Collections.emptyList();
         }
     }

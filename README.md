@@ -131,8 +131,6 @@ mvn clean test
 Product Traceability FOSS Backend relies on [Testcontainers library](https://www.testcontainers.org/) in order to provide
 persistence layer, thus [Docker Engine](https://docs.docker.com/engine/) is required to be running.
 
-If you want to execute the integration tests with IntelliJ you must mark the src/integration/groovy folder as "Test Sources Root".
-
 To run integration tests via command line, invoke following command:
 
 ```sh

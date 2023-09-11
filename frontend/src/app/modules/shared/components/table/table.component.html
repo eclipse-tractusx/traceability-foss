@@ -19,7 +19,8 @@ under the License.
 SPDX-License-Identifier: Apache-2.0
 -->
 
-<div [class.mat-elevation-z8]="!noShadow">
+<div [class.mat-elevation-z8]="!noShadow" class="table-wrapper">
+  <ng-container *ngIf="tableHeader"><p class="large-text table--header">{{tableHeader | i18n }}</p></ng-container>
   <ng-container *ngIf="selectedPartsInfoLabel">
     <div *appHasRole="tableConfig.columnRoles?.['select'] ?? 'user'" class="table--selected__container">
       <p class="regular-text">{{ selectedPartsInfoLabel | i18n : { count: selection?.selected?.length || 0 } }}</p>
@@ -208,7 +209,7 @@ SPDX-License-Identifier: Apache-2.0
     </table>
   </app-scroll-with-shadow>
 
-  <mat-paginator
+  <mat-paginator class="table-paginator-menu"
     *ngIf="tableConfig.hasPagination"
     [length]="totalItems"
     [pageIndex]="pageIndex"

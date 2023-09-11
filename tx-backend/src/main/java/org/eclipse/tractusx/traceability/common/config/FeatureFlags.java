@@ -23,6 +23,7 @@ package org.eclipse.tractusx.traceability.common.config;
 public class FeatureFlags {
 
     public static final String NOTIFICATIONS_ENABLED_PROFILES = ApplicationProfiles.LOCAL + " | " +
+            ApplicationProfiles.INTEGRATION_SPRING_BOOT + " | " +
             ApplicationProfiles.TESTS + " | " +
             ApplicationProfiles.DEV + " | " +
             ApplicationProfiles.TEST + " | " +

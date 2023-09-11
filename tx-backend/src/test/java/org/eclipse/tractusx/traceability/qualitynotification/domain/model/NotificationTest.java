@@ -21,6 +21,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.model;
 
 import org.eclipse.tractusx.traceability.common.model.BPN;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
 import org.eclipse.tractusx.traceability.testdata.NotificationTestDataFactory;
 import org.junit.jupiter.api.Test;
 

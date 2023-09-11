@@ -20,15 +20,15 @@
 package org.eclipse.tractusx.traceability.qualitynotification.application.alert.rest;
 
 import org.eclipse.tractusx.traceability.qualitynotification.application.alert.request.StartQualityAlertRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.CloseQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.QualityNotificationSeverityRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.request.UpdateQualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.qualitynotification.application.service.QualityNotificationService;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotification;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationId;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationMessage;
-import org.eclipse.tractusx.traceability.qualitynotification.domain.model.QualityNotificationStatus;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.CloseQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.UpdateQualityNotificationStatusRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.base.service.QualityNotificationService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationId;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.testdata.InvestigationTestDataFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -19,12 +19,10 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.semanticdatamodel;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public record ManufacturingInformation(
         String country,
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'hh:mm:ss", timezone = "CET") Date date
+        LocalDateTime date
 ) {
 }

@@ -4,6 +4,8 @@
     "decrease": "Hiermit verkleinern Sie den Baum"
   },
   "page": {
+    "asBuiltParts": "AsBuilt Lebenszyklus",
+    "asPlannedParts": "AsPlanned Lebenszyklus",
     "selectedParts": {
       "info_one": "{{count}} Produkt für diese Seite ausgewählt.",
       "info_other": "{{count}} Produkte für diese Seite ausgewählt.",

@@ -25,6 +25,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.AssetAsBuiltRepositoryImpl;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,7 +33,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.eclipse.tractusx.traceability.testdata.AssetTestDataFactory.createAssetTestData;
@@ -59,8 +60,9 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .manufacturerName("manuName")
                 .nameAtCustomer("Customer Name")
                 .customerPartId("customerPartId")
-                .manufacturingDate(Instant.ofEpochSecond(11111111L))
+                .manufacturingDate(LocalDateTime.now())
                 .manufacturingCountry("manu456")
+                .semanticDataModel(SemanticDataModelEntity.SERIALPART)
                 .owner(Owner.OWN)
                 .qualityType(QualityType.CRITICAL)
                 .van("van123")
@@ -82,12 +84,9 @@ class PersistentAssetsAsBuiltRepositoryTest {
                                         .id("parent2")
                                         .idShort("desc2")
                                         .build()
-
                         )
-
                 )
                 .build();
-
 
         // when
         AssetBase asset = AssetAsBuiltEntity.toDomain(entity);
@@ -98,13 +97,10 @@ class PersistentAssetsAsBuiltRepositoryTest {
 
         Assertions.assertEquals(asset.getId(), expected.getId());
         Assertions.assertEquals(asset.getIdShort(), expected.getIdShort());
-        Assertions.assertEquals(asset.getSemanticModel().getNameAtManufacturer(), expected.getSemanticModel().getNameAtManufacturer());
-        Assertions.assertEquals(asset.getSemanticModel().getManufacturerPartId(), expected.getSemanticModel().getManufacturerPartId());
         Assertions.assertEquals(asset.getManufacturerId(), expected.getManufacturerId());
         Assertions.assertEquals(asset.getManufacturerName(), expected.getManufacturerName());
-        Assertions.assertEquals(asset.getSemanticModel().getNameAtCustomer(), expected.getSemanticModel().getNameAtCustomer());
-        Assertions.assertEquals(asset.getSemanticModel().getCustomerPartId(), expected.getSemanticModel().getCustomerPartId());
-        Assertions.assertEquals(asset.getSemanticModel().getManufacturingCountry(), expected.getSemanticModel().getManufacturingCountry());
+        Assertions.assertEquals(asset.getSemanticDataModel(), expected.getSemanticDataModel());
+
         Assertions.assertEquals(asset.getOwner(), expected.getOwner());
         Assertions.assertEquals(asset.getChildRelations(), expected.getChildRelations());
         Assertions.assertEquals(asset.getParentRelations(), expected.getParentRelations());

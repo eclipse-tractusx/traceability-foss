@@ -37,9 +37,9 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
     'semanticDataModel',
     'name',
     'manufacturer',
-    'partNumber',
+    'partId',
     'semanticModelId',
-    'productionDate',
+    'manufacturingDate',
   ];
 
   public readonly sortableColumns: Record<string, boolean> = {
