@@ -78,6 +78,7 @@ export class AlertDetailFacade {
         },
         error: error => (this.alertDetailState.alertPartsInformation = { error }),
       });
+
   }
 
   public setAndSupplierPartsInformation(): void {

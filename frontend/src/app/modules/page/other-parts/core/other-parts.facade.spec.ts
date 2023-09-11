@@ -25,7 +25,7 @@ import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
 import { BehaviorSubject, firstValueFrom, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { mockAssetList, mockAssets } from '../../../../mocks/services/parts-mock/parts.test.model';
+import { mockAssetList, mockAssets } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('OtherPartsFacade', () => {
   let otherPartsFacade: OtherPartsFacade, otherPartsState: OtherPartsState, partsServiceMok: PartsService, otherPartsServiceMock: OtherPartsService;
@@ -33,7 +33,9 @@ describe('OtherPartsFacade', () => {
   beforeEach(() => {
     partsServiceMok = {
       getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part))),
-      getMyParts: (_page, _pageSize, _sorting) =>
+      getPartsAsBuilt: (_page, _pageSize, _sorting) =>
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
+      getPartsAsPlanned: (_page, _pageSize, _sorting) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
     } as PartsService;
 

@@ -26,7 +26,7 @@ import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
 import { PartsService } from '@shared/service/parts.service';
 import { KeycloakService } from 'keycloak-angular';
-import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.model';
+import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('InvestigationDetailFacade', () => {
   let investigationDetailFacade: InvestigationDetailFacade;

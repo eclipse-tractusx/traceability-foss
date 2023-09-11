@@ -28,18 +28,32 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class PartsState {
-  private readonly _myParts$ = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _partsAsBuilt$ = new State<View<Pagination<Part>>>({ loader: true });
+  private readonly _partsAsPlanned$ = new State<View<Pagination<Part>>>({ loader: true });
 
-  public get myParts$(): Observable<View<Pagination<Part>>> {
-    return this._myParts$.observable;
+  public get partsAsBuilt$(): Observable<View<Pagination<Part>>> {
+    return this._partsAsBuilt$.observable;
   }
 
-  public set myParts({ data, loader, error }: View<Pagination<Part>>) {
+  public set partsAsBuilt({ data, loader, error }: View<Pagination<Part>>) {
     const partsView: View<Pagination<Part>> = { data, loader, error };
-    this._myParts$.update(partsView);
+    this._partsAsBuilt$.update(partsView);
   }
 
-  public get myParts(): View<Pagination<Part>> {
-    return this._myParts$.snapshot;
+  public get partsAsBuilt(): View<Pagination<Part>> {
+    return this._partsAsBuilt$.snapshot;
+  }
+
+  public get partsAsPlanned$(): Observable<View<Pagination<Part>>> {
+    return this._partsAsPlanned$.observable;
+  }
+
+  public set partsAsPlanned({ data, loader, error }: View<Pagination<Part>>) {
+    const partsView: View<Pagination<Part>> = { data, loader, error };
+    this._partsAsPlanned$.update(partsView);
+  }
+
+  public get partsAsPlanned(): View<Pagination<Part>> {
+    return this._partsAsPlanned$.snapshot;
   }
 }

@@ -33,7 +33,7 @@ describe('Relations assembler', () => {
         id: 'id',
         state: 'loading',
         text: 'name',
-        title: 'name | semanticModelId',
+        title: 'name | id',
       } as TreeElement;
       expect(RelationsAssembler.assemblePartForRelation(part)).toEqual(expected);
     });
@@ -45,7 +45,7 @@ describe('Relations assembler', () => {
         id: 'id',
         state: 'done',
         text: 'name',
-        title: 'name | semanticModelId',
+        title: 'name | id',
       } as TreeElement;
       expect(RelationsAssembler.assemblePartForRelation(part)).toEqual(expected);
     });

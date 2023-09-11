@@ -17,18 +17,6 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export interface SemanticModel {
-  manufacturingDate: string;
-  manufacturingCountry: string;
-  manufacturerPartId: string;
-  customerPartId: string;
-  nameAtManufacturer: string;
-  nameAtCustomer: string;
-}
 
-export enum Owner {
-  OWN = "OWN",
-  SUPPLIER = "SUPPLIER",
-  CUSTOMER = "CUSTOMER",
-  UNKNOWN = "UNKNOWN"
-}
+
+
