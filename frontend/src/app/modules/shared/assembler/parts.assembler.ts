@@ -19,9 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination, PaginationResponse } from '@core/model/pagination.model';
 import { PaginationAssembler } from '@core/pagination/pagination.assembler';
+import {
+  AsBuiltAspectModel,
+  AsPlannedAspectModel,
+  PartSiteInformationAsPlanned,
+  SemanticModel,
+} from '@page/parts/model/aspectModels.model';
 import { Part, PartResponse, QualityType } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
@@ -29,37 +34,80 @@ import { OperatorFunction } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 export class PartsAssembler {
-  public static assemblePart(part: PartResponse): Part {
-    if (!part) {
-      return null;
-    }
 
-    return {
-      id: part.id,
-      name: part.semanticModel.nameAtManufacturer,
-      manufacturer: part.manufacturerName,
-      semanticModelId: part.semanticModelId,
-      partNumber: part.semanticModel.manufacturerPartId,
-      productionCountry: part.semanticModel.manufacturingCountry,
-      nameAtCustomer: part.semanticModel.nameAtCustomer,
-      customerPartId: part.semanticModel.customerPartId,
-      qualityType: part.qualityType || QualityType.Ok,
-      productionDate: new CalendarDateModel(part.semanticModel.manufacturingDate) ,
-      children: part.childRelations.map(child => child.id) || [],
-      parents: part.parentRelations?.map(parent => parent.id) || [],
-      activeInvestigation: part.underInvestigation || false,
-      activeAlert: part.activeAlert || false,
-      van: part.van || '--',
-      semanticDataModel: part.semanticDataModel
-    };
+  public static createSemanticModelFromPartResponse(partResponse: PartResponse): SemanticModel {
+    let proplist= {};
+    partResponse.detailAspectModels.forEach((detailAspectModel) => {
+      proplist = {...proplist, ...detailAspectModel.data};
+    })
+
+    return proplist;
   }
 
-  public static assembleOtherPart(part: PartResponse): Part {
-    if (!part) {
+  public static assemblePart(partResponse: PartResponse): Part {
+    if (!partResponse) {
       return null;
     }
 
-    return { ...PartsAssembler.assemblePart(part), qualityType: part.qualityType };
+    let createdSemanticModel = PartsAssembler.createSemanticModelFromPartResponse(partResponse);
+
+    // Access the partId property
+
+    const partId = (partResponse.detailAspectModels[0].data as AsBuiltAspectModel)?.partId;
+    const customerPartId = (partResponse.detailAspectModels[0].data as AsBuiltAspectModel)?.customerPartId;
+    const nameAtCustomer = (partResponse.detailAspectModels[0].data as AsBuiltAspectModel)?.nameAtCustomer;
+    const manufacturingDate = (partResponse.detailAspectModels[0].data as AsBuiltAspectModel)?.manufacturingDate;
+    const manufacturingCountry = (partResponse.detailAspectModels[0].data as AsBuiltAspectModel)?.manufacturingCountry;
+
+    const validityPeriodFrom = (partResponse.detailAspectModels[0].data as AsPlannedAspectModel)?.validityPeriodFrom;
+    const validityPeriodTo = (partResponse.detailAspectModels[0].data as AsPlannedAspectModel)?.validityPeriodTo;
+    const catenaXSiteId = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.catenaXSiteId;
+    const psFunction = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.function;
+    const functionValidFrom = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.functionValidFrom;
+    const functionValidUntil = (partResponse.detailAspectModels[1]?.data as PartSiteInformationAsPlanned)?.functionValidUntil;
+
+    let mappedPart = {
+      id: partResponse.id,
+      idShort: partResponse.idShort,
+      semanticModelId: partResponse.semanticModelId,
+      manufacturer: partResponse.manufacturerName,
+      manufacturerPartId: partResponse.manufacturerPartId,
+      nameAtManufacturer: partResponse.nameAtManufacturer,
+      businessPartner: partResponse.businessPartner,
+      name: partResponse.nameAtManufacturer,
+      children: partResponse.childRelations.map(child => child.id) || [],
+      parents: partResponse.parentRelations?.map(parent => parent.id) || [],
+      activeAlert: partResponse.activeAlert || false,
+      activeInvestigation: partResponse.underInvestigation || false,
+      qualityType: partResponse.qualityType || QualityType.Ok,
+      van: partResponse.van || '--',
+      semanticDataModel: partResponse.semanticDataModel,
+      classification: partResponse.classification,
+      semanticModel: createdSemanticModel,
+      // as built
+      partId: partId, // is partInstance, BatchId, jisNumber
+      customerPartId: customerPartId,
+      nameAtCustomer: nameAtCustomer,
+      manufacturingDate: manufacturingDate,
+      manufacturingCountry: manufacturingCountry,
+
+      // as planned
+      validityPeriodFrom: validityPeriodFrom,
+      validityPeriodTo: validityPeriodTo,
+      //partSiteInformationAsPlanned
+      catenaXSiteId: catenaXSiteId,
+      psFunction: psFunction,
+      functionValidFrom: functionValidFrom,
+      functionValidUntil: functionValidUntil,
+    }
+    return mappedPart;
+  }
+  public static assembleOtherPart(partResponse: PartResponse): Part {
+    if (!partResponse) {
+      return null;
+    }
+
+    return { ...PartsAssembler.assemblePart(partResponse), qualityType: partResponse.qualityType };
   }
 
   public static assembleParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
@@ -79,8 +127,26 @@ export class PartsAssembler {
     if (!viewData?.data) {
       return viewData;
     }
-    const { name, semanticDataModel, productionDate, semanticModelId } = viewData.data;
-    return { data: { name, semanticDataModel, productionDate, semanticModelId } as Part };
+
+    const {
+      name,
+      semanticDataModel,
+      semanticModelId,
+      manufacturingDate,
+      manufacturingCountry,
+      classification ,
+
+    } = viewData.data;
+    return { data: {
+        name,
+        semanticDataModel,
+        semanticModelId,
+        manufacturingDate,
+        manufacturingCountry,
+        classification ,
+
+
+      } as Part };
   }
 
   public static mapPartForView(): OperatorFunction<View<Part>, View<Part>> {
@@ -93,15 +159,26 @@ export class PartsAssembler {
         return viewData;
       }
 
-      const { manufacturer, partNumber, semanticModelId, van } = viewData.data;
-      return { data: { manufacturer, partNumber, semanticModelId, van } as Part };
+      const {
+        manufacturer,
+        manufacturerPartId,
+        nameAtManufacturer,
+        van,
+
+      } = viewData.data;
+      return { data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as Part };
     });
   }
 
-  public static mapPartForCustomerView(): OperatorFunction<View<Part>, View<Part>> {
+  public static mapPartForCustomerOrPartSiteView(): OperatorFunction<View<Part>, View<Part>> {
     return map(viewData => {
       if (!viewData.data) {
-        return viewData;
+        return;
+      }
+      // if no customer data is available then return partSiteInformation
+      if(!viewData.data?.nameAtCustomer && !viewData.data?.customerPartId && viewData.data?.functionValidFrom) {
+        const { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } = viewData.data;
+        return { data: { catenaXSiteId, psFunction, functionValidFrom, functionValidUntil } as Part };
       }
 
       const { nameAtCustomer, customerPartId } = viewData.data;

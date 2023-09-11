@@ -22,3 +22,28 @@
 .about-container {
   @apply flex flex-col;
 }
+
+.parts-table-container {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(300px, 1fr);
+  grid-gap: 30px;
+}
+
+/* Apply the side-by-side layout for wider screens */
+@media (max-width: 800px) {
+  .parts-table-container {
+    grid-template-columns: repeat(1, minmax(300px, 1fr));
+  }
+}
+
+.parts-asPlanned-table {
+  overflow-x: auto;
+  overflow-y: auto;
+  height: 65vh;
+}
+
+.parts-asBuilt-table {
+  overflow-x: auto;
+  overflow-y: auto;
+  height: 65vh;
+}

@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -19,10 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-export { dashboardHandler } from './dashboard-mock/dashboard.handler';
-export { partsAsBuiltHandlers, partsHandlersTest } from './parts-mock/partsAsBuilt/partsAsBuilt.handler';
-export { partsAsPlannedHandlers } from './parts-mock/partsAsPlanned/partsAsPlanned.handler';
-export { otherPartsHandlers, otherPartsHandlersTest } from './otherParts-mock/otherParts.handler';
-export { investigationsHandlers, investigationsTestHandlers } from './investigations-mock/investigations.handler';
-export { adminHandler } from './admin-mock/admin.handler';
-export { errorHandler } from './error-mock/error.handler';
+import { _environment } from './_environment.base';
+
+export const environment = {
+  ..._environment,
+  mockService: false,
+  authDisabled: false,
+  apiUrl: 'https://traceability.dev.demo.catena-x.net/api',
+  keycloakUrl: 'https://centralidp.dev.demo.catena-x.net/auth',
+  clientId: 'Cl17-CX-Part',
+  api: '',
+};

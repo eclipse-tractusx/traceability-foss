@@ -24,7 +24,7 @@ import { AlertsService } from '@shared/service/alerts.service';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { of } from 'rxjs';
-import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/parts.test.model';
+import { MOCK_part_1 } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('AlertDetailComponent', () => {
 
@@ -71,6 +71,6 @@ describe('AlertDetailComponent', () => {
     const spy = spyOn(navigator.clipboard, 'writeText').and.returnValue(new Promise(null));
     fireEvent.click(await waitFor(() => screen.getByTestId('copy-button--' + MOCK_part_1.id)));
 
-    expect(spy).toHaveBeenCalledWith(MOCK_part_1.semanticModelId);
+    expect(spy).toHaveBeenCalledWith("NO-341449848714937445621543");
   });
 });
