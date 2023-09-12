@@ -20,7 +20,6 @@
 package org.eclipse.tractusx.traceability.integration.qualitynotification.investigation;
 
 import io.restassured.http.ContentType;
-import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.BpnSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationNotificationsSupport;
@@ -33,7 +32,6 @@ import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import qualitynotification.investigation.response.InvestigationResponse;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -308,14 +306,19 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
         );
 
         // when/then
-        var test =  given()
+        given()
                 .header(oAuth2Support.jwtAuthorization(ADMIN))
                 .param("page", "0")
                 .param("size", "10")
                 .contentType(ContentType.JSON)
                 .when()
-                .get("/api/investigations/created?page=0&size=10&sort=$sortString".replace("$sortString", "id,asc")).getBody()
-                .as(PageResult.class);
+                .get("/api/investigations/created?page=0&size=10&sort=$sortString".replace("$sortString", sortString))
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(4))
+                .body("totalItems", Matchers.is(4));
     }
 
     @Test

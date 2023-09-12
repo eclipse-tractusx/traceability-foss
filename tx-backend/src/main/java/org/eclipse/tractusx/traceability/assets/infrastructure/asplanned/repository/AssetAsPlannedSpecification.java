@@ -40,7 +40,7 @@ public class AssetAsPlannedSpecification extends BaseSpecification implements Sp
 
     @Override
     public Predicate toPredicate(Root<AssetAsPlannedEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return toPredicate(criteria, root, query, builder);
+        return createPredicate(criteria, root, builder);
     }
 
     public static Specification<AssetAsPlannedEntity> toSpecification(final List<AssetAsPlannedSpecification> allSpecifications) {

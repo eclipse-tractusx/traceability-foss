@@ -32,7 +32,7 @@ import java.time.LocalTime;
 
 public abstract class BaseSpecification {
 
-    protected Predicate toPredicate(SearchCriteria criteria, Root<?> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
+    protected Predicate createPredicate(SearchCriteria criteria, Root<?> root, CriteriaBuilder builder) {
         if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
             return builder.equal(
                     root.<String>get(criteria.getKey()).as(String.class),

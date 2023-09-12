@@ -37,8 +37,9 @@ public class AssetAsBuildSpecification extends BaseSpecification implements Spec
 
     private SearchCriteria criteria;
 
+    @Override
     public Predicate toPredicate(Root<AssetAsBuiltEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        return toPredicate(criteria, root, query, builder);
+        return createPredicate(criteria, root, builder);
     }
 
     public static Specification<AssetAsBuiltEntity> toSpecification(final List<AssetAsBuildSpecification> allSpecifications) {
