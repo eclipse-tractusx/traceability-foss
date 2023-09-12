@@ -40,7 +40,7 @@ public class AssetAsBuildSpecification implements Specification<AssetAsBuiltEnti
 
     private SearchCriteria criteria;
 
-    @Override
+    @Override // TODO: try to generify code
     public Predicate toPredicate(Root<AssetAsBuiltEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
             return builder.equal(
