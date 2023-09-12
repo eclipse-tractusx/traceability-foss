@@ -67,7 +67,7 @@ public class AssetAsPlannedSpecification implements Specification<AssetAsPlanned
     public static Specification<AssetAsPlannedEntity> toSpecification(final List<AssetAsPlannedSpecification> allSpecifications) {
         var specifications = Lists.newArrayList(allSpecifications);
         if (specifications.isEmpty()) {
-            return null;
+            return Specification.allOf();
         }
 
         Specification<AssetAsPlannedEntity> result = specifications.get(0);

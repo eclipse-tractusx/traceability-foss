@@ -98,7 +98,7 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
     void givenNameAtManufacturerAndOwnerFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
         assetsSupport.defaultAssetsAsPlannedStored();
-        final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle&filter=owner,EQUALS,SUPPLIER";
+        final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle&filter=owner,EQUAL,SUPPLIER";
 
         // then
         given()
@@ -110,6 +110,6 @@ class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(2));
+                .body("totalItems", equalTo(1));
     }
 }
