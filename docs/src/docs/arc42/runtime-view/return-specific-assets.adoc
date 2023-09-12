@@ -1,6 +1,6 @@
 = Scenario 2: Return specific Assets
 
-This section describes what happens when user searches for a specific asset.
+This section describes what happens when user searches for a specific as built asset.
 
 [plantuml, target=return-specific-assets, format=svg]
 ....
