@@ -56,7 +56,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     private LocalDateTime manufacturingDate;
     private String manufacturingCountry;
     private String manufacturerId;
-    private String semanticModelId;
 
     @ElementCollection
     @CollectionTable(name = "assets_as_built_childs", joinColumns = {@JoinColumn(name = "asset_as_built_id")})
