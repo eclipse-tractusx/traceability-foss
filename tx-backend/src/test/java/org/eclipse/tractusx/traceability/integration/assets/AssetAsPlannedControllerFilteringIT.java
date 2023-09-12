@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository.JpaAssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.jose4j.lang.JoseException;
@@ -30,15 +31,17 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.hamcrest.Matchers.equalTo;
 
-class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
+class AssetAsPlannedControllerFilteringIT extends IntegrationTestSpecification {
 
     @Autowired
     AssetsSupport assetsSupport;
+    @Autowired
+    JpaAssetAsPlannedRepository tempRepo;
 
     @Test
     void givenNoFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
+        assetsSupport.defaultAssetsAsPlannedStored();
 
         // then
         given()
@@ -46,17 +49,17 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built/filtered")
+                .get("/api/assets/as-planned/filtered")
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(13));
+                .body("totalItems", equalTo(2));
     }
 
     @Test
     void givenOwnFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
+        assetsSupport.defaultAssetsAsPlannedStored();
         final String filter = "?filter=owner,EQUAL,OWN";
 
         // then
@@ -65,7 +68,7 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built/filtered" + filter)
+                .get("/api/assets/as-planned/filtered" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
@@ -73,10 +76,10 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
     }
 
     @Test
-    void givenManufacturerIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
+    void givenNameAtManufacturerFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturerId,EQUAL,BPNL00000003B0Q0";
+        assetsSupport.defaultAssetsAsPlannedStored();
+        final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle";
 
         // then
         given()
@@ -84,18 +87,18 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built/filtered" + filter)
+                .get("/api/assets/as-planned/filtered" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(4));
+                .body("totalItems", equalTo(2));
     }
 
     @Test
-    void givenManufacturerIdAndSemanticModelIdFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
+    void givenNameAtManufacturerAndOwnerFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
         // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturerId,EQUAL,BPNL00000003B0Q0&filter=semanticModelId,STARTS_WITH,NO-3404609481920549";
+        assetsSupport.defaultAssetsAsPlannedStored();
+        final String filter = "?filter=nameAtManufacturer,STARTS_WITH,Vehicle&filter=owner,EQUALS,SUPPLIER";
 
         // then
         given()
@@ -103,48 +106,10 @@ class AssetAsBuiltControllerFilteringIT extends IntegrationTestSpecification {
                 .contentType(ContentType.JSON)
                 .log().all()
                 .when()
-                .get("/api/assets/as-built/filtered" + filter)
+                .get("/api/assets/as-planned/filtered" + filter)
                 .then()
                 .log().all()
                 .statusCode(200)
-                .body("totalItems", equalTo(1));
-    }
-
-    @Test
-    void givenIdShortStartsWithFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=idShort,STARTS_WITH,ntier_";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built/filtered" + filter)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(1));
-    }
-
-    @Test
-    void givenManufacturingDateFilter_whenCallFilteredEndpoint_thenReturnExpectedResult() throws JoseException {
-        // given
-        assetsSupport.defaultAssetsStored();
-        final String filter = "?filter=manufacturingDate,AT_LOCAL_DATE,2014-11-18";
-
-        // then
-        given()
-                .header(oAuth2Support.jwtAuthorization(ADMIN))
-                .contentType(ContentType.JSON)
-                .log().all()
-                .when()
-                .get("/api/assets/as-built/filtered" + filter)
-                .then()
-                .log().all()
-                .statusCode(200)
-                .body("totalItems", equalTo(1));
+                .body("totalItems", equalTo(2));
     }
 }
