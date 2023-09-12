@@ -17,10 +17,10 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository;
+package org.eclipse.tractusx.traceability.common.model;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
-
-
-public interface AssetAsBuiltRepository extends AssetRepository {
+public enum SearchOperation {
+    EQUAL,
+    STARTS_WITH,
+    AT_LOCAL_DATE
 }

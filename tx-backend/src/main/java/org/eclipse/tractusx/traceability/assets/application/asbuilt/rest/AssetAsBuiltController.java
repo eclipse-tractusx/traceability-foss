@@ -166,6 +166,11 @@ public class AssetAsBuiltController {
         return AssetAsBuiltResponseMapper.from(assetBaseService.getAssets(OwnPageable.toPageable(pageable), owner));
     }
 
+    @GetMapping("/filtered")
+    public PageResult<AssetAsBuiltResponse> assets(OwnPageable pageable) {
+        return AssetAsBuiltResponseMapper.from(assetBaseService.getAssets(OwnPageable.toPageable(pageable), pageable.toSearchCriteria()));
+    }
+
     @Operation(operationId = "assetsCountryMap",
             summary = "Get map of assets",
             tags = {"Assets"},

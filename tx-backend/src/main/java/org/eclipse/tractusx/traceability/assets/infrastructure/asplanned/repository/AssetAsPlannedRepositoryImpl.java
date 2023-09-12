@@ -26,6 +26,7 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +69,11 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
             return new PageResult<>(jpaAssetAsPlannedRepository.findByOwner(pageable, owner), AssetAsPlannedEntity::toDomain);
         }
         return new PageResult<>(jpaAssetAsPlannedRepository.findAll(pageable), AssetAsPlannedEntity::toDomain);
+    }
+
+    @Override
+    public PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filter) {
+        return null;
     }
 
     @Override

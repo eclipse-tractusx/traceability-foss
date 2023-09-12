@@ -17,10 +17,16 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository;
+package org.eclipse.tractusx.traceability.common.model;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
+import lombok.Builder;
+import lombok.Data;
+import org.eclipse.tractusx.traceability.common.model.SearchOperation;
 
-
-public interface AssetAsBuiltRepository extends AssetRepository {
+@Data
+@Builder
+public class SearchCriteria {
+    private String key;
+    private SearchOperation operation;
+    private String value;
 }

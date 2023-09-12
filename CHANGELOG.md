@@ -19,6 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - NEW API DELETE /api/registry
 - NEW API GET /api/shelldescriptors
 - cascading sorting functionality by allowing multiple sort query parameters on APIs
+- NEW API GET/api/assets/as-built/filtered allowing Search criteria to be provided
 
 ### Changed
 - API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
@@ -39,6 +40,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
 - Updated irs-helm from 6.4.1 to 6.5.0
 - Migrated groovy integration tests to SpringBootTests
+- OwnPageable now contains filter param
 
 ### Removed
 

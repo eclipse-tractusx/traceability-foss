@@ -23,6 +23,8 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
+import org.eclipse.tractusx.traceability.common.model.SearchOperation;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -38,6 +40,7 @@ public class OwnPageable {
     private Integer size;
     @ArraySchema(arraySchema = @Schema(description = "Content of Assets PageResults", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "manufacturerPartId,desc"), maxItems = Integer.MAX_VALUE)
     private List<String> sort;
+    private List<String> filter;
 
     public static Pageable toPageable(OwnPageable ownPageable) {
         int usedPage = 0;
@@ -76,5 +79,26 @@ public class OwnPageable {
             }
         }
         return Sort.by(orders);
+    }
+
+    public List<SearchCriteria> toSearchCriteria() {
+        ArrayList<SearchCriteria> filters = new ArrayList<>();
+        for (String filter : this.filter) {
+            try {
+                String[] filterParams = filter.split(",");
+                filters.add(
+                        SearchCriteria.builder()
+                                .key(filterParams[0])
+                                .operation(SearchOperation.valueOf(filterParams[1]))
+                                .value(filterParams[2])
+                                .build());
+            } catch (Exception exception) {
+                throw new InvalidFilterException(
+                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,operation,value"
+                                .replace("{provided}", filter)
+                );
+            }
+        }
+        return filters;
     }
 }
