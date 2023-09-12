@@ -54,9 +54,9 @@ public class AssetAsBuildSpecification implements Specification<AssetAsBuiltEnti
         }
         if (criteria.getOperation().equals(SearchOperation.AT_LOCAL_DATE)) {
             final LocalDate localDate = LocalDate.parse((String) criteria.getValue());
-            Predicate startingFrom =  builder.greaterThanOrEqualTo(root.<LocalDateTime>get(criteria.getKey()),
+            Predicate startingFrom = builder.greaterThanOrEqualTo(root.<LocalDateTime>get(criteria.getKey()),
                     LocalDateTime.of(localDate, LocalTime.MIN));
-            Predicate endingAt =  builder.lessThanOrEqualTo(root.<LocalDateTime>get(criteria.getKey()),
+            Predicate endingAt = builder.lessThanOrEqualTo(root.<LocalDateTime>get(criteria.getKey()),
                     LocalDateTime.of(localDate, LocalTime.MAX));
             return builder.and(startingFrom, endingAt);
         }
@@ -65,12 +65,14 @@ public class AssetAsBuildSpecification implements Specification<AssetAsBuiltEnti
 
     public static Specification<AssetAsBuiltEntity> toSpecification(final List<AssetAsBuildSpecification> allSpecifications) {
         var specifications = Lists.newArrayList(allSpecifications);
-        if(specifications.isEmpty()){
-            return null;
+        if (specifications.isEmpty()) {
+            return Specification.allOf();
         }
-        Specification<AssetAsBuiltEntity> result = specifications.remove(0);
-        specifications.forEach(result::and);
+        Specification<AssetAsBuiltEntity> result = specifications.get(0);
 
+        for (int i = 1; i < specifications.size(); i++) {
+            result = Specification.where(result).and(specifications.get(i));
+        }
         return result;
     }
 }

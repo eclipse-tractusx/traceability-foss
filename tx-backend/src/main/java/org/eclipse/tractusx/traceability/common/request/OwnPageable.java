@@ -31,7 +31,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.Objects.isNull;
 
 @Data
 @AllArgsConstructor
@@ -82,6 +85,9 @@ public class OwnPageable {
     }
 
     public List<SearchCriteria> toSearchCriteria() {
+        if(isNull(this.filter)) {
+            return Collections.emptyList();
+        }
         ArrayList<SearchCriteria> filters = new ArrayList<>();
         for (String filter : this.filter) {
             try {
