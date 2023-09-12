@@ -21,17 +21,18 @@
 
 import { environment } from '@env';
 import { rest } from 'msw';
-import { applyPagination, extractPagination } from '../pagination.helper';
-import { getAssetById, mockBmwAssets } from './parts.model';
-import { mockAssetList, mockAssets } from './parts.test.model';
+import { applyPagination, extractPagination } from '../../pagination.helper';
+import { getAssetById, mockBmwAssets } from './partsAsBuilt.model';
+import { mockAssetList, mockAssets } from './partsAsBuilt.test.model';
 
-export const partsHandlers = [
+export const partsAsBuiltHandlers = [
+
+
   rest.get(`*${environment.apiUrl}/assets/as-built`, (req, res, ctx) => {
     const pagination = extractPagination(req);
 
     return res(ctx.status(200), ctx.json(applyPagination(mockBmwAssets, pagination)));
   }),
-
 
   rest.post(`*${environment.apiUrl}/assets/as-built/detail-information`, async (req, res, ctx) => {
     const { assetIds } = await req.json();
@@ -64,7 +65,7 @@ export const partsHandlersTest = [
     return res(ctx.status(200), ctx.json(mockAssets));
   }),
 
-  rest.get(`*${environment.apiUrl}/assets/as-built/my`, (req, res, ctx) => {
+  rest.get(`*${environment.apiUrl}/assets/my`, (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(mockAssets));
   }),
 

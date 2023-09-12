@@ -38,7 +38,7 @@ export class PartsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getMyParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
+  public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
     const sort = PartsAssembler.mapSortToApiSort(sorting);
     const params = new HttpParams()
       .set('page', page)
@@ -51,23 +51,52 @@ export class PartsService {
       .pipe(map(parts => PartsAssembler.assembleParts(parts)));
   }
 
-  public getPart(id: string): Observable<Part> {
+  public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
+    const sort = PartsAssembler.mapSortToApiSort(sorting);
+    const params = new HttpParams()
+      .set('page', page)
+      .set('size', pageSize)
+      .set('sort', sort)
+      .set('owner', 'OWN');
+
     return this.apiService
-      .get<PartResponse>(`${this.url}/assets/as-built/${id}`)
+      .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
+      .pipe(map(parts => PartsAssembler.assembleParts(parts)));
+  }
+
+  public getPart(id: string): Observable<Part> {
+
+    let resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ id }`)
       .pipe(map(part => PartsAssembler.assemblePart(part)));
+
+    let resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ id }`)
+      .pipe(map(part => PartsAssembler.assemblePart(part)));
+
+    return resultsAsBuilt || resultsAsPlanned;
+
   }
 
-  public patchPart({ qualityType, id }: Part): Observable<Part> {
-    const patchBody = { qualityType };
-
-    return this.apiService.patch<Part>(`${this.url}/assets/as-built/${id}`, patchBody);
-  }
 
   public getPartDetailOfIds(assetIds: string[]): Observable<Part[]> {
-    return this.apiService
+
+    let resultsAsBuilt =  this.apiService
       .post<PartResponse[]>(`${this.url}/assets/as-built/detail-information`, { assetIds })
       .pipe(map(parts => PartsAssembler.assemblePartList(parts)));
+
+    let resultsAsPlanned = this.apiService
+      .post<PartResponse[]>(`${this.url}/assets/as-planned/detail-information`, { assetIds })
+      .pipe(map(parts => PartsAssembler.assemblePartList(parts)));
+
+    if(resultsAsBuilt) {
+      return resultsAsBuilt;
+    }
+
+    if(resultsAsPlanned) {
+      return resultsAsPlanned
+    }
+
   }
+
 
   public sortParts(data: Part[], key: string, direction: SortDirection): Part[] {
     const clonedData: Part[] = _deepClone(data);

@@ -15,6 +15,7 @@
     "prepare" : "cd .. && husky install frontend/.husky",
     "start" : "ng serve",
     "start:auth" : "ng serve --configuration=dev,auth",
+    "start:auth:dev": "ng serve --configuration=dev,authDev",
     "start:auth:test": "ng serve --configuration=dev,authTest",
     "start:auth:e2ea": "ng serve --configuration=dev,authE2eA",
     "start:auth:mock" : "ng serve --configuration=authMock",
