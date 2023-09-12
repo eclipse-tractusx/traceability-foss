@@ -206,9 +206,10 @@ export class PartsAssembler {
     const localToApiMapping = new Map<string, string>([
       ['id', 'id'],
       ['idShort', 'idShort'],
-      ['semanticModelId', 'manufacturerPartId'],
+      ['semanticModelId', 'semanticModelId'],
       ['manufacturer', 'manufacturerName'],
       ['manufacturerPartId', 'manufacturerPartId'],
+      ['partId', "partId"],
       ['nameAtManufacturer', 'nameAtManufacturer'],
       ['businessPartner', 'businessPartner'],
       ['name', 'nameAtManufacturer'],

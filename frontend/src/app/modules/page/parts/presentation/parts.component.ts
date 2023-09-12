@@ -144,6 +144,10 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.ctrlKeyState = event.ctrlKey;
       console.log("CTRL PRESSED");
     });
+    window.addEventListener('keyup', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+      console.log("CTRL NOT PRESSED ANYMORE");
+    });
   }
 
   public ngOnInit(): void {
@@ -173,6 +177,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    console.log(this.ctrlKeyState);
     this.setTableSortingList(sorting,"asBuilt");
     this.partsFacade.setPartsAsBuilt(page, pageSize, this.tableAsBuiltSortList);
   }
@@ -183,7 +188,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: "asBuilt" | "asPlanned"): void {
-    console.log(sorting);
+    console.log(this.ctrlKeyState);
+      // if a sorting Columnlist exists but a column gets resetted:
       if(!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
         if(partTable === "asBuilt") {
           this.tableAsBuiltSortList = [];
@@ -192,29 +198,42 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         return;
       }
-      const [columnName, direction] = sorting;
-      const tableSortList = partTable === "asBuilt" ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
 
-      // Find the index of the existing entry with the same first item
-      const index = tableSortList.findIndex(
-        ([itemColumnName, direction]) => itemColumnName === columnName
-      );
+      // if CTRL is pressed at to sortList
+      if(this.ctrlKeyState) {
+        const [columnName, direction] = sorting;
+        const tableSortList = partTable === "asBuilt" ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
 
-      if (index !== -1) {
-        // Replace the existing entry
-        tableSortList[index] = sorting;
-      } else {
-        // Add the new entry if it doesn't exist
-        tableSortList.push(sorting);
+        // Find the index of the existing entry with the same first item
+        const index = tableSortList.findIndex(
+            ([itemColumnName, direction]) => itemColumnName === columnName
+        );
+
+        if (index !== -1) {
+          // Replace the existing entry
+          tableSortList[index] = sorting;
+        } else {
+          // Add the new entry if it doesn't exist
+          tableSortList.push(sorting);
+        }
+        if(partTable === "asBuilt") {
+          this.tableAsBuiltSortList = tableSortList
+          console.log(...this.tableAsBuiltSortList);
+        } else {
+          this.tableAsPlannedSortList = tableSortList
+          console.log(...this.tableAsPlannedSortList);
+        }
       }
-      if(partTable === "asBuilt") {
-        this.tableAsBuiltSortList = tableSortList
-        console.log(...this.tableAsBuiltSortList);
-      } else {
-        this.tableAsPlannedSortList = tableSortList
-        console.log(...this.tableAsPlannedSortList);
+      // If CTRL is not pressed just add a list with one entry
+      else {
+        if(partTable === "asBuilt") {
+          this.tableAsBuiltSortList = [sorting];
+          console.log(...this.tableAsBuiltSortList);
+        } else {
+          this.tableAsPlannedSortList = [sorting]
+          console.log(...this.tableAsPlannedSortList);
+        }
       }
-
   }
 
 }

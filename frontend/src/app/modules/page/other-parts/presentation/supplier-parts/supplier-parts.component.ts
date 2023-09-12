@@ -90,6 +90,11 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
       this.ctrlKeyState = event.ctrlKey;
       console.log("CTRL PRESSED");
     });
+    window.addEventListener('keyup', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+
+      console.log("CTRL NOT PRESSED ANYMORE");
+    });
   }
 
   public get currentSelectedItems(): Part[] {
@@ -147,27 +152,34 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
 
   private setTableSortingList(sorting: TableHeaderSort): void {
-    console.log(sorting);
     if(!sorting && this.tableSupplierSortList) {
+      console.log("resetted sortingList")
       this.tableSupplierSortList = [];
       return;
     }
-    const [columnName, direction] = sorting;
-    const tableSortList = this.tableSupplierSortList;
 
-    // Find the index of the existing entry with the same first item
-    const index = tableSortList.findIndex(
-      ([itemColumnName, direction]) => itemColumnName === columnName
-    );
+    if(this.ctrlKeyState) {
+      const [columnName, direction] = sorting;
+      const tableSortList = this.tableSupplierSortList;
 
-    if (index !== -1) {
-      // Replace the existing entry
-      tableSortList[index] = sorting;
+      // Find the index of the existing entry with the same first item
+      const index = tableSortList.findIndex(
+          ([itemColumnName, direction]) => itemColumnName === columnName
+      );
+
+      if (index !== -1) {
+        // Replace the existing entry
+        tableSortList[index] = sorting;
+      } else {
+        // Add the new entry if it doesn't exist
+        tableSortList.push(sorting);
+      }
+      this.tableSupplierSortList = tableSortList;
     } else {
-      // Add the new entry if it doesn't exist
-      tableSortList.push(sorting);
+      this.tableSupplierSortList = [sorting];
     }
-    this.tableSupplierSortList = tableSortList;
+    console.log(...this.tableSupplierSortList);
+
 
   }
 

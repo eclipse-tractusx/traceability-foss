@@ -81,6 +81,10 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
       this.ctrlKeyState = event.ctrlKey;
       console.log("CTRL PRESSED");
     });
+    window.addEventListener('keyup', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+      console.log("CTRL NOT PRESSED ANYMORE");
+    });
   }
 
   public ngOnInit(): void {
@@ -102,27 +106,33 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
 
   private setTableSortingList(sorting: TableHeaderSort): void {
-    console.log(sorting);
     if(!sorting && this.tableCustomerSortList) {
       this.tableCustomerSortList = [];
       return;
     }
-    const [columnName, direction] = sorting;
-    const tableSortList = this.tableCustomerSortList;
+    if(this.ctrlKeyState) {
+      const [columnName, direction] = sorting;
+      const tableSortList = this.tableCustomerSortList;
 
-    // Find the index of the existing entry with the same first item
-    const index = tableSortList.findIndex(
-      ([itemColumnName, direction]) => itemColumnName === columnName
-    );
+      // Find the index of the existing entry with the same first item
+      const index = tableSortList.findIndex(
+          ([itemColumnName, direction]) => itemColumnName === columnName
+      );
 
-    if (index !== -1) {
-      // Replace the existing entry
-      tableSortList[index] = sorting;
+      if (index !== -1) {
+        // Replace the existing entry
+        tableSortList[index] = sorting;
+      } else {
+        // Add the new entry if it doesn't exist
+        tableSortList.push(sorting);
+      }
+      this.tableCustomerSortList = tableSortList;
     } else {
-      // Add the new entry if it doesn't exist
-      tableSortList.push(sorting);
+      this.tableCustomerSortList = [sorting];
     }
-    this.tableCustomerSortList = tableSortList;
+    console.log(...this.tableCustomerSortList);
+
+
 
   }
 
