@@ -101,7 +101,7 @@ describe('Other Parts', () => {
   });
 
 
-  describe('onTableConfigChange', () => {
+  describe('onAsBuiltTableConfigChange', () => {
     let formatPartSemanticToCamelCase: FormatPartSemanticDataModelToCamelCasePipe;
     beforeEach(() => {
       formatPartSemanticToCamelCase = new FormatPartSemanticDataModelToCamelCasePipe();

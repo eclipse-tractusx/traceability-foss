@@ -75,24 +75,36 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public readonly sortableColumnsAsBuilt: Record<string, boolean> = {
     id: true,
-    semanticDataModel: true,
+    idShort: true,
     name: true,
     manufacturer: true,
-    partNumber: true,
+    partId: true,
+    manufacturerPartId: true,
+    customerPartId: true,
+    classification: true,
+    nameAtCustomer: true,
     semanticModelId: true,
-    productionDate: true,
-    productionCountry: true,
+    semanticDataModel: true,
+    manufacturingDate: true,
+    manufacturingCountry: true,
+
   };
 
   public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
     id: true,
-    semanticDataModel: true,
-    name: true,
+    idShort: true,
+    nameAtManufacturer: true,
     manufacturer: true,
-    partNumber: true,
+    manufacturerPartId: true,
+    classification: true,
+    semanticDataModel: true,
     semanticModelId: true,
-    productionDate: true,
-    productionCountry: true,
+    validityPeriodFrom: true,
+    validityPeriodTo: true,
+    psFunction: true,
+    catenaXSiteId: true,
+    functionValidFrom: true,
+    functionValidUntil: true,
   };
 
   public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
@@ -143,8 +155,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.partDetailsFacade.selectedPart = $event as unknown as Part;
   }
 
-  public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+  public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    console.log(page, pageSize, sorting);
     this.partsFacade.setPartsAsBuilt(page, pageSize, sorting);
+  }
+
+  public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
+    console.log(page, pageSize, sorting);
     this.partsFacade.setPartsAsPlanned(page, pageSize, sorting);
   }
 }

@@ -43,12 +43,12 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   ];
 
   public readonly sortableColumns: Record<string, boolean> = {
+    semanticDataModel: true,
     name: true,
     manufacturer: true,
-    partNumber: true,
+    partId: true,
     semanticModelId: true,
-    productionDate: true,
-    semanticDataModel: true,
+    manufacturingDate: true,
   };
 
   public readonly tableConfig: TableConfig = {
