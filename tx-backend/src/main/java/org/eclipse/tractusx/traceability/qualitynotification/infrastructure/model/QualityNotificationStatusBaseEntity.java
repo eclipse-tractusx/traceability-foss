@@ -19,7 +19,10 @@
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model;
 
 
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
+
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -70,4 +73,10 @@ public enum QualityNotificationStatusBaseEntity {
         return MAPPINGS.get(value);
     }
 
+    public static QualityNotificationStatusBaseEntity from(QualityNotificationStatus status) {
+        return QualityNotificationStatusBaseEntity.valueOf(status.name());
+    }
+    public static List<QualityNotificationStatusBaseEntity> from(List<QualityNotificationStatus> statuses) {
+        return statuses.stream().map(QualityNotificationStatusBaseEntity::from).toList();
+    }
 }

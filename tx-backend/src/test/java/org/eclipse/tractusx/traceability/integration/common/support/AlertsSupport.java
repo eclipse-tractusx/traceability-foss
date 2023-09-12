@@ -19,6 +19,7 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository;
@@ -53,16 +54,27 @@ public class AlertsSupport {
         return storedAlert(entity);
     }
 
-    Long defaultAcknowledgedAlertStored() {
+    public Long defaultReceivedAlertStoredWithAssets(List<AssetAsBuiltEntity> assets) {
+        return defaultReceivedAlertStoredWithAssets(QualityNotificationStatusBaseEntity.RECEIVED, assets);
+    }
+
+    public Long defaultSentAlertStoredWithAssets(List<AssetAsBuiltEntity> assets) {
+        return defaultReceivedAlertStoredWithAssets(QualityNotificationStatusBaseEntity.SENT, assets);
+    }
+
+    private Long defaultReceivedAlertStoredWithAssets(QualityNotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assets) {
         AlertEntity entity = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(QualityNotificationStatusBaseEntity.ACKNOWLEDGED)
+                .status(status)
                 .side(QualityNotificationSideBaseEntity.RECEIVER)
                 .createdDate(Instant.now())
                 .build();
-
-        return storedAlert(entity);
+        Long alertId = storedAlert(entity);
+        AlertEntity savedAlert = jpaAlertRepository.findById(alertId).get();
+        savedAlert.setAssets(assets);
+        jpaAlertRepository.save(savedAlert);
+        return alertId;
     }
 
     public void assertAlertsSize(int size) {

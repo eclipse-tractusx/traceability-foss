@@ -19,8 +19,10 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
@@ -41,6 +43,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -118,6 +121,18 @@ public class AlertsRepositoryImpl implements AlertRepository {
     @Override
     public long countQualityNotificationEntitiesByStatus(QualityNotificationStatus qualityNotificationStatus) {
         return jpaAlertRepository.countAllByStatusEquals(QualityNotificationStatusBaseEntity.valueOf(qualityNotificationStatus.name()));
+    }
+
+    @Transactional
+    @Override
+    public long countDistinctAffectedPartsWhereStatusInAndOwnerEqual(List<QualityNotificationStatus> statuses, Owner owner) {
+        return jpaAlertRepository.findAllByStatusIn(QualityNotificationStatusBaseEntity.from(statuses))
+                .stream()
+                .map(AlertEntity::getAssets)
+                .flatMap(Collection::stream)
+                .filter(assetAsBuiltEntity -> assetAsBuiltEntity.getOwner().equals(owner))
+                .distinct()
+                .toList().size();
     }
 
     @Override

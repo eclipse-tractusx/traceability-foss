@@ -39,13 +39,17 @@ class DashboardControllerTest {
 
     @Test
     void dashboard() {
-        Dashboard dashboard = new Dashboard(9L, 99L, 999L);
+        Dashboard dashboard = new Dashboard(9L, 99L, 999L, 1L, 11L, 111L, 1111L);
         Mockito.when(dashboardService.getDashboard()).thenReturn(dashboard);
         Dashboard testDashboard = dashboardService.getDashboard();
 
-        assertEquals(9, testDashboard.myItems());
+        assertEquals(9, testDashboard.myParts());
         assertEquals(99, testDashboard.otherParts());
-        assertEquals(999, testDashboard.investigations());
+        assertEquals(999, testDashboard.investigationsReceived());
+        assertEquals(1, testDashboard.alertsReceived());
+        assertEquals(11, testDashboard.alertsSent());
+        assertEquals(111, testDashboard.myPartsWithOpenAlerts());
+        assertEquals(1111, testDashboard.supplierPartsWithOpenAlerts());
     }
 
 }

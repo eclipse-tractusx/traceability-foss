@@ -22,7 +22,11 @@
 package org.eclipse.tractusx.traceability.assets.domain.dashboard.model;
 
 public record Dashboard(
-        Long myItems,
+        Long myParts,
         Long otherParts,
-        Long investigations) {
+        Long investigationsReceived,
+        Long alertsReceived,
+        Long alertsSent,
+        Long myPartsWithOpenAlerts,
+        Long supplierPartsWithOpenAlerts) {
 }
