@@ -31,11 +31,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.awaitility.Duration;
 import org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum;
 import org.eclipse.tractusx.traceability.test.tooling.rest.RestProvider;
-import org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest;
-import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationIdResponse;
 import org.eclipse.tractusx.traceability.test.tooling.rest.response.QualityNotificationResponse;
-import org.eclipse.tractusx.traceability.test.validator.InvestigationValidator;
+import org.eclipse.tractusx.traceability.test.validator.NotificationValidator;
 import org.hamcrest.Matchers;
+import qualitynotification.base.response.QualityNotificationIdResponse;
 
 import java.time.Instant;
 import java.util.List;
@@ -43,15 +42,18 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
+import static org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum.ALERT;
+import static org.eclipse.tractusx.traceability.test.tooling.NotificationTypeEnum.INVESTIGATION;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_A;
 import static org.eclipse.tractusx.traceability.test.tooling.TraceXEnvironmentEnum.TRACE_X_B;
-import static org.eclipse.tractusx.traceability.test.validator.StringUtils.wrapStringWithTimestamp;
+import static org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest.ACCEPTED;
+import static org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest.ACKNOWLEDGED;
+import static org.eclipse.tractusx.traceability.test.tooling.rest.request.UpdateQualityNotificationStatusRequest.DECLINED;
+import static org.eclipse.tractusx.traceability.test.validator.TestUtils.normalize;
+import static org.eclipse.tractusx.traceability.test.validator.TestUtils.wrapStringWithTimestamp;
 
 @Slf4j
 public class TraceabilityTestStepDefinition {
@@ -89,11 +91,13 @@ public class TraceabilityTestStepDefinition {
 
         final String severity = input.get("severity");
 
-        final QualityNotificationIdResponse idResponse = restProvider.createInvestigation(
+        final QualityNotificationIdResponse idResponse = restProvider.createNotification(
                 List.of(assetId),
                 notificationDescription,
                 targetDate,
-                severity
+                severity,
+                null,
+                INVESTIGATION
         );
         notificationID_TXA = idResponse.id();
         assertThat(dataTable).isNotNull();
@@ -104,20 +108,18 @@ public class TraceabilityTestStepDefinition {
         await()
                 .atMost(Duration.TWO_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
-                .ignoreExceptions()
+                .catchUncaughtExceptions()
                 .until(() -> {
-                            QualityNotificationResponse result = restProvider.getInvestigation(getNotificationIdBasedOnEnv());
-                            InvestigationValidator.validateInvestigation(result, normalize(dataTable.asMap()));
+                    QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+                    NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
                             return true;
                         }
                 );
-
-
     }
 
     @When("I approve quality investigation")
     public void iApproveQualityInvestigation() {
-        restProvider.approveInvestigation(getNotificationIdBasedOnEnv());
+        restProvider.approveNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
     }
 
     @When("I cancel quality investigation")
@@ -137,7 +139,7 @@ public class TraceabilityTestStepDefinition {
                 .atMost(Duration.TWO_MINUTES)
                 .pollInterval(1, TimeUnit.SECONDS)
                 .until(() -> {
-                            final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
+                    final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(INVESTIGATION);
                             result.stream().map(QualityNotificationResponse::getDescription).forEach(System.out::println);
                             return result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().orElse(null);
                         }, Matchers.notNullValue()
@@ -150,7 +152,7 @@ public class TraceabilityTestStepDefinition {
 
     @When("I check, if quality investigation has not been received")
     public void iCanSeeNotificationWasNotReceived() {
-        final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications();
+        final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(INVESTIGATION);
         Optional<QualityNotificationResponse> first = result.stream()
                 .filter(qualityNotificationResponse -> Objects.equals(qualityNotificationResponse.getId(), getNotificationIdBasedOnEnv()))
                 .findFirst();
@@ -159,21 +161,28 @@ public class TraceabilityTestStepDefinition {
 
     @When("I acknowledge quality investigation")
     public void iAcknowledgeQualityInvestigation() {
-        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACKNOWLEDGED, "");
+        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), ACKNOWLEDGED, "");
     }
 
     @When("I accept quality investigation")
     public void iAcceptQualityInvestigation(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.ACCEPTED, reason);
+        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), ACCEPTED, reason);
     }
 
     @When("I decline quality investigation")
     public void iDeclineQualityInvestigation(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateInvestigation(getNotificationIdBasedOnEnv(), UpdateQualityNotificationStatusRequest.DECLINED, reason);
+        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), DECLINED, reason);
+    }
+
+    @When("I decline quality alert")
+    public void iDeclineQualityAlert(DataTable dataTable) {
+        String reason = normalize(dataTable.asMap()).get("reason");
+        System.out.println("reason: " + reason);
+        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), DECLINED, reason);
     }
 
     private Long getNotificationIdBasedOnEnv() {
@@ -186,23 +195,7 @@ public class TraceabilityTestStepDefinition {
         throw new UnsupportedOperationException("First need to Log In");
     }
 
-    private Map<String, String> normalize(Map<String, String> input) {
-        return input.entrySet().stream().map(entry -> Map.entry(normalizeString(entry.getKey()), normalizeString(entry.getValue())))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
 
-    private String normalizeString(String input) {
-        Pattern r = Pattern.compile("\"(.+)\"");
-
-        Matcher m = r.matcher(input);
-
-        if (m.matches()) {
-            return m.group(1);
-        } else {
-            return "";
-        }
-
-    }
 
     @And("I request assets with {string}")
     public void iRequestAssetsWith(String ownerFilter) {
@@ -227,14 +220,92 @@ public class TraceabilityTestStepDefinition {
 
         final String severity = input.get("severity");
 
-        final QualityNotificationIdResponse idResponse = restProvider.createInvestigation(
+        final QualityNotificationIdResponse idResponse = restProvider.createNotification(
                 List.of(assetId),
                 notificationDescription,
                 targetDate,
-                severity
+                severity,
+                null,
+                INVESTIGATION
         );
         notificationID_TXA = idResponse.id();
         assertThat(dataTable).isNotNull();
+    }
 
+
+    @Given("I create quality alert")
+    public void iCreateQualityAlert(DataTable dataTable) {
+
+        final Map<String, String> input = normalize(dataTable.asMap());
+        final String assetId = "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a";
+
+        notificationDescription = wrapStringWithTimestamp(input.get("description"));
+
+        final Instant targetDate = input.get("targetDate") == null ? null : Instant.parse(input.get("targetDate"));
+
+        final String severity = input.get("severity");
+
+        final QualityNotificationIdResponse idResponse = restProvider.createNotification(
+                List.of(assetId),
+                notificationDescription,
+                targetDate,
+                severity,
+                "BPNL00000003CNKC",
+                ALERT
+        );
+        notificationID_TXA = idResponse.id();
+        assertThat(dataTable).isNotNull();
+    }
+
+    @When("I check, if quality alert has proper values")
+    public void iCheckIfQualityAlertHasProperValues(DataTable dataTable) {
+        await()
+                .atMost(Duration.TWO_MINUTES)
+                .pollInterval(1, TimeUnit.SECONDS)
+                .ignoreExceptions()
+                .until(() -> {
+                            QualityNotificationResponse result = restProvider.getNotification(getNotificationIdBasedOnEnv(), ALERT);
+                            NotificationValidator.assertHasFields(result, normalize(dataTable.asMap()));
+                            return true;
+                        }
+                );
+    }
+
+
+    @When("I approve quality alert")
+    public void iApproveQualityAlert() {
+        restProvider.approveNotification(getNotificationIdBasedOnEnv(), ALERT);
+    }
+
+
+    @When("I check, if quality alert has been received")
+    public void iCanSeeQualityAlertWasReceived() {
+        System.out.println("searching for notificationDescription: " + notificationDescription);
+        final QualityNotificationResponse notification = await()
+                .atMost(Duration.TWO_MINUTES)
+                .pollInterval(1, TimeUnit.SECONDS)
+                .until(() -> {
+                            final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(ALERT);
+                            result.stream().map(QualityNotificationResponse::getDescription).forEach(System.out::println);
+                            return result.stream().filter(qn -> Objects.equals(qn.getDescription(), notificationDescription)).findFirst().orElse(null);
+                        }, Matchers.notNullValue()
+                );
+
+        notificationID_TXB = notification.getId();
+
+        assertThat(notification).isNotNull();
+    }
+
+    @When("I acknowledge quality alert")
+    public void iAcknowledgeQualityAlert() {
+        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), ACKNOWLEDGED, "");
+    }
+
+
+    @When("I accept quality alert")
+    public void iAcceptQualityAlert(DataTable dataTable) {
+        String reason = normalize(dataTable.asMap()).get("reason");
+        System.out.println("reason: " + reason);
+        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), ACCEPTED, reason);
     }
 }

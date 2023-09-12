@@ -27,83 +27,83 @@ import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.ACCEPT_REASON;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.ASSET_ID_COUNT;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.CHANNEL;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.CLOSE_REASON;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.CREATED_BY;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.DECLINE_REASON;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.DESCRIPTION;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.SEND_TO;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.SEVERITY;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.STATUS;
-import static org.eclipse.tractusx.traceability.test.validator.InvestigationValidator.SupportedFields.TARGET_DATE;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.ACCEPT_REASON;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.ASSET_ID_COUNT;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.CHANNEL;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.CLOSE_REASON;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.CREATED_BY;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.DECLINE_REASON;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.DESCRIPTION;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.SEND_TO;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.SEVERITY;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.STATUS;
+import static org.eclipse.tractusx.traceability.test.validator.NotificationValidator.SupportedFields.TARGET_DATE;
 
-public class InvestigationValidator {
+public class NotificationValidator {
 
     private final static String UNSUPPORTED_VALIDATION_MESSAGE = "Test validation for following fields %s is not supported currently supported fields are %s. Request developers to implement missing validation :)";
 
-    public static void validateInvestigation(QualityNotificationResponse investigation, Map<String, String> fieldsToCheck) {
+    public static void assertHasFields(QualityNotificationResponse notification, Map<String, String> fieldsToCheck) {
         checkIfMapHasSupportedValidationRequest(fieldsToCheck);
 
         if (fieldsToCheck.containsKey(STATUS.getFieldName())) {
-            assertThat(investigation.getStatus().name())
+            assertThat(notification.getStatus().name())
                     .isEqualTo(fieldsToCheck.get(STATUS.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(DESCRIPTION.getFieldName())) {
-            assertThat(StringUtils.unWrapStringWithTimestamp(investigation.getDescription()))
+            assertThat(TestUtils.unWrapStringWithTimestamp(notification.getDescription()))
                     .isEqualTo(fieldsToCheck.get(DESCRIPTION.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(CHANNEL.getFieldName())) {
-            assertThat(investigation.getChannel().name())
+            assertThat(notification.getChannel().name())
                     .isEqualTo(fieldsToCheck.get(CHANNEL.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(CLOSE_REASON.getFieldName())) {
-            assertThat(investigation.getReason().close())
+            assertThat(notification.getReason().close())
                     .isEqualTo(fieldsToCheck.get(CLOSE_REASON.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(ACCEPT_REASON.getFieldName())) {
-            assertThat(investigation.getReason().accept())
+            assertThat(notification.getReason().accept())
                     .isEqualTo(fieldsToCheck.get(ACCEPT_REASON.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(DECLINE_REASON.getFieldName())) {
-            assertThat(investigation.getReason().decline())
+            assertThat(notification.getReason().decline())
                     .isEqualTo(fieldsToCheck.get(DECLINE_REASON.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(SEVERITY.getFieldName())) {
-            assertThat(investigation.getSeverity().getRealName())
+            assertThat(notification.getSeverity().getRealName())
                     .isEqualTo(fieldsToCheck.get(SEVERITY.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(TARGET_DATE.getFieldName())) {
             if (fieldsToCheck.get(TARGET_DATE.getFieldName()).isEmpty()) {
-                assertThat(investigation.getTargetDate())
+                assertThat(notification.getTargetDate())
                         .isNull();
 
             } else {
-                assertThat(investigation.getTargetDate())
+                assertThat(notification.getTargetDate())
                         .isEqualTo(fieldsToCheck.get(TARGET_DATE.getFieldName()));
             }
         }
 
         if (fieldsToCheck.containsKey(CREATED_BY.getFieldName())) {
-            assertThat(investigation.getCreatedBy())
+            assertThat(notification.getCreatedBy())
                     .isEqualTo(fieldsToCheck.get(CREATED_BY.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(SEND_TO.getFieldName())) {
-            assertThat(investigation.getSendTo())
+            assertThat(notification.getSendTo())
                     .isEqualTo(fieldsToCheck.get(SEND_TO.getFieldName()));
         }
 
         if (fieldsToCheck.containsKey(ASSET_ID_COUNT.getFieldName())) {
-            assertThat(investigation.getAssetIds().size())
+            assertThat(notification.getAssetIds().size())
                     .isEqualTo(Integer.valueOf(fieldsToCheck.get(ASSET_ID_COUNT.getFieldName())));
         }
     }
