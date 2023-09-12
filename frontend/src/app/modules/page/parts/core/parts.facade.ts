@@ -44,15 +44,16 @@ export class PartsFacade {
     return this.partsState.partsAsPlanned$;
   }
 
-  public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+  public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.partsAsBuiltSubscription?.unsubscribe();
+    // TODO: HERE I CAN MODIFY THE API TO SUPPORT MORE THAN ONE SORTCOLUMN
     this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting).subscribe({
       next: data => (this.partsState.partsAsBuilt = { data }),
       error: error => (this.partsState.partsAsBuilt = { error }),
     });
   }
 
-  public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+  public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.partsAsPlannedSubscription?.unsubscribe();
     this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting).subscribe({
       next: data => (this.partsState.partsAsPlanned = { data }),

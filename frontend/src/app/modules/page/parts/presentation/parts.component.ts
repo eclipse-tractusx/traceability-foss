@@ -23,7 +23,12 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { Part } from '@page/parts/model/parts.model';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import {
+  CreateHeaderFromColumns,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
+} from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -93,7 +98,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
     id: true,
     idShort: true,
-    nameAtManufacturer: true,
+    name: true,
     manufacturer: true,
     manufacturerPartId: true,
     classification: true,
@@ -117,8 +122,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
 
+  public tableAsBuiltSortList: TableHeaderSort[];
+  public tableAsPlannedSortList: TableHeaderSort[];
+
   public tableConfigAsBuilt: TableConfig;
   public tableConfigAsPlanned: TableConfig;
+
+  private ctrlKeyState = false;
 
   constructor(
     private readonly partsFacade: PartsFacade,
@@ -127,6 +137,13 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {
     this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
     this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
+    this.tableAsBuiltSortList = [];
+    this.tableAsPlannedSortList = [];
+
+    window.addEventListener('keydown', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+      console.log("CTRL PRESSED");
+    });
   }
 
   public ngOnInit(): void {
@@ -156,12 +173,48 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    console.log(page, pageSize, sorting);
-    this.partsFacade.setPartsAsBuilt(page, pageSize, sorting);
+    this.setTableSortingList(sorting,"asBuilt");
+    this.partsFacade.setPartsAsBuilt(page, pageSize, this.tableAsBuiltSortList);
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    console.log(page, pageSize, sorting);
-    this.partsFacade.setPartsAsPlanned(page, pageSize, sorting);
+    this.setTableSortingList(sorting,"asPlanned");
+    this.partsFacade.setPartsAsPlanned(page, pageSize, this.tableAsPlannedSortList);
   }
+
+  private setTableSortingList(sorting: TableHeaderSort, partTable: "asBuilt" | "asPlanned"): void {
+    console.log(sorting);
+      if(!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
+        if(partTable === "asBuilt") {
+          this.tableAsBuiltSortList = [];
+        } else {
+          this.tableAsPlannedSortList= [];
+        }
+        return;
+      }
+      const [columnName, direction] = sorting;
+      const tableSortList = partTable === "asBuilt" ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
+
+      // Find the index of the existing entry with the same first item
+      const index = tableSortList.findIndex(
+        ([itemColumnName, direction]) => itemColumnName === columnName
+      );
+
+      if (index !== -1) {
+        // Replace the existing entry
+        tableSortList[index] = sorting;
+      } else {
+        // Add the new entry if it doesn't exist
+        tableSortList.push(sorting);
+      }
+      if(partTable === "asBuilt") {
+        this.tableAsBuiltSortList = tableSortList
+        console.log(...this.tableAsBuiltSortList);
+      } else {
+        this.tableAsPlannedSortList = tableSortList
+        console.log(...this.tableAsPlannedSortList);
+      }
+
+  }
+
 }

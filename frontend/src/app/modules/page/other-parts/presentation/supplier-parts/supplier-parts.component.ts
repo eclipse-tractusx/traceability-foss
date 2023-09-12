@@ -22,7 +22,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part, SemanticDataModel } from '@page/parts/model/parts.model';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import {
+  CreateHeaderFromColumns,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
+} from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -69,12 +74,22 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   public readonly supplierTabLabelId = this.staticIdService.generateId('OtherParts.supplierTabLabel');
 
+  public tableSupplierSortList: TableHeaderSort[];
+
+  private ctrlKeyState = false;
+
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
   ) {
     this.supplierParts$ = this.otherPartsFacade.supplierParts$;
+    this.tableSupplierSortList = [];
+
+    window.addEventListener('keydown', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+      console.log("CTRL PRESSED");
+    });
   }
 
   public get currentSelectedItems(): Part[] {
@@ -102,7 +117,8 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
   }
 
   public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-      this.otherPartsFacade.setSupplierParts(page, pageSize, sorting);
+      this.setTableSortingList(sorting);
+      this.otherPartsFacade.setSupplierParts(page, pageSize, this.tableSupplierSortList);
   }
 
   public onMultiSelect(event: unknown[]): void {
@@ -128,4 +144,31 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     this.otherPartsFacade.setActiveInvestigationForParts(this.currentSelectedItems);
     this.isInvestigationOpen$.next(false);
   }
+
+
+  private setTableSortingList(sorting: TableHeaderSort): void {
+    console.log(sorting);
+    if(!sorting && this.tableSupplierSortList) {
+      this.tableSupplierSortList = [];
+      return;
+    }
+    const [columnName, direction] = sorting;
+    const tableSortList = this.tableSupplierSortList;
+
+    // Find the index of the existing entry with the same first item
+    const index = tableSortList.findIndex(
+      ([itemColumnName, direction]) => itemColumnName === columnName
+    );
+
+    if (index !== -1) {
+      // Replace the existing entry
+      tableSortList[index] = sorting;
+    } else {
+      // Add the new entry if it doesn't exist
+      tableSortList.push(sorting);
+    }
+    this.tableSupplierSortList = tableSortList;
+
+  }
+
 }

@@ -36,26 +36,32 @@ export class OtherPartsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getSupplierParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
-    const sort = PartsAssembler.mapSortToApiSort(sorting);
-    const params = new HttpParams()
+  public getSupplierParts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Pagination<Part>> {
+    let  sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('sort', sort)
       .set('owner', 'SUPPLIER');
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
 
     return this.apiService
       .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
       .pipe(map(parts => PartsAssembler.assembleOtherParts(parts)));
   }
 
-  public getCustomerParts(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
-    const sort = PartsAssembler.mapSortToApiSort(sorting);
-    const params = new HttpParams()
+  public getCustomerParts(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Pagination<Part>> {
+    let  sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('sort', sort)
       .set('owner', 'CUSTOMER');
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
 
     return this.apiService
       .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)

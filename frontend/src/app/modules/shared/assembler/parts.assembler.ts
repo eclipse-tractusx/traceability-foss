@@ -159,14 +159,24 @@ export class PartsAssembler {
         return viewData;
       }
 
-      const {
-        manufacturer,
-        manufacturerPartId,
-        nameAtManufacturer,
-        van,
+        // exclude 'van' if is a partAsPlanned
+        if(viewData.data?.validityPeriodFrom === undefined) {
+            const {
+                manufacturer,
+                manufacturerPartId,
+                nameAtManufacturer,
+                van,
 
-      } = viewData.data;
-      return { data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as Part };
+            } = viewData.data;
+            return { data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as Part };
+        } else {
+            const {
+                manufacturer,
+                manufacturerPartId,
+                nameAtManufacturer,
+            } = viewData.data;
+            return { data: { manufacturer, manufacturerPartId, nameAtManufacturer } as Part };
+        }
     });
   }
 
@@ -195,17 +205,32 @@ export class PartsAssembler {
 
     const localToApiMapping = new Map<string, string>([
       ['id', 'id'],
-      ['semanticDataModel', 'semanticDataModel'],
-      ['name', 'nameAtManufacturer'],
-      ['manufacturer', 'manufacturerName'],
+      ['idShort', 'idShort'],
       ['semanticModelId', 'manufacturerPartId'],
-      ['partNumber', 'customerPartId'],
-      ['productionCountry', 'manufacturingCountry'],
-      ['nameAtCustomer', 'nameAtCustomer'],
-      ['customerPartId', 'customerPartId'],
+      ['manufacturer', 'manufacturerName'],
+      ['manufacturerPartId', 'manufacturerPartId'],
+      ['nameAtManufacturer', 'nameAtManufacturer'],
+      ['businessPartner', 'businessPartner'],
+      ['name', 'nameAtManufacturer'],
       ['qualityType', 'qualityType'],
-      ['productionDate', 'manufacturingDate'],
+      ['van', 'van'],
+      ['semanticDataModel', 'semanticDataModel'],
+      ['classification', 'classification'],
+      ['partId', 'partId'],
+      ['customerPartId', 'customerPartId'],
+      ['nameAtCustomer', 'nameAtCustomer'],
+      ['manufacturingDate', 'manufacturingDate'],
+      ['manufacturingCountry', 'manufacturingCountry'],
+      ['validityPeriodFrom', 'validityPeriodFrom'],
+      ['validityPeriodTo', 'validityPeriodTo'],
+      ['catenaXSiteId', 'catenaXSiteId'],
+      ['psFunction', 'function'],
+      ['functionValidFrom', 'functionValidFrom'],
+      ['functionValidUntil', 'functionValidUntil'],
+
     ]);
+
+
 
     return `${localToApiMapping.get(sorting[0]) || sorting},${sorting[1]}`;
   }

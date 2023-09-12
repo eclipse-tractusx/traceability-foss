@@ -22,7 +22,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { Part } from '@page/parts/model/parts.model';
-import { CreateHeaderFromColumns, TableConfig, TableEventConfig } from '@shared/components/table/table.model';
+import {
+  CreateHeaderFromColumns,
+  TableConfig,
+  TableEventConfig,
+  TableHeaderSort,
+} from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { StaticIdService } from '@shared/service/staticId.service';
@@ -61,12 +66,21 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
   public readonly customerTabLabelId = this.staticIdService.generateId('OtherParts.customerTabLabel');
 
+  public tableCustomerSortList: TableHeaderSort[];
+
+  private ctrlKeyState = false;
   constructor(
     private readonly otherPartsFacade: OtherPartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
   ) {
     this.customerParts$ = this.otherPartsFacade.customerParts$;
+    this.tableCustomerSortList = [];
+
+    window.addEventListener('keydown', (event) => {
+      this.ctrlKeyState = event.ctrlKey;
+      console.log("CTRL PRESSED");
+    });
   }
 
   public ngOnInit(): void {
@@ -82,6 +96,34 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
   }
 
   public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-      this.otherPartsFacade.setCustomerParts(page, pageSize, sorting);
+      this.setTableSortingList(sorting);
+      this.otherPartsFacade.setCustomerParts(page, pageSize, this.tableCustomerSortList);
   }
+
+
+  private setTableSortingList(sorting: TableHeaderSort): void {
+    console.log(sorting);
+    if(!sorting && this.tableCustomerSortList) {
+      this.tableCustomerSortList = [];
+      return;
+    }
+    const [columnName, direction] = sorting;
+    const tableSortList = this.tableCustomerSortList;
+
+    // Find the index of the existing entry with the same first item
+    const index = tableSortList.findIndex(
+      ([itemColumnName, direction]) => itemColumnName === columnName
+    );
+
+    if (index !== -1) {
+      // Replace the existing entry
+      tableSortList[index] = sorting;
+    } else {
+      // Add the new entry if it doesn't exist
+      tableSortList.push(sorting);
+    }
+    this.tableCustomerSortList = tableSortList;
+
+  }
+
 }
