@@ -26,42 +26,21 @@ import jakarta.persistence.criteria.Root;
 import lombok.AllArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.common.model.SearchOperation;
+import org.eclipse.tractusx.traceability.common.repository.BaseSpecification;
 import org.glassfish.jersey.internal.guava.Lists;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 @AllArgsConstructor
-public class AssetAsPlannedSpecification implements Specification<AssetAsPlannedEntity> {
+public class AssetAsPlannedSpecification extends BaseSpecification implements Specification<AssetAsPlannedEntity> {
 
     private SearchCriteria criteria;
 
 
     @Override
     public Predicate toPredicate(Root<AssetAsPlannedEntity> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
-        if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
-            return builder.equal(
-                    root.<String>get(criteria.getKey()).as(String.class),
-                    (String) criteria.getValue());
-        }
-        if (criteria.getOperation().equals(SearchOperation.STARTS_WITH)) {
-            return builder.like(
-                    root.<String>get(criteria.getKey()),
-                    criteria.getValue() + "%");
-        }
-        if (criteria.getOperation().equals(SearchOperation.AT_LOCAL_DATE)) {
-            final LocalDate localDate = LocalDate.parse((String) criteria.getValue());
-            Predicate startingFrom = builder.greaterThanOrEqualTo(root.<LocalDateTime>get(criteria.getKey()),
-                    LocalDateTime.of(localDate, LocalTime.MIN));
-            Predicate endingAt = builder.lessThanOrEqualTo(root.<LocalDateTime>get(criteria.getKey()),
-                    LocalDateTime.of(localDate, LocalTime.MAX));
-            return builder.and(startingFrom, endingAt);
-        }
-        return null;
+        return toPredicate(criteria, root, query, builder);
     }
 
     public static Specification<AssetAsPlannedEntity> toSpecification(final List<AssetAsPlannedSpecification> allSpecifications) {
