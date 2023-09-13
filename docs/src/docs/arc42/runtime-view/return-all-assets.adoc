@@ -1,6 +1,8 @@
-= Scenario 1: Return all Assets
+= Scenario 1: Return Assets
 
-This section describes what happens when user lists all stored as built assets.
+This section describes what happens when user lists stored assets.
+In this example, the user requests as built assets.
+The same can be done with as planned assets.
 
 [plantuml, target=return-all-assets, format=svg]
 ....
