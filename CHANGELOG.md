@@ -19,8 +19,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - NEW API DELETE /api/registry
 - NEW API GET /api/shelldescriptors
 - cascading sorting functionality by allowing multiple sort query parameters on APIs
-- NEW API GET/api/assets/as-built/filtered allowing Search criteria to be provided
-- NEW API GET/api/assets/as-planned/filtered allowing Search criteria to be provided
 
 ### Changed
 - API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
@@ -43,6 +41,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated irs-helm from 6.4.1 to 6.5.0
 - Migrated groovy integration tests to SpringBootTests
 - OwnPageable now contains filter param
+- API GET/api/assets/as-built/filtered allow Search criteria to be provided
+- API GET/api/assets/as-planned/filtered allow Search criteria to be provided
 
 
 ### Removed

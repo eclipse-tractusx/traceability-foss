@@ -43,7 +43,6 @@ public class OwnPageable {
     private Integer size;
     @ArraySchema(arraySchema = @Schema(description = "Content of Assets PageResults", additionalProperties = Schema.AdditionalPropertiesValue.FALSE, example = "manufacturerPartId,desc"), maxItems = Integer.MAX_VALUE)
     private List<String> sort;
-    private List<String> filter;
 
     public static Pageable toPageable(OwnPageable ownPageable) {
         int usedPage = 0;
@@ -82,29 +81,5 @@ public class OwnPageable {
             }
         }
         return Sort.by(orders);
-    }
-
-    public List<SearchCriteria> toSearchCriteria() {
-        if(isNull(this.filter)) {
-            return Collections.emptyList();
-        }
-        ArrayList<SearchCriteria> filters = new ArrayList<>();
-        for (String filter : this.filter) {
-            try {
-                String[] filterParams = filter.split(",");
-                filters.add(
-                        SearchCriteria.builder()
-                                .key(filterParams[0])
-                                .operation(SearchOperation.valueOf(filterParams[1]))
-                                .value(filterParams[2])
-                                .build());
-            } catch (Exception exception) {
-                throw new InvalidFilterException(
-                        "Invalid filter param provided filter={provided} expected format is following sort=parameter,operation,value"
-                                .replace("{provided}", filter)
-                );
-            }
-        }
-        return filters;
     }
 }
