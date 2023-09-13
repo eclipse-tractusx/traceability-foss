@@ -37,6 +37,7 @@ SPDX-License-Identifier: Apache-2.0
       (multiSelect)="currentSelectedItems$.next($event)"
       (clickSelectAction)="isAlertOpen$.next(true)"
       [tableHeader]="'page.asBuiltParts'"
+      [multiSortList]="tableAsBuiltSortList"
     ></app-table>
   </ng-template>
   <ng-template #myTmp let-parts="view">
@@ -54,6 +55,7 @@ SPDX-License-Identifier: Apache-2.0
       (multiSelect)="currentSelectedItems$.next($event)"
       (clickSelectAction)="isAlertOpen$.next(true)"
       [tableHeader]="'page.asPlannedParts'"
+      [multiSortList]="tableAsPlannedSortList"
     ></app-table>
     <app-part-detail></app-part-detail>
   </ng-template>

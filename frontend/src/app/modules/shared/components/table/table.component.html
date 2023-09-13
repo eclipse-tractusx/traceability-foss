@@ -194,8 +194,19 @@ SPDX-License-Identifier: Apache-2.0
           >
             <ng-container
               *ngIf="tableConfig?.header?.[column]; else pureColumn"
-              >{{ tableConfig?.header?.[column] | i18n }}</ng-container
+              >{{ tableConfig?.header?.[column] | i18n }}
+              <ng-container *ngIf="multiSortList && multiSortList.length >1">
+              <ng-container *ngFor="let item of multiSortList; let i = index">
+                <!-- Replace 'columnToMatch' with the specific column name you want to match -->
+                <div class="table--header--sort--indicator" *ngIf="item[0] === column">
+                  <!-- Display the array entry when it matches the column name -->
+                  {{ (i+1) + "." }}{{ item[1] === 'asc' ? '↑' : item[1] === 'desc' ? '↓' : '' }}
+                </div>
+              </ng-container>
+            </ng-container
             >
+            </ng-container>
+
           </th>
           <td *matCellDef="let element" mat-cell class="table--cell" data-testid="table-component--cell-data">
             <ng-container

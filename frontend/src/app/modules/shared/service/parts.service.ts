@@ -62,7 +62,7 @@ export class PartsService {
       .set('owner', 'OWN');
 
     sort.forEach(sortingItem => {
-      params= params.set('sort', sortingItem);
+      params= params.append('sort', sortingItem);
     })
 
     return this.apiService

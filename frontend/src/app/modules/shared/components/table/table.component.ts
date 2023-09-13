@@ -70,6 +70,7 @@ export class TableComponent {
   @Input() selectedPartsActionLabel: string;
 
   @Input() tableHeader: string;
+  @Input() multiSortList: TableHeaderSort[];
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
@@ -164,6 +165,7 @@ export class TableComponent {
   }
 
   public updateSortingOfData({ active, direction }: Sort): void {
+    console.log(...this.multiSortList)
     this.selection.clear();
     this.emitMultiSelect();
     this.sorting = !direction ? null : ([active, direction] as TableHeaderSort);
