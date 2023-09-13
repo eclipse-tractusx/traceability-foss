@@ -20,7 +20,7 @@ participant JpaAssetsRepository
 activate JpaAssetsRepository
 database Database
 
-TraceXApiConsumer -> TraceXAPI : GET /assets/{assetId}
+TraceXApiConsumer -> TraceXAPI : GET /assets/as-built/{assetId}
 TraceXAPI -> AssetsController :  asset(assetId)
 AssetsController -> AssetRepository :  getAssetById(assetId)
 AssetRepository -> PersistentAssetsRepository: getAssetById(assetId)
