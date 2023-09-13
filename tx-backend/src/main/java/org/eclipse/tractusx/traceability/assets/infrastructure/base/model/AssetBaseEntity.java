@@ -18,6 +18,8 @@
  ********************************************************************************/
 package org.eclipse.tractusx.traceability.assets.infrastructure.base.model;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -37,14 +39,17 @@ public class AssetBaseEntity {
     @Id
     private String id;
     private String idShort;
+    @Enumerated(EnumType.STRING)
     private Owner owner;
     private String classification;
     private boolean inInvestigation;
     private boolean activeAlert;
+    @Enumerated(EnumType.STRING)
     private QualityType qualityType;
     private String manufacturerPartId;
     private String manufacturerName;
     private String nameAtManufacturer;
+    @Enumerated(EnumType.STRING)
     private SemanticDataModelEntity semanticDataModel;
     private String semanticModelId;
     private String van;

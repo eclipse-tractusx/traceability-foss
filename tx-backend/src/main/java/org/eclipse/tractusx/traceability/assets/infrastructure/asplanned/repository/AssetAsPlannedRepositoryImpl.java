@@ -20,17 +20,19 @@
 package org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.repository;
 
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Component
@@ -63,11 +65,13 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     }
 
     @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, Owner owner) {
-        if (owner != null) {
-            return new PageResult<>(jpaAssetAsPlannedRepository.findByOwner(pageable, owner), AssetAsPlannedEntity::toDomain);
-        }
-        return new PageResult<>(jpaAssetAsPlannedRepository.findAll(pageable), AssetAsPlannedEntity::toDomain);
+    public PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filter) {
+        return new PageResult<>(
+                jpaAssetAsPlannedRepository.findAll(
+                        Objects.requireNonNull(AssetAsPlannedSpecification.toSpecification(
+                                filter.stream().map(AssetAsPlannedSpecification::new).toList())),
+                        pageable),
+                AssetAsPlannedEntity::toDomain);
     }
 
     @Override
