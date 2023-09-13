@@ -54,7 +54,7 @@ describe('Parts facade', () => {
       partsFacade.setPartsAsBuilt(0, 10);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, null));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, []));
 
       const parts = await firstValueFrom(partsState.partsAsBuilt$);
       await waitFor(() =>
