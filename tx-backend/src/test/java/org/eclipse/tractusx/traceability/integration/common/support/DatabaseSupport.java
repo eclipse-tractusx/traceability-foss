@@ -33,6 +33,7 @@ public class DatabaseSupport {
             "assets_as_built_notifications",
             "assets_as_built_investigations",
             "asset_as_built_alert_notifications",
+            "asset_as_planned_alert_notifications",
             "assets_as_built_alerts",
             "assets_as_planned_childs",
             "assets_as_planned_notifications",

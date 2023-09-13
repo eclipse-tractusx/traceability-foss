@@ -43,10 +43,9 @@ public class AssetBaseEntity {
     private boolean activeAlert;
     private QualityType qualityType;
     private String manufacturerPartId;
-    private String customerPartId;
-    private String nameAtManufacturer;
     private String manufacturerName;
-    private String nameAtCustomer;
+    private String nameAtManufacturer;
     private SemanticDataModelEntity semanticDataModel;
+    private String semanticModelId;
     private String van;
 }

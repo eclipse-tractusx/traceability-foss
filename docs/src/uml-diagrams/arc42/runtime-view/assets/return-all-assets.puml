@@ -20,7 +20,7 @@ participant JpaAssetsRepository
 activate JpaAssetsRepository
 database Database
 
-TraceXApiConsumer -> TraceXAPI : GET /assets
+TraceXApiConsumer -> TraceXAPI : GET /assets/as-built
 TraceXAPI -> AssetsController :  assets
 AssetsController -> AssetRepository :  getAssets(Pageable)
 AssetRepository -> PersistentAssetsRepository: getAssets(Pageable)
