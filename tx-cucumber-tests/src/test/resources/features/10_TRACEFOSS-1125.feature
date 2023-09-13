@@ -33,7 +33,7 @@ Feature: ⭐[BE] User select severity for Quality Investigation
 	# * Add new secrets to the code
 	#
 	# 
-  @TRACEFOSS-1220 @TRACEFOSS-1138 @TRACEFOSS-1673 @TRACEFOSS-1139 @TRACEFOSS-1101 @INTEGRATION_TEST
+  @TRACEFOSS-1220 @TRACEFOSS-1920 @TEST-1217 @TRACEFOSS-1138 @TRACEFOSS-1139 @TRACEFOSS-1101 @TRACEFOSS-1673 @TEST-904 @INTEGRATION_TEST
   Scenario Outline: [BE] Check correct processing of severity in quality investigation
     When I am logged into TRACE_X_A application
     And I create quality investigation

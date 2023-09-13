@@ -124,12 +124,22 @@ public class TraceabilityTestStepDefinition {
 
     @When("I cancel quality investigation")
     public void iCancelQualityInvestigation() {
-        restProvider.cancelInvestigation(getNotificationIdBasedOnEnv());
+        restProvider.cancelNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+    }
+
+    @When("I cancel quality alert")
+    public void iCancelQualityAlert() {
+        restProvider.cancelNotification(getNotificationIdBasedOnEnv(), ALERT);
     }
 
     @When("I close quality investigation")
     public void iCloseQualityInvestigation() {
-        restProvider.closeInvestigation(getNotificationIdBasedOnEnv());
+        restProvider.closeNotification(getNotificationIdBasedOnEnv(), INVESTIGATION);
+    }
+
+    @When("I close quality alert")
+    public void iCloseQualityAlert() {
+        restProvider.closeNotification(getNotificationIdBasedOnEnv(), ALERT);
     }
 
     @When("I check, if quality investigation has been received")
@@ -151,8 +161,17 @@ public class TraceabilityTestStepDefinition {
     }
 
     @When("I check, if quality investigation has not been received")
-    public void iCanSeeNotificationWasNotReceived() {
+    public void iCanSeeInvestigationWasNotReceived() {
         final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(INVESTIGATION);
+        Optional<QualityNotificationResponse> first = result.stream()
+                .filter(qualityNotificationResponse -> Objects.equals(qualityNotificationResponse.getId(), getNotificationIdBasedOnEnv()))
+                .findFirst();
+        assertThat(first.isEmpty()).isTrue();
+    }
+
+    @When("I check, if quality alert has not been received")
+    public void iCanSeeAlertWasNotReceived() {
+        final List<QualityNotificationResponse> result = restProvider.getReceivedNotifications(ALERT);
         Optional<QualityNotificationResponse> first = result.stream()
                 .filter(qualityNotificationResponse -> Objects.equals(qualityNotificationResponse.getId(), getNotificationIdBasedOnEnv()))
                 .findFirst();
@@ -227,6 +246,31 @@ public class TraceabilityTestStepDefinition {
                 severity,
                 null,
                 INVESTIGATION
+        );
+        notificationID_TXA = idResponse.id();
+        assertThat(dataTable).isNotNull();
+    }
+
+    @And("I create quality alert with two parts")
+    public void iCreateQualityAlertWithTwoParts(DataTable dataTable) {
+        final Map<String, String> input = normalize(dataTable.asMap());
+        final String[] assetId = {
+                "urn:uuid:5205f736-8fc2-4585-b869-6bf36842369a",
+                "urn:uuid:7eeeac86-7b69-444d-81e6-655d0f1513bd"
+        };
+        notificationDescription = wrapStringWithTimestamp(input.get("description"));
+
+        final Instant targetDate = input.get("targetDate") == null ? null : Instant.parse(input.get("targetDate"));
+
+        final String severity = input.get("severity");
+
+        final QualityNotificationIdResponse idResponse = restProvider.createNotification(
+                List.of(assetId),
+                notificationDescription,
+                targetDate,
+                severity,
+                "BPNL00000003CNKC",
+                ALERT
         );
         notificationID_TXA = idResponse.id();
         assertThat(dataTable).isNotNull();

@@ -129,12 +129,12 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    public void cancelInvestigation(final Long notificationId) {
+    public void cancelNotification(final Long notificationId, NotificationTypeEnum notificationType) {
 
         given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
-                .post("api/investigations/{notificationId}/cancel".replace(
+                .post("api/" + notificationType.label + "/{notificationId}/cancel".replace(
                         "{notificationId}",
                         notificationId.toString()
                 ))
@@ -142,13 +142,13 @@ public class RestProvider {
                 .statusCode(HttpStatus.SC_NO_CONTENT);
     }
 
-    public void closeInvestigation(final Long notificationId) {
+    public void closeNotification(final Long notificationId, NotificationTypeEnum notificationType) {
 
         given().spec(getRequestSpecification())
                 .contentType(ContentType.JSON)
                 .when()
                 .body("{\"reason\": \"stringstringstr\"}")
-                .post("api/investigations/{notificationId}/close".replace(
+                .post("api/" + notificationType.label + "/{notificationId}/close".replace(
                         "{notificationId}",
                         notificationId.toString()
                 ))
