@@ -51,16 +51,17 @@ public class DashboardServiceImpl implements DashboardService {
         long investigationsInReceivedState = investigationsRepository.countQualityNotificationEntitiesByStatus(QualityNotificationStatus.RECEIVED);
         long alertsInReceivedState = alertRepository.countQualityNotificationEntitiesByStatus(QualityNotificationStatus.RECEIVED);
         long alertsInSentState = alertRepository.countQualityNotificationEntitiesByStatus(QualityNotificationStatus.SENT);
-        long myPartsWithOpenAlerts = alertRepository.countDistinctAffectedPartsWhereStatusInAndOwnerEqual(List.of(QualityNotificationStatus.SENT), Owner.OWN);
-        long supplierPartsWithOpenAlerts = alertRepository.countDistinctAffectedPartsWhereStatusInAndOwnerEqual(List.of(QualityNotificationStatus.RECEIVED), Owner.SUPPLIER);;
+        long myPartsWithOpenAlerts = alertRepository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.SENT), Owner.OWN);
+        long supplierPartsWithOpenAlerts = alertRepository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.RECEIVED), Owner.SUPPLIER);
 
-        return new Dashboard(
-                ownParts,
-                otherParts,
-                investigationsInReceivedState,
-                alertsInReceivedState,
-                alertsInSentState,
-                myPartsWithOpenAlerts,
-                supplierPartsWithOpenAlerts);
+        return Dashboard.builder()
+                .myParts(ownParts)
+                .otherParts(otherParts)
+                .investigationsReceived(investigationsInReceivedState)
+                .alertsReceived(alertsInReceivedState)
+                .alertsSent(alertsInSentState)
+                .myPartsWithOpenAlerts(myPartsWithOpenAlerts)
+                .supplierPartsWithOpenAlerts(supplierPartsWithOpenAlerts)
+                .build();
     }
 }

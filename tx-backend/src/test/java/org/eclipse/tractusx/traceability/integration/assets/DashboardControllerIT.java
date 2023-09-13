@@ -104,8 +104,8 @@ class DashboardControllerIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> supplierAssets = assets.stream()
                 .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
                 .toList();
-        alertsSupport.defaultReceivedAlertStoredWithAssets(supplierAssets);
-        alertsSupport.defaultSentAlertStoredWithAssets(ownAssets);
+        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
+        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
 
         // when/then
         given()

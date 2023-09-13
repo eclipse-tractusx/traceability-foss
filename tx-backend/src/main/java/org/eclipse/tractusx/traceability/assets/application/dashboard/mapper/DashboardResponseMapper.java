@@ -25,13 +25,13 @@ public class DashboardResponseMapper {
 
     public static DashboardResponse from(final Dashboard dashboard) {
         return new DashboardResponse(
-                dashboard.myParts(),
-                dashboard.otherParts(),
-                dashboard.investigationsReceived(),
-                dashboard.alertsReceived(),
-                dashboard.alertsSent(),
-                dashboard.myPartsWithOpenAlerts(),
-                dashboard.supplierPartsWithOpenAlerts()
+                dashboard.getMyParts(),
+                dashboard.getOtherParts(),
+                dashboard.getInvestigationsReceived(),
+                dashboard.getAlertsReceived(),
+                dashboard.getAlertsSent(),
+                dashboard.getMyPartsWithOpenAlerts(),
+                dashboard.getSupplierPartsWithOpenAlerts()
         );
     }
 }

@@ -63,13 +63,13 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> supplierAssets = assets.stream()
                 .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
                 .toList();
-        alertsSupport.defaultReceivedAlertStoredWithAssets(supplierAssets);
-        alertsSupport.defaultReceivedAlertStoredWithAssets(supplierAssets);
-        alertsSupport.defaultSentAlertStoredWithAssets(ownAssets);
+        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
+        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
+        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
         assertThat(jpaAlertRepository.findAll()).hasSize(3);
 
         // when
-        Long result = repository.countDistinctAffectedPartsWhereStatusInAndOwnerEqual(List.of(QualityNotificationStatus.RECEIVED), Owner.SUPPLIER);
+        Long result = repository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.RECEIVED), Owner.SUPPLIER);
 
         // then
         assertThat(result).isEqualTo(12);
@@ -86,13 +86,13 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> supplierAssets = assets.stream()
                 .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
                 .toList();
-        alertsSupport.defaultReceivedAlertStoredWithAssets(supplierAssets);
-        alertsSupport.defaultSentAlertStoredWithAssets(ownAssets);
-        alertsSupport.defaultSentAlertStoredWithAssets(ownAssets);
+        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
+        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
+        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
         assertThat(jpaAlertRepository.findAll()).hasSize(3);
 
         // when
-        Long result = repository.countDistinctAffectedPartsWhereStatusInAndOwnerEqual(List.of(QualityNotificationStatus.SENT), Owner.OWN);
+        Long result = repository.countPartsByStatusAndOwnership(List.of(QualityNotificationStatus.SENT), Owner.OWN);
 
         // then
         assertThat(result).isEqualTo(1);

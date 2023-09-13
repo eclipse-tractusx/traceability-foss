@@ -54,15 +54,15 @@ public class AlertsSupport {
         return storedAlert(entity);
     }
 
-    public Long defaultReceivedAlertStoredWithAssets(List<AssetAsBuiltEntity> assets) {
-        return defaultReceivedAlertStoredWithAssets(QualityNotificationStatusBaseEntity.RECEIVED, assets);
+    public Long storeAlertWithStatusAndAssets(List<AssetAsBuiltEntity> assets) {
+        return storeAlertWithStatusAndAssets(QualityNotificationStatusBaseEntity.RECEIVED, assets);
     }
 
-    public Long defaultSentAlertStoredWithAssets(List<AssetAsBuiltEntity> assets) {
-        return defaultReceivedAlertStoredWithAssets(QualityNotificationStatusBaseEntity.SENT, assets);
+    public Long defaultSentAlertStoredForAssets(List<AssetAsBuiltEntity> assets) {
+        return storeAlertWithStatusAndAssets(QualityNotificationStatusBaseEntity.SENT, assets);
     }
 
-    private Long defaultReceivedAlertStoredWithAssets(QualityNotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assets) {
+    private Long storeAlertWithStatusAndAssets(QualityNotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assets) {
         AlertEntity entity = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")

@@ -125,7 +125,7 @@ public class AlertsRepositoryImpl implements AlertRepository {
 
     @Transactional
     @Override
-    public long countDistinctAffectedPartsWhereStatusInAndOwnerEqual(List<QualityNotificationStatus> statuses, Owner owner) {
+    public long countPartsByStatusAndOwnership(List<QualityNotificationStatus> statuses, Owner owner) {
         return jpaAlertRepository.findAllByStatusIn(QualityNotificationStatusBaseEntity.from(statuses))
                 .stream()
                 .map(AlertEntity::getAssets)
