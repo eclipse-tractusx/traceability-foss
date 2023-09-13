@@ -23,18 +23,13 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
-import org.eclipse.tractusx.traceability.common.model.SearchOperation;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static java.util.Objects.isNull;
 
 @Data
 @AllArgsConstructor
