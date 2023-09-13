@@ -51,7 +51,6 @@ public class AssetAsPlannedResponseMapper extends AssetBaseResponseMapper {
                 .qualityType(
                         from(asset.getQualityType())
                 )
-                .van(asset.getVan())
                 .semanticDataModel(from(asset.getSemanticDataModel()))
                 .detailAspectModels(fromList(asset.getDetailAspectModels()))
                 .build();

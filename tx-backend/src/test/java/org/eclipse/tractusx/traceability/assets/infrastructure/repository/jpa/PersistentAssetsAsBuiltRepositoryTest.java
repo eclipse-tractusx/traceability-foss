@@ -65,7 +65,6 @@ class PersistentAssetsAsBuiltRepositoryTest {
                 .semanticDataModel(SemanticDataModelEntity.SERIALPART)
                 .owner(Owner.OWN)
                 .qualityType(QualityType.CRITICAL)
-                .van("van123")
                 .childDescriptors(List.of(AssetAsBuiltEntity.ChildDescription.builder()
                                 .id("child1")
                                 .idShort("desc1")
@@ -106,7 +105,6 @@ class PersistentAssetsAsBuiltRepositoryTest {
         Assertions.assertEquals(asset.getParentRelations(), expected.getParentRelations());
         Assertions.assertEquals(asset.isUnderInvestigation(), expected.isUnderInvestigation());
         Assertions.assertEquals(asset.getQualityType(), expected.getQualityType());
-        Assertions.assertEquals(asset.getVan(), expected.getVan());
     }
 
 }

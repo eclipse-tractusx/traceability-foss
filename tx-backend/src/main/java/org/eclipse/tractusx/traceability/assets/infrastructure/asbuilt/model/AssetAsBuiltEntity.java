@@ -94,7 +94,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                         .map(parent -> new ParentDescription(parent.id(), parent.idShort()))
                         .toList())
                 .qualityType(asset.getQualityType())
-                .van(asset.getVan())
                 .activeAlert(asset.isActiveAlert())
                 .classification(asset.getClassification())
                 .inInvestigation(asset.isUnderInvestigation())
@@ -122,7 +121,6 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .underInvestigation(entity.isInInvestigation())
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
-                .van(entity.getVan())
                 .classification(entity.getClassification())
                 .detailAspectModels(DetailAspectModel.from(entity))
                 .build();

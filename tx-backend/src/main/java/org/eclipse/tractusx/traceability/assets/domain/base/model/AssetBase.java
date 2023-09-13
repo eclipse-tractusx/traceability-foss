@@ -50,7 +50,6 @@ public class AssetBase {
     private boolean activeAlert;
     private boolean underInvestigation;
     private QualityType qualityType;
-    private String van;
     private SemanticDataModel semanticDataModel;
     private String classification;
     private List<DetailAspectModel> detailAspectModels;

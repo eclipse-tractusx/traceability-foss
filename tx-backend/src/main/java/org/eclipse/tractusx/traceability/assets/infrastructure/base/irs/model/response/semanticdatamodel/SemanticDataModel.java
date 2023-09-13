@@ -137,7 +137,6 @@ public class SemanticDataModel {
                 .classification(partTypeInformation.classification())
                 .qualityType(QualityType.OK)
                 .semanticDataModel(semanticDataModel.get())
-                .van(van())
                 .build();
     }
 
@@ -168,7 +167,6 @@ public class SemanticDataModel {
                 .underInvestigation(false)
                 .qualityType(QualityType.OK)
                 .semanticDataModel(org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel.PARTASPLANNED)
-                .van(van())
                 .build();
     }
 
@@ -183,12 +181,6 @@ public class SemanticDataModel {
             return EMPTY_TEXT;
         }
         return value;
-    }
-
-    private String van() {
-        final String EMPTY_TEXT = "--";
-        return getLocalId(LocalIdKey.VAN)
-                .orElse(EMPTY_TEXT);
     }
 
     public String catenaXId() {
