@@ -41,8 +41,12 @@ export class FormatPartlistSemanticDataModelToCamelCasePipe implements PipeTrans
             part.semanticDataModel = SemanticDataModelInCamelCase.PARTASPLANNED;
             break;
           }
+          case 'JustInSequencePart': {
+            part.semanticDataModel = SemanticDataModelInCamelCase.JUSTINSEQUENCEPART;
+            break;
+          }
           default: {
-            part.semanticDataModel = SemanticDataModelInCamelCase.UNKNOWN
+            part.semanticDataModel = SemanticDataModelInCamelCase.UNKNOWN;
             break;
           }
 

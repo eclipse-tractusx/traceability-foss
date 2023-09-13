@@ -179,7 +179,6 @@ export class AlertDetailComponent implements AfterViewInit, OnDestroy {
     if (!this.isReceived) {
       return;
     }
-
     this.alertDetailFacade.setAndSupplierPartsInformation();
     this.supplierPartsTableConfig = {
       ...tableConfig,

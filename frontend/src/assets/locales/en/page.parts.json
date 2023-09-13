@@ -5,6 +5,8 @@
     "decrease": "Used to zoom out of the tree"
   },
   "page": {
+    "asBuiltParts": "AsBuilt Lifecycle",
+    "asPlannedParts": "AsPlanned Lifecycle",
     "selectedParts": {
       "info_one": "{{count}} Part selected for this page.",
       "info_other": "{{count}} Parts selected for this page.",

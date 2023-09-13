@@ -1,7 +1,8 @@
 @startuml
 
 title: Domain Model
-
+skinparam monochrome true
+skinparam shadowing false
 
 abstract Asset {
         *   id : String
@@ -16,12 +17,14 @@ abstract Asset {
         idShort : String
         van : String
 
+        manufacturerName : String /' BPN Lookup collection irs.bpns[] '/
+
         manufacturerPartId : String /' partTypeInformation.manufacturerPartId '/
         nameAtManufacturer : String /' partTypeInformation.nameAtManufacturer '/
         classification : String /' partTypeInformation.classification '/
         businessPartner : String /' BusinessPartner '/
 
-        detailSemanticModels : List<DetailAspectModel>
+        detailSemanticModels : List<DetailAspectModelModel>
 }
 
 note left
@@ -29,11 +32,11 @@ note left
 end note
 
 
-abstract DetailAspectModel {
+abstract DetailAspectModelModel {
     detailSemanticDataModelType : DetailSemanticDataModelType
 }
 note left
-    DetailAspectModel contains detail semantic models
+    DetailAspectModelModel contains detail semantic models
 end note
 
 
@@ -96,13 +99,13 @@ class PartSiteInformationAsPlanned {
 
 
 SemanticDataModelType <-- Asset
-DetailSemanticDataModelType <-- DetailAspectModel
+DetailSemanticDataModelType <-- DetailAspectModelModel
 Asset <|.. AsBuiltAspectModel
 Asset <|.. AsPlannedAspectModel
 
 Asset }o-- Relation : childRelations
 Asset }o--  Relation : parentRelations
-Asset }o- DetailAspectModel : detailAspectModels
-DetailAspectModel  <|.. TractionBatteryCode
-DetailAspectModel  <|..  PartSiteInformationAsPlanned
+Asset }o- DetailAspectModelModel : detailAspectModels
+DetailAspectModelModel  <|.. TractionBatteryCode
+DetailAspectModelModel  <|..  PartSiteInformationAsPlanned
 @enduml

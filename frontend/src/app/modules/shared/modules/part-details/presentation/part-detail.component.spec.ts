@@ -29,7 +29,7 @@ import { PartDetailsState } from '@shared/modules/part-details/core/partDetails.
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
 import { screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
-import { MOCK_part_1 } from '../../../../../mocks/services/parts-mock/parts.test.model';
+import { MOCK_part_1 } from '../../../../../mocks/services/parts-mock/partsAsBuilt/partsAsBuilt.test.model';
 import { PartDetailComponent } from './part-detail.component';
 
 let PartsStateMock: PartsState;
@@ -70,8 +70,8 @@ describe('PartDetailComponent', () => {
     await renderPartDetailComponent();
 
     const sideNavElement = await waitFor(() => screen.getByTestId('sidenav--test-id'));
-    const nameElement = await screen.findByText(part.name);
-    const productionDateElement = await screen.findByText('5/30/97');
+    const nameElement = await screen.findByText("BMW AG");
+    const productionDateElement = await screen.findByText('2022-02-04T13:48:54');
 
     expect(sideNavElement).toBeInTheDocument();
     await waitFor(() => expect(sideNavElement).toHaveClass('sidenav--container__open'));

@@ -28,7 +28,7 @@ import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
 import { BehaviorSubject, firstValueFrom, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { mockAssetList, mockAssets } from '../../../../mocks/services/parts-mock/parts.test.model';
+import { mockAssetList, mockAssets } from '../../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('Parts facade', () => {
   let partsFacade: PartsFacade, partsState: PartsState, partsServiceMok: PartsService;
@@ -36,7 +36,9 @@ describe('Parts facade', () => {
   beforeEach(() => {
     partsServiceMok = {
       getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part))),
-      getMyParts: (_page, _pageSize, _sorting) =>
+      getPartsAsBuilt: (_page, _pageSize, _sorting) =>
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
+      getPartsAsPlanned: (_page, _pageSize, _sorting) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
     } as PartsService;
 
@@ -46,15 +48,15 @@ describe('Parts facade', () => {
 
   describe('setParts', () => {
     it('should set parts if request is successful', async () => {
-      const serviceSpy = spyOn(partsServiceMok, 'getMyParts').and.returnValue(
+      const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuilt').and.returnValue(
         of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets)),
       );
-      partsFacade.setMyParts(0, 10);
+      partsFacade.setPartsAsBuilt(0, 10);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, null));
 
-      const parts = await firstValueFrom(partsState.myParts$);
+      const parts = await firstValueFrom(partsState.partsAsBuilt$);
       await waitFor(() =>
         expect(parts).toEqual({
           error: undefined,
@@ -66,11 +68,11 @@ describe('Parts facade', () => {
 
     it('should not set parts if request fails', async () => {
       const spyData = new BehaviorSubject(null).pipe(switchMap(_ => throwError(() => new Error('error'))));
-      spyOn(partsServiceMok, 'getMyParts').and.returnValue(spyData);
+      spyOn(partsServiceMok, 'getPartsAsPlanned').and.returnValue(spyData);
 
-      partsFacade.setMyParts(0, 10);
+      partsFacade.setPartsAsPlanned(0, 10);
 
-      const parts = await firstValueFrom(partsState.myParts$);
+      const parts = await firstValueFrom(partsState.partsAsPlanned$);
       await waitFor(() => expect(parts).toEqual({ data: undefined, loader: undefined, error: new Error('error') }));
     });
   });
