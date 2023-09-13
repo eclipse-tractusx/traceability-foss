@@ -40,7 +40,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
 - Updated irs-helm from 6.4.1 to 6.5.0
 - Migrated groovy integration tests to SpringBootTests
-- OwnPageable now contains filter param
 - API GET/api/assets/as-built/filtered allow Search criteria to be provided
 - API GET/api/assets/as-planned/filtered allow Search criteria to be provided
 
