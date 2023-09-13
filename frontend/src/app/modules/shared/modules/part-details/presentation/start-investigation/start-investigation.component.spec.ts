@@ -34,7 +34,6 @@ import { StartInvestigationComponent } from './start-investigation.component';
 describe('StartInvestigationComponent', () => {
   const part = { data: PartsAssembler.assemblePart(MOCK_part_1) };
   const firstChild = PartsAssembler.assemblePart(MOCK_part_2);
-  console.log(firstChild)
 
   const renderStartInvestigation = async () => {
     const { fixture } = await renderComponent(StartInvestigationComponent, {

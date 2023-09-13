@@ -142,11 +142,9 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     window.addEventListener('keydown', (event) => {
       this.ctrlKeyState = event.ctrlKey;
-      console.log("CTRL PRESSED");
     });
     window.addEventListener('keyup', (event) => {
       this.ctrlKeyState = event.ctrlKey;
-      console.log("CTRL NOT PRESSED ANYMORE");
     });
   }
 
@@ -177,7 +175,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    console.log(this.ctrlKeyState);
     this.setTableSortingList(sorting,"asBuilt");
     this.partsFacade.setPartsAsBuilt(page, pageSize, this.tableAsBuiltSortList);
   }
@@ -188,7 +185,6 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setTableSortingList(sorting: TableHeaderSort, partTable: "asBuilt" | "asPlanned"): void {
-    console.log(this.ctrlKeyState);
       // if a sorting Columnlist exists but a column gets resetted:
       if(!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
         if(partTable === "asBuilt") {
@@ -218,20 +214,16 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         if(partTable === "asBuilt") {
           this.tableAsBuiltSortList = tableSortList
-          console.log(...this.tableAsBuiltSortList);
         } else {
           this.tableAsPlannedSortList = tableSortList
-          console.log(...this.tableAsPlannedSortList);
         }
       }
       // If CTRL is not pressed just add a list with one entry
       else {
         if(partTable === "asBuilt") {
           this.tableAsBuiltSortList = [sorting];
-          console.log(...this.tableAsBuiltSortList);
         } else {
           this.tableAsPlannedSortList = [sorting]
-          console.log(...this.tableAsPlannedSortList);
         }
       }
   }

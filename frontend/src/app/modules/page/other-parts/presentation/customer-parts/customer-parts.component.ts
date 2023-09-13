@@ -79,11 +79,9 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
 
     window.addEventListener('keydown', (event) => {
       this.ctrlKeyState = event.ctrlKey;
-      console.log("CTRL PRESSED");
     });
     window.addEventListener('keyup', (event) => {
       this.ctrlKeyState = event.ctrlKey;
-      console.log("CTRL NOT PRESSED ANYMORE");
     });
   }
 
@@ -130,10 +128,5 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
     } else {
       this.tableCustomerSortList = [sorting];
     }
-    console.log(...this.tableCustomerSortList);
-
-
-
   }
-
 }

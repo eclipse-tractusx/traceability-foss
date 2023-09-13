@@ -88,12 +88,9 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
     window.addEventListener('keydown', (event) => {
       this.ctrlKeyState = event.ctrlKey;
-      console.log("CTRL PRESSED");
     });
     window.addEventListener('keyup', (event) => {
       this.ctrlKeyState = event.ctrlKey;
-
-      console.log("CTRL NOT PRESSED ANYMORE");
     });
   }
 
@@ -153,7 +150,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
 
   private setTableSortingList(sorting: TableHeaderSort): void {
     if(!sorting && this.tableSupplierSortList) {
-      console.log("resetted sortingList")
       this.tableSupplierSortList = [];
       return;
     }
@@ -178,9 +174,6 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     } else {
       this.tableSupplierSortList = [sorting];
     }
-    console.log(...this.tableSupplierSortList);
-
-
   }
 
 }
