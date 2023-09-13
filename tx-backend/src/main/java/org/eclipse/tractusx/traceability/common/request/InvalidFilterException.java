@@ -17,10 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository;
+package org.eclipse.tractusx.traceability.common.request;
 
-import org.eclipse.tractusx.traceability.assets.domain.base.AssetRepository;
+public class InvalidFilterException extends RuntimeException {
 
-
-public interface AssetAsBuiltRepository extends AssetRepository {
+    public InvalidFilterException(String message) {
+        super(message);
+    }
 }

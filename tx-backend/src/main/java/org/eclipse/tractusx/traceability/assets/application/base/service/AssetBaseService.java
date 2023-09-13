@@ -21,6 +21,7 @@ package org.eclipse.tractusx.traceability.assets.application.base.service;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +46,7 @@ public interface AssetBaseService {
 
     AssetBase getAssetByChildId(String assetId, String childId);
 
-    PageResult<AssetBase> getAssets(Pageable pageable, Owner owner);
+    PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filters);
 
     AssetBase updateQualityType(String assetId, QualityType qualityType);
 
