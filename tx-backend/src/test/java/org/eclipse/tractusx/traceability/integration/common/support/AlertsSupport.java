@@ -23,8 +23,8 @@ import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.Ass
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -45,8 +45,8 @@ public class AlertsSupport {
         AlertEntity entity = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(QualityNotificationStatusBaseEntity.RECEIVED)
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .status(NotificationStatusBaseEntity.RECEIVED)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .description("some description")
                 .createdDate(Instant.now())
                 .build();
@@ -55,19 +55,19 @@ public class AlertsSupport {
     }
 
     public Long storeAlertWithStatusAndAssets(List<AssetAsBuiltEntity> assets) {
-        return storeAlertWithStatusAndAssets(QualityNotificationStatusBaseEntity.RECEIVED, assets);
+        return storeAlertWithStatusAndAssets(NotificationStatusBaseEntity.RECEIVED, assets);
     }
 
     public Long defaultSentAlertStoredForAssets(List<AssetAsBuiltEntity> assets) {
-        return storeAlertWithStatusAndAssets(QualityNotificationStatusBaseEntity.SENT, assets);
+        return storeAlertWithStatusAndAssets(NotificationStatusBaseEntity.SENT, assets);
     }
 
-    private Long storeAlertWithStatusAndAssets(QualityNotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assets) {
+    private Long storeAlertWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assets) {
         AlertEntity entity = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
                 .status(status)
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(Instant.now())
                 .build();
         Long alertId = storedAlert(entity);

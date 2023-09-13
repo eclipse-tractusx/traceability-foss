@@ -39,7 +39,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationMessageBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 
 import java.util.List;
 
@@ -116,7 +116,7 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .targetDate(qualityNotificationMessage.getTargetDate())
                 .severity(qualityNotificationMessage.getSeverity())
                 .edcNotificationId(qualityNotificationMessage.getEdcNotificationId())
-                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
+                .status(NotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
                 .messageId(qualityNotificationMessage.getMessageId())
                 .isInitial(qualityNotificationMessage.getIsInitial())
                 .build();
