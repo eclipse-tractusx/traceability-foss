@@ -16,8 +16,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.test.tooling;
 
-package org.eclipse.tractusx.traceability.test.tooling.rest.response;
+public enum NotificationTypeEnum {
+    ALERT("alerts"),
 
-public record QualityNotificationIdResponse(Long id) {
+    INVESTIGATION("investigations");
+
+    public final String label;
+
+    NotificationTypeEnum(String label) {
+        this.label = label;
+    }
 }

@@ -47,11 +47,10 @@ public class AssetBaseEntity {
     @Enumerated(EnumType.STRING)
     private QualityType qualityType;
     private String manufacturerPartId;
-    private String customerPartId;
-    private String nameAtManufacturer;
     private String manufacturerName;
-    private String nameAtCustomer;
+    private String nameAtManufacturer;
     @Enumerated(EnumType.STRING)
     private SemanticDataModelEntity semanticDataModel;
+    private String semanticModelId;
     private String van;
 }

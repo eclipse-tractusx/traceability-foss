@@ -32,4 +32,5 @@ public class StartQualityNotificationRequest {
     private String description;
     private Instant targetDate;
     private String severity;
+    private String bpn;
 }
