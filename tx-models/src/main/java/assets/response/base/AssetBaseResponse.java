@@ -66,6 +66,9 @@ public class AssetBaseResponse {
     private boolean underInvestigation;
     @ApiModelProperty(example = "Ok")
     private QualityTypeResponse qualityType;
+    @ApiModelProperty(example = "--")
+    @Size(max = 255)
+    private String van;
     @ApiModelProperty(example = "BATCH")
     private SemanticDataModelResponse semanticDataModel;
     @ApiModelProperty(example = "component")

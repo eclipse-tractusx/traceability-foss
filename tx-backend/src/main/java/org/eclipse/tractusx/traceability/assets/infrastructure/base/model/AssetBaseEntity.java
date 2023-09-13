@@ -47,4 +47,5 @@ public class AssetBaseEntity {
     private String nameAtManufacturer;
     private SemanticDataModelEntity semanticDataModel;
     private String semanticModelId;
+    private String van;
 }

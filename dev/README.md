@@ -162,6 +162,9 @@ Consists of a List of the following structured entries:
       }, {
         "value" : "OMAOYGBDTSRCMYSCX",
         "key" : "partInstanceId"
+      }, {
+        "value" : "OMAOYGBDTSRCMYSCX",
+        "key" : "van"
       } ],
       "manufacturingInformation" : {
         "date" : "2018-09-28T04:15:57.000Z",
