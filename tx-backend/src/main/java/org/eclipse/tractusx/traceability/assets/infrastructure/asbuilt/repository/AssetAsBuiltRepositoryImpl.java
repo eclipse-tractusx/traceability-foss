@@ -28,8 +28,8 @@ import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetA
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
@@ -67,14 +67,6 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
         return jpaAssetAsBuiltRepository.findById(childId)
                 .map(AssetAsBuiltEntity::toDomain)
                 .orElseThrow(() -> new AssetNotFoundException("Child Asset Not Found"));
-    }
-
-    @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, Owner owner) {
-        if (owner != null) {
-            return new PageResult<>(jpaAssetAsBuiltRepository.findByOwner(pageable, owner), AssetAsBuiltEntity::toDomain);
-        }
-        return new PageResult<>(jpaAssetAsBuiltRepository.findAll(pageable), AssetAsBuiltEntity::toDomain);
     }
 
     @Override

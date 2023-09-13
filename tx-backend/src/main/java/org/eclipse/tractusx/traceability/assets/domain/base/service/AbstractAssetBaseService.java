@@ -119,10 +119,6 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return getAssetRepository().save(foundAsset);
     }
 
-    public PageResult<AssetBase> getAssets(Pageable pageable, Owner owner) {
-        return getAssetRepository().getAssets(pageable, owner);
-    }
-
     @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filter) {
         return getAssetRepository().getAssets(pageable, filter);

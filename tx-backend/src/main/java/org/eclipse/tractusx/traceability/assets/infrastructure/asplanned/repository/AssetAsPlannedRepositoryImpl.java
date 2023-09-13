@@ -65,14 +65,6 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
     }
 
     @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, Owner owner) {
-        if (owner != null) {
-            return new PageResult<>(jpaAssetAsPlannedRepository.findByOwner(pageable, owner), AssetAsPlannedEntity::toDomain);
-        }
-        return new PageResult<>(jpaAssetAsPlannedRepository.findAll(pageable), AssetAsPlannedEntity::toDomain);
-    }
-
-    @Override
     public PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filter) {
         return new PageResult<>(
                 jpaAssetAsPlannedRepository.findAll(
