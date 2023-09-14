@@ -58,6 +58,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
     protected abstract BomLifecycle getBomLifecycle();
 
+    @Override
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
     public void synchronizeAssetsAsync(String globalAssetId) {
         log.info("Synchronizing assets for globalAssetId: {}", globalAssetId);
@@ -86,6 +87,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         }
     }
 
+    @Override
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
     public void synchronizeAssetsAsync(List<String> globalAssetIds) {
         for (String globalAssetId : globalAssetIds) {
@@ -97,7 +99,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         }
     }
 
-
+    @Override
     public void setAssetsInvestigationStatus(QualityNotification investigation) {
         getAssetRepository().getAssetsById(investigation.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
@@ -106,6 +108,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         });
     }
 
+    @Override
     public void setAssetsAlertStatus(QualityNotification alert) {
         getAssetRepository().getAssetsById(alert.getAssetIds()).forEach(asset -> {
             // Assets in status closed will be false, others true
@@ -114,7 +117,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         });
     }
 
-
+    @Override
     public AssetBase updateQualityType(String assetId, QualityType qualityType) {
         AssetBase foundAsset = getAssetRepository().getAssetById(assetId);
         foundAsset.setQualityType(qualityType);
@@ -126,14 +129,17 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return getAssetRepository().getAssets(pageable, filter);
     }
 
+    @Override
     public AssetBase getAssetById(String assetId) {
         return getAssetRepository().getAssetById(assetId);
     }
 
+    @Override
     public List<AssetBase> getAssetsById(List<String> assetIds) {
         return getAssetRepository().getAssetsById(assetIds);
     }
 
+    @Override
     public AssetBase getAssetByChildId(String assetId, String childId) {
         return getAssetRepository().getAssetByChildId(assetId, childId);
     }
