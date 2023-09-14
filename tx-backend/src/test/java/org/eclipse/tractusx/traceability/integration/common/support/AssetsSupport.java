@@ -23,8 +23,8 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -54,7 +54,7 @@ public class AssetsSupport {
         assetRepositoryProvider.assetAsPlannedRepository().saveAll(assetRepositoryProvider.assetsConverter().readAndConvertAssetsAsPlannedForTests());
     }
 
-    public void defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
+    public void defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity investigationStatus, boolean inInvestigation) {
         List<AssetAsBuiltEntity> assetEntities = assetRepositoryProvider.assetsConverter().readAndConvertAssetsForTests().stream().map(asset -> {
             AssetAsBuiltEntity assetEntity = AssetAsBuiltEntity.from(asset);
             assetEntity.setInInvestigation(inInvestigation);
@@ -66,7 +66,7 @@ public class AssetsSupport {
                         .assets(List.of(it))
                         .bpn(it.getManufacturerId())
                         .status(investigationStatus)
-                        .side(QualityNotificationSideBaseEntity.SENDER)
+                        .side(NotificationSideBaseEntity.SENDER)
                         .description("some long description")
                         .createdDate(Instant.now())
                         .build()

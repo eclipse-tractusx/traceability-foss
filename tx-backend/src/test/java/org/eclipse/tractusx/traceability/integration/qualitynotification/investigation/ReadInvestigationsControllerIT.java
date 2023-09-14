@@ -26,8 +26,8 @@ import org.eclipse.tractusx.traceability.integration.common.support.Investigatio
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -127,41 +127,41 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
         InvestigationEntity firstInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .status(NotificationStatusBaseEntity.CREATED)
+                .side(NotificationSideBaseEntity.SENDER)
                 .description("1")
                 .createdDate(now.minusSeconds(10L))
                 .build();
         InvestigationEntity secondInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("2")
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(21L))
                 .build();
         InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("3")
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now)
                 .build();
         InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("4")
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(20L))
                 .build();
         InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("5")
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now.plusSeconds(40L))
                 .build();
 
@@ -170,33 +170,33 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                         .builder()
                         .id("1")
                         .investigation(firstInvestigation)
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("2")
                         .investigation(secondInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("3")
                         .investigation(thirdInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("4")
                         .investigation(fourthInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("5")
                         .investigation(fifthInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
@@ -229,41 +229,41 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
         InvestigationEntity firstInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .status(NotificationStatusBaseEntity.CREATED)
+                .side(NotificationSideBaseEntity.SENDER)
                 .description("1")
                 .createdDate(now.minusSeconds(10L))
                 .build();
         InvestigationEntity secondInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("2")
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(21L))
                 .build();
         InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("3")
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now)
                 .build();
         InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("4")
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(20L))
                 .build();
         InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("5")
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now.plusSeconds(40L))
                 .build();
 
@@ -272,33 +272,33 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                         .builder()
                         .id("1")
                         .investigation(firstInvestigation)
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("2")
                         .investigation(secondInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("3")
                         .investigation(thirdInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("4")
                         .investigation(fourthInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .id("5")
                         .investigation(fifthInvestigation)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
@@ -354,8 +354,8 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                                     InvestigationEntity.builder()
                                             .assets(Collections.emptyList())
                                             .bpn(testBpn)
-                                            .status(QualityNotificationStatusBaseEntity.CREATED)
-                                            .side(QualityNotificationSideBaseEntity.SENDER)
+                                            .status(NotificationStatusBaseEntity.CREATED)
+                                            .side(NotificationSideBaseEntity.SENDER)
                                             .createdDate(now)
                                             .build()
                             );
@@ -394,8 +394,8 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                             InvestigationEntity investigationEntity = InvestigationEntity.builder()
                                     .assets(Collections.emptyList())
                                     .bpn(testBpn)
-                                    .status(QualityNotificationStatusBaseEntity.CREATED)
-                                    .side(QualityNotificationSideBaseEntity.RECEIVER)
+                                    .status(NotificationStatusBaseEntity.CREATED)
+                                    .side(NotificationSideBaseEntity.RECEIVER)
                                     .createdDate(now)
                                     .build();
 
@@ -406,7 +406,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                                     .id(UUID.randomUUID().toString())
                                     .investigation(investigation)
                                     .senderBpnNumber(senderBPN)
-                                    .status(QualityNotificationStatusBaseEntity.CREATED)
+                                    .status(NotificationStatusBaseEntity.CREATED)
                                     .senderManufacturerName(senderName)
                                     .receiverBpnNumber(receiverBPN)
                                     .receiverManufacturerName(receiverName)
@@ -448,41 +448,41 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
         InvestigationEntity firstInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.RECEIVED)
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .status(NotificationStatusBaseEntity.RECEIVED)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .description("1")
                 .createdDate(now.minusSeconds(5L))
                 .build();
         InvestigationEntity secondInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.RECEIVED)
+                .status(NotificationStatusBaseEntity.RECEIVED)
                 .description("2")
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now.plusSeconds(2L))
                 .build();
         InvestigationEntity thirdInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.RECEIVED)
+                .status(NotificationStatusBaseEntity.RECEIVED)
                 .description("3")
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now)
                 .build();
         InvestigationEntity fourthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.RECEIVED)
+                .status(NotificationStatusBaseEntity.RECEIVED)
                 .description("4")
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(now.plusSeconds(20L))
                 .build();
         InvestigationEntity fifthInvestigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn(testBpn)
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .description("5")
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(now.plusSeconds(40L))
                 .build();
 
@@ -491,35 +491,35 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                         .builder()
                         .id("1")
                         .investigation(firstInvestigation)
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
                         .id("2")
                         .investigation(secondInvestigation)
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
                         .id("3")
                         .investigation(thirdInvestigation)
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
                         .id("4")
                         .investigation(fourthInvestigation)
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build(),
                 InvestigationNotificationEntity
                         .builder()
                         .id("5")
                         .investigation(fifthInvestigation)
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
                         .build()
         );
@@ -570,8 +570,8 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                         .assets(List.of())
                         .bpn(testBpn)
                         .description("1")
-                        .status(QualityNotificationStatusBaseEntity.RECEIVED)
-                        .side(QualityNotificationSideBaseEntity.SENDER)
+                        .status(NotificationStatusBaseEntity.RECEIVED)
+                        .side(NotificationSideBaseEntity.SENDER)
                         .createdDate(Instant.now())
                         .build();
 
@@ -585,7 +585,7 @@ class ReadInvestigationsControllerIT extends IntegrationTestSpecification {
                         .senderBpnNumber(senderBPN)
                         .senderManufacturerName(senderName)
                         .receiverBpnNumber(receiverBPN)
-                        .status(QualityNotificationStatusBaseEntity.CREATED)
+                        .status(NotificationStatusBaseEntity.CREATED)
                         .receiverManufacturerName(receiverName)
                         .build());
         notificationEntity.setInvestigation(persistedInvestigation);
