@@ -40,7 +40,7 @@ describe('OtherPartsFacade', () => {
     } as PartsService;
 
     otherPartsServiceMock  = {
-      getSupplierParts: (_page, _pageSize, _sorting) =>
+      getOtherParts: (_page, _pageSize, _sorting, _owner) =>
         of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
     } as OtherPartsService;
 
