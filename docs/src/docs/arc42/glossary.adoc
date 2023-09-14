@@ -15,6 +15,9 @@
 |BoM AsBuilt
 |Bill of material lifecycle of the built entity
 
+|BoM AsPlanned
+|Bill of material lifecycle of the planned entity
+
 |BPN
 |**B**usiness **P**artner **N**umber. A BPN is used to identify a partner in the Catena-X network
 
