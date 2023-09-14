@@ -42,7 +42,7 @@ class AssetAsPlannedRepositoryIT extends IntegrationTestSpecification {
 
     @ParameterizedTest
     @MethodSource("fieldNameTestProvider")
-    void givenIdField_whenGetFieldValues_thenSorted(
+    void givenFieldNameAndResultLimit_whenGetFieldValues_thenSorted(
             String fieldName,
             Long resultLimit,
             Integer expectedSize
@@ -64,9 +64,9 @@ class AssetAsPlannedRepositoryIT extends IntegrationTestSpecification {
                 Arguments.of("id", 10L, 2),
                 Arguments.of("id", 1L, 1),
                 Arguments.of("inInvestigation", 10L, 1),
-                Arguments.of("owner", 10L, 4),
-                Arguments.of("semanticDataModel", 10L, 5),
-                Arguments.of("qualityType", 10L, 5)
+                Arguments.of("owner", 10L, 2),
+                Arguments.of("semanticDataModel", 10L, 1),
+                Arguments.of("qualityType", 10L, 1)
         );
     }
 }
