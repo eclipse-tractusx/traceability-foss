@@ -54,7 +54,7 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
-@Tag(name = "Assets")
+@Tag(name = "AssetsAsPlanned")
 @RequestMapping(path = "/assets/as-planned", produces = "application/json", consumes = "application/json")
 public class AssetAsPlannedController {
 
@@ -64,7 +64,7 @@ public class AssetAsPlannedController {
     }
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint synchronizes the assets from irs.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
@@ -110,16 +110,17 @@ public class AssetAsPlannedController {
         assetService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
     }
 
-    @Operation(operationId = "assets",
+    @Operation(operationId = "AssetsAsPlanned",
             summary = "Get assets by pagination",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint returns a paged result of assets.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
+                    schema = @Schema(implementation = AssetAsPlannedResponse.class),
                     arraySchema = @Schema(
-                            description = "Assets",
+                            description = "AssetsAsPlanned",
                             implementation = AssetAsPlannedResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
                     ),
@@ -165,7 +166,7 @@ public class AssetAsPlannedController {
 
     @Operation(operationId = "assetById",
             summary = "Get asset by id",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint returns an asset filtered by id .",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",
@@ -209,7 +210,7 @@ public class AssetAsPlannedController {
 
     @Operation(operationId = "assetByChildId",
             summary = "Get asset by child id",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint returns an asset filtered by child id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the asset by childId",
@@ -252,7 +253,7 @@ public class AssetAsPlannedController {
 
     @Operation(operationId = "updateAsset",
             summary = "Updates asset",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint updates asset by provided quality type.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the updated asset",
@@ -303,14 +304,14 @@ public class AssetAsPlannedController {
 
     @Operation(operationId = "getDetailInformation",
             summary = "Searches for assets by ids.",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint searchs for assets by id and returns a list of them.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
                     arraySchema = @Schema(
-                            description = "Assets",
+                            description = "AssetsAsPlanned",
                             implementation = AssetAsPlannedResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
                     ),
