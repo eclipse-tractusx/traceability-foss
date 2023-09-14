@@ -155,12 +155,12 @@ export class SupplierPartsComponent implements OnInit, OnDestroy {
     }
 
     if(this.ctrlKeyState) {
-      const [columnName, direction] = sorting;
+      const [columnName] = sorting;
       const tableSortList = this.tableSupplierSortList;
 
       // Find the index of the existing entry with the same first item
       const index = tableSortList.findIndex(
-          ([itemColumnName, direction]) => itemColumnName === columnName
+          ([itemColumnName]) => itemColumnName === columnName
       );
 
       if (index !== -1) {

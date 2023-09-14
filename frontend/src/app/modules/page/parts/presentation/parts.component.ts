@@ -197,12 +197,12 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
 
       // if CTRL is pressed at to sortList
       if(this.ctrlKeyState) {
-        const [columnName, direction] = sorting;
+        const [columnName] = sorting;
         const tableSortList = partTable === "asBuilt" ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
 
         // Find the index of the existing entry with the same first item
         const index = tableSortList.findIndex(
-            ([itemColumnName, direction]) => itemColumnName === columnName
+            ([itemColumnName]) => itemColumnName === columnName
         );
 
         if (index !== -1) {
@@ -219,13 +219,11 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       }
       // If CTRL is not pressed just add a list with one entry
-      else {
-        if(partTable === "asBuilt") {
+      else if(partTable === "asBuilt") {
           this.tableAsBuiltSortList = [sorting];
         } else {
           this.tableAsPlannedSortList = [sorting]
         }
-      }
   }
 
 }

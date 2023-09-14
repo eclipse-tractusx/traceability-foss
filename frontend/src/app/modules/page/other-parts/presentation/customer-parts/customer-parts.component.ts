@@ -109,12 +109,12 @@ export class CustomerPartsComponent implements OnInit, OnDestroy {
       return;
     }
     if(this.ctrlKeyState) {
-      const [columnName, direction] = sorting;
+      const [columnName] = sorting;
       const tableSortList = this.tableCustomerSortList;
 
       // Find the index of the existing entry with the same first item
       const index = tableSortList.findIndex(
-          ([itemColumnName, direction]) => itemColumnName === columnName
+          ([itemColumnName]) => itemColumnName === columnName
       );
 
       if (index !== -1) {
