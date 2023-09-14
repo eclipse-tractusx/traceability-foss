@@ -187,11 +187,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   private setTableSortingList(sorting: TableHeaderSort, partTable: "asBuilt" | "asPlanned"): void {
       // if a sorting Columnlist exists but a column gets resetted:
       if(!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
-        if(partTable === "asBuilt") {
-          this.tableAsBuiltSortList = [];
-        } else {
-          this.tableAsPlannedSortList= [];
-        }
+        this.resetTableSortingList(partTable);
         return;
       }
 
@@ -224,6 +220,14 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.tableAsPlannedSortList = [sorting]
         }
+  }
+
+  private resetTableSortingList(partTable: "asBuilt" | "asPlanned"): void {
+    if(partTable === "asBuilt") {
+      this.tableAsBuiltSortList = [];
+    } else {
+      this.tableAsPlannedSortList= [];
+    }
   }
 
 }
