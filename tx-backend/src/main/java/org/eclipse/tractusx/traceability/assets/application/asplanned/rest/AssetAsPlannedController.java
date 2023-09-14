@@ -117,6 +117,7 @@ public class AssetAsPlannedController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
+            schema = @Schema(implementation = AssetAsPlannedResponse.class),
             array = @ArraySchema(
                     arraySchema = @Schema(
                             description = "Assets",

@@ -123,6 +123,7 @@ public class AssetAsBuiltController {
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
+            schema = @Schema(implementation = PageResult.class),
             array = @ArraySchema(
                     arraySchema = @Schema(
                             description = "Assets",
