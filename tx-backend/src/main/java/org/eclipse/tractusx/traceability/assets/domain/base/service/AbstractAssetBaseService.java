@@ -145,6 +145,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
                         asset -> ManufacturingInfo.from(asset.getDetailAspectModels()).getManufacturingCountry(), Collectors.counting()));
     }
 
+    @Override
     public List<String> getDistinctFilterValues(String fieldName, Long size) {
         if (isSupportedEnumType(fieldName)) {
             return getAssetEnumFieldValues(fieldName);
