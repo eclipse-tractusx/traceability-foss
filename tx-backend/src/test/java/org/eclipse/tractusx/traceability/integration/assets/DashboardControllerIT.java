@@ -20,8 +20,12 @@
 package org.eclipse.tractusx.traceability.integration.assets;
 
 import io.restassured.http.ContentType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
+import org.eclipse.tractusx.traceability.integration.common.support.AlertsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
@@ -54,6 +58,12 @@ class DashboardControllerIT extends IntegrationTestSpecification {
     @Autowired
     InvestigationsSupport investigationsSupport;
 
+    @Autowired
+    JpaAssetAsBuiltRepository assetAsBuiltRepository;
+
+    @Autowired
+    AlertsSupport alertsSupport;
+
     ObjectMapper objectMapper;
 
     @BeforeEach
@@ -74,9 +84,43 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .when().get("/api/dashboard")
                 .then().statusCode(200)
-                .body("myItems", equalTo(1))
+                .body("myParts", equalTo(1))
                 .body("otherParts", equalTo(12))
-                .body("investigations", equalTo(0));
+                .body("investigationsReceived", equalTo(0))
+                .body("alertsReceived", equalTo(0))
+                .body("alertsSent", equalTo(0))
+                .body("myPartsWithOpenAlerts", equalTo(0))
+                .body("supplierPartsWithOpenAlerts", equalTo(0));
+    }
+
+    @Test
+    void givenAlertsWithAssets_whenGetDashboard_thenReturnResponse() throws JoseException {
+        // given
+        assetsSupport.defaultAssetsStored();
+        List<AssetAsBuiltEntity> assets = assetAsBuiltRepository.findAll();
+        List<AssetAsBuiltEntity> ownAssets = assets.stream()
+                .filter(asset -> asset.getOwner().equals(Owner.OWN))
+                .toList();
+        List<AssetAsBuiltEntity> supplierAssets = assets.stream()
+                .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
+                .toList();
+        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
+        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .contentType(ContentType.JSON)
+                .log().all()
+                .when().get("/api/dashboard")
+                .then().statusCode(200)
+                .body("myParts", equalTo(1))
+                .body("otherParts", equalTo(12))
+                .body("investigationsReceived", equalTo(0))
+                .body("alertsReceived", equalTo(1))
+                .body("alertsSent", equalTo(1))
+                .body("myPartsWithOpenAlerts", equalTo(1))
+                .body("supplierPartsWithOpenAlerts", equalTo(12));
     }
 
     @Test
@@ -122,9 +166,13 @@ class DashboardControllerIT extends IntegrationTestSpecification {
                 .log().all()
                 .when().get("/api/dashboard")
                 .then().statusCode(200)
-                .body("myItems", equalTo(1))
+                .body("myParts", equalTo(1))
                 .body("otherParts", equalTo(12))
-                .body("investigations", equalTo(1));
+                .body("investigationsReceived", equalTo(1))
+                .body("alertsReceived", equalTo(0))
+                .body("alertsSent", equalTo(0))
+                .body("myPartsWithOpenAlerts", equalTo(0))
+                .body("supplierPartsWithOpenAlerts", equalTo(0));
     }
 
     private static Stream<Arguments> roles() {

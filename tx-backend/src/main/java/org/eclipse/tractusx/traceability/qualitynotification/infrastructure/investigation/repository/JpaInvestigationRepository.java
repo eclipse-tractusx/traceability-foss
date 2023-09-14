@@ -22,8 +22,8 @@
 package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository;
 
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -36,11 +36,11 @@ import java.util.Optional;
 @Repository
 public interface JpaInvestigationRepository extends JpaRepository<InvestigationEntity, Long> {
 
-    Page<InvestigationEntity> findAllBySideEqualsOrderByCreatedDateDesc(QualityNotificationSideBaseEntity investigationSide, Pageable pageable);
+    Page<InvestigationEntity> findAllBySideEqualsOrderByCreatedDateDesc(NotificationSideBaseEntity investigationSide, Pageable pageable);
 
-    long countAllByStatusEquals(QualityNotificationStatusBaseEntity status);
+    long countAllByStatusEquals(NotificationStatusBaseEntity status);
 
-    long countAllBySideEquals(QualityNotificationSideBaseEntity investigationSide);
+    long countAllBySideEquals(NotificationSideBaseEntity investigationSide);
 
     @Query("SELECT investigation FROM InvestigationEntity investigation JOIN investigation.notifications notification WHERE notification.edcNotificationId = :edcNotificationId")
     Optional<InvestigationEntity> findByNotificationsEdcNotificationId(@Param("edcNotificationId") String edcNotificationId);
