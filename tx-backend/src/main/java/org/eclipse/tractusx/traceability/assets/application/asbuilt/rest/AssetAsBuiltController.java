@@ -22,6 +22,7 @@
 package org.eclipse.tractusx.traceability.assets.application.asbuilt.rest;
 
 import assets.response.asbuilt.AssetAsBuiltResponse;
+import assets.response.asplanned.AssetAsPlannedResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -125,6 +126,7 @@ public class AssetAsBuiltController {
             mediaType = "application/json",
             schema = @Schema(implementation = PageResult.class),
             array = @ArraySchema(
+                    schema = @Schema(implementation = AssetAsBuiltResponse.class),
                     arraySchema = @Schema(
                             description = "Assets",
                             implementation = AssetAsBuiltResponse.class,
