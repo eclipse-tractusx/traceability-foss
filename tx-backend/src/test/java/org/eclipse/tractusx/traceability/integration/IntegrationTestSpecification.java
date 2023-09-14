@@ -80,7 +80,7 @@ public class IntegrationTestSpecification {
         Awaitility.setDefaultPollInterval(500, TimeUnit.MILLISECONDS);
         Awaitility.setDefaultTimeout(30, TimeUnit.SECONDS);
         Awaitility.pollInSameThread();
-        await().until(conditions, Matchers.equalTo(true));
+        await().pollDelay(2, TimeUnit.SECONDS).until(conditions, Matchers.equalTo(true));
     }
 
 }
