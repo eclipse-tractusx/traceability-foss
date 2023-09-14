@@ -49,4 +49,6 @@ public interface AssetRepository {
     void updateParentDescriptionsAndOwner(final AssetBase asset);
 
     long countAssetsByOwner(Owner owner);
+
+    List<String> getFieldValues(String fieldName, Long resultLimit);
 }

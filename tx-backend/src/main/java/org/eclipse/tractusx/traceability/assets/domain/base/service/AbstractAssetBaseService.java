@@ -25,24 +25,28 @@ import org.eclipse.tractusx.traceability.assets.domain.base.IrsRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.QualityType;
+import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
-import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.request.BomLifecycle;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.Direction;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.irs.model.response.relationship.Aspect;
 import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Async;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
 public abstract class AbstractAssetBaseService implements AssetBaseService {
+
+    private static List<String> SUPPORTED_ENUM_FIELDS = List.of("owner", "qualityType", "semanticDataModel");
 
     protected abstract AssetRepository getAssetRepository();
 
@@ -53,7 +57,6 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     protected abstract List<String> getUpwardAspects();
 
     protected abstract BomLifecycle getBomLifecycle();
-
 
     @Async(value = AssetsAsyncConfig.SYNCHRONIZE_ASSETS_EXECUTOR)
     public void synchronizeAssetsAsync(String globalAssetId) {
@@ -112,7 +115,6 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
     }
 
 
-
     public AssetBase updateQualityType(String assetId, QualityType qualityType) {
         AssetBase foundAsset = getAssetRepository().getAssetById(assetId);
         foundAsset.setQualityType(qualityType);
@@ -141,5 +143,25 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
         return getAssetRepository().getAssets().stream()
                 .collect(Collectors.groupingBy(
                         asset -> ManufacturingInfo.from(asset.getDetailAspectModels()).getManufacturingCountry(), Collectors.counting()));
+    }
+
+    public List<String> getDistinctFilterValues(String fieldName, Long size) {
+        if (isSupportedEnumType(fieldName)) {
+            return getAssetEnumFieldValues(fieldName);
+        }
+        return getAssetRepository().getFieldValues(fieldName, size);
+    }
+
+    private boolean isSupportedEnumType(String fieldName) {
+        return SUPPORTED_ENUM_FIELDS.contains(fieldName);
+    }
+
+    private List<String> getAssetEnumFieldValues(String fieldName) {
+        return switch (fieldName) {
+            case "owner" -> Arrays.stream(Owner.values()).map(Enum::name).toList();
+            case "qualityType" -> Arrays.stream(QualityType.values()).map(Enum::name).toList();
+            case "semanticDataModel" -> Arrays.stream(SemanticDataModel.values()).map(Enum::name).toList();
+            default -> null;
+        };
     }
 }
