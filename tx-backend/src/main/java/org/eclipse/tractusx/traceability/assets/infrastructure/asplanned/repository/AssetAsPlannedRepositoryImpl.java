@@ -122,9 +122,10 @@ public class AssetAsPlannedRepositoryImpl implements AssetAsPlannedRepository {
 
     @Override
     public List<String> getFieldValues(String fieldName, Long resultLimit) {
-        String getFieldValuesQuery = "SELECT DISTINCT fieldName FROM assets_as_planned order by fieldName ASC LIMIT resultLimit"
-                .replace("fieldName", toDatabaseName(fieldName))
-                .replace("resultLimit", resultLimit.toString());
-        return entityManager.createNativeQuery(getFieldValuesQuery, String.class).getResultList();
+        String databaseFieldName = toDatabaseName(fieldName);
+        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_built ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
+        return entityManager.createNativeQuery(getFieldValuesQuery, String.class)
+                .setParameter("resultLimit", resultLimit)
+                .getResultList();
     }
 }
