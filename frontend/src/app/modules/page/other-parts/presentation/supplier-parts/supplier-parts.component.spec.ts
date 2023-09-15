@@ -103,4 +103,69 @@ describe('SupplierPartsComponent', () => {
     fixture.componentInstance.clearSelected();
     expect(fixture.componentInstance.currentSelectedItems).toEqual([]);
   })
+
+  it('sort supplier parts after name column', async () => {
+    const {fixture} = await renderSupplierParts({ roles: ['admin'] });
+    const supplierPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+
+    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([["name", "asc"]]);
+
+  });
+
+  it('should multisort after column name and semanticModelId', async () => {
+    const {fixture} = await renderSupplierParts({ roles: ['admin'] });
+    const supplierPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+    let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId')
+
+    await waitFor(() => {fireEvent.keyDown(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+    expect(supplierPartsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(semanticModelIdHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([["name", "asc"], ["semanticModelId", "desc"]]);
+  });
+
+  it('should reset sorting on third click', async () => {
+    const {fixture} = await renderSupplierParts({ roles: ['admin'] });
+    const supplierPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+    let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId')
+
+    await waitFor(() => {fireEvent.keyDown(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+    expect(supplierPartsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(semanticModelIdHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([]);
+  });
+
 });
