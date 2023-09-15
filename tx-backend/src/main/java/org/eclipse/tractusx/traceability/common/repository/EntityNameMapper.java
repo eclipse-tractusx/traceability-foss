@@ -17,7 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.test.tooling.rest.response;
+package org.eclipse.tractusx.traceability.common.repository;
 
-public record QualityNotificationIdResponse(Long id) {
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
+public class EntityNameMapper {
+
+    public static String toDatabaseName(String fieldName) {
+        return fieldName.replaceAll("(.)([A-Z])", "$1_$2").toLowerCase();
+    }
 }

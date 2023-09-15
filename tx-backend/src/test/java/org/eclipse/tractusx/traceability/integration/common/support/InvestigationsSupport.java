@@ -22,8 +22,8 @@ package org.eclipse.tractusx.traceability.integration.common.support;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -44,8 +44,8 @@ public class InvestigationsSupport {
         InvestigationEntity entity = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(QualityNotificationStatusBaseEntity.RECEIVED)
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .status(NotificationStatusBaseEntity.RECEIVED)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .description("some description")
                 .createdDate(Instant.now())
                 .build();

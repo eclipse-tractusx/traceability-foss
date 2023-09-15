@@ -23,6 +23,7 @@ import io.restassured.http.ContentType;
 import lombok.val;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.domain.asplanned.repository.AssetAsPlannedRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.common.security.JwtRole;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
@@ -71,6 +72,8 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
     AssetsSupport assetsSupport;
     @Autowired
     AssetAsBuiltRepository assetAsBuiltRepository;
+    @Autowired
+    AssetAsPlannedRepository assetAsPlannedRepository;
 
     @BeforeEach
     void setUp() {
@@ -144,6 +147,62 @@ class PublisherAlertsControllerIT extends IntegrationTestSpecification {
         partIds.forEach(
                 partId -> {
                     AssetBase asset = assetAsBuiltRepository.getAssetById(partId);
+                    assertThat(asset).isNotNull();
+                    assertThat(asset.isActiveAlert()).isTrue();
+                }
+        );
+
+        alertNotificationsSupport.assertAlertNotificationsSize(1);
+
+        // when/then
+        given()
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .param("page", "0")
+                .param("size", "10")
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/api/alerts/created")
+                .then()
+                .statusCode(200)
+                .body("page", Matchers.is(0))
+                .body("pageSize", Matchers.is(10))
+                .body("content", Matchers.hasSize(1));
+    }
+
+    @Test
+    void shouldStartAlertForAsPlanned() throws JsonProcessingException, JoseException {
+        // given
+        List<String> partIds = List.of(
+                "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4da01"  // BPN: BPNL00000003CML1
+        );
+        String description = "at least 15 characters long investigation description";
+        QualityNotificationSeverityRequest severity = QualityNotificationSeverityRequest.MINOR;
+        String bpn = "BPN";
+
+        assetsSupport.defaultAssetsAsPlannedStored();
+
+        val request = StartQualityAlertRequest.builder()
+                .partIds(partIds)
+                .description(description)
+                .severity(severity)
+                .bpn(bpn)
+                .isAsBuilt(false)
+                .build();
+
+        // when
+        given()
+                .contentType(ContentType.JSON)
+                .body(objectMapper.writeValueAsString(request))
+                .header(oAuth2Support.jwtAuthorization(ADMIN))
+                .when()
+                .post("/api/alerts")
+                .then()
+                .statusCode(201)
+                .body("id", Matchers.isA(Number.class));
+
+        partIds.forEach(
+                partId -> {
+                    AssetBase asset = assetAsPlannedRepository.getAssetById(partId);
                     assertThat(asset).isNotNull();
                     assertThat(asset.isActiveAlert()).isTrue();
                 }

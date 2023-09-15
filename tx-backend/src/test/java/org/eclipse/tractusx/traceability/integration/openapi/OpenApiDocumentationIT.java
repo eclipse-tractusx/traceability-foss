@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static io.restassured.RestAssured.given;
 
@@ -43,6 +44,6 @@ class OpenApiDocumentationIT extends IntegrationTestSpecification {
         response.then()
                 .statusCode(200);
 
-        FileUtils.writeStringToFile(new File(DOCUMENTATION_FILENAME), response.body().print());
+        FileUtils.writeStringToFile(new File(DOCUMENTATION_FILENAME), response.body().print(), StandardCharsets.UTF_8);
     }
 }

@@ -43,6 +43,7 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
 
     private final ShellDescriptorRepository shellDescriptorRepository;
 
+    @Override
     @Transactional
     public List<ShellDescriptor> determineExistingShellDescriptorsAndUpdate(List<ShellDescriptor> ownShellDescriptors) {
         log.info("Starting update of {} shell ownShellDescriptors.", ownShellDescriptors.size());
@@ -68,11 +69,13 @@ public class ShellDescriptorsServiceImpl implements ShellDescriptorService {
         return descriptorsToSync;
     }
 
+    @Override
     @Transactional
     public void deleteAll(){
         shellDescriptorRepository.deleteAll();
     }
 
+    @Override
     @Transactional
     public List<ShellDescriptor> findAll(){
         return shellDescriptorRepository.findAll();

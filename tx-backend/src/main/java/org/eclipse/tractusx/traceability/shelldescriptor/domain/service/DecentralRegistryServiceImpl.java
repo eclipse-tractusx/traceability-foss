@@ -47,6 +47,7 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     private final TraceabilityProperties traceabilityProperties;
     private final DecentralRegistryRepository decentralRegistryRepository;
 
+    @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void updateShellDescriptorAndSynchronizeAssets() {
         List<ShellDescriptor> shellDescriptorList = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
