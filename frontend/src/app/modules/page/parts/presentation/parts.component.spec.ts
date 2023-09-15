@@ -71,7 +71,7 @@ describe('Parts', () => {
   });
 
   it('should sort asBuilt after column id', async () => {
-    const {fixture } = await renderParts();
+    const { fixture } = await renderParts();
     const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
 
     let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
@@ -84,8 +84,8 @@ describe('Parts', () => {
     expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"]]);
   });
 
-  fit('should multisort after column id', async () => {
-    const {fixture } = await renderParts();
+  it('should multisort after column id', async () => {
+    const { fixture } = await renderParts();
     const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
 
     let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
