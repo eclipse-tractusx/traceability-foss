@@ -55,10 +55,10 @@ public class EdcContractDefinitionService {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper, ObjectMapper objectMapper1) {
+    public EdcContractDefinitionService(@Qualifier(EDC_REST_TEMPLATE) RestTemplate edcRestTemplate, EdcProperties edcProperties, ObjectMapper objectMapper) {
         this.restTemplate = edcRestTemplate;
         this.edcProperties = edcProperties;
-        this.objectMapper = objectMapper1;
+        this.objectMapper = objectMapper;
     }
 
     public String createContractDefinition(String notificationAssetId, String accessPolicyId) throws JsonProcessingException {

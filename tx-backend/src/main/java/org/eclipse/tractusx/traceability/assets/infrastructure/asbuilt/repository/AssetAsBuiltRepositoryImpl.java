@@ -21,6 +21,8 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
@@ -36,11 +38,16 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 
+import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
+
 @RequiredArgsConstructor
 @Component
 public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     @Transactional
@@ -77,6 +84,15 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
                                 filter.stream().map(AssetAsBuildSpecification::new).toList())),
                         pageable),
                 AssetAsBuiltEntity::toDomain);
+    }
+
+    @Override
+    public List<String> getFieldValues(String fieldName, Long resultLimit) {
+        String databaseFieldName = toDatabaseName(fieldName);
+        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_built ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
+        return entityManager.createNativeQuery(getFieldValuesQuery, String.class)
+                .setParameter("resultLimit", resultLimit)
+                .getResultList();
     }
 
     @Override
