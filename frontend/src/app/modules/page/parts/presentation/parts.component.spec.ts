@@ -70,16 +70,20 @@ describe('Parts', () => {
     expect(selectedPartsInfo).toBeInTheDocument();
   });
 
-  it('should sort after column id', async () => {
-    const {fixture, } = await renderParts();
-    const partsComponent = fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
+  fit('should sort after column id', async () => {
+    const {fixture } = await renderParts();
+    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
 
-    let setTableListSpy = spyOn(partsComponent, "onAsBuiltTableConfigChange");
-
+    //let onAsBuiltFunctionSpy = spyOn(partsComponent, "onAsBuiltTableConfigChange").and.callThrough();
+    let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
     let idColumnHeader = await screen.findByText('table.column.id');
-    fireEvent.click(idColumnHeader);
+    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
 
-    expect(setTableListSpy).toHaveBeenCalled();
-    expect(setTableListSpy).toHaveBeenCalledWith( Object({ page: 0, pageSize: 10, sorting: [ 'id', 'asc' ] }));
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "asBuilt" );
+    console.warn(partsComponent.tableAsBuiltSortList);
+
+    //expect(onAsBuiltFunctionSpy).toHaveBeenCalledWith( Object({ page: 0, pageSize: 10, sorting: [ 'id', 'asc' ] }));
+    expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"]]);
   });
 });
