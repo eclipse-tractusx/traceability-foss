@@ -57,7 +57,6 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @SuperBuilder
 public class AssetBaseResponseMapper {
 
-
     public static List<DetailAspectModelResponse> fromList(List<DetailAspectModel> detailAspectModels) {
         List<DetailAspectModelResponse> list = emptyIfNull(detailAspectModels).stream()
                 .map(AssetAsPlannedResponseMapper::from)
