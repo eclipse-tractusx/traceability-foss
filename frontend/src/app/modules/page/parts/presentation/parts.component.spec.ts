@@ -84,7 +84,7 @@ describe('Parts', () => {
     expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"]]);
   });
 
-  it('should multisort after column id', async () => {
+  it('should multisort after column id and idShort', async () => {
     const { fixture } = await renderParts();
     const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
 
@@ -114,6 +114,35 @@ describe('Parts', () => {
     expect(setTableFunctionSpy).toHaveBeenCalledWith(['idShort', 'asc'], "asBuilt" );
     console.warn(partsComponent.tableAsBuiltSortList);
     expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"], ["idShort", "desc"]]);
+  });
+
+  it('should reset sorting after third click', async () => {
+    const { fixture } = await renderParts();
+    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
+
+    let idColumnHeader = await screen.findByText('table.column.id');
+    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
+    let idShortHeader = await screen.findByText('table.column.idShort')
+
+    await waitFor(() => {fireEvent.keyDown(idShortHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {
+      fireEvent.click(idShortHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(idShortHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(idShortHeader)});
+
+    await waitFor(() => {fireEvent.click(idShortHeader)});
+
+    expect(partsComponent['tableAsBuiltSortList']).toEqual([]);
   });
 
 });
