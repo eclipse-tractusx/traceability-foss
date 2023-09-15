@@ -19,13 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { By } from '@angular/platform-browser';
 import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
 import { SharedModule } from '@shared/shared.module';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { PartsModule } from '../parts.module';
 
@@ -67,5 +68,18 @@ describe('Parts', () => {
     const selectedPartsInfo = await screen.getByText('page.selectedParts.info');
 
     expect(selectedPartsInfo).toBeInTheDocument();
+  });
+
+  it('should sort after column id', async () => {
+    const {fixture, } = await renderParts();
+    const partsComponent = fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
+
+    let setTableListSpy = spyOn(partsComponent, "onAsBuiltTableConfigChange");
+
+    let idColumnHeader = await screen.findByText('table.column.id');
+    fireEvent.click(idColumnHeader);
+
+    expect(setTableListSpy).toHaveBeenCalled();
+    expect(setTableListSpy).toHaveBeenCalledWith( Object({ page: 0, pageSize: 10, sorting: [ 'id', 'asc' ] }));
   });
 });
