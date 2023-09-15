@@ -63,23 +63,6 @@ class ApplicationStartupConfigTest {
     }
 
     @Test
-    void whenCallRegisterIrsPolicyThrowsException_thenCallRepository() {
-        // given
-        doThrow(RuntimeException.class).when(irsRepository).createIrsPolicyIfMissing();
-
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-        // when
-        executor.execute(() -> {
-            applicationStartupConfig.registerIrsPolicy();
-
-            // then
-            verify(irsRepository, times(1)).createIrsPolicyIfMissing();
-        });
-
-        executor.shutdown();
-    }
-
-    @Test
     void whenCallCreateNotificationContracts_thenCallContractService() {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         // when

@@ -30,10 +30,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
 import javax.sql.DataSource;
 
+import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
 import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_TESTS;
 
 @Configuration
-@Profile(NOT_TESTS)
+@Profile(NOT_INTEGRATION_TESTS)
 public class SchedulerConfig {
 
 	@Bean
