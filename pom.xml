@@ -48,7 +48,7 @@ SPDX-License-Identifier: Apache-2.0
 
         <!-- versions for Maven plugin -->
         <ascii-doctor.maven.plugin.version>2.2.4</ascii-doctor.maven.plugin.version>
-        <checkstyle-plugin.version>3.2.1</checkstyle-plugin.version>
+        <checkstyle-plugin.version>3.3.0</checkstyle-plugin.version>
         <compiler-plugin.version>3.10.1</compiler-plugin.version>
         <findsecbugs-plugin.version>1.12.0</findsecbugs-plugin.version>
         <install-plugin.version>3.0.1</install-plugin.version>
@@ -56,7 +56,7 @@ SPDX-License-Identifier: Apache-2.0
         <jar-plugin.version>3.3.0</jar-plugin.version>
         <owasp-plugin.version>8.4.0</owasp-plugin.version>
         <spotbugs-plugin.version>4.7.3.0</spotbugs-plugin.version>
-        <spring-boot-maven-plugin.version>3.0.2</spring-boot-maven-plugin.version>
+        <spring-boot-maven-plugin.version>3.1.3</spring-boot-maven-plugin.version>
         <maven-project-info-reports-plugin.version>3.4.5</maven-project-info-reports-plugin.version>
         <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
         <maven-surefire-plugin.version>3.1.2</maven-surefire-plugin.version>
@@ -73,14 +73,14 @@ SPDX-License-Identifier: Apache-2.0
         <jakarta-ws-rs.version>3.1.0</jakarta-ws-rs.version>
         <jruby.version>9.4.3.0</jruby.version>
         <resilience4j.version>2.1.0</resilience4j.version>
-        <schedlock.version>5.5.0</schedlock.version>
+        <schedlock.version>5.7.0</schedlock.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <jetbrains-annotation.version>24.0.1</jetbrains-annotation.version>
         <feign-form.version>3.8.0</feign-form.version>
         <feign-slf4j.version>12.4</feign-slf4j.version>
         <scribe-java.version>8.3.3</scribe-java.version>
         <findbugs-jsr305.version>3.0.2</findbugs-jsr305.version>
-        <swagger-annotation.version>1.6.10</swagger-annotation.version>
+        <swagger-annotation.version>1.6.11</swagger-annotation.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
         <commons-io.version>2.13.0</commons-io.version>
         <jose4j.version>0.9.3</jose4j.version>
@@ -94,7 +94,7 @@ SPDX-License-Identifier: Apache-2.0
         <lombok.version>1.18.28</lombok.version>
         <json-unit-assertj.version>2.38.0</json-unit-assertj.version>
         <cucumber.version>7.12.1</cucumber.version>
-        <org-snakeyaml.version>2.1</org-snakeyaml.version>
+        <org-snakeyaml.version>2.2</org-snakeyaml.version>
         <jackson.version>2.15.1</jackson.version>
         <junit-bom.version>5.9.3</junit-bom.version>
         <awaitility.version>3.0.0</awaitility.version>
