@@ -201,7 +201,7 @@ public class TraceabilityTestStepDefinition {
     public void iDeclineQualityAlert(DataTable dataTable) {
         String reason = normalize(dataTable.asMap()).get("reason");
         System.out.println("reason: " + reason);
-        restProvider.updateNotification(INVESTIGATION, getNotificationIdBasedOnEnv(), DECLINED, reason);
+        restProvider.updateNotification(ALERT, getNotificationIdBasedOnEnv(), DECLINED, reason);
     }
 
     private Long getNotificationIdBasedOnEnv() {
