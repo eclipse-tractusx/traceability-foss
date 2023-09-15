@@ -70,20 +70,50 @@ describe('Parts', () => {
     expect(selectedPartsInfo).toBeInTheDocument();
   });
 
-  fit('should sort after column id', async () => {
+  it('should sort asBuilt after column id', async () => {
     const {fixture } = await renderParts();
     const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
 
-    //let onAsBuiltFunctionSpy = spyOn(partsComponent, "onAsBuiltTableConfigChange").and.callThrough();
     let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
     let idColumnHeader = await screen.findByText('table.column.id');
     await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
 
 
     expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "asBuilt" );
-    console.warn(partsComponent.tableAsBuiltSortList);
 
-    //expect(onAsBuiltFunctionSpy).toHaveBeenCalledWith( Object({ page: 0, pageSize: 10, sorting: [ 'id', 'asc' ] }));
     expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"]]);
   });
+
+  fit('should multisort after column id', async () => {
+    const {fixture } = await renderParts();
+    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
+
+    let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
+    let idColumnHeader = await screen.findByText('table.column.id');
+    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
+    let idShortHeader = await screen.findByText('table.column.idShort')
+
+    await waitFor(() => {fireEvent.keyDown(idShortHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+    expect(partsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(idShortHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(idShortHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(idShortHeader)});
+
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "asBuilt" );
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['idShort', 'asc'], "asBuilt" );
+    console.warn(partsComponent.tableAsBuiltSortList);
+    expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"], ["idShort", "desc"]]);
+  });
+
 });
