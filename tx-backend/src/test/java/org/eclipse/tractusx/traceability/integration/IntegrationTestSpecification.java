@@ -35,7 +35,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.testcontainers.spock.Testcontainers;
 
 import java.util.Map;
 import java.util.concurrent.Callable;
@@ -46,7 +45,6 @@ import static org.awaitility.Awaitility.await;
 @ActiveProfiles("integration-spring-boot")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
-@Testcontainers
 @ContextConfiguration(initializers = {PostgreSQLConfig.Initializer.class, RestitoConfig.Initializer.class}, classes = {RestAssuredConfig.class})
 public class IntegrationTestSpecification {
 
