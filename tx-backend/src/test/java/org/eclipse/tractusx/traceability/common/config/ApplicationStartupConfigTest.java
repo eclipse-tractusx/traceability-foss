@@ -31,7 +31,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import static io.restassured.RestAssured.when;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -48,6 +50,23 @@ class ApplicationStartupConfigTest {
 
     @Test
     void whenCallRegisterIrsPolicy_thenCallRepository() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        // when
+        executor.execute(() -> {
+            applicationStartupConfig.registerIrsPolicy();
+
+            // then
+            verify(irsRepository, times(1)).createIrsPolicyIfMissing();
+        });
+
+        executor.shutdown();
+    }
+
+    @Test
+    void whenCallRegisterIrsPolicyThrowsException_thenCallRepository() {
+        // given
+        doThrow(RuntimeException.class).when(irsRepository).createIrsPolicyIfMissing();
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         // when
         executor.execute(() -> {
