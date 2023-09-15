@@ -43,9 +43,11 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.SemanticDataMo
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectData;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotification;
 
 import java.util.List;
 
+import static java.util.Objects.isNull;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 // TODO missing in concept:
@@ -124,5 +126,12 @@ public class AssetBaseResponseMapper {
             return SemanticDataModelResponse.UNKNOWN;
         }
         return SemanticDataModelResponse.valueOf(semanticDataModel.name());
+    }
+
+    protected static Integer countNotificationsInActiveState(List<QualityNotification> notifications) {
+        if(isNull(notifications)){
+            return 0;
+        }
+        return notifications.stream().filter(QualityNotification::isActiveState).toList().size();
     }
 }

@@ -75,4 +75,8 @@ public class AssetBaseResponse {
     @Size(max = 255)
     private String classification;
     private List<DetailAspectModelResponse> detailAspectModels;
+    @ApiModelProperty(example = "1")
+    private Integer qualityAlertsInStatusActive;
+    @ApiModelProperty(example = "2")
+    private Integer qualityInvestigationsInStatusActive;
 }

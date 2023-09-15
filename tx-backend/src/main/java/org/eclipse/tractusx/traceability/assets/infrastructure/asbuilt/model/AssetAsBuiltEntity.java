@@ -33,12 +33,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Descriptions;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailAspectModel;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
@@ -47,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @SuperBuilder
@@ -71,7 +74,7 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
     private List<InvestigationEntity> investigations = new ArrayList<>();
 
     @ManyToMany(mappedBy = "assets")
-    private List<AlertNotificationEntity> alertNotificationEntities = new ArrayList<>();
+    private List<AlertEntity> alerts = new ArrayList<>();
 
     public static AssetAsBuiltEntity from(AssetBase asset) {
         ManufacturingInfo manufacturingInfo = ManufacturingInfo.from(asset.getDetailAspectModels());
@@ -127,6 +130,8 @@ public class AssetAsBuiltEntity extends AssetBaseEntity {
                 .van(entity.getVan())
                 .classification(entity.getClassification())
                 .detailAspectModels(DetailAspectModel.from(entity))
+                .qualityAlerts(entity.alerts == null ? null : entity.alerts.stream().map(AlertEntity::toDomain).toList())
+                .qualityInvestigations(entity.investigations == null ? null : entity.investigations.stream().map(InvestigationEntity::toDomain).toList())
                 .build();
     }
 
