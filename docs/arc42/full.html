@@ -481,10 +481,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_runtime_view">Runtime view</a>
 <ul class="sectlevel2">
 <li><a href="#_overall">Overall</a></li>
-<li><a href="#_scenario_1_return_all_assets">Scenario 1: Return all Assets</a></li>
+<li><a href="#_scenario_1_return_assets">Scenario 1: Return Assets</a></li>
 <li><a href="#_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</a></li>
-<li><a href="#_scenario_3_get_country_information_for_assets">Scenario 3: Get country information for assets</a></li>
-<li><a href="#_scenario_4_get_specific_information_for_assets">Scenario 4: Get specific information for assets</a></li>
 </ul>
 </li>
 <li><a href="#_deployment_view">Deployment view</a></li>
@@ -1223,19 +1221,22 @@ It roughly can be broken down into the following parts:</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_scenario_1_return_all_assets">Scenario 1: Return all Assets</h3>
+<h3 id="_scenario_1_return_assets">Scenario 1: Return Assets</h3>
 <div class="paragraph">
-<p>This section describes what happens when user lists all stored assets.</p>
+<p>This section describes what happens when user lists stored assets.
+In this example, the user requests as built assets.
+The same can be done with as planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/return-all-assets.svg" alt="return all assets" width="1129" height="542">
+<img src="architecture-constraints/return-all-assets.svg" alt="return all assets" width="1180" height="542">
 </div>
 </div>
 <div class="sect5">
 <h6 id="_overview">Overview</h6>
 <div class="paragraph">
-<p>When a user requests all stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a pageable result of assets.</p>
+<p>When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
+If yes, then the endpoint returns a pageable result of assets.</p>
 </div>
 <div class="paragraph">
 <p>The returned pageable result can be empty if no suitable asset has been found.</p>
@@ -1245,11 +1246,13 @@ It roughly can be broken down into the following parts:</p>
 <div class="sect2">
 <h3 id="_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</h3>
 <div class="paragraph">
-<p>This section describes what happens when user searches for a specific asset.</p>
+<p>This section describes what happens when user searches for a specific asset.
+This example shows the request of one as built asset.
+The same can be done with as planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="architecture-constraints/return-specific-assets.svg" alt="return specific assets" width="1258" height="542">
+<img src="architecture-constraints/return-specific-assets.svg" alt="return specific assets" width="1309" height="542">
 </div>
 </div>
 <div class="sect5">
@@ -1259,49 +1262,6 @@ It roughly can be broken down into the following parts:</p>
 </div>
 <div class="paragraph">
 <p>If no asset has been found for the given ID, an AssetNotFoundException is thrown.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_scenario_3_get_country_information_for_assets">Scenario 3: Get country information for assets</h3>
-<div class="paragraph">
-<p>This section describes what happens when user lists the map of assets.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="architecture-constraints/get-country-information-for-assets.svg" alt="get country information for assets" width="1642" height="658">
-</div>
-</div>
-<div class="sect5">
-<h6 id="_overview_3">Overview</h6>
-<div class="paragraph">
-<p>When a user requests the map of assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a JAVA map containing a country names as keys and the number of assets stored for each country and for the given assetId, if they are found.</p>
-</div>
-<div class="paragraph">
-<p>If no asset has been found, an empty JAVA map will be returned.</p>
-</div>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_scenario_4_get_specific_information_for_assets">Scenario 4: Get specific information for assets</h3>
-<div class="paragraph">
-<p>This section describes what happens when user lists detailed information for assets.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="architecture-constraints/get-specific-information-for-assets.svg" alt="get specific information for assets" width="1583" height="542">
-</div>
-</div>
-<div class="sect5">
-<h6 id="_overview_4">Overview</h6>
-<div class="paragraph">
-<p>When a user requests detailed information for assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a list containing all the stored information for the given assetId, if they are found.</p>
-</div>
-<div class="paragraph">
-<p>If no asset has been found, an empty list will be returned.</p>
-</div>
-<div class="paragraph">
-<p>This information for an asset can contain the name of the manufacturer, the manufacturer part ID, the manufacturer name, the manufacturing country, etc.</p>
 </div>
 </div>
 </div>
@@ -1456,6 +1416,10 @@ It roughly can be broken down into the following parts:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Bill of material lifecycle of the built entity</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BoM AsPlanned</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bill of material lifecycle of the planned entity</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">BPN</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><strong>B</strong>usiness <strong>P</strong>artner <strong>N</strong>umber. A BPN is used to identify a partner in the Catena-X network</p></td>
 </tr>
@@ -1502,7 +1466,7 @@ It roughly can be broken down into the following parts:</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-09-11 12:18:25 UTC
+Last updated 2023-09-15 06:57:12 UTC
 </div>
 </div>
 </body>

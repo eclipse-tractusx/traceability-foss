@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.18">
-<title>Scenario 1: Return all Assets</title>
+<title>Scenario 1: Return Assets</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,7 +439,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Scenario 1: Return all Assets</h1>
+<h1>Scenario 1: Return Assets</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel3">
@@ -451,11 +451,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes what happens when user lists all stored assets.</p>
+<p>This section describes what happens when user lists stored assets.
+In this example, the user requests as built assets.
+The same can be done with as planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="return-all-assets.svg" alt="return all assets" width="1129" height="542">
+<img src="return-all-assets.svg" alt="return all assets" width="1180" height="542">
 </div>
 </div>
 </div>
@@ -463,7 +465,8 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect3">
 <h4 id="_overview">Overview</h4>
 <div class="paragraph">
-<p>When a user requests all stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a pageable result of assets.</p>
+<p>When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
+If yes, then the endpoint returns a pageable result of assets.</p>
 </div>
 <div class="paragraph">
 <p>The returned pageable result can be empty if no suitable asset has been found.</p>
@@ -472,7 +475,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-09-11 12:18:25 UTC
+Last updated 2023-09-15 06:57:12 UTC
 </div>
 </div>
 </body>

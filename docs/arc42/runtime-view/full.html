@@ -444,7 +444,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_overall">Overall</a></li>
-<li><a href="#_scenario_1_return_all_assets">Scenario 1: Return all Assets</a>
+<li><a href="#_scenario_1_return_assets">Scenario 1: Return Assets</a>
 <ul class="sectlevel4">
 <li><a href="#_overview">Overview</a></li>
 </ul>
@@ -452,16 +452,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</a>
 <ul class="sectlevel4">
 <li><a href="#_overview_2">Overview</a></li>
-</ul>
-</li>
-<li><a href="#_scenario_3_get_country_information_for_assets">Scenario 3: Get country information for assets</a>
-<ul class="sectlevel4">
-<li><a href="#_overview_3">Overview</a></li>
-</ul>
-</li>
-<li><a href="#_scenario_4_get_specific_information_for_assets">Scenario 4: Get specific information for assets</a>
-<ul class="sectlevel4">
-<li><a href="#_overview_4">Overview</a></li>
 </ul>
 </li>
 </ul>
@@ -477,20 +467,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_scenario_1_return_all_assets">Scenario 1: Return all Assets</h2>
+<h2 id="_scenario_1_return_assets">Scenario 1: Return Assets</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes what happens when user lists all stored assets.</p>
+<p>This section describes what happens when user lists stored assets.
+In this example, the user requests as built assets.
+The same can be done with as planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="return-all-assets.svg" alt="return all assets" width="1129" height="542">
+<img src="return-all-assets.svg" alt="return all assets" width="1180" height="542">
 </div>
 </div>
 <div class="sect4">
 <h5 id="_overview">Overview</h5>
 <div class="paragraph">
-<p>When a user requests all stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a pageable result of assets.</p>
+<p>When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
+If yes, then the endpoint returns a pageable result of assets.</p>
 </div>
 <div class="paragraph">
 <p>The returned pageable result can be empty if no suitable asset has been found.</p>
@@ -502,11 +495,13 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_scenario_2_return_specific_assets">Scenario 2: Return specific Assets</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This section describes what happens when user searches for a specific asset.</p>
+<p>This section describes what happens when user searches for a specific asset.
+This example shows the request of one as built asset.
+The same can be done with as planned assets.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="return-specific-assets.svg" alt="return specific assets" width="1258" height="542">
+<img src="return-specific-assets.svg" alt="return specific assets" width="1309" height="542">
 </div>
 </div>
 <div class="sect4">
@@ -520,57 +515,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_scenario_3_get_country_information_for_assets">Scenario 3: Get country information for assets</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This section describes what happens when user lists the map of assets.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="get-country-information-for-assets.svg" alt="get country information for assets" width="1642" height="658">
-</div>
-</div>
-<div class="sect4">
-<h5 id="_overview_3">Overview</h5>
-<div class="paragraph">
-<p>When a user requests the map of assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a JAVA map containing a country names as keys and the number of assets stored for each country and for the given assetId, if they are found.</p>
-</div>
-<div class="paragraph">
-<p>If no asset has been found, an empty JAVA map will be returned.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_scenario_4_get_specific_information_for_assets">Scenario 4: Get specific information for assets</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>This section describes what happens when user lists detailed information for assets.</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="get-specific-information-for-assets.svg" alt="get specific information for assets" width="1583" height="542">
-</div>
-</div>
-<div class="sect4">
-<h5 id="_overview_4">Overview</h5>
-<div class="paragraph">
-<p>When a user requests detailed information for assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a list containing all the stored information for the given assetId, if they are found.</p>
-</div>
-<div class="paragraph">
-<p>If no asset has been found, an empty list will be returned.</p>
-</div>
-<div class="paragraph">
-<p>This information for an asset can contain the name of the manufacturer, the manufacturer part ID, the manufacturer name, the manufacturing country, etc.</p>
-</div>
-</div>
-</div>
-</div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2023-09-11 12:18:25 UTC
+Last updated 2023-09-15 06:57:12 UTC
 </div>
 </div>
 </body>
