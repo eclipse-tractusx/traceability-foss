@@ -351,19 +351,6 @@ SPDX-License-Identifier: Apache-2.0
             <scope>test</scope>
         </dependency>
 
-        <!-- Integration Testing Dependencies -->
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
-            <version>${spock-core.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-spring</artifactId>
-            <version>${spock-core.version}</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.bitbucket.b_c</groupId>
             <artifactId>jose4j</artifactId>
@@ -488,32 +475,6 @@ SPDX-License-Identifier: Apache-2.0
                     <commitIdGenerationMode>full</commitIdGenerationMode>
                 </configuration>
             </plugin>
-
-            <!--            Test Plugin-->
-            <plugin>
-                <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-                <version>${gmavenplus-plugin.version}</version> <!-- 1.13.1 -->
-                <configuration>
-                    <testSources>
-                        <testSource>
-                            <directory>tx-backend/src/integration</directory>
-                            <includes>
-                                <include>**/*.groovy</include>
-                            </includes>
-                        </testSource>
-                    </testSources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>compileTests</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
 
             <!-- Maven Plugins -->
             <plugin>
