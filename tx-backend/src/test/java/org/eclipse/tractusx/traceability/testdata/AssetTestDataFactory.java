@@ -36,7 +36,6 @@ public class AssetTestDataFactory {
     }
 
     public static AssetBase createAssetTestData() {
-        Instant manufacturingDate = Instant.now();
 
 // TODO add detailAspectModels
 
@@ -58,7 +57,6 @@ public class AssetTestDataFactory {
     }
 
     public static AssetBase createAssetParentTestData() {
-        Instant manufacturingDate = Instant.now();
 
 // TODO add detailAspectModels
 
