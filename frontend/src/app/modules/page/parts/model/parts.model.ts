@@ -22,7 +22,7 @@
 import type { PaginationResponse } from '@core/model/pagination.model';
 import { SemanticModel } from '@page/parts/model/aspectModels.model';
 import { DetailAspectModel } from '@page/parts/model/detailAspectModel.model';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Owner } from '@page/parts/model/owner.enum';
 
 export interface Part {
@@ -45,7 +45,7 @@ export interface Part {
   semanticDataModel: SemanticDataModel;
   classification: string;
 
-  mainAspectType: MainAspectTypeModel;
+  mainAspectType: MainAspectType;
 
   // aspectmodel props are temporarely hardcoded here because Tables and Views only accept root level prop array
   // as built

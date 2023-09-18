@@ -27,7 +27,7 @@ import {
   PartSiteInformationAsPlanned,
   SemanticModel,
 } from '@page/parts/model/aspectModels.model';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part, PartResponse, QualityType } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
@@ -45,7 +45,7 @@ export class PartsAssembler {
     return proplist;
   }
 
-  public static assemblePart(partResponse: PartResponse, mainAspectType: MainAspectTypeModel): Part {
+  public static assemblePart(partResponse: PartResponse, mainAspectType: MainAspectType): Part {
     if (!partResponse) {
       return null;
     }
@@ -107,7 +107,7 @@ export class PartsAssembler {
 
     return mappedPart;
   }
-  public static assembleOtherPart(partResponse: PartResponse, mainAspectType: MainAspectTypeModel): Part {
+  public static assembleOtherPart(partResponse: PartResponse, mainAspectType: MainAspectType): Part {
     if (!partResponse) {
       return null;
     }
@@ -115,16 +115,16 @@ export class PartsAssembler {
     return { ...PartsAssembler.assemblePart(partResponse, mainAspectType), qualityType: partResponse.qualityType };
   }
 
-  public static assembleParts(parts: PaginationResponse<PartResponse>, mainAspectType: MainAspectTypeModel): Pagination<Part> {
+  public static assembleParts(parts: PaginationResponse<PartResponse>, mainAspectType: MainAspectType): Pagination<Part> {
     return PaginationAssembler.assemblePagination(PartsAssembler.assemblePart, parts, mainAspectType);
   }
 
-  public static assemblePartList(parts: PartResponse[], mainAspectType: MainAspectTypeModel): Part[] {
+  public static assemblePartList(parts: PartResponse[], mainAspectType: MainAspectType): Part[] {
     const partCopy = [...parts];
     return partCopy.map(part => PartsAssembler.assemblePart(part, mainAspectType));
   }
 
-  public static assembleOtherParts(parts: PaginationResponse<PartResponse>, mainAspectType: MainAspectTypeModel): Pagination<Part> {
+  public static assembleOtherParts(parts: PaginationResponse<PartResponse>, mainAspectType: MainAspectType): Pagination<Part> {
     return PaginationAssembler.assemblePagination(PartsAssembler.assembleOtherPart, parts, mainAspectType);
   }
 
@@ -165,7 +165,7 @@ export class PartsAssembler {
       }
 
         // exclude 'van' if is a partAsPlanned
-        if(viewData.data?.mainAspectType === MainAspectTypeModel.AS_BUILT) {
+        if(viewData.data?.mainAspectType === MainAspectType.AS_BUILT) {
             const {
                 manufacturer,
                 manufacturerPartId,

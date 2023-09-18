@@ -20,7 +20,7 @@
 import { OtherPartsFacade } from '@page/other-parts/core/other-parts.facade';
 import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartsService } from '@shared/service/parts.service';
 import { waitFor } from '@testing-library/angular';
@@ -36,16 +36,16 @@ describe('OtherPartsFacade', () => {
 
   beforeEach(() => {
     partsServiceMok = {
-      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectTypeModel.AS_BUILT))),
+      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartsAsBuilt: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectTypeModel.AS_BUILT))),
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
       getPartsAsPlanned: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectTypeModel.AS_PLANNED))),
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
     } as PartsService;
 
     otherPartsServiceMock  = {
       getOtherParts: (_page, _pageSize, _sorting, _owner) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectTypeModel.AS_BUILT))),
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
     } as OtherPartsService;
 
     otherPartsState = new OtherPartsState();
@@ -55,7 +55,7 @@ describe('OtherPartsFacade', () => {
   describe('setActiveInvestigationForParts', () => {
     it('should set parts if request is successful', async () => {
 
-      const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectTypeModel.AS_BUILT);
+      const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
       otherPartsState.supplierParts = { data: otherParts};
       otherPartsFacade.setActiveInvestigationForParts(otherParts.content);
 
@@ -76,7 +76,7 @@ describe('OtherPartsFacade', () => {
 
     it('should not set parts if no data in state', async () => {
 
-      const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectTypeModel.AS_BUILT);
+      const otherParts = PartsAssembler.assembleOtherParts(mockAssets, MainAspectType.AS_BUILT);
       otherPartsFacade.setActiveInvestigationForParts(otherParts.content);
 
       const parts = await firstValueFrom(otherPartsState.supplierParts$);

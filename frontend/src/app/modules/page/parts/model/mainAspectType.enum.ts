@@ -16,7 +16,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-export enum MainAspectTypeModel {
+export enum MainAspectType {
   AS_BUILT = "as_built",
   AS_PLANNED = "as_planned"
 }

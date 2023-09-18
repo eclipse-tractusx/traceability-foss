@@ -18,7 +18,7 @@
  ********************************************************************************/
 
 import { TestBed } from '@angular/core/testing';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
@@ -52,7 +52,7 @@ describe('FormatPartSemanticDataModelToCamelCasePipe', () => {
     ].forEach(object => {
 
     it(`should transform semanticDataModel from ${object.option} to ${object.expected}`, function()  {
-      let partData = PartsAssembler.assemblePart(MOCK_part_1, MainAspectTypeModel.AS_BUILT);
+      let partData = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
       partData.semanticDataModel = object.option;
 
       expect(partData.semanticDataModel).toEqual(object.option)

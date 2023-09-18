@@ -22,7 +22,7 @@
 import { Pagination } from '@core/model/pagination.model';
 import { AsBuiltAspectModel } from '@page/parts/model/aspectModels.model';
 import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { of } from 'rxjs';
@@ -39,8 +39,8 @@ describe('PartsAssembler', () => {
   describe('assembleParts', () => {
     it('should return null if array is empty or undefined', () => {
       const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 0, totalItems: 0 };
-      expect(PartsAssembler.assembleParts(null, MainAspectTypeModel.AS_BUILT)).toEqual(emptyPage);
-      expect(PartsAssembler.assembleParts(page([]), MainAspectTypeModel.AS_BUILT)).toEqual(emptyPage);
+      expect(PartsAssembler.assembleParts(null, MainAspectType.AS_BUILT)).toEqual(emptyPage);
+      expect(PartsAssembler.assembleParts(page([]), MainAspectType.AS_BUILT)).toEqual(emptyPage);
     });
 
     it('should format the object correctly', () => {
@@ -143,7 +143,7 @@ describe('PartsAssembler', () => {
 
         });
 
-      expect(JSON.stringify(PartsAssembler.assembleParts(page(testData), MainAspectTypeModel.AS_BUILT).content)).toEqual(JSON.stringify(expected));
+      expect(JSON.stringify(PartsAssembler.assembleParts(page(testData), MainAspectType.AS_BUILT).content)).toEqual(JSON.stringify(expected));
     });
   });
 
@@ -173,7 +173,7 @@ describe('PartsAssembler', () => {
     const manufacturerPartId = 'manufacturerPartId';
     const nameAtManufacturer = 'nameAtManufacturer';
     const van = 'van';
-    const mainAspectType = MainAspectTypeModel.AS_BUILT
+    const mainAspectType = MainAspectType.AS_BUILT
 
     it('should clean up data for manufacturer view', done => {
       const data = { manufacturer, manufacturerPartId, nameAtManufacturer, test: '', van, mainAspectType } as unknown as Part;

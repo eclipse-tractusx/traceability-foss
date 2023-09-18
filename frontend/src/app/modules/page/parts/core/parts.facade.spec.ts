@@ -22,7 +22,7 @@
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsState } from '@page/parts/core/parts.state';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartsService } from '@shared/service/parts.service';
@@ -36,11 +36,11 @@ describe('Parts facade', () => {
 
   beforeEach(() => {
     partsServiceMok = {
-      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectTypeModel.AS_BUILT))),
+      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartsAsBuilt: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectTypeModel.AS_BUILT))),
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
       getPartsAsPlanned: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectTypeModel.AS_PLANNED))),
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
     } as PartsService;
 
     partsState = new PartsState();
@@ -50,7 +50,7 @@ describe('Parts facade', () => {
   describe('setParts', () => {
     it('should set parts if request is successful', async () => {
       const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuilt').and.returnValue(
-        of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectTypeModel.AS_BUILT)),
+        of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
       );
       partsFacade.setPartsAsBuilt(0, 10);
 
@@ -62,7 +62,7 @@ describe('Parts facade', () => {
         expect(parts).toEqual({
           error: undefined,
           loader: undefined,
-          data: PartsAssembler.assembleParts(mockAssets, MainAspectTypeModel.AS_BUILT),
+          data: PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT),
         }),
       );
     });

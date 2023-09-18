@@ -23,7 +23,7 @@ import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { PartsState } from '@page/parts/core/parts.state';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsFacade } from '@shared/modules/part-details/core/partDetails.facade';
 import { PartDetailsState } from '@shared/modules/part-details/core/partDetails.state';
@@ -36,7 +36,7 @@ import { PartDetailComponent } from './part-detail.component';
 let PartsStateMock: PartsState;
 let PartDetailsStateMock: PartDetailsState;
 
-const part = PartsAssembler.assemblePart(MOCK_part_1, MainAspectTypeModel.AS_BUILT);
+const part = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
 
 describe('PartDetailComponent', () => {
   beforeEach(() => {

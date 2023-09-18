@@ -19,7 +19,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { RelationComponentState } from '@shared/modules/relations/core/component.state';
 import { LoadedElementsFacade } from '@shared/modules/relations/core/loaded-elements.facade';
@@ -45,9 +45,9 @@ describe('Relations facade', () => {
 
   beforeEach(() => {
     const partsServiceMok = {
-      getPart: id => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectTypeModel.AS_BUILT))),
+      getPart: id => of(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartDetailOfIds: assetIds =>
-        of(assetIds.map(id => mockAssetList[id])).pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectTypeModel.AS_BUILT))),
+        of(assetIds.map(id => mockAssetList[id])).pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT))),
     } as PartsService;
 
     loadedElementsFacade = new LoadedElementsFacade(new LoadedElementsState());

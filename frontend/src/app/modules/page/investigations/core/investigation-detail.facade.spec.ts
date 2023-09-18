@@ -21,7 +21,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { InvestigationDetailFacade } from '@page/investigations/core/investigation-detail.facade';
 import { InvestigationDetailState } from '@page/investigations/core/investigation-detail.state';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPartlistSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-partlist-semantic-data-model-to-camelcase.pipe';
@@ -74,7 +74,7 @@ describe('InvestigationDetailFacade', () => {
 
       beforeEach(function() {
 
-        part = PartsAssembler.assemblePart(MOCK_part_1, MainAspectTypeModel.AS_BUILT);
+        part = PartsAssembler.assemblePart(MOCK_part_1, MainAspectType.AS_BUILT);
 
         this.spy = spyOn(partService, 'sortParts').and.callFake(() => [ part ]);
       });

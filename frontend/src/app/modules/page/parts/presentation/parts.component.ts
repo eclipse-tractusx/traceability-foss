@@ -22,7 +22,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
-import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import {
   CreateHeaderFromColumns,
@@ -176,16 +176,16 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onAsBuiltTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.setTableSortingList(sorting,MainAspectTypeModel.AS_BUILT);
+    this.setTableSortingList(sorting,MainAspectType.AS_BUILT);
     this.partsFacade.setPartsAsBuilt(page, pageSize, this.tableAsBuiltSortList);
   }
 
   public onAsPlannedTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.setTableSortingList(sorting,MainAspectTypeModel.AS_PLANNED);
+    this.setTableSortingList(sorting,MainAspectType.AS_PLANNED);
     this.partsFacade.setPartsAsPlanned(page, pageSize, this.tableAsPlannedSortList);
   }
 
-  private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectTypeModel): void {
+  private setTableSortingList(sorting: TableHeaderSort, partTable: MainAspectType): void {
       // if a sorting Columnlist exists but a column gets resetted:
       if(!sorting && (this.tableAsBuiltSortList || this.tableAsPlannedSortList)) {
         this.resetTableSortingList(partTable);
@@ -195,7 +195,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
       // if CTRL is pressed at to sortList
       if(this.ctrlKeyState) {
         const [columnName] = sorting;
-        const tableSortList = partTable === MainAspectTypeModel.AS_BUILT ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
+        const tableSortList = partTable === MainAspectType.AS_BUILT ? this.tableAsBuiltSortList : this.tableAsPlannedSortList
 
         // Find the index of the existing entry with the same first item
         const index = tableSortList.findIndex(
@@ -209,22 +209,22 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
           // Add the new entry if it doesn't exist
           tableSortList.push(sorting);
         }
-        if(partTable === MainAspectTypeModel.AS_BUILT) {
+        if(partTable === MainAspectType.AS_BUILT) {
           this.tableAsBuiltSortList = tableSortList
         } else {
           this.tableAsPlannedSortList = tableSortList
         }
       }
       // If CTRL is not pressed just add a list with one entry
-      else if(partTable === MainAspectTypeModel.AS_BUILT) {
+      else if(partTable === MainAspectType.AS_BUILT) {
           this.tableAsBuiltSortList = [sorting];
         } else {
           this.tableAsPlannedSortList = [sorting]
         }
   }
 
-  private resetTableSortingList(partTable: MainAspectTypeModel): void {
-    if(partTable === MainAspectTypeModel.AS_BUILT) {
+  private resetTableSortingList(partTable: MainAspectType): void {
+    if(partTable === MainAspectType.AS_BUILT) {
       this.tableAsBuiltSortList = [];
     } else {
       this.tableAsPlannedSortList= [];
