@@ -126,6 +126,12 @@ SPDX-License-Identifier: Apache-2.0
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!-- Update snakeyaml manually to avoid vulnerability CVE-2020-13936; can be removed after Spring updates their dependency -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${org-snakeyaml.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <dependencies>
