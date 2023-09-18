@@ -22,7 +22,7 @@ import { Pagination } from '@core/model/pagination.model';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
-import { MOCK_part_1, MOCK_part_2 } from '../../../mocks/services/parts-mock/parts.test.model';
+import { MOCK_part_1, MOCK_part_2 } from '../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('FormatPaginationSemanticDataModelToCamelCasePipe', () => {
   let formatPaginationSemanticDataModelToCamelCasePipe: FormatPaginationSemanticDataModelToCamelCasePipe;

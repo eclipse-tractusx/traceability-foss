@@ -35,19 +35,24 @@ public class AssetBaseResponse {
     @ApiModelProperty(example = "urn:uuid:ceb6b964-5779-49c1-b5e9-0ee70528fcbd")
     @Size(max = 255)
     private String id;
-    @ApiModelProperty(example = "--")
+    @ApiModelProperty(example = "assembly-part-relationship")
     @Size(max = 255)
     private String idShort;
-    @ApiModelProperty(example = "--")
+    @ApiModelProperty(example = "NO-246880451848384868750731")
     @Size(max = 255)
     private String semanticModelId;
     @ApiModelProperty(example = "BPNL00000003CSGV")
     @Size(max = 255)
-    private String manufacturerId;
+    private String businessPartner;
     @ApiModelProperty(example = "Tier C")
     @Size(max = 255)
     private String manufacturerName;
-    private SemanticModelResponse semanticModel;
+    @ApiModelProperty(example = "Tier C")
+    @Size(max = 255)
+    private String nameAtManufacturer;
+    @ApiModelProperty(example = "Tier C")
+    @Size(max = 255)
+    private String manufacturerPartId;
     @ApiModelProperty(example = "CUSTOMER")
     private OwnerResponse owner;
     @ArraySchema(arraySchema = @Schema(description = "Child relationships", additionalProperties = Schema.AdditionalPropertiesValue.FALSE), maxItems = Integer.MAX_VALUE)
@@ -61,7 +66,7 @@ public class AssetBaseResponse {
     private boolean underInvestigation;
     @ApiModelProperty(example = "Ok")
     private QualityTypeResponse qualityType;
-    @ApiModelProperty(example = "--")
+    @ApiModelProperty(example = "OMAYSKEITUGNVHKKX")
     @Size(max = 255)
     private String van;
     @ApiModelProperty(example = "BATCH")

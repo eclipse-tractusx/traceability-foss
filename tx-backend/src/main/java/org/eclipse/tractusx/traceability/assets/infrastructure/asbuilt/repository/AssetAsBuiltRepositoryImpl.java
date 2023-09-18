@@ -21,24 +21,33 @@
 
 package org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.asbuilt.exception.AssetNotFoundException;
+import org.eclipse.tractusx.traceability.assets.domain.asbuilt.repository.AssetAsBuiltRepository;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.AssetBase;
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
+import org.eclipse.tractusx.traceability.common.model.SearchCriteria;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
+
+import static org.eclipse.tractusx.traceability.common.repository.EntityNameMapper.toDatabaseName;
 
 @RequiredArgsConstructor
 @Component
 public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
 
     private final JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     @Transactional
@@ -68,11 +77,22 @@ public class AssetAsBuiltRepositoryImpl implements AssetAsBuiltRepository {
     }
 
     @Override
-    public PageResult<AssetBase> getAssets(Pageable pageable, Owner owner) {
-        if (owner != null) {
-            return new PageResult<>(jpaAssetAsBuiltRepository.findByOwner(pageable, owner), AssetAsBuiltEntity::toDomain);
-        }
-        return new PageResult<>(jpaAssetAsBuiltRepository.findAll(pageable), AssetAsBuiltEntity::toDomain);
+    public PageResult<AssetBase> getAssets(Pageable pageable, List<SearchCriteria> filter) {
+        return new PageResult<>(
+                jpaAssetAsBuiltRepository.findAll(
+                        Objects.requireNonNull(AssetAsBuildSpecification.toSpecification(
+                                filter.stream().map(AssetAsBuildSpecification::new).toList())),
+                        pageable),
+                AssetAsBuiltEntity::toDomain);
+    }
+
+    @Override
+    public List<String> getFieldValues(String fieldName, Long resultLimit) {
+        String databaseFieldName = toDatabaseName(fieldName);
+        String getFieldValuesQuery = "SELECT DISTINCT " + databaseFieldName + " FROM assets_as_built ORDER BY " + databaseFieldName + " ASC LIMIT :resultLimit";
+        return entityManager.createNativeQuery(getFieldValuesQuery, String.class)
+                .setParameter("resultLimit", resultLimit)
+                .getResultList();
     }
 
     @Override

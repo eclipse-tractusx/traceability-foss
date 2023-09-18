@@ -21,7 +21,7 @@ import { TestBed } from '@angular/core/testing';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
-import { MOCK_part_1 } from '../../../mocks/services/parts-mock/parts.test.model';
+import { MOCK_part_1 } from '../../../mocks/services/parts-mock/partsAsPlanned/partsAsPlanned.test.model';
 
 describe('FormatPartSemanticDataModelToCamelCasePipe', () => {
   let formatPartSemanticDataModelToCamelCasePipe: FormatPartSemanticDataModelToCamelCasePipe;

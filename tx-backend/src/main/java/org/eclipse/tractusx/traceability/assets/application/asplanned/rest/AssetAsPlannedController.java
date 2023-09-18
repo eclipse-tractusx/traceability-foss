@@ -19,7 +19,6 @@
 
 package org.eclipse.tractusx.traceability.assets.application.asplanned.rest;
 
-import assets.response.asbuilt.AssetAsBuiltResponse;
 import assets.response.asplanned.AssetAsPlannedResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -39,17 +38,23 @@ import org.eclipse.tractusx.traceability.assets.application.base.service.AssetBa
 import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
 import org.eclipse.tractusx.traceability.common.model.PageResult;
 import org.eclipse.tractusx.traceability.common.request.OwnPageable;
+import org.eclipse.tractusx.traceability.common.request.SearchCriteriaRequestParam;
 import org.eclipse.tractusx.traceability.common.response.ErrorResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER')")
-@Tag(name = "Assets")
+@Tag(name = "AssetsAsPlanned")
 @RequestMapping(path = "/assets/as-planned", produces = "application/json", consumes = "application/json")
 public class AssetAsPlannedController {
 
@@ -59,7 +64,7 @@ public class AssetAsPlannedController {
     }
     @Operation(operationId = "sync",
             summary = "Synchronizes assets from IRS",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint synchronizes the assets from irs.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "201", description = "Created."),
@@ -105,17 +110,18 @@ public class AssetAsPlannedController {
         assetService.synchronizeAssetsAsync(syncAssetsRequest.globalAssetIds());
     }
 
-    @Operation(operationId = "assets",
+    @Operation(operationId = "AssetsAsPlanned",
             summary = "Get assets by pagination",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint returns a paged result of assets.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
+                    schema = @Schema(implementation = AssetAsPlannedResponse.class),
                     arraySchema = @Schema(
-                            description = "Assets",
-                            implementation = AssetAsBuiltResponse.class,
+                            description = "AssetsAsPlanned",
+                            implementation = AssetAsPlannedResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
                     ),
                     maxItems = Integer.MAX_VALUE,
@@ -153,16 +159,27 @@ public class AssetAsPlannedController {
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
     @GetMapping("")
-    public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner) {
-        return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), owner));
+    public PageResult<AssetAsPlannedResponse> assets(OwnPageable pageable, @QueryParam("owner") Owner owner, SearchCriteriaRequestParam filter) {
+        filter.addOwnerCriteria(owner);
+        return AssetAsPlannedResponseMapper.from(assetService.getAssets(OwnPageable.toPageable(pageable), filter.toSearchCriteria()));
     }
 
-    @Operation(operationId = "assetsCountryMap",
-            summary = "Get map of assets",
+    @Operation(operationId = "distinctFilterValues",
+            summary = "getDistinctFilterValues",
             tags = {"Assets"},
-            description = "The endpoint returns a map for assets consumed by the map.",
+            description = "The endpoint returns a distinct filter values for given fieldName.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found"),
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns a distinct filter values for given fieldName.", content = @Content(
+            mediaType = "application/json",
+            array = @ArraySchema(
+                    arraySchema = @Schema(
+                            description = "FilterValues",
+                            implementation = String.class,
+                            additionalProperties = Schema.AdditionalPropertiesValue.FALSE
+                    ),
+                    maxItems = Integer.MAX_VALUE,
+                    minItems = 0)
+    )),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -194,19 +211,18 @@ public class AssetAsPlannedController {
                     content = @Content(
                             mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class)))})
-    @GetMapping("/countries")
-    public Map<String, Long> assetsCountryMap() {
-        return assetService.getAssetsCountryMap();
+    @GetMapping("distinctFilterValues")
+    public List<String> distinctFilterValues(@QueryParam("fieldName") String fieldName, @QueryParam("size") Long size) {
+        return assetService.getDistinctFilterValues(fieldName, size);
     }
-
 
     @Operation(operationId = "assetById",
             summary = "Get asset by id",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint returns an asset filtered by id .",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the assets found",
-            content = {@Content(schema = @Schema(implementation = AssetAsBuiltResponse.class))}),
+            content = {@Content(schema = @Schema(implementation = AssetAsPlannedResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -246,11 +262,11 @@ public class AssetAsPlannedController {
 
     @Operation(operationId = "assetByChildId",
             summary = "Get asset by child id",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint returns an asset filtered by child id.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the asset by childId",
-            content = {@Content(schema = @Schema(implementation = AssetAsBuiltResponse.class))}),
+            content = {@Content(schema = @Schema(implementation = AssetAsPlannedResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -289,11 +305,11 @@ public class AssetAsPlannedController {
 
     @Operation(operationId = "updateAsset",
             summary = "Updates asset",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint updates asset by provided quality type.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the updated asset",
-            content = {@Content(schema = @Schema(implementation = AssetAsBuiltResponse.class))}),
+            content = {@Content(schema = @Schema(implementation = AssetAsPlannedResponse.class))}),
             @ApiResponse(
                     responseCode = "400",
                     description = "Bad request.",
@@ -340,15 +356,15 @@ public class AssetAsPlannedController {
 
     @Operation(operationId = "getDetailInformation",
             summary = "Searches for assets by ids.",
-            tags = {"Assets"},
+            tags = {"AssetsAsPlanned"},
             description = "The endpoint searchs for assets by id and returns a list of them.",
             security = @SecurityRequirement(name = "oAuth2", scopes = "profile email"))
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "Returns the paged result found for Asset", content = @Content(
             mediaType = "application/json",
             array = @ArraySchema(
                     arraySchema = @Schema(
-                            description = "Assets",
-                            implementation = AssetAsBuiltResponse.class,
+                            description = "AssetsAsPlanned",
+                            implementation = AssetAsPlannedResponse.class,
                             additionalProperties = Schema.AdditionalPropertiesValue.FALSE
                     ),
                     maxItems = Integer.MAX_VALUE,
