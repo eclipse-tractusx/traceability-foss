@@ -22,13 +22,14 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractRequest;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.CreateNotificationContractResponse;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationMethod;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.asset.service.EdcNotitifcationAssetService;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.contract.service.EdcContractDefinitionService;
-import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.policy.service.EdcPolicyDefinitionService;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.CreateNotificationContractResponse;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationMethod;
+import org.eclipse.tractusx.traceability.qualitynotification.application.contract.model.NotificationType;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.EdcNotificationContractService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.asset.service.EdcNotitifcationAssetService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.contract.service.EdcContractDefinitionService;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.contract.policy.service.EdcPolicyDefinitionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
