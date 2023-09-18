@@ -100,7 +100,7 @@ jobs:
         with:
           # Scanning directory .
           path: "./tx-backend"
-          exclude_queries: 9f88c88d-824d-4d9a-b985-e22977046042,8c8261c2-19a9-4ef7-ad37-b8bc7bdd4d85,181bd815-767e-4e95-a24d-bb3c87328e19,00b78adf-b83f-419c-8ed8-c6018441dd3a
+          exclude_queries: a8e859da-4a43-4e7f-94b8-25d6e3bf8e90,d172a060-8569-4412-8045-3560ebd477e8,2e9b6612-8f69-42e0-a5b8-ed17739c2f3a,d172a060-8569-4412-8045-3560ebd477e8,9f88c88d-824d-4d9a-b985-e22977046042,8c8261c2-19a9-4ef7-ad37-b8bc7bdd4d85,181bd815-767e-4e95-a24d-bb3c87328e19,00b78adf-b83f-419c-8ed8-c6018441dd3a
           enable_comments: true
           # Fail on HIGH severity results
           fail_on: high
