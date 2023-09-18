@@ -24,11 +24,11 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @AllArgsConstructor
 @Getter
-@Component
+@ConfigurationProperties("edc")
 public class EdcProperties {
 
     @NotBlank
