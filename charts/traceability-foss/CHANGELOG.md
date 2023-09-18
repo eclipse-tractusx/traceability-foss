@@ -24,6 +24,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Migrated from irs-helm from 5.0.9 to 5.3.0
 =======
 ### Added
+- Init pods on backend startup to check dependant services readiness status ( irs, edc-controlplane )
 
 
 ### Changed

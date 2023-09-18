@@ -306,6 +306,12 @@ backend:
     allowedCorsOriginFirst: "https://replace.me"
     allowedCorsOriginSecond: "https://replace.me"
 
+  #  required for init containers checking for dependant pod readiness before starting up backend
+  dependencies:
+    enabled: false  # enable dependency check init containers
+    irs: "CHANGEME"  # <irs-helm.nameOverride>
+    edc: "CHANGEME"  # <tractusx-connector.nameOverride
+
 #########################
 # PG Admin configuration     #
 #########################
