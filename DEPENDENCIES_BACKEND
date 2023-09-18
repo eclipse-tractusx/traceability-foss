@@ -221,4 +221,4 @@ maven/mavencentral/org.thymeleaf/thymeleaf/3.1.2.RELEASE, Apache-2.0, approved, 
 maven/mavencentral/org.unbescape/unbescape/1.1.6.RELEASE, Apache-2.0, approved, CQ18904
 maven/mavencentral/org.webjars/swagger-ui/4.18.1, Apache-2.0, approved, #7850
 maven/mavencentral/org.webjars/webjars-locator-core/0.52, MIT, approved, clearlydefined
-maven/mavencentral/org.yaml/snakeyaml/1.33, Apache-2.0, approved, clearlydefined
+maven/mavencentral/org.yaml/snakeyaml/2.2, Apache-2.0 AND (Apache-2.0 OR BSD-3-Clause OR EPL-1.0 OR GPL-2.0-or-later OR LGPL-2.1-or-later), approved, #10232
