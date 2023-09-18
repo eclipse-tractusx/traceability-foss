@@ -19,6 +19,8 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.repository.JpaInvestigationRepository;
@@ -51,6 +53,22 @@ public class InvestigationsSupport {
                 .build();
 
         return jpaInvestigationRepository.save(entity).getId();
+    }
+
+    public Long storeInvestigationWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, List<AssetAsPlannedEntity> assetsAsPlanned) {
+        InvestigationEntity entity = InvestigationEntity.builder()
+                .assets(Collections.emptyList())
+                .bpn("BPNL00000003AXS3")
+                .status(status)
+                .side(NotificationSideBaseEntity.RECEIVER)
+                .createdDate(Instant.now())
+                .build();
+        Long alertId = storedInvestigation(entity);
+        InvestigationEntity savedInvestigation = jpaInvestigationRepository.findById(alertId).get();
+        savedInvestigation.setAssets(assetsAsBuilt);
+        savedInvestigation.setAssetsAsPlanned(assetsAsPlanned);
+        jpaInvestigationRepository.save(savedInvestigation);
+        return alertId;
     }
 
     public void assertInvestigationsSize(int size) {

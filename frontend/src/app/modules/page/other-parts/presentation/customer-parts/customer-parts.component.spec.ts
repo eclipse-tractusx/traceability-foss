@@ -20,7 +20,7 @@
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsState } from '@page/parts/core/parts.state';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 
 import { CustomerPartsComponent } from './customer-parts.component';
@@ -29,11 +29,11 @@ describe('CustomerPartsComponent', () => {
   let otherPartsState: OtherPartsState;
   beforeEach(() => (otherPartsState = new OtherPartsState()));
 
-  const renderCustomerParts = ({ roles = [] } = {}) =>
+  const renderCustomerParts = () =>
     renderComponent(CustomerPartsComponent, {
       imports: [OtherPartsModule],
       providers: [{ provide: OtherPartsState, useFactory: () => otherPartsState }, { provide: PartsState }],
-      roles,
+      roles: ['admin', 'wip'],
     });
 
   it('should render part table', async () => {
@@ -45,9 +45,73 @@ describe('CustomerPartsComponent', () => {
 
   it('should render table and display correct amount of rows', async () => {
     await renderCustomerParts();
-
     const tableElement = await waitFor(() => screen.getByTestId('table-component--test-id'));
     expect(tableElement).toBeInTheDocument();
     expect(tableElement.children[1].childElementCount).toEqual(5);
   });
+
+  it('sort customer parts after name column', async () => {
+    const {fixture} = await renderCustomerParts();
+    const customerPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+
+    expect(customerPartsComponent['tableCustomerSortList']).toEqual([["name", "asc"]]);
+
+  });
+
+  it('should multisort after column name and semanticModelId', async () => {
+    const {fixture} = await renderCustomerParts();
+    const customerPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+    let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId')
+
+    await waitFor(() => {fireEvent.keyDown(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+    expect(customerPartsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(semanticModelIdHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    expect(customerPartsComponent['tableCustomerSortList']).toEqual([["name", "asc"], ["semanticModelId", "desc"]]);
+  });
+
+  it('should reset sorting on third click', async () => {
+    const {fixture} = await renderCustomerParts();
+    const customerPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+    let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId')
+
+    await waitFor(() => {fireEvent.keyDown(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+    expect(customerPartsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(semanticModelIdHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    expect(customerPartsComponent['tableCustomerSortList']).toEqual([]);
+  });
+
 });

@@ -19,13 +19,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
+import { By } from '@angular/platform-browser';
 import { LayoutModule } from '@layout/layout.module';
 import { SidenavComponent } from '@layout/sidenav/sidenav.component';
 import { SidenavService } from '@layout/sidenav/sidenav.service';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsComponent } from '@page/parts/presentation/parts.component';
 import { SharedModule } from '@shared/shared.module';
-import { screen, waitFor } from '@testing-library/angular';
+import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { renderComponent } from '@tests/test-render.utils';
 import { PartsModule } from '../parts.module';
 
@@ -68,4 +69,80 @@ describe('Parts', () => {
 
     expect(selectedPartsInfo).toBeInTheDocument();
   });
+
+  it('should sort asBuilt after column id', async () => {
+    const { fixture } = await renderParts();
+    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
+
+    let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
+    let idColumnHeader = await screen.findByText('table.column.id');
+    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
+
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "as_built" );
+
+    expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"]]);
+  });
+
+  it('should multisort after column id and idShort', async () => {
+    const { fixture } = await renderParts();
+    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
+
+    let setTableFunctionSpy = spyOn<any>(partsComponent, "setTableSortingList").and.callThrough();
+    let idColumnHeader = await screen.findByText('table.column.id');
+    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
+    let idShortHeader = await screen.findByText('table.column.idShort')
+
+    await waitFor(() => {fireEvent.keyDown(idShortHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+    expect(partsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(idShortHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(idShortHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(idShortHeader)});
+
+
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "as_built" );
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['idShort', 'asc'], "as_built" );
+    console.warn(partsComponent.tableAsBuiltSortList);
+    expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"], ["idShort", "desc"]]);
+  });
+
+  it('should reset sorting after third click', async () => {
+    const { fixture } = await renderParts();
+    const partsComponent =  await fixture.debugElement.query(By.directive(PartsComponent)).componentInstance;
+
+    let idColumnHeader = await screen.findByText('table.column.id');
+    await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
+    let idShortHeader = await screen.findByText('table.column.idShort')
+
+    await waitFor(() => {fireEvent.keyDown(idShortHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {
+      fireEvent.click(idShortHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(idShortHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(idShortHeader)});
+
+    await waitFor(() => {fireEvent.click(idShortHeader)});
+
+    expect(partsComponent['tableAsBuiltSortList']).toEqual([]);
+  });
+
 });

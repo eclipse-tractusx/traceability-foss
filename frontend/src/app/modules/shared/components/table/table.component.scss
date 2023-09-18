@@ -180,3 +180,24 @@ tr.error {
 .table--header {
   padding-bottom: 8px;
 }
+
+.table--header--sort--indicator {
+  margin-left: 5px;
+}
+
+.table--header--tooltip {
+  .mdc-tooltip__surface {
+    background-color: rgb(48,48,48);
+    @apply font-medium;
+    color: white;
+    max-width: 300px;
+    padding: 15px;
+    font-size: 14px;
+    line-height: 20px;
+
+  }
+  .mdc-tooltip--multiline {
+    white-space: pre-line;
+  }
+}
+
