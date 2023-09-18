@@ -55,6 +55,8 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         updatedShellDescriptorList.stream()
                 .map(ShellDescriptor::getGlobalAssetId)
                 .forEach(globalAssetId -> {
+                    //TODO: differentiate if this is either as-planned or as-built. Otherwise we have twice the load here.
+                    // DT-Library offers methods to requests additional info to get the bomlifecycle
                     assetAsPlannedService.synchronizeAssetsAsync(globalAssetId);
                     assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
                 });
