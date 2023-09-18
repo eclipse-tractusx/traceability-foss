@@ -27,6 +27,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Pagination } from '@core/model/pagination.model';
 import { RoleService } from '@core/user/role.service';
 import { MenuActionConfig, TableConfig, TableEventConfig, TableHeaderSort } from '@shared/components/table/table.model';
+import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
 
 @Component({
   selector: 'app-table',
@@ -68,6 +69,8 @@ export class TableComponent {
   @Input() selectedPartsInfoLabel: string;
   @Input() selectedPartsActionLabel: string;
 
+  @Input() tableHeader: string;
+
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;
     this.pageSize = pageSize;
@@ -76,7 +79,19 @@ export class TableComponent {
     this.pageIndex = page;
   }
 
+  @Input() set PartsPaginationData({page, pageSize, totalItems, content}: Pagination<unknown>) {
+    let flatter = new FlattenObjectPipe();
+    // modify the content of the partlist so that there are no subobjects
+    let newContent = content.map(part => flatter.transform(part))
+    this.totalItems = totalItems;
+    this.pageSize = pageSize;
+    this.dataSource.data = newContent;
+    this.isDataLoading = false;
+    this.pageIndex = page;
+  }
+
   @Input() set data(content: unknown[]) {
+
     this.dataSource.data = content;
     this.isDataLoading = false;
   }

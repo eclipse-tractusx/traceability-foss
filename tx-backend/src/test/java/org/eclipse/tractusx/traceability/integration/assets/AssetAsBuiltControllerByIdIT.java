@@ -21,7 +21,7 @@ package org.eclipse.tractusx.traceability.integration.assets;
 import io.restassured.http.ContentType;
 import org.eclipse.tractusx.traceability.integration.IntegrationTestSpecification;
 import org.eclipse.tractusx.traceability.integration.common.support.AssetsSupport;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.hamcrest.Matchers;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
@@ -70,7 +70,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnAssetWithoutUnderInvestigationMark() throws JoseException {
         //GIVEN
-        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity.CLOSED, false);
+        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity.CLOSED, false);
 
         //THEN
         given()
@@ -86,7 +86,7 @@ class AssetAsBuiltControllerByIdIT extends IntegrationTestSpecification {
     @Test
     void shouldReturnAssetWithUnderInvestigationMark() throws JoseException {
         //GIVEN
-        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(QualityNotificationStatusBaseEntity.SENT, true);
+        assetsSupport.defaultAssetsStoredWithOnGoingInvestigation(NotificationStatusBaseEntity.SENT, true);
 
         //THEN
         given()

@@ -35,19 +35,56 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
   styleUrls: ['./parts.component.scss'],
 })
 export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
-  public readonly displayedColumns: string[] = [
+
+  public readonly displayedColumnsAsBuilt: string[] = [
     'select',
     'id',
-    'semanticDataModel',
-    'name',
+    'idShort',
+    'name', // nameAtManufacturer
     'manufacturer',
-    'partNumber',
+    'partId', // Part number / Batch Number / JIS Number
+    'manufacturerPartId',
+    'customerPartId', // --> semanticModel.customerPartId
+    'classification',
+    //'nameAtManufacturer', --> already in name
+    'nameAtCustomer', // --> semanticModel.nameAtCustomer
     'semanticModelId',
-    'productionDate',
-    'productionCountry',
+    'semanticDataModel',
+    'manufacturingDate',
+    'manufacturingCountry',
   ];
 
-  public readonly sortableColumns: Record<string, boolean> = {
+
+  public readonly displayedColumnsAsPlanned: string[] = [
+    'select',
+    'id',
+    'idShort',
+    'name',
+    'manufacturer',
+    'manufacturerPartId',
+    'classification',
+    'semanticDataModel',
+    'semanticModelId',
+    'validityPeriodFrom',
+    'validityPeriodTo',
+    'psFunction',
+    'catenaXSiteId',
+    'functionValidFrom',
+    'functionValidUntil',
+  ];
+
+  public readonly sortableColumnsAsBuilt: Record<string, boolean> = {
+    id: true,
+    semanticDataModel: true,
+    name: true,
+    manufacturer: true,
+    partNumber: true,
+    semanticModelId: true,
+    productionDate: true,
+    productionCountry: true,
+  };
+
+  public readonly sortableColumnsAsPlanned: Record<string, boolean> = {
     id: true,
     semanticDataModel: true,
     name: true,
@@ -59,7 +96,8 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   };
 
   public readonly titleId = this.staticIdService.generateId('PartsComponent.title');
-  public readonly parts$: Observable<View<Pagination<Part>>>;
+  public readonly partsAsBuilt$: Observable<View<Pagination<Part>>>;
+  public readonly partsAsPlanned$: Observable<View<Pagination<Part>>>;
 
   public readonly isAlertOpen$ = new BehaviorSubject<boolean>(false);
 
@@ -67,26 +105,34 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly addPartTrigger$ = new Subject<Part>();
   public readonly currentSelectedItems$ = new BehaviorSubject<Part[]>([]);
 
-  public tableConfig: TableConfig;
+  public tableConfigAsBuilt: TableConfig;
+  public tableConfigAsPlanned: TableConfig;
 
   constructor(
     private readonly partsFacade: PartsFacade,
     private readonly partDetailsFacade: PartDetailsFacade,
     private readonly staticIdService: StaticIdService,
   ) {
-    this.parts$ = this.partsFacade.parts$;
+    this.partsAsBuilt$ = this.partsFacade.partsAsBuilt$;
+    this.partsAsPlanned$ = this.partsFacade.partsAsPlanned$;
   }
 
   public ngOnInit(): void {
-    this.partsFacade.setMyParts();
+    this.partsFacade.setPartsAsBuilt();
+    this.partsFacade.setPartsAsPlanned();
   }
 
   public ngAfterViewInit(): void {
-    this.tableConfig = {
-      displayedColumns: this.displayedColumns,
-      header: CreateHeaderFromColumns(this.displayedColumns, 'table.column'),
-      sortableColumns: this.sortableColumns,
+    this.tableConfigAsBuilt = {
+      displayedColumns: this.displayedColumnsAsBuilt,
+      header: CreateHeaderFromColumns(this.displayedColumnsAsBuilt, 'table.column'),
+      sortableColumns: this.sortableColumnsAsBuilt,
     };
+    this.tableConfigAsPlanned = {
+      displayedColumns: this.displayedColumnsAsPlanned,
+      header: CreateHeaderFromColumns(this.displayedColumnsAsPlanned, 'table.column'),
+      sortableColumns: this.sortableColumnsAsPlanned,
+    }
   }
 
   public ngOnDestroy(): void {
@@ -98,6 +144,7 @@ export class PartsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onTableConfigChange({ page, pageSize, sorting }: TableEventConfig): void {
-    this.partsFacade.setMyParts(page, pageSize, sorting);
+    this.partsFacade.setPartsAsBuilt(page, pageSize, sorting);
+    this.partsFacade.setPartsAsPlanned(page, pageSize, sorting);
   }
 }

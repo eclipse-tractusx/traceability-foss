@@ -30,25 +30,41 @@ import { Observable, Subject, Subscription } from 'rxjs';
 
 @Injectable()
 export class PartsFacade {
-  private myPartsSubscription: Subscription;
+  private partsAsBuiltSubscription: Subscription;
+  private partsAsPlannedSubscription: Subscription;
   private readonly unsubscribeTrigger = new Subject<void>();
 
   constructor(private readonly partsService: PartsService, private readonly partsState: PartsState) {}
 
-  public get parts$(): Observable<View<Pagination<Part>>> {
-    return this.partsState.myParts$;
+  public get partsAsBuilt$(): Observable<View<Pagination<Part>>> {
+    return this.partsState.partsAsBuilt$;
   }
 
-  public setMyParts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
-    this.myPartsSubscription?.unsubscribe();
-    this.myPartsSubscription = this.partsService.getMyParts(page, pageSize, sorting).subscribe({
-      next: data => (this.partsState.myParts = { data }),
-      error: error => (this.partsState.myParts = { error }),
+  public get partsAsPlanned$(): Observable<View<Pagination<Part>>> {
+    return this.partsState.partsAsPlanned$;
+  }
+
+  public setPartsAsBuilt(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+    this.partsAsBuiltSubscription?.unsubscribe();
+    this.partsAsBuiltSubscription = this.partsService.getPartsAsBuilt(page, pageSize, sorting).subscribe({
+      next: data => (this.partsState.partsAsBuilt = { data }),
+      error: error => (this.partsState.partsAsBuilt = { error }),
     });
   }
 
+  public setPartsAsPlanned(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+    this.partsAsPlannedSubscription?.unsubscribe();
+    this.partsAsPlannedSubscription = this.partsService.getPartsAsPlanned(page, pageSize, sorting).subscribe({
+      next: data => (this.partsState.partsAsPlanned = { data }),
+      error: error => (this.partsState.partsAsPlanned = { error }),
+    });
+  }
+
+
+
   public unsubscribeParts(): void {
-    this.myPartsSubscription?.unsubscribe();
+    this.partsAsBuiltSubscription?.unsubscribe();
+    this.partsAsPlannedSubscription?.unsubscribe();
     this.unsubscribeTrigger.next();
   }
 }

@@ -20,7 +20,8 @@
  ********************************************************************************/
 
 export { dashboardHandler } from './dashboard-mock/dashboard.handler';
-export { partsHandlers, partsHandlersTest } from './parts-mock/parts.handler';
+export { partsAsBuiltHandlers, partsHandlersTest } from './parts-mock/partsAsBuilt/partsAsBuilt.handler';
+export { partsAsPlannedHandlers } from './parts-mock/partsAsPlanned/partsAsPlanned.handler';
 export { otherPartsHandlers, otherPartsHandlersTest } from './otherParts-mock/otherParts.handler';
 export { investigationsHandlers, investigationsTestHandlers } from './investigations-mock/investigations.handler';
 export { adminHandler } from './admin-mock/admin.handler';

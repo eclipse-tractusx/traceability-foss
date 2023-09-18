@@ -25,9 +25,11 @@ import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
+@ToString
 public class CloseQualityNotificationRequest {
     @Size(min = 15, max = 1000, message = "Close reason should have at least 15 characters and at most 1000 characters")
     @ApiModelProperty(example = "The reason.")

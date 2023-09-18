@@ -1,6 +1,8 @@
-= Scenario 1: Return all Assets
+= Scenario 1: Return Assets
 
-This section describes what happens when user lists all stored assets.
+This section describes what happens when user lists stored assets.
+In this example, the user requests as built assets.
+The same can be done with as planned assets.
 
 [plantuml, target=return-all-assets, format=svg]
 ....
@@ -9,6 +11,7 @@ include::../../../uml-diagrams/arc42/runtime-view/assets/return-all-assets.puml[
 
 ==== Overview
 
-When a user requests all stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER'). If yes, then the endpoint returns a pageable result of assets.
+When a user requests stored assets, TraceX-FOSS checks if the user has an adequate role ('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_USER').
+If yes, then the endpoint returns a pageable result of assets.
 
 The returned pageable result can be empty if no suitable asset has been found.

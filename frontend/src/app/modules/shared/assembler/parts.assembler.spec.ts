@@ -19,8 +19,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-import { CalendarDateModel } from '@core/model/calendar-date.model';
 import { Pagination } from '@core/model/pagination.model';
+import { AsBuiltAspectModel } from '@page/parts/model/aspectModels.model';
+import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
 import { Part, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { of } from 'rxjs';
@@ -44,80 +45,113 @@ describe('PartsAssembler', () => {
     it('should format the object correctly', () => {
       const testData = [];
       const expected = [];
-      for (let i = 0; i < 3; i++) {
-        const id = 'id_' + i;
-        const idShort = 'idShort_' + i;
+
+        const id = 'id_0';
+        const idShort = 'idShort_0';
         const semanticModelId = 'semanticModelId';
-        const manufacturerId = 'manufacturerId';
+        const manufacturerPartId = 'manufacturerPartId';
+        const businessPartner = 'businesspartner';
         const manufacturerName = 'manufacturerName';
-        const semanticModel = {
-          manufacturingDate: 'manufacturingDate',
-          manufacturingCountry: 'manufacturingCountry',
-          manufacturerPartId: 'manufacturerPartId',
-          customerPartId: 'customerPartId',
-          nameAtManufacturer: 'nameAtManufacturer',
-          nameAtCustomer: 'nameAtCustomer'
-        }
+        const nameAtManufacturer = 'nameAtManufacturer';
         const owner = 'OWN';
+        const childRelations = [];
+        const parentRelations = [];
         const activeAlert = false;
         const underInvestigation = false;
-        const childRelations = [{ id: 'id', idShort: 'idShort' }];
-        const parentRelations = [];
         const qualityType = 'Ok';
         const van = 'van';
         const semanticDataModel = 'BATCH';
+        const classification = 'component';
+        const semanticModel = {
+          "partId": "partId",
+          "customerPartId": "customerPartId",
+          "nameAtCustomer": "nameAtCustomer",
+          "manufacturingDate": "testdate",
+          "manufacturingCountry": "manufacturingCountry",
+        }
+        const detailAspectModels = [ {
+          type: DetailAspectType.AS_BUILT,
+          data: {
+            partId: 'partId',
+            customerPartId: 'customerPartId',
+            nameAtCustomer: 'nameAtCustomer',
+            manufacturingDate: "testdate",
+            manufacturingCountry: 'manufacturingCountry'
+          }
+        }
+        ];
 
         testData.push({
           id,
           idShort,
           semanticModelId,
-          manufacturerId,
+          manufacturerPartId,
+          businessPartner,
           manufacturerName,
-          semanticModel,
+          nameAtManufacturer,
           owner,
-          activeAlert,
-          underInvestigation,
           childRelations,
           parentRelations,
+          activeAlert,
+          underInvestigation,
           qualityType,
           van,
-          semanticDataModel
+          semanticDataModel,
+          classification,
+          semanticModel,
+          detailAspectModels,
         });
+
+        const partId = (detailAspectModels[0].data as AsBuiltAspectModel)?.partId;
+        const customerPartId = (detailAspectModels[0].data as AsBuiltAspectModel)?.customerPartId;
+        const nameAtCustomer = (detailAspectModels[0].data as AsBuiltAspectModel)?.nameAtCustomer;
+        const manufacturingDate = "testdate"
+        const manufacturingCountry = (detailAspectModels[0].data as AsBuiltAspectModel)?.manufacturingCountry;
 
         expected.push({
           id,
-          name: semanticModel.nameAtManufacturer,
-          manufacturer: manufacturerName,
+          idShort: idShort,
           semanticModelId: semanticModelId,
-          partNumber: semanticModel.manufacturerPartId,
-          productionCountry: semanticModel.manufacturingCountry,
-          nameAtCustomer: semanticModel.nameAtCustomer,
-          customerPartId: semanticModel.customerPartId,
-          qualityType: QualityType.Ok,
-          productionDate: new CalendarDateModel(semanticModel.manufacturingDate),
-          children: childRelations.map(child => child.id),
+
+          manufacturer: manufacturerName,
+          manufacturerPartId: manufacturerPartId,
+          nameAtManufacturer: nameAtManufacturer,
+          businessPartner: businessPartner,
+          name: nameAtManufacturer,
+          children: [],
           parents: [],
-          activeInvestigation: false,
           activeAlert: false,
+          activeInvestigation: false,
+          qualityType: QualityType.Ok,
           van: 'van',
-          semanticDataModel: SemanticDataModel.BATCH
+          semanticDataModel: SemanticDataModel.BATCH,
+          classification: classification,
+
+          semanticModel: semanticModel,
+
+          partId: partId, // is partInstance, BatchId, jisNumber
+          customerPartId: customerPartId,
+          nameAtCustomer: nameAtCustomer,
+          manufacturingDate: manufacturingDate,
+          manufacturingCountry: manufacturingCountry,
+
         });
-      }
 
       expect(JSON.stringify(PartsAssembler.assembleParts(page(testData)).content)).toEqual(JSON.stringify(expected));
     });
   });
 
   describe('filterPartForView', () => {
-    const productionDate = 'productionDate';
-    const qualityType = 'qualityType';
     const semanticModelId = 'semanticModelId';
     const semanticDataModel = 'semanticDataModel';
+    const manufacturingDate = 'manufacturingDate';
+    const manufacturingCountry = 'manufacturingCountry';
+    const classification = 'classification';
 
     it('should clean up data for part view', () => {
-      const data = { productionDate, qualityType, semanticModelId, semanticDataModel, test: '' } as unknown as Part;
+      const data = { semanticDataModel, semanticModelId, manufacturingDate, manufacturingCountry, classification, test: '' } as unknown as Part;
       expect(PartsAssembler.filterPartForView({ data })).toEqual({
-        data: { name: undefined, productionDate, semanticModelId, semanticDataModel } as unknown as Part,
+        data: { name: undefined, manufacturingDate, semanticModelId, semanticDataModel, manufacturingCountry, classification } as unknown as Part,
       });
     });
 
@@ -130,18 +164,17 @@ describe('PartsAssembler', () => {
 
   describe('mapPartForManufacturerView', () => {
     const manufacturer = 'manufacturer';
-    const partNumber = 'partNumber';
-    const name = 'name';
-    const semanticModelId = 'semanticModelId';
+    const manufacturerPartId = 'manufacturerPartId';
+    const nameAtManufacturer = 'nameAtManufacturer';
     const van = 'van';
 
     it('should clean up data for manufacturer view', done => {
-      const data = { manufacturer, partNumber, name, semanticModelId, test: '', van } as unknown as Part;
+      const data = { manufacturer, manufacturerPartId, nameAtManufacturer, test: '', van } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {
           expect(result).toEqual({
-            data: { manufacturer, partNumber, semanticModelId, van } as unknown as Part,
+            data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as unknown as Part,
           });
           done();
         });
@@ -165,7 +198,7 @@ describe('PartsAssembler', () => {
     it('should clean up data for customer view', done => {
       const data = { customerPartId, nameAtCustomer, test: '' } as unknown as Part;
       of({ data })
-        .pipe(PartsAssembler.mapPartForCustomerView())
+        .pipe(PartsAssembler.mapPartForCustomerOrPartSiteView())
         .subscribe(result => {
           expect(result).toEqual({ data: { customerPartId, nameAtCustomer } as unknown as Part });
           done();
@@ -175,9 +208,9 @@ describe('PartsAssembler', () => {
     it('should return view if data is not set', done => {
       const viewData = {};
       of(viewData)
-        .pipe(PartsAssembler.mapPartForCustomerView())
+        .pipe(PartsAssembler.mapPartForCustomerOrPartSiteView())
         .subscribe(result => {
-          expect(result).toEqual(viewData);
+          expect(result).toEqual(undefined);
           done();
         });
     });

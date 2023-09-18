@@ -47,6 +47,7 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
     private final TraceabilityProperties traceabilityProperties;
     private final DecentralRegistryRepository decentralRegistryRepository;
 
+    @Override
     @Async(value = AssetsAsyncConfig.LOAD_SHELL_DESCRIPTORS_EXECUTOR)
     public void updateShellDescriptorAndSynchronizeAssets() {
         List<ShellDescriptor> shellDescriptorList = decentralRegistryRepository.retrieveShellDescriptorsByBpn(traceabilityProperties.getBpn().toString());
@@ -54,6 +55,8 @@ public class DecentralRegistryServiceImpl implements DecentralRegistryService {
         updatedShellDescriptorList.stream()
                 .map(ShellDescriptor::getGlobalAssetId)
                 .forEach(globalAssetId -> {
+                    //TODO: differentiate if this is either as-planned or as-built. Otherwise we have twice the load here.
+                    // DT-Library offers methods to requests additional info to get the bomlifecycle
                     assetAsPlannedService.synchronizeAssetsAsync(globalAssetId);
                     assetAsBuiltService.synchronizeAssetsAsync(globalAssetId);
                 });

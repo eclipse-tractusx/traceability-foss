@@ -51,8 +51,9 @@ SPDX-License-Identifier: Apache-2.0
         ></ng-container>
 
         <ng-container
-          *viewContainer="customerDetails$ | async; main: customerDetailsMainTmp; error: errorTmp; loading: loaderTmp"
+          *viewContainer="customerOrPartSiteDetails$ | async; main: customerOrPartSiteDetailsMainTmp; error: errorTmp; loading: loaderTmp"
         ></ng-container>
+
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel *ngIf="showStartInvestigation" [disabled]="(selectedPartDetails$ | async)?.data?.children?.length ? undefined : true">
@@ -76,9 +77,10 @@ SPDX-License-Identifier: Apache-2.0
   <app-card-list [list]="manufacturerDetails.data" [title]="'partDetail.manufacturerData' | i18n"></app-card-list>
 </ng-template>
 
-<ng-template #customerDetailsMainTmp let-customerDetails="view">
-  <app-card-list [list]="customerDetails.data" [title]="'partDetail.customerData' | i18n"></app-card-list>
+<ng-template #customerOrPartSiteDetailsMainTmp let-customerOrPartSiteDetails="view">
+  <app-card-list [list]="customerOrPartSiteDetails.data" [title]=" customerOrPartSiteHeader.toString() | i18n"></app-card-list>
 </ng-template>
+
 
 <ng-template #partRelationMainTmp let-partDetails="view">
   <mat-card *ngIf="showRelation" class="part-detail--relation__card">
@@ -97,12 +99,12 @@ SPDX-License-Identifier: Apache-2.0
   </mat-card>
 </ng-template>
 
-<ng-template #errorTmp let-customerDetails="view">
+<ng-template #errorTmp let-customerOrPartSiteDetails="view">
   <mat-card>
     <mat-card-header>
       <mat-card-title>{{ 'dataLoading.error' | i18n }}</mat-card-title>
     </mat-card-header>
-    <mat-card-content>{{ customerDetails.error.message }}</mat-card-content>
+    <mat-card-content>{{ customerOrPartSiteDetails.error.message }}</mat-card-content>
   </mat-card>
 </ng-template>
 
