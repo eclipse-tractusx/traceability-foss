@@ -32,7 +32,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 import java.util.List;
-
+// TODO move to tx-models
 @Data
 @Builder
 @NoArgsConstructor

@@ -55,6 +55,7 @@ jobs:
           # - docker-compose.yml - used only on local env
           # - in cypress dir docker related files used only on local env
           exclude_paths: "docker-compose.yml,cypress/docker-compose.yml,cypress/Dockerfile"
+          exclude_severities: "info,low"
           # Fail on HIGH severity results
           fail_on: high
           # Disable secrets detection - we use GitGuardian
