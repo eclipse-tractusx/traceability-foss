@@ -70,6 +70,7 @@ public abstract class AbstractAssetBaseService implements AssetBaseService {
 
             if (!getUpwardAspects().isEmpty()) {
 
+                // TODO: change BomLifecycle.AS_BUILT to getBomLifecycle()
                 List<AssetBase> upwardAssets = getIrsRepository().findAssets(globalAssetId, Direction.UPWARD, Aspect.upwardAspectsForAssetsAsBuilt(), BomLifecycle.AS_BUILT);
 
                 upwardAssets.forEach(asset -> {
