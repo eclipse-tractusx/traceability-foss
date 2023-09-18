@@ -147,6 +147,11 @@ backend:
   portal:
     baseUrl: "https://portal-backend.int.demo.catena-x.net/api"
 
+  dependencies:
+    enabled: true
+    irs: "tx-irs-int-a"  # <irs-helm.nameOverride>
+    edc: "tx-edc-consumer-int-a"  # <tractusx-connector.nameOverride
+
 #########################
 # PG Admin configuration     #
 #########################

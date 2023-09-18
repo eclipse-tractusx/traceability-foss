@@ -131,6 +131,11 @@ backend:
     apiKey: "<path:traceability-foss/data/beta/edc/controlplane#edc.api.control.auth.apikey.value>"
     providerUrl: "https://tracex-consumer-controlplane.beta.demo.catena-x.net"
 
+  dependencies:
+    enabled: true
+    irs: "tracex-irs"  # <irs-helm.nameOverride>
+    edc: "tracex-consumer-controlplane"  # <tractusx-connector.nameOverride
+
 #########################
 # PG Admin configuration     #
 #########################
