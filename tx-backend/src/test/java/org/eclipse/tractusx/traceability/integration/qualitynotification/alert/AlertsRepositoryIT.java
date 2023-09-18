@@ -28,12 +28,15 @@ import org.eclipse.tractusx.traceability.integration.common.support.AssetsSuppor
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
 
 class AlertsRepositoryIT extends IntegrationTestSpecification {
 
@@ -63,9 +66,9 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> supplierAssets = assets.stream()
                 .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
                 .toList();
-        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
-        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
-        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
+        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
+        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
         assertThat(jpaAlertRepository.findAll()).hasSize(3);
 
         // when
@@ -86,9 +89,9 @@ class AlertsRepositoryIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> supplierAssets = assets.stream()
                 .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
                 .toList();
-        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
-        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
-        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
+        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
         assertThat(jpaAlertRepository.findAll()).hasSize(3);
 
         // when

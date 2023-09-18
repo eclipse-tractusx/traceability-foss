@@ -46,6 +46,8 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.mode
 
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -74,28 +76,28 @@ public class InvestigationEntity extends NotificationBaseEntity {
     private List<InvestigationNotificationEntity> notifications;
 
 
-    public static QualityNotification toDomain(InvestigationEntity investigationNotificationEntity) {
-        List<QualityNotificationMessage> notifications = investigationNotificationEntity.getNotifications().stream()
+    public static QualityNotification toDomain(InvestigationEntity investigationEntity) {
+        List<QualityNotificationMessage> notifications = emptyIfNull(investigationEntity.getNotifications()).stream()
                 .map(InvestigationNotificationEntity::toDomain)
                 .toList();
 
-        List<String> assetIds = investigationNotificationEntity.getAssets().stream()
+        List<String> assetIds = investigationEntity.getAssets().stream()
                 .map(AssetAsBuiltEntity::getId)
                 .toList();
 
         return QualityNotification.builder()
-                .notificationId(new QualityNotificationId(investigationNotificationEntity.getId()))
-                .bpn(BPN.of(investigationNotificationEntity.getBpn()))
-                .notificationStatus(QualityNotificationStatus.fromStringValue(investigationNotificationEntity.getStatus().name()))
-                .notificationSide(QualityNotificationSide.valueOf(investigationNotificationEntity.getSide().name()))
-                .closeReason(investigationNotificationEntity.getCloseReason())
-                .acceptReason(investigationNotificationEntity.getAcceptReason())
-                .declineReason(investigationNotificationEntity.getDeclineReason())
-                .createdAt(investigationNotificationEntity.getCreatedDate())
-                .description(investigationNotificationEntity.getDescription())
+                .notificationId(new QualityNotificationId(investigationEntity.getId()))
+                .bpn(BPN.of(investigationEntity.getBpn()))
+                .notificationStatus(QualityNotificationStatus.fromStringValue(investigationEntity.getStatus().name()))
+                .notificationSide(QualityNotificationSide.valueOf(investigationEntity.getSide().name()))
+                .closeReason(investigationEntity.getCloseReason())
+                .acceptReason(investigationEntity.getAcceptReason())
+                .declineReason(investigationEntity.getDeclineReason())
+                .createdAt(investigationEntity.getCreatedDate())
+                .description(investigationEntity.getDescription())
                 .assetIds(assetIds)
                 .notifications(notifications)
-                .errorMessage(investigationNotificationEntity.getErrorMessage())
+                .errorMessage(investigationEntity.getErrorMessage())
                 .build();
     }
 

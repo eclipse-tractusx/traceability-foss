@@ -30,6 +30,7 @@ import org.eclipse.tractusx.traceability.integration.common.support.AssetsSuppor
 import org.eclipse.tractusx.traceability.integration.common.support.InvestigationsSupport;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.QualityNotificationSeverityRequest;
 import org.eclipse.tractusx.traceability.qualitynotification.application.base.request.StartQualityNotificationRequest;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,8 @@ import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.SUPERVISOR;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.USER;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.RECEIVED;
+import static org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity.SENT;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -104,8 +107,8 @@ class DashboardControllerIT extends IntegrationTestSpecification {
         List<AssetAsBuiltEntity> supplierAssets = assets.stream()
                 .filter(asset -> asset.getOwner().equals(Owner.SUPPLIER))
                 .toList();
-        alertsSupport.storeAlertWithStatusAndAssets(supplierAssets);
-        alertsSupport.defaultSentAlertStoredForAssets(ownAssets);
+        alertsSupport.storeAlertWithStatusAndAssets(RECEIVED, supplierAssets, null);
+        alertsSupport.storeAlertWithStatusAndAssets(SENT, ownAssets, null);
 
         // when/then
         given()

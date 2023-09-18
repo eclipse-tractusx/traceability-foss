@@ -37,11 +37,13 @@ import org.eclipse.tractusx.traceability.assets.domain.base.model.aspect.DetailA
 import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.ManufacturingInfo;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.AssetBaseEntity;
 import org.eclipse.tractusx.traceability.assets.infrastructure.base.model.SemanticDataModelEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertNotificationEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 @Getter
 @NoArgsConstructor
@@ -65,7 +67,7 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
     private List<InvestigationEntity> investigations = new ArrayList<>();
 
     @ManyToMany(mappedBy = "assetsAsPlanned")
-    private List<AlertNotificationEntity> alertNotificationEntities = new ArrayList<>();
+    private List<AlertEntity> alerts = new ArrayList<>();
 
     @Builder
     @NoArgsConstructor
@@ -126,6 +128,8 @@ public class AssetAsPlannedEntity extends AssetBaseEntity {
                 .activeAlert(entity.isActiveAlert())
                 .qualityType(entity.getQualityType())
                 .detailAspectModels(DetailAspectModel.from(entity))
+                .qualityAlerts(emptyIfNull(entity.alerts).stream().map(AlertEntity::toDomain).toList())
+                .qualityInvestigations(emptyIfNull(entity.investigations).stream().map(InvestigationEntity::toDomain).toList())
                 .build();
     }
 
