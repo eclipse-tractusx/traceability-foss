@@ -20,6 +20,7 @@
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base.model;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -41,6 +42,8 @@ public enum QualityNotificationStatus {
     private static final Map<QualityNotificationStatus, Set<QualityNotificationStatus>> STATE_MACHINE;
     private static final Set<QualityNotificationStatus> NO_TRANSITION_ALLOWED = emptySet();
     private static final Map<String, QualityNotificationStatus> MAPPINGS;
+
+    private static final List<QualityNotificationStatus> ACTIVE_STATES = List.of(CREATED, SENT, RECEIVED, ACKNOWLEDGED, ACCEPTED, DECLINED);
 
     static {
         STATE_MACHINE = Map.of(
@@ -87,5 +90,9 @@ public enum QualityNotificationStatus {
 
     private boolean isSideEligibleForTransition(QualityNotificationStatus from, QualityNotificationStatus to) {
         return to.allowedTransitionFromSide.contains(from.qualityNotificationSide);
+    }
+
+    public boolean isActiveState() {
+        return ACTIVE_STATES.contains(this);
     }
 }
