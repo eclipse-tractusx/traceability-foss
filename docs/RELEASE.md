@@ -12,13 +12,10 @@ Please update the [CHANGELOG.md](https://github.com/eclipse-tractusx/traceabilit
 
 ## Release helm charts
 Hint: You need to stricly follow this guide to make sure the helm chart releaser will be able to detect a new helm chart version!
-1) Create a GIT Tag with the release version of the application.
-2) A Release Action ( Release Trace-X ) will bump the helm versions and create a Pull request that needs to be merged.
-3) Check if the Action ran successfully and the following properties in the Chart.yamls and package.json were updated with the corresponding new versions from your created tag and the latest version entry from the [charts/CHANGELOG.md](https://github.com/catenax-ng/tx-traceability-foss/blob/main/charts/traceability-foss/CHANGELOG.md) file:
-   - *version* & *appVersion* property from
-     - [backend Chart.yaml file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/charts/backend/Chart.yaml) and from
-     - [frontend Chart.yaml file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/charts/frontend/Chart.yaml).
-     - [Umbrella Helm Chart.yaml file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/charts/traceability-foss/Chart.yaml).
-     - [frontend package.json file](https://github.com/eclipse-tractusx/traceability-foss/blob/main/frontend/package.json)
-3) Proceed with merging into the main branch and check the [Release Charts workflow](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml)
-   - It should trigger automatically, if not invoke the workflow manually for the *main* branch. The workflow will compare previously stored helm charts version and if it detects new version, it will release it in GitHub and will create an appropriate git tag.
+1) Create a new Release in catena: https://github.com/catenax-ng/tx-traceability-foss/releases/new  with the release version of the application.
+2) Before accepting the Pull Request which will be created based on Step 1) please make sure to create a Pull Request from catena to eclipse and merge it.
+3) Then create a new Release in tractusx: https://github.com/eclipse-tractusx/traceability-foss/releases/new with the release version of the application.
+4) A Release Action ( Release Trace-X ) will bump the helm versions and create a Pull request that needs to be merged for catena and tractusx.
+5) Please accept the PRs on both repositories.
+6) Invoke the [Release Charts workflow](https://github.com/eclipse-tractusx/traceability-foss/actions/workflows/helm-chart-release.yaml) on main branch
+7) Invoke the [Release Charts workflow](https://github.com/catenax-ng/tx-traceability-foss/actions/workflows/helm-chart-release.yaml) on main branch
