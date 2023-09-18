@@ -20,7 +20,7 @@ Feature: 🪓⭐[BE] Add information to notification inbox
 	#Check if *bpn names* of *sender and receiver* are processed correctly for created quality investigations which contains following checks:
 	#* correct creation on sender side
 	#* correct reception on receiver side
-  @TRACEFOSS-1344 @TRACEFOSS-1920 @TRACEFOSS-1101 @TRACEFOSS-1138 @TRACEFOSS-1673 @TRACEFOSS-1139 @TEST-904 @TEST-1217 @INTEGRATION_TEST
+  @TRACEFOSS-1344 @TRACEFOSS-1920 @TRACEFOSS-1101 @TRACEFOSS-1138 @TRACEFOSS-1673 @TEST-1217 @TRACEFOSS-1139 @TEST-904 @INTEGRATION_TEST
   Scenario: [BE] Check correct processing of bpn names in quality investigation
     When I am logged into TRACE_X_A application
     And I create quality investigation

@@ -30,8 +30,8 @@ import org.eclipse.tractusx.traceability.integration.common.support.Investigatio
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.investigation.model.InvestigationNotificationEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -113,14 +113,14 @@ class EdcControllerIT extends IntegrationTestSpecification {
                 .builder()
                 .id("1")
                 .edcNotificationId("cda2d956-fa91-4a75-bb4a-8e5ba39b268a")
-                .status(QualityNotificationStatusBaseEntity.CREATED)
+                .status(NotificationStatusBaseEntity.CREATED)
                 .build();
 
         InvestigationEntity investigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(QualityNotificationStatusBaseEntity.SENT)
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .status(NotificationStatusBaseEntity.SENT)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(Instant.now())
                 .build();
 
@@ -168,8 +168,8 @@ class EdcControllerIT extends IntegrationTestSpecification {
         InvestigationEntity investigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(QualityNotificationStatusBaseEntity.SENT)
-                .side(QualityNotificationSideBaseEntity.SENDER)
+                .status(NotificationStatusBaseEntity.SENT)
+                .side(NotificationSideBaseEntity.SENDER)
                 .createdDate(Instant.now())
                 .build();
 
@@ -209,8 +209,8 @@ class EdcControllerIT extends IntegrationTestSpecification {
         InvestigationEntity investigation = InvestigationEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(QualityNotificationStatusBaseEntity.RECEIVED)
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .status(NotificationStatusBaseEntity.RECEIVED)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(Instant.now())
                 .build();
 

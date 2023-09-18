@@ -200,6 +200,10 @@ public class QualityNotification {
         assetIds = Collections.unmodifiableList(newAssetIds); //
     }
 
+    public boolean isActiveState() {
+        return this.notificationStatus.isActiveState();
+    }
+
     public static class QualityNotificationBuilder {
         public QualityNotificationBuilder notifications(List<QualityNotificationMessage> notifications) {
             this.notifications = emptyIfNull(notifications).stream()

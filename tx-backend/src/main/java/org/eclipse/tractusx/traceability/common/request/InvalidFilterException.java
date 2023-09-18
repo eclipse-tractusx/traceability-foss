@@ -17,9 +17,11 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model;
+package org.eclipse.tractusx.traceability.common.request;
 
-public enum QualityNotificationSideBaseEntity {
-    SENDER,
-    RECEIVER;
+public class InvalidFilterException extends RuntimeException {
+
+    public InvalidFilterException(String message) {
+        super(message);
+    }
 }

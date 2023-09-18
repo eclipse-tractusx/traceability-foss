@@ -57,6 +57,7 @@ public class AssetTestData {
             JobDetailResponse response = mapper.readValue(file, JobDetailResponse.class);
             return response.convertAssets();
         } catch (IOException e) {
+            e.printStackTrace();
             return Collections.emptyList();
         }
     }

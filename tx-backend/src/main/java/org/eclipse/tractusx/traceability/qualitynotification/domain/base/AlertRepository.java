@@ -19,8 +19,13 @@
 
 package org.eclipse.tractusx.traceability.qualitynotification.domain.base;
 
+import org.eclipse.tractusx.traceability.assets.domain.base.model.Owner;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.repository.QualityNotificationRepository;
+
+import java.util.List;
 
 public interface AlertRepository extends QualityNotificationRepository {
 
+    long countPartsByStatusAndOwnership(List<QualityNotificationStatus> statuses, Owner owner);
 }

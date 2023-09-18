@@ -34,10 +34,12 @@ import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.controller.model.NotificationType;
 import org.eclipse.tractusx.traceability.infrastructure.edc.notificationcontract.service.EdcNotificationContractService;
 
+import static org.eclipse.tractusx.traceability.common.config.ApplicationProfiles.NOT_INTEGRATION_TESTS;
+
 
 @Slf4j
 @Component
-@Profile("!integration")
+@Profile(NOT_INTEGRATION_TESTS)
 @RequiredArgsConstructor
 public class ApplicationStartupConfig {
     private final IrsRepository irsRepository;

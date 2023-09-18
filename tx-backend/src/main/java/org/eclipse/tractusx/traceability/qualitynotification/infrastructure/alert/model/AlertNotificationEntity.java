@@ -39,7 +39,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationMessageBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 
 import java.util.List;
 
@@ -101,7 +101,8 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
 
     public static AlertNotificationEntity from(AlertEntity alertEntity,
                                                QualityNotificationMessage qualityNotificationMessage,
-                                               List<AssetAsBuiltEntity> notificationAssets) {
+                                               List<AssetAsBuiltEntity> notificationAssets,
+                                               List<AssetAsPlannedEntity> assetAsPlannedEntitiesByAlert) {
         return AlertNotificationEntity
                 .builder()
                 .id(qualityNotificationMessage.getId())
@@ -112,11 +113,12 @@ public class AlertNotificationEntity extends QualityNotificationMessageBaseEntit
                 .receiverBpnNumber(qualityNotificationMessage.getReceiverBpnNumber())
                 .receiverManufacturerName(qualityNotificationMessage.getReceiverManufacturerName())
                 .assets(notificationAssets)
+                .assetsAsPlanned(assetAsPlannedEntitiesByAlert)
                 .notificationReferenceId(qualityNotificationMessage.getNotificationReferenceId())
                 .targetDate(qualityNotificationMessage.getTargetDate())
                 .severity(qualityNotificationMessage.getSeverity())
                 .edcNotificationId(qualityNotificationMessage.getEdcNotificationId())
-                .status(QualityNotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
+                .status(NotificationStatusBaseEntity.fromStringValue(qualityNotificationMessage.getNotificationStatus().name()))
                 .messageId(qualityNotificationMessage.getMessageId())
                 .isInitial(qualityNotificationMessage.getIsInitial())
                 .build();

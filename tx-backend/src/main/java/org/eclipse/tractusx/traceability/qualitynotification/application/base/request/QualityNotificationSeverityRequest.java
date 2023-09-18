@@ -28,7 +28,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+// TODO move to tx-models
 @ApiModel(description = "Describes the criticality of a notification")
 public enum QualityNotificationSeverityRequest {
     MINOR("MINOR"),
