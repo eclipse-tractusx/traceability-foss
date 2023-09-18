@@ -24,6 +24,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
+import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
 import { Owner } from '@page/parts/model/owner.enum';
 import { Part, PartsResponse } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
@@ -51,6 +52,6 @@ export class OtherPartsService {
 
     return this.apiService
       .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
-      .pipe(map(parts => PartsAssembler.assembleOtherParts(parts)));
+      .pipe(map(parts => PartsAssembler.assembleOtherParts(parts, MainAspectTypeModel.AS_BUILT)));
   }
 }

@@ -79,7 +79,7 @@ describe('Parts', () => {
     await waitFor(() => {fireEvent.click(idColumnHeader);}, {timeout: 3000});
 
 
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "asBuilt" );
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "as_built" );
 
     expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"]]);
   });
@@ -110,8 +110,8 @@ describe('Parts', () => {
     await waitFor(() => {fireEvent.click(idShortHeader)});
 
 
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "asBuilt" );
-    expect(setTableFunctionSpy).toHaveBeenCalledWith(['idShort', 'asc'], "asBuilt" );
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['id', 'asc'], "as_built" );
+    expect(setTableFunctionSpy).toHaveBeenCalledWith(['idShort', 'asc'], "as_built" );
     console.warn(partsComponent.tableAsBuiltSortList);
     expect(partsComponent['tableAsBuiltSortList']).toEqual([["id", "asc"], ["idShort", "desc"]]);
   });

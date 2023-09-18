@@ -21,6 +21,7 @@
 
 import { LayoutModule } from '@layout/layout.module';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
+import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
 import { PartsModule } from '@page/parts/parts.module';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartDetailsModule } from '@shared/modules/part-details/partDetails.module';
@@ -32,8 +33,8 @@ import { MOCK_part_1, MOCK_part_2 } from '../../../../../../mocks/services/parts
 import { StartInvestigationComponent } from './start-investigation.component';
 
 describe('StartInvestigationComponent', () => {
-  const part = { data: PartsAssembler.assemblePart(MOCK_part_1) };
-  const firstChild = PartsAssembler.assemblePart(MOCK_part_2);
+  const part = { data: PartsAssembler.assemblePart(MOCK_part_1, MainAspectTypeModel.AS_BUILT) };
+  const firstChild = PartsAssembler.assemblePart(MOCK_part_2, MainAspectTypeModel.AS_BUILT);
 
   const renderStartInvestigation = async () => {
     const { fixture } = await renderComponent(StartInvestigationComponent, {

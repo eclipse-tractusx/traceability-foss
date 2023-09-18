@@ -27,6 +27,7 @@ import {
   PartSiteInformationAsPlanned,
   SemanticModel,
 } from '@page/parts/model/aspectModels.model';
+import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
 import { Part, PartResponse, QualityType } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
@@ -44,7 +45,7 @@ export class PartsAssembler {
     return proplist;
   }
 
-  public static assemblePart(partResponse: PartResponse): Part {
+  public static assemblePart(partResponse: PartResponse, mainAspectType: MainAspectTypeModel): Part {
     if (!partResponse) {
       return null;
     }
@@ -84,6 +85,9 @@ export class PartsAssembler {
       semanticDataModel: partResponse.semanticDataModel,
       classification: partResponse.classification,
       semanticModel: createdSemanticModel,
+
+      mainAspectType: mainAspectType,
+
       // as built
       partId: partId, // is partInstance, BatchId, jisNumber
       customerPartId: customerPartId,
@@ -100,27 +104,28 @@ export class PartsAssembler {
       functionValidFrom: functionValidFrom,
       functionValidUntil: functionValidUntil,
     }
+
     return mappedPart;
   }
-  public static assembleOtherPart(partResponse: PartResponse): Part {
+  public static assembleOtherPart(partResponse: PartResponse, mainAspectType: MainAspectTypeModel): Part {
     if (!partResponse) {
       return null;
     }
 
-    return { ...PartsAssembler.assemblePart(partResponse), qualityType: partResponse.qualityType };
+    return { ...PartsAssembler.assemblePart(partResponse, mainAspectType), qualityType: partResponse.qualityType };
   }
 
-  public static assembleParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
-    return PaginationAssembler.assemblePagination(PartsAssembler.assemblePart, parts);
+  public static assembleParts(parts: PaginationResponse<PartResponse>, mainAspectType: MainAspectTypeModel): Pagination<Part> {
+    return PaginationAssembler.assemblePagination(PartsAssembler.assemblePart, parts, mainAspectType);
   }
 
-  public static assemblePartList(parts: PartResponse[]): Part[] {
+  public static assemblePartList(parts: PartResponse[], mainAspectType: MainAspectTypeModel): Part[] {
     const partCopy = [...parts];
-    return partCopy.map(part => PartsAssembler.assemblePart(part));
+    return partCopy.map(part => PartsAssembler.assemblePart(part, mainAspectType));
   }
 
-  public static assembleOtherParts(parts: PaginationResponse<PartResponse>): Pagination<Part> {
-    return PaginationAssembler.assemblePagination(PartsAssembler.assembleOtherPart, parts);
+  public static assembleOtherParts(parts: PaginationResponse<PartResponse>, mainAspectType: MainAspectTypeModel): Pagination<Part> {
+    return PaginationAssembler.assemblePagination(PartsAssembler.assembleOtherPart, parts, mainAspectType);
   }
 
   public static filterPartForView(viewData: View<Part>): View<Part> {
@@ -160,13 +165,12 @@ export class PartsAssembler {
       }
 
         // exclude 'van' if is a partAsPlanned
-        if(viewData.data?.validityPeriodFrom === undefined) {
+        if(viewData.data?.mainAspectType === MainAspectTypeModel.AS_BUILT) {
             const {
                 manufacturer,
                 manufacturerPartId,
                 nameAtManufacturer,
                 van,
-
             } = viewData.data;
             return { data: { manufacturer, manufacturerPartId, nameAtManufacturer, van } as Part };
         } else {

@@ -49,7 +49,7 @@ export class OtherPartsFacade {
   public get supplierParts$(): Observable<View<Pagination<Part>>> {
     return this.otherPartsState.supplierParts$;
   }
-
+// TODO: remove OtherPartsService and integrate in PartService
   public setCustomerParts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.customerPartsSubscription?.unsubscribe();
     this.customerPartsSubscription = this.otherPartsService.getOtherParts(page, pageSize, sorting, Owner.CUSTOMER).subscribe({

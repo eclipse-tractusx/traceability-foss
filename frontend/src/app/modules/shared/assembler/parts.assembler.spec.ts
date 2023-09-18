@@ -22,6 +22,7 @@
 import { Pagination } from '@core/model/pagination.model';
 import { AsBuiltAspectModel } from '@page/parts/model/aspectModels.model';
 import { DetailAspectType } from '@page/parts/model/detailAspectModel.model';
+import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
 import { Part, QualityType, SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { of } from 'rxjs';
@@ -38,8 +39,8 @@ describe('PartsAssembler', () => {
   describe('assembleParts', () => {
     it('should return null if array is empty or undefined', () => {
       const emptyPage = { content: [], page: 0, pageCount: 0, pageSize: 0, totalItems: 0 };
-      expect(PartsAssembler.assembleParts(null)).toEqual(emptyPage);
-      expect(PartsAssembler.assembleParts(page([]))).toEqual(emptyPage);
+      expect(PartsAssembler.assembleParts(null, MainAspectTypeModel.AS_BUILT)).toEqual(emptyPage);
+      expect(PartsAssembler.assembleParts(page([]), MainAspectTypeModel.AS_BUILT)).toEqual(emptyPage);
     });
 
     it('should format the object correctly', () => {
@@ -81,6 +82,8 @@ describe('PartsAssembler', () => {
         }
         ];
 
+      const mainAspectType = 'as_built';
+
         testData.push({
           id,
           idShort,
@@ -100,6 +103,7 @@ describe('PartsAssembler', () => {
           classification,
           semanticModel,
           detailAspectModels,
+          mainAspectType
         });
 
         const partId = (detailAspectModels[0].data as AsBuiltAspectModel)?.partId;
@@ -129,6 +133,8 @@ describe('PartsAssembler', () => {
 
           semanticModel: semanticModel,
 
+          mainAspectType: mainAspectType,
+
           partId: partId, // is partInstance, BatchId, jisNumber
           customerPartId: customerPartId,
           nameAtCustomer: nameAtCustomer,
@@ -137,7 +143,7 @@ describe('PartsAssembler', () => {
 
         });
 
-      expect(JSON.stringify(PartsAssembler.assembleParts(page(testData)).content)).toEqual(JSON.stringify(expected));
+      expect(JSON.stringify(PartsAssembler.assembleParts(page(testData), MainAspectTypeModel.AS_BUILT).content)).toEqual(JSON.stringify(expected));
     });
   });
 
@@ -167,9 +173,10 @@ describe('PartsAssembler', () => {
     const manufacturerPartId = 'manufacturerPartId';
     const nameAtManufacturer = 'nameAtManufacturer';
     const van = 'van';
+    const mainAspectType = MainAspectTypeModel.AS_BUILT
 
     it('should clean up data for manufacturer view', done => {
-      const data = { manufacturer, manufacturerPartId, nameAtManufacturer, test: '', van } as unknown as Part;
+      const data = { manufacturer, manufacturerPartId, nameAtManufacturer, test: '', van, mainAspectType } as unknown as Part;
       of({ data })
         .pipe(PartsAssembler.mapPartForManufacturerView())
         .subscribe(result => {

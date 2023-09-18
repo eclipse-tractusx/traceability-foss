@@ -19,6 +19,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { Pagination } from '@core/model/pagination.model';
+import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
 import { SemanticDataModel } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPaginationSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-pagination-semantic-data-model-to-camelcase.pipe';
@@ -53,7 +54,7 @@ describe('FormatPaginationSemanticDataModelToCamelCasePipe', () => {
 
     it(`should transform semanticDataModel from ${object.option} to ${object.expected}`, function()  {
 
-      let partList = [PartsAssembler.assemblePart(MOCK_part_1), PartsAssembler.assemblePart(MOCK_part_2)];
+      let partList = [PartsAssembler.assemblePart(MOCK_part_1, MainAspectTypeModel.AS_BUILT), PartsAssembler.assemblePart(MOCK_part_2, MainAspectTypeModel.AS_BUILT)];
 
       let paginationData: Pagination<any> = {
         page: 0,

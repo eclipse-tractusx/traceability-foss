@@ -21,6 +21,7 @@
 
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { PartsState } from '@page/parts/core/parts.state';
+import { MainAspectTypeModel } from '@page/parts/model/MainAspectType.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { FormatPartSemanticDataModelToCamelCasePipe } from '@shared/pipes/format-part-semantic-data-model-to-camelcase.pipe';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
@@ -118,10 +119,10 @@ describe('Other Parts', () => {
         expect(supplierParts).toEqual({
           data: {
             content: [
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6)),
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_7)),
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_8)),
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_9)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectTypeModel.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_7, MainAspectTypeModel.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_8, MainAspectTypeModel.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_9, MainAspectTypeModel.AS_BUILT)),
             ],
             page: 0,
             pageCount: 1,
@@ -147,11 +148,11 @@ describe('Other Parts', () => {
         expect(customerParts).toEqual({
           data: {
             content: [
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1)),
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2)),
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3)),
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4)),
-              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_1, MainAspectTypeModel.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_2, MainAspectTypeModel.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_3, MainAspectTypeModel.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_4, MainAspectTypeModel.AS_BUILT)),
+              formatPartSemanticToCamelCase.transform(PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_5, MainAspectTypeModel.AS_BUILT)),
             ],
             page: 0,
             pageCount: 1,
