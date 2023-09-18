@@ -44,16 +44,8 @@ public class EdcProperties {
     private String contractDefinitionsPath;
 
     @NotBlank
-    @Value("${edc.negotiation}")
-    private String negotiationPath;
-
-    @NotBlank
     @Value("${edc.transfer}")
     private String transferPath;
-
-    @NotBlank
-    @Value("${edc.catalog.path}")
-    private String catalogPath;
 
     @NotBlank
     @Value("${edc.policydefinitions}")
