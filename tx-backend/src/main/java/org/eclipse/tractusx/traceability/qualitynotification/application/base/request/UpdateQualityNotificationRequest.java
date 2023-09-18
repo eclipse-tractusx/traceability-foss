@@ -24,7 +24,7 @@ package org.eclipse.tractusx.traceability.qualitynotification.application.base.r
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-
+// TODO move to tx-models
 @Data
 public class UpdateQualityNotificationRequest {
     @NotNull(message = "status must be present")

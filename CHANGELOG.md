@@ -20,6 +20,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - NEW API GET /api/shelldescriptors
 - cascading sorting functionality by allowing multiple sort query parameters on APIs
 - cascading sorting functionality for Parts and OtherParts tables in FE
+- NEW API GET /api/assets/as-planned/distinctFilterValues
+- NEW API GET /api/assets/as-built/distinctFilterValues
+- Added Batch 2.0.0 support
+- Updated some patch version for used dependencies.
+
 
 ### Changed
 - API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
@@ -41,6 +46,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated irs-registry-client from 1.1.0-SNAPSHOT to 1.2.0-SNAPSHOT
 - Updated irs-helm from 6.4.1 to 6.5.0
 - Migrated groovy integration tests to SpringBootTests
+- API GET/api/assets/as-built allow Search criteria to be provided
+- API GET/api/assets/as-planned allow Search criteria to be provided
+- Upgraded aquasecurity/trivy-action from 0.11.2 to 0.12.0
+- Upgraded actions/checkout from 3 to 4
+- Upgraded maven-checkstyle-plugin from 3.2.1 to 3.3.0
+- Upgraded swagger-annotations from 1.6.10 to 1.6.11
+- Upgraded spring-boot-maven-plugin from 3.0.2 to 3.1.3
+- Upgraded shedlock.version from 5.5.0 to 5.7.0
+- Upgraded mikefarah/yq from 4.34.2 to 4.35.1
+- Upgraded snakeyaml from 2.0 to 2.2
+- Upgraded docker/login-action from 2 to 3
+- Upgraded cypress-io/github-action 6.0.0 to 6.5.0
 
 
 ### Removed

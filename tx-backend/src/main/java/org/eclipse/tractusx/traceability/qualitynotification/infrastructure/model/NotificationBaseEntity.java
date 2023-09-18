@@ -33,7 +33,7 @@ import java.time.Instant;
 @NoArgsConstructor
 @Data
 @MappedSuperclass
-public class QualityNotificationBaseEntity {
+public class NotificationBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,8 +45,8 @@ public class QualityNotificationBaseEntity {
     @Column(name = "created")
     private Instant createdDate;
     private Instant updated;
-    private QualityNotificationSideBaseEntity side;
-    private QualityNotificationStatusBaseEntity status;
+    private NotificationSideBaseEntity side;
+    private NotificationStatusBaseEntity status;
     private String errorMessage;
 
 }

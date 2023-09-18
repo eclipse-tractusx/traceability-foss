@@ -25,6 +25,8 @@ import org.eclipse.tractusx.traceability.integration.common.support.IrsApiSuppor
 import org.jose4j.lang.JoseException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -32,6 +34,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 import static org.eclipse.tractusx.traceability.common.security.JwtRole.ADMIN;
 
+@DirtiesContext
 class AssetAsBuiltControllerSyncIT extends IntegrationTestSpecification {
 
     @Autowired

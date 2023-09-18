@@ -26,9 +26,6 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.Map;
-import java.util.Set;
-
 @AllArgsConstructor
 @Getter
 @ConfigurationProperties("edc")
@@ -43,18 +40,6 @@ public class EdcProperties {
     private String contractDefinitionsPath;
 
     @NotBlank
-    @Value("${edc.negotiation}")
-    private String negotiationPath;
-
-    @NotBlank
-    @Value("${edc.transfer}")
-    private String transferPath;
-
-    @NotBlank
-    @Value("${edc.catalog.path}")
-    private String catalogPath;
-
-    @NotBlank
     @Value("${edc.policydefinitions}")
     private String policyDefinitionsPath;
 
@@ -67,10 +52,6 @@ public class EdcProperties {
     private String providerEdcUrl;
 
     @NotBlank
+    @Value("${edc.api-auth-key}")
     private String apiAuthKey;
-
-    private Map<String, String> bpnProviderUrlMappings;
-
-    private Set<String> callbackUrls;
-
 }

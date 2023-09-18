@@ -58,7 +58,7 @@ class ShellDescriptorRepositoryImplTest {
         shellDescriptorRepository = new ShellDescriptorRepositoryImpl(repository);
 
         // Act
-        List<ShellDescriptor> descriptors = shellDescriptorRepository.findAll();
+        shellDescriptorRepository.findAll();
 
         // Then
         verify(repository, times(1)).findAll();

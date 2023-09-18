@@ -170,3 +170,8 @@ portal:
 config:
   allowedCorsOriginFirst: "https://replace.me"
   allowedCorsOriginSecond: "https://replace.me"
+
+dependencies:
+  enabled: false
+  irs: CHANGEME #<irs-helm.nameOverride>
+  edc: CHANGEME #<tractusx-connector.nameOverride>-controlplane

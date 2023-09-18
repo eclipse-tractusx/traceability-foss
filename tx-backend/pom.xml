@@ -54,7 +54,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.eclipse.tractusx.irs</groupId>
             <artifactId>irs-registry-client</artifactId>
-            <version>1.2.1-SNAPSHOT</version>
+            <version>${irs-client-lib.version}</version>
         </dependency>
 
         <!-- tx-application modules -->
@@ -77,6 +77,7 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+       <!-- Still necessary 18.09.2023 -->
         <!--Fix CVE-2023-24998 - can be removed once org.springframework.cloud:spring-cloud-openfeign-core:jar:4.0.1 is updated-->
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -142,7 +143,7 @@ SPDX-License-Identifier: Apache-2.0
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>6.0.5</version>
+            <version>${spring-security-config.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -324,8 +325,9 @@ SPDX-License-Identifier: Apache-2.0
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Still necessary 18.09.2023 -->
         <!-- Update json-smart manually to avoid vulnerability CVE-2023-1370; can be removed after Spring updates their dependency -->
-        <dependency>
+       <dependency>
             <groupId>net.minidev</groupId>
             <artifactId>json-smart</artifactId>
             <version>2.4.10</version>
@@ -351,19 +353,6 @@ SPDX-License-Identifier: Apache-2.0
             <scope>test</scope>
         </dependency>
 
-        <!-- Integration Testing Dependencies -->
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-core</artifactId>
-            <version>${spock-core.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spockframework</groupId>
-            <artifactId>spock-spring</artifactId>
-            <version>${spock-core.version}</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.bitbucket.b_c</groupId>
             <artifactId>jose4j</artifactId>
@@ -386,12 +375,6 @@ SPDX-License-Identifier: Apache-2.0
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>${testcontainer-postgresql.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testcontainers</groupId>
-            <artifactId>spock</artifactId>
-            <version>${testcontainer-spock.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -488,32 +471,6 @@ SPDX-License-Identifier: Apache-2.0
                     <commitIdGenerationMode>full</commitIdGenerationMode>
                 </configuration>
             </plugin>
-
-            <!--            Test Plugin-->
-            <plugin>
-                <groupId>org.codehaus.gmavenplus</groupId>
-                <artifactId>gmavenplus-plugin</artifactId>
-                <version>${gmavenplus-plugin.version}</version> <!-- 1.13.1 -->
-                <configuration>
-                    <testSources>
-                        <testSource>
-                            <directory>tx-backend/src/integration</directory>
-                            <includes>
-                                <include>**/*.groovy</include>
-                            </includes>
-                        </testSource>
-                    </testSources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>compile</goal>
-                            <goal>compileTests</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
 
             <!-- Maven Plugins -->
             <plugin>

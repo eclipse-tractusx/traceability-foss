@@ -19,11 +19,14 @@
 
 package org.eclipse.tractusx.traceability.integration.common.support;
 
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.model.AssetAsBuiltEntity;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asbuilt.repository.JpaAssetAsBuiltRepository;
+import org.eclipse.tractusx.traceability.assets.infrastructure.asplanned.model.AssetAsPlannedEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationStatus;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.model.AlertEntity;
 import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.alert.repository.JpaAlertRepository;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationSideBaseEntity;
-import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.QualityNotificationStatusBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationSideBaseEntity;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.model.NotificationStatusBaseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,12 +43,15 @@ public class AlertsSupport {
     @Autowired
     JpaAlertRepository jpaAlertRepository;
 
+    @Autowired
+    JpaAssetAsBuiltRepository jpaAssetAsBuiltRepository;
+
     public Long defaultReceivedAlertStored() {
         AlertEntity entity = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(QualityNotificationStatusBaseEntity.RECEIVED)
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .status(NotificationStatusBaseEntity.RECEIVED)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .description("some description")
                 .createdDate(Instant.now())
                 .build();
@@ -53,16 +59,20 @@ public class AlertsSupport {
         return storedAlert(entity);
     }
 
-    Long defaultAcknowledgedAlertStored() {
+    public Long storeAlertWithStatusAndAssets(NotificationStatusBaseEntity status, List<AssetAsBuiltEntity> assetsAsBuilt, List<AssetAsPlannedEntity> assetsAsPlanned) {
         AlertEntity entity = AlertEntity.builder()
                 .assets(Collections.emptyList())
                 .bpn("BPNL00000003AXS3")
-                .status(QualityNotificationStatusBaseEntity.ACKNOWLEDGED)
-                .side(QualityNotificationSideBaseEntity.RECEIVER)
+                .status(status)
+                .side(NotificationSideBaseEntity.RECEIVER)
                 .createdDate(Instant.now())
                 .build();
-
-        return storedAlert(entity);
+        Long alertId = storedAlert(entity);
+        AlertEntity savedAlert = jpaAlertRepository.findById(alertId).get();
+        savedAlert.setAssets(assetsAsBuilt);
+        savedAlert.setAssetsAsPlanned(assetsAsPlanned);
+        jpaAlertRepository.save(savedAlert);
+        return alertId;
     }
 
     public void assertAlertsSize(int size) {
