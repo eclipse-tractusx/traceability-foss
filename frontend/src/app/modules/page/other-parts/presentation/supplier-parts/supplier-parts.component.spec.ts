@@ -21,6 +21,7 @@
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
 import { OtherPartsModule } from '@page/other-parts/other-parts.module';
 import { PartsState } from '@page/parts/core/parts.state';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { fireEvent, screen, waitFor } from '@testing-library/angular';
 import { getTableCheckbox, renderComponent } from '@tests/test-render.utils';
@@ -56,7 +57,7 @@ describe('SupplierPartsComponent', () => {
 
   it('should add item to current list and then remove', async () => {
     const { fixture } = await renderSupplierParts({ roles: ['user'] });
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
+    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT);
 
     // first click to check checkbox
     fireEvent.click(await getTableCheckbox(screen, 0));
@@ -76,7 +77,7 @@ describe('SupplierPartsComponent', () => {
   it('test addItemToSelection method', async () => {
     const { fixture } = await renderSupplierParts();
 
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
+    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT);
 
     fixture.componentInstance.addItemToSelection(expectedPart);
     expect(fixture.componentInstance.currentSelectedItems).toEqual([expectedPart]);
@@ -85,7 +86,7 @@ describe('SupplierPartsComponent', () => {
   it('test removeItemFromSelection method', async () => {
     const { fixture } = await renderSupplierParts();
 
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
+    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT);
 
     fixture.componentInstance.currentSelectedItems = [expectedPart];
 
@@ -96,11 +97,76 @@ describe('SupplierPartsComponent', () => {
   it('test clearSelected method', async () => {
     const { fixture } = await renderSupplierParts();
 
-    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6);
+    const expectedPart = PartsAssembler.assembleOtherPart(OTHER_PARTS_MOCK_6, MainAspectType.AS_BUILT);
 
     fixture.componentInstance.currentSelectedItems = [expectedPart];
 
     fixture.componentInstance.clearSelected();
     expect(fixture.componentInstance.currentSelectedItems).toEqual([]);
   })
+
+  it('sort supplier parts after name column', async () => {
+    const {fixture} = await renderSupplierParts({ roles: ['admin'] });
+    const supplierPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+
+    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([["name", "asc"]]);
+
+  });
+
+  it('should multisort after column name and semanticModelId', async () => {
+    const {fixture} = await renderSupplierParts({ roles: ['admin'] });
+    const supplierPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+    let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId')
+
+    await waitFor(() => {fireEvent.keyDown(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+    expect(supplierPartsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(semanticModelIdHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([["name", "asc"], ["semanticModelId", "desc"]]);
+  });
+
+  it('should reset sorting on third click', async () => {
+    const {fixture} = await renderSupplierParts({ roles: ['admin'] });
+    const supplierPartsComponent = fixture.componentInstance;
+
+    let nameHeader = await screen.findByText('table.column.name');
+    fireEvent.click(nameHeader);
+    let semanticModelIdHeader = await screen.findByText('table.column.semanticModelId')
+
+    await waitFor(() => {fireEvent.keyDown(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+    expect(supplierPartsComponent['ctrlKeyState']).toBeTruthy();
+    await waitFor(() => {
+      fireEvent.click(semanticModelIdHeader)
+    });
+
+    await waitFor(() => {fireEvent.keyUp(semanticModelIdHeader, {
+      ctrlKey: true,
+      charCode: 17
+    })})
+
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    await waitFor(() => {fireEvent.click(semanticModelIdHeader)});
+    expect(supplierPartsComponent['tableSupplierSortList']).toEqual([]);
+  });
+
 });

@@ -24,6 +24,7 @@ import { Injectable } from '@angular/core';
 import { ApiService } from '@core/api/api.service';
 import { Pagination } from '@core/model/pagination.model';
 import { environment } from '@env';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part, PartResponse, PartsResponse } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { TableHeaderSort } from '@shared/components/table/table.model';
@@ -38,39 +39,45 @@ export class PartsService {
 
   constructor(private readonly apiService: ApiService) {}
 
-  public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
-    const sort = PartsAssembler.mapSortToApiSort(sorting);
-    const params = new HttpParams()
+  public getPartsAsBuilt(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Pagination<Part>> {
+    let  sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('sort', sort)
       .set('owner', 'OWN');
+
+    sort.forEach(sortingItem => {
+      params = params.append('sort', sortingItem);
+    })
 
     return this.apiService
       .getBy<PartsResponse>(`${this.url}/assets/as-built`, params)
-      .pipe(map(parts => PartsAssembler.assembleParts(parts)));
+      .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT)));
   }
 
-  public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort): Observable<Pagination<Part>> {
-    const sort = PartsAssembler.mapSortToApiSort(sorting);
-    const params = new HttpParams()
+  public getPartsAsPlanned(page: number, pageSize: number, sorting: TableHeaderSort[]): Observable<Pagination<Part>> {
+    let sort = sorting.map(sortingItem => PartsAssembler.mapSortToApiSort(sortingItem));
+    let params = new HttpParams()
       .set('page', page)
       .set('size', pageSize)
-      .set('sort', sort)
       .set('owner', 'OWN');
+
+    sort.forEach(sortingItem => {
+      params= params.append('sort', sortingItem);
+    })
 
     return this.apiService
       .getBy<PartsResponse>(`${this.url}/assets/as-planned`, params)
-      .pipe(map(parts => PartsAssembler.assembleParts(parts)));
+      .pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED)));
   }
 
   public getPart(id: string): Observable<Part> {
 
     let resultsAsBuilt = this.apiService.get<PartResponse>(`${ this.url }/assets/as-built/${ id }`)
-      .pipe(map(part => PartsAssembler.assemblePart(part)));
+      .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT)));
 
     let resultsAsPlanned = this.apiService.get<PartResponse>(`${ this.url }/assets/as-planned/${ id }`)
-      .pipe(map(part => PartsAssembler.assemblePart(part)));
+      .pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_PLANNED)));
 
     return resultsAsBuilt || resultsAsPlanned;
 
@@ -81,11 +88,11 @@ export class PartsService {
 
     let resultsAsBuilt =  this.apiService
       .post<PartResponse[]>(`${this.url}/assets/as-built/detail-information`, { assetIds })
-      .pipe(map(parts => PartsAssembler.assemblePartList(parts)));
+      .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_BUILT)));
 
     let resultsAsPlanned = this.apiService
       .post<PartResponse[]>(`${this.url}/assets/as-planned/detail-information`, { assetIds })
-      .pipe(map(parts => PartsAssembler.assemblePartList(parts)));
+      .pipe(map(parts => PartsAssembler.assemblePartList(parts, MainAspectType.AS_PLANNED)));
 
     if(resultsAsBuilt) {
       return resultsAsBuilt;
