@@ -46,6 +46,8 @@ import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.mode
 
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -75,9 +77,7 @@ public class InvestigationEntity extends NotificationBaseEntity {
 
 
     public static QualityNotification toDomain(InvestigationEntity investigationEntity) {
-        List<QualityNotificationMessage> notifications = investigationEntity.getNotifications() == null
-                ? null
-                        : investigationEntity.getNotifications().stream()
+        List<QualityNotificationMessage> notifications = emptyIfNull(investigationEntity.getNotifications()).stream()
                 .map(InvestigationNotificationEntity::toDomain)
                 .toList();
 

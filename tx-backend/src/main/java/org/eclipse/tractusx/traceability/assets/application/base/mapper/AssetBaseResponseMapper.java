@@ -47,7 +47,6 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 
 import java.util.List;
 
-import static java.util.Objects.isNull;
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 // TODO missing in concept:
@@ -128,9 +127,8 @@ public class AssetBaseResponseMapper {
     }
 
     protected static Integer countNotificationsInActiveState(List<QualityNotification> notifications) {
-        if(isNull(notifications)){
-            return 0;
-        }
-        return notifications.stream().filter(QualityNotification::isActiveState).toList().size();
+        return emptyIfNull(notifications).stream()
+                .filter(QualityNotification::isActiveState)
+                .toList().size();
     }
 }
