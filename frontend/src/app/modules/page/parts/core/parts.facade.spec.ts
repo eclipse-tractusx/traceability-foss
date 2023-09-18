@@ -22,6 +22,7 @@
 import { Pagination } from '@core/model/pagination.model';
 import { PartsFacade } from '@page/parts/core/parts.facade';
 import { PartsState } from '@page/parts/core/parts.state';
+import { MainAspectType } from '@page/parts/model/mainAspectType.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { PartsAssembler } from '@shared/assembler/parts.assembler';
 import { PartsService } from '@shared/service/parts.service';
@@ -35,11 +36,11 @@ describe('Parts facade', () => {
 
   beforeEach(() => {
     partsServiceMok = {
-      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part))),
+      getPart: id => new BehaviorSubject(mockAssetList[id]).pipe(map(part => PartsAssembler.assemblePart(part, MainAspectType.AS_BUILT))),
       getPartsAsBuilt: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_BUILT))),
       getPartsAsPlanned: (_page, _pageSize, _sorting) =>
-        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts))),
+        of(mockAssets).pipe(map(parts => PartsAssembler.assembleParts(parts, MainAspectType.AS_PLANNED))),
     } as PartsService;
 
     partsState = new PartsState();
@@ -49,19 +50,19 @@ describe('Parts facade', () => {
   describe('setParts', () => {
     it('should set parts if request is successful', async () => {
       const serviceSpy = spyOn(partsServiceMok, 'getPartsAsBuilt').and.returnValue(
-        of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets)),
+        of<Pagination<Part>>(PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT)),
       );
       partsFacade.setPartsAsBuilt(0, 10);
 
       await waitFor(() => expect(serviceSpy).toHaveBeenCalledTimes(1));
-      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, null));
+      await waitFor(() => expect(serviceSpy).toHaveBeenCalledWith(0, 10, []));
 
       const parts = await firstValueFrom(partsState.partsAsBuilt$);
       await waitFor(() =>
         expect(parts).toEqual({
           error: undefined,
           loader: undefined,
-          data: PartsAssembler.assembleParts(mockAssets),
+          data: PartsAssembler.assembleParts(mockAssets, MainAspectType.AS_BUILT),
         }),
       );
     });

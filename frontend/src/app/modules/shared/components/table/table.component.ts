@@ -20,7 +20,7 @@
  ********************************************************************************/
 
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -33,6 +33,7 @@ import { FlattenObjectPipe } from '@shared/pipes/flatten-object.pipe';
   selector: 'app-table',
   templateUrl: './table.component.html',
   styleUrls: ['table.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TableComponent {
   @ViewChild(MatSort) sort: MatSort;
@@ -70,6 +71,7 @@ export class TableComponent {
   @Input() selectedPartsActionLabel: string;
 
   @Input() tableHeader: string;
+  @Input() multiSortList: TableHeaderSort[];
 
   @Input() set paginationData({ page, pageSize, totalItems, content }: Pagination<unknown>) {
     this.totalItems = totalItems;

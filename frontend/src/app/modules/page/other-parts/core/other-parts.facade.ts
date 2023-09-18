@@ -23,6 +23,7 @@ import { Injectable } from '@angular/core';
 import { Pagination } from '@core/model/pagination.model';
 import { OtherPartsService } from '@page/other-parts/core/other-parts.service';
 import { OtherPartsState } from '@page/other-parts/core/other-parts.state';
+import { Owner } from '@page/parts/model/owner.enum';
 import { Part } from '@page/parts/model/parts.model';
 import { TableHeaderSort } from '@shared/components/table/table.model';
 import { View } from '@shared/model/view.model';
@@ -48,18 +49,18 @@ export class OtherPartsFacade {
   public get supplierParts$(): Observable<View<Pagination<Part>>> {
     return this.otherPartsState.supplierParts$;
   }
-
-  public setCustomerParts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+// TODO: remove OtherPartsService and integrate in PartService
+  public setCustomerParts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.customerPartsSubscription?.unsubscribe();
-    this.customerPartsSubscription = this.otherPartsService.getCustomerParts(page, pageSize, sorting).subscribe({
+    this.customerPartsSubscription = this.otherPartsService.getOtherParts(page, pageSize, sorting, Owner.CUSTOMER).subscribe({
       next: data => (this.otherPartsState.customerParts = { data }),
       error: error => (this.otherPartsState.customerParts = { error }),
     });
   }
 
-  public setSupplierParts(page = 0, pageSize = 50, sorting: TableHeaderSort = null): void {
+  public setSupplierParts(page = 0, pageSize = 50, sorting: TableHeaderSort[] = []): void {
     this.supplierPartsSubscription?.unsubscribe();
-    this.supplierPartsSubscription = this.otherPartsService.getSupplierParts(page, pageSize, sorting).subscribe({
+    this.supplierPartsSubscription = this.otherPartsService.getOtherParts(page, pageSize, sorting, Owner.SUPPLIER).subscribe({
       next: data => (this.otherPartsState.supplierParts = { data }),
       error: error => (this.otherPartsState.supplierParts = { error }),
     });
