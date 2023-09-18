@@ -24,11 +24,15 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import java.util.Map;
+import java.util.Set;
 import org.springframework.stereotype.Component;
 
 @AllArgsConstructor
 @Getter
-@Component
+@ConfigurationProperties("edc")
 public class EdcProperties {
 
     @NotBlank
@@ -38,6 +42,18 @@ public class EdcProperties {
     @NotBlank
     @Value("${edc.contractdefinitions}")
     private String contractDefinitionsPath;
+
+    @NotBlank
+    @Value("${edc.negotiation}")
+    private String negotiationPath;
+
+    @NotBlank
+    @Value("${edc.transfer}")
+    private String transferPath;
+
+    @NotBlank
+    @Value("${edc.catalog.path}")
+    private String catalogPath;
 
     @NotBlank
     @Value("${edc.policydefinitions}")
