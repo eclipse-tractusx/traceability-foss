@@ -21,6 +21,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - cascading sorting functionality by allowing multiple sort query parameters on APIs
 - NEW API GET /api/assets/as-planned/distinctFilterValues
 - NEW API GET /api/assets/as-built/distinctFilterValues
+- Added Batch 2.0.0 support
 
 ### Changed
 - API BREAKING CHANGE: /api/assets changed to /api/assets/as-built
