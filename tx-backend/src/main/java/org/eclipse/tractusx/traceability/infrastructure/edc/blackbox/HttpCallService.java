@@ -31,14 +31,14 @@ import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
-// TODO - refactor this class to use feignClient with a common httpClient
+// TODO - either refactor this class to use feignClient with a common httpClient or remove it once IRS-Lib is done
 @Slf4j
 @Component
 public class HttpCallService {
 
     private final OkHttpClient httpClient;
 
-    public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper) {
+    public HttpCallService(OkHttpClient httpClient) {
         this.httpClient = withIncreasedTimeout(httpClient);
     }
 

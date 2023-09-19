@@ -18,7 +18,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,6 +38,7 @@ import org.eclipse.tractusx.irs.edc.client.EDCCatalogFacade;
 import org.eclipse.tractusx.irs.edc.client.EndpointDataReferenceStorage;
 import org.eclipse.tractusx.irs.edc.client.model.CatalogItem;
 import org.eclipse.tractusx.irs.edc.client.policy.PolicyCheckerService;
+import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.*;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotificationFactory;
 import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
@@ -134,6 +135,7 @@ public class InvestigationsEDCFacade {
         }
     }
 
+    // TODO this method should be completly handled by EDCNotificationFactory.createEdcNotification which is part of this method currently
     private Request buildNotificationRequestNew(
             final QualityNotificationMessage notification,
             final String senderEdcUrl,

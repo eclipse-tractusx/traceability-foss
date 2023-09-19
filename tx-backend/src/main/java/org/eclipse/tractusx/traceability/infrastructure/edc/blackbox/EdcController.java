@@ -73,7 +73,7 @@ public class EdcController {
      */
     @PostMapping("/qualityalerts/receive")
     public void qualityNotificationAlertReceive(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
-        log.info("EdcController [qualityNotificationReceive] notificationId:{}", edcNotification);
+        log.info("EdcController [qualityalertReceive] notificationId:{}", edcNotification);
         validateIsAlert(edcNotification);
         alertsReceiverService.handleNotificationReceive(edcNotification);
     }
@@ -83,7 +83,7 @@ public class EdcController {
      */
     @PostMapping("/qualityalerts/update")
     public void qualityNotificationAlertUpdate(final @ValidEDCNotification @Valid @RequestBody EDCNotification edcNotification) {
-        log.info("EdcController [qualityNotificationUpdate] notificationId:{}", edcNotification);
+        log.info("EdcController [qualityalertUpdate] notificationId:{}", edcNotification);
         validateIsAlert(edcNotification);
         alertsReceiverService.handleNotificationUpdate(edcNotification);
     }

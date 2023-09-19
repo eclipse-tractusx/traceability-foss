@@ -27,7 +27,6 @@ import org.eclipse.tractusx.traceability.common.config.AssetsAsyncConfig;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.ContractNegotiationException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.InvestigationsEDCFacade;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoCatalogItemException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoEndpointDataReferenceException;
 import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.SendNotificationException;
