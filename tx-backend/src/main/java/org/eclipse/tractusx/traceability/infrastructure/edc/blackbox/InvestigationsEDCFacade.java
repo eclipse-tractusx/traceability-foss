@@ -49,12 +49,13 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
-import static org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.transferprocess.TransferProcessRequest.DEFAULT_PROTOCOL;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class InvestigationsEDCFacade {
+
+    public static final String DEFAULT_PROTOCOL = "dataspace-protocol-http";
 
     private static final MediaType JSON = MediaType.get("application/json");
 
