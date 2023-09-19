@@ -21,23 +21,17 @@
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.ws.rs.core.MultivaluedMap;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.AtomicConstraint;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.policy.LiteralExpression;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static java.lang.String.format;
 
+// TODO - refactor this class to use feignClient with a common httpClient
 @Slf4j
 @Component
 public class HttpCallService {
@@ -46,7 +40,6 @@ public class HttpCallService {
 
     public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = withIncreasedTimeout(httpClient);
-       // objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
     }
 
     private static OkHttpClient withIncreasedTimeout(OkHttpClient httpClient) {
@@ -67,28 +60,5 @@ public class HttpCallService {
         } catch (Exception e) {
             throw e;
         }
-    }
-
-
-    public HttpUrl getUrl(String connectorUrl, String subUrl, MultivaluedMap<String, String> parameters) {
-        var url = connectorUrl;
-
-        if (subUrl != null && !subUrl.isEmpty()) {
-            url = url + "/" + subUrl;
-        }
-
-        HttpUrl.Builder httpBuilder = Objects.requireNonNull(HttpUrl.parse(url)).newBuilder();
-
-        if (parameters == null) {
-            return httpBuilder.build();
-        }
-
-        for (Map.Entry<String, List<String>> param : parameters.entrySet()) {
-            for (String value : param.getValue()) {
-                httpBuilder = httpBuilder.addQueryParameter(param.getKey(), value);
-            }
-        }
-
-        return httpBuilder.build();
     }
 }

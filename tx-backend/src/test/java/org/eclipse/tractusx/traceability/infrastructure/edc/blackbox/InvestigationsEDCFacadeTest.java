@@ -91,7 +91,6 @@ class InvestigationsEDCFacadeTest {
         when(endpointDataReference.getAuthCode()).thenReturn("authCode");
         when(endpointDataReference.getAuthKey()).thenReturn("authKey");
         when(endpointDataReference.getEndpoint()).thenReturn(dataReferenceEndpoint);
-        when(httpCallService.getUrl(dataReferenceEndpoint, null, null)).thenReturn(HttpUrl.parse(dataReferenceEndpoint));
         when(endpointDataReferenceStorage.remove(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
 
@@ -126,7 +125,6 @@ class InvestigationsEDCFacadeTest {
         when(endpointDataReference.getAuthCode()).thenReturn("authCode");
         when(endpointDataReference.getAuthKey()).thenReturn("authKey");
         when(endpointDataReference.getEndpoint()).thenReturn(dataReferenceEndpoint);
-        when(httpCallService.getUrl(dataReferenceEndpoint, null, null)).thenReturn(HttpUrl.parse(dataReferenceEndpoint));
         when(endpointDataReferenceStorage.remove(agreementId)).thenReturn(Optional.ofNullable(endpointDataReference));
         when(objectMapper.writeValueAsString(any())).thenReturn("{body}");
         doThrow(new RuntimeException()).when(httpCallService).sendRequest(any());

@@ -46,6 +46,7 @@ import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.Q
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static org.eclipse.tractusx.traceability.common.config.JsonLdConfigurationTraceX.NAMESPACE_EDC;
@@ -141,7 +142,8 @@ public class InvestigationsEDCFacade {
         EDCNotification edcNotification = EDCNotificationFactory.createEdcNotification(senderEdcUrl, notification);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         String body = objectMapper.writeValueAsString(edcNotification);
-        HttpUrl url = httpCallService.getUrl(dataReference.getEndpoint(), null, null);
+
+        HttpUrl url = Objects.requireNonNull(HttpUrl.parse(dataReference.getEndpoint())).newBuilder().build();
         log.info(":::: Send notification Data  body :{}, dataReferenceEndpoint :{}", body, dataReference.getEndpoint());
         return new Request.Builder()
                 .url(url)
