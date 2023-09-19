@@ -46,7 +46,7 @@ public class HttpCallService {
 
     public HttpCallService(OkHttpClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = withIncreasedTimeout(httpClient);
-        objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
+       // objectMapper.registerSubtypes(AtomicConstraint.class, LiteralExpression.class);
     }
 
     private static OkHttpClient withIncreasedTimeout(OkHttpClient httpClient) {
