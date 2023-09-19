@@ -49,7 +49,6 @@ import java.util.List;
 
 import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
-// TODO missing in concept:
 @AllArgsConstructor
 @Slf4j
 @Data

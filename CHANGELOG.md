@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [Unreleased]
 ### Added
+### Removed
+- Old edc code not necessary anymore
 
 ## [7.0.0 - 18.09.2023]
 ### Added

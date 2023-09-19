@@ -22,6 +22,7 @@
 
 package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
 
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
