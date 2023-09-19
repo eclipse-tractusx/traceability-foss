@@ -58,11 +58,11 @@ jobs:
         run: mvn install -pl tx-models
 
       # Required step due to fact that jira will name feature files differently with each feature added and that will cause duplicate test runs
-      - name: Cleanup repository feature files
-        if: ${{ steps.download.outputs.http_response == '200' }}
+      #- name: Cleanup repository feature files
+       # if: ${{ steps.download.outputs.http_response == '200' }}
         #working-directory: tx-cucumber-tests
-        run: |
-          rm -r tx-cucumber-tests/src/test/resources/features/*
+      #  run: |
+      #    rm -r tx-cucumber-tests/src/test/resources/features/*
 
       - name: Build with Maven
         if: ${{ steps.download.outputs.http_response == '200' }}
