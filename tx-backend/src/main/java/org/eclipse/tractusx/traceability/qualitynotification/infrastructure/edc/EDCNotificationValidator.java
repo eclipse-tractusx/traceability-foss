@@ -17,13 +17,13 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators;
+package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.eclipse.tractusx.traceability.common.model.BPN;
 import org.eclipse.tractusx.traceability.common.properties.TraceabilityProperties;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationReceiverBpnMismatchException;
 import org.springframework.stereotype.Component;
 

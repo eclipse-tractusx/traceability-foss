@@ -1,7 +1,5 @@
 /********************************************************************************
- * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -18,14 +16,24 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc;
 
-import java.util.List;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public record EDCNotificationContent(
-        String information,
-        List<String> listOfAffectedItems) {
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+@Retention(RUNTIME)
+@Target(PARAMETER)
+@Constraint(validatedBy = EDCNotificationValidator.class)
+public @interface ValidEDCNotification {
+	String message() default "Invalid EDCNotification";
+
+	Class<?>[] groups() default {};
+
+	Class<? extends Payload>[] payload() default {};
 }

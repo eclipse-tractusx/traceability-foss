@@ -1,5 +1,7 @@
 /********************************************************************************
- * Copyright (c) 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2023 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+ * Copyright (c) 2022, 2023 ZF Friedrichshafen AG
+ * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -16,11 +18,14 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model;
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class SendNotificationException extends RuntimeException {
-    public SendNotificationException(final String message, final Throwable exception) {
-        super(message, exception);
-    }
+import java.util.List;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record EDCNotificationContent(
+        String information,
+        List<String> listOfAffectedItems) {
 }

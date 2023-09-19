@@ -18,12 +18,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;

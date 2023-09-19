@@ -18,16 +18,15 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.common.config.FeatureFlags;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.EDCNotification;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model.NotificationType;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.validators.ValidEDCNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.EDCNotification;
+import org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model.NotificationType;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.alert.service.AlertsReceiverService;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.model.exception.InvestigationIllegalUpdate;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.investigation.service.InvestigationsReceiverService;

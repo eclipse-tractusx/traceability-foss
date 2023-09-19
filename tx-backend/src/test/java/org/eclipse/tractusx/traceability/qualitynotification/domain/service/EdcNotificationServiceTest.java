@@ -21,11 +21,11 @@ package org.eclipse.tractusx.traceability.qualitynotification.domain.service;
 
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.service.DiscoveryService;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.ContractNegotiationException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.ContractNegotiationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.service.InvestigationsEDCFacade;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoCatalogItemException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.NoEndpointDataReferenceException;
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.SendNotificationException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoCatalogItemException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.NoEndpointDataReferenceException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.SendNotificationException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.AlertRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.InvestigationRepository;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationMessage;

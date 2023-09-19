@@ -17,15 +17,14 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception;
 
-public class NoCatalogItemException extends RuntimeException{
-    public static final String MESSAGE = "No Catalog Item in catalog found.";
-    public NoCatalogItemException() {
-        super(MESSAGE);
+public class ContractNegotiationException extends RuntimeException {
+    public ContractNegotiationException(final String message, final Throwable exception) {
+        super(message, exception);
     }
 
-    public NoCatalogItemException(final Throwable exception) {
-        super(MESSAGE, exception);
+    public ContractNegotiationException(final String message) {
+        super(message);
     }
 }

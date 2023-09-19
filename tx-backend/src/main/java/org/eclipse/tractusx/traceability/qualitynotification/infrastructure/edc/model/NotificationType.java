@@ -19,9 +19,9 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.model;
+package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model;
 
-import org.eclipse.tractusx.traceability.infrastructure.edc.blackbox.BadRequestException;
+import org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception.BadRequestException;
 import org.eclipse.tractusx.traceability.qualitynotification.domain.base.model.QualityNotificationType;
 
 import java.util.Arrays;

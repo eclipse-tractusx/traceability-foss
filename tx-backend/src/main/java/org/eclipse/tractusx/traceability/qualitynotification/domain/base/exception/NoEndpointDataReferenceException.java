@@ -17,7 +17,7 @@
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+package org.eclipse.tractusx.traceability.qualitynotification.domain.base.exception;
 
 public class NoEndpointDataReferenceException extends RuntimeException {
     public NoEndpointDataReferenceException(String message) {

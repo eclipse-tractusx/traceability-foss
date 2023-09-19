@@ -18,12 +18,12 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
+package org.eclipse.tractusx.traceability.qualitynotification.infrastructure.edc.model;
 
-package org.eclipse.tractusx.traceability.infrastructure.edc.blackbox;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-public class BadRequestException extends RuntimeException {
-
-    public BadRequestException(String message) {
-        super(message);
-    }
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public record EDCNotificationHeader(String notificationId, String senderBPN, String senderAddress, String recipientBPN,
+									String classification, String severity, String relatedNotificationId,
+									String status, String targetDate, String messageId) {
 }
