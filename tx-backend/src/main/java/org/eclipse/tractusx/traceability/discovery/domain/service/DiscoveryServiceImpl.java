@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tractusx.traceability.bpn.mapping.domain.ports.BpnEdcMappingRepository;
 import org.eclipse.tractusx.traceability.discovery.domain.model.Discovery;
 import org.eclipse.tractusx.traceability.discovery.domain.repository.DiscoveryRepository;
-import org.eclipse.tractusx.traceability.infrastructure.edc.properties.EdcProperties;
+import org.eclipse.tractusx.traceability.common.properties.EdcProperties;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
